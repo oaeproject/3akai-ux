@@ -46,7 +46,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-tagcloud'], fun
 
         var tagData = {};
 
-        var generateTagCloud = function(){
+        var generateTagCloud = function() {
             var newtags = [];
             if ( tagData.facet_fields && tagData.facet_fields.length && tagData.facet_fields[ 0 ].tagname ) {
                 $.each(tagData.facet_fields[0].tagname, function( i, tagobj ) {
@@ -64,12 +64,12 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-tagcloud'], fun
             });
         };
 
-        var loadData = function(directory, callback){
+        var loadData = function(directory, callback) {
             if (!directory) {
                 $.ajax({
                     url: '/var/search/public/tagcloud.json',
                     cache: false,
-                    success: function(data){
+                    success: function(data) {
                         tagData = data;
                         callback();
                     }
@@ -77,8 +77,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-tagcloud'], fun
             }
         };
 
-        var doInit = function(){
-            if (!sakai.api.Widgets.isOnDashboard(tuid)){
+        var doInit = function() {
+            if (!sakai.api.Widgets.isOnDashboard(tuid)) {
                 $('.tags-widget-border').show();
                 $('#tags_widget').addClass('fl-widget s3d-widget');
             }

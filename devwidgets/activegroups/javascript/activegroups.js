@@ -50,7 +50,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var currentSearch = '';
         var activeGroupsEllipsisContainer = '.activegroups_ellipsis_container';
 
-        var renderPopularGroups = function(){
+        var renderPopularGroups = function() {
             var output = sakai.api.Util.TemplateRenderer($activegroups_main_template, {
                 data: groupData
             });
@@ -65,7 +65,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             }
         };
 
-        var loadDataDirectory = function(selected, callback){
+        var loadDataDirectory = function(selected, callback) {
             $activegroups_main.html('');
             $(activegroupsMainLoadingProgress).addClass(activegroupsMainProgress);
             var params = {
@@ -83,11 +83,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $.ajax({
                 url: url,
                 data: params,
-                success: function(data){
+                success: function(data) {
                     $(activegroupsMainLoadingProgress).removeClass(activegroupsMainProgress);
                     groupData = {'results':[], 'items': data.items, 'total': data.total};
                     var groups = [];
-                    for (var i = 0; i < data.results.length; i++){
+                    for (var i = 0; i < data.results.length; i++) {
                         var group = {};
                         group['id'] = data.results[i]['sakai:group-id'];
                         group['name'] = sakai.api.Util.applyThreeDots(data.results[i]['sakai:group-title'], $('.activegroups_widget').width() - 80, {max_rows: 1,whole_word: false}, 's3d-bold');
@@ -100,11 +100,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
         };
 
-        var loadData = function(callback){
+        var loadData = function(callback) {
             $.ajax({
                 url: '/var/search/public/mostactivegroups.json?page=0&items=5',
                 cache: false,
-                success: function(data){
+                success: function(data) {
                     groupData = data;
                     groupData.moreLink = '/search';
                     callback();
@@ -114,8 +114,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
         $(window).bind('hashchange nohash.browsedirectory.sakai', handleHashChange);
 
-        var doInit = function(){
-            if (! sakai.api.Widgets.isOnDashboard(tuid)){
+        var doInit = function() {
+            if (! sakai.api.Widgets.isOnDashboard(tuid)) {
                 $('.activegroups-widget-border').show();
                 $('#activegroups_widget').addClass('fl-widget s3d-widget');
             }

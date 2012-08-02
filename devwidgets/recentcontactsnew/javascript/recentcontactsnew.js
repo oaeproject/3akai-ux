@@ -77,7 +77,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 canShare: sakai.api.Content.canCurrentUserShareContent(result)
             };
             // set the mimetype and corresponding image
-            if(item._mimeType && sakai.config.MimeTypes[item._mimeType]) {
+            if (item._mimeType && sakai.config.MimeTypes[item._mimeType]) {
                 // we have a recognized file type - set the description and img URL
                 item.type = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[item._mimeType].description);
                 item.type_img_url = sakai.config.MimeTypes[item._mimeType].URL;
@@ -86,7 +86,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             item.name = sakai.api.Util.applyThreeDots(item.name, $('.mycreatecontent_widget .s3d-widget-createcontent').width() - 80, {max_rows: 1,whole_word: false}, 's3d-bold');
 
             // set the file size
-            if(result.hasOwnProperty('_length') && result['_length']) {
+            if (result.hasOwnProperty('_length') && result['_length']) {
                 item.size = '(' + sakai.api.Util.convertToHumanReadableFileSize(result['_length']) + ')';
             }
 
@@ -96,7 +96,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Callback function to sort contacts
          */
-        var sortContacts = function(a, b){
+        var sortContacts = function(a, b) {
             return a.details._lastModified > b.details._lastModified ? -1 : 1;
         };
 
@@ -105,17 +105,17 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Object} data - contact data
          */
         var handleRecentContactsData = function(data) {
-            if(data && data.length > 0) {
+            if (data && data.length > 0) {
                 $('#recentcontactsnew_no_results_container').hide();
                 var contactArray = [];
-                for (var i in data){
+                for (var i in data) {
                     if (data.hasOwnProperty(i) && data[i].details && data[i].details['sakai:state'] === 'ACCEPTED') {
                         contactArray.push(data[i]);
                     }
                 }
                 // sort contacts to get the most recent
                 contactArray.sort(sortContacts);
-                if (contactArray.length > 0){
+                if (contactArray.length > 0) {
                     getContactInfo(contactArray[0]);
                 } else {
                     $('.recentcontactsnew_main').hide();
@@ -130,9 +130,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Retrieve the recent connection render it.
          */
-        var getRecentConnection = function (newjson){
-            sakai.api.Server.loadJSON('/system/me', function(success, data){
-                for (var i = 0; i < data.groups.length; i++){
+        var getRecentConnection = function(newjson) {
+            sakai.api.Server.loadJSON('/system/me', function(success, data) {
+                for (var i = 0; i < data.groups.length; i++) {
                     if (!data.groups[i]['sakai:excludeSearch'] && data.groups[i]['sakai:group-title']) {
                         var connection = data.groups[i];
                         var id;
@@ -167,12 +167,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Fetches the related content
          */
-        var getContactInfo = function(newjson){
+        var getContactInfo = function(newjson) {
             newjson.displayName = sakai.api.User.getDisplayName(newjson.profile);
             newjson.displayNameLinkTitle = sakai.api.i18n.getValueForKey('VIEW_USERS_PROFILE').replace('{user}', newjson.displayName);
             newjson.profilePicture = sakai.api.User.getProfilePicture(newjson.profile);
             var fname = sakai.api.User.getFirstName(newjson.profile);
-            if (fname.substring(fname.length-1, fname.length).toLowerCase() === 's'){
+            if (fname.substring(fname.length-1, fname.length).toLowerCase() === 's') {
                 fname = fname + ''';
             } else {
                 fname = fname + ''s';
@@ -191,8 +191,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $.ajax({
                 url: sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER,
                 data: params,
-                success: function(latestContent){
-                    if(latestContent.results.length > 0){
+                success: function(latestContent) {
+                    if (latestContent.results.length > 0) {
                         newjson.latestContent = parseDataResult(latestContent.results[0]);
                         // render latest content template
                         var item = {

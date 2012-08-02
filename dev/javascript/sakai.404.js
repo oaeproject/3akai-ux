@@ -36,11 +36,11 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         var $searchinput = $('#errorsearch_text');
         var $searchButton = $('#error_content .s3d-search-button');
 
-        var doSearch = function(){
+        var doSearch = function() {
             document.location = '/search#q=' + $.trim($searchinput.val());
         };
 
-        var doInit = function(){
+        var doInit = function() {
             var renderedTemplate = false;
             if (sakai.config.enableCategories) {
                 var catcount = 0;
@@ -81,7 +81,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             };
             $errorPageLinksContainer.html(sakai.api.Util.TemplateRenderer($errorPageLinksTemplate, linkObj));
 
-            if (sakai.data.me.user.anon){
+            if (sakai.data.me.user.anon) {
 
                 $signinbuttonwrapper.show();
 
@@ -93,13 +93,13 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                 var redurl = window.location.pathname + window.location.hash;
                 // Parameter that indicates which page to redirect to. This should be present when
                 // the static 403.html and 404.html page are loaded
-                if ($.deparam.querystring().url){
+                if ($.deparam.querystring().url) {
                     redurl = $.deparam.querystring().url;
                 }
-                $('.login-container button').bind('click', function(){
+                $('.login-container button').bind('click', function() {
                     document.location = (gatewayURL + '?url=' + escape(redurl));
                 });
-                if (sakai.config.Authentication.allowInternalAccountCreation){
+                if (sakai.config.Authentication.allowInternalAccountCreation) {
                     $('#error_sign_up').show();
                 }
             } else {
@@ -110,7 +110,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                 $(pageNotFoundError).append(renderedTemplate);
                 $('#page_not_found_error').addClass('error_page_bringdown');
             }
-            $searchinput.live('keydown', function(ev){
+            $searchinput.live('keydown', function(ev) {
                 if (ev.keyCode === 13) {
                     doSearch();
                 }

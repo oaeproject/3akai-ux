@@ -32,7 +32,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.helloworld = function (tuid, showSettings) {
+    sakai_global.helloworld = function(tuid, showSettings) {
 
         /////////////////////////////
         // Configuration variables //
@@ -60,7 +60,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          *
          * @param {String} color The hex value of the color
          */
-        var checkColorArgument = function (color) {
+        var checkColorArgument = function(color) {
             // check if color exists and is not an empty string
             return (color && $.trim(color)) ? $.trim(color) : DEFAULT_COLOR;
         };
@@ -71,9 +71,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Object} callback Function to call when the request returns. This
          * function will be sent a String with the hex value of the preferred color.
          */
-        var getPreferredColor = function (callback) {
+        var getPreferredColor = function(callback) {
             // get the data associated with this widget
-            sakai.api.Widgets.loadWidgetData(tuid, function (success, data) {
+            sakai.api.Widgets.loadWidgetData(tuid, function(success, data) {
                 if (success) {
                     // fetching the data succeeded, send it to the callback function
                     callback(checkColorArgument(data.color));
@@ -96,7 +96,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {String} color The hex value of the color to set the text
          * (i.e. '#00FF00')
          */
-        var showMainView = function (color) {
+        var showMainView = function(color) {
             // set the color of the text
             $('p', $mainContainer).css('color', checkColorArgument(color));
 
@@ -114,7 +114,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          *
          * @param {String} color The hex value of the color
          */
-        var setDropdownColor = function (color) {
+        var setDropdownColor = function(color) {
             // set the color dropdown to the given value
             $colorPicker.val(checkColorArgument(color));
         };
@@ -125,13 +125,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         ////////////////////
 
         /** Binds Settings form */
-        $settingsForm.bind('submit', function (ev) {
+        $settingsForm.bind('submit', function(ev) {
             // get the selected color
             var selectedColor = $colorPicker.val();
 
             // save the selected color
             sakai.api.Widgets.saveWidgetData(tuid, {color:selectedColor},
-                function (success, data) {
+                function(success, data) {
                     if (success) {
                         // Settings finished, switch to Main view
                         sakai.api.Widgets.Container.informFinish(tuid, 'helloworld');
@@ -141,7 +141,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             return false;
         });
 
-        $cancelSettings.bind('click', function(){
+        $cancelSettings.bind('click', function() {
             sakai.api.Widgets.Container.informFinish(tuid, 'helloworld');
         });
 
@@ -155,7 +155,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * which mode the widget is in (settings or main), loads the necessary data
          * and shows the correct view.
          */
-        var doInit = function () {
+        var doInit = function() {
             if (showSettings) {
                 // set up Settings view
 

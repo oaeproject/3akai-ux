@@ -121,7 +121,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             wData.showDefaultContent = false;
             var docData = {};
             $.each(wData.items, function(index, value) {
-                if (value.description){
+                if (value.description) {
                     value.description = sakai.api.Util.applyThreeDots(value.description, 680, {max_rows: 3});
                 }
 
@@ -190,7 +190,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 'fullresult' : result
             };
             var link = sakai.api.Util.safeURL(name || result['_path']) + '/' + sakai.api.Util.safeURL(result['sakai:pooled-content-file-name']);
-            if (dataObj._mimeType === 'x-sakai/link'){
+            if (dataObj._mimeType === 'x-sakai/link') {
                 dataObj.downloadLink = result['sakai:pooled-content-url'];
                 dataObj.contentProfileLink = '/content#p=' + link;
             } else {
@@ -199,7 +199,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             }
 
             // if the type is application need to auto check the display name so set ispreviewexist false
-            if(dataObj.filetype === 'application') {
+            if (dataObj.filetype === 'application') {
                 isPreviewExist = false;
             }
 
@@ -233,7 +233,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 var q = sakai.api.Server.createSearchString(query);
                 var options = {'page': 0, 'items': 15, 'q': q, 'userid': sakai.data.me.user.userid};
                 searchUrl = sakai.config.URL.SEARCH_ALL_FILES.replace('.json', '.infinity.json');
-                sakai.api.Server.loadJSON(searchUrl, function(success, data){
+                sakai.api.Server.loadJSON(searchUrl, function(success, data) {
                     if (success) {
                         var suggestions = [];
                         $.each(data.results, function(i) {
@@ -396,14 +396,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * The group is set as a viewer of the content
          * @param {Object} embeddedItems Array of object containing information about the selected items. Only the path variable is used.
          */
-        var associatedEmbeddedItemsWithGroup = function(embeddedItems){
+        var associatedEmbeddedItemsWithGroup = function(embeddedItems) {
             var data = [];
             for (var embeddedItem in embeddedItems) {
                 if (embeddedItems.hasOwnProperty(embeddedItem) && !sakai.api.Content.isContentInLibrary(embeddedItems[embeddedItem].fullresult, sakai_global.group.groupId)) {
                     data.push(embeddedItems[embeddedItem].value);
                 }
             }
-            if (data.length > 0){
+            if (data.length > 0) {
                 sakai.api.Content.addToLibrary(data, sakai_global.group.groupId);
             }
         };
@@ -458,10 +458,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             }
 
             if (batchRequests.length > 0) {
-                sakai.api.Server.batch(batchRequests, function(success, response){
+                sakai.api.Server.batch(batchRequests, function(success, response) {
                     if (success || batchRequests.length === 1) {
-                        $.each(response.results, function(index, item){
-                            if (item.success && item.body){
+                        $.each(response.results, function(index, item) {
+                            if (item.success && item.body) {
                                 var newItem = createDataObject($.parseJSON(item.body));
                                 newItems.push(newItem);
                             } else {
@@ -489,13 +489,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             if (widgetData && widgetData.embedcontent) {
                 processWidgetData(true, widgetData.embedcontent, callback);
             } else {
-                sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+                sakai.api.Widgets.loadWidgetData(tuid, function(success, data) {
                     processWidgetData(success, data, callback);
                 });
             }
         };
 
-        var processWidgetData = function(success, data, callback){
+        var processWidgetData = function(success, data, callback) {
             if (success) {
                 wData = data;
                 firstLoad = false;
@@ -621,7 +621,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             if ($('#embedcontent_settings', $rootel).is(':visible') &&
                 (!sakai_global.group || (sakai_global.group && sakai_global.group.groupId))) {
                 var obj = {};
-                for (var i = 0; i < data.length; i++){
+                for (var i = 0; i < data.length; i++) {
                     obj[data[i]._path] = data[i];
                 }
                 addChoicesFromPickeradvanced(obj);
@@ -642,7 +642,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
         });
 
-        var renderDefaultContent = function(){
+        var renderDefaultContent = function() {
             sakai.api.Util.TemplateRenderer('embedcontent_content_html_template', {
                 'showDefaultContent': true
             }, $('#embedcontent_content', $rootel));

@@ -31,7 +31,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
     var activeTags = [];
     var maxTagsDisplayed = 10;
 
-    $(window).bind('sakai.search.util.init', function(ev, config){
+    $(window).bind('sakai.search.util.init', function(ev, config) {
 
         /////////////////////
         // Get my contacts //
@@ -55,7 +55,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         /////////////////////
 
         if (config && config.tuid && view === 'grid' &&
-                $('.s3d-search-results-container').length){
+                $('.s3d-search-results-container').length) {
             $('.s3d-search-results-container').addClass('s3d-search-results-grid');
         }
         $('.search_view_' + view).addClass('selected');
@@ -65,7 +65,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         // Finish util initialisation //
         ////////////////////////////////
 
-        var finishUtilInit = function(){
+        var finishUtilInit = function() {
             $(window).trigger('sakai.search.util.finish', [config]);
         };
 
@@ -152,7 +152,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         // Query parameters //
         //////////////////////
 
-        sakai_global.data.search.getQueryParams = function($rootel){
+        sakai_global.data.search.getQueryParams = function($rootel) {
             var params = {
                 'page': parseInt($.bbq.getState('page'), 10) || 1,
                 'q': $.bbq.getState('q') || '*',
@@ -162,7 +162,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                 'refine': $.bbq.getState('refine')
             };
             // get the sort by and sort on
-            if (!params['sortby'] || !params['sorton']){
+            if (!params['sortby'] || !params['sorton']) {
                 params['sortby'] = $('.s3d-search-sort option:selected', $rootel).attr('data-sort-order');
                 params['sorton'] = $('.s3d-search-sort option:selected', $rootel).attr('data-sort-on');
             }
@@ -194,7 +194,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         // Events //
         ////////////
 
-        $('.search_tag_refine_item').die('click').live('click', function(ev){
+        $('.search_tag_refine_item').die('click').live('click', function(ev) {
             var tag = $(this).attr('data-sakai-entityid');
             activeTags.push(sakai.api.Util.formatTags([tag])[0]);
             $.bbq.pushState({
@@ -202,7 +202,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }, 0);
         });
 
-        $('.search_tag_active_item').die('click').live('click', function(ev){
+        $('.search_tag_active_item').die('click').live('click', function(ev) {
             var tag = $(this).attr('data-sakai-entityid');
             activeTags = $.grep(activeTags, function(value) {
                 return value.original !== tag;
@@ -212,7 +212,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }, 0);
         });
 
-        $('.link_accept_invitation').die('click').live('click', function(ev){
+        $('.link_accept_invitation').die('click').live('click', function(ev) {
             var userid = $(this).attr('sakai-entityid');
             $.ajax({
                 url: '/~' + sakai.api.Util.safeURL(sakai.data.me.user.userid) + '/contacts.accept.html',
@@ -226,7 +226,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                 }
             });
             $('.link_accept_invitation').each(function(index) {
-                if ($(this).attr('sakai-entityid') === userid){
+                if ($(this).attr('sakai-entityid') === userid) {
                     $(this).hide();
                     $('#search_result_contact_' + userid).show();
                 }
@@ -245,7 +245,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         });
 
         // bind search view change
-        $('.search_view_list, .search_view_grid').die('click').live('click', function(ev){
+        $('.search_view_list, .search_view_grid').die('click').live('click', function(ev) {
             if (!$(this).hasClass('selected')) {
                 if ($('.s3d-search-results-container').hasClass('s3d-search-results-grid')) {
                     view = 'list';
@@ -265,7 +265,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             var joinable = $(this).data('group-joinable');
             var groupid = $(this).data('groupid');
             var itemdiv = $(this);
-            sakai.api.Groups.addJoinRequest(groupid, function (success) {
+            sakai.api.Groups.addJoinRequest(groupid, function(success) {
                 if (success) {
                     var notimsg = '';
                     if (joinable === 'withauth') {

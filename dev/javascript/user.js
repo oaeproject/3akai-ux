@@ -320,7 +320,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }
         };
 
-        var determineContext = function(){
+        var determineContext = function() {
             entityID = sakai.api.Util.extractEntity(window.location.pathname);
             if (entityID && entityID !== sakai.data.me.user.userid) {
                 sakai.api.User.getUser(entityID, getProfileData);

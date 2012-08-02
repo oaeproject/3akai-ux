@@ -36,7 +36,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.remotecontent = function(tuid, showSettings, widgetData){
+    sakai_global.remotecontent = function(tuid, showSettings, widgetData) {
 
 
         /////////////////////////////
@@ -100,7 +100,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          *     true: is a decimal
          *     false: is not a decimal
          */
-        var isDecimal = function(value){
+        var isDecimal = function(value) {
             return (/^\d+$/).test(value);
         };
 
@@ -111,7 +111,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          *     true: is an url
          *     false: is not an url
          */
-        var isUrl = function(url){
+        var isUrl = function(url) {
             return (/^http\:\/\/|^https\:\/\//i).test(url);
         };
 
@@ -122,7 +122,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          *     true: is an url
          *     false: is not an url
          */
-        var isCompleteUrl = function(url){
+        var isCompleteUrl = function(url) {
             var regEx = new RegExp(/^(?:ftp|https?):\/\/(?:(?:[\w\.\-\+%!$&'\(\)*\+,;=]+:)*[\w\.\-\+%!$&'\(\)*\+,;=]+@)?(?:[a-z0-9\-\.%]+)(?::[0-9]+)?(?:[\/|\?][\w#!:\.\?\+=&%@!$'~*,;\/\(\)\[\]\-]*)?$/);
             return regEx.test(url);
         };
@@ -130,7 +130,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Called when the data has been saved to the JCR.
          */
-        var savedDataToJCR = function(){
+        var savedDataToJCR = function() {
             sakai.api.Widgets.Container.informFinish(tuid, 'remotecontent');
         };
 
@@ -154,7 +154,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Render the iframe for the widget
          */
-        var renderIframe = function(){
+        var renderIframe = function() {
             if (json) {
                 $(remotecontentMainContainer, rootel).html(sakai.api.Util.TemplateRenderer($remotecontentSettingsPreviewTemplate, json, null, false));
 
@@ -166,7 +166,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Render the html of the remotecontentsettings
          */
-        var renderRemoteContentSettings = function(){
+        var renderRemoteContentSettings = function() {
             if (json) {
                 $(remotecontentSettings, rootel).html(sakai.api.Util.TemplateRenderer($remotecontentSettingsTemplate, json));
             }
@@ -175,7 +175,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Render the color container
          */
-        var renderColorContainer = function(){
+        var renderColorContainer = function() {
             if (json) {
                 $(remotecontentSettingsColorContainer, rootel).html(sakai.api.Util.TemplateRenderer($remotecontentSettingsColorContainerTemplate, json));
             }
@@ -190,7 +190,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Display the iframe in normal mode
          * @param {Object} parameters JSON object that contains the necessary information for the iframe
          */
-        var displayRemoteContent = function(parameters){
+        var displayRemoteContent = function(parameters) {
             json = parameters;
             renderIframe();
         };
@@ -198,7 +198,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Save the remotecontent to the jcr
          */
-        var saveRemoteContent = function(){
+        var saveRemoteContent = function() {
             clickSubmit = true;
             if ($('#remotecontent_form', rootel).valid()) {
                 $(remotecontentSettingsPreview, rootel).html('');
@@ -209,7 +209,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Change the direction (up/down) of the arrow for the advanced settings
          */
-        var changeAdvancedSettingsArrow = function(){
+        var changeAdvancedSettingsArrow = function() {
             if (isAdvancedSettingsVisible) {
                 $(remotecontentSettingsAdvancedDown, rootel).hide();
                 $(remotecontentSettingsAdvancedUp, rootel).show();
@@ -228,8 +228,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /*
          * Add binding to the color boxes
          */
-        var addColorBinding = function(){
-            $('.remotecontent_settings_color', rootel).click(function(){
+        var addColorBinding = function() {
+            $('.remotecontent_settings_color', rootel).click(function() {
                 json.border_color = $(this).attr('id').split('_')[$(this).attr('id').split('_').length - 1];
                 renderIframeSettings(false);
                 renderColorContainer();
@@ -240,7 +240,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /*
          * Add binding to all the elements
          */
-        var addBinding = function(){
+        var addBinding = function() {
             // FORM VALIDATION
 
             var validateOpts = {
@@ -280,7 +280,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             sakai.api.Util.Forms.validate($('#remotecontent_form', rootel), validateOpts, true);
 
             // Change the iframe width
-            $(remotecontentSettingsWidth, rootel).change(function(){
+            $(remotecontentSettingsWidth, rootel).change(function() {
                 var widthValue = $(remotecontentSettingsWidth, rootel).val();
 
                 if (isDecimal(widthValue)) {
@@ -290,7 +290,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             // Change the iframe height
-            $(remotecontentSettingsHeight, rootel).change(function(){
+            $(remotecontentSettingsHeight, rootel).change(function() {
                 var heightValue = $(remotecontentSettingsHeight, rootel).val();
 
                 if (isDecimal(heightValue)) {
@@ -310,14 +310,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             // Toggle the advanced view
-            $(remotecontentSettingsAdvancedToggleSettings, rootel).click(function(){
+            $(remotecontentSettingsAdvancedToggleSettings, rootel).click(function() {
                 $('#remotecontent_settings_advanced', rootel).toggle();
                 isAdvancedSettingsVisible = !isAdvancedSettingsVisible;
                 changeAdvancedSettingsArrow();
             });
 
             // Reset size to default values
-            $(remotecontentSettingsResetSize, rootel).click(function(){
+            $(remotecontentSettingsResetSize, rootel).click(function() {
                 $(remotecontentSettingsWidth, rootel).val(defaultWidth);
                 $(remotecontentSettingsHeight, rootel).val(defaultHeight);
                 $(remotecontentSettingsWidth, rootel).change();
@@ -338,12 +338,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             // When you push the save button..
-            $(remotecontentSettingsInsert, rootel).click(function(){
+            $(remotecontentSettingsInsert, rootel).click(function() {
                 saveRemoteContent();
             });
 
             // Cancel it
-            $(remotecontentSettingsCancel, rootel).click(function(){
+            $(remotecontentSettingsCancel, rootel).click(function() {
                 sakai.api.Widgets.Container.informCancel(tuid, 'remotecontent');
             });
 
@@ -360,7 +360,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Object} parameters A JSON object that contains the necessary information.
          * @param {Boolean} exists Does there exist a previous remotecontent
          */
-        var displaySettings = function(parameters, exists){
+        var displaySettings = function(parameters, exists) {
             /**
              * We also blank the URL field if it matches the default URL in widget config,
              * i.e. if it's the default path to user instructions.
@@ -402,15 +402,15 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Will fetch the URL and other parameters from the JCR and according to which
          * view we are in, fill in the settings or display an iframe.
          */
-        var getRemoteContent = function(){
-            if (widgetData.remotecontent){
+        var getRemoteContent = function() {
+            if (widgetData.remotecontent) {
                 processRemoteContent(true, widgetData.remotecontent);
             } else {
                 sakai.api.Widgets.loadWidgetData(tuid, processRemoteContent);
             }
         };
 
-        var processRemoteContent = function(success, data){
+        var processRemoteContent = function(success, data) {
             if (success) {
                 // Get a JSON string that contains the necessary information.
                 var parameters = data;

@@ -38,7 +38,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.deletecontent = function(tuid, showSettings){
+    sakai_global.deletecontent = function(tuid, showSettings) {
 
         //////////////////////
         // Global variables //
@@ -73,7 +73,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 sakai.api.i18n.getValueForKey('PROCESSING_REMOVING'));
             // Update the inserter
             $.each(collectionsToUpdate, function(collectionId, amount) {
-                $.each(sakai.api.User.data.me.groups, function(index, group){
+                $.each(sakai.api.User.data.me.groups, function(index, group) {
                     if (group && group.counts && group.groupid === collectionId) {
                         group.counts.contentCount -= amount;
                         collectionId = collectionId.substring(2,collectionId.length);
@@ -81,7 +81,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     }
                 });
             });
-            sakai.api.Server.batch(batchRequests, function (success, data) {
+            sakai.api.Server.batch(batchRequests, function(success, data) {
                 if (success) {
                     sakai.api.Util.notification.show($('#deletecontent_message_title').html(), $(successMessage).html());
                 } else {
@@ -106,9 +106,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Object} batchRequests    Array to which to add the requests for removing the content
          * @param {Object} items            Content items to be removed from the current library
          */
-        var processRemoveFromLibrary = function(batchRequests, items){
+        var processRemoveFromLibrary = function(batchRequests, items) {
             batchRequests = batchRequests || [];
-            for (var i = 0; i < items.length; i++){
+            for (var i = 0; i < items.length; i++) {
                 var parameters = {};
                 if (sakai.api.Content.Collections.isCollection(items[i])) {
                     var groupId = sakai.api.Content.Collections.getCollectionGroupId(items[i]);
@@ -153,7 +153,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Remove the selected items from the current library only and keep them onto the
          * system.
          */
-        var removeFromLibrary = function(){
+        var removeFromLibrary = function() {
             var batchRequests = [];
             processRemoveFromLibrary(batchRequests, contentIView);
             processRemoveFromLibrary(batchRequests, contentIManage);
@@ -169,9 +169,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Object} batchRequests    Array to which to add the requests for removing the content
          * @param {Object} items            Content items to be removed from the system
          */
-        var processRemoveFromSystem = function(batchRequests, items){
+        var processRemoveFromSystem = function(batchRequests, items) {
             batchRequests = batchRequests || [];
-            for (var i = 0; i < items.length; i++){
+            for (var i = 0; i < items.length; i++) {
                 batchRequests.push({
                     'url': '/p/' + items[i]['_path'],
                     'method': 'POST',
@@ -197,7 +197,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Remove the selected items from the system and thus from all libraries where this is being
          * used
          */
-        var removeFromSystem = function(){
+        var removeFromSystem = function() {
             // Remove content I manage from the system
             var batchRequests = [];
             processRemoveFromLibrary(batchRequests, contentIView);
@@ -211,7 +211,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Check whether any users or groups are either managers or viewers from
          * any of the selected content items
          */
-        var checkUsedByOthers = function(){
+        var checkUsedByOthers = function() {
             collectionsToUpdate = {};
             var userGroupIds = [];
             var collectionsToCheck = [];
@@ -225,10 +225,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     collectionsToCheck.push(collectionGroupId + '-managers');
                 } else {
                     var managers = contentItem['sakai:pooled-content-manager'];
-                    if (managers){
-                        for (var i = 0; i < managers.length; i++){
+                    if (managers) {
+                        for (var i = 0; i < managers.length; i++) {
                             if ($.inArray(managers[i], userGroupIds) === -1 && managers[i] !== sakai.data.me.user.userid &&
-                            managers[i] !== context){
+                            managers[i] !== context) {
                                 userGroupIds.push(managers[i]);
                             }
                         }
@@ -242,10 +242,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         });
                     }
                     var viewers = contentItem['sakai:pooled-content-viewer'];
-                    if (viewers){
-                        for (var j = 0; j < viewers.length; j++){
+                    if (viewers) {
+                        for (var j = 0; j < viewers.length; j++) {
                             if ($.inArray(viewers[j], userGroupIds) === -1 && viewers[j] !== sakai.data.me.user.userid &&
-                                viewers[j] !== context && viewers[j] !== 'everyone' && viewers[j] !== 'anonymous'){
+                                viewers[j] !== context && viewers[j] !== 'everyone' && viewers[j] !== 'anonymous') {
                                 userGroupIds.push(viewers[j]);
                                 if (sakai.api.Content.Collections.isCollection(viewers[j])) {
                                      collectionsToUpdate[viewers[j]] = collectionsToUpdate[viewers[j]] || 0;
@@ -258,7 +258,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
             if (collectionsToCheck.length > 0) {
                 var batchRequest = [];
-                $.each(collectionsToCheck, function(index, collectiongroup){
+                $.each(collectionsToCheck, function(index, collectiongroup) {
                     batchRequest.push({
                         'url': '/system/userManager/group/' + collectiongroup + '.members.json',
                         'method': 'GET',
@@ -267,7 +267,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         }
                     });
                 });
-                sakai.api.Server.batch(batchRequest, function (success, data) {
+                sakai.api.Server.batch(batchRequest, function(success, data) {
                     for (var i = 0; i < data.results.length; i++) {
                         var members = $.parseJSON(data.results[i].body);
                         for (var ii = 0; ii < members.length; ii++) {
@@ -305,7 +305,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Object} userGroupIds    Array that contains the userids and groupids of all
          *                                 users and groups using the content
          */
-        var setUpUsedByOverlay = function(userGroupIds){
+        var setUpUsedByOverlay = function(userGroupIds) {
             // Show the overview screen of who else is using this
             $('#deletecontent_used_by_others_container').html('');
             $('#deletecontent_container').hide();
@@ -313,9 +313,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             // Set up the buttons correctly
             hideButtons();
             $('#deletecontent_action_removefromsystem_confirm').show();
-            if (context && contextType === 'collection'){
+            if (context && contextType === 'collection') {
                 $('#deletecontent_action_removefromcollection_only').show();
-            } else if (context){
+            } else if (context) {
                 $('#deletecontent_action_removefromlibrary_only').show();
             }
             // Show the correct overlay title
@@ -323,7 +323,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $('#deletecontent_main_confirm').show();
             // Get the profile information of who else is using it
             var batchRequests = [];
-            for (var i = 0; i < userGroupIds.length; i++){
+            for (var i = 0; i < userGroupIds.length; i++) {
                 batchRequests.push({
                     'url': '/~' + userGroupIds[i] + '/public/authprofile.profile.json',
                     'method': 'GET'
@@ -331,16 +331,16 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             }
             // Get profile information for each of the users and groups using
             // this content
-            sakai.api.Server.batch(batchRequests, function (success, data) {
+            sakai.api.Server.batch(batchRequests, function(success, data) {
                 var profileInfo = [];
-                for (var i = 0; i < data.results.length; i++){
+                for (var i = 0; i < data.results.length; i++) {
                     if (data.results[i].success && data.results[i].status !== 404) {
                         // Process pseudoGroups
                         var profile = $.parseJSON(data.results[i].body);
                         profile.showLink = true;
-                        if (sakai.api.Content.Collections.isCollection(profile)){
+                        if (sakai.api.Content.Collections.isCollection(profile)) {
                             profile.collectionid = sakai.api.Content.Collections.getCollectionPoolId(profile);
-                        } else if (profile['sakai:excludeSearch'] === 'true'){
+                        } else if (profile['sakai:excludeSearch'] === 'true') {
                             var splitOnDash = profile.groupid.split('-');
                             profile['sakai:group-title'] = profile['sakai:parent-group-title'] + ' (' + sakai.api.i18n.getValueForKey(profile['sakai:role-title-plural']) + ')';
                             profile.groupid = splitOnDash.splice(0, splitOnDash.length - 1).join('-');
@@ -378,7 +378,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * go ahead and remove the content. If removing from the system, we want to check
          * first whether the content is being used by anyone else
          */
-        var selectHybrid = function(){
+        var selectHybrid = function() {
             var manageOption = $('input[name='deletecontent_hybrid_options']:checked').val();
             if (manageOption === 'libraryonly') {
                 removeFromLibrary();
@@ -394,7 +394,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Hide all of the action buttons in the overlay
          */
-        var hideButtons = function(){
+        var hideButtons = function() {
             $('#deletecontent_action_removefromsystem').hide();
             $('#deletecontent_action_removefromsystem_nocontext').hide();
             $('#deletecontent_action_removefromlibrary').hide();
@@ -417,19 +417,19 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Object} contentIView      Array that contains all files about to be
          *                                   removed from the library that I'm a viewer of
          */
-        var setupOverlay = function(contentIManage, contentIView){
+        var setupOverlay = function(contentIManage, contentIView) {
             hideButtons();
             var template = '';
-            if (contentIManage.length > 0 && contentIView.length > 0){
+            if (contentIManage.length > 0 && contentIView.length > 0) {
                 // Set up overlay for mixed permissions
                 template = 'deletecontent_template_hybrid';
                 $('#deletecontent_action_apply').show();
-            } else if (contentIManage.length > 0){
+            } else if (contentIManage.length > 0) {
                 // Set up overlay for full management permissions
                 template = 'deletecontent_template_list';
-                if (context){
+                if (context) {
                     $('#deletecontent_action_removefromsystem').show();
-                    if (contextType === 'collection'){
+                    if (contextType === 'collection') {
                         if (sakai_global.content_profile && sakai_global.content_profile.content_data) {
                             var managerCid = 'c-' + sakai_global.content_profile.content_data.data._path;
                             collectionsToUpdate[managerCid] = collectionsToUpdate[managerCid] || 0;
@@ -444,7 +444,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 } else {
                     $('#deletecontent_action_removefromsystem_nocontext').show();
                 }
-            } else if (contentIView.length > 0){
+            } else if (contentIView.length > 0) {
                 // Set up overlay for full viewer permissions
                 template = 'deletecontent_template_list';
                 if (contextType === 'collection') {
@@ -473,13 +473,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Object} contentList    Response from batch request that retrieved
          *                                metadata for all content that need to be deleted
          */
-        var findContentIManage = function(contentList){
+        var findContentIManage = function(contentList) {
             contentIManage = [];
             contentIView = [];
-            $.each(contentList.results, function (i, contentItem) {
+            $.each(contentList.results, function(i, contentItem) {
                 var content = $.parseJSON(contentItem.body);
                 var manage = sakai.api.Content.isUserAManager(content, sakai.data.me);
-                if (manage){
+                if (manage) {
                     contentIManage.push(content);
                 } else {
                     contentIView.push(content);
@@ -493,15 +493,15 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Object} paths    Array that contains the paths to all
          *                          content that needs to be deleted
          */
-        var getContentInfo = function(paths){
+        var getContentInfo = function(paths) {
             var batchRequest = [];
-            $.each(paths, function (i, url) {
+            $.each(paths, function(i, url) {
                 batchRequest.push({
                     url: '/p/' + url + '.json',
                     method: 'GET'
                 });
             });
-            sakai.api.Server.batch(batchRequest, function (success, data) {
+            sakai.api.Server.batch(batchRequest, function(success, data) {
                 if (success) {
                     findContentIManage(data);
                 }
@@ -529,10 +529,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          *         'path': [ '/file1.ext', '/file2.ext', '/file3.ext', '/file4.ext' ]
          *     }, callbackFn]);  // callbackFn is sent one param: success (true if delete succeeded, false otherwise)
          */
-        var load = function(ev, data, _callback){
+        var load = function(ev, data, _callback) {
             context = data.context;
             contextType = 'default';
-            if (context && sakai.api.Content.Collections.isCollection(context)){
+            if (context && sakai.api.Content.Collections.isCollection(context)) {
                 contextType = 'collection';
             }
             callback = _callback;
@@ -553,7 +553,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Initialize the delete content widget
          * All the functionality in here is loaded before the widget is actually rendered
          */
-        var init = function(){
+        var init = function() {
             // This will make the widget popup as a layover.
             sakai.api.Util.Modal.setup($deletecontent_dialog, {
                 modal: true,

@@ -79,7 +79,7 @@ define(
          * @param {Object} dateString    date to parse in the format 2010-10-06T14:45:54+01:00
          * @param {Object} meData the data from sakai.api.User.data.me
          */
-        parseDateString : function(dateString, meData){
+        parseDateString : function(dateString, meData) {
             var d = new Date();
             d.setFullYear(parseInt(dateString.substring(0,4),10));
             d.setMonth(parseInt(dateString.substring(5,7),10) - 1);
@@ -88,7 +88,7 @@ define(
             d.setMinutes(parseInt(dateString.substring(14,16),10));
             d.setSeconds(parseInt(dateString.substring(17,19),10));
             // Localization
-            if (!isNaN((parseInt(dateString.substring(19,22),10)))){
+            if (!isNaN((parseInt(dateString.substring(19,22),10)))) {
                 d.setTime(d.getTime() - (parseInt(dateString.substring(19,22),10)*60*60*1000));
             }
             if (meData && meData.user.locale) {
@@ -97,7 +97,7 @@ define(
             return d;
         },
 
-        parseDateLong : function(dateLong, meData){
+        parseDateLong : function(dateLong, meData) {
             var d = new Date(dateLong);
             return d;
         },
@@ -108,7 +108,7 @@ define(
          * @param {Object} dateString    date epoch
          * @param {Object} meData the data from sakai.api.User.data.me
          */
-        fromEpoch : function(dateString, meData){
+        fromEpoch : function(dateString, meData) {
             var d = new Date(parseInt(dateString,10));
             var UTCDate = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), d.getUTCHours(), d.getUTCMinutes(), d.getUTCSeconds()));
             if (meData && meData.user.locale) {
@@ -129,7 +129,7 @@ define(
          *  date string
          * @return {String} Localized formatted date string
          */
-        transformDate : function(date){
+        transformDate : function(date) {
             return Globalize.format(date, 'd');
         },
 
@@ -141,7 +141,7 @@ define(
          *  time string
          * @return {String} Localized formatted time string
          */
-        transformTime : function(date){
+        transformTime : function(date) {
             return Globalize.format(date, 't');
         },
 
@@ -153,7 +153,7 @@ define(
          *  date and time string
          * @return {String} Localized fomatted date and time string
          */
-        transformDateTime : function(date){
+        transformDateTime : function(date) {
             return Globalize.format(date, 'F');
         },
 
@@ -201,7 +201,7 @@ define(
          *  Date object, that will have transformed the given date and time into
          *  GMT date and time
          */
-        toGMT : function(date, meData){
+        toGMT : function(date, meData) {
             date.setHours(date.getHours() - meData.user.locale.timezone.GMT);
             return date;
         },
@@ -219,7 +219,7 @@ define(
          *  Date object, that will have transformed the given GMT date and time into
          *  a local date and time
          */
-        fromGMT : function(date, meData){
+        fromGMT : function(date, meData) {
             date.setHours(date.getHours() + meData.user.locale.timezone.GMT);
             return date;
         },
@@ -231,9 +231,9 @@ define(
          * @param {Number} number
          * Number we want to localise (eg 10000000.442)
          * @return {String}
-         * Localised string of the number given to this function (eg '10.000.000,442')
+         * Localised string of the number given to this function(eg '10.000.000,442')
          */
-        transformNumber : function(number){
+        transformNumber : function(number) {
             return Globalize.format(number, 'n');
         },
 

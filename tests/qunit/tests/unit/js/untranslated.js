@@ -16,13 +16,13 @@ require(
          /**
           * Check HTML pages and test for hard coded english
           */
-         var testUntranslatedKeys = function(){
+         var testUntranslatedKeys = function() {
 
              var makeCoreTest = function(url) {
                  asyncTest(url, function() {
                      $.ajax({
                          url: url,
-                         success: function(data){
+                         success: function(data) {
                              checkKeys(data, function() {
                                  start();
                              });
@@ -41,8 +41,8 @@ require(
                  asyncTest(url, function() {
                      $.ajax({
                          url: url,
-                         success: function(data){
-                             getWidgetInfo(widget.name, function(){
+                         success: function(data) {
+                             getWidgetInfo(widget.name, function() {
                                  checkKeys(data, function() {
                                      start();
                                  }, widget);
@@ -74,14 +74,14 @@ require(
          var getWidgetInfo = function(widgetname, callback) {
              var bundle = false;
              if ($.isPlainObject(sakai.widgets[widgetname].i18n)) {
-                 if (sakai.widgets[widgetname].i18n['default']){
+                 if (sakai.widgets[widgetname].i18n['default']) {
                      bundle = sakai.widgets[widgetname].i18n['default'];
                  }
              }
              if (bundle && bundle.bundle) {
                  $.ajax({
                      url: bundle.bundle,
-                     success: function(data){
+                     success: function(data) {
                          sakai.api.i18n.data.widgets[widgetname] = sakai.api.i18n.data.widgets[widgetname] || {};
                          sakai.api.i18n.data.widgets[widgetname]['default'] = sakai.api.i18n.changeToJSON(data);
                          if ($.isFunction(callback)) {

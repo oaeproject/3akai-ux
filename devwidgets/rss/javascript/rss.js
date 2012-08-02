@@ -39,7 +39,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.rss = function(tuid, showSettings){
+    sakai_global.rss = function(tuid, showSettings) {
 
 
         /////////////////////////////
@@ -116,7 +116,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                 submitHandler: addRssFeed
             };
             sakai.api.Util.Forms.validate($rss_settings_form, validateOpts, true);
-            $(rssCancel, rootel).bind('click',function(e,ui){
+            $(rssCancel, rootel).bind('click',function(e,ui) {
                 sakai.api.Widgets.Container.informCancel(tuid, 'rss');
             });
             var saveValidateOpts = {
@@ -164,7 +164,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
             });
         };
 
-        var bindFeedRemove = function () {
+        var bindFeedRemove = function() {
             $(rssRemove, rootel).bind('click', function(e,ui) {
                 var index = this.id.split('-')[1];
                 resultJSON.feeds.splice(index,1);
@@ -228,8 +228,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                     var pubDate = '';
                     var pubDateObj = new Date();
                     var dateText = $(dateField,item).text().replace('  ', ' ');
-                    if (dateText.length > 0){
-                        if (!atomFeed){
+                    if (dateText.length > 0) {
+                        if (!atomFeed) {
                             pubDateObj = sakai.api.Util.parseRFC822Date(dateText);
                         } else {
                             pubDateObj.setTime(Date.parse(dateText));
@@ -253,7 +253,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                     });
               });
               return rss;
-            } catch(ex){
+            } catch(ex) {
                 sakai.api.Util.notification.show($(rssIncorrectRssFeed).html(), $(rssPasteValidRssAddress).html());
             }
             // return false if some kind of error occured
@@ -322,7 +322,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
          * @param {Object} a
          * @param {Object} b
          */
-        var sortBySourcefunction =  function(a, b){
+        var sortBySourcefunction =  function(a, b) {
             var ret = -1;
             if (currentSort === 'sourceD') {
                 ret = 1;
@@ -341,7 +341,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
          * from the server as strings). This function is only effective if the
          * resultJSON object contains the displaySource and displayHeadlines settings
          */
-        var convertDisplaySettingsToBool = function () {
+        var convertDisplaySettingsToBool = function() {
             if (resultJSON) {
                 if (resultJSON.displaySource) {
                     if (!resultJSON.displaySource || resultJSON.displaySource === 'false') {
@@ -370,10 +370,10 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
          * @param {Object} urlFeeds
          */
         var fillRssFeed = function() {
-            getFeed(resultJSON.urlFeeds[resultJSON.feeds.length], function(rssFeed){
+            getFeed(resultJSON.urlFeeds[resultJSON.feeds.length], function(rssFeed) {
                 resultJSON.feeds.push(rssFeed);
                 // if not all the feeds are retrieve call this function again
-                if(resultJSON.feeds.length < resultJSON.urlFeeds.length){
+                if (resultJSON.feeds.length < resultJSON.urlFeeds.length) {
                     fillRssFeed();
                 }
                 // if all the feed are retrieved render the rss
@@ -443,7 +443,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                 }
                 resultJSON.feeds.push(rssFeed);
                 // not all the feeds have been retrieved so call this function again
-                if(resultJSON.feeds.length < resultJSON.urlFeeds.length){
+                if (resultJSON.feeds.length < resultJSON.urlFeeds.length) {
                     fillRssOutput();
                 }
                 // all the feeds have been retrieved
@@ -549,7 +549,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
         var saveRssOptions = function() {
             var settingsObj = getSettingsObject();
             if (settingsObj !== false) {
-                sakai.api.Widgets.saveWidgetData(tuid, settingsObj, function(success, data){
+                sakai.api.Widgets.saveWidgetData(tuid, settingsObj, function(success, data) {
                     if ($('.sakai_dashboard_page').is(':visible')) {
                         showSettings = false;
                         showHideSettings(showSettings);
@@ -570,7 +570,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
          */
         var showHideSettings = function(show) {
             if (show) {
-                sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+                sakai.api.Widgets.loadWidgetData(tuid, function(success, data) {
                     if (success) {
                         resultJSON = data;
                         convertDisplaySettingsToBool();
@@ -583,7 +583,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                 $(rssSettings,rootel).hide();
                 $(rssOutput,rootel).show();
 
-                sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+                sakai.api.Widgets.loadWidgetData(tuid, function(success, data) {
                     if (success) {
                         resultJSON = data;
                         resultJSON.entries = [];

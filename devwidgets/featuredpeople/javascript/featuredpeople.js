@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 // load the master sakai object to access all Sakai OAE API methods
-require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.featuredpeople
@@ -27,7 +27,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.featuredpeople = function(tuid, showSettings, pageData){
+    sakai_global.featuredpeople = function(tuid, showSettings, pageData) {
 
         var $rootel = $('#'+tuid);
 
@@ -37,21 +37,21 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
         // Templates
         var featuredpeopleTemplate = 'featuredpeople_template';
 
-        var renderPeople = function(data){
+        var renderPeople = function(data) {
             $featuredpeopleContainer.html(sakai.api.Util.TemplateRenderer(featuredpeopleTemplate, {
                 'data': data,
                 'category': pageData.category,
                 'title': pageData.title,
                 'sakai': sakai
             }));
-            if (data.total > data.results.length){
+            if (data.total > data.results.length) {
                 $('#featuredpeople_showall', $rootel).show();
             }
         };
 
-        var parsePeople = function(success, data){
+        var parsePeople = function(success, data) {
             if (success) {
-                $.each(data.results, function(index, item){
+                $.each(data.results, function(index, item) {
                     if (item.picture) {
                         item.picture = '/~' + sakai.api.Util.safeURL(item.userid) + '/public/profile/' + $.parseJSON(item.picture).name;
                     } else {
@@ -67,9 +67,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
             }
         };
 
-        var fetchPeople = function(){
+        var fetchPeople = function() {
             var q = '';
-            if(pageData){
+            if (pageData) {
                 q = 'directory/' + pageData.category.replace('-', '/');
             }
             sakai.api.Server.loadJSON('/var/search/bytag.json', parsePeople, {
@@ -80,7 +80,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
             });
         };
 
-        var doInit = function(){
+        var doInit = function() {
             fetchPeople();
         };
 

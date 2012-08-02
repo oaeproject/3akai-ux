@@ -22,7 +22,7 @@
  */
 /*global $ */
 
-require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.contacts
@@ -36,7 +36,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.contacts = function(tuid, showSettings){
+    sakai_global.contacts = function(tuid, showSettings) {
 
         var $rootel = $('#' + tuid);
         var contactsContainer = '#contacts_container';
@@ -70,7 +70,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
          * @param {Object} b
          * @return 1, 0 or -1
          */
-        var contactSort = function (a, b) {
+        var contactSort = function(a, b) {
             if (a.details.lastName.toLowerCase() > b.details.lastName.toLowerCase()) {
                 return 1;
             } else {
@@ -82,30 +82,30 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
             }
         };
 
-        var acceptRequest = function(user){
+        var acceptRequest = function(user) {
             sakai.api.User.acceptContactInvite(user);
         };
 
-        var removeRequest = function(user){
+        var removeRequest = function(user) {
             $.ajax({
                 url: '/~' + sakai.api.Util.safeURL(sakai.data.me.user.userid) + '/contacts.remove.html',
                 type: 'POST',
                 data: {
                     'targetUserId': user
                 },
-                success: function(data){
+                success: function(data) {
                     $(window).trigger('lhnav.updateCount', ['contacts', -1]);
                     sakai.data.me.contacts.accepted--;
                     sakai.api.Util.Modal.close('#contacts_delete_contacts_dialog');
-                    if (infinityScroll){
+                    if (infinityScroll) {
                         infinityScroll.removeItems([user]);
                     }
                 }
             });
         };
 
-        var checkAddingEnabled = function(){
-            if($('.contacts_select_contact_checkbox:checked')[0]){
+        var checkAddingEnabled = function() {
+            if ($('.contacts_select_contact_checkbox:checked')[0]) {
                 $('#contacts_addpeople_button').removeAttr('disabled');
                 $('#contacts_message_button').removeAttr('disabled');
             } else {
@@ -115,19 +115,19 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
             }
         };
 
-        var renderPendingContacts = function(){
+        var renderPendingContacts = function() {
             $(contactsInvitedContainer).html(sakai.api.Util.TemplateRenderer(contactsInvitedTemplate, {
                 'invited': contacts.invited,
                 'sakai': sakai
             }));
         };
 
-        var resultsPostProcessor = function(results, callback){
+        var resultsPostProcessor = function(results, callback) {
             results = sakai.api.User.preparePeopleForRender(results, sakai.data.me);
             callback(results);
         };
 
-        var getAccepted = function(){
+        var getAccepted = function() {
             $(contactsContainerList).show();
             $(contactsContainerListEmpty).hide();
             $contactsResultCount.hide();
@@ -147,14 +147,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
             };
 
             // Disable the previous infinite scroll
-            if (infinityScroll){
+            if (infinityScroll) {
                 infinityScroll.kill();
             }
             // Set up the infinite scroll for the list of accepted contacts
-            infinityScroll = $(contactsContainerList).infinitescroll(url, data, function(items, total){
+            infinityScroll = $(contactsContainerList).infinitescroll(url, data, function(items, total) {
                 // Anonymous users only get to see the search and sort options
                 // Header is hidden for everybody when no connections are made with contacts for a user
-                if(sakai.data.me.user.anon){
+                if (sakai.data.me.user.anon) {
                     $('.s3d-page-header-bottom-row', $rootel).hide();
                     if (!total && !contacts.query) {
                         $('.s3d-page-header-top-row', $rootel).hide();
@@ -163,7 +163,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
                     }
                 // If there are no results the bottom header bar should not be shown
                 } else if (!total) {
-                    if(!contacts.query){
+                    if (!contacts.query) {
                         $('.s3d-page-header-top-row', $rootel).hide();
                     } else {
                         $('.s3d-page-header-top-row', $rootel).show();
@@ -196,13 +196,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
                                 if (sakai.data.me.mycontacts.hasOwnProperty(m) && items[i].userid === sakai.data.me.mycontacts[m].profile.userid) {
                                     var connectionState = sakai.data.me.mycontacts[m].details['sakai:state'];
                                     items[i].connected = true;
-                                    if (connectionState === 'INVITED'){
+                                    if (connectionState === 'INVITED') {
                                         items[i].invited = true;
-                                    } else if(connectionState === 'PENDING'){
+                                    } else if (connectionState === 'PENDING') {
                                         items[i].pending = true;
-                                    } else if(connectionState === 'ACCEPTED'){
+                                    } else if (connectionState === 'ACCEPTED') {
                                         items[i].accepted = true;
-                                    } else if(connectionState === 'NONE'){
+                                    } else if (connectionState === 'NONE') {
                                         items[i].connected = false;
                                     }
                                 }
@@ -215,7 +215,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
                     'results': items,
                     'sakai': sakai
                 });
-            }, function(){
+            }, function() {
                 $(contactsContainerList).hide();
                 $(contactsContainerListEmpty).show();
                 var searching = false;
@@ -226,21 +226,21 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
             }, sakai.config.URL.INFINITE_LOADING_ICON, resultsPostProcessor);
         };
 
-        $(window).bind('sakai.addToContacts.requested', function(ev, userToAdd){
+        $(window).bind('sakai.addToContacts.requested', function(ev, userToAdd) {
             $('.sakai_addtocontacts_overlay').each(function(index) {
-                if ($(this).attr('sakai-entityid') === userToAdd.uuid){
+                if ($(this).attr('sakai-entityid') === userToAdd.uuid) {
                     $(this).addClass('fl-hidden');
                 }
             });
         });
 
-        $('.link_accept_invitation').live('click', function(ev){
+        $('.link_accept_invitation').live('click', function(ev) {
             var userid = $(this).attr('sakai-entityid');
             var displayName = $(this).attr('sakai-entityname');
-            sakai.api.User.acceptContactInvite(userid, function(success, data){
-                if (success){
+            sakai.api.User.acceptContactInvite(userid, function(success, data) {
+                if (success) {
                     $('.link_accept_invitation').each(function(index) {
-                        if ($(this).attr('sakai-entityid') === userid){
+                        if ($(this).attr('sakai-entityid') === userid) {
                             $(this).hide();
                             $('#contacts_left_accept_' + userid).show();
                         }
@@ -282,7 +282,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
             }, false, sakai.config.URL.INFINITE_LOADING_ICON);
         };
 
-        var getContacts = function(){
+        var getContacts = function() {
             if (sakai_global.profile.main.mode.value !== 'view') {
                 if (!contacts.initialized) {
                     // we only want to render the pending contacts list once
@@ -291,16 +291,16 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
                 getAccepted();
             } else {
                 contacts.invited = false;
-                sakai.api.User.getContacts(function(){
+                sakai.api.User.getContacts(function() {
                     getAccepted();
                 });
             }
         };
 
-        var updateMessageAndAddToData = function(){
+        var updateMessageAndAddToData = function() {
             var idArr = [];
             var nameArr = [];
-            $.each($('.contacts_select_contact_checkbox:checked'), function(i, user){
+            $.each($('.contacts_select_contact_checkbox:checked'), function(i, user) {
                 idArr.push($(user).data('userid'));
                 nameArr.push($(user).data('username'));
             });
@@ -310,16 +310,16 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
             $('#contacts_addpeople_button').data('entityname', nameArr);
         };
 
-        var uncheckAll = function(){
+        var uncheckAll = function() {
             $('#contacts_select_checkbox').removeAttr('checked');
         };
 
-        var handleHashChange = function(){
+        var handleHashChange = function() {
             uncheckAll();
 
             $('.s3d-listview-options', $rootel).find('div').removeClass('selected');
             contacts.listStyle = $.bbq.getState('ls') || 'list';
-            if(contacts.listStyle === 'list'){
+            if (contacts.listStyle === 'list') {
                 $('#contacts_container div .contacts_list_items', $rootel).removeClass('s3d-search-results-grid');
                 $(contactsShowList, $rootel).addClass('selected');
                 $(contactsShowList, $rootel).children().addClass('selected');
@@ -329,7 +329,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
                 $(contactsShowGrid, $rootel).children().addClass('selected');
             }
 
-            if ($rootel.is(':visible')){
+            if ($rootel.is(':visible')) {
                 // Set the sort states
                 var parameters = $.bbq.getState();
                 if (contacts.query === '*') {
@@ -345,8 +345,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
             }
         };
 
-        var bindEvents = function(){
-            $('.contacts_add_to_contacts').live('click', function(){
+        var bindEvents = function() {
+            $('.contacts_add_to_contacts').live('click', function() {
                 var $pendingList = $(this).parents('.contacts_item').parent();
                 acceptRequest($(this)[0].id.split('contacts_add_to_contacts_')[1]);
                 $(this).parents('.contacts_item').remove();
@@ -362,24 +362,24 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
                 toTop: true
             });
 
-            $('.s3d-actions-delete', $rootel).live('click', function(){
+            $('.s3d-actions-delete', $rootel).live('click', function() {
                 $('#contacts_contact_to_delete').text($(this).data('sakai-entityname'));
                 $('#contacts_delete_contact_confirm').data('sakai-entityid', $(this).data('sakai-entityid'));
                 sakai.api.Util.Modal.open('#contacts_delete_contacts_dialog');
             });
 
-            $('#contacts_delete_contact_confirm').live('click', function(){
+            $('#contacts_delete_contact_confirm').live('click', function() {
                 removeRequest($(this).data('sakai-entityid'));
                 updateMessageAndAddToData();
             });
 
-            $(window).bind('contacts.accepted.sakai', function(){
+            $(window).bind('contacts.accepted.sakai', function() {
                 uncheckAll();
                 var t = setTimeout(getContacts,500);
             });
 
-            $('#contacts_select_checkbox').change(function(){
-                if($(this).is(':checked')){
+            $('#contacts_select_checkbox').change(function() {
+                if ($(this).is(':checked')) {
                     $('#contacts_addpeople_button').removeAttr('disabled');
                     $('#contacts_message_button').removeAttr('disabled');
                     $('.contacts_select_contact_checkbox').attr('checked', true);
@@ -391,12 +391,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
                 updateMessageAndAddToData();
             });
 
-            $('.contacts_select_contact_checkbox').live('change', function(){
+            $('.contacts_select_contact_checkbox').live('change', function() {
                 checkAddingEnabled();
                 updateMessageAndAddToData();
             });
 
-            $('#contacts_sortby').change(function () {
+            $('#contacts_sortby').change(function() {
                 var sortSelection = this.options[this.selectedIndex].value;
                 if (sortSelection === 'desc') {
                     $.bbq.pushState({'cso': 'desc'});
@@ -405,24 +405,24 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
                 }
             });
 
-            $(contactsShowList, $rootel).live('click', function(){
+            $(contactsShowList, $rootel).live('click', function() {
                 $.bbq.pushState({'ls': 'list'});
             });
 
-            $(contactsShowGrid, $rootel).live('click', function(){
+            $(contactsShowGrid, $rootel).live('click', function() {
                 $.bbq.pushState({'ls': 'grid'});
             });
 
             $(window).bind('hashchanged.contacts.sakai', handleHashChange);
 
-            $('#contacts_search_input').live('keyup', function(ev){
+            $('#contacts_search_input').live('keyup', function(ev) {
                 var q = $.trim($(this).val());
                 if (q !== contacts.query && ev.keyCode === 13) {
                     $.bbq.pushState({'cq': q});
                 }
             });
 
-            $('#contacts_search_button').live('click', function(ev){
+            $('#contacts_search_button').live('click', function(ev) {
                 var q = $.trim($('#contacts_search_input').val());
                 if (q !== contacts.query) {
                     $.bbq.pushState({'cq': q});
@@ -430,7 +430,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
             });
         };
 
-        var doInit = function(){
+        var doInit = function() {
             handleHashChange();
             bindEvents();
             contacts.initialized = true;

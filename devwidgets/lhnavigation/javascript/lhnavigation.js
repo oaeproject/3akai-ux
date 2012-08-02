@@ -31,7 +31,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.lhnavigation = function (tuid, showSettings) {
+    sakai_global.lhnavigation = function(tuid, showSettings) {
 
         ///////////////////
         // CONFIGURATION //
@@ -677,7 +677,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             }
         };
 
-        var showContextMenu = function($clickedItem){
+        var showContextMenu = function($clickedItem) {
             var contextMenu = $('#lhnavigation_submenu');
             $clickedItem.children('.lhnavigation_selected_submenu_image').addClass('clicked');
             var leftOffset = 68;
@@ -1427,7 +1427,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         });
 
         $(window).unload(function() {
-            if($.bbq.getState('newPageMode')) {
+            if ($.bbq.getState('newPageMode')) {
                 $.bbq.removeState('newPageMode');
             }
         });

@@ -85,7 +85,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             }
         };
 
-        var renderMap = function(success, data){
+        var renderMap = function(success, data) {
             if (success) {
                 // Get data from the backend server
                 json = data;

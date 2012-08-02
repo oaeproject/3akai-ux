@@ -11,13 +11,13 @@ require(
 
     module('WCAG 2.0 Compliance - 1.1.1 Non-text Content / Text Alternatives');
 
-    var checkElements = function($elt, callback){
+    var checkElements = function($elt, callback) {
         $.each($elt.find('a'), function(i, elt) {
             if ($(elt).attr('id') !== 'topnavigation_user_options_name') {
                 ok($(elt).attr('title') || $(elt).text() || $(elt).find('*').text() || ($(elt).html() === '<!-- -->') || $(elt).find('img').attr('alt'), 'A tag has text or children that have text: ' + $('<div/>').html(elt).html());
             }
-            if ($(elt).attr('title') && ($(elt).text() || $(elt).find('*').text())){
-                if ($.trim($(elt).attr('title')) === $.trim($(elt).text()) || $.trim($(elt).attr('title')) === $.trim($(elt).find('*').text())){
+            if ($(elt).attr('title') && ($(elt).text() || $(elt).find('*').text())) {
+                if ($.trim($(elt).attr('title')) === $.trim($(elt).text()) || $.trim($(elt).attr('title')) === $.trim($(elt).find('*').text())) {
                     ok(false, 'A tag has duplicate text and title attribute: ' + $('<div/>').html(elt).html());
                 }
             }
@@ -29,7 +29,7 @@ require(
 
         $.each($elt.find('img'), function(i, elt) {
             var parentTitle = false;
-            if ($(elt).parent().attr('title') && $(elt).parent().attr('title').length){
+            if ($(elt).parent().attr('title') && $(elt).parent().attr('title').length) {
                 parentTitle = true;
             }
             ok($(elt).attr('alt') || $(elt).prev('img').attr('src') === $(elt).attr('src') || parentTitle, 'IMG tag has ALT attribute:' + $('<div/>').html(elt).html());
@@ -61,7 +61,7 @@ require(
             if ($(elt).attr('id')) {
                 var textareaId = $(elt).attr('id');
                 $.each($elt.find('label'), function(j, label) {
-                    if ($(label).attr('for') ===  textareaId){
+                    if ($(label).attr('for') ===  textareaId) {
                         hasLabel = true;
                     }
                 });
@@ -98,7 +98,7 @@ require(
     /**
      * Check HTML pages and test for WCAG compliance
      */
-    var testWCAGCompliance = function(){
+    var testWCAGCompliance = function() {
 
         // First, run a test on static markup to ensure the testing is working properly
         test('TEST - Embedded link text', function() {
@@ -107,11 +107,11 @@ require(
 
         for (var j = 0; j < sakai_global.qunit.allHtmlFiles.length; j++) {
             var urlToCheck = sakai_global.qunit.allHtmlFiles[j];
-            (function(url){
+            (function(url) {
                 asyncTest(url, function() {
                     $.ajax({
                         url: url,
-                        success: function(data){
+                        success: function(data) {
                             var div = document.createElement('div');
                             div.innerHTML = data;
                             $(div).find('script').remove();

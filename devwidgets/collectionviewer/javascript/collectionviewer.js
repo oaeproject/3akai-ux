@@ -31,7 +31,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.collectionviewer = function (tuid, showSettings, widgetData) {
+    sakai_global.collectionviewer = function(tuid, showSettings, widgetData) {
 
 
         /////////////////////////////
@@ -638,13 +638,13 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                 var $checked = $('.collectionviewer_check:checked:visible', $rootel);
                 if ($checked.length) {
                     var paths = [];
-                    $checked.each(function () {
+                    $checked.each(function() {
                         paths.push($(this).attr('id').split('collectionviewer_check_')[1]);
                     });
                     $(document).trigger('init.deletecontent.sakai', [{
                         paths: paths,
                         context: collectionviewer.contextId
-                    }, function (success) {
+                    }, function(success) {
                         sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey('REMOVING_CONTENT_FROM_COLLECTION', 'collectionviewer'), sakai.api.i18n.getValueForKey('PROCESSING_COLLECTION', 'collectionviewer'));
                         $('.collectionviewer_check:checked:visible', $rootel).parents('li:not(.contentauthoring_row_container)').hide('slow');
                         setTimeout(refreshCollection, 500);
@@ -658,7 +658,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                 $(document).trigger('init.deletecontent.sakai', [{
                     paths: [toRemoveId],
                     context: collectionviewer.contextId
-                }, function (success) {
+                }, function(success) {
                     $itemToRemove.parents('li:not(.contentauthoring_row_container)').hide('slow');
                     setTimeout(refreshCollection, 500);
                 }]);

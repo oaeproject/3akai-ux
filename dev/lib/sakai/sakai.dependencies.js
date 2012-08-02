@@ -77,10 +77,10 @@ if (!(Array.indexOf || [].indexOf)) {
     * @returns Returns the position of the first matched element
     * @type Integer
     */
-    Array.prototype.indexOf = function(obj,start){
+    Array.prototype.indexOf = function(obj,start) {
 
-        for(var i=(start||0),j=this.length; i<j; i++){
-            if(this[i]===obj){
+        for(var i=(start||0),j=this.length; i<j; i++) {
+            if (this[i]===obj) {
                 return i;
             }
         }

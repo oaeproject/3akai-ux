@@ -29,7 +29,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.entity = function(tuid, showSettings){
+    sakai_global.entity = function(tuid, showSettings) {
 
         /////////////////////////////
         // CONFIGURATION VARIABLES //
@@ -58,13 +58,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Object} context not required if setCount is false, provides the context of the entity widget and holds the counts
          * @Return {Object} parentGroups Object containing the parent groups to display
          */
-        var getParentGroups = function(data, setCount, context){
+        var getParentGroups = function(data, setCount, context) {
             var parentGroups = {};
             if (setCount) {
                 context.data.members.counts.groups = 0;
                 context.data.members.counts.collections = 0;
             }
-            $.each(data, function(index, group){
+            $.each(data, function(index, group) {
                 // Check for pseudogroups, if a pseudogroup filter out the parent
                 if (group.pseudoGroup) {
                     // Only groups should be added to the object
@@ -81,7 +81,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 // If no pseudogroup store the group as it is
                 } else if (!parentGroups.hasOwnProperty(group['sakai:group-id']) && group['sakai:group-id']) {
                     if (setCount) {
-                        if (sakai.api.Content.Collections.isCollection(group)){
+                        if (sakai.api.Content.Collections.isCollection(group)) {
                             context.data.members.counts.collections++;
                         } else {
                             context.data.members.counts.groups++;
@@ -254,11 +254,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * - 'contact' When the viewed user page is one of a contact
          * @param {String} context String defining the context of the entity widget
          */
-        var addBinding = function(context){
-            switch(context.type){
+        var addBinding = function(context) {
+            switch(context.type) {
                 case 'user_me':
-                    $(entityUserCreateAndAdd).bind('click', function(){
-                        if($(this).hasClass('entity_user_created_add_clicked')){
+                    $(entityUserCreateAndAdd).bind('click', function() {
+                        if ($(this).hasClass('entity_user_created_add_clicked')) {
                             $(this).removeClass('entity_user_created_add_clicked');
                             $(entityUserCreateAddDropdown).hide();
                         }else{
@@ -267,7 +267,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                             $(entityUserCreateAddDropdown).css('left', $(this).position().left - 38);
                         }
                     });
-                    $(entityUserDropdown).hover(function(){
+                    $(entityUserDropdown).hover(function() {
                         var $li = $(this);
                         var $subnav = $li.children('.s3d-dropdown-container');
 
@@ -275,24 +275,24 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         $subnav.css('left', pos.left + 15);
                         $subnav.css('margin-top', $li.height() + 4 + 'px');
                         $subnav.show();
-                    }, function(){
+                    }, function() {
                         var $li = $(this);
                         $li.children('.s3d-dropdown-container').hide();
                     });
-                    $(window).bind('displayName.profile.updated.sakai', function(){
+                    $(window).bind('displayName.profile.updated.sakai', function() {
                         $('.entity_name_me').text(sakai.api.User.getDisplayName(sakai.data.me.profile));
                     });
                     break;
                 case 'user_other':
-                    $(entityUserMessage).bind('click', function(){
+                    $(entityUserMessage).bind('click', function() {
                         // Place message functionality
                     });
-                    $(entityUserAddToContacts).bind('click', function(){
+                    $(entityUserAddToContacts).bind('click', function() {
                         // Place contacts functionality
                     });
                     break;
                 case 'contact':
-                    $(entityUserMessage).bind('click', function(){
+                    $(entityUserMessage).bind('click', function() {
                         // Place message functionality
                     });
                     break;
@@ -313,10 +313,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
                     $('#ew_group_delete_link').live('click', function(ev) {
                         $(document).trigger('init.deletegroup.sakai', [context.data.authprofile,
-                            function (success) {
+                            function(success) {
                                 if (success) {
                                     // Wait for 2 seconds
-                                    setTimeout(function () {
+                                    setTimeout(function() {
                                         // Relocate to the my sakai page
                                         document.location = '/me';
                                     }, 2000);
@@ -326,11 +326,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         $('#entity_groupsettings_dropdown').jqmHide();
                     });
 
-                    $('.sakai_add_content_overlay').live('click', function(ev){
+                    $('.sakai_add_content_overlay').live('click', function(ev) {
                         $('#entity_groupsettings_dropdown').jqmHide();
                     });
 
-                    $(entityGroupDropdown).hover(function(){
+                    $(entityGroupDropdown).hover(function() {
                         var $li = $(this);
                         var $subnav = $li.children('.s3d-dropdown-container');
 
@@ -338,12 +338,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         $subnav.css('left', pos.left + 5);
                         $subnav.css('margin-top', $li.height() + 4 + 'px');
                         $subnav.show();
-                    }, function(){
+                    }, function() {
                         var $li = $(this);
                         $li.children('.s3d-dropdown-container').hide();
                     });
                     $(window).trigger('setData.changepic.sakai', ['group', context.data.authprofile['sakai:group-id']]);
-                    $(window).bind('ready.changepic.sakai', function(){
+                    $(window).bind('ready.changepic.sakai', function() {
                         $(window).trigger('setData.changepic.sakai', ['group', context.data.authprofile['sakai:group-id']]);
                     });
                     sakai.api.Widgets.widgetLoader.insertWidgets('entity_groupsettings_dropdown', false, $rootel);
@@ -364,7 +364,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                                 context.data.authprofile['sakai:group-joinable'],
                                 managerCount,
                                 's3d-header-button',
-                                function (renderedButtons) {
+                                function(renderedButtons) {
                                     // onShow
                                     $('#joinrequestbuttons_widget', $rootel).show();
                                 }
@@ -428,7 +428,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 sakai_global.content_profile.content_data.members.counts.collaboratorgroups = 0;
                 sakai_global.content_profile.content_data.members.counts.collaboratorusers = 0;
                 $.each(collaborators, function(i, collaborator) {
-                    if(collaborator['sakai:group-id']){
+                    if (collaborator['sakai:group-id']) {
                         sakai_global.content_profile.content_data.members.counts.collaboratorgroups++;
                     } else {
                         sakai_global.content_profile.content_data.members.counts.collaboratorusers++;
@@ -438,10 +438,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 sakai_global.content_profile.content_data.members.counts.viewergroups = 0;
                 sakai_global.content_profile.content_data.members.counts.viewerusers = 0;
                 sakai_global.content_profile.content_data.members.counts.viewercollections = 0;
-                $.each(sakai_global.content_profile.content_data.members.viewers, function(i, viewer){
-                    if(viewer['sakai:group-id'] && sakai.api.Content.Collections.isCollection(viewer)){
+                $.each(sakai_global.content_profile.content_data.members.viewers, function(i, viewer) {
+                    if (viewer['sakai:group-id'] && sakai.api.Content.Collections.isCollection(viewer)) {
                         sakai_global.content_profile.content_data.members.counts.viewercollections++;
-                    } else if(viewer['sakai:group-id']){
+                    } else if (viewer['sakai:group-id']) {
                         sakai_global.content_profile.content_data.members.counts.viewergroups++;
                     } else {
                         sakai_global.content_profile.content_data.members.counts.viewerusers++;
@@ -452,25 +452,25 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             context.entitymacros = sakai.api.Util.processLocalMacros($('#entity_macros_template'));
         };
 
-        var renderEntity = function(context){
+        var renderEntity = function(context) {
             prepareRenderContext(context);
             $(entityContainer).html(sakai.api.Util.TemplateRenderer('entity_' + context.context + '_template', context));
         };
 
-        var toggleDropdownList = function(){
+        var toggleDropdownList = function() {
             $(entityChangeImage).nextAll('.s3d-dropdown-list').toggle();
             $(entityChangeImage).toggleClass('clicked');
             $(entityChangeImage).nextAll('.s3d-dropdown-list').css('top', $('.entity_profile_picture_down_arrow').position().top + 62);
         };
 
-        var checkHash = function(context){
-            if ($.bbq.getState('e') === 'joinrequests' && context.context === 'group' && context.data.authprofile['sakai:group-joinable'] === 'withauth'){
+        var checkHash = function(context) {
+            if ($.bbq.getState('e') === 'joinrequests' && context.context === 'group' && context.data.authprofile['sakai:group-joinable'] === 'withauth') {
                 $(document).trigger('init.joinrequests.sakai');
             }
         };
 
         var setupCountAreaBindings = function() {
-            $('#entity_content_permissions').unbind('click').bind('click', function(){
+            $('#entity_content_permissions').unbind('click').bind('click', function() {
                 var $this = $(this);
                 if ($('#entity_contentsettings_dropdown').is(':visible')) {
                     $('#entity_contentsettings_dropdown').jqmHide();
@@ -482,7 +482,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 }
             });
 
-            $('.ew_permissions').unbind('click').bind('click', function(e){
+            $('.ew_permissions').unbind('click').bind('click', function(e) {
                 e.preventDefault();
                 if ($(this).parents('.s3d-dropdown-list').length || $(e.target).hasClass('s3d-dropdown-list-arrow-up')) {
                     $(document).trigger('init.contentpermissions.sakai', {'newPermission': $(this).data('permissionvalue') || false});
@@ -492,8 +492,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
         };
 
-        $(window).bind('sakai.entity.init', function(ev, context, type, data){
-            if(data && data.data && data.data['sakai:pooled-content-file-name']){
+        $(window).bind('sakai.entity.init', function(ev, context, type, data) {
+            if (data && data.data && data.data['sakai:pooled-content-file-name']) {
                 data.data['sakai:pooled-content-file-name-shorter'] = sakai.api.Util.applyThreeDots(data.data['sakai:pooled-content-file-name'], 800, {
                     whole_word: false
                 }, '');
@@ -522,7 +522,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
             setupCountAreaBindings();
 
-            $(window).bind('updateParticipantCount.entity.sakai', function(ev, val){
+            $(window).bind('updateParticipantCount.entity.sakai', function(ev, val) {
                 var num = parseInt($('#entity_participants_count').text(), 10);
                 var newNum = num + val;
                 $('#entity_participants_count').text(newNum);
@@ -533,7 +533,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 }
             });
 
-            $('#entity_group_permissions').click(function(){
+            $('#entity_group_permissions').click(function() {
                 var $this = $(this);
                 if ($('#entity_groupsettings_dropdown').is(':visible')) {
                     $('#entity_groupsettings_dropdown').jqmHide();
@@ -545,27 +545,27 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 }
             });
 
-            sakai.api.Util.hideOnClickOut('#entity_groupsettings_dropdown', '#entity_group_permissions,.entity_permissions_icon', function(){
+            sakai.api.Util.hideOnClickOut('#entity_groupsettings_dropdown', '#entity_group_permissions,.entity_permissions_icon', function() {
                 $('#entity_groupsettings_dropdown').jqmHide();
             });
 
-            sakai.api.Util.hideOnClickOut('#entity_contentsettings_dropdown', '#entity_content_permissions, .entity_permissions_icon', function(){
+            sakai.api.Util.hideOnClickOut('#entity_contentsettings_dropdown', '#entity_content_permissions, .entity_permissions_icon', function() {
                 $('#entity_contentsettings_dropdown').jqmHide();
             });
 
              // templateGenerator
-            $('#ew_group_export_as_template_link').click(function(e){
+            $('#ew_group_export_as_template_link').click(function(e) {
                 $(window).trigger('init.templategenerator.sakai');
                 $('#entity_groupsettings_dropdown').jqmHide();
             });
 
-            $('#ew_upload').click(function(e){
+            $('#ew_upload').click(function(e) {
                 e.preventDefault();
                 $(document).trigger('init.uploadnewversion.sakai');
                 $('#entity_contentsettings_dropdown').jqmHide();
             });
 
-            $('#ew_revhistory').click(function(e){
+            $('#ew_revhistory').click(function(e) {
                 $(window).trigger('init.versions.sakai', {
                     pageSavePath: sakai_global.content_profile.content_data.content_path,
                     saveRef: '',
@@ -575,16 +575,16 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 $('#entity_contentsettings_dropdown').jqmHide();
             });
 
-            $('#ew_content_preview_delete').bind('click', function(e){
+            $('#ew_content_preview_delete').bind('click', function(e) {
                 e.preventDefault();
                 window.scrollTo(0,0);
                 $(document).trigger('init.deletecontent.sakai', [{
                         'paths': [sakai_global.content_profile.content_data.data._path]
                     },
-                    function (success) {
+                    function(success) {
                         if (success) {
                             // Wait for 2 seconds
-                            setTimeout(function () {
+                            setTimeout(function() {
                                 // Relocate to the my sakai page
                                 document.location = '/me';
                             }, 2000);
@@ -601,7 +601,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 $('#entity_groupsettings_dropdown').jqmHide();
             });
 
-            $('.entity_owns_actions_container .ew_permissions').live('hover', function(){
+            $('.entity_owns_actions_container .ew_permissions').live('hover', function() {
                 var $dropdown = $(this).find('.s3d-dropdown-list');
                 $dropdown.css('left', $(this).position().left - $dropdown.width() / 2 - 30 );
                 $dropdown.css('margin-top', $(this).height() + 7 + 'px');
@@ -619,8 +619,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $('#entity_name').html(sakai.api.Security.safeOutput(title));
         });
 
-        $(window).bind('sakai.entity.updatecountcache', function(e, data){
-            if(data.increment){
+        $(window).bind('sakai.entity.updatecountcache', function(e, data) {
+            if (data.increment) {
                 $('#entity_comments_link > span').text(parseInt($('#entity_comments_link > span').text(), 10) + 1);
             } else{
                 $('#entity_comments_link > span').text(parseInt($('#entity_comments_link > span').text(), 10) - 1);
@@ -629,10 +629,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
         $(window).bind('sakai.entity.updateOwnCounts', function(e) {
            if (renderObj.data.content_path) {
-                sakai.api.Content.loadFullProfile([renderObj.data.content_path], function(success,data){
-                    if (success){
-                        sakai.api.Content.parseFullProfile(data.results, function(parsedData){
-                            if (parsedData){
+                sakai.api.Content.loadFullProfile([renderObj.data.content_path], function(success,data) {
+                    if (success) {
+                        sakai.api.Content.parseFullProfile(data.results, function(parsedData) {
+                            if (parsedData) {
                                 parsedData.mode = 'content';
                                 renderObj.data = parsedData;
                                 sakai_global.content_profile.content_data = parsedData;

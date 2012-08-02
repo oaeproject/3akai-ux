@@ -164,7 +164,7 @@ define(
                 date = new Date(Number(Number(date) + (offsetnum * 60000)));
             }
 
-            var zeropad = function (num) { return ((num < 10) ? '0' : '') + num; };
+            var zeropad = function(num) { return ((num < 10) ? '0' : '') + num; };
 
             var str = '';
             str += date.getUTCFullYear();
@@ -191,7 +191,7 @@ define(
          */
 
         convertToHumanReadableFileSize : function(filesize) {
-            if (! filesize){
+            if (! filesize) {
                 filesize = 0;
             }
             var i;
@@ -228,7 +228,7 @@ define(
          * @param {String} inputTags Unformatted, comma separated, string of tags put in by a user
          * @return {Array} Array of formatted tags
          */
-        formatTags : function(inputTags){
+        formatTags : function(inputTags) {
             if ( $.trim( inputTags ) !== '' || $.isArray( inputTags ) ) {
                 var tags = [];
                 var splitTags = inputTags;
@@ -315,7 +315,7 @@ define(
                                 doSetTagsCallback(true);
                             }
                         },
-                        error: function(xhr){
+                        error: function(xhr) {
                             debug.error(tagLocation + ' failed to be tagged as ' + tagArray);
                             if ($.isFunction(doSetTagsCallback)) {
                                 doSetTagsCallback(false);
@@ -409,7 +409,7 @@ define(
                 }
                 if ($.inArray(val, tagsToDelete) > -1) {
                     tags.splice(tags.indexOf(val), 1);
-                } else if (val && $.trim(val) !== ''){
+                } else if (val && $.trim(val) !== '') {
                     finalTags.push(val);
                 }
             });
@@ -430,10 +430,10 @@ define(
          * @param {Object} params Object containing parameters, Threedots plugin specific. The row limit for widget headers should be 4 rows.
          * @param {String} Optional class(es) to give container div. Used to give specific mark-up to the content to avoid wrong calculations. e.g. s3d-bold
          */
-        applyThreeDots : function(body, width, params, optClass, alreadySecure){
+        applyThreeDots : function(body, width, params, optClass, alreadySecure) {
             body = sakai_util.Security.safeOutput(body);
             // IE7 and IE6 have trouble with width
-            if(!jQuery.support.leadingWhitespace || jQuery.browser.webkit){
+            if (!jQuery.support.leadingWhitespace || jQuery.browser.webkit) {
                 width = width - 15;
             } else {
                 width = width - 5;
@@ -461,7 +461,7 @@ define(
                 dotted = sakai_util.Security.safeOutput(dotted);
             }
             // if params contains middledots = true then the string is threedotted in the middle
-            if(params && params.middledots && body.length > dotted.length){
+            if (params && params.middledots && body.length > dotted.length) {
                 var maxlength = dotted.length - 3;
                 if (!alreadySecure) {
                     body = sakai_util.Security.safeOutput(body);
@@ -492,7 +492,7 @@ define(
                         } else if ($.isPlainObject(structure[i])) {
                             structure[i] = loopAndReplace(structure[i], variable, replace);
                         } else if ($.isArray(structure[i])) {
-                            for (var j = 0; j < structure[i].length; j++){
+                            for (var j = 0; j < structure[i].length; j++) {
                                 structure[i][j] = loopAndReplace(structure[i][j], variable, replace);
                             }
                         }
@@ -521,7 +521,7 @@ define(
          * The link of the profile picture
          * Will be an empty string if there is no picture
          */
-        constructProfilePicture : function(profile, type){
+        constructProfilePicture : function(profile, type) {
             // profile.basic.elements object should not have picture information
             // if there is profile picture and userId
             // return the picture links
@@ -532,14 +532,14 @@ define(
                     imgUrl = sakai_conf.URL.GROUP_DEFAULT_ICON_URL;
             }
             var id = null, picture_name = null;
-            if (profile['rep:userId'] || profile['sakai:group-id'] || profile['uuid'] || profile['userid']){
-                if (profile['rep:userId']){
+            if (profile['rep:userId'] || profile['sakai:group-id'] || profile['uuid'] || profile['userid']) {
+                if (profile['rep:userId']) {
                     id = profile['rep:userId'];
-                } else if (profile['sakai:group-id']){
+                } else if (profile['sakai:group-id']) {
                     id = profile['sakai:group-id'];
-                } else if (profile['uuid']){
+                } else if (profile['uuid']) {
                     id = profile['uuid'];
-                } else if (profile['userid']){
+                } else if (profile['userid']) {
                     id = profile['userid'];
                 }
                 if (profile.picture) {
@@ -614,10 +614,10 @@ define(
              * @param {Constant} [type] The type of the notification. If this is not supplied, we use the type 'information'
              * @param {Boolean} sticky The sticky (if it is true, the notification doesn't disappear without using action)
              */
-            show : function(title, text, type, sticky){
+            show : function(title, text, type, sticky) {
 
                 // Check whether the text parameter is supplied.
-                if(!text){
+                if (!text) {
 
                     // Log an error message
                     debug.info('sakai.api.Util.notification.show: You need to fill out the 'text' parameter');
@@ -655,7 +655,7 @@ define(
             /**
              * Remove all the notification messages that are currently visible to the user
              */
-            removeAll : function(){
+            removeAll : function() {
 
                 // Remove gritter notification messages
                 // We don't use the $.gritter.removeAll method since that causes pop-ups to flicker
@@ -698,9 +698,9 @@ define(
              * @param {Object} title    Title of the indicator screen
              * @param {Object} body     Additional text to be shown in the indicator
              */
-            showProgressIndicator: function(title, body){
+            showProgressIndicator: function(title, body) {
                 // Create the HTML for the progress indicator if it doesn't exist yet
-                if ($('#sakai_progressindicator').length === 0){
+                if ($('#sakai_progressindicator').length === 0) {
                     var htmlCode = '<div id='sakai_progressindicator' class='s3d-dialog s3d-dialog-container' style='display:none;'>';
                     htmlCode += '<h1 id='sakai_progressindicator_title' class='s3d-dialog-header'></h1><p id='sakai_progressindicator_body'></p>';
                     htmlCode += '<div class='s3d-inset-shadow-container'><img src='/dev/images/progress_bar.gif'/></div></div>';
@@ -723,7 +723,7 @@ define(
             /**
              * Hide the existing progress indicator (if there is one)
              */
-            hideProgressIndicator: function(){
+            hideProgressIndicator: function() {
                 sakai_util.Modal.close('#sakai_progressindicator');
             }
 
@@ -769,7 +769,7 @@ define(
                 '(Z|(([-+])([0-9]{2}):([0-9]{2})))?)?)?)?';
 
             // Test whether the format is in milliseconds
-            if(regexpInteger.test(dateInput) && typeof dateInput !== 'string') {
+            if (regexpInteger.test(dateInput) && typeof dateInput !== 'string') {
                return new Date(dateInput);
             }
 
@@ -889,8 +889,8 @@ define(
             insertTag : function(tagname, attributes) {
                 var tag = document.createElement(tagname);
                 var head = document.getElementsByTagName('head').item(0);
-                for (var a in attributes){
-                    if(attributes.hasOwnProperty(a)){
+                for (var a in attributes) {
+                    if (attributes.hasOwnProperty(a)) {
                         tag[a] = attributes[a];
                     }
                 }
@@ -1051,14 +1051,14 @@ define(
                 return 'group';
             } else if (sakai_global.directory) {
                 return 'directory';
-            } else if (sakai_global.content_profile || sakai_global.profile){
+            } else if (sakai_global.content_profile || sakai_global.profile) {
                 return 'user';
             } else {
                 return false;
             }
         },
 
-        getDirectoryStructure : function(){
+        getDirectoryStructure : function() {
             /**
              * Converts directory array into a node structure
              * so that it can be rendered into the jstree.
@@ -1066,7 +1066,7 @@ define(
              * @param {Object} directory list of directories
              * @return result the json object in the structure necessary to render in jstree
              */
-            var convertToHierarchy = function(directory){
+            var convertToHierarchy = function(directory) {
                 var item, path;
 
                 var result = [];
@@ -1092,7 +1092,7 @@ define(
              *
              * @return node the json object in the structure necessary to render in jstree
              */
-            var buildNodeRecursive = function(node_id, directory, url, parent_title){
+            var buildNodeRecursive = function(node_id, directory, url, parent_title) {
                 // node title
                 var p_title = directory[node_id].title;
                 // node id
@@ -1152,7 +1152,7 @@ define(
         getValueForDirectoryKey : function( key, _directory ) {
             var directory = _directory ? _directory : this.getDirectoryStructure();
 
-            var searchDirectoryForKey = function(key, child){
+            var searchDirectoryForKey = function(key, child) {
                 var ret = false;
 
                 if (key === child.attr.id) {
@@ -1246,7 +1246,7 @@ define(
                     traditional: true,
                     type: 'POST',
                     data: dataToSend,
-                    success: function(data){
+                    success: function(data) {
                         if ($.isFunction(callback)) {
                             callback(data, true);
                         }
@@ -1275,7 +1275,7 @@ define(
                 d = sakai_l10n.fromGMT(d, meData);
                 return d;
             },
-            parseDateString : function(dateString){
+            parseDateString : function(dateString) {
                 var d = new Date();
                 d.setFullYear(parseInt(dateString.substring(0,4),10));
                 d.setMonth(parseInt(dateString.substring(5,7),10) - 1);
@@ -1285,7 +1285,7 @@ define(
                 d.setSeconds(parseInt(dateString.substring(17,19),10));
                 return d;
             },
-            toGMT : function(date){
+            toGMT : function(date) {
                 date.setFullYear(date.getUTCFullYear());
                 date.setMonth(date.getUTCMonth());
                 date.setDate(date.getUTCDate());
@@ -1393,7 +1393,7 @@ define(
           * @param {Boolean} Optional parameter to distinguish whether the loading should happen
           * syncronously. Default is true (async)
           */
-        processMacros : function (url, asyncreq) {
+        processMacros : function(url, asyncreq) {
             var asyncsetting = true;
             if (asyncreq === false) {
                 asyncsetting = asyncreq;
@@ -1426,7 +1426,7 @@ define(
           */
         processLocalMacros : function(templateElement) {
             var templateStr = '';
-            if (templateElement instanceof jQuery && templateElement.length){
+            if (templateElement instanceof jQuery && templateElement.length) {
                 var firstNode = templateElement.contents(':first-child');
                 if (firstNode.length) {
                     var firstNodeDomElem = firstNode.get(0);
@@ -1456,7 +1456,7 @@ define(
         * @param {Object} outputElement (Optional) jQuery element in which the template needs to be rendered
         * @param {Boolean} doSanitize (Optional) perform html sanitization. Defaults to true
         */
-        TemplateRenderer : function (templateElement, templateData, outputElement, doSanitize) {
+        TemplateRenderer : function(templateElement, templateData, outputElement, doSanitize) {
 
             var templateName;
             var sanitize = true;
@@ -1465,14 +1465,14 @@ define(
             }
 
             // The template name and the context object should be defined
-            if(!templateElement || !templateData){
+            if (!templateElement || !templateData) {
                 throw ' TemplateRenderer: the template name or the templateData is not defined';
             }
 
-            if(templateElement instanceof jQuery && templateElement[0]){
+            if (templateElement instanceof jQuery && templateElement[0]) {
                 templateName = templateElement[0].id;
             }
-            else if (typeof templateElement === 'string'){
+            else if (typeof templateElement === 'string') {
                 templateName = templateElement.replace('#', '');
                 templateElement = $('#' + templateName);
             }
@@ -1575,7 +1575,7 @@ define(
              *
              * @returns {String} HTML Encoded string
              */
-            escapeHTML : function(inputString){
+            escapeHTML : function(inputString) {
                 if (inputString) {
                     return $('<div/>').text(inputString).html().replace(/\'/g,'&quot;');
                 } else {
@@ -1623,10 +1623,10 @@ define(
              * Represent URL if any in an anchor tag.
              * @param {Object} message Message that user has entered.
              */
-            replaceURL : function(message){
+            replaceURL : function(message) {
                 // link is already wrap in anchor tag do nothing
                 // but if it is not wrap in the anchor tag, wrap in the anchor tag.
-                return message.replace(/(<a[^>]*>)?((\w+):\/\/[\S]+([^<br]\b|$))/g, function($0,$1){
+                return message.replace(/(<a[^>]*>)?((\w+):\/\/[\S]+([^<br]\b|$))/g, function($0,$1) {
                     return $1?$0:'<a href=''+$0+'' class='my_link s3d-regular-links s3d-bold' target='_blank'>'+$0+'</a>';
                 });
             },
@@ -1669,7 +1669,7 @@ define(
                                 url = null;
                             }
                         }
-                    } catch (err){
+                    } catch (err) {
                         debug.error('Error occured when decoding URI Component');
                     }
 
@@ -1755,11 +1755,11 @@ define(
                                                           'padding', 'padding-left', 'padding-right', 'text-align', 'font-style',
                                                           'text-decoration', 'border', 'visibility', 'font-size', 'width'];
                                             var sanitizedValue = '';
-                                            if (value){
+                                            if (value) {
                                                 var vals = value.split(';');
-                                                for (var attrid = 0; attrid < vals.length; attrid++){
+                                                for (var attrid = 0; attrid < vals.length; attrid++) {
                                                     var attrValue = $.trim(vals[attrid].split(':')[0]).toLowerCase();
-                                                    if ($.inArray(attrValue, accept) !== -1){
+                                                    if ($.inArray(attrValue, accept) !== -1) {
                                                         sanitizedValue += removeExpression(vals[i]);
                                                     }
                                                 }
@@ -1810,7 +1810,7 @@ define(
              * Function that can be called by pages that can't find the content they are supposed to
              * show.
              */
-            send404 : function(){
+            send404 : function() {
                 var redurl = window.location.pathname + window.location.hash;
                 document.location = '/404?url=' + escape(window.location.pathname + window.location.search + window.location.hash);
                 return false;
@@ -1820,7 +1820,7 @@ define(
              * Function that can be called by pages that don't have the permission to show the content
              * they should be showing
              */
-            send403 : function(){
+            send403 : function() {
                 var redurl = window.location.pathname + window.location.hash;
                 document.location = '/403?url=' + escape(window.location.pathname + window.location.search + window.location.hash);
                 return false;
@@ -1829,7 +1829,7 @@ define(
             /**
              * Function that can be called by pages that require a login first
              */
-            sendToLogin : function(){
+            sendToLogin : function() {
                 var redurl = window.location.pathname + window.location.hash;
                 document.location = sakai_conf.URL.GATEWAY_URL + '?url=' + escape(window.location.pathname + window.location.search + window.location.hash);
                 return false;
@@ -1937,7 +1937,7 @@ define(
             return tag;
         },
 
-        generateWidgetId: function(){
+        generateWidgetId: function() {
             return 'id' + Math.round(Math.random() * 10000000);
         },
 
@@ -1984,19 +1984,19 @@ define(
          * @param callback {function} a function to be called instead of the default jquery.hide()
          */
         hideOnClickOut : function(elementToHide, ignoreElements, callback) {
-            $(document).click(function(e){
+            $(document).click(function(e) {
                 var $clicked = $(e.target);
-                if (! $.isArray(elementToHide)){
+                if (! $.isArray(elementToHide)) {
                     elementToHide = [elementToHide];
                 }
-                $.each(elementToHide, function(index, el){
-                    if (el instanceof jQuery){
+                $.each(elementToHide, function(index, el) {
+                    if (el instanceof jQuery) {
                         $el = el;
                     } else {
                         $el = $(el);
                     }
                     if ($el.is(':visible') && ! ($.contains($el.get(0), $clicked.get(0)) || $clicked.is(ignoreElements) || $(ignoreElements).has($clicked.get(0)).length)) {
-                        if ($.isFunction(callback)){
+                        if ($.isFunction(callback)) {
                             callback();
                         } else {
                             $el.hide();
@@ -2266,7 +2266,7 @@ define(
             *
             * @returns {Object} the jQuery object created from setup method
             */
-            reset: function( $element ){
+            reset: function( $element ) {
                 $element = ( $element instanceof jQuery ) ? $element: $( $element );
                 $element.val( '' ).trigger( 'keydown' );
                 $element.parents( '.as-selections' ).find( '.as-close' ).click(); // created by autosuggest plugin
@@ -2284,10 +2284,10 @@ define(
             *
             * @returns {Object} original jQuery object without autosuggest
             */
-            destroy: function( element, options ){
+            destroy: function( element, options ) {
                 var opts = $.extend( {}, options );
                 var namespace = opts.namespace || 'api_util_autosuggest';
-                if( !element || ( element.length !== 1 && !element.data( namespace ) ) ){
+                if ( !element || ( element.length !== 1 && !element.data( namespace ) ) ) {
                     return false; // may want to return element?
                 }
                 var ascontainer = $( '#as-selections-' + element.attr( 'id' ) ).replaceWith( element.data( namespace ) );
@@ -2386,7 +2386,7 @@ define(
                     var setInitialSelections = function() {
                         var directory = sakai_util.getDirectoryStructure();
                         var preFill = [];
-                        $.each(initialSelections, function (idx, tag) {
+                        $.each(initialSelections, function(idx, tag) {
                             var tagObj = {};
                             if (!tag.indexOf('directory/')) {
                                 var tagValue = sakai_util.getValueForDirectoryTag(tag);
@@ -2614,9 +2614,9 @@ define(
         },
 
         Draggable: {
-            getDraggableMessage: function(items){
+            getDraggableMessage: function(items) {
                 var message = '';
-                if(items > 1){
+                if (items > 1) {
                     message = require('sakai/sakai.api.i18n').getValueForKey('MOVING') + ' ' + items + ' ' + require('sakai/sakai.api.i18n').getValueForKey('ITEMS_PL');
                 } else {
                     message = require('sakai/sakai.api.i18n').getValueForKey('MOVING') + ' ' + items + ' ' + require('sakai/sakai.api.i18n').getValueForKey('ITEM');
@@ -2626,10 +2626,10 @@ define(
             /*
              * Gets data from a helper and returns an array
              */
-            getDraggableData: function(helper){
+            getDraggableData: function(helper) {
                 var draggableData = [];
-                if($(helper.children()).length > 1){
-                    $.each(helper.children(), function(i, draggable){
+                if ($(helper.children()).length > 1) {
+                    $.each(helper.children(), function(i, draggable) {
                         draggableData.push($(draggable).data());
                     });
                 } else {
@@ -2693,9 +2693,9 @@ define(
              * @param {Object} params Optional parameters that override defaults
              * @param {Object} $container Optional container element to add draggables, defaults to $('html') if not set
              */
-            setupDraggable: function(params, $container){
+            setupDraggable: function(params, $container) {
                 if (!require('sakai/sakai.api.user').data.me.user.anon) {
-                    $('.s3d-draggable-container', $container).each(function(index, draggable){
+                    $('.s3d-draggable-container', $container).each(function(index, draggable) {
                         if (!$(draggable).hasClass('ui-draggable')) {
                             // HTML overrides default, JS overrides HTML
                             // Override default parameters with attribute defined parameters
@@ -2736,18 +2736,18 @@ define(
              * Sets and overrides default parameters for the jQuery Draggable plugin
              * @param {Object} params Optional parameters that override defaults
              */
-            setDroppableParameters: function(){
+            setDroppableParameters: function() {
                 return {
                     tolerance: 'touch',
                     hoverClass: 's3d-droppable-hover',
                     drop: function(event, ui) {
                         $('.s3d-draggable-draggingitems').remove();
-                        if($(this).data('dropevent')){
+                        if ($(this).data('dropevent')) {
                             $(window).trigger($(this).data('dropevent'), [sakai_util.Draggable.getDraggableData(ui.helper), $(this)]);
                         }
                     },
                     over: function(event, ui) {
-                        if($(this).data('overdropevent')){
+                        if ($(this).data('overdropevent')) {
                             $(window).trigger($(this).data('overdropevent'), [sakai_util.Draggable.getDraggableData(ui.helper), $(this)]);
                         }
                     }
@@ -2758,9 +2758,9 @@ define(
              * @param {Object} params Optional parameters that override defaults
              * @param {Object} $container Optional container element to add droppables, defaults to $('html') if not set
              */
-            setupDroppable: function(params, $container){
+            setupDroppable: function(params, $container) {
                 if (!require('sakai/sakai.api.user').data.me.user.anon) {
-                    $('.s3d-droppable-container', $container).each(function(index, droppable){
+                    $('.s3d-droppable-container', $container).each(function(index, droppable) {
                         if (!$(droppable).hasClass('ui-droppable')) {
                             // HTML overrides default, JS overrides HTML
                             // Override default parameters with attribute defined parameters

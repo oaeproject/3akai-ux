@@ -37,11 +37,11 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         var $searchinput = $('#errorsearch_text');
         var $searchButton = $('#error_content .s3d-search-button');
 
-        var doSearch = function(){
+        var doSearch = function() {
             document.location = '/search#q=' + $.trim($searchinput.val());
         };
 
-        var doInit = function(){
+        var doInit = function() {
             var renderedTemplate = false;
             if (sakai.config.enableCategories) {
                 var catcount = 0;
@@ -81,7 +81,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                 sakai: sakai
             };
             $errorPageLinksContainer.html(sakai.api.Util.TemplateRenderer($errorPageLinksTemplate, linkObj));
-            if (sakai.data.me.user.anon){
+            if (sakai.data.me.user.anon) {
                 $signinbuttonwrapper.show();
 
                 $('html').addClass('requireAnon');
@@ -91,12 +91,12 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                 var redurl = window.location.pathname + window.location.hash;
                 // Parameter that indicates which page to redirect to. This should be present when
                 // the static 403.html and 404.html page are loaded
-                if ($.deparam.querystring().url){
+                if ($.deparam.querystring().url) {
                     redurl = $.deparam.querystring().url;
                 }
                 // Set the link for the sign in button
                 $('.login-container a').attr('href', gatewayURL + '?url=' + escape(redurl));
-                if (sakai.config.Authentication.allowInternalAccountCreation){
+                if (sakai.config.Authentication.allowInternalAccountCreation) {
                     $('#error_sign_up').show();
                 }
             } else {
@@ -109,7 +109,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }
             document.title = document.title + ' ' + sakai.api.i18n.getValueForKey('AN_ERROR_HAS_OCCURRED');
 
-            $searchinput.live('keydown', function(ev){
+            $searchinput.live('keydown', function(ev) {
                 if (ev.keyCode === 13) {
                     doSearch();
                 }

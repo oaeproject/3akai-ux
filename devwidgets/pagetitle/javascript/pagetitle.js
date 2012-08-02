@@ -28,7 +28,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.pagetitle = function (tuid, showSettings, widgetData) {
+    sakai_global.pagetitle = function(tuid, showSettings, widgetData) {
 
         // Element cache
         var $rootel = $('#' + tuid);
@@ -152,7 +152,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Load the PageTitle widget
          */
-        var doInit = function () {
+        var doInit = function() {
             // Fill up the textarea
             if (widgetData && widgetData.pagetitle) {
                 var processedContent = sakai.api.i18n.General.process(widgetData.pagetitle.content);

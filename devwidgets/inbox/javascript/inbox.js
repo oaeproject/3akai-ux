@@ -206,15 +206,15 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
          * Delete a list of messages from the current selected box
          * @param {Object} messages    Array that contains message objects
          */
-        var deleteMessages = function(messages){
+        var deleteMessages = function(messages) {
             var hardDelete = widgetData.box === 'trash' ? true : false;
             sakai.api.Communication.deleteMessages(messages, hardDelete, function(success, data) {
                 if ($inbox_show_message.is(':visible')) {
                     $.bbq.removeState('message', 'reply');
                 }
-                if (infinityScroll){
+                if (infinityScroll) {
                     var ids = [];
-                    $.each(messages, function(i, message){
+                    $.each(messages, function(i, message) {
                         ids.push(message.id);
                     });
                     infinityScroll.removeItems(ids);
@@ -225,7 +225,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         /**
          * Delete messages selected in the current view
          */
-        var deleteMultipleMessages = function(e){
+        var deleteMultipleMessages = function(e) {
             var messagesToDelete = $inbox_message_list.find('input[type='checkbox']:visible:checked').parents('.inbox_items_container');
             var messageList = [];
             $.each(messagesToDelete, function(i,elt) {
@@ -268,14 +268,14 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             $inbox_select_checkbox.removeAttr('checked');
             $inbox_search_messages.removeAttr('disabled');
             // Disable the previous infinite scroll
-            if (infinityScroll){
+            if (infinityScroll) {
                 infinityScroll.kill();
             }
             // Set up the infinite scroll for the list of items in the library
-            infinityScroll = $inbox_message_list.infinitescroll(function(parameters, callback){
-                sakai.api.Communication.getAllMessages(widgetData.box, widgetData.category, searchTerm, parameters.items, parameters.page, sortBy, sortOrder, function(success, data){
-                    $.each(data.results, function(index, result){
-                        if (result.id){
+            infinityScroll = $inbox_message_list.infinitescroll(function(parameters, callback) {
+                sakai.api.Communication.getAllMessages(widgetData.box, widgetData.category, searchTerm, parameters.items, parameters.page, sortBy, sortOrder, function(success, data) {
+                    $.each(data.results, function(index, result) {
+                        if (result.id) {
                             messages[result.id] = result;
                             result['body_nolinebreaks_short'] = sakai.api.Util.applyThreeDots(result.body_nolinebreaks, '550', {max_rows: 2}, false, true);
                             result['subject_short'] = sakai.api.Util.applyThreeDots(result.subject, '550', {max_rows: 1}, 's3d-bold', true);
@@ -283,7 +283,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                     });
                     callback(true, data);
                 });
-            }, {}, function(items, total){
+            }, {}, function(items, total) {
                 $('.inbox_select_all_container:visible input', $rootel).removeAttr('disabled');
                 return sakai.api.Util.TemplateRenderer($inbox_message_list_item_template, {
                     sakai: sakai,
@@ -292,7 +292,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                     search: searchTerm,
                     box: widgetData.box
                 });
-            }, function(){
+            }, function() {
                 $('.inbox_select_all_container:visible input', $rootel).attr('disabled', true);
                 $inbox_delete_selected.attr('disabled', true);
                 $inbox_mark_as_read.attr('disabled', true);
@@ -339,7 +339,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             var replyText = sakai.api.i18n.getValueForKey('RE', 'inbox');
             var messageSubject = currentMessage.subject;
             // Check whether the message starts with Reply. If not, add it to the subject line
-            if(currentMessage.subject.substring(0, replyText.length) !== replyText){
+            if (currentMessage.subject.substring(0, replyText.length) !== replyText) {
                 messageSubject = replyText + ' ' + currentMessage.subject;
             }
             $(document).trigger('initialize.sendmessage.sakai', [currentMessage.replyAll, $inbox_show_message_reply_fields, handleReplyFinished, messageSubject, null, true, currentMessage.id, replyButtonText]);
@@ -381,7 +381,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         };
 
         $inbox_search_messages.live('keydown', handleSearch);
-        $inbox_search_button.live('click', function(){
+        $inbox_search_button.live('click', function() {
             $.bbq.pushState({
                 'iq': $inbox_search_messages.val()
             });
@@ -397,7 +397,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
          * message, so we can return to the same position when
          * the user has finished reading the message
          */
-        var storeCurrentScrollPosition = function(){
+        var storeCurrentScrollPosition = function() {
             previousPosition = $('html').scrollTop();
             window.scrollTo(0, 0);
         };
@@ -407,7 +407,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
          * replied, we return the user to the previous position
          * he had in the message list
          */
-        var restorePreviousPosition = function(){
+        var restorePreviousPosition = function() {
             $(detailViewClass).hide();
             $(newMessageViewClass).hide();
             $(listViewClass).show();
@@ -475,8 +475,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                     if (all.hasOwnProperty('message')) {
                         storeCurrentScrollPosition();
                         if ((messages && !messages[all.message]) || !messages) {
-                            sakai.api.Communication.getMessage(all.message, widgetData.box, sakai.data.me, function(message){
-                                if (message){
+                            sakai.api.Communication.getMessage(all.message, widgetData.box, sakai.data.me, function(message) {
+                                if (message) {
                                     messages[all.message] = message;
                                     currentMessage = message;
                                     showMessage(message, all.hasOwnProperty('reply'));
@@ -514,7 +514,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                     setInitialState();
                     getMessages();
                 }
-            } else if (!$.bbq.getState('message') && !$.bbq.getState('newmessage')){
+            } else if (!$.bbq.getState('message') && !$.bbq.getState('newmessage')) {
                 setInitialState();
             }
         };

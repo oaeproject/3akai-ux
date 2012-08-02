@@ -37,7 +37,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.comments = function(tuid, showSettings, widgetData){
+    sakai_global.comments = function(tuid, showSettings, widgetData) {
 
 
         /////////////////////////////
@@ -132,7 +132,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
          * @param {Number} dateInput String of a date that needs to be parsed
          * @returns {Date}
          */
-        var parseDate = function(dateInput){
+        var parseDate = function(dateInput) {
             if (dateInput !== null) {
                 return sakai.api.l10n.fromEpoch(dateInput, sakai.data.me);
             } else {
@@ -144,7 +144,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
          * Converts all HTML to flat text and converts \n to <br />
          * @param {String} str
          */
-        var tidyInput = function(str){
+        var tidyInput = function(str) {
             return sakai.api.Security.safeOutput(str);
         };
 
@@ -155,7 +155,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
         /**
          * Show the comments in a paged state or not
          */
-        var displayCommentsPagedOrNot = function(){
+        var displayCommentsPagedOrNot = function() {
             jsonDisplay = {
                 'comments': [],
                 'settings': widgetSettings
@@ -195,7 +195,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                     user.pictureUrl = sakai.config.URL.USER_DEFAULT_ICON_URL;
                     // Check if the user has a picture
                     var pictureUrl = sakai.api.Util.constructProfilePicture(profile);
-                    if (pictureUrl){
+                    if (pictureUrl) {
                         user.pictureUrl = pictureUrl;
                     }
                     user.profile = '/~' + sakai.api.Util.safeURL(user.uid);
@@ -226,7 +226,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
          * Show all the posted comments
          * This function first retrieves all the users who have posted in this widget and then call the displayCommentsPagedOrNot function
          */
-        var showComments = function(){
+        var showComments = function() {
             // Show the nr of comments we are showing.
             var showingComments = json.total;
             if (widgetSettings.perPage < json.total) {
@@ -258,7 +258,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
         /**
          * Gets the comments from the service.
          */
-        var getComments = function(){
+        var getComments = function() {
             var sortOn = '_created';
             var sortOrder = 'desc';
             var items = 10;
@@ -273,11 +273,11 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
             $.ajax({
                 url: url,
                 cache: false,
-                success: function(data){
+                success: function(data) {
                     json = $.extend(data, {}, true);
                     showComments();
                 },
-                error: function(xhr, textStatus, thrownError){
+                error: function(xhr, textStatus, thrownError) {
                     sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('COMMENTS_AN_ERROR_OCCURRED') + ' (' + xhr.status + ')','',sakai.api.Util.notification.type.ERROR);
                 }
             });
@@ -287,7 +287,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
          * Pager click handler
          * @param {Number} pageclickednumber
          */
-        var pagerClickHandler = function(pageclickednumber){
+        var pagerClickHandler = function(pageclickednumber) {
             extraComments = 0;
             clickedPage = pageclickednumber;
 
@@ -303,7 +303,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
         /**
          * Post a new comment
          */
-        var postComment = function(){
+        var postComment = function() {
             var comment = {
                 // Replaces the \n (enters) with <br />
                 'message': $(commentsMessageTxt, rootel).val()
@@ -357,7 +357,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                     url: url,
                     type: 'POST',
                     cache: false,
-                    success: function(data){
+                    success: function(data) {
                         // Hide the form.
                         $(commentsFillInComment, rootel).hide();
                         // Clear the textboxes.
@@ -382,7 +382,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                         // Show the added comment
                         showComments();
                     },
-                    error: function(xhr, textStatus, thrownError){
+                    error: function(xhr, textStatus, thrownError) {
                         if (xhr.status === 401) {
                             sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('YOU_NOT_ALLOWED'),'',sakai.api.Util.notification.type.ERROR);
                         }
@@ -407,7 +407,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
          * @param {Boolean} exists
          * @param {Object} response
          */
-        var showSettingScreen = function(exists, response){
+        var showSettingScreen = function(exists, response) {
             $(commentsOutputContainer, rootel).hide();
             $(commentsSettingsContainer, rootel).show();
 
@@ -437,7 +437,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
          * When the settings are saved to JCR, this function will be called.
          * It will notify the container that it can be closed.
          */
-        var finishNewSettings = function(){
+        var finishNewSettings = function() {
             sakai.api.Widgets.Container.informFinish(tuid, 'comments');
         };
 
@@ -445,7 +445,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
          * fills up the settings JSON-object
          * @return {Object} the settings JSON-object, returns {Boolean} false if input is invalid
          */
-        var getCommentsSettings = function(){
+        var getCommentsSettings = function() {
             var comments = {};
             comments.comments = [];
 
@@ -491,7 +491,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
          * Makes sure that values that are supposed to be booleans, really are booleans.
          * @param {String[]} arr Array of strings which holds keys for the widgetSettings variable that needs to be checked.
          */
-        var cleanBooleanSettings = function(arr){
+        var cleanBooleanSettings = function(arr) {
             for (var i = 0; i < arr.length; i++) {
                 var name = arr[i];
                 widgetSettings[name] = (widgetSettings[name] && (widgetSettings[name] === true || widgetSettings[name] === 'true' || widgetSettings[name] === 1)) ? true : false;
@@ -501,9 +501,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
         /**
          * Gets the widget settings and shows the appropriate view.
          */
-        var getWidgetSettings = function(){
+        var getWidgetSettings = function() {
 
-            sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+            sakai.api.Widgets.loadWidgetData(tuid, function(success, data) {
                 if (!sakai.api.User.isAnonymous(sakai.data.me)) {
                     $(commentsCommentBtn, rootel).show();
                 }
@@ -534,13 +534,13 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
 
         };
 
-        var saveSettings = function(){
+        var saveSettings = function() {
             // If the settings-input is valid an object will be returned else false will be returned
             var settings = getCommentsSettings();
             if (settings) {
                 settings['_charset_'] = 'utf-8';
 
-                sakai.api.Widgets.saveWidgetData(tuid, settings, function(success){
+                sakai.api.Widgets.saveWidgetData(tuid, settings, function(success) {
                     if (success) {
                         finishNewSettings();
                     }
@@ -567,7 +567,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
          * @param {String} id The id of the post.
          * @param {Boolean} deleteValue true = delete it, false = undelete it.
          */
-        var doDelete = function(id, deleteValue){
+        var doDelete = function(id, deleteValue) {
             var url = $(commentsPath+id).val();
             var data = {
                 'sakai:deleted': deleteValue
@@ -575,16 +575,16 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
             $.ajax({
                 url: url,
                 type: 'POST',
-                success: function(){
+                success: function() {
                     // mark the comment as deleted or undeleted
                     for (var i = 0; i < json.results.length; i++) {
-                        if (json.results[i].post['sakai:id'] === id){
+                        if (json.results[i].post['sakai:id'] === id) {
                             json.results[i].post['sakai:deleted'] = deleteValue;
                         }
                     }
                     showComments();
                 },
-                error: function(xhr, textStatus, thrownError){
+                error: function(xhr, textStatus, thrownError) {
                     sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('FAILED_TO_UNDELETE'),'',sakai.api.Util.notification.type.ERROR);
                 },
                 data: data
@@ -604,7 +604,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                 url: commentUrl,
                 cache: false,
                 type: 'POST',
-                success: function(data){
+                success: function(data) {
                     // Set the new message
                     $(commentsMessage + id, rootel).html('<p>' + sakai.api.Security.saneHTML(tidyInput(message)) + '</p>');
                     // Hide the form
@@ -612,7 +612,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                     $(commentsMessage + id, rootel).show();
                     // update the comment body
                     for (var i = 0; i < json.results.length; i++) {
-                        if (json.results[i].post['sakai:id'] === id){
+                        if (json.results[i].post['sakai:id'] === id) {
                             json.results[i].post['sakai:body'] = message;
                             json.results[i].post['sakai:editedby'] = me.user.userid;
                         }
@@ -620,7 +620,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                     // Render Math formulas in the text
                     sakai.api.Util.renderMath(tuid);
                 },
-                error: function(xhr, textStatus, thrownError){
+                error: function(xhr, textStatus, thrownError) {
                     sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('FAILED_TO_EDIT'),'',sakai.api.Util.notification.type.ERROR);
                 },
                 data: data
@@ -630,7 +630,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
         var addBindings = function() {
 
             /** Bind the choose display radiobuttons button */
-            $('input[name=' + commentsDisplayRbt + ']', rootel).bind('click', function(e, ui){
+            $('input[name=' + commentsDisplayRbt + ']', rootel).bind('click', function(e, ui) {
                 var selectedValue = $('input[name=' + commentsDisplayRbt + ']:checked', rootel).val();
                 // When the perPage-rbt is selected the focus should be set to the Page-textbox
                 if (selectedValue === 'comments_PerPage') {
@@ -640,7 +640,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
             });
 
             /** Bind the choose permissions radiobuttons button */
-            $('input[name=' + commentsPermissionsRbt + ']', rootel).bind('change', function(e, ui){
+            $('input[name=' + commentsPermissionsRbt + ']', rootel).bind('change', function(e, ui) {
                 var selectedValue = $('input[name=' + commentsPermissionsRbt + ']:checked', rootel).val();
                 // If a login is required the user shouldn't have the posibility to check Name-required or Email-required
                 $(commentsNameReqChk, rootel).attr('disabled', selectedValue === 'comments_RequireLogIn');
@@ -649,12 +649,12 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
             });
 
             /** Bind the settings submit button*/
-            $(commentsSubmit, rootel).bind('click', function(e, ui){
+            $(commentsSubmit, rootel).bind('click', function(e, ui) {
                 saveSettings();
             });
 
             /** Bind the insert comment button*/
-            $(commentsCommentBtn, rootel).bind('click', function(e, ui){
+            $(commentsCommentBtn, rootel).bind('click', function(e, ui) {
                 sakai.api.Util.Forms.clearValidation($('#comments_fillInComment form', rootel));
                 // checks if the user is loggedIn
                 var isLoggedIn = (me.user.anon && me.user.anon === true) ? false : true;
@@ -686,7 +686,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
             /**
              * Hide the form, but keep the input.
              */
-            $(commentsCancelComment, rootel).bind('click', function(){
+            $(commentsCancelComment, rootel).bind('click', function() {
                 $(commentsFillInComment, rootel).hide();
             });
 
@@ -696,17 +696,17 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
             sakai.api.Util.Forms.validate($('#comments_fillInComment form', rootel), saveValidateOpts, true);
 
             /** Bind the settings cancel button */
-            $(commentsCancel, rootel).bind('click', function(e, ui){
+            $(commentsCancel, rootel).bind('click', function(e, ui) {
                 sakai.api.Widgets.Container.informCancel(tuid, 'comments');
             });
 
 
-            $(commentsDelete, rootel).live('click', function(e, ui){
+            $(commentsDelete, rootel).live('click', function(e, ui) {
                 var id = e.target.id.replace(commentsDelete.replace(/\./g, ''), '');
                 doDelete(id, true);
             });
 
-            $(commentsUnDelete, rootel).live('click', function(e, ui){
+            $(commentsUnDelete, rootel).live('click', function(e, ui) {
                 var id = e.target.id.replace(commentsUnDelete.replace(/\./g, ''), '');
                 doDelete(id, false);
             });
@@ -719,7 +719,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
             /**
              * Edit link
              */
-            $(commentsEdit, rootel).live('click', function(e, ui){
+            $(commentsEdit, rootel).live('click', function(e, ui) {
                 var id = e.target.id.replace('comments_edit_', '');
                 // Show the textarea
                 $(commentsMessage + id, rootel).hide();
@@ -734,7 +734,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
             /**
              * Cancel the edit comment.
              */
-            $(commentsEditCancel, rootel).live('click', function(e, ui){
+            $(commentsEditCancel, rootel).live('click', function(e, ui) {
                 var id = e.target.id.replace(commentsEditCancel.replace('.', ''), '');
                 // Show the textarea
                 $(commentsMessageEditContainer + id, rootel).hide();
@@ -750,7 +750,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
          * Switch between main and settings page
          * @param {Boolean} showSettings Show the settings of the widget or not
          */
-        var doInit = function(){
+        var doInit = function() {
             addBindings();
             var widgeturl = sakai.api.Widgets.getWidgetDataStorageURL(tuid);
             widgeturl = sakai.api.Widgets.widgetLoader.widgets[tuid] ? sakai.api.Widgets.widgetLoader.widgets[tuid].placement : false;
@@ -760,7 +760,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                     url: widgeturl + '.0.json',
                     type: 'GET',
                     dataType: 'json',
-                    success: function(data){
+                    success: function(data) {
                         // no op
                     },
                     error: function(xhr, textStatus, thrownError) {
@@ -779,7 +779,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
             getWidgetSettings();
 
             // determine if the edit or delete options should be shown for new posts
-            if (sakai_global.group && sakai.api.Groups.isCurrentUserAManager(sakai_global.group.groupId, me, sakai_global.group.groupData)){
+            if (sakai_global.group && sakai.api.Groups.isCurrentUserAManager(sakai_global.group.groupId, me, sakai_global.group.groupData)) {
                 allowedEdit = true;
                 allowedDelete = true;
             }

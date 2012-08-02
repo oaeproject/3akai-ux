@@ -17,7 +17,7 @@ require(
          * Test the escape HTML function
          */
 
-        asyncTest('Escape HTML', function(){
+        asyncTest('Escape HTML', function() {
             expect(1);
 
             var htmlString = '<a href='http://www.google.com'>Advertising my script enabled site with redirect</a>';

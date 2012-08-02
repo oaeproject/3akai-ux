@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 // load the master sakai object to access all Sakai OAE API methods
-require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _){
+require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) {
 
     /**
      * @name sakai.userpermissions
@@ -27,7 +27,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _){
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.userpermissions = function(tuid, showSettings){
+    sakai_global.userpermissions = function(tuid, showSettings) {
 
         var contextData = false;
 
@@ -35,7 +35,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _){
         // Retrieving the current permission //
         ///////////////////////////////////////
 
-        var getCurrentPermission = function(){
+        var getCurrentPermission = function() {
             var currentPath = contextData.path;
             var page = false;
             if (currentPath.indexOf('/') !== -1) {
@@ -59,7 +59,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _){
          * Notify the user that the permissions have been changed or an error has occurred
          * @param {Boolean} success Indicates the success or failure of setting the permissions
          */
-        var permissionsSet = function(success, data){
+        var permissionsSet = function(success, data) {
             if (success) {
                 // Hide the dialog
                 sakai.api.Util.Modal.close('#userpermissions_container');
@@ -74,7 +74,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _){
         /**
          * Apply the selected permissions to the page
          */
-        var applyPermissions = function(){
+        var applyPermissions = function() {
             var currentPath = contextData.path;
             var page = false;
             var split = '';
@@ -104,7 +104,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _){
         // Modal dialog initialization //
         /////////////////////////////////
 
-        var initializeOverlay = function(){
+        var initializeOverlay = function() {
             sakai.api.Util.Modal.open('#userpermissions_container');
         };
 
@@ -119,7 +119,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _){
         // Internal events //
         /////////////////////
 
-        $('#userpermissions_apply_permissions').live('click', function(){
+        $('#userpermissions_apply_permissions').live('click', function() {
             applyPermissions();
         });
 

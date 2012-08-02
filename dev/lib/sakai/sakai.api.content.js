@@ -36,7 +36,7 @@ define(
          * @param {Object} data Object containing data as received from the loadFullProfile function.
          * @param {Function} callback Function to execute when the function finishes
          */
-        parseFullProfile: function(data, callback){
+        parseFullProfile: function(data, callback) {
             // temporary object to store in parsedData
             var contentItem = {};
             // collection pseudoGroup info to retrieve
@@ -49,7 +49,7 @@ define(
                 // Parse the viewers and add them to the .viewers object.
                 $.each(contentMembers.viewers, function(index, resultObject) {
                     contentMembers.viewers[index].picture = sakai_util.constructProfilePicture(contentMembers.viewers[index]);
-                    if (contentMembers.viewers[index]['sakai:pseudoGroup']){
+                    if (contentMembers.viewers[index]['sakai:pseudoGroup']) {
                         contentMembers.viewers[index].pseudoGroup = true;
                         contentMembers.viewers[index]['sakai:group-title'] = contentMembers.viewers[index]['sakai:parent-group-title'] + ' (' + sakai_i18n.getValueForKey(contentMembers.viewers[index]['sakai:role-title-plural']) + ')';
                         contentMembers.viewers[index].parent = {};
@@ -77,7 +77,7 @@ define(
                 // Parse the managers and add them to the .managers object.
                 $.each(contentMembers.managers, function(index, resultObject) {
                     contentMembers.managers[index].picture = sakai_util.constructProfilePicture(contentMembers.managers[index]);
-                    if (contentMembers.managers[index]['sakai:excludeSearch'] === 'true'){
+                    if (contentMembers.managers[index]['sakai:excludeSearch'] === 'true') {
                         contentMembers.managers[index].pseudoGroup = true;
                         contentMembers.managers[index]['sakai:group-title'] = contentMembers.managers[index]['sakai:parent-group-title'] + ' (' + sakai_i18n.getValueForKey(contentMembers.managers[index]['sakai:role-title-plural']) + ')';
                         contentMembers.managers[index].parent = {};
@@ -88,7 +88,7 @@ define(
                 });
 
                 // filter out the the everyone group and the anonymous user
-                contentMembers.viewers = $.grep(contentMembers.viewers, function(resultObject, index){
+                contentMembers.viewers = $.grep(contentMembers.viewers, function(resultObject, index) {
                     if (resultObject['sakai:group-id'] !== 'everyone' &&
                         resultObject['rep:userId'] !== 'anonymous') {
                         return true;
@@ -119,7 +119,7 @@ define(
             //    - activityfeed.json -> Fetches all activity for a content item
             $.each(data, function(i, dataItem) {
                 // results for poolid.infinity.json
-                if(dataItem.url.indexOf('.infinity.json') > -1) {
+                if (dataItem.url.indexOf('.infinity.json') > -1) {
 
                     // Stores all general data on tempItem.data
                     contentItem = {};
@@ -128,7 +128,7 @@ define(
                         collectionGroup = true;
                     }
 
-                } else if(dataItem.url.indexOf('.members.json') > -1) {
+                } else if (dataItem.url.indexOf('.members.json') > -1) {
 
                     // If this content item is a collection, retrieve the list of members
                     // behind the pseudoGroup
@@ -173,13 +173,13 @@ define(
                         'managers': members.managers.results
                     }, contentItem);
                     // If callback is supplied it is executed
-                    if($.isFunction(callback)) {
+                    if ($.isFunction(callback)) {
                         callback(contentItem);
                     }
                 }, false, true);
             } else {
                 // If callback is supplied it is executed
-                if($.isFunction(callback)) {
+                if ($.isFunction(callback)) {
                     callback(contentItem);
                 }
             }
@@ -196,7 +196,7 @@ define(
          * @param {Function}   callback Function that executes when all data thas been gathered,
          *                            passes through the unparsed results.
          */
-        loadFullProfile: function(poolid, callback){
+        loadFullProfile: function(poolid, callback) {
             var batchRequests = [
                 {
                     'url': poolid + '.infinity.json',
@@ -214,12 +214,12 @@ define(
 
             sakai_serv.batch(batchRequests, function(success, data) {
                 if (success) {
-                    if($.isFunction(callback)){
+                    if ($.isFunction(callback)) {
                         callback(success, data);
                     } else {
                         return data;
                     }
-                } else if($.isFunction(callback)){
+                } else if ($.isFunction(callback)) {
                     callback(success);
                 }
                 return success;
@@ -232,7 +232,7 @@ define(
          * @param {Function} callback Function to call when the permissions have been saved or failed to save.
          *                   The callback function is provided with a Boolean. True = permissions successfully set, False = permissions not set (error)
          */
-        setFilePermissions : function(filesArray, callback, groupID){
+        setFilePermissions : function(filesArray, callback, groupID) {
             // Check which value was selected and fill in the data object accordingly
             var data = [];
             var file;
@@ -368,12 +368,12 @@ define(
                 data: {
                     requests: JSON.stringify(data)
                 },
-                success: function(data){
+                success: function(data) {
                     if (callback) {
                         callback(true);
                     }
                 },
-                error: function(xhr, textStatus, thrownError){
+                error: function(xhr, textStatus, thrownError) {
                     if (callback) {
                         callback(false);
                     }
@@ -441,7 +441,7 @@ define(
                         });
                         setDataOnContent(filesToSetPermissions, batchRequests);
                     } else {
-                        if($.isFunction(callback)) {
+                        if ($.isFunction(callback)) {
                             callback(success);
                         }
                     }
@@ -459,16 +459,16 @@ define(
          * @param {String} me Userid of the currently logged in user
          * @param {Function} callback Function to execute when permissions have been set or failed to be set
          */
-        setACLsOnPath: function(_path, _permission, me, callback){
+        setACLsOnPath: function(_path, _permission, me, callback) {
             var paths = []; var permissions = []; var ACLs = [];
-            if (typeof _path === 'string'){
+            if (typeof _path === 'string') {
                 paths.push(_path);
                 permissions.push(_permission);
             } else {
                 paths = _path;
                 permissions = _permission;
             }
-            for (var i = 0; i < paths.length; i++){
+            for (var i = 0; i < paths.length; i++) {
                 var path = paths[i] + '.modifyAce.html';
                 var permission = permissions[i];
                 switch (permission) {
@@ -607,12 +607,12 @@ define(
                 data: {
                     requests: JSON.stringify(ACLs)
                 },
-                success: function(data){
+                success: function(data) {
                     if ($.isFunction(callback)) {
                        callback(true, data);
                     }
                 },
-                error: function(xhr, textStatus, thrownError){
+                error: function(xhr, textStatus, thrownError) {
                     debug.error(xhr, textStatus, thrownError);
                     if ($.isFunction(callback)) {
                        callback(false, xhr);
@@ -694,7 +694,7 @@ define(
          * @param {Object} content    content profile data as defined in loadContentProfile()
          * @param {Object} userid     authorizable id for which we're checking presence in the library
          */
-        isContentInLibrary: function(content, userid){
+        isContentInLibrary: function(content, userid) {
             if (!content) {
                 return false;
             }
@@ -760,14 +760,14 @@ define(
 
             // content array
             var toAdd = [];
-            if (_.isString(contentId)){
+            if (_.isString(contentId)) {
                 toAdd.push(contentId);
             } else {
                 toAdd = contentId;
             }
             // user array
             var addTo = [];
-            if (_.isString(userId)){
+            if (_.isString(userId)) {
                 addTo.push(userId);
             } else {
                 addTo = userId;
@@ -788,7 +788,7 @@ define(
                         ':viewer': addTo[i]
                     };
                 }
-                for (var j = 0; j < toAdd.length; j++){
+                for (var j = 0; j < toAdd.length; j++) {
                     batchRequests.push({
                         url: '/p/' + toAdd[j] + '.members.json',
                         parameters: params,
@@ -797,10 +797,10 @@ define(
                 }
             }
             if (batchRequests.length > 0) {
-                sakai_serv.batch(batchRequests, function(success, data){
+                sakai_serv.batch(batchRequests, function(success, data) {
                     if (success) {
                         // adjust content count in the UI so it accurately reflects the added content without needing a new request
-                        $.each(sakai_user.data.me.groups, function(index, group){
+                        $.each(sakai_user.data.me.groups, function(index, group) {
                             if (group && group.counts && group.groupid === userId) {
                                 group.counts.contentCount += toAdd.length;
                             }
@@ -832,20 +832,20 @@ define(
          * @param {String/Array} userId The user to remove
          * @param {Function} callback Callback function
          */
-        removeUser: function(role, contentId, userId, callback){
+        removeUser: function(role, contentId, userId, callback) {
             var batchRequests = [];
             var userIds = [];
             var contentIds = [];
 
-            if (_.isString(userId)){
+            if (_.isString(userId)) {
                 userIds.push(userId);
-            } else if ($.isArray(userId)){
+            } else if ($.isArray(userId)) {
                 userIds = userId;
             }
 
-            if (_.isString(contentId)){
+            if (_.isString(contentId)) {
                 contentIds.push(contentId);
-            } else if ($.isArray(contentId)){
+            } else if ($.isArray(contentId)) {
                 contentIds = contentId;
             }
 
@@ -865,7 +865,7 @@ define(
                 }
             }
 
-            sakai_serv.batch(batchRequests, function(success, data){
+            sakai_serv.batch(batchRequests, function(success, data) {
                 if ($.isFunction(callback)) {
                    callback(success);
                 }
@@ -908,18 +908,18 @@ define(
          * @param {Function} Callback function to execute on finish
          */
          checkAutosave: function(newPage, pagePath, callback) {
-             if (newPage){
+             if (newPage) {
                  // a new page won't have an autosave yet
-                 if($.isFunction(callback)){
+                 if ($.isFunction(callback)) {
                      callback(true, {'safeToEdit': true});
                  }
              } else {
                  sakai_serv.loadJSON(pagePath + '.infinity.json', function(success, data) {
-                     if($.isFunction(callback)){
+                     if ($.isFunction(callback)) {
                          // if there is an editing flag and it is less than 10 seconds ago, and you aren't the most recent editor, then
                          // someone else is editing the page right now.
                          data.safeToEdit = true;
-                         if(data.editing && sakai_util.Datetime.getCurrentGMTTime() - data.editing.time < 10000 && data.editing._lastModifiedBy !== sakai_user.data.me.user.userid){
+                         if (data.editing && sakai_util.Datetime.getCurrentGMTTime() - data.editing.time < 10000 && data.editing._lastModifiedBy !== sakai_user.data.me.user.userid) {
                              data.safeToEdit = false;
                          }
                          if (data.autosave && data.hasOwnProperty('page') && data.autosave._lastModified > data._lastModified) {
@@ -963,7 +963,7 @@ define(
                             'albumName' : albumName,
                             'photoId' : photoId
                         },
-                        success: function(data){
+                        success: function(data) {
                             var splitPath = data.feed.icon['$t'].split('/');
                             // insert the size we want as the second to last
                             // entry in the array
@@ -974,14 +974,14 @@ define(
                     });
                 }
             } else if (/youtube\.com$/.test(uri.host)) {
-                if (uri.queryKey.v){
+                if (uri.queryKey.v) {
                     result.url = url;
                     result.type = 'video';
                     result.avatar = '//img.youtube.com/vi/' + uri.queryKey.v + '/0.jpg';
                 }
             } else if (/amazon\.com$/.test(uri.host)) {
                 var asin = uri.path.split('/');
-                if (asin && asin[asin.indexOf('dp')] !== -1){
+                if (asin && asin[asin.indexOf('dp')] !== -1) {
                     asin = asin[asin.indexOf('dp')+1];
                     result.url = 'http://kindleweb.s3.amazonaws.com/app/1.0.11.053.093655/KindleReaderApp.html?asin=' + asin + '&containerID=kindleReaderDiv59&tophostname=localhost&iframeName=kindleReaderIFrame1300121366106&dp=0';
                     result.type = 'iframe';
@@ -997,7 +997,7 @@ define(
                         data: {
                             'lectureId' : lectureId
                         },
-                        success: function(data){
+                        success: function(data) {
                             result.url = $($(data).find('textarea').val()).find('img').attr('src');
                             result.type = 'image';
                         }
@@ -1015,7 +1015,7 @@ define(
                         data: {
                             'photoId': fPhotoId
                         },
-                        success: function(data){
+                        success: function(data) {
                             result.url = 'http://farm' + data.photo.farm + '.static.flickr.com/' + data.photo.server + '/' + data.photo.id + '_' + data.photo.secret + '_b.jpg';
                             result.type = 'image';
                         }
@@ -1032,8 +1032,8 @@ define(
                         data: {
                             'slideshow_url': uri.source
                         },
-                        success: function(data){
-                            if (!$(data).find('SlideShareServiceError').text()){
+                        success: function(data) {
+                            if (!$(data).find('SlideShareServiceError').text()) {
                                 var embed = $($(data).find('Embed').text());
                                 // resize to fit contentpreview
                                 embed.find('*[style*='width']').css('width', '100%');
@@ -1069,7 +1069,7 @@ define(
          *            for this content type (i.e. 'PDF document')
          *     If there is no match, a general 'Other document' object is returned
          */
-        getMimeTypeData: function (mimetype) {
+        getMimeTypeData: function(mimetype) {
             if (mimetype && typeof(mimetype) === 'string') {
                 var mimetypeObj = sakai_conf.MimeTypes[mimetype];
                 if (mimetypeObj) {
@@ -1079,17 +1079,17 @@ define(
             return sakai_conf.MimeTypes.other;
         },
 
-        getMimeType : function(content){
+        getMimeType : function(content) {
             var mimeType = 'other';
-            if (content['_mimeType']){
+            if (content['_mimeType']) {
                 mimeType = content['_mimeType'];
-            } else if (content['mimeType']){
+            } else if (content['mimeType']) {
                 mimeType = content['mimeType'];
             }
             return mimeType;
         },
 
-        getThumbnail : function(content){
+        getThumbnail : function(content) {
             var thumbnail = '';
             var mimeType = sakai_content.getMimeType(content);
             if (content['sakai:pagecount'] && content['sakai:pagecount'] !== '0') {
@@ -1106,7 +1106,7 @@ define(
 
         isJwPlayerSupportedVideo : function(mimeType) {
             var supported = false;
-            if (mimeType && mimeType.substring(0, 6) === 'video/'){
+            if (mimeType && mimeType.substring(0, 6) === 'video/') {
                 var mimeSuffix = mimeType.substring(6);
                 if (mimeSuffix === 'x-flv' || mimeSuffix === 'mp4' || mimeSuffix === '3gpp' || mimeSuffix === 'quicktime') {
                     supported = true;
@@ -1117,7 +1117,7 @@ define(
 
         isJwPlayerSupportedAudio : function(mimeType) {
             var supported = false;
-            if (mimeType && mimeType.substring(0, 6) === 'audio/'){
+            if (mimeType && mimeType.substring(0, 6) === 'audio/') {
                 supported = true;
             }
             return supported;
@@ -1130,13 +1130,13 @@ define(
         getCreatorProfile : function(content, callback) {
             $.ajax({
                 url: '/~' + content['sakai:pool-content-created-for'] + '/public/authprofile.infinity.json',
-                success: function(profile){
+                success: function(profile) {
                     if ($.isFunction(callback)) {
                        callback(true, profile);
                     }
                 },
-                error: function(xhr, textStatus, thrownError){
-                    if ($.isFunction(callback)){
+                error: function(xhr, textStatus, thrownError) {
+                    if ($.isFunction(callback)) {
                         callback(false, xhr);
                     }
                 }
@@ -1144,7 +1144,7 @@ define(
 
         },
 
-        hasPreview : function(content){
+        hasPreview : function(content) {
             var result = false;
             var mimeType = sakai_content.getMimeType(content);
             if (content['sakai:preview-url'] ||
@@ -1160,12 +1160,12 @@ define(
             return result;
         },
 
-        getCommentCount : function(content){
+        getCommentCount : function(content) {
             var count = 0;
             if (content.hasOwnProperty('commentCount')) {
                 count = content.commentCount;
             } else if (content.hasOwnProperty('comments')) {
-                $.each(content.comments, function(key, val){
+                $.each(content.comments, function(key, val) {
                     if ($.isPlainObject(val)) {
                         count++;
                     }
@@ -1232,7 +1232,7 @@ define(
          */
         prepareContentForRender : function(results, meData, callback) {
             var userArray = [];
-            $.each(results, function(i, contentItem){
+            $.each(results, function(i, contentItem) {
                 if (contentItem['sakai:pooled-content-file-name']) {
                     contentItem.id = contentItem['_path'];
                     contentItem.link = '/content#p=' + sakai_util.safeURL(contentItem['_path']);
@@ -1288,8 +1288,8 @@ define(
             });
             // Get displaynames for the users that created content
             if (userArray.length) {
-                sakai_user.getMultipleUsers(userArray, function(users){
-                    $.each(results, function(index, item){
+                sakai_user.getMultipleUsers(userArray, function(users) {
+                    $.each(results, function(index, item) {
                         if (item && item['sakai:pooled-content-file-name']) {
                             var userid = item['sakai:pool-content-created-for'];
                             var displayName = sakai_user.getDisplayName(users[userid]);
@@ -1341,7 +1341,7 @@ define(
              * @param {Object} callback         Function to be called after the collections has been created. This will pass in a
              *                                  success parameter and
              */
-            createCollection: function(title, description, permissions, tags, contentToAdd, usersToAdd, callback){
+            createCollection: function(title, description, permissions, tags, contentToAdd, usersToAdd, callback) {
 
                 // 0. Help functions
                 // 0a. Prepare arguments
@@ -1627,9 +1627,9 @@ define(
              * @param {Object} poolIds         Array of pooled content ids to be added to the collection
              * @param {Object} callback        Function to be called when the content has been added to the collection
              */
-            addToCollection: function(collectionId, poolIds, callback){
+            addToCollection: function(collectionId, poolIds, callback) {
                 poolIds = poolIds || [];
-                if (_.isString(poolIds)){
+                if (_.isString(poolIds)) {
                     poolIds = [poolIds];
                 }
                 sakai_content.addToLibrary(poolIds, sakai_content.Collections.getCollectionGroupId(collectionId), false, callback);
@@ -1641,9 +1641,9 @@ define(
              * @param {Object} poolIds         Array of pooled content ids to be removed from the collection
              * @param {Object} callback        Function to be called when the content has been removed from the collection
              */
-            removeFromCollection: function(collectionId, poolIds, callback){
+            removeFromCollection: function(collectionId, poolIds, callback) {
                 poolIds = poolIds || [];
-                if (_.isString(poolIds)){
+                if (_.isString(poolIds)) {
                     poolIds = [poolIds];
                 }
                 sakai_content.removeUser('viewer', poolIds, sakai_content.Collections.getCollectionGroupId(collectionId), callback);
@@ -1656,20 +1656,20 @@ define(
              *                                 and 'private'
              * @param {Object} callback        Function to be called when the new permissions have been set on the collection
              */
-            setCollectionPermissions: function(collectionId, permission, callback){
+            setCollectionPermissions: function(collectionId, permission, callback) {
                 // Change the permissions of the Sakai Doc
-                sakai_content.setFilePermissions([{'hashpath': collectionId, 'permissions': permission}], function(){
+                sakai_content.setFilePermissions([{'hashpath': collectionId, 'permissions': permission}], function() {
                     // Change the permissions of the Sakai Doc
                     var groupId = sakai_content.Collections.getCollectionGroupId(collectionId);
                     var visible = 'public';
-                    if (permission === 'everyone'){
+                    if (permission === 'everyone') {
                         visible = 'logged-in-only';
-                    } else if (permission === 'private'){
+                    } else if (permission === 'private') {
                         visible = 'members-only';
                     }
                     var roles = [{'id': 'managers'}, {'id': 'editors'}, {'id': 'members'}];
-                    sakai_groups.setPermissions(groupId, 'yes', visible, roles, function(){
-                         if ($.isFunction(callback)){
+                    sakai_groups.setPermissions(groupId, 'yes', visible, roles, function() {
+                         if ($.isFunction(callback)) {
                              callback();
                          }
                     });
@@ -1686,13 +1686,13 @@ define(
             shareCollection: function(collectionIds, authorizables, role, callback) {
                 var userRole = sakai_content.Collections.getCollectionRolePseudoGroup(role);
                 var permissionBatch = [];
-                if (_.isString(authorizables)){
+                if (_.isString(authorizables)) {
                     authorizables = [authorizables];
                 }
-                if (_.isString(collectionIds)){
+                if (_.isString(collectionIds)) {
                     collectionIds = [collectionIds];
                 }
-                $.each(collectionIds, function(index, collectionId){
+                $.each(collectionIds, function(index, collectionId) {
                     var groupID = sakai_content.Collections.getCollectionGroupId(collectionId);
                     $.each(authorizables, function(index, authorizable) {
                         permissionBatch.push({
@@ -1710,7 +1710,7 @@ define(
                         });
                     });
                 });
-                sakai_serv.batch(permissionBatch, function(success, response){
+                sakai_serv.batch(permissionBatch, function(success, response) {
                     if ($.isFunction(callback)) {
                         callback(success);
                     }
@@ -1773,11 +1773,11 @@ define(
             /**
              * Retrieve the number of collections that are in my library
              */
-            getMyCollectionsCount: function(){
+            getMyCollectionsCount: function() {
                 var count = 0;
                 var memberships = sakai_groups.getMemberships(sakai_user.data.me.groups, true);
-                $.each(memberships.entry, function(index, membership){
-                    if (sakai_content.Collections.isCollection(membership)){
+                $.each(memberships.entry, function(index, membership) {
+                    if (sakai_content.Collections.isCollection(membership)) {
                         count++;
                     }
                 });
@@ -1791,7 +1791,7 @@ define(
              * @param {Object} callback    Function to call when the collections have been retrieved
              * @param {Boolean} cache      Sets cache option for the ajax request
              */
-            getMyCollections: function(page, items, callback, cache){
+            getMyCollections: function(page, items, callback, cache) {
                 var cacheRequest = cache === false ? false : true;
                 var data = {
                     'sortOn': '_lastModified',
@@ -1805,9 +1805,9 @@ define(
                     'url': sakai_conf.URL.POOLED_CONTENT_SPECIFIC_USER,
                     'data': data,
                     'cache': cacheRequest,
-                    'success': function(data){
+                    'success': function(data) {
                         var batchRequest = [];
-                        $.each(data.results, function(index, collection){
+                        $.each(data.results, function(index, collection) {
                             collection.counts = collection.counts || {};
                             collection.counts.contentCount = sakai_content.Collections.getCollectionContentCount(collection);
                         });
@@ -1815,7 +1815,7 @@ define(
                             callback(data);
                         }
                     },
-                    'error': function(status){
+                    'error': function(status) {
                         debug.error('Loading the current user's collections did not succeed');
                         if ($.isFunction(callback)) {
                             callback(false);
@@ -1829,15 +1829,15 @@ define(
              * @param {Object} collection    This can either be the pooled id of a collection object or the
              *                               full collection pooled content object
              */
-            getCollectionContentCount: function(collection){
-                if ($.isPlainObject(collection)){
+            getCollectionContentCount: function(collection) {
+                if ($.isPlainObject(collection)) {
                     collection = collection['_path'];
                 }
                 var groupId = sakai_content.Collections.getCollectionGroupId(collection);
                 var count = 0;
                 var memberships = sakai_groups.getMemberships(sakai_user.data.me.groups, true);
-                $.each(memberships.entry, function(index, membership){
-                    if (sakai_content.Collections.isCollection(membership) && membership['sakai:group-id'] === groupId){
+                $.each(memberships.entry, function(index, membership) {
+                    if (sakai_content.Collections.isCollection(membership) && membership['sakai:group-id'] === groupId) {
                         count = membership.counts.contentCount || 0;
                     }
                 });
@@ -1848,15 +1848,15 @@ define(
              * Check whether a given object represents a collection
              * @param {Object} identifier    This can be a group id, a content object or a group object
              */
-            isCollection: function(identifier){
+            isCollection: function(identifier) {
                 // The identifier is a group id
-                if (_.isString(identifier)){
+                if (_.isString(identifier)) {
                     return identifier.substring(0, 2) === sakai_content.Collections.COLLECTION_GROUP_PREFIX;
                 // The identifier is a collection pseudoGroup
-                } else if (identifier['sakai:category'] === 'collection'){
+                } else if (identifier['sakai:category'] === 'collection') {
                     return true;
                 // The identifier is a content object
-                } else if (identifier['_path']){
+                } else if (identifier['_path']) {
                     return sakai_content.getMimeType(identifier) === 'x-sakai/collection';
                 }
                 return false;
@@ -1867,8 +1867,8 @@ define(
              * @param {Object} collection    This can be the pooled content id of the collection or the
              *                               pooled content object of the collection
              */
-            isCollectionInMyLibrary: function(collection){
-                if ($.isPlainObject(collection)){
+            isCollectionInMyLibrary: function(collection) {
+                if ($.isPlainObject(collection)) {
                     collection = collection['_path'];
                 }
                 var groupToCheck = sakai_content.Collections.getCollectionGroupId(collection);
@@ -1880,7 +1880,7 @@ define(
              * @param {Object} collection    This can be the pooled content id of the collection or the
              *                               pooled content object of the collection
              */
-            getCollectionGroupId: function(collection){
+            getCollectionGroupId: function(collection) {
                 if (_.isString(collection)) {
                     return sakai_content.Collections.COLLECTION_GROUP_PREFIX + collection;
                 } else {
@@ -1893,8 +1893,8 @@ define(
              * @param {Object} collectionGroup    This can be the collection group id or the collection
              *                                    group object
              */
-            getCollectionPoolId: function(collectionGroup){
-                if ($.isPlainObject(collectionGroup)){
+            getCollectionPoolId: function(collectionGroup) {
+                if ($.isPlainObject(collectionGroup)) {
                     collectionGroup = collectionGroup['sakai:group-id'];
                 }
                 return collectionGroup.substring(2);

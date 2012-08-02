@@ -94,17 +94,17 @@ require(
         var checkWidgetVariable = function() {
             module('Widgets - Core');
 
-            test('The Widget variable exists', function(){
+            test('The Widget variable exists', function() {
                 same(typeof sakai.widgets, 'object', 'the sakai.widgets variable exists');
             });
         };
 
         var checkWidgetProperties = function(widgetObject, callback) {
             var propertiesCount = widgetProperties.length-1;
-            while (propertiesCount > -1){
+            while (propertiesCount > -1) {
                 // Check if the required properties are set on each widget object
                 // if not, check if the non-required property is in the right datatype (boolean/string/...)
-                if(widgetProperties[propertiesCount].required || (!widgetProperties[propertiesCount].required && widgetObject[widgetProperties[propertiesCount].name])){
+                if (widgetProperties[propertiesCount].required || (!widgetProperties[propertiesCount].required && widgetObject[widgetProperties[propertiesCount].name])) {
                     same(typeof widgetObject[widgetProperties[propertiesCount].name], widgetProperties[propertiesCount].type, 'Type of property ' + widgetProperties[propertiesCount].name);
                 }
                 propertiesCount--;
@@ -112,14 +112,14 @@ require(
 
             // Check if the widget object contains properties that aren't in the properties object
             for(var j in widgetObject) {
-                if(widgetObject.hasOwnProperty(j)){
+                if (widgetObject.hasOwnProperty(j)) {
 
                     var count = 0;
                     propertiesCount = widgetProperties.length-1;
 
                     // Run over
-                    while (propertiesCount > -1){
-                        if(widgetProperties[propertiesCount].name === j){
+                    while (propertiesCount > -1) {
+                        if (widgetProperties[propertiesCount].name === j) {
                             count++;
                             break;
                         }
@@ -163,7 +163,7 @@ require(
                                     'name':property,
                                     'url':widgetObject[property][n].bundle
                                 });
-                                if (!widgetObject[property][n].bundle){
+                                if (!widgetObject[property][n].bundle) {
                                     alert(JSON.stringify(widgetObject));
                                 }
                                 debug.log('Error ===> ' + widgetObject[property][n].bundle);

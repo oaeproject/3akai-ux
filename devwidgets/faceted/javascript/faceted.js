@@ -35,7 +35,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @version 0.0.1
      * @param {String} tuid Unique id of the widget
      */
-    sakai_global.faceted = function(tuid, showSettings, widgetData){
+    sakai_global.faceted = function(tuid, showSettings, widgetData) {
 
 
         ///////////////////
@@ -56,7 +56,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Render the template
          */
-        var renderTemplateFaceted = function(facetedConfig){
+        var renderTemplateFaceted = function(facetedConfig) {
             if (sakai.data.me.user.anon) {
               $(facetedContainer,rootel).hide();
             } else if (facetedConfig) {
@@ -67,7 +67,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             }
         };
 
-        var initialSelection = function(){
+        var initialSelection = function() {
             $('.faceted_category',rootel).removeClass('faceted_category_selected');
             var currentfacet = $.bbq.getState('facet');
             if (currentfacet) {
@@ -79,14 +79,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         // Bindings //
         //////////////
 
-        $(window).bind('hashchange', function(ev){
+        $(window).bind('hashchange', function(ev) {
             initialSelection();
         });
 
         /**
          * Bind the widget's links
          */
-        var addBinding = function(){
+        var addBinding = function() {
             // bind category select box
             $('#facted_select',rootel).change(function() {
                 var facet = $(this).find(':selected').val();

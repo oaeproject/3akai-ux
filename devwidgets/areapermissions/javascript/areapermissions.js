@@ -28,7 +28,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.areapermissions = function (tuid, showSettings) {
+    sakai_global.areapermissions = function(tuid, showSettings) {
 
         var areapermissionsSelectable = '.areapermissions_selectable > input';
 
@@ -45,7 +45,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         // Rendering group data //
         //////////////////////////
 
-        var loadGroupData = function(){
+        var loadGroupData = function() {
              var groupData = sakai_global.group.groupData;
              var roles = $.parseJSON(groupData['sakai:roles']);
 
@@ -53,11 +53,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
              currentArea = sakai_global.group.pubdata.structure0[contextData.path];
              var editRoles = $.parseJSON(currentArea._edit);
              var viewRoles = $.parseJSON(currentArea._view);
-             for (var i = 0; i < roles.length; i++){
+             for (var i = 0; i < roles.length; i++) {
                  var role = roles[i];
-                 if ($.inArray('-' + role.id, editRoles) !== -1){
+                 if ($.inArray('-' + role.id, editRoles) !== -1) {
                      role.value = 'edit';
-                 } else if ($.inArray('-' + role.id, viewRoles) !== -1){
+                 } else if ($.inArray('-' + role.id, viewRoles) !== -1) {
                      role.value = 'view';
                  } else {
                      role.value = 'hidden';
@@ -68,33 +68,33 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
              var sortedroles = [];
              // Creators
-             $.each(roles, function(i, role){
-                 if(role.creatorRole){
+             $.each(roles, function(i, role) {
+                 if (role.creatorRole) {
                      sortedroles.push(role);
                  }
              });
              // Managers
-             $.each(roles, function(i, role){
-                 if(role.isManagerRole && !role.creatorRole){
+             $.each(roles, function(i, role) {
+                 if (role.isManagerRole && !role.creatorRole) {
                      sortedroles.push(role);
                  }
              });
              // Viewers
-             $.each(roles, function(i, role){
-                 if(!role.isManagerRole){
+             $.each(roles, function(i, role) {
+                 if (!role.isManagerRole) {
                      sortedroles.push(role);
                  }
              });
 
-             if ($.inArray('anonymous', viewRoles) !== -1 && sakai_global.group.groupData['sakai:group-visible'] === 'public'){
+             if ($.inArray('anonymous', viewRoles) !== -1 && sakai_global.group.groupData['sakai:group-visible'] === 'public') {
                  visibility = 'everyone';
-             } else if ($.inArray('everyone', viewRoles) !== -1 && (sakai_global.group.groupData['sakai:group-visible'] === 'logged-in-only' || sakai_global.group.groupData['sakai:group-visible'] === 'public')){
+             } else if ($.inArray('everyone', viewRoles) !== -1 && (sakai_global.group.groupData['sakai:group-visible'] === 'logged-in-only' || sakai_global.group.groupData['sakai:group-visible'] === 'public')) {
                  visibility = 'loggedin';
              } else {
                  visibility = 'selected';
              }
 
-             sakai.api.Groups.getRole(sakai.data.me.user.userid, groupData['sakai:group-id'], function(success, data){
+             sakai.api.Groups.getRole(sakai.data.me.user.userid, groupData['sakai:group-id'], function(success, data) {
                 // Render the list
                 $('#areapermissions_content_container').html(sakai.api.Util.TemplateRenderer('areapermissions_content_template', {
                     'roles': sortedroles,
@@ -108,17 +108,17 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
              });
          };
 
-         var checkSelectedPermissionForRole = function(roleId){
+         var checkSelectedPermissionForRole = function(roleId) {
              // Check for view permissions
              var roleCanSee = false;
              var seeEl = $('#areapermissions_see_' + roleId);
-             if(seeEl.attr('checked')){
+             if (seeEl.attr('checked')) {
                  roleCanSee = true;
              }
              // if view permissions, check for edit permissions
-             if(roleCanSee){
+             if (roleCanSee) {
                  var editEl = $('#areapermissions_edit_' + roleId);
-                 if(editEl.attr('checked')){
+                 if (editEl.attr('checked')) {
                      return 'edit';
                  } else {
                      return 'view';
@@ -128,7 +128,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
              }
          };
 
-         var applyPermissions = function(){
+         var applyPermissions = function() {
              $('#areapermissions_apply_permissions').attr('disabled', 'disabled');
              $('#areapermissions_proceedandapply').attr('disabled', 'disabled');
              var groupData = sakai_global.group.groupData;
@@ -139,19 +139,19 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
              // Collect everyone and anonymous value
              var generalVisibility = $('#areapermissions_see_container input[type=radio]:checked').val();
-             if (generalVisibility === 'everyone'){
+             if (generalVisibility === 'everyone') {
                  newView.push('everyone');
                  newView.push('anonymous');
-             } else if (generalVisibility === 'loggedin'){
+             } else if (generalVisibility === 'loggedin') {
                  newView.push('everyone');
              }
 
              // Collect new view roles and new edit roles
-             for (var i = 0; i < roles.length; i++){
+             for (var i = 0; i < roles.length; i++) {
                 var rolePermission = checkSelectedPermissionForRole(roles[i].id);
-                if (rolePermission === 'edit'){
+                if (rolePermission === 'edit') {
                     newEdit.push('-' + roles[i].id);
-                } else if (rolePermission === 'view'){
+                } else if (rolePermission === 'view') {
                     newView.push('-' + roles[i].id);
                 }
             }
@@ -159,7 +159,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             // Refetch docstructure information
             $.ajax({
                 url: '/~' + sakai_global.group.groupId + '/docstructure.infinity.json',
-                success: function(data){
+                success: function(data) {
                     // Store view and edit roles
                     var pubdata = sakai.api.Server.cleanUpSakaiDocObject(data);
                     pubdata.structure0[contextData.path]._view = JSON.stringify(newView);
@@ -172,18 +172,18 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             // If I manage the document, add/remove appropriate roles from document
-            //if (contextData.isManager){
+            //if (contextData.isManager) {
 
                 // General visibility
                 // Options are public, everyone or private
                 var permissionsBatch = [];
 
                 var generalPermission = '';
-                if (generalVisibility === 'everyone'){
+                if (generalVisibility === 'everyone') {
                     generalPermission = 'public';
-                } else if (generalVisibility === 'loggedin'){
+                } else if (generalVisibility === 'loggedin') {
                     generalPermission = 'everyone';
-                } else if (generalVisibility === 'selected'){
+                } else if (generalVisibility === 'selected') {
                     generalPermission = 'private';
                 }
                 permissionsBatch.push({
@@ -207,7 +207,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         'privilege@jcr:write': 'denied',
                         'privilege@jcr:read': 'denied'
                     };
-                    if (selectedPermission === 'edit'){
+                    if (selectedPermission === 'edit') {
                         parameters = {
                             ':viewer@Delete': role,
                             ':manager': role
@@ -217,7 +217,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                             'privilege@jcr:write': 'granted',
                             'privilege@jcr:read': 'granted'
                         };
-                    } else if (selectedPermission === 'view'){
+                    } else if (selectedPermission === 'view') {
                         parameters = {
                             ':viewer': role,
                             ':manager@Delete': role
@@ -241,7 +241,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 }
 
                 // Send requests
-                sakai.api.Server.batch(permissionsBatch, function(success, data){
+                sakai.api.Server.batch(permissionsBatch, function(success, data) {
                     if (generalPermission) {
                         sakai.api.Content.setFilePermissions([{
                             'hashpath': contextData.pageSavePath.substring(3),
@@ -255,10 +255,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             //}
         };
 
-        var determineContentManager = function(){
+        var determineContentManager = function() {
              $.ajax({
                  url: contextData.pageSavePath + '.infinity.json',
-                 success: function(data){
+                 success: function(data) {
                      var manager = false;
                      var managers = data['sakai:pooled-content-manager'];
                      for (var i = 0; i < managers.length; i++) {
@@ -269,16 +269,16 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                      }
                      contextData.isManager = manager;
                      loadGroupData();
-                 }, error: function(data){
+                 }, error: function(data) {
                      contextData.isManager = false;
                      loadGroupData();
                  }
              });
          };
 
-         var showWarning = function(){
+         var showWarning = function() {
              var newVisibilityVal = $.trim($('#areapermissions_see_container input[type=radio]:checked').val());
-             if (visibility === newVisibilityVal || visibilityindex[newVisibilityVal] > visibilityindex[visibility] || newVisibilityVal === 'selected'){
+             if (visibility === newVisibilityVal || visibilityindex[newVisibilityVal] > visibilityindex[visibility] || newVisibilityVal === 'selected') {
                  applyPermissions();
              } else {
                  $('#areapermissions_warning_container_text').html(sakai.api.Util.TemplateRenderer('areapermissions_warning_container_text_template', {
@@ -296,22 +296,22 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          // Modal dialog initialization //
          /////////////////////////////////
 
-         var addBinding = function(){
-             $(areapermissionsSelectable).live('click', function(){
+         var addBinding = function() {
+             $(areapermissionsSelectable).live('click', function() {
                  $('#areapermissions_see_container .s3d-outer-shadow-container').addClass('areapermissions_unselected_rbt');
                  $(areapermissionsSelectable).parent().removeClass('s3d-outer-shadow-container');
                  $(this).parent().addClass('s3d-outer-shadow-container');
                  $(this).parent().removeClass('areapermissions_unselected_rbt');
-                 if($(this).attr('id') === 'areapermissions_see_private'){
+                 if ($(this).attr('id') === 'areapermissions_see_private') {
                      $('#areapermissions_see_private_specific').show();
                  } else {
                      $('#areapermissions_see_private_specific').hide();
                  }
              });
 
-             $('.areapermissions_role_edit_check').live('change', function(ev){
+             $('.areapermissions_role_edit_check').live('change', function(ev) {
                  var roleId = $(ev.currentTarget).attr('id').split('areapermissions_edit_')[1];
-                 if(ev.currentTarget.checked){
+                 if (ev.currentTarget.checked) {
                      $('.areapermissions_see_' + roleId + '_checked').show();
                      $('#areapermissions_see_' + roleId).hide();
                      $('#areapermissions_see_' + roleId).attr('checked', 'checked');
@@ -325,7 +325,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
              $('#areapermissions_proceedandapply').live('click', applyPermissions);
          };
 
-         var initializeOverlay = function(){
+         var initializeOverlay = function() {
              sakai.api.Util.Modal.setup('#areapermissions_container', {
                  modal: true,
                  overlay: 20,

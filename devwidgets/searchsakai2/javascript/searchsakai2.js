@@ -31,7 +31,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.searchsakai2 = function (tuid, showSettings) {
+    sakai_global.searchsakai2 = function(tuid, showSettings) {
 
         /////////////////////////////
         // Configuration variables //
@@ -80,11 +80,11 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
         var filterSearch = function(searchterm, category , resultJson) {
             resultJson.sites = resultJson.sites || [];
             searchtermlower = searchterm.toLowerCase();
-            for(var j=0;j<category.sites.length;j++){
+            for(var j=0;j<category.sites.length;j++) {
                 var site = category.sites[j];
-                if(searchterm === '*' ) {
+                if (searchterm === '*' ) {
                     resultJson.sites.push(site);
-                } else if(site.title.toLowerCase().search(searchtermlower) > -1 ) {
+                } else if (site.title.toLowerCase().search(searchtermlower) > -1 ) {
                     resultJson.sites.push(site);
                 } else if (site.description && site.description.toLowerCase().search(searchtermlower) > -1 ) {
                     resultJson.sites.push(site);
@@ -116,19 +116,19 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
         /**
          * Get sites list group with categories from back end.
          */
-        var getCategories = function(callback){
+        var getCategories = function(callback) {
             var url = '/dev/s23/bundles/sites-categorized.json';
-            if (sakai.config.useLiveSakai2Feeds){
+            if (sakai.config.useLiveSakai2Feeds) {
                 url = '/var/proxy/s23/sitesCategorized.json?categorized=true';
             }
             $.ajax({
                 url: url,
                 type : 'GET',
                 dataType: 'json',
-                success: function(data){
+                success: function(data) {
                     callback(data);
                 },
-                error: function(){
+                error: function() {
                     $('#sakai2search_error_container', rootel).show();
                 }
             });
@@ -138,7 +138,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
         // Functions           //
         /////////////////////////
 
-        var pager_click_handler = function(pageclickednumber){
+        var pager_click_handler = function(pageclickednumber) {
             $.bbq.pushState({
                 'q': $(searchConfig.global.text, rootel).val(),
                 'page': pageclickednumber
@@ -172,7 +172,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
                 filterSearch(qparams.q,categorydata,finaljson);
                 finaljson.query = qparams.q;
                 finaljson.sites.sort(siteTitleSort);
-                for (var s = 0; s < finaljson.sites.length; s++){
+                for (var s = 0; s < finaljson.sites.length; s++) {
                     var url = finaljson.sites[s].url;
                     finaljson.sites[s].url = url.split('/')[url.split('/').length - 1];
                 }
@@ -209,11 +209,11 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
             }
         };
 
-        var siteTitleSort = function(a, b){
+        var siteTitleSort = function(a, b) {
             return a.title > b.title;
         };
 
-        var doSearch = function(){
+        var doSearch = function() {
             getCategories(function(data) {renderResults(data);});
         };
 
@@ -222,7 +222,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
         ////////////////////
 
 
-        $(searchConfig.global.text, rootel).live('keydown', function(ev){
+        $(searchConfig.global.text, rootel).live('keydown', function(ev) {
             if (ev.keyCode === 13) {
                 $.bbq.pushState({
                     'q': $(searchConfig.global.text, rootel).val(),
@@ -231,7 +231,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
             }
         });
 
-        $(searchConfig.global.button, rootel).live('click', function(ev){
+        $(searchConfig.global.button, rootel).live('click', function(ev) {
             $.bbq.pushState({
                 'q': $(searchConfig.global.text, rootel).val(),
                 'page': 0
@@ -243,7 +243,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
         // Initialization function //
         /////////////////////////////
 
-        $(window).bind('hashchange', function(ev){
+        $(window).bind('hashchange', function(ev) {
             if ($.bbq.getState('l') === 'sakai2sites') {
                 doSearch();
             }
@@ -252,7 +252,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
         /**
          * Initialization function DOCUMENTATION
          */
-        $(window).bind('sakai.search.util.finish', function(ev){
+        $(window).bind('sakai.search.util.finish', function(ev) {
             sakai.api.Widgets.widgetLoader.insertWidgets('searchcontent_widget', false, false, {
                 'id845719741363': {
                     'facetedConfig': searchConfig.facetedConfig

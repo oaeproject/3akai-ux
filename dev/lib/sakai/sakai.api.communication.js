@@ -76,19 +76,19 @@ define(
              */
             var addRecipient = function(userids) {
                 // append comma if the list already exists
-                if(toUsers) {
+                if (toUsers) {
                     toUsers += ',';
                 }
-                if(typeof(userids) === 'string' && $.trim(userids) !== '') {
+                if (typeof(userids) === 'string' && $.trim(userids) !== '') {
                     userids = $.trim(userids);
                     toUsers += 'internal:' + userids;
-                } else if(typeof(userids) === 'object') {
+                } else if (typeof(userids) === 'object') {
                     toUsers += 'internal:' + userids.join(',internal:');
                     toUsers = toUsers.replace(/internal\:\,/g, '');
                 }
             };
 
-            var buildEmailParams = function(){
+            var buildEmailParams = function() {
                 var toSend = {
                     'sakai:type': 'smtp',
                     'sakai:sendstate': 'pending',
@@ -104,18 +104,18 @@ define(
                 // These checks are needed to work in every area (created group or on group creation)
                 var groupTitle = '';
                 var groupId = '';
-                if(sakai_global.group && sakai_global.group.groupData && sakai_global.group.groupData['sakai:group-title']){
+                if (sakai_global.group && sakai_global.group.groupData && sakai_global.group.groupData['sakai:group-title']) {
                     groupTitle = sakai_global.group.groupData['sakai:group-title'];
-                } else if(optionalParams && optionalParams.groupTitle){
+                } else if (optionalParams && optionalParams.groupTitle) {
                     groupTitle = optionalParams.groupTitle;
                 }
                 if (sakai_global.group && sakai_global.group.groupData && sakai_global.group.groupData['sakai:group-id']) {
                     groupId = sakai_global.group.groupData['sakai:group-id'];
-                } else if (optionalParams && optionalParams.groupId){
+                } else if (optionalParams && optionalParams.groupId) {
                     groupId = optionalParams.groupId;
                 }
                 var sender = sakai_user.getDisplayName(meData.profile);
-                switch(context){
+                switch(context) {
                     case 'new_message':
                         toSend['sakai:templatePath'] = '/var/templates/email/new_message';
                         toSend['sakai:templateParams'] = 'sender=' + sender +
@@ -144,7 +144,7 @@ define(
                 return toSend;
             };
 
-            var doSendMail = function(){
+            var doSendMail = function() {
                 // Basic message details
                 var toSend = buildEmailParams();
                 // Send message
@@ -195,14 +195,14 @@ define(
                     url: '/~' + sakai_util.safeURL(meData.user.userid) + '/message.create.html',
                     type: 'POST',
                     data: toSend,
-                    success: function(data){
+                    success: function(data) {
                         if (sendMail) {
                             doSendMail();
-                        }else if($.isFunction(callback)) {
+                        }else if ($.isFunction(callback)) {
                             callback(true, data);
                         }
                     },
-                    error: function(xhr, textStatus, thrownError){
+                    error: function(xhr, textStatus, thrownError) {
                         if ($.isFunction(callback)) {
                             callback(false, xhr);
                         }
@@ -263,7 +263,7 @@ define(
             if (!$.isArray(messages)) {
                 messages = [messages];
             }
-            $.each(messages, function(i, val){
+            $.each(messages, function(i, val) {
                 if (!val.read || val.read === 'false') {
                     unreads.push(val);
                 }
@@ -287,12 +287,12 @@ define(
         },
 
         updateLocalCounts : function(messages) {
-            sakai_user.data.me.messages.unread -= $.grep(messages, function(message, index){
+            sakai_user.data.me.messages.unread -= $.grep(messages, function(message, index) {
                 return message.box === 'inbox';
             }).length;
             if (sakai_user.data.me.messages.countOverview) {
-                $.each(sakai_user.data.me.messages.countOverview.count, function(index, countObj){
-                    var catFilter = function(message, index){
+                $.each(sakai_user.data.me.messages.countOverview.count, function(index, countObj) {
+                    var catFilter = function(message, index) {
                         return (message.box === 'inbox' && message.category === countObj.group);
                     };
                     var messageCount = $.grep(messages, catFilter).length;
@@ -309,13 +309,13 @@ define(
         markMessagesAsRead : function(messages, callback) {
             var requests = [];
 
-            if (! $.isArray(messages)){
+            if (! $.isArray(messages)) {
                 messages = [messages];
             }
 
             $.each(messages, function(i, message) {
                 var path = message.path;
-                if (path.substring(0, 2) === 'a:'){
+                if (path.substring(0, 2) === 'a:') {
                     path = '~' + path.substring(2);
                 }
                 var req = {url: path + '.json', method: 'POST', parameters: {'sakai:read': 'true'}};
@@ -399,7 +399,7 @@ define(
                     }
                     if (msg.previousMessage) {
                         newMsg.previousMessage = sakaiCommunicationsAPI.processMessages([msg.previousMessage]);
-                        $.each(newMsg.previousMessage, function(i,val){
+                        $.each(newMsg.previousMessage, function(i,val) {
                             newMsg.previousMessage = val;
                         });
                     }
@@ -450,10 +450,10 @@ define(
                 url: url,
                 data: parameters,
                 cache: false,
-                success: function(data){
+                success: function(data) {
                     if (box === 'inbox') {
                         sakaiCommunicationsAPI.getUnreadMessageCount(box, function() {
-                            sakaiCommunicationsAPI.getUnreadMessagesCountOverview(box, function(){
+                            sakaiCommunicationsAPI.getUnreadMessagesCountOverview(box, function() {
                                 $(window).trigger('updated.messageCount.sakai');
                             }, false);
                         });
@@ -465,7 +465,7 @@ define(
                         callback(true, data);
                     }
                 },
-                error: function(xhr, textStatus, thrownError){
+                error: function(xhr, textStatus, thrownError) {
                     if ($.isFunction(callback)) {
                         callback(false, {});
                     }
@@ -481,19 +481,19 @@ define(
          * @param {Object} meData        Me object
          * @param {Function} callback    Function to call once the message has been retrieved
          */
-        getMessage : function(id, box, meData, callback){
+        getMessage : function(id, box, meData, callback) {
             var url = '/~' + sakai_util.safeURL(sakai_user.data.me.user.userid) + '/message/' + box + '/' + id + '.json';
             $.ajax({
                 url: url,
                 cache: false,
                 dataType: 'json',
-                success: function(data){
+                success: function(data) {
                     var useridToLookup = data['sakai:from'];
-                    if (data['sakai:from'] === meData.user.userid){
+                    if (data['sakai:from'] === meData.user.userid) {
                         useridToLookup = data['sakai:to'].split(':')[1];
                     }
-                    sakai_user.getUser(useridToLookup, function(success,profiledata){
-                        if (data['sakai:from'] === meData.user.userid){
+                    sakai_user.getUser(useridToLookup, function(success,profiledata) {
+                        if (data['sakai:from'] === meData.user.userid) {
                             data.userFrom = [meData.profile];
                             data.userTo = [profiledata];
                         } else {
@@ -503,7 +503,7 @@ define(
                         callback(sakaiCommunicationsAPI.processMessages([data])[0]);
                     });
                 },
-                error: function(xhr, textStatus, thrownError){
+                error: function(xhr, textStatus, thrownError) {
                     callback(false);
                 }
             });
@@ -521,7 +521,7 @@ define(
                 $.ajax({
                     url: url,
                     cache: false,
-                    success: function(data){
+                    success: function(data) {
                         sakai_user.data.me.messages.countOverview = data;
                         if ($.isFunction(callback)) {
                             callback(true, data);
@@ -550,16 +550,16 @@ define(
                 $.ajax({
                     url: url,
                     cache: false,
-                    success: function(data){
+                    success: function(data) {
                         var count = 0;
-                        if (category){
+                        if (category) {
                             /*
                              * Data format for this return is:
                              * {'count':[{'group':'message','count':3},{'group':'invitation','count':2}]}
                              */
-                            if (data.count && data.count.length){
-                                for (var i = 0; i < data.count.length; i++){
-                                    if (data.count[i].group && data.count[i].group === category && data.count[i].count){
+                            if (data.count && data.count.length) {
+                                for (var i = 0; i < data.count.length; i++) {
+                                    if (data.count[i].group && data.count[i].group === category && data.count[i].count) {
                                         count = data.count[i].count;
                                     }
                                 }

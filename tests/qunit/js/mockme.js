@@ -21,7 +21,7 @@
  *
  * Not included by default in sakai_qunit_lib as the integration tests need a real response from /system/me
  */
-require(['jquery', 'mockjax'], function($){
+require(['jquery', 'mockjax'], function($) {
     if ($ && $.mockjax) {
         $.mockjax({
             url: '/system/me?_charset_=utf-8',

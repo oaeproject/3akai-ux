@@ -17,10 +17,10 @@ require(
          // the regexes
          var alpha = new RegExp('^(.*)[a-zA-z](.*)+$');
          var regex = new RegExp('__MSG__(.*?)__');
-         var templateRegex = new RegExp('^(.*?)(\\$*){(.*?)}(.*?)+$');
-         var templateStartAlphaRegex = new RegExp('^([a-zA-z]+)(\\$*){(.*?)}+$');
-         var templateMiddleAlphaRegex = new RegExp('^(\\$*){(.*?)}([a-zA-z]+)(\\$*){(.*?)}+$');
-         var templateEndAlphaRegex = new RegExp('^(\\$*){(.*?)}([a-zA-z])+$');
+         var templateRegex = new RegExp('^(.*?)(\\$*) {(.*?)}(.*?)+$');
+         var templateStartAlphaRegex = new RegExp('^([a-zA-z]+)(\\$*) {(.*?)}+$');
+         var templateMiddleAlphaRegex = new RegExp('^(\\$*) {(.*?)}([a-zA-z]+)(\\$*) {(.*?)}+$');
+         var templateEndAlphaRegex = new RegExp('^(\\$*) {(.*?)}([a-zA-z])+$');
          // from jquery validate, modified to optionally allow (https?|ftp)://
          var urlRegex = new RegExp(/^((https?|ftp):\/\/)?(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i);
          var requireRegex = new RegExp('require\((.*?)\)');
@@ -79,9 +79,9 @@ require(
           *
           * @param {jQuery} $elt The element to check (and all its children)
           */
-         var checkElements = function($elt){
+         var checkElements = function($elt) {
              // check all elements with no children that have text, filtering out any empties (post-trim)
-             $.each($elt.find('*:not(:empty)').filter(function(index){
+             $.each($elt.find('*:not(:empty)').filter(function(index) {
                  return $(this).children().length === 0 && $.trim($(this).text()) !== '';
              }), function(i,elt) {
                  var tagText = $.trim($(elt).text());
@@ -98,7 +98,7 @@ require(
           */
          var getAllKeys = function($elt) {
              var keys = [];
-             $.each($elt.find('*:not(:empty)').filter(function(index){
+             $.each($elt.find('*:not(:empty)').filter(function(index) {
                  return $(this).children().length === 0 && $.trim($(this).text()) !== '';
              }), function(i,elt) {
                  var tagText = $.trim($(elt).text());
@@ -151,14 +151,14 @@ require(
          var getWidgetInfo = function(widgetname, callback) {
              var bundle = false;
              if ($.isPlainObject(sakai.widgets[widgetname].i18n)) {
-                 if (sakai.widgets[widgetname].i18n['default']){
+                 if (sakai.widgets[widgetname].i18n['default']) {
                      bundle = sakai.widgets[widgetname].i18n['default'];
                  }
              }
              if (bundle && bundle.bundle) {
                  $.ajax({
                      url: bundle.bundle,
-                     success: function(data){
+                     success: function(data) {
                          sakai.api.i18n.data.widgets[widgetname] = sakai.api.i18n.data.widgets[widgetname] || {};
                          sakai.api.i18n.data.widgets[widgetname]['default'] = sakai.api.i18n.changeToJSON(data);
                          if ($.isFunction(callback)) {
@@ -201,7 +201,7 @@ require(
          /**
           * Check HTML pages and test for hard coded english
           */
-         var testInternationalization = function(){
+         var testInternationalization = function() {
 
              // First, run a few tests to verify that the testing is working
              // these should all pass
@@ -222,7 +222,7 @@ require(
                  asyncTest(url, function() {
                      $.ajax({
                          url: url,
-                         success: function(data){
+                         success: function(data) {
                              var div = document.createElement('div');
                              div.innerHTML = data;
                              checkElements($(div));
@@ -244,7 +244,7 @@ require(
              var makeWidgetTest = function(url, widget) {
                  $.ajax({
                      url: url,
-                     success: function(data){
+                     success: function(data) {
                          var div = document.createElement('div');
                          div.innerHTML = data;
                          asyncTest(url, function() {

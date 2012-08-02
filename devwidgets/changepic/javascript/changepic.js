@@ -37,7 +37,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.changepic = function(tuid, showSettings){
+    sakai_global.changepic = function(tuid, showSettings) {
 
 
         //////////////////////
@@ -101,7 +101,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
          /**
          * Hides and reset image select area
          */
-        var hideSelectArea = function(){
+        var hideSelectArea = function() {
             if (imageareaobject) {
                 imageareaobject.setOptions({
                     hide: true,
@@ -117,7 +117,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
          /**
          * Shows image select area
          */
-        var showSelectArea = function(){
+        var showSelectArea = function() {
             $(uploadNewCancel).hide();
             $(selectContentArea).show();
         };
@@ -128,7 +128,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
          * @param {Object} img    The thumbnail
          * @param {Object} selection The selection object from imgAreaSelect
          */
-        var preview = function(img, selection){
+        var preview = function(img, selection) {
             // Save the user his selection in a global variable.
             userSelection = selection;
 
@@ -148,10 +148,10 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
         /**
          * Shows file input error
          */
-        var showInputError = function(){
+        var showInputError = function() {
             $(picInputError).show();
             $(picInput).addClass(picInputErrorClass);
-            if ($(selectContentArea + ':visible') && imageareaobject){
+            if ($(selectContentArea + ':visible') && imageareaobject) {
                 imageareaobject.update();
             }
         };
@@ -159,10 +159,10 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
         /**
          * Hides file input error
          */
-        var hideInputError = function(){
+        var hideInputError = function() {
             $(picInputError).hide();
             $(picInput).removeClass(picInputErrorClass);
-            if ($(selectContentArea + ':visible') && imageareaobject){
+            if ($(selectContentArea + ':visible') && imageareaobject) {
                 imageareaobject.update();
             }
         };
@@ -170,7 +170,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
          /**
          * Empty upload field by resetting the form
          */
-        var resetUploadField = function(){
+        var resetUploadField = function() {
             $(picForm)[0].reset();
             hideInputError();
             $(uploadProcessing).hide();
@@ -180,7 +180,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
 
         // Add click event to all cancel buttons in the overlay
         // Since file upload form is reset every time overlay closes do this in init function
-        $('#changepic_container .jqmClose').click(function(){
+        $('#changepic_container .jqmClose').click(function() {
             resetUploadField();
         });
 
@@ -188,7 +188,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
          * On changepic form submit, check that a file has been selected
          * and submit the form.
          */
-        $('#profile_upload').unbind('click').bind('click', function(){
+        $('#profile_upload').unbind('click').bind('click', function() {
             // validate args
             // file extension allow for image
             var extensionArray = ['.png', '.jpg', '.jpeg','.gif'];
@@ -206,7 +206,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
                  }
             }
             // if image format is acceptable
-            if(allowSubmit) {
+            if (allowSubmit) {
                 hideInputError();
                 $(uploadNewButtons).hide();
                 $(uploadProcessing).show();
@@ -214,10 +214,10 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
                 $(picInput).attr('name',fileName);
                 hideSelectArea();
                 $(picForm).ajaxForm({
-                    success: function(data){
+                    success: function(data) {
                         doInit(true);
                     },
-                    error: function(){
+                    error: function() {
                         showInputError();
                         return false;
                     }
@@ -234,7 +234,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
          * Initilise function
          * @param {boolean} newpic True if a new picture has just been uploaded
          */
-        var doInit = function(newpic){
+        var doInit = function(newpic) {
             hideSelectArea();
 
             if (!id) {
@@ -250,7 +250,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
                 $.ajax({
                     url: '/~' + id + '/public.infinity.json',
                     async: false,
-                    success: function(data){
+                    success: function(data) {
                         json = data.authprofile;
                     }
                 });
@@ -295,7 +295,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
                 $(pictureMeasurer).html(sakai.api.Security.saneHTML('<img src='' + '/~' + sakai.api.Util.safeURL(id) + '/public/profile/' + picture._name + '?sid=' + Math.random() + '' id='' + pictureMeasurerImage.replace(/#/gi, '') + '' />'));
 
                 // Check the current picture's size
-                $(pictureMeasurerImage).bind('load', function(ev){
+                $(pictureMeasurerImage).bind('load', function(ev) {
                     resetUploadField();
 
                     // save the image size in global var.
@@ -311,12 +311,12 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
 
                     // fullPicWidth (500) and fullPicHeight (300) set in config variables
                     // Width < 500 ; Height < 300 => set the original height and width
-                    if (realw < fullPicWidth && realh < fullPicHeight){
+                    if (realw < fullPicWidth && realh < fullPicHeight) {
                         $(fullPicture).width(realw);
                         $(fullPicture).height(realh);
 
                     // Width > 500 ; Height < 300 => Width = 500
-                    } else if (realw > fullPicWidth && (realh / (realw / fullPicWidth) < fullPicHeight)){
+                    } else if (realw > fullPicWidth && (realh / (realw / fullPicWidth) < fullPicHeight)) {
                         ratio = realw / fullPicWidth;
                         $(fullPicture).width(fullPicWidth);
                         $(fullPicture).height(Math.floor(realh / ratio));
@@ -331,7 +331,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
                     } else if (realh > fullPicHeight && (realw / (realh / fullPicHeight) > fullPicWidth)) {
 
                         var heightonchangedwidth = realh / (realw / fullPicWidth);
-                        if (heightonchangedwidth > fullPicHeight){
+                        if (heightonchangedwidth > fullPicHeight) {
                             ratio = realh / fullPicHeight;
                             $(fullPicture).height(fullPicHeight);
                         } else {
@@ -349,7 +349,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
                         y2 : picture.selectedy2,
                         picture : picture._name
                     };
-                    if (!newpic){
+                    if (!newpic) {
                         originalPic = selectionObj;
                     }
 
@@ -359,7 +359,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
                         enable: true,
                         show: true,
                         instance: true,
-                        onInit: function(){
+                        onInit: function() {
                             // If the image gets loaded, make a first selection
                             imageareaobject.setSelection(picture.selectedx1, picture.selectedy1, picture.selectedx2, picture.selectedy2);
                             imageareaobject.setOptions({show: true, enable: true});
@@ -372,21 +372,21 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
                 });
 
                 // if there is upload error show the error message
-                $(pictureMeasurerImage).bind('error', function(){
+                $(pictureMeasurerImage).bind('error', function() {
                     showInputError();
                 });
             }
         };
 
         // Remove error notification when a new file is chosen
-        $(picInput).bind('change', function(){
+        $(picInput).bind('change', function() {
             hideInputError();
             $('#profile_upload').removeAttr('disabled');
         });
 
         // This is the function that will be called when a user has cut out a selection
         // and saves it.
-        $(saveNewSelection).click(function(ev){
+        $(saveNewSelection).click(function(ev) {
             if (!userSelection) {
                 userSelection = imageareaobject.getSelection();
                 savePicture();
@@ -395,7 +395,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
                 userSelection.x2 === originalPic.x2 &&
                 userSelection.y1 === originalPic.y1 &&
                 userSelection.y2 === originalPic.y2 &&
-                userSelection.picture === originalPic.picture)){
+                userSelection.picture === originalPic.picture)) {
                 // no need to save if picture hasn't changed, so just close the dialog
                 // Hide the layover.
                 sakai.api.Util.Modal.close(container);
@@ -407,7 +407,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
         /**
          * savePicture
          */
-        var savePicture = function(){
+        var savePicture = function() {
             // The parameters for the cropit service.
             var data = {
                 img: '/~' + id + '/public/profile/' + picture._name,
@@ -420,7 +420,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
                 '_charset_':'utf-8'
             };
 
-            if(data.width === 0 || data.height === 0){
+            if (data.width === 0 || data.height === 0) {
                 data.width = $(fullPicture).width();
                 data.height = $(fullPicture).height();
                 data.x = 0;
@@ -432,7 +432,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
                 url: sakai.config.URL.IMAGE_SERVICE,
                 type: 'POST',
                 data: data,
-                success: function(data){
+                success: function(data) {
 
                     var tosave = {
                         'name': '256x256_' + picture._name,
@@ -492,7 +492,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
          * Hide the layover
          * @param {Object} hash the object that represents the layover
          */
-        var hideArea = function(hash){
+        var hideArea = function(hash) {
             // Remove the selecting of an area on an image.
             if (imageareaobject) {
                 imageareaobject.setOptions({
@@ -510,7 +510,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
          * Show the layover.
          * @param {Object} hash
          */
-        var showArea = function(hash){
+        var showArea = function(hash) {
             doInit();
             hash.w.show();
         };

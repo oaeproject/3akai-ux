@@ -36,7 +36,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.contentcomments = function(tuid, showSettings){
+    sakai_global.contentcomments = function(tuid, showSettings) {
 
 
         /////////////////////////////
@@ -140,7 +140,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Converts all HTML to flat text and converts \n to <br />
          * @param {String} str
          */
-        var tidyInput = function(str){
+        var tidyInput = function(str) {
             str = str.toString(); // in the event its not already a string, make it one
             str = str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
             str = str.replace(/\n/g, '<br />');
@@ -150,7 +150,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Callback function to sort contentcomments based on created date
          */
-        var sortComments = function(a, b){
+        var sortComments = function(a, b) {
             return a._created < b._created ? 1 : -1;
         };
 
@@ -161,7 +161,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Show the contentcomments in a paged state or not
          */
-        var displayCommentsPagedOrNot = function(){
+        var displayCommentsPagedOrNot = function() {
             jsonDisplay = {
                 'comments': [],
                 'settings': widgetSettings
@@ -186,14 +186,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 // User
                 // Puts the userinformation in a better structure for trimpath
                 if (comment.userid) {
-                    if (contentData.isManager){
+                    if (contentData.isManager) {
                         comment.canDelete = true;
                     }
                     user.fullName = sakai.api.User.getDisplayName(comment);
                     user.uid = comment.userid;
                     // Check if the user has a picture
                     var pictureUrl = sakai.api.Util.constructProfilePicture(comment);
-                    if (pictureUrl){
+                    if (pictureUrl) {
                         user.pictureUrl = pictureUrl;
                     }
                     user.profile = '/~' + sakai.api.Util.safeURL(user.uid);
@@ -213,7 +213,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Show all the posted contentcomments
          * This function first retrieves all the users who have posted in this widget and then call the displayCommentsPagedOrNot function
          */
-        var showComments = function(){
+        var showComments = function() {
             // Show the nr of contentcomments we are showing.
             var showingComments = json.total;
             if (widgetSettings.perPage < json.total) {
@@ -237,7 +237,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Gets the contentcomments from the service.
          */
-        var getComments = function(){
+        var getComments = function() {
             var sortOn = '_created';
             var sortOrder = 'desc';
             var items = 10;
@@ -252,11 +252,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $.ajax({
                 url: url,
                 cache: false,
-                success: function(data){
+                success: function(data) {
                     json = $.extend(data, {}, true);
                     showComments();
                 },
-                error: function(xhr, textStatus, thrownError){
+                error: function(xhr, textStatus, thrownError) {
                     sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('COMMENTS_AN_ERROR_OCCURRED', 'contentcomments'), ' (' + xhr.status + ')',sakai.api.Util.notification.type.ERROR);
                 }
             });
@@ -266,7 +266,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Pager click handler
          * @param {Number} pageclickednumber
          */
-        var pagerClickHandler = function(pageclickednumber){
+        var pagerClickHandler = function(pageclickednumber) {
             clickedPage = pageclickednumber;
             getComments();
         };
@@ -274,7 +274,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Post a new comment
          */
-        var postComment = function(){
+        var postComment = function() {
             var comment = {
                 // Replaces the \n (enters) with <br />
                 'message': $(contentcommentsMessageTxt, rootel).val()
@@ -319,17 +319,17 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     url: url,
                     type: 'POST',
                     cache: false,
-                    success: function(data){
+                    success: function(data) {
                         // Clear the textboxes.
                         $(contentcommentsMessageTxt, rootel).val('');
                         $(contentcommentsNamePosterTxt, rootel).val('');
                         $(contentcommentsMailPosterTxt, rootel).val('');
                         // Add an acitivty
-                        sakai.api.Activity.createActivity('/p/' + contentData.data['_path'], 'content', 'default', {'sakai:activityMessage': 'CONTENT_ADDED_COMMENT'}, function(responseData, success){
+                        sakai.api.Activity.createActivity('/p/' + contentData.data['_path'], 'content', 'default', {'sakai:activityMessage': 'CONTENT_ADDED_COMMENT'}, function(responseData, success) {
                             if (success) {
                                 // update the entity widget with the new activity
                                 $window.trigger('updateContentActivity.entity.sakai', 'CONTENT_ADDED_COMMENT');
-                                if (!rootel.parents('.collectionviewer_collection_item_comments').length){
+                                if (!rootel.parents('.collectionviewer_collection_item_comments').length) {
                                     $window.trigger('sakai.entity.updatecountcache', {increment: true});
                                 }
                             }
@@ -337,7 +337,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         // Get the contentcomments.
                         getComments();
                     },
-                    error: function(xhr, textStatus, thrownError){
+                    error: function(xhr, textStatus, thrownError) {
                         if (xhr.status === 401) {
                             sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('YOU_NOT_ALLOWED'),'',sakai.api.Util.notification.type.ERROR);
                         }
@@ -359,7 +359,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Boolean} exists
          * @param {Object} response
          */
-        var showSettingScreen = function(exists, response){
+        var showSettingScreen = function(exists, response) {
             $(contentcommentsOutputContainer, rootel).hide();
             $(contentcommentsSettingsContainer, rootel).show();
 
@@ -388,7 +388,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * When the settings are saved to JCR, this function will be called.
          * It will notify the container that it can be closed.
          */
-        var finishNewSettings = function(){
+        var finishNewSettings = function() {
             sakai.api.Widgets.Container.informFinish(tuid, 'contentcomments');
         };
 
@@ -396,7 +396,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * fills up the settings JSON-object
          * @return {Object} the settings JSON-object, returns {Boolean} false if input is invalid
          */
-        var getCommentsSettings = function(){
+        var getCommentsSettings = function() {
             var contentcomments = {};
             contentcomments.contentcomments = [];
 
@@ -442,7 +442,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Makes sure that values that are supposed to be booleans, really are booleans.
          * @param {String[]} arr Array of strings which holds keys for the widgetSettings variable that needs to be checked.
          */
-        var cleanBooleanSettings = function(arr){
+        var cleanBooleanSettings = function(arr) {
             for (var i = 0; i < arr.length; i++) {
                 var name = arr[i];
                 widgetSettings[name] = (widgetSettings[name] && (widgetSettings[name] === true || widgetSettings[name] === 'true' || widgetSettings[name] === 1)) ? true : false;
@@ -452,9 +452,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Gets the widget settings and shows the appropriate view.
          */
-        var getWidgetSettings = function(){
+        var getWidgetSettings = function() {
 
-            sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+            sakai.api.Widgets.loadWidgetData(tuid, function(success, data) {
                 if (success) {
                     if (!data.message) {
                         sakai.api.Widgets.saveWidgetData(tuid, {'message':{'sling:resourceType':'sakai/messagestore'}}, null);
@@ -490,7 +490,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Gets the comment allow/show settings and shows the appropriate view.
          * @param {Boolean} getComments true = fetch contentcomments if contentcomments are to be shown, false = do not fetch contentcomments.
          */
-        var checkCommentsPermissions = function(getComments){
+        var checkCommentsPermissions = function(getComments) {
             var showComments = contentData.data['sakai:showcontentcomments'];
             var allowComments = contentData.data['sakai:allowcontentcomments'];
             if (showComments === true) {
@@ -540,22 +540,22 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {String} id The id of the post.
          * @param {Boolean} deleteValue true = delete it, false = undelete it.
          */
-        var doDelete = function(id, deleteValue){
+        var doDelete = function(id, deleteValue) {
             var url = contentPath + '.comments?commentId=' + id;
             $.ajax({
                 url: url,
                 type: 'DELETE',
-                success: function(){
+                success: function() {
                     getComments();
                     $window.trigger('sakai.entity.updatecountcache', {increment: false});
                 },
-                error: function(xhr, textStatus, thrownError){
+                error: function(xhr, textStatus, thrownError) {
                     sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('FAILED_TO_DELETE', 'contentcomments'), '', sakai.api.Util.notification.type.ERROR);
                 }
             });
         };
 
-        $(contentcommentsDelete, rootel).live('click', function(e, ui){
+        $(contentcommentsDelete, rootel).live('click', function(e, ui) {
             var id = e.target.id.replace(contentcommentsDelete.replace(/\./g, '') + '_', '');
             doDelete(id, true);
             return false;
@@ -574,24 +574,24 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Switch between main and settings page
          * @param {Boolean} showSettings Show the settings of the widget or not
          */
-        var doInit = function(){
+        var doInit = function() {
             // Temporarily set these here, always allowing comments
             //contentData.data = contentData.data || {};
             contentData.data['sakai:showcontentcomments'] = true;
             contentData.data['sakai:allowcontentcomments'] = true;
             $(contentcommentsEditorOptions, rootel).hide();
-            if (sakai_global.content_profile && contentData){
+            if (sakai_global.content_profile && contentData) {
                 contentPath = '/p/' + contentData.data['_path'];
 
                 // check if contentcomments are allowed or shown and display the checkbox options for the manager
-                if (contentData.isManager){
-                    if (contentData.data['sakai:allowcontentcomments'] === false){
+                if (contentData.isManager) {
+                    if (contentData.data['sakai:allowcontentcomments'] === false) {
                         $(contentcommentsAllowCheckbox, rootel).removeAttr('checked');
                     } else {
                         contentData.data['sakai:allowcontentcomments'] = true;
                         $(contentcommentsAllowCheckbox, rootel).attr('checked', 'checked');
                     }
-                    if (contentData.data['sakai:showcontentcomments'] === false){
+                    if (contentData.data['sakai:showcontentcomments'] === false) {
                         $(contentcommentsShowCheckbox, rootel).removeAttr('checked');
                         $(contentcommentsAllowCheckbox, rootel).removeAttr('checked');
                         $(contentcommentsAllowCheckbox, rootel).attr('disabled', 'disabled');

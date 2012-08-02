@@ -23,7 +23,7 @@
  * /dev/lib/jquery/plugins/jquery.threedots.js (ThreeDots)
  */
 /*global $ */
-require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js'], function($, sakai){
+require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js'], function($, sakai) {
 
     /**
      * @name sakai_global.contentmetadata
@@ -37,7 +37,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.contentmetadata = function(tuid, showSettings){
+    sakai_global.contentmetadata = function(tuid, showSettings) {
 
         ////////////////////////
         ////// VARIABLES ///////
@@ -112,7 +112,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
          * Render the Description template
          * @param {String|Boolean} mode Can be false or 'edit' depending on the mode you want to be in
          */
-        var renderDescription = function(mode){
+        var renderDescription = function(mode) {
             sakai_global.content_profile.content_data.mode = mode;
             var json = {
                 data: sakai_global.content_profile.content_data,
@@ -127,10 +127,10 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
          * Render the URL template
          * @param {String|Boolean} mode Can be false or 'edit' depending on the mode you want to be in
          */
-        var renderUrl = function(mode){
+        var renderUrl = function(mode) {
             sakai_global.content_profile.content_data.mode = mode;
             contentType = sakai.api.Content.getMimeType(sakai_global.content_profile.content_data.data);
-            if(contentType === 'x-sakai/link') {
+            if (contentType === 'x-sakai/link') {
                 var json = {
                     data: sakai_global.content_profile.content_data,
                     sakai: sakai
@@ -148,7 +148,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
          * Render the Tags template
          * @param {String|Boolean} mode Can be false or 'edit' depending on the mode you want to be in
          */
-        var renderTags = function(mode){
+        var renderTags = function(mode) {
             sakai_global.content_profile.content_data.mode = mode;
             var json = {
                 data: sakai_global.content_profile.content_data,
@@ -160,7 +160,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
             $contentmetadataTagsContainer.toggleClass('contentmetadata_editable', mode !== 'edit');
             if (mode === 'edit') {
                 $contentmetadataAutosuggestElt = $( '#contentmetadata_tags_tags' );
-                sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest($contentmetadataAutosuggestElt , null, $( '.list_categories', $contentmetadataTagsContainer ), sakai_global.content_profile.content_data.data['sakai:tags'], function(){
+                sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest($contentmetadataAutosuggestElt , null, $( '.list_categories', $contentmetadataTagsContainer ), sakai_global.content_profile.content_data.data['sakai:tags'], function() {
                     $('.as-selections', $contentmetadataTagsContainer ).addClass('contentmetadata_edit_input');
                     $contentmetadataAutosuggestElt.focus();
                 });
@@ -172,7 +172,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
          * Render the Copyright template
          * @param {String|Boolean} mode Can be false or 'edit' depending on the mode you want to be in
          */
-        var renderCopyright = function(mode){
+        var renderCopyright = function(mode) {
             sakai_global.content_profile.content_data.mode = mode;
             var json = {
                 data: sakai_global.content_profile.content_data,
@@ -187,7 +187,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
          * Render the Details template
          * @param {String|Boolean} mode Can be false or 'edit' depending on the mode you want to be in
          */
-        var renderDetails = function(mode){
+        var renderDetails = function(mode) {
             sakai_global.content_profile.content_data.mode = mode;
             sakai.api.Content.getCreatorProfile(sakai_global.content_profile.content_data.data, function(success, profile) {
                 var json = {
@@ -200,11 +200,11 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
             });
         };
 
-        var createActivity = function(activityMessage){
+        var createActivity = function(activityMessage) {
             var activityData = {
                 'sakai:activityMessage': activityMessage
             };
-            sakai.api.Activity.createActivity('/p/' + sakai_global.content_profile.content_data.data['_path'], 'content', 'default', activityData, function(responseData, success){
+            sakai.api.Activity.createActivity('/p/' + sakai_global.content_profile.content_data.data['_path'], 'content', 'default', activityData, function(responseData, success) {
                 if (success) {
                     // update the entity widget with the new activity
                     $(window).trigger('updateContentActivity.entity.sakai', activityMessage);
@@ -216,13 +216,13 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
         /////// EDITTING ///////
         ////////////////////////
 
-        var updateTags = function(){
+        var updateTags = function() {
             var tags = sakai.api.Util.AutoSuggest.getTagsAndCategories($contentmetadataAutosuggestElt, true);
             var path = sakai_global.content_profile.content_data.data['_path'];
-            sakai.api.Util.tagEntity('/p/' + path, tags, sakai_global.content_profile.content_data.data['sakai:tags'], function(success, newTags){
+            sakai.api.Util.tagEntity('/p/' + path, tags, sakai_global.content_profile.content_data.data['sakai:tags'], function(success, newTags) {
                 // We need this check because it's possible that this is called after new content is shown.
                 // If that is the case, we still need to send the update tags activity, but not render the actual tags.
-                if(path === sakai_global.content_profile.content_data.data['_path']){
+                if (path === sakai_global.content_profile.content_data.data['_path']) {
                     sakai_global.content_profile.content_data.data['sakai:tags'] = newTags;
                     renderTags(false);
                 }
@@ -257,7 +257,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
                     'sakai:preview-avatar': preview.avatar,
                     'length': url.length
                 },
-                success: function(){
+                success: function() {
                     createActivity('UPDATED_URL');
                     $(window).trigger('updated.version.content.sakai');
                 }
@@ -268,7 +268,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
          * Trigger the template to render the edit mode
          * @param {Object} ev Trigger event
          */
-        var editData = function(ev){
+        var editData = function(ev) {
             if ( !$( ev.target ).is( 'a, select, option, textarea' ) ) {
                 $target = $( ev.target ).closest( '.contentmetadata_editable' );
                 if ( $target.length ) {
@@ -351,7 +351,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
         /**
          * Animate the hidden or shown data containers
          */
-        var animateData = function(){
+        var animateData = function() {
             $collapsibleContainers.animate({
                 'margin-bottom': 'toggle',
                 height: 'toggle',
@@ -370,7 +370,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
         /**
          * Add binding/events to the elements in the widget
          */
-        var addBinding = function(){
+        var addBinding = function() {
             $('.contentmetadata_editable_for_maintainers').toggleClass('contentmetadata_editable',
                 (sakai_global.content_profile.content_data.isManager || sakai_global.content_profile.content_data.isEditor));
 
@@ -470,7 +470,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
         /**
          * Initialize the widget
          */
-        var doInit = function(){
+        var doInit = function() {
             // Render all information
             renderDescription(false);
             renderTags(false);
@@ -483,7 +483,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
         };
 
         // Bind Enter key to input fields to save on keyup
-        $('input').bind('keyup', function(ev){
+        $('input').bind('keyup', function(ev) {
             if (ev.keyCode === 13) {
                 $(this).blur();
             }
@@ -492,7 +492,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
         /**
          * Initialize the widget from outside of the widget
          */
-        $(window).bind('render.contentmetadata.sakai', function(){
+        $(window).bind('render.contentmetadata.sakai', function() {
             doInit();
         });
         sakai_global.contentmetadata.isReady = true;

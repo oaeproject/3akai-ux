@@ -54,7 +54,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {String} messageErrorClass Class to apply to the error message html element
          */
         sakai_global.captcha.showError = function(messageErrorClass) {
-            if (messageErrorClass && !$captchaError.hasClass(messageErrorClass)){
+            if (messageErrorClass && !$captchaError.hasClass(messageErrorClass)) {
                 $captchaError.addClass(messageErrorClass);
                 $captcha_container.addClass('s3d-error');
                 $('#recaptcha_response_field').attr('aria-invalid', 'true');
@@ -94,7 +94,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $.ajax({
                 'url' : sakai.config.URL.CAPTCHA_SERVICE,
                 'type' : 'GET',
-                'success' : function (data, status) {
+                'success' : function(data, status) {
                     var captchaContainer = $('#captcha_container', $rootel).get()[0];
                     Recaptcha.create(data['public-key'], captchaContainer,
                         {

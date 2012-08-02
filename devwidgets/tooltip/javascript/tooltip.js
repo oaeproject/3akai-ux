@@ -66,7 +66,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var toggleTooltip = function() {
             // bind auto close of tooltip on outside mouse click
             if (tooltipAutoClose) {
-                $(document).unbind('click.tooltip_close').bind('click.tooltip_close', function (e) {
+                $(document).unbind('click.tooltip_close').bind('click.tooltip_close', function(e) {
                     var $clicked = $(e.target);
                     // Check if one of the parents is the tooltip
                     if (!$clicked.parents().is('#tooltip') && $tooltip_widget.is(':visible')) {
@@ -81,10 +81,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $tooltip_header_arrow.hide();
             $tooltip_footer_arrow.hide();
 
-            if (tooltipArrow === 'bottom'){
+            if (tooltipArrow === 'bottom') {
                 topOffset = 'auto';
                 $tooltip_footer_arrow.show();
-            } else if (tooltipArrow === 'top'){
+            } else if (tooltipArrow === 'top') {
                 $tooltip_header_arrow.show();
             }
             $tooltip_widget.css({
@@ -109,7 +109,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 hideTooltip();
             });
             $('.tooltip_close').unbind('click');
-            $('.tooltip_close').bind('click', function () {
+            $('.tooltip_close').bind('click', function() {
                 $(window).unbind('.tooltip_close');
                 hideTooltip();
                 return false;

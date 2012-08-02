@@ -36,7 +36,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.addpeople = function(tuid, showSettings, widgetData){
+    sakai_global.addpeople = function(tuid, showSettings, widgetData) {
 
         /////////////////////////////
         // CONFIGURATION VARIABLES //
@@ -78,7 +78,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         // RENDERING //
         ///////////////
 
-        var renderContacts = function(){
+        var renderContacts = function() {
             if ($addpeopleContactsContainer.text() === '') {
                 var groups = sakai.api.Groups.getMemberships(sakai.data.me.groups);
                 groups = groups.entry;
@@ -116,7 +116,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             }
         };
 
-        var renderSelectedContacts = function(){
+        var renderSelectedContacts = function() {
             var currentUserDetails = selectedUsers[sakai.data.me.user.userid];
             var currentUserRoleData = false;
             $.each(currentTemplate.roles, function(i, roleData) {
@@ -150,8 +150,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         // UTILITY //
         /////////////
 
-        var enableDisableControls = function(disable){
-            if(disable){
+        var enableDisableControls = function(disable) {
+            if (disable) {
                 $addpeopleRemoveSelected.attr('disabled','disabled');
                 $addpeopleSelectedAllPermissions.attr('disabled','disabled');
             }else{
@@ -160,8 +160,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             }
         };
 
-        var decideEnableDisableControls = function(el){
-            if($('.' + el.currentTarget.className + ':checked').length){
+        var decideEnableDisableControls = function(el) {
+            if ($('.' + el.currentTarget.className + ':checked').length) {
                 enableDisableControls(false);
             }else{
                 enableDisableControls(true);
@@ -174,7 +174,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
          * that the group needs at least one user to be in
          * @return {String} errorMsg A string containing the error message
          */
-        var generateExistingGroupError = function(){
+        var generateExistingGroupError = function() {
             var roles = currentTemplate.roles;
             var manageRoles = [];
             $.each(roles, function(i,role) {
@@ -186,9 +186,9 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             var doubleQuote = sakai.api.i18n.getValueForKey('DOUBLE_QUOTE');
             if (manageRoles.length > 1) {
                 $.each(manageRoles, function(m, manageRole) {
-                    if (!manageRoleSelections){
+                    if (!manageRoleSelections) {
                         manageRoleSelections = doubleQuote + manageRole + doubleQuote;
-                    } else if ((parseInt(m, 10) + 1) === manageRoles.length){
+                    } else if ((parseInt(m, 10) + 1) === manageRoles.length) {
                         manageRoleSelections = manageRoleSelections + ' ' + sakai.api.i18n.getValueForKey('OR') + ' ' + doubleQuote + manageRole + doubleQuote;
                     } else {
                         manageRoleSelections = manageRoleSelections + ', ' + doubleQuote + manageRole + doubleQuote;
@@ -208,20 +208,20 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
          * The object containing this userdata is giving to the event
          * Also hide the overlay
          */
-        var finishAdding = function(){
+        var finishAdding = function() {
             var managerSelected = false;
             permissionsToChange = [];
             var newUsers = [];
-            $.each(selectedUsers, function(index, user){
+            $.each(selectedUsers, function(index, user) {
                 if (user.originalPermission && user.permission !== user.originalPermission) {
                     permissionsToChange.push(user);
                 }
 
-                if (!user.originalPermission){
+                if (!user.originalPermission) {
                     newUsers.push(user);
                 }
 
-                $.each(currentTemplate.roles, function(i, role){
+                $.each(currentTemplate.roles, function(i, role) {
                     if (user.permission === role.title || user.permission === role.id) {
                         user.permission = role.id;
                         user.permissionTitle = role.title;
@@ -234,7 +234,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             if (managerSelected || !sakai_global.group) {
                 $(window).trigger('toadd.addpeople.sakai', [tuid.replace('addpeople', ''), newUsers]);
                 if (sakai_global.group) {
-                    $.each(newUsers, function(index, user){
+                    $.each(newUsers, function(index, user) {
                         var groupTitle = sakai.api.Security.safeOutput(sakai_global.group.groupData['sakai:group-title']);
                         var groupID = sakai_global.group.groupData['sakai:group-id'];
                         var displayName = sakai.api.User.getDisplayName(sakai.data.me.profile);
@@ -249,7 +249,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                 sakai.api.Util.Modal.close($addpeopleContainer);
             } else {
                 var errorMsg = sakai.api.i18n.getValueForKey('SELECT_AT_LEAST_ONE_MANAGER', 'addpeople');
-                if (existingGroup && sakai_global.group){
+                if (existingGroup && sakai_global.group) {
                     errorMsg = generateExistingGroupError();
                 }
                 sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('MANAGE_PARTICIPANTS', 'addpeople'), errorMsg);
@@ -259,8 +259,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         /**
          * Check/Uncheck all items in the list and enable/disable buttons
          */
-        var checkAll = function(el, peopleContainer){
-            if($(el).is(':checked')){
+        var checkAll = function(el, peopleContainer) {
+            if ($(el).is(':checked')) {
                 $(peopleContainer + ':not(:disabled)').attr('checked','checked');
                 if (peopleContainer !== addpeopleSelectedCheckbox) {
                     $(peopleContainer).change();
@@ -284,7 +284,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         /**
          * Construct a user object when adding a user to the list of selected users
          */
-        var constructSelecteduser = function(){
+        var constructSelecteduser = function() {
             $addpeopleSelectAllSelectedContacts.removeAttr('checked');
             var selectedId = $(this).attr('data-userid');
             if ($(this).is(':checked')) {
@@ -313,10 +313,10 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         /**
          * Batch change the permission setting for a specific selection of users
          */
-        var changeSelectedPermission = function(){
+        var changeSelectedPermission = function() {
             var selectedPermission = $(this).val();
             var selectedPermissionTitle = $(this).find('option:selected').text();
-            $.each($addpeopleSelectedContactsContainer.find('input:checked'), function(index, item){
+            $.each($addpeopleSelectedContactsContainer.find('input:checked'), function(index, item) {
                 $(item).nextAll('select').val(selectedPermission);
                 var selectedId = $(item).attr('data-userid');
                 selectedUsers[selectedId].permission = selectedPermission;
@@ -327,7 +327,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         /**
          * Change the permission setting for a specific user
          */
-        var changePermission = function(){
+        var changePermission = function() {
             var userid = $(this).attr('data-userid');
             selectedUsers[userid].permission = $(this).val();
             selectedUsers[userid].permissionTitle = $(this).find('option:selected').text();
@@ -336,10 +336,10 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         /**
          * Removes all users that are selected from the list of users to be added as a member (manager or viewer)
          */
-        var removeSelected = function(){
+        var removeSelected = function() {
             var managerLeft = false;
-            $.each($addpeopleSelectedContactsContainer.find('input:not(:checked)'), function(index, user){
-                $.each(currentTemplate.roles, function(i, role){
+            $.each($addpeopleSelectedContactsContainer.find('input:not(:checked)'), function(index, user) {
+                $.each(currentTemplate.roles, function(i, role) {
                     if (role.isManagerRole) {
                         if ($(user).nextAll('select').val() === role.id) {
                             managerLeft = true;
@@ -349,7 +349,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             });
             if (managerLeft || !sakai_global.group) {
                 var usersToDelete = [];
-                $.each($addpeopleSelectedContactsContainer.find('input:checked'), function(index, item){
+                $.each($addpeopleSelectedContactsContainer.find('input:checked'), function(index, item) {
                     var selectedId = $(item).attr('data-userid');
                     usersToDelete.push({
                         'userid': selectedId,
@@ -367,7 +367,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                 $addpeopleSelectAllSelectedContacts.removeAttr('checked');
             } else {
                 var errorMsg = sakai.api.i18n.getValueForKey('SELECT_AT_LEAST_ONE_MANAGER', 'addpeople');
-                if (existingGroup && sakai_global.group){
+                if (existingGroup && sakai_global.group) {
                     errorMsg = generateExistingGroupError();
                 }
                 sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('MANAGE_PARTICIPANTS', 'addpeople'), errorMsg);
@@ -404,7 +404,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         /**
          * Clears the input field, closes the autosuggest and then hides the modal/overlay, called onHide in jqm
          */
-        var resetAutosuggest = function(h){
+        var resetAutosuggest = function(h) {
             sakai.api.Util.AutoSuggest.reset($addpeopleMembersAutoSuggestField);
             $('ul',$addpeopleSelectedContactsContainer).empty();
             $(addpeopleCheckbox).add($addpeopleSelectAllContacts).removeAttr('checked');
@@ -414,7 +414,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             }
         };
 
-        var prepareSelectedContacts = function(success, data){
+        var prepareSelectedContacts = function(success, data) {
             data = data[sakai_global.group.groupData['sakai:group-id']];
 
             for (var role in data) {
@@ -454,14 +454,14 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             renderSelectedContacts();
         };
 
-        var fetchMembers = function(){
+        var fetchMembers = function() {
             sakai.api.Groups.getMembers(sakai_global.group.groupData['sakai:group-id'], prepareSelectedContacts, true, true);
         };
 
         /**
          * Initialize the modal dialog
          */
-        var initializeJQM = function(){
+        var initializeJQM = function() {
             sakai.api.Util.Modal.setup($addpeopleContainer, {
                 modal: true,
                 overlay: 20,
@@ -470,20 +470,20 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             });
         };
 
-        var showDialog = function(){
+        var showDialog = function() {
             sakai.api.Util.Modal.open($addpeopleContainer);
         };
 
-        var addBinding = function(){
+        var addBinding = function() {
             // Unbind all
             $addpeopleFinishAdding.unbind('click', finishAdding);
             $addpeopleRemoveSelected.unbind('click', removeSelected);
 
             // Bind all
-            $addpeopleSelectAllContacts.bind('click', function(){
+            $addpeopleSelectAllContacts.bind('click', function() {
                 checkAll(this, addpeopleCheckbox);
             });
-            $addpeopleSelectAllSelectedContacts.bind('click', function(){
+            $addpeopleSelectAllSelectedContacts.bind('click', function() {
                 checkAll(this, addpeopleSelectedCheckbox);
             });
             $(addpeopleSelectedCheckbox).live('change', decideEnableDisableControls);
@@ -545,10 +545,10 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             }
         };
 
-        var fetchGroupsAndUsersData = function(defaultMembers, callback){
+        var fetchGroupsAndUsersData = function(defaultMembers, callback) {
             var batchRequests = [];
 
-            $.each(defaultMembers, function(i, member){
+            $.each(defaultMembers, function(i, member) {
                 batchRequests.push({
                     'url': '/~' + member + '/public/authprofile.profile.json',
                     'method': 'GET',
@@ -558,13 +558,13 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
 
             sakai.api.Server.batch(batchRequests, function(success, data) {
                 if (success) {
-                    $.each(data.results, function(i, result){
+                    $.each(data.results, function(i, result) {
                         result = $.parseJSON(result.body);
                         var picture = '';
-                        if (result && result.picture){
+                        if (result && result.picture) {
                             picture = '/~' + sakai.api.Util.safeURL(result.userid || result['sakai:group-id']) + '/public/profile/' + sakai.api.Util.safeURL($.parseJSON(result.picture).name);
                         } else {
-                            if(result.userid){
+                            if (result.userid) {
                                 picture = sakai.api.User.getProfilePicture(result);
                             }else{
                                 picture = sakai.api.Groups.getProfilePicture(result);
@@ -572,7 +572,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                         }
                         var name = '';
                         var dottedname = '';
-                        if(result['sakai:group-title']){
+                        if (result['sakai:group-title']) {
                             name = result['sakai:group-title'];
                             dottedname = sakai.api.Util.applyThreeDots(name, 100, null, 's3d-entity-displayname s3d-regular-links s3d-bold', true);
                         } else {
@@ -629,14 +629,14 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                 });
                 initializeJQM();
                 renderSelectedContacts();
-                if(sakai_global.group){
+                if (sakai_global.group) {
                     fetchMembers();
                 }
-                if(existingGroup){
+                if (existingGroup) {
                     $addpeopleNewGroup.hide();
                     $addpeopleExistingGroup.show();
                 }
-                if(options.openDialog) {
+                if (options.openDialog) {
                     showDialog();
                     renderContacts();
                 }
@@ -652,7 +652,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                 sakai_global.selecttemplate.currentTemplate.id !== currentTemplate.id) {
                 selectedUsers = {};
             }
-            if(!sakai_global.group){
+            if (!sakai_global.group) {
                 loadRoles(function() {
                     var defaultMembers = $.bbq.getState('members') || [];
                     if (defaultMembers.length) {

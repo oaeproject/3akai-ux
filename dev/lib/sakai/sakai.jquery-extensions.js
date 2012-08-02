@@ -32,7 +32,7 @@ require(['jquery'], function(jQuery) {
 
 var msie = jQuery.browser.msie;
 
-(function($){
+(function($) {
 
     /**
     * Override default jQuery error behavior
@@ -42,7 +42,7 @@ var msie = jQuery.browser.msie;
     * @param {String} status Status message
     * @param {Object} e Thrown error
     */
-    $.handleError = function (s, xhr, status, e) {
+    $.handleError = function(s, xhr, status, e) {
         var requestStatus = xhr.status;
 
         // Sometimes jQuery comes back with a parse-error, although the request
@@ -59,7 +59,7 @@ var msie = jQuery.browser.msie;
             s.sendToLoginOnFail = s.sendToLoginOnFail || true;
             if (requestStatus === 403 && s.sendToLoginOnFail) {
 
-                var decideLoggedIn = function(response, exists){
+                var decideLoggedIn = function(response, exists) {
                     var originalURL = document.location;
                     originalURL = encodeURI(originalURL.pathname + originalURL.search + originalURL.hash);
                     var redirecturl = '/?url=' + originalURL;
@@ -70,7 +70,7 @@ var msie = jQuery.browser.msie;
 
                 $.ajax({
                     url: '/system/me',
-                    success: function(data){
+                    success: function(data) {
                         decideLoggedIn(data, true);
                     }
                 });
@@ -117,7 +117,7 @@ var msie = jQuery.browser.msie;
             } else if (o.url.indexOf('_charset_') === -1) {
                 if (o.url.indexOf('?') === -1) {
                     o.url += '?';
-                } else if (o.url.lastIndexOf('&') !== o.url.length-1){
+                } else if (o.url.lastIndexOf('&') !== o.url.length-1) {
                     o.url += '&';
                 }
                 o.url += '_charset_=utf-8';
@@ -145,7 +145,7 @@ var msie = jQuery.browser.msie;
  *
  * http://stackoverflow.com/questions/1184624/serialize-form-to-json-with-jquery
  */
-(function($){
+(function($) {
     $.fn.serializeObject = function( includeEmpty ) {
         var o = {};
         var a = this.serializeArray();

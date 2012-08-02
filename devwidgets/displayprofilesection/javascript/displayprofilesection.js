@@ -184,7 +184,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         };
 
         // Render a multi-assign section
-        var renderMultiSection = function ( template, section, data ) {
+        var renderMultiSection = function( template, section, data ) {
             multiple = true;
             var multiTemplate = editing ? $displayprofilesection_edit_multiple_template : $displayprofilesection_view_multiple_template;
 
@@ -215,7 +215,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                     }
                 });
                 // Sort the sections by order
-                subSections = subSections.sort( function ( a, b ) {
+                subSections = subSections.sort( function( a, b ) {
                     return _.values( a )[ 0 ].order - _.values( b )[ 0 ].order;
                 });
                 $.each( subSections, function( i, sectionData ) {
@@ -242,7 +242,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                     $( 'button.profile-section-save-button', $rootel ).show();
                 } else if ( !editing && !subSections.length ) {
                     renderEmptySection( data );
-                } else if ( !editing ){
+                } else if ( !editing ) {
                     $( '.displayprofilesection_multiple_sections hr:last' ).hide();
                 }
             } else if ( !editing ) {

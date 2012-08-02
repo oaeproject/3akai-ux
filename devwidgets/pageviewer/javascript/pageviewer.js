@@ -32,7 +32,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.pageviewer = function (tuid, showSettings) {
+    sakai_global.pageviewer = function(tuid, showSettings) {
 
 
         /////////////////////////////
@@ -219,7 +219,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Fetches the page content
          */
         var fetchPages = function() {
-            sakai.api.Server.loadJSON('/p/' + docPath + '.infinity.json', function(success, data){
+            sakai.api.Server.loadJSON('/p/' + docPath + '.infinity.json', function(success, data) {
                 tempDocData = data;
                 parseStructure();
             });

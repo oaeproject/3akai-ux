@@ -36,7 +36,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai, sakai_util) {
      *  You can also set the personal note by using the setPersonalNote() method
      *  and select the type by using the setTypes().
      */
-    sakai_global.addtocontacts = function(tuid, showSettings){
+    sakai_global.addtocontacts = function(tuid, showSettings) {
 
 
         /////////////////////////////
@@ -82,8 +82,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai, sakai_util) {
          * Disables or enables the invite button on the widget
          * @param {Boolean} disable Flag to disable or enable the button
          */
-        var enableDisableInviteButton = function(disable){
-            if(disable){
+        var enableDisableInviteButton = function(disable) {
+            if (disable) {
                 $(addToContactsFormButtonInvite).attr('disabled','disabled');
             }else{
                 $(addToContactsFormButtonInvite).removeAttr('disabled');
@@ -94,7 +94,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai, sakai_util) {
          * Render the templates that are needed for the add contacts widget.
          * It renders the contacts types and the personal note
          */
-        var renderTemplates = function(){
+        var renderTemplates = function() {
             sakai.api.Util.TemplateRenderer(addToContactsFormTypeTemplate.replace(/#/gi, ''), {
                 'relationships': sakai.config.Relationships,
                 'sakai': sakai
@@ -110,7 +110,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai, sakai_util) {
          * This method will fill in the info for the user.
          * @param {Object} user The JSON object containing the user info. This follows the /rest/me format.
          */
-        var fillInUserInfo = function(user){
+        var fillInUserInfo = function(user) {
             if (user) {
                 $(addToContactsInfoDisplayName, $rootel).text(user.displayName);
                 if (!user.pictureLink) {
@@ -129,7 +129,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai, sakai_util) {
          * This function looks up and retrieves relationship information from a set of pre-defined relationships
          * @param {String} relationshipName
          */
-        var getDefinedRelationship = function(relationshipName){
+        var getDefinedRelationship = function(relationshipName) {
             for (var i = 0, j = sakai.config.Relationships.contacts.length; i < j; i++) {
                 var definedRelationship = sakai.config.Relationships.contacts[i];
                 if (definedRelationship.name === relationshipName) {
@@ -143,7 +143,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai, sakai_util) {
          * Does the invitation stuff. Will send a request for an invitation and a message to the user.
          * @param {String} userid
          */
-        var doInvite = function(userid){
+        var doInvite = function(userid) {
             enableDisableInviteButton(true);
             var formValues = $(addToContactsForm).serializeObject();
             var types = formValues[addToContactsFormType.replace(/#/gi, '')];
@@ -184,7 +184,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai, sakai_util) {
                         'toRelationships': toRelationshipsToSend,
                         'targetUserId': userid
                     },
-                    success: function(data){
+                    success: function(data) {
                         enableDisableInviteButton(false);
                         sakai.api.Util.Modal.close(addToContactsDialog);
                         sakai.api.Communication.sendMessage(userid, sakai.data.me, title, message, 'invitation', false,false,true,'contact_invitation');
@@ -194,7 +194,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai, sakai_util) {
                         var notificationMessage = contactToAdd.displayName + ' ' + sakai.api.i18n.getValueForKey('HAS_BEEN_ADDED_TO_YOUR_CONTACTS_LIST', 'addtocontacts');
                         sakai.api.Util.notification.show('', notificationMessage);
                     },
-                    error: function(xhr, textStatus, thrownError){
+                    error: function(xhr, textStatus, thrownError) {
                         enableDisableInviteButton(false);
                         $(addToContactsResponse).text(sakai.api.Security.saneHTML($(addToContactsErrorRequest).text()));
                     }
@@ -216,7 +216,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai, sakai_util) {
          * This method will fill in all the user info.
          * @param {Object} hash The layover object we get from jqModal
          */
-        var loadDialog = function(hash){
+        var loadDialog = function(hash) {
             $('#addtocontacts_dialog_title').html($('#addtocontacts_dialog_title_template').html().replace('${user}', sakai.api.Security.safeOutput(contactToAdd.displayName)));
             hash.w.show();
         };
@@ -230,7 +230,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai, sakai_util) {
          * @param {Object} user The userid or the /rest/me info for this user.
          * @param {Function} callback The callback function that will be executed after the request.
          */
-        var initialize = function(user){
+        var initialize = function(user) {
             user.userid = user.userid || user.uuid;
             contactToAdd = user;
             fillInUserInfo(contactToAdd);
@@ -262,7 +262,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai, sakai_util) {
         /////////////////////
 
         // Bind the invite button
-        $(addToContactsFormButtonInvite).bind('click', function(){
+        $(addToContactsFormButtonInvite).bind('click', function() {
             // Invite this person.
             doInvite(contactToAdd.userid);
             return false;

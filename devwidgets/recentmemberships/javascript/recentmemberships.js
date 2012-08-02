@@ -76,7 +76,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 canShare: sakai.api.Content.canCurrentUserShareContent(result)
             };
             // set the mimetype and corresponding image
-            if(item._mimeType && sakai.config.MimeTypes[item._mimeType]) {
+            if (item._mimeType && sakai.config.MimeTypes[item._mimeType]) {
                 // we have a recognized file type - set the description and img URL
                 item.type = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[item._mimeType].description);
                 item.type_img_url = sakai.config.MimeTypes[item._mimeType].URL;
@@ -88,7 +88,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             item.name = sakai.api.Util.applyThreeDots(item.name, $('.mycreatecontent_widget .s3d-widget-createcontent').width() - 80, {max_rows: 1,whole_word: false}, 's3d-bold');
 
             // set the file size
-            if(result.hasOwnProperty('_length') && result['_length']) {
+            if (result.hasOwnProperty('_length') && result['_length']) {
                 item.size = '(' + sakai.api.Util.convertToHumanReadableFileSize(result['_length']) + ')';
             }
 
@@ -104,7 +104,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @return None
          */
         var handlerecentmembershipsData = function(success, data) {
-            if(success && data.entry && data.entry.length > 0) {
+            if (success && data.entry && data.entry.length > 0) {
                 $('#recentmemberships_no_results_container').hide();
                 getGroupInfo(data);
             } else {
@@ -116,9 +116,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /*
          * Bind Events
          */
-        var addBinding = function (){
+        var addBinding = function() {
             $('.recentmemberships_button', rootel).die('click');
-            $('.recentmemberships_button', rootel).live('click', function(ev){
+            $('.recentmemberships_button', rootel).live('click', function(ev) {
                 $(window).trigger('sakai.overlays.createGroup');
             });
         };
@@ -126,20 +126,20 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Retrieve the manager render it.
          */
-        var getMembers = function (newjson){
-            sakai.api.Groups.getMembers(newjson.entry[0].groupid, '', function(success, memberList){
+        var getMembers = function(newjson) {
+            sakai.api.Groups.getMembers(newjson.entry[0].groupid, '', function(success, memberList) {
                 memberList = memberList[newjson.entry[0].groupid];
                 if (success) {
                     var id, name, picture;
                     for (var role in memberList) {
-                        if (memberList[role].results.length > 0){
+                        if (memberList[role].results.length > 0) {
                             var member = memberList[role].results[0];
-                             if (member.userid && member.userid !== sakai.data.me.user.userid){
+                             if (member.userid && member.userid !== sakai.data.me.user.userid) {
                                 id = member.userid;
                                 name = sakai.api.User.getDisplayName(member);
                                 linkTitle = sakai.api.i18n.getValueForKey('VIEW_USERS_PROFILE').replace('{user}', name);
                                 picture = sakai.api.User.getProfilePicture(member);
-                            } else if (member.groupid){
+                            } else if (member.groupid) {
                                 id = member.groupid;
                                 name = sakai.api.Security.safeOutput(member['sakai:group-title']);
                                 linkTitle = sakai.api.i18n.getValueForKey('VIEW_USERS_PROFILE').replace('{user}', name);
@@ -170,7 +170,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Fetches the related content
          */
-        var getGroupInfo = function(newjson){
+        var getGroupInfo = function(newjson) {
             newjson.entry[0].displayLinkTitle = sakai.api.i18n.getValueForKey('VIEW_USERS_PROFILE').replace('{user}', sakai.api.Security.safeOutput(newjson.entry[0]['sakai:group-title']));
             sakai.api.Util.TemplateRenderer(recentmembershipsItemTemplate,{
                 'entry': newjson.entry,
@@ -189,11 +189,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $.ajax({
                 url: url,
                 data: params,
-                success: function(latestContent){
-                    if(latestContent.results.length > 0){
+                success: function(latestContent) {
+                    if (latestContent.results.length > 0) {
                         newjson.entry[0].latestContent = parseDataResult(latestContent.results[0]);
                         // get latest content author and render latest content template
-                        sakai.api.User.getUser(latestContent.results[0]['sakai:pool-content-created-for'],function(success, data){
+                        sakai.api.User.getUser(latestContent.results[0]['sakai:pool-content-created-for'],function(success, data) {
                             var item = {
                                 author: {
                                     authorId: data.userid,

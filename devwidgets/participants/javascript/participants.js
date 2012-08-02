@@ -28,7 +28,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.participants = function (tuid, showSettings, widgetData) {
+    sakai_global.participants = function(tuid, showSettings, widgetData) {
 
         var rootel = $('#' + tuid);
 
@@ -66,8 +66,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         // Utility functions //
         ///////////////////////
 
-        var enableDisableButtons = function(){
-            if($(participantsListParticipantCheckbox + ':checked', rootel).length){
+        var enableDisableButtons = function() {
+            if ($(participantsListParticipantCheckbox + ':checked', rootel).length) {
                 $participantsSendSelectedMessage.removeAttr('disabled');
                 $participantsAddPeopleButton.removeAttr('disabled');
             } else {
@@ -80,10 +80,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Set the attributes needed by the sendmessage widget to send a message to all selected users
          */
-        var setSendSelectedMessageAttributes = function(){
+        var setSendSelectedMessageAttributes = function() {
             var userArr = [];
             var userIDArr = [];
-            $.each($(participantsListParticipantCheckbox + ':checked', rootel), function(index, item){
+            $.each($(participantsListParticipantCheckbox + ':checked', rootel), function(index, item) {
                 userIDArr.push($(item).attr('data-entityid'));
                 userArr.push($(item).attr('data-entityname'));
             });
@@ -98,8 +98,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Check/Uncheck all items in the members list and enable/disable buttons
          */
-        var checkAll = function(){
-            if($(this).is(':checked')){
+        var checkAll = function() {
+            if ($(this).is(':checked')) {
                 $(participantsListParticipantCheckbox, rootel).attr('checked','checked');
                 setSendSelectedMessageAttributes();
             }else{
@@ -131,11 +131,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         // Render functions //
         //////////////////////
 
-        var processParticipants = function (results, callback){
+        var processParticipants = function(results, callback) {
             var participantsArr = [];
             if (results && results.length) {
                 $.each(results, function(i, result) {
-                    if(result['sakai:group-id'] || result['rep:userId']) {
+                    if (result['sakai:group-id'] || result['rep:userId']) {
                         var contentCount = 0;
                         var contactsCount = 0;
                         var membershipsCount = 0;
@@ -208,22 +208,22 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         // Init functions //
         ////////////////////
 
-        var loadParticipants = function(cache){
+        var loadParticipants = function(cache) {
             // Disable the previous infinite scroll
-            if (infinityScroll){
+            if (infinityScroll) {
                 infinityScroll.kill();
             }
             // Set up the infinite scroll for the list of items in the library
-            infinityScroll = $participantsListContainer.infinitescroll(function(parameters, callback){
-                sakai.api.Groups.searchMembers(widgetData.participants.groupid, widgetData.query, parameters.items, parameters.page, parameters.sortBy, parameters.sortOrder, function(success, data){
+            infinityScroll = $participantsListContainer.infinitescroll(function(parameters, callback) {
+                sakai.api.Groups.searchMembers(widgetData.participants.groupid, widgetData.query, parameters.items, parameters.page, parameters.sortBy, parameters.sortOrder, function(success, data) {
                     callback(true, data);
                 }, cache);
             }, {
                 'query': widgetData.query,
                 'sortBy': 'lastName',
                 'sortOrder': widgetData.sortby
-            }, function(items, total){
-                if (sakai.data.me.user.anon){
+            }, function(items, total) {
+                if (sakai.data.me.user.anon) {
                     $('.s3d-page-header-top-row', rootel).show();
                 } else {
                     $('.s3d-page-header-top-row', rootel).show();
@@ -235,19 +235,19 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     'participants': items,
                     'sakai': sakai
                 });
-            }, function(){
+            }, function() {
                 $participantsListContainer.html(sakai.api.Util.TemplateRenderer(participantsListTemplateEmpty, {}));
             }, sakai.config.URL.INFINITE_LOADING_ICON, processParticipants);
         };
 
-        var handleHashChange = function(){
+        var handleHashChange = function() {
             $('.s3d-listview-options', rootel).find('div').removeClass('selected');
             var ls = $.bbq.getState('ls') || widgetData.listStyle;
-            if (ls === 'list'){
+            if (ls === 'list') {
                 $('#participants_list_container_list', rootel).removeClass('s3d-search-results-grid');
                 $(participantsShowList, rootel).addClass('selected');
                 $(participantsShowList, rootel).children().addClass('selected');
-            } else if (ls === 'grid'){
+            } else if (ls === 'grid') {
                 $(participantsShowGrid, rootel).addClass('selected');
                 $(participantsShowGrid, rootel).children().addClass('selected');
                 $('#participants_list_container_list', rootel).addClass('s3d-search-results-grid');
@@ -259,10 +259,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             loadParticipants();
         };
 
-        var addBinding = function(){
+        var addBinding = function() {
             $(window).bind('hashchanged.participants.sakai', handleHashChange);
 
-            $('.participants_widget .s3d-search-button').unbind('click').bind('click', function(){
+            $('.participants_widget .s3d-search-button').unbind('click').bind('click', function() {
                 currentPage = 1;
                 $.bbq.pushState({'pq': $.trim($participantsSearchField.val())});
             });
@@ -271,36 +271,36 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     $.bbq.pushState({'pq': $.trim($participantsSearchField.val())});
                 }
             });
-            $participants_sort_by.unbind('change').bind('change', function(){
+            $participants_sort_by.unbind('change').bind('change', function() {
                 $.bbq.pushState({'psb': $participants_sort_by.val()});
             });
             $participantsSelectAll.unbind('click').bind('click', checkAll);
             $(participantsListParticipantCheckbox, rootel).live('click', setSendSelectedMessageAttributes);
 
-            $('.participants_accept_invitation').live('click', function(ev){
+            $('.participants_accept_invitation').live('click', function(ev) {
                 var userid = $(this).attr('sakai-entityid');
-                sakai.api.User.acceptContactInvite(userid, function(){
+                sakai.api.User.acceptContactInvite(userid, function() {
                     $('.participants_accept_invitation').each(function(index) {
-                        if ($(this).attr('sakai-entityid') === userid){
+                        if ($(this).attr('sakai-entityid') === userid) {
                             $(this).hide();
                         }
                     });
                 });
             });
 
-            $(window).bind('sakai.addToContacts.requested', function(ev, userToAdd){
+            $(window).bind('sakai.addToContacts.requested', function(ev, userToAdd) {
                 $('.sakai_addtocontacts_overlay').each(function(index) {
-                    if ($(this).attr('sakai-entityid') === userToAdd.uuid){
+                    if ($(this).attr('sakai-entityid') === userToAdd.uuid) {
                         $(this).hide();
                     }
                 });
             });
 
-            $(participantsShowList, rootel).click(function(){
+            $(participantsShowList, rootel).click(function() {
                 $.bbq.pushState({'ls': 'list'});
             });
 
-            $(participantsShowGrid, rootel).click(function(){
+            $(participantsShowGrid, rootel).click(function() {
                 $.bbq.pushState({'ls': 'grid'});
             });
 
@@ -311,18 +311,18 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
         };
 
-        var init = function(){
+        var init = function() {
             var groupData = $.extend(true, {}, sakai_global.group.groupData);
             groupData.roles = groupData['sakai:roles'];
             roles = sakai.api.Groups.getRoles(groupData);
-            if (sakai.api.Groups.isCurrentUserAManager(sakai_global.group.groupId, sakai.data.me, groupData)){
+            if (sakai.api.Groups.isCurrentUserAManager(sakai_global.group.groupId, sakai.data.me, groupData)) {
                 $('#participants_manage_participants').show();
             }
             addBinding();
             handleHashChange();
         };
 
-        $(window).bind('usersselected.addpeople.sakai', function(e, _newlyAdded){
+        $(window).bind('usersselected.addpeople.sakai', function(e, _newlyAdded) {
             newlyAdded = _newlyAdded;
             setTimeout(function() {
                 loadParticipants(false);

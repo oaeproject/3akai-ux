@@ -34,7 +34,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.footer = function(tuid,showSettings){
+    sakai_global.footer = function(tuid,showSettings) {
 
 
         /////////////////////////////
@@ -88,7 +88,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 type: 'GET',
                 cache: false,
                 dataType: 'json',
-                success: function(data){
+                success: function(data) {
                     // Construct debug info
                     var debug_text = 'DEBUG:';
                     debug_text += ' Nakamura Version: ' + data['sakai:nakamura-version'];
@@ -103,7 +103,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 type: 'GET',
                 cache: false,
                 dataType: 'json',
-                success: function(data){
+                success: function(data) {
                     debug_text += ' | UX Version: ' + data['sakai:ux-version'];
                     debug_text += '<br/>DOC mod date: ' + document.lastModified;
                     debug_text += ' | PLACE: ' + (doc_name || 'index.html');
@@ -114,7 +114,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
         };
 
-        var updateLocationLanguage = function(){
+        var updateLocationLanguage = function() {
             if (!sakai.data.me.user.anon) {
                 $('#footer_location').text(sakai.data.me.user.locale.timezone.name);
                 for (var i = 0, len = sakai.config.Languages.length; i < len; i++) {
@@ -134,7 +134,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Main initialization function for the footer widget
          */
-        var doInit = function(){
+        var doInit = function() {
 
             // Get the name of the current document
             doc_name = getDocName();
@@ -143,7 +143,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             if (sakai.config.displayDebugInfo === true) {
 
                 // Add binding to the image
-                $footer_logo.toggle(function(){
+                $footer_logo.toggle(function() {
 
                     // Render the debug info
                     renderDebugInfo($footer_debug_info);
@@ -154,7 +154,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     // Update button title
                     $footer_logo.attr('title', sakai.api.i18n.getValueForKey('HIDE_DEBUG_INFO', 'footer'));
 
-                },function(){
+                },function() {
 
                     // Hide the debug info
                     $footer_debug_info.hide();

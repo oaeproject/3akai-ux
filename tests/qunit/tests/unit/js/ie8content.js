@@ -11,7 +11,7 @@ require(
 
     module('IE8 Content Test');
 
-    var checkElements = function($elt, callback){
+    var checkElements = function($elt, callback) {
 
         var firstNodeText = $.trim($elt.children(':first').text());
 
@@ -19,7 +19,7 @@ require(
         var $html = $('<div></div>').append($elt
             .clone()
             .children()
-            .filter(function(index){
+            .filter(function(index) {
                 return !($(this).is('div') && $(this).css('display') === 'none');
             })
             .remove());
@@ -41,7 +41,7 @@ require(
     /**
      * Check HTML pages and test for IE8 Content
      */
-    var testIE8Content = function(){
+    var testIE8Content = function() {
 
         // First, run a test on static markup to ensure the testing is working properly
         test('TEST - IE8 Placeholder', function() {
@@ -50,11 +50,11 @@ require(
 
         for (var j = 0; j < sakai_global.qunit.widgets.length; j++) {
             var urlToCheck = sakai_global.qunit.widgets[j].html;
-            (function(url){
+            (function(url) {
                 asyncTest(url, function() {
                     $.ajax({
                         url: url,
-                        success: function(data){
+                        success: function(data) {
                             var div = document.createElement('div');
                             div.innerHTML = data;
                             $(div).find('script').remove();

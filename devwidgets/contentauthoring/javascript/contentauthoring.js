@@ -26,7 +26,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.contentauthoring = function (tuid, showSettings, widgetData) {
+    sakai_global.contentauthoring = function(tuid, showSettings, widgetData) {
 
         // Element cache
         var $rootel = $('#' + tuid);

@@ -88,7 +88,7 @@ define(
                             _callback(true, retObj);
                         }
                     },
-                    error: function(status){
+                    error: function(status) {
                         if ($.isFunction(_callback)) {
                             _callback(false, {'results': [{
                                 'url': _requests[0].url,
@@ -168,7 +168,7 @@ define(
                             _callback(true, retObj);
                         }
                     },
-                    error: function(status){
+                    error: function(status) {
                         if ($.isFunction(_callback)) {
                             _callback(false, {'results': [{
                                 'url': _requests[0],
@@ -366,7 +366,7 @@ define(
                 // check for additional arrays
                 } else if ($.isPlainObject(obj)) {
                     for (var k in obj) {
-                        if (obj.hasOwnProperty(k)){
+                        if (obj.hasOwnProperty(k)) {
                             obj[k] = convertArrayToObject(obj[k]);
                         }
                     }
@@ -492,7 +492,7 @@ define(
             $.each(pagestructure, function(i, obj) {
                 if (obj && obj.rows && obj.rows.length) {
                     $.each(obj.rows, function(ii, row) {
-                        if(!$.isPlainObject(row)){
+                        if (!$.isPlainObject(row)) {
                             pagestructure[i].rows[ii] = $.parseJSON(row);
                         }
                     });
@@ -528,7 +528,7 @@ define(
             }
 
             // Remove the trailing slash if available
-            if (i_url.substring(i_url.length - 1, i_url.length) === '/'){
+            if (i_url.substring(i_url.length - 1, i_url.length) === '/') {
                 i_url = i_url.substring(0, i_url.length - 1);
             }
             // append .infinity.json if .json isn't present in the url
@@ -640,7 +640,7 @@ define(
          *
          * @returns {Void}
          */
-        removeJSON : function(i_url, callback){
+        removeJSON : function(i_url, callback) {
 
             // Argument check
             if (!i_url) {
@@ -667,7 +667,7 @@ define(
                 data: {
                     ':operation' : 'delete'
                 },
-                success: function(data){
+                success: function(data) {
 
                     // If a callback function is specified in argument, call it
                     if ($.isFunction(callback)) {
@@ -675,7 +675,7 @@ define(
                     }
                 },
 
-                error: function(xhr, status, e){
+                error: function(xhr, status, e) {
 
                     // Log error
                     debug.error('sakai.api.Server.removeJSON: There was an error removing the JSON on: ' + this.url);

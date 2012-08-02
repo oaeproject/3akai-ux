@@ -17,7 +17,7 @@
  */
 
 require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) {
-    if (!sakai_global.sendmessage){
+    if (!sakai_global.sendmessage) {
 
         /**
          * @name sakai_global.sendmessage
@@ -106,7 +106,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                     bodyEl.addClass(invalidClass);
                 }
                 // check if there are recipients
-                if((recipients.length === 0 && !toUser.length) ||
+                if ((recipients.length === 0 && !toUser.length) ||
                     recipients.length === 1 && recipients[0] === '') {
                     // no recipients are selected
                     valid = false;
@@ -207,7 +207,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                         // formats each line to be presented in autosuggest list
                         // add the correct image, wrap name in a class
                         var imgSrc = '/dev/images/user_avatar_icon_32x32.png';
-                        if(data.type === 'group') {
+                        if (data.type === 'group') {
                             imgSrc = '/dev/images/group_avatar_icon_32x32.png';
                         }
                         var line_item = elem.html(
@@ -263,10 +263,10 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                 }
 
                 // Putting the subject and body which have been send in the textboxes
-                if(body) {
+                if (body) {
                     $(messageFieldBody).val(body);
                 }
-                if(subject) {
+                if (subject) {
                     $(messageFieldSubject).val(subject);
                 }
 
@@ -350,7 +350,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
              * @return None
              */
             var handleSentMessage = function(success, data) {
-                if(success) {
+                if (success) {
                     showMessageSent(success);
                 } else {
                     sakai.api.Util.notification.show(
@@ -367,10 +367,10 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                 var recipientsString = $(autoSuggestValues).val();
                 // autoSuggest adds unnecessary commas to the beginning and end
                 // of the values string; remove them
-                if(recipientsString[0] === ',') {
+                if (recipientsString[0] === ',') {
                     recipientsString = recipientsString.slice(1);
                 }
-                if(recipientsString[recipientsString.length - 1] === ',') {
+                if (recipientsString[recipientsString.length - 1] === ',') {
                     recipientsString = recipientsString.slice(0, -1);
                 }
                 recipients = recipientsString.split(',');

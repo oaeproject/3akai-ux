@@ -36,7 +36,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.discussion = function(tuid, showSettings, widgetData){
+    sakai_global.discussion = function(tuid, showSettings, widgetData) {
 
         /////////////////////////////
         // Configuration variables //
@@ -156,7 +156,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $(discussionNotChangeable).show();
         };
 
-        var continueInit = function(){
+        var continueInit = function() {
             getWidgetSettings();
             if (showSettings) {
                 $discussionMainContainer.hide();
@@ -187,10 +187,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     url: widgeturl + '.0.json',
                     type: 'GET',
                     dataType: 'json',
-                    success: function(data){
+                    success: function(data) {
                         continueInit();
                     },
-                    error: function(xhr, textStatus, thrownError){
+                    error: function(xhr, textStatus, thrownError) {
                         if (xhr.status === 404) {
                             // we need to create the initial message store
                             $.post(store, {
@@ -207,7 +207,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Parse the picture for a user
          * @param {Object} profile The profile for a user
          */
-        var parsePicture = function(profile){
+        var parsePicture = function(profile) {
             var picture = sakai.api.Util.constructProfilePicture(profile);
             if (picture) {
                 return picture;
@@ -221,14 +221,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Integer} dateInput Integer of a date that needs to be parsed
          * @returns {Date}
          */
-        var parseDate = function(dateInput){
+        var parseDate = function(dateInput) {
             if (dateInput !== null) {
                 return sakai.api.l10n.fromEpoch(dateInput, sakai.data.me);
             }
             return null;
         };
 
-        var parseQuote = function(message){
+        var parseQuote = function(message) {
             var quote = false;
             if (message.substring(0,6) === '[quote') {
                 // Parse the quoted message
@@ -247,7 +247,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Enables or disables buttons in the widget
          * @param {Boolean} enable Flag for whether to enable or disable the buttons
          */
-        var disableEnableButtons = function(enable){
+        var disableEnableButtons = function(enable) {
             if (enable) {
                 $('#discussion_container button', $rootel).removeAttr('disabled');
             } else {
@@ -258,11 +258,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Callback function to sort replies based on created timestamp
          */
-        var sortReplies = function(a, b){
+        var sortReplies = function(a, b) {
             return a.post['sakai:created'] - b.post['sakai:created'];
         };
 
-        var renderPosts = function(arrPosts){
+        var renderPosts = function(arrPosts) {
             // Loop fetched posts and do markup
             for (var i = 0, j = arrPosts.length; i < j; i++) {
                 arrPosts[i].post.profile[0].pictureImg = parsePicture(arrPosts[i].post.profile[0]);
@@ -272,10 +272,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                                        sakai.api.Util.createSakaiDate(new Date(arrPosts[i].post['sakai:created']))).getTime();
                 }
                 arrPosts[i].post['sakai:createdOn'] = sakai.api.l10n.transformDateTimeShort(parseDate(tempPostDate));
-                if(arrPosts[i].post['sakai:editedOn']){
+                if (arrPosts[i].post['sakai:editedOn']) {
                     arrPosts[i].post['sakai:editedOn'] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].post['sakai:editedOn']));
                 }
-                for(var ii = 0, jj = arrPosts[i].replies.length; ii < jj; ii++){
+                for(var ii = 0, jj = arrPosts[i].replies.length; ii < jj; ii++) {
                     arrPosts[i].replies[ii].post.profile[0].pictureImg = parsePicture(arrPosts[i].replies[ii].post.profile[0]);
                     var tempReplyDate = sakai.api.Util.parseSakaiDate(arrPosts[i].replies[ii].post['sakai:created']).getTime();
                     if (isNaN(parseDate(arrPosts[i].replies[ii].post['sakai:created']))) {
@@ -283,14 +283,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                                             sakai.api.Util.createSakaiDate(new Date(arrPosts[i].replies[ii].post['sakai:created']))).getTime();
                     }
                     arrPosts[i].replies[ii].post['sakai:createdOn'] = sakai.api.l10n.transformDateTimeShort(parseDate(tempReplyDate));
-                    if(arrPosts[i].replies[ii].post['sakai:deletedOn']){
+                    if (arrPosts[i].replies[ii].post['sakai:deletedOn']) {
                         arrPosts[i].replies[ii].post['sakai:deletedOn'] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].replies[ii].post['sakai:deletedOn']));
                     }
-                    if(arrPosts[i].replies[ii].post['sakai:editedOn']){
+                    if (arrPosts[i].replies[ii].post['sakai:editedOn']) {
                         arrPosts[i].replies[ii].post['sakai:editedOn'] = sakai.api.l10n.transformDateTimeShort(parseDate(arrPosts[i].replies[ii].post['sakai:editedOn']));
                     }
                     arrPosts[i].replies[ii].post['sakai:quoted'] = parseQuote(arrPosts[i].replies[ii].post['sakai:body']);
-                    if(arrPosts[i].replies[ii].post['sakai:body'].split(['[/quote]'])[1]){
+                    if (arrPosts[i].replies[ii].post['sakai:body'].split(['[/quote]'])[1]) {
                         arrPosts[i].replies[ii].post['sakai:body'] = arrPosts[i].replies[ii].post['sakai:body'].split(['[/quote]'])[1];
                     }
                 }
@@ -307,7 +307,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             sakai.api.Util.renderMath(tuid);
         };
 
-        var setEllipsis = function(){
+        var setEllipsis = function() {
             $('.discussion_ellipsis_container', $rootel).css('width', $('.discussion_ellipsis_container').width() + 'px');
 
             $('.discussion_ellipsis_container', $rootel).ThreeDots({
@@ -325,7 +325,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {String} response Json response with all the posts
          * @param {Boolean} exists Check if the discussion exists
          */
-        var showPosts = function(response, exists){
+        var showPosts = function(response, exists) {
             if (exists && response.total !== 0) {
                 topicData = response;
                 try {
@@ -353,7 +353,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Displays the settings.
          */
-        var displaySettings = function(){
+        var displaySettings = function() {
             // Render settings
             sakai.api.Util.TemplateRenderer(discussionTabContentSettingsTemplate, {
                 'settings':widgetSettings,
@@ -367,7 +367,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Get the id of the dicussion widget and show the post including replies
          */
-        var getPosts = function(){
+        var getPosts = function() {
             var s = getMessageStoreURL();
             var url = sakai.config.URL.DISCUSSION_GETPOSTS_THREADED.replace(/__PATH__/, s).replace(/__MARKER__/, marker);
             $.ajax({
@@ -376,14 +376,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     items : 1000000
                 },
                 cache: false,
-                success: function(data){
+                success: function(data) {
                     cachedPosts = data;
                     showPosts(data, true);
                 }
             });
         };
 
-        var parseSettings = function(data){
+        var parseSettings = function(data) {
             var contact = false;
             var canEditPage = false;
             // Check if the logged in user manages the discussion page or not (for a content profile or group)
@@ -442,11 +442,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Fetches the widget settings and places it in the widgetSettings var.
          */
-        var getWidgetSettings = function(){
+        var getWidgetSettings = function() {
             if (widgetData.discussion) {
                 processWidgetData(widgetData.discussion);
             } else {
-                sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+                sakai.api.Widgets.loadWidgetData(tuid, function(success, data) {
                     if (success) {
                         processWidgetData(data);
                     } else {
@@ -465,7 +465,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Closes the settings container.
          */
-        var finishSettingsContainer = function(){
+        var finishSettingsContainer = function() {
             sakai.api.Widgets.Container.informFinish(tuid, 'discussion');
         };
 
@@ -473,7 +473,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Saves the settings for the widget
          * @param {Object} callback Function to be executed after saving the data
          */
-        var saveSettings = function(callback){
+        var saveSettings = function(callback) {
             var data = widgetSettings;
 
             widgetSettings['replytype'] = $('#discussion_settings_reply_options input[type='radio']:checked', $rootel).val();
@@ -493,7 +493,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Creates a new topic
          */
-        var createTopic = function(){
+        var createTopic = function() {
             disableEnableButtons(false);
             var store = getMessageStoreURL();
             var postData = {
@@ -514,14 +514,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 cache: false,
                 type: 'POST',
                 data: postData,
-                success: function(data){
+                success: function(data) {
                     $(discussionCreateNewTopicTitle, $rootel).val('');
                     $(discussionCreateNewTopicMessageText, $rootel).val('');
                     $(discussionCreateNewTopic, $rootel).hide();
 
                     data.message['profile'] = [sakai.data.me.profile];
 
-                    if (!topicData.results){
+                    if (!topicData.results) {
                         topicData.results = [];
                     }
                     topicData.results.unshift({'post': data.message, 'replies': []});
@@ -529,7 +529,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
                     disableEnableButtons(true);
                 },
-                error: function(){
+                error: function() {
                     disableEnableButtons(true);
                 }
             });
@@ -541,7 +541,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {String} body The message in the reply
          * @param {String} $parentDiv the parent div that should be hidden on success
          */
-        var replyToTopic = function(id, body, $parentDiv, $replyParent){
+        var replyToTopic = function(id, body, $parentDiv, $replyParent) {
             var store = getMessageStoreURL();
             var object = {
                 'sakai:body': body,
@@ -559,7 +559,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $.ajax({
                 url: url,
                 type: 'POST',
-                success: function(data){
+                success: function(data) {
                     $parentDiv.hide();
                     $parentDiv.parents(discussionTopicContainer).find(discussionReplyTopicBottom).show();
 
@@ -597,7 +597,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         $('#discussion_post_' + id + ' ' + discussionShowTopicReplies, $rootel).click();
                     }
                 },
-                error: function(xhr, textStatus, thrownError){
+                error: function(xhr, textStatus, thrownError) {
                     if (xhr.status === 401) {
                         $parentDiv.hide();
                         sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('YOU_CANT_REPLY'), '', sakai.api.Util.notification.type.ERROR);
@@ -611,7 +611,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
         };
 
-        var doAddReply = function(form){
+        var doAddReply = function(form) {
             disableEnableButtons(false);
             var $replyParent = $(form).parents(discussionTopicContainer);
             var topicId = $replyParent.attr('id').split('discussion_post_')[1];
@@ -646,7 +646,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {String} id The id of the post.
          * @param {boolean} deleteValue true = delete, false = undelete
          */
-        var deletePost = function(id, deleteValue, post){
+        var deletePost = function(id, deleteValue, post) {
             var store = getMessageStoreURL();
             var url = store + '/inbox/' + id;
             var data = {
@@ -658,7 +658,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 url: url,
                 type: 'POST',
                 data: data,
-                success: function(){
+                success: function() {
                     if (deleteValue) {
                         // Apply grey class
                         post.addClass(discussionDeletedReplyClass);
@@ -687,13 +687,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         post.find(discussionPostMessage).after(sakai.api.Util.TemplateRenderer(discussionRestoredPostActionsTemplate, {}));
                     }
                 },
-                error: function(xhr, textStatus, thrownError){
+                error: function(xhr, textStatus, thrownError) {
                     sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('FAILED_DELETE_POST'),'',sakai.api.Util.notification.type.ERROR);
                 }
             });
         };
 
-        var updatePost = function(id, body, quote, quoted, post){
+        var updatePost = function(id, body, quote, quoted, post) {
             var store = getMessageStoreURL();
             var url = store + '/inbox/' + id;
             var data = {
@@ -702,7 +702,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 'sakai:editedOn': Date.now(),
                 'sakai:body': body
             };
-            if(quote){
+            if (quote) {
                 data['sakai:body'] = '[quote='' + quoted + '']' + quote + '[/quote]' + body;
             }
 
@@ -710,7 +710,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 url: url,
                 type: 'POST',
                 data: data,
-                success: function(){
+                success: function() {
                     // remove edit divs
                     post.find(discussionEditContainer).children().remove();
 
@@ -737,8 +737,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
         var addBinding = function() {
             $(discussionExpandAll, $rootel).die('click');
-            $(discussionExpandAll, $rootel).live('click', function(){
-                if($(discussionExpandAll, $rootel).hasClass(discussionExpandAllClass)){
+            $(discussionExpandAll, $rootel).live('click', function() {
+                if ($(discussionExpandAll, $rootel).hasClass(discussionExpandAllClass)) {
                     $(this).removeClass(discussionExpandAllClass);
                     $(this).addClass(discussionCollapseAllClass);
                     $(this).text($discussionCollapseAll.text());
@@ -756,23 +756,23 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
             // SETTINGS //
             // Submit button.
-            $discussionSettingsSubmit.bind('click', function(e, ui){
+            $discussionSettingsSubmit.bind('click', function(e, ui) {
                 saveSettings(finishSettingsContainer);
             });
 
             // Cancel button
-            $discussionSettingsCancel.bind('click', function(e, ui){
+            $discussionSettingsCancel.bind('click', function(e, ui) {
                 sakai.api.Widgets.Container.informCancel(tuid, 'discussion');
             });
 
             // NEW TOPIC //
-            $(discussionAddNewTopic, $rootel).live('click', function(){
+            $(discussionAddNewTopic, $rootel).live('click', function() {
                 $discussionListTopics.hide();
                 $(discussionNoInitialTopic, $rootel).hide();
                 $(discussionCreateNewTopic, $rootel).show();
             });
 
-            $(discussionDontAddTopic, $rootel).bind('click', function(){
+            $(discussionDontAddTopic, $rootel).bind('click', function() {
                 $(discussionCreateNewTopic, $rootel).hide();
                 getWidgetSettings();
             });
@@ -783,17 +783,17 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             // Initialize the validate plug-in
             sakai.api.Util.Forms.validate($(discussionCreateNewTopicForm, $rootel), validateOpts, true);
 
-            $('.discussion_show_all_ellipsis_text', $rootel).live('click', function(){
+            $('.discussion_show_all_ellipsis_text', $rootel).live('click', function() {
                 $(this).parent().prev().text($(this).parent().prev()[0].title);
                 $(this).parent().remove();
             });
 
             // REPLY TOPIC //
             $(discussionShowTopicReplies, $rootel).die('click');
-            $(discussionShowTopicReplies, $rootel).live('click',function(){
+            $(discussionShowTopicReplies, $rootel).live('click',function() {
                 var $repliesIcon = $(this).children(discussionRepliesIcon);
                 var postId = $(this).parent().attr('id');
-                if($repliesIcon.hasClass(discussionShowRepliesIcon)){
+                if ($repliesIcon.hasClass(discussionShowRepliesIcon)) {
                     $(this).nextAll(discussionTopicRepliesContainer).show();
                     $repliesIcon.removeClass(discussionShowRepliesIcon);
                     $repliesIcon.addClass(discussionHideRepliesIcon);
@@ -809,7 +809,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             // Open quoted reply fields
-            $(discussionQuote, $rootel).live('click', function(e){
+            $(discussionQuote, $rootel).live('click', function(e) {
                 var replyParent = $(this).parents(discussionTopicContainer);
                 replyParent.find(discussionReplyTopicBottom).hide();
                 var postId = replyParent.attr('id').split('discussion_post_')[1];
@@ -825,7 +825,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             // Open reply fields
-            $(discussionReplyTopic, $rootel).live('click', function(){
+            $(discussionReplyTopic, $rootel).live('click', function() {
                 var replyParent = $(this).parents(discussionTopicContainer);
                 replyParent.find(discussionReplyTopicBottom).hide();
                 var postId = replyParent.attr('id').split('discussion_post_')[1];
@@ -838,7 +838,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 replyParent.find(discussionTopicReplyText).focus();
             });
 
-            $(discussionDontAddReply, $rootel).live('click', function(){
+            $(discussionDontAddReply, $rootel).live('click', function() {
                 $(this).parents(discussionTopicReplyContainer).hide();
                 if (!$(this).parents(discussionTopicContainer).find(discussionRepliesIcon).hasClass(discussionShowRepliesIcon)) {
                     $(this).parents(discussionTopicContainer).find(discussionReplyTopicBottom).show();
@@ -847,22 +847,22 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
             // DELETE REPLIES //
             // Delete reply
-            $(discussionDelete, $rootel).live('click', function(){
+            $(discussionDelete, $rootel).live('click', function() {
                 deletePost($(this).parents(s3dHighlightBackgroundClass).attr('id'), true, $(this).parents(s3dHighlightBackgroundClass));
             });
 
             // Restore reply
-            $(discussionRestore, $rootel).live('click', function(){
+            $(discussionRestore, $rootel).live('click', function() {
                 deletePost($(this).parents(s3dHighlightBackgroundClass).attr('id'), false, $(this).parents(s3dHighlightBackgroundClass));
             });
 
-            $(discussionHideReply, $rootel).live('click', function(){
+            $(discussionHideReply, $rootel).live('click', function() {
                 $(this).children('span').toggle();
                 $(this).parent().nextAll(discussionReplyContents).toggle();
             });
 
             // EDIT POST //
-            $(discussionEdit, $rootel).live('click', function(){
+            $(discussionEdit, $rootel).live('click', function() {
                 var renderData = {};
                 if ($(this).parent().prevAll(discussionQuotedTextContainer).length) {
                     renderData = {
@@ -890,7 +890,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 sakai.api.Util.Forms.validate($('.discussion_edit_form', $rootel), editValidateOpts, true);
             });
 
-            $(discussionDontSaveEdit, $rootel).live('click', function(){
+            $(discussionDontSaveEdit, $rootel).live('click', function() {
                 $(this).parents(s3dHighlightBackgroundClass).children(discussionEntityContainer + ',' + discussionReplyContents).show();
                 $(this).parents(discussionEditContainer).text('');
             });
@@ -908,7 +908,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         // Initial function //
         //////////////////////
 
-        var init = function(){
+        var init = function() {
             addBinding();
             checkMessageStore();
         };

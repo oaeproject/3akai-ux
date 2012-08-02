@@ -19,7 +19,7 @@
 /*global sakai, Config, $ */
 require(['jquery', 'sakai/sakai.api.core', 'jquery-cookie'], function($, sakai) {
 
-sakai_global.s23_site = function(){
+sakai_global.s23_site = function() {
 
     /////////////////////////////
     // Configuration variables //
@@ -61,15 +61,15 @@ sakai_global.s23_site = function(){
      *     true: in the same origin policy
      *     false: NOT in the same origin policy
      */
-    var isSameOriginPolicy = function(url1, url2){
-        if(url1 === url2) {
+    var isSameOriginPolicy = function(url1, url2) {
+        if (url1 === url2) {
             return true;
         }
         // debug.log(isUrl(url1) + ': ' + url1 + '=' + urlRegExp.exec(url1)[4]);
         // debug.log(isUrl(url2) + ': ' + url2 + '=' + urlRegExp.exec(url2)[4]);
         // i.e. protocol, domain (and optional port numbers) must match
-        if((urlRegExp.exec(url1)[2] === urlRegExp.exec(url2)[2]) &&
-           (urlRegExp.exec(url1)[4] === urlRegExp.exec(url2)[4])){
+        if ((urlRegExp.exec(url1)[2] === urlRegExp.exec(url2)[2]) &&
+           (urlRegExp.exec(url1)[4] === urlRegExp.exec(url2)[4])) {
             return true;
         } else {
             return false;
@@ -81,7 +81,7 @@ sakai_global.s23_site = function(){
      * @param {String} pageid The id of the page you want information for
      * @return {Object} A page object containing the info about the page
      */
-    var getPageInfo = function(pageid){
+    var getPageInfo = function(pageid) {
 
         // Run over all the pages and return the page object that has the same
         // id as the pageid argument
@@ -103,7 +103,7 @@ sakai_global.s23_site = function(){
         $('#'+this.target).attr('src', this.href);
     };
 
-    $(window).bind('hashchange', function(ev){
+    $(window).bind('hashchange', function(ev) {
         loadPageTools();
     });
 
@@ -111,7 +111,7 @@ sakai_global.s23_site = function(){
      * Load the tools for a certain page
      * @param {Object} pageid The id of the page you want the tools loaded for
      */
-    var loadPageTools = function(){
+    var loadPageTools = function() {
 
         var pageid = $.bbq.getState('page');
         if (pageid) {
@@ -170,7 +170,7 @@ sakai_global.s23_site = function(){
 
                     // Render the tools of the site and add them to the page container
                     s23SiteIframeContainer.append(sakai.api.Util.TemplateRenderer(s23SiteIframeContainerTemplate, renderData));
-                    var loadIframe = function(){
+                    var loadIframe = function() {
                         $(this).height($(this).contents().find('body').height() + 15); // add 10px for IE and 5px more for Gradebook weirdness
                     };
 
@@ -221,18 +221,18 @@ sakai_global.s23_site = function(){
                         // sites iframe with the fresh tool state URL generated in the template.
                         $('#reset-Main' + page.tools[tool].xid).on('click', handleResetClick);
                     }
-                    firstFrame.load(function(){
+                    firstFrame.load(function() {
                         for (var j = 0; j < otherframes.length; j++) {
                             var nextset = otherframes[j];
                             nextset[0].attr('src', nextset[1]);
                         }
                     });
-                    if (sakai.config.hybridCasHost){
+                    if (sakai.config.hybridCasHost) {
                         // check for CLE session cookie
-                        if ($.cookie('JSESSIONID')){
+                        if ($.cookie('JSESSIONID')) {
                             $.ajax({
                                 url: '/direct/session/current.json',
-                                success: function(data){
+                                success: function(data) {
                                     if (data['userId'] === null) {
                                         doCasAuth();
                                     } else {
@@ -255,10 +255,10 @@ sakai_global.s23_site = function(){
     var doCasAuth = function() {
         $.ajax({
             url: '/system/sling/cas/proxy?t=https://' + sakai.config.hybridCasHost + '/sakai-login-tool/container',
-            success: function(data){
+            success: function(data) {
                 $.ajax({
                     url: '/sakai-login-tool/container?ticket=' + data['proxyticket'],
-                    success: function(){
+                    success: function() {
                         firstFrame.attr('src', firstFrameSrcUrl);
                     }
                 });
@@ -270,7 +270,7 @@ sakai_global.s23_site = function(){
      * Transform an id to an xid
      * @param {String} id The id you want to transform to an xid
      */
-    var toxid = function(id){
+    var toxid = function(id) {
 
         // Filter out all the ! and - characters and replace them by x
         return id.replace(/-|\!/g, 'x');
@@ -283,7 +283,7 @@ sakai_global.s23_site = function(){
      * An url could be     0175d73d-741f-4fb3-94dc-9f8c1d4925a9
      * An xid is        0175d73dx741fx4fb3x94dcx9f8c1d4925a9
      */
-    var createxids = function(){
+    var createxids = function() {
 
         // Run over all the pages and then all the tools inside a page to modify the xid
         for (var i=0, len=completeJSON.site.pages.length; i<len; i++) {
@@ -300,7 +300,7 @@ sakai_global.s23_site = function(){
      * Parse the site info that is in a JSON format
      * to show it on the page
      */
-    var parseSakai2SiteInfo = function(){
+    var parseSakai2SiteInfo = function() {
 
         // Check if the title and the pages attribute exist
         if (completeJSON && completeJSON.site && completeJSON.site.title && completeJSON.site.pages) {
@@ -336,13 +336,13 @@ sakai_global.s23_site = function(){
      * Get the information of a Sakai2 site
      * @param {String} siteid The id of the Sakai2 site you want to
      */
-    var getSakai2SiteInfo = function(siteid){
+    var getSakai2SiteInfo = function(siteid) {
 
         // Send an Ajax request to the sakai2 tools service
         $.ajax({
             url: sakai.config.URL.SAKAI2_TOOLS_SERVICE.replace(/__SITEID__/, siteid),
             dataType: 'json',
-            success: function(data){
+            success: function(data) {
 
                 completeJSON = $.extend(data, {}, true);
 
@@ -356,10 +356,10 @@ sakai_global.s23_site = function(){
         });
     };
 
-    var hideNotification = function(){
+    var hideNotification = function() {
         var json = {'sakai2notification':false};
         sakai.api.Util.notification.removeAll();
-        sakai.api.Server.saveJSON('/~' + sakai.api.Util.safeURL(sakai.data.me.user.userid)+'/private/sakai2notification', json, function(success, data){});
+        sakai.api.Server.saveJSON('/~' + sakai.api.Util.safeURL(sakai.data.me.user.userid)+'/private/sakai2notification', json, function(success, data) {});
     };
 
     /////////////////////////////
@@ -369,9 +369,9 @@ sakai_global.s23_site = function(){
     /**
      * Function that get executed when the DOM is completely loaded
      */
-    var init = function(){
+    var init = function() {
         // show sticky notification
-        sakai.api.Server.loadJSON('/~' + sakai.api.Util.safeURL(sakai.data.me.user.userid)+'/private/sakai2notification', function(success, data){
+        sakai.api.Server.loadJSON('/~' + sakai.api.Util.safeURL(sakai.data.me.user.userid)+'/private/sakai2notification', function(success, data) {
             // If we haven't saved the prefs yet, or if we did and the noti isn't turned off show the notifcation area.
             if (success === false || (success === true && data.sakai2notification !== false)) {
                 sakai.api.Util.notification.show($(s23GritterNotificationTitle).html(), $(s23GritterNotificationMessage).html(), sakai.api.Util.notification.type.INFORMATION, false);
@@ -393,7 +393,7 @@ sakai_global.s23_site = function(){
         }
     };
 
-    var renderEntity = function(){
+    var renderEntity = function() {
         if (entityReady) {
             $(window).trigger('sakai.entity.init', ['s23site', '', {
                 'title': sakai.api.Security.saneHTML(completeJSON.site.title)
@@ -406,7 +406,7 @@ sakai_global.s23_site = function(){
         }
     };
 
-    $(window).bind('sakai.entity.ready', function(){
+    $(window).bind('sakai.entity.ready', function() {
         renderEntity();
     });
 

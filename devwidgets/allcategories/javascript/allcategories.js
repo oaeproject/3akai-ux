@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 // load the master sakai object to access all Sakai OAE API methods
-require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.allcategories
@@ -27,7 +27,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.allcategories = function(tuid, showSettings){
+    sakai_global.allcategories = function(tuid, showSettings) {
 
         // Containers
         var $allcategoriesItemsContainer = $('#allcategories_items_container');
@@ -42,7 +42,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
         // CAROUSEL AND RENDERING //
         ////////////////////////////
 
-        var renderallcategories = function(){
+        var renderallcategories = function() {
             sakai.api.Util.TemplateRenderer(allcategoriesItemsTemplate, {
                 'directory': allcategoriesToRender,
                 'sakai': sakai
@@ -54,8 +54,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
          * @param {Object} success true or false depending on the success of loading the featured content
          * @param {Object} data contains featured content data
          */
-        var parseDirectory = function(success, data){
-            $.each(directory, function(i, toplevel){
+        var parseDirectory = function(success, data) {
+            $.each(directory, function(i, toplevel) {
                 toplevel.count = 0;
                 if (data[i] && data[i].content && !$.isEmptyObject(data[i].content)) {
                     toplevel.content = data[i].content;
@@ -72,7 +72,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
         /**
          * Get a feed of content to display in the carousel
          */
-        var getCategoryContent = function(){
+        var getCategoryContent = function() {
             sakai.api.Server.loadJSON('/tags/directory.tagged.json', parseDirectory, {});
         };
 
@@ -80,7 +80,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
         // INITIALIZE //
         ////////////////
 
-        var doInit = function(){
+        var doInit = function() {
             getCategoryContent();
         };
 

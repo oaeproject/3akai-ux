@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 // load the master sakai object to access all Sakai OAE API methods
-require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js'], function($, sakai){
+require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js'], function($, sakai) {
 
     /**
      * @name sakai.WIDGET_ID
@@ -30,7 +30,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js'], fu
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.searchgroups = function(tuid, showSettings, widgetData){
+    sakai_global.searchgroups = function(tuid, showSettings, widgetData) {
 
         var selectedCategory = 'other';
         var selectedCategoryPlural = 'other';
@@ -122,7 +122,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js'], fu
          * @param {Object} results     List of results coming back from the infinite scroll plugin
          * @param {Object} callback    Callback function from the infinite scroll plugin to call
          */
-        var renderResults = function(results, callback){
+        var renderResults = function(results, callback) {
             // If we have results we add them to the object.
             if (results && results.length) {
                 results = sakai_global.data.search.prepareGroupsForRender(results);
@@ -134,7 +134,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js'], fu
         /**
          * This method will show all the appropriate elements for when a search is executed.
          */
-        var showSearchContent = function(params){
+        var showSearchContent = function(params) {
             // Set search box values
             if (!params.q || (params.q === '*' || params.q === '**')) {
                 $(searchConfig.global.text, $rootel).val('');
@@ -148,7 +148,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js'], fu
          * Render the default template when no results are found. This function will
          * be called by the infinite scroll plugin
          */
-        var handleEmptyResultList = function(){
+        var handleEmptyResultList = function() {
             $(searchConfig.global.numberFound, $rootel).text('0');
             $(searchConfig.results.container, $rootel).html(sakai.api.Util.TemplateRenderer(searchConfig.results.noResultsTemplate, {
                 'sakai': sakai,
@@ -161,7 +161,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js'], fu
          * Kick off a search with a specific query and sort option. This function will
          * initiate an infinite scroll for each search
          */
-        var doSearch = function(){
+        var doSearch = function() {
             var params = sakai_global.data.search.getQueryParams($rootel);
             var urlsearchterm = sakai_global.data.search.processSearchString(params);
             var tags = sakai_global.data.search.processRefineString(params);
@@ -193,7 +193,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js'], fu
             }
 
             // Disable the previous infinite scroll
-            if (infinityScroll){
+            if (infinityScroll) {
                 infinityScroll.kill();
             }
             // Set up the infinite scroll for the list of search results
@@ -203,7 +203,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js'], fu
                 'sortOn': params['sorton'],
                 'sortOrder': params['sortby'],
                 'category': widgetData.category
-            }, function(items, total){
+            }, function(items, total) {
                 // Adjust display global total
                 $(searchConfig.global.numberFound, $rootel).text('' + total);
                 if (total === 1) {
@@ -219,7 +219,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js'], fu
                     'items': items,
                     'sakai': sakai
                 });
-            }, handleEmptyResultList, sakai.config.URL.INFINITE_LOADING_ICON, renderResults, false, false, function(data){
+            }, handleEmptyResultList, sakai.config.URL.INFINITE_LOADING_ICON, renderResults, false, false, function(data) {
                 // Generate refine by tags
                 sakai_global.data.search.generateTagsRefineBy(data, params);
             });
@@ -229,17 +229,17 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js'], fu
         // Initialise Function //
         /////////////////////////
 
-        if (sakai.data.me.user.anon){
+        if (sakai.data.me.user.anon) {
             $(searchConfig.results.resultsContainer, $rootel).addClass(searchConfig.results.resultsContainerAnonClass);
         }
 
-        $(window).bind('hashchange', function(ev){
+        $(window).bind('hashchange', function(ev) {
             if ($.bbq.getState('l') === widgetData.category) {
                 doSearch();
             }
         });
 
-        $(window).bind('sakai.search.util.finish', function(ev, data){
+        $(window).bind('sakai.search.util.finish', function(ev, data) {
             if (data && data.tuid === tuid) {
                 var widgetId = sakai.api.Util.generateWidgetId();
                 $('#searchgroups_results_faceted', $rootel).html(sakai.api.Util.TemplateRenderer('searchgroups_results_faceted', {

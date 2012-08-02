@@ -74,7 +74,7 @@ require(
                             sakai.api.User.data.me.user.userid = userlist[0];
                             sakai.api.User.loadMeData();
                             // have to wait for the indexer to run
-                            setTimeout(function(){
+                            setTimeout(function() {
                                 sakai.api.Communication.getUnreadMessageCount('inbox', function(success, data) {
                                     ok(success);
                                     same(data, expected, 'User has one message');

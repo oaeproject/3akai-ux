@@ -31,7 +31,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.joinrequestbuttons = function (tuid, showSettings) {
+    sakai_global.joinrequestbuttons = function(tuid, showSettings) {
 
         /////////////////////////////
         // Configuration variables //
@@ -70,7 +70,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
          *  - pending: 'Join request pending' button
          * @return None
          */
-        var showButton = function (type) {
+        var showButton = function(type) {
             hideButtons();
             if (_.isString(type)) {
                 switch(type) {
@@ -79,7 +79,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                         break;
                     case 'leave':
                         // don't display this button on the entity widget
-                        if (!$rootel.parents('#entity_container')){
+                        if (!$rootel.parents('#entity_container')) {
                             $('.joinrequestbuttons_leave').show();
                         }
                         break;
@@ -96,7 +96,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         /**
          * Hides any showing group membership button
          */
-        var hideButtons = function () {
+        var hideButtons = function() {
             $('.joinrequestbuttons_join').hide();
             $('.joinrequestbuttons_leave').hide();
             $('.joinrequestbuttons_request').hide();
@@ -106,7 +106,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         /**
          * Renders the correct join request button
          */
-        var render = function () {
+        var render = function() {
             // render the template
             $joinrequestbuttons_widget.html(sakai.api.Util.TemplateRenderer($joinrequestbuttons_template, {
                 id:joinrequestbuttons.groupid,
@@ -139,9 +139,9 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                  * Function to loop through join requests in search of a request
                  * from the current user
                  */
-                var searchForJoinRequest = function (reqs) {
+                var searchForJoinRequest = function(reqs) {
                     var foundRequest = false;
-                    $.each(reqs, function (i, req) {
+                    $.each(reqs, function(i, req) {
                         if (req.userid === sakai.data.me.user.userid) {
                             foundRequest = true;
                             return false;  // will break the $.each loop
@@ -167,7 +167,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                 } else {
                     var joinGroup = joinrequestbuttons.groupid+'-'+joinrequestbuttons.groupData.groupProfile['sakai:joinRole'];
                     sakai.api.Groups.getJoinRequests(joinGroup,
-                    function (success, data) {
+                    function(success, data) {
                         if (success) {
                             if (data.results && data.results.length) {
                                 searchForJoinRequest(data.results);
@@ -200,7 +200,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         /////////////////////////////
 
         $joinrequestbuttons_request.die('click');
-        $joinrequestbuttons_request.live('click', function (ev) {
+        $joinrequestbuttons_request.live('click', function(ev) {
             var groupid = this.id.split('joinrequestbuttons_request_')[1];
             if (!groupid || $.trim(groupid) === '') {
                 debug.error('No group id found');
@@ -211,7 +211,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                     ') membership');
                 return false;
             }
-            sakai.api.Groups.addJoinRequest(groupid, function (success) {
+            sakai.api.Groups.addJoinRequest(groupid, function(success) {
                 if (success) {
                     // show a notification and change the button
                     sakai.api.Util.notification.show($joinrequestbuttons_group_membership.text(),
@@ -232,7 +232,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         });
 
         $joinrequestbuttons_join.die('click');
-        $joinrequestbuttons_join.live('click', function (ev) {
+        $joinrequestbuttons_join.live('click', function(ev) {
             hideButtons();
             var groupid = this.id.split('joinrequestbuttons_join_')[1];
             if (!groupid || $.trim(groupid) === '') {
@@ -243,7 +243,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                 debug.error('Anonymous user tried to join group id: ' + groupid);
                 return false;
             }
-            sakai.api.Groups.addJoinRequest(joinrequestbuttons.groupid, function (success) {
+            sakai.api.Groups.addJoinRequest(joinrequestbuttons.groupid, function(success) {
                 if (success) {
                     sakai.api.Util.notification.show($joinrequestbuttons_group_membership.text(), $joinrequestbuttons_group_adding_successful.text(), sakai.api.Util.notification.type.INFORMATION);
                     showButton('leave');
@@ -263,7 +263,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         });
 
         $joinrequestbuttons_leave.die('click');
-        $joinrequestbuttons_leave.live('click', function (ev) {
+        $joinrequestbuttons_leave.live('click', function(ev) {
             var groupid = this.id.split('joinrequestbuttons_leave_')[1];
             if (!groupid || $.trim(groupid) === '') {
                 debug.error('No group id found');
@@ -274,9 +274,9 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                 return false;
             }
 
-            sakai.api.Groups.getRole(sakai.data.me.user.userid, groupid, function(success, myRole){
-                if (success){
-                    sakai.api.Groups.leave(groupid, myRole, sakai.api.User.data.me, function (success) {
+            sakai.api.Groups.getRole(sakai.data.me.user.userid, groupid, function(success, myRole) {
+                if (success) {
+                    sakai.api.Groups.leave(groupid, myRole, sakai.api.User.data.me, function(success) {
                         if (success) {
                             $(window).trigger('updated.counts.lhnav.sakai');
                             sakai.api.Util.notification.show($joinrequestbuttons_group_membership.text(),
@@ -320,7 +320,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
          *  {Object} joinrequests  optional joinrequest data from the server. If not provided, this
          *      widget will issue a server request to get the data if needed.
          */
-        $(document).on('init.joinrequestbuttons.sakai', function (ev, groupData, groupid, joinability, managerCount, buttonStyle, onShow, requestCallback, joinCallback, leaveCallback, joinrequests) {
+        $(document).on('init.joinrequestbuttons.sakai', function(ev, groupData, groupid, joinability, managerCount, buttonStyle, onShow, requestCallback, joinCallback, leaveCallback, joinrequests) {
             if (!groupid || !joinability) {
                 return;
             }

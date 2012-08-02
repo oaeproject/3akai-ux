@@ -28,7 +28,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.welcome = function (tuid, showSettings) {
+    sakai_global.welcome = function(tuid, showSettings) {
 
         var $rootel = $('#' + tuid);
         var $welcomeWidget = $('.welcome_widget', $rootel);
@@ -40,7 +40,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
         };
 
-        var renderWidget = function(){
+        var renderWidget = function() {
             $welcomeWidget.html(sakai.api.Util.TemplateRenderer(welcomeTemplate, {
                 'anon': sakai.data.me.user.anon || false
             }));

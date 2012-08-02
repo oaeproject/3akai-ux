@@ -31,7 +31,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.mymemberships = function (tuid, showSettings) {
+    sakai_global.mymemberships = function(tuid, showSettings) {
 
         /////////////////////////////
         // Configuration variables //
@@ -69,7 +69,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Object} b
          * @return 1, 0 or -1
          */
-        var groupSortName = function (a, b) {
+        var groupSortName = function(a, b) {
             if (a['sakai:group-title'].toLowerCase() > b['sakai:group-title'].toLowerCase()) {
                 return 1;
             } else {
@@ -88,7 +88,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Object} b
          * @return 1, 0 or -1
          */
-        var groupSortModified = function (a, b) {
+        var groupSortModified = function(a, b) {
             if (a['lastModified'] > b['lastModified']) {
                 return 1;
             } else {
@@ -104,7 +104,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         // Event Handlers //
         ////////////////////
 
-        $mymemberships_sortby.change(function () {
+        $mymemberships_sortby.change(function() {
             var sortSelection = this.options[this.selectedIndex].value;
             if (sortSelection === 'desc') {
                 mymemberships.sortOrder = 'desc';
@@ -128,7 +128,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          *
          * @param {Object} groups  JSON containing group data
          */
-        var render = function (groups) {
+        var render = function(groups) {
             if (!groups.entry.length) {
                 $mymemberships_items.hide();
                 sakai.api.Util.TemplateRenderer('mymemberships_nogroups_template', {isMe: mymemberships.isOwnerViewing}, $mymemberships_nogroups);
@@ -154,7 +154,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 }
                 var groupData = [];
                 var tempGroupData = sakai.api.Groups.prepareGroupsForRender(groups.entry, sakai.data.me);
-                $.each(tempGroupData, function (i, group) {
+                $.each(tempGroupData, function(i, group) {
                     var titleMatch = group['sakai:group-title'] && group['sakai:group-title'].toLowerCase().indexOf(currentQuery.toLowerCase()) >= 0;
                     var descriptionMatch = group['sakai:group-description'] && group['sakai:group-description'].toLowerCase().indexOf(currentQuery.toLowerCase()) >= 0;
                     var idMatch = group.groupid.toLowerCase().indexOf(currentQuery.toLowerCase()) >= 0;
@@ -198,7 +198,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 var json = {
                     groups: groupData,
                     isOwnerViewing: mymemberships.isOwnerViewing,
-                    user_manages: function (group) {
+                    user_manages: function(group) {
                         if (!group) { return false; }
                         return sakai.api.Groups.isCurrentUserAManager(group.id, sakai.data.me);
                     },
@@ -419,7 +419,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     var joinable = $(this).data('group-joinable');
                     var groupid = $(this).data('groupid');
                     var itemdiv = $(this);
-                    sakai.api.Groups.addJoinRequest(groupid, function (success) {
+                    sakai.api.Groups.addJoinRequest(groupid, function(success) {
                         if (success) {
                             var notimsg = '';
                             if (joinable === 'withauth') {
@@ -449,7 +449,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * which mode the widget is in (settings or main), loads the necessary data
          * and shows the correct view.
          */
-        var doInit = function () {
+        var doInit = function() {
             addBinding();
             currentQuery = $.bbq.getState('mq') || '';
             $('#mymemberships_livefilter').val(currentQuery);

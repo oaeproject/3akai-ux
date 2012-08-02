@@ -12,7 +12,7 @@ require(
     module('Sorting');
 
     var SortingTest = function() {
-        asyncTest('Natural sorting: Strings', function(){
+        asyncTest('Natural sorting: Strings', function() {
             var arrayTest = ['z10.doc', 'z2.doc', 'z17.doc', 'z23.doc', 'z3.doc', 'z1.doc'];
             var arrayNatural = ['z1.doc', 'z2.doc', 'z3.doc', 'z10.doc', 'z17.doc', 'z23.doc'];
 
@@ -20,7 +20,7 @@ require(
             start();
         });
 
-        asyncTest('Natural sorting: Integers', function(){
+        asyncTest('Natural sorting: Integers', function() {
             var arrayTest = [10,1,900,1000,3,4];
             var arrayNatural = [1,3,4,10,900,1000];
 
@@ -28,7 +28,7 @@ require(
             start();
         });
 
-        asyncTest('Natural sorting: Dates', function(){
+        asyncTest('Natural sorting: Dates', function() {
             var dateTest1 = new Date(8000);
             var dateTest2 = new Date(98777);
             var dateTest3 = new Date(100000);

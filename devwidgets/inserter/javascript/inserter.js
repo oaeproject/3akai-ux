@@ -32,7 +32,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-fileupload'], function($, sak
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.inserter = function (tuid, showSettings) {
+    sakai_global.inserter = function(tuid, showSettings) {
 
 
         /////////////////////////////
@@ -197,7 +197,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-fileupload'], function($, sak
          * @param {Object} results Results fetched by the infinite scroller
          * @param {Function} callback callback executed in the infinite scroller
          */
-        var handleLibraryItems = function (results, callback) {
+        var handleLibraryItems = function(results, callback) {
             sakai.api.Content.prepareContentForRender(results, sakai.data.me, function(contentResults) {
                 $.each(sakai.data.me.groups, function(index, group) {
                     $.each(contentResults, function(i, item) {

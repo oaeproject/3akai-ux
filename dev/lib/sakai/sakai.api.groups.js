@@ -37,7 +37,7 @@ define(
         'sakai/sakai.api.communication',
         'underscore'
     ],
-    function($, sakai_conf, sakai_serv, sakai_util, sakai_i18n, sakai_user, sakai_comm, _){
+    function($, sakai_conf, sakai_serv, sakai_util, sakai_i18n, sakai_user, sakai_comm, _) {
 
     var sakaiGroupsAPI = {
         /**
@@ -88,7 +88,7 @@ define(
             var groupId = options.groupId;
             var groupData = {};
             sakai_serv.loadJSON('/system/userManager/group/' + groupId + '.json', function(success, data) {
-                if (success){
+                if (success) {
                     groupData.authprofile = data.properties;
                     groupData.authprofile.picture = sakaiGroupsAPI.getProfilePicture(groupData.authprofile);
 
@@ -111,10 +111,10 @@ define(
         getGroupAuthorizableData : function(groupids, callback) {
             var toReturn = {};
             var batchRequest = [];
-            if (_.isString(groupids)){
+            if (_.isString(groupids)) {
                 groupids = [groupids];
             }
-            $.each(groupids, function(index, groupid){
+            $.each(groupids, function(index, groupid) {
                 if ($.isPlainObject(sakaiGroupsAPI.groupData[groupid])) {
                     toReturn[groupid] = sakaiGroupsAPI.groupData[groupid];
                 } else {
@@ -124,13 +124,13 @@ define(
                     });
                 }
             });
-            sakai_serv.batch(batchRequest, function(success, response){
-                $.each(response.results, function(index, item){
+            sakai_serv.batch(batchRequest, function(success, response) {
+                $.each(response.results, function(index, item) {
                     var group = $.parseJSON(item.body);
                     sakaiGroupsAPI.groupData[group.properties['sakai:group-id']] = group;
                     toReturn[group.properties['sakai:group-id']] = group;
                 });
-                if ($.isFunction(callback)){
+                if ($.isFunction(callback)) {
                     callback(true, toReturn);
                 }
             });
@@ -212,10 +212,10 @@ define(
                 url: sakai_conf.URL.WORLD_CREATION_SERVICE,
                 data: {data: JSON.stringify(data)},
                 type: 'POST',
-                success: function(_data, textStatus){
+                success: function(_data, textStatus) {
                     callback(true, data);
                 },
-                error: function(){
+                error: function() {
                     callback(false, data);
                 }
             });
@@ -227,7 +227,7 @@ define(
          * @param {Function} callback the callback function for when the group delete is complete.
         */
         deleteGroup : function(groupID, meData, callback) {
-            sakaiGroupsAPI.getGroupAuthorizableData(groupID, function(success, groupAuthData){
+            sakaiGroupsAPI.getGroupAuthorizableData(groupID, function(success, groupAuthData) {
                 if (success && groupAuthData) {
                     groupAuthData = groupAuthData[groupID];
                     var groupArray = [groupID];
@@ -250,12 +250,12 @@ define(
                         data: {
                             ':applyTo': groupArray
                         },
-                        success: function(data){
+                        success: function(data) {
                             if ($.isFunction(callback)) {
                                 callback(true);
                             }
                         },
-                        error: function(){
+                        error: function() {
                             if ($.isFunction(callback)) {
                                 callback(false);
                             }
@@ -288,7 +288,7 @@ define(
                     'sakai:group-kind' : kind
                 },
                 type: 'POST',
-                error: function(xhr, textStatus, thrownError){
+                error: function(xhr, textStatus, thrownError) {
                     debug.error('Unable to update group information.');
                 },
                 complete: function(xhr, textStatus) {
@@ -418,13 +418,13 @@ define(
          * @return true if the value has a valid property value, false otherwise
          */
         isValidPermissionsProperty : function(permissionsProperty, value) {
-            if(!value || value === '') {
+            if (!value || value === '') {
                 // value is empty - not valid
                 return false;
             }
             for(var index in permissionsProperty) {
-                if(permissionsProperty.hasOwnProperty(index)) {
-                    if(value === permissionsProperty[index]) {
+                if (permissionsProperty.hasOwnProperty(index)) {
+                    if (value === permissionsProperty[index]) {
                         // value is valid
                         return true;
                     }
@@ -516,7 +516,7 @@ define(
                 sakai_serv.batch(batchRequests, function(success, data) {
                     if (success) {
                         // update group context and call callback
-                        if(sakai_global.currentgroup && sakai_global.currentgroup.data && sakai_global.currentgroup.data.authprofile) {
+                        if (sakai_global.currentgroup && sakai_global.currentgroup.data && sakai_global.currentgroup.data.authprofile) {
                             sakai_global.currentgroup.data.authprofile['sakai:group-joinable'] = joinable;
                             sakai_global.currentgroup.data.authprofile['sakai:group-visible'] = visible;
                         }
@@ -585,7 +585,7 @@ define(
          * @return true if the current user is a member or manager, false otherwise
          */
         isCurrentUserAMember : function(groupid, meData) {
-            if(!groupid || typeof(groupid) !== 'string') {
+            if (!groupid || typeof(groupid) !== 'string') {
                 return false;
             }
             return $.inArray(groupid, meData.user.subjects) !== -1;
@@ -600,11 +600,11 @@ define(
          * @param {Function} callback Function to be called on complete - callback
          */
         isAllowedToLeave : function(groupids, meData, callback) {
-            sakaiGroupsAPI.getGroupAuthorizableData(groupids, function(groupSuccess, groupData){
+            sakaiGroupsAPI.getGroupAuthorizableData(groupids, function(groupSuccess, groupData) {
                 var toReturn = {};
                 var groupDataCache = {};
                 var toCheck = [];
-                $.each(groupData, function(groupid, group){
+                $.each(groupData, function(groupid, group) {
                     if (sakaiGroupsAPI.isCurrentUserAManager(groupid, meData, group.properties)) {
                         // Check if there is more then one manager in the group
                         toCheck.push(groupid);
@@ -614,8 +614,8 @@ define(
                         toReturn[groupid] = true;
                     }
                 });
-                sakaiGroupsAPI.getMembers(toCheck, function(membersSuccess, memberData){
-                    $.each(memberData, function(groupid, members){
+                sakaiGroupsAPI.getMembers(toCheck, function(membersSuccess, memberData) {
+                    $.each(memberData, function(groupid, members) {
                         var numManagers = sakaiGroupsAPI.getManagerCount(groupDataCache[groupid], members);
                         toReturn[groupid] = numManagers > 1;
                     });
@@ -663,9 +663,9 @@ define(
          *  -- {Boolean} success       True if operation succeeded, false otherwise
          */
         addJoinRequest : function(groupID, callback) {
-            sakaiGroupsAPI.getGroupAuthorizableData(groupID, function(success, groupData){
+            sakaiGroupsAPI.getGroupAuthorizableData(groupID, function(success, groupData) {
                 groupData = groupData[groupID];
-                sakaiGroupsAPI.getMembers(groupID, function(success, groupMembers){
+                sakaiGroupsAPI.getMembers(groupID, function(success, groupMembers) {
                     groupMembers = groupMembers[groupID];
 
                     // Function used to send the join request message to the managers of the
@@ -716,7 +716,7 @@ define(
                         data: {
                             userid: userID
                         },
-                        success: function (data) {
+                        success: function(data) {
                             // Adjust the cached me-object to reflect the pending request
                             sakai_user.data.me.user.subjects.push(groupID, pseudoGroupID);
                             // Send a message to the managers of the group
@@ -762,12 +762,12 @@ define(
                         ':operation': 'delete'
                     },
                     type: 'POST',
-                    success: function (data) {
+                    success: function(data) {
                         if ($.isFunction(callback)) {
                             callback(true);
                         }
                     },
-                    error: function (xhr, textStatus, thrownError) {
+                    error: function(xhr, textStatus, thrownError) {
                         debug.error('Could not remove join request');
                         if ($.isFunction(callback)) {
                             callback(false);
@@ -802,12 +802,12 @@ define(
                     url: '/var/joinrequests/list.json?groupId=' + groupID,
                     type: 'GET',
                     async: async,
-                    success: function (data) {
+                    success: function(data) {
                         if ($.isFunction(callback)) {
                             callback(true, data);
                         }
                     },
-                    error: function (xhr, textStatus, thrownError) {
+                    error: function(xhr, textStatus, thrownError) {
                         debug.error('Request to get join requests failed');
                         if ($.isFunction(callback)) {
                             callback(false);
@@ -857,14 +857,14 @@ define(
                     url: url,
                     type: 'GET',
                     cache: 'false',
-                    success: function(data){
+                    success: function(data) {
                         var participantCount = 0;
                         if (data.results.length) {
                             // Do a couple requests first so the group data is cached
                             sakaiGroupsAPI.getGroupAuthorizableData(groupId, function() {
                                 sakaiGroupsAPI.getRole(data.results[0].userid, groupId, function(success, role) {
-                                    $.each(data.results, function(index, user){
-                                        sakaiGroupsAPI.getRole(user.userid, groupId, function(success, role){
+                                    $.each(data.results, function(index, user) {
+                                        sakaiGroupsAPI.getRole(user.userid, groupId, function(success, role) {
                                             user.role = role;
                                             participantCount++;
                                             if (participantCount === data.results.length) {
@@ -882,7 +882,7 @@ define(
                             }
                         }
                     },
-                    error: function(err){
+                    error: function(err) {
                         debug.error(err);
                         if ($.isFunction(callback)) {
                             callback(false, err);
@@ -906,21 +906,21 @@ define(
         getMembers : function(groupids, callback, everyone, noCache) {
             var dataToReturn = {};
             var toCheck = [];
-            if (_.isString(groupids)){
+            if (_.isString(groupids)) {
                 groupids = [groupids];
             }
-            $.each(groupids, function(index, groupid){
-                if (sakaiGroupsAPI.groupData[groupid] && sakaiGroupsAPI.groupData[groupid].membersPerRole && !noCache){
+            $.each(groupids, function(index, groupid) {
+                if (sakaiGroupsAPI.groupData[groupid] && sakaiGroupsAPI.groupData[groupid].membersPerRole && !noCache) {
                     dataToReturn[groupid] = sakaiGroupsAPI.groupData[groupid].membersPerRole;
                 } else {
                     toCheck.push(groupid);
                 }
             });
-            sakaiGroupsAPI.getGroupAuthorizableData(toCheck, function(success, groupData){
-                if (success){
+            sakaiGroupsAPI.getGroupAuthorizableData(toCheck, function(success, groupData) {
+                if (success) {
                     var batchRequests = [];
                     var urlToGroupMapping = {};
-                    $.each(groupData, function(groupid, group){
+                    $.each(groupData, function(groupid, group) {
                         var roles = $.parseJSON(group.properties['sakai:roles']);
                         for (var i = 0; i < roles.length; i++) {
                             var selector = 'members';
@@ -941,9 +941,9 @@ define(
                             });
                         }
                     });
-                    sakai_serv.batch(batchRequests, function(success, data){
+                    sakai_serv.batch(batchRequests, function(success, data) {
                         if (success) {
-                            $.each(data.results, function(m, membershiplist){
+                            $.each(data.results, function(m, membershiplist) {
                                 // Retrieve the group and role id from the URL
                                 var groupid = urlToGroupMapping[membershiplist.url].groupid;
                                 var roleid = urlToGroupMapping[membershiplist.url].role;
@@ -951,7 +951,7 @@ define(
                                 var members = $.parseJSON(membershiplist.body);
                                 dataToReturn[groupid] = dataToReturn[groupid] || {};
                                 dataToReturn[groupid][roleid] = {'results': members};
-                                if (sakaiGroupsAPI.groupData[groupid]){
+                                if (sakaiGroupsAPI.groupData[groupid]) {
                                     sakaiGroupsAPI.groupData[groupid].membersPerRole = sakaiGroupsAPI.groupData[groupid].membersPerRole || {};
                                     sakaiGroupsAPI.groupData[groupid].membersPerRole[roleid] = {'results': members};
                                 }
@@ -979,7 +979,7 @@ define(
                 groupData.roles = $.parseJSON( groupData.roles );
             }
             $.each(groupData.roles, function(i,role) {
-                if (_.isString(role)){
+                if (_.isString(role)) {
                     role = $.parseJSON(role);
                 }
                 if (translate) {
@@ -991,10 +991,10 @@ define(
             return roles;
         },
 
-        getRole : function(userId, groupID, callback, roleCache){
+        getRole : function(userId, groupID, callback, roleCache) {
             var cache = roleCache === false ? false : true;
-            var groupInfo = sakaiGroupsAPI.getGroupAuthorizableData(groupID, function(success, data){
-                if (success){
+            var groupInfo = sakaiGroupsAPI.getGroupAuthorizableData(groupID, function(success, data) {
+                if (success) {
                     data = data[groupID];
                     var roles = $.parseJSON(data.properties['sakai:roles']);
                     var batchRequests = [];
@@ -1010,7 +1010,7 @@ define(
                         });
                     }
                     var parseRoles = function(data) {
-                        var isMatch = function(user, index){
+                        var isMatch = function(user, index) {
                             return user.userid === userId;
                         };
 
@@ -1020,7 +1020,7 @@ define(
                                 if (members === null) {
                                   continue;
                                 }
-                                if ($.grep(members, isMatch).length > 0){
+                                if ($.grep(members, isMatch).length > 0) {
                                     role = roles[i];
                                     break;
                                 }
@@ -1034,7 +1034,7 @@ define(
                     if (cache && $.isPlainObject(sakaiGroupsAPI.groupRoleData[groupID])) {
                         parseRoles(sakaiGroupsAPI.groupRoleData[groupID]);
                     } else {
-                        sakai_serv.batch(batchRequests, function(success, data){
+                        sakai_serv.batch(batchRequests, function(success, data) {
                             if (success) {
                                 sakaiGroupsAPI.groupRoleData[groupID] = data;
                                 parseRoles(data);
@@ -1070,7 +1070,7 @@ define(
             return manages;
         },
 
-        leave : function(groupId, role, meData, callback){
+        leave : function(groupId, role, meData, callback) {
             var reqs = [
                 {
                     url: '/system/userManager/group/'+ groupId + '-' + role.id + '.leave.json',
@@ -1081,13 +1081,13 @@ define(
                     method: 'POST'
                 }
             ];
-            sakai_serv.batch(reqs, function(success){
+            sakai_serv.batch(reqs, function(success) {
                 var pseudoGroupID = groupId + '-' + role;
                 var index = meData.user.subjects.indexOf(groupId);
                 meData.user.subjects.splice(index, 1);
                 index = meData.user.subjects.indexOf(pseudoGroupID);
                 meData.user.subjects.splice(index, 1);
-                if ($.isFunction(callback)){
+                if ($.isFunction(callback)) {
                     callback(success);
                 }
             });
@@ -1111,7 +1111,7 @@ define(
          * @returns {Object} results Processed results
          */
         prepareGroupsForRender: function(results, meData) {
-            $.each(results, function(i, group){
+            $.each(results, function(i, group) {
                 if (group['sakai:group-id']) {
                     group.id = group['sakai:group-id'];
                     if (group['sakai:group-title']) {
@@ -1148,11 +1148,11 @@ define(
                     group.lastModified = group.lastModified;
                     group.picPath = sakaiGroupsAPI.getProfilePicture(group);
                     group.userMember = false;
-                    if (sakaiGroupsAPI.isCurrentUserAManager(group['sakai:group-id'], meData) || sakaiGroupsAPI.isCurrentUserAMember(group['sakai:group-id'], meData)){
+                    if (sakaiGroupsAPI.isCurrentUserAManager(group['sakai:group-id'], meData) || sakaiGroupsAPI.isCurrentUserAMember(group['sakai:group-id'], meData)) {
                         group.userMember = true;
                     }
                     // use large default group icon on search page
-                    if (group.picPath === sakai_conf.URL.GROUP_DEFAULT_ICON_URL){
+                    if (group.picPath === sakai_conf.URL.GROUP_DEFAULT_ICON_URL) {
                         group.picPathLarge = sakai_conf.URL.GROUP_DEFAULT_ICON_URL_LARGE;
                     }
                 }
@@ -1198,11 +1198,11 @@ define(
             // Construct the batch requests
             $.each(users, function(index, user) {
                 var url = '/system/userManager/group/' + groupID + '.update.json';
-                if (user.permission){
+                if (user.permission) {
                     url = '/system/userManager/group/' + groupID + '-' + user.permission.toLowerCase() + '.update.json';
                 }
                 var data = {};
-                if (managerShip){
+                if (managerShip) {
                     data[':manager'] = user.user;
                 } else if (user.viewer === true) { // user is only a viewer, not a member
                     data[':viewer'] = user.user;
@@ -1215,7 +1215,7 @@ define(
                     'method': 'POST',
                     'parameters': data
                 });
-                if (user.user === medata.user.userid){
+                if (user.user === medata.user.userid) {
                     currentUserIncluded = true;
                 }
             });
@@ -1231,7 +1231,7 @@ define(
                             medata.user.subjects.push(groupID);
                         }
                         // Add this to the members of the groups in the cache
-                        if (sakaiGroupsAPI.groupData[groupID] && sakaiGroupsAPI.groupData[groupID].membersPerRole){
+                        if (sakaiGroupsAPI.groupData[groupID] && sakaiGroupsAPI.groupData[groupID].membersPerRole) {
                             $.each(users, function(index, user) {
                                 sakaiGroupsAPI.groupData[groupID].membersPerRole[user.permission] = sakaiGroupsAPI.groupData[groupID].membersPerRole[user.permission] || {'results': []};
                                 sakaiGroupsAPI.groupData[groupID].membersPerRole[user.permission].results.push({
@@ -1333,7 +1333,7 @@ define(
                     sakai_serv.batch(reqData, function(success, data) {
                         if (!success) {
                             debug.error('Error removing users from the group');
-                        } else if (currentUserIncluded){
+                        } else if (currentUserIncluded) {
                             // remove the group from medata.subjects
                             var index = medata.user.subjects.indexOf(groupID);
                             medata.user.subjects.splice(index, 1);
@@ -1382,8 +1382,8 @@ define(
             }
         },
 
-        filterGroup: function(group, includeCollections){
-            if (includeCollections && group['sakai:category'] && group['sakai:category'] === 'collection' && group['sakai:group-title']){
+        filterGroup: function(group, includeCollections) {
+            if (includeCollections && group['sakai:category'] && group['sakai:category'] === 'collection' && group['sakai:group-title']) {
                 return true;
             } else if (!group['sakai:group-title'] || group['sakai:excludeSearch']) {
                 return false;
@@ -1396,19 +1396,19 @@ define(
             }
         },
 
-        getMemberships : function(groups, includeCollections){
+        getMemberships : function(groups, includeCollections) {
             var newjson = {entry: []};
             for (var i = 0, il = groups.length; i < il; i++) {
                 if (sakaiGroupsAPI.filterGroup(groups[i], includeCollections)) {
                     newjson.entry.push(groups[i]);
                 }
             }
-            newjson.entry.sort(function(a, b){
-                if (a['sakai:category'] === 'collection' && b['sakai:category'] === 'collection'){
+            newjson.entry.sort(function(a, b) {
+                if (a['sakai:category'] === 'collection' && b['sakai:category'] === 'collection') {
                     return sakai_util.Sorting.naturalSort(a['sakai:group-title'], b['sakai:group-title']);
-                } else if (a['sakai:category'] === 'collection'){
+                } else if (a['sakai:category'] === 'collection') {
                     return 1;
-                } else if (b['sakai:category'] === 'collection'){
+                } else if (b['sakai:category'] === 'collection') {
                     return -1;
                 } else {
                     return sakai_util.Sorting.naturalSort(a['sakai:group-title'], b['sakai:group-title']);

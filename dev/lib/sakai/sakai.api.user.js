@@ -93,7 +93,7 @@ define(
                 url: sakai_conf.URL.CREATE_USER_SERVICE,
                 type: 'POST',
                 data: user,
-                success: function(data){
+                success: function(data) {
 
                     // Call callback function if set
                     if ($.isFunction(callback)) {
@@ -101,7 +101,7 @@ define(
                     }
 
                 },
-                error: function(xhr, textStatus, thrownError){
+                error: function(xhr, textStatus, thrownError) {
 
                     // Call callback function if set
                     if ($.isFunction(callback)) {
@@ -211,13 +211,13 @@ define(
          * @param {String} userid The id of the user you want to remove from the system
          * @param {Function} [callback] A callback function which will be called after the request to the server.
          */
-        removeUser : function(userid, callback){
+        removeUser : function(userid, callback) {
 
             // Send an Ajax POST request to remove a user
             $.ajax({
                 url: '/system/userManager/user/' + userid + '.delete.json',
                 type: 'POST',
-                success: function(data){
+                success: function(data) {
 
                     // Call callback function if set
                     if ($.isFunction(callback)) {
@@ -225,7 +225,7 @@ define(
                     }
 
                 },
-                error: function(xhr, textStatus, thrownError){
+                error: function(xhr, textStatus, thrownError) {
 
                     // Call callback function if set
                     if ($.isFunction(callback)) {
@@ -242,7 +242,7 @@ define(
          * @param {String} userid The userId to fetch the profile for
          * @param {Function} callback Callback function to call when the request is complete
          */
-        getUser: function(userid, callback){
+        getUser: function(userid, callback) {
             var authprofileURL = '/~' + sakai_util.safeURL(userid) + '/public/authprofile.profile.json';
             sakai_serv.loadJSON(authprofileURL, function(success, data) {
                 if (success && data) {
@@ -258,7 +258,7 @@ define(
          * @param {Array} userArray Array of userIds to fetch the profiles for
          * @param {Function} callback Callback function to call when the request is complete
          */
-        getMultipleUsers: function(userArray, callback){
+        getMultipleUsers: function(userArray, callback) {
             var uniqueUserArray = [];
             var batchRequests = [];
 
@@ -328,7 +328,7 @@ define(
             $.ajax({
                 url : sakai_conf.URL.LOGIN_SERVICE,
                 type : 'POST',
-                success: function(data){
+                success: function(data) {
 
                     // Call callback function if set
                     if ($.isFunction(callback)) {
@@ -336,7 +336,7 @@ define(
                     }
 
                 },
-                error: function(xhr, textStatus, thrownError){
+                error: function(xhr, textStatus, thrownError) {
 
                     // Call callback function if set
                     if ($.isFunction(callback)) {
@@ -444,7 +444,7 @@ define(
                     }
 
                     // SAKIII-2419 server isn't saving basic access param
-                    if (sakaiUserAPI.data.me.profile.basic.access === undefined){
+                    if (sakaiUserAPI.data.me.profile.basic.access === undefined) {
                         sakaiUserAPI.data.me.profile.basic.access = 'everybody';
                     }
 
@@ -553,8 +553,8 @@ define(
                 idx++;
             }
 
-            if(!done){
-                if(profile && profile['rep:userId']){
+            if (!done) {
+                if (profile && profile['rep:userId']) {
                     return profile['rep:userId'];
                 } else {
                     return '';
@@ -626,7 +626,7 @@ define(
                     url: sakai_conf.URL.CONTACTS_FIND_ALL + '?page=0&items=100',
                     async: false,
                     success: function(data) {
-                        $.each(data.results, function(index, contact){
+                        $.each(data.results, function(index, contact) {
                             contact.profile.basic.elements.picture = sakai_util.constructProfilePicture(contact.profile);
                         });
                         sakaiUserAPI.data.me.mycontacts = data.results;
@@ -683,7 +683,7 @@ define(
                 },
                 success: function(data) {
                     if (sakaiUserAPI.data.me.mycontacts) {
-                        $.each(sakaiUserAPI.data.me.mycontacts, function(i, contact){
+                        $.each(sakaiUserAPI.data.me.mycontacts, function(i, contact) {
                             if (contact.target === inviteFrom) {
                                 contact.details['sakai:state'] = 'ACCEPTED';
                             }
@@ -711,7 +711,7 @@ define(
                 data: {
                     'targetUserId': inviteFrom
                 },
-                success: function(data){
+                success: function(data) {
                     if (sakaiUserAPI.data.me.mycontacts) {
                         $.each(sakaiUserAPI.data.me.mycontacts, function(i, contact) {
                             if (contact.target === inviteFrom) {
@@ -767,14 +767,14 @@ define(
         getUpdatedCounts : function(medata, callback) {
             $.ajax({
                 url: medata.profile.homePath + '/public/authprofile.profile.json',
-                success: function(profile){
+                success: function(profile) {
                     medata.profile.counts = profile.counts;
-                    if ($.isFunction(callback)){
+                    if ($.isFunction(callback)) {
                         callback(true);
                     }
                 },
-                error: function(){
-                    if ($.isFunction(callback)){
+                error: function() {
+                    if ($.isFunction(callback)) {
                         callback(false);
                     }
                 }
@@ -797,10 +797,10 @@ define(
          * @returns {Object} results Processed results
          */
         preparePeopleForRender: function(results, meData) {
-            $.each(results, function(i, item){
+            $.each(results, function(i, item) {
                 // The My Contacts feed comes back with everything wrapped inside of
                 // a target object
-                if (item.target){
+                if (item.target) {
                     item = item.profile;
                 }
                 if (item && item['rep:userId'] && item['rep:userId'] !== 'anonymous') {
@@ -812,10 +812,10 @@ define(
                     item.nameShorter = sakai_util.applyThreeDots(item.name, 150, {max_rows: 1,whole_word: false}, 's3d-bold', true);
 
                     // use large default user icon on search page
-                    if (item.picture === sakai_conf.URL.USER_DEFAULT_ICON_URL){
+                    if (item.picture === sakai_conf.URL.USER_DEFAULT_ICON_URL) {
                         item.pictureLarge = sakai_conf.URL.USER_DEFAULT_ICON_URL_LARGE;
                     }
-                    if (item['sakai:tags'] && item['sakai:tags'].length > 0){
+                    if (item['sakai:tags'] && item['sakai:tags'].length > 0) {
                         item.tagsProcessed = sakai_util.formatTags(item['sakai:tags']);
                     } else if (item.basic && item.basic.elements && item.basic.elements['sakai:tags']) {
                         item.tagsProcessed = sakai_util.formatTags(item.basic.elements['sakai:tags'].value);
@@ -830,13 +830,13 @@ define(
                         connectionState = item['sakai:state'] || results[i]['details']['sakai:state'];
                         item.connected = true;
                         // if invited state set invited to true
-                        if(connectionState === 'INVITED'){
+                        if (connectionState === 'INVITED') {
                             item.invited = true;
-                        } else if(connectionState === 'PENDING'){
+                        } else if (connectionState === 'PENDING') {
                             item.pending = true;
-                        } else if(connectionState === 'ACCEPTED'){
+                        } else if (connectionState === 'ACCEPTED') {
                             item.accepted = true;
-                        } else if(connectionState === 'NONE'){
+                        } else if (connectionState === 'NONE') {
                             //user.none = true;
                             item.connected = false;
                         }
@@ -859,17 +859,17 @@ define(
          *                               'public' for public user accounts or 'everyone' for user
          *                               accounts that are only visible to logged in users
          */
-        loadPrivacySettings: function(callback){
+        loadPrivacySettings: function(callback) {
             $.ajax({
                 url: '/~' + sakaiUserAPI.data.me.user.userid + '.acl.json',
-                success: function(data){
+                success: function(data) {
                     var setting = data['anonymous'].granted && data['anonymous'].granted.length ? 'public' : 'everyone';
-                    if ($.isFunction(callback)){
+                    if ($.isFunction(callback)) {
                         callback(setting);
                     }
                 },
-                error: function(){
-                    if ($.isFunction(callback)){
+                error: function() {
+                    if ($.isFunction(callback)) {
                         callback(false);
                     }
                 }
@@ -884,7 +884,7 @@ define(
          * @param {Function} callback     Function to call once the privacy setting has been stored. Returns
          *                                true when the change was successful and false when the change failed
          */
-        savePrivacySettings: function(option, callback){
+        savePrivacySettings: function(option, callback) {
             // Both the user's home folder and authorizable node need to be updated
             var batchRequest = [{
                 'url': '/~' + sakaiUserAPI.data.me.user.userid + '.modifyAce.json',
@@ -902,7 +902,7 @@ define(
                 }
             }];
             sakai_serv.batch(batchRequest, function(success, data) {
-                if ($.isFunction(callback)){
+                if ($.isFunction(callback)) {
                     callback(success);
                 }
             });

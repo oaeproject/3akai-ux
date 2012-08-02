@@ -28,7 +28,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.htmlblock = function (tuid, showSettings, widgetData) {
+    sakai_global.htmlblock = function(tuid, showSettings, widgetData) {
 
         // Element cache
         var $rootel = $('#' + tuid);
@@ -282,7 +282,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Load the HTMLBlock widget
          */
-        var doInit = function () {
+        var doInit = function() {
             // Set the name attribute of the textarea to the widget id, so we can restrict
             // tinyMCE loading to this widget
             var $textarea = $('textarea', $rootel).attr('name', tuid).addClass(tuid);

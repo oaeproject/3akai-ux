@@ -60,13 +60,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         $text_save.live('click', function(e) {
             widgetData.title = $('#text_title', $rootel).val();
             widgetData.text = $('#text_text', $rootel).val();
-            sakai.api.Widgets.saveWidgetData(tuid, {data:widgetData}, function(success, data){
+            sakai.api.Widgets.saveWidgetData(tuid, {data:widgetData}, function(success, data) {
                 sakai.api.Widgets.Container.informFinish(tuid, 'text');
             });
         });
 
-        var loadData = function(callback){
-            sakai.api.Widgets.loadWidgetData(tuid, function(success, data){
+        var loadData = function(callback) {
+            sakai.api.Widgets.loadWidgetData(tuid, function(success, data) {
                 if (success) {
                     widgetData = data.data;
                 }
@@ -74,7 +74,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
         };
 
-        var doInit = function(){
+        var doInit = function() {
             loadData(function() {
                 if (showSettings) {
                     $text_settings.html(sakai.api.Util.TemplateRenderer($text_settings_template, {data:widgetData})).show();

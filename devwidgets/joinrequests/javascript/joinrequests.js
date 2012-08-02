@@ -37,7 +37,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.joinrequests = function (tuid, showSettings) {
+    sakai_global.joinrequests = function(tuid, showSettings) {
 
         /////////////////////////////
         // Configuration variables //
@@ -92,7 +92,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
          */
         var getJoinRequestsData = function(joinGroupID) {
             // get join requests from server
-            sakai.api.Groups.getJoinRequests(joinGroupID, function (success, data) {
+            sakai.api.Groups.getJoinRequests(joinGroupID, function(success, data) {
                 var joinrequests = [];
                 if (success) {
                     // process joinrequest data for UI
@@ -225,7 +225,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         /**
          * Callback for onHide for the JQM
          */
-        var handleJQMHide = function(h){
+        var handleJQMHide = function(h) {
             resetEntityCounts();
             h.w.hide();
             if (h.o) {
@@ -259,7 +259,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         /**
          * Initialize the modal dialog
          */
-        var initializeJQM = function(){
+        var initializeJQM = function() {
             sakai.api.Util.Modal.setup($joinrequests_container, {
                 modal: true,
                 overlay: 20,

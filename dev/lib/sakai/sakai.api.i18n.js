@@ -50,7 +50,7 @@ define(
         /**
          * This changes properties file into a json object
          */
-        changeToJSON : function(input){
+        changeToJSON : function(input) {
             var json = {};
             var inputLine = input.split(/\n/);
             var i;
@@ -76,7 +76,7 @@ define(
          *
          * @param {Object} meData the data from sakai.api.User.data.me
          */
-        init : function(meData){
+        init : function(meData) {
             ////////////////////
             // HELP VARIABLES //
             ////////////////////
@@ -115,26 +115,26 @@ define(
              *  - Multiple instance support: <div id='widget_WIDGETNAME_UID_PLACEMENT' class='widget_inline'></div>
              * and load them into the document
              */
-            var finishI18N = function(){
+            var finishI18N = function() {
                 var currentPage = window.location.pathname;
                 if (!sakai_config.anonAllowed) {
                     sakai_config.requireUser = sakai_config.requireUser.concat(sakai_config.requireUserAnonNotAllowed);
                     sakai_config.requireAnonymous = sakai_config.requireAnonymous.concat(sakai_config.requireAnonymousAnonNotAllowed);
                 }
                 if (meData && meData.user && meData.user.anon) {
-                    if ($.inArray(currentPage, sakai_config.requireUser) > -1){
+                    if ($.inArray(currentPage, sakai_config.requireUser) > -1) {
                         // This is not great, but our util.Templating code needs to call i18n at the moment. TODO
                         require('sakai/sakai.api.util').Security.sendToLogin();
                         return false;
                     }
                 } else {
-                    if ($.inArray(currentPage, sakai_config.requireAnonymous) > -1){
+                    if ($.inArray(currentPage, sakai_config.requireAnonymous) > -1) {
                         document.location = sakai_config.URL.MY_DASHBOARD_URL;
                         return false;
                     }
                 }
 
-                if ($.inArray(currentPage, sakai_config.requireProcessing) === -1 && window.location.pathname.substring(0, 2) !== '/~'){
+                if ($.inArray(currentPage, sakai_config.requireProcessing) === -1 && window.location.pathname.substring(0, 2) !== '/~') {
                     // This is not great, but our util.Templating code needs to call i18n at the moment. TODO
                     require('sakai/sakai.api.util').Security.showPage();
                 }
@@ -152,7 +152,7 @@ define(
              * buttons in the pager plugin are properly using the current user's
              * locale settings
              */
-            var translateJqueryPlugins = function(){
+            var translateJqueryPlugins = function() {
                 // Translate the jquery.timeago.js plugin
                 $.timeago.settings.strings = {
                     prefixAgo: sakaii18nAPI.getValueForKey('JQUERY_TIMEAGO_PREFIXAGO'),
@@ -177,11 +177,11 @@ define(
              * Translate all of the elements inside of the directory into the current's
              * language
              */
-            var translateDirectory = function(directory){
-                for (var dir in directory){
-                    if (directory.hasOwnProperty(dir)){
+            var translateDirectory = function(directory) {
+                for (var dir in directory) {
+                    if (directory.hasOwnProperty(dir)) {
                         directory[dir].title = sakaii18nAPI.General.process(directory[dir].title);
-                        if (directory[dir].children){
+                        if (directory[dir].children) {
                             translateDirectory(directory[dir].children);
                         }
                     }
@@ -203,7 +203,7 @@ define(
                 // We actually use the old innerHTML function here because the $.html() function will
                 // try to reload all of the JavaScript files declared in the HTML, which we don't want as they
                 // will already be loaded
-                if($i18nable.length > 0){
+                if ($i18nable.length > 0) {
                     $i18nable[0].innerHTML = newstring;
                 }
                 finishI18N();
@@ -258,8 +258,8 @@ define(
                 loadLocalBundleRequest = langBundle;
 
                 // callback function for response from batch request
-                var bundleReqFunction = function(success, reqData){
-                    if (success){
+                var bundleReqFunction = function(success, reqData) {
+                    if (success) {
                         var loadDefaultBundleSuccess = reqData.results[0].success;
                         var loadDefaultBundleData = reqData.results[0].body;
                         var loadLocalBundleSuccess;
@@ -340,7 +340,7 @@ define(
 
             process : function(toprocess, widget) {
 
-                if(!toprocess){
+                if (!toprocess) {
                     return '';
                 }
 
@@ -352,15 +352,15 @@ define(
                     var quotes = '';
 
                     // need to add quotations marks if key is adjacent to an equals sign which means its probably missing quotes - IE
-                    if (replace.substr(0,2) !== '__'){
-                        if (replace.substr(0,1) === '='){
+                    if (replace.substr(0,2) !== '__') {
+                        if (replace.substr(0,1) === '=') {
                             quotes = ''';
                         }
                         replace = replace.substr(1, replace.length);
                     }
                     var toreplace;
                     // check for i18n debug
-                    if (sakai_config.displayDebugInfo === true && sakaii18nAPI.data.meData.user && sakaii18nAPI.data.meData.user.locale && sakaii18nAPI.data.meData.user.locale.language === 'lu' && sakaii18nAPI.data.meData.user.locale.country === 'GB'){
+                    if (sakai_config.displayDebugInfo === true && sakaii18nAPI.data.meData.user && sakaii18nAPI.data.meData.user.locale && sakaii18nAPI.data.meData.user.locale.language === 'lu' && sakaii18nAPI.data.meData.user.locale.country === 'GB') {
                         toreplace = quotes + replace.substr(7, replace.length - 9) + quotes;
                         processed += toprocess.substring(lastend, expression.lastIndex - replace.length) + toreplace;
                         lastend = expression.lastIndex;
@@ -445,7 +445,7 @@ define(
          * @return {String} Translation key where all escaped unicode characters
          *                  have been replaced by the actual unicode character
          */
-        processUTF16ToText: function(translation){
+        processUTF16ToText: function(translation) {
             var matches =  translation.match(sakaii18nAPI.UnicodeExpression);
             if (matches) {
                 for (var r = 0; r < matches.length; r++) {
@@ -475,7 +475,7 @@ define(
          * Function that will return the current user's locale
          *     Example: en_GB
          */
-        getUserLocale: function(){
+        getUserLocale: function() {
             var locale = false;
             if (sakaii18nAPI.data.meData.user && sakaii18nAPI.data.meData.user.locale) {
                 locale = sakaii18nAPI.data.meData.user.locale.language + '_' + sakaii18nAPI.data.meData.user.locale.country;

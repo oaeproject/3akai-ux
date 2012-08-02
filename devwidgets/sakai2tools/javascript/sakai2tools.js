@@ -37,7 +37,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.sakai2tools = function(tuid, showSettings){
+    sakai_global.sakai2tools = function(tuid, showSettings) {
 
 
         /////////////////////////////
@@ -102,7 +102,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          *     true: is a decimal
          *     false: is not a decimal
          */
-        var isDecimal = function(value){
+        var isDecimal = function(value) {
             return (/^\d+$/).test(value);
         };
 
@@ -113,10 +113,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          *     true: is an url
          *     false: is not an url
          */
-        var isUrl = function(url){
+        var isUrl = function(url) {
             var matches = urlRegExp.exec(url);
-            // e.g. if('http:' && 'localhost')
-            if(matches[1] && matches[4]) {
+            // e.g. if ('http:' && 'localhost')
+            if (matches[1] && matches[4]) {
                 return true;
             } else {
                 return false;
@@ -131,13 +131,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          *     true: in the same origin policy
          *     false: NOT in the same origin policy
          */
-        var isSameOriginPolicy = function(url1, url2){
-            if(url1 === url2) {
+        var isSameOriginPolicy = function(url1, url2) {
+            if (url1 === url2) {
                 return true;
             }
             // i.e. protocol, domain (and optional port numbers) must match
-            if((urlRegExp.exec(url1)[2] === urlRegExp.exec(url2)[2]) &&
-               (urlRegExp.exec(url1)[4] === urlRegExp.exec(url2)[4])){
+            if ((urlRegExp.exec(url1)[2] === urlRegExp.exec(url2)[2]) &&
+               (urlRegExp.exec(url1)[4] === urlRegExp.exec(url2)[4])) {
                 return true;
             } else {
                 return false;
@@ -147,7 +147,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Called when the data has been saved to the JCR.
          */
-        var savedDataToJCR = function(success, data){
+        var savedDataToJCR = function(success, data) {
             displayRemoteContent(data);
             sakai.api.Widgets.Container.informFinish(tuid, 'sakai2tools');
         };
@@ -164,7 +164,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Render the iframe for the widget in settings mode
          * @param {Boolean} complete Render the preview completely or only adjust values
          */
-        var renderIframeSettings = function(complete){
+        var renderIframeSettings = function(complete) {
             if (complete) {
                 json.launchDataUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + '/_widgets').replace(/__TUID__/, tuid).replace(/__NAME__/, 'basiclti') + '.launch.html';
                 $(basicltiSettingsPreview, rootel).html(sakai.api.Util.TemplateRenderer($basicltiSettingsPreviewTemplate, json));
@@ -177,7 +177,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Render the iframe for the widget
          */
-        var renderIframe = function(){
+        var renderIframe = function() {
             if (json) {
                 json.tuidFrame = basicltiSettingsPreviewId;
                 $(basicltiMainContainer, rootel).html(sakai.api.Util.TemplateRenderer($basicltiSettingsPreviewTemplate, json));
@@ -188,7 +188,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 $('#' + json.tuidFrame, rootel).attr('src', json.launchDataUrl);
 
                 // resize the iframe to match inner body height if in the same origin (i.e. same protocol/domain/port)
-                if(isSameOriginPolicy(window.location.href, json.ltiurl)) {
+                if (isSameOriginPolicy(window.location.href, json.ltiurl)) {
                     $(basicltiSettingsPreviewFrame, rootel).load(function() {
                         $(this).height($(this).contents().find('body').height() + 15); // add 10px for IE and 5px more for Gradebook weirdness
                     });
@@ -202,7 +202,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Render the html of the basicltisettings
          */
-        var renderRemoteContentSettings = function(){
+        var renderRemoteContentSettings = function() {
             if (json) {
                 // temporarily add the toolList to the json for rendering, but
                 // remove it afterwards because we don't want to store it in the node
@@ -219,7 +219,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Render the color container
          */
-        var renderColorContainer = function(){
+        var renderColorContainer = function() {
             if (json) {
                 $(basicltiSettingsColorContainer, rootel).html(sakai.api.Util.TemplateRenderer($basicltiSettingsColorContainerTemplate, json));
             }
@@ -241,7 +241,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Display the iframe in normal mode
          * @param {Object} parameters JSON object that contains the necessary information for the iframe
          */
-        var displayRemoteContent = function(parameters){
+        var displayRemoteContent = function(parameters) {
 
             // When we show the widget and no parameters are supplied, render a notification message
             if (!parameters) {
@@ -271,7 +271,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Save the basiclti to the jcr
          */
-        var saveRemoteContent = function(){
+        var saveRemoteContent = function() {
             var  saveContentAjax = function(json_data) {
                 var url = sakai.api.Widgets.getWidgetDataStorageURL(tuid);
                 $.ajax({
@@ -341,7 +341,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Change the direction (up/down) of the arrow for the advanced settings
          */
-        var changeAdvancedSettingsArrow = function(){
+        var changeAdvancedSettingsArrow = function() {
             if (isAdvancedSettingsVisible) {
                 $(basicltiSettingsAdvancedDown, rootel).hide();
                 $(basicltiSettingsAdvancedUp, rootel).show();
@@ -360,8 +360,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /*
          * Add binding to the color boxes
          */
-        var addColorBinding = function(){
-            $('.basiclti_settings_color',rootel).click(function(){
+        var addColorBinding = function() {
+            $('.basiclti_settings_color',rootel).click(function() {
                 json.border_color = $(this).attr('id').split('_')[$(this).attr('id').split('_').length - 1];
                 renderIframeSettings(false);
                 renderColorContainer();
@@ -372,10 +372,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /*
          * Add binding to all the elements
          */
-        var addBinding = function(){
+        var addBinding = function() {
 
             // Change the url for the iFrame
-            $(basicltiSettingsLtiUrl,rootel).change(function(){
+            $(basicltiSettingsLtiUrl,rootel).change(function() {
                 var urlValue = $(this).val();
                 if (urlValue !== '') {
                     // Check if someone already wrote http inside the url
@@ -388,7 +388,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             // Change the iframe width
-            $(basicltiSettingsWidth,rootel).change(function(){
+            $(basicltiSettingsWidth,rootel).change(function() {
                 var widthValue = $(basicltiSettingsWidth,rootel).val();
 
                 if (isDecimal(widthValue)) {
@@ -398,7 +398,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             // Change the iframe height
-            $(basicltiSettingsHeight,rootel).change(function(){
+            $(basicltiSettingsHeight,rootel).change(function() {
                 var heightValue = $(basicltiSettingsHeight,rootel).val();
 
                 if (isDecimal(heightValue)) {
@@ -408,7 +408,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             // Change the border width
-            $(basicltiSettingsBorders,rootel).change(function(){
+            $(basicltiSettingsBorders,rootel).change(function() {
                 var borderValue = $(basicltiSettingsBorders,rootel).val();
                 if (isDecimal(borderValue)) {
                     json.border_size = borderValue;
@@ -417,14 +417,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             // Toggle the advanced view
-            $(basicltiSettingsAdvancedToggleSettings,rootel).click(function(){
+            $(basicltiSettingsAdvancedToggleSettings,rootel).click(function() {
                 $('#basiclti_settings_advanced', rootel).toggle();
                 isAdvancedSettingsVisible = !isAdvancedSettingsVisible;
                 changeAdvancedSettingsArrow();
             });
 
             // When you click on one of the width units (px or percentage)
-            $(basicltiSettingsWidthUnitClass,rootel).click(function(){
+            $(basicltiSettingsWidthUnitClass,rootel).click(function() {
                 var widthUnitValue = $(this).attr('id').split('_')[$(this).attr('id').split('_').length - 1];
                 if (widthUnitValue === 'px') {
                     json.width_unit = widthUnitValue;
@@ -438,12 +438,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             // When you push the save button..
-            $(basicltiSettingsInsert,rootel).click(function(){
+            $(basicltiSettingsInsert,rootel).click(function() {
                 saveRemoteContent();
             });
 
             // Cancel it
-            $(basicltiSettingsCancel,rootel).click(function(){
+            $(basicltiSettingsCancel,rootel).click(function() {
                 sakai.api.Widgets.Container.informCancel(tuid, 'basiclti');
             });
 
@@ -460,7 +460,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Object} parameters A JSON object that contains the necessary information.
          * @param {Boolean} exists Does there exist a previous basiclti
          */
-        var displaySettings = function(parameters, exists){
+        var displaySettings = function(parameters, exists) {
             if (exists && parameters.ltiurl) {
                 json = parameters;
             }
@@ -527,7 +527,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     return sakai.api.Util.Sorting.naturalSort(a.toolname, b.toolname);
                 });
             });
-            sakai.api.Widgets.loadWidgetData(tuid, function(success,data){
+            sakai.api.Widgets.loadWidgetData(tuid, function(success,data) {
                 if (success) {
                     if (showSettings) {
                         displaySettings(data,true);

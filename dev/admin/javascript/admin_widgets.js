@@ -18,7 +18,7 @@
 /*global $, window */
 
 require(['jquery','sakai/sakai.api.core'], function($, sakai) {
-    sakai_global.admin_widgets = function(tuid, showSettings){
+    sakai_global.admin_widgets = function(tuid, showSettings) {
 
         // CSS IDs
         var adminWidgets = 'admin_widgets';
@@ -70,7 +70,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         /**
          * Callback function to sort widgets
          */
-        var sortWidgets = function(a, b){
+        var sortWidgets = function(a, b) {
             if (a.name && b.name) {
                 return a.name > b.name ? 1 : -1;
             } else if (a.id && b.name) {
@@ -84,14 +84,14 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         /**
          * Render the widgets on the page
          */
-        var renderCurrentWidgets = function(){
+        var renderCurrentWidgets = function() {
             // Vars for the different widget types
             var coreWidgets = {}; coreWidgets.items = [];
             var sakaiWidgets = {}; sakaiWidgets.items = [];
             var contribWidgets = {}; contribWidgets.items = [];
 
             // Fill in the widget types
-            for (var i in sakai.widgets){
+            for (var i in sakai.widgets) {
                 if (sakai.widgets.hasOwnProperty(i) && i) {
                     var widget = sakai.widgets[i];
                     if (widget.type && widget.type.toLowerCase() === 'core') {
@@ -118,7 +118,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
          * Disable the specified widget
          * @param {String} widgetId - the widget ID to disable
          */
-        var disableWidget = function(widgetId){
+        var disableWidget = function(widgetId) {
             var disableButtonId = adminWidgetsDisable + widgetId;
             var enableButtonId = adminWidgetsEnable + widgetId;
 
@@ -143,7 +143,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
          * Enable the specified widget
          * @param {String} widgetId - the widget ID to enable
          */
-        var enableWidget = function(widgetId){
+        var enableWidget = function(widgetId) {
             var disableButtonId = adminWidgetsDisable + widgetId;
             var enableButtonId = adminWidgetsEnable + widgetId;
 
@@ -168,7 +168,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
          * Delete the specified widget
          * @param {String} widgetId - the widget ID to delete
          */
-        var deleteWidget = function(widgetId){
+        var deleteWidget = function(widgetId) {
             var widgetSection = adminWidgetsWidget + widgetId;
 
             // ajax call to service
@@ -190,7 +190,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         /**
          * Positions the dialog box at the users scroll position
          */
-        var installFromUrl = function(){
+        var installFromUrl = function() {
             var widgetUrl = $(adminWidgetsInstallUrl).val();
             $(adminWidgetsInstallUrl).attr('disabled', 'disabled');
             $(adminWidgetsInstallUrlSubmit).attr('disabled', 'disabled');
@@ -216,7 +216,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         /**
          * Positions the dialog box at the users scroll position
          */
-        var positionDialog = function(){
+        var positionDialog = function() {
             // position dialog box at users scroll position
             var htmlScrollPos = $('html').scrollTop();
             var docScrollPos = $(document).scrollTop();
@@ -258,7 +258,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         /**
          * Add binding to the page elements
          */
-        var addBinding = function(){
+        var addBinding = function() {
             // Clicking to upload widget
             $('#admin_widgets_upload_link').click(function(ev) {
                 // will need to mod fileupload to take a config object or use something else
@@ -273,7 +273,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             });
 
             // Bind the disable buttons
-            $(adminWidgetsButtonDisable).live('click', function(){
+            $(adminWidgetsButtonDisable).live('click', function() {
                 var widgetId = this.id.substring(adminWidgetsDisable.length - 1);
                 $(adminWidgetsButtonDisableConfirm).attr('id', widgetId);
                 $(adminWidgetsDisableConfirmWidgetTitle).html('&quot;' + $(adminWidgetsWidgetName + widgetId).html() + '&quot;');
@@ -282,13 +282,13 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             });
 
             // Bind the confirm disable button
-            $(adminWidgetsButtonDisableConfirm).live('click', function(){
+            $(adminWidgetsButtonDisableConfirm).live('click', function() {
                 var widgetId = this.id;
                 disableWidget(widgetId);
             });
 
             // Bind the enable buttons
-            $(adminWidgetsButtonEnable).live('click', function(){
+            $(adminWidgetsButtonEnable).live('click', function() {
                 var widgetId = this.id.substring(adminWidgetsEnable.length - 1);
                 $(adminWidgetsButtonEnableConfirm).attr('id', widgetId);
                 $(adminWidgetsEnableConfirmWidgetTitle).html('&quot;' + $(adminWidgetsWidgetName + widgetId).html() + '&quot;');
@@ -297,13 +297,13 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             });
 
             // Bind the confirm enable button
-            $(adminWidgetsButtonEnableConfirm).live('click', function(){
+            $(adminWidgetsButtonEnableConfirm).live('click', function() {
                 var widgetId = this.id;
                 enableWidget(widgetId);
             });
 
             // Bind the delete buttons
-            $(adminWidgetsButtonDelete).live('click', function(){
+            $(adminWidgetsButtonDelete).live('click', function() {
                 var widgetId = this.id.substring(adminWidgetsDelete.length - 1);
                 $(adminWidgetsButtonDeleteConfirm).attr('id', widgetId);
                 $(adminWidgetsDeleteConfirmWidgetTitle).html('&quot;' + $(adminWidgetsWidgetName + widgetId).html() + '&quot;');
@@ -312,13 +312,13 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             });
 
             // Bind the confirm delete button
-            $(adminWidgetsButtonDeleteConfirm).live('click', function(){
+            $(adminWidgetsButtonDeleteConfirm).live('click', function() {
                 var widgetId = this.id;
                 deleteWidget(widgetId);
             });
 
             // Bind the install from url button
-            $(adminWidgetsInstallUrlSubmit).live('click', function(){
+            $(adminWidgetsInstallUrlSubmit).live('click', function() {
                 installFromUrl();
             });
         };
@@ -326,7 +326,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         /**
          * Initialize page functionality
          */
-        var doInit = function(){
+        var doInit = function() {
             // redirect to 500 error page if not admin
             if (sakai.data.me.user.userid !== 'admin') {
                 document.location = '/500';

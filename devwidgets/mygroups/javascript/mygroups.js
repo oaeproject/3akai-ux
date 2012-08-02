@@ -36,7 +36,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @version 0.0.1
      * @param {String} tuid Unique id of the widget
      */
-    sakai_global.mygroups = function(tuid){
+    sakai_global.mygroups = function(tuid) {
 
 
         /////////////////////////////
@@ -63,7 +63,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Takes a set of json and renders the groups.
          * @param {Object} newjson group list object
          */
-        var doRender = function(newjson){
+        var doRender = function(newjson) {
             // Sort the groups by their name
             for (var group in newjson.entry) {
                 if (newjson.entry.hasOwnProperty(group)) {
@@ -76,7 +76,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Will initiate a request to the my groups service.
          */
-        var doInit = function(){
+        var doInit = function() {
             //get groups list info from me object, filter and then render groups
             doRender(sakai.api.Groups.getMemberships(sakai.data.me.groups));
         };
@@ -87,7 +87,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         ////////////////////
 
         $('.mygroups_create_new_group', rootel).die('click');
-        $('.mygroups_create_new_group', rootel).live('click', function(ev){
+        $('.mygroups_create_new_group', rootel).live('click', function(ev) {
             $(window).trigger('sakai.overlays.createGroup');
         });
 

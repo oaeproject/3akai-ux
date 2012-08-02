@@ -80,7 +80,7 @@ define(
              *  that its settings mode has been successfully completed.
              */
             registerFinishFunction : function(callback) {
-                if (callback){
+                if (callback) {
                     this.toCallOnFinish = callback;
                 }
             },
@@ -93,7 +93,7 @@ define(
              *  that its settings mode has been cancelled.
              */
             registerCancelFunction : function(callback) {
-                if (callback){
+                if (callback) {
                     this.toCallOnCancel = callback;
                 }
             },
@@ -107,7 +107,7 @@ define(
              *     Name of the widget as registered in the widget config file(e.g. sites, myprofile, video, ...)
              */
             informFinish : function(tuid, widgetname) {
-                if (this.toCallOnFinish){
+                if (this.toCallOnFinish) {
                     this.toCallOnFinish(tuid, widgetname);
                 }
             },
@@ -138,7 +138,7 @@ define(
 
             performLoad : function() {
                 var i;
-                for (i = 0, il = this.toLoad.length; i<il; i++){
+                for (i = 0, il = this.toLoad.length; i<il; i++) {
                     var fct = window.sakai_global[this.toLoad[i]];
                     if ($.isFunction(fct)) {
                         fct();
@@ -238,16 +238,16 @@ define(
                  * If the widget name is 'createsite', then the function sakai.createsite will be executed.
                  * @param {String} widgetname The name of the widget
                  */
-                var informOnLoad = function(widgetname){
+                var informOnLoad = function(widgetname) {
                     var doDelete;
                     // Check if the name of the widget is inside the widgets object.
-                    if (widgetsInternal[widgetname] && widgetsInternal[widgetname].length > 0){
+                    if (widgetsInternal[widgetname] && widgetsInternal[widgetname].length > 0) {
 
                         // Run through all the widgets with a specific name
-                        for (var i = 0, j = widgetsInternal[widgetname].length; i<j; i++){
+                        for (var i = 0, j = widgetsInternal[widgetname].length; i<j; i++) {
                             widgetsInternal[widgetname][i].done++;
 
-                            if (widgetsInternal[widgetname][i].done === widgetsInternal[widgetname][i].todo){
+                            if (widgetsInternal[widgetname][i].done === widgetsInternal[widgetname][i].todo) {
                                 // Save the placement in the widgets variable
                                 sakaiWidgetsAPI.widgetLoader.widgets[widgetsInternal[widgetname][i].uid] = {
                                     'placement': widgetsInternal[widgetname][i].placement + widgetsInternal[widgetname][i].uid + '/' + widgetname,
@@ -270,7 +270,7 @@ define(
                         }
 
                         // Remove the widget from the widgets object (clean up)
-                        if (doDelete){
+                        if (doDelete) {
                             delete widgetsInternal[widgetname];
                         }
                     }
@@ -282,7 +282,7 @@ define(
                  * @param {String} tagName The name of the tag you want to remove (link/script)
                  * @param {String} URLIdentifier The part that identifies the URL (href/src)
                  */
-                var locateTagAndRemove = function(content, tagName, URLIdentifier){
+                var locateTagAndRemove = function(content, tagName, URLIdentifier) {
                     var returnObject = {
                         URL : [],
                         content : content
@@ -297,7 +297,7 @@ define(
                     return returnObject;
                 };
 
-                var sethtmlover = function(content,widgets,widgetname){
+                var sethtmlover = function(content,widgets,widgetname) {
 
                     var CSSTags = locateTagAndRemove(content, 'link', 'href');
                     content = CSSTags.content;
@@ -318,16 +318,16 @@ define(
                     var JSTags = locateTagAndRemove(content, 'script', 'src');
                     content = JSTags.content;
 
-                    for (var widget = 0, k = widgetsInternal[widgetname].length; widget < k; widget++){
+                    for (var widget = 0, k = widgetsInternal[widgetname].length; widget < k; widget++) {
                         var container = $('<div>');
                         container.html(content);
                         $('#' + widgetsInternal[widgetname][widget].uid).append(container);
 
                         // Set up draggable/droppable containers in the widget HTML if there are any
-                        if($('.s3d-droppable-container', container).length){
+                        if ($('.s3d-droppable-container', container).length) {
                             sakai_util.Droppable.setupDroppable({}, container);
                         }
-                        if($('.s3d-draggable-container', container).length){
+                        if ($('.s3d-draggable-container', container).length) {
                             sakai_util.Draggable.setupDraggable({}, container);
                         }
 
@@ -335,7 +335,7 @@ define(
                         widgetsInternal[widgetname][widget].done = 0;
                     }
 
-                    for (var JSURL = 0, l = JSTags.URL.length; JSURL < l; JSURL++){
+                    for (var JSURL = 0, l = JSTags.URL.length; JSURL < l; JSURL++) {
                         sakai_util.include.js(JSTags.URL[JSURL]);
                     }
 
@@ -348,7 +348,7 @@ define(
                  * @param {Object} widgets
                  * @param {Object} batchWidgets A list of all the widgets that need to load
                  */
-                var loadWidgetFiles = function(widgetsInternal2, batchWidgets){
+                var loadWidgetFiles = function(widgetsInternal2, batchWidgets) {
                     var urls = [];
                     var requestedURLsResults = [];
                     var requestedBundlesResults = [];
@@ -360,11 +360,11 @@ define(
                     if (urls.length > 0) {
                         var current_locale_string = sakai_i18n.getUserLocale();
                         var bundles = [];
-                        $.each(urls, function(index, url){
+                        $.each(urls, function(index, url) {
                             var widgetname = batchWidgets[url];
                             if ($.isPlainObject(sakai.widgets[widgetname].i18n)) {
                                 // Add the default language bundle for the widget
-                                if (sakai.widgets[widgetname].i18n['default']){
+                                if (sakai.widgets[widgetname].i18n['default']) {
                                     bundles.push(sakai.widgets[widgetname].i18n['default'].bundle);
                                 }
                                 // Add the bundle for the current user's language for the widget
@@ -461,7 +461,7 @@ define(
                                     // If we have more than 30 stylesheets, we will merge all of the previous style
                                     // tags we have created into the lowest possible number
                                     if (numberCSS >= 30) {
-                                        $('head style').each(function(index){
+                                        $('head style').each(function(index) {
                                             if ($(this).attr('title') && $(this).attr('title') === 'sakai_widgetloader') {
                                                 $(this).remove();
                                             }
@@ -530,16 +530,16 @@ define(
                     var batchWidgets = {};
 
                     // Run over all the elements and load them
-                    for (var i = 0, j = divarray.length; i < j; i++){
+                    for (var i = 0, j = divarray.length; i < j; i++) {
                         var id = divarray[i].id;
                         var split = id.split('_');
                         var widgetname = split[1];
 
                         // Set the id for the container of the widget
                         var widgetid;
-                        if (split[2]){
+                        if (split[2]) {
                             widgetid = split[2];
-                        } else if(widgetname) {
+                        } else if (widgetname) {
                             widgetid = widgetname + 'container' + Math.round(Math.random() * 10000000);
                         }
 
@@ -548,15 +548,15 @@ define(
 
                             // Set the placement for the widget
                             var placement = '';
-                            if (split[3] !== undefined){
+                            if (split[3] !== undefined) {
                                 var length = split[0].length + 1 + widgetname.length + 1 + widgetid.length + 1;
                                 placement = id.substring(length);
-                            } else if (context){
+                            } else if (context) {
                                 placement = context;
                             }
 
                             // Check if the widget exists
-                            if (!widgetsInternal[widgetname]){
+                            if (!widgetsInternal[widgetname]) {
                                 widgetsInternal[widgetname] = [];
                             }
 
@@ -571,9 +571,9 @@ define(
                             };
 
                             var floating = 'inline_class_widget_nofloat';
-                            if ($(divarray[i]).hasClass('block_image_left')){
+                            if ($(divarray[i]).hasClass('block_image_left')) {
                                 floating = 'inline_class_widget_leftfloat';
-                            } else if ($(divarray[i]).hasClass('block_image_right')){
+                            } else if ($(divarray[i]).hasClass('block_image_right')) {
                                 floating = 'inline_class_widget_rightfloat';
                             }
 
@@ -582,7 +582,7 @@ define(
                         }
                     }
 
-                    for (i in widgetsInternal){
+                    for (i in widgetsInternal) {
                         if (widgetsInternal.hasOwnProperty(i)) {
                             for (var ii = 0, jj = widgetsInternal[i].length; ii<jj; ii++) {
 
@@ -608,9 +608,9 @@ define(
                 };
             },
 
-            informOnLoad : function(widgetname){
+            informOnLoad : function(widgetname) {
                 // Inform the widgets that they have been loaded
-                for (var i = 0, j = sakaiWidgetsAPI.widgetLoader.loaded.length; i<j; i++){
+                for (var i = 0, j = sakaiWidgetsAPI.widgetLoader.loaded.length; i<j; i++) {
                     sakaiWidgetsAPI.widgetLoader.loaded[i].informOnLoad(widgetname);
                 }
             }
@@ -640,7 +640,7 @@ define(
             sakaiWidgetsAPI.widgetLoader.widgets[id].widgetData[sakaiWidgetsAPI.widgetLoader.widgets[id].name] = $.extend(true, {}, content);
             sakaiWidgetsAPI.widgetLoader.widgets[id].isStoringWidgetData = true;
             // Send a POST request to update/save the data for the widget
-            sakai_serv.saveJSON(url, content, function(success, data){
+            sakai_serv.saveJSON(url, content, function(success, data) {
                 if ($.isFunction(callback)) {
                     callback(success, data);
                 }
@@ -850,14 +850,14 @@ define(
          * This function will return the name of a widget in the current user's language
          * @param {Object} widgetid  id of the widget as specified in the widget's config file
          */
-        getWidgetTitle: function(widgetid){
+        getWidgetTitle: function(widgetid) {
             // Get the user's current locale from the me object
             var locale = sakai_i18n.getUserLocale();
             if (locale === 'lu_GB') {
                 return widgetid.toUpperCase();
             } else {
-                if (sakai.widgets[widgetid]){
-                    if (sakai.widgets[widgetid].i18n[locale] && sakai.widgets[widgetid].i18n[locale].name){
+                if (sakai.widgets[widgetid]) {
+                    if (sakai.widgets[widgetid].i18n[locale] && sakai.widgets[widgetid].i18n[locale].name) {
                         return sakai.widgets[widgetid].i18n[locale].name;
                     } else {
                         return sakai.widgets[widgetid].i18n['default'].name;
@@ -872,14 +872,14 @@ define(
          * This function will return the description of a widget in the current user's language
          * @param {Object} widgetid  id of the widget as specified in the widget's config file
          */
-        getWidgetDescription: function(widgetid){
+        getWidgetDescription: function(widgetid) {
             // Get the user's current locale from the me object
             var locale = sakai_i18n.getUserLocale();
             if (locale === 'lu_GB') {
                 return widgetid.toUpperCase();
             } else {
-                if (sakai.widgets[widgetid]){
-                    if (sakai.widgets[widgetid].i18n[locale] && sakai.widgets[widgetid].i18n[locale].description){
+                if (sakai.widgets[widgetid]) {
+                    if (sakai.widgets[widgetid].i18n[locale] && sakai.widgets[widgetid].i18n[locale].description) {
                         return sakai.widgets[widgetid].i18n[locale].description;
                     } else {
                         return sakai.widgets[widgetid].i18n['default'].description;
@@ -980,10 +980,10 @@ define(
             sakaiWidgetsAPI.registerLazyLoading();
 
             // Set up draggable/droppable containers for the main page if there are any
-            if($('.s3d-droppable-container', $('body')).length){
+            if ($('.s3d-droppable-container', $('body')).length) {
                 sakai_util.Droppable.setupDroppable({}, $('body'));
             }
-            if($('.s3d-draggable-container', $('body')).length){
+            if ($('.s3d-draggable-container', $('body')).length) {
                 sakai_util.Draggable.setupDraggable({}, $('body'));
             }
         },

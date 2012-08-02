@@ -82,7 +82,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             };
 
             // set the mimetype and corresponding image
-            if(item.mimeType && sakai.config.MimeTypes[item.mimeType]) {
+            if (item.mimeType && sakai.config.MimeTypes[item.mimeType]) {
                 // we have a recognized file type - set the description and img URL
                 item.type = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[item.mimeType].description);
                 item.type_img_url = sakai.config.MimeTypes[item.mimeType].URL;
@@ -94,7 +94,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             item.name = sakai.api.Util.applyThreeDots(item.name, $('.mycontent_widget .s3d-widget-content').width() - 80, {max_rows: 1,whole_word: false}, 's3d-bold');
 
             // set the file size
-            if(result.hasOwnProperty('_length') && result['_length']) {
+            if (result.hasOwnProperty('_length') && result['_length']) {
                 item.size = '(' + sakai.api.Util.convertToHumanReadableFileSize(result['_length']) + ')';
             }
 
@@ -110,14 +110,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @return None
          */
         var handleContentData = function(success, data) {
-            if(success) {
+            if (success) {
                 // parse & render data
                 // build array of up to five items; reverse chronological order
                 var contentjson = {
                     items: []
                 };
                 for(var i = 0; i < data.total && i < 5; i++) {
-                    if (data.results[i]){
+                    if (data.results[i]) {
                         contentjson.items.push(parseDataResult(data.results[i]));
                     }
                 }
@@ -125,7 +125,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 contentjson.sakai = sakai;
                 $(contentList, rootel).html(sakai.api.Util.TemplateRenderer($(listTemplate), contentjson));
 
-                $('.add_content_button', rootel).click(function (ev) {
+                $('.add_content_button', rootel).click(function(ev) {
                     $(window).trigger('init.newaddcontent.sakai');
                     return false;
                 });
@@ -167,10 +167,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     sortOn: '_lastModified',
                     sortOrder: 'desc'
                 },
-                success: function(data){
+                success: function(data) {
                     handleContentData(true, data);
                 },
-                error: function(data){
+                error: function(data) {
                     handleContentData(false);
                 }
             });

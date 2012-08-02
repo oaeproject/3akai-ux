@@ -122,9 +122,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
         };
 
-        var getFileIDs = function(){
+        var getFileIDs = function() {
             var tempArr = [];
-            $.each(contentObj.data, function(i, content){
+            $.each(contentObj.data, function(i, content) {
                 tempArr.push(content.body['_path']);
             });
             return tempArr;
@@ -133,10 +133,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Checks if the content is a part of my library
          */
-        var selectedAlreadyMyLibraryMember = function(){
+        var selectedAlreadyMyLibraryMember = function() {
             contentObj.libraryHasIt = true;
-            $.each(contentObj.data, function(i, content){
-                if(!sakai.api.Content.isContentInLibrary(content.body, sakai.data.me.user.userid) && !sakai.api.Content.Collections.isCollectionInMyLibrary(content.body)){
+            $.each(contentObj.data, function(i, content) {
+                if (!sakai.api.Content.isContentInLibrary(content.body, sakai.data.me.user.userid) && !sakai.api.Content.Collections.isCollectionInMyLibrary(content.body)) {
                     contentObj.libraryHasIt = false;
                 }
                 content.body.canShare = sakai.api.Content.canCurrentUserShareContent(content.body);
@@ -183,7 +183,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Determines if the selected content items are a part of any groups
          */
-        var selectAlreadyInGroup = function(){
+        var selectAlreadyInGroup = function() {
             checkCollectionMembers(function() {
                 $.each(contentObj.memberOfGroups.entry, function(j, memberOfGroup) {
                     memberOfGroup.alreadyHasIt = true;
@@ -194,7 +194,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                             contentItem = sakai_global.content_profile.content_data;
                         }
                         var isContentInGroup = sakai.api.Content.isContentInLibrary(contentItem, memberOfGroup['sakai:group-id']);
-                        if (!isContentInGroup){
+                        if (!isContentInGroup) {
                             memberOfGroup.alreadyHasIt = false;
                         }
                     });
@@ -217,12 +217,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Saves the content to the selected group
          * @param {String} id     ID of the group we want to add as a viewer
          */
-        var saveContent = function(id){
-            if($('#savecontent_select option:selected', $rootel).data('redirect') !== true){
+        var saveContent = function(id) {
+            if ($('#savecontent_select option:selected', $rootel).data('redirect') !== true) {
                 $savecontent_save.attr('disabled', 'disabled');
-                $.each(contentObj.data, function(i, content){
-                    if (sakai.api.Content.Collections.isCollection(content.body)){
-                        sakai.api.Content.Collections.shareCollection(content.body['_path'], id, false, function(){
+                $.each(contentObj.data, function(i, content) {
+                    if (sakai.api.Content.Collections.isCollection(content.body)) {
+                        sakai.api.Content.Collections.shareCollection(content.body['_path'], id, false, function() {
                             finishSaveContent(content.body['_path'], id);
                         });
                     } else {
@@ -232,7 +232,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 $(document).trigger('done.newaddcontent.sakai');
                 var notificationBody = false;
                 var notificationTitle = false;
-                if (sakai.api.Content.Collections.isCollection(id)){
+                if (sakai.api.Content.Collections.isCollection(id)) {
                     notificationBody = decodeURIComponent($('#savecontent_collection_add_library_body').html());
                     notificationBody = notificationBody.replace('${collectionid}', sakai.api.Security.safeOutput(sakai.api.Content.Collections.getCollectionPoolId(id)));
                     notificationBody = notificationBody.replace('${collectiontitle}', sakai.api.Security.safeOutput($('#savecontent_select option:selected', $rootel).text()));
@@ -253,7 +253,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             }
         };
 
-        var finishSaveContent = function(contentId, entityId){
+        var finishSaveContent = function(contentId, entityId) {
             // cache the content locally
             if (sakai_global.content_profile) {
                 sakai_global.content_profile.content_data.members.viewers.push({
@@ -263,9 +263,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $(window).trigger('sakai.entity.updateOwnCounts', {contentId:contentId,entityID:entityId});
         };
 
-        enableDisableAddButton = function(){
+        enableDisableAddButton = function() {
             var dropdownSelection = $('#savecontent_select option:selected', $rootel);
-            if (dropdownSelection.attr('disabled') || !dropdownSelection.val()){
+            if (dropdownSelection.attr('disabled') || !dropdownSelection.val()) {
                 $savecontent_save.attr('disabled', 'disabled');
             } else {
                 $savecontent_save.removeAttr('disabled');
@@ -273,16 +273,16 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         // bind savecontent cancel
-        $savecontent_close.live('click', function(){
+        $savecontent_close.live('click', function() {
             hideSavecontent();
         });
 
         // bind savecontent save button
-        $savecontent_save.live('click', function(){
+        $savecontent_save.live('click', function() {
             var dropdownSelection = $('#savecontent_select option:selected', $rootel);
-            if (dropdownSelection.val() === 'new_collection'){
+            if (dropdownSelection.val() === 'new_collection') {
                 var contentToAdd = [];
-                $.each(contentObj.data, function(index, item){
+                $.each(contentObj.data, function(index, item) {
                     contentToAdd.push(item.body);
                 });
                 hideSavecontent();
@@ -292,7 +292,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             }
         });
 
-        $('#savecontent_select', $rootel).live('change', function(){
+        $('#savecontent_select', $rootel).live('change', function() {
             enableDisableAddButton();
         });
 

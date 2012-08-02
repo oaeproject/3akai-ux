@@ -40,7 +40,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.relatedcontent = function(tuid,showSettings){
+    sakai_global.relatedcontent = function(tuid,showSettings) {
 
         ///////////////////
         // CSS Selectors //
@@ -65,12 +65,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Render the template
          */
-        var renderTemplate = function(relatedcontentData){
+        var renderTemplate = function(relatedcontentData) {
             // Render the relatedcontent
             relatedcontentData.sakai = sakai;
             if (relatedcontentData.hasOwnProperty('relatedContent') && relatedcontentData.relatedContent.hasOwnProperty('results')) {
                 for (var item in relatedcontentData.relatedContent.results) {
-                    if(relatedcontentData.relatedContent.results.hasOwnProperty(item)){
+                    if (relatedcontentData.relatedContent.results.hasOwnProperty(item)) {
                         relatedcontentData.relatedContent.results[item]['sakai:pooled-content-file-name-dotted'] = sakai.api.Util.applyThreeDots(relatedcontentData.relatedContent.results[item]['sakai:pooled-content-file-name'], $('.relatedcontent').width() - 30, {max_rows: 1,whole_word: false}, 's3d-bold');
                     }
                 }
@@ -93,11 +93,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             var ajaxSuccess = function(data) {
                 var itemsDisplayed = data.items * (page + 1);
                 var moreResults = itemsDisplayed < data.total;
-                $.each(data.results, function(index, item){
+                $.each(data.results, function(index, item) {
                     data.results[index].commentcount = sakai.api.Content.getCommentCount(item);
                     var mimeType = sakai.api.Content.getMimeType(data.results[index]);
                     var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes['other'].description);
-                    if (sakai.config.MimeTypes[mimeType]){
+                    if (sakai.config.MimeTypes[mimeType]) {
                         mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[mimeType].description);
                     }
                     data.results[index].mimeTypeDescription = mimeTypeDescription;
@@ -156,7 +156,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
         };
 
-        var showMore = function(){
+        var showMore = function() {
             page++;
             getRelatedContent();
         };
@@ -168,7 +168,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Bind the widget's links
          */
-        var addBinding = function(){
+        var addBinding = function() {
             // bind the more link
             $(relatedcontentShowMore).die('click', showMore);
             $(relatedcontentShowMore).live('click', showMore);
@@ -181,14 +181,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Render function
          */
-       $(window).bind('render.relatedcontent.sakai', function(e, data){
+       $(window).bind('render.relatedcontent.sakai', function(e, data) {
            page = 0;
            addBinding();
            contentData = data;
            getRelatedContent();
         });
 
-        $(relatedcontentContent).live('click', function(){
+        $(relatedcontentContent).live('click', function() {
             $.bbq.pushState($(this).attr('data-href'));
         });
 

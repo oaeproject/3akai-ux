@@ -38,14 +38,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.contentpreview = function(tuid,showSettings){
+    sakai_global.contentpreview = function(tuid,showSettings) {
 
         var $rootel = $('#' + tuid);
         var obj = {};
         obj.type = 'showpreview';
         var contentData = {};
 
-        var determineDataType = function(){
+        var determineDataType = function() {
             hidePreview();
             obj.type = 'showpreview';
             obj.buttons = 'default';
@@ -56,13 +56,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             } else if (!user) {
                 user = contentData.data['_lastModifiedBy'];
             }
-            sakai.api.User.getUser(user, function(success, userdata){
+            sakai.api.User.getUser(user, function(success, userdata) {
                 var mimeType = sakai.api.Content.getMimeType(contentData.data);
                 obj.userName = sakai.api.User.getDisplayName(userdata);
-                if ($.deparam.querystring().nopreview === 'true'){
+                if ($.deparam.querystring().nopreview === 'true') {
                     callback = renderDefaultPreview;
                     obj.type = 'default';
-                } else if (mimeType === 'x-sakai/link'){
+                } else if (mimeType === 'x-sakai/link') {
                     obj.buttons = 'links';
                 }
                 if (sakai.api.Content.hasPreview(contentData.data)) {
@@ -83,7 +83,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
         };
 
-        var renderFullSizePreview = function(){
+        var renderFullSizePreview = function() {
             var fullSizeContainer = $('#contentpreview_fullsize_preview', $rootel);
             var tuid = sakai.api.Util.generateWidgetId();
             var data = {};
@@ -92,13 +92,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             sakai.api.Widgets.widgetLoader.insertWidgets(fullSizeContainer, false, false, data);
         };
 
-        var hidePreview = function(){
+        var hidePreview = function() {
             $('#contentpreview_widget_main_container', $rootel).html('');
             $('#contentpreview_image_preview', $rootel).html('');
         };
 
-        if (!$rootel.parents('.collectionviewer_collection_item_preview').length){
-            $(window).bind('start.contentpreview.sakai', function(ev, data){
+        if (!$rootel.parents('.collectionviewer_collection_item_preview').length) {
+            $(window).bind('start.contentpreview.sakai', function(ev, data) {
                 contentData = data;
                 determineDataType();
             });

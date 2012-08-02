@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 // load the master sakai object to access all Sakai OAE API methods
-require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.recentactivity
@@ -27,7 +27,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.recentactivity = function(tuid, showSettings){
+    sakai_global.recentactivity = function(tuid, showSettings) {
 
         // Templates
         var recentactivityActivityItemTemplate = 'recentactivity_activity_item_template';
@@ -55,13 +55,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
         var numDiff = 0;
         var currentData = '';
 
-        var parseActivity = function(success, data, initialLoad){
+        var parseActivity = function(success, data, initialLoad) {
             if (success) {
                 var results = [];
                 numDiff = data.total - numItems;
                 numItems = data.total;
                 var total = 0;
-                $.each(data.results, function(index, item){
+                $.each(data.results, function(index, item) {
                     if (item['sakai:pooled-content-file-name'] && activityMap[item['sakai:activityMessage']] && item['who'] && item['who'].basic && total < 5) {
                         if (index < numDiff) {
                             item.fadeIn = true;
@@ -98,7 +98,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
             applyThreeDots();
         };
 
-        var applyThreeDots = function(){
+        var applyThreeDots = function() {
             $.each($('.recentactivity_activity_item_text'), function(index, element) {
                 var $el = $(element);
                 var width = effectiveWidth($el, $el.siblings('a').find('img'));
@@ -119,14 +119,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
             return eWidth;
         };
 
-        var fetchActivity = function(initialLoad){
-            sakai.api.Server.loadJSON(sakai.config.URL.SEARCH_ACTIVITY_ALL_URL, function(success, data){
+        var fetchActivity = function(initialLoad) {
+            sakai.api.Server.loadJSON(sakai.config.URL.SEARCH_ACTIVITY_ALL_URL, function(success, data) {
                 var recentActivityJson = JSON.stringify(data.results);
                 if (recentActivityJson !== currentData) {
                     currentData = recentActivityJson;
                     parseActivity(success, data, initialLoad);
                 }
-                t = setTimeout(function(){
+                t = setTimeout(function() {
                         fetchActivity(false);
                     }, 8000);
             }, {
@@ -134,7 +134,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
             });
         };
 
-        var doInit = function(initialLoad){
+        var doInit = function(initialLoad) {
             fetchActivity(initialLoad);
         };
 

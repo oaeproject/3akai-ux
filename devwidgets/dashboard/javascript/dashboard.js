@@ -122,7 +122,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             sakai.api.Widgets.widgetLoader.insertWidgets(newel.parentNode.id, false);
         };
 
-        var registerWidgetFunctions = function(){
+        var registerWidgetFunctions = function() {
             sakai.api.Widgets.Container.registerFinishFunction(function(tuid, widgetname) {
                 finishEditSettings(tuid, widgetname);
             });
@@ -131,7 +131,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             });
         };
 
-        $(window).bind('exitedit.sitespages.sakai', function(ev){
+        $(window).bind('exitedit.sitespages.sakai', function(ev) {
             registerWidgetFunctions();
         });
 
@@ -199,14 +199,14 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
     /**
      * Enable add goodies buttons after the request has finished
      */
-        var enableAddGoodies = function(){
+        var enableAddGoodies = function() {
             $('.add-button', $rootelClass).attr('disabled', false);
         };
 
     /**
      * Disable the add goodies buttons to avoid double requests
      */
-        var disableAddGoodies = function(){
+        var disableAddGoodies = function() {
             $('.add-button', $rootelClass).attr('disabled', true);
         };
 
@@ -831,12 +831,12 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             e.stopPropagation();
         });
 
-        $('.dashboard_change_layout').live('click', function(){
+        $('.dashboard_change_layout').live('click', function() {
             var iTuid = '' + $(this).data('tuid');
             showChangeLayoutDialog(false, iTuid);
         });
 
-        var showChangeLayoutDialog = function(title, iTuid){
+        var showChangeLayoutDialog = function(title, iTuid) {
             if (iTuid === tuid) {
                 changeLayout(title);
             }
@@ -951,12 +951,12 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             e.stopPropagation();
         });
 
-        $('.dashboard_global_add_widget').live('click', function(){
+        $('.dashboard_global_add_widget').live('click', function() {
             var iTuid = '' + $(this).data('tuid');
             showAddWidgetDialog(iTuid);
         });
 
-        var showAddWidgetDialog = function(iTuid){
+        var showAddWidgetDialog = function(iTuid) {
             if (iTuid === tuid) {
                 sakai.api.Util.Modal.open($(addGoodiesDialog, $rootel));
             }

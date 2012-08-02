@@ -25,7 +25,7 @@
 /*global $ */
 
 // Namespaces
-require(['jquery', 'sakai/sakai.api.core', 'underscore', '/dev/javascript/content_profile.js'], function($, sakai, _){
+require(['jquery', 'sakai/sakai.api.core', 'underscore', '/dev/javascript/content_profile.js'], function($, sakai, _) {
 
     /**
      * @name sakai_global.contentpermissions
@@ -39,7 +39,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', '/dev/javascript/conten
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.contentpermissions = function(tuid, showSettings){
+    sakai_global.contentpermissions = function(tuid, showSettings) {
 
         /////////////////////////////
         // CONFIGURATION VARIABLES //
@@ -69,14 +69,14 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', '/dev/javascript/conten
         /**
          * Closes the widget overlay
          */
-        var closeOverlay= function(){
+        var closeOverlay= function() {
             sakai.api.Util.Modal.close('#contentpermissions_container');
             sakai.api.Util.Modal.close('#contentpermissions_warning_container');
         };
 
-        var showWarning = function(){
+        var showWarning = function() {
             var newVisibilityVal = $.trim($('#contentpermissions_see_container input:checked').val());
-            if (visibility === newVisibilityVal || visibilityindex[newVisibilityVal] > visibilityindex[visibility] || newVisibilityVal === 'selected'){
+            if (visibility === newVisibilityVal || visibilityindex[newVisibilityVal] > visibilityindex[visibility] || newVisibilityVal === 'selected') {
                 doSave();
             } else {
                 $('#contentpermissions_warning_container_text').html(sakai.api.Util.TemplateRenderer('contentpermissions_warning_container_text_template', {
@@ -118,15 +118,15 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', '/dev/javascript/conten
         /**
          * Saves permissions for each individual member in the list of members
          */
-        var saveMemberPermissions = function(){
+        var saveMemberPermissions = function() {
             var permissionBatch = [];
             var atLeastOneManager = false;
             var savePermissions = false;
             var permissionsToUpdate = [];
 
-            if (sakai.api.Content.Collections.isCollection(sakai_global.content_profile.content_data.data)){
+            if (sakai.api.Content.Collections.isCollection(sakai_global.content_profile.content_data.data)) {
                 var groupID = sakai.api.Content.Collections.getCollectionGroupId(sakai_global.content_profile.content_data.data);
-                $(contentPermissionsEditList).each(function(index, item){
+                $(contentPermissionsEditList).each(function(index, item) {
                     var newPermission = $(item).children(contentpermissionsMemberPermissions).val();
                     var oldPermission = $(item).attr('data-originalpermission');
                     var userId = $(item).attr('id').split('_')[1];
@@ -167,7 +167,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', '/dev/javascript/conten
                     });
                 });
             } else {
-                $(contentPermissionsEditList).each(function(index, item){
+                $(contentPermissionsEditList).each(function(index, item) {
                     var newPermission = $(item).children(contentpermissionsMemberPermissions).val();
                     var oldPermission = $(item).attr('data-originalpermission');
                     var userId = $(item).attr('id').split('_')[1];
@@ -213,8 +213,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', '/dev/javascript/conten
 
             if (atLeastOneManager) {
                 // Do the Batch request
-                sakai.api.Server.batch(permissionBatch, function(success, data){
-                    if(globalPermissionsChanged){
+                sakai.api.Server.batch(permissionBatch, function(success, data) {
+                    if (globalPermissionsChanged) {
                         if (sakai.api.Content.Collections.isCollection(sakai_global.content_profile.content_data.data)) {
                             sakai.api.Content.Collections.setCollectionPermissions(sakai_global.content_profile.content_data.data['_path'], sakai_global.content_profile.content_data.data['sakai:permissions'], finishSavePermissions);
                         } else {
@@ -243,7 +243,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', '/dev/javascript/conten
             }
         };
 
-        var finishSavePermissions = function(){
+        var finishSavePermissions = function() {
             closeOverlay();
             if (globalPermissionsChanged || changesMade) {
                 $(window).trigger('sakai.entity.ready');
@@ -254,18 +254,18 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', '/dev/javascript/conten
         /**
          * Saves the global permissions for the widget
          */
-        var doSave = function(){
+        var doSave = function() {
             var newPermissions = $('#contentpermissions_see_container input:checked').val();
             var dataObj = {
                 'sakai:permissions': newPermissions
             };
             globalPermissionsChanged = sakai_global.content_profile.content_data.data['sakai:permissions'] !== newPermissions;
-            if(globalPermissionsChanged){
+            if (globalPermissionsChanged) {
                 $.ajax({
                     url: sakai_global.content_profile.content_data.path + '.json',
                     type: 'POST',
                     data: dataObj,
-                    success: function(){
+                    success: function() {
                         sakai_global.content_profile.content_data.data['sakai:permissions'] = newPermissions;
                         saveMemberPermissions();
                     }
@@ -278,7 +278,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', '/dev/javascript/conten
         /**
          * Deletes a user from the list of members by deleting the user from the content and removing permissions
          */
-        var doDelete = function(){
+        var doDelete = function() {
             var userid = $(this).data('sakai-entityid');
             var originalpermission = $(this).parent().attr('data-originalpermission');
             var manager = originalpermission === 'managers';
@@ -327,7 +327,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', '/dev/javascript/conten
                     url: '/p/' + sakai_global.content_profile.content_data.data['_path'] + '.members.json',
                     type: 'POST',
                     data: userToDelete,
-                    success: function(){
+                    success: function() {
                         $itemToDelete.remove();
                         updateContentPermissionData(userid, originalpermission);
                     }
@@ -343,8 +343,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', '/dev/javascript/conten
          * n.b. duplicates were being introduced via the sharing widget which will be addressed, so this sanity check will ultimately be optional
          * but might be good to have (if it doesn't affect performance) in case any new widgets make the same mistake...
          */
-        var removeDuplicateUsersGroups = function(data){
-            if(!data || !data.members){
+        var removeDuplicateUsersGroups = function(data) {
+            if (!data || !data.members) {
                 return data;
             }
             var tmpManagers = {};
@@ -400,7 +400,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', '/dev/javascript/conten
 
             // Create list to show in the notification
             var toAddNames = [];
-            $('#contentpermissions_container .as-selection-item').each(function(){
+            $('#contentpermissions_container .as-selection-item').each(function() {
                 // In IE 7 </A> is returned and in firefox </a>
                 toAddNames.push($(this).html().split(/<\/[aA]?>/g)[1]);
             });
@@ -414,7 +414,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', '/dev/javascript/conten
          * Callback function used by the autosuggest plugin after an item is added to the autosuggest list
          * Function renders and shows the default message that's being sent upon sharing
          */
-        var addedUserGroup = function(){
+        var addedUserGroup = function() {
             if (!$('#contentpermissions_members_autosuggest_text').is(':visible')) {
                 $('#contentpermissions_members_autosuggest_text').html(sakai.api.Util.TemplateRenderer(contentpermissionsShareMessageTemplate, {
                     'filename': sakai.api.Security.safeOutput(sakai_global.content_profile.content_data.data['sakai:pooled-content-file-name']),
@@ -467,7 +467,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', '/dev/javascript/conten
         /**
          * Share the piece of content with a user by adding the user to the list of members (manager or viewer)
          */
-        var doShare = function(){
+        var doShare = function() {
             $(window).unbind('ready.contentprofile.sakai', doInit);
             $(window).bind('ready.contentprofile.sakai', doInit);
             var userList = getSelectedList();
@@ -485,11 +485,11 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', '/dev/javascript/conten
          * Gets the list of member users and groups from sakai_global and returns an array of userIds/groupIds to pass to autosuggest for filtering out
          * @return {Array} Array of users and groups to populate the autosuggest field with
          */
-        var autosuggestFilterUsersGroups = function(){
+        var autosuggestFilterUsersGroups = function() {
             var filterlist = [];
             var filterUsersGroups = sakai_global.content_profile.content_data.members.managers
                 .concat(sakai_global.content_profile.content_data.members.viewers, sakai_global.content_profile.content_data.members.editors);
-            $.each(filterUsersGroups,function(i,val){
+            $.each(filterUsersGroups,function(i,val) {
                 filterlist.push(val.userid || val.groupid);
             });
             return filterlist;
@@ -503,8 +503,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', '/dev/javascript/conten
         /**
          * Add binding to various elements in the content permissions widget
          */
-        var addBinding = function(){
-            $(contentpermissionsSelectable).live('click', function(){
+        var addBinding = function() {
+            $(contentpermissionsSelectable).live('click', function() {
                 $('#contentpermissions_see_container .s3d-outer-shadow-container').addClass('contentpermissions_unselected_rbt');
                 $(contentpermissionsSelectable).parent().removeClass('s3d-outer-shadow-container');
                 $(this).parent().addClass('s3d-outer-shadow-container');
@@ -520,7 +520,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', '/dev/javascript/conten
         /**
          * Show the content permissions overlay
          */
-        var initializeOverlay = function(){
+        var initializeOverlay = function() {
             sakai.api.Util.Modal.setup('#contentpermissions_container', {
                 modal: true,
                 overlay: 20,
@@ -539,7 +539,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', '/dev/javascript/conten
         /**
          * Initializes the content permission widget and invokes the overlay
          */
-        var doInit = function(){
+        var doInit = function() {
             $(window).unbind('ready.contentprofile.sakai', doInit);
             contentData = sakai_global.content_profile.content_data;
             visibility = contentData.data['sakai:permissions'];

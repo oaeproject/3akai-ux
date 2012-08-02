@@ -37,7 +37,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.basiclti = function(tuid, showSettings){
+    sakai_global.basiclti = function(tuid, showSettings) {
 
 
         /////////////////////////////
@@ -102,7 +102,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          *     true: is a decimal
          *     false: is not a decimal
          */
-        var isDecimal = function(value){
+        var isDecimal = function(value) {
             return (/^\d+$/).test(value);
         };
 
@@ -115,7 +115,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var isUrl = function(url) {
             var matches = urlRegExp.exec(url);
-            // e.g. if('http:' && 'localhost')
+            // e.g. if ('http:' && 'localhost')
             if (matches[1] && matches[4]) {
                 return true;
             } else {
@@ -254,7 +254,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Save the basiclti to the jcr
          */
-        var saveRemoteContent = function(){
+        var saveRemoteContent = function() {
             var savejson = {
                 ':operation': 'basiclti',
                 ':contentType': 'json',
@@ -305,7 +305,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var validateForm = function() {
             var validateOpts = {
-                submitHandler: function(form, validator){
+                submitHandler: function(form, validator) {
                     saveRemoteContent();
                     return false;
                 }
@@ -323,7 +323,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var addBinding = function() {
             $basicltiSettingsForm = $($basicltiSettingsForm.selector);
             // Change the url for the iFrame
-            $(basicltiSettingsLtiUrl, $rootel).on('change', function(){
+            $(basicltiSettingsLtiUrl, $rootel).on('change', function() {
                 var urlValue = $(this).val();
                 if (urlValue !== '') {
                     // Check if someone already wrote http inside the url
@@ -336,7 +336,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             // Change the iframe width
-            $(basicltiSettingsWidth, $rootel).on('change', function(){
+            $(basicltiSettingsWidth, $rootel).on('change', function() {
                 var widthValue = $(basicltiSettingsWidth, $rootel).val();
 
                 if (isDecimal(widthValue)) {
@@ -346,7 +346,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             // Change the iframe height
-            $(basicltiSettingsHeight, $rootel).on('change', function(){
+            $(basicltiSettingsHeight, $rootel).on('change', function() {
                 var heightValue = $(basicltiSettingsHeight, $rootel).val();
                 if (isDecimal(heightValue)) {
                     json.frame_height = heightValue;
@@ -410,7 +410,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var displaySettings = function(parameters, exists) {
             if (exists && parameters.ltiurl) {
-                if (parameters[':content']){
+                if (parameters[':content']) {
                     json = $.parseJSON(parameters[':content']);
                 } else {
                     json = parameters;
@@ -443,7 +443,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * view we are in, fill in the settings or display an iframe.
          */
         var getRemoteContent = function() {
-            sakai.api.Widgets.loadWidgetData(tuid, function(success,data){
+            sakai.api.Widgets.loadWidgetData(tuid, function(success,data) {
                 if (success) {
                     if (showSettings) {
                         displaySettings(data,true);

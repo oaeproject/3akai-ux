@@ -38,8 +38,8 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
          * @param {Object} dirData Object that contains children for the category
          * @param {Array} bbqData Array of IDs fetched with bbq to help identify correct children
          */
-        var createBreadcrumb = function(dirData, bbqData){
-            if (!dirData){
+        var createBreadcrumb = function(dirData, bbqData) {
+            if (!dirData) {
                 sakai.api.Security.send404();
                 return false;
             }
@@ -81,7 +81,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
          * Generate the navigation object and pass it to the left hand navigation widget
          * @param {Object} navData Contains all data from the category the user is currently viewing
          */
-        var generateNav = function(navData){
+        var generateNav = function(navData) {
 
             toplevelId = navData.id;
 
@@ -198,7 +198,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
          * Get the category out of the URL and give it back
          * @return {Array} Array of strings representing the selected hierarchy
          */
-        var getCategory = function(){
+        var getCategory = function() {
             var category = $.bbq.getState('l');
             if (category) {
                 category = category.split('-');
@@ -206,9 +206,9 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             return category;
         };
 
-        var doInit = function(){
+        var doInit = function() {
             var category = getCategory();
-            if (!$.isArray(category) || !sakai.config.Directory[category[0]]){
+            if (!$.isArray(category) || !sakai.config.Directory[category[0]]) {
                 sakai.api.Security.send404();
                 return false;
             }
@@ -217,11 +217,11 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             createBreadcrumb(sakai.config.Directory[category[0]], category);
         };
 
-        $(window).bind('lhnav.ready', function(){
+        $(window).bind('lhnav.ready', function() {
             doInit();
         });
 
-        $(window).bind('hashchange', function(e, data){
+        $(window).bind('hashchange', function(e, data) {
             var category = getCategory();
             createBreadcrumb(sakai.config.Directory[category[0]], category);
         });

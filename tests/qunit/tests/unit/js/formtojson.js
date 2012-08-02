@@ -13,14 +13,14 @@ require(
 
     var FormTest = function() {
 
-        asyncTest('Convert the values of a form to a json object', function(){
+        asyncTest('Convert the values of a form to a json object', function() {
             //get the data of a form, converted into a json object
             var data = $('#dummyForm').serializeObject();
 
             //check if it is the same as expected
             var counter = 0;
-            for(var d in data){
-                if(data.hasOwnProperty(d)){
+            for(var d in data) {
+                if (data.hasOwnProperty(d)) {
                     counter++;
                 }
             }
@@ -33,16 +33,16 @@ require(
             start();
         });
 
-        asyncTest('Resetting the form', function(){
+        asyncTest('Resetting the form', function() {
             //reset the form
             var result = $('#dummyForm').clearForm();
 
             //check the fields to be empty/unselected
             same($('input[name='name']').val(),'','Reset the 'name' field.');
-            $('input[name='gender']').each(function(){
+            $('input[name='gender']').each(function() {
                 same($(this).attr('checked'),undefined,'Reset the ''+$(this).val()+'' field.');
             });
-            $('input[name='color']').each(function(){
+            $('input[name='color']').each(function() {
                 same($(this).attr('checked'),undefined,'Reset the ''+$(this).val()+'' checkbox.');
             });
             same($('select[name='shape'] option:selected').val(),undefined,'Reset the 'shape' field.');

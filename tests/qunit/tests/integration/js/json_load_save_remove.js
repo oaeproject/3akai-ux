@@ -187,7 +187,7 @@ require(
         var removeJSON3 = function() {
             asyncTest('Remove a JSON file - bad parameters', function() {
                 testCallbackCount = 0;
-                sakai.api.Server.removeJSON(false, function(){
+                sakai.api.Server.removeJSON(false, function() {
                     testCallbackCount++;
                 });
                 testCallback();

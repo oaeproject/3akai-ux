@@ -38,7 +38,7 @@ require(['jquery', 'sakai/sakai.api.core', '/devwidgets/documentviewer/lib/docum
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.documentviewer = function(tuid,showSettings,widgetData){
+    sakai_global.documentviewer = function(tuid,showSettings,widgetData) {
 
         var $rootel = $('#' + tuid);
         var $documentviewerPreview = $('#documentviewer_preview', $rootel);
@@ -51,7 +51,7 @@ require(['jquery', 'sakai/sakai.api.core', '/devwidgets/documentviewer/lib/docum
             return '/p/' + data['_path'];
         };
 
-        var renderDocumentPreview = function(data){
+        var renderDocumentPreview = function(data) {
             var url = window.location.protocol + '//' + window.location.host + getPath(data);
             var pdfDoc = {
                 id: data['_path'],
@@ -91,7 +91,7 @@ require(['jquery', 'sakai/sakai.api.core', '/devwidgets/documentviewer/lib/docum
          * @param {String} url The URL for the image
          * @param {Object} data The data for the image (will be undefined for flickr / 3th party images)
          */
-        var renderImagePreview = function(url, data){
+        var renderImagePreview = function(url, data) {
             $documentviewerPreview.html('');
 
             if (data && data['sakai:hasPreview'] === 'true' && data['sakai:needsprocessing'] === 'false' && data.page1) {
@@ -100,7 +100,7 @@ require(['jquery', 'sakai/sakai.api.core', '/devwidgets/documentviewer/lib/docum
                 templateObject.contentURL = url;
             }
             var date = new Date();
-            if (date){
+            if (date) {
                 templateObject.contentURL += '?_=' + date.getTime();
             }
 
@@ -109,23 +109,23 @@ require(['jquery', 'sakai/sakai.api.core', '/devwidgets/documentviewer/lib/docum
             );
         };
 
-        var renderEmbedPreview = function(data){
+        var renderEmbedPreview = function(data) {
             $documentviewerPreview.html(data);
         };
 
-        var renderHTMLPreview = function(data){
+        var renderHTMLPreview = function(data) {
             sakai.api.Util.TemplateRenderer('documentviewer_html_template', templateObject, $documentviewerPreview);
             $('#documentviewer_html_iframe', $rootel).attr('src', getPath(data));
             $('#documentviewer_html_iframe', $rootel).attr('frameborder', '0');
         };
 
-        var renderExternalHTMLPreview = function(url){
+        var renderExternalHTMLPreview = function(url) {
             sakai.api.Util.TemplateRenderer('documentviewer_externalhtml_template', templateObject, $documentviewerPreview);
             $('#documentviewer_externalhtml_iframe', $rootel).attr('src', url);
             $('#documentviewer_externalhtml_iframe', $rootel).attr('frameborder', '0');
         };
 
-         var renderKalturaPlayer = function(data){
+         var renderKalturaPlayer = function(data) {
             var html5FlashCompatibilityURL = sakai.config.kaltura.serverURL +'/p/'+sakai.config.kaltura.partnerId+'/sp/'+sakai.config.kaltura.partnerId+'00/embedIframeJs/uiconf_id/'+sakai.config.kaltura.playerId+'/partner_id/'+sakai.config.kaltura.partnerId;
             $.getScript(html5FlashCompatibilityURL, function() {
                 var kaltura_id = data['kaltura-id'];
@@ -138,10 +138,10 @@ require(['jquery', 'sakai/sakai.api.core', '/devwidgets/documentviewer/lib/docum
             });
         };
 
-        var renderVideoPlayer = function(url, preview_avatar){
+        var renderVideoPlayer = function(url, preview_avatar) {
             var so = createSWFObject(false, {}, {});
             so.addVariable('file', url);
-            if (url.indexOf('youtube') !== -1){
+            if (url.indexOf('youtube') !== -1) {
                 so.addVariable('provider', 'youtube');
             } else {
                 so.addVariable('provider', 'video');
@@ -153,7 +153,7 @@ require(['jquery', 'sakai/sakai.api.core', '/devwidgets/documentviewer/lib/docum
             so.write('documentviewer_video_' + tuid);
         };
 
-        var renderAudioPlayer = function(data){
+        var renderAudioPlayer = function(data) {
             var so = createSWFObject(false, {'height':'25px'}, {});
             so.addVariable('file', getPath(data));
             so.addVariable('provider', 'sound');
@@ -161,7 +161,7 @@ require(['jquery', 'sakai/sakai.api.core', '/devwidgets/documentviewer/lib/docum
             so.write('documentviewer_video_' + tuid);
         };
 
-        var renderFlashPlayer = function(data){
+        var renderFlashPlayer = function(data) {
             var so = createSWFObject(getPath(data), {'allowscriptaccess':'never'}, {});
             so.addParam('scale','exactfit');
             so.write('documentviewer_video_' + tuid);
@@ -179,12 +179,12 @@ require(['jquery', 'sakai/sakai.api.core', '/devwidgets/documentviewer/lib/docum
             }
         };
 
-        var codeAddress = function (map){
+        var codeAddress = function(map) {
             var geocoder = new google.maps.Geocoder();
             var address = uri.queryKey.q;
             geocoder.geocode({
                 'address': address
-            }, function(results, status){
+            }, function(results, status) {
                 if (status === google.maps.GeocoderStatus.OK) {
                     map.setCenter(results[0].geometry.location);
                     var marker = new google.maps.Marker({
@@ -221,7 +221,7 @@ require(['jquery', 'sakai/sakai.api.core', '/devwidgets/documentviewer/lib/docum
                         break;
                 }
             }
-            if (uri.queryKey.ll){
+            if (uri.queryKey.ll) {
                 var ll = uri.queryKey.ll.split(',');
                 lat = ll[0];
                 lng = ll[1];
@@ -240,8 +240,8 @@ require(['jquery', 'sakai/sakai.api.core', '/devwidgets/documentviewer/lib/docum
             }
         };
 
-        var createSWFObject = function(url, params, flashvars){
-            if (!url){
+        var createSWFObject = function(url, params, flashvars) {
+            if (!url) {
                 url = '/dev/lib/misc/jwplayer/player.swf';
             }
             var so = new SWFObject(url,'ply', '100%', params.height || '100%','9','#000000');
@@ -263,13 +263,13 @@ require(['jquery', 'sakai/sakai.api.core', '/devwidgets/documentviewer/lib/docum
             }
         };
 
-        if (sakai.api.Content.hasPreview(widgetData.data)){
+        if (sakai.api.Content.hasPreview(widgetData.data)) {
             data = widgetData.data;
             var mimeType = sakai.api.Content.getMimeType(widgetData.data);
 
             if (sakai.api.Content.isKalturaPlayerSupported(mimeType)) {
                 renderKalturaPlayer(data);
-            } else if (sakai.api.Content.isJwPlayerSupportedVideo(mimeType)){
+            } else if (sakai.api.Content.isJwPlayerSupportedVideo(mimeType)) {
                 renderVideoPlayer(getPath(data));
             } else if (sakai.api.Content.isJwPlayerSupportedAudio(mimeType)) {
                 renderAudioPlayer(data);
@@ -277,7 +277,7 @@ require(['jquery', 'sakai/sakai.api.core', '/devwidgets/documentviewer/lib/docum
                 renderFlashPlayer(data);
             } else if (mimeType === 'text/html' || mimeType === 'text/plain' || mimeType ==='text/tab-separated-values' ) {
                 renderHTMLPreview(data);
-            } else if (mimeType === 'x-sakai/link'){
+            } else if (mimeType === 'x-sakai/link') {
                 var pUrl = data['sakai:preview-url'];
                 var pType = data['sakai:preview-type'];
 
@@ -298,7 +298,7 @@ require(['jquery', 'sakai/sakai.api.core', '/devwidgets/documentviewer/lib/docum
                 }
             } else  if (mimeType.substring(0, 6) === 'image/') {
                 renderImagePreview(getPath(data), data);
-            } else if (data['sakai:pagecount']){
+            } else if (data['sakai:pagecount']) {
                 docType = 'document';
                 renderDocumentPreview(data);
             }

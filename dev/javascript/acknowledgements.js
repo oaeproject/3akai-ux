@@ -118,11 +118,11 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }
         };
 
-        var generateNav = function(){
+        var generateNav = function() {
             $(window).trigger('lhnav.init', [pubdata, {}, {}]);
         };
 
-        var renderEntity = function(){
+        var renderEntity = function() {
             $(window).trigger('sakai.entity.init', ['acknowledgements']);
         };
 

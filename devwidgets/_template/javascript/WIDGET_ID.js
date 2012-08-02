@@ -31,7 +31,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.WIDGET_ID = function (tuid, showSettings) {
+    sakai_global.WIDGET_ID = function(tuid, showSettings) {
 
         /////////////////////////////
         // Configuration variables //
@@ -70,7 +70,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Initialization function DOCUMENTATION
          */
-        var doInit = function () {
+        var doInit = function() {
             // your widget initialization code here
         };
 

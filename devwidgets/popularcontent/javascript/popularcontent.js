@@ -52,7 +52,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
         var popularContentEllipsisContainer = '.popularcontent_ellipsis_container';
 
-        var renderPopularContent = function(){
+        var renderPopularContent = function() {
             $popularcontent_main.html(sakai.api.Util.TemplateRenderer($popularcontent_main_template, {
                 data: contentData
             })).show();
@@ -66,7 +66,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             }
         };
 
-        var loadDataDirectory = function(selected, callback){
+        var loadDataDirectory = function(selected, callback) {
             $popularcontent_main.html('');
             $(popularcontentMainLoadingProgress).addClass(popularcontentMainProgress);
             var params = {
@@ -84,11 +84,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $.ajax({
                 url: url,
                 data: params,
-                success: function(data){
+                success: function(data) {
                     $(popularcontentMainLoadingProgress).removeClass(popularcontentMainProgress);
                     contentData = {'results':[], 'items': data.items, 'total': data.total};
                     var content = [];
-                    for (var i = 0; i < data.results.length; i++){
+                    for (var i = 0; i < data.results.length; i++) {
                         var item = {};
                         item['id'] = data.results[i]['_path'];
                         item['filename'] = data.results[i]['sakai:pooled-content-file-name'];
@@ -102,11 +102,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
         };
 
-        var loadData = function(callback){
+        var loadData = function(callback) {
             $.ajax({
                 url: '/var/search/public/mostactivecontent.json?page=0&items=5',
                 cache: false,
-                success: function(data){
+                success: function(data) {
                     contentData = data;
                     callback();
                 }
@@ -115,8 +115,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
         $(window).bind('hashchange nohash.browsedirectory.sakai', handleHashChange);
 
-        var doInit = function(){
-            if (! sakai.api.Widgets.isOnDashboard(tuid)){
+        var doInit = function() {
+            if (! sakai.api.Widgets.isOnDashboard(tuid)) {
                 $('.popularcontent-widget-border').show();
                 $('#popularcontent_widget').addClass('fl-widget s3d-widget');
             }

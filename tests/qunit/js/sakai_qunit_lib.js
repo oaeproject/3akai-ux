@@ -54,7 +54,7 @@ require(
 
     // Only bind when we're not swarming
     if (window.location.host.indexOf('testswarm') === -1) {
-        $(window).bind('addlocalbinding.qunit.sakai', function(){
+        $(window).bind('addlocalbinding.qunit.sakai', function() {
             doLocalBinding();
         });
     }
@@ -92,8 +92,8 @@ require(
     }
 
     sakai_global.qunit.loginWithAdmin = function() {
-        asyncTest('Log-in with a Sakai OAE admin user', function(){
-            sakai.api.User.loadMeData(function(success, data){
+        asyncTest('Log-in with a Sakai OAE admin user', function() {
+            sakai.api.User.loadMeData(function(success, data) {
                 // if there is a user already logged in, lets log out and log back in
                 if (data.user.anon !== true && data.user.userid !== 'admin') {
                     sakai.api.User.logout(function(success) {
@@ -101,15 +101,15 @@ require(
                         ok(success, 'The user has successfully logged-out');
 
                         // Check whether the logout was successful through the Me object
-                        sakai.api.User.loadMeData(function(success, data){
+                        sakai.api.User.loadMeData(function(success, data) {
                             ok(data.user.anon === true, 'The current active user is anonymous');
-                            sakai.api.User.loadMeData(function(success, data){
+                            sakai.api.User.loadMeData(function(success, data) {
                                 if (data.user.anon === true && success) {
                                     sakai.api.User.login({
                                         'username': 'admin',
                                         'password': 'admin'
-                                    }, function(success, data){
-                                        sakai.api.User.loadMeData(function(success, data){
+                                    }, function(success, data) {
+                                        sakai.api.User.loadMeData(function(success, data) {
                                             ok(data.user.userid === 'admin', 'The admin user has successfully logged-in');
                                             start();
                                         });
@@ -129,9 +129,9 @@ require(
                     sakai.api.User.login({
                         'username': 'admin',
                         'password': 'admin'
-                    }, function(success, data){
+                    }, function(success, data) {
                         if (success) {
-                            sakai.api.User.loadMeData(function(success, data){
+                            sakai.api.User.loadMeData(function(success, data) {
                                 ok(data.user.userid === 'admin', 'The admin user has successfully logged-in');
                                 start();
                             });
@@ -152,10 +152,10 @@ require(
                 ok(success, 'The user has successfully logged-out');
 
                 // Check whether the logout was successful through the Me object
-                sakai.api.User.loadMeData(function(success, data){
+                sakai.api.User.loadMeData(function(success, data) {
                     ok(data.user.anon === true, 'The current active user is anonymous');
                     start();
-                    if ($.isFunction(callback)){
+                    if ($.isFunction(callback)) {
                         callback();
                     }
                 });

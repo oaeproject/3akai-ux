@@ -31,7 +31,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.worldsettings = function (tuid, showSettings) {
+    sakai_global.worldsettings = function(tuid, showSettings) {
 
         /////////////////////////////
         // Configuration variables //
@@ -55,7 +55,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var visibility = '',
             worldId = '';
 
-        var showWarning = function(){
+        var showWarning = function() {
             var newVisibility = $(worldsettingsCanBeFoundIn);
             var newVisibilityVal = $.trim(newVisibility.val());
             var oldVisibilityVal = sakai_global.group.groupData['sakai:group-visible'];
@@ -107,7 +107,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 showWarning();
             });
             $('#worldsettings_proceedandapply').die('click');
-            $('#worldsettings_proceedandapply').live('click', function(){
+            $('#worldsettings_proceedandapply').live('click', function() {
                 $worldsettingsForm.submit();
             });
 
@@ -122,7 +122,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         // Initialization function //
         /////////////////////////////
 
-        var renderWorldSettings = function(){
+        var renderWorldSettings = function() {
             var profile = sakai_global.group.groupData;
             $('#worldsettings_form_container').html(sakai.api.Util.TemplateRenderer('worldsettings_form_template',{
                 'title': profile['sakai:group-title'],
@@ -138,7 +138,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Initialization function DOCUMENTATION
          */
-        var doInit = function (_worldId) {
+        var doInit = function(_worldId) {
             worldId = _worldId;
             renderWorldSettings();
             bindEvents();

@@ -36,7 +36,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.recentmessages = function(tuid, showSettings){
+    sakai_global.recentmessages = function(tuid, showSettings) {
 
 
         /////////////////////////////
@@ -64,20 +64,20 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          *     This is the json response from the server.
          *     If this parameter is a string, it is an error.
          */
-        var renderRecentMessages = function(response){
+        var renderRecentMessages = function(response) {
 
-            if(response === 'NOT_CONNECTED'){
+            if (response === 'NOT_CONNECTED') {
 
                 // If it wasn't possible to connect to the server, show the not connected error
                 $recentmessagesContainer.html($recentmessagesErrorNotConnected);
-            } else if (response.total === 0){
+            } else if (response.total === 0) {
 
                 // If the user doesn't have any messages, show the no messages error.
                 $recentmessagesContainer.html($recentmessagesErrorNomessages);
             } else {
                 response.sakai = sakai;
-                for(var item in response.results){
-                    if(response.results.hasOwnProperty(item)){
+                for(var item in response.results) {
+                    if (response.results.hasOwnProperty(item)) {
                         response.results[item]['sakai:subject'] = sakai.api.Util.applyThreeDots(response.results[item]['sakai:subject'], $('.recentmessages_widget .s3d-widget-content').width() - 130, {max_rows: 1,whole_word: false}, 's3d-bold');
                         response.results[item]['dotteduserFrom'] = sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(response.results[item].userFrom[0]), 100, {max_rows: 1,whole_word: false}, null, true);
                     }
@@ -95,7 +95,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          *     The response that the server has send.
          *     If the response is false, it means we were not able to connect to the server
          */
-        var loadRecentMessages = function(response){
+        var loadRecentMessages = function(response) {
 
             // Check if the request was successful
             if (response) {
@@ -126,7 +126,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $.ajax({
                 url: sakai.config.URL.MESSAGE_BOXCATEGORY_ALL_SERVICE + '?' + params,
                 cache: false,
-                success: function(data){
+                success: function(data) {
                     loadRecentMessages(data);
                 },
                 error: function() {
