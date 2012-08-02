@@ -109,30 +109,30 @@
                             {for user in item.suggestions}
                                 <div>
                                     {if user.picture}
-                                        <img src="/~${user.userid|safeURL}/public/profile/${user.picture.name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${user.displayName|safeOutput}"/>
+                                        <img src="/~${user.userid|safeURL}/public/profile/${user.picture.name}" alt="__MSG__PROFILE_PICTURE_FOR__ ${user.displayName}"/>
                                     {else}
-                                        <img src="/dev/images/default_User_icon_50x50.png" alt="__MSG__DEFAULT_PROFILE_PICTURE_FOR__ ${user.displayName|safeOutput}"/>
+                                        <img src="/dev/images/default_User_icon_50x50.png" alt="__MSG__DEFAULT_PROFILE_PICTURE_FOR__ ${user.displayName}"/>
                                     {/if}
-                                    <h3><a href="/~${user.userid|safeURL}" class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2">${user.displayName|safeOutput}</a></h3>
+                                    <h3><a href="/~${user.userid|safeURL}" class="carousel_item_title s3d-action carousel_apply_threedots threedots_allow_2">${user.displayName}</a></h3>
                                     <div class="carousel_counts">
                                         <ul>
                                             <li>
-                                                <a class="s3d-regular-light-links" href="/~${user.userid|safeURL}#l=library"><span class="s3d-aural-text">${user.displayName|safeOutput} __MSG__USER_GROUP_HAS__</span> ${user.counts.contentCount} __MSG__CONTENT_ITEMS__</a>
+                                                <a class="s3d-regular-light-links" href="/~${user.userid|safeURL}#l=library"><span class="s3d-aural-text">${user.displayName} __MSG__USER_GROUP_HAS__</span> ${user.counts.contentCount} __MSG__CONTENT_ITEMS__</a>
                                             </li>
                                             <li>
-                                                <a class="s3d-regular-light-links" href="/~${user.userid|safeURL}#l=contacts"><span class="s3d-aural-text">${user.displayName|safeOutput} __MSG__USER_GROUP_HAS__</span> ${user.counts.contactsCount} __MSG__CONTACTS_LC__</a>
+                                                <a class="s3d-regular-light-links" href="/~${user.userid|safeURL}#l=contacts"><span class="s3d-aural-text">${user.displayName} __MSG__USER_GROUP_HAS__</span> ${user.counts.contactsCount} __MSG__CONTACTS_LC__</a>
                                             </li>
                                             <li>
-                                                <a class="s3d-regular-light-links" href="/~${user.userid|safeURL}#l=memberships"><span class="s3d-aural-text">${user.displayName|safeOutput} __MSG__USER_GROUP_HAS__</span> ${user.counts.membershipsCount} __MSG__MEMBERSHIPS_LC__</a>
+                                                <a class="s3d-regular-light-links" href="/~${user.userid|safeURL}#l=memberships"><span class="s3d-aural-text">${user.displayName} __MSG__USER_GROUP_HAS__</span> ${user.counts.membershipsCount} __MSG__MEMBERSHIPS_LC__</a>
                                             </li>
                                         </ul>
                                     </div>
                                     <span class="carousel_bottom_buttons">
                                         <fieldset><legend class="s3d-aural-text">__MSG__ACTIONS__</legend>
                                             {if !user.connected}
-                                                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_addtocontacts_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName|safeOutput}" title="__MSG__ADD_TO_CONTACTS1__ ${user.displayName|safeOutput} __MSG__ADD_TO_CONTACTS2__" sakai-entitypicture="${sakai.api.User.getProfilePicture(user)}"></button>
+                                                <button type="button" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_addtocontacts_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName}" title="__MSG__ADD_TO_CONTACTS1__ ${user.displayName} __MSG__ADD_TO_CONTACTS2__" sakai-entitypicture="${sakai.api.User.getProfilePicture(user)}"></button>
                                             {/if}
-                                            <button type="button" class="s3d-actions-message s3d-link-button s3d-action-icon sakai_sendmessage_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName|safeOutput}" sakai-entitytype="user" title="__MSG__SEND_A_MESSAGE_TO__ ${user.displayName|safeOutput}" sakai-entitypicture="${sakai.api.User.getProfilePicture(user)"></button>
+                                            <button type="button" class="s3d-actions-message s3d-link-button s3d-action-icon sakai_sendmessage_overlay" sakai-entityid="${user.userid}" sakai-entityname="${user.displayName}" sakai-entitytype="user" title="__MSG__SEND_A_MESSAGE_TO__ ${user.displayName}" sakai-entitypicture="${sakai.api.User.getProfilePicture(user)"></button>
                                         </fieldset>
                                     </span>
                                 </div>

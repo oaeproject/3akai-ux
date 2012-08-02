@@ -17,16 +17,23 @@
 <div id="featuredcontent_main_template"><!--
 
     {macro actionbuttons(item, sakai)}
-        <fieldset class="featuredcontent_content_actions s3d-draggable-hidden">
-        <legend class="s3d-aural-text">__MSG__ACTIONS_ON_ITEM__</legend>
-            {if item.canShare}
-                <div class="s3d-action-icon s3d-actions-share featuredcontent_content_actions_share share_trigger_click" data-entityid="${item["_path"]}" title="__MSG__SHARE_CONTENT__"></div>
-            {/if}
-            {if !sakai.data.me.user.anon}
-                <div class="s3d-action-icon s3d-actions-addtolibrary featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${item["_path"]}" title="__MSG__ADD_TO__"></div>
-            {/if}
-            <div class="s3d-action-icon s3d-actions-author personinfo_trigger_click featuredcontent_content_actions_authorinfo" data-userid="${item["sakai:pool-content-created-for"]}" title="__MSG__VIEW_OWNER_INFO__"></div>
-       </fieldset>
+        <div class="featuredcontent_content_actions s3d-draggable-hidden">
+            <button{if sakai.data.me.user.anon} style="visibility:hidden;"{/if} class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${item["_path"]}" title="__MSG__ADD_TO__">
+                <span class="s3d-aural-text">
+                    __MSG__ADD_ITEM_TO__
+                </span>
+            </button>
+            <button class="s3d-link-button s3d-action-icon s3d-actions-author personinfo_trigger_click featuredcontent_content_actions_authorinfo" data-userid="${item["sakai:pool-content-created-for"]}" title="__MSG__VIEW_OWNER_INFO__">
+                <span class="s3d-aural-text">
+                    __MSG__VIEW_OWNER_INFO_FOR__ ${item["sakai:pooled-content-file-name"]|safeOutput}
+                </span>
+            </button>
+            <button{if !item.canShare} style="visibility:hidden;"{/if} class="s3d-link-button s3d-action-icon s3d-actions-share featuredcontent_content_actions_share share_trigger_click" data-entityid="${item["_path"]}" title="__MSG__SHARE_CONTENT__">
+                <span class="s3d-aural-text">
+                    __MSG__SHARE_ITEM__
+                </span>
+            </button>
+        </div>
     {/macro}
     {macro displayTags(item, sakai)}
         {if item["sakai:tags"]}
@@ -59,11 +66,10 @@
 
     {if results && results.length}
         <h2 class="s3d-contentpage-title" id="featuredcontent_aria_label">{if sakai.config.enableCategories}__MSG__FEATURED_CONTENT__{else}__MSG__SUGGESTED__{/if}</h2>
-        <div id="featuredcontent_content_offset_container">
+        <ul id="featuredcontent_content_offset_container">
         {for item in results}
             {if item_index === "0"}
-                <div class="featuredcontent_content featuredcontent_content_large s3d-draggable-container" data-canshare="${item.canShare}" data-scope="content" data-entityid="${item["_path"]}" {if sakai.api.Content.Collections.isCollection(item)} data-collection="true" {/if}>
-                    ${actionbuttons(item, sakai)}
+                <li class="featuredcontent_content featuredcontent_content_large s3d-draggable-container" data-canshare="${item.canShare}" data-scope="content" data-entityid="${item["_path"]}" {if sakai.api.Content.Collections.isCollection(item)} data-collection="true" {/if}>
                     {if item.thumbnail}
                         <div id="featuredcontent_large_preview">
                             <a href="/content#p=${item["_path"]|safeURL}/${item["sakai:pooled-content-file-name"]|safeURL}" title="${item["sakai:pooled-content-file-name"]|safeOutput}" class="s3d-bold s3d-regular-links featuredcontent_content_title">
@@ -72,37 +78,38 @@
                          </div>
                     {else}
                         ${embedSmallThumbnail(item, sakai)}
-                    {/if}                   
+                    {/if}
                     <div class="featuredcontent_content_right_description {if !item.thumbnail} featuredcontent_content_right_description_no_thumbnail {/if}">
                         ${displayTitle(item, params, 125)}
                         ${showMetadata(item, sakai)}
                         ${displayTags(item, sakai)}
                     </div>
-                </div>
-            {elseif item_index === "1" || item_index === "4" || item_index === "7"}
-                <div class="featuredcontent_content featuredcontent_content_medium s3d-draggable-container" data-canshare="${item.canShare}" data-scope="content" data-entityid="${item["_path"]}" {if sakai.api.Content.Collections.isCollection(item)} data-collection="true" {/if}>
                     ${actionbuttons(item, sakai)}
+                </li>
+            {elseif item_index === "1" || item_index === "4" || item_index === "7"}
+                <li class="featuredcontent_content featuredcontent_content_medium s3d-draggable-container" data-canshare="${item.canShare}" data-scope="content" data-entityid="${item["_path"]}" {if sakai.api.Content.Collections.isCollection(item)} data-collection="true" {/if}>
                     ${embedSmallThumbnail(item, sakai)}
                     ${displayTitle(item, params, 100)}
                     ${showMetadata(item, sakai)}
                     ${displayTags(item, sakai)}
-                </div>
+                    ${actionbuttons(item, sakai)}
+                </li>
             {else}
                 {if item_index === "2" || item_index === "5" || item_index === "8"}
-                    <div class="featuredcontent_content_small_container s3d-draggable-container" data-canshare="${item.canShare}" data-scope="content" data-entityid="${item["_path"]}" {if sakai.api.Content.Collections.isCollection(item)} data-collection="true" {/if}>
+                    <li class="featuredcontent_content_small_container s3d-draggable-container" data-canshare="${item.canShare}" data-scope="content" data-entityid="${item["_path"]}" {if sakai.api.Content.Collections.isCollection(item)} data-collection="true" {/if}>
                 {/if}
                 <div class="featuredcontent_content featuredcontent_content_small s3d-draggable-container" data-canshare="${item.canShare}" data-scope="content" data-entityid="${item["_path"]}" {if sakai.api.Content.Collections.isCollection(item)} data-collection="true" {/if}>
-                    ${actionbuttons(item, sakai)}
                     ${embedSmallThumbnail(item, sakai)}
                     ${displayTitle(item, params, 100)}
                     ${displayTags(item, sakai)}
+                    ${actionbuttons(item, sakai)}
                 </div>
                 {if item_index === "3" || item_index === "6" || item_index === "9"}
-                    </div>
+                    </li>
                 {/if}
             {/if}
         {/for}
-        </div>
+        </ul>
         <div id="featuredcontent_show_more_container">
             <a class="s3d-button s3d-large-button" href="{if sakai.config.enableCategories}/categories{else}/search{/if}">
                 <span class="s3d-button-inner s3d-button-link-2-state-inner">__MSG__SHOW_MORE__</span>
@@ -150,20 +157,11 @@
             </span>
         </h2>
         {var count = 0}
+        <ul>
         {for item in results}
             ${count++|eat}
             {if count <= 6}
-                <div class="featuredcontent_content featuredcontent_content_small s3d-draggable-container" data-canshare="${item.canShare}" data-scope="content" data-entityid="${item["_path"]}" {if sakai.api.Content.Collections.isCollection(item)} data-collection="true" {/if}>
-                    <fieldset class="featuredcontent_content_actions s3d-draggable-hidden">
-                        <legend class="s3d-aural-text">__MSG__ACTIONS_ON_ITEM__</legend>
-                        {if item.canShare}
-                            <div class="s3d-action-icon s3d-actions-share featuredcontent_content_actions_share share_trigger_click" data-entityid="${item["_path"]}" title="__MSG__SHARE_CONTENT__"></div>
-                        {/if}
-                        {if !sakai.data.me.user.anon}
-                            <div class="s3d-action-icon s3d-actions-addtolibrary featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${item["_path"]}" title="__MSG__ADD_TO__"></div>
-                        {/if}
-                        <div class="s3d-action-icon s3d-actions-author personinfo_trigger_click featuredcontent_content_actions_authorinfo" data-userid="${item["sakai:pool-content-created-for"]}" title="__MSG__VIEW_OWNER_INFO__"></div>
-                    </fieldset>
+                <li class="featuredcontent_content featuredcontent_content_small s3d-draggable-container" data-canshare="${item.canShare}" data-scope="content" data-entityid="${item["_path"]}" {if sakai.api.Content.Collections.isCollection(item)} data-collection="true" {/if}>
                     {if item.thumbnail}
                         <img src="${item.thumbnail}" class="featuredcontent_thumbnail_image" alt="${item["sakai:pooled-content-file-name"]|safeOutput}"/>
                     {else}
@@ -172,7 +170,24 @@
                     <a href="/content#p=${item["_path"]|safeURL}/${item["sakai:pooled-content-file-name"]|safeURL}" title="${item["sakai:pooled-content-file-name"]|safeOutput}" class="s3d-bold s3d-regular-links featuredcontent_content_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 76)}</a>
                     {if item.usedin}<span class="featuredcontent_content_category_description"><span class="featuredcontent_content_usedin_icon featuredcontent_content_icon"></span>__MSG__USED_IN__ ${item.usedin} {if item.usedin == 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</span>{/if}
                     {if item.commentcount}<span class="featuredcontent_content_category_description"><span class="featuredcontent_content_comments_icon featuredcontent_content_icon"></span><a href="/content#p=${item["_path"]|safeURL}/${item["sakai:pooled-content-file-name"]|safeURL}" class="s3d-bold s3d-regular-links"><span class="s3d-aural-text">${item["sakai:pooled-content-file-name"]|safeOutput} __MSG__HAS__ </span>${item.commentcount} {if item.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a></span>{/if}
-                </div>
+                    <div class="featuredcontent_content_actions s3d-draggable-hidden">
+                        <button{if sakai.data.me.user.anon} style="visibility:hidden;"{/if} class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${item["_path"]}" title="__MSG__ADD_TO__">
+                            <span class="s3d-aural-text">
+                                __MSG__ADD_ITEM_TO__
+                            </span>
+                        </button>
+                        <button class="s3d-link-button s3d-action-icon s3d-actions-author personinfo_trigger_click featuredcontent_content_actions_authorinfo" data-userid="${item["sakai:pool-content-created-for"]}" title="__MSG__VIEW_OWNER_INFO__">
+                            <span class="s3d-aural-text">
+                                __MSG__VIEW_OWNER_INFO_FOR__ ${item["sakai:pooled-content-file-name"]|safeOutput}
+                            </span>
+                        </button>
+                        <button{if !item.canShare} style="visibility:hidden;"{/if} class="s3d-link-button s3d-action-icon s3d-actions-share featuredcontent_content_actions_share share_trigger_click" data-entityid="${item["_path"]}" title="__MSG__SHARE_CONTENT__">
+                            <span class="s3d-aural-text">
+                                __MSG__SHARE_ITEM__
+                            </span>
+                        </button>
+                    </div>
+                </li>
                 {if item_index == 2 && results.length > 3}
                     <hr class="s3d-split-line fl-push"/>
                 {/if}
@@ -183,6 +198,7 @@
                 <div class="s3d-no-results-icon s3d-no-results-content"></div><p>__MSG__NO_RESULTS_DESCRIPTION_FEATUREDCONTENT__ {if !sakai.data.me.user.anon} <button class="s3d-link-button sakai_add_content_overlay">__MSG__ADD_REAL_CONTENT__</button>{/if}</p>
             </div>
         {/for}
+        </ul>
         <hr class="fl-push fl-hidden"/>
     </div>
 --></div>

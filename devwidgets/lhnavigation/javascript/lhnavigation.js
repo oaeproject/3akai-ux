@@ -246,7 +246,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     structure[level] = sakai.api.i18n.General.process(structure[level]);
                 } else if (level && level === '_altTitle') {
                     structure[level] = sakai.api.i18n.General.process(structure[level]);
-                    structure[level] = structure[level].replace('${user}', sakai.api.User.getFirstName(contextData.profile));
+                    structure[level] = structure[level].replace('${user}', sakai.api.User.getFirstName(contextData.profile, false));
                 }
             }
             structure._childCount = childCount;
@@ -598,6 +598,14 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         getPageContent(ref, function() {
                             preparePageRender(ref, selected, savePath, pageSavePath, nonEditable, canEdit, newPageMode === true);
                         });
+
+                        // set the page title
+                        var pageTitle = '';
+                        if (menuitem.hasClass('lhnavigation_subnav_item')) {
+                            pageTitle += ' - ' + $.trim(menuitem.parents('.lhnavigation_menuitem').children('div').find('.lhnavigation_page_title_value').text());
+                        }
+                        pageTitle += ' - ' + $.trim(menuitem.find('.lhnavigation_page_title_value').text());
+                        sakai.api.Util.setPageTitle(pageTitle, 'navLevel');
                     }
                 } else {
                     renderPageUnavailable();
