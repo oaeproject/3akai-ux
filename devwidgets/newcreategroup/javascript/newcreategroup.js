@@ -166,6 +166,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     };
 
     /**
+     * Intialize the add people widget
+     * @param {Boolean} openDialog Whether you want to open the dialog
+     */
+    var initializeAddPeople = function(openDialog) {
+        $(document).trigger('init.addpeople.sakai', {
+            editingGroup: false,
+            openDialog: openDialog
+        });
+    };
+
+    /**
      * Add binding to the elements and validate the forms on submit
      */
     var addBinding = function(){
@@ -207,9 +218,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             renderShareMessage();
         });
 
-        $(document).on('click', '.newcreategroup_add_people', function() {
-            $(document).trigger('init.addpeople.sakai', [tuid, false]);
-        });
+        $(document).on('click', '.newcreategroup_add_people', initializeAddPeople);
+
+        // We also need to intialize the add people widget but not show the dialog
+        // when there is a query parameter called 'members'
+        if ($.bbq.getState('members')) {
+            initializeAddPeople(false);
+        }
+
     };
 
     /**
@@ -246,7 +262,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 $('#newcreategroup_can_be_found_in option[value="' + defaultaccess + '"]', $rootel).attr('selected', 'selected');
                 $('#newcreategroup_membership option[value="' + defaultjoin + '"]', $rootel).attr('selected', 'selected');
 
-                sakai_global.newcreategroup.currentTemplate = currentTemplate;
+                sakai_global.selecttemplate.currentTemplate = currentTemplate;
 
                 $newcreategroupContainer.show();
                 addBinding();

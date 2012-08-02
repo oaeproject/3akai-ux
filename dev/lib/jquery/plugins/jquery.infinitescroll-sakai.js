@@ -95,12 +95,15 @@
             var toFadeOut = 0;
             $.each(items, function(i, item) {
                 // Check whether the item is a string
-                // If so, we use the string as the selector
-                // If not, we assume a jQuery element was passed in
+                // If so, we will create the jQuery selector
+                // If not, we assume a jQuery element was passed & will set the context to the container
+                var $item;
                 if (typeof item === 'string') {
-                    item = '#' + item;
+                    $item = $('*[id="' + item + '"]', $container);
+                } else {
+                    $item = $(item, $container);
                 }
-                $(item, $container).fadeOut(false, function() {
+                $item.fadeOut(false, function() {
                     $(this).remove();
                     isDoingExtraSearch = false;
                     toFadeOut++;
@@ -149,11 +152,11 @@
                 if (result.id) {
                     // Determine whether this item is already in the list
                     // by looking for an element with the same id
-                    if (!$('#' + result.id, $container).length) {
+                    if (!$('*[id="' + result.id + '"]', $container).length) {
                         filteredresults.push(result);
                     }
                 } else if (result.target) {
-                    if (!$('#' + result.target, $container).length) {
+                    if (!$('*[id="' + result.target + '"]', $container).length) {
                         filteredresults.push(result);
                     }
                 }
@@ -286,8 +289,9 @@
          * image provided by the container when a new set of results is being loaded
          */
         var setUpLoadingIcon = function() {
+            var loadingText = require('sakai/sakai.api.i18n').getValueForKey('LOADING');
             if (loadingImage) {
-                $loadingContainer.append($('<img />', {'src': loadingImage}));
+                $loadingContainer.append($('<img />', {'src': loadingImage, 'alt': loadingText}));
                 $loadingContainer.css({'margin-top': '15px', 'text-align': 'center'});
                 showHideLoadingContainer(false);
                 $loadingContainer.insertAfter($container);
@@ -302,6 +306,7 @@
          * Get the initial list of items to add to the list
          */
         var loadInitialList = function() {
+            $container.attr('aria-live', 'assertive');
             var initial = true;
             setUpLoadingIcon();
             if (initialContent && initialContent.length > 0) {

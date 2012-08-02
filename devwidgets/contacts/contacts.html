@@ -143,32 +143,32 @@
                     <li id="${a.id}" data-userid="${a.userid}" class="fl-container fl-fix contacts_item contacts_accepted_items s3d-search-result">
                         <div class="contacts_item_left_filler s3d-search-result-user-functions">
                             {if !sakai.data.me.user.anon && sakai_global.profile.main.mode.value !== "view"}
-                                <input type="checkbox" name="checkbox_${a.userid}" class="contacts_select_contact_checkbox" data-userid="${a.userid|safeOutput}" data-username="${a.name|safeOutput}" id="checkbox_${a.userid}"/>
+                                <input type="checkbox" name="checkbox_${a.userid}" class="contacts_select_contact_checkbox" data-userid="${a.userid}" data-username="${a.name}" id="checkbox_${a.userid}"/>
                                 <label class="s3d-aural-text" for="checkbox_${a.userid}">__MSG__SELECT__ ${a.name}</label>
                                 <button title="__MSG__REMOVE_CONTACT__ ${a.name}" type="button" class="s3d-link-button s3d-action-icon s3d-actions-delete" data-sakai-entityid="${a.userid}" data-sakai-entityname="${a.name}"></button>
                                 <span class="contacts_gridview_items">
-                                    <button title="__MSG__SEND_MESSAGE_TO__ ${a.name|safeOutput}" sakai-entitytype="group" sakai-entityname="${a.name|safeOutput}" sakai-entityid="${a.userid}" class="s3d-link-button s3d-action-icon s3d-actions-message sakai_sendmessage_overlay"><span class="s3d-aural-text">__MSG__SEND_MESSAGE_TO__ ${a.name|safeOutput}</span></button>
+                                    <button title="__MSG__SEND_MESSAGE_TO__ ${a.name}" sakai-entitytype="group" sakai-entityname="${a.name}" sakai-entityid="${a.userid}" class="s3d-link-button s3d-action-icon s3d-actions-message sakai_sendmessage_overlay"><span class="s3d-aural-text">__MSG__SEND_MESSAGE_TO__ ${a.name}</span></button>
                                 </span>
                             {elseif !sakai.data.me.user.anon && sakai_global.profile.main.mode.value === "view"}
-                                <input type="checkbox" name="checkbox_${a.userid}" class="contacts_select_contact_checkbox" data-userid="${a.userid|safeOutput}" data-username="${a.name|safeOutput}"/>
+                                <input type="checkbox" name="checkbox_${a.userid}" class="contacts_select_contact_checkbox" data-userid="${a.userid}" data-username="${a.name}"/>
                                 {if !a.connected}
                                     {if sakai.data.me.user.userid !== a.userid}
-                                        <button title="__MSG__REQUEST_CONNECTION_WITH__ ${a.name|safeOutput}" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_addtocontacts_overlay" sakai-entityid="${a.userid}" sakai-entityname="${a.name|safeOutput}" {if a.picture}sakai-entitypicture="${a.picture}"{/if}></button>
+                                        <button title="__MSG__REQUEST_CONNECTION_WITH__ ${a.name}" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary sakai_addtocontacts_overlay" sakai-entityid="${a.userid}" sakai-entityname="${a.name}" {if a.picture}sakai-entitypicture="${a.picture}"{/if}></button>
                                     {/if}
-                                    <div class="left_filler" id="left_filler_${a.userid}" style="display:none;"></div>
+                                    <div class="left_filler" style="display:none;"></div>
                                 {else}
                                     {if a.accepted}
                                         <div class="left_filler"><img src="/dev/images/accept.png" alt="__MSG__USER_IS_A_CONTACT__" /></div>
                                     {elseif a.invited}
-                                        <button title="__MSG__ACCEPT_CONNECTION_WITH__ ${a.name|safeOutput}" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary link_accept_invitation" sakai-entityid="${a.userid|safeOutput}" sakai-entityname="${a.name|safeOutput}" {if a.picture}sakai-entitypicture="${a.picture}"{/if}></button>
+                                        <button title="__MSG__ACCEPT_CONNECTION_WITH__ ${a.name}" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary link_accept_invitation" sakai-entityid="${a.userid}" sakai-entityname="${a.name}" {if a.picture}sakai-entitypicture="${a.picture}"{/if}></button>
                                         <div class="left_filler" id="contacts_left_accept_${a.userid}" style="display:none;"><img src="/dev/images/accept.png" alt="__MSG__USER_IS_A_CONTACT__" /></div>
                                     {else}
-                                        <div class="left_filler" id="contacts_left_filler_${a.userid}" style="display:none;"></div>
+                                        <div class="left_filler" style="display:none;"></div>
                                     {/if}
                                 {/if}
                                 {if !sakai.data.me.user.anon }
                                     <span class="contacts_gridview_items">
-                                        <button title="__MSG__SEND_MESSAGE_TO__ ${a.name|safeOutput}" sakai-entitytype="group" sakai-entityname="${a.name|safeOutput}" sakai-entityid="${a.userid}" class="s3d-link-button s3d-action-icon s3d-actions-message sakai_sendmessage_overlay"><span class="s3d-aural-text">__MSG__SEND_MESSAGE_TO__ ${a.name|safeOutput}</span></button>
+                                        <button title="__MSG__SEND_MESSAGE_TO__ ${a.name}" sakai-entitytype="group" sakai-entityname="${a.name}" sakai-entityid="${a.userid}" class="s3d-link-button s3d-action-icon s3d-actions-message sakai_sendmessage_overlay"><span class="s3d-aural-text">__MSG__SEND_MESSAGE_TO__ ${a.name}</span></button>
                                     </span>
                                 {/if}
                             {/if}
@@ -180,9 +180,9 @@
                             {/if}
                         </a>
                         <div class="contacts_list s3d-search-result-right">
-                            <a href="/~${a.userid|safeURL}" class="s3d-bold s3d-regular-light-links" title="${a.linkTitle}">
-                                <span class="s3d-search-result-name">${a.nameShort|safeOutput}</span>
-                                <span class="s3d-search-result-name-grid">${a.nameShorter|safeOutput}</span>
+                            <a href="/~${a.userid|safeURL}" class="s3d-bold s3d-regular-light-links" title="${a.name}">
+                                <span class="s3d-search-result-name">${a.nameShort}</span>
+                                <span class="s3d-search-result-name-grid">${a.nameShorter}</span>
                             </a>
                             <div class="contacts_item_counts">
                                 {if a.counts.contentCount > 0}
@@ -227,7 +227,7 @@
                         </div>
                         {if !sakai.data.me.user.anon }
                             <span class="contacts_listview_items">
-                                <button title="__MSG__SEND_MESSAGE_TO__ ${a.name|safeOutput}" sakai-entitytype="group" sakai-entityname="${a.name|safeOutput}" sakai-entityid="${a.userid}" class="s3d-link-button s3d-action-icon s3d-actions-message sakai_sendmessage_overlay"><span class="s3d-aural-text">__MSG__SEND_MESSAGE_TO__ ${a.name|safeOutput}</span></button>
+                                <button title="__MSG__SEND_MESSAGE_TO__ ${a.name}" sakai-entitytype="group" sakai-entityname="${a.name}" sakai-entityid="${a.userid}" class="s3d-link-button s3d-action-icon s3d-actions-message sakai_sendmessage_overlay"><span class="s3d-aural-text">__MSG__SEND_MESSAGE_TO__ ${a.name}</span></button>
                             </span>
                         {/if}
                     </li>

@@ -166,6 +166,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 determineInviteStatus(messageToShow);
             }
             $inbox_box_title.text(sakai.api.Util.applyThreeDots(messageToShow.subject, 310, false, false, true));
+            sakai.api.Util.setPageTitle(': ' + messageToShow.subject);
             sakai.api.Util.TemplateRenderer($inbox_show_message_template, {
                 message:messageToShow,
                 me: {
@@ -429,6 +430,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
          * Set the initial state of this box/category combo
          */
         var setInitialState = function(callback) {
+            sakai.api.Util.setPageTitle();
             $(detailViewClass).hide();
             $(newMessageViewClass).hide();
             $inbox_box_title.text(sakai.api.i18n.General.process(widgetData.title, "inbox"));

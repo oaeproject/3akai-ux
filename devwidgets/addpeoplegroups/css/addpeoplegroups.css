@@ -15,7 +15,13 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-#addpeoplegroups_widget {color: #333333;position:absolute;display:none;width:250px;}
+#addpeoplegroups_widget {
+    color: #333333;
+    display: none;
+    position: absolute;
+    width: 250px;
+    z-index: 1;
+}
 #addpeoplegroups_widget .addpeoplegroups_outer {
     border: 1px solid #EAEBEC;
     border-top: none;
