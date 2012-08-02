@@ -2118,7 +2118,7 @@ define(
                         if ($.isFunction(closeFunction)) {
                             closeFunction();
                         } else {
-                            $dialogContainer.jqmHide();
+                            sakai_util.Modal.close($dialogContainer);
                         }
                         origFocus.focus();
                     } else if ($dialogContainer.is(':visible') && e.which === $.ui.keyCode.TAB) {

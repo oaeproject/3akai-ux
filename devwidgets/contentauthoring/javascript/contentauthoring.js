@@ -816,18 +816,6 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         var currentlyEditing = false;
 
         /**
-         * Initialize the widget settings overlay, which will be used
-         * for the settings view of the widgets that have a settings
-         * view
-         */
-        sakai.api.Util.Modal.setup($('#contentauthoring_widget_settings', $rootel), {
-            modal: true,
-            overlay: 20,
-            toTop: true,
-            onHide: sakai_global.contentauthoring.widgetCancel
-        });
-
-        /**
          * Show the modal dialog edit mode for a widget
          * @param {String} id       Unique id of the widget
          * @param {String} type     Name of the widget
@@ -898,6 +886,22 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // Register the global functions
         sakai.api.Widgets.Container.registerFinishFunction(sakai_global.contentauthoring.widgetFinish);
         sakai.api.Widgets.Container.registerCancelFunction(sakai_global.contentauthoring.widgetCancel);
+
+        /**
+         * Initialize the widget settings overlay, which will be used
+         * for the settings view of the widgets that have a settings
+         * view
+         */
+        sakai.api.Util.Modal.setup($('#contentauthoring_widget_settings', $rootel), {
+            modal: true,
+            overlay: 20,
+            toTop: true,
+            onHide: function(hash) {
+                sakai_global.contentauthoring.widgetCancel();
+                hash.w.hide();
+                hash.o.remove();
+            }
+        });
 
         //////////////////
         //////////////////
