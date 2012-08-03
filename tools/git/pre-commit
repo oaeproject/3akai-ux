@@ -53,7 +53,7 @@ fi
 
 # 3akai-UI code style
 
-git diff-index -p -M --cached $against -- | ruby -e '
+git diff-index -p -M --cached -U0 $against -- | ruby -e '
     # Add new rules here, format is { ".ext" => { /regex/ => "message" } }
     rules = {
         ".js" => {
@@ -62,17 +62,21 @@ git diff-index -p -M --cached $against -- | ruby -e '
             /[^=!]==[^=]/ => "Use \"===\" instead of \"==\"",
             /!=[^=]/ => "Use \"!==\" instead of \"!=\"",
             /^\s*const\s/ => "Use \"var <ALLCAPS>\" instead of \"const\"",
-            /(\$|jQuery)\s*\.(live|die|bind|unbind|delegate|undelegate)\(/ => "Use \".on()\" and \".off()\" to attach event handlers",
+            /(\$|jQuery)\S*\.(live|die|bind|unbind|delegate|undelegate)\(/ => "Use \".on()\" and \".off()\" to attach event handlers",
             /\.prototype\./ => "Do not extend prototypes",
             /^\s*function\s/ => "Use \"var <functionName> = function() {\"",
             /new\s+(Object|Array|Number|String|Boolean)\s*\(/ => "Use literal notation",
-            /(^|\s)(Object\.(freeze|preventExtensions|seal)|(eval|with)(\s|$))/ => "Evil",
-            /[^'\'']*"/ => "Use single quotes",
+            /(^|\s)(Object\.(freeze|preventExtensions|seal)|(eval|with))(\s|$|\()/ => "Evil",
+            /^[^'\'']*"/ => "Use single quotes",
+            /"[^'\'']*$/ => "Use single quotes",
             /(^|\s)typeof(\s|$)/ => "Use jquery or underscore for type checking",
             /(\s{2}|[^ ])\{/ => "Put exactly one space before opening braces",
-            /\sconsole\./ => "Use <level>.log instead of console.log",
+            /\sconsole\./ => "Use debug.log or error.log instead of console.log",
             /^\s*var.*,$/ => "Do not comma separate variable definitions",
             /^\s*var[^$]*=\s*(jQuery|\$)/ => "Prefix jQuery vars with $"
+        },
+        :comment => {
+            ".js" => /^\s*(\/\/|\/\*|\*)/
         }
     }
     $found_bad = 0
@@ -109,9 +113,11 @@ git diff-index -p -M --cached $against -- | ruby -e '
             $lineno += 1
             line.chomp!()
             if rules[ext]
-                rules[ext].each do |regex, msg|
-                    if line =~ regex
-                        bad_line(msg, line)
+                if (rules[:comment] && rules[:comment][ext] && line !~ rules[:comment][ext])
+                    rules[ext].each do |regex, msg|
+                        if line =~ regex
+                            bad_line(msg, line)
+                        end
                     end
                 end
             end
