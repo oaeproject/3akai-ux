@@ -38,7 +38,7 @@
 <div id="contentauthoring_widget" class="contentauthoring_widget"><!-- --></div>
 <div id="contentauthoring_widget_template" style="display:none;"><!--
     {macro insertCell(id, type)}
-        <div tabindex="0" class="contentauthoring_cell_element {if type === "htmlblock"} contentauthoring_init{/if}" data-element-type="${type}" data-element-id="${id}">
+        <div class="contentauthoring_cell_element {if type === "htmlblock"} contentauthoring_init{/if}" data-element-type="${type}" data-element-id="${id}">
             <div class="contentauthoring_cell_element_actions" data-element-id="${id}" data-element-type="${type}">
                 <span class="contentauthoring_row_handle fl-force-left" title="__MSG__DRAG_ME_TO_REORDER__"></span>
                 {if sakai.widgets[type].hasSettings}
@@ -61,12 +61,18 @@
                     <div class="contentauthoring_cell_content">
                         {for element in column.elements}
                             {if element.dummytext}
-                                <div class="contentauthoring_dummy_element" style="display:none;">__MSG__DOUBLE_CLICK_TO_START_TYPING__.</div>
+                                <div class="contentauthoring_dummy_element" style="display:none;">
+                                    <span class="contentauthoring_dummy_element_dbclick">__MSG__DOUBLE_CLICK_TO_START_TYPING__.</span>
+                                    <span class="contentauthoring_dummy_element_enter" style="display:none;">__MSG__PRESS_ENTER_TO_START_TYPING__.</span>
+                                </div>
                             {elseif element.type}
                                 ${insertCell(element.id, element.type)}
                             {/if}
                         {forelse}
-                            <div class="contentauthoring_dummy_element" style="display:none;">__MSG__DOUBLE_CLICK_TO_START_TYPING__.</div>
+                            <div class="contentauthoring_dummy_element" style="display:none;">
+                                <span class="contentauthoring_dummy_element_dbclick">__MSG__DOUBLE_CLICK_TO_START_TYPING__.</span>
+                                <span class="contentauthoring_dummy_element_enter" style="display:none;">__MSG__PRESS_ENTER_TO_START_TYPING__.</span>
+                            </div>
                         {/for}
                     </div>
                     <div class="contentauthoring_cell_handle ui-resizable-handle ui-resizable-e"></div>
@@ -83,7 +89,7 @@
                     <span class="s3d-aural-text">__MSG__EDIT__</span>
                 </button>
             </div>
-            <div tabindex="0" class="contentauthoring_row">
+            <div class="contentauthoring_row">
                 <div class="contentauthoring_minheight_container">
                     <div class="contentauthoring_table_row contentauthoring_cell_container_row" data-row-id="${id}">
                         {for column in columns}
@@ -142,7 +148,12 @@
     </div>
 </div>
 
-<div id="contentauthoring_dummy_element_template"><!--<div class="contentauthoring_dummy_element" style="display:none;">__MSG__DOUBLE_CLICK_TO_START_TYPING__.</div>--></div>
+<div id="contentauthoring_dummy_element_template"><!--
+    <div class="contentauthoring_dummy_element" style="display:none;">
+        <span class="contentauthoring_dummy_element_dbclick">__MSG__DOUBLE_CLICK_TO_START_TYPING__.</span>
+        <span class="contentauthoring_dummy_element_enter" style="display:none;">__MSG__PRESS_ENTER_TO_START_TYPING__.</span>
+    </div>
+--></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/contentauthoring/javascript/contentauthoring.js"></script>

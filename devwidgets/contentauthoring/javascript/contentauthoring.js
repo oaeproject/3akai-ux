@@ -1071,6 +1071,20 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         };
 
         /**
+         * Set some elements as tabbable for keyboard navigation when editing
+         * @return {Boolean} true To set the tabindex
+         *                   false To remove the tabindex
+         */
+        var setTabbableElements = function(set) {
+            var tabbableElements = '.contentauthoring_cell_element, .contentauthoring_cell, .contentauthoring_row';
+            if (set) {
+                $(tabbableElements, $rootel).attr('tabindex', '0');
+            } else {
+                $(tabbableElements, $rootel).removeAttr('tabindex');
+            }
+        };
+
+        /**
          * Set up the page so rows are re-orderable, columns are resizable,
          * widgets can be re-ordered and all hover states
          */
@@ -1079,6 +1093,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             makeColumnsResizable();
             reorderWidgets();
             showEditCellMenu();
+            setTabbableElements(true);
             sakai.api.Util.hideOnClickOut('#contentauthoring_row_menu', '.contentauthoring_row_edit', function() {
                 rowToChange = false;
                 hideEditRowMenu();
@@ -1299,6 +1314,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             $('.contentauthoring_cell_content', $rootel).sortable('destroy');
             updateColumnHeights();
             $('.contentauthoring_cell', $rootel).resizable('option', 'disabled', true);
+            setTabbableElements(false);
         };
 
         /**
@@ -1726,6 +1742,34 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 $('.contentauthoring_cell_element_actions', $rootel).hide();
             } else if ($(this).is(':focus') && e.which === $.ui.keyCode.TAB && e.shiftKey) {
                 showEditCellMenuHoverOut(false, $(this));
+            }
+        });
+
+        // Insert the default text widget if enter is pressed on a cell
+        $rootel.on('keydown', '.contentauthoring_cell', function(e) {
+            var $cell = $(this);
+            if (isInEditMode() && $cell.is(':focus') && e.which === $.ui.keyCode.ENTER) {
+                var $textWidget = $rootel.find('a.inserterbar_text_widget').clone();
+                $cell.find('.contentauthoring_cell_content').append($textWidget);
+                addNewWidget(null, $textWidget);
+            }
+        });
+
+        // Change the default filler text to indicate the user can hit enter and begin typing
+        $rootel.on('focus', '.contentauthoring_cell', function(e) {
+            var $cell = $(this);
+            if (isInEditMode() && $cell.is(':focus')) {
+                var $dummyEl = $cell.find('.contentauthoring_dummy_element');
+                $dummyEl.children('.contentauthoring_dummy_element_dbclick').hide();
+                $dummyEl.children('.contentauthoring_dummy_element_enter').show();
+            }
+        });
+        $rootel.on('blur', '.contentauthoring_cell', function(e) {
+            var $cell = $(this);
+            if (isInEditMode()) {
+                var $dummyEl = $cell.find('.contentauthoring_dummy_element');
+                $dummyEl.children('.contentauthoring_dummy_element_dbclick').show();
+                $dummyEl.children('.contentauthoring_dummy_element_enter').hide();
             }
         });
 
