@@ -5,6 +5,6 @@ if grep -Eqi '^(SAKIII|KERN)' << EOF
 $BRANCHNAME
 EOF
 then
-  sed -i "1i\
-$BRANCHNAME" $1
+  sed -i -e "1i\\
+$BRANCHNAME - " $1
 fi

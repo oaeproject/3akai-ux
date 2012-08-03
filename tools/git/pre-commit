@@ -46,7 +46,10 @@ then
 fi
 
 # If there are whitespace errors, print the offending file names and fail.
-git diff-index --check --cached $against --
+if ! git diff-index --check --cached $against --
+then
+  exit $?
+fi
 
 # 3akai-UI code style
 
@@ -55,16 +58,21 @@ git diff-index -p -M --cached $against -- | ruby -e '
     rules = {
         ".js" => {
             /[^=!]==[^=]/ => "Use \"===\" or \"!==\" instead of \"==\" and \"!=\"",
-            /^\s*{/ => "Put opening braces on the same line as the statement",
+            /^\s*\{/ => "Put opening braces on the same line as the statement",
+            /[^=!]==[^=]/ => "Use \"===\" instead of \"==\"",
+            /!=[^=]/ => "Use \"!==\" instead of \"!=\"",
             /^\s*const\s/ => "Use \"var <ALLCAPS>\" instead of \"const\"",
-            /\.(live|die|bind|unbind)\(/ => "Use \".on()\" and \".off()\" to attach event handlers",
+            /(\$|jQuery)\s*\.(live|die|bind|unbind|delegate|undelegate)\(/ => "Use \".on()\" and \".off()\" to attach event handlers",
             /\.prototype\./ => "Do not extend prototypes",
             /^\s*function\s/ => "Use \"var <functionName> = function() {\"",
-            /.{81}/ => "Limit lines to 80 characters",
             /new\s+(Object|Array|Number|String|Boolean)\s*\(/ => "Use literal notation",
-            /(^|\s)(Object\.(freeze|preventExtensions|seal)|eval|with)(\s|$)/ => "Evil",
-            /"/ => "Use single quotes",
-            /(^|\s)typeof(\s|$)/ => "Use jquery or underscore for type checking"
+            /(^|\s)(Object\.(freeze|preventExtensions|seal)|(eval|with)(\s|$))/ => "Evil",
+            /[^'\'']*"/ => "Use single quotes",
+            /(^|\s)typeof(\s|$)/ => "Use jquery or underscore for type checking",
+            /(\s{2}|[^ ])\{/ => "Put exactly one space before opening braces",
+            /\sconsole\./ => "Use <level>.log instead of console.log",
+            /^\s*var.*,$/ => "Do not comma separate variable definitions",
+            /^\s*var[^$]*=\s*(jQuery|\$)/ => "Prefix jQuery vars with $"
         }
     }
     $found_bad = 0
@@ -84,7 +92,7 @@ git diff-index -p -M --cached $against -- | ruby -e '
             $reported_filename = $filename
         end
         warn "* #{why} (line #{$lineno})"
-        warn "#{$filename}:#{$lineno}:#{line}"
+        warn "#{$filename}:#{$lineno}: #{line}"
     end
     ext = nil
     ARGF.each do |line|
