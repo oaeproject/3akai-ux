@@ -695,19 +695,11 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         };
 
         var showContextMenu = function($clickedItem) {
+            toggleContextMenu();
             var contextMenu = $('#lhnavigation_submenu', $rootel);
             $clickedItem.children('.lhnavigation_selected_submenu_image').addClass('clicked');
-            var leftOffset = 75;
-            if ($.browser.msie && $.browser.version === '9.0') {
-                // This isn't nice but the menu is a bit off in IE9
-                leftOffset -= 5;
-            }
-            if ($clickedItem.parents('.lhnavigation_subnav_item').attr('data-sakai-addcontextoption') === 'user') {
-                leftOffset += 5;
-            }
-            contextMenu.css('left', $clickedItem.offset().left + ($clickedItem.position().left / 2) - leftOffset);
-            contextMenu.css('top', $clickedItem.offset().top + ($clickedItem.position().top / 2) + 15);
-            toggleContextMenu();
+            contextMenu.css('left', ($clickedItem.offset().left - contextMenu.width() + 30) + 'px');
+            contextMenu.css('top', ($clickedItem.offset().top + ($clickedItem.height()) + 10) + 'px');
         };
 
         var toggleContextMenu = function(forceHide) {
