@@ -10,6 +10,11 @@
 </div>
 
 <div id="displayprofilesection_header_template" style="display:none"><!--
+    {if isMe}
+    <div class="dialog_buttons">
+        <button type="button" class="s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button profile-section-edit-button">__MSG__ADD_EDIT_INFORMATION__</button>
+    </div>
+    {/if}
     <h1 class="s3d-contentpage-title">${pageTitle}</h1>
 --></div>
 
@@ -74,7 +79,10 @@
         {/for}
         </div>
     {if !section.multiple}
-        <button type="submit" class="s3d-button s3d-overlay-button grey profile-section-save-button" disabled="disabled">__MSG__UPDATE__</button>
+        <div class="dialog_buttons fl-force-right">
+            <button type="button" class="s3d-link-button s3d-bold profile-section-cancel-button">__MSG__CANCEL__</button>
+            <button type="submit" class="s3d-button s3d-overlay-action-button profile-section-save-button" disabled="disabled">__MSG__UPDATE__</button>
+        </div>
     </form>
     {else}
         <button type="button" class="displayprofilesection_remove_section s3d-bold s3d-link-button" id="displayprofilesection_remove_link_${unique}"><span>__MSG__REMOVE_THIS__ ${section.multipleLabel}</span></button>
@@ -86,7 +94,10 @@
 <div id="displayprofilesection_edit_multiple_template"><!--
     <form id="displayprofilesection_form_${sectionid}">
         <div id="displayprofilesection_sections_${sectionid}" class="displayprofilesection_multiple_sections"></div>
-        <button type="submit" class="s3d-button s3d-overlay-button grey profile-section-save-button" style="display:none" disabled="disabled">__MSG__UPDATE__</button>
+        <div class="dialog_buttons">
+            <button type="button" class="s3d-link-button s3d-bold profile-section-cancel-button" style="display:none">__MSG__CANCEL__</button>
+            <button type="submit" class="s3d-button s3d-overlay-button profile-section-save-button" style="display:none" disabled="disabled">__MSG__UPDATE__</button>
+        </div>
     </form>
     <button id="displayprofilesection_add_${sectionid}" class="displayprofilesection_add_section s3d-link-button s3d-bold" type="button"><span class="s3d-add_another_location"></span><span>__MSG__ADD_ANOTHER__ ${section.multipleLabel}</span></button>
 --></div>
@@ -102,7 +113,11 @@
         <p>
             <span id="displayprofilesection_no_results_text">${errorString}</span>
             <span id="displayprofilesection_no_results_message" {if !showMessage}style="display:none;"{/if}>
+                {if isMe}
+                <button type="button" class="s3d-link-button sakai_editinfo_overlay profile-section-edit-button" sakai-entityid="${userid}">__MSG__ADD_EDIT__</button> __MSG__YOUR_INFORMATION_HERE__
+                {else}
                 <button type="button" id="displayprofilesection_user_message" class="s3d-link-button sakai_sendmessage_overlay" sakai-entityid="${userid}" sakai-entityname="${displayName}" data-sakai-entitytype="user">__MSG__SEND_THEM_A_MESSAGE__</button> __MSG__TO_REMIND_THEM__
+                {/if}
             </span>
         </p>
     </div>
@@ -129,6 +144,7 @@
         </span>
     {/macro}
 
+    <div class="section_box">
     {for field in section.elements}
         {if field.display}
             {var field_key = field_index === "tags" ? "sakai:tags" : field_index}
@@ -147,6 +163,7 @@
             {/if}
         {/if}
     {/for}
+    </div>
 
     {if section.multiple}
     <hr/>
