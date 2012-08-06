@@ -1823,8 +1823,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             }
         });
 
-        // Double clicking on the inserterbar
-        $rootel.on('dblclick', '.inserterbar_widget_draggable', function(ev) {
+        // Clicking on the inserterbar
+        $rootel.on('click', '.inserterbar_widget_draggable', function(ev) {
             addNewWidgetPlaceholder($(this).attr('data-element-type'));
         });
 
