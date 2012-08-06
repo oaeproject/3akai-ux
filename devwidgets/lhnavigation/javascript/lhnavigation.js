@@ -698,7 +698,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             var contextMenu = $('#lhnavigation_submenu', $rootel);
             $clickedItem.children('.lhnavigation_selected_submenu_image').addClass('clicked');
 
-            var top = $clickedItem.offset().top + ($clickedItem.height()) + 10;
+            var top = $clickedItem.offset().top + $clickedItem.height() + 10;
             if ($.browser.msie && parseInt($.browser.version, 10) < 9) {
                 top += parseInt($('html').scrollTop(), 10);
             }
