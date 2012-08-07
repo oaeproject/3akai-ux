@@ -14,11 +14,11 @@
             {for item in directory}
                 {if item.divider}
                     </ul>
-                     {if item.title} 
-                         <h1 class="fl-push s3d-contentpage-title {if item.cssClass} ${item.cssClass} {/if}">${item.title}</h1> 
-                     {else} 
-                         <div class="s3d-contentpage-title fl-push {if item.cssClass} ${item.cssClass} {/if}"></div> 
-                    {/if} 
+                     {if item.title}
+                         <h1 class="fl-push s3d-contentpage-title {if item.cssClass} ${item.cssClass} {/if}">${item.title}</h1>
+                     {else}
+                         <div class="s3d-contentpage-title fl-push {if item.cssClass} ${item.cssClass} {/if}"></div>
+                    {/if}
                     <ul {if item.cssClass} class="${item.cssClass}" {/if}>
                 {else}
                     <li>

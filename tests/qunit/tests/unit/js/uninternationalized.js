@@ -1,29 +1,29 @@
 require(
     [
-    "jquery",
-    "sakai/sakai.api.core",
-    "qunitjs/qunit",
-    "../../../../tests/qunit/js/sakai_qunit_lib.js",
-    "../../../../tests/qunit/js/dev.js",
-    "../../../../tests/qunit/js/devwidgets.js"
-    ], 
+    'jquery',
+    'sakai/sakai.api.core',
+    'qunitjs/qunit',
+    '../../../../tests/qunit/js/sakai_qunit_lib.js',
+    '../../../../tests/qunit/js/dev.js',
+    '../../../../tests/qunit/js/devwidgets.js'
+    ],
     function($, sakai) {
 
-         module("Uninternationalized English Strings");
+         module('Uninternationalized English Strings');
 
          // attributes to test for
-         var attrs = ["alt", "title"];
+         var attrs = ['alt', 'title'];
 
          // the regexes
-         var alpha = new RegExp("^(.*)[a-zA-z](.*)+$");
-         var regex = new RegExp("__MSG__(.*?)__");
-         var templateRegex = new RegExp("^(.*?)(\\$*){(.*?)}(.*?)+$");
-         var templateStartAlphaRegex = new RegExp("^([a-zA-z]+)(\\$*){(.*?)}+$");
-         var templateMiddleAlphaRegex = new RegExp("^(\\$*){(.*?)}([a-zA-z]+)(\\$*){(.*?)}+$");
-         var templateEndAlphaRegex = new RegExp("^(\\$*){(.*?)}([a-zA-z])+$");
+         var alpha = new RegExp('^(.*)[a-zA-z](.*)+$');
+         var regex = new RegExp('__MSG__(.*?)__');
+         var templateRegex = new RegExp('^(.*?)(\\$*) {(.*?)}(.*?)+$');
+         var templateStartAlphaRegex = new RegExp('^([a-zA-z]+)(\\$*) {(.*?)}+$');
+         var templateMiddleAlphaRegex = new RegExp('^(\\$*) {(.*?)}([a-zA-z]+)(\\$*) {(.*?)}+$');
+         var templateEndAlphaRegex = new RegExp('^(\\$*) {(.*?)}([a-zA-z])+$');
          // from jquery validate, modified to optionally allow (https?|ftp)://
          var urlRegex = new RegExp(/^((https?|ftp):\/\/)?(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i);
-         var requireRegex = new RegExp("require\((.*?)\)");
+         var requireRegex = new RegExp('require\((.*?)\)');
          /**
           * Test a string to make sure it is not a plain-text, non-internationalized string
           *
@@ -59,9 +59,9 @@ require(
          var checkAttrs = function($elt) {
              $.each(attrs, function(i, val) {
                  // grab any element with the attribute, and filter out any empties
-                 $.each($elt.find("[" + val + "]").filter(function(index) {
-                     if (typeof $(this).attr(val) === "string") {
-                         return $.trim($(this).attr(val)) !== "";
+                 $.each($elt.find('[' + val + ']').filter(function(index) {
+                     if (typeof $(this).attr(val) === 'string') {
+                         return $.trim($(this).attr(val)) !== '';
                      } else {
                          return false;
                      }
@@ -69,7 +69,7 @@ require(
                  }), function(j,elt) {
                      var attrText = $.trim($(elt).attr(val));
                      var pass = testString(attrText);
-                     ok(pass, val.toUpperCase() + " Text: " + attrText);
+                     ok(pass, val.toUpperCase() + ' Text: ' + attrText);
                  });
              });
          };
@@ -79,14 +79,14 @@ require(
           *
           * @param {jQuery} $elt The element to check (and all its children)
           */
-         var checkElements = function($elt){
+         var checkElements = function($elt) {
              // check all elements with no children that have text, filtering out any empties (post-trim)
-             $.each($elt.find("*:not(:empty)").filter(function(index){
-                 return $(this).children().length === 0 && $.trim($(this).text()) !== "";
+             $.each($elt.find('*:not(:empty)').filter(function(index) {
+                 return $(this).children().length === 0 && $.trim($(this).text()) !== '';
              }), function(i,elt) {
                  var tagText = $.trim($(elt).text());
                  var pass = testString(tagText);
-                 ok(pass, "String: " + tagText);
+                 ok(pass, 'String: ' + tagText);
              });
          };
 
@@ -98,22 +98,22 @@ require(
           */
          var getAllKeys = function($elt) {
              var keys = [];
-             $.each($elt.find("*:not(:empty)").filter(function(index){
-                 return $(this).children().length === 0 && $.trim($(this).text()) !== "";
+             $.each($elt.find('*:not(:empty)').filter(function(index) {
+                 return $(this).children().length === 0 && $.trim($(this).text()) !== '';
              }), function(i,elt) {
                  var tagText = $.trim($(elt).text());
                  var pass = testString(tagText);
                  if (pass && !(!alpha.test(tagText) || urlRegex.test(tagText)) && $.inArray(tagText, keys) === -1) {
                      var regexResult = regex.exec(tagText);
                      if (regexResult) {
-                         keys.push(regexResult[0].replace("__MSG__", "").replace("__", ""));
+                         keys.push(regexResult[0].replace('__MSG__', '').replace('__', ''));
                      }
                  }
              });
              $.each(attrs, function(i, val) {
-                 $.each($elt.find("*[" + val + "]").filter(function(index) {
-                     if (typeof $(this).attr(val) === "string") {
-                         return $.trim($(this).attr(val)) !== "";
+                 $.each($elt.find('*[' + val + ']').filter(function(index) {
+                     if (typeof $(this).attr(val) === 'string') {
+                         return $.trim($(this).attr(val)) !== '';
                      } else {
                          return false;
                      }
@@ -121,7 +121,7 @@ require(
                      var attrText = $.trim($(elt).attr(val));
                      var pass = testString(attrText);
                      if (pass && !(!alpha.test(attrText) || urlRegex.test(attrText)) && $.inArray(attrText, keys) === -1) {
-                         keys.push(regex.exec(attrText)[0].replace("__MSG__", "").replace("__", ""));
+                         keys.push(regex.exec(attrText)[0].replace('__MSG__', '').replace('__', ''));
                      }
                  });
              });
@@ -136,7 +136,7 @@ require(
          var checkKeys = function($elt, callback) {
              var keys = getAllKeys($elt);
              for (var i=0,j=keys.length;i<j;i++) {
-                 ok(sakai.api.i18n.data.defaultBundle[keys[i]], "Default value exists for " + keys[i]);
+                 ok(sakai.api.i18n.data.defaultBundle[keys[i]], 'Default value exists for ' + keys[i]);
              }
              callback();
          };
@@ -151,16 +151,16 @@ require(
          var getWidgetInfo = function(widgetname, callback) {
              var bundle = false;
              if ($.isPlainObject(sakai.widgets[widgetname].i18n)) {
-                 if (sakai.widgets[widgetname].i18n["default"]){
-                     bundle = sakai.widgets[widgetname].i18n["default"];
+                 if (sakai.widgets[widgetname].i18n['default']) {
+                     bundle = sakai.widgets[widgetname].i18n['default'];
                  }
              }
              if (bundle && bundle.bundle) {
                  $.ajax({
                      url: bundle.bundle,
-                     success: function(data){
+                     success: function(data) {
                          sakai.api.i18n.data.widgets[widgetname] = sakai.api.i18n.data.widgets[widgetname] || {};
-                         sakai.api.i18n.data.widgets[widgetname]["default"] = sakai.api.i18n.changeToJSON(data);
+                         sakai.api.i18n.data.widgets[widgetname]['default'] = sakai.api.i18n.changeToJSON(data);
                          if ($.isFunction(callback)) {
                              callback(true);
                          }
@@ -187,9 +187,9 @@ require(
              getWidgetInfo(widget.name, function(hasBundles) {
                  for (var i=0,j=keys.length;i<j;i++) {
                      if (hasBundles) {
-                         notEqual(sakai.api.i18n.getValueForKey(keys[i], widget.name), keys[i], "Default value exists for " + keys[i]);
+                         notEqual(sakai.api.i18n.getValueForKey(keys[i], widget.name), keys[i], 'Default value exists for ' + keys[i]);
                      } else {
-                         ok(sakai.api.i18n.data.defaultBundle[keys[i]], "Default value exists for " + keys[i]);
+                         ok(sakai.api.i18n.data.defaultBundle[keys[i]], 'Default value exists for ' + keys[i]);
                      }
                  }
                  if ($.isFunction(callback)) {
@@ -201,28 +201,28 @@ require(
          /**
           * Check HTML pages and test for hard coded english
           */
-         var testInternationalization = function(){
+         var testInternationalization = function() {
 
              // First, run a few tests to verify that the testing is working
              // these should all pass
-             test("TEST - i18n key nested inside elements in an A tag", 2, function() {
-                 checkElements($("#qunit-fixture"));
+             test('TEST - i18n key nested inside elements in an A tag', 2, function() {
+                 checkElements($('#qunit-fixture'));
              });
 
-             test("TEST - alt and title attributes", 2,  function() {
-                 checkAttrs($("#qunit-fixture"));
+             test('TEST - alt and title attributes', 2,  function() {
+                 checkAttrs($('#qunit-fixture'));
              });
 
-             test("TEST - chceking for missing value", 2,  function() {
-                 ok(sakai.api.i18n.data.defaultBundle.ABOUT, "Testing for a default value for ABOUT");
-                 ok(!sakai.api.i18n.data.defaultBundle.ABOUT123456, "Testing for a missing value for ABOUT123456");
+             test('TEST - chceking for missing value', 2,  function() {
+                 ok(sakai.api.i18n.data.defaultBundle.ABOUT, 'Testing for a default value for ABOUT');
+                 ok(!sakai.api.i18n.data.defaultBundle.ABOUT123456, 'Testing for a missing value for ABOUT123456');
              });
 
              var makeCoreTest = function(url) {
                  asyncTest(url, function() {
                      $.ajax({
                          url: url,
-                         success: function(data){
+                         success: function(data) {
                              var div = document.createElement('div');
                              div.innerHTML = data;
                              checkElements($(div));
@@ -244,7 +244,7 @@ require(
              var makeWidgetTest = function(url, widget) {
                  $.ajax({
                      url: url,
-                     success: function(data){
+                     success: function(data) {
                          var div = document.createElement('div');
                          div.innerHTML = data;
                          asyncTest(url, function() {
@@ -265,7 +265,7 @@ require(
                  makeWidgetTest(widgetURLToCheck, widgetObject);
              }
              QUnit.start();
-             $(window).trigger("addlocalbinding.qunit.sakai");
+             $(window).trigger('addlocalbinding.qunit.sakai');
 
          };
 
@@ -273,7 +273,7 @@ require(
              if (sakai.api.i18n.done) {
                  testInternationalization();
              } else {
-                 $(window).bind("done.i18n.sakai", function() {
+                 $(window).on('done.i18n.sakai', function() {
                      testInternationalization();
                  });
              }
@@ -285,7 +285,7 @@ require(
          if (sakai_global.qunit && sakai_global.qunit.ready) {
              startTest();
          } else {
-             $(window).bind("ready.qunit.sakai", function() {
+             $(window).on('ready.qunit.sakai', function() {
                  startTest();
              });
          }

@@ -25,14 +25,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @class pageviewer
      *
      * @description
-     * The page viewer widget shows a Sakai Doc in a simplified way with 
+     * The page viewer widget shows a Sakai Doc in a simplified way with
      * a custom left hand navigation and no sublevel items
      *
      * @version 0.0.1
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.pageviewer = function (tuid, showSettings) {
+    sakai_global.pageviewer = function(tuid, showSettings) {
 
 
         /////////////////////////////
@@ -49,7 +49,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
         // Containers
         var $pageViewerContentContainer = $('#pageviewer_content_container', $rootel);
-        var $pageViewerLHNavContainer = $("#pageviewer_lhnav_container", $rootel);
+        var $pageViewerLHNavContainer = $('#pageviewer_lhnav_container', $rootel);
 
         // Templates
         var pageViewerContentTemplate = 'pageviewer_content_template';
@@ -105,8 +105,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
             $pageViewerLHNavContainer.show();
 
-            $(".pageviewer_lhnav_item button", $rootel).on('click', selectPage);
-            $(".pageviewer_lhnav_item:first button", $rootel).click();
+            $('.pageviewer_lhnav_item button', $rootel).on('click', selectPage);
+            $('.pageviewer_lhnav_item:first button', $rootel).click();
         };
 
         /**
@@ -119,7 +119,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 if (tempDocData[tempItem._ref][cell.id]) {
                     docData[tempItem._ref][cell.id] = {};
                     var cellData = tempDocData[tempItem._ref][cell.id][cell.type];
-                    if (cell.type !== "htmlblock" && cell.type !== "pagetitle") {
+                    if (cell.type !== 'htmlblock' && cell.type !== 'pagetitle') {
                         docData[tempItem._ref][cell.id][cell.type] = {
                             'embedmethod': cellData.embedmethod,
                             'sakai:indexed-fields': cellData['sakai:indexed-fields'],
@@ -208,9 +208,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 tinyMCE.execCommand( 'mceRemoveControl', false, $(this).attr('id') );
             });
             var $li = $(this).parent();
-            $(".pageviewer_lhnav_item", $rootel).removeClass("selected");
-            $li.addClass("selected");
-            selectedPage = $li.attr("data-index");
+            $('.pageviewer_lhnav_item', $rootel).removeClass('selected');
+            $li.addClass('selected');
+            selectedPage = $li.attr('data-index');
             storePath = 'p/' + docPath + '/' + selectedPage + '/';
             renderContainer();
         };
@@ -219,7 +219,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Fetches the page content
          */
         var fetchPages = function() {
-            sakai.api.Server.loadJSON("/p/" + docPath + ".infinity.json", function(success, data){
+            sakai.api.Server.loadJSON('/p/' + docPath + '.infinity.json', function(success, data) {
                 tempDocData = data;
                 parseStructure();
             });

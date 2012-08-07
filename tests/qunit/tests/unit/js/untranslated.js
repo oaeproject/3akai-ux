@@ -1,28 +1,28 @@
 require(
     [
-    "jquery",
-    "sakai/sakai.api.core",
-    "qunitjs/qunit",
-    "../../../../tests/qunit/js/sakai_qunit_lib.js",
-    "../../../../tests/qunit/js/dev.js",
-    "../../../../tests/qunit/js/devwidgets.js"
-    ], 
+    'jquery',
+    'sakai/sakai.api.core',
+    'qunitjs/qunit',
+    '../../../../tests/qunit/js/sakai_qunit_lib.js',
+    '../../../../tests/qunit/js/dev.js',
+    '../../../../tests/qunit/js/devwidgets.js'
+    ],
     function($, sakai) {
 
-         module("Untranslated Keys");
+         module('Untranslated Keys');
 
-         var regex = new RegExp("__MSG__(.*?)__", "gm");
+         var regex = new RegExp('__MSG__(.*?)__', 'gm');
 
          /**
           * Check HTML pages and test for hard coded english
           */
-         var testUntranslatedKeys = function(){
+         var testUntranslatedKeys = function() {
 
              var makeCoreTest = function(url) {
                  asyncTest(url, function() {
                      $.ajax({
                          url: url,
-                         success: function(data){
+                         success: function(data) {
                              checkKeys(data, function() {
                                  start();
                              });
@@ -41,8 +41,8 @@ require(
                  asyncTest(url, function() {
                      $.ajax({
                          url: url,
-                         success: function(data){
-                             getWidgetInfo(widget.name, function(){
+                         success: function(data) {
+                             getWidgetInfo(widget.name, function() {
                                  checkKeys(data, function() {
                                      start();
                                  }, widget);
@@ -59,7 +59,7 @@ require(
                  makeWidgetTest(widgetURLToCheck, widgetObject);
              }
 
-             $(window).trigger("addlocalbinding.qunit.sakai");
+             $(window).trigger('addlocalbinding.qunit.sakai');
              QUnit.start();
 
          };
@@ -74,16 +74,16 @@ require(
          var getWidgetInfo = function(widgetname, callback) {
              var bundle = false;
              if ($.isPlainObject(sakai.widgets[widgetname].i18n)) {
-                 if (sakai.widgets[widgetname].i18n["default"]){
-                     bundle = sakai.widgets[widgetname].i18n["default"];
+                 if (sakai.widgets[widgetname].i18n['default']) {
+                     bundle = sakai.widgets[widgetname].i18n['default'];
                  }
              }
              if (bundle && bundle.bundle) {
                  $.ajax({
                      url: bundle.bundle,
-                     success: function(data){
+                     success: function(data) {
                          sakai.api.i18n.data.widgets[widgetname] = sakai.api.i18n.data.widgets[widgetname] || {};
-                         sakai.api.i18n.data.widgets[widgetname]["default"] = sakai.api.i18n.changeToJSON(data);
+                         sakai.api.i18n.data.widgets[widgetname]['default'] = sakai.api.i18n.changeToJSON(data);
                          if ($.isFunction(callback)) {
                              callback(true);
                          }
@@ -105,9 +105,9 @@ require(
                  var key = RegExp.lastMatch;
                  key = key.substring(7, key.length - 2);
                  if (widget) {
-                     ok(sakai.api.i18n.getValueForKey(key, widget.name), "Default value exists for " + key);
+                     ok(sakai.api.i18n.getValueForKey(key, widget.name), 'Default value exists for ' + key);
                  } else {
-                     ok(sakai.api.i18n.getValueForKey(key), "Default value exists for " + key);
+                     ok(sakai.api.i18n.getValueForKey(key), 'Default value exists for ' + key);
                  }
              }
              callback();
@@ -117,7 +117,7 @@ require(
              if (sakai.api.i18n.done) {
                  testUntranslatedKeys();
              } else {
-                 $(window).bind("done.i18n.sakai", function() {
+                 $(window).on('done.i18n.sakai', function() {
                      testUntranslatedKeys();
                  });
              }
@@ -129,7 +129,7 @@ require(
          if (sakai_global.qunit && sakai_global.qunit.ready) {
              startTest();
          } else {
-             $(window).bind("ready.qunit.sakai", function() {
+             $(window).on('ready.qunit.sakai', function() {
                  startTest();
              });
          }

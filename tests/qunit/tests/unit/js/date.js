@@ -6,13 +6,13 @@ require(
     '../../../../tests/qunit/js/sakai_qunit_lib.js',
     '../../../../tests/qunit/js/dev.js',
     '../../../../tests/qunit/js/devwidgets.js'
-    ], 
+    ],
     function($, sakai) {
 
         module('Date');
 
         var DateTest = function() {
-    
+
             /*
              * Test the supported date formats
              * 2010
@@ -22,29 +22,29 @@ require(
              * 1997-07-16T19:20+01:00
              * 1997-07-16T19:20:30+01:00
              * 1269331220896 */
-        
-            asyncTest('Date format: YYYY', function(){
+
+            asyncTest('Date format: YYYY', function() {
                 var date = sakai.api.Util.parseSakaiDate('2010');
                 equals(date.getUTCFullYear(), 2010, 'The year is correct');
                 start();
             });
-        
-            asyncTest('Date format: YYYY-MM', function(){
+
+            asyncTest('Date format: YYYY-MM', function() {
                 var date = sakai.api.Util.parseSakaiDate('2010-11');
                 equals(date.getUTCFullYear(), 2010, 'The year is correct');
                 equals(date.getUTCMonth(), 10, 'The month is correct');
                 start();
             });
-        
-            asyncTest('Date format: YYYY-MM-DD', function(){
+
+            asyncTest('Date format: YYYY-MM-DD', function() {
                 var date = sakai.api.Util.parseSakaiDate('2010-11-19');
                 equals(date.getUTCFullYear(), 2010, 'The year is correct');
                 equals(date.getUTCMonth(), 10, 'The month is correct');
                 equals(date.getUTCDate(), 19, 'The day is correct');
                 start();
             });
-        
-            asyncTest('Date format: YYYY-MM-DDThh:mmTZD', function(){
+
+            asyncTest('Date format: YYYY-MM-DDThh:mmTZD', function() {
                 var date = sakai.api.Util.parseSakaiDate('1997-07-16T19:20+01:00');
                 equals(date.getUTCFullYear(), 1997, 'The year is correct');
                 equals(date.getUTCMonth(), 6, 'The month is correct');
@@ -53,8 +53,8 @@ require(
                 equals(date.getUTCMinutes(), 20, 'The minutes are correct');
                 start();
             });
-        
-            asyncTest('Date format: YYYY-MM-DDThh:mm:ssTZD', function(){
+
+            asyncTest('Date format: YYYY-MM-DDThh:mm:ssTZD', function() {
                 var date = sakai.api.Util.parseSakaiDate('1997-07-16T19:20:30+01:00');
                 equals(date.getUTCFullYear(), 1997, 'The year is correct');
                 equals(date.getUTCMonth(), 6, 'The month is correct');
@@ -64,8 +64,8 @@ require(
                 equals(date.getUTCSeconds(), 30, 'The seconds are correct');
                 start();
             });
-        
-            asyncTest('Date format: 1269331220896 (milliseconds)', function(){
+
+            asyncTest('Date format: 1269331220896 (milliseconds)', function() {
                 var date = sakai.api.Util.parseSakaiDate(1269331220896);
                 equals(date.getUTCFullYear(), 2010, 'The year is correct');
                 equals(date.getUTCMonth(), 2, 'The month is correct');
@@ -75,22 +75,22 @@ require(
                 equals(date.getUTCSeconds(), 20, 'The seconds are correct');
                 start();
             });
-        
-            asyncTest('Date format: 1269331220896 (milliseconds)', function(){
+
+            asyncTest('Date format: 1269331220896 (milliseconds)', function() {
                 var dateEquals = new Date();
                 var date = sakai.api.Util.createSakaiDate(dateEquals, 6);
-        
+
                 equals(dateEquals.getTime(), date, 'Test without date offset is correct');
-        
+
                 date = sakai.api.Util.createSakaiDate(dateEquals, 6, '+01:00');
                 equals(dateEquals.getTime()+1000*60*60, date, 'Test with date offset is correct');
                 start();
             });
-        
-            asyncTest('Date format: YYYY-MM-DDThh:mm:ssTZD', function(){
+
+            asyncTest('Date format: YYYY-MM-DDThh:mm:ssTZD', function() {
                 var dateEquals = new Date();
                 var date = sakai.api.Util.createSakaiDate(dateEquals);
-        
+
                 equals(dateEquals.getUTCFullYear(), date.substr(0,4), 'The year is correct');
                 equals(dateEquals.getUTCMonth() + 1, date.substr(5,2), 'The month is correct');
                 equals(dateEquals.getUTCDate(), date.substr(8,2) , 'The day is correct');
@@ -110,7 +110,7 @@ require(
         if (sakai_global.qunit && sakai_global.qunit.ready) {
             startTest();
         } else {
-            $(window).bind('ready.qunit.sakai', function() {
+            $(window).on('ready.qunit.sakai', function() {
                 startTest();
             });
         }

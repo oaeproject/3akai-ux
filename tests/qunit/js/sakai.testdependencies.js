@@ -7,7 +7,7 @@ sakai_global = {};
  * Only logs information when sakai.config.displayDebugInfo is switched on
  *
  * debug.log, debug.error, debug.warn, debug.debug, debug.info
- * usage: debug.log("argument", {more:"arguments"})
+ * usage: debug.log('argument', {more:'arguments'})
  *
  * paulirish.com/2009/log-a-lightweight-wrapper-for-consolelog/
  * benalman.com/projects/javascript-debug-console-log/
@@ -82,7 +82,7 @@ require({
         'jquery-cookie': 'jquery/plugins/jquery.cookie',
         'jquery-jstree': 'jquery/plugins/jsTree/jquery.jstree.sakai-edit',
         'jquery-fileupload': 'jquery/plugins/jquery.fileupload',
-        "jquery-iframe-transport": "jquery/plugins/jquery.iframe-transport",
+        'jquery-iframe-transport': 'jquery/plugins/jquery.iframe-transport',
         'jquery-pager': 'jquery/plugins/jquery.pager.sakai-edited',
         'jquery-tagcloud': 'jquery/plugins/jquery.tagcloud',
         'underscore': 'misc/underscore',
