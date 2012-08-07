@@ -292,7 +292,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
                 existingPicture = true;
 
                 // Set the unvisible image to the full blown image. (make sure to filter the # out)
-                $(pictureMeasurer).html(sakai.api.Security.saneHTML('<img src='' + '/~' + sakai.api.Util.safeURL(id) + '/public/profile/' + picture._name + '?sid=' + Math.random() + '' id='' + pictureMeasurerImage.replace(/#/gi, '') + '' />'));
+                $(pictureMeasurer).html(sakai.api.Security.saneHTML('<img src="' + '/~' + sakai.api.Util.safeURL(id) + '/public/profile/' + picture._name + '?sid=' + Math.random() + '" id="' + pictureMeasurerImage.replace(/#/gi, '') + '" />'));
 
                 // Check the current picture's size
                 $(pictureMeasurerImage).on('load', function(ev) {
@@ -303,8 +303,8 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
                     realh = $(pictureMeasurerImage).height();
 
                     // Set the images
-                    $(fullPictureSpan).html('<img alt='' + $('#changepic_fullpicture_alt').html() + '' id='changepic_fullpicture_img' src='/~' + id + '/public/profile/' + picture._name + '?sid=' + Math.random() + '' />');
-                    $(thumbnailSpan).html('<img alt='' + $('#thumbnail_alt').html() + '' id='thumbnail_img' src='/~' + id + '/public/profile/' + picture._name + '?sid=' + Math.random() + '' />');
+                    $(fullPictureSpan).html('<img alt="' + $('#changepic_fullpicture_alt').html() + '" id="changepic_fullpicture_img" src="/~' + id + '/public/profile/' + picture._name + '?sid=' + Math.random() + '" />');
+                    $(thumbnailSpan).html('<img alt="' + $('#thumbnail_alt').html() + '" id="thumbnail_img" src="/~' + id + '/public/profile/' + picture._name + '?sid=' + Math.random() + '" />');
 
                     // Reset ratio
                     ratio = 1;

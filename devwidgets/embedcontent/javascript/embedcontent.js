@@ -297,24 +297,24 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             if (wData.layout !== 'single') {
                 $embedcontent_display_form.find('img.selected').removeClass('selected');
                 $embedcontent_display_form
-                    .find('input[name='layout'][value='' + wData.layout + '']')
+                    .find('input[name="layout"][value="' + wData.layout + '"]')
                     .siblings('img')
                     .addClass('selected');
                 $embedcontent_display_form
-                    .find('input[name='layout'][value='' + wData.layout + '']')
+                    .find('input[name="layout"][value="' + wData.layout + '"]')
                     .attr('checked', true);
             }
             $embedcontent_display_form
-                .find('input[name='style'][value='' + wData.embedmethod + '']')
+                .find('input[name="style"][value="' + wData.embedmethod + '"]')
                 .parent('div')
                 .siblings('div')
                 .children('img')
                 .addClass('selected');
-            $embedcontent_display_form.find('input[name='style'][value='' + wData.embedmethod + '']').attr('checked', true);
+            $embedcontent_display_form.find('input[name="style"][value="' + wData.embedmethod + '"]').attr('checked', true);
             var checkboxes = ['name', 'download', 'details'];
             $.each(checkboxes, function(i,val) {
                 if (wData[val] === 'true' || wData[val] === true) {
-                    $embedcontent_display_form.find('input[name='' + val + '']').attr('checked', 'checked');
+                    $embedcontent_display_form.find('input[name="' + val + '"]').attr('checked', 'checked');
                     $('.embedcontent_include_' + val, $rootel).show();
                 }
             });
@@ -369,7 +369,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 autosuggestSelectionAdded(newObj);
                 $embedcontent_content_input.autoSuggest( 'add_selected_item', newObj, newObj.value);
             });
-            $('input[id='' + tuid + '']').val('').focus();
+            $('input[id="' + tuid + '"]').val('').focus();
         };
 
         /**
@@ -387,7 +387,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                  }
               });
           });
-          $('input[id='' + tuid + '']').val('').focus();
+          $('input[id="' + tuid + '"]').val('').focus();
           toggleButtons();
         };
 

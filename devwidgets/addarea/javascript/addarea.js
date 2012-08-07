@@ -134,7 +134,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             $('#addarea_content_menu .addarea_content_menu_item:first').addClass('selected');
             $('#addarea_content_container > div').hide();
             // Do a click so it runs through switchNavigation
-            $( 'button[data-containertoshow='addarea_new_container']' ).click();
+            $( 'button[data-containertoshow="addarea_new_container"]' ).click();
         };
 
         /*

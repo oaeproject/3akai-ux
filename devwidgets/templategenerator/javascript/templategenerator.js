@@ -215,7 +215,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core'], function($, _, sakai) 
 
         var createTemplateFile = function() {
             var body = '--AAAAA\r\n';
-            body = body + 'Content-Disposition: form-data; name=\'*\'; filename='' + templategeneratorData.exportData.id + '.txt' \r\n';
+            body = body + 'Content-Disposition: form-data; name=\'*\'; filename="' + templategeneratorData.exportData.id + '.txt" \r\n';
             body = body + 'Content-Type: text/plain \r\n';
             body = body + 'Content-Transfer-Encoding: binary\r\n\r\n';
             body = body + templategeneratorData.output + '\r\n';

@@ -211,8 +211,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                             imgSrc = '/dev/images/group_avatar_icon_32x32.png';
                         }
                         var line_item = elem.html(
-                            '<img class='sm_suggestion_img' src='' + imgSrc + '' />' +
-                            '<span class='sm_suggestion_name'>' + data.name + '</span>');
+                            '<img class="sm_suggestion_img" src="' + imgSrc + '" />' +
+                            '<span class="sm_suggestion_name">' + data.name + '</span>');
                         return line_item;
                     }
                 });

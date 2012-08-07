@@ -228,7 +228,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             for(var i in sakai.data.me.sakai2List.sites) {
                 if (sakai.data.me.sakai2List.sites.hasOwnProperty(i)) {
                     // checked the related checkbox
-                    $('input[id='' + sakai.data.me.sakai2List.sites[i].id + '']').attr('checked', true);
+                    $('input[id="' + sakai.data.me.sakai2List.sites[i].id + '"]').attr('checked', true);
                 }
             }
         };

@@ -187,7 +187,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 toggleVisibility();
                 sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('SUCCESSFULLY_ADDED', 'addpeoplegroups'), sakai.api.Util.TemplateRenderer('addpeoplegroups_added_template', {
                     groupsToAdd: getSelected(),
-                    groupToAddTo: $('#addpeoplegroups_select option[value='' + $addPeopleGroupsSelect.val() + '']').text()
+                    groupToAddTo: $('#addpeoplegroups_select option[value="' + $addPeopleGroupsSelect.val() + '"]').text()
                 }));
             } else {
                 document.location = '/create#l=' + $addPeopleGroupsSelect.val() + '&members=' + getSelectedIDs().toString();

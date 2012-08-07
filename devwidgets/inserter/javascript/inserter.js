@@ -220,12 +220,12 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-fileupload'], function($, sak
          */
         var removeFromLibraryCount = function(ev, deletedContent) {
             sakai.data.me.user.properties.contentCount -= deletedContent.length;
-            var $libraryCountEl = $('#inserter_init_container ul li[data-collection-id='library'] .inserter_item_count_container', $rootel);
+            var $libraryCountEl = $('#inserter_init_container ul li[data-collection-id="library"] .inserter_item_count_container', $rootel);
             $libraryCountEl.text(sakai.data.me.user.properties.contentCount);
         };
 
         var updateCollectionCount = function(e, collectionId, count) {
-            var $collectionCountEl = $('#inserter_init_container ul li[data-collection-id='' + collectionId + ''] .inserter_item_count_container', $rootel);
+            var $collectionCountEl = $('#inserter_init_container ul li[data-collection-id="' + collectionId + '"] .inserter_item_count_container', $rootel);
             $collectionCountEl.text(count);
         };
 
@@ -243,7 +243,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-fileupload'], function($, sak
             if (!inLibrary) {
                 sakai.data.me.user.properties.contentCount += amount;
                 // Display library the counts in the UI
-                var $libraryCountEl = $('#inserter_init_container ul li[data-collection-id='library'] .inserter_item_count_container', $rootel);
+                var $libraryCountEl = $('#inserter_init_container ul li[data-collection-id="library"] .inserter_item_count_container', $rootel);
                 $libraryCountEl.text(sakai.data.me.user.properties.contentCount);
                 // Update the left hand nav library count
                 $(window).trigger('lhnav.updateCount', ['library', sakai.data.me.user.properties.contentCount, false]);

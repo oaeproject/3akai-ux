@@ -232,7 +232,7 @@ define(
                 }
             } else {
                 // unrecognized type
-                debug.warn('sakai.api.Communication.sendMessage(): invalid argument ('to' not an Array or String).');
+                debug.warn('sakai.api.Communication.sendMessage(): invalid argument ("to" not an Array or String).');
 
                 if ($.isFunction(callback)) {
                     callback(false, xhr);

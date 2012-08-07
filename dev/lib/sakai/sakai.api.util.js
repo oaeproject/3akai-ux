@@ -620,7 +620,7 @@ define(
                 if (!text) {
 
                     // Log an error message
-                    debug.info('sakai.api.Util.notification.show: You need to fill out the 'text' parameter');
+                    debug.info('sakai.api.Util.notification.show: You need to fill out the "text" parameter');
 
                     // Make sure the execution in this function stops
                     return;
@@ -701,9 +701,9 @@ define(
             showProgressIndicator: function(title, body) {
                 // Create the HTML for the progress indicator if it doesn't exist yet
                 if ($('#sakai_progressindicator').length === 0) {
-                    var htmlCode = '<div id='sakai_progressindicator' class='s3d-dialog s3d-dialog-container' style='display:none;'>';
-                    htmlCode += '<h1 id='sakai_progressindicator_title' class='s3d-dialog-header'></h1><p id='sakai_progressindicator_body'></p>';
-                    htmlCode += '<div class='s3d-inset-shadow-container'><img src='/dev/images/progress_bar.gif'/></div></div>';
+                    var htmlCode = '<div id="sakai_progressindicator" class="s3d-dialog s3d-dialog-container" style="display:none;">';
+                    htmlCode += '<h1 id="sakai_progressindicator_title" class="s3d-dialog-header"></h1><p id="sakai_progressindicator_body"></p>';
+                    htmlCode += '<div class="s3d-inset-shadow-container"><img src="/dev/images/progress_bar.gif"/></div></div>';
                     var notification = $(htmlCode);
                     $('body').append(notification);
                     sakai_util.Modal.setup('#sakai_progressindicator', {
@@ -912,7 +912,7 @@ define(
                 var selector = tagname;
                 for (var i in attributes) {
                     if (i && attributes.hasOwnProperty(i)) {
-                        selector += '[' + i + '*='' + attributes[i] + '']';
+                        selector += '[' + i + '*="' + attributes[i] + '"]';
                     }
                 }
                 if ($(selector).length) {
@@ -1351,7 +1351,7 @@ define(
          */
         saneHTMLAttribute: function(str) {
             if (str) {
-                return sakai_util.Security.safeOutput(str.replace(/'/g, '\\\'').replace(/'/g, '\\\''));
+                return sakai_util.Security.safeOutput(str.replace(/"/g, '\\\"').replace(/'/g, '\\\''));
             } else {
                 return '';
             }
@@ -1478,7 +1478,7 @@ define(
             }
             else {
                 debug.error(templateElement);
-                throw 'TemplateRenderer: The templateElement '' + templateElement + '' is not in a valid format or the template couldn't be found.';
+                throw 'TemplateRenderer: The templateElement "' + templateElement + '" is not in a valid format or the template couldn\'t be found.';
             }
 
             if (!this.templateCache[templateName]) {
@@ -1503,7 +1503,7 @@ define(
 
                 }
                 else {
-                    debug.error('TemplateRenderer: The template '' + templateName + '' could not be found');
+                    debug.error('TemplateRenderer: The template "' + templateName + '" could not be found');
                 }
             }
 
@@ -1627,7 +1627,7 @@ define(
                 // link is already wrap in anchor tag do nothing
                 // but if it is not wrap in the anchor tag, wrap in the anchor tag.
                 return message.replace(/(<a[^>]*>)?((\w+):\/\/[\S]+([^<br]\b|$))/g, function($0,$1) {
-                    return $1?$0:'<a href=''+$0+'' class='my_link s3d-regular-links s3d-bold' target='_blank'>'+$0+'</a>';
+                    return $1?$0:'<a href="'+$0+'" class="my_link s3d-regular-links s3d-bold" target="_blank">'+$0+'</a>';
                 });
             },
 
@@ -1869,9 +1869,9 @@ define(
 
                 var config =
                     'MathJax.Hub.Config({' +
-                        'messageStyle: 'none',' +
-                        'config: 'default.js',' +
-                        'styles: {'#MathJax_Message': {display: 'none !important'}}' +
+                        'messageStyle: \'none\',' +
+                        'config: \'default.js\',' +
+                        'styles: {\'#MathJax_Message\': {display: \'none !important\'}}' +
                     '}); ' +
                     'MathJax.Hub.Startup.onload();';
 
@@ -1914,13 +1914,13 @@ define(
             }
         },
 
-        // :?=&;\/?@+$<>#%''''{}|\\^[]'
+        // :?=&;\/?@+$<>#%'"''{}|\\^[]'
         makeSafeURL : function(url, replacement) {
             if (!replacement) {
                 replacement = '-';
             }
             url = $.trim(url);
-            url = url.replace(/[:;<>#%{}|~`@%&!$,.=''\^\+\/\?\(\)\*\s\\\\\[\]]/gi, replacement);
+            url = url.replace(/[:;<>#%{}|~`@%&!$,.="'\^\+\/\?\(\)\*\s\\\\\[\]]/gi, replacement);
             url = url.replace(new RegExp('[' + replacement + ']+', 'gi'), replacement);
             return url;
         },
@@ -1928,11 +1928,11 @@ define(
         /**
          * Sling doesn't like certain characters in the tags
          * So we escape them here
-         * /:;,[]*''|
+         * /:;,[]*'"|
          */
         makeSafeTag : function(tag) {
             if (tag) {
-                tag = tag.replace(/[\\\/:;,\[\]\*''|]/gi, '');
+                tag = tag.replace(/[\\\/:;,\[\]\*'"|]/gi, '');
             }
             return tag;
         },
@@ -2349,8 +2349,8 @@ define(
                     // Set up the assignlocation widget
                     var setupAssignLocation = function() {
                         if (!$('#assignlocation_container').length) {
-                            $('<div id='assignlocation_container'>').appendTo('body');
-                            $('<div id='widget_assignlocation' class='widget_inline'/>').appendTo('#assignlocation_container');
+                            $('<div id="assignlocation_container">').appendTo('body');
+                            $('<div id="widget_assignlocation" class="widget_inline"/>').appendTo('#assignlocation_container');
                             require('sakai/sakai.api.widgets').widgetLoader.insertWidgets('#assignlocation_container', false );
                         }
                         $list_categories_button.off('click').on('click', function(e) {
@@ -2374,7 +2374,7 @@ define(
                                 // Remove items removed in the dialog
                                 $.each(currentlySelected, function(i, currentCat) {
                                     if ($.inArray(currentCat.id, catsFromOverlay) === -1) {
-                                        var elt = $elt.parents('.as-selections').find('li[data-value='' + currentCat.value + '']');
+                                        var elt = $elt.parents('.as-selections').find('li[data-value="" + currentCat.value + ""]');
                                         $elt.autoSuggest('remove_item', currentCat.value, elt, $(elt).data('data'));
                                     }
                                 });
@@ -2565,7 +2565,7 @@ define(
                             });
                         }
                         // Get the closest-previous label in the DOM
-                        var $prevLabel = $form.find('label[for='' + $element.attr('id') + '']');
+                        var $prevLabel = $form.find('label[for="' + $element.attr('id') + '"]');
                         $error.attr('id', $element.attr('name') + '_error');
                         $element.attr('aria-describedby', $element.attr('name') + '_error');
                         if (insertAfterLabel) {
@@ -2664,7 +2664,7 @@ define(
                     },
                     start: function(event, ui) {
                         sakai_util.Draggable.setIFrameFix();
-                        $('body').append('<div class='s3d-draggable-draggingitems'>' + sakai_util.Draggable.getDraggableMessage($(ui.helper).children().length) + '</div>');
+                        $('body').append('<div class="s3d-draggable-draggingitems">' + sakai_util.Draggable.getDraggableMessage($(ui.helper).children().length) + '</div>');
                         $(document).trigger('start.drag.sakai');
                         if ($(this).data('startdragevent')) {
                             $(window).trigger($(this).data('startdragevent'), sakai_util.Draggable.getDraggableData(ui.helper));
@@ -2715,7 +2715,7 @@ define(
              * dragging and dropping
              */
             setIFrameFix: function() {
-                $('<div class='ui-resizable-iframeFix' style='background: #fff;'></div>').css({
+                $('<div class="ui-resizable-iframeFix" style="background: #fff;"></div>').css({
                     width: $(document).width() + 'px', height: $(document).height() + 'px',
                     top: '0px', left: '0px',
                     position: 'absolute', opacity: '0.001', zIndex: 100000

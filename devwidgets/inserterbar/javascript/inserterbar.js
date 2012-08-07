@@ -179,17 +179,17 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 var scroll = $.browser.msie ? $('html').scrollTop() : $(window).scrollTop();
                 if (scroll > top) {
                     if (scroll >= ($contentauthoringWidget.height() + top - ($inserterbarWidget.height() / 2))) {
-                        $('.sakaiSkin[role='listbox']').css('position', 'absolute');
+                        $('.sakaiSkin[role="listbox"]').css('position', 'absolute');
                         $inserterbarWidget.css('position', 'absolute');
                     } else {
-                        $('.sakaiSkin[role='listbox']').css('position', 'fixed');
+                        $('.sakaiSkin[role="listbox"]').css('position', 'fixed');
                         $inserterbarWidget.css({
                             'position': 'fixed',
                             'top': '0px'
                         });
                     }
                 } else {
-                    $('.sakaiSkin[role='listbox']').css('position', 'absolute');
+                    $('.sakaiSkin[role="listbox"]').css('position', 'absolute');
                     $inserterbarWidget.css({
                         'position': 'absolute',
                         'top': top + 'px'

@@ -92,7 +92,7 @@ sakai_global.s23_site = function() {
         }
 
         // Log a message if the page with the given pageid was not found
-        debug.error('s23_site: the page with id'' + pageid + '' was not found in the json object');
+        debug.error('s23_site: the page with id "' + pageid + '" was not found in the json object');
         return false;
     };
 

@@ -38,15 +38,15 @@ require(
             var result = $('#dummyForm').clearForm();
 
             //check the fields to be empty/unselected
-            same($('input[name='name']').val(),'','Reset the 'name' field.');
-            $('input[name='gender']').each(function() {
-                same($(this).attr('checked'),undefined,'Reset the ''+$(this).val()+'' field.');
+            same($('input[name="name"]').val(),'','Reset the "name" field.');
+            $('input[name="gender"]').each(function() {
+                same($(this).attr('checked'),undefined,'Reset the "'+$(this).val()+'" field.');
             });
-            $('input[name='color']').each(function() {
-                same($(this).attr('checked'),undefined,'Reset the ''+$(this).val()+'' checkbox.');
+            $('input[name="color"]').each(function() {
+                same($(this).attr('checked'),undefined,'Reset the "'+$(this).val()+'" checkbox.');
             });
-            same($('select[name='shape'] option:selected').val(),undefined,'Reset the 'shape' field.');
-            same($('textarea[name='description']').val(),'','Reset the 'description' field.');
+            same($('select[name="shape"] option:selected').val(),undefined,'Reset the "shape" field.');
+            same($('textarea[name="description"]').val(),'','Reset the "description" field.');
             start();
         });
 

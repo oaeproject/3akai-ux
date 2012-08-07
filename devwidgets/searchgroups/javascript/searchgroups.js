@@ -104,7 +104,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js'], fu
                'searchurlall': searchURLmap.managergroups
             };
             searchConfig.facetedConfig.facets.member = {
-               'category': selectedCategoryPlural + ' I'm a member of',
+               'category': selectedCategoryPlural + ' I\'m a member of',
                'searchurl': searchURLmap.membergroups,
                'searchurlall': searchURLmap.membergroups
             };

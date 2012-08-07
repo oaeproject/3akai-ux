@@ -152,7 +152,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     window.location = '/~' + groupid;
                 }
             } else {
-                $newcreategroupContainer.find('select, input, textarea:not([class*='as-input']), button').removeAttr('disabled');
+                $newcreategroupContainer.find('select, input, textarea:not([class*="as-input"]), button').removeAttr('disabled');
                 sakai.api.Util.progressIndicator.hideProgressIndicator();
                 sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('AN_ERROR_OCCURRED', 'newcreategroup'),
                     sakai.api.i18n.getValueForKey('GROUP_NOT_SUCCESSFULLY_CREATED', 'newcreategroup').replace(/\$\{title\}/, grouptitle),
@@ -194,7 +194,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 }
             },
             submitHandler: function(form) {
-                $newcreategroupContainer.find('select, input, textarea:not([class*='as-input']), button').attr('disabled', 'disabled');
+                $newcreategroupContainer.find('select, input, textarea:not([class*="as-input"]), button').attr('disabled', 'disabled');
                 doCreateSimpleGroup();
             }
         };
@@ -255,8 +255,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 var defaultaccess = currentTemplate.defaultaccess || sakai.config.Permissions.Groups.defaultaccess;
                 var defaultjoin = currentTemplate.defaultjoin || sakai.config.Permissions.Groups.defaultjoin;
 
-                $('#newcreategroup_can_be_found_in option[value='' + defaultaccess + '']', $rootel).attr('selected', 'selected');
-                $('#newcreategroup_membership option[value='' + defaultjoin + '']', $rootel).attr('selected', 'selected');
+                $('#newcreategroup_can_be_found_in option[value="' + defaultaccess + '"]', $rootel).attr('selected', 'selected');
+                $('#newcreategroup_membership option[value="' + defaultjoin + '"]', $rootel).attr('selected', 'selected');
 
                 sakai_global.selecttemplate.currentTemplate = currentTemplate;
 

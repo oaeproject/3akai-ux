@@ -306,7 +306,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
          * @param {Object} ev   jQuery event object
          */
         var removeRow = function(ev) {
-            var $row = $('.contentauthoring_row_container[data-row-id='' + rowToChange + '']', $rootel);
+            var $row = $('.contentauthoring_row_container[data-row-id="' + rowToChange + '"]', $rootel);
             hideEditRowMenu();
             killTinyMCEInstances($row);
             $row.remove();
@@ -319,7 +319,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
          *                                   after the current one
          */
         var addRow = function(insertBefore) {
-            var $row = $('.contentauthoring_row_container[data-row-id='' + rowToChange + '']', $rootel);
+            var $row = $('.contentauthoring_row_container[data-row-id="' + rowToChange + '"]', $rootel);
             hideEditRowMenu();
             if (insertBefore) {
                 $row.before(generateNewRow());
@@ -613,7 +613,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
          * @param {Integer} number   Number of columns the row should get (1-3)
          */
         var changeNumberOfColumns = function(number) {
-            var $row = $('.contentauthoring_row_container[data-row-id='' + rowToChange + '']', $rootel);
+            var $row = $('.contentauthoring_row_container[data-row-id="' + rowToChange + '"]', $rootel);
             var $cells = $('.contentauthoring_cell', $row);
             if ($cells.length > number) {
                 removeColumns($row, number);
@@ -838,7 +838,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             // If the widget exists
             if (sakai.widgets[type]) {
                 var widgetSettingsWidth = sakai.widgets[type].settingsWidth || DEFAULT_WIDGET_SETTINGS_WIDTH;
-                $('#contentauthoring_widget_settings_content', $rootel).html('<div id='widget_' + type + '_' + id + '' class='widget_inline'/>');
+                $('#contentauthoring_widget_settings_content', $rootel).html('<div id="widget_' + type + '_' + id + '" class="widget_inline"/>');
                 $('#contentauthoring_widget_settings_title', $rootel).html(sakai.api.Widgets.getWidgetTitle(sakai.widgets[type].id));
                 sakai.api.Widgets.widgetLoader.insertWidgets('contentauthoring_widget_settings_content', true, storePath + '/');
                 $('#contentauthoring_widget_settings', $rootel).css({
@@ -888,7 +888,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             var $parent = $('.contentauthoring_cell_element #' + currentlyEditing, $rootel).parent();
             $('.contentauthoring_cell_element #' + currentlyEditing, $rootel).remove();
             // Construct the widget
-            $parent.append('<div id='widget_' + $parent.attr('data-element-type') + '_' + currentlyEditing + '' class='widget_inline'></div>');
+            $parent.append('<div id="widget_' + $parent.attr('data-element-type') + '_' + currentlyEditing + '" class="widget_inline"></div>');
             sakai.api.Widgets.widgetLoader.insertWidgets('contentauthoring_widget', false, storePath + '/');
             $('#contentauthoring_widget_settings').jqmHide();
             updateColumnHandles();
@@ -1722,7 +1722,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             if (!$(this).hasClass('contentauthoring_row_reorder_highlight')) {
                 if (!$('.contentauthoring_row_reorder_highlight.external_content').length) {
                     $('.contentauthoring_row_reorder_highlight.external_content', $rootel).remove();
-                    $(this).append($('<div class='contentauthoring_row_reorder_highlight external_content'></div>'));
+                    $(this).append($('<div class="contentauthoring_row_reorder_highlight external_content"></div>'));
                 }
             }
             return false;

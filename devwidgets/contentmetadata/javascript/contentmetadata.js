@@ -401,7 +401,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
             });
 
             // setup jeditable for the description textarea
-            var placeholderStart = '<span class='contentmetadata_placeholder'>';
+            var placeholderStart = '<span class="contentmetadata_placeholder">';
             var placeholderEnd = '</span>';
             var placeholder = sakai.api.i18n.getValueForKey('CLICK_TO_EDIT_DESCRIPTION', 'contentmetadata');
             var tooltip = sakai.api.i18n.getValueForKey('CLICK_TO_EDIT', 'contentmetadata');
@@ -453,8 +453,8 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
             var urlCallback = function(value, settings) {
                 // add a hyperlink that can be clicked
                 if ($(this).text()) {
-                    var link = '<a class='s3d-action' target='_blank' href='' +
-                    $(this).text() + ''>' + $(this).text() + '</a>';
+                    var link = '<a class="s3d-action" target="_blank" href="' +
+                    $(this).text() + '">' + $(this).text() + '</a>';
                     $(this).html(link);
                 }
             };

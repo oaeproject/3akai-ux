@@ -231,7 +231,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         });
 
         $('#accountpreferences_privacy_change').on('submit', function(ev) {
-            var option = $('.accountpreferences_selectable input:radio[name='accountpreferences_privacy_radio']:checked').val();
+            var option = $('.accountpreferences_selectable input:radio[name="accountpreferences_privacy_radio"]:checked').val();
             sakai.api.User.savePrivacySettings(option, function(success) {
                 sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('PRIVACY_SETTINGS', 'accountpreferences'), sakai.api.i18n.getValueForKey('PRIVACY_SETTINGS_UPDATED', 'accountpreferences'));
                 privacyChanges = false;
@@ -251,7 +251,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {String} languageCode: ISO3 code of the language
          */
         var selectLanguage= function(countrycode, languageCode) {
-            $(languagesContainer + ' option[value='' + languageCode + '_' + countrycode + '']').attr('selected', true);
+            $(languagesContainer + ' option[value="' + languageCode + '_' + countrycode + '"]').attr('selected', true);
         };
 
         /**
@@ -259,7 +259,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {String} timezone: timezone
          */
         var selectTimezone= function(timezone) {
-            $(timezonesContainer + ' option[value='' + timezone.name + '']').attr('selected', true);
+            $(timezonesContainer + ' option[value="' + timezone.name + '"]').attr('selected', true);
         };
 
         /**
@@ -269,7 +269,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var selectAutoTagging = function(autoTag) {
             autoTag = autoTag || false;
             $('#accountpreferences_section_autotagging_buttons button').removeClass(taggingSelected);
-            $('input:radio[name='autotagging'][value=' + autoTag + ']').attr('checked', 'checked');
+            $('input:radio[name="autotagging"][value=' + autoTag + ']').attr('checked', 'checked');
             $('#accountpreferences_section_autotagging_buttons #button_autotagging_' + autoTag).addClass(taggingSelected);
             $('#tag_msg_info').attr('disabled', !autoTag);
         };
@@ -316,7 +316,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var saveRegionalToMe = function() {
             var language = $(languagesContainer).val();
-            var isAutoTagging = $('input:radio[name='autotagging']:checked').val();
+            var isAutoTagging = $('input:radio[name="autotagging"]:checked').val();
             var sendTagMsg = $('#tag_msg_info').is(':checked');
             var locale = {
                 'locale' : language,
@@ -498,14 +498,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         });
 
         /** Binds all the regional settings select box change **/
-        $('#time_zone, #pass_language, input[name='autotagging'], #tag_msg_info').change(function(e) {
+        $('#time_zone, #pass_language, input[name="autotagging"], #tag_msg_info').change(function(e) {
             // enable the save button
             enableElements($(saveButton));
             preferencesChanges = true;
         });
 
         /** Binds all the password boxes (keyup) **/
-        $('input[type='password']', passChangeContainer).keyup(function(e) {
+        $('input[type="password"]', passChangeContainer).keyup(function(e) {
 
             // If we'd use keypress for this then the input fields wouldn't be updated yet
             // check if the user didn't just fill in some spaces

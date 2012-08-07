@@ -173,9 +173,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             newjson.profilePicture = sakai.api.User.getProfilePicture(newjson.profile);
             var fname = sakai.api.User.getFirstName(newjson.profile);
             if (fname.substring(fname.length-1, fname.length).toLowerCase() === 's') {
-                fname = fname + ''';
+                fname = fname + '\'';
             } else {
-                fname = fname + ''s';
+                fname = fname + '\'s';
             }
             newjson.firstName = fname;
             sakai.api.Util.TemplateRenderer(recentcontactsnewItemTemplate,newjson, $(recentcontactsnewItem, rootel));

@@ -39,9 +39,9 @@ require(
             });
 
             if (widgetslistwithkey.length === 0 && _.isUndefined(widgetdefaultbundlekey)) {
-                QUnit.ok(true, 'The key ' + key + ' isn\'t used in any other widgets or in the defaultbundle');
+                QUnit.ok(true, 'The key "' + key + '" isn\'t used in any other widgets or in the defaultbundle');
             } else {
-                var outputtext = 'The key ' + key + ' is used in';
+                var outputtext = 'The key "' + key + '" is used in';
                 if (widgetslistwithkey.length !== 0) {
                     outputtext += ' the following widgets: ' + widgetslistwithkey.join(', ');
                 }

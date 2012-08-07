@@ -711,7 +711,7 @@ define(
          * This method exists to transform a user's search string which
          * they type in into the string we should pass to the server
          *
-         * Strings with AND, OR, ''', '-', '_' are treated as advanced search queries
+         * Strings with AND, OR, '"', '-', '_' are treated as advanced search queries
          * and left alone. Those without are transformed into term* AND term2*
          *
          * @param {String} searchString The user's search
@@ -741,7 +741,7 @@ define(
             // we are sure there it isn't an advanced search query
             if (!advancedSearchRegex.test(searchString)) {
                 if (handlePhrases) {
-                    ret = ''' + ret.split(', ').join('' ' + joinOn + ' '') + ''';
+                    ret = '"' + ret.split(', ').join('" ' + joinOn + ' "') + '"';
                 } else {
                     ret = ret.split(' ').join(' ' + joinOn + ' ');
                 }

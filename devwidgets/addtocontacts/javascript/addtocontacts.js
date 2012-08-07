@@ -118,9 +118,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai, sakai_util) {
                 }
                 // Check for picture
                 if (user.pictureLink) {
-                    $(addToContactsInfoProfilePicture).html('<img alt='' + $('#addtocontacts_profilepicture_alt').html() + '' src='' + user.pictureLink + '' class='s3d-icon-50' />');
+                    $(addToContactsInfoProfilePicture).html('<img alt="' + $('#addtocontacts_profilepicture_alt').html() + '" src="' + user.pictureLink + '" class="s3d-icon-50" />');
                 } else {
-                    $(addToContactsInfoProfilePicture).html('<img alt='' + $('#addtocontacts_profilepicture_alt').html() + '' src='' + sakai.config.URL.USER_DEFAULT_ICON_URL + '' class='s3d-icon-50' />');
+                    $(addToContactsInfoProfilePicture).html('<img alt="' + $('#addtocontacts_profilepicture_alt').html() + '" src="' + sakai.config.URL.USER_DEFAULT_ICON_URL + '" class="s3d-icon-50" />');
                 }
             }
         };

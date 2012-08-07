@@ -103,7 +103,7 @@ require(
         $run_all_current_test.html('&nbsp;');
         // would have used Trimpath here but since we're testing trimpath
         // I thought it best to stick with some ugly html-in-js
-        var html = '<tr id='' + currentTest.url + ''><td>' +
+        var html = '<tr id="' + currentTest.url + '"><td>' +
                     currentTest.title + '</td><td>' +
                     obj.failures + '</td><td>' +
                     (obj.total - obj.failures) + '</td><td>' +
@@ -167,8 +167,8 @@ require(
     $('tr[id] td').on('click', function() {
         var $parent = $(this).parent('tr');
         // only hide the iframe if its not the one we want
-        $('#run_all_iframes iframe[src!='' + $parent.attr('id') + '']:visible').hide();
-        $('#run_all_iframes iframe[src='' + $parent.attr('id') + '']').show(0,function() {
+        $('#run_all_iframes iframe[src!="' + $parent.attr('id') + '"]:visible').hide();
+        $('#run_all_iframes iframe[src="' + $parent.attr('id') + '"]').show(0,function() {
             // scroll to the top of the iframe
             window.scrollTo(0,$('iframe:visible').position().top);
             // click the checkbox in the iframe to only show failed tests

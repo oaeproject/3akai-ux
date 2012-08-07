@@ -1698,7 +1698,7 @@ define(function() {
             '${refid}0': {
                 'id2506067': {
                     'htmlblock': {
-                        'content': '<div class='fl-force-right'><button type='button' class='s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_change_layout' data-tuid='${refid}5'>__MSG__EDIT_LAYOUT__</button><button type='button' class='s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_global_add_widget' data-tuid='${refid}5'>__MSG__ADD_WIDGET__</button></div><h1 class='s3d-contentpage-title'>__MSG__MY_DASHBOARD__</h1>'
+                        'content': '<div class="fl-force-right"><button type="button" class="s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_change_layout" data-tuid="${refid}5">__MSG__EDIT_LAYOUT__</button><button type="button" class="s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_global_add_widget" data-tuid="${refid}5">__MSG__ADD_WIDGET__</button></div><h1 class="s3d-contentpage-title">__MSG__MY_DASHBOARD__</h1>'
                     }
                 },
                 '${refid}5': {

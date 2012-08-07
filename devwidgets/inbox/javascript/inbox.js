@@ -60,7 +60,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
          */
         var toggleGlobalButtons = function(enable) {
             if (enable) {
-                var $unreadMessages = $inbox_message_list.find('input[type='checkbox']:visible:checked')
+                var $unreadMessages = $inbox_message_list.find('input[type="checkbox"]:visible:checked')
                 .parents('.inbox_items_container.unread');
                 if ($unreadMessages.length) {
                     $inbox_mark_as_read.removeAttr('disabled');
@@ -82,13 +82,13 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
          */
         var selectMessages = function(doCheck) {
             if (doCheck) {
-                var selector = '.inbox_items_container input[type='checkbox']';
+                var selector = '.inbox_items_container input[type="checkbox"]';
                 if ($inbox_message_list.find(selector).length > 0) {
                     $inbox_message_list.find(selector).attr('checked', 'checked');
                     toggleGlobalButtons(true);
                 }
             } else {
-                $inbox_message_list.find('input[type='checkbox']').removeAttr('checked');
+                $inbox_message_list.find('input[type="checkbox"]').removeAttr('checked');
                 toggleGlobalButtons(false);
             }
         };
@@ -97,7 +97,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
          * Mark all selected messsages as read
          */
         $inbox_mark_as_read.on('click', function() {
-            var unreadMessages = $inbox_message_list.find('input[type='checkbox']:visible:checked').parents('.inbox_items_container.unread');
+            var unreadMessages = $inbox_message_list.find('input[type="checkbox"]:visible:checked').parents('.inbox_items_container.unread');
             var readList = [];
             $.each(unreadMessages, function(i,elt) {
                 var message = messages[$(elt).attr('id')];
@@ -112,8 +112,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             selectMessages($inbox_select_checkbox.is(':checked'));
         });
 
-        $('.inbox_items_container input[type='checkbox']', $rootel).on('change', function() {
-            if ($('.inbox_items_container input[type='checkbox']:checked', $rootel).length > 0) {
+        $('.inbox_items_container input[type="checkbox"]', $rootel).on('change', function() {
+            if ($('.inbox_items_container input[type="checkbox"]:checked', $rootel).length > 0) {
                 toggleGlobalButtons(true);
             } else {
                 toggleGlobalButtons(false);
@@ -226,7 +226,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
          * Delete messages selected in the current view
          */
         var deleteMultipleMessages = function(e) {
-            var messagesToDelete = $inbox_message_list.find('input[type='checkbox']:visible:checked').parents('.inbox_items_container');
+            var messagesToDelete = $inbox_message_list.find('input[type="checkbox"]:visible:checked').parents('.inbox_items_container');
             var messageList = [];
             $.each(messagesToDelete, function(i,elt) {
                 var msg = messages[$(elt).attr('id')];

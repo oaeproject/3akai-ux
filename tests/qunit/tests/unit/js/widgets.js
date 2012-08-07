@@ -125,7 +125,7 @@ require(
                         }
                         propertiesCount--;
                     }
-                    ok(count === 1, 'Property '' + j + '' is a valid property');
+                    ok(count === 1, 'Property "' + j + '" is a valid property');
                 }
             }
             callback();

@@ -811,7 +811,7 @@ define(
                     }
                     else {
                         debug.error('sharecontent failed to change content ' +
-                        'permission to 'viewer' for member: ' +
+                        'permission to "viewer" for member: ' +
                         userId);
                         debug.error('xhr data returned: ' + data);
                     }
@@ -1036,10 +1036,10 @@ define(
                             if (!$(data).find('SlideShareServiceError').text()) {
                                 var embed = $($(data).find('Embed').text());
                                 // resize to fit contentpreview
-                                embed.find('*[style*='width']').css('width', '100%');
-                                embed.find('*[style*='height']').css('height', '500px');
-                                embed.find('*[width='425']').attr('width', '100%');
-                                embed.find('*[height='355']').attr('height', '500');
+                                embed.find('*[style*="width"]').css('width', '100%');
+                                embed.find('*[style*="height"]').css('height', '500px');
+                                embed.find('*[width="425"]').attr('width', '100%');
+                                embed.find('*[height="355"]').attr('height', '500');
 
                                 result.url = embed.html();
                                 result.type = 'embed';
@@ -1816,7 +1816,7 @@ define(
                         }
                     },
                     'error': function(status) {
-                        debug.error('Loading the current user's collections did not succeed');
+                        debug.error('Loading the current user\'s collections did not succeed');
                         if ($.isFunction(callback)) {
                             callback(false);
                         }

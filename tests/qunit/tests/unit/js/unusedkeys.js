@@ -44,7 +44,7 @@ require(
             if (htmldata.indexOf(completekey) >= 0 || javascript.indexOf(key) >= 0 || sakaiConfigStr.indexOf(key) >= 0) {
                 ok(true, 'The following key is used: ' + key);
             } else {
-                ok(false, 'The following key isn't used: ' + key);
+                ok(false, 'The following key isn\'t used: ' + key);
             }
         };
 

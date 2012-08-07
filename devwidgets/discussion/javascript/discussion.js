@@ -236,7 +236,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 quote = quote.substring(quote.indexOf(']') + 1, quote.length);
                 // Parse the original author
                 var by = message.split('[/quote]')[0];
-                by = by.substring(by.indexOf(''') + 1, by.indexOf(']') - 1);
+                by = by.substring(by.indexOf('\'') + 1, by.indexOf(']') - 1);
                 return {'quote':quote, 'by':by};
             } else {
                 return quote;
@@ -476,9 +476,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var saveSettings = function(callback) {
             var data = widgetSettings;
 
-            widgetSettings['replytype'] = $('#discussion_settings_reply_options input[type='radio']:checked', $rootel).val();
-            widgetSettings['whocanaddtopic'] = $('#discussion_settings_permissions_add_new input[type='radio']:checked', $rootel).val() || 'anyone';
-            widgetSettings['whocanreply'] = $('#discussion_settings_permissions_who_can_reply input[type='radio']:checked', $rootel).val() || 'anyone';
+            widgetSettings['replytype'] = $('#discussion_settings_reply_options input[type="radio"]:checked', $rootel).val();
+            widgetSettings['whocanaddtopic'] = $('#discussion_settings_permissions_add_new input[type="radio"]:checked', $rootel).val() || 'anyone';
+            widgetSettings['whocanreply'] = $('#discussion_settings_permissions_who_can_reply input[type="radio"]:checked', $rootel).val() || 'anyone';
             widgetSettings['marker'] = marker;
 
             // JCR properties are not necessary.
@@ -619,7 +619,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
             if (message) {
                 if ($replyParent.find('#discussion_topic_quoted_text').length) {
-                    message = '[quote='' + $.trim($(discussionTopicReplyQuotedUser, $rootel).text()) + '']' + $replyParent.find('#discussion_topic_quoted_text').val() + '[/quote]' + message;
+                    message = '[quote="' + $.trim($(discussionTopicReplyQuotedUser, $rootel).text()) + '"]' + $replyParent.find('#discussion_topic_quoted_text').val() + '[/quote]' + message;
                 }
 
                 replyToTopic(topicId, message, $(form).parents(discussionTopicReplyContainer), $replyParent);
@@ -703,7 +703,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 'sakai:body': body
             };
             if (quote) {
-                data['sakai:body'] = '[quote='' + quoted + '']' + quote + '[/quote]' + body;
+                data['sakai:body'] = '[quote="' + quoted + '"]' + quote + '[/quote]' + body;
             }
 
             $.ajax({
@@ -881,7 +881,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     };
                 }
                 // Undo the saneHTMLAttribute applied in the template
-                renderData.body = renderData.body.replace(/\\\'/g, ''').replace(/\\\'/g, '\'');
+                renderData.body = renderData.body.replace(/\\\"/g, '"').replace(/\\\'/g, '\'');
                 $(this).parents(s3dHighlightBackgroundClass).children( discussionEntityContainer + ',' + discussionReplyContents).hide();
                 sakai.api.Util.TemplateRenderer(discussionTopicReplyTemplate, renderData, $(this).parents(s3dHighlightBackgroundClass).children(discussionEditContainer));
                 var editValidateOpts = {

@@ -35,7 +35,7 @@ require(
             ok($(elt).attr('alt') || $(elt).prev('img').attr('src') === $(elt).attr('src') || parentTitle, 'IMG tag has ALT attribute:' + $('<div/>').html(elt).html());
         });
 
-        $.each($elt.find('input[type='image']'), function(i, elt) {
+        $.each($elt.find('input[type="image"]'), function(i, elt) {
             ok($(elt).attr('alt'), 'INPUT img type tag has ALT attribute:' + $('<div/>').html(elt).html());
         });
 
@@ -83,7 +83,7 @@ require(
 
                 // We need to empty out the SRC since otherwise we'll get unnecessary error messages
                 // These messages appear since the browser wants to load the actual image (e.g. src='{test.img}')
-                templateData = templateData.replace(/src='(.+?)'/g, 'src=''');
+                templateData = templateData.replace(/src='(.+?)'/g, 'src=""');
                 var div = document.createElement('div');
                 div.innerHTML = templateData;
                 checkElements($(div), false);

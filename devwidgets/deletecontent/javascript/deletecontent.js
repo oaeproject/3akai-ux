@@ -379,7 +379,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * first whether the content is being used by anyone else
          */
         var selectHybrid = function() {
-            var manageOption = $('input[name='deletecontent_hybrid_options']:checked').val();
+            var manageOption = $('input[name="deletecontent_hybrid_options"]:checked').val();
             if (manageOption === 'libraryonly') {
                 removeFromLibrary();
             } else if (manageOption === 'system') {

@@ -106,7 +106,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                 }
             } else {
                 // Remove the sakai.index stylesheet as it would mess up the design
-                $('LINK[href*='/dev/css/sakai/sakai.index.css']').remove();
+                $('LINK[href*="/dev/css/sakai/sakai.index.css"]').remove();
                 // the user is logged in and should get a page in Sakai itself
                 renderedTemplate = sakai.api.Util.TemplateRenderer(permissionsErrorLoggedInTemplate, sakai.data.me.user).replace(/\r/g, '');
                 $(permissionsError).append(renderedTemplate);

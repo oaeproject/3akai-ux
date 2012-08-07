@@ -272,11 +272,11 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                     }
                 }
 
-                var jsonstring = '{'layout':'' + settings.layout + '','columns':{';
+                var jsonstring = '{"layout":"' + settings.layout + '","columns":{';
                 for (var y = 0, v = sakai.config.widgets.layouts[settings.layout].widths.length; y < v; y++) {
-                    jsonstring += ''column' + (y + 1) + '':[';
+                    jsonstring += '"column' + (y + 1) + '":[';
                     for (var r = 0, h = columns[y].length; r < h; r++) {
-                        jsonstring += '{'uid':'' + columns[y][r].uid + '','visible':'' + columns[y][r].visible + '','name':'' + columns[y][r].name + ''}';
+                        jsonstring += '{"uid":"' + columns[y][r].uid + '","visible":"' + columns[y][r].visible + '","name":"' + columns[y][r].name + '"}';
                         if (r !== columns[y].length - 1) {
                             jsonstring += ',';
                         }
@@ -508,14 +508,14 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
 
         var saveState = function() {
 
-            var serString = '{'layout':'' + settings.layout + '','columns':{';
+            var serString = '{"layout":"' + settings.layout + '","columns":{';
 
             var columns = $('.groupWrapper', $rootel);
             for (var i = 0, j = columns.length; i < j; i++) {
                 if (i !== 0) {
                     serString += ',';
                 }
-                serString += ''column' + (i + 1) + '':[';
+                serString += '"column' + (i + 1) + '":[';
                 var column = columns[i];
                 var iii = -1;
                 for (var ii = 0, jj = column.childNodes.length; ii < jj; ii++) {
@@ -545,7 +545,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                             if (iii !== 0) {
                                 serString += ',';
                             }
-                            serString += '{'uid':'' + uid + '','visible':'' + widgetdisplay + '','name':'' + node.id.split('_')[0] + ''}';
+                            serString += '{"uid":"' + uid + '","visible":"' + widgetdisplay + '","name":"' + node.id.split('_')[0] + '"}';
 
                         }
                     } catch(err) {
@@ -649,11 +649,11 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
             columns[lowestcolumn][_i].visible = 'block';
             columns[lowestcolumn][_i].uid = 'id' + Math.round(Math.random() * 10000000000);
 
-            var jsonstring = '{'layout':'' + selectedlayout + '','columns':{';
+            var jsonstring = '{"layout":"' + selectedlayout + '","columns":{';
             for (var z = 0, x = sakai.config.widgets.layouts[selectedlayout].widths.length; z < x; z++) {
-                jsonstring += ''column' + (z + 1) + '':[';
+                jsonstring += '"column' + (z + 1) + '":[';
                 for (var ii = 0, jj = columns[z].length; ii < jj; ii++) {
-                    jsonstring += '{'uid':'' + columns[z][ii].uid + '','visible':'' + columns[z][ii].visible + '','name':'' + columns[z][ii].name + ''}';
+                    jsonstring += '{"uid":"' + columns[z][ii].uid + '","visible":"' + columns[z][ii].visible + '","name":"' + columns[z][ii].name + '"}';
                     if (ii !== columns[z].length - 1) {
                         jsonstring += ',';
                     }

@@ -92,7 +92,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                 sakai.api.Util.notification.show('', $profile_message_form_successful.text() , sakai.api.Util.notification.type.INFORMATION);
             } else {
                 sakai.api.Util.notification.show('', $profile_error_form_error_server.text() , sakai.api.Util.notification.type.ERROR);
-                debug.error('The profile data couldn't be saved successfully');
+                debug.error('The profile data couldn\'t be saved successfully');
             }
         };
 

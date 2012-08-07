@@ -161,9 +161,9 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                     addThisTitle = sakai.api.i18n.getValueForKey('SHARE_EXT_MSG1','newsharecontent')+shareData.filename.replace(/'/gi,'')+' '+sakai.api.i18n.getValueForKey('SHARE_EXT_MSG2','newsharecontent')+' ' +sakai.api.i18n.getValueForKey('TITLE_PLAIN');
                 }
                 else{
-                    addThisTitle =  shareData.filename.replace(/'/gi,'')+' '+sakai.api.i18n.getValueForKey('SHARE_EXT_MSG2','newsharecontent')+' ' + sakai.api.i18n.getValueForKey('TITLE_PLAIN');
+                    addThisTitle =  shareData.filename.replace(/"/gi,'')+' '+sakai.api.i18n.getValueForKey('SHARE_EXT_MSG2','newsharecontent')+' ' + sakai.api.i18n.getValueForKey('TITLE_PLAIN');
                 }
-                tbx.append('<a class='addthis_button_'+s+'' addthis:url=''+shareData.path+'' addthis:title=''+addThisTitle+''></a>');
+                tbx.append('<a class="addthis_button_'+s+'" addthis:url="'+shareData.path+'" addthis:title="'+addThisTitle+'"></a>');
             }
             addthis.toolbox('#toolbox');
         };

@@ -354,7 +354,7 @@ define(
                     // need to add quotations marks if key is adjacent to an equals sign which means its probably missing quotes - IE
                     if (replace.substr(0,2) !== '__') {
                         if (replace.substr(0,1) === '=') {
-                            quotes = ''';
+                            quotes = '"';
                         }
                         replace = replace.substr(1, replace.length);
                     }

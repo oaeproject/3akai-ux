@@ -143,7 +143,7 @@ define(
                     if ($.isFunction(fct)) {
                         fct();
                     } else {
-                        debug.error('sakai magic - sakai.api.Widgets.Container.performLoad - The function couldn't execute correctly: '' + fct + ''');
+                        debug.error('sakai magic - sakai.api.Widgets.Container.performLoad - The function couldn\'t execute correctly: "' + fct + '"');
                     }
                 }
                 this.toLoad = [];
@@ -287,7 +287,7 @@ define(
                         URL : [],
                         content : content
                     };
-                    var regexp = new RegExp('<'+tagName+'.*?'+URLIdentifier+'\\s?=\\s?['|'+'\''+']([^']*)['|'+'\''+'].*/.*?>', 'gi');
+                    var regexp = new RegExp('<'+tagName+'.*?'+URLIdentifier+'\\s?=\\s?["|'+'\''+']([^"]*)["|'+'\''+'].*/.*?>', 'gi');
                     var regexp_match_result = regexp.exec(content);
                     while (regexp_match_result !== null) {
                         returnObject.URL[returnObject.URL.length] = regexp_match_result[1]; // value of URLIdentifier attrib
@@ -427,7 +427,7 @@ define(
                                             // need to add quotations marks if key is adjacent to an equals sign which means its probably missing quotes - IE
                                             if (replace.substr(0, 2) !== '__') {
                                                 if (replace.substr(0, 1) === '=') {
-                                                    quotes = ''';
+                                                    quotes = '"';
                                                 }
                                                 replace = replace.substr(1, replace.length);
                                             }
@@ -588,7 +588,7 @@ define(
 
                                 // Replace all the widgets with id 'widget_' to widgets with new id's
                                 // and add set the appropriate float class
-                                $(document.getElementById(widgetsInternal[i][ii].id)).replaceWith($('<div id=''+widgetsInternal[i][ii].uid+'' class='' + widgetsInternal[i][ii].floating + ''></div>'));
+                                $(document.getElementById(widgetsInternal[i][ii].id)).replaceWith($('<div id="'+widgetsInternal[i][ii].uid+'" class="' + widgetsInternal[i][ii].floating + '"></div>'));
                             }
 
                             var url = sakai.widgets[i].url;
@@ -699,7 +699,7 @@ define(
                 return true;
             } else if (!widgetData && tuid) {
                 var ref = $('#' + tuid).parents('#s3d-page-container').children('div').attr('id');
-                var canEdit = $('li[data-sakai-ref=''+ ref +'']').data('sakai-manage');
+                var canEdit = $('li[data-sakai-ref="'+ ref +'"]').data('sakai-manage');
                 return canEdit;
             } else {
                 return false;
@@ -713,7 +713,7 @@ define(
          * @param {Boolean} showing true if we are showing the widget, false if it is about to be hidden
          */
         nofityWidgetShown : function(selector, showing) {
-            var elts = $(selector).find('div[class^='inline_class_widget']');
+            var elts = $(selector).find('div[class^="inline_class_widget"]');
             $.each(elts, function(i,elt) {
                 var tuid = $(elt).attr('id');
                 $(window).trigger(tuid + '.shown.sakai', [showing]);
@@ -725,7 +725,7 @@ define(
          * pushState for them
          */
         bindToHash : function() {
-            $('a[href^='#']').on('click', function(e) {
+            $('a[href^="#"]').on('click', function(e) {
                 var $target = $(e.currentTarget),
                     args = $target.attr('href'),
                     replace = $target.data('reset-hash'),
@@ -898,7 +898,7 @@ define(
                 var onloadWidgets = '';
                 $.each(sakai.widgets, function(widgetid, widget) {
                     if (widget.trigger && widget.trigger.onLoad) {
-                        onloadWidgets += '<div id='widget_' + widgetid + '' class='widget_inline'></div>';
+                        onloadWidgets += '<div id="widget_' + widgetid + '" class="widget_inline"></div>';
                     }
                 });
                 if (onloadWidgets) {
@@ -940,7 +940,7 @@ define(
                                 $(document).off('click', selector);
                             });
 
-                            $('body').prepend('<div id='widget_' + widgetid + '' class='widget_inline'></div>');
+                            $('body').prepend('<div id="widget_' + widgetid + '" class="widget_inline"></div>');
                             sakaiWidgetsAPI.widgetLoader.insertWidgets(null, false, null, null, null, finishCallBack);
                         };
 
