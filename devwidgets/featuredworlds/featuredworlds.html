@@ -4,7 +4,7 @@
 <div style="display:none">__MSG__IE_PLACEHOLDER__</div>
 
 <div class="featuredworlds_widget s3d-widget-container">
-    <div id="featuredworlds_container"><!----></div>
+    <div id="featuredworlds_container" role="complementary" aria-label="__MSG__FEATURED_WORLDS_ARIA_LABEL__"><!----></div>
 </div>
 
 <div id="featuredworlds_template"><!--
@@ -15,7 +15,9 @@
                 <span class="featuredworlds_tab_count">
                     <span class="s3d-counts-outer">
                         <span class="s3d-counts-inner">${data[tab.id].total}</span>
-                        <a id="featuredworlds_showall_${tab.id}" style="display:none;" href="/search#l=${tab.id}&refine=directory/${category.replace("-", "/")}" title="__MSG__VIEW_ALL__" class="s3d-bold s3d-regular-links">__MSG__SEE_ALL__</a>
+                        <a id="featuredworlds_showall_${tab.id}" style="display:none;" href="/search#l=${tab.id}&refine=directory/${category.replace("-", "/")}" title="__MSG__VIEW_ALL__" class="s3d-bold s3d-regular-links">
+                            __MSG__SEE_ALL__<span class="s3d-aural-text"> ${tab.title}</span>
+                        </a>
                     </span>
                 </span>
             </div>

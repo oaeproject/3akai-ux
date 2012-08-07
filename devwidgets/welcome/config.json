@@ -6,6 +6,9 @@
             "bundle": "/devwidgets/welcome/bundles/default.properties",
             "description": "Welcome widget",
             "name": "Welcome widget"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/welcome/bundles/fr_FR.properties"
         }
     },
     "id": "welcome",

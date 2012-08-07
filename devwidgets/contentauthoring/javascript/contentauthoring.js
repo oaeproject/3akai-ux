@@ -44,6 +44,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         var isDragging = false;
         var editInterval = false;
         var uniqueModifierId = sakai.api.Util.generateWidgetId();
+        var pageTitle = '';
 
         ///////////////////////
         // Utility functions //
@@ -194,6 +195,25 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // ROW HOVER //
         ///////////////
 
+        var setRowHoverIn = function(e, $container) {
+            var $el = $(this);
+            if ($container) {
+                $el = $container;
+            }
+            // Only show the hover state when we are in edit mode and we are not dragging an element
+            if (isInEditMode() && !isDragging) {
+                $('.contentauthoring_row_handle_container', $el).css('visibility', 'visible');
+            }
+        };
+
+        var setRowHoverOut = function(e, $container) {
+            var $el = $(this);
+            if ($container) {
+                $el = $container;
+            }
+            $('.contentauthoring_row_handle_container', $el).css('visibility', 'hidden');
+        };
+
         /**
          * Set the onhover and onhoverout functions for each row. When hovering over a
          * row, the edit row menu will be shown. When hovering out of it, it will be
@@ -201,14 +221,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
          */
         var setRowHover = function() {
             $('.contentauthoring_row_container', $rootel).off('hover');
-            $('.contentauthoring_row_container', $rootel).hover(function() {
-                // Only show the hover state when we are in edit mode and we are not dragging an element
-                if (isInEditMode() && !isDragging) {
-                    $('.contentauthoring_row_handle_container', $(this)).css('visibility', 'visible');
-                }
-            }, function() {
-                $('.contentauthoring_row_handle_container', $(this)).css('visibility', 'hidden');
-            });
+            $('.contentauthoring_row_container', $rootel).hover(setRowHoverIn, setRowHoverOut);
         };
 
         //////////////////////
@@ -274,10 +287,12 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 var show = ($('.contentauthoring_row', $('#' + currentPageShown.ref)).length > 1);
                 $('#contentauthoring_row_menu_remove', $rootel).parent('li').toggle(show);
                 $(this).parents('.contentauthoring_row_handle_container').addClass('selected');
-                $('#contentauthoring_row_menu', $rootel).css({
+                var $rowMenu = $('#contentauthoring_row_menu', $rootel);
+                $rowMenu.css({
                     'left': $(this).parent().position().left + 'px',
                     'top': ($(this).parent().position().top + 7) + 'px'
                 }).show();
+                $rowMenu.find('button:visible:first').focus();
                 rowToChange = currentRow;
                 checkColumnsUsed($(this).parents('.contentauthoring_row_container'));
             }
@@ -720,23 +735,36 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // WIDGET HOVER //
         //////////////////
 
+        var showEditCellMenuHoverIn = function(e, $container) {
+            var $el = $(this);
+            if ($container) {
+                $el = $container;
+            }
+            // Only show the hover state when we are in edit mode and we are not dragging an element
+            if (isInEditMode() && !isDragging) {
+                $('.contentauthoring_cell_element_actions', $el).css('left', $el.position().left + 'px');
+                $('.contentauthoring_cell_element_actions', $el).css('top', ($el.position().top + 1) + 'px');
+                $('.contentauthoring_cell_element_actions', $el).show();
+                $('.contentauthoring_cell_element_hover', $rootel).removeClass('contentauthoring_cell_element_hover');
+                $el.addClass('contentauthoring_cell_element_hover');
+            }
+        };
+
+        var showEditCellMenuHoverOut = function(e, $container) {
+            var $el = $(this);
+            if ($container) {
+                $el = $container;
+            }
+            $('.contentauthoring_cell_element_actions', $rootel).hide();
+            $el.removeClass('contentauthoring_cell_element_hover');
+        };
+
         /**
          * Show the widget context menu when hovering over the widget and hide it when
          * hovering out of the widget
          */
         var showEditCellMenu = function() {
-            $('.contentauthoring_cell_element', $rootel).off('hover').hover(function() {
-                // Only show the hover state when we are in edit mode and we are not dragging an element
-                if (isInEditMode() && !isDragging) {
-                    $('.contentauthoring_cell_element_actions', $(this)).css('left', $(this).position().left + 'px');
-                    $('.contentauthoring_cell_element_actions', $(this)).css('top', ($(this).position().top + 1) + 'px');
-                    $('.contentauthoring_cell_element_actions', $(this)).show();
-                    $(this).addClass('contentauthoring_cell_element_hover');
-                }
-            }, function(ev, ui) {
-                $('.contentauthoring_cell_element_actions', $rootel).hide();
-                $(this).removeClass('contentauthoring_cell_element_hover');
-            });
+            $('.contentauthoring_cell_element', $rootel).off('hover').hover(showEditCellMenuHoverIn, showEditCellMenuHoverOut);
         };
 
         ///////////////////
@@ -817,18 +845,6 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         var currentlyEditing = false;
 
         /**
-         * Initialize the widget settings overlay, which will be used
-         * for the settings view of the widgets that have a settings
-         * view
-         */
-        $('#contentauthoring_widget_settings', $rootel).jqm({
-            modal: true,
-            overlay: 20,
-            toTop: true,
-            onHide: sakai_global.contentauthoring.widgetCancel
-        });
-
-        /**
          * Show the modal dialog edit mode for a widget
          * @param {String} id       Unique id of the widget
          * @param {String} type     Name of the widget
@@ -846,7 +862,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     'width': widgetSettingsWidth + 'px',
                     'margin-left': -(widgetSettingsWidth / 2) + 'px',
                     'top': ($(window).scrollTop() + 50) + 'px'
-                }).jqmShow();
+                });
+                sakai.api.Util.Modal.open($('#contentauthoring_widget_settings', $rootel));
             }
         };
 
@@ -872,7 +889,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 checkColumnsEmpty();
             }
             isEditingNewElement = false;
-            $('#contentauthoring_widget_settings').jqmHide();
+            sakai.api.Util.Modal.close($('#contentauthoring_widget_settings'));
             // Remove the widget from the settings overlay
             $('#contentauthoring_widget_content').html('');
         };
@@ -891,13 +908,29 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             // Construct the widget
             $parent.append('<div id="widget_' + $parent.attr('data-element-type') + '_' + currentlyEditing + '" class="widget_inline"></div>');
             sakai.api.Widgets.widgetLoader.insertWidgets('contentauthoring_widget', false, storePath + '/');
-            $('#contentauthoring_widget_settings').jqmHide();
+            sakai.api.Util.Modal.close($('#contentauthoring_widget_settings'));
             updateColumnHandles();
         };
 
         // Register the global functions
         sakai.api.Widgets.Container.registerFinishFunction(sakai_global.contentauthoring.widgetFinish);
         sakai.api.Widgets.Container.registerCancelFunction(sakai_global.contentauthoring.widgetCancel);
+
+        /**
+         * Initialize the widget settings overlay, which will be used
+         * for the settings view of the widgets that have a settings
+         * view
+         */
+        sakai.api.Util.Modal.setup($('#contentauthoring_widget_settings', $rootel), {
+            modal: true,
+            overlay: 20,
+            toTop: true,
+            onHide: function(hash) {
+                sakai_global.contentauthoring.widgetCancel();
+                hash.w.hide();
+                hash.o.remove();
+            }
+        });
 
         //////////////////
         //////////////////
@@ -1044,6 +1077,20 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         };
 
         /**
+         * Set some elements as tabbable for keyboard navigation when editing
+         * @return {Boolean} true To set the tabindex
+         *                   false To remove the tabindex
+         */
+        var setTabbableElements = function(set) {
+            var tabbableElements = '.contentauthoring_cell_element, .contentauthoring_cell, .contentauthoring_row';
+            if (set) {
+                $(tabbableElements, $rootel).attr('tabindex', '0');
+            } else {
+                $(tabbableElements, $rootel).removeAttr('tabindex');
+            }
+        };
+
+        /**
          * Set up the page so rows are re-orderable, columns are resizable,
          * widgets can be re-ordered and all hover states
          */
@@ -1052,6 +1099,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             makeColumnsResizable();
             reorderWidgets();
             showEditCellMenu();
+            setTabbableElements(true);
             sakai.api.Util.hideOnClickOut('#contentauthoring_row_menu', '.contentauthoring_row_edit', function() {
                 rowToChange = false;
                 hideEditRowMenu();
@@ -1088,6 +1136,11 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         sakai.api.Util.progressIndicator.hideProgressIndicator();
                         addEditButtonBinding();
                     } else {
+                        // Update page title
+                        pageTitle = document.title;
+                        document.title = pageTitle.replace(sakai.api.i18n.getValueForKey(sakai.config.PageTitles.prefix),
+                            sakai.api.i18n.getValueForKey(sakai.config.PageTitles.prefix) + ' ' + sakai.api.i18n.getValueForKey('EDITING') + ' ');
+
                         setEditInterval();
                         $(window).trigger('edit.contentauthoring.sakai');
                         $('.contentauthoring_empty_content', $rootel).remove();
@@ -1262,8 +1315,14 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
 
         /**
          * Put the page into view mode
+         * @param {Boolean} wasEditing True if we're actually exiting edit mode
          */
-        var exitEditMode = function() {
+        var exitEditMode = function(wasEditing) {
+            // Revert the page title
+            if (pageTitle && wasEditing) {
+                document.title = pageTitle;
+            }
+
             clearInterval(editInterval);
             // Alert the inserter bar that it should go back into view mode
             $(window).trigger('render.contentauthoring.sakai');
@@ -1272,6 +1331,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             $('.contentauthoring_cell_content', $rootel).sortable('destroy');
             updateColumnHeights();
             $('.contentauthoring_cell', $rootel).resizable('option', 'disabled', true);
+            setTabbableElements(false);
         };
 
         /**
@@ -1305,7 +1365,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             // Generate the new row / column structure
             var pageLayout = getCurrentPageLayout();
 
-            exitEditMode();
+            exitEditMode(true);
             // Determine whether or not to show the empty page placeholder
             determineEmptyAfterSave();
 
@@ -1445,7 +1505,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
          *                                      This is used when navigating away from a page in edit mode.
          */
         var cancelEditPage = function(e, retainAutoSave) {
-            exitEditMode();
+            exitEditMode(true);
             if (!retainAutoSave) {
                 // Delete the autosaved current page
                 $.ajax({
@@ -1631,8 +1691,21 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // Remove row button
         $rootel.on('click', '#contentauthoring_row_menu_remove', removeRow);
 
+        // Add row sub menu open
+        $rootel.on('focus', '#contentauthoring_row_menu_add', function() {
+            $(this).parent().addClass('contentauthoring_addrow_menu_open');
+        });
+
+        // Add row sub menu close
+        $rootel.on('keyup', '#contentauthoring_row_menu', function() {
+            // Don't close menu if focus is on the add row button, or inside the menu
+            if (!$('.s3d-dropdown-hassubnav ul button:focus, #contentauthoring_row_menu_add:focus', $(this)).length) {
+                $(this).find('.contentauthoring_addrow_menu_open').removeClass('contentauthoring_addrow_menu_open');
+            }
+        });
+
         // Add row above button
-        $rootel.on('click', '#contentauthoring_row_menu_add_above', function() {
+        $rootel.on('click', '#contentauthoring_row_menu_add, #contentauthoring_row_menu_add_above', function() {
             addRow(true);
         });
 
@@ -1654,6 +1727,67 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // Change the number of columns to 3
         $rootel.on('click', '#contentauthoring_row_menu_three', function() {
             changeNumberOfColumns(3);
+        });
+
+        //////////////////
+        // KEYBOARD NAV //
+        //////////////////
+
+        // cell options
+        $rootel.on('keyup', '.contentauthoring_row', function(e) {
+            var $container = $(this).parent();
+            if (isInEditMode() && (!$container.find('.contentauthoring_row_handle_container').is(':visible') || $container.find('.contentauthoring_row_handle_container').css('visibility') === 'hidden') &&
+                $(this).is(':focus') && e.which === $.ui.keyCode.TAB) {
+                $('.contentauthoring_row_handle_container', $rootel).css('visibility', 'hidden');
+                setRowHoverIn(false, $container);
+                $container.find('.contentauthoring_row_handle_container').find('button:visible:first').focus();
+            }
+        });
+        $rootel.on('focus', '.contentauthoring_row_handle_container button', function() {
+            hideEditRowMenu();
+        });
+
+        // row options
+        $rootel.on('keyup', '.contentauthoring_cell_element', function(e) {
+            if (e.which === $.ui.keyCode.TAB) {
+                showEditCellMenuHoverIn(false, $(this));
+            }
+        });
+        $rootel.on('keydown', '.contentauthoring_cell_element', function(e) {
+            if ($('.contentauthoring_cell_element_actions button:last:focus', $(this)).length &&
+                e.which === $.ui.keyCode.TAB && !e.shiftKey) {
+                $('.contentauthoring_cell_element_actions', $rootel).hide();
+            } else if ($(this).is(':focus') && e.which === $.ui.keyCode.TAB && e.shiftKey) {
+                showEditCellMenuHoverOut(false, $(this));
+            }
+        });
+
+        // Insert the default text widget if enter is pressed on a cell
+        $rootel.on('keydown', '.contentauthoring_cell', function(e) {
+            var $cell = $(this);
+            if (isInEditMode() && $cell.is(':focus') && e.which === $.ui.keyCode.ENTER) {
+                var $textWidget = $rootel.find('a.inserterbar_text_widget').clone();
+                $cell.find('.contentauthoring_cell_content').append($textWidget);
+                addNewWidget(null, $textWidget);
+            }
+        });
+
+        // Change the default filler text to indicate the user can hit enter and begin typing
+        $rootel.on('focus', '.contentauthoring_cell', function(e) {
+            var $cell = $(this);
+            if (isInEditMode() && $cell.is(':focus')) {
+                var $dummyEl = $cell.find('.contentauthoring_dummy_element');
+                $dummyEl.children('.contentauthoring_dummy_element_dbclick').hide();
+                $dummyEl.children('.contentauthoring_dummy_element_enter').show();
+            }
+        });
+        $rootel.on('blur', '.contentauthoring_cell', function(e) {
+            var $cell = $(this);
+            if (isInEditMode()) {
+                var $dummyEl = $cell.find('.contentauthoring_dummy_element');
+                $dummyEl.children('.contentauthoring_dummy_element_dbclick').show();
+                $dummyEl.children('.contentauthoring_dummy_element_enter').hide();
+            }
         });
 
         /////////////////
@@ -1689,8 +1823,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             }
         });
 
-        // Double clicking on the inserterbar
-        $rootel.on('dblclick', '.inserterbar_widget_draggable', function(ev) {
+        // Clicking on the inserterbar
+        $rootel.on('click', '.inserterbar_widget_draggable', function(ev) {
             addNewWidgetPlaceholder($(this).attr('data-element-type'));
         });
 

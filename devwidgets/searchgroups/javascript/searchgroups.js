@@ -85,13 +85,15 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 noResultsTemplate: 'searchgroups_noresults_template'
             },
             facetedConfig : {
-                title : "Refine your search",
-                value : "Groups",
+                title : $('#searchgroups_result_title').text(),
+                value : 'Groups',
                 facets: {
-                    "all": {
-                        "category": "All " + selectedCategoryPlural.toLowerCase(),
-                        "searchurl": searchURLmap.allgroups,
-                        "searchurlall": searchURLmap.allgroupsall
+                    'all': {
+                        'category': sakai.api.Util.TemplateRenderer('searchgroups_result_all_groups', {
+                            'world': selectedCategoryPlural.toLowerCase()
+                        }),
+                        'searchurl': searchURLmap.allgroups,
+                        'searchurlall': searchURLmap.allgroupsall
                     }
                 }
             }
@@ -99,14 +101,18 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
 
         if (!sakai.data.me.user.anon) {
             searchConfig.facetedConfig.facets.manage = {
-               "category": selectedCategoryPlural + " I manage",
-               "searchurl": searchURLmap.managergroups,
-               "searchurlall": searchURLmap.managergroups
+                'category': sakai.api.Util.TemplateRenderer('searchgroups_result_groups_I_manage', {
+                    'world': selectedCategoryPlural
+                }),
+                'searchurl': searchURLmap.managergroups,
+                'searchurlall': searchURLmap.managergroups
             };
             searchConfig.facetedConfig.facets.member = {
-               "category": selectedCategoryPlural + " I'm a member of",
-               "searchurl": searchURLmap.membergroups,
-               "searchurlall": searchURLmap.membergroups
+                'category': sakai.api.Util.TemplateRenderer('searchgroups_result_groups_I_m_a_member_of', {
+                    'world': selectedCategoryPlural
+                }),
+                'searchurl': searchURLmap.membergroups,
+                'searchurlall': searchURLmap.membergroups
             };
         }
 

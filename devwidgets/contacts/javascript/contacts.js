@@ -191,6 +191,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                 if (sakai_global.profile.main.mode.value === "view") {
                     for (var i in items) {
                         if (items.hasOwnProperty(i)) {
+                            var profile = {
+                                basic: items[i].basic
+                            };
+                            items[i].linkTitle = sakai.api.i18n.getValueForKey('VIEW_USERS_PROFILE').replace('{user}', sakai.api.User.getDisplayName(profile));
                             items[i].accepted = false;
                             items[i].connected = false;
                             for (var m in sakai.data.me.mycontacts) {
@@ -210,6 +214,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
                             }
                         }
                     }
+                } else {
+                    $.each(items, function(i, item) {
+                        var profile = {
+                            basic: item.basic
+                        };
+                        item.linkTitle = sakai.api.i18n.getValueForKey('VIEW_USERS_PROFILE').replace('{user}', sakai.api.User.getDisplayName(profile));
+                    });
                 }
 
                 return sakai.api.Util.TemplateRenderer(contactsAcceptedTemplate, {
@@ -326,7 +337,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
             sakai.api.Util.TemplateRenderer('contacts_title_template', {
                 isMe: contacts.isOwnerViewing,
-                user: sakai_global.profile.main.data.basic.elements.firstName.value
+                user: sakai.api.User.getFirstName(sakai_global.profile.main.data)
             }, $('#contacts_title_container', $rootel));
 
             $(".s3d-listview-options", $rootel).find("div").removeClass("selected");

@@ -31,7 +31,7 @@
                 <option value="desc">__MSG__Z_A__</option>
             </select>
         </div>
-        <div class="s3d-search-container">
+        <div class="s3d-search-container" role="search" aria-label="__MSG__SEARCH_THROUGH_MY_MEMBERSHIP__">
             <input id="mymemberships_livefilter" type="text" title="__MSG__SEARCH_THROUGH_MY_MEMBERSHIP__" class="s3d-search-inputfield"/>
             <button type="button" id="mymemberships_search_button" class="s3d-button s3d-overlay-button s3d-search-button">
                 <img src="/dev/images/search_icon.png" alt="__MSG__SEARCH_THROUGH_MY_MEMBERSHIP__"/>
@@ -144,6 +144,7 @@
                     {if group.descShort}<div class="mymemberships_item_description s3d-search_result-description">${group.descShort}</div>{/if}
                     {if !$.isEmptyObject(group.tags)}
                         <div class="mymemberships_item_tags">
+                            <span class="s3d-aural-text">__MSG__TAGS_FOR__ ${group.title|safeOutput}</span>
                             <ul class="mymemberships_item_tags_list s3d-taglist">
                                 {for t in group.tags}
                                     <li>

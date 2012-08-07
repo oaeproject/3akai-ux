@@ -73,7 +73,9 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 'contextData': contextData,
                 'parametersToCarryOver': parametersToCarryOver
             });
-            $('#lhnavigation_container').html(lhnavHTML);
+            $('#lhnavigation_container').attr('role', 'navigation')
+                .attr('aria-label', sakai.api.i18n.getValueForKey('LH_NAV_ARIA_LABEL', 'lhnavigation'))
+                .html(lhnavHTML);
         };
 
         ////////////////////////
@@ -244,7 +246,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     structure[level] = sakai.api.i18n.General.process(structure[level]);
                 } else if (level && level === '_altTitle') {
                     structure[level] = sakai.api.i18n.General.process(structure[level]);
-                    structure[level] = structure[level].replace('${user}', sakai.api.User.getFirstName(contextData.profile));
+                    structure[level] = structure[level].replace('${user}', sakai.api.User.getFirstName(contextData.profile, false));
                 }
             }
             structure._childCount = childCount;
@@ -596,6 +598,14 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         getPageContent(ref, function() {
                             preparePageRender(ref, selected, savePath, pageSavePath, nonEditable, canEdit, newPageMode === true);
                         });
+
+                        // set the page title
+                        var pageTitle = '';
+                        if (menuitem.hasClass('lhnavigation_subnav_item')) {
+                            pageTitle += ' - ' + $.trim(menuitem.parents('.lhnavigation_menuitem').children('div').find('.lhnavigation_page_title_value').text());
+                        }
+                        pageTitle += ' - ' + $.trim(menuitem.find('.lhnavigation_page_title_value').text());
+                        sakai.api.Util.setPageTitle(pageTitle, 'navLevel');
                     }
                 } else {
                     renderPageUnavailable();
@@ -649,6 +659,12 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         var contextMenuHover = false;
 
         var onContextMenuHover = function($el, $elLI) {
+            var toHide = $.grep($('.lhnavigation_selected_submenu:visible'), function(el, i) {
+                return !$el.find(el).length;
+            });
+            if ($(toHide).length) {
+                $(toHide).hide();
+            }
             $('#lhnavigation_submenu').hide();
             if ($elLI.data('sakai-manage') && !$elLI.data('sakai-reorder-only')) {
                 var additionalOptions = $elLI.data('sakai-addcontextoption');
@@ -670,8 +686,6 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     savePath: $elLI.data('sakai-savepath')
                 };
                 $('.lhnavigation_selected_submenu', $el).show();
-            } else {
-                $('.lhnavigation_selected_submenu').hide();
             }
         };
 
@@ -682,12 +696,18 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             }
         };
 
-        var showContextMenu = function($clickedItem, x, y) {
+        var showContextMenu = function($clickedItem) {
             var contextMenu = $('#lhnavigation_submenu', $rootel);
             $clickedItem.children('.lhnavigation_selected_submenu_image').addClass('clicked');
-            contextMenu.css('left', x - 70);
-            contextMenu.css('top', y + 15);
+
+            var top = $clickedItem.offset().top + $clickedItem.height() + 10;
+            if ($.browser.msie && parseInt($.browser.version, 10) < 9) {
+                top += parseInt($('html').scrollTop(), 10);
+            }
+
+            contextMenu.css('top', top + 'px');
             toggleContextMenu();
+            contextMenu.css('left', ($clickedItem.offset().left - contextMenu.width() + 30) + 'px');
         };
 
         var toggleContextMenu = function(forceHide) {
@@ -1262,8 +1282,8 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // Internal event binding //
         ////////////////////////////
 
-        $rootel.on('click', '.lhnavigation_selected_submenu', function(ev){
-            showContextMenu($(this), ev.pageX, ev.pageY);
+        $rootel.on('click', '.lhnavigation_selected_submenu', function(ev) {
+            showContextMenu($(this));
         });
 
         $rootel.on('mouseenter focus', '.lhnavigation_item_content, .lhnavigation_subnav_item_content', function() {

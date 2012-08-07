@@ -11,6 +11,7 @@
                 --></div>
                 <div class="s3d-search-sort">
                     __MSG__SORT_BY:__ <select>
+                        <option data-sort-order="desc" data-sort-on="score">__MSG__RELEVANCE__</option>
                         <option data-sort-order="desc" data-sort-on="_lastModified">__MSG__CHANGED_RECENTLY__</option>
                         <option data-sort-order="asc" data-sort-on="title">__MSG__A_Z__</option>
                         <option data-sort-order="desc" data-sort-on="title">__MSG__Z_A__</option>
@@ -50,6 +51,10 @@
             </div>
         </div>
     </div>
+    <span id="searchgroups_result_title" style="display:none;">__MSG__REFINE_YOUR_SEARCH__</span>
+    <span id="searchgroups_result_all_groups" style="display:none;"><!--__MSG__ALL_GROUPS_I_CAN_SEE__--></span>
+    <span id="searchgroups_result_groups_I_manage" style="display:none;"><!--__MSG__GROUPS_I_MANAGE__--></span>
+    <span id="searchgroups_result_groups_I_m_a_member_of" style="display:none;"><!--__MSG__GROUPS_IM_A_MEMBER_OF__--></span>
 </div>
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/searchgroups/javascript/searchgroups.js"></script>

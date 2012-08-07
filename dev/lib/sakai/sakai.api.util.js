@@ -43,7 +43,12 @@ define(
         data: {
             fetchingWorldTemplates: false,
             worldTemplateCallbacks: [],
-            worldTemplates: false
+            worldTemplates: false,
+            pageTitle: {
+                baseLevel: '',
+                pageLevel: '',
+                navLevel: ''
+            }
         },
 
         startup : function(meData) {
@@ -1058,6 +1063,26 @@ define(
             }
         },
 
+        /**
+         * Sets the browsers title
+         *
+         * @param {String} title The string to be added to the page title
+         * @param {String} targetLevel Change the specified component of the page title only
+         */
+        setPageTitle : function(title, targetLevel) {
+            if (!title) {
+                title = '';
+            }
+            var pageTitle = '';
+            if (targetLevel) {
+                sakai_util.data.pageTitle[targetLevel] = title;
+                pageTitle = sakai_util.data.pageTitle.baseLevel + sakai_util.data.pageTitle.pageLevel + sakai_util.data.pageTitle.navLevel;
+            } else {
+                pageTitle = sakai_util.data.pageTitle.baseLevel + sakai_util.data.pageTitle.pageLevel + sakai_util.data.pageTitle.navLevel + title;
+            }
+            document.title = pageTitle;
+        },
+
         getDirectoryStructure : function(){
             /**
              * Converts directory array into a node structure
@@ -1850,7 +1875,7 @@ define(
                 if (sakai_conf.PageTitles.pages[window.location.pathname]) {
                     pageTitle += ' ' + require('sakai/sakai.api.i18n').getValueForKey(sakai_conf.PageTitles.pages[window.location.pathname]);
                 }
-                document.title = pageTitle;
+                sakai_util.setPageTitle(pageTitle, 'baseLevel');
                 // Show the actual page content
                 $('body').removeClass('i18nable');
                 if ($.isFunction(callback)) {
@@ -2064,6 +2089,9 @@ define(
                 }
 
                 $dialogContainer.jqmShow();
+
+                // focus on the dialogs first heading
+                $dialogContainer.find(':header:visible:first').attr('tabindex', '0').focus();
             },
 
             /**
@@ -2115,24 +2143,24 @@ define(
                         if ($.isFunction(closeFunction)) {
                             closeFunction();
                         } else {
-                            $dialogContainer.jqmHide();
+                            sakai_util.Modal.close($dialogContainer);
                         }
                         origFocus.focus();
                     } else if ($dialogContainer.is(':visible') && e.which === $.ui.keyCode.TAB) {
                         // determine which elements are keyboard navigable
-                        var $focusable = $('a:visible, input:visible, button:visible:not(:disabled), textarea:visible', $dialogContainer);
+                        var $tabbable = $(':tabbable', $dialogContainer);
                         if (ignoreElements) {
-                            $focusable = $focusable.not(ignoreElements);
+                            $tabbable = $tabbable.not(ignoreElements);
                         }
                         var $focused = $(':focus');
-                        var index = $focusable.index($focused);
-                        if (e.shiftKey && $focusable.length && (index === 0)) {
+                        var index = $tabbable.index($focused);
+                        if (e.shiftKey && $tabbable.length && (index === 0)) {
                             // if shift tabbing from the start of the dialog box, shift focus to the last element
-                            $focusable.last().focus();
+                            $tabbable.last().focus();
                             return false;
-                        } else if (!e.shiftKey && $focusable.length && (index === $focusable.length - 1)) {
+                        } else if (!e.shiftKey && $tabbable.length && (index === $tabbable.length - 1)) {
                             // if tabbing from the end of the dialog box, shift focus to the first element
-                            $focusable.first().focus();
+                            $tabbable.first().focus();
                             return false;
                         }
                     }
@@ -2542,7 +2570,7 @@ define(
                     $.extend(true, options, opts);
 
                     // Success is a callback on each individual field being successfully validated
-                    options.success = function($label) {
+                    options.success = options.success || function($label) {
                         // For autosuggest clearing, since we have to put the error on the ul instead of the element
                         if (insertAfterLabel && $label.next('ul.as-selections').length) {
                             $label.next('ul.as-selections').removeClass('s3d-error');
@@ -2555,7 +2583,7 @@ define(
                         }
                     };
 
-                    options.errorPlacement = function($error, $element) {
+                    options.errorPlacement = options.errorPlacement || function($error, $element) {
                         if ($element.hasClass('s3d-error-calculate')) {
                             // special element with variable left margin
                             // calculate left margin and width, set it directly on the error element
@@ -2575,14 +2603,14 @@ define(
                         }
                     };
 
-                    options.invalidHandler = function($thisForm, validator) {
+                    options.invalidHandler = options.invalidHandler || function($thisForm, validator) {
                         $form.find('.s3d-error').attr('aria-invalid', 'false');
                         if ($.isFunction(invalidCallback)) {
                             invalidCallback($thisForm, validator);
                         }
                     };
 
-                    options.showErrors = function(errorMap, errorList) {
+                    options.showErrors = options.showErrors || function(errorMap, errorList) {
                         if (errorList.length !== 0 && $.isFunction(options.error)) {
                             options.error();
                         }

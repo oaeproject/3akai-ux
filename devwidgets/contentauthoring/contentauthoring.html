@@ -25,7 +25,7 @@
         <li data-columncount="3">
             <button id="contentauthoring_row_menu_three" class="s3d-link-button"><span class="s3d-action-icon fl-force-right s3d-action-icon-spacing-left"><!-- --></span>__MSG__THREE_COLUMN__</button>
         </li>
-        <li class="s3d-dropdown-hassubnav"><button id="contentauthoring_row_menu_add_above" class="s3d-link-button">__MSG__ADD_ROW__</button>
+        <li class="s3d-dropdown-hassubnav"><button id="contentauthoring_row_menu_add" class="s3d-link-button">__MSG__ADD_ROW__</button>
             <ul class="s3d-dropdown-list">
                 <li><button id="contentauthoring_row_menu_add_above" class="s3d-link-button"><span class="s3d-action-icon s3d-above-icon fl-force-left s3d-action-icon-spacing-right"><!-- --></span>__MSG__ADD_ROW_ABOVE__</button></li>
                 <li><button id="contentauthoring_row_menu_add_below" class="s3d-link-button"><span class="s3d-action-icon s3d-below-icon fl-force-left s3d-action-icon-spacing-right"><!-- --></span>__MSG__ADD_ROW_BELOW__</button></li>
@@ -42,9 +42,9 @@
             <div class="contentauthoring_cell_element_actions" data-element-id="${id}" data-element-type="${type}">
                 <span class="contentauthoring_row_handle fl-force-left" title="__MSG__DRAG_ME_TO_REORDER__"></span>
                 {if sakai.widgets[type].hasSettings}
-                    <span class="contentauthoring_cell_element_action_e fl-force-left" data-element-id="${id}" data-element-type="${type}" title="__MSG__SETTINGS__"></span>
+                    <button class="s3d-link-button contentauthoring_cell_element_action_e fl-force-left" data-element-id="${id}" data-element-type="${type}" title="__MSG__SETTINGS__"></button>
                 {/if}
-                <span class="contentauthoring_cell_element_action_x fl-force-left" data-element-id="${id}" title="__MSG__DELETE__"></span>
+                <button class="s3d-link-button contentauthoring_cell_element_action_x fl-force-left" data-element-id="${id}" title="__MSG__DELETE__"></button>
             </div>
             {if template === "cell" && (sakai.widgets[type].hasSettings && !settingsoverridden)}
                 <div id="${id}"></div>
@@ -61,12 +61,18 @@
                     <div class="contentauthoring_cell_content">
                         {for element in column.elements}
                             {if element.dummytext}
-                                <div class="contentauthoring_dummy_element" style="display:none;">__MSG__DOUBLE_CLICK_TO_START_TYPING__.</div>
+                                <div class="contentauthoring_dummy_element" style="display:none;">
+                                    <span class="contentauthoring_dummy_element_dbclick">__MSG__DOUBLE_CLICK_TO_START_TYPING__.</span>
+                                    <span class="contentauthoring_dummy_element_enter" style="display:none;">__MSG__PRESS_ENTER_TO_START_TYPING__.</span>
+                                </div>
                             {elseif element.type}
                                 ${insertCell(element.id, element.type)}
                             {/if}
                         {forelse}
-                            <div class="contentauthoring_dummy_element" style="display:none;">__MSG__DOUBLE_CLICK_TO_START_TYPING__.</div>
+                            <div class="contentauthoring_dummy_element" style="display:none;">
+                                <span class="contentauthoring_dummy_element_dbclick">__MSG__DOUBLE_CLICK_TO_START_TYPING__.</span>
+                                <span class="contentauthoring_dummy_element_enter" style="display:none;">__MSG__PRESS_ENTER_TO_START_TYPING__.</span>
+                            </div>
                         {/for}
                     </div>
                     <div class="contentauthoring_cell_handle ui-resizable-handle ui-resizable-e"></div>
@@ -79,7 +85,9 @@
         <li class="contentauthoring_row_container" data-row-id="${id}">
             <div class="contentauthoring_row_handle_container">
                 <span class="contentauthoring_row_handle" title="__MSG__DRAG_ME_TO_REORDER_ROWS__"></span>
-                <span class="contentauthoring_row_edit" data-row-id="${id}"></span>
+                <button class="s3d-link-button contentauthoring_row_edit" data-row-id="${id}">
+                    <span class="s3d-aural-text">__MSG__EDIT__</span>
+                </button>
             </div>
             <div class="contentauthoring_row">
                 <div class="contentauthoring_minheight_container">
@@ -140,7 +148,12 @@
     </div>
 </div>
 
-<div id="contentauthoring_dummy_element_template"><!--<div class="contentauthoring_dummy_element" style="display:none;">__MSG__DOUBLE_CLICK_TO_START_TYPING__.</div>--></div>
+<div id="contentauthoring_dummy_element_template"><!--
+    <div class="contentauthoring_dummy_element" style="display:none;">
+        <span class="contentauthoring_dummy_element_dbclick">__MSG__DOUBLE_CLICK_TO_START_TYPING__.</span>
+        <span class="contentauthoring_dummy_element_enter" style="display:none;">__MSG__PRESS_ENTER_TO_START_TYPING__.</span>
+    </div>
+--></div>
 
 <!-- JAVASCRIPT -->
 <script type="text/javascript" src="/devwidgets/contentauthoring/javascript/contentauthoring.js"></script>

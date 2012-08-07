@@ -404,12 +404,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 } else {
                     displayRemoteContent(parameters); // Show the frame
                 }
-            } else {
-                // When the request isn't successful, it means that  there was no existing remotecontent
-                // so we show the basic settings.
-                if (showSettings) {
+            } else if (showSettings) {
                     displaySettings(null, false);
-                }
             }
         };
 

@@ -27,7 +27,7 @@
                 <div class="s3d-page-header">
                     <div id="widget_entity" class="widget_inline"></div>
                     <!-- SEARCH BAR -->
-                    <div class="s3d-search-bar">
+                    <div class="s3d-search-bar" role="search" aria-label="__MSG__SEARCH_FOR__">
                         <span id="form" class="s3d-search-container">
                             <input type="text" maxlength="255" id="search_text" title="__MSG__SEARCH_FOR__" class="s3d-search-inputfield"/>
                             <button type="button" class="s3d-button s3d-overlay-button s3d-search-button" title="__MSG__SUBMIT_SEARCH__">
@@ -81,7 +81,7 @@
                     <div id="widget_lhnavigation" class="widget_inline"></div>
                 </div>
                 <div class="s3d-page-column-right">
-                    <div id="s3d-page-main-content" class="s3d-page-content-padding" style="padding-top:0px;">
+                    <div id="s3d-page-main-content" class="s3d-page-content-padding" style="padding-top:0px;" role="main">
                         <div id="widget_contentauthoring" class="widget_inline"></div>
                     </div>
                 </div>
@@ -124,12 +124,12 @@
                     </span>
                     <span class="s3d-search-result-anonuser"></span>
                     {if ! i.picture}
-                        <a href="/~${i.userid|safeURL}" class="fl-icon searchpeople_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
+                        <a href="/~${i.userid|safeURL}" class="fl-icon searchpeople_result_person_picture" title="__MSG__VIEW_PERSONS_PROFILE__"></a>
                     {else}
-                        <a href="/~${i.userid|safeURL}" class="searchpeople_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__">
-                            <img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.picture}"/>
+                        <a href="/~${i.userid|safeURL}" class="searchpeople_result_person_picture" title="__MSG__VIEW_PERSONS_PROFILE__">
+                            <img alt="__MSG__VIEW_PERSONS_PROFILE__" src="${i.picture}"/>
                             {if i.pictureLarge}
-                                <img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.pictureLarge}" class="s3d-search-result-avatar-large"/>
+                                <img alt="__MSG__VIEW_PERSONS_PROFILE__" src="${i.pictureLarge}" class="s3d-search-result-avatar-large"/>
                             {/if}
                         </a>
                     {/if}
@@ -168,7 +168,7 @@
                             {/if}
                         </div>
                         {if !$.isEmptyObject(i.tagsProcessed)}
-                            ${macro("search.tags", i.tagsProcessed)}
+                            ${macro("search.tags", i.tagsProcessed, i.name)}
                         {/if}
                     </div>
                 </li>
@@ -190,8 +190,8 @@
                     <div class="s3d-search-result-right">
                         <div>
                             <a class="s3d-bold s3d-regular-light-links" href="${i.homePath}" title="${i["sakai:group-title"]|safeOutput}">
-                                <span class="s3d-search-result-name">${i["sakai:group-title-short"]|safeOutput}</span>
-                                <span class="s3d-search-result-name-grid">${i["sakai:group-title-shorter"]|safeOutput}</span>
+                                <span class="s3d-search-result-name">${i["sakai:group-title-short"]}</span>
+                                <span class="s3d-search-result-name-grid">${i["sakai:group-title-shorter"]}</span>
                             </a>
                             {if i.groupType}
                                 <span class="searchgroups_result_grouptype">${i.groupType.toUpperCase()}</span>
@@ -217,7 +217,7 @@
                             <div class="searchgroups_result_description_grid">${i["sakai:group-description-shorter"]}</div>
                         {/if}
                         {if !$.isEmptyObject(i.tagsProcessed)}
-                            ${macro("search.tags", i.tagsProcessed)}
+                            ${macro("search.tags", i.tagsProcessed, sakai.api.Util.Security.safeOutput(i["sakai:group-title"]))}
                         {/if}
                     </div>
                 </li>

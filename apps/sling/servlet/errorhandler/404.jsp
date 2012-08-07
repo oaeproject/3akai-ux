@@ -34,7 +34,7 @@ response.setStatus(404);
                 </div>
             </div>
         </div>
-        <div class="fl-fix fl-centered fixed-container s3d-main-container">
+        <div class="fl-fix fl-centered fixed-container s3d-main-container" role="main">
             <div id="error_content">
                 <div id="error_content_second_column">
                     <div id="error_sign_in_button">

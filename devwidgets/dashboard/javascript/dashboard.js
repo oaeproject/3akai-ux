@@ -345,20 +345,31 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 // only set up the settings bindings if the dashboard's embedding page allows editing
                 if (isEditable) {
                   $(".dashboard_options", $rootel).show();
+
+                  var hoverIn = function() {
+                      var $el = $(this);
+                      if (!$el.hasClass('widget1')) {
+                          $el = $(this).parents('.widget1');
+                      }
+                      var id = $el.attr('id') + '_settings';
+                      $('#' + id).children('.dashboard_widget_arrow').show();
+                  };
+                  var hoverOut = function() {
+                      var $el = $(this);
+                      if (!$el.hasClass('widget1')) {
+                          $el = $(this).parents('.widget1');
+                      }
+                      if ($('#widget_settings_menu', $rootel).css('display') == 'none' || $el.attr('id') !== currentSettingsOpen) {
+                          var id = $el.attr('id') + '_settings';
+                          $('#' + id).children('.dashboard_widget_arrow').hide();
+                      }
+                  };
+
                   // .hover is shorthand for .bind('mouseenter mouseleave')
                   // unbinding 'hover' doesn't work, 'mouseenter mouseleave' must be used instead.
-                  $(".widget1", $rootel).unbind('mouseenter mouseleave').hover(
-                  function(over) {
-                      var id = this.id + "_settings";
-                      $("#" + id).show();
-                  },
-                  function(out) {
-                      if ($("#widget_settings_menu", $rootel).css("display") == "none" || this.id != currentSettingsOpen) {
-                          var id = this.id + "_settings";
-                          $("#" + id).hide();
-                      }
-                  }
-                  );
+                  $('.widget1', $rootel).unbind('mouseenter mouseleave').hover(hoverIn, hoverOut);
+                  $('.s3d-contentpage-title button.settings', $rootel).focus(hoverIn);
+                  $('.s3d-contentpage-title button.settings', $rootel).blur(hoverOut);
 
                   $(".settings", $rootel).unbind('click').click(function(ev) {
 
@@ -366,8 +377,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                           $("#widget_settings_menu", $rootel).hide();
                       } else {
                           var splitted = this.id.split("_");
-                          if (splitted[0] + "_" + splitted[1] == currentSettingsOpen) {
-                              $("#widget_" + currentSettingsOpen + "_settings", $rootel).hide();
+                          if (splitted[0] + "_" + splitted[1] === currentSettingsOpen) {
+                              $('#widget_' + currentSettingsOpen + '_settings', $rootel).children('.dashboard_widget_arrow').hide();
                           }
                           currentSettingsOpen = splitted[0] + "_" + splitted[1];
                           var widgetId = splitted[0];
@@ -400,6 +411,20 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                               $("#widget_settings_menu", $rootel).css("top", y + 24 + "px");
                           }
                           $("#widget_settings_menu", $rootel).show();
+                          $("#widget_settings_menu", $rootel).find('button:visible:first').focus();
+                      }
+                  });
+
+                  // bind tabbing out of the widget options menu
+                  $('#widget_settings_menu button', $rootel).keydown(function(ev) {
+                      var $clickedLi = $(this).parent();
+                      if (ev.which === $.ui.keyCode.TAB
+                          && ((ev.shiftKey && !$clickedLi.prevAll('li:visible').length)
+                          || (!ev.shiftKey && !$clickedLi.nextAll('li:visible').length))) {
+                          // close the options menu
+                          $('#widget_settings_menu', $rootel).hide();
+                          $('#' + currentSettingsOpen + '_settings', $rootel).focus().children('.dashboard_widget_arrow').hide();
+                          currentSettingsOpen = false;
                       }
                   });
 
@@ -422,7 +447,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                       parent.removeChild(el);
                       saveState();
                       $("#widget_settings_menu", $rootel).hide();
-                      $("#" + currentSettingsOpen + "_settings", $rootel).hide();
+                      $('#' + currentSettingsOpen + '_settings', $rootel).children('.dashboard_widget_arrow').hide();
                       currentSettingsOpen = false;
                       return false;
                   });
@@ -440,7 +465,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                       saveState();
 
                       $("#widget_settings_menu", $rootel).hide();
-                      $("#" + currentSettingsOpen + "_settings", $rootel).hide();
+                      $('#' + currentSettingsOpen + '_settings', $rootel).children('.dashboard_widget_arrow').hide();
                       currentSettingsOpen = false;
                       return false;
                   });
@@ -470,7 +495,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                       // Check if the clicked target is not the settings menu
                       if (!$clicked.is(".settings", $rootel)) {
                           $("#widget_settings_menu", $rootel).hide();
-                          $("#" + currentSettingsOpen + "_settings", $rootel).hide();
+                          $('#' + currentSettingsOpen + '_settings', $rootel).children('.dashboard_widget_arrow').hide();
                           currentSettingsOpen = false;
                       }
 
