@@ -1022,7 +1022,7 @@ define(function(){
          */
         requireProcessing: ["/dev/user.html", "/me" ,"/dev/me.html", "/dev/content_profile.html", "/dev/content_profile.html", "/content"],
 
-        useLiveSakai2Feeds: false,
+        useLiveSakai2Feeds: true,
         /*
          * List of custom CLE Tool names. This can be used to override the translated
          * tool name in the Sakai 2 Tools Widget drop down, or name a custom CLE tool
