@@ -56,7 +56,7 @@ require(
             testString = 'Put space after expression colon';
             doRegexTest(cssFile, regex, testString);
 
-            // test expression is intented
+            // test expression is indented
             regex = /(\{|;)\s*\n[a-z-A-Z0-9]+/gm;
             testString = 'Indent expression 4 spaces';
             doRegexTest(cssFile, regex, testString);
