@@ -21,7 +21,7 @@
  */
 
 .contentauthoring_widget {
-    padding: 10px; 
+    padding: 10px;
     clear: both;
 }
 
@@ -73,7 +73,7 @@
 
 .contentauthoring_widget .contentauthoring_cell_content {
     padding: 5px 5px 5px 0;
-    display:table-cell !important;
+    display: table-cell !important;
     width: 100%;
     vertical-align: top !important;
 }
@@ -164,8 +164,8 @@
     margin-top: -13px;
 }
 #contentauthoring_row_menu_three {
-    border-bottom: 1px solid #ccc; 
-    padding-bottom: 5px; 
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
     margin-bottom: 2px;
 }
 
@@ -368,7 +368,7 @@
 
 /* Autosave */
 #autosave_dialog {
-    width: 450px; 
+    width: 450px;
     margin-left: -225px;
 }
 #autosave_title {

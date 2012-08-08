@@ -29,4 +29,6 @@
     -webkit-box-shadow: 0px 11px 7px -11px inset;
     padding: 10px 0 0 30px;
 }
-#explore_content {background:url("/dev/images/explore_top_dropshadow.png") no-repeat top center transparent;}
+#explore_content {
+    background: url("/dev/images/explore_top_dropshadow.png") no-repeat top center transparent;
+}

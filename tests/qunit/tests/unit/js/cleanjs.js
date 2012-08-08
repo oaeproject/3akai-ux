@@ -1,29 +1,29 @@
 require(
     [
-    "jquery", 
-    "sakai/sakai.api.core",
-    "qunitjs/qunit",
-    "../../../../tests/qunit/js/sakai_qunit_lib.js",
-    "../../../../tests/qunit/js/dev.js",
-    "../../../../tests/qunit/js/devwidgets.js",
-    "../../../../tests/qunit/js/jshint.js"
+    'jquery',
+    'sakai/sakai.api.core',
+    'qunitjs/qunit',
+    '../../../../tests/qunit/js/sakai_qunit_lib.js',
+    '../../../../tests/qunit/js/dev.js',
+    '../../../../tests/qunit/js/devwidgets.js',
+    '../../../../tests/qunit/js/jshint.js'
     ], function($, sakai) {
 
-        module("Clean Javascript");
+        module('Clean Javascript');
 
         var consoleregex = new RegExp(/console\.(?:log|warn|error|debug|trace)/g),
             alertregex = new RegExp(/alert\([.\s\S]*\)/g);
 
         var checkForConsoleLog = function(file, filename) {
             var matches = consoleregex.exec(file);
-            if (filename === "/dev/lib/sakai/sakai.dependencies.js" && matches && matches.length === 1) {
-                ok(true, "Found a single console.log in sakai.dependencies.js which is the only one allowed as it is the wrapper for debug.log");
+            if (filename === '/dev/lib/sakai/sakai.dependencies.js' && matches && matches.length === 1) {
+                ok(true, 'Found a single console.log in sakai.dependencies.js which is the only one allowed as it is the wrapper for debug.log');
             } else if (matches && matches.length) {
                 for (var i=0,j=matches.length; i<j; i++) {
-                    ok(false, "found console.(log|warn|error|debug|trace)");
+                    ok(false, 'found console.(log|warn|error|debug|trace)');
                 }
             } else {
-                ok(true, "No console.(log|warn|error|debug|trace) calls");
+                ok(true, 'No console.(log|warn|error|debug|trace) calls');
             }
         };
 
@@ -31,25 +31,25 @@ require(
             var matches = alertregex.exec(file);
             if (matches && matches.length) {
                 for (var i=0,j=matches.length; i<j; i++) {
-                    ok(false, "found alert()");
+                    ok(false, 'found alert()');
                 }
             } else {
-                ok(true, "No alert() found");
+                ok(true, 'No alert() found');
             }
         };
 
         var JSHintfile = function(data, callback) {
             var result = JSHINT(data, {
                 // http://www.jshint.com/options/
-                sub:true // ignore dot notation recommendations - ie ["userid"] should be .userid
+                sub:true // ignore dot notation recommendations - ie ['userid'] should be .userid
             });
             if (result) {
-                ok(result, "JSHint clean");
+                ok(result, 'JSHint clean');
             } else {
                 for (var i=0,j=JSHINT.errors.length; i<j; i++) {
                     var error = JSHINT.errors[i];
                     if (error) {
-                        ok(false, "JSHint error on line " + error.line + " character " + error.character + ": " + error.reason + ", " + error.evidence);
+                        ok(false, 'JSHint error on line ' + error.line + ' character ' + error.character + ': ' + error.reason + ', ' + error.evidence);
                     }
                 }
             }
@@ -59,7 +59,7 @@ require(
         var makeCleanJSTest = function(filename) {
             asyncTest(filename, function() {
                 $.ajax({
-                    dataType: "text",
+                    dataType: 'text',
                     url: filename,
                     success: function(data) {
                         checkForConsoleLog(data, filename);
@@ -73,7 +73,7 @@ require(
         };
 
         var cleanJSTest = function() {
-            $(window).trigger("addlocalbinding.qunit.sakai");
+            $(window).trigger('addlocalbinding.qunit.sakai');
             QUnit.start();
             for (var i=0, j=sakai_global.qunit.allJSFiles.length; i<j; i++) {
                 var file = sakai_global.qunit.allJSFiles[i];
@@ -84,7 +84,7 @@ require(
         if (sakai_global.qunit && sakai_global.qunit.ready) {
             cleanJSTest();
         } else {
-            $(window).bind("ready.qunit.sakai", function() {
+            $(window).on('ready.qunit.sakai', function() {
                 cleanJSTest();
             });
         }

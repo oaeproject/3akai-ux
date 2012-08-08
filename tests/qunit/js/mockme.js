@@ -15,44 +15,44 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
- 
+
 /**
  * MockMe - a mock for /system/me
  *
  * Not included by default in sakai_qunit_lib as the integration tests need a real response from /system/me
  */
-require(["jquery", "mockjax"], function($){
+require(['jquery', 'mockjax'], function($) {
     if ($ && $.mockjax) {
         $.mockjax({
-            url: "/system/me?_charset_=utf-8",
+            url: '/system/me?_charset_=utf-8',
             responseText:{
-                "user": {
-                    "anon": true,
-                    "subjects": [],
-                    "superUser": false
+                'user': {
+                    'anon': true,
+                    'subjects': [],
+                    'superUser': false
                 },
-                "profile": {
-                    "basic": {
-                        "access": "everybody",
-                        "elements": {
-                            "lastName": {
-                                "value": "User"
+                'profile': {
+                    'basic': {
+                        'access': 'everybody',
+                        'elements': {
+                            'lastName': {
+                                'value': 'User'
                             },
-                            "email": {
-                                "value": "anon@sakai.invalid"
+                            'email': {
+                                'value': 'anon@sakai.invalid'
                             },
-                            "firstName": {
-                                "value": "Anonymous"
+                            'firstName': {
+                                'value': 'Anonymous'
                             }
                         }
                     },
-                    "rep:userId": "anonymous"
+                    'rep:userId': 'anonymous'
                 },
-                "messages": {
-                    "unread": 0
+                'messages': {
+                    'unread': 0
                 },
-                "contacts": {},
-                "groups": []
+                'contacts': {},
+                'groups': []
             }
         });
     }

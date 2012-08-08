@@ -7,8 +7,8 @@ require(
     '../../../../tests/qunit/js/sakai_qunit_lib.js',
     '../../../../tests/qunit/js/dev.js',
     '../../../../tests/qunit/js/devwidgets.js'
-    ], 
-    function($, _, sakai) {        
+    ],
+    function($, _, sakai) {
 
         module('JSON - load / save & remove');
 
@@ -187,7 +187,7 @@ require(
         var removeJSON3 = function() {
             asyncTest('Remove a JSON file - bad parameters', function() {
                 testCallbackCount = 0;
-                sakai.api.Server.removeJSON(false, function(){
+                sakai.api.Server.removeJSON(false, function() {
                     testCallbackCount++;
                 });
                 testCallback();
@@ -198,7 +198,7 @@ require(
         if (sakai_global.qunit && sakai_global.qunit.ready) {
             loadSaveRemoveTest();
         } else {
-            $(window).bind('ready.qunit.sakai', function() {
+            $(window).on('ready.qunit.sakai', function() {
                 loadSaveRemoveTest();
             });
         }

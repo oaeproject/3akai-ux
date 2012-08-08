@@ -15,6 +15,6 @@
         "selectors": [".accountpreferences_trigger"],
         "onLoad": false
     },
-    "type": "core", 
+    "type": "core",
     "url": "/devwidgets/accountpreferences/accountpreferences.html"
 }

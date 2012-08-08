@@ -16,7 +16,7 @@
             {if isSakai2Tool === true}
                 <label for="basiclti_settings_lti_virtual_tool_id">Tool:</label>
                 <select id="basiclti_settings_lti_virtual_tool_id" name="lti_virtual_tool_id">
-                {for sakai2Tool in toolList} 
+                {for sakai2Tool in toolList}
                     <option value="${sakai2Tool.toolid}">${sakai2Tool.toolname}</option>
                 {/for}
                 </select>

@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core"], function($, sakai){
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.categories
@@ -27,16 +27,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.categories = function(tuid, showSettings){
+    sakai_global.categories = function(tuid, showSettings) {
 
         // Containers
-        var $categoriesItemsContainer = $("#categories_items_container");
+        var $categoriesItemsContainer = $('#categories_items_container');
 
         // Templates
-        var categoriesItemsTemplate = "categories_items_template";
+        var categoriesItemsTemplate = 'categories_items_template';
 
         // Elements
-        var $categoriesExpandContract = $("#categories_expand_contract");
+        var $categoriesExpandContract = $('#categories_expand_contract');
 
         var directory = sakai.config.Directory;
         var categoriesToRender = [];
@@ -48,48 +48,48 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         /**
          * Expand or collapse the widget
          */
-        var toggleWidgetvisibility = function(){
-            $categoriesItemsContainer.toggle("display");
-            $categoriesExpandContract.children("div").toggle();
+        var toggleWidgetvisibility = function() {
+            $categoriesItemsContainer.toggle('display');
+            $categoriesExpandContract.children('div').toggle();
         };
 
-        var addBinding = function(){
-            $categoriesExpandContract.bind("click", toggleWidgetvisibility);
+        var addBinding = function() {
+            $categoriesExpandContract.on('click', toggleWidgetvisibility);
         };
 
         /**
          * Add binding to the carousel action buttons after rendering and initializing the carousel
          * @param {Object} carousel reference to the carousel instance
          */
-        var carouselBinding = function(carousel){
-            $(".categories_items_scroll_scrollbutton.categories_items_scroll_deselected, #categories_view_next_raquo").live("click", function(){
-                $(".categories_items_scroll_scrollbutton.categories_items_scroll_deselected, #categories_view_next_raquo").die("click");
-                var clickedId = parseInt($(this)[0].id.split("scroll_")[1], 10);
+        var carouselBinding = function(carousel) {
+            $('.categories_items_scroll_scrollbutton.categories_items_scroll_deselected, #categories_view_next_raquo').on('click', function() {
+                $('.categories_items_scroll_scrollbutton.categories_items_scroll_deselected, #categories_view_next_raquo').off('click');
+                var clickedId = parseInt($(this)[0].id.split('scroll_')[1], 10);
                 if (clickedId) {
                     carousel.scroll(clickedId);
                 }
                 else {
                     carousel.next();
                 }
-                if ($(this)[0].id !== "categories_view_next_raquo") {
-                    $(".categories_items_scroll_scrollbutton").addClass("categories_items_scroll_deselected");
-                    $(".categories_items_scroll_selected").removeClass("categories_items_scroll_selected");
-                    $(this).removeClass("categories_items_scroll_deselected");
-                    $(this).addClass("categories_items_scroll_selected");
+                if ($(this)[0].id !== 'categories_view_next_raquo') {
+                    $('.categories_items_scroll_scrollbutton').addClass('categories_items_scroll_deselected');
+                    $('.categories_items_scroll_selected').removeClass('categories_items_scroll_selected');
+                    $(this).removeClass('categories_items_scroll_deselected');
+                    $(this).addClass('categories_items_scroll_selected');
                 }
                 else {
-                    var $this = $(".categories_items_scroll_selected");
+                    var $this = $('.categories_items_scroll_selected');
                     if ($this.next().length) {
                         var $next = $this.next();
-                        $next.addClass("categories_items_scroll_selected");
-                        $next.removeClass("categories_items_scroll_deselected");
+                        $next.addClass('categories_items_scroll_selected');
+                        $next.removeClass('categories_items_scroll_deselected');
                     } else {
-                        var $first = $(".categories_items_scroll_deselected:first");
-                        $first.addClass("categories_items_scroll_selected");
-                        $first.removeClass("categories_items_scroll_deselected");
+                        var $first = $('.categories_items_scroll_deselected:first');
+                        $first.addClass('categories_items_scroll_selected');
+                        $first.removeClass('categories_items_scroll_deselected');
                     }
-                    $this.removeClass("categories_items_scroll_selected");
-                    $this.addClass("categories_items_scroll_deselected");
+                    $this.removeClass('categories_items_scroll_selected');
+                    $this.addClass('categories_items_scroll_deselected');
                 }
                 return false;
             });
@@ -102,48 +102,48 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         /**
          * Initialize the carousel after rendering the items
          */
-        var addCarousel = function(){
+        var addCarousel = function() {
             $categoriesItemsContainer.jcarousel({
-                animation: "slow",
-                easing: "swing",
+                animation: 'slow',
+                easing: 'swing',
                 scroll: 4,
-                wrap: "circular",
+                wrap: 'circular',
                 itemFirstInCallback: carouselBinding
             });
-            $categoriesItemsContainer.css("display", "none");
+            $categoriesItemsContainer.css('display', 'none');
         };
 
-        var renderCategories = function(){
+        var renderCategories = function() {
             sakai.api.Util.TemplateRenderer(categoriesItemsTemplate, {
-                "directory": categoriesToRender,
-                "sakai": sakai
+                'directory': categoriesToRender,
+                'sakai': sakai
             }, $categoriesItemsContainer);
             addCarousel();
-            $(".categories_widget").css("visibility", "visible");
+            $('.categories_widget').css('visibility', 'visible');
         };
 
         /**
          * Parse the directory structure and extract some information from the featured content
          * @param {Object} success true or false depending on the success of loading the featured content
          * @param {Object} data contains featured content data
-         */   
-        var parseDirectory = function(success, data){
-            $.each(directory, function(i, toplevel){
-                if (toplevel.divider){
+         */
+        var parseDirectory = function(success, data) {
+            $.each(directory, function(i, toplevel) {
+                if (toplevel.divider) {
                     var toFillOut = 4 - (categoriesToRender.length % 4);
                     if (toFillOut !== 4) {
-                        categoriesToRender.push({"spacer": true});
+                        categoriesToRender.push({'spacer': true});
                     }
                 } else {
                     toplevel.count = 0;
-                    if (data[i] && data[i].content && !$.isEmptyObject(data[i].content)){
+                    if (data[i] && data[i].content && !$.isEmptyObject(data[i].content)) {
                         toplevel.content = data[i].content;
                         toplevel.content.usedin = sakai.api.Content.getPlaceCount(toplevel.content);
                         toplevel.content.commentcount = sakai.api.Content.getCommentCount(toplevel.content);
-                        toplevel.count = data[i]["sakai:tag-count"];
+                        toplevel.count = data[i]['sakai:tag-count'];
                         var mimeType = sakai.api.Content.getMimeType(data[i].content);
-                        toplevel.mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes["other"].description);
-                        if (sakai.config.MimeTypes[mimeType]){
+                        toplevel.mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes['other'].description);
+                        if (sakai.config.MimeTypes[mimeType]) {
                             toplevel.mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[mimeType].description);
                         }
                     }
@@ -163,15 +163,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         /**
          * Get a feed of content to display in the carousel
          */
-        var getCategoryContent = function(){
-            sakai.api.Server.loadJSON("/tags/directory.tagged.json", parseDirectory, {});
+        var getCategoryContent = function() {
+            sakai.api.Server.loadJSON('/tags/directory.tagged.json', parseDirectory, {});
         };
 
         ////////////////
         // INITIALIZE //
         ////////////////
 
-        var doInit = function(){
+        var doInit = function() {
             addBinding();
             getCategoryContent();
         };
@@ -180,5 +180,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("categories");
+    sakai.api.Widgets.widgetLoader.informOnLoad('categories');
 });

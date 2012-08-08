@@ -6,7 +6,7 @@ require(
     '../../../../tests/qunit/js/sakai_qunit_lib.js',
     '../../../../tests/qunit/js/dev.js',
     '../../../../tests/qunit/js/devwidgets.js'
-    ], 
+    ],
     function($, sakai) {
 
         module('Searches');
@@ -31,7 +31,7 @@ require(
                 same(sakai.api.Server.createSearchString(simpleSearch2), simpleSearchTransformed2, 'Correctly tranformed simple search query');
                 start();
             });
-    
+
             asyncTest('Advanced Searches', 5, function() {
                 same(sakai.api.Server.createSearchString(advancedSearch), advancedSearch, 'Correctly left advanced search query alone');
                 same(sakai.api.Server.createSearchString(advancedSearch1), advancedSearchTransformed1, 'Correctly left advanced search query alone');
@@ -46,11 +46,11 @@ require(
             $(window).trigger('addlocalbinding.qunit.sakai');
             SearchTest();
         };
-    
+
         if (sakai_global.qunit && sakai_global.qunit.ready) {
             startTest();
         } else {
-            $(window).bind('ready.qunit.sakai', function() {
+            $(window).on('ready.qunit.sakai', function() {
                 startTest();
             });
         }

@@ -85,7 +85,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             }
         };
 
-        var renderMap = function(success, data){
+        var renderMap = function(success, data) {
             if (success) {
                 // Get data from the backend server
                 json = data;
@@ -125,12 +125,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 });
 
                 // Add listener to save button
-                $('#googlemaps_save', rootel).bind('click', function(e, ui) {
+                $('#googlemaps_save', rootel).on('click', function(e, ui) {
                     saveToJCR();
                 });
 
                 // Add listerner to cancel button
-                $('#googlemaps_cancel', rootel).bind('click', function(e, ui) {
+                $('#googlemaps_cancel', rootel).on('click', function(e, ui) {
                     sakai.api.Widgets.Container.informCancel(tuid, 'googlemaps');
                 });
             }

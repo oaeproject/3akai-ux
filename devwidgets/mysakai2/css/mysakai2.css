@@ -15,7 +15,10 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-.sites_error{font-size:.95em;padding:10px 20px!important;}
+.sites_error {
+    font-size: .95em;
+    padding: 10px 20px !important;
+}
 .mysakai2_widget .fl-widget-content {
     max-height: 200px;
     overflow: auto;
@@ -31,17 +34,41 @@
 .mysakai2_items_list {
     margin: 0;
 }
-#mysakai2_list{border-left:0px; border-right:0px;}
+#mysakai2_list {
+    border-left: 0px;
+    border-right: 0px;
+}
 .mysakai2_widget .fl-widget-content ul li a {
     vertical-align: top;
     padding-bottom: 0;
 }
-.mysakai2_site_title{padding-bottom:7px;display:block;}
-.mysakai2_show_files{background:url(/devwidgets/mysakai2/images/addicon.png) no-repeat left center transparent;padding-left:15px;}
-#mysakai2_messages{background:url(/devwidgets/mysakai2/images/messages.png) no-repeat left top transparent;padding-left:20px;color:#999;font-size:11px;padding-right:10px;}
-#mysakai2_forums{background:url(/devwidgets/mysakai2/images/forums.png) no-repeat left top transparent;padding-left:20px;color:#999;font-size:11px;}
-.s3d-widget-footer a { margin-left: 6px; }
-#mysakai2_no_results_container, #mysakai2_error_container {padding: 0 10px 10px;}
+.mysakai2_site_title {
+    padding-bottom: 7px;
+    display: block;
+}
+.mysakai2_show_files {
+    background: url(/devwidgets/mysakai2/images/addicon.png) no-repeat left center transparent;
+    padding-left: 15px;
+}
+#mysakai2_messages {
+    background: url(/devwidgets/mysakai2/images/messages.png) no-repeat left top transparent;
+    padding-left: 20px;
+    color: #999;
+    font-size: 11px;
+    padding-right: 10px;
+}
+#mysakai2_forums {
+    background: url(/devwidgets/mysakai2/images/forums.png) no-repeat left top transparent;
+    padding-left: 20px;
+    color: #999;
+    font-size: 11px;
+}
+.s3d-widget-footer a {
+    margin-left: 6px;
+}
+#mysakai2_no_results_container, #mysakai2_error_container {
+    padding: 0 10px 10px;
+}
 
 /**
  * Overrides

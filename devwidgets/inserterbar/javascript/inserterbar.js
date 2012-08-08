@@ -32,7 +32,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.inserterbar = function (tuid, showSettings) {
+    sakai_global.inserterbar = function(tuid, showSettings) {
 
 
         /////////////////////////////
@@ -46,7 +46,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var $inserterbarWidget = $('#inserterbar_widget', $rootel);
         var $inserterbarMoreWidgets = $('#inserterbar_more_widgets', $rootel);
         var $inserterbarWidgetContainer = $('#inserterbar_widget_container', $rootel);
-        
+
         // Elements
         var $inserterbarCarouselLeft = $('#inserterbar_carousel_left', $rootel);
         var $inserterbarCarouselRight = $('#inserterbar_carousel_right', $rootel);
@@ -72,7 +72,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var renderWidgets = function() {
             // Render the list of exposed widgets
             sakai.api.Util.TemplateRenderer('inserterbar_widget_container_exposed_template', {
-                'sakai': sakai, 
+                'sakai': sakai,
                 'widgets': sakai.config.exposedSakaiDocWidgets
             }, $('#inserterbar_widget_container_exposed', $rootel));
             // Bind the hover
@@ -144,10 +144,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Object} carousel Carousel object (jcarousel)
          */
         var carouselBinding = function(carousel) {
-            $inserterbarCarouselLeft.live('click',function() {
+            $inserterbarCarouselLeft.on('click',function() {
                 carousel.prev();
             });
-            $inserterbarCarouselRight.live('click',function() {
+            $inserterbarCarouselRight.on('click',function() {
                 carousel.next();
             });
             var carouselListWidth = parseInt(carousel.list.css('width'), 10);
@@ -174,7 +174,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Position the inserterBar correctly
          */
         var positionInserterBar = function() {
-            if ($inserterbarWidgetContainer.is(":visible")) {
+            if ($inserterbarWidgetContainer.is(':visible')) {
                 var top = $inserterbarWidgetContainer.position().top;
                 var scroll = $.browser.msie ? $('html').scrollTop() : $(window).scrollTop();
                 if (scroll > top) {
@@ -252,17 +252,17 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var addBinding = function() {
             $inserterbarMoreWidgets.on('click', showHideMoreWidgets);
             // Hide the tinyMCE toolbar when we click outside of a tinyMCE area
-            sakai.api.Util.hideOnClickOut($('#inserterbar_tinymce_container'), ".mceMenu, .mce_forecolor");
+            sakai.api.Util.hideOnClickOut($('#inserterbar_tinymce_container'), '.mceMenu, .mce_forecolor');
 
             $('#inserterbar_action_close_revision_history').on('click', function(e) {
-                $(window).trigger("close.versions.sakai");
+                $(window).trigger('close.versions.sakai');
                 setInserterForViewMode();
                 e.preventDefault();
             });
 
             $('#inserterbar_action_revision_history').on('click', setInserterForRevisionHistoryMode);
-            $(window).bind('edit.contentauthoring.sakai', setInserterForEditMode);
-            $(window).bind('render.contentauthoring.sakai', setInserterForViewMode);
+            $(window).on('edit.contentauthoring.sakai', setInserterForEditMode);
+            $(window).on('render.contentauthoring.sakai', setInserterForViewMode);
 
             $(window).on('scroll', positionInserterBar);
             $(window).on('position.inserter.sakai', positionInserterBar);

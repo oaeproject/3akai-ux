@@ -272,7 +272,7 @@
 // global variable. That function will be invoked immediately, and its return
 // value is the JSHINT function itself.
 
-var JSHINT = (function () {
+var JSHINT = (function() {
     // "use strict"; TODO: This is temporary to make JSHint work in Fx4.
     //                     Bigger problem here is that the library leaks its
     //                     properties into the global scope due to incorrect
@@ -1008,7 +1008,7 @@ var JSHINT = (function () {
 // unsafe characters that are silently deleted by one or more browsers
         cx = /[\u0000-\u001f\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/,
 // token
-        tx = /^\s*([(){}\[.,:;'"~\?\]#@]|==?=?|\/(\*(jshint|members?|global)?|=|\/)?|\*[\/=]?|\+(?:=|\++)?|-(?:=|-+)?|%=?|&[&=]?|\|[|=]?|>>?>?=?|<([\/=!]|\!(\[|--)?|<=?)?|\^=?|\!=?=?|[a-zA-Z_$][a-zA-Z0-9_$]*|[0-9]+([xX][0-9a-fA-F]+|\.[0-9]*)?([eE][+\-]?[0-9]+)?)/,
+        tx = /^\s*([() {}\[.,:;'"~\?\]#@]|==?=?|\/(\*(jshint|members?|global)?|=|\/)?|\*[\/=]?|\+(?:=|\++)?|-(?:=|-+)?|%=?|&[&=]?|\|[|=]?|>>?>?=?|<([\/=!]|\!(\[|--)?|<=?)?|\^=?|\!=?=?|[a-zA-Z_$][a-zA-Z0-9_$]*|[0-9]+([xX][0-9a-fA-F]+|\.[0-9]*)?([eE][+\-]?[0-9]+)?)/,
 // html token
         hx = /^\s*(['"=>\/&#]|<(?:\/|\!(?:--)?)?|[a-zA-Z][a-zA-Z0-9_\-:]*|[0-9]+|--)/,
 // characters in strings that need escapement
@@ -1030,7 +1030,7 @@ var JSHINT = (function () {
 // attributes characters
         qx = /[^a-zA-Z0-9+\-_\/ ]/,
 // query characters for ids
-        dx = /[\[\]\/\\"'*<>.&:(){}+=#]/,
+        dx = /[\[\]\/\\"'*<>.&:() {}+=#]/,
 // catches /* falls through */ comments
         ft = /^\s*\/\*\s*falls\sthrough\s*\*\/\s*$/,
 
@@ -1055,20 +1055,20 @@ var JSHINT = (function () {
 // Provide critical ES5 functions to ES3.
 
     if (typeof Array.isArray !== 'function') {
-        Array.isArray = function (o) {
+        Array.isArray = function(o) {
             return Object.prototype.toString.apply(o) === '[object Array]';
         };
     }
 
     if (typeof Object.create !== 'function') {
-        Object.create = function (o) {
+        Object.create = function(o) {
             F.prototype = o;
             return new F();
         };
     }
 
     if (typeof Object.keys !== 'function') {
-        Object.keys = function (o) {
+        Object.keys = function(o) {
             var a = [], k;
             for (k in o) {
                 if (is_own(o, k)) {
@@ -1082,7 +1082,7 @@ var JSHINT = (function () {
 // Non standard methods
 
     if (typeof String.prototype.entityify !== 'function') {
-        String.prototype.entityify = function () {
+        String.prototype.entityify = function() {
             return this
                 .replace(/&/g, '&amp;')
                 .replace(/</g, '&lt;')
@@ -1091,21 +1091,21 @@ var JSHINT = (function () {
     }
 
     if (typeof String.prototype.isAlpha !== 'function') {
-        String.prototype.isAlpha = function () {
+        String.prototype.isAlpha = function() {
             return (this >= 'a' && this <= 'z\uffff') ||
                 (this >= 'A' && this <= 'Z\uffff');
         };
     }
 
     if (typeof String.prototype.isDigit !== 'function') {
-        String.prototype.isDigit = function () {
+        String.prototype.isDigit = function() {
             return (this >= '0' && this <= '9');
         };
     }
 
     if (typeof String.prototype.supplant !== 'function') {
-        String.prototype.supplant = function (o) {
-            return this.replace(/\{([^{}]*)\}/g, function (a, b) {
+        String.prototype.supplant = function(o) {
+            return this.replace(/\{([^{}]*)\}/g, function(a, b) {
                 var r = o[b];
                 return typeof r === 'string' || typeof r === 'number' ? r : a;
             });
@@ -1113,7 +1113,7 @@ var JSHINT = (function () {
     }
 
     if (typeof String.prototype.name !== 'function') {
-        String.prototype.name = function () {
+        String.prototype.name = function() {
 
 // If the string looks like an identifier, then we can return it as is.
 // If the string contains no control characters, no quote characters, and no
@@ -1125,7 +1125,7 @@ var JSHINT = (function () {
                 return this;
             }
             if (nx.test(this)) {
-                return '"' + this.replace(nxg, function (a) {
+                return '"' + this.replace(nxg, function(a) {
                     var c = escapes[a];
                     if (c) {
                         return c;
@@ -1317,7 +1317,7 @@ var JSHINT = (function () {
 // Public lex methods
 
         return {
-            init: function (source) {
+            init: function(source) {
                 if (typeof source === 'string') {
                     lines = source
                         .replace(/\r\n/g, '\n')
@@ -1337,7 +1337,7 @@ var JSHINT = (function () {
                 from = 1;
             },
 
-            range: function (begin, end) {
+            range: function(begin, end) {
                 var c, value = '';
                 from = character;
                 if (s.charAt(0) !== begin) {
@@ -1367,7 +1367,7 @@ var JSHINT = (function () {
 
 // token -- this is called by advance to get the next token.
 
-            token: function () {
+            token: function() {
                 var b, c, captures, d, depth, high, i, l, low, q, t;
 
                 function match(x) {
@@ -2401,7 +2401,7 @@ loop:   for (;;) {
     function prefix(s, f) {
         var x = symbol(s, 150);
         reserveName(x);
-        x.nud = (typeof f === 'function') ? f : function () {
+        x.nud = (typeof f === 'function') ? f : function() {
             this.right = expression(150);
             this.arity = 'unary';
             if (this.id === '++' || this.id === '--') {
@@ -2434,7 +2434,7 @@ loop:   for (;;) {
 
 
     function reservevar(s, v) {
-        return reserve(s, function () {
+        return reserve(s, function() {
             if (typeof v === 'function') {
                 v(this);
             }
@@ -2446,7 +2446,7 @@ loop:   for (;;) {
     function infix(s, f, p, w) {
         var x = symbol(s, p);
         reserveName(x);
-        x.led = function (left) {
+        x.led = function(left) {
             if (!w) {
                 nobreaknonadjacent(prevtoken, token);
                 nonadjacent(token, nexttoken);
@@ -2465,7 +2465,7 @@ loop:   for (;;) {
 
     function relation(s, f) {
         var x = symbol(s, 100);
-        x.led = function (left) {
+        x.led = function(left) {
             nobreaknonadjacent(prevtoken, token);
             nonadjacent(token, nexttoken);
             var right = expression(100);
@@ -2501,7 +2501,7 @@ loop:   for (;;) {
 
     function assignop(s, f) {
         symbol(s, 20).exps = true;
-        return infix(s, function (left, that) {
+        return infix(s, function(left, that) {
             var l;
             that.left = left;
             if (predefined[left.value] === false &&
@@ -2547,7 +2547,7 @@ loop:   for (;;) {
     function bitwise(s, f, p) {
         var x = symbol(s, p);
         reserveName(x);
-        x.led = (typeof f === 'function') ? f : function (left) {
+        x.led = (typeof f === 'function') ? f : function(left) {
             if (option.bitwise) {
                 warning("Unexpected use of '{a}'.", this, this.id);
             }
@@ -2561,7 +2561,7 @@ loop:   for (;;) {
 
     function bitwiseassignop(s) {
         symbol(s, 20).exps = true;
-        return infix(s, function (left, that) {
+        return infix(s, function(left, that) {
             if (option.bitwise) {
                 warning("Unexpected use of '{a}'.", that, that.id);
             }
@@ -2587,7 +2587,7 @@ loop:   for (;;) {
 
     function suffix(s, f) {
         var x = symbol(s, 150);
-        x.led = function (left) {
+        x.led = function(left) {
             if (option.plusplus) {
                 warning("Unexpected use of '{a}'.", this, this.id);
             } else if ((!left.identifier || left.reserved) &&
@@ -3184,7 +3184,7 @@ loop:   for (;;) {
     }
 
 
-    cssAny = [cssUrl, function () {
+    cssAny = [cssUrl, function() {
         for (;;) {
             if (nexttoken.identifier) {
                 switch (nexttoken.value.toLowerCase()) {
@@ -4197,10 +4197,10 @@ loop:   for (;;) {
 
 // Build the syntax table by declaring the syntactic elements of the language.
 
-    type('(number)', function () {
+    type('(number)', function() {
         return this;
     });
-    type('(string)', function () {
+    type('(string)', function() {
         return this;
     });
 
@@ -4208,7 +4208,7 @@ loop:   for (;;) {
         type: '(identifier)',
         lbp: 0,
         identifier: true,
-        nud: function () {
+        nud: function() {
             var v = this.value,
                 s = scope[v],
                 f;
@@ -4324,13 +4324,13 @@ loop:   for (;;) {
             }
             return this;
         },
-        led: function () {
+        led: function() {
             error("Expected an operator and instead saw '{a}'.",
                 nexttoken, nexttoken.value);
         }
     };
 
-    type('(regexp)', function () {
+    type('(regexp)', function() {
         return this;
     });
 
@@ -4360,14 +4360,14 @@ loop:   for (;;) {
     reserve('catch');
     reserve('default').reach = true;
     reserve('finally');
-    reservevar('arguments', function (x) {
+    reservevar('arguments', function(x) {
         if (strict_mode && funct['(global)']) {
             warning("Strict violation.", x);
         } else if (option.safe) {
             warning("ADsafe violation.", x);
         }
     });
-    reservevar('eval', function (x) {
+    reservevar('eval', function(x) {
         if (option.safe) {
             warning("ADsafe violation.", x);
         }
@@ -4376,7 +4376,7 @@ loop:   for (;;) {
     reservevar('Infinity');
     reservevar('NaN');
     reservevar('null');
-    reservevar('this', function (x) {
+    reservevar('this', function(x) {
         if (strict_mode && ((funct['(statement)'] &&
                 funct['(name)'].charAt(0) > 'Z') || funct['(global)'])) {
             warning("Strict violation.", x);
@@ -4390,7 +4390,7 @@ loop:   for (;;) {
     assignop('+=', 'assignadd', 20);
     assignop('-=', 'assignsub', 20);
     assignop('*=', 'assignmult', 20);
-    assignop('/=', 'assigndiv', 20).nud = function () {
+    assignop('/=', 'assigndiv', 20).nud = function() {
         error("A regular expression literal can be confused with '/='.");
     };
     assignop('%=', 'assignmod', 20);
@@ -4400,7 +4400,7 @@ loop:   for (;;) {
     bitwiseassignop('<<=', 'assignshiftleft', 20);
     bitwiseassignop('>>=', 'assignshiftright', 20);
     bitwiseassignop('>>>=', 'assignshiftrightunsigned', 20);
-    infix('?', function (left, that) {
+    infix('?', function(left, that) {
         that.left = left;
         that.right = expression(10);
         advance(':');
@@ -4413,7 +4413,7 @@ loop:   for (;;) {
     bitwise('|', 'bitor', 70);
     bitwise('^', 'bitxor', 80);
     bitwise('&', 'bitand', 90);
-    relation('==', function (left, right) {
+    relation('==', function(left, right) {
         if (option.eqeqeq) {
             warning("Expected '{a}' and instead saw '{b}'.",
                     this, '===', '==');
@@ -4427,7 +4427,7 @@ loop:   for (;;) {
         return this;
     });
     relation('===');
-    relation('!=', function (left, right) {
+    relation('!=', function(left, right) {
         if (option.eqeqeq) {
             warning("Expected '{a}' and instead saw '{b}'.",
                     this, '!==', '!=');
@@ -4450,7 +4450,7 @@ loop:   for (;;) {
     bitwise('>>>', 'shiftrightunsigned', 120);
     infix('in', 'in', 120);
     infix('instanceof', 'instanceof', 120);
-    infix('+', function (left, that) {
+    infix('+', function(left, that) {
         var right = expression(130);
         if (left && right && left.id === '(string)' && right.id === '(string)') {
             left.value += right.value;
@@ -4465,13 +4465,13 @@ loop:   for (;;) {
         return that;
     }, 130);
     prefix('+', 'num');
-    prefix('+++', function () {
+    prefix('+++', function() {
         warning("Confusing pluses.");
         this.right = expression(150);
         this.arity = 'unary';
         return this;
     });
-    infix('+++', function (left) {
+    infix('+++', function(left) {
         warning("Confusing pluses.");
         this.left = left;
         this.right = expression(130);
@@ -4479,13 +4479,13 @@ loop:   for (;;) {
     }, 130);
     infix('-', 'sub', 130);
     prefix('-', 'neg');
-    prefix('---', function () {
+    prefix('---', function() {
         warning("Confusing minuses.");
         this.right = expression(150);
         this.arity = 'unary';
         return this;
     });
-    infix('---', function (left) {
+    infix('---', function(left) {
         warning("Confusing minuses.");
         this.left = left;
         this.right = expression(130);
@@ -4502,7 +4502,7 @@ loop:   for (;;) {
     suffix('--', 'postdec');
     prefix('--', 'predec');
     syntax['--'].exps = true;
-    prefix('delete', function () {
+    prefix('delete', function() {
         var p = expression(0);
         if (!p || (p.id !== '.' && p.id !== '[')) {
             warning("Variables should not be deleted.");
@@ -4512,14 +4512,14 @@ loop:   for (;;) {
     }).exps = true;
 
 
-    prefix('~', function () {
+    prefix('~', function() {
         if (option.bitwise) {
             warning("Unexpected '{a}'.", this, '~');
         }
         expression(150);
         return this;
     });
-    prefix('!', function () {
+    prefix('!', function() {
         this.right = expression(150);
         this.arity = 'unary';
         if (bang[this.right.id] === true) {
@@ -4528,7 +4528,7 @@ loop:   for (;;) {
         return this;
     });
     prefix('typeof', 'typeof');
-    prefix('new', function () {
+    prefix('new', function() {
         var c = expression(155), i;
         if (c && c.id !== 'function') {
             if (c.identifier) {
@@ -4594,7 +4594,7 @@ loop:   for (;;) {
     });
     syntax['new'].exps = true;
 
-    infix('.', function (left, that) {
+    infix('.', function(left, that) {
         adjacent(prevtoken, token);
         nobreak();
         var m = identifier();
@@ -4661,7 +4661,7 @@ loop:   for (;;) {
         return that;
     }, 160, true);
 
-    infix('(', function (left, that) {
+    infix('(', function(left, that) {
         if (prevtoken.id !== '}' && prevtoken.id !== ')') {
             nobreak(prevtoken, token);
         }
@@ -4731,7 +4731,7 @@ loop:   for (;;) {
         return that;
     }, 155, true).exps = true;
 
-    prefix('(', function () {
+    prefix('(', function() {
         nospace();
         if (nexttoken.id === 'function') {
             nexttoken.immed = true;
@@ -4752,7 +4752,7 @@ loop:   for (;;) {
         return v;
     });
 
-    infix('[', function (left, that) {
+    infix('[', function(left, that) {
         nobreak(prevtoken, token);
         nospace();
         var e = expression(0), s;
@@ -4786,7 +4786,7 @@ loop:   for (;;) {
         return that;
     }, 160, true);
 
-    prefix('[', function () {
+    prefix('[', function() {
         var b = token.line !== nexttoken.line;
         this.first = [];
         if (b) {
@@ -4899,8 +4899,8 @@ loop:   for (;;) {
     }
 
 
-    (function (x) {
-        x.nud = function () {
+    (function(x) {
+        x.nud = function() {
             var b, f, i, j, p, seen = {}, t;
             b = token.line !== nexttoken.line;
             if (b) {
@@ -4982,7 +4982,7 @@ loop:   for (;;) {
             advance('}', this);
             return this;
         };
-        x.fud = function () {
+        x.fud = function() {
             error("Expected to see a statement and instead saw a block.", token);
         };
     }(delim('{')));
@@ -5039,7 +5039,7 @@ loop:   for (;;) {
     stmt('var', varstatement).exps = true;
 
 
-    blockstmt('function', function () {
+    blockstmt('function', function() {
         if (inblock) {
             warning(
 "Function declarations should not be placed in blocks. Use a function expression or move the statement to the top of the outer function.", token);
@@ -5056,7 +5056,7 @@ loop:   for (;;) {
         return this;
     });
 
-    prefix('function', function () {
+    prefix('function', function() {
         var i = optionalidentifier();
         if (i) {
             adjacent(token, nexttoken);
@@ -5070,7 +5070,7 @@ loop:   for (;;) {
         return this;
     });
 
-    blockstmt('if', function () {
+    blockstmt('if', function() {
         var t = nexttoken;
         advance('(');
         nonadjacent(this, t);
@@ -5097,7 +5097,7 @@ loop:   for (;;) {
         return this;
     });
 
-    blockstmt('try', function () {
+    blockstmt('try', function() {
         var b, e, s;
         if (option.adsafe) {
             warning("ADsafe try violation.", this);
@@ -5133,7 +5133,7 @@ loop:   for (;;) {
         return this;
     });
 
-    blockstmt('while', function () {
+    blockstmt('while', function() {
         var t = nexttoken;
         funct['(breakage)'] += 1;
         funct['(loopage)'] += 1;
@@ -5157,7 +5157,7 @@ loop:   for (;;) {
 
     reserve('with');
 
-    blockstmt('switch', function () {
+    blockstmt('switch', function() {
         var t = nexttoken,
             g = false;
         funct['(breakage)'] += 1;
@@ -5254,15 +5254,15 @@ loop:   for (;;) {
         }
     }).labelled = true;
 
-    stmt('debugger', function () {
+    stmt('debugger', function() {
         if (!option.debug) {
             warning("All 'debugger' statements should be removed.");
         }
         return this;
     }).exps = true;
 
-    (function () {
-        var x = stmt('do', function () {
+    (function() {
+        var x = stmt('do', function() {
             funct['(breakage)'] += 1;
             funct['(loopage)'] += 1;
             this.first = block(true);
@@ -5288,7 +5288,7 @@ loop:   for (;;) {
         x.exps = true;
     }());
 
-    blockstmt('for', function () {
+    blockstmt('for', function() {
         var s, t = nexttoken;
         funct['(breakage)'] += 1;
         funct['(loopage)'] += 1;
@@ -5374,7 +5374,7 @@ loop:   for (;;) {
     }).labelled = true;
 
 
-    stmt('break', function () {
+    stmt('break', function() {
         var v = nexttoken.value;
         if (funct['(breakage)'] === 0) {
             warning("Unexpected '{a}'.", nexttoken, this.value);
@@ -5396,7 +5396,7 @@ loop:   for (;;) {
     }).exps = true;
 
 
-    stmt('continue', function () {
+    stmt('continue', function() {
         var v = nexttoken.value;
         if (funct['(breakage)'] === 0) {
             warning("Unexpected '{a}'.", nexttoken, this.value);
@@ -5420,7 +5420,7 @@ loop:   for (;;) {
     }).exps = true;
 
 
-    stmt('return', function () {
+    stmt('return', function() {
         nolinebreak(this);
         if (nexttoken.id === '(regexp)') {
             warning("Wrap the /regexp/ literal in parens to disambiguate the slash operator.");
@@ -5434,7 +5434,7 @@ loop:   for (;;) {
     }).exps = true;
 
 
-    stmt('throw', function () {
+    stmt('throw', function() {
         nolinebreak(this);
         nonadjacent(token, nexttoken);
         this.first = expression(20);
@@ -5561,7 +5561,7 @@ loop:   for (;;) {
 
 // The actual JSHINT function itself.
 
-    var itself = function (s, o, g) {
+    var itself = function(s, o, g) {
         var a, i, k;
         JSHINT.errors = [];
         predefined = Object.create(standard);
@@ -5726,7 +5726,7 @@ loop:   for (;;) {
 
 // Data summary.
 
-    itself.data = function () {
+    itself.data = function() {
 
         var data = {functions: []}, fu, globals, implieds = [], f, i, j,
             members = [], n, unused = [], v;
@@ -5810,7 +5810,7 @@ loop:   for (;;) {
         return data;
     };
 
-    itself.report = function (option) {
+    itself.report = function(option) {
         var data = itself.data();
 
         var a = [], c, e, err, f, i, k, l, m = '', n, o = [], s;
