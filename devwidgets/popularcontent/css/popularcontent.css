@@ -15,10 +15,31 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-#popularcontent_main{margin:0 10px 0 15px;overflow:hidden;}
-#popularcontent_main ul {margin:0;}
-#popularcontent_main ul li{list-style-type:none;}
-.popularcontent_title{padding-left:15px!important;}
-.popularcontent_widget{overflow:hidden;}
-.popularcontent_ellipsis_text, .popularcontent_ellipsis_container {word-wrap:break-word;}
-.popularcontent_main_progress{background:url(/dev/images/ajax_load.gif) no-repeat scroll 0 0 transparent;clear:both;height:10px;width:40px;left:30px;position:relative;margin-bottom:5px;}
+#popularcontent_main {
+    margin: 0 10px 0 15px;
+    overflow: hidden;
+}
+#popularcontent_main ul {
+    margin: 0;
+}
+#popularcontent_main ul li {
+    list-style-type: none;
+}
+.popularcontent_title {
+    padding-left: 15px !important;
+}
+.popularcontent_widget {
+    overflow: hidden;
+}
+.popularcontent_ellipsis_text, .popularcontent_ellipsis_container {
+    word-wrap: break-word;
+}
+.popularcontent_main_progress {
+    background: url(/dev/images/ajax_load.gif) no-repeat scroll 0 0 transparent;
+    clear: both;
+    height: 10px;
+    width: 40px;
+    left: 30px;
+    position: relative;
+    margin-bottom: 5px;
+}
