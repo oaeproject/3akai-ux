@@ -63,7 +63,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
         };
 
-        $('.selecttemplate_use_button', $rootel).on('click', function() {
+        $rootel.on('click', '.selecttemplate_use_button', function() {
             var clicked = $(this);
             if (clicked.data('templateid')) {
                 renderCreateWorld(tuid, clicked.data('templateid'), false);

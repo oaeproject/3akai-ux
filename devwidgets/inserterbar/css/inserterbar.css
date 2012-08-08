@@ -105,7 +105,7 @@
     margin: 0 10px;
 }
 
-#inserterbar_widget #inserterbar_default_widgets_container ul li a.ui-draggable {
+#inserterbar_widget #inserterbar_default_widgets_container ul li button.ui-draggable {
     width: 34px;
 }
 

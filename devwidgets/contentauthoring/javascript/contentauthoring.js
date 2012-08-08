@@ -874,6 +874,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             $('#contentauthoring_widget_settings').jqmHide();
             // Remove the widget from the settings overlay
             $('#contentauthoring_widget_content').html('');
+            storeCurrentPageLayout();
         };
 
         /**
@@ -1107,6 +1108,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     addEditButtonBinding();
                 }
             });
+            return false;
         };
 
         //////////////////////

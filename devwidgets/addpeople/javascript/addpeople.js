@@ -488,7 +488,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             });
             $(addpeopleSelectedCheckbox).on('change', decideEnableDisableControls);
             $addpeopleSelectedAllPermissions.on('change', changeSelectedPermission);
-            $(addpeopleCheckbox).off('change').on('change', constructSelecteduser);
+            $addpeopleContainer.off('change', addpeopleCheckbox).on('change', addpeopleCheckbox, constructSelecteduser);
             $(addpeopleSelectedPermissions).off('change').on('change', changePermission);
             $addpeopleFinishAdding.on('click', finishAdding);
             $addpeopleRemoveSelected.on('click', removeSelected);

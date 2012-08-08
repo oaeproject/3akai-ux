@@ -511,9 +511,9 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', '/dev/javascript/conten
                 $(this).parent().removeClass('contentpermissions_unselected_rbt');
             });
 
-            $('.contentpermissions_permissions_container .s3d-actions-delete').on('click', doDelete);
-            $('#contentpermissions_apply_permissions').on('click', showWarning);
-            $('#contentpermissions_members_autosuggest_sharebutton').on('click', doShare);
+            $('#contentpermissions_container').on('click', '.contentpermissions_permissions_container .s3d-actions-delete', doDelete);
+            $('#contentpermissions_container').on('click', '#contentpermissions_apply_permissions', showWarning);
+            $('#contentpermissions_container').on('click', '#contentpermissions_members_autosuggest_sharebutton', doShare);
             $(document).on('click', '#contentpermissions_members_autosuggest_cancelbutton', hideShare);
         };
 

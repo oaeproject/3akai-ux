@@ -128,7 +128,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 helper: 'clone',
                 revert: 'invalid',
                 opacity: 0.4,
+                cancel: false,
                 start: function() {
+                    debug.log($(this));
                     $(window).trigger('startdrag.contentauthoring.sakai');
                     sakai.api.Util.Draggable.setIFrameFix();
                 },
@@ -254,10 +256,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             // Hide the tinyMCE toolbar when we click outside of a tinyMCE area
             sakai.api.Util.hideOnClickOut($('#inserterbar_tinymce_container'), '.mceMenu, .mce_forecolor');
 
-            $('#inserterbar_action_close_revision_history').on('click', function(e) {
+            $rootel.on('click', '#inserterbar_action_close_revision_history', function(e) {
                 $(window).trigger('close.versions.sakai');
                 setInserterForViewMode();
-                e.preventDefault();
             });
 
             $('#inserterbar_action_revision_history').on('click', setInserterForRevisionHistoryMode);

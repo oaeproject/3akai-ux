@@ -346,7 +346,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         var bindEvents = function() {
-            $('.contacts_add_to_contacts').on('click', function() {
+            $rootel.on('click', '.contacts_add_to_contacts', function() {
                 var $pendingList = $(this).parents('.contacts_item').parent();
                 acceptRequest($(this)[0].id.split('contacts_add_to_contacts_')[1]);
                 $(this).parents('.contacts_item').remove();
@@ -362,13 +362,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 toTop: true
             });
 
-            $('.s3d-actions-delete', $rootel).on('click', function() {
+            $rootel.on('click', '.s3d-actions-delete', function() {
                 $('#contacts_contact_to_delete').text($(this).data('sakai-entityname'));
                 $('#contacts_delete_contact_confirm').data('sakai-entityid', $(this).data('sakai-entityid'));
                 sakai.api.Util.Modal.open('#contacts_delete_contacts_dialog');
             });
 
-            $('#contacts_delete_contact_confirm').on('click', function() {
+            $(document).on('click', '#contacts_delete_contact_confirm', function() {
                 removeRequest($(this).data('sakai-entityid'));
                 updateMessageAndAddToData();
             });
@@ -378,7 +378,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 var t = setTimeout(getContacts,500);
             });
 
-            $('#contacts_select_checkbox').change(function() {
+            $rootel.on('change', '#contacts_select_checkbox', function() {
                 if ($(this).is(':checked')) {
                     $('#contacts_addpeople_button').removeAttr('disabled');
                     $('#contacts_message_button').removeAttr('disabled');
@@ -391,12 +391,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 updateMessageAndAddToData();
             });
 
-            $('.contacts_select_contact_checkbox').on('change', function() {
+            $rootel.on('change', '.contacts_select_contact_checkbox', function() {
                 checkAddingEnabled();
                 updateMessageAndAddToData();
             });
 
-            $('#contacts_sortby').change(function() {
+            $rootel.on('change', '#contacts_sortby', function() {
                 var sortSelection = this.options[this.selectedIndex].value;
                 if (sortSelection === 'desc') {
                     $.bbq.pushState({'cso': 'desc'});
@@ -405,24 +405,24 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 }
             });
 
-            $(contactsShowList, $rootel).on('click', function() {
+            $rootel.on('click', contactsShowList, function() {
                 $.bbq.pushState({'ls': 'list'});
             });
 
-            $(contactsShowGrid, $rootel).on('click', function() {
+            $rootel.on('click', contactsShowGrid, function() {
                 $.bbq.pushState({'ls': 'grid'});
             });
 
             $(window).on('hashchanged.contacts.sakai', handleHashChange);
 
-            $('#contacts_search_input').on('keyup', function(ev) {
+            $rootel.on('keyup', '#contacts_search_input', function(ev) {
                 var q = $.trim($(this).val());
                 if (q !== contacts.query && ev.keyCode === 13) {
                     $.bbq.pushState({'cq': q});
                 }
             });
 
-            $('#contacts_search_button').on('click', function(ev) {
+            $rootel.on('click', '#contacts_search_button', function(ev) {
                 var q = $.trim($('#contacts_search_input').val());
                 if (q !== contacts.query) {
                     $.bbq.pushState({'cq': q});

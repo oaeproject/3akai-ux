@@ -292,10 +292,12 @@
 
 .contentauthoring_edit_mode .contentauthoring_cell_reorder_highlight {
     background-color: #e3e5c7;
+    border: none;
     display: block;
     list-style-type: none;
     height: 20px;
     cursor: move;
+    width: 100%;
 }
 
 .contentauthoring_edit_mode #contentauthoring_widget_container > .contentauthoring_row_reorder_highlight {

@@ -62,7 +62,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var $mylibrary_sortarea = $('#mylibrary_sortarea', $rootel);
         var $mylibrary_empty = $('#mylibrary_empty', $rootel);
         var $mylibrary_admin_actions = $('#mylibrary_admin_actions', $rootel);
-        var $mylibrary_remove_icon = $('.mylibrary_remove_icon', $rootel);
+        var mylibrary_remove_icon = '.mylibrary_remove_icon'
         var $mylibrary_search_button = $('#mylibrary_search_button', $rootel);
         var $mylibrary_result_count = $('.s3d-search-result-count', $rootel);
         var $mylibrary_show_grid = $('.s3d-listview-grid', $rootel);
@@ -389,7 +389,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
              * Called when clicking the remove icon next to an individual content
              * item
              */
-            $mylibrary_remove_icon.on('click', function(ev) {
+            $rootel.on('click', mylibrary_remove_icon, function(ev) {
                 if ($(this).attr('data-entityid')) {
                     var paths = [];
                     var collection = false;

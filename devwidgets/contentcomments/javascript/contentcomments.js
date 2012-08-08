@@ -555,7 +555,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
         };
 
-        $(contentcommentsDelete, rootel).on('click', function(e, ui) {
+        rootel.on('click', contentcommentsDelete, function(e, ui) {
             var id = e.target.id.replace(contentcommentsDelete.replace(/\./g, '') + '_', '');
             doDelete(id, true);
             return false;

@@ -395,7 +395,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 toTop: true
             });
 
-            $('.s3d-actions-delete', $rootel).on('click', function() {
+            $rootel.on('click', '.s3d-actions-delete', function() {
                 if ($(this).hasClass('mymemberhips_disabled_leave')) {
                     sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('GROUP_MEMBERSHIP'),
                         sakai.api.i18n.getValueForKey('UNABLE_TO_LEAVE', 'mymemberships').replace('${groupname}', $(this).attr('data-sakai-entityname')),

@@ -233,7 +233,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         });
 
         // bind click trigger
-        $('.personinfo_trigger_click').on('click', function() {
+        $(document).on('click', '.personinfo_trigger_click', function() {
             doInit($(this));
         });
 

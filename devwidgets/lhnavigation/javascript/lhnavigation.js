@@ -764,6 +764,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             } else {
                 addTopPage();
             }
+            return false;
         };
 
         var addTopPage = function() {
@@ -1261,7 +1262,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // Internal event binding //
         ////////////////////////////
 
-        $('.lhnavigation_selected_submenu').on('click', function(ev) {
+        $rootel.on('click', '.lhnavigation_selected_submenu', function(ev) {
             showContextMenu($(this));
         });
 
@@ -1271,16 +1272,16 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
 
         $(document).on('click', '#inserterbar_action_add_page', addNewPage);
 
-        $('#lhavigation_submenu_edittitle').on('click', function(ev) {
+        $rootel.on('click', '#lhavigation_submenu_edittitle', function(ev) {
             editPageTitle();
             ev.stopPropagation();
         });
 
-        $('#lhnavigation_submenu_permissions').on('click', function(ev) {
+        $rootel.on('click', '#lhnavigation_submenu_permissions', function(ev) {
             showAreaPermissions();
         });
 
-        $('#lhnavigation_submenu_user_permissions').on('click', function(ev) {
+        $rootel.on('click', '#lhnavigation_submenu_user_permissions', function(ev) {
             showUserPermissions();
         });
 
@@ -1296,11 +1297,11 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             }
         });
 
-        $('#lhavigation_submenu_deletepage').on('click', function(ev) {
+        $rootel.on('click', '#lhavigation_submenu_deletepage', function(ev) {
             confirmPageDelete();
         });
 
-        $('#lhnavigation_delete_confirm').on('click', function(ev) {
+        $(document).on('click', '#lhnavigation_delete_confirm', function(ev) {
             deletePage();
         });
 
@@ -1308,7 +1309,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             onContextMenuLeave();
         });
 
-        $('.lhnavigation_item_content').on('click', function(ev) {
+        $rootel.on('click', '.lhnavigation_item_content', function(ev) {
             processNavigationClick($(this), ev);
         });
 

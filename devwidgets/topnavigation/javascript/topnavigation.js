@@ -710,10 +710,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 $(topnavUserOptionsLoginForm).toggle();
             };
 
-            $('#topnavigation_container').on(
-                'click',
-                '#topnavigation_toggle_internal_login',
-                toggleInternalLogin);
+            $rootel.on('click', '#topnavigation_toggle_internal_login', toggleInternalLogin);
 
             $(document).on('mouseenter', '.hassubnav', openMenu);
             $(document).on('mouseleave', '.hassubnav', function() {
@@ -722,7 +719,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             // remove focus of menu item if mouse is used
-            $(hasSubnav + ' div').find('a').on('hover', function() {
+            $rootel.on('hover', $(hasSubnav + ' div').find('a'), function() {
                 if ($openMenu.length) {
                     $openMenu.find('a').blur();
                 }
@@ -860,20 +857,20 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 }
             });
 
-            $(hasSubnav + ' a').on('focus',function() {
+            $rootel.on('focus', hasSubnav + ' a', function() {
                 if ($(this).parent().hasClass('hassubnav')) {
                     $(this).trigger('mouseover');
                     $(this).parents('.s3d-dropdown-menu').children('a').addClass(topnavigationForceSubmenuDisplayTitle);
                 }
             });
 
-            $('#navigation_anon_signup_link').on('hover',function(evt) {
+            $rootel.on('hover', '#navigation_anon_signup_link', function(evt) {
                 closeMenu();
                 closePopover();
             });
 
             // hide the menu after an option has been clicked
-            $(hasSubnav + ' a').on('click', function() {
+            $rootel.on('click', hasSubnav + ' a', function() {
                 // hide the menu if a menu item was clicked
                 if ($(this).parents('.s3d-dropdown-container').length) {
                     var $parentMenu = $(this).parents(hasSubnav);
@@ -889,11 +886,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             // Make sure that the results only disappear when you click outside
             // of the search box and outside of the results box
             sakai.api.Util.hideOnClickOut('#topnavigation_search_results', '#topnavigation_search_results_container,#topnavigation_search_results_bottom_container,#topnavigation_search_input');
-
-            $('#subnavigation_preferences_link').on('click', function() {
-                $(window).trigger('init.accountpreferences.sakai');
-                return false;
-            });
 
             $('#topnavigation_search_input').keyup(function(evt) {
                 var val = $.trim($(this).val());
@@ -939,7 +931,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 }
             });
 
-            $('#topnavigation_user_options_login_external').click(function() {return false;});
+            $rootel.on('click', '#topnavigation_user_options_login_external', function() {
+                return false;
+            });
 
             $('#topnavigation_user_options_login_button_login').keydown(function(e) {
                 // if user is not signed in we need to check when they tab out of the login form and close the login menu
@@ -1024,10 +1018,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 }
             });
 
-            $('#topnavigation_message_showall').on('click', hideMessageInlay);
-            $('#topnavigation_message_readfull').on('click', hideMessageInlay);
-            $('.no_messages .s3d-no-results-container a').on('click', hideMessageInlay);
-            $('.topnavigation_trigger_login').on('click', forceShowLogin);
+            $rootel.on('click', ['#topnavigation_message_showall', '#topnavigation_message_readfull',
+                '.no_messages .s3d-no-results-container a'], hideMessageInlay);
+            $rootel.on('click', '.topnavigation_trigger_login', forceShowLogin);
 
             $(window).on('updated.messageCount.sakai', setCountUnreadMessages);
             $(window).on('displayName.profile.updated.sakai', setUserName);
@@ -1073,7 +1066,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         // MESSAGES POP-UP //
         /////////////////////
 
-        $('#topnavigation_messages_container').on('click', function() {
+        $rootel.on('click', '#topnavigation_messages_container', function() {
             if ($('#topnavigation_user_messages_container .s3d-dropdown-menu').is(':hidden')) {
                 sakai.api.Communication.getAllMessages('inbox', false, false, 1, 0, '_created', 'desc', function(success, data) {
                     var dataPresent = false;
