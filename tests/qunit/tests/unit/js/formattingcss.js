@@ -47,7 +47,7 @@ require(
             doRegexTest(cssFile, regex, testString);
 
             // test close brace is on a new line
-            regex = /.+\}/gm;
+            regex = /\S+\}/gm;
             testString = 'Put close brace on a new line';
             doRegexTest(cssFile, regex, testString);
 
