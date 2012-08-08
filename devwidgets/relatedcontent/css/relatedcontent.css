@@ -15,24 +15,80 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-.relatedcontent{margin-bottom:10px; overflow:hidden;}
-.relatedcontent .s3d-contentpage-title {margin-bottom: 0px;}
-.relatedcontent .relatedcontent_content{color:#666;padding:9px 12px 7px;display:block;clear:both;border-bottom:1px solid #DFDFDF;font-size:11px;}
-.relatedcontent .relatedcontent_content.last {border-bottom:none;}
-.relatedcontent .relatedcontent_content:hover {background-color:#eff8fc;cursor:pointer;}
-.relatedcontent .relatedcontent_content img{float:left;padding-right:7px;}
-.relatedcontent_content_right{display:table-cell;vertical-align:middle;}
-.relatedcontent_list a{color:#39c;font-weight:bold;font-size:11px;}
-.relatedcontent .relatedcontent_no_content{padding-top:10px; padding-bottom: 10px; margin: 0 15px;}
-.relatedcontent .threedots_text{width:145px;}
-.relatedcontent .threedots_text{word-wrap:break-word;}
-.relatedcontent .s3d-widget-footer {margin-top:0;}
-.relatedcontent .s3d-widget-footer button{display:table;margin-left:auto;margin-right:auto;float:none;}
-.relatedcontent_mimetypedescription {display:block;text-transform:uppercase;font-size:11px;}
-.relatedcontent_comments {display:block;margin-top:4px;}
-.relatedcontent_comments img {padding-top:3px;padding-right:5px !important;}
+.relatedcontent {
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+.relatedcontent .s3d-contentpage-title {
+    margin-bottom: 0px;
+}
+.relatedcontent .relatedcontent_content {
+    color: #666;
+    padding: 9px 12px 7px;
+    display: block;
+    clear: both;
+    border-bottom: 1px solid #DFDFDF;
+    font-size: 11px;
+}
+.relatedcontent .relatedcontent_content.last {
+    border-bottom: none;
+}
+.relatedcontent .relatedcontent_content:hover {
+    background-color: #eff8fc;
+    cursor: pointer;
+}
+.relatedcontent .relatedcontent_content img {
+    float: left;
+    padding-right: 7px;
+}
+.relatedcontent_content_right {
+    display: table-cell;
+    vertical-align: middle;
+}
+.relatedcontent_list a {
+    color: #39c;
+    font-weight: bold;
+    font-size: 11px;
+}
+.relatedcontent .relatedcontent_no_content {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 0 15px;
+}
+.relatedcontent .threedots_text {
+    width: 145px;
+}
+.relatedcontent .threedots_text {
+    word-wrap: break-word;
+}
+.relatedcontent .s3d-widget-footer {
+    margin-top: 0;
+}
+.relatedcontent .s3d-widget-footer button {
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+    float: none;
+}
+.relatedcontent_mimetypedescription {
+    display: block;
+    text-transform: uppercase;
+    font-size: 11px;
+}
+.relatedcontent_comments {
+    display: block;
+    margin-top: 4px;
+}
+.relatedcontent_comments img {
+    padding-top: 3px;
+    padding-right: 5px !important;
+}
 #relatedcontent_show_more {
     line-height: 27px;
     padding: 0 12px 0;
 }
-#relatedcontent_footer.relatedcontent_footer_norelated {background:none repeat scroll 0 0 transparent;min-height:0;padding:0;}
+#relatedcontent_footer.relatedcontent_footer_norelated {
+    background: none repeat scroll 0 0 transparent;
+    min-height: 0;
+    padding: 0;
+}

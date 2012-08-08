@@ -73,7 +73,7 @@
 
 .contentauthoring_widget .contentauthoring_cell_content {
     padding: 5px 5px 5px 0;
-    display:table-cell !important;
+    display: table-cell !important;
     width: 100%;
     vertical-align: top !important;
 }
