@@ -725,7 +725,7 @@ define(
          * pushState for them
          */
         bindToHash : function() {
-            $('a[href^="#"]').on('click', function(e) {
+            $(document).on('click', 'a[href^="#"]', function(e) {
                 var $target = $(e.currentTarget),
                     args = $target.attr('href'),
                     replace = $target.data('reset-hash'),

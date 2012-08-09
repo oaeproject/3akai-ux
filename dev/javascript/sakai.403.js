@@ -98,7 +98,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                     redurl = $.deparam.querystring().url;
                 }
                 // Set the link for the sign in button
-                $('.login-container button').on('click', function() {
+                $(document).on('click', '.login-container button', function() {
                     document.location = (gatewayURL + '?url=' + escape(redurl));
                 });
                 if (sakai.config.Authentication.allowInternalAccountCreation) {

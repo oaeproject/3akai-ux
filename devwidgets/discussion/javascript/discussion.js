@@ -80,8 +80,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         // Settings
         var parsedSettings = {};
         var $discussionSettings = $('#discussion_settings', $rootel);
-        var $discussionSettingsSubmit = $('#discussion_settings_submit', $rootel);
-        var $discussionSettingsCancel = $('#discussion_settings_cancel', $rootel);
+        var discussionSettingsSubmit = '#discussion_settings_submit';
+        var discussionSettingsCancel = '#discussion_settings_cancel';
 
         // Add new topic
         var discussionAddNewTopic = '#discussion_add_new_topic';
@@ -619,7 +619,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
             if (message) {
                 if ($replyParent.find('#discussion_topic_quoted_text').length) {
-                    message = '[quote="' + $.trim($(discussionTopicReplyQuotedUser, $rootel).text()) + '"]' + $replyParent.find('#discussion_topic_quoted_text').val() + '[/quote]' + message;
+                    message = '[quote=\'' + $.trim($(discussionTopicReplyQuotedUser, $rootel).text()) + '\']' + $replyParent.find('#discussion_topic_quoted_text').val() + '[/quote]' + message;
                 }
 
                 replyToTopic(topicId, message, $(form).parents(discussionTopicReplyContainer), $replyParent);
@@ -703,7 +703,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 'sakai:body': body
             };
             if (quote) {
-                data['sakai:body'] = '[quote="' + quoted + '"]' + quote + '[/quote]' + body;
+                data['sakai:body'] = '[quote=\'' + quoted + '\']' + quote + '[/quote]' + body;
             }
 
             $.ajax({
@@ -736,8 +736,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         ////////////////////
 
         var addBinding = function() {
-            $(discussionExpandAll, $rootel).off('click');
-            $(discussionExpandAll, $rootel).on('click', function() {
+            $rootel.off('click', discussionExpandAll);
+            $rootel.on('click', discussionExpandAll, function() {
                 if ($(discussionExpandAll, $rootel).hasClass(discussionExpandAllClass)) {
                     $(this).removeClass(discussionExpandAllClass);
                     $(this).addClass(discussionCollapseAllClass);
@@ -756,23 +756,23 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
             // SETTINGS //
             // Submit button.
-            $discussionSettingsSubmit.on('click', function(e, ui) {
+            $rootel.on('click', discussionSettingsSubmit, function(e, ui) {
                 saveSettings(finishSettingsContainer);
             });
 
             // Cancel button
-            $discussionSettingsCancel.on('click', function(e, ui) {
+            $rootel.on('click', discussionSettingsCancel, function(e, ui) {
                 sakai.api.Widgets.Container.informCancel(tuid, 'discussion');
             });
 
             // NEW TOPIC //
-            $(discussionAddNewTopic, $rootel).on('click', function() {
+            $rootel.on('click', discussionAddNewTopic, function() {
                 $discussionListTopics.hide();
                 $(discussionNoInitialTopic, $rootel).hide();
                 $(discussionCreateNewTopic, $rootel).show();
             });
 
-            $(discussionDontAddTopic, $rootel).on('click', function() {
+            $rootel.on('click', discussionDontAddTopic, function() {
                 $(discussionCreateNewTopic, $rootel).hide();
                 getWidgetSettings();
             });
@@ -789,8 +789,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             // REPLY TOPIC //
-            $(discussionShowTopicReplies, $rootel).off('click');
-            $(discussionShowTopicReplies, $rootel).on('click',function() {
+            $rootel.off('click', discussionShowTopicReplies);
+            $rootel.on('click', discussionShowTopicReplies, function() {
                 var $repliesIcon = $(this).children(discussionRepliesIcon);
                 var postId = $(this).parent().attr('id');
                 if ($repliesIcon.hasClass(discussionShowRepliesIcon)) {
@@ -809,7 +809,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             // Open quoted reply fields
-            $(discussionQuote, $rootel).on('click', function(e) {
+            $rootel.on('click', discussionQuote, function(e) {
                 var replyParent = $(this).parents(discussionTopicContainer);
                 replyParent.find(discussionReplyTopicBottom).hide();
                 var postId = replyParent.attr('id').split('discussion_post_')[1];
@@ -825,7 +825,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             // Open reply fields
-            $(discussionReplyTopic, $rootel).on('click', function() {
+            $rootel.on('click', discussionReplyTopic, function() {
                 var replyParent = $(this).parents(discussionTopicContainer);
                 replyParent.find(discussionReplyTopicBottom).hide();
                 var postId = replyParent.attr('id').split('discussion_post_')[1];
@@ -838,7 +838,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 replyParent.find(discussionTopicReplyText).focus();
             });
 
-            $(discussionDontAddReply, $rootel).on('click', function() {
+            $rootel.on('click', discussionDontAddReply, function() {
                 $(this).parents(discussionTopicReplyContainer).hide();
                 if (!$(this).parents(discussionTopicContainer).find(discussionRepliesIcon).hasClass(discussionShowRepliesIcon)) {
                     $(this).parents(discussionTopicContainer).find(discussionReplyTopicBottom).show();
@@ -847,22 +847,22 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
             // DELETE REPLIES //
             // Delete reply
-            $(discussionDelete, $rootel).on('click', function() {
+            $rootel.on('click', discussionDelete, function() {
                 deletePost($(this).parents(s3dHighlightBackgroundClass).attr('id'), true, $(this).parents(s3dHighlightBackgroundClass));
             });
 
             // Restore reply
-            $(discussionRestore, $rootel).on('click', function() {
+            $rootel.on('click', discussionRestore, function() {
                 deletePost($(this).parents(s3dHighlightBackgroundClass).attr('id'), false, $(this).parents(s3dHighlightBackgroundClass));
             });
 
-            $(discussionHideReply, $rootel).on('click', function() {
+            $rootel.on('click', discussionHideReply, function() {
                 $(this).children('span').toggle();
                 $(this).parent().nextAll(discussionReplyContents).toggle();
             });
 
             // EDIT POST //
-            $(discussionEdit, $rootel).on('click', function() {
+            $rootel.on('click', discussionEdit, function() {
                 var renderData = {};
                 if ($(this).parent().prevAll(discussionQuotedTextContainer).length) {
                     renderData = {
@@ -890,7 +890,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 sakai.api.Util.Forms.validate($('.discussion_edit_form', $rootel), editValidateOpts, true);
             });
 
-            $(discussionDontSaveEdit, $rootel).on('click', function() {
+            $rootel.on('click', discussionDontSaveEdit, function() {
                 $(this).parents(s3dHighlightBackgroundClass).children(discussionEntityContainer + ',' + discussionReplyContents).show();
                 $(this).parents(discussionEditContainer).text('');
             });

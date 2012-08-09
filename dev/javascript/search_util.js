@@ -194,7 +194,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         // Events //
         ////////////
 
-        $('.search_tag_refine_item').off('click').on('click', function(ev) {
+        $('.search_tags_refine_container').off('click', '.search_tag_refine_item').on('click', '.search_tag_refine_item', function(ev) {
             var tag = $(this).attr('data-sakai-entityid');
             activeTags.push(sakai.api.Util.formatTags([tag])[0]);
             $.bbq.pushState({
@@ -202,7 +202,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }, 0);
         });
 
-        $('.search_tag_active_item').off('click').on('click', function(ev) {
+        $('#search_tags_active_container').off('click', '.search_tag_active_item').on('click', '.search_tag_active_item', function(ev) {
             var tag = $(this).attr('data-sakai-entityid');
             activeTags = $.grep(activeTags, function(value) {
                 return value.original !== tag;
@@ -212,7 +212,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }, 0);
         });
 
-        $('.link_accept_invitation').off('click').on('click', function(ev) {
+        $(document).off('click', '.link_accept_invitation').on('click', '.link_accept_invitation', function(ev) {
             var userid = $(this).attr('sakai-entityid');
             $.ajax({
                 url: '/~' + sakai.api.Util.safeURL(sakai.data.me.user.userid) + '/contacts.accept.html',
@@ -245,7 +245,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         });
 
         // bind search view change
-        $('.search_view_list, .search_view_grid').off('click').on('click', function(ev) {
+        $(document).off('click', '.search_view_list, .search_view_grid').on('click', '.search_view_list, .search_view_grid', function(ev) {
             if (!$(this).hasClass('selected')) {
                 if ($('.s3d-search-results-container').hasClass('s3d-search-results-grid')) {
                     view = 'list';
@@ -260,8 +260,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }
         });
 
-        $('.searchgroups_result_plus').off('click');
-        $('.searchgroups_result_plus').on('click', function(ev) {
+        $(document).off('click', '.searchgroups_result_plus').on('click', '.searchgroups_result_plus', function(ev) {
             var joinable = $(this).data('group-joinable');
             var groupid = $(this).data('groupid');
             var itemdiv = $(this);

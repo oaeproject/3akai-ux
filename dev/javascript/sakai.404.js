@@ -96,7 +96,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                 if ($.deparam.querystring().url) {
                     redurl = $.deparam.querystring().url;
                 }
-                $('.login-container button').on('click', function() {
+                $(document).on('click', '.login-container button', function() {
                     document.location = (gatewayURL + '?url=' + escape(redurl));
                 });
                 if (sakai.config.Authentication.allowInternalAccountCreation) {

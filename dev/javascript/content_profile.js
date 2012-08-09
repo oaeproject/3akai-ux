@@ -185,12 +185,12 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             showPreview = true;
         };
 
-        $('#entity_content_share').on('click', function() {
+        $(document).on('click', '#entity_content_share', function() {
             $(window).trigger('init.sharecontent.sakai');
             return false;
         });
 
-        $('#entity_content_add_to_library').on('click', function() {
+        $(document).on('click', '#entity_content_add_to_library', function() {
             sakai.api.Content.addToLibrary(sakai_global.content_profile.content_data.data['_path'], sakai.data.me.user.userid, false, function() {
                 $('#entity_content_add_to_library').hide();
                 sakai.api.Util.notification.show($('#content_profile_add_library_title').html(), $('#content_profile_add_library_body').html());

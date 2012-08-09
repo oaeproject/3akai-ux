@@ -630,7 +630,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
         var addBindings = function() {
 
             /** Bind the choose display radiobuttons button */
-            $('input[name=' + commentsDisplayRbt + ']', rootel).on('click', function(e, ui) {
+            rootel.on('click', 'input[name=' + commentsDisplayRbt + ']', function(e, ui) {
                 var selectedValue = $('input[name=' + commentsDisplayRbt + ']:checked', rootel).val();
                 // When the perPage-rbt is selected the focus should be set to the Page-textbox
                 if (selectedValue === 'comments_PerPage') {
@@ -640,7 +640,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
             });
 
             /** Bind the choose permissions radiobuttons button */
-            $('input[name=' + commentsPermissionsRbt + ']', rootel).on('change', function(e, ui) {
+            rootel.on('change', 'input[name=' + commentsPermissionsRbt + ']', function(e, ui) {
                 var selectedValue = $('input[name=' + commentsPermissionsRbt + ']:checked', rootel).val();
                 // If a login is required the user shouldn't have the posibility to check Name-required or Email-required
                 $(commentsNameReqChk, rootel).attr('disabled', selectedValue === 'comments_RequireLogIn');
@@ -649,12 +649,12 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
             });
 
             /** Bind the settings submit button*/
-            $(commentsSubmit, rootel).on('click', function(e, ui) {
+            rootel.on('click', commentsSubmit, function(e, ui) {
                 saveSettings();
             });
 
             /** Bind the insert comment button*/
-            $(commentsCommentBtn, rootel).on('click', function(e, ui) {
+            rootel.on('click', commentsCommentBtn, function(e, ui) {
                 sakai.api.Util.Forms.clearValidation($('#comments_fillInComment form', rootel));
                 // checks if the user is loggedIn
                 var isLoggedIn = (me.user.anon && me.user.anon === true) ? false : true;
@@ -686,7 +686,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
             /**
              * Hide the form, but keep the input.
              */
-            $(commentsCancelComment, rootel).on('click', function() {
+            rootel.on('click', commentsCancelComment, function() {
                 $(commentsFillInComment, rootel).hide();
             });
 
@@ -696,17 +696,17 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
             sakai.api.Util.Forms.validate($('#comments_fillInComment form', rootel), saveValidateOpts, true);
 
             /** Bind the settings cancel button */
-            $(commentsCancel, rootel).on('click', function(e, ui) {
+            rootel.on('click', commentsCancel, function(e, ui) {
                 sakai.api.Widgets.Container.informCancel(tuid, 'comments');
             });
 
 
-            $(commentsDelete, rootel).on('click', function(e, ui) {
+            rootel.on('click', commentsDelete, function(e, ui) {
                 var id = e.target.id.replace(commentsDelete.replace(/\./g, ''), '');
                 doDelete(id, true);
             });
 
-            $(commentsUnDelete, rootel).on('click', function(e, ui) {
+            rootel.on('click', commentsUnDelete, function(e, ui) {
                 var id = e.target.id.replace(commentsUnDelete.replace(/\./g, ''), '');
                 doDelete(id, false);
             });
@@ -719,7 +719,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
             /**
              * Edit link
              */
-            $(commentsEdit, rootel).on('click', function(e, ui) {
+            rootel.on('click', commentsEdit, function(e, ui) {
                 var id = e.target.id.replace('comments_edit_', '');
                 // Show the textarea
                 $(commentsMessage + id, rootel).hide();
@@ -734,7 +734,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
             /**
              * Cancel the edit comment.
              */
-            $(commentsEditCancel, rootel).on('click', function(e, ui) {
+            rootel.on('click', commentsEditCancel, function(e, ui) {
                 var id = e.target.id.replace(commentsEditCancel.replace('.', ''), '');
                 // Show the textarea
                 $(commentsMessageEditContainer + id, rootel).hide();

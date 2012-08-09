@@ -32,6 +32,15 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             infinityScroll = false,
             previousPosition = false;
 
+        var inbox_item = '.inbox_item';
+        var inbox_mark_as_read = '#inbox_mark_as_read';
+        var inbox_select_checkbox = '#inbox_select_checkbox';
+        var inbox_invitation = '.inbox_invitation';
+        var inbox_delete_button = '.inbox_delete_button';
+        var inbox_delete_selected = '#inbox_delete_selected';
+        var inbox_search_messages = '#inbox_search_messages';
+        var inbox_search_button = '.inbox-message-list-view .s3d-search-button';
+
         var $rootel = $('#'+tuid),
             $inbox_items = $('#inbox_message_list .inbox_items_inner', $rootel),
             $inbox_message_list = $('#inbox_message_list', $rootel),
@@ -46,14 +55,14 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             $inbox_box_title = $('#inbox_box_title', $rootel),
             $inbox_delete_button = $('.inbox_delete_button', $rootel),
             $inbox_show_message_reply_fields = $('.inbox_show_message_reply_fields', $rootel),
-            $inbox_invitation = $('.inbox_invitation', $rootel),
-            $inbox_select_checkbox = $('#inbox_select_checkbox', $rootel),
-            $inbox_delete_selected = $('#inbox_delete_selected', $rootel),
-            $inbox_mark_as_read = $('#inbox_mark_as_read', $rootel),
-            $inbox_item = $('.inbox_item', $rootel),
-            $inbox_search_messages = $('#inbox_search_messages', $rootel),
+            $inbox_invitation = $(inbox_invitation, $rootel),
+            $inbox_select_checkbox = $(inbox_select_checkbox, $rootel),
+            $inbox_delete_selected = $(inbox_delete_selected, $rootel),
+            $inbox_mark_as_read = $(inbox_mark_as_read, $rootel),
+            $inbox_item = $(inbox_item, $rootel),
+            $inbox_search_messages = $(inbox_search_messages, $rootel),
             $inbox_search_term = $('#inbox_search_term', $rootel);
-            $inbox_search_button = $('.inbox-message-list-view .s3d-search-button');
+            $inbox_search_button = $(inbox_search_button);
 
         /**
          * Toggle the 'mark as read' and 'delete selected' buttons on the message list view
@@ -96,7 +105,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         /**
          * Mark all selected messsages as read
          */
-        $inbox_mark_as_read.on('click', function() {
+        $rootel.on('click', inbox_mark_as_read, function() {
             var unreadMessages = $inbox_message_list.find('input[type="checkbox"]:visible:checked').parents('.inbox_items_container.unread');
             var readList = [];
             $.each(unreadMessages, function(i,elt) {
@@ -108,11 +117,11 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             sakai.api.Communication.markMessagesAsRead(readList);
         });
 
-        $inbox_select_checkbox.on('change', function(e) {
+        $rootel.on('change', inbox_select_checkbox, function(e) {
             selectMessages($inbox_select_checkbox.is(':checked'));
         });
 
-        $('.inbox_items_container input[type="checkbox"]', $rootel).on('change', function() {
+        $rootel.on('change', '.inbox_items_container input[type="checkbox"]', function() {
             if ($('.inbox_items_container input[type="checkbox"]:checked', $rootel).length > 0) {
                 toggleGlobalButtons(true);
             } else {
@@ -142,7 +151,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             }
         };
 
-        $inbox_invitation.on('click', handleContactInvitation);
+        $rootel.on('click', inbox_invitation, handleContactInvitation);
 
         var determineInviteStatus = function(message) {
             message.invitation = true;
@@ -246,8 +255,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             deleteMessages([messages[mid]]);
         };
 
-        $inbox_delete_button.on('click', deleteSingleMessage);
-        $inbox_delete_selected.on('click', deleteMultipleMessages);
+        $rootel.on('click', inbox_delete_button, deleteSingleMessage);
+        $rootel.on('click', inbox_delete_selected, deleteMultipleMessages);
 
 
         ///////////////////
@@ -380,8 +389,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             }
         };
 
-        $inbox_search_messages.on('keydown', handleSearch);
-        $inbox_search_button.on('click', function() {
+        $rootel.on('keydown', inbox_search_messages, handleSearch);
+        $rootel.on('click', inbox_search_button, function() {
             $.bbq.pushState({
                 'iq': $inbox_search_messages.val()
             });
@@ -419,7 +428,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         // HISTORY MANAGEMENT //
         ////////////////////////
 
-        $inbox_item.on('click', function(e) {
+        $rootel.on('click', inbox_item, function(e) {
             if (!($(e.target).hasClass('personinfo_trigger_click') || $(e.target).hasClass('inbox_action_button') || $(e.target).hasClass('inbox_delete_icon') || $(e.target).is('input'))) {
                 $.bbq.pushState({'message': $(this).attr('id')});
             }

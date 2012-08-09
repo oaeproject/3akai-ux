@@ -234,7 +234,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
         });
 
-        $('.link_accept_invitation').on('click', function(ev) {
+        $rootel.on('click', '.link_accept_invitation', function(ev) {
             var userid = $(this).attr('sakai-entityid');
             var displayName = $(this).attr('sakai-entityname');
             sakai.api.User.acceptContactInvite(userid, function(success, data) {

@@ -233,7 +233,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                                     $(this).addClass('pickeradvanced_selected_user');
                                     $(this).children('input').attr('checked', true);
                                     for (var j = 0; j < rawData.results.length; j++) {
-                                        if (rawData.results[j]['_path'] && rawData.results[j]['_path'] === [$(this).attr('id')]) {
+                                        if (rawData.results[j]['_path'] && rawData.results[j]['_path'] === $(this).attr('id')) {
                                             pickerData.selectCount += 1;
                                             pickerData['selected'][$(this).attr('id')] = rawData.results[j];
                                             pickerData['selected'][$(this).attr('id')].entityType = 'file';

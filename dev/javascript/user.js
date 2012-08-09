@@ -435,7 +435,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             });
         });
 
-        $('#entity_user_accept_invitation').on('click', function() {
+        $(document).on('click', '#entity_user_accept_invitation', function() {
             sakai.api.User.acceptContactInvite(contextData.userid);
             contextType = 'contact';
             renderEntity();

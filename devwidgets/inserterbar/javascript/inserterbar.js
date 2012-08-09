@@ -130,7 +130,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 opacity: 0.4,
                 cancel: false,
                 start: function() {
-                    debug.log($(this));
                     $(window).trigger('startdrag.contentauthoring.sakai');
                     sakai.api.Util.Draggable.setIFrameFix();
                 },
