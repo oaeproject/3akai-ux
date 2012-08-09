@@ -769,7 +769,7 @@ define(
                 '(Z|(([-+])([0-9]{2}):([0-9]{2})))?)?)?)?';
 
             // Test whether the format is in milliseconds
-            if (regexpInteger.test(dateInput) && _.isString(dateInput)) {
+            if (regexpInteger.test(dateInput) && !_.isString(dateInput)) {
                return new Date(dateInput);
             }
 
@@ -1986,7 +1986,7 @@ define(
         hideOnClickOut : function(elementToHide, ignoreElements, callback) {
             $(document).click(function(e) {
                 var $clicked = $(e.target);
-                if (! $.isArray(elementToHide)) {
+                if (!$.isArray(elementToHide)) {
                     elementToHide = [elementToHide];
                 }
                 $.each(elementToHide, function(index, el) {
@@ -2304,7 +2304,7 @@ define(
              * @param {Array} initialSelections The inital selections for the autosuggest, direct from the profile
              * @param {Function} callback Function to call after setup is complete
              */
-            setupTagAndCategoryAutosuggest: function( $elt, options, $list_categories_button, initialSelections, callback ) {
+            setupTagAndCategoryAutosuggest: function($elt, options, $list_categories_button, initialSelections, callback) {
                 require(['jquery-plugins/jquery.autoSuggest.sakai-edited', 'sakai/sakai.api.i18n'], function(autoSuggest, sakaii18nAPI) {
                     var defaults = {
                         selectedItemProp: 'value',
@@ -2433,10 +2433,10 @@ define(
              *                           instead of just the path string ('directory/category/child')
              * @return {Object} Two arrays, categories and tags - OR - one array of tags and categories if merge === true
              */
-            getTagsAndCategories: function( $elt, merge, longform ) {
+            getTagsAndCategories: function($elt, merge, longform) {
                 // Add any tags that haven't yet been added to the list
                 $elt.trigger($.Event('keydown', { keyCode: 13 }));
-                var tags_cats = $elt.autoSuggest( 'get_selections' );
+                var tags_cats = $elt.autoSuggest('get_selections');
                 var ret = {
                     categories: [],
                     tags: []

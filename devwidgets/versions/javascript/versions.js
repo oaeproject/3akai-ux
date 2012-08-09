@@ -208,12 +208,10 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core'], function($, _, sakai) 
 
         var addBinding = function() {
             if (!sakai_global.content_profile || sakai_global.content_profile.content_data.data.mimeType === 'x-sakai/document') {
-                $(versionsVersionItem, $rootel).off('click', previewVersion);
-                $(versionsVersionItem, $rootel).on('click', previewVersion);
+                $rootel.off('click', versionsVersionItem).on('click', versionsVersionItem, previewVersion);
             }
 
-            $(versionsRestoreVersion, $rootel).off('click', restoreVersion);
-            $(versionsRestoreVersion, $rootel).on('click', restoreVersion);
+            $rootel.off('click', versionsRestoreVersion).on('click', versionsRestoreVersion, restoreVersion);
         };
 
 
