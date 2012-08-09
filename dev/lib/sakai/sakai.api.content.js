@@ -1156,7 +1156,7 @@ define(
 
         getCreatorProfile : function(content, callback) {
             $.ajax({
-                url: "/~" + content["sakai:pool-content-created-for"] + "/public/authprofile.infinity.json",
+                url: "/~" + content["sakai:pool-content-created-for"] + "/public/authprofile.profile.json",
                 success: function(profile){
                     if ($.isFunction(callback)) {
                        callback(true, profile);
