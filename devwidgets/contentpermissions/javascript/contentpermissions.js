@@ -504,7 +504,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', '/dev/javascript/conten
          * Add binding to various elements in the content permissions widget
          */
         var addBinding = function() {
-            $(contentpermissionsSelectable).on('click', function() {
+            $('#contentpermissions_container').on('click', contentpermissionsSelectable, function() {
                 $('#contentpermissions_see_container .s3d-outer-shadow-container').addClass('contentpermissions_unselected_rbt');
                 $(contentpermissionsSelectable).parent().removeClass('s3d-outer-shadow-container');
                 $(this).parent().addClass('s3d-outer-shadow-container');
