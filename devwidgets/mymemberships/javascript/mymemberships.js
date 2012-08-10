@@ -269,13 +269,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             var idArr = [];
             var titleArr = [];
             $.each($('.mymemberships_select_group_checkbox:checked'), function(i, group) {
-                idArr.push($(group).data('groupid'));
-                titleArr.push($(group).data('grouptitle'));
+                idArr.push($(group).attr('data-groupid'));
+                titleArr.push($(group).attr('data-grouptitle'));
             });
             $('#mymemberships_message_button').attr('sakai-entityid', idArr);
             $('#mymemberships_message_button').attr('sakai-entityname', titleArr);
-            $('#mymemberships_addpeople_button').data('entityid', idArr);
-            $('#mymemberships_addpeople_button').data('entityname', titleArr);
+            $('#mymemberships_addpeople_button').attr('data-entityid', idArr);
+            $('#mymemberships_addpeople_button').attr('data-entityname', titleArr);
         };
 
         var removeMembership = function(groupid,groupname) {
@@ -417,7 +417,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             if (sakai_global.profile.main.data.userid !== sakai.data.me.user.userid) {
                     $('.searchgroups_result_plus',$rootel).live('click', function(ev) {
                     var joinable = $(this).data('group-joinable');
-                    var groupid = $(this).data('groupid');
+                    var groupid = $(this).attr('data-groupid');
                     var itemdiv = $(this);
                     sakai.api.Groups.addJoinRequest(groupid, function (success) {
                         if (success) {

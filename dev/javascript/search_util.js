@@ -297,7 +297,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         $('.searchgroups_result_plus').die("click");
         $('.searchgroups_result_plus').live("click", function(ev) {
             var joinable = $(this).data("group-joinable");
-            var groupid = $(this).data("groupid");
+            var groupid = $(this).attr('data-groupid');
             var itemdiv = $(this);
             sakai.api.Groups.addJoinRequest(groupid, function (success) {
                 if (success) {

@@ -279,7 +279,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore", "/dev/javascript/conten
          * Deletes a user from the list of members by deleting the user from the content and removing permissions
          */
         var doDelete = function(){
-            var userid = $(this).data("sakai-entityid");
+            var userid = $(this).attr('data-sakai-entityid');
             var originalpermission = $(this).parent().attr('data-originalpermission');
             var manager = originalpermission === 'managers';
             var editor = originalpermission === 'editors';

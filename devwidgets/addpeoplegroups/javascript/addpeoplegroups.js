@@ -209,8 +209,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         };
 
         $(document).on('click', '.addpeoplegroups_trigger', function() {
-            selectedTitles = $('.addpeoplegroups_trigger:visible').data('entityname');
-            selectedIDs = $('.addpeoplegroups_trigger:visible').data('entityid');
+            selectedTitles = $('.addpeoplegroups_trigger:visible').attr('data-entityname');
+            selectedIDs = $('.addpeoplegroups_trigger:visible').attr('data-entityid');
             if (!$addpeoplegroupsWidget.is(':visible')) {
                 addBinding();
                 doInit(this);

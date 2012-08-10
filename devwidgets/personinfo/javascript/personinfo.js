@@ -257,7 +257,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * is not already opened.
          */
         var doInit = function ($clickedEl) {
-            userId = $clickedEl.data("userid");
+            userId = $clickedEl.attr("data-userid");
 
             // bind outside click to close widget
             $(document).bind("click.personinfo_close", function (e) {
