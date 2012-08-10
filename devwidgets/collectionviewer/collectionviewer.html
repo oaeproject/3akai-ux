@@ -106,8 +106,8 @@
                         __MSG__CHANGED__ ${jQuery.timeago(new Date(i._lastModified))}
                     </div>
                     {if i["sakai:description"]}
-                        <span class="searchcontent_result_description">${i["sakai:description"]|safeOutput}</span>
-                        <span class="searchcontent_result_description_grid">${i["sakai:description-shorter"]|safeOutput}</span>
+                        <span class="searchcontent_result_description">${i["sakai:description"]}</span>
+                        <span class="searchcontent_result_description_grid">${i["sakai:description-shorter"]}</span>
                     {/if}
                     {if i.tagsProcessed && i.tagsProcessed.length}
                         <span class="s3d-aural-text">__MSG__TAGS_FOR__ ${i["sakai:pooled-content-file-name"]|safeOutput}</span>

@@ -83,7 +83,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 item.type_img_url = sakai.config.MimeTypes[item._mimeType].URL;
             }
 
-            item.name = sakai.api.Util.applyThreeDots(item.name, $(".mycreatecontent_widget .s3d-widget-createcontent").width() - 80, {max_rows: 1,whole_word: false}, "s3d-bold");
+            item.nameShort = sakai.api.Util.applyThreeDots(item.name, $(".mycreatecontent_widget .s3d-widget-createcontent").width() - 80, {max_rows: 1,whole_word: false}, "s3d-bold");
 
             // set the file size
             if(result.hasOwnProperty("_length") && result["_length"]) {
