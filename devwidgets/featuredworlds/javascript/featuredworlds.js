@@ -113,7 +113,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var addBinding = function() {
             $rootel.on('click', '.featuredworlds_tab', function() {
                 if (!$(this).hasClass('featuredworlds_tab_selected')) {
-                    var worldId = $(this).data('sakai-worldid');
+                    var worldId = $(this).attr('data-sakai-worldid');
                     $('.featuredworlds_content_container', $rootel).hide();
                     $('#featuredworlds_' + worldId, $rootel).show();
                     $('.featuredworlds_tab_selected', $rootel).removeClass('featuredworlds_tab_selected');

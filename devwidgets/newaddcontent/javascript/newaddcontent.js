@@ -424,12 +424,12 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
                     $.each($thisForm.find('.newaddcontent_existingitems_select_checkbox:checked'), function(index, item) {
                         if (!$(item).is(':disabled')) {
                             var viewers = [];
-                            if ($(item).data('sakai-pooled-content-viewer')) {
-                                viewers = ('' + $(item).data('sakai-pooled-content-viewer')).split(',');
+                            if ($(item).attr('data-sakai-pooled-content-viewer')) {
+                                viewers = ('' + $(item).attr('data-sakai-pooled-content-viewer')).split(',');
                             }
                             var managers = [];
-                            if ($(item).data('sakai-pooled-content-manager')) {
-                                managers = ('' + $(item).data('sakai-pooled-content-manager')).split(',');
+                            if ($(item).attr('data-sakai-pooled-content-manager')) {
+                                managers = ('' + $(item).attr('data-sakai-pooled-content-manager')).split(',');
                             }
                             var contentObj = {
                                 'sakai:pooled-content-file-name': $(item).next().text(),
