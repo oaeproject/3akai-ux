@@ -52,7 +52,8 @@
 }
 .recentmemberships_item_div {
     min-height: 35px;
-    margin-left: 40px;
+    margin-left: 45px;
+    word-wrap: break-word;
 }
 .recentmemberships_content_mimetype {
     white-space: pre;
