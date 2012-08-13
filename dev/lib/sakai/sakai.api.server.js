@@ -729,14 +729,10 @@ define(
             var advancedSearchRegex = new RegExp("(AND|OR|\"|-|_)", "g");
             var removeArray = ['AND', 'OR'];
             var truncateLength = 1500;
-            var doublQuote = '"';
 
             ret = $.trim(searchString);
 
-            if (tagString) {
-                // we don't need quotes around tags
-                doublQuote = '';
-            } else {
+            if (!tagString) {
                 // Remove the forward slashes
                 ret = ret.replace(/\//g, '');
             }
@@ -748,7 +744,7 @@ define(
             // we are sure there it isn't an advanced search query
             if (!advancedSearchRegex.test(searchString) || tagString) {
                 if (handlePhrases) {
-                    ret = doublQuote + ret.split(', ').join(doublQuote + ' ' + joinOn + ' ' + doublQuote) + doublQuote;
+                    ret = '"' + ret.split(', ').join('" ' + joinOn + ' "') + '"';
                 } else {
                     ret = ret.split(' ').join(' ' + joinOn + ' ');
                 }
