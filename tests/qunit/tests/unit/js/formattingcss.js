@@ -11,15 +11,21 @@ require(
         module('CSS formatting');
 
         var doRegexTest = function(cssFile, regex, testString) {
+            // remove comments from file to test
+            var testFile = cssFile.replace(/(\/\*([\s\S]*?)\*\/)|(\/\/(.*)$)/gm, '');
             var match = '';
             var pass = true;
             var errorString = '';
             var count = 0;
 
-            while ((match = regex.exec(cssFile)) !== null){
-                count++;
-                pass = false;
-                errorString = errorString + '\n' + match;
+            if (regex.test(testFile)) {
+                while ((match = regex.exec(cssFile)) !== null) {
+                    var beforeMatch = cssFile.substring(0, match.index);
+                    var matchLine = beforeMatch.split(/\n/).length;
+                    count++;
+                    pass = false;
+                    errorString = errorString + '\n\nLine: ' + matchLine + '\nString:\n' + match + '';
+                }
             }
 
             if (pass) {
@@ -77,8 +83,6 @@ require(
                             dataType: 'text',
                             url: url,
                             success: function(data) {
-                                // remove comments
-                                data = data.replace(/(\/\*([\s\S]*?)\*\/)|(\/\/(.*)$)/gm, '');
                                 checkCss(data);
                                 start();
                             },
