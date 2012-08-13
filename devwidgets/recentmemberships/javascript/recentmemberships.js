@@ -127,7 +127,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Retrieve the manager render it.
          */
         var getMembers = function (newjson){
-            sakai.api.Groups.getMembers(newjson.entry[0].groupid, "", function(success, memberList){
+            sakai.api.Groups.getMembers(newjson.entry[0].groupid, function(success, memberList) {
                 memberList = memberList[newjson.entry[0].groupid];
                 if (success) {
                     var id, name, picture;
@@ -171,7 +171,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Fetches the related content
          */
         var getGroupInfo = function(newjson){
-            newjson.entry[0].displayLinkTitle = sakai.api.i18n.getValueForKey("VIEW_USERS_PROFILE").replace("{user}", sakai.api.Security.safeOutput(newjson.entry[0]["sakai:group-title"]));
+            newjson.entry[0].displayLinkTitle = sakai.api.i18n.getValueForKey('VIEW_USERS_PROFILE').replace('{user}', newjson.entry[0]['sakai:group-title']);
             sakai.api.Util.TemplateRenderer(recentmembershipsItemTemplate,{
                 "entry": newjson.entry,
                 "sakai": sakai

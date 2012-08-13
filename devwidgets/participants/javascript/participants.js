@@ -184,7 +184,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                                 picture = sakai.api.User.getProfilePicture(result);
                             }
                             participantsArr.push({
-                                'name': sakai.api.User.getDisplayName(result),
+                                'name': sakai.api.User.getDisplayName(result, false),
                                 'id': result['rep:userId'],
                                 'title': roleTitle,
                                 'type': 'user',
