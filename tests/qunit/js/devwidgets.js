@@ -39,6 +39,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
         "allcategories",
         "areapermissions",
         "assignlocation",
+        "branding",
         "basiclti",
         "captcha",
         "carousel",
@@ -131,20 +132,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
     var loadWidgets = function() {
         sakai_global.qunit.allJSFiles = $.merge([], sakai_global.qunit.devJsFiles);
+        sakai_global.qunit.allCssFiles = $.merge([], sakai_global.qunit.devCssFiles);
         sakai_global.qunit.allHtmlFiles = $.merge([], sakai_global.qunit.devHtmlFiles);
         for (var i=0, j=widgetList.length; i<j; i++) {
             var widget = widgetList[i];
 
             (function(widgetName) {
-                var widgetJS = '/devwidgets/' + widgetName + '/javascript/' + widgetName + '.js',
-                    widgetHTML = false;
+                var widgetJS = '/devwidgets/' + widgetName + '/javascript/' + widgetName + '.js';
+                var widgetCSS = '/devwidgets/' + widgetName + '/css/' + widgetName + '.css';;
+                var widgetHTML = false;
                 $.ajax({
                     url: '/devwidgets/' + widgetName + '/config.json',
                     dataType: 'json',
                     success: function(data) {
                         sakai.widgets[widgetName] = data;
                         widgetHTML = sakai.widgets[widgetName].url;
-                        sakai_global.qunit.widgets.push({name:widgetName, html: widgetHTML, js: widgetJS});
+                        sakai_global.qunit.widgets.push({name:widgetName, html: widgetHTML, css: widgetCSS, js: widgetJS});
                         if (widgetList.length === sakai_global.qunit.widgets.length) {
                             sakai_global.qunit.widgetsdone = true;
                             $(window).trigger('widgetsdone.qunit.sakai');
