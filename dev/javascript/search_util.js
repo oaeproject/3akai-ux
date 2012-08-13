@@ -205,7 +205,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
 
         sakai_global.data.search.processRefineString = function(params) {
             if (params.refine) {
-                return sakai.api.Server.createSearchString(params.refine.replace(/,/g, ', '), true);
+                return sakai.api.Server.createSearchString(params.refine.replace(/,/g, ', '), true, false, true);
             } else {
                 return '';
             }
