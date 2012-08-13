@@ -43,7 +43,7 @@ require(
             doRegexTest(jsFile, regex, testString);
 
             // test opening braces
-            regex = /^\s*\{.*/gm;
+            regex = /\)\s*$(\n|\r)^\s*\{.*/gm;
             testString = 'Put opening braces on the same line as the statement';
             doRegexTest(jsFile, regex, testString);
 
