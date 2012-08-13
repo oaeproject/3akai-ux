@@ -718,9 +718,10 @@ define(
          * @param {Boolean} handlePhrases If we should split on ,\s instead of \s to
          *                      better handle phrases
          * @param {String} joinOn String to join keywords on, defaults to AND
+         * @param {Boolean} tagString True if we are processing a directory/tag string
          * @return {String} The string to send to the server
          */
-        createSearchString : function(searchString, handlePhrases, joinOn) {
+        createSearchString : function(searchString, handlePhrases, joinOn, tagString) {
             if (!joinOn) {
                 joinOn = 'AND';
             }
@@ -728,20 +729,26 @@ define(
             var advancedSearchRegex = new RegExp("(AND|OR|\"|-|_)", "g");
             var removeArray = ['AND', 'OR'];
             var truncateLength = 1500;
+            var doublQuote = '"';
 
             ret = $.trim(searchString);
 
-            // Remove the forward slashes
-            ret = ret.replace(/\//g, '');
+            if (tagString) {
+                // we don't need quotes around tags
+                doublQuote = '';
+            } else {
+                // Remove the forward slashes
+                ret = ret.replace(/\//g, '');
+            }
 
             // Replace multiple spaces with 1 space
             ret = ret.replace(/(\s)+/g, ' ');
 
             // We only join every single word with "AND" when
             // we are sure there it isn't an advanced search query
-            if (!advancedSearchRegex.test(searchString)) {
+            if (!advancedSearchRegex.test(searchString) || tagString) {
                 if (handlePhrases) {
-                    ret = '"' + ret.split(', ').join('" ' + joinOn + ' "') + '"';
+                    ret = doublQuote + ret.split(', ').join(doublQuote + ' ' + joinOn + ' ' + doublQuote) + doublQuote;
                 } else {
                     ret = ret.split(' ').join(' ' + joinOn + ' ');
                 }
