@@ -716,8 +716,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             };
 
 
-            var toggleInternalLogin = function() {
+            var toggleInternalLogin = function(e) {
                 $(topnavUserOptionsLoginForm).toggle();
+                e.preventDefault();
             };
 
             $('#topnavigation_container').on(
@@ -949,7 +950,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 }
             });
 
-            $('#topnavigation_user_options_login_external').click(function() {return false;});
+            $('#topnavigation_user_options_login_external').click(function(e){
+                e.preventDefault();
+                return false;
+            });
 
             $('#topnavigation_user_options_login_button_login').keydown(function(e) {
                 // if user is not signed in we need to check when they tab out of the login form and close the login menu
