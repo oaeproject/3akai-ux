@@ -32,7 +32,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.inserterbar = function (tuid, showSettings) {
+    sakai_global.inserterbar = function(tuid, showSettings) {
 
 
         /////////////////////////////
@@ -46,7 +46,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var $inserterbarWidget = $('#inserterbar_widget', $rootel);
         var $inserterbarMoreWidgets = $('#inserterbar_more_widgets', $rootel);
         var $inserterbarWidgetContainer = $('#inserterbar_widget_container', $rootel);
-        
+
         // Elements
         var $inserterbarCarouselLeft = $('#inserterbar_carousel_left', $rootel);
         var $inserterbarCarouselRight = $('#inserterbar_carousel_right', $rootel);
@@ -67,33 +67,45 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         /**
+         * Executed on hover out or focus out of the widgets inside of the inserterbar_widget_container_exposed container
+         * @param {jQuery} jQuery Optional Object that is the parent of the widget icons
+         */
+        var iconOut = function(container) {
+            var $container = container || $(this);
+            $('.inserterbar_standard_icon_out', $container).show();
+            $('.inserterbar_standard_icon_hover', $container).hide();
+        };
+
+        /**
+         * Executed on hover or focus of the widgets inside of the inserterbar_widget_container_exposed container
+         * @param {jQuery} jQuery Optional Object that is the parent of the widget icons
+         */
+        var iconOver = function(container) {
+            var $container = container || $(this);
+            if ($('.inserterbar_standard_icon_hover', $container).length) {
+                $('.inserterbar_standard_icon_out', $container).hide();
+                $('.inserterbar_standard_icon_hover', $container).show();
+            }
+        };
+
+        /**
          * Renders more widgets that can be inserted into the page
          */
         var renderWidgets = function() {
             // Render the list of exposed widgets
             sakai.api.Util.TemplateRenderer('inserterbar_widget_container_exposed_template', {
-                'sakai': sakai, 
+                'sakai': sakai,
                 'widgets': sakai.config.exposedSakaiDocWidgets
             }, $('#inserterbar_widget_container_exposed', $rootel));
-
-            var hoverIn = function() {
-                $container = $(this);
-                if ($('.inserterbar_standard_icon_hover', $container).length) {
-                    $('.inserterbar_standard_icon_out', $container).hide();
-                    $('.inserterbar_standard_icon_hover', $container).show();
-                }
-            };
-            var hoverOut = function() {
-                $container = $(this);
-                $('.inserterbar_standard_icon_out', $container).show();
-                $('.inserterbar_standard_icon_hover', $container).hide();
-            };
-
-            // Bind the hover, focus and blur
-            var $widgetsExposed = $('#inserterbar_widget_container_exposed .inserterbar_widget_exposed', $rootel);
-            $widgetsExposed.hover(hoverIn, hoverOut);
-            $widgetsExposed.focus(hoverIn);
-            $widgetsExposed.blur(hoverOut);
+            // Bind the hover
+            $('#inserterbar_widget_container_exposed .inserterbar_widget_exposed', $rootel).hover(iconOver, iconOut);
+            // Bind the focus
+            $rootel.on('focus', '#inserterbar_widget_container_exposed li', function() {
+                iconOver($(this).children('.inserterbar_widget_exposed'));
+            });
+            $rootel.on('focusout', '#inserterbar_widget_container_exposed li', function() {
+                iconOut($(this).children('.inserterbar_widget_exposed'));
+            });
 
             // Render the more widgets list
             var moreWidgets = [];
@@ -134,6 +146,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 helper: 'clone',
                 revert: 'invalid',
                 opacity: 0.4,
+                cancel: false,
                 start: function() {
                     $(window).trigger('startdrag.contentauthoring.sakai');
                     sakai.api.Util.Draggable.setIFrameFix();
@@ -150,10 +163,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Object} carousel Carousel object (jcarousel)
          */
         var carouselBinding = function(carousel) {
-            $inserterbarCarouselLeft.live('click',function() {
+            $inserterbarCarouselLeft.on('click',function() {
                 carousel.prev();
             });
-            $inserterbarCarouselRight.live('click',function() {
+            $inserterbarCarouselRight.on('click',function() {
                 carousel.next();
             });
             var carouselListWidth = parseInt(carousel.list.css('width'), 10);
@@ -180,7 +193,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Position the inserterBar correctly
          */
         var positionInserterBar = function() {
-            if ($inserterbarWidgetContainer.is(":visible")) {
+            if ($inserterbarWidgetContainer.is(':visible')) {
                 var top = $inserterbarWidgetContainer.position().top;
                 var scroll = $.browser.msie ? $('html').scrollTop() : $(window).scrollTop();
                 if (scroll > top) {
@@ -258,17 +271,16 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var addBinding = function() {
             $inserterbarMoreWidgets.on('click', showHideMoreWidgets);
             // Hide the tinyMCE toolbar when we click outside of a tinyMCE area
-            sakai.api.Util.hideOnClickOut($('#inserterbar_tinymce_container'), ".mceMenu, .mce_forecolor");
+            sakai.api.Util.hideOnClickOut($('#inserterbar_tinymce_container'), '.mceMenu, .mce_forecolor');
 
-            $('#inserterbar_action_close_revision_history').on('click', function(e) {
-                $(window).trigger("close.versions.sakai");
+            $rootel.on('click', '#inserterbar_action_close_revision_history', function(e) {
+                $(window).trigger('close.versions.sakai');
                 setInserterForViewMode();
-                e.preventDefault();
             });
 
             $('#inserterbar_action_revision_history').on('click', setInserterForRevisionHistoryMode);
-            $(window).bind('edit.contentauthoring.sakai', setInserterForEditMode);
-            $(window).bind('render.contentauthoring.sakai', setInserterForViewMode);
+            $(window).on('edit.contentauthoring.sakai', setInserterForEditMode);
+            $(window).on('render.contentauthoring.sakai', setInserterForViewMode);
 
             $(window).on('scroll', positionInserterBar);
             $(window).on('position.inserter.sakai', positionInserterBar);

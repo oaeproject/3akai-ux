@@ -16,58 +16,58 @@
     //then all the files from the app directory will be copied to the dir:
     //output area, and baseUrl will assume to be a relative path under
     //this directory.
-    appDir: "./",
+    appDir: './',
 
     //By default, all modules are located relative to this path. If baseUrl
     //is not explicitly set, then all modules are loaded relative to
     //the directory that holds the build file.
-    baseUrl: "./dev/lib",
+    baseUrl: './dev/lib',
 
     //Set paths for modules. If relative paths, set relative to baseUrl above.
     //If you change these paths, please check out
     //https://confluence.sakaiproject.org/x/sq_CB
     paths: {
-        "jquery-plugins": "jquery/plugins",
-        "jquery": "jquery/jquery-1.7.0",
-        "jquery-ui": "jquery/jquery-ui-1.8.20.custom",
-        "jquery-cookie": "jquery/plugins/jquery.cookie",
-        "jquery-jstree": "jquery/plugins/jsTree/jquery.jstree.sakai-edit",
-        "jquery-fileupload": "jquery/plugins/jquery.fileupload",
-        "jquery-iframe-transport": "jquery/plugins/jquery.iframe-transport",
-        "jquery-pager": "jquery/plugins/jquery.pager.sakai-edited",
-        "jquery-tagcloud": "jquery/plugins/jquery.tagcloud",
-        "underscore": "misc/underscore",
-        "config": "../configuration"
+        'jquery-plugins': 'jquery/plugins',
+        'jquery': 'jquery/jquery-1.7.0',
+        'jquery-ui': 'jquery/jquery-ui-1.8.20.custom',
+        'jquery-cookie': 'jquery/plugins/jquery.cookie',
+        'jquery-jstree': 'jquery/plugins/jsTree/jquery.jstree.sakai-edit',
+        'jquery-fileupload': 'jquery/plugins/jquery.fileupload',
+        'jquery-iframe-transport': 'jquery/plugins/jquery.iframe-transport',
+        'jquery-pager': 'jquery/plugins/jquery.pager.sakai-edited',
+        'jquery-tagcloud': 'jquery/plugins/jquery.tagcloud',
+        'underscore': 'misc/underscore',
+        'config': '../configuration'
     },
 
     //The directory path to save the output. If not specified, then
-    //the path will default to be a directory called "build" as a sibling
+    //the path will default to be a directory called 'build' as a sibling
     //to the build file. All relative paths are relative to the build file.
-    dir: "target/optimized",
+    dir: 'target/optimized',
 
     //Used to inline i18n resources into the built file. If no locale
     //is specified, i18n resources will not be inlined. Only one locale
     //can be inlined for a build. Root bundles referenced by a build layer
     //will be included in a build layer regardless of locale being set.
-    //locale: "en-us",
+    //locale: 'en-us',
 
     //How to optimize all the JS files in the build output directory.
     //Right now only the following values
     //are supported (default is to not do any optimization):
-    //- "closure": uses Google's Closure Compiler in simple optimization
+    //- 'closure': uses Google's Closure Compiler in simple optimization
     //mode to minify the code.
-    //- "closure.keepLines": Same as closure option, but keeps line returns
+    //- 'closure.keepLines': Same as closure option, but keeps line returns
     //in the minified files.
-    //- "none": no minification will be done.
-    optimize: "uglify",
+    //- 'none': no minification will be done.
+    optimize: 'uglify',
 
     //Allow CSS optimizations. Allowed values:
-    //- "standard": @import inlining, comment removal and line returns.
+    //- 'standard': @import inlining, comment removal and line returns.
     //Removing line returns may have problems in IE, depending on the type
     //of CSS.
-    //- "standard.keepLines": like "standard" but keeps line returns.
-    //- "none": skip CSS optimizations.
-    optimizeCss: "standard",
+    //- 'standard.keepLines': like 'standard' but keeps line returns.
+    //- 'none': skip CSS optimizations.
+    optimizeCss: 'standard',
 
     //If optimizeCss is in use, a list of of files to ignore for the @import
     //inlining. The value of this option should be a comma separated list
@@ -79,15 +79,15 @@
     //async XMLHttpRequest calls to load those dependencies.
     inlineText: true,
 
-    //Allow "use strict"; be included in the RequireJS files.
+    //Allow 'use strict'; be included in the RequireJS files.
     //Default is false because there are not many browsers that can properly
     //process and give errors on code for ES5 strict mode,
     //and there is a lot of legacy code that will not work in strict mode.
     useStrict: false,
 
     //Specify build pragmas. If the source files contain comments like so:
-    //>>excludeStart("fooExclude", pragmas.fooExclude);
-    //>>excludeEnd("fooExclude");
+    //>>excludeStart('fooExclude', pragmas.fooExclude);
+    //>>excludeEnd('fooExclude');
     //Then the comments that start with //>> are the build pragmas.
     //excludeStart/excludeEnd and includeStart/includeEnd work, and the
     //the pragmas value to the includeStart or excludeStart lines
@@ -116,7 +116,7 @@
     //only the root bundles will be included unless the locale: section is set above.
     modules: [
         {
-            name: "sakai/sakai.dependencies"
+            name: 'sakai/sakai.dependencies'
         }
 
         //Just specifying a module name means that module will be converted into
@@ -124,7 +124,7 @@
         //of its dependencies includes i18n bundles, they may not be included in the
         //built file unless the locale: section is set above.
         //{
-            //name: "foo/bar/bop",
+            //name: 'foo/bar/bop',
 
             //Should the contents of require.js be included in the optimized module.
             //Defaults to false.
@@ -145,8 +145,8 @@
         //This module entry combines all the dependencies of foo/bar/bop and foo/bar/bee
         //and any of their dependencies into one file.
         //{
-        //    name: "foo/bar/bop",
-        //    include: ["foo/bar/bee"]
+        //    name: 'foo/bar/bop',
+        //    include: ['foo/bar/bee']
         //},
 
         //This module entry combines all the dependencies of foo/bar/bip into one file,
@@ -155,9 +155,9 @@
         //efficient if you define that module optimization entry before using it
         //in an exclude array.
         //{
-        //    name: "foo/bar/bip",
+        //    name: 'foo/bar/bip',
         //    exclude: [
-        //        "foo/bar/bop"
+        //        'foo/bar/bop'
         //    ]
         //},
 
@@ -168,9 +168,9 @@
         //development when you want to have a fast bundled set of modules, but
         //just develop/debug one or two modules at a time.
         //{
-        //    name: "foo/bar/bin",
+        //    name: 'foo/bar/bin',
         //    excludeShallow: [
-        //        "foo/bar/bot"
+        //        'foo/bar/bot'
         //    ]
         //}
     ],

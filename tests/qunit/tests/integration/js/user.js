@@ -6,7 +6,7 @@ require(
     '../../../../tests/qunit/js/sakai_qunit_lib.js',
     '../../../../tests/qunit/js/dev.js',
     '../../../../tests/qunit/js/devwidgets.js'
-    ], 
+    ],
     function($, sakai) {
 
         module('User Creation, Login, Logout');
@@ -64,7 +64,7 @@ require(
         if (sakai_global.qunit && sakai_global.qunit.ready) {
             userTest();
         } else {
-            $(window).bind('ready.qunit.sakai', function() {
+            $(window).on('ready.qunit.sakai', function() {
                 userTest();
             });
         }

@@ -55,7 +55,7 @@
                                         <button class="s3d-regular-links s3d-link-button s3d-bold personinfo_trigger_click personinfo_trigger" data-userid="${message.from.userObj.uuid}">${message.from.name}</button>
                                         <span class="inbox_to_list">{if box !== "outbox"}__MSG__TO_LC__{else}__MSG__TO__{/if}: ${_.first(message.toList, 3).join(", ")}{if message.toList.length > 3} + ${message.toList.length-3} __MSG__OTHERS_LC__{/if}</span>
                                     {else}
-                                        <span class="inbox_to_list">{if box !== "outbox"}__MSG__TO_LC__{else}__MSG__TO__{/if}: 
+                                        <span class="inbox_to_list">{if box !== "outbox"}__MSG__TO_LC__{else}__MSG__TO__{/if}:
                                             {for toUser in message.to}
                                                 {if toUser_index < 3}
                                                     {if toUser_index > 0}, {/if}
@@ -130,7 +130,7 @@
                                                 <button class="s3d-regular-links s3d-link-button s3d-bold personinfo_trigger_click personinfo_trigger" data-userid="${message.from.userObj.uuid}">${message.from.name}</button>
                                                 {if !reply}<span class="inbox_to_list">__MSG__TO_LC__: ${message.toList.join(", ")}</span>{/if}
                                             {else}
-                                                <span class="inbox_to_list">{if box !== "outbox"}__MSG__TO_LC__{else}__MSG__TO__{/if}: 
+                                                <span class="inbox_to_list">{if box !== "outbox"}__MSG__TO_LC__{else}__MSG__TO__{/if}:
                                                     {for toUser in message.to}
                                                         {if toUser_index > 0}, {/if}
                                                         <button class="s3d-regular-links s3d-link-button s3d-bold{if toUser.userObj.type === "user"} personinfo_trigger personinfo_trigger_click" data-userid="${toUser.userObj.uuid}"{else} inbox_to_group"{/if}>${toUser.name}</button>

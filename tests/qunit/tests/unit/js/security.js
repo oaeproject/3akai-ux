@@ -1,15 +1,15 @@
 require(
     [
-    "jquery",
-    "sakai/sakai.api.core",
-    "qunitjs/qunit",
-    "../../../../tests/qunit/js/sakai_qunit_lib.js",
-    "../../../../tests/qunit/js/dev.js",
-    "../../../../tests/qunit/js/devwidgets.js"
-    ], 
+    'jquery',
+    'sakai/sakai.api.core',
+    'qunitjs/qunit',
+    '../../../../tests/qunit/js/sakai_qunit_lib.js',
+    '../../../../tests/qunit/js/dev.js',
+    '../../../../tests/qunit/js/devwidgets.js'
+    ],
     function($, sakai) {
 
-    module("Security");
+    module('Security');
 
     var SecurityTests = function() {
 
@@ -17,290 +17,290 @@ require(
          * Test the escape HTML function
          */
 
-        asyncTest("Escape HTML", function(){
+        asyncTest('Escape HTML', function() {
             expect(1);
 
-            var htmlString = "<a href='http://www.google.com'>Advertising my script enabled site with redirect</a>";
-            var escapedExpected = "&lt;a href='http://www.google.com'&gt;Advertising my script enabled site with redirect&lt;/a&gt;";
-    
+            var htmlString = '<a href="http://www.google.com">Advertising my script enabled site with redirect</a>';
+            var escapedExpected = '&lt;a href="http://www.google.com"&gt;Advertising my script enabled site with redirect&lt;/a&gt;';
+
             htmlString = sakai.api.Security.escapeHTML(htmlString);
-            equals(htmlString, escapedExpected, "The escaped string is correct");
+            equals(htmlString, escapedExpected, 'The escaped string is correct');
             start();
         });
-    
-        asyncTest("Escape and Sane HTML together", function() {
+
+        asyncTest('Escape and Sane HTML together', function() {
             expect(3);
 
-            var htmlString = "<script>alert(\"xss\");</script>";
-            var escapedExpected = "&lt;script&gt;alert(&quot;xss&quot;);&lt;/script&gt;"
-    
+            var htmlString = '<script>alert(\'xss\');</script>';
+            var escapedExpected = '&lt;script&gt;alert(&quot;xss&quot;);&lt;/script&gt;'
+
             var escapedString = sakai.api.Security.escapeHTML(htmlString);
             var sanedString = sakai.api.Security.saneHTML(escapedString);
-    
-            equals(escapedString, escapedExpected, "The escaped string is correct");
-            equals(escapedString, sanedString, "The saneHTML string is the same as the escapeHTML string");
-            notEqual(sakai.api.Security.saneHTML(htmlString + escapedString), htmlString + escapedString, "saneHTML properly works");
+
+            equals(escapedString, escapedExpected, 'The escaped string is correct');
+            equals(escapedString, sanedString, 'The saneHTML string is the same as the escapeHTML string');
+            notEqual(sakai.api.Security.saneHTML(htmlString + escapedString), htmlString + escapedString, 'saneHTML properly works');
             start();
         });
-    
+
         /*
          * Basic XSS cases
          */
-        asyncTest("Script Attacks", function() {
+        asyncTest('Script Attacks', function() {
             expect(8);
-    
-            var htmlString = "test<script>alert(document.cookie)</script>";
+
+            var htmlString = 'test<script>alert(document.cookie)</script>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("script"), -1, "Strip script tag");
-    
-            htmlString = "<<<><<script src=http://fake-evil.ru/test.js>";
+            equals(htmlString.indexOf('script'), -1, 'Strip script tag');
+
+            htmlString = '<<<><<script src=http://fake-evil.ru/test.js>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("script"), -1, "Strip script tag");
-    
-            htmlString = "<script<script src=http://fake-evil.ru/test.js>>";
+            equals(htmlString.indexOf('script'), -1, 'Strip script tag');
+
+            htmlString = '<script<script src=http://fake-evil.ru/test.js>>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("script"), -1, "Strip script tag");
-    
-            htmlString = "<SCRIPT/XSS SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>";
+            equals(htmlString.indexOf('script'), -1, 'Strip script tag');
+
+            htmlString = '<SCRIPT/XSS SRC=\'http://ha.ckers.org/xss.js\'></SCRIPT>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("script"), -1, "Strip script tag");
-    
-            htmlString = "<BODY onload!#$%&()*~+-_.,:;?@[/|\\]^`=alert(\"XSS\")>";
+            equals(htmlString.indexOf('script'), -1, 'Strip script tag');
+
+            htmlString = '<BODY onload!#$%&()*~+-_.,:;?@[/|\\]^`=alert(\'XSS\')>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("onload"), -1, "Strip onload");
-    
-            htmlString = "<BODY ONLOAD=alert('XSS')>";
+            equals(htmlString.indexOf('onload'), -1, 'Strip onload');
+
+            htmlString = '<BODY ONLOAD=alert("XSS")>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("alert"), -1, "Strip alert");
-    
-            htmlString = "<iframe src=http://ha.ckers.org/scriptlet.html <";
+            equals(htmlString.indexOf('alert'), -1, 'Strip alert');
+
+            htmlString = '<iframe src=http://ha.ckers.org/scriptlet.html <';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("<iframe"), -1, "Strip iframe tag");
-    
-            htmlString = "<INPUT TYPE=\"IMAGE\" SRC=\"javascript:alert('XSS');\">";
+            equals(htmlString.indexOf('<iframe'), -1, 'Strip iframe tag');
+
+            htmlString = '<INPUT TYPE=\'IMAGE\' SRC=\'javascript:alert("XSS");\'>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("src"), -1, "Strip src from input");
+            equals(htmlString.indexOf('src'), -1, 'Strip src from input');
 
             start();
         });
-    
-        asyncTest("Image Attacks", function() {
+
+        asyncTest('Image Attacks', function() {
             expect(10);
-    
-            var htmlString = "<img src=\"http://www.myspace.com/img.gif\"/>";
+
+            var htmlString = '<img src=\'http://www.myspace.com/img.gif\'/>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("<img"), 0, "Don't break images");
-    
-            htmlString = "<img src=javascript:alert(document.cookie)>";
+            equals(htmlString.indexOf('<img'), 0, 'Don\'t break images');
+
+            htmlString = '<img src=javascript:alert(document.cookie)>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("src"), -1, "Strip images with js src");
-    
-            htmlString = "<IMG SRC=&#106;&#97;&#118;&#97;&#115;&#99;&#114;&#105;&#112;&#116;&#58;&#97;&#108;&#101;&#114;&#116;&#40;&#39;&#88;&#83;&#83;&#39;&#41;>";
+            equals(htmlString.indexOf('src'), -1, 'Strip images with js src');
+
+            htmlString = '<IMG SRC=&#106;&#97;&#118;&#97;&#115;&#99;&#114;&#105;&#112;&#116;&#58;&#97;&#108;&#101;&#114;&#116;&#40;&#39;&#88;&#83;&#83;&#39;&#41;>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("src"), -1, "Strip images with js src");
-    
-            htmlString = "<IMG SRC='&#0000106&#0000097&#0000118&#0000097&#0000115&#0000099&#0000114&#0000105&#0000112&#0000116&#0000058&#0000097&#0000108&#0000101&#0000114&#0000116&#0000040&#0000039&#0000088&#0000083&#0000083&#0000039&#0000041'>";
+            equals(htmlString.indexOf('src'), -1, 'Strip images with js src');
+
+            htmlString = '<IMG SRC="&#0000106&#0000097&#0000118&#0000097&#0000115&#0000099&#0000114&#0000105&#0000112&#0000116&#0000058&#0000097&#0000108&#0000101&#0000114&#0000116&#0000040&#0000039&#0000088&#0000083&#0000083&#0000039&#0000041">';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("src"), -1, "Strip images with js src");
-    
-            htmlString = "<IMG SRC=\"jav&#x0D;ascript:alert('XSS');\">";
+            equals(htmlString.indexOf('src'), -1, 'Strip images with js src');
+
+            htmlString = '<IMG SRC=\'jav&#x0D;ascript:alert("XSS");\'>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("alert"), -1, "Strip images with js src");
-    
-            htmlString = "<IMG SRC=&#0000106&#0000097&#0000118&#0000097&#0000115&#0000099&#0000114&#0000105&#0000112&#0000116&#0000058&#0000097&#0000108&#0000101&#0000114&#0000116&#0000040&#0000039&#0000088&#0000083&#0000083&#0000039&#0000041>";
+            equals(htmlString.indexOf('alert'), -1, 'Strip images with js src');
+
+            htmlString = '<IMG SRC=&#0000106&#0000097&#0000118&#0000097&#0000115&#0000099&#0000114&#0000105&#0000112&#0000116&#0000058&#0000097&#0000108&#0000101&#0000114&#0000116&#0000040&#0000039&#0000088&#0000083&#0000083&#0000039&#0000041>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("&amp;"), -1, "Strip images with js src");
-    
-            htmlString = "<IMG SRC=&#x6A&#x61&#x76&#x61&#x73&#x63&#x72&#x69&#x70&#x74&#x3A&#x61&#x6C&#x65&#x72&#x74&#x28&#x27&#x58&#x53&#x53&#x27&#x29>";
+            equals(htmlString.indexOf('&amp;'), -1, 'Strip images with js src');
+
+            htmlString = '<IMG SRC=&#x6A&#x61&#x76&#x61&#x73&#x63&#x72&#x69&#x70&#x74&#x3A&#x61&#x6C&#x65&#x72&#x74&#x28&#x27&#x58&#x53&#x53&#x27&#x29>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("javascript"), -1, "Strip images with js src");
-    
-            htmlString = "<IMG SRC=\"javascript:alert('XSS')\"";
+            equals(htmlString.indexOf('javascript'), -1, 'Strip images with js src');
+
+            htmlString = '<IMG SRC=\'javascript:alert("XSS")\'';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("javascript"), -1, "Strip images with js src");
-    
-            htmlString = "<IMG LOWSRC=\"javascript:alert('XSS')\">";
+            equals(htmlString.indexOf('javascript'), -1, 'Strip images with js src');
+
+            htmlString = '<IMG LOWSRC=\'javascript:alert("XSS")\'>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("javascript"), -1, "Strip images with js src");
-    
-            htmlString = "<BGSOUND SRC=\"javascript:alert('XSS');\">";
+            equals(htmlString.indexOf('javascript'), -1, 'Strip images with js src');
+
+            htmlString = '<BGSOUND SRC=\'javascript:alert("XSS");\'>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("javascript"), -1, "Strip images with js src");
+            equals(htmlString.indexOf('javascript'), -1, 'Strip images with js src');
 
             start();
         });
-    
-        asyncTest("href Attacks", function() {
+
+        asyncTest('href Attacks', function() {
             expect(34);
-    
-            var htmlString = "<LINK REL=\"stylesheet\" HREF=\"javascript:alert('XSS');\">";
+
+            var htmlString = '<LINK REL=\'stylesheet\' HREF=\'javascript:alert("XSS");\'>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("href"), -1, "Strip javascript hrefs");
-    
-            htmlString = "<LINK REL=\"stylesheet\" HREF=\"http://ha.ckers.org/xss.css\">";
+            equals(htmlString.indexOf('href'), -1, 'Strip javascript hrefs');
+
+            htmlString = '<LINK REL=\'stylesheet\' HREF=\'http://ha.ckers.org/xss.css\'>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("href"), -1, "Strip javascript hrefs");
-    
-            htmlString = "<STYLE>@import'http://ha.ckers.org/xss.css';</STYLE>";
+            equals(htmlString.indexOf('href'), -1, 'Strip javascript hrefs');
+
+            htmlString = '<STYLE>@import"http://ha.ckers.org/xss.css";</STYLE>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("ha.ckers.org"), -1, "Strip javascript hrefs");
-    
-            htmlString = "<STYLE>BODY{-moz-binding:url(\"http://ha.ckers.org/xssmoz.xml#xss\")}</STYLE>";
+            equals(htmlString.indexOf('ha.ckers.org'), -1, 'Strip javascript hrefs');
+
+            htmlString = '<STYLE>BODY{-moz-binding:url(\'http://ha.ckers.org/xssmoz.xml#xss\')}</STYLE>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("ha.ckers.org"), -1, "Strip javascript hrefs");
-    
-            htmlString = "<STYLE>li {list-style-image: url(\"javascript:alert('XSS')\");}</STYLE><UL><LI>XSS";
+            equals(htmlString.indexOf('ha.ckers.org'), -1, 'Strip javascript hrefs');
+
+            htmlString = '<STYLE>li {list-style-image: url(\'javascript:alert("XSS")\');}</STYLE><UL><LI>XSS';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("javascript"), -1, "Strip javascript hrefs");
-    
-            htmlString = "<IMG SRC='vbscript:msgbox(\"XSS\")'>";
+            equals(htmlString.indexOf('javascript'), -1, 'Strip javascript hrefs');
+
+            htmlString = '<IMG SRC="vbscript:msgbox(\'XSS\')">';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("vbscript"), -1, "Strip javascript hrefs");
-    
-            htmlString = "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0; URL=http://;URL=javascript:alert('XSS');\">";
+            equals(htmlString.indexOf('vbscript'), -1, 'Strip javascript hrefs');
+
+            htmlString = '<META HTTP-EQUIV=\'refresh\' CONTENT=\'0; URL=http://;URL=javascript:alert("XSS");\'>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("<meta"), -1, "Strip javascript hrefs");
-    
-            htmlString = "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0;url=javascript:alert('XSS');\">";
+            equals(htmlString.indexOf('<meta'), -1, 'Strip javascript hrefs');
+
+            htmlString = '<META HTTP-EQUIV=\'refresh\' CONTENT=\'0;url=javascript:alert("XSS");\'>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("<meta"), -1, "Strip javascript hrefs");
-    
-            htmlString = "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0;url=data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4K\">";
+            equals(htmlString.indexOf('<meta'), -1, 'Strip javascript hrefs');
+
+            htmlString = '<META HTTP-EQUIV=\'refresh\' CONTENT=\'0;url=data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4K\'>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("<meta"), -1, "Strip javascript hrefs");
-    
-            htmlString = "<IFRAME SRC=\"javascript:alert('XSS');\"></IFRAME>";
+            equals(htmlString.indexOf('<meta'), -1, 'Strip javascript hrefs');
+
+            htmlString = '<IFRAME SRC=\'javascript:alert("XSS");\'></IFRAME>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("src"), -1, "Strip javascript scr");
-    
-            htmlString = "<FRAMESET><FRAME SRC=\"javascript:alert('XSS');\"></FRAMESET>";
+            equals(htmlString.indexOf('src'), -1, 'Strip javascript scr');
+
+            htmlString = '<FRAMESET><FRAME SRC=\'javascript:alert("XSS");\'></FRAMESET>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("javascript"), -1, "Strip javascript hrefs");
-    
-            htmlString = "<TABLE BACKGROUND=\"javascript:alert('XSS')\">";
+            equals(htmlString.indexOf('javascript'), -1, 'Strip javascript hrefs');
+
+            htmlString = '<TABLE BACKGROUND=\'javascript:alert("XSS")\'>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("background"), -1, "Strip javascript hrefs");
-    
-            htmlString = "<TABLE><TD BACKGROUND=\"javascript:alert('XSS')\">";
+            equals(htmlString.indexOf('background'), -1, 'Strip javascript hrefs');
+
+            htmlString = '<TABLE><TD BACKGROUND=\'javascript:alert("XSS")\'>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("background"), -1, "Strip javascript hrefs");
-    
-            htmlString = "<DIV STYLE=\"background-image: url(javascript:alert('XSS'))\">";
+            equals(htmlString.indexOf('background'), -1, 'Strip javascript hrefs');
+
+            htmlString = '<DIV STYLE=\'background-image: url(javascript:alert("XSS"))\'>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("javascript"), -1, "Strip javascript hrefs");
-    
-            htmlString = "<DIV STYLE=\"width: expression(alert('XSS'));\">";
+            equals(htmlString.indexOf('javascript'), -1, 'Strip javascript hrefs');
+
+            htmlString = '<DIV STYLE=\'width: expression(alert("XSS"));\'>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
             equals(htmlString.indexOf('alert'), -1, 'Strip CSS expressions - 1');
-    
+
             htmlString = '<DIV STYLE="width: express/*XSS*/ion(alert(\'XSS\'));">';
             htmlString = sakai.api.Security.saneHTML(htmlString);
             equals(htmlString.indexOf('alert'), -1, 'Strip CSS expressions - 2');
-    
-            htmlString = "<IMG STYLE=\"xss:expr/*XSS*/ession(alert('XSS'))\">";
+
+            htmlString = '<IMG STYLE=\'xss:expr/*XSS*/ession(alert("XSS"))\'>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
             equals(htmlString.indexOf('alert'), -1, 'Strip CSS expressions - 3');
-    
-            htmlString = "<STYLE>@im\\port'\\ja\\vasc\\ript:alert(\"XSS\")';</STYLE>";
+
+            htmlString = '<STYLE>@im\\port"\\ja\\vasc\\ript:alert(\'XSS\')";</STYLE>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("ript:alert"), -1, "Strip javascript hrefs");
-    
-            htmlString = "<BASE HREF=\"javascript:alert('XSS');//\">";
+            equals(htmlString.indexOf('ript:alert'), -1, 'Strip javascript hrefs');
+
+            htmlString = '<BASE HREF=\'javascript:alert("XSS");//\'>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("javascript"), -1, "Strip javascript hrefs");
-    
-            htmlString = "<BaSe hReF=\"http://arbitrary.com/\">";
+            equals(htmlString.indexOf('javascript'), -1, 'Strip javascript hrefs');
+
+            htmlString = '<BaSe hReF=\'http://arbitrary.com/\'>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("<base"), -1, "Strip javascript hrefs");
-    
-            htmlString = "<OBJECT TYPE=\"text/x-scriptlet\" DATA=\"http://ha.ckers.org/scriptlet.html\"></OBJECT>";
+            equals(htmlString.indexOf('<base'), -1, 'Strip javascript hrefs');
+
+            htmlString = '<OBJECT TYPE=\'text/x-scriptlet\' DATA=\'http://ha.ckers.org/scriptlet.html\'></OBJECT>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("<object"), -1, "Strip javascript hrefs");
-    
-            htmlString = "<OBJECT classid=clsid:ae24fdae-03c6-11d1-8b76-0080c744f389><param name=url value=javascript:alert('XSS')></OBJECT>";
+            equals(htmlString.indexOf('<object'), -1, 'Strip javascript hrefs');
+
+            htmlString = '<OBJECT classid=clsid:ae24fdae-03c6-11d1-8b76-0080c744f389><param name=url value=javascript:alert("XSS")></OBJECT>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("javascript"), -1, "Strip javascript hrefs");
-    
-            htmlString = "<EMBED SRC=\"http://ha.ckers.org/xss.swf\" AllowScriptAccess=\"always\"></EMBED>";
+            equals(htmlString.indexOf('javascript'), -1, 'Strip javascript hrefs');
+
+            htmlString = '<EMBED SRC=\'http://ha.ckers.org/xss.swf\' AllowScriptAccess=\'always\'></EMBED>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("<embed"), -1, "Strip javascript hrefs");
-    
-            htmlString = "<EMBED SRC=\"data:image/svg+xml;base64,PHN2ZyB4bWxuczpzdmc9Imh0dH A6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv MjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hs aW5rIiB2ZXJzaW9uPSIxLjAiIHg9IjAiIHk9IjAiIHdpZHRoPSIxOTQiIGhlaWdodD0iMjAw IiBpZD0ieHNzIj48c2NyaXB0IHR5cGU9InRleHQvZWNtYXNjcmlwdCI+YWxlcnQoIlh TUyIpOzwvc2NyaXB0Pjwvc3ZnPg==\" type=\"image/svg+xml\" AllowScriptAccess=\"always\"></EMBED>";
+            equals(htmlString.indexOf('<embed'), -1, 'Strip javascript hrefs');
+
+            htmlString = '<EMBED SRC=\'data:image/svg+xml;base64,PHN2ZyB4bWxuczpzdmc9Imh0dH A6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv MjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hs aW5rIiB2ZXJzaW9uPSIxLjAiIHg9IjAiIHk9IjAiIHdpZHRoPSIxOTQiIGhlaWdodD0iMjAw IiBpZD0ieHNzIj48c2NyaXB0IHR5cGU9InRleHQvZWNtYXNjcmlwdCI+YWxlcnQoIlh TUyIpOzwvc2NyaXB0Pjwvc3ZnPg==\' type=\'image/svg+xml\' AllowScriptAccess=\'always\'></EMBED>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("<embed"), -1, "Strip javascript hrefs");
-    
-            htmlString = "<SCRIPT a=\">\" SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>";
+            equals(htmlString.indexOf('<embed'), -1, 'Strip javascript hrefs');
+
+            htmlString = '<SCRIPT a=\'>\' SRC=\'http://ha.ckers.org/xss.js\'></SCRIPT>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("<script"), -1, "Strip javascript hrefs");
-    
-            htmlString = "<SCRIPT a=\">\" '' SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>";
+            equals(htmlString.indexOf('<script'), -1, 'Strip javascript hrefs');
+
+            htmlString = '<SCRIPT a=">" \'\' SRC=\'http://ha.ckers.org/xss.js\'></SCRIPT>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("<script"), -1, "Strip javascript hrefs");
-    
-            htmlString = "<SCRIPT a=`>` SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>";
+            equals(htmlString.indexOf('<script'), -1, 'Strip javascript hrefs');
+
+            htmlString = '<SCRIPT a=`>` SRC=\'http://ha.ckers.org/xss.js\'></SCRIPT>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("<script"), -1, "Strip javascript hrefs");
-    
-            htmlString = "<SCRIPT a=\">'>\" SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>";
+            equals(htmlString.indexOf('<script'), -1, 'Strip javascript hrefs');
+
+            htmlString = '<SCRIPT a=">\'>" SRC=\'http://ha.ckers.org/xss.js\'></SCRIPT>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("<script"), -1, "Strip javascript hrefs");
-    
-            htmlString = "<SCRIPT>document.write(\"<SCRI\");</SCRIPT>PT SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>";
+            equals(htmlString.indexOf('<script'), -1, 'Strip javascript hrefs');
+
+            htmlString = '<SCRIPT>document.write(\'<SCRI\');</SCRIPT>PT SRC=\'http://ha.ckers.org/xss.js\'></SCRIPT>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("script"), -1, "Strip javascript hrefs");
-    
-            htmlString = "<SCRIPT SRC=http://ha.ckers.org/xss.js";
+            equals(htmlString.indexOf('script'), -1, 'Strip javascript hrefs');
+
+            htmlString = '<SCRIPT SRC=http://ha.ckers.org/xss.js';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("<script"), -1, "Strip javascript hrefs");
-    
-            htmlString = "<div/style=&#92&#45&#92&#109&#111&#92&#122&#92&#45&#98&#92&#105&#92&#110&#100&#92&#105&#110&#92&#103:&#92&#117&#114&#108&#40&#47&#47&#98&#117&#115&#105&#110&#101&#115&#115&#92&#105&#92&#110&#102&#111&#46&#99&#111&#46&#117&#107&#92&#47&#108&#97&#98&#115&#92&#47&#120&#98&#108&#92&#47&#120&#98&#108&#92&#46&#120&#109&#108&#92&#35&#120&#115&#115&#41&>";
+            equals(htmlString.indexOf('<script'), -1, 'Strip javascript hrefs');
+
+            htmlString = '<div/style=&#92&#45&#92&#109&#111&#92&#122&#92&#45&#98&#92&#105&#92&#110&#100&#92&#105&#110&#92&#103:&#92&#117&#114&#108&#40&#47&#47&#98&#117&#115&#105&#110&#101&#115&#115&#92&#105&#92&#110&#102&#111&#46&#99&#111&#46&#117&#107&#92&#47&#108&#97&#98&#115&#92&#47&#120&#98&#108&#92&#47&#120&#98&#108&#92&#46&#120&#109&#108&#92&#35&#120&#115&#115&#41&>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("style"), -1, "Strip javascript hrefs");
-    
-            htmlString = "<a href='aim: &c:\\windows\\system32\\calc.exe' ini='C:\\Documents and Settings\\All Users\\Start Menu\\Programs\\Startup\\pwnd.bat";
+            equals(htmlString.indexOf('style'), -1, 'Strip javascript hrefs');
+
+            htmlString = '<a href="aim: &c:\\windows\\system32\\calc.exe" ini="C:\\Documents and Settings\\All Users\\Start Menu\\Programs\\Startup\\pwnd.bat';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("aim.exe"), -1, "Strip javascript hrefs");
-    
-            htmlString = "<!--\n<A href=\n- --><a href=javascript:alert:document.domain>test-->";
+            equals(htmlString.indexOf('aim.exe'), -1, 'Strip javascript hrefs');
+
+            htmlString = '<!--\n<A href=\n- --><a href=javascript:alert:document.domain>test-->';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("javascript"), -1, "Strip javascript hrefs");
-    
-            htmlString = "<a></a style=\"\"xx:expr/**/ession(document.appendChild(document.createElement('script')).src='http://h4k.in/i.js')\">";
+            equals(htmlString.indexOf('javascript'), -1, 'Strip javascript hrefs');
+
+            htmlString = '<a></a style=""xx:expr/**/ession(document.appendChild(document.createElement(\'script\')).src=\'http://h4k.in/i.js\')">';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("document"), -1, "Strip javascript hrefs");
+            equals(htmlString.indexOf('document'), -1, 'Strip javascript hrefs');
 
             start();
         });
-    
-        asyncTest("CSS Attacks", function() {
+
+        asyncTest('CSS Attacks', function() {
             expect(4);
-    
-            var htmlString = "<div style=\"position:absolute\">";
+
+            var htmlString = '<div style=\'position:absolute\'>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("position"), -1, "Strip CSS positioning");
-    
-            htmlString = "<style>b { position:absolute }</style>";
+            equals(htmlString.indexOf('position'), -1, 'Strip CSS positioning');
+
+            htmlString = '<style>b { position:absolute }</style>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("position"), -1, "Strip CSS positioning");
-    
-            htmlString = "<div style=\"z-index:25\">test</div>";
+            equals(htmlString.indexOf('position'), -1, 'Strip CSS positioning');
+
+            htmlString = '<div style=\'z-index:25\'>test</div>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("z-index"), -1, "Strip CSS positioning");
-    
-            htmlString = "<style>z-index:25</style>";
+            equals(htmlString.indexOf('z-index'), -1, 'Strip CSS positioning');
+
+            htmlString = '<style>z-index:25</style>';
             htmlString = sakai.api.Security.saneHTML(htmlString);
-            equals(htmlString.indexOf("z-index"), -1, "Strip CSS positioning");
+            equals(htmlString.indexOf('z-index'), -1, 'Strip CSS positioning');
 
             start();
         });
-    
-        asyncTest("saneHTML elements", function() {
-    
+
+        asyncTest('saneHTML elements', function() {
+
             /*
              * HTML4 elements from: http://www.w3.org/TR/html4/index/elements.html
              * HTML5 elements from: http://www.quackit.com/html_5/tags/ and http://www.w3schools.com/html5/
              */
-    
+
             var html4ElementList = [
                 '<A href="http://www.w3.org/">W3C Web site</A>',
                 '<ABBR lang="es" title="Doa">Do&ntilde;a</ABBR>',
@@ -355,7 +355,7 @@ require(
                 '<UL><LI> ... first list item...<LI> ... second list item......</UL>',
                 '<var>data</var>'
             ];
-    
+
             //HTML4 Elements we expect to be removed
             var html4ElementStripList = [
                 '<APPLET code="Bubbles.class" width="500" height="500">Java applet that draws animated bubbles.</APPLET>',
@@ -374,11 +374,11 @@ require(
                 '<STYLE type="text/css">H1 {border-width: 1; border: solid; text-align: center}</STYLE>',
                 '<TITLE>A study of population dynamics</TITLE>'
             ];
-    
+
             var html5ElementList = [
                 '<A href="http://www.w3.org/" media="media">W3C Web site</A>',
                 '<address>This document was written by:<br><a href="mailto:homer@example.com">Homer Simpson</a></address>',
-                '<article><h4>Environmentally Friendly City</h4><p>A <a href="http://www.natural-environment.com/blog/2008/12/14/masdar-city-the-worlds-first-zero-carbon-zero-waste-city/" target="_blank">brand new city</a> is being built in Abu Dhabi in the United Arab Emirates which, when finished, will be the world�s first zero carbon, zero waste city.</p><p>Masdar City, a completely self sustaining city, will be powered by renewable energy and all waste will be recycled or reused.</p></article>',
+                '<article><h4>Environmentally Friendly City</h4><p>A <a href="http://www.natural-environment.com/blog/2008/12/14/masdar-city-the-worlds-first-zero-carbon-zero-waste-city/" target="_blank">brand new city</a> is being built in Abu Dhabi in the United Arab Emirates which, when finished, will be the world\'s first zero carbon, zero waste city.</p><p>Masdar City, a completely self sustaining city, will be powered by renewable energy and all waste will be recycled or reused.</p></article>',
                 '<aside style="font-size:larger;font-style:italic;color:green;float:right;width:120px;">70% of the world\'s reefs will be destroyed over the next 40 years.</aside><p>Global warming is affecting coral reefs all over the world. At the current rate, 70% of the world\'s reefs will be destroyed over the next 40 years.</p><p>As hopeless as this may sound, there are things we can do to help. By developing greener habits, we can all do our part in reducing global warming. For example, here are <a href="http://www.natural-environment.com/blog/2008/01/29/5-easy-ways-to-reduce-greenhouse-gas/" target="_blank">5 ways to reduce greenhouse gases</a>.  And here are some simple steps you can take to <a href="http://www.natural-environment.com/sustainable_living/sustainable_habits.php" target="_blank">live sustainably</a>.</p>',
                 '<audio src="/music/lostmojo.wav"><p>If you are reading this, it is because your browser does not support the audio element.</p></audio>',
                 '<bdo dir="rtl">How to override text direction? I think you already know!</bdo>',
@@ -405,33 +405,33 @@ require(
                 '<video src="/video/pass-countdown.ogg" width="300" height="150" controls="controls"><p>If you are reading this, it is because your browser does not support the HTML5 video element.</p></video>',
                 '<p>And the world record for the longest place name in an English-speaking country is...<br><i>Taumata<wbr>whakatangihanga<wbr>koauau<wbr>o<wbr>tamatea<wbr>turi<wbr>pukakapiki<wbr>maunga<wbr>horo<wbr>nuku<wbr>pokai<wbr>whenua<wbr>kitanatahu</i></p><p>This is the name of a hill in New Zealand.</p><p>Here\'s what it looks like without using the <code>wbr</code> tag...<i>Taumatawhakatangihangakoauauotamateaturipukakapikimaungahoronukupokaiwhenuakitanatahu</i></p>'
             ];
-    
+
             expect(html4ElementList.length + html4ElementStripList.length + html5ElementList.length);
-    
-            var htmlString = "", sanitizedHtmlString = "";
-    
+
+            var htmlString = '', sanitizedHtmlString = '';
+
             for (var i in html4ElementList) {
                 if (html4ElementList.hasOwnProperty(i)) {
                      htmlString = html4ElementList[i].toLowerCase();
                      sanitizedHtmlString = sakai.api.Security.saneHTML(htmlString);
-                     equals(sanitizedHtmlString.indexOf(htmlString), 0, "Keep HTML4 element intact: " + htmlString);
+                     equals(sanitizedHtmlString.indexOf(htmlString), 0, 'Keep HTML4 element intact: ' + htmlString);
                 }
             }
-    
+
             for (var i in html4ElementStripList) {
                 if (html4ElementStripList.hasOwnProperty(i)) {
                      htmlString = html4ElementStripList[i].toLowerCase();
                      sanitizedHtmlString = sakai.api.Security.saneHTML(htmlString);
-                     equals(sanitizedHtmlString.indexOf(htmlString), -1, "Strip HTML4 element: " + htmlString);
+                     equals(sanitizedHtmlString.indexOf(htmlString), -1, 'Strip HTML4 element: ' + htmlString);
                 }
             }
-    
+
             // html5 elements not yet supported by google caja - SAKIII-2473
             for (var j in html5ElementList) {
                 if (html5ElementList.hasOwnProperty(j)) {
                      htmlString = html5ElementList[j].toLowerCase();
                      sanitizedHtmlString = sakai.api.Security.saneHTML(htmlString);
-                     equals(sanitizedHtmlString.indexOf(htmlString), 0, "Keep HTML5 element intact: " + htmlString);
+                     equals(sanitizedHtmlString.indexOf(htmlString), 0, 'Keep HTML5 element intact: ' + htmlString);
                 }
             }
 
@@ -441,14 +441,14 @@ require(
     };
 
     var startTest = function() {
-        $(window).trigger("addlocalbinding.qunit.sakai");
+        $(window).trigger('addlocalbinding.qunit.sakai');
         SecurityTests();
     };
 
     if (sakai_global.qunit && sakai_global.qunit.ready) {
         startTest();
     } else {
-        $(window).bind("ready.qunit.sakai", function() {
+        $(window).on('ready.qunit.sakai', function() {
             startTest();
         });
     }

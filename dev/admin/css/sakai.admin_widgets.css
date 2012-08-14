@@ -15,17 +15,56 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-.widgets-container hr {clear:both;border:none; height:0; margin:0; padding:0;}
-.widgets-container p {margin-bottom:7px;}
+.widgets-container hr {
+    clear: both;
+    border: none;
+    height: 0;
+    margin: 0;
+    padding: 0;
+}
+.widgets-container p {
+    margin-bottom: 7px;
+}
 
-#admin_widgets_header {color:#444444; padding-left:7px;}
-#admin_widgets_jumpbox {padding:10px; background-color:#ddd}
-.admin_widgets_jumpbox_box {padding:10px; background-color:#fff;}
-.admin_widgets_jumpbox_box_widget {width:250px; float:left; padding: 5px;}
-.admin_widgets_jumpbox_box_widget:hover {background-color:#eff2f4;}
+#admin_widgets_header {
+    color: #444444;
+    padding-left: 7px;
+}
+#admin_widgets_jumpbox {
+    padding: 10px;
+    background-color: #ddd
+}
+.admin_widgets_jumpbox_box {
+    padding: 10px;
+    background-color: #fff;
+}
+.admin_widgets_jumpbox_box_widget {
+    width: 250px;
+    float: left;
+    padding: 5px;
+}
+.admin_widgets_jumpbox_box_widget:hover {
+    background-color: #eff2f4;
+}
 
-.admin_widgets_upload_link {color:#006E96; font-weight:bold;}
-.admin_widgets_name {color:#006E96;}
-.admin_widgets_delete_widgets_text {padding-top: 15px; }
-.admin_widgets_upload_section {background-color:#eff2f4; padding:10px; margin-top:10px;}
-.admin_widgets_upload_section input[type="text"]{width:500px; padding:4px; margin:0 5px 5px 0; font-weight:bold;}
+.admin_widgets_upload_link {
+    color: #006E96;
+    font-weight: bold;
+}
+.admin_widgets_name {
+    color: #006E96;
+}
+.admin_widgets_delete_widgets_text {
+    padding-top: 15px;
+}
+.admin_widgets_upload_section {
+    background-color: #eff2f4;
+    padding: 10px;
+    margin-top: 10px;
+}
+.admin_widgets_upload_section input[type="text"] {
+    width: 500px;
+    padding: 4px;
+    margin: 0 5px 5px 0;
+    font-weight: bold;
+}

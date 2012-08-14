@@ -7,7 +7,7 @@ sakai_global = {};
  * Only logs information when sakai.config.displayDebugInfo is switched on
  *
  * debug.log, debug.error, debug.warn, debug.debug, debug.info
- * usage: debug.log("argument", {more:"arguments"})
+ * usage: debug.log('argument', {more:'arguments'})
  *
  * paulirish.com/2009/log-a-lightweight-wrapper-for-consolelog/
  * benalman.com/projects/javascript-debug-console-log/
@@ -46,7 +46,7 @@ window.debug = (function() {
  * @namespace
  * Array extensions for Sakai
  */
-if(Array.hasOwnProperty("indexOf") === false){
+if (Array.hasOwnProperty('indexOf') === false) {
 
     /**
     * Finds the first occurrence of an element in an array and returns its
@@ -59,10 +59,10 @@ if(Array.hasOwnProperty("indexOf") === false){
     * @returns Returns the position of the first matched element
     * @type Integer
     */
-    Array.prototype.indexOf = function(obj,start){
+    Array.prototype.indexOf = function(obj,start) {
 
-        for(var i=(start||0),j=this.length; i<j; i++){
-            if(this[i]===obj){
+        for(var i=(start||0),j=this.length; i<j; i++) {
+            if (this[i]===obj) {
                 return i;
             }
         }
@@ -72,54 +72,54 @@ if(Array.hasOwnProperty("indexOf") === false){
 }
 
 require({
-    baseUrl:"../../../../dev/lib/",
+    baseUrl:'../../../../dev/lib/',
     //If you change these paths, please check out
     //https://confluence.sakaiproject.org/x/sq_CB
     paths: {
-        "jquery-plugins": "jquery/plugins",
-        "jquery": "jquery/jquery-1.7.0",
-        "jquery-ui": "jquery/jquery-ui-1.8.20.custom",
-        "jquery-cookie": "jquery/plugins/jquery.cookie",
-        "jquery-jstree": "jquery/plugins/jsTree/jquery.jstree.sakai-edit",
-        "jquery-fileupload": "jquery/plugins/jquery.fileupload",
-        "jquery-iframe-transport": "jquery/plugins/jquery.iframe-transport",
-        "jquery-pager": "jquery/plugins/jquery.pager.sakai-edited",
-        "jquery-tagcloud": "jquery/plugins/jquery.tagcloud",
-        "config": "../configuration",
-        "mockjax": "../../tests/qunit/js/jquery.mockjax",
-        "qunitjs": "../../tests/qunit/js",
-        "underscore": "misc/underscore"
+        'jquery-plugins': 'jquery/plugins',
+        'jquery': 'jquery/jquery-1.7.0',
+        'jquery-ui': 'jquery/jquery-ui-1.8.20.custom',
+        'jquery-cookie': 'jquery/plugins/jquery.cookie',
+        'jquery-jstree': 'jquery/plugins/jsTree/jquery.jstree.sakai-edit',
+        'jquery-fileupload': 'jquery/plugins/jquery.fileupload',
+        'jquery-iframe-transport': 'jquery/plugins/jquery.iframe-transport',
+        'jquery-pager': 'jquery/plugins/jquery.pager.sakai-edited',
+        'jquery-tagcloud': 'jquery/plugins/jquery.tagcloud',
+        'config': '../configuration',
+        'mockjax': '../../tests/qunit/js/jquery.mockjax',
+        'qunitjs': '../../tests/qunit/js',
+        'underscore': 'misc/underscore'
     },
-    priority: ["jquery", "mockjax"]
+    priority: ['jquery', 'mockjax']
 });
 
 require(
     [
-        "jquery",
-        "sakai/sakai.api.core",
-        "sakai/sakai.jquery-extensions",
-        "config/config",
-        "config/config_custom",
-        "jquery-ui",
-        "misc/l10n/globalize",
-        "misc/underscore",
-        "misc/google/html-sanitizer",
-        "jquery-plugins/jquery.timeago",
-        "jquery-plugins/jqmodal.sakai-edited",
-        "jquery-plugins/jquery.cookie",
-        "jquery-plugins/jquery.ba-bbq",
-        "jquery-plugins/jquery.pager.sakai-edited",
-        "jquery-plugins/jquery.threedots",
-        "jquery-plugins/jquery.form",
-        "jquery-plugins/gritter/jquery.gritter.sakai-edit",
-        "jquery-plugins/jquery.jcarousel.sakai-edit",
-        "mockjax",
-        "qunitjs/mockcore",
-        "qunitjs/mockme",
-        "qunitjs/qunit"
+        'jquery',
+        'sakai/sakai.api.core',
+        'sakai/sakai.jquery-extensions',
+        'config/config',
+        'config/config_custom',
+        'jquery-ui',
+        'misc/l10n/globalize',
+        'misc/underscore',
+        'misc/google/html-sanitizer',
+        'jquery-plugins/jquery.timeago',
+        'jquery-plugins/jqmodal.sakai-edited',
+        'jquery-plugins/jquery.cookie',
+        'jquery-plugins/jquery.ba-bbq',
+        'jquery-plugins/jquery.pager.sakai-edited',
+        'jquery-plugins/jquery.threedots',
+        'jquery-plugins/jquery.form',
+        'jquery-plugins/gritter/jquery.gritter.sakai-edit',
+        'jquery-plugins/jquery.jcarousel.sakai-edit',
+        'mockjax',
+        'qunitjs/mockcore',
+        'qunitjs/mockme',
+        'qunitjs/qunit'
     ],
     function($, sakai) {
-        if (document.location.pathname !== "/tests/qunit/" && document.location.pathname !== "/tests/qunit/index.html") {
+        if (document.location.pathname !== '/tests/qunit/' && document.location.pathname !== '/tests/qunit/index.html') {
             sakai.api.User.loadMeData(function(success, data) {
                 // Start i18n
                 sakai.api.i18n.init(data);

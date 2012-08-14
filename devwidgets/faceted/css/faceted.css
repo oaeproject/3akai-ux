@@ -16,5 +16,10 @@
  * specific language governing permissions and limitations under the License.
  */
 /* search faceted */
-.faceted #faceted_container {display:inline;}
-#facted_select {border: 1px solid #cccccc; max-width: 150px;}
+.faceted #faceted_container {
+    display: inline;
+}
+#facted_select {
+    border: 1px solid #cccccc;
+    max-width: 150px;
+}
