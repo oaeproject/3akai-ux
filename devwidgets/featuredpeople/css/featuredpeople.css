@@ -17,7 +17,18 @@
  */
 
 /* People Items */
-.featuredpeople_widget .featuredpeople_content {border: 1px solid #fff; background:none repeat scroll 0 0 transparent;height:108px;width:200px;float:left;border-radius:4px 4px 4px 4px;float:left;margin:5px;overflow:hidden;padding:12px;}
+.featuredpeople_widget .featuredpeople_content {
+    border: 1px solid #fff;
+    background: none repeat scroll 0 0 transparent;
+    height: 108px;
+    width: 200px;
+    float: left;
+    border-radius: 4px 4px 4px 4px;
+    float: left;
+    margin: 5px;
+    overflow: hidden;
+    padding: 12px;
+}
 .featuredpeople_widget .featuredpeople_content:hover {
     background: #f2fafc;
     background: -moz-linear-gradient(top, #f2fafc 0%, #eef8fc 100%);
@@ -29,8 +40,21 @@
     border: 1px solid #DBDBDB;
     cursor: pointer;
 }
-.featuredpeople_widget .featuredpeople_image {height:50px;width:50px;float:left;margin:0 6px 12px 0;}
-.featuredpeople_widget .featuredpeople_content .featuredpeople_userpage_link {display:block;font-size:11px;}
-.featuredpeople_widget #featuredpeople_no_people {display: block;margin: 10px;}
+.featuredpeople_widget .featuredpeople_image {
+    height: 50px;
+    width: 50px;
+    float: left;
+    margin: 0 6px 12px 0;
+}
+.featuredpeople_widget .featuredpeople_content .featuredpeople_userpage_link {
+    display: block;
+    font-size: 11px;
+}
+.featuredpeople_widget #featuredpeople_no_people {
+    display: block;
+    margin: 10px;
+}
 
-.featuredpeople_widget .s3d-no-results-container {margin:30px 10px 10px;}
+.featuredpeople_widget .s3d-no-results-container {
+    margin: 30px 10px 10px;
+}

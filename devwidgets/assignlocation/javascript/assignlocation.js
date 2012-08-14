@@ -42,13 +42,13 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-jstree'], function($, sakai) 
      */
     sakai_global.assignlocation = function(tuid, showSettings) {
         // Containers
-        var $rootel = $( "#" + tuid );
-        var $assignlocationContainer = $("#assignlocation_container", $rootel);
-        var $assignlocationJSTreeContainer = $("#assignlocation_jstree_container");
-        var $assignlocationJSTreeSelectedContainer = $("#assignlocation_jstree_selected_container");
+        var $rootel = $( '#' + tuid );
+        var $assignlocationContainer = $('#assignlocation_container', $rootel);
+        var $assignlocationJSTreeContainer = $('#assignlocation_jstree_container');
+        var $assignlocationJSTreeSelectedContainer = $('#assignlocation_jstree_selected_container');
 
         // Templates
-        var assignlocationJSTreeSelectedTemplate = "assignlocation_jstree_selected_template";
+        var assignlocationJSTreeSelectedTemplate = 'assignlocation_jstree_selected_template';
 
         // Variables
         var alreadyAssignedLocations = [];
@@ -58,43 +58,43 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-jstree'], function($, sakai) 
             saveCallback = false;
 
         // i18n
-        var assignlocationLocationSaved = $("#assignlocation_location_saved");
-        var assignlocationLocationSuccessfullySaved = $("#assignlocation_location_successfully_saved");
+        var assignlocationLocationSaved = $('#assignlocation_location_saved');
+        var assignlocationLocationSuccessfullySaved = $('#assignlocation_location_successfully_saved');
 
         // Actions
-        var $assignlocationSaveButton = $("#assignlocation_save_button");
-        var $assignlocationActions = $("#assignlocation_actions");
+        var $assignlocationSaveButton = $('#assignlocation_save_button');
+        var $assignlocationActions = $('#assignlocation_actions');
 
         var renderSelected = function() {
             var locations = {
-                "selections" : initiallyRendered,
+                'selections' : initiallyRendered,
                 sakai: sakai
             };
             $assignlocationJSTreeSelectedContainer.html(sakai.api.Util.TemplateRenderer(assignlocationJSTreeSelectedTemplate, locations));
 
             // add event binding to the items
-            $(".assignlocation_close_image").bind("click", function(ev){
+            $('.assignlocation_close_image').on('click', function(ev) {
                 // get the id for the node (list item id)
-                var id = $(this).parent().attr("id").split("/").pop();
+                var id = $(this).parent().attr('id').split('/').pop();
                 // unchecked the node
-                $assignlocationJSTreeContainer.jstree("uncheck_node", $("#"+id));
+                $assignlocationJSTreeContainer.jstree('uncheck_node', $('#'+id));
                 return false;
             });
         };
 
-        var addTreeBinding = function(){
-            $assignlocationJSTreeContainer.bind("change_state.jstree", function( e ) {
+        var addTreeBinding = function() {
+            $assignlocationJSTreeContainer.on('change_state.jstree', function( e ) {
                 if (initial > 0) {
                     initial--;
                 } else {
                     initiallyRendered = [];
-                    $(".jstree-checked>a").each(function(index, val) {
+                    $('.jstree-checked>a').each(function(index, val) {
                         initiallyRendered.push({
-                            id: $(val).attr("data-id"),
-                            path: $(val).attr("data-path"),
-                            title: $(val).attr("title"),
-                            value: $(val).attr("data-long-title"),
-                            parent: $(val).attr("data-parent"),
+                            id: $(val).attr('data-id'),
+                            path: $(val).attr('data-path'),
+                            title: $(val).attr('title'),
+                            value: $(val).attr('data-long-title'),
+                            parent: $(val).attr('data-parent'),
                             category: true
                         });
                     });
@@ -104,21 +104,21 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-jstree'], function($, sakai) 
             });
         };
 
-        var saveLocations = function(){
+        var saveLocations = function() {
             if ( saveCallback ) {
                 saveCallback( initiallyRendered );
             }
             sakai.api.Util.Modal.close($assignlocationContainer);
         };
 
-        var addWidgetBinding = function(){
-            $assignlocationSaveButton.unbind("click");
-            $assignlocationSaveButton.bind("click", function(){
+        var addWidgetBinding = function() {
+            $assignlocationSaveButton.off('click');
+            $assignlocationSaveButton.on('click', function() {
                 saveLocations();
             });
         };
 
-        var showContainer = function(hash){
+        var showContainer = function(hash) {
             initTree();
             addTreeBinding();
             addWidgetBinding();
@@ -126,7 +126,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-jstree'], function($, sakai) 
             renderSelected(true);
         };
 
-        var closeContainer = function(){
+        var closeContainer = function() {
             $assignlocationActions.show();
             $assignlocationAjaxLoader.hide();
         };
@@ -146,44 +146,44 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-jstree'], function($, sakai) 
             initial = initiallySelected.length;
         };
 
-        var initTree = function(){
+        var initTree = function() {
             // set up new jstree for directory
             var jsonData = sakai.api.Util.getDirectoryStructure();
-            var pluginArray = ["themes", "json_data", "search", "checkbox", "ui"];
-            $assignlocationJSTreeContainer.jstree("destroy");
+            var pluginArray = ['themes', 'json_data', 'search', 'checkbox', 'ui'];
+            $assignlocationJSTreeContainer.jstree('destroy');
             $assignlocationJSTreeContainer.jstree({
-                "plugins": pluginArray,
-                "core": {
-                    "animation": 0,
-                    "html_titles": true
+                'plugins': pluginArray,
+                'core': {
+                    'animation': 0,
+                    'html_titles': true
                 },
-                "cookies": {
-                    "save_selected": true
+                'cookies': {
+                    'save_selected': true
                 },
-                "json_data": {
-                    "data": jsonData
+                'json_data': {
+                    'data': jsonData
                 },
-                "themes": {
-                    "dots": false,
-                    "icons": false,
-                    "url": "/dev/lib/jquery/plugins/jsTree/themes/default/style.css"
+                'themes': {
+                    'dots': false,
+                    'icons': false,
+                    'url': '/dev/lib/jquery/plugins/jsTree/themes/default/style.css'
                 },
-                "search" : {
-                    "case_insensitive" : true
+                'search' : {
+                    'case_insensitive' : true
                 },
-                "ui": {
-                    "initially_select": initiallySelected,
-                    "preventDefault": true
+                'ui': {
+                    'initially_select': initiallySelected,
+                    'preventDefault': true
                 },
-                "checkbox": {
-                    "two_state": true
+                'checkbox': {
+                    'two_state': true
                 }
             });
         };
 
-        var doInit = function(){
+        var doInit = function() {
 
-            $( window ).bind( "init.assignlocation.sakai", function( e, _initiallySelected, originalEvent, _saveCallback ) {
+            $( window ).on( 'init.assignlocation.sakai', function( e, _initiallySelected, originalEvent, _saveCallback ) {
                 if ( $.isFunction( _saveCallback ) ) {
                     saveCallback = _saveCallback;
                 }
@@ -193,7 +193,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-jstree'], function($, sakai) 
                 // Need a larget zIndex if this was triggered from another overlay
                 var $target = $( originalEvent.target );
                 var zIndex = 4000;
-                if ( $target.parents( ".s3d-dialog" ).length ) {
+                if ( $target.parents( '.s3d-dialog' ).length ) {
                     zIndex = 5000;
                 }
                 sakai.api.Util.Modal.setup($assignlocationContainer, {
@@ -211,5 +211,5 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-jstree'], function($, sakai) 
 
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("assignlocation");
+    sakai.api.Widgets.widgetLoader.informOnLoad('assignlocation');
 });

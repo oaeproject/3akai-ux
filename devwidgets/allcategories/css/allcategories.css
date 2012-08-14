@@ -34,7 +34,9 @@
     -webkit-border-radius: 4px;
     padding: 4px;
 }
-.allcategories_widget .allcategories_item:hover {background:#d7eff7;}
+.allcategories_widget .allcategories_item:hover {
+    background: #d7eff7;
+}
 .allcategories_widget .allcategories_item .allcategories_item_header {
     background: #3a3a3a;
     background: -moz-linear-gradient(top, #3a3a3a 0%, #3b3a3a 6%, #404040 18%, #414141 29%, #2f2f2f 69%, #1f1f1f 91%, #1b1b1b 100%);
@@ -62,28 +64,106 @@
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
 }
-.allcategories_widget .allcategories_item a{text-decoration:none;}
+.allcategories_widget .allcategories_item a {
+    text-decoration: none;
+}
 
-.allcategories_widget .allcategories_item .s3d-split-line {margin:7px 0 15px;}
-.allcategories_widget #allcategories_items_content {width:935px;}
-.allcategories_widget #allcategories_items_content ul {margin:0;}
-.allcategories_widget #allcategories_items_content li {display:inline;width:207px;}
+.allcategories_widget .allcategories_item .s3d-split-line {
+    margin: 7px 0 15px;
+}
+.allcategories_widget #allcategories_items_content {
+    width: 935px;
+}
+.allcategories_widget #allcategories_items_content ul {
+    margin: 0;
+}
+.allcategories_widget #allcategories_items_content li {
+    display: inline;
+    width: 207px;
+}
 
-.allcategories_widget .allcategories_item .allcategories_item_header .allcategories_item_raquo {background:url("/devwidgets/allcategories/images/allcategories_item_raquo.png") no-repeat top left transparent;width:15px;height:22px;float:right;}
+.allcategories_widget .allcategories_item .allcategories_item_header .allcategories_item_raquo {
+    background: url("/devwidgets/allcategories/images/allcategories_item_raquo.png") no-repeat top left transparent;
+    width: 15px;
+    height: 22px;
+    float: right;
+}
 
 /* Content Style */
-.allcategories_widget .allcategories_item .s3d-regular-links {font-size:12px;}
-.allcategories_widget .allcategories_item .allcategories_item_header .s3d-regular-links {color:#FFF;text-decoration:none;margin:0}
-.allcategories_widget .allcategories_item .allcategories_item_header_link{font-size: 17px;}
-.allcategories_widget .allcategories_item .allcategories_item_header_meta_small{color:#ccc;font-size:10px;display:block;}
-.allcategories_widget .allcategories_item .allcategories_item_header_meta {color:#fff;font-size:10px;display:block;}
-.allcategories_widget .allcategories_item .allcategories_item_content_preview {float:left;margin-right:7px;height:44px;width:44px; margin-left: 3px;}
-.allcategories_widget .allcategories_item .allcategories_item_descriptive_text {color:#424242;font-size:11px;}
-.allcategories_widget .allcategories_content_description {color: #424242;font-size: 12px;display:block;word-wrap:break-word;margin-bottom:10px; margin-top: 5px;}
-.allcategories_widget .allcategories_content_category_description {font-size:11px;color:#424242;display:block;}
-.allcategories_widget .allcategories_content_usedin_icon {background:url("/devwidgets/entity/images/entity_used_by_icon.png") no-repeat scroll left top transparent;}
-.allcategories_widget .allcategories_content_icon {display:inline-block;height:10px;width:15px;margin-right:5px;}
-.allcategories_widget .allcategories_content_category_description {font-size:11px;color:#424242;display:block; margin-top: 5px;}
-.allcategories_widget .allcategories_content_comments_icon {background:url("/devwidgets/recentactivity/images/recentactivity_comment_icon.png") no-repeat scroll left top transparent;}
-.allcategories_widget .allcategories_content_tags {font-size:11px !important;display:block;margin-top:5px;color:#424242;padding-left:20px;padding-top:5px;background:url("/dev/images/tag_icon.png") no-repeat scroll left bottom transparent; clear: both;}
-.allcategories_widget .allcategories_content_tags a {font-size:11px !important;font-weight:normal !important;}
+.allcategories_widget .allcategories_item .s3d-regular-links {
+    font-size: 12px;
+}
+.allcategories_widget .allcategories_item .allcategories_item_header .s3d-regular-links {
+    color: #FFF;
+    text-decoration: none;
+    margin: 0
+}
+.allcategories_widget .allcategories_item .allcategories_item_header_link {
+    font-size: 17px;
+}
+.allcategories_widget .allcategories_item .allcategories_item_header_meta_small {
+    color: #ccc;
+    font-size: 10px;
+    display: block;
+}
+.allcategories_widget .allcategories_item .allcategories_item_header_meta {
+    color: #fff;
+    font-size: 10px;
+    display: block;
+}
+.allcategories_widget .allcategories_item .allcategories_item_content_preview {
+    float: left;
+    margin-right: 7px;
+    height: 44px;
+    width: 44px;
+    margin-left: 3px;
+}
+.allcategories_widget .allcategories_item .allcategories_item_descriptive_text {
+    color: #424242;
+    font-size: 11px;
+}
+.allcategories_widget .allcategories_content_description {
+    color: #424242;
+    font-size: 12px;
+    display: block;
+    word-wrap: break-word;
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+.allcategories_widget .allcategories_content_category_description {
+    font-size: 11px;
+    color: #424242;
+    display: block;
+}
+.allcategories_widget .allcategories_content_usedin_icon {
+    background: url("/devwidgets/entity/images/entity_used_by_icon.png") no-repeat scroll left top transparent;
+}
+.allcategories_widget .allcategories_content_icon {
+    display: inline-block;
+    height: 10px;
+    width: 15px;
+    margin-right: 5px;
+}
+.allcategories_widget .allcategories_content_category_description {
+    font-size: 11px;
+    color: #424242;
+    display: block;
+    margin-top: 5px;
+}
+.allcategories_widget .allcategories_content_comments_icon {
+    background: url("/devwidgets/recentactivity/images/recentactivity_comment_icon.png") no-repeat scroll left top transparent;
+}
+.allcategories_widget .allcategories_content_tags {
+    font-size: 11px !important;
+    display: block;
+    margin-top: 5px;
+    color: #424242;
+    padding-left: 20px;
+    padding-top: 5px;
+    background: url("/dev/images/tag_icon.png") no-repeat scroll left bottom transparent;
+    clear: both;
+}
+.allcategories_widget .allcategories_content_tags a {
+    font-size: 11px !important;
+    font-weight: normal !important;
+}

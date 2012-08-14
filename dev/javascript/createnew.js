@@ -80,10 +80,10 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             $(window).trigger('sakai.newcreategroup.init');
         };
 
-        $(window).bind('lhnav.ready', function(){
+        $(window).on('lhnav.ready', function() {
             fetchTemplates(generateNav);
         });
-        $(window).bind('newcreategroup.ready', renderCreateGroup);
+        $(window).on('newcreategroup.ready', renderCreateGroup);
 
     };
 

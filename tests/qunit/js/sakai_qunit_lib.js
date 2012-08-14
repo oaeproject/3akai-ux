@@ -18,9 +18,9 @@
 
 require(
     [
-        "jquery",
-        "sakai/sakai.api.core",
-        "qunitjs/qunit"
+        'jquery',
+        'sakai/sakai.api.core',
+        'qunitjs/qunit'
     ],
     function($, sakai) {
 
@@ -37,7 +37,7 @@ require(
         $(window).off('done.qunit.sakai').on('done.qunit.sakai', function(e, obj) {
             // trigger this event in the parent document
             if (parent && $(parent.document).length) {
-                parent.$(parent.document).trigger("done.qunit.sakai", obj);
+                parent.$(parent.document).trigger('done.qunit.sakai', obj);
             }
         });
 
@@ -47,14 +47,14 @@ require(
          */
         QUnit.done = function(completed) {
             var location = window.location.href.split('/');
-            location = "tests/" + location[location.length-1];
+            location = 'tests/' + location[location.length-1];
             $(window).trigger('done.qunit.sakai', {url: location, failures:completed.failed, total:completed.total});
         };
     };
 
     // Only bind when we're not swarming
-    if (window.location.host.indexOf("testswarm") === -1) {
-        $(window).bind("addlocalbinding.qunit.sakai", function(){
+    if (window.location.host.indexOf('testswarm') === -1) {
+        $(window).on('addlocalbinding.qunit.sakai', function() {
             doLocalBinding();
         });
     }
@@ -74,11 +74,11 @@ require(
         }
         if (sakai.api && sakai.api.i18n && sakai.api.i18n.done) { // wait for i18n to finish, then let the tests start that need file access
             sakai_global.qunit.ready = true;
-            $(window).trigger("ready.qunit.sakai");
+            $(window).trigger('ready.qunit.sakai');
         } else {
-            $(window).bind("done.i18n.sakai", function() {
+            $(window).on('done.i18n.sakai', function() {
                 sakai_global.qunit.ready = true;
-                $(window).trigger("ready.qunit.sakai");
+                $(window).trigger('ready.qunit.sakai');
             });
         }
     };
@@ -86,57 +86,57 @@ require(
     if (sakai_global.qunit.widgetsdone) {
         setupWidgets();
     } else {
-        $(window).bind("widgetsdone.qunit.sakai", function() {
+        $(window).on('widgetsdone.qunit.sakai', function() {
             setupWidgets();
         });
     }
 
     sakai_global.qunit.loginWithAdmin = function() {
-        asyncTest("Log-in with a Sakai OAE admin user", function(){
-            sakai.api.User.loadMeData(function(success, data){
+        asyncTest('Log-in with a Sakai OAE admin user', function() {
+            sakai.api.User.loadMeData(function(success, data) {
                 // if there is a user already logged in, lets log out and log back in
-                if (data.user.anon !== true && data.user.userid !== "admin") {
+                if (data.user.anon !== true && data.user.userid !== 'admin') {
                     sakai.api.User.logout(function(success) {
                         // Test whether the current URL of the iFrame is the login page
-                        ok(success, "The user has successfully logged-out");
+                        ok(success, 'The user has successfully logged-out');
 
                         // Check whether the logout was successful through the Me object
-                        sakai.api.User.loadMeData(function(success, data){
-                            ok(data.user.anon === true, "The current active user is anonymous");
-                            sakai.api.User.loadMeData(function(success, data){
+                        sakai.api.User.loadMeData(function(success, data) {
+                            ok(data.user.anon === true, 'The current active user is anonymous');
+                            sakai.api.User.loadMeData(function(success, data) {
                                 if (data.user.anon === true && success) {
                                     sakai.api.User.login({
-                                        "username": "admin",
-                                        "password": "admin"
-                                    }, function(success, data){
-                                        sakai.api.User.loadMeData(function(success, data){
-                                            ok(data.user.userid === "admin", "The admin user has successfully logged-in");
+                                        'username': 'admin',
+                                        'password': 'admin'
+                                    }, function(success, data) {
+                                        sakai.api.User.loadMeData(function(success, data) {
+                                            ok(data.user.userid === 'admin', 'The admin user has successfully logged-in');
                                             start();
                                         });
                                     });
                                 } else {
-                                    ok(false, "The user did not log out properly");
+                                    ok(false, 'The user did not log out properly');
                                     start();
                                 }
                             });
                         });
                     });
-                } else if (data.user.userid === "admin") {
-                    ok(true, "admin user already logged in");
+                } else if (data.user.userid === 'admin') {
+                    ok(true, 'admin user already logged in');
                     start();
                 // no one is logged in, lets login as admin
                 } else {
                     sakai.api.User.login({
-                        "username": "admin",
-                        "password": "admin"
-                    }, function(success, data){
+                        'username': 'admin',
+                        'password': 'admin'
+                    }, function(success, data) {
                         if (success) {
-                            sakai.api.User.loadMeData(function(success, data){
-                                ok(data.user.userid === "admin", "The admin user has successfully logged-in");
+                            sakai.api.User.loadMeData(function(success, data) {
+                                ok(data.user.userid === 'admin', 'The admin user has successfully logged-in');
                                 start();
                             });
                         } else {
-                            ok(success, "Could not log user in");
+                            ok(success, 'Could not log user in');
                             start();
                         }
                     });
@@ -146,16 +146,16 @@ require(
     };
 
     sakai_global.qunit.logout = function(callback) {
-        asyncTest("Logging out current user", function() {
+        asyncTest('Logging out current user', function() {
             sakai.api.User.logout(function(success) {
                 // Test whether the current URL of the iFrame is the login page
-                ok(success, "The user has successfully logged-out");
+                ok(success, 'The user has successfully logged-out');
 
                 // Check whether the logout was successful through the Me object
-                sakai.api.User.loadMeData(function(success, data){
-                    ok(data.user.anon === true, "The current active user is anonymous");
+                sakai.api.User.loadMeData(function(success, data) {
+                    ok(data.user.anon === true, 'The current active user is anonymous');
                     start();
-                    if ($.isFunction(callback)){
+                    if ($.isFunction(callback)) {
                         callback();
                     }
                 });

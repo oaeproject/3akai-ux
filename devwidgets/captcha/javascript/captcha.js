@@ -25,7 +25,7 @@
 /*global Config, $, */
 
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.captcha
@@ -35,17 +35,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      */
     sakai_global.captcha = function(tuid, showSettings) {
 
-        var $rootel = $("#" + tuid);
-        var $captchaError = $("#captcha_error", $rootel);
-        var $captcha_container = $("#captcha_container", $rootel);
+        var $rootel = $('#' + tuid);
+        var $captchaError = $('#captcha_error', $rootel);
+        var $captcha_container = $('#captcha_container', $rootel);
 
         /**
          * @returns {Object} Data that should be used in a request to send to a captcha validator.
          */
         sakai_global.captcha.getProperties = function() {
             var values = {};
-            values["recaptcha-challenge"] = Recaptcha.get_challenge();
-            values["recaptcha-response"] = Recaptcha.get_response();
+            values['recaptcha-challenge'] = Recaptcha.get_challenge();
+            values['recaptcha-response'] = Recaptcha.get_response();
             return values;
         };
 
@@ -54,11 +54,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {String} messageErrorClass Class to apply to the error message html element
          */
         sakai_global.captcha.showError = function(messageErrorClass) {
-            if (messageErrorClass && !$captchaError.hasClass(messageErrorClass)){
+            if (messageErrorClass && !$captchaError.hasClass(messageErrorClass)) {
                 $captchaError.addClass(messageErrorClass);
-                $captcha_container.addClass("s3d-error");
-                $("#recaptcha_response_field").attr("aria-invalid", "true");
-                $("#recaptcha_response_field").attr("aria-describedby", "captcha_error");
+                $captcha_container.addClass('s3d-error');
+                $('#recaptcha_response_field').attr('aria-invalid', 'true');
+                $('#recaptcha_response_field').attr('aria-describedby', 'captcha_error');
             }
             $captchaError.show();
         };
@@ -67,23 +67,23 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Hides the captcha validation error message
          */
         sakai_global.captcha.hideError = function() {
-            $("#recaptcha_response_field").attr("aria-invalid", "false");
+            $('#recaptcha_response_field').attr('aria-invalid', 'false');
             $captchaError.hide();
-            $captcha_container.removeClass("s3d-error");
+            $captcha_container.removeClass('s3d-error');
         };
 
         /**
          * Invalidates the current captcha
          */
         sakai_global.captcha.destroy = function() {
-          Recaptcha.destroy();  
+          Recaptcha.destroy();
         };
 
         /**
          * Reload the current captcha
          */
         sakai_global.captcha.reload = function() {
-            Recaptcha.reload();  
+            Recaptcha.reload();
         };
 
         /**
@@ -92,13 +92,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         sakai_global.captcha.init = function() {
             $.ajax({
-                "url" : sakai.config.URL.CAPTCHA_SERVICE,
-                "type" : "GET",
-                "success" : function (data, status) {
-                    var captchaContainer = $("#captcha_container", $rootel).get()[0];
-                    Recaptcha.create(data["public-key"], captchaContainer,
+                'url' : sakai.config.URL.CAPTCHA_SERVICE,
+                'type' : 'GET',
+                'success' : function(data, status) {
+                    var captchaContainer = $('#captcha_container', $rootel).get()[0];
+                    Recaptcha.create(data['public-key'], captchaContainer,
                         {
-                            theme: "clean"
+                            theme: 'clean'
                         }
                     );
                 }
@@ -109,5 +109,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("captcha");
+    sakai.api.Widgets.widgetLoader.informOnLoad('captcha');
 });

@@ -47,7 +47,7 @@
             {else}
                 <img src="${sakai.api.Content.getMimeTypeData(mimeType).URL}" class="featuredcontent_thumbnail_image"/>
             {/if}
-        </a>            
+        </a>
     {/macro}
     {macro displayTitle(item, params, length)}
         <a href="/content#p=${item["_path"]|safeURL}/${item["sakai:pooled-content-file-name"]|safeURL}" title="${item["sakai:pooled-content-file-name"]|safeOutput}" class="s3d-bold s3d-regular-links featuredcontent_content_title featuredcontent_content_tworow_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], length, params)}</a>
@@ -72,7 +72,7 @@
                          </div>
                     {else}
                         ${embedSmallThumbnail(item, sakai)}
-                    {/if}                   
+                    {/if}
                     <div class="featuredcontent_content_right_description {if !item.thumbnail} featuredcontent_content_right_description_no_thumbnail {/if}">
                         ${displayTitle(item, params, 125)}
                         ${showMetadata(item, sakai)}

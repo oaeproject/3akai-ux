@@ -3,14 +3,15 @@ require(
     [
     'jquery',
     'sakai/sakai.api.core',
+    'underscore',
     'qunitjs/qunit',
     '../../../../tests/qunit/js/sakai_qunit_lib.js',
     '../../../../tests/qunit/js/dev.js',
     '../../../../tests/qunit/js/devwidgets.js'
     ],
-    function($, sakai) {
+    function($, sakai, _) {
 
-    "use strict";
+    'use strict';
 
         QUnit.module('Double Translation Keys');
 
@@ -37,14 +38,14 @@ require(
                 }
             });
 
-            if (widgetslistwithkey.length === 0 && typeof widgetdefaultbundlekey === 'undefined') {
+            if (widgetslistwithkey.length === 0 && _.isUndefined(widgetdefaultbundlekey)) {
                 QUnit.ok(true, 'The key "' + key + '" isn\'t used in any other widgets or in the defaultbundle');
             } else {
                 var outputtext = 'The key "' + key + '" is used in';
                 if (widgetslistwithkey.length !== 0) {
                     outputtext += ' the following widgets: ' + widgetslistwithkey.join(', ');
                 }
-                if (typeof widgetdefaultbundlekey !== 'undefined') {
+                if (! _.isUndefined(widgetdefaultbundlekey)) {
                     outputtext += (widgetslistwithkey.length !== 0 ? ' &' : '') + ' the default core bundle';
                 }
                 QUnit.ok(false, outputtext);
@@ -154,7 +155,7 @@ require(
             }
 
             checkWidgets();
-            $(window).trigger("addlocalbinding.qunit.sakai");
+            $(window).trigger('addlocalbinding.qunit.sakai');
 
         };
 
@@ -194,7 +195,7 @@ require(
             if (sakai.api.i18n.done) {
                 buildBatchRequest();
             } else {
-                $(window).bind('done.i18n.sakai', function() {
+                $(window).on('done.i18n.sakai', function() {
                     buildBatchRequest();
                 });
             }
@@ -206,7 +207,7 @@ require(
         if (sakai_global.qunit && sakai_global.qunit.ready) {
             startTest();
         } else {
-            $(window).bind('ready.qunit.sakai', function() {
+            $(window).on('ready.qunit.sakai', function() {
                 startTest();
             });
         }

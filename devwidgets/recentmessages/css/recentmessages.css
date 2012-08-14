@@ -17,13 +17,29 @@
  */
 
 /* Error messages */
-.recentmessages_error{padding:0 0 0 15px;}
+.recentmessages_error {
+    padding: 0 0 0 15px;
+}
 
 /* Container text */
-#recentmessages_container ul li{color:#333;}
-#recentmessages_container ul {margin:-10px 0 0;}
+#recentmessages_container ul li {
+    color: #333;
+}
+#recentmessages_container ul {
+    margin: -10px 0 0;
+}
 
 /* List items */
-#recentmessages_container ul li{border-bottom:1px solid #ccc;list-style:none;padding:5px 15px;margin:0;}
-#recentmessages_container .recentmessages_alterrow{background-color:#f5f6f6;}
-.recentmessages_ellipsis_container {word-wrap:break-word!important; display:inline-block;}
+#recentmessages_container ul li {
+    border-bottom: 1px solid #ccc;
+    list-style: none;
+    padding: 5px 15px;
+    margin: 0;
+}
+#recentmessages_container .recentmessages_alterrow {
+    background-color: #f5f6f6;
+}
+.recentmessages_ellipsis_container {
+    word-wrap: break-word !important;
+    display: inline-block;
+}

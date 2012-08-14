@@ -21,7 +21,7 @@
  *
  */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
     /**
      * @name sakai_global.footer
      *
@@ -34,7 +34,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.footer = function(tuid,showSettings){
+    sakai_global.footer = function(tuid,showSettings) {
 
 
         /////////////////////////////
@@ -42,19 +42,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
 
         var doc_name;
-        var $footer_debug_info = $("#footer_debug_info");
-        var $footer_date_end = $("#footer_date_end");
-        var $footer_root = $(".footer_main");
-        var $footer_logo = $("#footer_logo_button");
-        var $footer_www = $("#footer_www");
-        var $footer_divider = $("#footer_divider");
-        var $footer_phone = $("#footer_phone");
-        var $footer_contactinfo = $("#footer_contactinfo");
-        var $footer_contactinfo_template = $("#footer_contactinfo_template");
-        var $footer_links_left = $("#footer_links");
-        var $footer_links_left_template = $("#footer_links_template");
-        var $footer_links_right = $("#footer_links_right");
-        var $footer_links_right_template = $("#footer_links_right_template");
+        var $footer_debug_info = $('#footer_debug_info');
+        var $footer_date_end = $('#footer_date_end');
+        var $footer_root = $('.footer_main');
+        var $footer_logo = $('#footer_logo_button');
+        var $footer_www = $('#footer_www');
+        var $footer_divider = $('#footer_divider');
+        var $footer_phone = $('#footer_phone');
+        var $footer_contactinfo = $('#footer_contactinfo');
+        var $footer_contactinfo_template = $('#footer_contactinfo_template');
+        var $footer_links_left = $('#footer_links');
+        var $footer_links_left_template = $('#footer_links_template');
+        var $footer_links_right = $('#footer_links_right');
+        var $footer_links_right_template = $('#footer_links_right_template');
 
         //////////////////////
         // Helper functions //
@@ -66,9 +66,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          */
         var getDocName = function() {
             var url = document.URL;
-            var slash = "/";
+            var slash = '/';
             if (url.match(/\\/)) {
-                slash = "\\";
+                slash = '\\';
             }
             return decodeURIComponent(url.substring(url.lastIndexOf(slash) + 1));
         };
@@ -84,14 +84,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var renderDebugInfo = function(container) {
 
             $.ajax({
-                url: "/var/scm-version.json",
-                type: "GET",
+                url: '/var/scm-version.json',
+                type: 'GET',
                 cache: false,
-                dataType: "json",
-                success: function(data){
+                dataType: 'json',
+                success: function(data) {
                     // Construct debug info
-                    var debug_text = "DEBUG:";
-                    debug_text += " Nakamura Version: " + data["sakai:nakamura-version"];
+                    var debug_text = 'DEBUG:';
+                    debug_text += ' Nakamura Version: ' + data['sakai:nakamura-version'];
                     getUxVersion(debug_text, container);
                 }
             });
@@ -99,14 +99,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var getUxVersion = function(debug_text, container) {
             $.ajax({
-                url: "/var/ux-version/ux-version.json",
-                type: "GET",
+                url: '/var/ux-version/ux-version.json',
+                type: 'GET',
                 cache: false,
-                dataType: "json",
-                success: function(data){
-                    debug_text += " | UX Version: " + data["sakai:ux-version"];
-                    debug_text += "<br/>DOC mod date: " + document.lastModified;
-                    debug_text += " | PLACE: " + (doc_name || "index.html");
+                dataType: 'json',
+                success: function(data) {
+                    debug_text += ' | UX Version: ' + data['sakai:ux-version'];
+                    debug_text += '<br/>DOC mod date: ' + document.lastModified;
+                    debug_text += ' | PLACE: ' + (doc_name || 'index.html');
 
                     // Put text into holding tag
                     container.html(sakai.api.Security.saneHTML(debug_text));
@@ -114,12 +114,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
-        var updateLocationLanguage = function(){
+        var updateLocationLanguage = function() {
             if (!sakai.data.me.user.anon) {
-                $("#footer_location").text(sakai.data.me.user.locale.timezone.name);
+                $('#footer_location').text(sakai.data.me.user.locale.timezone.name);
                 for (var i = 0, len = sakai.config.Languages.length; i < len; i++) {
                     if (sakai.data.me.user.locale.country === sakai.config.Languages[i].country) {
-                        $("#footer_language").text(sakai.config.Languages[i].displayName);
+                        $('#footer_language').text(sakai.config.Languages[i].displayName);
                         break;
                     }
                 }
@@ -134,7 +134,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Main initialization function for the footer widget
          */
-        var doInit = function(){
+        var doInit = function() {
 
             // Get the name of the current document
             doc_name = getDocName();
@@ -143,7 +143,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             if (sakai.config.displayDebugInfo === true) {
 
                 // Add binding to the image
-                $footer_logo.toggle(function(){
+                $footer_logo.toggle(function() {
 
                     // Render the debug info
                     renderDebugInfo($footer_debug_info);
@@ -154,7 +154,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     // Update button title
                     $footer_logo.attr('title', sakai.api.i18n.getValueForKey('HIDE_DEBUG_INFO', 'footer'));
 
-                },function(){
+                },function() {
 
                     // Hide the debug info
                     $footer_debug_info.hide();
@@ -162,7 +162,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     // Update button title
                     $footer_logo.attr('title', sakai.api.i18n.getValueForKey('SHOW_DEBUG_INFO', 'footer'));
 
-                }).addClass("footer_clickable");
+                }).addClass('footer_clickable');
 
             } else {
                 // Disable and remove button title
@@ -172,10 +172,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             if (!sakai.data.me.user.anon && (sakai.config.displayTimezone || sakai.config.displayLanguage)) {
                 if (sakai.config.displayTimezone) {
-                    $("#footer_langdoc_loc").show();
+                    $('#footer_langdoc_loc').show();
                 }
                 if (sakai.config.displayLanguage) {
-                    $("#footer_langdoc_lang").show();
+                    $('#footer_langdoc_lang').show();
                 }
             }
 
@@ -184,11 +184,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $footer_date_end.text(d.getFullYear());
 
             var leftLinksHTML = sakai.api.Util.TemplateRenderer($footer_links_left_template, {links:sakai.config.Footer.leftLinks});
-            leftLinksHTML = sakai.api.i18n.General.process(leftLinksHTML, "footer");
+            leftLinksHTML = sakai.api.i18n.General.process(leftLinksHTML, 'footer');
             $footer_links_left.html(leftLinksHTML);
 
             var rightLinksHTML = sakai.api.Util.TemplateRenderer($footer_links_right_template, {links:sakai.config.Footer.rightLinks});
-            rightLinksHTML = sakai.api.i18n.General.process(rightLinksHTML, "footer");
+            rightLinksHTML = sakai.api.i18n.General.process(rightLinksHTML, 'footer');
             $footer_links_right.html(rightLinksHTML);
 
             updateLocationLanguage();
@@ -198,5 +198,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("footer");
+    sakai.api.Widgets.widgetLoader.informOnLoad('footer');
 });
