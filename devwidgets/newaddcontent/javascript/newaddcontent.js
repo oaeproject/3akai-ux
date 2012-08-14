@@ -665,8 +665,9 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
                     var notificationHeading = '';
                     var contentFileName = sakai.api.i18n.getValueForKey('CONTENT');
                     var contentURL = '';
+                    var libraryId = '';
                     if (contentObj) {
-                        contentFileName = $.trim(contentObj['sakai:pooled-content-file-name-short']) || 
+                        contentFileName = $.trim(contentObj['sakai:pooled-content-file-name-short']) ||
                             $.trim(contentObj['sakai:pooled-content-file-name']);
                         contentURL = '/content#p='+ contentObj['_path'] + '/' + contentFileName;
                     }
@@ -698,13 +699,20 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
                         uploadToCollection = true;
                     } else {
                         notificationHeading = sakai.api.i18n.getValueForKey('LIBRARY');
+
+                        // Make sure we don't have an extra redirect to the users library
+                        if (libraryToUploadTo === sakai.data.me.user.userid) {
+                            libraryId = 'me';
+                        } else {
+                            libraryId = '~' + libraryToUploadTo;
+                        }
                     }
 
                     sakai.api.Util.notification.show(notificationHeading,
                         sakai.api.Util.TemplateRenderer('newaddcontent_notification_finished_template', {
                             sakai: sakai,
                             me: sakai.data.me,
-                            libraryid: libraryToUploadTo,
+                            libraryid: libraryId || libraryToUploadTo,
                             librarytitle: libraryTitle,
                             uploadcount: itemsUploaded,
                             contenttitle: contentFileName,
