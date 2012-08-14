@@ -362,9 +362,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     var paths = [];
                     var collectionPaths = [];
                     $checked.each(function () {
-                        paths.push($(this).data('entityid'));
+                        paths.push($(this).attr('data-entityid'));
                         if($checked.attr('data-type') === 'x-sakai/collection') {
-                            collectionPaths.push($(this).data('entityid'));
+                            collectionPaths.push($(this).attr('data-entityid'));
                         }
                     });
                     $(document).trigger('init.deletecontent.sakai', [{
