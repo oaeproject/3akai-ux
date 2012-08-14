@@ -2997,3 +2997,19 @@ ul li.s3d-list-item:hover {
 #s3d-draggeditems-container .s3d-draggable-hidden {
     display: none;
 }
+
+/*
+ * No Javascript message
+ */
+.noscript {
+    background-color: #e0eff6;
+    border-radius: 5px;
+    color: #666666;
+    display: block;
+    padding: 20px;
+    margin: 20px;
+}
+.noscript p {
+    font-size: 18px;
+    line-height: 140%;
+}
