@@ -80,8 +80,8 @@ require(
             //testString = 'Use single quotes';
             //doRegexTest(jsFile, regex, testString);
 
-            regex = /(^|\s)(Object\.(freeze|preventExtensions|seal)|eval|with)(\s|$)/gm;
-            testString = 'Evil';
+            regex = /(^|\s)(Object\.(freeze|preventExtensions|seal)|eval|((?!['"].*)(with)(?!.*['"])))(\s|$)/gm;
+            testString = 'Avoid using Object.freeze, Object.preventExtensions, Object.seal, with, eval';
             doRegexTest(jsFile, regex, testString);
 
             regex = /(^|\s)typeof(\s|$)/gm;
