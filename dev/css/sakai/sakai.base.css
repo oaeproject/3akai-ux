@@ -3036,7 +3036,7 @@ ul li.s3d-list-item:hover {
 /*
  * No Javascript message
  */
-noscript {
+.noscript {
     background-color: #e0eff6;
     border-radius: 5px;
     color: #666666;
@@ -3044,7 +3044,7 @@ noscript {
     padding: 20px;
     margin: 20px;
 }
-noscript p {
+.noscript p {
     font-size: 18px;
     line-height: 140%;
 }
