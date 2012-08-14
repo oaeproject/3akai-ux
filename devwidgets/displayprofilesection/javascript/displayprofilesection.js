@@ -46,6 +46,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         var multipleSectionLength = 0;
         var sectionData = false;
         var allowUpdate = true;
+        var isMe = false;
 
         ///////////////////
         // CSS Selectors //
@@ -90,6 +91,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         var handleSave = function( success, data ) {
             if (success) {
                 sakai.api.Util.notification.show("", $profile_message_form_successful.text() , sakai.api.Util.notification.type.INFORMATION);
+                editing = false;
+                getData(renderSection);
             } else {
                 sakai.api.Util.notification.show("", $profile_error_form_error_server.text() , sakai.api.Util.notification.type.ERROR);
                 debug.error("The profile data couldn't be saved successfully");
@@ -97,7 +100,16 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         };
 
         /**
-         * Enables the 'Update Profile' button when the user has changed their profile information. 
+         * Event handler callback to switching the profile view to edit mode.
+         * @param {object} event object for the event handler. expected to hold data.editingMode.
+         */
+        var toggleEdit = function(event) {
+            editing = (event && event.data && event.data.editingMode === true) || false;
+            getData(renderSection);
+        }
+
+        /**
+         * Enables the 'Update Profile' button when the user has changed their profile information.
          */
         var enableUpdate = function() {
             if (allowUpdate) {
@@ -150,7 +162,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 data: {}
             });
             $displayprofilesection_sections_multiple.append( sakai.api.i18n.General.process( sectionHTML ) );
-            $( "button.profile-section-save-button", $rootel ).show();
+            $('button.profile-section-save-button, button.profile-section-cancel-button', $rootel ).show();
             $( "button#displayprofilesection_remove_link_" + unique, $rootel ).bind( "click", function() {
                 removeSection( unique );
             });
@@ -171,6 +183,11 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         var renderEmptySection = function( userProfile, section ) {
             var messageKey = "THIS_PERSON_HASNT_ADDED_INFORMATION";
             var sectionKey = "THIS_PERSON_HASNT_ADDED_" + widgetData.sectionid.toUpperCase();
+            // Changing the message for "me"
+            if (isMe) {
+                messageKey = 'YOU_HAVE_NO_INFORMATION';
+                sectionKey = 'YOU_HAVE_NO_' + widgetData.sectionid.toUpperCase();
+            }
             if ( sakai.api.i18n.getValueForKey( sectionKey, "displayprofilesection") !== sectionKey ) {
                 messageKey = sectionKey;
             }
@@ -178,7 +195,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 userid: userid,
                 displayName: sakai.api.User.getDisplayName( userProfile ),
                 errorString: sakai.api.i18n.getValueForKey( messageKey, "displayprofilesection" ),
-                showMessage: !sakai.api.User.isAnonymous(sakai.data.me)
+                showMessage: !sakai.api.User.isAnonymous(sakai.data.me),
+                isMe: isMe
             });
             $displayprofilesection_body.html( sakai.api.i18n.General.process( emptyHTML ) );
         };
@@ -239,7 +257,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                     }
                 });
                 if ( editing && subSections.length ) {
-                    $( "button.profile-section-save-button", $rootel ).show();
+                    $( "button.profile-section-save-button, button.profile-section-cancel-button", $rootel ).show();
                 } else if ( !editing && !subSections.length ) {
                     renderEmptySection( data );
                 } else if ( !editing ){
@@ -267,7 +285,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                             .replace('${user}', sakai.api.User.getFirstName(sakai_global.profile.main.data));
                     }
                     var headerHTML = sakai.api.Util.TemplateRenderer( $displayprofilesection_header_template, {
-                        pageTitle: pageTitle
+                        pageTitle: pageTitle,
+                        isMe: isMe
                     });
                     $displayprofilesection_header.html( sakai.api.i18n.General.process( headerHTML ) );
 
@@ -336,6 +355,10 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                             }
                         });
                         sakai.api.Util.Forms.validate( $form, validateOpts );
+                        $('button.profile-section-cancel-button', $rootel).on('click', {'editingMode': false}, toggleEdit);
+                        $('button.profile-section-edit-button', $rootel).hide();
+                    } else if (!editing && isMe) {
+                        $('button.profile-section-edit-button', $rootel).on('click', {'editingMode': true}, toggleEdit).show();
                     }
                 }
             }
@@ -363,7 +386,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
 
         var init = function() {
             userid = sakai_global.profile.main.data.userid;
-            editing = userid && userid === sakai.data.me.user.userid;
+            isMe = sakai.data.me.user.userid === userid;
             getData( renderSection );
         };
 
