@@ -97,12 +97,20 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var renderSettings = function() {
             selectedItems = [];
             sakai.api.Util.TemplateRenderer($embedcontent_page_name_template, {"name": embedConfig.name}, $embedcontent_page_name);
+
+            // Callback function after autosuggest has loaded
+            var postAutoSuggest = function() {
+                if (wData && wData.items && wData.items.length) {
+                    setCurrentFiles();
+                }
+            };
+
             if (firstTime) {
-                setupAutoSuggest();
+                setupAutoSuggest(postAutoSuggest);
                 sakai.api.Widgets.widgetLoader.insertWidgets(tuid, false);
                 firstTime = false;
             } else {
-                doReset();
+                doReset(postAutoSuggest);
             }
             if (firstLoad) {
                 $embedcontent_primary_display.show();
@@ -110,9 +118,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             } else {
                 $embedcontent_primary_display.hide();
                 $embedcontent_alt_display.show();
-            }
-            if (wData && wData.items && wData.items.length) {
-                setCurrentFiles();
             }
         };
 
@@ -148,9 +153,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         /**
          * Do a reset of the embed screen
+         * @param {Function} callback function
          */
-        var doReset = function() {
+        var doReset = function(callback) {
             sakai.api.Util.AutoSuggest.reset( $embedcontent_content_input );
+
+            if ($.isFunction(callback)) {
+                callback();
+            }
         };
 
         var toggleButtons = function(doDisable) {
@@ -227,8 +237,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         /**
          * When typing in the suggest box this function is executed to provide the user with a list of possible autocompletions
+         * @param {Function} callback function
          */
-        var setupAutoSuggest = function() {
+        var setupAutoSuggest = function(callback) {
             var dataFn = function( query, add ) {
                 var q = sakai.api.Server.createSearchString(query);
                 var options = {"page": 0, "items": 15, "q": q, "userid": sakai.data.me.user.userid};
@@ -262,7 +273,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 selectionRemoved: function(elem) {
                     autosuggestSelectionRemoved(elem);
                 }
-            }, false, dataFn);
+            }, callback, dataFn);
         };
 
         /**
