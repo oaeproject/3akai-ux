@@ -321,7 +321,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
              * Enable/disable the remove selected button depending on whether
              * any items in the library are checked
              */
-            $mylibrary_check.on('change', function(ev) {
+            $rootel.on('change', '.mylibrary_check', function(ev) {
                 if ($(this).is(':checked')) {
                     $mylibrary_remove.removeAttr('disabled');
                     $mylibrary_addto.removeAttr('disabled');

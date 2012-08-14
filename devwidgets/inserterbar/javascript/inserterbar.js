@@ -67,6 +67,28 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         /**
+         * Executed on hover out or focus out of the widgets inside of the inserterbar_widget_container_exposed container
+         * @param {jQuery} jQuery Optional Object that is the parent of the widget icons
+         */
+        var iconOut = function(container) {
+            var $container = container || $(this);
+            $('.inserterbar_standard_icon_out', $container).show();
+            $('.inserterbar_standard_icon_hover', $container).hide();
+        };
+
+        /**
+         * Executed on hover or focus of the widgets inside of the inserterbar_widget_container_exposed container
+         * @param {jQuery} jQuery Optional Object that is the parent of the widget icons
+         */
+        var iconOver = function(container) {
+            var $container = container || $(this);
+            if ($('.inserterbar_standard_icon_hover', $container).length) {
+                $('.inserterbar_standard_icon_out', $container).hide();
+                $('.inserterbar_standard_icon_hover', $container).show();
+            }
+        };
+
+        /**
          * Renders more widgets that can be inserted into the page
          */
         var renderWidgets = function() {
@@ -76,18 +98,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 'widgets': sakai.config.exposedSakaiDocWidgets
             }, $('#inserterbar_widget_container_exposed', $rootel));
             // Bind the hover
-            $('#inserterbar_widget_container_exposed .inserterbar_widget_exposed', $rootel).hover(function() {
-                    var $container = $(this);
-                    if ($('.inserterbar_standard_icon_hover', $container).length) {
-                        $('.inserterbar_standard_icon_out', $container).hide();
-                        $('.inserterbar_standard_icon_hover', $container).show();
-                    }
-                }, function() {
-                    var $container = $(this);
-                    $('.inserterbar_standard_icon_out', $container).show();
-                    $('.inserterbar_standard_icon_hover', $container).hide();
-                }
-            );
+            $('#inserterbar_widget_container_exposed .inserterbar_widget_exposed', $rootel).hover(iconOver, iconOut);
+            // Bind the focus
+            $rootel.on('focus', '#inserterbar_widget_container_exposed li', function() {
+                iconOver($(this).children('.inserterbar_widget_exposed'));
+            });
+            $rootel.on('focusout', '#inserterbar_widget_container_exposed li', function() {
+                iconOut($(this).children('.inserterbar_widget_exposed'));
+            });
 
             // Render the more widgets list
             var moreWidgets = [];

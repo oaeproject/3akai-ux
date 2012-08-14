@@ -275,7 +275,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 $.bbq.pushState({'psb': $participants_sort_by.val()});
             });
             $participantsSelectAll.off('click').on('click', checkAll);
-            $(participantsListParticipantCheckbox, rootel).on('click', setSendSelectedMessageAttributes);
+            rootel.on('click', participantsListParticipantCheckbox, setSendSelectedMessageAttributes);
 
             $('.participants_accept_invitation').on('click', function(ev) {
                 var userid = $(this).attr('sakai-entityid');

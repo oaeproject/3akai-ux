@@ -372,7 +372,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 return false;
             });
 
-            $('#mymemberships_select_checkbox').change(function() {
+            $rootel.on('change', '#mymemberships_select_checkbox', function() {
                 if ($(this).is(':checked')) {
                     $('#mymemberships_addpeople_button').removeAttr('disabled');
                     $('.mymemberships_select_group_checkbox').attr('checked', true);
@@ -384,7 +384,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 updateMessageAndAddToData();
             });
 
-            $('.mymemberships_select_group_checkbox').on('change', function() {
+            $rootel.on('change', '.mymemberships_select_group_checkbox', function() {
                 checkAddingEnabled();
                 updateMessageAndAddToData();
             });

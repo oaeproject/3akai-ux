@@ -1332,7 +1332,7 @@ define(
         safeURL: function(str) {
             // First, ensure that the incoming value is treated as a string.
             str = '' + str;
-            var togo='';
+            var togo = '';
             for (var i = 0; i < str.length; i++) {
                 if (str.charCodeAt(i) < 127) {
                     togo += encodeURIComponent(str[i]);
@@ -1577,7 +1577,7 @@ define(
              */
             escapeHTML : function(inputString) {
                 if (inputString) {
-                    return $('<div/>').text(inputString).html().replace(/\'/g,'&quot;');
+                    return $('<div/>').text(inputString).html().replace(/\"/g, '&quot;');
                 } else {
                     return '';
                 }
