@@ -63,7 +63,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     var newcreategroupMembersSelectedTemplate = "newcreategroup_group_members_selected_template";
     var newcreategroupMembersMessageTemplate = "newcreategroup_members_message_template";
 
-    var selectedUsers = {},
+    var selectedUsers = [],
         currentTemplate = false,
         templatePath = false,
         translatedRoles = {};
@@ -277,17 +277,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     });
 
     $(window).bind("toadd.addpeople.sakai", function(ev, initTuid, users){
-        selectedUsers = $.extend(true, {}, users);
+        selectedUsers = $.extend(true, [], users);
         $newcreategroupMembersAddedContainer.html(sakai.api.Util.TemplateRenderer(newcreategroupMembersSelectedTemplate, {
             "users": selectedUsers,
             "roles": currentTemplate.roles,
             "sakai": sakai
         }));
-        var count = 0;
-        for (var item in selectedUsers) {
-            count++;
-        }
-        if (count) {
+
+        if (selectedUsers.length) {
             renderShareMessage();
             $newcreategroupGroupMembersNoneAddedContainer.hide();
             $newcreategroupMembersAddedContainer.show();
