@@ -2828,5 +2828,19 @@ define(
         }
     };
 
+    // Detect any ajax errors
+    $(document).ajaxError(function(ev, xhr, settings) {
+        // notify the user if a server protection service error occurred
+        if (xhr.status === 400 && xhr.statusText === 'POST Requests are only accepted from the Application, this request was not from the application.') {
+            var error = sakai_i18n.getValueForKey('SERVER_PROTECTION_ERROR');
+            if (window.location.port !== "80" && window.location.port !== "443") {
+                var suggestedUrl = window.location.protocol + '//' + window.location.hostname;
+                error = error + sakai_i18n.getValueForKey('SERVER_PROTECTION_ERROR_SUGGESTED_URL')
+                    .replace('${url}', '<a href="' + suggestedUrl + '">' + suggestedUrl + '</a>');
+            }
+            sakai_util.notification.show(sakai_i18n.getValueForKey('ERROR'), error, sakai_util.notification.type.ERROR, true);
+        }
+    });
+
     return sakai_util;
 });
