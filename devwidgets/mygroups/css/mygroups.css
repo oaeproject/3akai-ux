@@ -15,11 +15,27 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-.sites_error{font-size:.95em;padding:10px 20px!important;}
-#creategroupcontainer,creategroupcontainer>div{width:100%;}
-.my_groups_widget .mygroups_list_item{padding:0 5px 5px 40px;margin:0;border-bottom:1px solid #CCC;}
-.mygroups_left_padding{padding-left:15px;}
-.my_groups_widget .mygroup_item{padding:5px 5px 5px 15px;margin:0;border-bottom:1px solid #CCC;list-style-type:none;}
+.sites_error {
+    font-size: .95em;
+    padding: 10px 20px !important;
+}
+#creategroupcontainer, creategroupcontainer > div {
+    width: 100%;
+}
+.my_groups_widget .mygroups_list_item {
+    padding: 0 5px 5px 40px;
+    margin: 0;
+    border-bottom: 1px solid #CCC;
+}
+.mygroups_left_padding {
+    padding-left: 15px;
+}
+.my_groups_widget .mygroup_item {
+    padding: 5px 5px 5px 15px;
+    margin: 0;
+    border-bottom: 1px solid #CCC;
+    list-style-type: none;
+}
 .my_groups_widget .mygroup_item .group_icon {
     background: url(/dev/images/globe_fuge.png) no-repeat transparent;
     display: block;
@@ -27,13 +43,29 @@
     margin-right: 5px;
     width: 16px;
 }
-.mygroup_item_img {display:inline;}
-.mygroups_ellipsis_text, .mygroups_ellipsis_container{word-wrap:break-word;}
+.mygroup_item_img {
+    display: inline;
+}
+.mygroups_ellipsis_text, .mygroups_ellipsis_container {
+    word-wrap: break-word;
+}
 .mygroup_items_list {
     margin: -8px 0 0;
 }
 
-.my_groups_widget #mygroups_error_nosites{padding:0 20px; text-align: center;}
-.my_groups_widget .mygroups_create_new_group{margin-top: 5px; margin-bottom: 10px;width:100%; max-width: 325px;}
-.my_groups_widget .mygroups_no_memberships {text-decoration: none;}
-.my_groups_widget .mygroups_error_nosites_text {display:block;}
+.my_groups_widget #mygroups_error_nosites {
+    padding: 0 20px;
+    text-align: center;
+}
+.my_groups_widget .mygroups_create_new_group {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    width: 100%;
+    max-width: 325px;
+}
+.my_groups_widget .mygroups_no_memberships {
+    text-decoration: none;
+}
+.my_groups_widget .mygroups_error_nosites_text {
+    display: block;
+}

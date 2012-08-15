@@ -18,7 +18,7 @@
 
 // load the master sakai object to access all Sakai OAE API methods
 require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
-     
+
     /**
      * @name sakai.pagetitle
      *
@@ -28,7 +28,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.pagetitle = function (tuid, showSettings, widgetData) {
+    sakai_global.pagetitle = function(tuid, showSettings, widgetData) {
 
         // Element cache
         var $rootel = $('#' + tuid);
@@ -125,25 +125,25 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Every time the contentauthoring widget thinks a resize might be
          * necessary, this event will be thrown
          */
-        $(window).bind('resize.contentauthoring.sakai', updateHeight);
+        $(window).on('resize.contentauthoring.sakai', updateHeight);
 
         /**
          * This event will be sent out by the contentauthoring widget when
          * the user is trying to save the page. At this point, the htmlblock
          * widget needs to store its changes as well
          */
-        $(window).bind('save.contentauthoring.sakai', fullSave);
+        $(window).on('save.contentauthoring.sakai', fullSave);
 
         /**
          * Function to execute every time the textarea is given focus
          */
-        $textarea.bind('focus', focusTextArea);
+        $textarea.on('focus', focusTextArea);
 
         /**
          * Check whether the textarea should be resized after adding some
          * text
          */
-        $textarea.bind('keyup', updateHeight);
+        $textarea.on('keyup', updateHeight);
 
         ////////////////////
         // Initialization //
@@ -152,7 +152,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Load the PageTitle widget
          */
-        var doInit = function () {
+        var doInit = function() {
             // Fill up the textarea
             if (widgetData && widgetData.pagetitle) {
                 var processedContent = sakai.api.i18n.General.process(widgetData.pagetitle.content);

@@ -17,7 +17,7 @@
  */
 
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.institutionalskinning
@@ -28,9 +28,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.institutionalskinning = function (tuid, showSettings) {
+    sakai_global.institutionalskinning = function(tuid, showSettings) {
 
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("institutionalskinning");
+    sakai.api.Widgets.widgetLoader.informOnLoad('institutionalskinning');
 });

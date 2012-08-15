@@ -31,7 +31,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.lhnavigation = function (tuid, showSettings) {
+    sakai_global.lhnavigation = function(tuid, showSettings) {
 
         ///////////////////
         // CONFIGURATION //
@@ -263,7 +263,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             structure.items = {};
             structure.pages = {};
             if (data['structure0']) {
-                if (typeof data['structure0'] === 'string') {
+                if (_.isString(data['structure0'])) {
                     structure.items = $.parseJSON(data['structure0']);
                 } else {
                     structure.items = data['structure0'];
@@ -294,7 +294,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 if (level && level.substring(0, 1) !== '_') {
                     refs = collectPoolIds(structure[level], refs);
                 } else if (level && level === '_pid' && structure['_canView'] !== false) {
-                    if ($.inArray(structure[level], refs) == -1) {
+                    if ($.inArray(structure[level], refs) === -1) {
                         refs.push(structure[level]);
                     }
                 }
@@ -306,7 +306,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             for (var level in structure0) {
                 if (structure0[level]._pid && structure0[level]._pid === pid) {
                     var docStructure = docInfo.structure0;
-                    if (typeof docStructure === 'string') {
+                    if (_.isString(docStructure)) {
                         docStructure = $.parseJSON(docStructure);
                     }
                     structure0[level] = $.extend(true, structure0[level], docStructure);
@@ -338,7 +338,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         var addDocUrlIntoStructure = function(structure, url) {
             structure._poolpath = url;
             for (var i in structure) {
-                if (structure.hasOwnProperty(i) && i.substring(0,1) !== '_' && typeof structure[i] !== 'string') {
+                if (structure.hasOwnProperty(i) && i.substring(0,1) !== '_' && ! _.isString(structure[i])) {
                     structure[i] = addDocUrlIntoStructure(structure[i], url);
                 }
             }
@@ -677,7 +677,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             }
         };
 
-        var showContextMenu = function($clickedItem){
+        var showContextMenu = function($clickedItem) {
             var contextMenu = $('#lhnavigation_submenu');
             $clickedItem.children('.lhnavigation_selected_submenu_image').addClass('clicked');
             var leftOffset = 68;
@@ -764,6 +764,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             } else {
                 addTopPage();
             }
+            return false;
         };
 
         var addTopPage = function() {
@@ -771,7 +772,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 if (success) {
                     var newpageid = sakai.api.Util.generateWidgetId();
                     var neworder = pubstructure.orderedItems.length;
-        
+
                     var pageContent = {
                         'rows': [{
                             'id': 'id' + Math.round(Math.random() * 100000000),
@@ -799,15 +800,15 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         },
                         '_childCount':1
                     };
-        
+
                     pubstructure.pages[newpageid] = pageContent;
                     sakaiDocsInStructure[contextData.puburl][newpageid] = pageContent;
-        
+
                     pubstructure.items[newpageid] = pageToCreate;
                     pubstructure.items._childCount++;
                     sakaiDocsInStructure[currentPageShown.savePath].structure0[newpageid] = pageToCreate;
                     sakaiDocsInStructure[currentPageShown.savePath].orderedItems = orderItems(sakaiDocsInStructure[currentPageShown.savePath].structure0);
-        
+
                     renderData();
                     addParametersToNavigation();
                     $(window).trigger('sakai.contentauthoring.needsTwoColumns');
@@ -830,10 +831,10 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 if (success) {
                     var newpageid = sakai.api.Util.generateWidgetId();
                     var neworder = sakaiDocsInStructure[currentPageShown.pageSavePath].orderedItems.length;
-        
+
                     var fullRef = currentPageShown.pageSavePath.split('/p/')[1] + '-' + newpageid;
                     var basePath = currentPageShown.path.split('/')[0];
-        
+
                     var pageContent = {
                         'rows': [{
                             'id': sakai.api.Util.generateWidgetId(),
@@ -879,13 +880,13 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         },
                         '_childCount':1
                     };
-        
+
                     pubstructure.pages[fullRef] = pageContent;
                     sakaiDocsInStructure[currentPageShown.pageSavePath][newpageid] = pageContent;
-        
+
                     pubstructure.items[basePath][newpageid] = pageToCreate;
                     pubstructure.items[basePath]._childCount++;
-        
+
                     sakaiDocsInStructure[currentPageShown.pageSavePath].structure0[newpageid] = pageToCreate1;
                     sakaiDocsInStructure[currentPageShown.pageSavePath].orderedItems = orderItems(sakaiDocsInStructure[currentPageShown.pageSavePath].structure0);
 
@@ -927,7 +928,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             var inputArea = $('.lhnavigation_change_title', menuitem);
             inputArea.show();
             inputArea.val($.trim(pageTitle.text()));
-            
+
             pageTitle.hide();
 
             // Hide the dropdown menu
@@ -1230,7 +1231,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     if (sakai_global.contentauthoring && sakai_global.contentauthoring.ready) {
                         selectPage();
                     } else {
-                        $(window).bind('ready.contentauthoring.sakai', selectPage);
+                        $(window).on('ready.contentauthoring.sakai', selectPage);
                     }
                     enableSorting();
                     if (cData.parametersToCarryOver) {
@@ -1261,7 +1262,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // Internal event binding //
         ////////////////////////////
 
-        $('.lhnavigation_selected_submenu').live('click', function(ev) {
+        $rootel.on('click', '.lhnavigation_selected_submenu', function(ev) {
             showContextMenu($(this));
         });
 
@@ -1271,16 +1272,16 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
 
         $(document).on('click', '#inserterbar_action_add_page', addNewPage);
 
-        $('#lhavigation_submenu_edittitle').live('click', function(ev) {
+        $rootel.on('click', '#lhavigation_submenu_edittitle', function(ev) {
             editPageTitle();
             ev.stopPropagation();
         });
 
-        $('#lhnavigation_submenu_permissions').on('click', function(ev) {
+        $rootel.on('click', '#lhnavigation_submenu_permissions', function(ev) {
             showAreaPermissions();
         });
 
-        $('#lhnavigation_submenu_user_permissions').on('click', function(ev) {
+        $rootel.on('click', '#lhnavigation_submenu_user_permissions', function(ev) {
             showUserPermissions();
         });
 
@@ -1290,32 +1291,32 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             }
         });
 
-        $('.lhnavigation_change_title').live('blur', function(ev) {
+        $('.lhnavigation_change_title').on('blur', function(ev) {
             if (changingPageTitle) {
                 savePageTitle();
             }
         });
 
-        $('#lhavigation_submenu_deletepage').live('click', function(ev) {
+        $rootel.on('click', '#lhavigation_submenu_deletepage', function(ev) {
             confirmPageDelete();
         });
 
-        $('#lhnavigation_delete_confirm').live('click', function(ev) {
+        $(document).on('click', '#lhnavigation_delete_confirm', function(ev) {
             deletePage();
         });
 
-        $('.lhnavigation_item_content, .lhnavigation_subnav_item_content').live('mouseleave', function() {
+        $('.lhnavigation_item_content, .lhnavigation_subnav_item_content').on('mouseleave', function() {
             onContextMenuLeave();
         });
 
-        $('.lhnavigation_item_content').live('click', function(ev) {
+        $rootel.on('click', '.lhnavigation_item_content', function(ev) {
             processNavigationClick($(this), ev);
         });
 
         // bind arrow keys for navigation
-        $('.lhnavigation_menuitem a').live('keydown', function(ev) {
+        $('.lhnavigation_menuitem a').on('keydown', function(ev) {
             var $el = $(this);
-            if (ev.which == $.ui.keyCode.DOWN) {
+            if (ev.which === $.ui.keyCode.DOWN) {
                 // check top level
                 if ($el.hasClass('lhnavigation_toplevel')) {
                     // check if sub menu open
@@ -1353,7 +1354,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         return false;
                     }
                 }
-            } else if (ev.which == $.ui.keyCode.UP) {
+            } else if (ev.which === $.ui.keyCode.UP) {
                 // check top level
                 if ($el.hasClass('lhnavigation_toplevel')) {
                     // check if previous menu has an open sub menu open
@@ -1392,12 +1393,12 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         return false;
                     }
                 }
-            } else if (ev.which == $.ui.keyCode.RIGHT &&
+            } else if (ev.which === $.ui.keyCode.RIGHT &&
                     $el.prev('div').hasClass('lhnavigation_has_subnav') &&
                     !$el.prev('div').hasClass('lhnavigation_has_subnav_opened')) {
                 // open sub menu
                 $el.click();
-            } else if (ev.which == $.ui.keyCode.LEFT &&
+            } else if (ev.which === $.ui.keyCode.LEFT &&
                     $el.prev('div').hasClass('lhnavigation_has_subnav_opened')) {
                 // close sub menu
                 $el.click();
@@ -1408,7 +1409,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         // External event binding //
         ////////////////////////////
 
-        $(window).bind('lhnav.addHashParam', function(ev, params) {
+        $(window).on('lhnav.addHashParam', function(ev, params) {
             storeNavigationParameters(params);
         });
         var handleHashChange = function(e, changed, deleted, all, currentState, first) {
@@ -1416,18 +1417,18 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 selectPage(all && all.newPageMode && all.newPageMode === 'true');
             }
         };
-        $(window).bind('hashchanged.lhnavigation.sakai', handleHashChange);
+        $(window).on('hashchanged.lhnavigation.sakai', handleHashChange);
 
-        $(window).bind('lhnav.init', function(e, pubdata, privdata, cData, mainPubUrl, mainPrivUrl) {
+        $(window).on('lhnav.init', function(e, pubdata, privdata, cData, mainPubUrl, mainPrivUrl) {
             renderNavigation(pubdata, privdata, cData, mainPubUrl, mainPrivUrl);
         });
 
-        $(window).bind('lhnav.updateCount', function(e, pageid, value, add) {
+        $(window).on('lhnav.updateCount', function(e, pageid, value, add) {
             updateCounts(pageid, value, add);
         });
 
         $(window).unload(function() {
-            if($.bbq.getState('newPageMode')) {
+            if ($.bbq.getState('newPageMode')) {
                 $.bbq.removeState('newPageMode');
             }
         });

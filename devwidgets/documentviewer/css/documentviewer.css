@@ -20,9 +20,24 @@
     max-width: 920px;
 }
 
-.contentpreview_fullsize_preview #documentviewer_externalhtml_iframe{height:560px;width:100%;}
+.contentpreview_fullsize_preview #documentviewer_externalhtml_iframe {
+    height: 560px;
+    width: 100%;
+}
 
-.documentviewer_preview pre {word-wrap:break-word; white-space: pre-wrap; max-height: 560px; overflow: auto;}
-.documentviewer_preview embed {min-height: 350px;}
-#documentviewer_image_rendered {display:block;margin:0 auto;}
- .DV-docViewer { z-index: 0; }
+.documentviewer_preview pre {
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    max-height: 560px;
+    overflow: auto;
+}
+.documentviewer_preview embed {
+    min-height: 350px;
+}
+#documentviewer_image_rendered {
+    display: block;
+    margin: 0 auto;
+}
+.DV-docViewer {
+    z-index: 0;
+}

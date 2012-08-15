@@ -25,7 +25,7 @@
 
 /*global $ */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.sakai2favourites
@@ -39,10 +39,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.sakai2favourites = function(tuid, showSettings){
+    sakai_global.sakai2favourites = function(tuid, showSettings) {
 
-        var sakai2CategoryList = "#sakai2_category_list";
-        var sakai2CategoryListTemplate = "#sakai2_category_list_template";
+        var sakai2CategoryList = '#sakai2_category_list';
+        var sakai2CategoryListTemplate = '#sakai2_category_list_template';
         var siteListsjson = false;
         var selectedSiteJson = false;
 
@@ -55,7 +55,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * (e.g. sites widget)
          * It initializes the creategroup widget and shows the jqmodal (ligthbox)
          */
-        $(window).bind("init.sakai2favourites.sakai", function(){
+        $(window).on('init.sakai2favourites.sakai', function() {
             // render Category List
             loadSakai2SiteList();
             // render all sites list
@@ -63,7 +63,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // render selected site List
             renderSelectedList();
             // show dialog
-            $("#sakai2favourites_container").jqmShow();
+            $('#sakai2favourites_container').jqmShow();
             // bind events
             bindEvents();
         });
@@ -71,7 +71,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * This method render Category List.
          */
-        var loadSakai2SiteList = function(){
+        var loadSakai2SiteList = function() {
             siteListsjson.categories = siteListsjson.categories || [];
             $(sakai2CategoryList).html(sakai.api.Util.TemplateRenderer(sakai2CategoryListTemplate.replace(/#/, ''), siteListsjson));
         };
@@ -80,12 +80,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * This method render all sites or sites related to the categoryname.
          * @param {string} categoryname The category(all:render all sites, categoryname:render sites related to the category)
          */
-        var renderSiteList = function(categoryname){
+        var renderSiteList = function(categoryname) {
             var siteListJson = {};
             siteListJson.sites = [];
 
             //loop through each category and get the related sites
-            for(var i in siteListsjson.categories){
+            for(var i in siteListsjson.categories) {
                 if (siteListsjson.categories.hasOwnProperty(i)) {
                     var category = siteListsjson.categories[i];
                     // if category name is all
@@ -96,7 +96,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     // for example categoryname = i18n_moresite_01_all_sites
                     }
                     else
-                        if (category.category.replace(/ /g, "_") === categoryname) {
+                        if (category.category.replace(/ /g, '_') === categoryname) {
                             // get the site lists in certain category
                             // for example get site list in i18n_moresite_01_all_sites
                             siteListJson.sites = siteListsjson.categories[i].sites;
@@ -105,7 +105,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 }
             }
             // render the sites
-            $("#sakai2_site_list").html(sakai.api.Util.TemplateRenderer("#sakai2_site_list_template".replace(/#/, ''),siteListJson));
+            $('#sakai2_site_list').html(sakai.api.Util.TemplateRenderer('#sakai2_site_list_template'.replace(/#/, ''),siteListJson));
             // select related checkboxes based on the selectedlistjson
             setSite();
         };
@@ -113,8 +113,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
        /**
          * This method render all sites selected to display in my sakai2 favourites
          */
-        var renderSelectedList = function(){
-            $("#sakai2favourites_selected_site_list").html(sakai.api.Util.TemplateRenderer("#sakai2_selected_site_list_template".replace(/#/, ''),sakai.data.me.sakai2List));
+        var renderSelectedList = function() {
+            $('#sakai2favourites_selected_site_list').html(sakai.api.Util.TemplateRenderer('#sakai2_selected_site_list_template'.replace(/#/, ''),sakai.data.me.sakai2List));
         };
 
 
@@ -133,7 +133,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * This makes use of the jqModal (jQuery Modal) plugin that provides support
          * for lightboxes
          */
-        $("#sakai2favourites_container").jqm({
+        $('#sakai2favourites_container').jqm({
             modal: true,
             overlay: 20,
             toTop: true,
@@ -143,41 +143,41 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Add event handling
          */
-        var bindEvents = function(){
-            $(".sakai2_category_title").unbind("click");
-            $(".sakai2_category_title").click(function(ev){
-                if($(".selected_category")){
-                    $(".selected_category").removeClass("selected_category");
-                    $(".selected").removeClass("selected");
+        var bindEvents = function() {
+            $('.sakai2_category_title').off('click');
+            $('.sakai2_category_title').click(function(ev) {
+                if ($('.selected_category')) {
+                    $('.selected_category').removeClass('selected_category');
+                    $('.selected').removeClass('selected');
                 }
 
-                $(ev.currentTarget).parent().addClass("selected");
-                $(ev.currentTarget).addClass("selected_category");
+                $(ev.currentTarget).parent().addClass('selected');
+                $(ev.currentTarget).addClass('selected_category');
                 var category = ev.currentTarget.id;
                 renderSiteList(category);
                 bindEvents();
             });
-            $(".sakai2_site_title input").unbind("click");
-            $(".sakai2_site_title input").click(function(ev){
+            $('.sakai2_site_title input').off('click');
+            $('.sakai2_site_title input').click(function(ev) {
                 var siteId = ev.currentTarget.id;
-                if($(ev.currentTarget).attr("checked")){
+                if ($(ev.currentTarget).attr('checked')) {
                     var site = getObject(siteId);
                     sakai.data.me.sakai2List.sites.push(site);
                 }else {
                     var ind = getToRemoveIndex(siteId);
                     sakai.data.me.sakai2List.sites.splice(ind,1);
                 }
-                renderSiteList($(".selected_category").attr("id"));
+                renderSiteList($('.selected_category').attr('id'));
                 renderSelectedList();
                 // bind events
                 bindEvents();
             });
-            $(".sakai2_selected_site").unbind("click");
-            $(".sakai2_selected_site").click(function(ev){
+            $('.sakai2_selected_site').off('click');
+            $('.sakai2_selected_site').click(function(ev) {
                 var siteId = ev.currentTarget.id;
                 var ind = getToRemoveIndex(siteId);
                 sakai.data.me.sakai2List.sites.splice(ind,1);
-                renderSiteList($(".selected_category").attr("id"));
+                renderSiteList($('.selected_category').attr('id'));
                 renderSelectedList();
                 // bind events
                 bindEvents();
@@ -189,12 +189,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} category The category lists json object
          * @param {siteJson} siteJson The site list object.
          */
-        var getAllSites = function(category,siteJson){
+        var getAllSites = function(category,siteJson) {
             // loop through each sites in the category and add to the siteJson
             // if it is not already in the siteJson
-            for(var i in category.sites){
+            for(var i in category.sites) {
                 // check if the site already exists in the the siteJson
-                if(!isItemExists(siteJson.sites, category.sites[i])){
+                if (!isItemExists(siteJson.sites, category.sites[i])) {
                     // add to the siteJson object
                     siteJson.sites.push(category.sites[i]);
                 }
@@ -208,12 +208,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {String} sites The site lists json object
          * @param {string} site The site object.
          */
-        var isItemExists = function(sites, site){
+        var isItemExists = function(sites, site) {
             var checking = false;
             // loop through all sites and check if site already exists in the sites.
             for(var i in sites) {
                 // if site id is same
-                if(sites[i].id == site.id) {
+                if (sites[i].id === site.id) {
                     checking = true;
                 }
             }
@@ -223,12 +223,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          *  This function checked the checkboxes for the selected sites.
          */
-        var setSite = function(){
+        var setSite = function() {
             // loop through the list of sites to be displayed in mysakai2 favourites list
-            for(var i in sakai.data.me.sakai2List.sites){
+            for(var i in sakai.data.me.sakai2List.sites) {
                 if (sakai.data.me.sakai2List.sites.hasOwnProperty(i)) {
                     // checked the related checkbox
-                    $("input[id='" + sakai.data.me.sakai2List.sites[i].id + "']").attr('checked', true);
+                    $('input[id="' + sakai.data.me.sakai2List.sites[i].id + '"]').attr('checked', true);
                 }
             }
         };
@@ -237,9 +237,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * This function get the site object based on the id passed.
          * @param {String} id The site id
          */
-        var getObject = function(id){
+        var getObject = function(id) {
             // loop through category list first
-            for(var i in siteListsjson.categories){
+            for(var i in siteListsjson.categories) {
                 if (siteListsjson.categories.hasOwnProperty(i)) {
                     // loop through site list inside each category
                     for (var j in siteListsjson.categories[i].sites) {
@@ -256,11 +256,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * This function return the index of site in the sakai.data.me.sakai2List(myskai2 favourites site list)based on the id
          * @param {String} id The site id
          */
-        var getToRemoveIndex = function(id){
+        var getToRemoveIndex = function(id) {
             // loop through mysakai2 favourites selected sites
-            for(var i in sakai.data.me.sakai2List.sites){
+            for(var i in sakai.data.me.sakai2List.sites) {
                 // if id is same return the index.
-                if(sakai.data.me.sakai2List.sites[i].id === id){
+                if (sakai.data.me.sakai2List.sites[i].id === id) {
                     return i;
                 }
             }
@@ -269,19 +269,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          *  This function get the list of sites list group by category.
          */
-        var getSiteList = function(){
-            var url = "/dev/s23/bundles/sites-categorized.json";
-            if (sakai.config.useLiveSakai2Feeds){
-                url = "/var/proxy/s23/sitesCategorized.json?categorized=true";
+        var getSiteList = function() {
+            var url = '/dev/s23/bundles/sites-categorized.json';
+            if (sakai.config.useLiveSakai2Feeds) {
+                url = '/var/proxy/s23/sitesCategorized.json?categorized=true';
             }
             $.ajax({
                 url: url,
-                type : "GET",
-                dataType: "json",
-                success: function(data){
+                type : 'GET',
+                dataType: 'json',
+                success: function(data) {
                     siteListsjson = data;
                 },
-                error: function(){
+                error: function() {
                 }
             });
         };
@@ -289,26 +289,26 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Execute this function when the widget get launched
          */
-        var doInit = function(){
+        var doInit = function() {
             // get list of all sites
             getSiteList();
             // get lists of site selected to display in my sakai2 favourites
             //getSelectedSiteList();
 
-            $("#sakai2favourites_add_save").click(function(ev){
+            $('#sakai2favourites_add_save').click(function(ev) {
                 var toSave = {};
                 toSave.id = [];
-                for (var i = 0; i < sakai.data.me.sakai2List.sites.length; i++){
+                for (var i = 0; i < sakai.data.me.sakai2List.sites.length; i++) {
                     toSave.id.push(sakai.data.me.sakai2List.sites[i].id);
                 }
-                sakai.api.Server.saveJSON("/~" + sakai.api.Util.safeURL(sakai.data.me.user.userid) + "/private/sakai2favouriteList",toSave, function(success,data){
-                    $("#sakai2favourites_container").jqmHide();
-                    $(window).trigger("sakai2-favourites-selected");
+                sakai.api.Server.saveJSON('/~' + sakai.api.Util.safeURL(sakai.data.me.user.userid) + '/private/sakai2favouriteList',toSave, function(success,data) {
+                    $('#sakai2favourites_container').jqmHide();
+                    $(window).trigger('sakai2-favourites-selected');
                 }, true);
             });
         };
         doInit();
 
     };
-    sakai.api.Widgets.widgetLoader.informOnLoad("sakai2favourites");
+    sakai.api.Widgets.widgetLoader.informOnLoad('sakai2favourites');
 });

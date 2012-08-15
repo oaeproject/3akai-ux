@@ -15,9 +15,13 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-#signup_header {background:url("/dev/images/signup_artwork.png") no-repeat scroll left top transparent;height:520px;width:920px;}
+#signup_header {
+    background: url("/dev/images/signup_artwork.png") no-repeat scroll left top transparent;
+    height: 520px;
+    width: 920px;
+}
 #signup_header_bg {
-    background:#e0eef5;
+    background: #e0eef5;
     border-radius: 0 0 6px 6px;
     -moz-border-radius: 0 0 6px 6px;
     -webkit-border-radius: 0 0 6px 6px;
@@ -36,22 +40,55 @@
     border-radius: 6px;
     -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
-    min-height: 280px;;
+    min-height: 280px;
     margin-top: -120px;
     box-shadow: 0 5px 7px -6px #424242;
     padding: 0 15px 15px;
     float: left;
     width: 870px;
 }
-#signup_form_container h1.signup_header {color:#2f91cd;font-size:20px;font-weight:normal;margin:0;text-shadow:0 0 1px #ddd;padding-top:6px;}
-h2 {color:#666;font-size:15px;}
+#signup_form_container h1.signup_header {
+    color: #2f91cd;
+    font-size: 20px;
+    font-weight: normal;
+    margin: 0;
+    text-shadow: 0 0 1px #ddd;
+    padding-top: 6px;
+}
+h2 {
+    color: #666;
+    font-size: 15px;
+}
 
-.signup_descriptionbox{font-size:16px;color:#666;width:195px;position:absolute;line-height:18px;}
-#signup_descriptionbox_left {text-align:right;margin-left:128px;margin-top:250px;}
-#signup_descriptionbox_right {text-align:left;margin-left:578px;margin-top:250px;}
-#signup_descriptionbox_middle {margin-left:336px;margin-top:344px;text-align:center;width:230px;}
+.signup_descriptionbox {
+    font-size: 16px;
+    color: #666;
+    width: 195px;
+    position: absolute;
+    line-height: 18px;
+}
+#signup_descriptionbox_left {
+    text-align: right;
+    margin-left: 128px;
+    margin-top: 250px;
+}
+#signup_descriptionbox_right {
+    text-align: left;
+    margin-left: 578px;
+    margin-top: 250px;
+}
+#signup_descriptionbox_middle {
+    margin-left: 336px;
+    margin-top: 344px;
+    text-align: center;
+    width: 230px;
+}
 
-#signup_form_container .signup_form_column {width:370px;float:left;margin-top:12px;}
+#signup_form_container .signup_form_column {
+    width: 370px;
+    float: left;
+    margin-top: 12px;
+}
 #signup_form_container .s3d-form-field-wrapper label.s3d-input-label {
     width: 130px;
 }
@@ -59,7 +96,7 @@ h2 {color:#666;font-size:15px;}
     width: 204px;
 }
 #signup_form_container .signup_form_column.signup_form_right_column {
-    width:500px;
+    width: 500px;
 }
 #password_strength {
     float: right;
@@ -80,17 +117,47 @@ h2 {color:#666;font-size:15px;}
 .strength_four {
     font-weight: bold;
 }
-#signup_form_container #signup_form_shadow {background:url("/dev/images/signup_form_bgshadow.png") no-repeat scroll left top transparent;height:15px;margin-left:95px;margin-top:-14px;position:absolute;width:700px;}
-#signup_form_container #checkUserName{float:right;margin-top:10px;}
+#signup_form_container #signup_form_shadow {
+    background: url("/dev/images/signup_form_bgshadow.png") no-repeat scroll left top transparent;
+    height: 15px;
+    margin-left: 95px;
+    margin-top: -14px;
+    position: absolute;
+    width: 700px;
+}
+#signup_form_container #checkUserName {
+    float: right;
+    margin-top: 10px;
+}
 
-#signup_form_container .username_available_icon {background:url("/dev/images/green_tick.png") no-repeat scroll 194px 4px #fff !important;}
-#signup_form_container .username_available_icon[disabled] {background:url("/dev/images/green_tick.png") no-repeat scroll 194px 4px transparent !important;}
-#signup_form_container .username_unavailable_icon {background:url("/dev/images/red_cross.png") no-repeat scroll 194px 4px #fff;}
+#signup_form_container .username_available_icon {
+    background: url("/dev/images/green_tick.png") no-repeat scroll 194px 4px #fff !important;
+}
+#signup_form_container .username_available_icon[disabled] {
+    background: url("/dev/images/green_tick.png") no-repeat scroll 194px 4px transparent !important;
+}
+#signup_form_container .username_unavailable_icon {
+    background: url("/dev/images/red_cross.png") no-repeat scroll 194px 4px #fff;
+}
 
-.create_account_input_error {background:#cc0000;color:#fff;font-size:11px;padding:4px 0 2px 10px;width:206px;clear:both;}
+.create_account_input_error {
+    background: #cc0000;
+    color: #fff;
+    font-size: 11px;
+    padding: 4px 0 2px 10px;
+    width: 206px;
+    clear: both;
+}
 
-.captcha_container #save_account {float:right;margin-top:74px;}
-.captcha_container {clear:both;margin-left:148px;width:580px;}
+.captcha_container #save_account {
+    float: right;
+    margin-top: 74px;
+}
+.captcha_container {
+    clear: both;
+    margin-left: 148px;
+    width: 580px;
+}
 
 .signup_comment_box {
     background: #e3f0f6;
@@ -104,19 +171,77 @@ h2 {color:#666;font-size:15px;}
     -webkit-border-radius: 6px;
     margin-bottom: 85px;
 }
-.signup_comment_box.last {margin-right:0;}
-.signup_comment_box_arrow_down {background:url("/dev/images/signup_arrow_down.png") no-repeat scroll left top transparent;height:24px;margin-left:100px;margin-top:205px;position:absolute;width:44px;}
-.signup_comment_box_commenter {color:#666;font-size:12px;margin-left:150px;margin-top:220px;position:absolute;}
-.signup_comment_quote {color:#666;display:block;font-size:15px;font-style:italic;margin:14px;overflow:hidden;line-height:19px;}
-.signup_comment_box blockquote{margin:0;padding:0;}
-.signup_comment_icon {width:50px;float:left;margin:13px 5px 0;}
-.signup_comment_icon_personalspace {background:url("/dev/images/personalspace_icon_50x50.png") no-repeat top left transparent;height:50px;}
-.signup_comment_icon_cohere {background:url("/dev/images/cohere_icon_50x110.png") no-repeat top left transparent;height:110px;}
-.signup_comment_icon_editable {background:url("/dev/images/editable_icon_50x50.png") no-repeat top left transparent;height:50px;}
+.signup_comment_box.last {
+    margin-right: 0;
+}
+.signup_comment_box_arrow_down {
+    background: url("/dev/images/signup_arrow_down.png") no-repeat scroll left top transparent;
+    height: 24px;
+    margin-left: 100px;
+    margin-top: 205px;
+    position: absolute;
+    width: 44px;
+}
+.signup_comment_box_commenter {
+    color: #666;
+    font-size: 12px;
+    margin-left: 150px;
+    margin-top: 220px;
+    position: absolute;
+}
+.signup_comment_quote {
+    color: #666;
+    display: block;
+    font-size: 15px;
+    font-style: italic;
+    margin: 14px;
+    overflow: hidden;
+    line-height: 19px;
+}
+.signup_comment_box blockquote {
+    margin: 0;
+    padding: 0;
+}
+.signup_comment_icon {
+    width: 50px;
+    float: left;
+    margin: 13px 5px 0;
+}
+.signup_comment_icon_personalspace {
+    background: url("/dev/images/personalspace_icon_50x50.png") no-repeat top left transparent;
+    height: 50px;
+}
+.signup_comment_icon_cohere {
+    background: url("/dev/images/cohere_icon_50x110.png") no-repeat top left transparent;
+    height: 110px;
+}
+.signup_comment_icon_editable {
+    background: url("/dev/images/editable_icon_50x50.png") no-repeat top left transparent;
+    height: 50px;
+}
 
-#signup_institution_logos {height:40px;width:925px;margin:25px 0 0 0;padding:0}
-#signup_institution_logos li{list-style:none;float:left;padding:0;margin:0}
+#signup_institution_logos {
+    height: 40px;
+    width: 925px;
+    margin: 25px 0 0 0;
+    padding: 0
+}
+#signup_institution_logos li {
+    list-style: none;
+    float: left;
+    padding: 0;
+    margin: 0
+}
 /* Override CSS */
-.s3d-page-header {height:0;margin-top:15px;min-height:0;}
-.recaptchatable {background:#FFF;float:left;}
-.recaptchatable input {border:1px solid #E0E1E2 !important;}
+.s3d-page-header {
+    height: 0;
+    margin-top: 15px;
+    min-height: 0;
+}
+.recaptchatable {
+    background: #FFF;
+    float: left;
+}
+.recaptchatable input {
+    border: 1px solid #E0E1E2 !important;
+}

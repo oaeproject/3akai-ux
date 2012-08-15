@@ -17,7 +17,7 @@
  */
 
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.welcome
@@ -28,11 +28,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.welcome = function (tuid, showSettings) {
+    sakai_global.welcome = function(tuid, showSettings) {
 
         var $rootel = $('#' + tuid);
         var $welcomeWidget = $('.welcome_widget', $rootel);
-        var welcomeTemplate = "welcome_template";
+        var welcomeTemplate = 'welcome_template';
 
         var addBinding = function() {
             $welcomeWidget.on('click', 'button[data-trigger]', function() {
@@ -40,9 +40,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
-        var renderWidget = function(){
+        var renderWidget = function() {
             $welcomeWidget.html(sakai.api.Util.TemplateRenderer(welcomeTemplate, {
-                "anon": sakai.data.me.user.anon || false
+                'anon': sakai.data.me.user.anon || false
             }));
         };
 
@@ -51,5 +51,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("welcome");
+    sakai.api.Widgets.widgetLoader.informOnLoad('welcome');
 });

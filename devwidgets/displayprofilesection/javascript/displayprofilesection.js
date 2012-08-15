@@ -21,7 +21,7 @@
  * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
  */
-require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) {
+require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) {
 
     /**
      * @name sakai_global.displayprofilesection
@@ -51,36 +51,36 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         // CSS Selectors //
         ///////////////////
 
-        var $rootel = $( "#" + tuid ),
-            $displayprofilesection_container = $( "#displayprofilesection_container", $rootel ),
-            $displayprofilesection_header = $( "#displayprofilesection_header", $rootel ),
-            $displayprofilesection_header_template = $( "#displayprofilesection_header_template", $rootel ),
-            $displayprofilesection_body = $( "#displayprofilesection_body", $rootel ),
-            $displayprofilesection_body_template = $( "#displayprofilesection_body_template", $rootel ),
-            $displayprofilesection_view_template = $( "#displayprofilesection_view_template", $rootel ),
-            $displayprofilesection_edit_template = $( "#displayprofilesection_edit_template", $rootel ),
-            $displayprofilesection_edit_multiple_template = $( "#displayprofilesection_edit_multiple_template", $rootel ),
-            $displayprofilesection_view_multiple_template = $( "#displayprofilesection_view_multiple_template" , $rootel ),
-            $displayprofilesection_view_no_results_template = $( "#displayprofilesection_view_no_results_template", $rootel ),
-            $profile_message_form_successful = $( "#profile_message_form_successful", $rootel ),
-            $profile_error_form_error_server = $( "#profile_error_form_error_server", $rootel ),
+        var $rootel = $( '#' + tuid ),
+            $displayprofilesection_container = $( '#displayprofilesection_container', $rootel ),
+            $displayprofilesection_header = $( '#displayprofilesection_header', $rootel ),
+            $displayprofilesection_header_template = $( '#displayprofilesection_header_template', $rootel ),
+            $displayprofilesection_body = $( '#displayprofilesection_body', $rootel ),
+            $displayprofilesection_body_template = $( '#displayprofilesection_body_template', $rootel ),
+            $displayprofilesection_view_template = $( '#displayprofilesection_view_template', $rootel ),
+            $displayprofilesection_edit_template = $( '#displayprofilesection_edit_template', $rootel ),
+            $displayprofilesection_edit_multiple_template = $( '#displayprofilesection_edit_multiple_template', $rootel ),
+            $displayprofilesection_view_multiple_template = $( '#displayprofilesection_view_multiple_template' , $rootel ),
+            $displayprofilesection_view_no_results_template = $( '#displayprofilesection_view_no_results_template', $rootel ),
+            $profile_message_form_successful = $( '#profile_message_form_successful', $rootel ),
+            $profile_error_form_error_server = $( '#profile_error_form_error_server', $rootel ),
             $displayprofilesection_sections_multiple = false,
             $displayprofilesection_add_button = false,
             $form = false;
 
         // Transform the form values from a multiple-assign section into a different data structure
         var getMultipleValues = function( values ) {
-            var uniqueContainers = $( "div.displayprofilesection_multiple_section" );
+            var uniqueContainers = $( 'div.displayprofilesection_multiple_section' );
             var multipleValues = {};
             $.each( uniqueContainers, function( i, elt ) {
-                multipleValues[ $( elt ).attr( "id" ).replace( "form_group_", "" ) ] = {
+                multipleValues[ $( elt ).attr( 'id' ).replace( 'form_group_', '' ) ] = {
                     order: i
                 };
             });
             $.each( values, function( i, val ) {
                 // Each ID is of format fieldtitle_formuniqueid
-                var field = i.substring( 0, i.lastIndexOf( "_" ));
-                var mvKey = i.substring( i.lastIndexOf( "_" ) + 1 );
+                var field = i.substring( 0, i.lastIndexOf( '_' ));
+                var mvKey = i.substring( i.lastIndexOf( '_' ) + 1 );
                 multipleValues[ mvKey ][ field ] = val;
             });
             values = multipleValues;
@@ -89,15 +89,15 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
 
         var handleSave = function( success, data ) {
             if (success) {
-                sakai.api.Util.notification.show("", $profile_message_form_successful.text() , sakai.api.Util.notification.type.INFORMATION);
+                sakai.api.Util.notification.show('', $profile_message_form_successful.text() , sakai.api.Util.notification.type.INFORMATION);
             } else {
-                sakai.api.Util.notification.show("", $profile_error_form_error_server.text() , sakai.api.Util.notification.type.ERROR);
-                debug.error("The profile data couldn't be saved successfully");
+                sakai.api.Util.notification.show('', $profile_error_form_error_server.text() , sakai.api.Util.notification.type.ERROR);
+                debug.error('The profile data couldn\'t be saved successfully');
             }
         };
 
         /**
-         * Enables the 'Update Profile' button when the user has changed their profile information. 
+         * Enables the 'Update Profile' button when the user has changed their profile information.
          */
         var enableUpdate = function() {
             if (allowUpdate) {
@@ -114,12 +114,12 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
 
             // Get tags & categories if they're in this form
             var tags = [];
-            var $tagfield = $displayprofilesection_body.find( "textarea[data-tag-field]" );
+            var $tagfield = $displayprofilesection_body.find( 'textarea[data-tag-field]' );
             if ( $tagfield.length ) {
                 // Remove the hidden autosuggest input field from the values
-                $form.find( "input" ).each( function( i, input ) {
-                    if ( $( input ).hasClass( "as-values" ) ) {
-                        delete values[ $( input ).attr("name") ];
+                $form.find( 'input' ).each( function( i, input ) {
+                    if ( $( input ).hasClass( 'as-values' ) ) {
+                        delete values[ $( input ).attr('name') ];
                     }
                 });
                 tags = sakai.api.Util.AutoSuggest.getTagsAndCategories( $tagfield, true );
@@ -131,16 +131,16 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
 
         // Remove a section from the a multi-assign section
         var removeSection = function( unique ) {
-            $( "div#form_group_" + unique ).remove();
+            $( 'div#form_group_' + unique ).remove();
             sakai.api.User.deleteUserProfileSection( userid, widgetData.sectionid, unique, handleSave);
-            if ( $( "div.displayprofilesection_multiple_section" ).length === 0 ) {
-                $( "button.profile-section-save-button", $rootel ).hide();
+            if ( $( 'div.displayprofilesection_multiple_section' ).length === 0 ) {
+                $( 'button.profile-section-save-button', $rootel ).hide();
             }
         };
 
         // Add a new section to a multi-assign section
         var addEmptySection = function( section, template ) {
-            var unique = "" + Math.round( Math.random() * 1000000000 );
+            var unique = '' + Math.round( Math.random() * 1000000000 );
             multipleSectionLength++;
             var sectionHTML = sakai.api.Util.TemplateRenderer( template, {
                 sectionid: widgetData.sectionid,
@@ -150,8 +150,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                 data: {}
             });
             $displayprofilesection_sections_multiple.append( sakai.api.i18n.General.process( sectionHTML ) );
-            $( "button.profile-section-save-button", $rootel ).show();
-            $( "button#displayprofilesection_remove_link_" + unique, $rootel ).bind( "click", function() {
+            $( 'button.profile-section-save-button', $rootel ).show();
+            $( 'button#displayprofilesection_remove_link_' + unique, $rootel ).on( 'click', function() {
                 removeSection( unique );
             });
         };
@@ -169,22 +169,22 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         };
 
         var renderEmptySection = function( userProfile, section ) {
-            var messageKey = "THIS_PERSON_HASNT_ADDED_INFORMATION";
-            var sectionKey = "THIS_PERSON_HASNT_ADDED_" + widgetData.sectionid.toUpperCase();
-            if ( sakai.api.i18n.getValueForKey( sectionKey, "displayprofilesection") !== sectionKey ) {
+            var messageKey = 'THIS_PERSON_HASNT_ADDED_INFORMATION';
+            var sectionKey = 'THIS_PERSON_HASNT_ADDED_' + widgetData.sectionid.toUpperCase();
+            if ( sakai.api.i18n.getValueForKey( sectionKey, 'displayprofilesection') !== sectionKey ) {
                 messageKey = sectionKey;
             }
             var emptyHTML = sakai.api.Util.TemplateRenderer( $displayprofilesection_view_no_results_template, {
                 userid: userid,
                 displayName: sakai.api.User.getDisplayName( userProfile ),
-                errorString: sakai.api.i18n.getValueForKey( messageKey, "displayprofilesection" ),
+                errorString: sakai.api.i18n.getValueForKey( messageKey, 'displayprofilesection' ),
                 showMessage: !sakai.api.User.isAnonymous(sakai.data.me)
             });
             $displayprofilesection_body.html( sakai.api.i18n.General.process( emptyHTML ) );
         };
 
         // Render a multi-assign section
-        var renderMultiSection = function ( template, section, data ) {
+        var renderMultiSection = function( template, section, data ) {
             multiple = true;
             var multiTemplate = editing ? $displayprofilesection_edit_multiple_template : $displayprofilesection_view_multiple_template;
 
@@ -195,10 +195,10 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             $displayprofilesection_body.html( sakai.api.i18n.General.process( multHTML ) );
 
             // Grab the new container to render into
-            $displayprofilesection_sections_multiple = $( "#displayprofilesection_sections_" + widgetData.sectionid );
+            $displayprofilesection_sections_multiple = $( '#displayprofilesection_sections_' + widgetData.sectionid );
             if ( editing ) {
-                $displayprofilesection_add_button = $( "#displayprofilesection_add_" + widgetData.sectionid );
-                $displayprofilesection_add_button.bind("click", function() {
+                $displayprofilesection_add_button = $( '#displayprofilesection_add_' + widgetData.sectionid );
+                $displayprofilesection_add_button.on('click', function() {
                     addEmptySection( section, template );
                 });
             }
@@ -215,7 +215,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                     }
                 });
                 // Sort the sections by order
-                subSections = subSections.sort( function ( a, b ) {
+                subSections = subSections.sort( function( a, b ) {
                     return _.values( a )[ 0 ].order - _.values( b )[ 0 ].order;
                 });
                 $.each( subSections, function( i, sectionData ) {
@@ -232,18 +232,18 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                         });
                         $displayprofilesection_sections_multiple.append( sakai.api.i18n.General.process( sectionHTML ) );
                         if ( editing ) {
-                            $( "button#displayprofilesection_remove_link_" + uid, $rootel ).bind( "click", function() {
+                            $( 'button#displayprofilesection_remove_link_' + uid, $rootel ).on( 'click', function() {
                                 removeSection( uid );
                             });
                         }
                     }
                 });
                 if ( editing && subSections.length ) {
-                    $( "button.profile-section-save-button", $rootel ).show();
+                    $( 'button.profile-section-save-button', $rootel ).show();
                 } else if ( !editing && !subSections.length ) {
                     renderEmptySection( data );
-                } else if ( !editing ){
-                    $( ".displayprofilesection_multiple_sections hr:last" ).hide();
+                } else if ( !editing ) {
+                    $( '.displayprofilesection_multiple_sections hr:last' ).hide();
                 }
             } else if ( !editing ) {
                 renderEmptySection( data );
@@ -292,7 +292,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                                 sakai: sakai
                             });
                             $displayprofilesection_body.html( sakai.api.i18n.General.process( bodyHTML ) );
-                            var $tagfield = $displayprofilesection_body.find( "textarea[data-tag-field]" );
+                            var $tagfield = $displayprofilesection_body.find( 'textarea[data-tag-field]' );
                             if ( $tagfield.length ) {
                                 allowUpdate = false;
                                 var autoSuggestOptions = {
@@ -305,7 +305,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                                         enableUpdate();
                                     }
                                 };
-                                var initialTagsValue = sectionData["sakai:tags"] && sectionData["sakai:tags"].value ? sectionData["sakai:tags"].value : false;
+                                var initialTagsValue = sectionData['sakai:tags'] && sectionData['sakai:tags'].value ? sectionData['sakai:tags'].value : false;
                                 sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest(
                                     $tagfield,
                                     autoSuggestOptions,
@@ -322,7 +322,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                     }
 
                     if ( editing ) {
-                        $form = $( "#displayprofilesection_form_" + widgetData.sectionid, $rootel );
+                        $form = $( '#displayprofilesection_form_' + widgetData.sectionid, $rootel );
                         var validateOpts = {
                             submitHandler: saveValues,
                             messages: {}
@@ -370,5 +370,5 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         init();
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("displayprofilesection");
+    sakai.api.Widgets.widgetLoader.informOnLoad('displayprofilesection');
 });

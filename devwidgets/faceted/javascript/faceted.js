@@ -22,7 +22,7 @@
  */
 /*global $ */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.faceted
@@ -35,18 +35,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @version 0.0.1
      * @param {String} tuid Unique id of the widget
      */
-    sakai_global.faceted = function(tuid, showSettings, widgetData){
+    sakai_global.faceted = function(tuid, showSettings, widgetData) {
 
 
         ///////////////////
         // CSS Selectors //
         ///////////////////
 
-        var rootel = $("#" + tuid);
-        var faceted = "#faceted";
-        var facetedContainer = faceted + "_container";
-        var facetedListall = faceted + "_listall";
-        var facetedDefaultTemplate = faceted + "_default_template";
+        var rootel = $('#' + tuid);
+        var faceted = '#faceted';
+        var facetedContainer = faceted + '_container';
+        var facetedListall = faceted + '_listall';
+        var facetedDefaultTemplate = faceted + '_default_template';
 
 
         //////////////////////
@@ -56,7 +56,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Render the template
          */
-        var renderTemplateFaceted = function(facetedConfig){
+        var renderTemplateFaceted = function(facetedConfig) {
             if (sakai.data.me.user.anon) {
               $(facetedContainer,rootel).hide();
             } else if (facetedConfig) {
@@ -66,33 +66,33 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
               addBinding();
             }
         };
-        
-        var initialSelection = function(){
-            $(".faceted_category",rootel).removeClass("faceted_category_selected");
+
+        var initialSelection = function() {
+            $('.faceted_category',rootel).removeClass('faceted_category_selected');
             var currentfacet = $.bbq.getState('facet');
             if (currentfacet) {
-                $("#facted_select #" + currentfacet,rootel).attr("selected","selected");
+                $('#facted_select #' + currentfacet,rootel).attr('selected','selected');
             }
         };
 
         //////////////
         // Bindings //
         //////////////
-        
-        $(window).bind("hashchange", function(ev){
+
+        $(window).on('hashchange', function(ev) {
             initialSelection();
         });
 
         /**
          * Bind the widget's links
          */
-        var addBinding = function(){
+        var addBinding = function() {
             // bind category select box
-            $("#facted_select",rootel).change(function() {
-                var facet = $(this).find(":selected").val();
+            $('#facted_select',rootel).change(function() {
+                var facet = $(this).find(':selected').val();
                 $.bbq.pushState({
-                    "page": 1,
-                    "facet": facet
+                    'page': 1,
+                    'facet': facet
                 }, 0);
             });
         };
@@ -107,5 +107,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("faceted");
+    sakai.api.Widgets.widgetLoader.informOnLoad('faceted');
 });
