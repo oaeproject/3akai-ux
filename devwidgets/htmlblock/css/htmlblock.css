@@ -58,5 +58,5 @@
 
 /* Fix for wikipedia pastes */
 .htmlblock_widget .p0, .htmlblock_widget .p1, .htmlblock_widget .p2 {
-    display:block;
+    display: block;
 }

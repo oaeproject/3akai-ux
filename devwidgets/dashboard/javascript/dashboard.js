@@ -22,7 +22,7 @@
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
  */
 
-require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
 
     /**
      * @name sakai_global.dashboard
@@ -33,17 +33,17 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
     sakai_global.dashboard = function(tuid, showSettings, widgetData) {
 
         // Add Goodies related fields
-        var addGoodiesDialog = "#add_goodies_dialog";
+        var addGoodiesDialog = '#add_goodies_dialog';
         var addGoodiesTrigger = '#add-goodies';
-        var addGoodiesListContainer = "#add_goodies_body";
-        var addGoodiesListTemplate = "add_goodies_body_template";
-        var btnAdd = "btn_add_";
-        var btnRemove = "btn_remove_";
-        var changeLayoutDialog = "#change_layout_dialog";
-        var goodiesAddButton = ".goodies_add_button";
-        var goodiesRemoveButton = ".goodies_remove_button";
-        var addRow = "#row_add_";
-        var removeRow = "#row_remove_";
+        var addGoodiesListContainer = '#add_goodies_body';
+        var addGoodiesListTemplate = 'add_goodies_body_template';
+        var btnAdd = 'btn_add_';
+        var btnRemove = 'btn_remove_';
+        var changeLayoutDialog = '#change_layout_dialog';
+        var goodiesAddButton = '.goodies_add_button';
+        var goodiesRemoveButton = '.goodies_remove_button';
+        var addRow = '#row_add_';
+        var removeRow = '#row_remove_';
 
         ////////////////////
         // Help variables //
@@ -57,14 +57,14 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var widgetPropertyName = false;
         var tempSettings;
 
-        var rootel = "#" + tuid;
+        var rootel = '#' + tuid;
         var $rootel = $(rootel);
-        var rootelClass = "." + tuid;
+        var rootelClass = '.' + tuid;
         var $rootelClass = $(rootelClass);
 
         var minimizeWidget = function(id) {
-           var el = $("#" + id + "_container");
-           if (el.css("display") == "none") {
+           var el = $('#' + id + '_container');
+           if (el.css('display') === 'none') {
                el.show();
            } else {
                el.hide();
@@ -72,14 +72,14 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
            saveState();
         };
 
-        $(window).bind("minimizeWidget.dashboard.sakai", function(e, id) {
+        $(window).on('minimizeWidget.dashboard.sakai', function(e, id) {
             minimizeWidget(id);
         });
 
         var decideExists = function(exists, response) {
             if (exists === false) {
                 if (response.status === 401) { // user is not logged in
-                    $(window).trigger("sakai_global.dashboard.notLoggedIn"); // let the embedding page decide how to handle not logged in
+                    $(window).trigger('sakai_global.dashboard.notLoggedIn'); // let the embedding page decide how to handle not logged in
                 }
                 doInit();
             } else {
@@ -88,10 +88,10 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     var cleanContinue = true;
 
                     for (var c in settings.columns) {
-                        if (settings.columns.hasOwnProperty(c) && c.indexOf("column") > -1) {
+                        if (settings.columns.hasOwnProperty(c) && c.indexOf('column') > -1) {
                             for (var pi in settings.columns[c]) {
                                 if (settings.columns[c].hasOwnProperty(pi)) {
-                                    if (pi !== "contains" && pi !== "indexOf") {
+                                    if (pi !== 'contains' && pi !== 'indexOf') {
                                         if (!settings.columns[c][pi].uid) {
                                             cleanContinue = false;
                                         }
@@ -112,17 +112,17 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         };
 
         var finishEditSettings = function(tuid, widgetname) {
-            var generic = "widget_" + widgetname + "_" + tuid + "_" + savePath;
+            var generic = 'widget_' + widgetname + '_' + tuid + '_' + savePath;
             var id = tuid;
             var old = document.getElementById(id);
-            var newel = document.createElement("div");
+            var newel = document.createElement('div');
             newel.id = generic;
-            newel.className = "widget_inline";
+            newel.className = 'widget_inline';
             old.parentNode.replaceChild(newel, old);
             sakai.api.Widgets.widgetLoader.insertWidgets(newel.parentNode.id, false);
         };
 
-        var registerWidgetFunctions = function(){
+        var registerWidgetFunctions = function() {
             sakai.api.Widgets.Container.registerFinishFunction(function(tuid, widgetname) {
                 finishEditSettings(tuid, widgetname);
             });
@@ -131,7 +131,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             });
         };
 
-        $(window).bind("exitedit.sitespages.sakai", function(ev){
+        $(window).on('exitedit.sitespages.sakai', function(ev) {
             registerWidgetFunctions();
         });
 
@@ -140,7 +140,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         var showInit = function() {
 
             var columns = [];
-            var layout = "dev";
+            var layout = 'dev';
 
             columns[0] = [];
             columns[1] = [];
@@ -158,13 +158,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             jsonobj.columns = {};
 
             for (var i = 0, j = columns.length; i < j; i++) {
-                jsonobj.columns["column" + (i + 1)] = [];
+                jsonobj.columns['column' + (i + 1)] = [];
                 for (var ii = 0, jj = columns[i].length; ii < jj; ii++) {
-                    var index = jsonobj.columns["column" + (i + 1)].length;
-                    jsonobj.columns["column" + (i + 1)][index] = {};
-                    jsonobj.columns["column" + (i + 1)][index].uid = "id" + Math.round(Math.random() * 10000000000000);
-                    jsonobj.columns["column" + (i + 1)][index].visible = "block";
-                    jsonobj.columns["column" + (i + 1)][index].name = columns[i][ii];
+                    var index = jsonobj.columns['column' + (i + 1)].length;
+                    jsonobj.columns['column' + (i + 1)][index] = {};
+                    jsonobj.columns['column' + (i + 1)][index].uid = 'id' + Math.round(Math.random() * 10000000000000);
+                    jsonobj.columns['column' + (i + 1)][index].visible = 'block';
+                    jsonobj.columns['column' + (i + 1)][index].name = columns[i][ii];
                 }
             }
 
@@ -180,12 +180,12 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             var person = sakai.data.me;
 
             if (!person.user.userid) {
-                $(window).trigger("notUsersDashboard.dashboard.sakai");
+                $(window).trigger('notUsersDashboard.dashboard.sakai');
             } else if (person.user.anon) {
-                $(window).trigger("notLoggedIn.dashboard.sakai");
+                $(window).trigger('notLoggedIn.dashboard.sakai');
             }
 
-            $(".body-container", $rootel).show();
+            $('.body-container', $rootel).show();
 
             if (doShowDashboard) {
                 showDashboard();
@@ -199,15 +199,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
     /**
      * Enable add goodies buttons after the request has finished
      */
-        var enableAddGoodies = function(){
-            $(".add-button", $rootelClass).attr("disabled", false);
+        var enableAddGoodies = function() {
+            $('.add-button', $rootelClass).attr('disabled', false);
         };
 
     /**
      * Disable the add goodies buttons to avoid double requests
      */
-        var disableAddGoodies = function(){
-            $(".add-button", $rootelClass).attr("disabled", true);
+        var disableAddGoodies = function() {
+            $('.add-button', $rootelClass).attr('disabled', true);
         };
 
         var showDashboard = function() {
@@ -223,7 +223,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
                 var initlength = 0;
                 for (var l in settings.columns) {
-                    if (settings.columns.hasOwnProperty(l) && l.indexOf("column") > -1) {
+                    if (settings.columns.hasOwnProperty(l) && l.indexOf('column') > -1) {
                         initlength++;
                     }
                 }
@@ -231,7 +231,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
 
                 for (var z in settings.columns) {
-                    if (settings.columns.hasOwnProperty(z) && z.indexOf("column") > -1) {
+                    if (settings.columns.hasOwnProperty(z) && z.indexOf('column') > -1) {
                         if (index < newlength) {
                             for (i = 0, j = settings.columns[z].length; i < j; i++) {
                                 columns[index][i] = {};
@@ -247,14 +247,14 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 index = 0;
                 if (newlength < initlength) {
                     for (var q in settings.columns) {
-                        if (settings.columns.hasOwnProperty(q) && q.indexOf("column") > -1) {
+                        if (settings.columns.hasOwnProperty(q) && q.indexOf('column') > -1) {
                             if (index >= newlength) {
                                 for (var ii = 0, jj = settings.columns[q].length; ii < jj; ii++) {
                                     var lowestnumber = -1;
                                     var lowestcolumn = -1;
                                     for (var iii = 0, jjj = columns.length; iii < jjj; iii++) {
                                         var number = columns[iii].length;
-                                        if (number < lowestnumber || lowestnumber == -1) {
+                                        if (number < lowestnumber || lowestnumber === -1) {
                                             lowestnumber = number;
                                             lowestcolumn = iii;
                                         }
@@ -302,13 +302,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
             try {
                 for (var c in settings.columns) {
-                    if (settings.columns.hasOwnProperty(c) && c.indexOf("column") > -1) {
+                    if (settings.columns.hasOwnProperty(c) && c.indexOf('column') > -1) {
                         currentindex++;
                         index = final2.columns.length;
                         final2.columns[index] = {};
                         final2.columns[index].portlets = [];
                         final2.columns[index].width = sakai.config.widgets.layouts[settings.layout].widths[currentindex];
-                        var columndef = settings.columns["column" + (currentindex+1)];
+                        var columndef = settings.columns['column' + (currentindex+1)];
                         for (var pi in columndef) {
                             if (columndef.hasOwnProperty(pi)) {
                                 var dashboardDef = columndef[pi];
@@ -339,76 +339,76 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
             if (isValid) {
                 final2.sakai = sakai;
-                $('#widgetscontainer', $rootel).html(sakai.api.Util.TemplateRenderer("widgetscontainer_template", final2));
+                $('#widgetscontainer', $rootel).html(sakai.api.Util.TemplateRenderer('widgetscontainer_template', final2));
 
 
                 // only set up the settings bindings if the dashboard's embedding page allows editing
                 if (isEditable) {
-                  $(".dashboard_options", $rootel).show();
+                    $('.dashboard_options', $rootel).show();
 
-                  var hoverIn = function() {
-                      var $el = $(this);
-                      if (!$el.hasClass('widget1')) {
+                    var hoverIn = function() {
+                        var $el = $(this);
+                        if (!$el.hasClass('widget1')) {
                           $el = $(this).parents('.widget1');
-                      }
-                      var id = $el.attr('id') + '_settings';
-                      $('#' + id).children('.dashboard_widget_arrow').show();
-                  };
-                  var hoverOut = function() {
-                      var $el = $(this);
-                      if (!$el.hasClass('widget1')) {
-                          $el = $(this).parents('.widget1');
-                      }
-                      if ($('#widget_settings_menu', $rootel).css('display') == 'none' || $el.attr('id') !== currentSettingsOpen) {
-                          var id = $el.attr('id') + '_settings';
-                          $('#' + id).children('.dashboard_widget_arrow').hide();
-                      }
-                  };
+                        }
+                        var id = $el.attr('id') + '_settings';
+                        $('#' + id).children('.dashboard_widget_arrow').show();
+                    };
+                    var hoverOut = function() {
+                        var $el = $(this);
+                        if (!$el.hasClass('widget1')) {
+                            $el = $(this).parents('.widget1');
+                        }
+                        if ($('#widget_settings_menu', $rootel).css('display') == 'none' || $el.attr('id') !== currentSettingsOpen) {
+                            var id = $el.attr('id') + '_settings';
+                            $('#' + id).children('.dashboard_widget_arrow').hide();
+                        }
+                    };
 
-                  // .hover is shorthand for .bind('mouseenter mouseleave')
-                  // unbinding 'hover' doesn't work, 'mouseenter mouseleave' must be used instead.
-                  $('.widget1', $rootel).unbind('mouseenter mouseleave').hover(hoverIn, hoverOut);
-                  $('.s3d-contentpage-title button.settings', $rootel).focus(hoverIn);
-                  $('.s3d-contentpage-title button.settings', $rootel).blur(hoverOut);
+                    // .hover is shorthand for .bind('mouseenter mouseleave')
+                    // unbinding 'hover' doesn't work, 'mouseenter mouseleave' must be used instead.
+                    $('.widget1', $rootel).unbind('mouseenter mouseleave').hover(hoverIn, hoverOut);
+                    $('.s3d-contentpage-title button.settings', $rootel).focus(hoverIn);
+                    $('.s3d-contentpage-title button.settings', $rootel).blur(hoverOut);
 
-                  $(".settings", $rootel).unbind('click').click(function(ev) {
+                    $('.settings', $rootel).off('click').click(function(ev) {
 
-                      if ($("#widget_settings_menu", $rootel).is(":visible")) {
-                          $("#widget_settings_menu", $rootel).hide();
+                      if ($('#widget_settings_menu', $rootel).is(':visible')) {
+                          $('#widget_settings_menu', $rootel).hide();
                       } else {
-                          var splitted = this.id.split("_");
-                          if (splitted[0] + "_" + splitted[1] === currentSettingsOpen) {
+                          var splitted = this.id.split('_');
+                          if (splitted[0] + '_' + splitted[1] === currentSettingsOpen) {
                               $('#widget_' + currentSettingsOpen + '_settings', $rootel).children('.dashboard_widget_arrow').hide();
                           }
-                          currentSettingsOpen = splitted[0] + "_" + splitted[1];
+                          currentSettingsOpen = splitted[0] + '_' + splitted[1];
                           var widgetId = splitted[0];
 
                           if (sakai.widgets[widgetId] && sakai.widgets[widgetId].hasSettings) {
-                              $("#settings_settings", $rootel).show();
+                              $('#settings_settings', $rootel).show();
                           } else {
-                              $("#settings_settings", $rootel).hide();
+                              $('#settings_settings', $rootel).hide();
                           }
                           if (sakai.widgets[widgetId] &&
                               (sakai.widgets[widgetId].deletable === true || sakai.widgets[widgetId].deletable === undefined)) {
-                              $("#settings_remove", $rootel).show();
+                              $('#settings_remove', $rootel).show();
                           } else {
-                              $("#settings_remove", $rootel).hide();
+                              $('#settings_remove', $rootel).hide();
                           }
 
-                          var el = $("#" + currentSettingsOpen.split("_")[1] + "_container", $rootel);
-                          if (el.is(":visible")) {
-                              $("#settings_hide_link", $rootel).text(sakai.api.i18n.getValueForKey("HIDE"));
+                          var el = $('#' + currentSettingsOpen.split('_')[1] + '_container', $rootel);
+                          if (el.is(':visible')) {
+                              $('#settings_hide_link', $rootel).text(sakai.api.i18n.getValueForKey('HIDE'));
                           } else {
-                              $("#settings_hide_link", $rootel).text(sakai.api.i18n.getValueForKey("SHOW"));
+                              $('#settings_hide_link', $rootel).text(sakai.api.i18n.getValueForKey('SHOW'));
                           }
 
                           var x = $(this).position().left;
                           var y = $(this).position().top;
-                          $("#widget_settings_menu", $rootel).css("left", x - $("#widget_settings_menu", $rootel).width() + 28 + "px");
+                          $('#widget_settings_menu', $rootel).css('left', x - $('#widget_settings_menu', $rootel).width() + 28 + 'px');
                           if ($.browser.msie && parseInt($.browser.version, 10) < 9) {
-                             $("#widget_settings_menu", $rootel).css("top", document.documentElement.scrollTop + y + 24 + "px");
+                             $('#widget_settings_menu', $rootel).css('top', document.documentElement.scrollTop + y + 24 + 'px');
                           } else {
-                              $("#widget_settings_menu", $rootel).css("top", y + 24 + "px");
+                              $('#widget_settings_menu', $rootel).css('top', y + 24 + 'px');
                           }
                           $("#widget_settings_menu", $rootel).show();
                           $("#widget_settings_menu", $rootel).find('button:visible:first').focus();
@@ -429,58 +429,56 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                   });
 
 
-                  // .hover is shorthand for .bind('mouseenter mouseleave')
+                  // .hover is shorthand for .on('mouseenter mouseleave')
                   // unbinding 'hover' doesn't work, 'mouseenter mouseleave' must be used instead.
-                  $(".more_option", $rootel).unbind('mouseenter mouseleave').hover(
+                  $('.more_option', $rootel).off('mouseenter mouseleave').hover(
                   function(over) {
-                      $(this).addClass("selected_option");
+                      $(this).addClass('selected_option');
                   },
                   function(out) {
-                      $(this).removeClass("selected_option");
+                      $(this).removeClass('selected_option');
                   }
                   );
 
-                  $("#settings_remove", $rootel).unbind('click').click(function(ev) {
+                  $('#settings_remove', $rootel).off('click').click(function(ev) {
                       var id = currentSettingsOpen;
                       var el = document.getElementById(id);
                       var parent = el.parentNode;
                       parent.removeChild(el);
                       saveState();
-                      $("#widget_settings_menu", $rootel).hide();
+                      $('#widget_settings_menu', $rootel).hide();
                       $('#' + currentSettingsOpen + '_settings', $rootel).children('.dashboard_widget_arrow').hide();
                       currentSettingsOpen = false;
                       return false;
                   });
 
-                  $("#settings_hide", $rootel).unbind('click').click(function(ev) {
-
-                      var el = $("#" + currentSettingsOpen.split("_")[1] + "_container", $rootel);
-                      if (el.css('display') == "none") {
-                          el.parent().find(".fl-widget-titlebar").removeClass("hiddenwidget");
+                  $('#settings_hide', $rootel).off('click').click(function(ev) {
+                      var el = $('#' + currentSettingsOpen.split('_')[1] + '_container', $rootel);
+                      if (el.css('display') === 'none') {
+                          el.parent().find('.fl-widget-titlebar').removeClass('hiddenwidget');
                           el.show();
                       } else {
-                          el.parent().find(".fl-widget-titlebar").addClass("hiddenwidget");
+                          el.parent().find('.fl-widget-titlebar').addClass('hiddenwidget');
                           el.hide();
                       }
                       saveState();
-
-                      $("#widget_settings_menu", $rootel).hide();
+                      $('#widget_settings_menu', $rootel).hide();
                       $('#' + currentSettingsOpen + '_settings', $rootel).children('.dashboard_widget_arrow').hide();
                       currentSettingsOpen = false;
                       return false;
                   });
 
-                  $("#settings_settings", $rootel).unbind('click').click(function(ev) {
-                      var generic = "widget_" + currentSettingsOpen + "_" + savePath;
-                      var id = currentSettingsOpen.split("_")[1];
+                  $('#settings_settings', $rootel).off('click').click(function(ev) {
+                      var generic = 'widget_' + currentSettingsOpen + '_' + savePath;
+                      var id = currentSettingsOpen.split('_')[1];
                       var old = document.getElementById(id);
-                      var newel = document.createElement("div");
+                      var newel = document.createElement('div');
                       newel.id = generic;
-                      newel.className = "widget_inline";
+                      newel.className = 'widget_inline';
                       if (old) {
                           old.parentNode.replaceChild(newel, old);
                       }
-                      $("#widget_settings_menu", $rootel).hide();
+                      $('#widget_settings_menu', $rootel).hide();
                       currentSettingsOpen = false;
                       sakai.api.Widgets.widgetLoader.insertWidgets(newel.parentNode.id, true);
                       return false;
@@ -493,8 +491,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                       var $clicked = $(e.target);
 
                       // Check if the clicked target is not the settings menu
-                      if (!$clicked.is(".settings", $rootel)) {
-                          $("#widget_settings_menu", $rootel).hide();
+                      if (!$clicked.is('.settings', $rootel)) {
+                          $('#widget_settings_menu', $rootel).hide();
                           $('#' + currentSettingsOpen + '_settings', $rootel).children('.dashboard_widget_arrow').hide();
                           currentSettingsOpen = false;
                       }
@@ -502,20 +500,20 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                   });
 
                   $('#widgetscontainer .groupWrapper', $rootel).sortable({
-                        connectWith: ".groupWrapper", // Columns where we can drag modules into
-                        cursor: "move",
-                        handle: ".widget1-head",
-                        helper: "clone",
+                        connectWith: '.groupWrapper', // Columns where we can drag modules into
+                        cursor: 'move',
+                        handle: '.widget1-head',
+                        helper: 'clone',
                         opacity: 0.5,
                         placeholder: 'orderable-drop-marker-box',
-                        tolerance: "intersect",
+                        tolerance: 'intersect',
                         start: beforeWidgetDrag,
                         stop: saveState
                     });
 
                 } else {
                   // remove the move cursor from the title bar
-                  $(".fl-widget-titlebar", $rootel).css("cursor", "default");
+                  $('.fl-widget-titlebar', $rootel).css('cursor', 'default');
                 }
                 sakai.api.Widgets.widgetLoader.insertWidgets(tuid);
 
@@ -528,17 +526,17 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         };
 
         var beforeWidgetDrag = function() {
-            $("#widget_settings_menu", $rootel).hide();
+            $('#widget_settings_menu', $rootel).hide();
         };
 
         var saveState = function() {
 
             var serString = '{"layout":"' + settings.layout + '","columns":{';
 
-            var columns = $(".groupWrapper", $rootel);
+            var columns = $('.groupWrapper', $rootel);
             for (var i = 0, j = columns.length; i < j; i++) {
                 if (i !== 0) {
-                    serString += ",";
+                    serString += ',';
                 }
                 serString += '"column' + (i + 1) + '":[';
                 var column = columns[i];
@@ -548,19 +546,19 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     try {
                         var node = column.childNodes[ii];
 
-                        if (node && node.style && !($(node).hasClass("widget_spacer"))) {
+                        if (node && node.style && !($(node).hasClass('widget_spacer'))) {
 
-                            widgetdisplay = "block";
+                            widgetdisplay = 'block';
                             var nowAt = 0;
                             var id = node.style.display;
                             var uid = Math.round(Math.random() * 100000000000);
                             for (var y = 0, z = node.childNodes.length; y < z; y++) {
-                                if (node.childNodes[y].style && node.childNodes[y].id.indexOf("_") > -1) {
-                                    if (nowAt == 1) {
-                                        if (node.childNodes[y].style.display.toLowerCase() === "none") {
-                                            widgetdisplay = "none";
+                                if (node.childNodes[y].style && node.childNodes[y].id.indexOf('_') > -1) {
+                                    if (nowAt === 1) {
+                                        if (node.childNodes[y].style.display.toLowerCase() === 'none') {
+                                            widgetdisplay = 'none';
                                         }
-                                        uid = node.childNodes[y].id.split("_")[0];
+                                        uid = node.childNodes[y].id.split('_')[0];
                                     }
                                     nowAt++;
                                 }
@@ -568,18 +566,18 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
                             iii++;
                             if (iii !== 0) {
-                                serString += ",";
+                                serString += ',';
                             }
-                            serString += '{"uid":"' + uid + '","visible":"' + widgetdisplay + '","name":"' + node.id.split("_")[0] + '"}';
+                            serString += '{"uid":"' + uid + '","visible":"' + widgetdisplay + '","name":"' + node.id.split('_')[0] + '"}';
 
                         }
                     } catch(err) {
-                        debug.error("mysakai.js/saveState(): There was an error saving state: " + err);
+                        debug.error('mysakai.js/saveState(): There was an error saving state: ' + err);
                     }
 
                 }
 
-                serString += "]";
+                serString += ']';
 
             }
 
@@ -589,7 +587,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
             var isEmpty = true;
             for (i in settings.columns) {
-                if (settings.columns.hasOwnProperty(i) && i.indexOf("column") > -1) {
+                if (settings.columns.hasOwnProperty(i) && i.indexOf('column') > -1) {
                     if (settings.columns[i].length > 0) {
                         isEmpty = false;
                     }
@@ -607,7 +605,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             // Enable the add goodies buttons
             enableAddGoodies();
             if (!success) {
-                debug.error("Connection with the server was lost");
+                debug.error('Connection with the server was lost');
             }
         };
 
@@ -624,7 +622,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
             var index = 0;
             for (var l in settings.columns) {
-                if (index < newlength && l.indexOf("column") > -1) {
+                if (index < newlength && l.indexOf('column') > -1) {
                     for (i = 0, j = settings.columns[l].length; i < j; i++) {
                         columns[index][i] = settings.columns[l][i];
                     }
@@ -636,14 +634,14 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             var lowestnumber, lowestcolumn, number, _i;
             if (settings.layout !== selectedlayout && newlength < initlength) {
                 for (l in settings.columns) {
-                    if (settings.columns.hasOwnProperty(l) && l.indexOf("column") > -1) {
+                    if (settings.columns.hasOwnProperty(l) && l.indexOf('column') > -1) {
                         if (index >= newlength) {
                             for (i = 0, j = settings.columns[l].length; i < j; i++) {
                                 lowestnumber = -1;
                                 lowestcolumn = -1;
                                 for (var iii = 0, jjj = columns.length; iii < jjj; iii++) {
                                     number = columns[iii].length;
-                                    if (number < lowestnumber || lowestnumber == -1) {
+                                    if (number < lowestnumber || lowestnumber === -1) {
                                         lowestnumber = number;
                                         lowestcolumn = iii;
                                     }
@@ -663,7 +661,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             lowestcolumn = -1;
             for (var iiii = 0, jjjj = columns.length; iiii < jjjj; iiii++) {
                 number = columns[iiii].length;
-                if (number < lowestnumber || lowestnumber == -1) {
+                if (number < lowestnumber || lowestnumber === -1) {
                     lowestnumber = number;
                     lowestcolumn = iiii;
                 }
@@ -671,8 +669,8 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             _i = columns[lowestcolumn].length;
             columns[lowestcolumn][_i] = {};
             columns[lowestcolumn][_i].name = currentWidget;
-            columns[lowestcolumn][_i].visible = "block";
-            columns[lowestcolumn][_i].uid = "id" + Math.round(Math.random() * 10000000000);
+            columns[lowestcolumn][_i].visible = 'block';
+            columns[lowestcolumn][_i].uid = 'id' + Math.round(Math.random() * 10000000000);
 
             var jsonstring = '{"layout":"' + selectedlayout + '","columns":{';
             for (var z = 0, x = sakai.config.widgets.layouts[selectedlayout].widths.length; z < x; z++) {
@@ -702,11 +700,11 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 // need to reinitialize it here otherwise things can go wrong when switching
                 // between states
                 $rootel = $($rootel.selector);
-                $("#widgetscontainer", $rootel).html("");
+                $('#widgetscontainer', $rootel).html('');
                 showDashboard();
             }
             else {
-                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey("CONNECTION_LOST"),"",sakai.api.Util.notification.type.ERROR);
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('CONNECTION_LOST'),'',sakai.api.Util.notification.type.ERROR);
             }
         };
 
@@ -715,15 +713,15 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         ///////////////////
 
         var bindLayoutPickerEventHandlers = function() {
-            $(".layout-picker", $rootelClass).bind("click",
+            $('.layout-picker', $rootelClass).on('click',
             function(ev) {
-                var layoutid = this.id.split("-")[this.id.split("-").length - 1];
+                var layoutid = this.id.split('-')[this.id.split('-').length - 1];
                 updateLayout(layoutid);
             });
-            $("table.layout_picker_item,table.layout_picker_item_unselected", $rootelClass).bind("click",
+            $('table.layout_picker_item,table.layout_picker_item_unselected', $rootelClass).on('click',
             function(ev) {
-                var layoutid = this.id.split("-")[this.id.split("-").length - 1];
-                var radio = $("#layout-picker-" + layoutid);
+                var layoutid = this.id.split('-')[this.id.split('-').length - 1];
+                var radio = $('#layout-picker-' + layoutid);
                 radio.checked = true;
                 updateLayout(layoutid);
             });
@@ -735,7 +733,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             newjson.selected = selected;
             currentlySelectedLayout = selected;
             newjson.sakai = sakai;
-            $("#layouts_list", $rootelClass).html(sakai.api.Util.TemplateRenderer("layouts_template", newjson));
+            $('#layouts_list', $rootelClass).html(sakai.api.Util.TemplateRenderer('layouts_template', newjson));
             // once template is render, it loses the event handling
             // so need to call again
             bindLayoutPickerEventHandlers();
@@ -746,7 +744,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             sakai.api.Util.Modal.close(changeLayoutDialog + rootelClass);
         };
 
-        $("#select-layout-finished", $rootel).bind("click",
+        $('#select-layout-finished', $rootel).on('click',
         function(ev) {
             if (currentlySelectedLayout === settings.layout) {
                 sakai.api.Util.Modal.close(changeLayoutDialog + rootelClass);
@@ -763,7 +761,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
                 var index = 0;
                 for (var l in settings.columns) {
-                    if (settings.columns.hasOwnProperty(l) && index < newlength && l.indexOf("column") > -1) {
+                    if (settings.columns.hasOwnProperty(l) && index < newlength && l.indexOf('column') > -1) {
                         for (i = 0, j = settings.columns[l].length; i < j; i++) {
                             columns[index][i] = {};
                             columns[index][i].name = settings.columns[l][i].name;
@@ -777,14 +775,14 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 index = 0;
                 if (newlength < initlength) {
                     for (var z in settings.columns) {
-                        if (settings.columns.hasOwnProperty(z) && z.indexOf("column") > -1) {
+                        if (settings.columns.hasOwnProperty(z) && z.indexOf('column') > -1) {
                             if (index >= newlength) {
                                 for (i = 0, j = settings.columns[z].length; i < j; i++) {
                                     var lowestnumber = -1;
                                     var lowestcolumn = -1;
                                     for (var iii = 0, jjj = columns.length; iii < jjj; iii++) {
                                         var number = columns[iii].length;
-                                        if (number < lowestnumber || lowestnumber == -1) {
+                                        if (number < lowestnumber || lowestnumber === -1) {
                                             lowestnumber = number;
                                             lowestcolumn = iii;
                                         }
@@ -802,12 +800,12 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                 }
 
                 settings = {};
-                settings["layout"] = selectedlayout;
-                settings["columns"] = {};
+                settings['layout'] = selectedlayout;
+                settings['columns'] = {};
                 for (i = 0, j = sakai.config.widgets.layouts[selectedlayout].widths.length; i < j; i++) {
-                    settings["columns"]["column" + (i + 1)] = [];
+                    settings['columns']['column' + (i + 1)] = [];
                     for (var ii = 0, jj = columns[i].length; ii < jj; ii++) {
-                        settings["columns"]["column" + (i + 1)][settings["columns"]["column" + (i + 1)].length] = {"uid":columns[i][ii].uid,"visible":columns[i][ii].visible,"name":columns[i][ii].name};
+                        settings['columns']['column' + (i + 1)][settings['columns']['column' + (i + 1)].length] = {'uid':columns[i][ii].uid,'visible':columns[i][ii].visible,'name':columns[i][ii].name};
                     }
                 }
 
@@ -822,7 +820,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             newjson.selected = settings.layout;
             currentlySelectedLayout = settings.layout;
             newjson.sakai = sakai;
-            $("#layouts_list", $rootelClass).html(sakai.api.Util.TemplateRenderer("layouts_template", newjson));
+            $('#layouts_list', $rootelClass).html(sakai.api.Util.TemplateRenderer('layouts_template', newjson));
             bindLayoutPickerEventHandlers();
             hash.w.show();
         };
@@ -836,7 +834,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
 
         var changeLayout = function(title) {
             if (title) {
-                $("#paget_title_only", $rootel).html(" " + title);
+                $('#paget_title_only', $rootel).html(' ' + title);
             }
             sakai.api.Util.Modal.open($(changeLayoutDialog, $rootel));
         };
@@ -851,17 +849,17 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
          *     This is especially useful when there are multiple dashboard
          *     widgets on one page.
          */
-        $(window).bind("changeLayout.dashboard.sakai", function(e, title, iTuid) {
+        $(window).on('changeLayout.dashboard.sakai', function(e, title, iTuid) {
             showChangeLayoutDialog(title, iTuid);
             e.stopPropagation();
         });
-        
-        $(".dashboard_change_layout").live("click", function(){
-            var iTuid = "" + $(this).data("tuid");
+
+        $('.dashboard_change_layout').on('click', function() {
+            var iTuid = '' + $(this).data('tuid');
             showChangeLayoutDialog(false, iTuid);
         });
-        
-        var showChangeLayoutDialog = function(title, iTuid){
+
+        var showChangeLayoutDialog = function(title, iTuid) {
             if (iTuid === tuid) {
                 changeLayout(title);
             }
@@ -877,12 +875,12 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
            * this function will figure out what widget we chose and will hide the Add row
            * and show the Remove row for that widget
            */
-            $(goodiesAddButton, $rootelClass).unbind("click");
-            $(goodiesAddButton, $rootelClass).bind("click", function(ev) {
+            $(goodiesAddButton, $rootelClass).off('click');
+            $(goodiesAddButton, $rootelClass).on('click', function(ev) {
                 // Disable the add goodies buttons
                 disableAddGoodies();
                 // The expected is btn_add_WIDGETNAME
-                var id = this.id.replace(btnAdd, "");
+                var id = this.id.replace(btnAdd, '');
                 $(addRow + id, $rootelClass).hide();
                 $(removeRow + id, $rootelClass).show();
                 addWidget(id);
@@ -893,25 +891,25 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
            * this function will figure out what widget we chose and will hide the Remove row
            * and show the Add row for that widget
            */
-            $(goodiesRemoveButton, $rootelClass).unbind("click");
-            $(goodiesRemoveButton, $rootelClass).bind("click", function(ev) {
+            $(goodiesRemoveButton, $rootelClass).off('click');
+            $(goodiesRemoveButton, $rootelClass).on('click', function(ev) {
                 // Disable the add goodies buttons
                 disableAddGoodies();
                 // The expected id is btn_remove_WIDGETNAME
-                var id = this.id.replace(btnRemove, "");
+                var id = this.id.replace(btnRemove, '');
                 $(removeRow + id, $rootelClass).hide();
                 $(addRow + id, $rootelClass).show();
                 // We find the widget container itself, and then find its parent,
                 // which is the column the widget is in, and then remove the widget
                 // from the column
-                var el = $("[id^=" + id + "]", $rootel).get(0);
+                var el = $('[id^=' + id + ']', $rootel).get(0);
                 var parent = el.parentNode;
                 parent.removeChild(el);
                 saveState();
             });
 
-            $(".close_goodies_dialog", $rootelClass).unbind("click");
-            $(".close_goodies_dialog", $rootelClass).bind("click", function(e) {
+            $('.close_goodies_dialog', $rootelClass).off('click');
+            $('.close_goodies_dialog', $rootelClass).on('click', function(e) {
                 sakai.api.Util.Modal.close(addGoodiesDialog + rootelClass);
             });
 
@@ -922,7 +920,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             var addingPossible = {};
             addingPossible.items = [];
 
-            $(addGoodiesListContainer, $rootelClass).html("");
+            $(addGoodiesListContainer, $rootelClass).html('');
 
             for (var l in sakai.widgets) {
                 if (sakai.widgets.hasOwnProperty(l)) {
@@ -931,7 +929,7 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
                     // whether the current widget is already on the dashboard (so show the Remove row),
                     // or whether the current widget is not on the dashboard (and thus show the Add row)
                     for (var c in settings.columns) {
-                        if (settings.columns.hasOwnProperty(c) && c.indexOf("column") > -1) {
+                        if (settings.columns.hasOwnProperty(c) && c.indexOf('column') > -1) {
                             for (var ii = 0; ii < settings.columns[c].length; ii++) {
                                 if (settings.columns[c][ii].name === l) {
                                     alreadyIn = true;
@@ -971,17 +969,17 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             onShow: renderGoodies
         });
 
-        $(window).bind("showAddWidgetDialog.dashboard.sakai", function(e, iTuid) {
+        $(window).on('showAddWidgetDialog.dashboard.sakai', function(e, iTuid) {
             showAddWidgetDialog(iTuid);
             e.stopPropagation();
         });
-        
-        $(".dashboard_global_add_widget").live("click", function(){
-            var iTuid = "" + $(this).data("tuid");
+
+        $('.dashboard_global_add_widget').on('click', function() {
+            var iTuid = '' + $(this).data('tuid');
             showAddWidgetDialog(iTuid);
         });
-        
-        var showAddWidgetDialog = function(iTuid){
+
+        var showAddWidgetDialog = function(iTuid) {
             if (iTuid === tuid) {
                 sakai.api.Util.Modal.open($(addGoodiesDialog, $rootel));
             }
@@ -1008,13 +1006,13 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
             $rootelClass = $($rootelClass.selector);
 
             if (fixedContainer) {
-                $(".widget-content .dashboard_options", $rootel).addClass("fixed-container");
-                $(".widget-content #widgetscontainer", $rootel).addClass("fixed-container");
+                $('.widget-content .dashboard_options', $rootel).addClass('fixed-container');
+                $('.widget-content #widgetscontainer', $rootel).addClass('fixed-container');
             }
 
             // prevent the container from flashing at 100% width if it needs to be a fixed-container
             // by showing it here instead of by default
-            $(".widget-content #widgetscontainer", $rootel).show();
+            $('.widget-content #widgetscontainer', $rootel).show();
 
             if (widgetData && widgetData.dashboard) {
                 decideExists(true, widgetData.dashboard);
@@ -1024,17 +1022,17 @@ require(["jquery", "sakai/sakai.api.core", "jquery-ui"], function($, sakai) {
         };
 
         // Dashboards are only used in the private space these days
-        init("/~" + sakai.data.me.user.userid + "/private/privspace/", true, "personalportal", false);
+        init('/~' + sakai.data.me.user.userid + '/private/privspace/', true, 'personalportal', false);
 
         /**
          * Send out an event to indicate that the dashboard widget has been
          * loaded successfully
          */
 
-        $(window).trigger("ready.dashboard.sakai", tuid);
+        $(window).trigger('ready.dashboard.sakai', tuid);
         sakai_global.dashboard.isReady = true;
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("dashboard");
+    sakai.api.Widgets.widgetLoader.informOnLoad('dashboard');
 
 });

@@ -198,8 +198,8 @@
     -moz-border-radius: 5px 5px 0 0;
     border-radius: 5px 5px 0 0;
     padding: 10px 12px 5px;
-    font-size:12px;
-    margin:0;
+    font-size: 12px;
+    margin: 0;
 }
 #newaddcontent_container #newaddcontent_container_selecteditems .newaddcontent_noselecteditems {
     color: #aaa;
@@ -262,8 +262,7 @@
 }
 
 /* Right selected items edit popup */
-#newaddcontent_selecteditems_edit_data_container,
-#newaddcontent_selecteditems_edit_permissions_container {
+#newaddcontent_selecteditems_edit_data_container, #newaddcontent_selecteditems_edit_permissions_container {
     border: 1px solid #999999;
     position: absolute;
     z-index: 999;
@@ -274,13 +273,11 @@
     border-radius: 5px;
     min-width: 263px;
 }
-#newaddcontent_selecteditems_edit_data_fields,
-#newaddcontent_selecteditems_edit_permissions_fields {
+#newaddcontent_selecteditems_edit_data_fields, #newaddcontent_selecteditems_edit_permissions_fields {
     width: 240px;
     padding: 10px;
 }
-#newaddcontent_selecteditems_edit_data_actions,
-#newaddcontent_selecteditems_edit_permissions_actions {
+#newaddcontent_selecteditems_edit_data_actions, #newaddcontent_selecteditems_edit_permissions_actions {
     height: 32px;
     background-color: #E5EAED;
     border-top: 1px solid #A9A9A9;
@@ -291,23 +288,19 @@
     float: left;
     width: 100%;
 }
-#newaddcontent_selecteditems_edit_data_actions button,
-#newaddcontent_selecteditems_edit_permissions_actions button {
+#newaddcontent_selecteditems_edit_data_actions button, #newaddcontent_selecteditems_edit_permissions_actions button {
     float: right;
     margin-top: 5px;
 }
-#newaddcontent_selecteditems_edit_data_fields textarea,
-#newaddcontent_selecteditems_edit_data_fields input {
+#newaddcontent_selecteditems_edit_data_fields textarea, #newaddcontent_selecteditems_edit_data_fields input {
     width: 237px;
     margin: 0 0 2px;
     padding: 2px;
 }
-#newaddcontent_selecteditems_edit_data_fields label,
-#newaddcontent_selecteditems_edit_permissions_fields label {
+#newaddcontent_selecteditems_edit_data_fields label, #newaddcontent_selecteditems_edit_permissions_fields label {
     margin: 2px 0 0
 }
-#newaddcontent_selecteditems_edit_permissions_container select,
-#newaddcontent_container_newitem_fields select {
+#newaddcontent_selecteditems_edit_permissions_container select, #newaddcontent_container_newitem_fields select {
     border: 1px solid #A9A9A9;
     height: 20px;
 }
@@ -344,14 +337,11 @@
 #newaddcontent_existing_content_form label {
     float: none
 }
-.newaddcontent_form input[type="text"],
-.newaddcontent_form textarea {
+.newaddcontent_form input[type="text"], .newaddcontent_form textarea {
     width: 330px;
     height: 20px;
 }
-.newaddcontent_form input[type="text"],
-.newaddcontent_form textarea,
-.newaddcontent_form select {
+.newaddcontent_form input[type="text"], .newaddcontent_form textarea, .newaddcontent_form select {
     float: left;
     clear: both;
 }
@@ -393,8 +383,7 @@
     float: left;
     width: 320px;
 }
-#newaddcontent_add_document_form input,
-#newaddcontent_add_document_form textarea {
+#newaddcontent_add_document_form input, #newaddcontent_add_document_form textarea {
     width: 300px
 }
 #newaddcontent_add_document_form select {
@@ -495,10 +484,10 @@
     width: 231px
 }
 #newaddcontent_selecteditems_edit_data_fields .s3d-form-field-wrapper {
-    position: static!important
+    position: static !important
 }
 #newaddcontent_container span.s3d-error {
-    display: none!important
+    display: none !important
 }
 
 /* AutoSuggest */
@@ -521,8 +510,7 @@
 #newaddcontent_container .autosuggest_wrapper .list_categories {
     margin-right: 7px
 }
-#newaddcontent_selecteditems_edit_data_form .autosuggest_wrapper ul.as-list,
-#newaddcontent_upload_content_fields .autosuggest_wrapper ul.as-list {
+#newaddcontent_selecteditems_edit_data_form .autosuggest_wrapper ul.as-list, #newaddcontent_upload_content_fields .autosuggest_wrapper ul.as-list {
     margin-top: 0
 }
 
@@ -551,5 +539,5 @@
     top: 0;
     /* IE8 opacity fix */
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-	filter: alpha(opacity=0);
+    filter: alpha(opacity=0);
 }

@@ -17,7 +17,7 @@
  */
 
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.joingroup
@@ -31,15 +31,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.joingroup = function (tuid, showSettings) {
+    sakai_global.joingroup = function(tuid, showSettings) {
 
         /////////////////////////////
         // Configuration variables //
         /////////////////////////////
 
         // DOM jQuery Objects
-        var $rootel = $("#" + tuid);  // unique container for each widget instance
-        var $joingroup_hover_template = $("#joingroup_hover_template", $rootel);
+        var $rootel = $('#' + tuid);  // unique container for each widget instance
+        var $joingroup_hover_template = $('#joingroup_hover_template', $rootel);
 
         ///////////////////////
         // Utility Functions //
@@ -52,7 +52,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} participant b
          * @return 1, 0 or -1
          */
-        var participantSort = function (a, b) {
+        var participantSort = function(a, b) {
             if (a.displayname.toLowerCase() > b.displayname.toLowerCase()) {
                 return 1;
             } else {
@@ -70,16 +70,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {String} groupid The group ID
          * @param {Integer} value Value to adjust the number of participants by
          */
-        var adjustParticipantCount = function (groupid, value) {
-            var participantCount = parseInt($("#searchgroups_result_participant_count_" + groupid).text(), 10);
+        var adjustParticipantCount = function(groupid, value) {
+            var participantCount = parseInt($('#searchgroups_result_participant_count_' + groupid).text(), 10);
             participantCount = participantCount + value;
-            $("#searchgroups_result_participant_count_" + groupid).text(participantCount);
+            $('#searchgroups_result_participant_count_' + groupid).text(participantCount);
             if (participantCount === 1) {
-                $("#searchgroups_text_participant_" + groupid).text(sakai.api.i18n.getValueForKey("PARTICIPANT_LC"));
+                $('#searchgroups_text_participant_' + groupid).text(sakai.api.i18n.getValueForKey('PARTICIPANT_LC'));
             } else {
-                $("#searchgroups_text_participant_" + groupid).text(sakai.api.i18n.getValueForKey("PARTICIPANTS_LC"));
+                $('#searchgroups_text_participant_' + groupid).text(sakai.api.i18n.getValueForKey('PARTICIPANTS_LC'));
             }
-            $("#searchgroups_result_participant_link_" + groupid).attr("title", $.trim($("#searchgroups_result_participant_link_" + groupid).text()));
+            $('#searchgroups_result_participant_link_' + groupid).attr('title', $.trim($('#searchgroups_result_participant_link_' + groupid).text()));
         };
 
         /**
@@ -91,15 +91,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} is_manager  optional flag to set whether this user
          *     is a manager or not
          */
-        var push_member_to_list = function (member, list, role) {
-            var link, picsrc, displayname = "";
-            if (member["sakai:group-id"]) {
+        var push_member_to_list = function(member, list, role) {
+            var link, picsrc, displayname = '';
+            if (member['sakai:group-id']) {
                 picsrc = sakai.api.Groups.getProfilePicture(member);
-                link = "~" + member.groupid;
-                displayname = member["sakai:group-title"];
+                link = '~' + member.groupid;
+                displayname = member['sakai:group-title'];
             } else {
                 picsrc = sakai.api.User.getProfilePicture(member);
-                link = "~" + member.userid;
+                link = '~' + member.userid;
                 displayname = sakai.api.User.getDisplayName(member);
             }
             list.push({
@@ -115,15 +115,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // get batch group data for this group
             var batchRequests = [
                 {
-                    url: "/var/joinrequests/list.json?groupId=" + groupid,
-                    method: "GET"
+                    url: '/var/joinrequests/list.json?groupId=' + groupid,
+                    method: 'GET'
                 },
                 {
                     url: '/system/userManager/group/' + groupid + '.json',
-                    method: "GET"
+                    method: 'GET'
                 }
             ];
-            sakai.api.Server.batch(batchRequests, function (success, data) {
+            sakai.api.Server.batch(batchRequests, function(success, data) {
                 if (success && data && data.results && data.results.length) {
                     var participants = [];
                     // join requests
@@ -151,7 +151,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             }
                         });
 
-                        if (group.groupMembers.Manager && group.groupMembers.Manager.results){
+                        if (group.groupMembers.Manager && group.groupMembers.Manager.results) {
                             group.managerCount = group.groupMembers.Manager.results.length;
                         }
                         group.totalParticipants = participants.length;
@@ -165,66 +165,66 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                             group.seeAll = false;
                         }
                         group.participants = participants;
-                        if ($.isFunction(callback)){
+                        if ($.isFunction(callback)) {
                             callback(group);
                         }
                     }, true);
                 } else {
-                    debug.error("Batch request to fetch group (id: " + id + ") data failed.");
+                    debug.error('Batch request to fetch group (id: ' + id + ') data failed.');
                 }
             });
             return group;
         };
 
-        var openTooltip = function (groupid, $item, leaveAllowed) {
+        var openTooltip = function(groupid, $item, leaveAllowed) {
             getGroup(groupid, function(group) {
                 group.sakai = sakai;
                 $(document).trigger('init.tooltip.sakai', {
                     tooltipHTML: sakai.api.Util.TemplateRenderer($joingroup_hover_template, group),
                     tooltipAutoClose: true,
-                    tooltipArrow: "top",
+                    tooltipArrow: 'top',
                     tooltipTop: $item.offset().top + $item.height(),
                     tooltipLeft: $item.offset().left + $item.width() + 3,
-                    onShow: function () {
+                    onShow: function() {
                         $(document).trigger('init.joinrequestbuttons.sakai', [
                             {
-                                "groupProfile": group.groupProfile,
-                                "groupMembers": group.groupMembers,
-                                "leaveAllowed": leaveAllowed
+                                'groupProfile': group.groupProfile,
+                                'groupMembers': group.groupMembers,
+                                'leaveAllowed': leaveAllowed
                             },
                             groupid,
                             group.joinability,
                             group.managerCount,
                             false,
-                            function (renderedButtons) {
+                            function(renderedButtons) {
                                 // onShow
-                                $("#joingroup_joinrequestbuttons").html(
+                                $('#joingroup_joinrequestbuttons').html(
                                     renderedButtons.html());
                             },
-                            function (success, id) {
+                            function(success, id) {
                                 // requestCallback
                                 if (success) {
                                     // reset joinrequest data
                                     group.joinrequests = false;
                                 }
                             },
-                            function (success, id) {
+                            function(success, id) {
                                 // joinCallback
                                 if (success) {
                                     // re-render tooltip
                                     resetTooltip(groupid, $item);
-                                    $("#searchgroups_memberimage_" + groupid).show();
-                                    $("#searchgroups_memberimage_" + groupid).parent().removeClass("s3d-actions-addtolibrary");
+                                    $('#searchgroups_memberimage_' + groupid).show();
+                                    $('#searchgroups_memberimage_' + groupid).parent().removeClass('s3d-actions-addtolibrary');
                                     adjustParticipantCount(groupid, 1);
                                 }
                             },
-                            function (success, id) {
+                            function(success, id) {
                                 // leaveCallback
                                 if (success) {
                                     // re-render tooltip
                                     resetTooltip(groupid, $item);
-                                    $("#searchgroups_memberimage_" + groupid).hide();
-                                    $("#searchgroups_memberimage_" + groupid).parent().addClass("s3d-actions-addtolibrary");
+                                    $('#searchgroups_memberimage_' + groupid).hide();
+                                    $('#searchgroups_memberimage_' + groupid).parent().addClass('s3d-actions-addtolibrary');
                                     adjustParticipantCount(groupid, -1);
                                 }
                             },
@@ -235,7 +235,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
-        var resetTooltip = function (groupid, $item) {
+        var resetTooltip = function(groupid, $item) {
             $(document).trigger('done.tooltip.sakai');
             openTooltip(groupid, $item);
         };
@@ -244,7 +244,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Initialization function //
         /////////////////////////////
 
-        var doInit = function () {
+        var doInit = function() {
             $(document).on('click', '.sakai_joingroup_overlay', function(ev) {
                 var $el = $(this);
                 var groupid = $el.attr('data-groupid');
@@ -263,5 +263,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
     };
 
     // inform Sakai OAE that this widget has loaded and is ready to run
-    sakai.api.Widgets.widgetLoader.informOnLoad("joingroup");
+    sakai.api.Widgets.widgetLoader.informOnLoad('joingroup');
 });

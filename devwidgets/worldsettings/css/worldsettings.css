@@ -25,21 +25,54 @@
  */
 
 /* padding around all your widget's content */
-.worldsettings_widget .s3d-widget-content {padding: 10px 20px;}
+.worldsettings_widget .s3d-widget-content {
+    padding: 10px 20px;
+}
 
 /* Everything below is lifted from newcreategroup.css and should be consolidated somewhere */
 
-#worldsettings_form h1 {font-size: 18px;font-weight: normal;color:#7c7c7c;}
-#worldsettings_form h1 + hr {border:none;border-top:1px solid #A9A9A9;background:none;}
-#worldsettings_container {width: 370px !important; margin-left: -185px !important;}
-#worldsettings_container label {display:block; color:#424242;font-size:12px;width:38%;text-align:left;}
-#worldsettings_container input, #worldsettings_container textarea {width:95%;}
-#worldsettings_container .s3d-form-field-wrapper span.s3d-error-after{width:95%;}
-#worldsettings_container textarea {height:50px;resize:none;}
-#worldsettings_container input#worldsettings_suggested_url {width:auto;}
- 
-#worldsettings_container .worldsettings_section select {border:1px solid #A9A9A9;float:right;}
-#worldsettings_container .worldsettings_section label {display:inline;}
+#worldsettings_form h1 {
+    font-size: 18px;
+    font-weight: normal;
+    color: #7c7c7c;
+}
+#worldsettings_form h1 + hr {
+    border: none;
+    border-top: 1px solid #A9A9A9;
+    background: none;
+}
+#worldsettings_container {
+    width: 370px !important;
+    margin-left: -185px !important;
+}
+#worldsettings_container label {
+    display: block;
+    color: #424242;
+    font-size: 12px;
+    width: 38%;
+    text-align: left;
+}
+#worldsettings_container input, #worldsettings_container textarea {
+    width: 95%;
+}
+#worldsettings_container .s3d-form-field-wrapper span.s3d-error-after {
+    width: 95%;
+}
+#worldsettings_container textarea {
+    height: 50px;
+    resize: none;
+}
+#worldsettings_container input#worldsettings_suggested_url {
+    width: auto;
+}
+
+#worldsettings_container .worldsettings_section select {
+    border: 1px solid #A9A9A9;
+    float: right;
+}
+#worldsettings_container .worldsettings_section label {
+    display: inline;
+}
 #worldsettings_container .worldsettings_section {
     background: #f5f5f5;
     background: -moz-linear-gradient(top, #fdfdfd 0%, #f6f6f6 2%, #f5f5f5 4%, #efefef 91%, #f1f1f1 93%, #f0f0f0 96%, #e8e8e8 98%, #f6f6f6 100%);
@@ -55,16 +88,35 @@
     border-radius: 5px;
     -webkit-border-radius: 5px;
     float: left;
-    width:92%;
+    width: 92%;
 }
-#worldsettings_container hr {border:none;border-top:1px solid #E7E7E7;background:none;}
-#worldsettings_container #worldsettings_members_message {height: 120px;margin-top: 12px;}
+#worldsettings_container hr {
+    border: none;
+    border-top: 1px solid #E7E7E7;
+    background: none;
+}
+#worldsettings_container #worldsettings_members_message {
+    height: 120px;
+    margin-top: 12px;
+}
 
-#worldsettings_warning_container #worldsettings_warning_container_text {font-size:16px;line-height:20px;}
-#worldsettings_warning_container {margin-top: 140px;}
+#worldsettings_warning_container #worldsettings_warning_container_text {
+    font-size: 16px;
+    line-height: 20px;
+}
+#worldsettings_warning_container {
+    margin-top: 140px;
+}
 
-#worldsettings_container .autosuggest_wrapper {width:97%;}
+#worldsettings_container .autosuggest_wrapper {
+    width: 97%;
+}
 
 /* Actions */
-#worldsettings_container #worldsettings_group_actions {float: right;margin-top: 20px;}
-#worldsettings_container #worldsettings_group_actions .s3d-link-button {margin-right: 20px;}
+#worldsettings_container #worldsettings_group_actions {
+    float: right;
+    margin-top: 20px;
+}
+#worldsettings_container #worldsettings_group_actions .s3d-link-button {
+    margin-right: 20px;
+}

@@ -16,9 +16,9 @@
  * specific language governing permissions and limitations under the License.
  */
 
-require(["jquery","sakai/sakai.api.core"], function($, sakai) {
-    
+require(['jquery','sakai/sakai.api.core'], function($, sakai) {
+
     sakai_global.allcategories = function() {};
 
-    sakai.api.Widgets.Container.registerForLoad("allcategories");
+    sakai.api.Widgets.Container.registerForLoad('allcategories');
 });

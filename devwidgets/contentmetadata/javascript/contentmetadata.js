@@ -23,7 +23,7 @@
  * /dev/lib/jquery/plugins/jquery.threedots.js (ThreeDots)
  */
 /*global $ */
-require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"], function($, sakai){
+require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js'], function($, sakai) {
 
     /**
      * @name sakai_global.contentmetadata
@@ -37,53 +37,53 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.contentmetadata = function(tuid, showSettings){
+    sakai_global.contentmetadata = function(tuid, showSettings) {
 
         ////////////////////////
         ////// VARIABLES ///////
         ////////////////////////
 
         // Containers
-        var $contentmetadataDescriptionContainer = $("#contentmetadata_description_container");
-        var $contentmetadataTagsContainer = $("#contentmetadata_tags_container");
-        var $contentmetadataUrlContainer = $("#contentmetadata_url_container");
-        var $contentmetadataCopyrightContainer = $("#contentmetadata_copyright_container");
-        var $contentmetadataDetailsContainer = $("#contentmetadata_details_container");
+        var $contentmetadataDescriptionContainer = $('#contentmetadata_description_container');
+        var $contentmetadataTagsContainer = $('#contentmetadata_tags_container');
+        var $contentmetadataUrlContainer = $('#contentmetadata_url_container');
+        var $contentmetadataCopyrightContainer = $('#contentmetadata_copyright_container');
+        var $contentmetadataDetailsContainer = $('#contentmetadata_details_container');
 
         // Elements
-        var contentmetadataDescriptionDisplay = "#contentmetadata_description_display";
-        var $collapsibleContainers = $(".collapsible_container");
-        var contentmetadataViewRevisions = "#contentmetadata_view_revisions";
-        var $contentmetadataEditable = $(".contentmetadata_editable");
-        var contentmetadataCancelSave = ".contentmetadata_cancel_save";
-        var contentmetadataSave = ".contentmetadata_save";
-        var contentmetadataInputEdit = ".contentmetadata_edit_input";
+        var contentmetadataDescriptionDisplay = '#contentmetadata_description_display';
+        var $collapsibleContainers = $('.collapsible_container');
+        var contentmetadataViewRevisions = '#contentmetadata_view_revisions';
+        var $contentmetadataEditable = $('.contentmetadata_editable');
+        var contentmetadataCancelSave = '.contentmetadata_cancel_save';
+        var contentmetadataSave = '.contentmetadata_save';
+        var contentmetadataInputEdit = '.contentmetadata_edit_input';
 
         // Autosuggest
         var $contentmetadataAutosuggestElt = false;
 
         // See more
-        var $contentmetadataShowMore = $("#contentmetadata_show_more");
-        var $contentmetadataSeeMore = $("#contentmetadata_see_more");
-        var $contentmetadataSeeLess = $("#contentmetadata_see_less");
+        var $contentmetadataShowMore = $('#contentmetadata_show_more');
+        var $contentmetadataSeeMore = $('#contentmetadata_see_more');
+        var $contentmetadataSeeLess = $('#contentmetadata_see_less');
 
         // Templates
-        var contentmetadataDescriptionTemplate = "contentmetadata_description_template";
-        var contentmetadataTagsTemplate = "contentmetadata_tags_template";
-        var contentmetadataUrlTemplate = "contentmetadata_url_template";
-        var contentmetadataCopyrightTemplate = "contentmetadata_copyright_template";
-        var contentmetadataDetailsTemplate = "contentmetadata_details_template";
+        var contentmetadataDescriptionTemplate = 'contentmetadata_description_template';
+        var contentmetadataTagsTemplate = 'contentmetadata_tags_template';
+        var contentmetadataUrlTemplate = 'contentmetadata_url_template';
+        var contentmetadataCopyrightTemplate = 'contentmetadata_copyright_template';
+        var contentmetadataDetailsTemplate = 'contentmetadata_details_template';
 
         // i18n
-        var $contentmetadataUpdatedCopyright = $("#contentmetadata_updated_copyright");
+        var $contentmetadataUpdatedCopyright = $('#contentmetadata_updated_copyright');
 
         // jEditable
         var contentmetadataJEditTrigger = 'openjedit.contentmetadata.sakai';
 
         // Edit vars
         // ID of Input element that's focused, defines what to update
-        var editingElement = "";
-        var contentType = "";
+        var editingElement = '';
+        var contentType = '';
 
         ////////////////////////
         ////// RENDERING ///////
@@ -94,15 +94,15 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * @param {String|Boolean} mode Can be false or 'edit' depending on the mode you want to be in
          */
         var addEditBinding = function( mode, tags ) {
-            if (mode === "edit") {
-                if ($(".contentmetadata_edit_input").length) {
-                    $(".contentmetadata_edit_input").focus();
+            if (mode === 'edit') {
+                if ($('.contentmetadata_edit_input').length) {
+                    $('.contentmetadata_edit_input').focus();
                 }
                 if ( !tags ) {
                     $(contentmetadataInputEdit).blur( editInputBlur );
                 } else {
-                    sakai.api.Util.hideOnClickOut( $( ".autosuggest_wrapper", $contentmetadataTagsContainer ) , "#assignlocation_container, " + $contentmetadataTagsContainer.selector + " .autosuggest_wrapper", function() {
-                      editInputBlur(false, "tags");
+                    sakai.api.Util.hideOnClickOut( $( '.autosuggest_wrapper', $contentmetadataTagsContainer ) , '#assignlocation_container, ' + $contentmetadataTagsContainer.selector + ' .autosuggest_wrapper', function() {
+                      editInputBlur(false, 'tags');
                     });
                 }
             }
@@ -112,13 +112,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * Render the Description template
          * @param {String|Boolean} mode Can be false or 'edit' depending on the mode you want to be in
          */
-        var renderDescription = function(mode){
+        var renderDescription = function(mode) {
             sakai_global.content_profile.content_data.mode = mode;
             var json = {
                 data: sakai_global.content_profile.content_data,
                 sakai: sakai
             };
-            $contentmetadataDescriptionContainer.toggleClass("contentmetadata_editing", mode === "edit");
+            $contentmetadataDescriptionContainer.toggleClass('contentmetadata_editing', mode === 'edit');
             $contentmetadataDescriptionContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataDescriptionTemplate, json));
             addEditBinding(mode);
         };
@@ -127,17 +127,17 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * Render the URL template
          * @param {String|Boolean} mode Can be false or 'edit' depending on the mode you want to be in
          */
-        var renderUrl = function(mode){
+        var renderUrl = function(mode) {
             sakai_global.content_profile.content_data.mode = mode;
             contentType = sakai.api.Content.getMimeType(sakai_global.content_profile.content_data.data);
-            if(contentType === "x-sakai/link") {
+            if (contentType === 'x-sakai/link') {
                 var json = {
                     data: sakai_global.content_profile.content_data,
                     sakai: sakai
                 };
                 sakai.api.Util.TemplateRenderer(contentmetadataUrlTemplate, json, $contentmetadataUrlContainer);
                 $contentmetadataUrlContainer.show();
-                $contentmetadataTagsContainer.removeClass("last");
+                $contentmetadataTagsContainer.removeClass('last');
             } else {
                 $contentmetadataUrlContainer.hide();
             }
@@ -148,19 +148,19 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * Render the Tags template
          * @param {String|Boolean} mode Can be false or 'edit' depending on the mode you want to be in
          */
-        var renderTags = function(mode){
+        var renderTags = function(mode) {
             sakai_global.content_profile.content_data.mode = mode;
             var json = {
                 data: sakai_global.content_profile.content_data,
                 sakai: sakai,
-                tags: sakai.api.Util.formatTags(sakai_global.content_profile.content_data.data["sakai:tags"])
+                tags: sakai.api.Util.formatTags(sakai_global.content_profile.content_data.data['sakai:tags'])
             };
             $contentmetadataTagsContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataTagsTemplate, json));
-            $contentmetadataTagsContainer.toggleClass("contentmetadata_editing", mode === "edit");
-            $contentmetadataTagsContainer.toggleClass("contentmetadata_editable", mode !== "edit");
-            if (mode === "edit") {
-                $contentmetadataAutosuggestElt = $( "#contentmetadata_tags_tags" );
-                sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest($contentmetadataAutosuggestElt , null, $( '.list_categories', $contentmetadataTagsContainer ), sakai_global.content_profile.content_data.data['sakai:tags'], function(){
+            $contentmetadataTagsContainer.toggleClass('contentmetadata_editing', mode === 'edit');
+            $contentmetadataTagsContainer.toggleClass('contentmetadata_editable', mode !== 'edit');
+            if (mode === 'edit') {
+                $contentmetadataAutosuggestElt = $( '#contentmetadata_tags_tags' );
+                sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest($contentmetadataAutosuggestElt , null, $( '.list_categories', $contentmetadataTagsContainer ), sakai_global.content_profile.content_data.data['sakai:tags'], function() {
                     $('.as-selections', $contentmetadataTagsContainer ).addClass('contentmetadata_edit_input');
                     $contentmetadataAutosuggestElt.focus();
                 });
@@ -172,13 +172,13 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * Render the Copyright template
          * @param {String|Boolean} mode Can be false or 'edit' depending on the mode you want to be in
          */
-        var renderCopyright = function(mode){
+        var renderCopyright = function(mode) {
             sakai_global.content_profile.content_data.mode = mode;
             var json = {
                 data: sakai_global.content_profile.content_data,
                 sakai: sakai
             };
-            $contentmetadataCopyrightContainer.toggleClass("contentmetadata_editing", mode === "edit");
+            $contentmetadataCopyrightContainer.toggleClass('contentmetadata_editing', mode === 'edit');
             $contentmetadataCopyrightContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataCopyrightTemplate, json));
             addEditBinding(mode);
         };
@@ -187,7 +187,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * Render the Details template
          * @param {String|Boolean} mode Can be false or 'edit' depending on the mode you want to be in
          */
-        var renderDetails = function(mode){
+        var renderDetails = function(mode) {
             sakai_global.content_profile.content_data.mode = mode;
             sakai.api.Content.getCreatorProfile(sakai_global.content_profile.content_data.data, function(success, profile) {
                 var json = {
@@ -200,14 +200,14 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             });
         };
 
-        var createActivity = function(activityMessage){
+        var createActivity = function(activityMessage) {
             var activityData = {
-                "sakai:activityMessage": activityMessage
+                'sakai:activityMessage': activityMessage
             };
-            sakai.api.Activity.createActivity("/p/" + sakai_global.content_profile.content_data.data["_path"], "content", "default", activityData, function(responseData, success){
+            sakai.api.Activity.createActivity('/p/' + sakai_global.content_profile.content_data.data['_path'], 'content', 'default', activityData, function(responseData, success) {
                 if (success) {
                     // update the entity widget with the new activity
-                    $(window).trigger("updateContentActivity.entity.sakai", activityMessage);
+                    $(window).trigger('updateContentActivity.entity.sakai', activityMessage);
                 }
             });
         };
@@ -216,19 +216,19 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         /////// EDITTING ///////
         ////////////////////////
 
-        var updateTags = function(){
+        var updateTags = function() {
             var tags = sakai.api.Util.AutoSuggest.getTagsAndCategories($contentmetadataAutosuggestElt, true);
-            var path = sakai_global.content_profile.content_data.data["_path"];
-            sakai.api.Util.tagEntity("/p/" + path, tags, sakai_global.content_profile.content_data.data["sakai:tags"], function(success, newTags){
+            var path = sakai_global.content_profile.content_data.data['_path'];
+            sakai.api.Util.tagEntity('/p/' + path, tags, sakai_global.content_profile.content_data.data['sakai:tags'], function(success, newTags) {
                 // We need this check because it's possible that this is called after new content is shown.
                 // If that is the case, we still need to send the update tags activity, but not render the actual tags.
-                if(path === sakai_global.content_profile.content_data.data["_path"]){
-                    sakai_global.content_profile.content_data.data["sakai:tags"] = newTags;
+                if (path === sakai_global.content_profile.content_data.data['_path']) {
+                    sakai_global.content_profile.content_data.data['sakai:tags'] = newTags;
                     renderTags(false);
                 }
                 if (success) {
                     // Create an activity
-                    createActivity("UPDATED_TAGS");
+                    createActivity('UPDATED_TAGS');
                 }
             });
         };
@@ -239,27 +239,27 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          */
         var updateUrl = function(url) {
             var preview = sakai.api.Content.getPreviewUrl(url);
-            sakai_global.content_profile.content_data.data["sakai:pooled-content-url"] = url;
-            sakai_global.content_profile.content_data.data["sakai:pooled-content-revurl"] = url;
-            sakai_global.content_profile.content_data.data["sakai:preview-url"] = preview.url;
-            sakai_global.content_profile.content_data.data["sakai:preview-type"] = preview.type;
-            sakai_global.content_profile.content_data.data["sakai:preview-avatar"] = preview.avatar;
-            sakai_global.content_profile.content_data.data["length"] = url.length;
+            sakai_global.content_profile.content_data.data['sakai:pooled-content-url'] = url;
+            sakai_global.content_profile.content_data.data['sakai:pooled-content-revurl'] = url;
+            sakai_global.content_profile.content_data.data['sakai:preview-url'] = preview.url;
+            sakai_global.content_profile.content_data.data['sakai:preview-type'] = preview.type;
+            sakai_global.content_profile.content_data.data['sakai:preview-avatar'] = preview.avatar;
+            sakai_global.content_profile.content_data.data['length'] = url.length;
             $.ajax({
-                url: "/p/" + sakai_global.content_profile.content_data.data["_path"] + ".html",
-                type: "POST",
+                url: '/p/' + sakai_global.content_profile.content_data.data['_path'] + '.html',
+                type: 'POST',
                 cache: false,
                 data: {
-                    "sakai:pooled-content-url": url,
-                    "sakai:pooled-content-revurl": url,
-                    "sakai:preview-url": preview.url,
-                    "sakai:preview-type": preview.type,
-                    "sakai:preview-avatar": preview.avatar,
-                    "length": url.length
+                    'sakai:pooled-content-url': url,
+                    'sakai:pooled-content-revurl': url,
+                    'sakai:preview-url': preview.url,
+                    'sakai:preview-type': preview.type,
+                    'sakai:preview-avatar': preview.avatar,
+                    'length': url.length
                 },
-                success: function(){
-                    createActivity("UPDATED_URL");
-                    $(window).trigger("updated.version.content.sakai");
+                success: function() {
+                    createActivity('UPDATED_URL');
+                    $(window).trigger('updated.version.content.sakai');
                 }
             });
         };
@@ -268,15 +268,15 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
          * Trigger the template to render the edit mode
          * @param {Object} ev Trigger event
          */
-        var editData = function(ev){
-            if ( !$( ev.target ).is( "a, select, option, textarea" ) ) {
-                $target = $( ev.target ).closest( ".contentmetadata_editable" );
+        var editData = function(ev) {
+            if ( !$( ev.target ).is( 'a, select, option, textarea' ) ) {
+                $target = $( ev.target ).closest( '.contentmetadata_editable' );
                 if ( $target.length ) {
                     // Need to clear out any active editingElements before creating a new one
-                    if (editingElement !== "") {
+                    if (editingElement !== '') {
                         editInputBlur(false, editingElement);
                     }
-                    editingElement = $target.attr( "data-edit-field" );
+                    editingElement = $target.attr( 'data-edit-field' );
                     if (editingElement === 'tags') {
                         renderTags('edit');
                     }
@@ -296,7 +296,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
             if (editingElement === 'tags') {
                 updateTags();
             }
-            editingElement = "";
+            editingElement = '';
         };
 
         /**
@@ -351,7 +351,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         /**
          * Animate the hidden or shown data containers
          */
-        var animateData = function(){
+        var animateData = function() {
             $collapsibleContainers.animate({
                 'margin-bottom': 'toggle',
                 height: 'toggle',
@@ -359,27 +359,27 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
                 'padding-top': 'toggle',
                 'padding-bottom': 'toggle'
             }, 400);
-            $("#contentmetadata_show_more > div").toggle();
-            if (contentType === "x-sakai/link") {
-                $contentmetadataUrlContainer.toggleClass("last");
+            $('#contentmetadata_show_more > div').toggle();
+            if (contentType === 'x-sakai/link') {
+                $contentmetadataUrlContainer.toggleClass('last');
             } else {
-                $contentmetadataTagsContainer.toggleClass("last");
+                $contentmetadataTagsContainer.toggleClass('last');
             }
         };
 
         /**
          * Add binding/events to the elements in the widget
          */
-        var addBinding = function(){
-            $(".contentmetadata_editable_for_maintainers").toggleClass("contentmetadata_editable",
+        var addBinding = function() {
+            $('.contentmetadata_editable_for_maintainers').toggleClass('contentmetadata_editable',
                 (sakai_global.content_profile.content_data.isManager || sakai_global.content_profile.content_data.isEditor));
 
-            $contentmetadataShowMore.die("click").live("click", animateData);
+            $contentmetadataShowMore.off('click').on('click', animateData);
 
-            $(".contentmetadata_editable").die("click").live("click", editData);
+            $('.contentmetadata_editable').off('click').on('click', editData);
 
-            $(contentmetadataViewRevisions).die("click").live("click", function() {
-                $(window).trigger("initialize.filerevisions.sakai", sakai_global.content_profile.content_data);
+            $(contentmetadataViewRevisions).off('click').on('click', function() {
+                $(window).trigger('initialize.filerevisions.sakai', sakai_global.content_profile.content_data);
             });
 
             // jeditable bindings
@@ -470,7 +470,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         /**
          * Initialize the widget
          */
-        var doInit = function(){
+        var doInit = function() {
             // Render all information
             renderDescription(false);
             renderTags(false);
@@ -483,8 +483,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         };
 
         // Bind Enter key to input fields to save on keyup
-        $("input").bind("keyup", function(ev){
-            if (ev.keyCode == 13) {
+        $('input').on('keyup', function(ev) {
+            if (ev.keyCode === 13) {
                 $(this).blur();
             }
         });
@@ -492,12 +492,12 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/content_profile.js"]
         /**
          * Initialize the widget from outside of the widget
          */
-        $(window).bind("render.contentmetadata.sakai", function(){
+        $(window).on('render.contentmetadata.sakai', function() {
             doInit();
         });
         sakai_global.contentmetadata.isReady = true;
-        $(window).trigger("ready.contentmetadata.sakai");
+        $(window).trigger('ready.contentmetadata.sakai');
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("contentmetadata");
+    sakai.api.Widgets.widgetLoader.informOnLoad('contentmetadata');
 });

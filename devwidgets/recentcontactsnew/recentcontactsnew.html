@@ -50,7 +50,7 @@
     <div id="recentcontactsnew_recent_connection_template"><!--
         {if connection}
             <div class="recentcontactsnew_item_related_info">
-                <p class="recentcontactsnew_item_meta_data">${firstName|safeOutput} __MSG__RECENT_CONNECTION__</p>
+                <p class="recentcontactsnew_item_meta_data">${firstName} __MSG__RECENT_CONNECTION__</p>
                 <div class="fl-force-left">
                 <a href="/~${connection.connectionId}" title="${connection.connectionNameLinkTitle}">
                     <img class="s3d-icon-32" src="${connection.connectionPicture}" alt="__MSG__PROFILE_PICTURE_FOR__ ${connection.connectionName}" />
@@ -58,7 +58,7 @@
                 </div>
                 <div class="recentcontactsnew_item_div">
                     <a class="recentcontactsnew_item_link s3d-widget-links s3d-bold" href="/~${connection.connectionId}">
-                        ${connection.connectionName|safeOutput}
+                        ${connection.connectionName}
                     </a>
                 </div>
             </div>
@@ -82,7 +82,7 @@
                 </div>
                 <div class="recentcontactsnew_item_div">
                     <a class="recentcontactsnew_item_link s3d-widget-links s3d-bold" href="/content#p=${content['_path']|safeURL}/${content.name|safeURL}">
-                        ${content.name|safeOutput}
+                        ${content.nameShort}
                     </a>
                     <span class="recentcontactsnew_content_mimetype">${content.type}</span>
                     <div>

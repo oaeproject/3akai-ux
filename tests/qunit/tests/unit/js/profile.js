@@ -6,18 +6,18 @@ require(
     '../../../../tests/qunit/js/sakai_qunit_lib.js',
     '../../../../tests/qunit/js/dev.js',
     '../../../../tests/qunit/js/devwidgets.js'
-    ], 
+    ],
     function($, sakai) {
 
         module('Profile');
 
         var ProfileTest = function() {
 
-            var profile = {}; profile.basic = {}; profile.basic.elements = {}; 
+            var profile = {}; profile.basic = {}; profile.basic.elements = {};
             profile.basic.elements.firstName = {}; profile.basic.elements.lastName = {};
             profile.basic.elements.firstName.value = 'Ken';
             profile.basic.elements.lastName.value = 'Griffey';
-    
+
             asyncTest('Retrieve user\'s first name from profile', function() {
                 var firstName = sakai.api.User.getProfileBasicElementValue(profile, 'firstName');
                 ok(firstName === 'Ken', 'The user\'s first name was properly retrieved');
@@ -40,11 +40,11 @@ require(
             $(window).trigger('addlocalbinding.qunit.sakai');
             ProfileTest();
         };
-    
+
         if (sakai_global.qunit && sakai_global.qunit.ready) {
             startTest();
         } else {
-            $(window).bind('ready.qunit.sakai', function() {
+            $(window).on('ready.qunit.sakai', function() {
                 startTest();
             });
         }
