@@ -957,7 +957,7 @@ define(
                                 var groupid = urlToGroupMapping[membershiplist.url].groupid;
                                 var roleid = urlToGroupMapping[membershiplist.url].role;
                                 // Add the members to the response
-                                var members = []
+                                var members = [];
                                 if (membershiplist.status === 200) {
                                     members = $.parseJSON(membershiplist.body);
                                 }
