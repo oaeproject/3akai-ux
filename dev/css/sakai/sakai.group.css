@@ -15,4 +15,6 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-#group_create_new_area_container {margin:0 0 30px 23px;}
+#group_create_new_area_container {
+    margin: 0 0 30px 23px;
+}

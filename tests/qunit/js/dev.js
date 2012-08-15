@@ -19,7 +19,7 @@
 /**
  * Definitions of the js and html files inside the /dev folder to test
  */
-require(['jquery', 'sakai/sakai.api.core'], function($, sakai){
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
     sakai_global = sakai_global|| {};
     sakai_global.qunit = sakai_global.qunit || {};
     sakai_global.qunit.devfilesdone = false;

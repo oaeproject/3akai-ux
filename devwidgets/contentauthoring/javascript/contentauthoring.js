@@ -26,7 +26,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.contentauthoring = function (tuid, showSettings, widgetData) {
+    sakai_global.contentauthoring = function(tuid, showSettings, widgetData) {
 
         // Element cache
         var $rootel = $('#' + tuid);
@@ -95,7 +95,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
 
         /*
          * Generate a drag helper that will be used to drag around when dragging a row or
-         * a widget (instead of the actual element). Using a drag helper prevents 
+         * a widget (instead of the actual element). Using a drag helper prevents
          */
         var generateDragHelper = function(ev, ui) {
             var $el = $('<div/>');
@@ -284,7 +284,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
         };
 
         /**
-         * Matches the number of columns to the 'columncount' data attribute on list items 
+         * Matches the number of columns to the 'columncount' data attribute on list items
          * that indicates how many are used and puts a black check icon in front of the list item
          * @param {jQuery} element jQuery object with classname 'contentauthoring_row_container'
          *                         that is the parent element of all columns
@@ -359,7 +359,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             for (var i = 0; i < $cells.length; i++) {
                 // We give the last column the remaining width
                 if (i === $cells.length - 1) {
-                    widths.push(lastWidth); 
+                    widths.push(lastWidth);
                 // We give each column a relative width rather than
                 // an absolute one
                 } else {
@@ -414,7 +414,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             var totalRowWidth = $('#contentauthoring_widget_container', $pageRootEl).width();
             var newColumnWidth = (ui.size.width + 12) / totalRowWidth;
             var oldColumnWidth = ui.originalSize.width / totalRowWidth;
-            
+
             var rowId = $row.attr('data-row-id');
             var $cells = $('.contentauthoring_cell', $row);
 
@@ -646,7 +646,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 }
             });
         };
-        
+
 
         ///////////////////////
         ///////////////////////
@@ -706,7 +706,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             $('.contentauthoring_dummy_element', $(this)).remove();
             // If we've dragged in a piece of content
             if ($(ui.item).data('contentId') || $(ui.item).data('collectionId')) {
-                addExistingElement(event, ui);  
+                addExistingElement(event, ui);
             // If we've dragged in a widget
             } else if ($(ui.item).hasClass('inserterbar_widget_draggable')) {
                 addNewWidget(event, $(ui.item));
@@ -874,6 +874,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             $('#contentauthoring_widget_settings').jqmHide();
             // Remove the widget from the settings overlay
             $('#contentauthoring_widget_content').html('');
+            storeCurrentPageLayout();
         };
 
         /**
@@ -1107,6 +1108,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     addEditButtonBinding();
                 }
             });
+            return false;
         };
 
         //////////////////////
@@ -1701,7 +1703,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
 
         ////////////////////////////
         ////////////////////////////
-        // EXTERNAL DRAG AND DROP // 
+        // EXTERNAL DRAG AND DROP //
         ////////////////////////////
         ////////////////////////////
 
@@ -1737,7 +1739,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             }
             return false;
         });
-        
+
         //////////////////////////
         // Add existing element //
         //////////////////////////
@@ -1881,7 +1883,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                     formData.append('file', file);
                     formData.append('_charset_', 'utf-8');
                     xhReq.send(formData);
-                    if (xhReq.status == 201) {
+                    if (xhReq.status === 201) {
                         filesUploaded.push($.parseJSON(xhReq.responseText)[file.name].item);
                         checkAllExternalFilesUploaded(filesUploaded, $el);
                     } else {

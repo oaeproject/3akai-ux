@@ -15,7 +15,9 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-#uploadnewversion_container.s3d-dialog-container {width:485px;}
+#uploadnewversion_container.s3d-dialog-container {
+    width: 485px;
+}
 #uploadnewversion_container #uploadnewversion_form_container {
     background: #e3e3e2;
     background: -moz-linear-gradient(top, #eeeeee 0%, #e3e3e2 100%);
@@ -32,15 +34,40 @@
     padding: 20px 15px 0;
     width: 452px;
 }
-#uploadnewversion_container #uploadnewversion_form_container input {margin-top:10px;}
-#uploadnewversion_container #uploadnewversion_actions {float:right;margin-top:15px;}
-#uploadnewversion_container #uploadnewversion_actions .uploadnewversion_doupload {margin-left:20px;}
+#uploadnewversion_container #uploadnewversion_form_container input {
+    margin-top: 10px;
+}
+#uploadnewversion_container #uploadnewversion_actions {
+    float: right;
+    margin-top: 15px;
+}
+#uploadnewversion_container #uploadnewversion_actions .uploadnewversion_doupload {
+    margin-left: 20px;
+}
 
 /* Override multifile CSS */
-#uploadnewversion_container #multifile_upload {top:auto !important;}
-#uploadnewversion_container #multifile_upload_F1 {display:none;}
+#uploadnewversion_container #multifile_upload {
+    top: auto !important;
+}
+#uploadnewversion_container #multifile_upload_F1 {
+    display: none;
+}
 
-#uploadnewversion_uploading {margin-top:25px;width:485px;}
-#uploadnewversion_uploading h1, #uploadnewversion_uploading p {text-align:center;}
-#uploadnewversion_uploading .s3d-inset-shadow-container {height:50px;padding-top:30px;}
-#uploadnewversion_uploading .s3d-inset-shadow-container img {display:block;height:20px;margin-left:auto;margin-right:auto;width:188px;}
+#uploadnewversion_uploading {
+    margin-top: 25px;
+    width: 485px;
+}
+#uploadnewversion_uploading h1, #uploadnewversion_uploading p {
+    text-align: center;
+}
+#uploadnewversion_uploading .s3d-inset-shadow-container {
+    height: 50px;
+    padding-top: 30px;
+}
+#uploadnewversion_uploading .s3d-inset-shadow-container img {
+    display: block;
+    height: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 188px;
+}

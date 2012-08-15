@@ -214,11 +214,11 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             $(window).trigger('sakai.entity.init', ['search']);
         };
 
-        $(window).bind('sakai.entity.ready', function() {
+        $(window).on('sakai.entity.ready', function() {
             renderEntity();
         });
 
-        $(window).bind('lhnav.ready', function() {
+        $(window).on('lhnav.ready', function() {
             fetchTemplates(generateNav);
         });
 

@@ -19,9 +19,9 @@
 
 require(
     [
-        "jquery",
-        "sakai/sakai.api.core",
-        "qunitjs/qunit"
+        'jquery',
+        'sakai/sakai.api.core',
+        'qunitjs/qunit'
     ],
     function($, sakai) {
 
@@ -40,9 +40,9 @@ require(
         totalTime = 0;
 
     // HTML Elements
-    var $run_all_current_test = $("#run_all_current_test"),
-        $run_all_results_num_finished = $("#run_all_results_num_finished"),
-        $run_all_results_num_to_go = $("#run_all_results_num_to_go");
+    var $run_all_current_test = $('#run_all_current_test'),
+        $run_all_results_num_finished = $('#run_all_results_num_finished'),
+        $run_all_results_num_to_go = $('#run_all_results_num_to_go');
 
 
     /**
@@ -53,7 +53,7 @@ require(
      */
     var runTest = function(test) {
         currentTest = test;
-        var $iframe = $("<iframe/>");
+        var $iframe = $('<iframe/>');
         $('#run_all_iframes').append($iframe);
         $iframe.attr('src', test.url);
         startTime = new Date();
@@ -66,23 +66,23 @@ require(
      */
     var runAllTests = function(which) {
         tests = [];
-        var selector = "a.test";
+        var selector = 'a.test';
         if (which) {
-            selector += "." + which;
+            selector += '.' + which;
         }
         var $tests = $(selector);
         $.each($tests, function(i,val) {
-            tests.push({url: $(val).attr("href"), title: $(val).text()});
+            tests.push({url: $(val).attr('href'), title: $(val).text()});
         });
         tests.reverse();
         // clear the old results, clear the iframes
-        $("#run_all_results_individual table tbody").empty();
-        $("#run_all_results_individual table tfoot").empty();
+        $('#run_all_results_individual table tbody').empty();
+        $('#run_all_results_individual table tfoot').empty();
         totalFailures = totalSuccesses = totalTime = startTime = endTime = 0;
-        $("#run_all_iframes").empty();
+        $('#run_all_iframes').empty();
         $run_all_results_num_finished.text('0');
         $run_all_results_num_to_go.text(tests.length);
-        $("#run_all_results").show();
+        $('#run_all_results').show();
 
         runTest(tests.pop());
 
@@ -103,12 +103,12 @@ require(
         $run_all_current_test.html('&nbsp;');
         // would have used Trimpath here but since we're testing trimpath
         // I thought it best to stick with some ugly html-in-js
-        var html = "<tr id='" + currentTest.url + "'><td>" +
-                    currentTest.title + "</td><td>" +
-                    obj.failures + "</td><td>" +
-                    (obj.total - obj.failures) + "</td><td>" +
-                    ((endTime - startTime)/1000) + "</td></tr>";
-        $("#run_all_results_individual table tbody").append(html);
+        var html = '<tr id="' + currentTest.url + '"><td>' +
+                    currentTest.title + '</td><td>' +
+                    obj.failures + '</td><td>' +
+                    (obj.total - obj.failures) + '</td><td>' +
+                    ((endTime - startTime)/1000) + '</td></tr>';
+        $('#run_all_results_individual table tbody').append(html);
         // keep scrolling as tests come in
         window.scrollTo(0,$('tbody tr:last').position().top);
     };
@@ -118,8 +118,8 @@ require(
      */
     var finishTests = function() {
         // insert the results row
-        var html = "<tr><td><strong>All tests</strong></td><td>" + totalFailures + "</td><td>" + totalSuccesses + "</td><td>" + totalTime/1000 + "</td></tr>";
-        $("#run_all_results_individual table tfoot").append(html);
+        var html = '<tr><td><strong>All tests</strong></td><td>' + totalFailures + '</td><td>' + totalSuccesses + '</td><td>' + totalTime/1000 + '</td></tr>';
+        $('#run_all_results_individual table tfoot').append(html);
         // trigger an event for anything listening that we're done with our tests
         $(window).trigger('complete.tests.qunit.sakai', {failures: totalFailures, successes: totalSuccesses});
     };
@@ -138,41 +138,41 @@ require(
     });
 
     // Bind to the show/hide test list link
-    $("#show_list button").bind("click", function() {
-        if ($("#tests_list").is(":visible")) {
-            $(this).text("Show Tests");
+    $('#show_list button').on('click', function() {
+        if ($('#tests_list').is(':visible')) {
+            $(this).text('Show Tests');
         } else {
-            $(this).text("Hide Tests");
+            $(this).text('Hide Tests');
         }
-        $("#tests_list").toggle();
+        $('#tests_list').toggle();
     });
 
     // Bind to the run_all link to run all tests
-    $("#run_all").bind("click", function() {
-        $("#show_list button").click();
+    $('#run_all').on('click', function() {
+        $('#show_list button').click();
         runAllTests();
     });
 
-    $("#run_all_unit").bind("click", function() {
-        $("#show_list button").click();
-        runAllTests("unit");
+    $('#run_all_unit').on('click', function() {
+        $('#show_list button').click();
+        runAllTests('unit');
     });
 
-    $("#run_all_integration").bind("click", function() {
-        $("#show_list button").click();
-        runAllTests("integration");
+    $('#run_all_integration').on('click', function() {
+        $('#show_list button').click();
+        runAllTests('integration');
     });
 
     // Handle clicks on the result rows to show the iframe with the results
-    $("tr[id] td").live("click", function() {
-        var $parent = $(this).parent("tr");
+    $('tr[id] td').on('click', function() {
+        var $parent = $(this).parent('tr');
         // only hide the iframe if its not the one we want
-        $("#run_all_iframes iframe[src!='" + $parent.attr('id') + "']:visible").hide();
-        $("#run_all_iframes iframe[src='" + $parent.attr('id') + "']").show(0,function() {
+        $('#run_all_iframes iframe[src!="' + $parent.attr('id') + '"]:visible').hide();
+        $('#run_all_iframes iframe[src="' + $parent.attr('id') + '"]').show(0,function() {
             // scroll to the top of the iframe
             window.scrollTo(0,$('iframe:visible').position().top);
             // click the checkbox in the iframe to only show failed tests
-            $($('#run_all_iframes iframe:visible')[0].contentWindow.document).find("#qunit-filter-pass:not(:checked)").click();
+            $($('#run_all_iframes iframe:visible')[0].contentWindow.document).find('#qunit-filter-pass:not(:checked)').click();
         });
     });
 

@@ -22,7 +22,7 @@
  * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
  */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * sakai_global.tooltip
@@ -35,16 +35,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             tooltipTop = null,
             tooltipLeft = null;
 
-        var $rootel = $("#" + tuid);
-        var $tooltip_widget = $("#tooltip_widget", $rootel),
-            $tooltip_content = $(".tooltip_content", $rootel),
-            $tooltip_close = $(".tooltip_close", $rootel),
-            $tooltip_dialog = $(".tooltip_dialog", $rootel),
-            $tooltip_title = $("#tooltip_title", $rootel),
-            $tooltip_description = $("#tooltip_description", $rootel),
-            $tooltip_header_arrow = $(".dialog_tooltip_header_arrow", $rootel),
-            $tooltip_left_arrow = $(".dialog_tooltip_left_arrow", $rootel),
-            $tooltip_footer_arrow = $(".dialog_tooltip_footer_arrow", $rootel);
+        var $rootel = $('#' + tuid);
+        var $tooltip_widget = $('#tooltip_widget', $rootel),
+            $tooltip_content = $('.tooltip_content', $rootel),
+            $tooltip_close = $('.tooltip_close', $rootel),
+            $tooltip_dialog = $('.tooltip_dialog', $rootel),
+            $tooltip_title = $('#tooltip_title', $rootel),
+            $tooltip_description = $('#tooltip_description', $rootel),
+            $tooltip_header_arrow = $('.dialog_tooltip_header_arrow', $rootel),
+            $tooltip_left_arrow = $('.dialog_tooltip_left_arrow', $rootel),
+            $tooltip_footer_arrow = $('.dialog_tooltip_footer_arrow', $rootel);
 
         $tooltip_widget.jqm({
             modal: false,
@@ -55,9 +55,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
         var hideTooltip = function() {
             $tooltip_widget.jqmHide();
-            $(window).trigger("closed.tooltip.sakai");
-            $(window).unbind("update.tooltip.sakai");
-            $(document).unbind("click.tooltip_close");
+            $(window).trigger('closed.tooltip.sakai');
+            $(window).off('update.tooltip.sakai');
+            $(document).off('click.tooltip_close');
         };
 
         /**
@@ -66,10 +66,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var toggleTooltip = function() {
             // bind auto close of tooltip on outside mouse click
             if (tooltipAutoClose) {
-                $(document).unbind("click.tooltip_close").bind("click.tooltip_close", function (e) {
+                $(document).off('click.tooltip_close').on('click.tooltip_close', function(e) {
                     var $clicked = $(e.target);
                     // Check if one of the parents is the tooltip
-                    if (!$clicked.parents().is("#tooltip") && $tooltip_widget.is(":visible")) {
+                    if (!$clicked.parents().is('#tooltip') && $tooltip_widget.is(':visible')) {
                         hideTooltip();
                     }
                 });
@@ -81,10 +81,10 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $tooltip_header_arrow.hide();
             $tooltip_footer_arrow.hide();
 
-            if (tooltipArrow === "bottom"){
-                topOffset = "auto";
+            if (tooltipArrow === 'bottom') {
+                topOffset = 'auto';
                 $tooltip_footer_arrow.show();
-            } else if (tooltipArrow === "top"){
+            } else if (tooltipArrow === 'top') {
                 $tooltip_header_arrow.show();
             }
             $tooltip_widget.css({
@@ -93,37 +93,37 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
             $tooltip_content.html(tooltipHTML);
             $tooltip_widget.jqmShow();
-            if (tooltipOnShow && typeof(tooltipOnShow) === "function") {
+            if (tooltipOnShow && typeof(tooltipOnShow) === 'function') {
                 tooltipOnShow();
             }
 
             // bind tooltip movement
-            $(window).unbind("update.tooltip.sakai");
-            $(window).bind("update.tooltip.sakai", function(e, tooltipData) {
+            $(window).off('update.tooltip.sakai');
+            $(window).on('update.tooltip.sakai', function(e, tooltipData) {
                 hideTooltip();
                 $(document).trigger('init.tooltip.sakai', tooltipData);
             });
             // bind tooltip close
-            $(window).unbind("done.tooltip.sakai");
-            $(window).bind("done.tooltip.sakai", function() {
+            $(window).off('done.tooltip.sakai');
+            $(window).on('done.tooltip.sakai', function() {
                 hideTooltip();
             });
-            $(".tooltip_close").unbind("click");
-            $(".tooltip_close").bind("click", function () {
-                $(window).unbind(".tooltip_close");
+            $('.tooltip_close').off('click');
+            $('.tooltip_close').on('click', function() {
+                $(window).off('.tooltip_close');
                 hideTooltip();
                 return false;
             });
         };
 
-        $tooltip_close.bind("click", function() {
+        $tooltip_close.on('click', function() {
             hideTooltip();
         });
 
         /* Renders a tooltip.  The tooltipConfig param should contain:
          * {String} tooltipHTML  a <div> containing all the HTML you want to display in the tool tip
          * {Boolean} tooltipAutoClose  If we close the tooltip on an outside click
-         * {String} tooltipArrow  Direction for where the tooltip arrow is placed ("top" or "bottom")
+         * {String} tooltipArrow  Direction for where the tooltip arrow is placed ('top' or 'bottom')
          * {Integer} tooltipLeft  absolute position of where the tooltip should spawn: X value (jQuery.Event.pageX)
          * {Integer} tooltipTop   absolute position of where the tooltip should spawn: Y value (jQuery.Event.pageY)
          * {Function} onShow      callback called when the tooltip is shown
@@ -138,11 +138,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 tooltipOnShow = tooltipConfig.onShow || false;
                 toggleTooltip();
             } else {
-                debug.error("No tooltip mode specifed");
+                debug.error('No tooltip mode specifed');
             }
         });
 
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("tooltip");
+    sakai.api.Widgets.widgetLoader.informOnLoad('tooltip');
 });

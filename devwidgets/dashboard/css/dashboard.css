@@ -49,7 +49,7 @@
     margin-top: 1px;
 }
 #dashboard_container #widgetscontainer .groupWrapper {
-    overflow:hidden;
+    overflow: hidden;
     min-height: 40px;
 }
 #dashboard_container .widget_spacer {

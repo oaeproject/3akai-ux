@@ -17,21 +17,46 @@
  */
 /* General */
 
-
 /* Participants list */
-.participants_widget #participants_list_container {float:none !important;}
-.participants_widget #participants_list_container label {cursor:pointer;}
+.participants_widget #participants_list_container {
+    float: none !important;
+}
+.participants_widget #participants_list_container label {
+    cursor: pointer;
+}
 .participants_widget #participants_list_container .s3d-list-entity-picture {
     margin-right: 5px;
 }
-.participants_widget #participants_list_container .participants_list_participant_checkbox {float:left; width: 25px;}
-.participants_widget #participants_list_container ul {margin:7px 0; border-top: 1px solid #e9e9e9;}
-.participants_widget #participants_list_container ul li {color:#333;padding:10px 10px 10px 6px !important;}
-.participants_widget #participants_list_container ul li.s3d-list-item {border-bottom: 1px dotted #e9e9e9;}
-.participants_widget #participants_list_container .participants_list_participant_details {font-size:11px;}
-.participants_widget #participants_list_container .participants_list_participant_divider {font-size:11px;color:#cccccc;margin:0 5px !important;}
-.participants_widget #participants_list_container .participants_list_participant_actions {float: right;}
-.participants_widget #participants_list_container .participants_contact_icon{margin-top:5px; margin-left:1px;}
+.participants_widget #participants_list_container .participants_list_participant_checkbox {
+    float: left;
+    width: 25px;
+}
+.participants_widget #participants_list_container ul {
+    margin: 7px 0;
+    border-top: 1px solid #e9e9e9;
+}
+.participants_widget #participants_list_container ul li {
+    color: #333;
+    padding: 10px 10px 10px 6px !important;
+}
+.participants_widget #participants_list_container ul li.s3d-list-item {
+    border-bottom: 1px dotted #e9e9e9;
+}
+.participants_widget #participants_list_container .participants_list_participant_details {
+    font-size: 11px;
+}
+.participants_widget #participants_list_container .participants_list_participant_divider {
+    font-size: 11px;
+    color: #cccccc;
+    margin: 0 5px !important;
+}
+.participants_widget #participants_list_container .participants_list_participant_actions {
+    float: right;
+}
+.participants_widget #participants_list_container .participants_contact_icon {
+    margin-top: 5px;
+    margin-left: 1px;
+}
 .participants_widget #participants_list_container .participants_message_icon {
     margin: 2px 0 0 27px;
     display: inline-block;
@@ -39,21 +64,45 @@
     width: 16px;
     background: url("/devwidgets/searchpeople/images/searchpeople_message_icon.png") no-repeat scroll left top transparent;
 }
-.participants_widget #participants_list_container .participants_plus{margin-left: -1px; margin-top: 3px;}
-.participants_widget #participants_list_container ul li .participants_message_icon:hover{cursor:pointer;background: url("/devwidgets/searchpeople/images/searchpeople_message_icon_active.png") no-repeat scroll left top transparent;}
-.participants_widget #participants_list_container ul li .participants_plus:hover{cursor:pointer;color:#42a2dc;text-decoration:none;}
-.participants_selectall{float:left;width:20px;height:20px;margin-left:10px;}
-.participants_selectall input{margin-top:4px;}
-.participants_widget .s3d-search-container .s3d-search-inputfield {width:200px;}
-.participants_widget .fl-hidden {float:none !important;}
-.participants_widget #participants_send_selected_message .s3d-actions-message {float:right;margin:2px 0 0 7px;}
+.participants_widget #participants_list_container .participants_plus {
+    margin-left: -1px;
+    margin-top: 3px;
+}
+.participants_widget #participants_list_container ul li .participants_message_icon:hover {
+    cursor: pointer;
+    background: url("/devwidgets/searchpeople/images/searchpeople_message_icon_active.png") no-repeat scroll left top transparent;
+}
+.participants_widget #participants_list_container ul li .participants_plus:hover {
+    cursor: pointer;
+    color: #42a2dc;
+    text-decoration: none;
+}
+.participants_selectall {
+    float: left;
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+}
+.participants_selectall input {
+    margin-top: 4px;
+}
+.participants_widget .s3d-search-container .s3d-search-inputfield {
+    width: 200px;
+}
+.participants_widget .fl-hidden {
+    float: none !important;
+}
+.participants_widget #participants_send_selected_message .s3d-actions-message {
+    float: right;
+    margin: 2px 0 0 7px;
+}
 .participants_widget .s3d-search-result .participants_group_pic {
     display: inline;
     width: 46px;
     height: 46px;
 }
 .participants_widget .s3d-search-result .participants_avatar_large {
-    display:none;
+    display: none;
 }
 .participants_widget .s3d-search-results-grid input {
     margin-top: 3px;
@@ -64,19 +113,39 @@
 .participants_widget .s3d-search-results-grid .participants_list_participant_buttons button {
     margin: 0 0 0 -16px !important;
 }
-.participants_widget .s3d-search-results-grid .s3d-search-result {clear:none !important;}
-.participants_widget .s3d-search-results-grid .s3d-search-result input {float:left;}
-.participants_widget .s3d-search-results-grid .s3d-search-result .participants_list_participant_checkbox {width:auto !important;}
+.participants_widget .s3d-search-results-grid .s3d-search-result {
+    clear: none !important;
+}
+.participants_widget .s3d-search-results-grid .s3d-search-result input {
+    float: left;
+}
+.participants_widget .s3d-search-results-grid .s3d-search-result .participants_list_participant_checkbox {
+    width: auto !important;
+}
 .participants_widget .s3d-search-results-grid .s3d-search-result .participants_contact_icon {
     margin-left: -12px !important;
     margin-top: 2px !important;
 }
-.participants_widget .s3d-search-results-grid .s3d-search-result .participants_message_icon {float:left;margin-left:15px;margin-top:1px;}
-.participants_widget .s3d-search-results-grid .s3d-search-result .participants_group_pic {display:none;}
+.participants_widget .s3d-search-results-grid .s3d-search-result .participants_message_icon {
+    float: left;
+    margin-left: 15px;
+    margin-top: 1px;
+}
+.participants_widget .s3d-search-results-grid .s3d-search-result .participants_group_pic {
+    display: none;
+}
 .participants_widget .s3d-search-results-grid .s3d-search-result .participants_avatar_large {
     display: inline;
     width: 100px;
     height: 100px;
 }
-.participants_widget #participants_select_all_container {float:left;height:19px;margin:6px 8px 0 1px;padding:2px 0 0;width:22px;}
-.participants_widget #participants_manage_participants{margin-top:0 !important;}
+.participants_widget #participants_select_all_container {
+    float: left;
+    height: 19px;
+    margin: 6px 8px 0 1px;
+    padding: 2px 0 0;
+    width: 22px;
+}
+.participants_widget #participants_manage_participants {
+    margin-top: 0 !important;
+}

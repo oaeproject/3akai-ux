@@ -22,7 +22,7 @@
  * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
  * /dev/lib/jquery/plugins/jquery.threedots.js (ThreeDots)
  */
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.recentmessages
@@ -36,22 +36,22 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.recentmessages = function(tuid, showSettings){
+    sakai_global.recentmessages = function(tuid, showSettings) {
 
 
         /////////////////////////////
         // Configuration variables //
         /////////////////////////////
 
-        var rootel = $("#" + tuid);
+        var rootel = $('#' + tuid);
 
         // IDs
-        var $recentmessagesContainer = $("#recentmessages_container", rootel);
-        var $recentmessagesErrorNomessages = $("#recentmessages_error_nomessages", rootel);
-        var $recentmessagesErrorNotConnected = $("#recentmessages_error_notconnected", rootel);
-        var $recentmessagesListItems = $("#recentmessages_container ul li a", rootel);
-        var recentmessagesTemplate = "recentmessages_template";
-        var ellipsisContainer = ".recentmessages_ellipsis_container";
+        var $recentmessagesContainer = $('#recentmessages_container', rootel);
+        var $recentmessagesErrorNomessages = $('#recentmessages_error_nomessages', rootel);
+        var $recentmessagesErrorNotConnected = $('#recentmessages_error_notconnected', rootel);
+        var $recentmessagesListItems = $('#recentmessages_container ul li a', rootel);
+        var recentmessagesTemplate = 'recentmessages_template';
+        var ellipsisContainer = '.recentmessages_ellipsis_container';
 
 
         ///////////////////////
@@ -64,28 +64,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          *     This is the json response from the server.
          *     If this parameter is a string, it is an error.
          */
-        var renderRecentMessages = function(response){
+        var renderRecentMessages = function(response) {
 
-            if(response === "NOT_CONNECTED"){
+            if (response === 'NOT_CONNECTED') {
 
                 // If it wasn't possible to connect to the server, show the not connected error
                 $recentmessagesContainer.html($recentmessagesErrorNotConnected);
-            } else if (response.total === 0){
+            } else if (response.total === 0) {
 
                 // If the user doesn't have any messages, show the no messages error.
                 $recentmessagesContainer.html($recentmessagesErrorNomessages);
             } else {
                 response.sakai = sakai;
-                for(var item in response.results){
-                    if(response.results.hasOwnProperty(item)){
-                        response.results[item]["sakai:subject"] = sakai.api.Util.applyThreeDots(response.results[item]["sakai:subject"], $(".recentmessages_widget .s3d-widget-content").width() - 130, {max_rows: 1,whole_word: false}, "s3d-bold");
-                        response.results[item]["dotteduserFrom"] = sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(response.results[item].userFrom[0]), 100, {max_rows: 1,whole_word: false}, null, true);
+                for(var item in response.results) {
+                    if (response.results.hasOwnProperty(item)) {
+                        response.results[item]['sakai:subject'] = sakai.api.Util.applyThreeDots(response.results[item]['sakai:subject'], $('.recentmessages_widget .s3d-widget-content').width() - 130, {max_rows: 1,whole_word: false}, 's3d-bold');
+                        response.results[item]['dotteduserFrom'] = sakai.api.Util.applyThreeDots(sakai.api.User.getDisplayName(response.results[item].userFrom[0]), 100, {max_rows: 1,whole_word: false}, null, true);
                     }
                 }
                 // Only if everything went fine, show the recent messages
                 $recentmessagesContainer.html(sakai.api.Util.TemplateRenderer(recentmessagesTemplate, response));
                 // need to define for chrome...if
-                $(ellipsisContainer).css("display","inline");
+                $(ellipsisContainer).css('display','inline');
             }
         };
 
@@ -95,7 +95,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          *     The response that the server has send.
          *     If the response is false, it means we were not able to connect to the server
          */
-        var loadRecentMessages = function(response){
+        var loadRecentMessages = function(response) {
 
             // Check if the request was successful
             if (response) {
@@ -103,7 +103,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // Render the recent message for the current user.
                 renderRecentMessages(response);
             }else {
-                renderRecentMessages("NOT_CONNECTED");
+                renderRecentMessages('NOT_CONNECTED');
             }
         };
 
@@ -114,19 +114,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // Set a params object to set which params should be passed into the request
             var params = $.param({
-                box: "inbox",
-                category: "message,invitation",
+                box: 'inbox',
+                category: 'message,invitation',
                 items: 4,
-                sortOn: "_created",
-                sortOrder: "desc",
+                sortOn: '_created',
+                sortOrder: 'desc',
                 page: 0
             });
 
             // Fire an Ajax request to get the recent messages for the current user
             $.ajax({
-                url: sakai.config.URL.MESSAGE_BOXCATEGORY_ALL_SERVICE + "?" + params,
+                url: sakai.config.URL.MESSAGE_BOXCATEGORY_ALL_SERVICE + '?' + params,
                 cache: false,
-                success: function(data){
+                success: function(data) {
                     loadRecentMessages(data);
                 },
                 error: function() {
@@ -143,6 +143,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         doInit();
 
     };
-    sakai.api.Widgets.widgetLoader.informOnLoad("recentmessages");
+    sakai.api.Widgets.widgetLoader.informOnLoad('recentmessages');
 
 });

@@ -5,15 +5,15 @@ The best way to use these files is:
 
 1) Copy the _template directory to another directory with the id of your new
    widget (i.e. 'mywidget').
-   
+
    i.e. On a *nix system:
    $ cp -r 3akai-ux/devwidgets/_template 3akai-ux/devwidgets/mywidget
-   
+
 2) In your new directory, remove the README.txt file and change all occurences
    of WIDGET_ID in filenames and the files themselves to the id of your widget.
-   
+
    After doing this, you should have the following file structure:
-   
+
    devwidgets/mywidget
    devwidgets/mywidget/bundles
    devwidgets/mywidget/bundles/default.properties
@@ -23,7 +23,7 @@ The best way to use these files is:
    devwidgets/mywidget/javascript
    devwidgets/mywidget/javascript/mywidget.js
    devwidgets/mywidget/mywidget.html
-   
+
    and, you should no longer be able to find occurences of WIDGET_ID within your
    mywidget directory.
 

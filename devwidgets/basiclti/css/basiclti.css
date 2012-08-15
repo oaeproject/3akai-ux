@@ -20,25 +20,67 @@
     margin-left: 0;
     width: 96%;
 }
-.basiclti_settings_label_head{font-weight:bold;}
-#basiclti_settings_reset_size{margin-left:15px;}
-.basiclti_settings_subcontainer{border-bottom:1px solid #ddd;margin-bottom:15px;padding-bottom:10px;}
-.basiclti_settings_width_unit_selected{font-weight:bold;text-decoration:underline;}
+.basiclti_settings_label_head {
+    font-weight: bold;
+}
+#basiclti_settings_reset_size {
+    margin-left: 15px;
+}
+.basiclti_settings_subcontainer {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+}
+.basiclti_settings_width_unit_selected {
+    font-weight: bold;
+    text-decoration: underline;
+}
 
 /* Preview */
-#basiclti_settings_preview{text-align:center;}
-#basiclti_settings_preview_frame{border-style:solid;margin-bottom:1px;}
+#basiclti_settings_preview {
+    text-align: center;
+}
+#basiclti_settings_preview_frame {
+    border-style: solid;
+    margin-bottom: 1px;
+}
 
 /* Color */
-#basiclti_settings_color_container{margin-top:9px;}
-.basiclti_settings_color{border:1px solid #eee;cursor:pointer;display:block;float:left;height:26px;margin-right:9px;text-decoration:none;width:26px;}
-.basiclti_settings_color:hover{border:1px solid #ccc;text-decoration:none;}
-.basiclti_settings_color_selected,.basiclti_settings_color_selected:hover{border:1px solid #000;}
-#basiclti_settings_color_000000{background-color:#000;}
-#basiclti_settings_color_cccccc{background-color:#ccc;}
-#basiclti_settings_color_ff0000{background-color:red;}
-#basiclti_settings_color_008000{background-color:green;}
-#basiclti_settings_color_0000ff{background-color:#00f;}
+#basiclti_settings_color_container {
+    margin-top: 9px;
+}
+.basiclti_settings_color {
+    border: 1px solid #eee;
+    cursor: pointer;
+    display: block;
+    float: left;
+    height: 26px;
+    margin-right: 9px;
+    text-decoration: none;
+    width: 26px;
+}
+.basiclti_settings_color:hover {
+    border: 1px solid #ccc;
+    text-decoration: none;
+}
+.basiclti_settings_color_selected, .basiclti_settings_color_selected:hover {
+    border: 1px solid #000;
+}
+#basiclti_settings_color_000000 {
+    background-color: #000;
+}
+#basiclti_settings_color_cccccc {
+    background-color: #ccc;
+}
+#basiclti_settings_color_ff0000 {
+    background-color: red;
+}
+#basiclti_settings_color_008000 {
+    background-color: green;
+}
+#basiclti_settings_color_0000ff {
+    background-color: #00f;
+}
 
 /* Advanced */
 #basiclti_settings_advanced_toggle_settings {
@@ -50,7 +92,9 @@
 }
 
 /* Block */
-.basiclti_settings_block{margin-left:15px;}
+.basiclti_settings_block {
+    margin-left: 15px;
+}
 .basiclti_settings_block label {
     clear: left;
     float: left;
@@ -59,6 +103,15 @@
     padding-top: 5px;
     width: 75px;
 }
-.basiclti_settings_block .basiclti_settings_checkbox{float:left;margin:10px 20px 0 0;width:auto;}
-.basiclti_settings_block .basiclti_settings_checkbox label{float:none;width:auto;}
-.basiclti_settings_block .basiclti_settings_checkbox input[type="checkbox"]{margin:0 auto;}
+.basiclti_settings_block .basiclti_settings_checkbox {
+    float: left;
+    margin: 10px 20px 0 0;
+    width: auto;
+}
+.basiclti_settings_block .basiclti_settings_checkbox label {
+    float: none;
+    width: auto;
+}
+.basiclti_settings_block .basiclti_settings_checkbox input[type="checkbox"] {
+    margin: 0 auto;
+}
