@@ -31,7 +31,7 @@ require(
             if (pass) {
                 ok(true, testString);
             } else {
-                ok(false, testString + ', ' + count + ' error(s): ' + errorString);
+                ok(false, 'ERR::'+testString + ', ' + count + ' error(s): ' + errorString);
             }
         }
 
@@ -45,6 +45,19 @@ require(
             // test opening braces
             regex = /\)\s*$(\n|\r)^\s*\{.*/gm;
             testString = 'Put opening braces on the same line as the statement';
+            doRegexTest(jsFile, regex, testString);
+
+            regex = /.+\)(\s{0}|\s{2,})\{/gm;
+            testString = 'Use exactly one space before an opening brace';
+            doRegexTest(jsFile, regex, testString);
+
+            regex = /.*\).*\{( |\t)+(\n|\r)/gm;
+            testString = 'Don\'t put whitespace after an opening brace';
+            doRegexTest(jsFile, regex, testString);
+
+            // test closing braces
+            regex = /.*\}( |\t)+(\n|\r)/gm;
+            testString = 'Don\'t put whitespace after a closing brace';
             doRegexTest(jsFile, regex, testString);
 
             // test literal notation
