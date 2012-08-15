@@ -9,6 +9,7 @@
         },
         "fr_FR": {
             "bundle": "/devwidgets/searchsakai2/bundles/fr_FR.properties"
+        }
     },
     "id": "searchsakai2",
     "personalportal": false,

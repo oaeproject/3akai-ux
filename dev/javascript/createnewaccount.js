@@ -15,52 +15,54 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn', '//www.google.com/recaptcha/api/js/recaptcha_ajax.js'], function($, sakai){
+require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn', '//www.google.com/recaptcha/api/js/recaptcha_ajax.js'], function($, sakai) {
 
-    sakai_global.createnewaccount = function(){
+    sakai_global.createnewaccount = function() {
 
 
         /////////////////////////////
         // Configuration variables //
         /////////////////////////////
 
-        var defaultUserType = "default";
-        var pagestemplate = "defaultuser";
+        var defaultUserType = 'default';
+        var pagestemplate = 'defaultuser';
 
         // Links and labels
-        var checkUserNameLink = "#checkUserName";
-        var buttonsContainer = ".create_account_button_bar";
+        var checkUserNameLink = '#checkUserName';
+        var buttonsContainer = '.create_account_button_bar';
 
         // Input fields
-        var usernameField = "#username";
-        var firstNameField = "#firstName";
-        var lastNameField = "#lastName";
-        var emailField = "#email";
-        var passwordField = "#password";
-        var passwordRepeatField = "#passwordRepeat";
-        var captchaField = "#uword";
+        var usernameField = '#username';
+        var firstNameField = '#firstName';
+        var lastNameField = '#lastName';
+        var emailField = '#email';
+        var passwordField = '#password';
+        var passwordRepeatField = '#passwordRepeat';
+        var captchaField = '#uword';
 
         // Error fields
-        var usernameTaken = "#username_taken";
-        var usernameShort = "#username_short";
-        var usernameSpaces = "#username_spaces";
-        var usernameEmpty = "#username_empty";
-        var firstNameEmpty = "#firstName_empty";
-        var lastNameEmpty = "#lastName_empty";
-        var emailEmpty = "#email_empty";
-        var emailInvalid = "#email_invalid";
-        var passwordEmpty = "#password_empty";
-        var passwordShort = "#password_short";
-        var passwordRepeatEmpty = "#password_repeat_empty";
-        var passwordRepeatNoMatch = "#password_repeat_nomatch";
-        var errorFields = ".create_account_error_msg";
-        var usernameLabel = "#username_label";
-        var inputFields = ".create_account_input";
+        var usernameTaken = '#username_taken';
+        var usernameShort = '#username_short';
+        var usernameSpaces = '#username_spaces';
+        var usernameEmpty = '#username_empty';
+        var firstNameEmpty = '#firstName_empty';
+        var lastNameEmpty = '#lastName_empty';
+        var emailEmpty = '#email_empty';
+        var emailInvalid = '#email_invalid';
+        var passwordEmpty = '#password_empty';
+        var passwordShort = '#password_short';
+        var passwordRepeatEmpty = '#password_repeat_empty';
+        var passwordRepeatNoMatch = '#password_repeat_nomatch';
+        var errorFields = '.create_account_error_msg';
+        var usernameLabel = '#username_label';
+        var inputFields = '.create_account_input';
+        var usernameAvailable = '#username_available';
+
 
         //CSS Classes
-        var invalidFieldClass = "invalid";
-        var formContainer = "#create_account_form";
-        var inputFieldHoverClass = "input_field_hover";
+        var invalidFieldClass = 'invalid';
+        var formContainer = '#create_account_form';
+        var inputFieldHoverClass = 'input_field_hover';
 
         // Contains executable errors
         var errObj = [];
@@ -69,14 +71,14 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn', '//www.google.com/reca
         // Utility functions //
         ///////////////////////
 
-        var usernameEntered = "";
+        var usernameEntered = '';
 
         /**
          * Get all of the values out of the form fields. This will return
          * a JSON object where the keys are the names of all of the form fields, and the values are
          * the values entered by the user in those fields.
          */
-        var getFormValues = function(){
+        var getFormValues = function() {
             // Get the values from the form.
             var values = $(formContainer).serializeObject();
 
@@ -97,16 +99,16 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn', '//www.google.com/reca
          * Function that will actually collect all of the values out of the form and
          * will try to create the new user
          */
-        var doCreateUser = function(){
+        var doCreateUser = function() {
             var values = getFormValues();
-            $("button").attr("disabled", "disabled");
-            $("input").attr("disabled", "disabled");
+            $('button').attr('disabled', 'disabled');
+            $('input').attr('disabled', 'disabled');
             sakai.api.User.createUser(values.username, values.firstName, values.lastName, values.email, values.password, values.password, {
                 recaptcha: {
-                    challenge: values["recaptcha-challenge"],
-                    response: values["recaptcha-response"]
+                    challenge: values['recaptcha-challenge'],
+                    response: values['recaptcha-response']
                 }
-            }, function(success, data){
+            }, function(success, data) {
                 if (success) {
                     // This will hide the Create and Cancel button and offer a link back to the login page
 
@@ -114,21 +116,21 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn', '//www.google.com/reca
                     sakai_global.captcha.destroy();
 
                     // Wait for 2 seconds
-                    setTimeout(function(){
+                    setTimeout(function() {
                         sakai.api.User.login({
-                            "username": values.username,
-                            "password": values.password
-                        }, function(){
+                            'username': values.username,
+                            'password': values.password
+                        }, function() {
                             // Relocate to the user home space
-                            document.location = "/me?welcome=true";
+                            document.location = '/me?welcome=true';
                         });
                     }, 2000);
                 }
                 else {
-                    $("button").removeAttr("disabled");
-                    $("input").removeAttr("disabled");
+                    $('button').removeAttr('disabled');
+                    $('input').removeAttr('disabled');
                     if (data.status === 500 || data.status === 401) {
-                        if (data.responseText.indexOf("Untrusted request") !== -1) {
+                        if (data.responseText.indexOf('Untrusted request') !== -1) {
                             sakai_global.captcha.reload();
                             sakai_global.captcha.showError("create_account_input_error");
                         } else {
@@ -164,11 +166,11 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn', '//www.google.com/reca
          * to false, it will start doing the actual creation of the user once
          * the check has been completed.
          */
-        var checkUserName = function(checkingOnly, callback){
+        var checkUserName = function(checkingOnly, callback) {
             var values = getFormValues();
             var ret = false;
             var async = false;
-            if (callback){
+            if (callback) {
                 async = true;
             }
             // If we reach this point, we have a username in a valid format. We then go and check
@@ -181,12 +183,12 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn', '//www.google.com/reca
                     url: url,
                     cache: false,
                     async: async,
-                    success: function(){
-                        if (callback){
+                    success: function() {
+                        if (callback) {
                             callback(false);
                         }
                     },
-                    error: function(xhr, textStatus, thrownError){
+                    error: function(xhr, textStatus, thrownError) {
                         // SAKIII-1736 - IE will interpret the 204 returned by the server as a
                         // status code 1223, which will cause the error clause to activate
                         if (xhr.status === 1223 || xhr.status === 409) {
@@ -194,7 +196,7 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn', '//www.google.com/reca
                         } else {
                             ret = true;
                         }
-                        if (callback){
+                        if (callback) {
                             callback(ret);
                         }
                     }
@@ -203,8 +205,8 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn', '//www.google.com/reca
             return ret;
         };
 
-        var initCaptcha = function(){
-            sakai.api.Widgets.widgetLoader.insertWidgets("captcha_box", false);
+        var initCaptcha = function() {
+            sakai.api.Widgets.widgetLoader.insertWidgets('captcha_box', false);
         };
 
         /**
@@ -267,30 +269,30 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn', '//www.google.com/reca
         /*
          * If the Cancel button is clicked, we redirect them back to the login page
          */
-        var doBinding = function(){
+        var doBinding = function() {
 
-            $("#cancel_button").bind("click", function(ev){
+            $('#cancel_button').on('click', function(ev) {
                 document.location = sakai.config.URL.GATEWAY_URL;
             });
 
-            $("#username").bind("keyup blur", function(){
+            $('#username').on('keyup blur', function() {
                 var username = $.trim($(usernameField).val());
-                if (usernameEntered != username) {
+                if (usernameEntered !== username) {
                     usernameEntered = username;
-                    if (username && username.length > 2 && username.indexOf(" ") === -1) {
-                        $(usernameField).removeClass("signup_form_error");
-                        checkUserName(true, function(success){
-                            $("#create_account_username_error").hide();
+                    if (username && username.length > 2 && username.indexOf(' ') === -1) {
+                        $(usernameField).removeClass('signup_form_error');
+                        checkUserName(true, function(success) {
+                            $('#create_account_username_error').hide();
                             if (success) {
-                                $(usernameField).removeClass("signup_form_error");
-                                $(usernameField).addClass("username_available_icon");
-                                $("." + $(usernameField)[0].id).removeClass("signup_form_error_label");
+                                $(usernameField).removeClass('signup_form_error');
+                                $(usernameField).addClass('username_available_icon');
+                                $('.' + $(usernameField)[0].id).removeClass('signup_form_error_label');
                             } else {
-                                $(usernameField).removeClass("username_available_icon");
+                                $(usernameField).removeClass('username_available_icon');
                             }
                         });
                     } else {
-                        $(usernameField).removeClass("username_available_icon");
+                        $(usernameField).removeClass('username_available_icon');
                     }
                 }
             });
@@ -303,7 +305,7 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn', '//www.google.com/reca
                         minlength: 4
                     },
                     password_repeat: {
-                        equalTo: "#password"
+                        equalTo: '#password'
                     },
                     username: {
                         minlength: 3,
@@ -361,21 +363,21 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn', '//www.google.com/reca
                         'text': sakai.api.i18n.getValueForKey('CREATE_ACCOUNT_START_WITH')
                     }
                 },
-                submitHandler: function(form, validator){
+                submitHandler: function(form, validator) {
                     doCreateUser();
                     return false;
                 }
             };
-            sakai.api.Util.Forms.validate($("#create_account_form"), validateOpts);
+            sakai.api.Util.Forms.validate($('#create_account_form'), validateOpts);
         };
 
-        $("#save_account").click(function(){
+        $('#save_account').click(function() {
             sakai_global.captcha.hideError();
-            $(".signup_form_column_labels label").removeClass("signup_form_error_label");
-            $(".create_account_input_error").hide("");
+            $('.signup_form_column_labels label').removeClass('signup_form_error_label');
+            $('.create_account_input_error').hide('');
         });
 
-        var doInit = function(){
+        var doInit = function() {
             // hide body first
             $('body').hide();
 
@@ -387,7 +389,7 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn', '//www.google.com/reca
                 $('body').show();
             }
 
-            $(inputFields).bind("mouseenter mouseleave", function(ev){
+            $(inputFields).on('mouseenter mouseleave', function(ev) {
                 $(this).toggleClass(inputFieldHoverClass);
             });
 
@@ -396,11 +398,11 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn', '//www.google.com/reca
             doBinding();
         };
 
-        var renderEntity = function(){
-            $(window).trigger("sakai.entity.init", ["newaccount"]);
+        var renderEntity = function() {
+            $(window).trigger('sakai.entity.init', ['newaccount']);
         };
 
-        $(window).bind("sakai.entity.ready", function(){
+        $(window).on('sakai.entity.ready', function() {
             renderEntity();
         });
 
@@ -409,5 +411,5 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn', '//www.google.com/reca
 
     };
 
-    sakai.api.Widgets.Container.registerForLoad("createnewaccount");
+    sakai.api.Widgets.Container.registerForLoad('createnewaccount');
 });

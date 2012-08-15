@@ -26,7 +26,7 @@
 /*global $ */
 
 // Namespaces
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.pickeradvanced
@@ -44,44 +44,44 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
     sakai_global.pickeradvanced = function(tuid, showSettings) {
-        var $rootel = $("#" + tuid);
+        var $rootel = $('#' + tuid);
 
-        var $pickeradvanced_container = $("#pickeradvanced_container", $rootel);
-        var $pickeradvanced_content_list = $("#pickeradvanced_content_list", $rootel);
-        var $pickeradvanced_search_query = $("#pickeradvanced_search_query", $rootel);
-        var $pickeradvanced_search_button = $("#pickeradvanced_search_button", $rootel);
-        var $pickeradvanced_close_button = $("#pickeradvanced_close_button", $rootel);
-        var $pickeradvanced_select_all_button = $("#pickeradvanced_select_all_button", $rootel);
-        var $pickeradvanced_content_search_form = $("#pickeradvanced_content_search_form", $rootel);
-        var $pickeradvanced_add_button = $("#pickeradvanced_add_button", $rootel);
-        var $pickeradvanced_sort_on = $("#pickeradvanced_sort_on", $rootel);
-        var $pickeradvanced_close_dialog = $(".pickeradvanced_close_dialog", $rootel);
-        var $pickeradvanced_search_filter = $(".pickeradvanced_search_filter");
+        var $pickeradvanced_container = $('#pickeradvanced_container', $rootel);
+        var $pickeradvanced_content_list = $('#pickeradvanced_content_list', $rootel);
+        var $pickeradvanced_search_query = $('#pickeradvanced_search_query', $rootel);
+        var $pickeradvanced_search_button = $('#pickeradvanced_search_button', $rootel);
+        var $pickeradvanced_close_button = $('#pickeradvanced_close_button', $rootel);
+        var $pickeradvanced_select_all_button = $('#pickeradvanced_select_all_button', $rootel);
+        var $pickeradvanced_content_search_form = $('#pickeradvanced_content_search_form', $rootel);
+        var $pickeradvanced_add_button = $('#pickeradvanced_add_button', $rootel);
+        var $pickeradvanced_sort_on = $('#pickeradvanced_sort_on', $rootel);
+        var $pickeradvanced_close_dialog = $('.pickeradvanced_close_dialog', $rootel);
+        var $pickeradvanced_search_filter = $('.pickeradvanced_search_filter');
 
-        var $pickeradvanced_error_template = $("#pickeradvanced_error_template", $rootel);
-        var $pickeradvanced_content_search_pagetemplate = $("#pickeradvanced_content_search_pagetemplate", $rootel);
-        var $pickeradvanced_content_search_listtemplate = $("#pickeradvanced_content_search_listtemplate", $rootel);
+        var $pickeradvanced_error_template = $('#pickeradvanced_error_template', $rootel);
+        var $pickeradvanced_content_search_pagetemplate = $('#pickeradvanced_content_search_pagetemplate', $rootel);
+        var $pickeradvanced_content_search_listtemplate = $('#pickeradvanced_content_search_listtemplate', $rootel);
 
-        var $pickeradvanced_search_titles = $(".pickeradvanced_search_titles", $rootel);
-        var $pickeradvanced_search_files = $("#pickeradvanced_search_files", $rootel);
+        var $pickeradvanced_search_titles = $('.pickeradvanced_search_titles', $rootel);
+        var $pickeradvanced_search_files = $('#pickeradvanced_search_files', $rootel);
 
-        var pickeradvanced_page = ".pickeradvanced_page";
-        var pickeradvanced_content_search = "#pickeradvanced_content_search";
-        
+        var pickeradvanced_page = '.pickeradvanced_page';
+        var pickeradvanced_content_search = '#pickeradvanced_content_search';
+
         var pickerlist = false;
         var firstTime = true;
 
         var pickerData = {
-          "selected": {},
-          "searchIn": sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER,
-          "currentElementCount": 0,
-          "selectCount": 0,
-          "mode": "search",
-          "type": "people",
-          "items": 50,
-          "selectable": true,
-          "sortOn": "lastName",
-          "sortOrder": "asc"
+          'selected': {},
+          'searchIn': sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER,
+          'currentElementCount': 0,
+          'selectCount': 0,
+          'mode': 'search',
+          'type': 'people',
+          'items': 50,
+          'selectable': true,
+          'sortOn': 'lastName',
+          'sortOrder': 'asc'
         };
 
         /**
@@ -90,8 +90,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @returns void
          */
         var reset = function() {
-            $(pickeradvanced_content_search).html("");
-            $(pickeradvanced_content_search).unbind("scroll");
+            $(pickeradvanced_content_search).html('');
+            $(pickeradvanced_content_search).off('scroll');
             pickerData.selected = {};
             pickerData.currentElementCount = 0;
             pickerData.selectCount = 0;
@@ -113,16 +113,16 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
             // display the groups list, bind elements and submit a search
             $pickeradvanced_search_titles.hide();
-            $(".pickeradvanced_selected_list").removeClass("pickeradvanced_selected_list"); // deselect anything that was selected
-            $("#pickeradvanced_search_files_mylibrary").parent("li").addClass("pickeradvanced_selected_list");
+            $('.pickeradvanced_selected_list').removeClass('pickeradvanced_selected_list'); // deselect anything that was selected
+            $('#pickeradvanced_search_files_mylibrary').parent('li').addClass('pickeradvanced_selected_list');
             $pickeradvanced_sort_on.hide();
             $pickeradvanced_search_files.show();
-            $("ul.pickeradvanced_search_" + pickerData["type"]).show();
+            $('ul.pickeradvanced_search_' + pickerData['type']).show();
             $pickeradvanced_search_query.focus();
             $pickeradvanced_search_button.click(submitSearch);
             $pickeradvanced_content_search_form.submit(submitSearch);
-            $pickeradvanced_add_button.unbind("click");
-            $pickeradvanced_add_button.bind("click", function(){
+            $pickeradvanced_add_button.off('click');
+            $pickeradvanced_add_button.on('click', function() {
                 addPeople();
             });
             submitSearch();
@@ -139,12 +139,12 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var submitSearch = function() {
             reset();
             var parameters = {
-                "q": sakai.api.Server.createSearchString($pickeradvanced_search_query.val()) || "*",
-                "page": 0,
-                "items": pickerData["items"],
-                "userid": sakai.data.me.user.userid,
-                "sortOn": pickerData["sortOn"],
-                "sortOrder": pickerData["sortOrder"]
+                'q': sakai.api.Server.createSearchString($pickeradvanced_search_query.val()) || '*',
+                'page': 0,
+                'items': pickerData['items'],
+                'userid': sakai.data.me.user.userid,
+                'sortOn': pickerData['sortOn'],
+                'sortOrder': pickerData['sortOrder']
             };
             var searchURL = pickerData['searchIn'];
             addPage(parameters, searchURL);
@@ -160,7 +160,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var addPage = function(parameters, url) {
             // Create new container for the bit we load. This is then appended to the
             // main container
-            var $pl_pageContainer = $("<ul id=\"pickeradvanced_page_" + parameters.page + "\" class=\"pickeradvanced_page pickeradvanced_page_list loadinganim\"></ul>");
+            var $pl_pageContainer = $('<ul id=\'pickeradvanced_page_' + parameters.page + '\' class=\'pickeradvanced_page pickeradvanced_page_list loadinganim\'></ul>');
 
             // Display empty new container with loading anim
             $(pickeradvanced_content_search).append($pl_pageContainer);
@@ -169,8 +169,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             $.ajax({
                 url: url,
                 data: parameters,
-                type: "GET",
-                dataType: "json",
+                type: 'GET',
+                dataType: 'json',
                 success: function(rawData) {
                     if (!rawData.results) {
                         rawData.results = rawData;
@@ -182,17 +182,17 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     var pageHTML = sakai.api.Util.TemplateRenderer($pickeradvanced_content_search_pagetemplate, rawData);
 
                     // Remove loading animation
-                    $pl_pageContainer = $(".pickeradvanced_page.pickeradvanced_page_list.loadinganim");
-                    $pl_pageContainer.removeClass("loadinganim");
+                    $pl_pageContainer = $('.pickeradvanced_page.pickeradvanced_page_list.loadinganim');
+                    $pl_pageContainer.removeClass('loadinganim');
 
                     // Inject results into DOM
                     $pl_pageContainer.html(pageHTML);
                     // Wire loading the next page when user scrolls to the bottom of the list
                     if ((rawData.total > parameters.items) || (rawData.total === -1)) {
 
-                        $(pickeradvanced_content_search).bind("scroll", function(e){
+                        $(pickeradvanced_content_search).on('scroll', function(e) {
                             if ((e.target.scrollHeight - e.target.scrollTop - $(e.target).height() ) === 0) {
-                                $(pickeradvanced_content_search).unbind("scroll");
+                                $(pickeradvanced_content_search).off('scroll');
                                 parameters.page++;
                                 addPage(parameters, url);
                             }
@@ -202,45 +202,45 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
 
                     // Wire item selection
                     if (pickerData.selectable) {
-                        $pickeradvanced_select_all_button.unbind("click");
-                        $pickeradvanced_select_all_button.click(function(){
+                        $pickeradvanced_select_all_button.off('click');
+                        $pickeradvanced_select_all_button.click(function() {
                             pickerData.selectCount = 0;
                             $('#pickeradvanced_content_search ul li').each(function(i) {
-                                $(this).addClass("pickeradvanced_selected_user");
-                                $(this).children("input").attr('checked', true);
+                                $(this).addClass('pickeradvanced_selected_user');
+                                $(this).children('input').attr('checked', true);
                                 pickerData.selectCount += 1;
-                                pickerData["selected"][$(this).attr("id")] = rawData.results[i];
-                                if ($pickeradvanced_add_button.is(":disabled")) {
-                                    $pickeradvanced_add_button.removeAttr("disabled");
+                                pickerData['selected'][$(this).attr('id')] = rawData.results[i];
+                                if ($pickeradvanced_add_button.is(':disabled')) {
+                                    $pickeradvanced_add_button.removeAttr('disabled');
                                 }
                             });
                         });
-                        $("#pickeradvanced_page_" + parameters.page + " li").unbind("click");
-                        $("#pickeradvanced_page_" + parameters.page + " li").bind("click", function(e){
+                        $('#pickeradvanced_page_' + parameters.page + ' li').off('click');
+                        $('#pickeradvanced_page_' + parameters.page + ' li').on('click', function(e) {
                             // Check if user click on top of a link
-                            if (e.target.tagName.toLowerCase() !== "a") {
+                            if (e.target.tagName.toLowerCase() !== 'a') {
                                 // Remove from selected list
-                                if ($(this).hasClass("pickeradvanced_selected_user")) {
-                                    $(this).removeClass("pickeradvanced_selected_user");
-                                    $(this).children("input").removeAttr('checked');
-                                    delete pickerData["selected"][$(this).attr("id")];
+                                if ($(this).hasClass('pickeradvanced_selected_user')) {
+                                    $(this).removeClass('pickeradvanced_selected_user');
+                                    $(this).children('input').removeAttr('checked');
+                                    delete pickerData['selected'][$(this).attr('id')];
                                     pickerData.selectCount -= 1;
                                     if (pickerData.selectCount < 1) {
-                                        $pickeradvanced_add_button.attr("disabled", "disabled");
+                                        $pickeradvanced_add_button.attr('disabled', 'disabled');
                                     }
                                 } else {
                                     // Add to selected list
-                                    $(this).addClass("pickeradvanced_selected_user");
-                                    $(this).children("input").attr('checked', true);
+                                    $(this).addClass('pickeradvanced_selected_user');
+                                    $(this).children('input').attr('checked', true);
                                     for (var j = 0; j < rawData.results.length; j++) {
-                                        if (rawData.results[j]['_path'] && rawData.results[j]['_path'] == [$(this).attr("id")]) {
+                                        if (rawData.results[j]['_path'] && rawData.results[j]['_path'] === $(this).attr('id')) {
                                             pickerData.selectCount += 1;
-                                            pickerData["selected"][$(this).attr("id")] = rawData.results[j];
-                                            pickerData["selected"][$(this).attr("id")].entityType = "file";
+                                            pickerData['selected'][$(this).attr('id')] = rawData.results[j];
+                                            pickerData['selected'][$(this).attr('id')].entityType = 'file';
                                         }
                                     }
-                                    if ($pickeradvanced_add_button.is(":disabled")) {
-                                        $pickeradvanced_add_button.removeAttr("disabled");
+                                    if ($pickeradvanced_add_button.is(':disabled')) {
+                                        $pickeradvanced_add_button.removeAttr('disabled');
                                     }
                                 }
                             }
@@ -248,15 +248,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     }
 
                     // Wire sorting select dropdown
-                    $pickeradvanced_sort_on.unbind("change");
-                    $pickeradvanced_sort_on.bind("change", function(e){
+                    $pickeradvanced_sort_on.off('change');
+                    $pickeradvanced_sort_on.on('change', function(e) {
                         // Reset everything
                         reset();
 
                         // Set config to new sort key
                         // Start from scratch
-                        pickerData["sortOn"] = $(this).val().split("_")[0];
-                        pickerData["sortOrder"] = $(this).val().split("_")[1];
+                        pickerData['sortOn'] = $(this).val().split('_')[0];
+                        pickerData['sortOrder'] = $(this).val().split('_')[1];
                         submitSearch();
 
                     });
@@ -285,7 +285,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // this value is a comma-delimited list
             // split it and get rid of any empty values in the array
             sakai.api.Util.Modal.close($pickeradvanced_container);
-            $(window).trigger("finished.pickeradvanced.sakai", {"toAdd":pickerData["selected"]});
+            $(window).trigger('finished.pickeradvanced.sakai', {'toAdd':pickerData['selected']});
         };
 
 
@@ -293,31 +293,31 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Events //
         ////////////
 
-        $(window).unbind("init.pickeradvanced.sakai");
-        $(window).bind("init.pickeradvanced.sakai", function(e, config) {
+        $(window).off('init.pickeradvanced.sakai');
+        $(window).on('init.pickeradvanced.sakai', function(e, config) {
             firstTime = true;
             render(config.config);
             sakai.api.Util.Modal.open($pickeradvanced_container);
             pickerlist = config.list;
         });
 
-        $pickeradvanced_close_dialog.unbind("click");
-        $pickeradvanced_close_dialog.bind("click", function() {
+        $pickeradvanced_close_dialog.off('click');
+        $pickeradvanced_close_dialog.on('click', function() {
             sakai.api.Util.Modal.close($pickeradvanced_container);
         });
 
-        $pickeradvanced_close_button.unbind("click");
-        $pickeradvanced_close_button.bind("click", function() {
+        $pickeradvanced_close_button.off('click');
+        $pickeradvanced_close_button.on('click', function() {
             sakai.api.Util.Modal.close($pickeradvanced_container);
         });
 
-        $pickeradvanced_search_filter.die("click");
-        $pickeradvanced_search_filter.live("click", function() {
-           $(".pickeradvanced_selected_list").removeClass("pickeradvanced_selected_list");
-           $(this).parent("li").addClass("pickeradvanced_selected_list");
-           if ( $( this ).attr( "data-search" ) === "all" ) {
+        $pickeradvanced_search_filter.off('click');
+        $pickeradvanced_search_filter.on('click', function() {
+           $('.pickeradvanced_selected_list').removeClass('pickeradvanced_selected_list');
+           $(this).parent('li').addClass('pickeradvanced_selected_list');
+           if ( $( this ).attr( 'data-search' ) === 'all' ) {
                pickerData.searchIn = sakai.config.URL.SEARCH_ALL_FILES;
-           } else if ($( this ).attr( "data-search" ) === "my" ) {
+           } else if ($( this ).attr( 'data-search' ) === 'my' ) {
                pickerData.searchIn = sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER;
            }
            $pickeradvanced_sort_on.hide();
@@ -330,9 +330,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         // Send out an event that says the widget is ready to
         // accept a search query to process and display. This event can be picked up
         // in a page JS code
-        $(window).trigger("ready.pickeradvanced.sakai");
+        $(window).trigger('ready.pickeradvanced.sakai');
 
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("pickeradvanced");
+    sakai.api.Widgets.widgetLoader.informOnLoad('pickeradvanced');
 });

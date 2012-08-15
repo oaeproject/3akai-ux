@@ -22,7 +22,7 @@
  */
 /*global $, get_cookie, Config */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.ggadget
@@ -36,52 +36,52 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.ggadget = function(tuid, showSettings, widgetData){
+    sakai_global.ggadget = function(tuid, showSettings, widgetData) {
 
 
         /////////////////////////////
         // Configuration variables //
         /////////////////////////////
 
-        var rootel = $("#" + tuid);
+        var rootel = $('#' + tuid);
         var json = false;
         var isAdvancedSettingsVisible = false;
 
         // Default values
         var defaultWidth = 600;
-        var defaultWidthUnit = "px";
+        var defaultWidthUnit = 'px';
         var defaultHeight = 400;
 
         // Links and labels
-        var remotecontent = "#ggadget_remotecontent";
-        var remotecontentSettings = remotecontent + "_settings";
-        var remotecontentSettingsAdvanced = remotecontentSettings + "_advanced";
-        var remotecontentSettingsAdvancedDown = remotecontentSettingsAdvanced + "_down";
-        var remotecontentSettingsAdvancedToggleSettings = remotecontentSettingsAdvanced + "_toggle_settings";
-        var remotecontentSettingsAdvancedUp = remotecontentSettingsAdvanced + "_up";
-        var remotecontentSettingsBorders = remotecontentSettings + "_borders";
-        var remotecontentSettingsCancel = remotecontentSettings + "_cancel";
-        var remotecontentSettingsColorContainer = remotecontentSettings + "_color_container";
-        var remotecontentSettingsHeight = remotecontentSettings + "_height";
-        var remotecontentSettingsInsert = remotecontentSettings + "_insert";
-        var remotecontentSettingsPreview = remotecontentSettings + "_preview";
-        var remotecontentSettingsPreviewFrame = remotecontentSettingsPreview + "_frame";
-        var remotecontentSettingsUrl = remotecontentSettings + "_url";
-        var remotecontentSettingsUrlError = remotecontentSettingsUrl + "_error";
-        var remotecontentSettingsUrlErrorTitle = remotecontentSettingsUrlError + "_title";
-        var remotecontentSettingsWidth = remotecontentSettings + "_width";
+        var remotecontent = '#ggadget_remotecontent';
+        var remotecontentSettings = remotecontent + '_settings';
+        var remotecontentSettingsAdvanced = remotecontentSettings + '_advanced';
+        var remotecontentSettingsAdvancedDown = remotecontentSettingsAdvanced + '_down';
+        var remotecontentSettingsAdvancedToggleSettings = remotecontentSettingsAdvanced + '_toggle_settings';
+        var remotecontentSettingsAdvancedUp = remotecontentSettingsAdvanced + '_up';
+        var remotecontentSettingsBorders = remotecontentSettings + '_borders';
+        var remotecontentSettingsCancel = remotecontentSettings + '_cancel';
+        var remotecontentSettingsColorContainer = remotecontentSettings + '_color_container';
+        var remotecontentSettingsHeight = remotecontentSettings + '_height';
+        var remotecontentSettingsInsert = remotecontentSettings + '_insert';
+        var remotecontentSettingsPreview = remotecontentSettings + '_preview';
+        var remotecontentSettingsPreviewFrame = remotecontentSettingsPreview + '_frame';
+        var remotecontentSettingsUrl = remotecontentSettings + '_url';
+        var remotecontentSettingsUrlError = remotecontentSettingsUrl + '_error';
+        var remotecontentSettingsUrlErrorTitle = remotecontentSettingsUrlError + '_title';
+        var remotecontentSettingsWidth = remotecontentSettings + '_width';
 
         // Containers
-        var remotecontentMainContainer = remotecontent + "_main_container";
+        var remotecontentMainContainer = remotecontent + '_main_container';
 
         // Classes
-        var remotecontentSettingsWidthUnitClass = ".ggadget_remotecontent_settings_width_unit";
-        var remotecontentSettingsWidthUnitSelectedClass = "ggadget_remotecontent_settings_width_unit_selected";
+        var remotecontentSettingsWidthUnitClass = '.ggadget_remotecontent_settings_width_unit';
+        var remotecontentSettingsWidthUnitSelectedClass = 'ggadget_remotecontent_settings_width_unit_selected';
 
         // Templates
-        var $remotecontentSettingsColorContainerTemplate = $("#ggadget_remotecontent_settings_color_container_template", rootel);
-        var $remotecontentSettingsTemplate = $("#ggadget_remotecontent_settings_template", rootel);
-        var $remotecontentSettingsPreviewTemplate = $("#ggadget_remotecontent_settings_preview_template", rootel);
+        var $remotecontentSettingsColorContainerTemplate = $('#ggadget_remotecontent_settings_color_container_template', rootel);
+        var $remotecontentSettingsTemplate = $('#ggadget_remotecontent_settings_template', rootel);
+        var $remotecontentSettingsPreviewTemplate = $('#ggadget_remotecontent_settings_preview_template', rootel);
 
         ///////////////////////
         // Utility functions //
@@ -94,7 +94,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          *     true: is a decimal
          *     false: is not a decimal
          */
-        var isDecimal = function(value){
+        var isDecimal = function(value) {
             return (/^\d+$/).test(value);
         };
 
@@ -105,15 +105,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          *     true: is an url
          *     false: is not an url
          */
-        var isUrl = function(url){
+        var isUrl = function(url) {
             return (/^http\:\/\/|^https\:\/\//i).test(url);
         };
 
         /**
          * Called when the data has been saved to the JCR.
          */
-        var savedDataToJCR = function(){
-            sakai.api.Widgets.Container.informFinish(tuid, "ggadget");
+        var savedDataToJCR = function() {
+            sakai.api.Widgets.Container.informFinish(tuid, 'ggadget');
         };
 
 
@@ -125,19 +125,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Render the iframe for the widget in settings mode
          * @param {Boolean} complete Render the preview completely or only adjust values
          */
-        var renderIframeSettings = function(complete){
+        var renderIframeSettings = function(complete) {
             if (complete) {
                 // We create this object to render the iframe with the default height, width and widthunit
                 $(remotecontentSettingsPreview, rootel).html(sakai.api.Util.TemplateRenderer($remotecontentSettingsPreviewTemplate, json, null, false));
             } else {
-                $(remotecontentSettingsPreviewFrame, rootel).attr("style", "border: " + json.border_size + "px #" + json.border_color + " solid");
+                $(remotecontentSettingsPreviewFrame, rootel).attr('style', 'border: ' + json.border_size + 'px #' + json.border_color + ' solid');
             }
         };
 
         /**
          * Render the iframe for the widget
          */
-        var renderIframe = function(){
+        var renderIframe = function() {
             if (json) {
                 $(remotecontentMainContainer, rootel).html(sakai.api.Util.TemplateRenderer($remotecontentSettingsPreviewTemplate, json, null, false));
 
@@ -149,7 +149,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Render the html of the remotecontentsettings
          */
-        var renderRemoteContentSettings = function(){
+        var renderRemoteContentSettings = function() {
             if (json) {
                 $(remotecontentSettings, rootel).html(sakai.api.Util.TemplateRenderer($remotecontentSettingsTemplate, json));
             }
@@ -158,7 +158,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Render the color container
          */
-        var renderColorContainer = function(){
+        var renderColorContainer = function() {
             if (json) {
                 $(remotecontentSettingsColorContainer, rootel).html(sakai.api.Util.TemplateRenderer($remotecontentSettingsColorContainerTemplate, json));
             }
@@ -173,19 +173,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Display the iframe in normal mode
          * @param {Object} parameters JSON object that contains the necessary information for the iframe
          */
-        var displayRemoteContent = function(parameters){
+        var displayRemoteContent = function(parameters) {
             json = parameters;
             renderIframe();
-            $("iframe").ready(function() {
-                $("iframe iframe").attr("style", "overflow:auto");
+            $('iframe').ready(function() {
+                $('iframe iframe').attr('style', 'overflow:auto');
             });
         };
 
         /**
          * Save the remotecontent to the jcr
          */
-        var saveRemoteContent = function(){
-            if (json.url !== "") {
+        var saveRemoteContent = function() {
+            if (json.url !== '') {
                 sakai.api.Widgets.saveWidgetData(tuid, json, savedDataToJCR);
             } else {
                 sakai.api.Util.notification.show($(remotecontentSettingsUrlErrorTitle).html(), $(remotecontentSettingsUrlError).html());
@@ -195,7 +195,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /**
          * Change the direction (up/down) of the arrow for the advanced settings
          */
-        var changeAdvancedSettingsArrow = function(){
+        var changeAdvancedSettingsArrow = function() {
             if (isAdvancedSettingsVisible) {
                 $(remotecontentSettingsAdvancedDown, rootel).hide();
                 $(remotecontentSettingsAdvancedUp, rootel).show();
@@ -213,9 +213,9 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /*
          * Add binding to the color boxes
          */
-        var addColorBinding = function(){
-            $(".ggadget_remotecontent_settings_color", rootel).click(function(){
-                json.border_color = $(this).attr("id").split("_")[$(this).attr("id").split("_").length - 1];
+        var addColorBinding = function() {
+            $('.ggadget_remotecontent_settings_color', rootel).click(function() {
+                json.border_color = $(this).attr('id').split('_')[$(this).attr('id').split('_').length - 1];
                 renderIframeSettings(false);
                 renderColorContainer();
                 addColorBinding();
@@ -229,19 +229,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var previewGadget = function() {
             // get the src attribute of the embed script tag, and define a html render rather than JS
             var urlValue = false;
-            if ($($(remotecontentSettingsUrl).val()).length && $($(remotecontentSettingsUrl).val()).attr("src")) {
-                urlValue = $($(remotecontentSettingsUrl).val()).attr("src").replace("output=js", "output=html");
+            if ($($(remotecontentSettingsUrl).val()).length && $($(remotecontentSettingsUrl).val()).attr('src')) {
+                urlValue = $($(remotecontentSettingsUrl).val()).attr('src').replace('output=js', 'output=html');
             }
 
             if (urlValue && urlValue !== '') {
                 // Get size of the gadget from the embed code
-                var rawParams = urlValue.split("&");
+                var rawParams = urlValue.split('&');
                 for (var i = 0, il = rawParams.length; i < il; i++) {
-                    var kvpair = rawParams[i].split("=");
-                    if (kvpair[0] === "w") {
+                    var kvpair = rawParams[i].split('=');
+                    if (kvpair[0] === 'w') {
                         json.width = kvpair[1];
                     }
-                    if (kvpair[0] === "h") {
+                    if (kvpair[0] === 'h') {
                         json.height = kvpair[1];
                     }
                 }
@@ -267,19 +267,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /*
          * Add binding to all the elements
          */
-        var addBinding = function(){
+        var addBinding = function() {
             // Change the url for the iFrame
-            $(remotecontentSettingsUrl, rootel).change(function(){
+            $(remotecontentSettingsUrl, rootel).change(function() {
                 previewGadget();
             });
 
             var previewValidateOpts = {
                 submitHandler: previewGadget
             };
-            sakai.api.Util.Forms.validate($("#ggadget_form", rootel), previewValidateOpts, true);
+            sakai.api.Util.Forms.validate($('#ggadget_form', rootel), previewValidateOpts, true);
 
             // Change the iframe width
-            $(remotecontentSettingsWidth, rootel).change(function(){
+            $(remotecontentSettingsWidth, rootel).change(function() {
                 var widthValue = $(remotecontentSettingsWidth, rootel).val();
                 if (isDecimal(widthValue)) {
                     json.width = widthValue;
@@ -288,7 +288,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // Change the iframe height
-            $(remotecontentSettingsHeight, rootel).change(function(){
+            $(remotecontentSettingsHeight, rootel).change(function() {
                 var heightValue = $(remotecontentSettingsHeight).val();
                 if (isDecimal(heightValue)) {
                     json.height = heightValue;
@@ -297,7 +297,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // Change the border width
-            $(remotecontentSettingsBorders, rootel).change(function(){
+            $(remotecontentSettingsBorders, rootel).change(function() {
                 var borderValue = $(remotecontentSettingsBorders).val();
                 if (isDecimal(borderValue)) {
                     json.border_size = borderValue;
@@ -306,19 +306,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             });
 
             // Toggle the advanced view
-            $(remotecontentSettingsAdvancedToggleSettings).click(function(){
+            $(remotecontentSettingsAdvancedToggleSettings).click(function() {
                 $(remotecontentSettingsAdvanced, rootel).toggle();
                 isAdvancedSettingsVisible = !isAdvancedSettingsVisible;
                 changeAdvancedSettingsArrow();
             });
 
             // When you click on one of the width units (px or percentage)
-            $(remotecontentSettingsWidthUnitClass, rootel).click(function(){
-                var widthUnitValue = $(this).attr("id").split("_")[$(this).attr("id").split("_").length - 1];
-                if (widthUnitValue === "px") {
+            $(remotecontentSettingsWidthUnitClass, rootel).click(function() {
+                var widthUnitValue = $(this).attr('id').split('_')[$(this).attr('id').split('_').length - 1];
+                if (widthUnitValue === 'px') {
                     json.width_unit = widthUnitValue;
                 } else {
-                    json.width_unit = "%";
+                    json.width_unit = '%';
                 }
                 $(remotecontentSettingsWidthUnitClass).removeClass(remotecontentSettingsWidthUnitSelectedClass);
                 $(this).addClass(remotecontentSettingsWidthUnitSelectedClass);
@@ -329,11 +329,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             var saveValidateOpts = {
                 submitHandler: saveRemoteContent
             };
-            sakai.api.Util.Forms.validate($("#ggadget_settings_form", rootel), saveValidateOpts, true);
+            sakai.api.Util.Forms.validate($('#ggadget_settings_form', rootel), saveValidateOpts, true);
 
             // Cancel it
-            $(remotecontentSettingsCancel, rootel).click(function(){
-                sakai.api.Widgets.Container.informCancel(tuid, "ggadget");
+            $(remotecontentSettingsCancel, rootel).click(function() {
+                sakai.api.Widgets.Container.informCancel(tuid, 'ggadget');
             });
 
             addColorBinding();
@@ -349,15 +349,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @param {Object} parameters A JSON object that contains the necessary information.
          * @param {Boolean} exists Does there exist a previous remotecontent
          */
-        var displaySettings = function(parameters, exists){
+        var displaySettings = function(parameters, exists) {
             if (exists && parameters.url) {
                 json = parameters;
             } else {
                 json = {
                     border_size: 0,
-                    border_color: "cccccc",
+                    border_color: 'cccccc',
                     height: defaultHeight,
-                    url: "",
+                    url: '',
                     width: defaultWidth,
                     width_unit: defaultWidthUnit
                 };
@@ -387,15 +387,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * Will fetch the URL and other parameters from the JCR and according to which
          * view we are in, fill in the settings or display an iframe.
          */
-        var getRemoteContent = function(){
-            if (widgetData.ggadget){
+        var getRemoteContent = function() {
+            if (widgetData.ggadget) {
                 processRemoteContent(true, widgetData.ggadget);
             } else {
                 sakai.api.Widgets.loadWidgetData(tuid, processRemoteContent);
             }
         };
-  
-        var processRemoteContent = function(success, data){
+
+        var processRemoteContent = function(success, data) {
             if (success) {
                 // Get a JSON string that contains the necessary information.
                 var parameters = data;
@@ -412,5 +412,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         getRemoteContent();
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("ggadget");
+    sakai.api.Widgets.widgetLoader.informOnLoad('ggadget');
 });

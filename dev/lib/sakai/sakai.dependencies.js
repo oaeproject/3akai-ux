@@ -25,7 +25,7 @@ sakai_global = {};
  * Only logs information when sakai.config.displayDebugInfo is switched on
  *
  * debug.log, debug.error, debug.warn, debug.debug, debug.info
- * usage: debug.log("argument", {more:"arguments"})
+ * usage: debug.log('argument', {more:'arguments'})
  *
  * paulirish.com/2009/log-a-lightweight-wrapper-for-consolelog/
  * benalman.com/projects/javascript-debug-console-log/
@@ -77,10 +77,10 @@ if (!(Array.indexOf || [].indexOf)) {
     * @returns Returns the position of the first matched element
     * @type Integer
     */
-    Array.prototype.indexOf = function(obj,start){
+    Array.prototype.indexOf = function(obj,start) {
 
-        for(var i=(start||0),j=this.length; i<j; i++){
-            if(this[i]===obj){
+        for(var i=(start||0),j=this.length; i<j; i++) {
+            if (this[i]===obj) {
                 return i;
             }
         }
@@ -93,46 +93,46 @@ if (!(Array.indexOf || [].indexOf)) {
 // https://confluence.sakaiproject.org/x/sq_CB
 require(
     {
-        baseUrl:"/dev/lib/",
+        baseUrl:'/dev/lib/',
         paths: {
-            "jquery-plugins": "jquery/plugins",
-            "jquery": "jquery/jquery-1.7.0",
-            "jquery-ui": "jquery/jquery-ui-1.8.20.custom",
-            "jquery-cookie": "jquery/plugins/jquery.cookie",
-            "jquery-jstree": "jquery/plugins/jsTree/jquery.jstree.sakai-edit",
-            "jquery-fileupload": "jquery/plugins/jquery.fileupload",
-            "jquery-iframe-transport": "jquery/plugins/jquery.iframe-transport",
-            "jquery-pager": "jquery/plugins/jquery.pager.sakai-edited",
-            "jquery-tagcloud": "jquery/plugins/jquery.tagcloud",
-            "underscore": "misc/underscore",
-            "config": "../configuration"
+            'jquery-plugins': 'jquery/plugins',
+            'jquery': 'jquery/jquery-1.7.0',
+            'jquery-ui': 'jquery/jquery-ui-1.8.20.custom',
+            'jquery-cookie': 'jquery/plugins/jquery.cookie',
+            'jquery-jstree': 'jquery/plugins/jsTree/jquery.jstree.sakai-edit',
+            'jquery-fileupload': 'jquery/plugins/jquery.fileupload',
+            'jquery-iframe-transport': 'jquery/plugins/jquery.iframe-transport',
+            'jquery-pager': 'jquery/plugins/jquery.pager.sakai-edited',
+            'jquery-tagcloud': 'jquery/plugins/jquery.tagcloud',
+            'underscore': 'misc/underscore',
+            'config': '../configuration'
         },
-        priority: ["jquery", "underscore"]
+        priority: ['jquery', 'underscore']
     }
 );
 
 require(
     [
-        "jquery",
-        "sakai/sakai.api.core",
-        "sakai/sakai.jquery-extensions",
-        "config/config",
-        "config/config_custom",
-        "underscore",
-        "jquery-ui",
-        "misc/l10n/globalize",
-        "misc/google/html-sanitizer",
-        "jquery-plugins/jquery.equal-height-columns",
-        "jquery-plugins/jquery.contentchange.sakai-edited",
-        "jquery-plugins/jquery.timeago",
-        "jquery-plugins/jqmodal.sakai-edited",
-        "jquery-plugins/jquery.ba-bbq",
-        "jquery-plugins/jquery.threedots",
-        "jquery-plugins/jquery.form",
-        "jquery-plugins/gritter/jquery.gritter.sakai-edit",
-        "jquery-plugins/jquery.jcarousel.sakai-edit",
-        "jquery-plugins/jquery.jeditable.sakai-edited",
-        "jquery-plugins/jquery.infinitescroll-sakai"
+        'jquery',
+        'sakai/sakai.api.core',
+        'sakai/sakai.jquery-extensions',
+        'config/config',
+        'config/config_custom',
+        'underscore',
+        'jquery-ui',
+        'misc/l10n/globalize',
+        'misc/google/html-sanitizer',
+        'jquery-plugins/jquery.equal-height-columns',
+        'jquery-plugins/jquery.contentchange.sakai-edited',
+        'jquery-plugins/jquery.timeago',
+        'jquery-plugins/jqmodal.sakai-edited',
+        'jquery-plugins/jquery.ba-bbq',
+        'jquery-plugins/jquery.threedots',
+        'jquery-plugins/jquery.form',
+        'jquery-plugins/gritter/jquery.gritter.sakai-edit',
+        'jquery-plugins/jquery.jcarousel.sakai-edit',
+        'jquery-plugins/jquery.jeditable.sakai-edited',
+        'jquery-plugins/jquery.infinitescroll-sakai'
     ],
     function($, sakai) {
         sakai.api.User.loadMeData(function(success, data) {

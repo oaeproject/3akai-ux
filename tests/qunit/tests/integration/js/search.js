@@ -6,14 +6,14 @@ require(
     '../../../../tests/qunit/js/sakai_qunit_lib.js',
     '../../../../tests/qunit/js/dev.js',
     '../../../../tests/qunit/js/devwidgets.js'
-    ], 
+    ],
     function($, sakai) {
 
         var createdGroups = [];
         var createdUsers = [];
 
         var decideSuccess = function(results, expectedResult) {
-            if (results.length == 1) {
+            if (results.length === 1) {
                 if (results[0] === expectedResult) {
                     ok(true, 'The search succeeded: ' + results[0] + ' returned as expected.');
                 } else {
@@ -143,7 +143,7 @@ require(
         if (sakai_global.qunit && sakai_global.qunit.ready) {
             SearchTest();
         } else {
-            $(window).bind('ready.qunit.sakai', function() {
+            $(window).on('ready.qunit.sakai', function() {
                 SearchTest();
             });
         }

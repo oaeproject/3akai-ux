@@ -387,7 +387,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
                     var $found = $('*:contains(\'' + obj.originaltitle + '\')');
                     $found.last().prev('a').click();
                     // If the user removes an item that was selected through browsing the OS reduce the file count to avoid bug (https://jira.sakaiproject.org/browse/SAKIII-3269)
-                    if(obj.origin == 'user') {
+                    if (obj.origin === 'user') {
                         numberOfBrowsedFiles--;
                     }
                     break;
@@ -505,12 +505,12 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
                     $.each($thisForm.find('.newaddcontent_existingitems_select_checkbox:checked'), function(index, item) {
                         if (!$(item).is(':disabled')) {
                             var viewers = [];
-                            if ($(item).data('sakai-pooled-content-viewer')) {
-                                viewers = ('' + $(item).data('sakai-pooled-content-viewer')).split(',');
+                            if ($(item).attr('data-sakai-pooled-content-viewer')) {
+                                viewers = ('' + $(item).attr('data-sakai-pooled-content-viewer')).split(',');
                             }
                             var managers = [];
-                            if ($(item).data('sakai-pooled-content-manager')) {
-                                managers = ('' + $(item).data('sakai-pooled-content-manager')).split(',');
+                            if ($(item).attr('data-sakai-pooled-content-manager')) {
+                                managers = ('' + $(item).attr('data-sakai-pooled-content-manager')).split(',');
                             }
                             var contentObj = {
                                 'sakai:pooled-content-file-name': $(item).next().text(),
@@ -653,7 +653,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
          */
         var checkUploadCompleted = function(files, contentObj) {
             itemsUploaded++;
-            if(itemsToUpload.length === itemsUploaded) {
+            if (itemsToUpload.length === itemsUploaded) {
                 setDataOnContent(function() {
                     sakai.data.me.user.properties.contentCount += itemsUploaded - existingAdded.length;
                     var tmpItemsAdded = $.extend(true, [], existingAdded);
@@ -895,7 +895,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
         var prepareLibraryDataForContent = function() {
             $.each(itemsToUpload, function(index, contentObj) {
                 // Add this content to the selected library
-                if(libraryToUploadTo !== sakai.data.me.user.userid) {
+                if (libraryToUploadTo !== sakai.data.me.user.userid) {
                     contentDataBatch.push({
                         url: '/p/' + contentObj['_path'] + '.members.json',
                         parameters: {
@@ -985,7 +985,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
                     callback();
                 }
             });
-                            
+
         };
 
         /**
@@ -1089,7 +1089,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
          * Check if a field is valid and the button to add to the list should be enabled
          */
         var checkFieldValidToAdd = function() {
-            if ($(this).attr('type') == 'text') {
+            if ($(this).attr('type') === 'text') {
                 var val = $.trim($(this).val());
                 if (val) {
                     enableAddToQueue();
@@ -1178,7 +1178,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
                 success: function(data) {
                     var existingIDs = [];
                     $.each(itemsToUpload, function(index, item) {
-                        if(item.type === 'existing') {
+                        if (item.type === 'existing') {
                             existingIDs.push(item['_path']);
                         }
                     });
@@ -1364,40 +1364,40 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
          * Remove binding on all elements
          */
         var removeBinding = function() {
-            $newaddcontentContainerLHChoiceItem.unbind('click', navigateMenu);
-            $newaddcontentContainerLHChoiceSubItem.unbind('click', navigateSubItem);
-            $newaddcontentContainerNewItemAddToList.unbind('click', constructItemToAdd);
-            $(newaddcontentContainerStartUploadButton).unbind('click', doUpload);
-            $(newaddcontentSelectedItemsEditDataClose).die('click', closeEditData);
-            $(newaddcontentContainerNewItemSaveChanges).die('click', saveEdit);
-            $(newaddcontentSelectedItemsRemove).die('click', removeItemToAdd);
-            $(newaddcontentSelectedItemsActionsPermissions).die('click', changePermissions);
-            $(newaddcontentSelectedItemsActionsEdit).die('click', editData);
-            $(newaddcontentExistingItemsListContainerActionsSort).die('change');
+            $newaddcontentContainerLHChoiceItem.off('click', navigateMenu);
+            $newaddcontentContainerLHChoiceSubItem.off('click', navigateSubItem);
+            $newaddcontentContainerNewItemAddToList.off('click', constructItemToAdd);
+            $(newaddcontentContainerStartUploadButton).off('click', doUpload);
+            $(newaddcontentSelectedItemsEditDataClose).off('click', closeEditData);
+            $(newaddcontentContainerNewItemSaveChanges).off('click', saveEdit);
+            $(newaddcontentSelectedItemsRemove).off('click', removeItemToAdd);
+            $(newaddcontentSelectedItemsActionsPermissions).off('click', changePermissions);
+            $(newaddcontentSelectedItemsActionsEdit).off('click', editData);
+            $(newaddcontentExistingItemsListContainerActionsSort).off('change');
             $newaddcontentContainer.off('click', '#newaddcontent_existingitems_paging .sakai_pager button');
-            $(window).unbind('init.deletecontent.sakai', deleteContent);
+            $(window).off('init.deletecontent.sakai', deleteContent);
         };
 
         /**
          * Add binding to all elements
          */
         var addBinding = function() {
-            $newaddcontentContainerLHChoiceItem.bind('click', navigateMenu);
-            $newaddcontentContainerLHChoiceSubItem.bind('click', navigateSubItem);
-            $newaddcontentContainerNewItemAddToList.bind('click', constructItemToAdd);
-            $(newaddcontentContainerStartUploadButton).bind('click', doUpload);
-            $(newaddcontentSelectedItemsEditDataClose).live('click', closeEditData);
-            $(newaddcontentContainerNewItemSaveChanges).live('click', saveEdit);
-            $(newaddcontentSelectedItemsRemove).live('click', removeItemToAdd);
-            $(newaddcontentSelectedItemsActionsPermissions).live('click', changePermissions);
-            $(newaddcontentSelectedItemsActionsEdit).live('click', editData);
+            $newaddcontentContainerLHChoiceItem.on('click', navigateMenu);
+            $newaddcontentContainerLHChoiceSubItem.on('click', navigateSubItem);
+            $newaddcontentContainerNewItemAddToList.on('click', constructItemToAdd);
+            $(newaddcontentContainerStartUploadButton).on('click', doUpload);
+            $(newaddcontentSelectedItemsEditDataClose).on('click', closeEditData);
+            $(newaddcontentContainerNewItemSaveChanges).on('click', saveEdit);
+            $(newaddcontentSelectedItemsRemove).on('click', removeItemToAdd);
+            $(newaddcontentSelectedItemsActionsPermissions).on('click', changePermissions);
+            $(newaddcontentSelectedItemsActionsEdit).on('click', editData);
             $newaddcontentExistingItemsSearch.keydown(searchExistingContent);
             $(newaddcontentAddExistingSearchButton).click(searchExistingContent);
-            $(newaddcontentExistingContentForm + ' input').live('click',checkFieldValidToAdd);
-            $(newaddcontentExistingCheckAll).live('change', checkUncheckAll);
-            $(newaddcontentExistingItemsListContainerActionsSort).live('change', function() {searchPaging(1);});
-            $(newaddcontentSaveTo).live('change', greyOutExistingInLibrary);
-            $newaddcontentContainer.on('click', '#newaddcontent_existingitems_paging .sakai_pager button', function(){
+            $(newaddcontentExistingContentForm + ' input').on('click',checkFieldValidToAdd);
+            $(newaddcontentExistingCheckAll).on('change', checkUncheckAll);
+            $(newaddcontentExistingItemsListContainerActionsSort).on('change', function() {searchPaging(1);});
+            $(newaddcontentSaveTo).on('change', greyOutExistingInLibrary);
+            $newaddcontentContainer.on('click', '#newaddcontent_existingitems_paging .sakai_pager button', function() {
                 return false;
             });
             sakai.api.Util.hideOnClickOut($newaddcontentSelecteditemsEditDataContainer, newaddcontentSelectedItemsActionsEdit + ', #assignlocation_container');
@@ -1430,7 +1430,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
                 sequentialUploads: true,
                 singleFileUploads: false,
                 dropZone: $('#newaddcontent_container_selecteditems'),
-                drop: function (ev, data) {
+                drop: function(ev, data) {
                     ev.stopPropagation();
                     ev.preventDefault();
                     // We only support browsers that have XMLHttpRequest Level 2
@@ -1439,7 +1439,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
                     }
                     if ($(ev.target).is($('#newaddcontent_file_upload'))) {
                         var error = false;
-                        $.each(data.files, function (index, file) {
+                        $.each(data.files, function(index, file) {
                             if (file.size > 0) {
                                 fileDropped(file);
                             } else {
@@ -1501,7 +1501,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
         /**
          * Initialize the modal dialog
          */
-        var initializeJQM = function(){
+        var initializeJQM = function() {
             sakai.api.Util.Modal.setup($newaddcontentContainer, {
                 modal: true,
                 overlay: 20,

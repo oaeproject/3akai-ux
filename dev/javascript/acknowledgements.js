@@ -122,20 +122,20 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }
         };
 
-        var generateNav = function(){
+        var generateNav = function() {
             $(window).trigger('lhnav.init', [pubdata, {}, {}]);
         };
 
-        var renderEntity = function(){
+        var renderEntity = function() {
             $(window).trigger('sakai.entity.init', ['acknowledgements']);
         };
 
-        $(window).bind('lhnav.ready', function() {
+        $(window).on('lhnav.ready', function() {
             generateNav();
         });
 
-        $(window).bind('sakai.entity.ready', function() {
-            renderEntity(); 
+        $(window).on('sakai.entity.ready', function() {
+            renderEntity();
         });
 
         generateNav();

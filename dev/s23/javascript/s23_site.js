@@ -19,7 +19,7 @@
 /*global sakai, Config, $ */
 require(['jquery', 'sakai/sakai.api.core', 'jquery-cookie'], function($, sakai) {
 
-sakai_global.s23_site = function(){
+sakai_global.s23_site = function() {
 
     /////////////////////////////
     // Configuration variables //
@@ -29,25 +29,25 @@ sakai_global.s23_site = function(){
     var entityReady = false;
 
     // CSS selectors
-    var s23Site = "#s23_site";
-    var s23SiteIframeContainer = $(s23Site + "_iframe_container");
-    var s23SiteMenuActive = "s23_site_menu_item_active";
-    var s23SiteMenuContainer = $(s23Site + "_menu_container");
-    var s23SiteMenuItemTag = "s23_site_menu_item_";
-    var s23SiteMenuItems = s23Site + "_menu_container ul li a";
-    var s23SitePageContainerClass = ".s23_site_page_container";
-    var s23SitePageContainerTag = "s23_site_page_container_";
-    var s23SiteTitle = $(s23Site + "_title");
-    var s23GritterNotificationTitle = "#s23_gritter_notification_title";
-    var s23GritterNotificationMessage = "#s23_gritter_notification_message";
-    var s23GritterNotificationCancel = "#s23_gritter_notification_cancel";
+    var s23Site = '#s23_site';
+    var s23SiteIframeContainer = $(s23Site + '_iframe_container');
+    var s23SiteMenuActive = 's23_site_menu_item_active';
+    var s23SiteMenuContainer = $(s23Site + '_menu_container');
+    var s23SiteMenuItemTag = 's23_site_menu_item_';
+    var s23SiteMenuItems = s23Site + '_menu_container ul li a';
+    var s23SitePageContainerClass = '.s23_site_page_container';
+    var s23SitePageContainerTag = 's23_site_page_container_';
+    var s23SiteTitle = $(s23Site + '_title');
+    var s23GritterNotificationTitle = '#s23_gritter_notification_title';
+    var s23GritterNotificationMessage = '#s23_gritter_notification_message';
+    var s23GritterNotificationCancel = '#s23_gritter_notification_cancel';
 
     // Templates
-    var s23SiteIframeContainerTemplate = "s23_site_iframe_container_template";
-    var s23SiteMenuContainerTemplate = "s23_site_menu_container_template";
+    var s23SiteIframeContainerTemplate = 's23_site_iframe_container_template';
+    var s23SiteMenuContainerTemplate = 's23_site_menu_container_template';
 
     // see: http://www.ietf.org/rfc/rfc2396.txt Appendix B
-    var urlRegExp = new RegExp("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?");
+    var urlRegExp = new RegExp('^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?');
 
     ///////////////////////
     // General functions //
@@ -61,15 +61,15 @@ sakai_global.s23_site = function(){
      *     true: in the same origin policy
      *     false: NOT in the same origin policy
      */
-    var isSameOriginPolicy = function(url1, url2){
-        if(url1 == url2) {
+    var isSameOriginPolicy = function(url1, url2) {
+        if (url1 === url2) {
             return true;
         }
-        // debug.log(isUrl(url1) + ": " + url1 + "=" + urlRegExp.exec(url1)[4]);
-        // debug.log(isUrl(url2) + ": " + url2 + "=" + urlRegExp.exec(url2)[4]);
+        // debug.log(isUrl(url1) + ': ' + url1 + '=' + urlRegExp.exec(url1)[4]);
+        // debug.log(isUrl(url2) + ': ' + url2 + '=' + urlRegExp.exec(url2)[4]);
         // i.e. protocol, domain (and optional port numbers) must match
-        if((urlRegExp.exec(url1)[2] == urlRegExp.exec(url2)[2]) &&
-           (urlRegExp.exec(url1)[4] == urlRegExp.exec(url2)[4])){
+        if ((urlRegExp.exec(url1)[2] === urlRegExp.exec(url2)[2]) &&
+           (urlRegExp.exec(url1)[4] === urlRegExp.exec(url2)[4])) {
             return true;
         } else {
             return false;
@@ -81,7 +81,7 @@ sakai_global.s23_site = function(){
      * @param {String} pageid The id of the page you want information for
      * @return {Object} A page object containing the info about the page
      */
-    var getPageInfo = function(pageid){
+    var getPageInfo = function(pageid) {
 
         // Run over all the pages and return the page object that has the same
         // id as the pageid argument
@@ -92,7 +92,7 @@ sakai_global.s23_site = function(){
         }
 
         // Log a message if the page with the given pageid was not found
-        debug.error("s23_site: the page with id'" + pageid + "' was not found in the json object");
+        debug.error('s23_site: the page with id "' + pageid + '" was not found in the json object');
         return false;
     };
 
@@ -100,10 +100,10 @@ sakai_global.s23_site = function(){
     // sites iframe with the fresh tool state URL generated in the template.
     var handleResetClick = function(ev) {
         ev.preventDefault();
-        $("#"+this.target).attr("src", this.href);
+        $('#'+this.target).attr('src', this.href);
     };
 
-    $(window).bind("hashchange", function(ev){
+    $(window).on('hashchange', function(ev) {
         loadPageTools();
     });
 
@@ -111,13 +111,13 @@ sakai_global.s23_site = function(){
      * Load the tools for a certain page
      * @param {Object} pageid The id of the page you want the tools loaded for
      */
-    var loadPageTools = function(){
+    var loadPageTools = function() {
 
-        var pageid = $.bbq.getState("page");
+        var pageid = $.bbq.getState('page');
         if (pageid) {
             // Get the page info for a certain page and store it in a variable
             var page = getPageInfo(pageid);
-            
+
             // Check if the page actually exists
             if (page && !page.popup) {
             
@@ -128,15 +128,15 @@ sakai_global.s23_site = function(){
                 $('#' + s23SiteMenuItemTag + pageid.replace(/([~!])/g, '_')).closest('li').addClass(s23SiteMenuActive);
                 // Hide the content & tools from the other pages
                 $(s23SitePageContainerClass, s23SiteIframeContainer).hide();
-                
+
                 // Get the complete id for a page container
                 var completexid = s23SitePageContainerTag + page.xid.replace(/([~!])/g, '_');
-                
+
                 // Check if the page was already loaded before
-                if ($("#" + completexid).length > 0) {
-                
+                if ($('#' + completexid).length > 0) {
+
                     // Show the page container
-                    $("#" + completexid).show();
+                    $('#' + completexid).show();
                 }
                 else {
                     // Sometimes Sakai2 tools have a layouthint property (but not
@@ -150,12 +150,12 @@ sakai_global.s23_site = function(){
                     };
                     for (var i = 0; i < page.tools.length; i++) {
                         if (page.tools[i].layouthint) {
-                            var colstr = page.tools[i].layouthint.split(",")[1];
-                            if (colstr === "0") {
+                            var colstr = page.tools[i].layouthint.split(',')[1];
+                            if (colstr === '0') {
                                 renderData.columnTools[0].push(page.tools[i]);
                             }
-                            else 
-                                if (colstr === "1") {
+                            else
+                                if (colstr === '1') {
                                     if (renderData.columnTools.length < 2) {
                                         renderData.columnTools.push([]);
                                     }
@@ -166,14 +166,14 @@ sakai_global.s23_site = function(){
                             renderData.columnTools[0].push(page.tools[i]);
                         }
                     }
-                    
+
                     // Render the tools of the site and add them to the page container
                     s23SiteIframeContainer.append(sakai.api.Util.TemplateRenderer(s23SiteIframeContainerTemplate, renderData));
-                    var loadIframe = function(){
-                        $(this).height($(this).contents().find("body").height() + 15); // add 10px for IE and 5px more for Gradebook weirdness
+                    var loadIframe = function() {
+                        $(this).height($(this).contents().find('body').height() + 15); // add 10px for IE and 5px more for Gradebook weirdness
                     };
-                    
-                    // Some notes about the bit of code below. What we have here, 
+
+                    // Some notes about the bit of code below. What we have here,
                     // is the process by which we'll fill in all the Sakai2 tools
                     // on a page. Realistically there are only 1 of these for most
                     // pages, but on some pages there are several, and they are
@@ -186,7 +186,7 @@ sakai_global.s23_site = function(){
                     // This presents us which a situation where if we have 2 or more
                     // portlets on a page, they are all logging in simultaneously to
                     // Sakai. Now, they all log in Ok, but the problems is that Sakai
-                    // 2 uses a session variable to cache the original Url for the 
+                    // 2 uses a session variable to cache the original Url for the
                     // portlet that it should get redirected to. What was happening was
                     // that every portlet was logging in at the same time and overriding
                     // this session variable, so only 1 portlet got redirected to a
@@ -203,9 +203,9 @@ sakai_global.s23_site = function(){
                     var otherframes = [];
                     for (var tool = 0; tool < page.tools.length; tool++) {
                         // Some special Sakai 2 Sites start with ~ or !
-                        var siteSelector = "#Main" + page.tools[tool].xid.replace(/([~!])/g, '\\$1');
+                        var siteSelector = '#Main' + page.tools[tool].xid.replace(/([~!])/g, '\\$1');
                         var iframe = $(siteSelector);
-                        var srcUrl = sakai.config.SakaiDomain + "/portal/tool/" + page.tools[tool].url + "?panel=Main";
+                        var srcUrl = sakai.config.SakaiDomain + '/portal/tool/' + page.tools[tool].url + '?panel=Main';
                         if (isSameOriginPolicy(window.location.href, srcUrl)) {
                             iframe.load(loadIframe);
                         }
@@ -216,22 +216,22 @@ sakai_global.s23_site = function(){
                         else {
                             otherframes.push([iframe, srcUrl]);
                         }
-                        // The 'reset' tool <a> link, is overridden with the below event to reload the 
-                        // sites iframe with the fresh tool state URL generated in the template. 
-                        $("#reset-Main" + page.tools[tool].xid).on('click', handleResetClick);
+                        // The 'reset' tool <a> link, is overridden with the below event to reload the
+                        // sites iframe with the fresh tool state URL generated in the template.
+                        $('#reset-Main' + page.tools[tool].xid).on('click', handleResetClick);
                     }
-                    firstFrame.load(function(){
+                    firstFrame.load(function() {
                         for (var j = 0; j < otherframes.length; j++) {
                             var nextset = otherframes[j];
-                            nextset[0].attr("src", nextset[1]);
+                            nextset[0].attr('src', nextset[1]);
                         }
                     });
-                    if (sakai.config.hybridCasHost){
+                    if (sakai.config.hybridCasHost) {
                         // check for CLE session cookie
-                        if ($.cookie('JSESSIONID')){
+                        if ($.cookie('JSESSIONID')) {
                             $.ajax({
                                 url: '/direct/session/current.json',
-                                success: function(data){
+                                success: function(data) {
                                     if (data['userId'] === null) {
                                         doCasAuth();
                                     } else {
@@ -244,7 +244,7 @@ sakai_global.s23_site = function(){
                             doCasAuth();
                         }
                     } else {
-                        firstFrame.attr("src", firstFrameSrcUrl);
+                        firstFrame.attr('src', firstFrameSrcUrl);
                     }
                 }
             }
@@ -258,10 +258,10 @@ sakai_global.s23_site = function(){
     var doCasAuth = function() {
         $.ajax({
             url: '/system/sling/cas/proxy?t=https://' + sakai.config.hybridCasHost + '/sakai-login-tool/container',
-            success: function(data){
+            success: function(data) {
                 $.ajax({
                     url: '/sakai-login-tool/container?ticket=' + data['proxyticket'],
-                    success: function(){
+                    success: function() {
                         firstFrame.attr('src', firstFrameSrcUrl);
                     }
                 });
@@ -273,10 +273,10 @@ sakai_global.s23_site = function(){
      * Transform an id to an xid
      * @param {String} id The id you want to transform to an xid
      */
-    var toxid = function(id){
+    var toxid = function(id) {
 
         // Filter out all the ! and - characters and replace them by x
-        return id.replace(/-|\!/g, "x");
+        return id.replace(/-|\!/g, 'x');
     };
 
     /**
@@ -286,7 +286,7 @@ sakai_global.s23_site = function(){
      * An url could be     0175d73d-741f-4fb3-94dc-9f8c1d4925a9
      * An xid is        0175d73dx741fx4fb3x94dcx9f8c1d4925a9
      */
-    var createxids = function(){
+    var createxids = function() {
 
         // Run over all the pages and then all the tools inside a page to modify the xid
         for (var i=0, len=completeJSON.site.pages.length; i<len; i++) {
@@ -303,7 +303,7 @@ sakai_global.s23_site = function(){
      * Parse the site info that is in a JSON format
      * to show it on the page
      */
-    var parseSakai2SiteInfo = function(){
+    var parseSakai2SiteInfo = function() {
 
         // Check if the title and the pages attribute exist
         if (completeJSON && completeJSON.site && completeJSON.site.title && completeJSON.site.pages) {
@@ -311,7 +311,7 @@ sakai_global.s23_site = function(){
             // Set the title of the page
             entityReady = true;
             renderEntity();
-            document.title += " " + sakai.api.Security.saneHTML(completeJSON.site.title);
+            document.title += ' ' + sakai.api.Security.saneHTML(completeJSON.site.title);
 
             // Render the menu of the workspace
             s23SiteMenuContainer.html(sakai.api.Util.TemplateRenderer(s23SiteMenuContainerTemplate, completeJSON));
@@ -319,19 +319,19 @@ sakai_global.s23_site = function(){
             // Create xid's
             createxids();
 
-            if ($.bbq.getState("page")) {
+            if ($.bbq.getState('page')) {
                 // If the pageid was passed in through the URL. This will sometimes be
                 // the result of a Sakai 2 portal being rewritten from:
                 // portal/site/{siteid}/page/{pageid}
-                loadPageTools($.bbq.getState("page"));
+                loadPageTools($.bbq.getState('page'));
             }
             else {
                 // Pretend like you clicked on the first page
-                $(s23SiteMenuItems + ":first").trigger("click");
+                $(s23SiteMenuItems + ':first').trigger('click');
             }
         }
         else {
-            debug.error("s23_site: An error occured when parsing the Sakai 2 site information");
+            debug.error('s23_site: An error occured when parsing the Sakai 2 site information');
         }
     };
 
@@ -339,13 +339,13 @@ sakai_global.s23_site = function(){
      * Get the information of a Sakai2 site
      * @param {String} siteid The id of the Sakai2 site you want to
      */
-    var getSakai2SiteInfo = function(siteid){
+    var getSakai2SiteInfo = function(siteid) {
 
         // Send an Ajax request to the sakai2 tools service
         $.ajax({
             url: sakai.config.URL.SAKAI2_TOOLS_SERVICE.replace(/__SITEID__/, siteid),
-            dataType: "json",
-            success: function(data){
+            dataType: 'json',
+            success: function(data) {
 
                 completeJSON = $.extend(data, {}, true);
 
@@ -353,16 +353,16 @@ sakai_global.s23_site = function(){
                 parseSakai2SiteInfo();
             },
             error: function(xhr, textStatus, thrownError) {
-                debug.error("s23_site: It was not possible to get the information the Sakai 2 site with the id: " + siteid + " the error code is: " + xhr.status);
+                debug.error('s23_site: It was not possible to get the information the Sakai 2 site with the id: ' + siteid + ' the error code is: ' + xhr.status);
                 sakai.api.Util.Security.send404();
             }
         });
     };
 
-    var hideNotification = function(){
-        var json = {"sakai2notification":false};
+    var hideNotification = function() {
+        var json = {'sakai2notification':false};
         sakai.api.Util.notification.removeAll();
-        sakai.api.Server.saveJSON("/~" + sakai.api.Util.safeURL(sakai.data.me.user.userid)+"/private/sakai2notification", json, function(success, data){});
+        sakai.api.Server.saveJSON('/~' + sakai.api.Util.safeURL(sakai.data.me.user.userid)+'/private/sakai2notification', json, function(success, data) {});
     };
 
     /////////////////////////////
@@ -372,13 +372,13 @@ sakai_global.s23_site = function(){
     /**
      * Function that get executed when the DOM is completely loaded
      */
-    var init = function(){
+    var init = function() {
         // show sticky notification
-        sakai.api.Server.loadJSON("/~" + sakai.api.Util.safeURL(sakai.data.me.user.userid)+"/private/sakai2notification", function(success, data){
+        sakai.api.Server.loadJSON('/~' + sakai.api.Util.safeURL(sakai.data.me.user.userid)+'/private/sakai2notification', function(success, data) {
             // If we haven't saved the prefs yet, or if we did and the noti isn't turned off show the notifcation area.
-            if (success === false || (success === true && data.sakai2notification !== false)) { 
+            if (success === false || (success === true && data.sakai2notification !== false)) {
                 sakai.api.Util.notification.show($(s23GritterNotificationTitle).html(), $(s23GritterNotificationMessage).html(), sakai.api.Util.notification.type.INFORMATION, false);
-                $(".s23_gritter_notification_cancel").on('click', hideNotification);
+                $('.s23_gritter_notification_cancel').on('click', hideNotification);
             }
         });
 
@@ -392,14 +392,14 @@ sakai_global.s23_site = function(){
         }
         else {
             // Log an error message for the user
-            debug.error("s23site: This site needs to have an id parameter for a sakai2 site");
+            debug.error('s23site: This site needs to have an id parameter for a sakai2 site');
         }
     };
 
-    var renderEntity = function(){
+    var renderEntity = function() {
         if (entityReady) {
-            $(window).trigger("sakai.entity.init", ["s23site", "", {
-                "title": sakai.api.Security.saneHTML(completeJSON.site.title)
+            $(window).trigger('sakai.entity.init', ['s23site', '', {
+                'title': sakai.api.Security.saneHTML(completeJSON.site.title)
             }]);
             $('.icon-sakai-help').on('click', function(ev) {
                 ev.preventDefault();
@@ -409,11 +409,11 @@ sakai_global.s23_site = function(){
         }
     };
 
-    $(window).bind("sakai.entity.ready", function(){
+    $(window).on('sakai.entity.ready', function() {
         renderEntity();
     });
 
     init();
 };
-sakai.api.Widgets.Container.registerForLoad("s23_site");
+sakai.api.Widgets.Container.registerForLoad('s23_site');
 });

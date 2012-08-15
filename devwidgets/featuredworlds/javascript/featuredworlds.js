@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core"], function($, sakai){
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.featuredworlds
@@ -27,50 +27,50 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.featuredworlds = function(tuid, showSettings, pageData){
+    sakai_global.featuredworlds = function(tuid, showSettings, pageData) {
 
-        var $rootel = $("#"+tuid);
+        var $rootel = $('#'+tuid);
 
         // Containers
-        var $featuredworldsContainer = $("#featuredworlds_container", $rootel);
-        var featuredworldsWorldsContentContainer = "#featuredworlds_worlds_content_container";
+        var $featuredworldsContainer = $('#featuredworlds_container', $rootel);
+        var featuredworldsWorldsContentContainer = '#featuredworlds_worlds_content_container';
 
         // Templates
-        var featuredworldsTemplate = "featuredworlds_template";
-        var featuredworldsWorldsContentTemplate = "featuredworlds_worlds_content_template";
+        var featuredworldsTemplate = 'featuredworlds_template';
+        var featuredworldsWorldsContentTemplate = 'featuredworlds_worlds_content_template';
 
         // Classes
-        var featuredworldsWorldsContent = "featuredworlds_worlds_content_";
+        var featuredworldsWorldsContent = 'featuredworlds_worlds_content_';
 
         var tabs = [];
-        var world = "";
+        var world = '';
 
-        var renderWorlds = function(data){
+        var renderWorlds = function(data) {
             $(featuredworldsWorldsContentContainer, $rootel).html(sakai.api.Util.TemplateRenderer(featuredworldsWorldsContentTemplate, {
-                "data": data,
-                "tabs": tabs,
-                "sakai":sakai
+                'data': data,
+                'tabs': tabs,
+                'sakai':sakai
             }));
         };
 
-        var renderWorldTabs = function(data){
+        var renderWorldTabs = function(data) {
             $featuredworldsContainer.html(sakai.api.Util.TemplateRenderer(featuredworldsTemplate, {
-                "tabs": tabs,
-                "category":pageData.category,
-                "title": pageData.title,
-                "data": data
+                'tabs': tabs,
+                'category':pageData.category,
+                'title': pageData.title,
+                'data': data
             }));
-            for (var d in data){
-                if (data.hasOwnProperty(d) && data[d].total > data[d].results.length){
-                    $("#featuredworlds_showall_" + d, $rootel).show();
+            for (var d in data) {
+                if (data.hasOwnProperty(d) && data[d].total > data[d].results.length) {
+                    $('#featuredworlds_showall_' + d, $rootel).show();
                 }
             }
         };
 
-        renderWidget = function(success, data){
+        renderWidget = function(success, data) {
             if (success) {
                 var worldData = {};
-                $(tabs).each(function(i, tab){
+                $(tabs).each(function(i, tab) {
                     worldData[tab.id] = $.parseJSON(data.results[i].body);
                 });
                 renderWorldTabs(worldData);
@@ -78,18 +78,18 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             }
         };
 
-        var fetchWorldData = function(worldId, worldTitle){
+        var fetchWorldData = function(worldId, worldTitle) {
             var requests = [];
-            $(tabs).each(function(i, tab){
+            $(tabs).each(function(i, tab) {
                 requests.push({
-                    "url": "/var/search/bytag.json",
-                    "method": "GET",
-                    "parameters": {
+                    'url': '/var/search/bytag.json',
+                    'method': 'GET',
+                    'parameters': {
                         page: 0,
                         items: 3,
-                        tag: "directory/" + pageData.category.replace("-", "/"),
+                        tag: 'directory/' + pageData.category.replace('-', '/'),
                         category: tab.id,
-                        type: "g"
+                        type: 'g'
                     }
                 });
             });
@@ -110,19 +110,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
             }
         };
 
-        var addBinding = function(){
-            $(".featuredworlds_tab", $rootel).live("click", function(){
-                if(!$(this).hasClass("featuredworlds_tab_selected")){
-                    var worldId = $(this).data("sakai-worldid");
-                    $(".featuredworlds_content_container", $rootel).hide();
-                    $("#featuredworlds_" + worldId, $rootel).show();
-                    $(".featuredworlds_tab_selected", $rootel).removeClass("featuredworlds_tab_selected");
-                    $(this).addClass("featuredworlds_tab_selected");
+        var addBinding = function() {
+            $rootel.on('click', '.featuredworlds_tab', function() {
+                if (!$(this).hasClass('featuredworlds_tab_selected')) {
+                    var worldId = $(this).attr('data-sakai-worldid');
+                    $('.featuredworlds_content_container', $rootel).hide();
+                    $('#featuredworlds_' + worldId, $rootel).show();
+                    $('.featuredworlds_tab_selected', $rootel).removeClass('featuredworlds_tab_selected');
+                    $(this).addClass('featuredworlds_tab_selected');
                 }
             });
         };
 
-        var doInit = function(){
+        var doInit = function() {
             addBinding();
             sakai.api.Util.getTemplates(constructWorlds);
         };
@@ -131,5 +131,5 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
 
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("featuredworlds");
+    sakai.api.Widgets.widgetLoader.informOnLoad('featuredworlds');
 });
