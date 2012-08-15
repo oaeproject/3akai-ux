@@ -40,13 +40,13 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-tagcloud'], fun
      */
     sakai_global.tags = function(tuid, showSettings) {
 
-        var $rootel = $("#"+tuid),
-            $tags_main = $("#tags_main", $rootel),
-            $tags_main_template = $("#tags_main_template", $rootel);
+        var $rootel = $('#'+tuid),
+            $tags_main = $('#tags_main', $rootel),
+            $tags_main_template = $('#tags_main_template', $rootel);
 
         var tagData = {};
 
-        var generateTagCloud = function(){
+        var generateTagCloud = function() {
             var newtags = [];
             if ( tagData.facet_fields && tagData.facet_fields.length && tagData.facet_fields[ 0 ].tagname ) {
                 $.each(tagData.facet_fields[0].tagname, function( i, tagobj ) {
@@ -58,18 +58,18 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-tagcloud'], fun
                 newtags = _.first( newtags, 20 );
             }
             sakai.api.Util.TemplateRenderer( $tags_main_template, { tags: newtags }, $tags_main );
-            
+
             $tags_main.show().find('a').tagcloud({
               size: {start: 10, end: 16, unit: 'px'}
             });
         };
 
-        var loadData = function(directory, callback){
+        var loadData = function(directory, callback) {
             if (!directory) {
                 $.ajax({
-                    url: "/var/search/public/tagcloud.json",
+                    url: '/var/search/public/tagcloud.json',
                     cache: false,
-                    success: function(data){
+                    success: function(data) {
                         tagData = data;
                         callback();
                     }
@@ -77,10 +77,10 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-tagcloud'], fun
             }
         };
 
-        var doInit = function(){
-            if (!sakai.api.Widgets.isOnDashboard(tuid)){
-                $(".tags-widget-border").show();
-                $("#tags_widget").addClass("fl-widget s3d-widget");
+        var doInit = function() {
+            if (!sakai.api.Widgets.isOnDashboard(tuid)) {
+                $('.tags-widget-border').show();
+                $('#tags_widget').addClass('fl-widget s3d-widget');
             }
 
             // If the widget is initialized on the directory page then listen to the event to catch specified tag results
@@ -95,5 +95,5 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-tagcloud'], fun
         doInit();
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("tags");
+    sakai.api.Widgets.widgetLoader.informOnLoad('tags');
 });

@@ -15,15 +15,34 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-.s3d-page-header{padding:0px;height:auto;width:960px;-moz-box-shadow:0 -5px 9px 6px #555555;-webkit-box-shadow:0 -5px 9px 6px #555555;box-shadow:0 -5px 9px 6px #555555;}
-#explore_navigation{height:40px;}
-#explore_navigation .s3d-contentpage-title{border-bottom:none; padding: 12px 0px 0px 20px !important;margin:0}
+.s3d-page-header {
+    padding: 0px;
+    height: auto;
+    width: 960px;
+    -moz-box-shadow: 0 -5px 9px 6px #555555;
+    -webkit-box-shadow: 0 -5px 9px 6px #555555;
+    box-shadow: 0 -5px 9px 6px #555555;
+}
+#explore_navigation {
+    height: 40px;
+}
+#explore_navigation .s3d-contentpage-title {
+    border-bottom: none;
+    padding: 12px 0px 0px 20px !important;
+    margin: 0
+}
 #explore_navigation div.s3d-contentpage-title h1.s3d-contentpage-title {
     display: inline;
     padding-left: 0 !important;
 }
-#explore_content {padding:20px;}
-#explore_content_first_column, .explore_content_first_column {width:710px;margin-right:25px;float:left;}
+#explore_content {
+    padding: 20px;
+}
+#explore_content_first_column, .explore_content_first_column {
+    width: 710px;
+    margin-right: 25px;
+    float: left;
+}
 #explore_content_second_column {
     margin: 12px 0 0;
     float: right;

@@ -1,28 +1,28 @@
 /*global require, sakai_global, QUnit, asyncTest, module, ok, start */
 require(
     [
-    "jquery",
-    "sakai/sakai.api.core",
-    "qunitjs/qunit",
-    "../../../../tests/qunit/js/sakai_qunit_lib.js",
-    "../../../../tests/qunit/js/dev.js",
-    "../../../../tests/qunit/js/devwidgets.js"
+    'jquery',
+    'sakai/sakai.api.core',
+    'qunitjs/qunit',
+    '../../../../tests/qunit/js/sakai_qunit_lib.js',
+    '../../../../tests/qunit/js/dev.js',
+    '../../../../tests/qunit/js/devwidgets.js'
     ],
     function($, sakai) {
 
-    "use strict";
+    'use strict';
 
-        module("Unused Keys");
+        module('Unused Keys');
 
-        var allHtml = "";
-        var allJs = "";
+        var allHtml = '';
+        var allJs = '';
         var batchSections = {};
         var batchURLs = [];
-        var devBundleURL = "/dev/bundle";
-        var ignoreKeys = ["description", "name"];
+        var devBundleURL = '/dev/bundle';
+        var ignoreKeys = ['description', 'name'];
         var keyList = {};
         var keyListWidgets = {};
-        var regex = new RegExp("__MSG__(.*?)__", "gm");
+        var regex = new RegExp('__MSG__(.*?)__', 'gm');
         var widgets = {};
         var sakaiConfigStr = JSON.stringify(sakai.config);
 
@@ -35,16 +35,16 @@ require(
          * @param {String} key The key which we'll search for
          */
         var performCheck = function(htmldata, javascript, key) {
-            var completekey = "__MSG__" + key + "__";
+            var completekey = '__MSG__' + key + '__';
 
-            if (!key || key.substring(0,1) === "#" || $.inArray(key, ignoreKeys) !== -1) {
+            if (!key || key.substring(0,1) === '#' || $.inArray(key, ignoreKeys) !== -1) {
                 return;
             }
 
             if (htmldata.indexOf(completekey) >= 0 || javascript.indexOf(key) >= 0 || sakaiConfigStr.indexOf(key) >= 0) {
-                ok(true, "The following key is used: " + key);
+                ok(true, 'The following key is used: ' + key);
             } else {
-                ok(false, "The following key isn't used: " + key);
+                ok(false, 'The following key isn\'t used: ' + key);
             }
         };
 
@@ -56,7 +56,7 @@ require(
          * @param {Object} keys Object containing all the keys for a widget
          */
         var performWidgetTest = function(widgetname, language, keys) {
-            QUnit.test("Widget - name:" + widgetname + " - language:" + language, function() {
+            QUnit.test('Widget - name:' + widgetname + ' - language:' + language, function() {
                 // Each key in a bundle of a widget
                 for (var i in keys) {
                     if (keys.hasOwnProperty(i)) {
@@ -73,7 +73,7 @@ require(
          * @param {Object} keys Object containing all the keys
          */
         var performDevTest = function(language, keys) {
-            QUnit.test("Dev bundle - language:" + language, function() {
+            QUnit.test('Dev bundle - language:' + language, function() {
                 for (var i in keys) {
                     if (keys.hasOwnProperty(i)) {
                         performCheck(allHtml, allJs, i);
@@ -183,8 +183,8 @@ require(
          */
         var addToBatchURLs = function(url, section) {
             batchURLs.push({
-                "url": url,
-                "method": "GET"
+                'url': url,
+                'method': 'GET'
             });
             if (!batchSections[section]) {
                 batchSections[section] = [];
@@ -202,15 +202,15 @@ require(
 
                 var item = results[i];
                 var url = item.url;
-                var language = "", widgetname = "";
+                var language = '', widgetname = '';
 
                 if ($.inArray(url, batchSections.devbundle) !== -1) {
-                    language = url.replace(devBundleURL + "/", "").replace(".properties", "");
+                    language = url.replace(devBundleURL + '/', '').replace('.properties', '');
                     addDevBundleToKeyList(language, item.body);
                 }
                 if ($.inArray(url, batchSections.widgetbundle) !== -1) {
-                    language = url.split("/")[4].replace(".properties", "");
-                    widgetname = url.split("/")[2];
+                    language = url.split('/')[4].replace('.properties', '');
+                    widgetname = url.split('/')[2];
                     addWidgetBundleToKeyList(language, widgetname, item.body);
                 }
                 else if ($.inArray(url, batchSections.devhtml) !== -1) {
@@ -220,12 +220,12 @@ require(
                     addToAllJs(item.body);
                 }
                 else if ($.inArray(url, batchSections.widgethtml) !== -1) {
-                    widgetname = url.split("/")[2];
+                    widgetname = url.split('/')[2];
                     addToWidgetHtml(widgetname, item.body);
                     addToAllHtml(item.body);
                 }
                 else if ($.inArray(url, batchSections.widgetjs) !== -1) {
-                    widgetname = url.split("/")[2];
+                    widgetname = url.split('/')[2];
                     addToWidgetJs(widgetname, item.body);
                     addToAllJs(item.body);
                 }
@@ -233,7 +233,7 @@ require(
 
             checkWidgetKeysUsed();
             checkDevKeysUsed();
-            $(window).trigger("addlocalbinding.qunit.sakai");
+            $(window).trigger('addlocalbinding.qunit.sakai');
         };
 
         /**
@@ -252,8 +252,8 @@ require(
          */
         var addWidgetFiles = function() {
             for (var z=0,y=sakai_global.qunit.widgets.length; z<y; z++) {
-                addToBatchURLs(sakai_global.qunit.widgets[z].html, "widgethtml");
-                addToBatchURLs(sakai_global.qunit.widgets[z].js, "widgetjs");
+                addToBatchURLs(sakai_global.qunit.widgets[z].html, 'widgethtml');
+                addToBatchURLs(sakai_global.qunit.widgets[z].js, 'widgetjs');
             }
         };
 
@@ -263,12 +263,12 @@ require(
         var addCoreFiles = function() {
             // Add all the core HTML files
             for (var i=0,j=sakai_global.qunit.devHtmlFiles.length; i<j; i++) {
-                addToBatchURLs(sakai_global.qunit.devHtmlFiles[i], "devhtml");
+                addToBatchURLs(sakai_global.qunit.devHtmlFiles[i], 'devhtml');
             }
 
             // Add all the core JS files
             for (var a=0,b=sakai_global.qunit.devJsFiles.length; a<b; a++) {
-                addToBatchURLs(sakai_global.qunit.devJsFiles[a], "devjs");
+                addToBatchURLs(sakai_global.qunit.devJsFiles[a], 'devjs');
             }
         };
 
@@ -280,7 +280,7 @@ require(
                 if (sakai.widgets.hasOwnProperty(i) && sakai.widgets[i].i18n) {
                     for (var j in sakai.widgets[i].i18n) {
                         if (sakai.widgets[i].i18n.hasOwnProperty(j) && sakai.widgets[i].i18n[j].bundle) {
-                            addToBatchURLs(sakai.widgets[i].i18n[j].bundle , "widgetbundle");
+                            addToBatchURLs(sakai.widgets[i].i18n[j].bundle , 'widgetbundle');
                         }
                     }
                 }
@@ -293,8 +293,8 @@ require(
          */
         var filterDefaultBundles = function(data) {
             for (var bundle in data) {
-                if (data.hasOwnProperty(bundle) && bundle.substr(-11) === ".properties") {
-                    addToBatchURLs(devBundleURL + "/" + bundle, "devbundle");
+                if (data.hasOwnProperty(bundle) && bundle.substr(-11) === '.properties') {
+                    addToBatchURLs(devBundleURL + '/' + bundle, 'devbundle');
                 }
             }
         };
@@ -305,8 +305,8 @@ require(
          */
         var getDevBundles = function() {
             $.ajax({
-                url: "/dev/bundle.1.json",
-                dataType: "json",
+                url: '/dev/bundle.1.json',
+                dataType: 'json',
                 success: function(data) {
                     filterDefaultBundles(data);
                     addWidgetBundles();
@@ -324,7 +324,7 @@ require(
             if (sakai.api.i18n.done) {
                 getDevBundles();
             } else {
-                $(window).bind("done.i18n.sakai", function() {
+                $(window).on('done.i18n.sakai', function() {
                     getDevBundles();
                 });
             }
@@ -337,7 +337,7 @@ require(
             startTest();
         }
         else {
-            $(window).bind("ready.qunit.sakai", function() {
+            $(window).on('ready.qunit.sakai', function() {
                 startTest();
             });
         }
