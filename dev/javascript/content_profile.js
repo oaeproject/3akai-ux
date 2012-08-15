@@ -130,6 +130,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                 $('#contentauthoring_widget').html('');
                 previous_content_path = content_path;
                 globalPageStructure = false;
+                sakai.api.Security.showPage();
                 loadContentProfile(function() {
                     // The request was successful so initialise the entity widget
                     if (sakai_global.entity && sakai_global.entity.isReady) {
@@ -175,8 +176,6 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                             ready_event_fired++;
                         });
                     }
-                    sakai.api.Security.showPage();
-
                     sakai.api.Util.setPageTitle(
                         ' ' + sakai_global.content_profile.content_data.data['sakai:pooled-content-file-name'],
                         'pageLevel'

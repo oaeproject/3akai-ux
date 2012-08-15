@@ -957,7 +957,10 @@ define(
                                 var groupid = urlToGroupMapping[membershiplist.url].groupid;
                                 var roleid = urlToGroupMapping[membershiplist.url].role;
                                 // Add the members to the response
-                                var members = $.parseJSON(membershiplist.body);
+                                var members = []
+                                if (membershiplist.status === 200) {
+                                    members = $.parseJSON(membershiplist.body);
+                                }
                                 dataToReturn[groupid] = dataToReturn[groupid] || {};
                                 dataToReturn[groupid][roleid] = {'results': members};
                                 if (sakaiGroupsAPI.groupData[groupid]) {
