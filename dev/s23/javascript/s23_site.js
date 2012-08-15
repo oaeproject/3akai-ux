@@ -120,9 +120,9 @@ sakai_global.s23_site = function() {
 
             // Check if the page actually exists
             if (page && !page.popup) {
-            
+
                 // Remove the active class from the previous selected item
-                $(s23SiteMenuItems).closest('li').removeClass(s23SiteMenuActive);                
+                $(s23SiteMenuItems).closest('li').removeClass(s23SiteMenuActive);
 
                 // Set the active class to the item you just clicked on
                 $('#' + s23SiteMenuItemTag + pageid.replace(/([~!])/g, '_')).closest('li').addClass(s23SiteMenuActive);
@@ -396,16 +396,22 @@ sakai_global.s23_site = function() {
         }
     };
 
+    /**
+     * Open the help window
+     */
+    var openHelpWindow = function(ev) {
+        ev.preventDefault();
+        var helpWindow = window.open('/portal/help/main', 'help', 'resizable=yes, toolbar=no, scrollbars=yes, menubar=yes, width=800, height=600');
+        helpWindow.focus();
+    };
+
     var renderEntity = function() {
         if (entityReady) {
             $(window).trigger('sakai.entity.init', ['s23site', '', {
                 'title': sakai.api.Security.saneHTML(completeJSON.site.title)
             }]);
-            $('.icon-sakai-help').on('click', function(ev) {
-                ev.preventDefault();
-                var helpWindow = window.open('/portal/help/main', 'help', 'resizable=yes, toolbar=no, scrollbars=yes, menubar=yes, width=800, height=600');
-                helpWindow.focus();
-            });
+            s23SiteMenuContainer.off('click', '.icon-sakai-help', openHelpWindow)
+                                .on('click', '.icon-sakai-help', openHelpWindow);
         }
     };
 
