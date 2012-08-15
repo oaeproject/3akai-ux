@@ -845,7 +845,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             $('#addarea_widgets_widget').change(function() {
                 $('#addarea_widgets_name').val(sakai.api.Widgets.getWidgetTitle($(this).val()));
             });
-            $(addareaExistingItem).on('click', function() {
+            $addAreaContainer.on('click', addareaExistingItem, function() {
                 $(addareaExistingItem).removeClass('selected');
                 $(this).addClass('selected');
                 $('.addarea_existing_container:visible').find('.addarea_existing_permissions').html(
