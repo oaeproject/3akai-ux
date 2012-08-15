@@ -19,7 +19,7 @@
 /**
  * MockCore - Default mocking for sakai unit tests
  */
-require(["jquery", "mockjax"], function($){
+require(['jquery', 'mockjax'], function($) {
     if ($ && $.mockjax) {
         $.mockjax(function(settings) {
             var url = settings.url.match(/\/dev\/(.*)$/);

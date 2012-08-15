@@ -31,7 +31,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @class recentchangedcontent
      *
      * @description
-     * The 'recentchangedcontent' widget shows the most recent recentchangedcontent item, 
+     * The 'recentchangedcontent' widget shows the most recent recentchangedcontent item,
      * including its latest comment and one related recentchangedcontent item
      *
      * @version 0.0.1
@@ -94,7 +94,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             item.nameRelatedShort = sakai.api.Util.applyThreeDots(item.name, $('.recentchangedcontent').width() - 100, {max_rows: 1,whole_word: false}, 's3d-bold');
 
             // set the file size
-            if(result.hasOwnProperty('_length') && result['_length']) {
+            if (result.hasOwnProperty('_length') && result['_length']) {
                 item.size = '(' + sakai.api.Util.convertToHumanReadableFileSize(result['_length']) + ')';
             }
 
@@ -144,7 +144,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 });
             }
 
-            if(isRelatedContent) {
+            if (isRelatedContent) {
                 // get realted content author name from the author id and rendertemplate
                 sakai.api.User.getUser(result['sakai:pool-content-created-for'], renderRelatedContentTemplate);
             }
@@ -185,7 +185,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @return None
          */
         var handleRecentChangedContentData = function(success, data) {
-            if(success && data.results && data.results.length > 0) {
+            if (success && data.results && data.results.length > 0) {
                 getRelatedContent(data.results[0]);
                 $('#recentchangedcontent_no_results_container').hide();
                 $('.recentchangedcontent_main').show();
@@ -198,7 +198,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /*
          * Bind Events
          */
-        var addBinding = function () {
+        var addBinding = function() {
             $(document).on('done.newaddcontent.sakai', function(e, newContent) {
                 if (newContent && newContent.length) {
                     handleRecentChangedContentData(true, {results:newContent});
@@ -209,8 +209,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Fetches the related content
          */
-        var getRelatedContent = function(contentData){
-            var searchterm = contentData["sakai:pooled-content-file-name"].substring(0,400);
+        var getRelatedContent = function(contentData) {
+            var searchterm = contentData['sakai:pooled-content-file-name'].substring(0,400);
             searchquery = sakai.api.Server.createSearchString(searchterm, false, 'OR');
 
             // get related content for contentData
@@ -237,7 +237,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                             break;
                         }
                     }
-                    if(isRelatedContent) {
+                    if (isRelatedContent) {
                         item.relatedContent = parseDataResult(isRelatedContent, true);
                     }
                     recentchangedcontentjson.items.push(item);
@@ -246,7 +246,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     sakai.api.Util.TemplateRenderer(recentchangedcontentItemTemplate, recentchangedcontentjson, $(recentchangedcontentItem, rootel));
                 }
             });
-            
+
         };
 
         /////////////////////////////

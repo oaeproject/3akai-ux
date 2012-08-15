@@ -6,7 +6,7 @@ require(
     '../../../../tests/qunit/js/sakai_qunit_lib.js',
     '../../../../tests/qunit/js/dev.js',
     '../../../../tests/qunit/js/devwidgets.js'
-    ], 
+    ],
     function($, sakai) {
 
     module('Server Object Removal');
@@ -61,7 +61,7 @@ require(
     /**
      * Test if the JCR objects are removed correctly from the object
      */
-    var testJCRRemoval = function(){
+    var testJCRRemoval = function() {
         asyncTest('Test the removal of jcr objects in a JSON object', function() {
             // remove all the jcr: and _-prefixed objects from the dummyobject
             var thisCleanedObj = sakai.api.Server.removeServerCreatedObjects(serverObject, ['_', 'jcr:']);
@@ -78,7 +78,7 @@ require(
     if (sakai_global.qunit && sakai_global.qunit.ready) {
         startTest();
     } else {
-        $(window).bind('ready.qunit.sakai', function() {
+        $(window).on('ready.qunit.sakai', function() {
             startTest();
         });
     }

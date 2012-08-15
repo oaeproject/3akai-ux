@@ -170,7 +170,7 @@
                     }
                 }
             }
-        }, 
+        },
         "${pid}3": {
             "excludeSearch": false,
             "structure0": {

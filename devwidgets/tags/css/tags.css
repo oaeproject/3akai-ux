@@ -15,8 +15,19 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-#tags_main{margin:0 10px 5px 15px;}
-#tags_main ul li{list-style-type:none;display:inline;}
-#tags_main ul li.no_tags{display:block;}
-#tags_main ul {margin:0 0 10px;}
-#tags_title{padding-left:15px!important;}
+#tags_main {
+    margin: 0 10px 5px 15px;
+}
+#tags_main ul li {
+    list-style-type: none;
+    display: inline;
+}
+#tags_main ul li.no_tags {
+    display: block;
+}
+#tags_main ul {
+    margin: 0 0 10px;
+}
+#tags_title {
+    padding-left: 15px !important;
+}

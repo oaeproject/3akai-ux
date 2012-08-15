@@ -31,7 +31,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.collectionviewer = function (tuid, showSettings, widgetData) {
+    sakai_global.collectionviewer = function(tuid, showSettings, widgetData) {
 
 
         /////////////////////////////
@@ -96,19 +96,19 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
          * Adds binding for the carousel actions and buttons
          */
         var carouselBinding = function(carousel) {
-            $('#collectionviewer_newer', $rootel).live('click',function() {
+            $('#collectionviewer_newer', $rootel).on('click',function() {
                 carousel.prev();
                 $(this).focus();
             });
-            $('#collectionviewer_older', $rootel).live('click',function() {
+            $('#collectionviewer_older', $rootel).on('click',function() {
                 $(this).focus();
                 carousel.next();
             });
-            $('#collectionviewer_oldest', $rootel).live('click',function() {
+            $('#collectionviewer_oldest', $rootel).on('click',function() {
                 $(this).focus();
                 carousel.scroll(carousel.size() || 0);
             });
-            $('#collectionviewer_newest', $rootel).live('click',function() {
+            $('#collectionviewer_newest', $rootel).on('click',function() {
                 $(this).focus();
                 carousel.scroll(0);
             });
@@ -120,7 +120,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                 }
             });
             if (carousel.size()) {
-                var $selectedItem =  $('.collectionviewer_carousel_item[data-item-id="' + $.bbq.getState("item") + '"]', $rootel);
+                var $selectedItem =  $('.collectionviewer_carousel_item[data-item-id="' + $.bbq.getState('item') + '"]', $rootel);
                 if ($.bbq.getState('item') && $selectedItem.length) {
                     $selectedItem.click();
                 } else{
@@ -227,7 +227,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
          * Renders the edit mode for the collection
          */
         var renderEditMode = function() {
-            hideContainers();            
+            hideContainers();
             renderGridOrList(false, true);
         };
 
@@ -475,7 +475,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
             var $element = $('.collectionviewer_carousel_item[data-item-id=' + item + ']', $rootel);
             $('.collectionviewer_carousel_item', $rootel).removeClass('selected');
             $element.addClass('selected');
-            $('.collectionviewer_widget', $rootel).unbind('start.collectioncontentpreview.sakai');
+            $('.collectionviewer_widget', $rootel).off('start.collectioncontentpreview.sakai');
             renderItemsForSelected(parseInt($element.attr('data-page-index'), 10), parseInt($element.attr('data-arr-index'), 10));
         };
 
@@ -658,13 +658,13 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                 var $checked = $('.collectionviewer_check:checked:visible', $rootel);
                 if ($checked.length) {
                     var paths = [];
-                    $checked.each(function () {
+                    $checked.each(function() {
                         paths.push($(this).attr('id').split('collectionviewer_check_')[1]);
                     });
                     $(document).trigger('init.deletecontent.sakai', [{
                         paths: paths,
                         context: collectionviewer.contextId
-                    }, function (success) {
+                    }, function(success) {
                         sakai.api.Util.progressIndicator.showProgressIndicator(sakai.api.i18n.getValueForKey('REMOVING_CONTENT_FROM_COLLECTION', 'collectionviewer'), sakai.api.i18n.getValueForKey('PROCESSING_COLLECTION', 'collectionviewer'));
                         $('.collectionviewer_check:checked:visible', $rootel).parents('li:not(.contentauthoring_row_container)').hide('slow');
                         setTimeout(refreshCollection, 500);
@@ -678,7 +678,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-pager'], function($, sakai) {
                 $(document).trigger('init.deletecontent.sakai', [{
                     paths: [toRemoveId],
                     context: collectionviewer.contextId
-                }, function (success) {
+                }, function(success) {
                     $itemToRemove.parents('li:not(.contentauthoring_row_container)').hide('slow');
                     setTimeout(refreshCollection, 500);
                 }]);

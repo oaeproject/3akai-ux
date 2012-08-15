@@ -23,7 +23,7 @@
  * /dev/lib/jquery/plugins/jquery.threedots.js (ThreeDots)
  */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * @name sakai_global.mycontent
@@ -46,13 +46,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         /////////////////////////////
 
         // DOM identifiers
-        var rootel = $("#" + tuid);
-        var uploadLink = ".upload_link";
-        var fileuploadContainer = "#fileupload_container";
-        var dataErrorMsg = "#mycontent_data_error";
-        var contentList = "#mycontent_list";
-        var listTemplate = "#mycontent_list_template";
-        var ellipsisContainer = ".mycontent_ellipsis_container";
+        var rootel = $('#' + tuid);
+        var uploadLink = '.upload_link';
+        var fileuploadContainer = '#fileupload_container';
+        var dataErrorMsg = '#mycontent_data_error';
+        var contentList = '#mycontent_list';
+        var listTemplate = '#mycontent_list_template';
+        var ellipsisContainer = '.mycontent_ellipsis_container';
 
 
         ///////////////////////
@@ -70,19 +70,19 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         var parseDataResult = function(result) {
             // initialize parsed item with default values
             var item = {
-                name: result["sakai:pooled-content-file-name"],
-                path: "/p/" + result["_path"],
+                name: result['sakai:pooled-content-file-name'],
+                path: '/p/' + result['_path'],
                 type: sakai.api.i18n.getValueForKey(sakai.config.MimeTypes.other.description),
                 type_img_url: sakai.config.MimeTypes.other.URL,
-                size: "",
+                size: '',
                 mimeType: sakai.api.Content.getMimeType(result),
                 thumbnail: sakai.api.Content.getThumbnail(result),
-                "_mimeType/page1-small": result["_mimeType/page1-small"],
-                "_path": result["_path"]
+                '_mimeType/page1-small': result['_mimeType/page1-small'],
+                '_path': result['_path']
             };
 
             // set the mimetype and corresponding image
-            if(item.mimeType && sakai.config.MimeTypes[item.mimeType]) {
+            if (item.mimeType && sakai.config.MimeTypes[item.mimeType]) {
                 // we have a recognized file type - set the description and img URL
                 item.type = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[item.mimeType].description);
                 item.type_img_url = sakai.config.MimeTypes[item.mimeType].URL;
@@ -91,11 +91,11 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             // set file name without the extension
             // be aware that links don't have an extension
             item.fullname = item.name;
-            item.name = sakai.api.Util.applyThreeDots(item.name, $(".mycontent_widget .s3d-widget-content").width() - 80, {max_rows: 1,whole_word: false}, "s3d-bold");
+            item.name = sakai.api.Util.applyThreeDots(item.name, $('.mycontent_widget .s3d-widget-content').width() - 80, {max_rows: 1,whole_word: false}, 's3d-bold');
 
             // set the file size
-            if(result.hasOwnProperty("_length") && result["_length"]) {
-                item.size = "(" + sakai.api.Util.convertToHumanReadableFileSize(result["_length"]) + ")";
+            if (result.hasOwnProperty('_length') && result['_length']) {
+                item.size = '(' + sakai.api.Util.convertToHumanReadableFileSize(result['_length']) + ')';
             }
 
             return item;
@@ -110,14 +110,14 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
          * @return None
          */
         var handleContentData = function(success, data) {
-            if(success) {
+            if (success) {
                 // parse & render data
                 // build array of up to five items; reverse chronological order
                 var contentjson = {
                     items: []
                 };
                 for(var i = 0; i < data.total && i < 5; i++) {
-                    if (data.results[i]){
+                    if (data.results[i]) {
                         contentjson.items.push(parseDataResult(data.results[i]));
                     }
                 }
@@ -125,8 +125,8 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 contentjson.sakai = sakai;
                 $(contentList, rootel).html(sakai.api.Util.TemplateRenderer($(listTemplate), contentjson));
 
-                $(".add_content_button", rootel).click(function (ev) {
-                    $(window).trigger("init.newaddcontent.sakai");
+                $('.add_content_button', rootel).click(function(ev) {
+                    $(window).trigger('init.newaddcontent.sakai');
                     return false;
                 });
 
@@ -135,7 +135,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 // display something useful to the user
                 $(dataErrorMsg, rootel).show();
             }
-            $(window).trigger("ready.mycontent.sakai");
+            $(window).trigger('ready.mycontent.sakai');
         };
 
 
@@ -164,13 +164,13 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                     userid: sakai.data.me.user.userid,
                     page: 0,
                     items: 5,
-                    sortOn: "_lastModified",
-                    sortOrder: "desc"
+                    sortOn: '_lastModified',
+                    sortOrder: 'desc'
                 },
-                success: function(data){
+                success: function(data) {
                     handleContentData(true, data);
                 },
-                error: function(data){
+                error: function(data) {
                     handleContentData(false);
                 }
             });
@@ -180,6 +180,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         init();
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("mycontent");
-    
+    sakai.api.Widgets.widgetLoader.informOnLoad('mycontent');
+
 });

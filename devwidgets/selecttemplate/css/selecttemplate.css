@@ -15,20 +15,61 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-#selecttemplate_container img {float:left; margin-right: 20px; width: 289px;}
-#selecttemplate_container .selecttemplate_template_small {float:left; width:220px; margin:20px 22px 10px 0;}
-#selecttemplate_container .selecttemplate_template_large {float:left; width: 460px; margin:20px 30px 10px 0;}
-#selecttemplate_container .selecttemplate_template_right {margin-right:0;}
-#selecttemplate_container h1 {color:#535353; font-weight:normal; font-size: 20px; margin: 5px 0 0;}
-#selecttemplate_container h2, #selecttemplate_preview_dialog_container h2 {color:#0096c6; font-size: 15px;}
-#selecttemplate_container .selecttemplate_divider {color:#ada9a7; font-weight:normal; border-top: 5px solid #e1e1e1; padding-top: 10px;}
+#selecttemplate_container img {
+    float: left;
+    margin-right: 20px;
+    width: 289px;
+}
+#selecttemplate_container .selecttemplate_template_small {
+    float: left;
+    width: 220px;
+    margin: 20px 22px 10px 0;
+}
+#selecttemplate_container .selecttemplate_template_large {
+    float: left;
+    width: 460px;
+    margin: 20px 30px 10px 0;
+}
+#selecttemplate_container .selecttemplate_template_right {
+    margin-right: 0;
+}
+#selecttemplate_container h1 {
+    color: #535353;
+    font-weight: normal;
+    font-size: 20px;
+    margin: 5px 0 0;
+}
+#selecttemplate_container h2, #selecttemplate_preview_dialog_container h2 {
+    color: #0096c6;
+    font-size: 15px;
+}
+#selecttemplate_container .selecttemplate_divider {
+    color: #ada9a7;
+    font-weight: normal;
+    border-top: 5px solid #e1e1e1;
+    padding-top: 10px;
+}
 #selecttemplate_container h6,
 #selecttemplate_preview_dialog_container h6 {
     color: #535353;
 }
-#selecttemplate_container p {color:#7b7b7b;}
+#selecttemplate_container p {
+    color: #7b7b7b;
+}
+#selecttemplate_container .s3d-button.s3d-overlay-button {
+    margin: 7px 0 0;
+}
 
-#selecttemplate_container .s3d-button.s3d-overlay-button {margin:7px 0 0;}
-
-#selecttemplate_preview_dialog_container img {float:left; padding:1px; border: 1px solid #e7e6e6; margin: 0 0 20px 20px;}
-#selecttemplate_preview_dialog_desc {padding: 20px;float:left;width:192px;position:relative;right:1px;}
+#selecttemplate_preview_dialog_container img {
+    float: left;
+    padding: 1px;
+    border: 1px solid #e7e6e6;
+    margin: 0 0 20px 20px;
+}
+#selecttemplate_preview_dialog_desc {
+    padding: 20px;
+    float: left;
+    width: 192px;
+    position: relative;
+    right: 1px;
+}

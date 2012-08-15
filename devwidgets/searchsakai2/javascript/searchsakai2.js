@@ -31,37 +31,37 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.searchsakai2 = function (tuid, showSettings) {
-         
+    sakai_global.searchsakai2 = function(tuid, showSettings) {
+
         /////////////////////////////
         // Configuration variables //
         /////////////////////////////
 
         var resultsToDisplay = 10;
-        var rootel = $("#" + tuid);
+        var rootel = $('#' + tuid);
 
-        var search = "#searchsakai2";
+        var search = '#searchsakai2';
 
         var searchConfig = {
-            search: "#searchsakai2",
+            search: '#searchsakai2',
             global: {
-                button: search + "_button",
+                button: search + '_button',
                 text: search + '_text',
                 numberFound: search + '_numberFound',
-                pagerClass: ".jq_pager"
+                pagerClass: '.jq_pager'
             },
             results: {
                 container: search + '_results_container',
                 template: search + '_results_template'
             },
             facetedConfig: {
-                title: "Sakai 2 Search",
-                value: "Sakai 2",
+                title: 'Sakai 2 Search',
+                value: 'Sakai 2',
                 facets: {
-                    "all": {
-                        "category": "All",
-                        "searchurl": "",
-                        "searchurlall": ""
+                    'all': {
+                        'category': 'All',
+                        'searchurl': '',
+                        'searchurlall': ''
                     }
                 }
             }
@@ -80,21 +80,21 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
         var filterSearch = function(searchterm, category , resultJson) {
             resultJson.sites = resultJson.sites || [];
             searchtermlower = searchterm.toLowerCase();
-            for(var j=0;j<category.sites.length;j++){ 
-                var site = category.sites[j];  
-                if(searchterm === "*" ) {
+            for(var j=0;j<category.sites.length;j++) {
+                var site = category.sites[j];
+                if (searchterm === '*' ) {
                     resultJson.sites.push(site);
-                } else if(site.title.toLowerCase().search(searchtermlower) > -1 ) {
+                } else if (site.title.toLowerCase().search(searchtermlower) > -1 ) {
                     resultJson.sites.push(site);
                 } else if (site.description && site.description.toLowerCase().search(searchtermlower) > -1 ) {
                     resultJson.sites.push(site);
                 }
              }
 
-             return resultJson;        
+             return resultJson;
         };
 
-        /** 
+        /**
          * Update the metadata for the Search Page Facets based on the Sakai 2
          * Site categories that come back.
          */
@@ -106,8 +106,8 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
                     var cat = jsondata.categories[i];
                     facets[i] = {
                         category: cat.category,
-                        "searchurl": "",
-                        "searchurlall": ""
+                        'searchurl': '',
+                        'searchurlall': ''
                     };
                 }
             }
@@ -116,20 +116,20 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
         /**
          * Get sites list group with categories from back end.
          */
-        var getCategories = function(callback){
-            var url = "/dev/s23/bundles/sites-categorized.json";
-            if (sakai.config.useLiveSakai2Feeds){
-                url = "/var/proxy/s23/sitesCategorized.json?categorized=true";
+        var getCategories = function(callback) {
+            var url = '/dev/s23/bundles/sites-categorized.json';
+            if (sakai.config.useLiveSakai2Feeds) {
+                url = '/var/proxy/s23/sitesCategorized.json?categorized=true';
             }
             $.ajax({
                 url: url,
-                type : "GET",
-                dataType: "json",
-                success: function(data){
+                type : 'GET',
+                dataType: 'json',
+                success: function(data) {
                     callback(data);
                 },
-                error: function(){
-                    $("#sakai2search_error_container", rootel).show();
+                error: function() {
+                    $('#sakai2search_error_container', rootel).show();
                 }
             });
         };
@@ -138,15 +138,15 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
         // Functions           //
         /////////////////////////
 
-        var pager_click_handler = function(pageclickednumber){
+        var pager_click_handler = function(pageclickednumber) {
             $.bbq.pushState({
-                "q": $(searchConfig.global.text, rootel).val(),
-                "page": pageclickednumber
+                'q': $(searchConfig.global.text, rootel).val(),
+                'page': pageclickednumber
             }, 0);
         };
 
-        /* 
-         * Renders the results using the json as structured in 
+        /*
+         * Renders the results using the json as structured in
          * /var/proxy/s23/sitesCategorized.json?categorized=true
          */
         var renderResults = function(jsondata) {
@@ -156,7 +156,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
             var resultstotal;
 
             if (searchConfig.facetedConfig.facets[0]) {
-                $(".searchsakai2_selects", rootel).show();
+                $('.searchsakai2_selects', rootel).show();
                 var categoryName = searchConfig.facetedConfig.facets[0].category;
                 if (qparams.facet !== undefined) {
                     categoryName = searchConfig.facetedConfig.facets[qparams.facet].category;
@@ -167,27 +167,27 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
                     if (categoryName === jsondata.categories[i].category) {
                         categorydata = jsondata.categories[i];
                     }
-                }    
-    
+                }
+
                 filterSearch(qparams.q,categorydata,finaljson);
                 finaljson.query = qparams.q;
                 finaljson.sites.sort(siteTitleSort);
-                for (var s = 0; s < finaljson.sites.length; s++){
+                for (var s = 0; s < finaljson.sites.length; s++) {
                     var url = finaljson.sites[s].url;
-                    finaljson.sites[s].url = url.split("/")[url.split("/").length - 1];
+                    finaljson.sites[s].url = url.split('/')[url.split('/').length - 1];
                 }
-    
+
                 resultstotal = finaljson.sites.length;
-                $(searchConfig.global.numberFound, rootel).text("" + resultstotal);
-                
+                $(searchConfig.global.numberFound, rootel).text('' + resultstotal);
+
                 if (resultstotal > resultsToDisplay && qparams.page) {
                     var end = qparams.page * resultsToDisplay;
                     finaljson.sites = finaljson.sites.slice(end-resultsToDisplay,end);
                 }
             } else {
                 finaljson.sites = [];
-                finaljson.query = "*";
-                $(".searchsakai2_selects", rootel).hide();
+                finaljson.query = '*';
+                $('.searchsakai2_selects', rootel).hide();
             }
 
             $(searchConfig.results.container, rootel).html(sakai.api.Util.TemplateRenderer(searchConfig.results.template, finaljson));
@@ -209,11 +209,11 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
             }
         };
 
-        var siteTitleSort = function(a, b){
+        var siteTitleSort = function(a, b) {
             return a.title > b.title;
         };
 
-        var doSearch = function(){
+        var doSearch = function() {
             getCategories(function(data) {renderResults(data);});
         };
 
@@ -222,19 +222,19 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
         ////////////////////
 
 
-        $(searchConfig.global.text, rootel).live("keydown", function(ev){ 
+        $(searchConfig.global.text, rootel).on('keydown', function(ev) {
             if (ev.keyCode === 13) {
                 $.bbq.pushState({
-                    "q": $(searchConfig.global.text, rootel).val(),
-                    "page": 0
+                    'q': $(searchConfig.global.text, rootel).val(),
+                    'page': 0
                 }, 0);
             }
         });
 
-        $(searchConfig.global.button, rootel).live("click", function(ev){
+        $(searchConfig.global.button, rootel).on('click', function(ev) {
             $.bbq.pushState({
-                "q": $(searchConfig.global.text, rootel).val(),
-                "page": 0
+                'q': $(searchConfig.global.text, rootel).val(),
+                'page': 0
             }, 0);
         });
 
@@ -242,9 +242,9 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
         /////////////////////////////
         // Initialization function //
         /////////////////////////////
-        
-        $(window).bind("hashchange", function(ev){
-            if ($.bbq.getState("l") === "sakai2sites") {
+
+        $(window).on('hashchange', function(ev) {
+            if ($.bbq.getState('l') === 'sakai2sites') {
                 doSearch();
             }
         });
@@ -252,25 +252,25 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js', 'jq
         /**
          * Initialization function DOCUMENTATION
          */
-        $(window).bind("sakai.search.util.finish", function(ev){
+        $(window).on('sakai.search.util.finish', function(ev) {
             sakai.api.Widgets.widgetLoader.insertWidgets('searchcontent_widget', false, false, {
-                "id845719741363": {
-                    "facetedConfig": searchConfig.facetedConfig
+                'id845719741363': {
+                    'facetedConfig': searchConfig.facetedConfig
                 }
             });
             doSearch();
         });
-        
+
         // run the initialization function when the widget object loads
         // we're wrapping this up because we need to do an ajax call to Sakai2
         // to determine the categories for the search facet
         getCategories(function(data) {
             updateFacets(data);
-            $(window).trigger("sakai.search.util.init", {"tuid": tuid});
+            $(window).trigger('sakai.search.util.init', {'tuid': tuid});
         });
-        
+
     };
 
     // inform Sakai OAE that this widget has loaded and is ready to run
-    sakai.api.Widgets.widgetLoader.informOnLoad("searchsakai2");
+    sakai.api.Widgets.widgetLoader.informOnLoad('searchsakai2');
 });

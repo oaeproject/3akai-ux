@@ -16,21 +16,67 @@
  * specific language governing permissions and limitations under the License.
  */
 /* Activity Items */
-.recentactivity_widget .recentactivity_activity_item_container{width:175px;height:100px; opacity: 0;}
-.recentactivity_widget .recentactivity_activity_item_content {clear:both;display:block;margin: 5px 0 5px 5px;}
-.recentactivity_widget .recentactivity_activity_item_content .recentactivity_activity_item_image {height:32px;margin:5px 7px 11px 7px;width:32px;float:left;}
-.recentactivity_widget .recentactivity_activity_item_content a {display:block;font-size:12px;padding-top:5px;}
-.recentactivity_widget .recentactivity_activity_item_description {color:#424242;display:block;font-size:11px;overflow:auto;}
+.recentactivity_widget .recentactivity_activity_item_container {
+    width: 175px;
+    height: 100px;
+    opacity: 0;
+}
+.recentactivity_widget .recentactivity_activity_item_content {
+    clear: both;
+    display: block;
+    margin: 5px 0 5px 5px;
+}
+.recentactivity_widget .recentactivity_activity_item_content .recentactivity_activity_item_image {
+    height: 32px;
+    margin: 5px 7px 11px 7px;
+    width: 32px;
+    float: left;
+}
+.recentactivity_widget .recentactivity_activity_item_content a {
+    display: block;
+    font-size: 12px;
+    padding-top: 5px;
+}
+.recentactivity_widget .recentactivity_activity_item_description {
+    color: #424242;
+    display: block;
+    font-size: 11px;
+    overflow: auto;
+}
 
 /* Icons for types of activities */
-.recentactivity_widget .recentactivity_activity_icon {width:16px;height:16px;float:right;}
-.recentactivity_widget .recentactivity_activity_upload {background:url("/devwidgets/recentactivity/images/recentactivity_upload_icon.png") no-repeat top left transparent;}
-.recentactivity_widget .recentactivity_activity_comment {background:url("/devwidgets/recentactivity/images/recentactivity_comment_icon.png") no-repeat top left transparent;}
-.recentactivity_widget .recentactivity_activity_new {background:url("/devwidgets/recentactivity/images/recentactivity_refresh_icon.png") no-repeat top left transparent;}
+.recentactivity_widget .recentactivity_activity_icon {
+    width: 16px;
+    height: 16px;
+    float: right;
+}
+.recentactivity_widget .recentactivity_activity_upload {
+    background: url("/devwidgets/recentactivity/images/recentactivity_upload_icon.png") no-repeat top left transparent;
+}
+.recentactivity_widget .recentactivity_activity_comment {
+    background: url("/devwidgets/recentactivity/images/recentactivity_comment_icon.png") no-repeat top left transparent;
+}
+.recentactivity_widget .recentactivity_activity_new {
+    background: url("/devwidgets/recentactivity/images/recentactivity_refresh_icon.png") no-repeat top left transparent;
+}
 
 /* No Results */
-.recentactivity_widget .s3d-no-results-container {margin:30px 20px 10px;}
-.recentactivity_widget .s3d-no-results-container .s3d-regular-links {display:block;}
-.recentactivity_widget .s3d-no-results-container .s3d-no-results-icon {float:none;clear:both;}
-.recentactivity_widget #recentactivity_noresults_example {background:url("/devwidgets/recentactivity/images/recentactivity_noresults_example.png") no-repeat top left transparent;width:146px;height:113px;margin:10px 0 0 12px;}
-.recentactivity_widget .s3d-no-results-container .s3d-split-line {margin:0 -20px;}
+.recentactivity_widget .s3d-no-results-container {
+    margin: 30px 20px 10px;
+}
+.recentactivity_widget .s3d-no-results-container .s3d-regular-links {
+    display: block;
+}
+.recentactivity_widget .s3d-no-results-container .s3d-no-results-icon {
+    float: none;
+    clear: both;
+}
+.recentactivity_widget #recentactivity_noresults_example {
+    background: url("/devwidgets/recentactivity/images/recentactivity_noresults_example.png") no-repeat top left transparent;
+    width: 146px;
+    height: 113px;
+    margin: 10px 0 0 12px;
+}
+.recentactivity_widget .s3d-no-results-container .s3d-split-line {
+    margin: 0 -20px;
+}

@@ -40,7 +40,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-fileupload', 'jquery-iframe-t
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.uploadnewversion = function(tuid, showSettings){
+    sakai_global.uploadnewversion = function(tuid, showSettings) {
 
 
         /////////////////////////////
@@ -72,7 +72,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-fileupload', 'jquery-iframe-t
             $.ajax({
                 url: sakai_global.content_profile.content_data['content_path'] + '.save.json',
                 type: 'POST',
-                success: function(data){
+                success: function(data) {
                     sakai.api.Util.Modal.close($uploadnewversionUploading);
                     sakai.api.Util.Modal.close($uploadnewversionContainer);
                     sakai_global.content_profile.content_data.data = data;
@@ -83,7 +83,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-fileupload', 'jquery-iframe-t
                         showByDefault: true
                     });
                 },
-                error: function(err){
+                error: function(err) {
                     sakai.api.Util.Modal.close($uploadnewversionUploading);
                     debug.error(err);
                 }
@@ -114,10 +114,10 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-fileupload', 'jquery-iframe-t
                                'sakai:pagecount': 0,
                                'sakai:hasPreview': false
                            },
-                           success: function(data){
+                           success: function(data) {
                                saveVersion(data);
                            },
-                           error: function(err){
+                           error: function(err) {
                                sakai.api.Util.Modal.close($uploadnewversionUploading);
                                debug.error(err);
                            }
@@ -139,7 +139,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-fileupload', 'jquery-iframe-t
         /**
          * Initialize the modal dialog
          */
-        var initializeJQM = function(){
+        var initializeJQM = function() {
             sakai.api.Util.Modal.setup($uploadnewversionContainer, {
                 modal: true,
                 overlay: 20,
@@ -156,7 +156,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-fileupload', 'jquery-iframe-t
             $uploadnewversionUploading.css('z-index', '4002');
         };
 
-        var initializeFileUpload = function(){
+        var initializeFileUpload = function() {
             $('#uploadnewversion_fileupload').fileupload({
                 replaceFileInput: false,
                 add: function(e, data) {
@@ -171,12 +171,12 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-fileupload', 'jquery-iframe-t
             });
         };
 
-        var addBinding = function(){
-            $(uploadnewversionDoUpload).unbind('click', doUploadVersion);
-            $(uploadnewversionDoUpload).bind('click', doUploadVersion);
+        var addBinding = function() {
+            $(uploadnewversionDoUpload).off('click', doUploadVersion);
+            $(uploadnewversionDoUpload).on('click', doUploadVersion);
         };
 
-        var doInit = function(){
+        var doInit = function() {
             initializeJQM();
             initializeFileUpload();
             addBinding();
