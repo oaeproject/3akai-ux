@@ -52,12 +52,11 @@
     margin-top: -26px;
 }
 #lhnavigation_container ul li .lhnavigation_private {
-    background:url("/devwidgets/lhnavigation/images/lhnav_padlock.png") no-repeat center left transparent;
-    height:16px;
-    margin-left:136px;
-    margin-top:-22px;
-    position:absolute;
-    width:11px;
+    background: url("/devwidgets/lhnavigation/images/lhnav_padlock.png") no-repeat center right transparent;
+    height: 16px;
+    float: right;
+    margin-top: -22px;
+    width: 11px;
 }
 #lhnavigation_container .lhnavigation_data_container .lhnavigation_private {
     margin: 6px 2px;
@@ -77,7 +76,6 @@
     border-color: #37383e transparent transparent !important;
     margin-left: -16px;
     margin-top: 10px;
->>>>>>> master
 }
 #lhnavigation_container ul li .lhnavigation_levelcount, #lhnavigation_container ul li .lhnavigation_sublevelcount {
     background: #C9C9C9;
