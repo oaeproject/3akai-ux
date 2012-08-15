@@ -15,13 +15,41 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-#joingroup_joinrequestbuttons {float:right;}
-.joingroup_hover_details {color:#888888;font-weight:bold;}
-.joingroup_hover_top {padding:10px 10px 0;border-bottom:1px solid #EAEBEC;}
-.joingroup_group_participants {padding:0 10px;width:225px;}
-.joingroup_group_participants td {padding-top:10px;}
-.joingroup_group_participants img {width:50px;height:50px;}
-.joingroup_userimg {width:32px;vertical-align:top;}
-.joingroup_userinfo {vertical-align:top;padding-left:10px;}
-.joingroup_userinfo p {margin:0 0 3px 0;}
-.joingroup_people_footer {background-color:#E6EAEE; height: 20px; padding: 5px 5px 0 0;}
+#joingroup_joinrequestbuttons {
+    float: right;
+}
+.joingroup_hover_details {
+    color: #888888;
+    font-weight: bold;
+}
+.joingroup_hover_top {
+    padding: 10px 10px 0;
+    border-bottom: 1px solid #EAEBEC;
+}
+.joingroup_group_participants {
+    padding: 0 10px;
+    width: 225px;
+}
+.joingroup_group_participants td {
+    padding-top: 10px;
+}
+.joingroup_group_participants img {
+    width: 50px;
+    height: 50px;
+}
+.joingroup_userimg {
+    width: 32px;
+    vertical-align: top;
+}
+.joingroup_userinfo {
+    vertical-align: top;
+    padding-left: 10px;
+}
+.joingroup_userinfo p {
+    margin: 0 0 3px 0;
+}
+.joingroup_people_footer {
+    background-color: #E6EAEE;
+    height: 20px;
+    padding: 5px 5px 0 0;
+}

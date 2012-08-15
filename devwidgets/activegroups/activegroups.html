@@ -11,7 +11,7 @@
     <ul>
         {for result in data.results}
             {var index = 0}
-            {for group in result.groups} 
+            {for group in result.groups}
                 {if index < 5}
                     <li>
                         <a href="/~${group.id}" class="s3d-regular-links">${group.name|safeOutput}</a>

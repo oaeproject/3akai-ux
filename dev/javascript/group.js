@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-require(["jquery","sakai/sakai.api.core"], function($, sakai) {
+require(['jquery','sakai/sakai.api.core'], function($, sakai) {
 
     sakai_global.group = function() {
 
@@ -27,7 +27,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         /**
          * Get the group id from the querystring
          */
-        var processEntityInfo = function(){
+        var processEntityInfo = function() {
             groupId = sakai.api.Util.extractEntity(window.location.pathname);
 
             sakai.api.Groups.getGroupInformation({
@@ -51,22 +51,22 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
-        var loadGroupEntityWidget = function(){
+        var loadGroupEntityWidget = function() {
             var canManage = sakai.api.Groups.isCurrentUserAManager(groupId, sakai.data.me, groupData.authprofile);
-            var context = "group";
-            var type = "group";
-            if (canManage){
-                type = "group_managed";
-                $("#group_create_new_area_container").show();
+            var context = 'group';
+            var type = 'group';
+            if (canManage) {
+                type = 'group_managed';
+                $('#group_create_new_area_container').show();
             }
-            $(window).trigger("sakai.entity.init", [context, type, groupData]);
+            $(window).trigger('sakai.entity.init', [context, type, groupData]);
         };
 
-        $(window).bind("sakai.entity.ready", function(){
+        $(window).on('sakai.entity.ready', function() {
             loadGroupEntityWidget();
         });
 
-        $(window).bind("ready.entity.sakai", function(e){
+        $(window).on('ready.entity.sakai', function(e) {
             loadEntityWidget();
         });
 
@@ -74,38 +74,38 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         // LOAD LEFT HAND SIDE //
         /////////////////////////
 
-        var filterOutUnwanted = function(){
+        var filterOutUnwanted = function() {
 
-            var checkViewPermission = function(index, value){
-                if (value.substring(0, 1) === "-" && sakai.api.Groups.isCurrentUserAMember(groupId + value, sakai.data.me)) {
+            var checkViewPermission = function(index, value) {
+                if (value.substring(0, 1) === '-' && sakai.api.Groups.isCurrentUserAMember(groupId + value, sakai.data.me)) {
                     canView = true;
                 }
             };
-            var checkManagePermission = function(index, value){
-                if (value.substring(0, 1) === "-" && sakai.api.Groups.isCurrentUserAMember(groupId + value, sakai.data.me)) {
+            var checkManagePermission = function(index, value) {
+                if (value.substring(0, 1) === '-' && sakai.api.Groups.isCurrentUserAMember(groupId + value, sakai.data.me)) {
                     canView = true;
                     canSubedit = true;
                 }
             };
 
-            var roles = $.parseJSON(groupData.authprofile["sakai:roles"]);
-            for (var i in pubdata.structure0){
-                if (pubdata.structure0.hasOwnProperty(i)){
+            var roles = $.parseJSON(groupData.authprofile['sakai:roles']);
+            for (var i in pubdata.structure0) {
+                if (pubdata.structure0.hasOwnProperty(i)) {
                     var edit = $.parseJSON(pubdata.structure0[i]._edit);
                     var view = $.parseJSON(pubdata.structure0[i]._view);
                     var canEdit = sakai.api.Groups.isCurrentUserAManager(groupId, sakai.data.me, groupData.authprofile);
                     var canSubedit = false;
                     var canView = false;
-                    if (sakai.data.me.user.anon){
+                    if (sakai.data.me.user.anon) {
                         // Check whether anonymous is in
-                        if ($.inArray("anonymous", view) !== -1){
+                        if ($.inArray('anonymous', view) !== -1) {
                             canView = true;
                         }
                     } else {
                         // Check whether I'm a member
                         var isMember = false;
                         for (var r = 0; r < roles.length; r++) {
-                            if (sakai.api.Groups.isCurrentUserAMember(groupId + "-" + roles[r].id, sakai.data.me)) {
+                            if (sakai.api.Groups.isCurrentUserAMember(groupId + '-' + roles[r].id, sakai.data.me)) {
                                 isMember = true;
                             }
                         }
@@ -116,7 +116,7 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
                             $.each(edit, checkManagePermission);
                         } else {
                             // Check whether everyone can view
-                            if ($.inArray("everyone", view) !== -1) {
+                            if ($.inArray('everyone', view) !== -1) {
                                 canView = true;
                             }
                         }
@@ -129,11 +129,11 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
-        var loadDocStructure = function(forceOpenPage){
+        var loadDocStructure = function(forceOpenPage) {
             $.ajax({
-                url: "/~" + groupId+ "/docstructure.infinity.json",
+                url: '/~' + groupId+ '/docstructure.infinity.json',
                 cache: false,
-                success: function(data){
+                success: function(data) {
                     pubdata = sakai.api.Server.cleanUpSakaiDocObject(data);
                     filterOutUnwanted();
                     generateNav(forceOpenPage);
@@ -141,18 +141,18 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             });
         };
 
-        var generateNav = function(forceOpenPage){
+        var generateNav = function(forceOpenPage) {
             if (pubdata) {
-                $(window).trigger("lhnav.init", [pubdata, {}, {"addArea": "world", "forceOpenPage": forceOpenPage}, "/~" + groupId+ "/docstructure"]);
+                $(window).trigger('lhnav.init', [pubdata, {}, {'addArea': 'world', 'forceOpenPage': forceOpenPage}, '/~' + groupId+ '/docstructure']);
                 sakai_global.group.pubdata = pubdata;
             }
         };
 
-        $(window).bind("lhnav.ready", function(){
+        $(window).on('lhnav.ready', function() {
             generateNav();
         });
-        
-        $(window).bind("rerender.group.sakai", function(ev, forceOpenPage){
+
+        $(window).on('rerender.group.sakai', function(ev, forceOpenPage) {
             loadDocStructure(forceOpenPage);
         });
 
@@ -163,41 +163,41 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         /////////////////////
         // Create new area //
         /////////////////////
-        
+
         $('#group_create_new_area').on('click', function() {
             $(document).trigger('init.addarea.sakai');
         });
 
-        $(window).bind("toadd.addpeople.sakai", function(e, widgetid, data){
+        $(window).on('toadd.addpeople.sakai', function(e, widgetid, data) {
             var members = [];
             $.each(data, function(i, user) {
                 var member = {
-                    "user": user.userid,
-                    "permission": user.permission
+                    'user': user.userid,
+                    'permission': user.permission
                 };
                 members.push(member);
             });
             if (members.length) {
-                sakai.api.Groups.addUsersToGroup(groupId, members, sakai.api.User.data.me, false, function(){
-                    $(window).trigger("usersselected.addpeople.sakai", [members]);
+                sakai.api.Groups.addUsersToGroup(groupId, members, sakai.api.User.data.me, false, function() {
+                    $(window).trigger('usersselected.addpeople.sakai', [members]);
                 });
             } else {
-                $(window).trigger("usersselected.addpeople.sakai", []);
+                $(window).trigger('usersselected.addpeople.sakai', []);
             }
         });
 
-        $(window).bind("usersswitchedpermission.addpeople.sakai", function(e, widgetid, data){
+        $(window).on('usersswitchedpermission.addpeople.sakai', function(e, widgetid, data) {
             var rolesToDelete = [],
                 rolesToAdd = [];
             $.each(data, function(i, user) {
                 var member = {
-                    "userid": user.userid,
-                    "permission": user.originalPermission
+                    'userid': user.userid,
+                    'permission': user.originalPermission
                 };
                 rolesToDelete.push(member);
                 var member2 = {
-                    "user": user.userid,
-                    "permission": user.permission
+                    'user': user.userid,
+                    'permission': user.permission
                 };
                 rolesToAdd.push(member2);
             });
@@ -210,12 +210,12 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         // INITIALISATION //
         ////////////////////
 
-        var doInit = function(){
+        var doInit = function() {
             processEntityInfo();
         };
 
         doInit();
     };
 
-    sakai.api.Widgets.Container.registerForLoad("group");
+    sakai.api.Widgets.Container.registerForLoad('group');
 });

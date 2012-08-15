@@ -440,7 +440,7 @@ var QUnit = {
 
 //We want access to the constructor's prototype
 (function() {
-	function F(){};
+	function F() {};
 	F.prototype = QUnit;
 	QUnit = new F();
 	//Make F QUnit's constructor so that we can add to the prototype later
@@ -930,7 +930,7 @@ function process( last ) {
 		if ( !defined.setTimeout || config.updateRate <= 0 || ( ( new Date().getTime() - start ) < config.updateRate ) ) {
 			config.queue.shift()();
 		} else {
-			window.setTimeout( function(){
+			window.setTimeout( function() {
 				process( last );
 			}, 13 );
 			break;
@@ -1025,8 +1025,8 @@ function id(name) {
 		document.getElementById( name );
 }
 
-function registerLoggingCallback(key){
-	return function(callback){
+function registerLoggingCallback(key) {
+	return function(callback) {
 		config[key].push( callback );
 	};
 }
@@ -1047,7 +1047,7 @@ function runLoggingCallbacks(key, scope, args) {
 
 // Test for equality any JavaScript type.
 // Author: Philippe Rathé <prathe@gmail.com>
-QUnit.equiv = function () {
+QUnit.equiv = function() {
 
 	var innerEquiv; // the real equiv function
 	var callers = []; // stack to decide between skip/abort functions
@@ -1065,11 +1065,11 @@ QUnit.equiv = function () {
 		}
 	}
 
-	var getProto = Object.getPrototypeOf || function (obj) {
+	var getProto = Object.getPrototypeOf || function(obj) {
 		return obj.__proto__;
 	};
 
-	var callbacks = function () {
+	var callbacks = function() {
 
 		// for string, boolean, number and null
 		function useStrictEquality(b, a) {
@@ -1266,7 +1266,7 @@ QUnit.jsDump = (function() {
 		return join( '[', ret, ']' );
 	};
 
-	var reName = /^function (\w+)/;
+	var reName = /^function(\w+)/;
 
 	var jsDump = {
 		parse:function( obj, type, stack ) { //type is used mostly internally, you can fix a (custom)type in advance
@@ -1358,7 +1358,7 @@ QUnit.jsDump = (function() {
 					ret += ' ' + name;
 				ret += '(';
 
-				ret = [ ret, QUnit.jsDump.parse( fn, 'functionArgs' ), '){'].join('');
+				ret = [ ret, QUnit.jsDump.parse( fn, 'functionArgs' ), ') {'].join('');
 				return join( ret, QUnit.jsDump.parse(fn,'functionCode'), '}' );
 			},
 			array: array,

@@ -20,34 +20,118 @@
  * is to organize your CSS into sections like these (or add new sections)
  */
 
-#areapermissions_container {width:800px !important;font-size:12px;margin-left:-420px !important;color:#666;}
-#areapermissions_container h1.s3d-dialog-header {margin-bottom:0;}
-#areapermissions_container .areapermissions_permissions_container {width:390px;float:left;}
-#areapermissions_container #areapermissions_content_container .areapermissions_permissions_container.first {margin-right:20px;}
-#areapermissions_container .s3d-inset-shadow-container {padding:10px;}
-#areapermissions_container #areapermissions_selectable > input {float:left;margin-right:10px;margin-top:2px;}
-#areapermissions_container .s3d-inset-shadow-container label {padding:1px 0 0 6px;}
-#areapermissions_container .s3d-inset-shadow-container label .label_icon {width:15px;height:15px;display:inline-block;margin:0 8px 0 2px;float:left;}
-#areapermissions_container .s3d-inset-shadow-container label .label_icon.globe {background:url("/dev/images/globe_icon.png") no-repeat top left transparent;}
-#areapermissions_container .s3d-inset-shadow-container label .label_icon.small_institution {background:url("/dev/images/small_institution_icon.png") no-repeat top left transparent;}
-#areapermissions_container .s3d-inset-shadow-container label .label_icon.lock {background:url("/dev/images/lock_icon.png") no-repeat top left transparent;}
-#areapermissions_container .s3d-outer-shadow-container label .label_icon.globe {background:url("/dev/images/globe_icon_black.png") no-repeat top left transparent;}
-#areapermissions_container .s3d-outer-shadow-container label .label_icon.small_institution {background:url("/dev/images/small_institution_icon_black.png") no-repeat top left transparent;}
-#areapermissions_container .s3d-outer-shadow-container label .label_icon.lock {background:url("/dev/images/lock_icon_black.png") no-repeat top left transparent;}
-#areapermissions_container .s3d-inset-shadow-container .s3d-split-line {border-top-style:solid;margin:7px 0 10px;}
-#areapermissions_container .s3d-inset-shadow-container .s3d-split-line.small_line {width:95%}
-#areapermissions_container .s3d-inset-shadow-container .areapermissions_unselected_rbt {margin:0 3px 3px 13px;min-height:20px;padding:10px 0 5px !important;}
-#areapermissions_container .s3d-inset-shadow-container .areapermissions_subchoice {padding:10px 13px 0;}
-#areapermissions_container .s3d-outer-shadow-container {color:#333;min-height:20px;padding:10px 13px 5px;}
-#areapermissions_container .areapermissions_buttons{margin-top:15px;}
-#areapermissions_container .s3d-inset-shadow-container {background-color:none;box-shadow:none;-moz-box-shadow:none;-webkit-box-shadow:none;}
-#areapermissions_container .areapermissions_you {font-weight:normal;}
-#areapermissions_container #areapermissions_see_private_specific, #areapermissions_container .areapermissions_role_label {text-transform: capitalize;}
-#areapermissions_container #areapermissions_see_private_specific > hr:first-child {margin:10px 0 20px;}
-#areapermissions_container .areapermissions_grouppermissions_notificationlabel {font-size:10px;font-weight:normal;margin-left:47px;display:block;}
-#areapermissions_container .areapermissions_grouppermissions_notificationlabel.inline {margin-left:0;display:inline;}
-#areapermissions_container .areapermissions_edit_role_container {width:169px;height:34px;}
-#areapermissions_container .areapermissions_edit_role_container.multiple {float:left;}
+#areapermissions_container {
+    width: 800px !important;
+    font-size: 12px;
+    margin-left: -420px !important;
+    color: #666;
+}
+#areapermissions_container h1.s3d-dialog-header {
+    margin-bottom: 0;
+}
+#areapermissions_container .areapermissions_permissions_container {
+    width: 390px;
+    float: left;
+}
+#areapermissions_container #areapermissions_content_container .areapermissions_permissions_container.first {
+    margin-right: 20px;
+}
+#areapermissions_container .s3d-inset-shadow-container {
+    padding: 10px;
+}
+#areapermissions_container #areapermissions_selectable > input {
+    float: left;
+    margin-right: 10px;
+    margin-top: 2px;
+}
+#areapermissions_container .s3d-inset-shadow-container label {
+    padding: 1px 0 0 6px;
+}
+#areapermissions_container .s3d-inset-shadow-container label .label_icon {
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    margin: 0 8px 0 2px;
+    float: left;
+}
+#areapermissions_container .s3d-inset-shadow-container label .label_icon.globe {
+    background: url("/dev/images/globe_icon.png") no-repeat top left transparent;
+}
+#areapermissions_container .s3d-inset-shadow-container label .label_icon.small_institution {
+    background: url("/dev/images/small_institution_icon.png") no-repeat top left transparent;
+}
+#areapermissions_container .s3d-inset-shadow-container label .label_icon.lock {
+    background: url("/dev/images/lock_icon.png") no-repeat top left transparent;
+}
+#areapermissions_container .s3d-outer-shadow-container label .label_icon.globe {
+    background: url("/dev/images/globe_icon_black.png") no-repeat top left transparent;
+}
+#areapermissions_container .s3d-outer-shadow-container label .label_icon.small_institution {
+    background: url("/dev/images/small_institution_icon_black.png") no-repeat top left transparent;
+}
+#areapermissions_container .s3d-outer-shadow-container label .label_icon.lock {
+    background: url("/dev/images/lock_icon_black.png") no-repeat top left transparent;
+}
+#areapermissions_container .s3d-inset-shadow-container .s3d-split-line {
+    border-top-style: solid;
+    margin: 7px 0 10px;
+}
+#areapermissions_container .s3d-inset-shadow-container .s3d-split-line.small_line {
+    width: 95%
+}
+#areapermissions_container .s3d-inset-shadow-container .areapermissions_unselected_rbt {
+    margin: 0 3px 3px 13px;
+    min-height: 20px;
+    padding: 10px 0 5px !important;
+}
+#areapermissions_container .s3d-inset-shadow-container .areapermissions_subchoice {
+    padding: 10px 13px 0;
+}
+#areapermissions_container .s3d-outer-shadow-container {
+    color: #333;
+    min-height: 20px;
+    padding: 10px 13px 5px;
+}
+#areapermissions_container .areapermissions_buttons {
+    margin-top: 15px;
+}
+#areapermissions_container .s3d-inset-shadow-container {
+    background-color: none;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+}
+#areapermissions_container .areapermissions_you {
+    font-weight: normal;
+}
+#areapermissions_container #areapermissions_see_private_specific, #areapermissions_container .areapermissions_role_label {
+    text-transform: capitalize;
+}
+#areapermissions_container #areapermissions_see_private_specific > hr:first-child {
+    margin: 10px 0 20px;
+}
+#areapermissions_container .areapermissions_grouppermissions_notificationlabel {
+    font-size: 10px;
+    font-weight: normal;
+    margin-left: 47px;
+    display: block;
+}
+#areapermissions_container .areapermissions_grouppermissions_notificationlabel.inline {
+    margin-left: 0;
+    display: inline;
+}
+#areapermissions_container .areapermissions_edit_role_container {
+    width: 169px;
+    height: 34px;
+}
+#areapermissions_container .areapermissions_edit_role_container.multiple {
+    float: left;
+}
 
-#areapermissions_warning_container {top:150px;}
-#areapermissions_warning_container #areapermissions_warning_container_text {font-size:16px;line-height:20px;}
+#areapermissions_warning_container {
+    top: 150px;
+}
+#areapermissions_warning_container #areapermissions_warning_container_text {
+    font-size: 16px;
+    line-height: 20px;
+}

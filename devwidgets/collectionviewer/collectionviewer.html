@@ -158,12 +158,12 @@
 <div id="collectionviewer_carousel_template"><!--
     {macro fillUpList(itemsShort)}
         <li>
-	        <div class="collectionviewer_carousel_no_thumbnail_container"></div>
-	    </li>
-	    {var itemsShort = itemsShort - 1}
-	    {if itemsShort}
-	        ${fillUpList(itemsShort)}
-	    {/if}
+            <div class="collectionviewer_carousel_no_thumbnail_container"></div>
+        </li>
+        {var itemsShort = itemsShort - 1}
+        {if itemsShort}
+            ${fillUpList(itemsShort)}
+        {/if}
     {/macro}
 
     <div class="collectionviewer_prev_next_container fl-force-right">
@@ -278,7 +278,7 @@
                 </div>
                 <div class="collectionviewer_result_by">
                     {if data.ownerDisplayNameShort}
-                    __MSG__BY__ <a class="s3d-regular-light-links searchcontent_result_username" href="/~${data['sakai:pool-content-created-for']|safeURL}">${data.ownerDisplayNameShort}</a> 
+                    __MSG__BY__ <a class="s3d-regular-light-links searchcontent_result_username" href="/~${data['sakai:pool-content-created-for']|safeURL}">${data.ownerDisplayNameShort}</a>
                     <span class="s3d-search-result-detail-separator">
                         <span> | </span>
                     </span>
@@ -365,7 +365,7 @@
                                 </div>
                                 <div class="collectionviewer_result_by">
                                     {if item.ownerDisplayNameShort}
-                                    __MSG__BY__ <a class="s3d-regular-light-links searchcontent_result_username" href="/~${item['sakai:pool-content-created-for']|safeURL}">${item.ownerDisplayNameShort}</a> 
+                                    __MSG__BY__ <a class="s3d-regular-light-links searchcontent_result_username" href="/~${item['sakai:pool-content-created-for']|safeURL}">${item.ownerDisplayNameShort}</a>
                                     <span class="s3d-search-result-detail-separator">
                                         <span> | </span>
                                     </span>

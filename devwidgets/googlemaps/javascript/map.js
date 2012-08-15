@@ -96,8 +96,8 @@ function geocodeAddress(address) {
     if (geocoder) {
         geocoder.geocode({
             'address': address
-        }, function(results, status){
-            if (status == google.maps.GeocoderStatus.OK) {
+        }, function(results, status) {
+            if (status === google.maps.GeocoderStatus.OK) {
                 var position = results[0].geometry.location;
                 map.setCenter(position);
                 marker.setMap(map);
@@ -105,7 +105,7 @@ function geocodeAddress(address) {
                 var html = results[0].formatted_address;
                 updateInfoWindow(html);
             } else {
-                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('NO_ADDRESS', 'googlemaps'), 
+                sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('NO_ADDRESS', 'googlemaps'),
                                                  sakai.api.i18n.getValueForKey('CANNOT_DETERMINE_ADDRESS_AT_THIS_LOCATION', 'googlemaps'));
             }
         });
@@ -116,8 +116,8 @@ function geocodeAddress(address) {
  * Get the json object
  */
 var getJSON = function() {
-    // use marker rather than map because 
-    // map use 14 decimal places while marker uses only 6 decimal places 
+    // use marker rather than map because
+    // map use 14 decimal places while marker uses only 6 decimal places
     // causing marker to appear on wrong spot
     json.lat = marker.getPosition().lat();
     json.lng = marker.getPosition().lng();

@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], function($, sakai){
+require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/search_util.js'], function($, sakai) {
 
     /**
      * @name sakai.WIDGET_ID
@@ -30,24 +30,24 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.searchall = function(tuid, showSettings){
+    sakai_global.searchall = function(tuid, showSettings) {
 
         //////////////////////
         // Config variables //
         //////////////////////
 
-        var $rootel = $("#" + tuid);
+        var $rootel = $('#' + tuid);
 
         // CSS IDs
-        var search = "#searchall";
+        var search = '#searchall';
 
         var searchConfig = {
-            search: "#searchall",
+            search: '#searchall',
             global: {
-                resultTemp: search + "_result_temp",
+                resultTemp: search + '_result_temp',
                 numberFound: search + '_numberFound',
-                text: "#form .s3d-search-inputfield",
-                searchButton: "#form .s3d-search-button"
+                text: '#form .s3d-search-inputfield',
+                searchButton: '#form .s3d-search-button'
             },
             results: {
                 container: search + '_results_container',
@@ -70,10 +70,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
          * @param {Object} results     List of results coming back from the infinite scroll plugin
          * @param {Object} callback    Callback function from the infinite scroll plugin to call
          */
-        var renderResults = function(results, callback){
+        var renderResults = function(results, callback) {
             // If we have results we add them to the object.
             if (results && results.length) {
-                sakai_global.data.search.prepareCMforRender(results, function(_results){
+                sakai_global.data.search.prepareCMforRender(results, function(_results) {
                     results = _results;
                     results = sakai_global.data.search.prepareGroupsForRender(results);
                     results = sakai_global.data.search.preparePeopleForRender(results);
@@ -87,10 +87,10 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         /**
          * This method will show all the appropriate elements for when a search is executed.
          */
-        var showSearchAll = function(params){
+        var showSearchAll = function(params) {
             // Set search box values
-            if (!params.q || (params.q === "*" || params.q === "**")) {
-                $(searchConfig.global.text).val("");
+            if (!params.q || (params.q === '*' || params.q === '**')) {
+                $(searchConfig.global.text).val('');
             } else {
                 $(searchConfig.global.text).val(params.q);
             }
@@ -101,8 +101,8 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
          * Render the default template when no results are found. This function will
          * be called by the infinite scroll plugin
          */
-        var handleEmptyResultList = function(){
-            $(searchConfig.global.numberFound).text("0");
+        var handleEmptyResultList = function() {
+            $(searchConfig.global.numberFound).text('0');
             $(searchConfig.results.container).html(sakai.api.Util.TemplateRenderer(searchConfig.results.noResultsTemplate, {sakai: sakai}));
         };
 
@@ -110,7 +110,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
          * Kick off a search with a specific query and sort option. This function will
          * initiate an infinite scroll for each search
          */
-        var doSearch = function(){
+        var doSearch = function() {
             var params = sakai_global.data.search.getQueryParams($rootel);
             var urlsearchterm = sakai_global.data.search.processSearchString(params);
             var tags = sakai_global.data.search.processRefineString(params);
@@ -127,7 +127,7 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
             }
 
             // Disable the previous infinite scroll
-            if (infinityScroll){
+            if (infinityScroll) {
                 infinityScroll.kill();
             }
             // Set up the infinite scroll for the list of search results
@@ -136,9 +136,9 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                 'tags': tags,
                 'sortOn': params['sorton'],
                 'sortOrder': params['sortby']
-            }, function(items, total){
+            }, function(items, total) {
                 // Adjust display global total
-                $(searchConfig.global.numberFound, $rootel).text("" + (total || 0));
+                $(searchConfig.global.numberFound, $rootel).text('' + (total || 0));
                 if (total === 1) {
                     $(searchConfig.global.numberFound, $rootel).next('span.s3d-aural-text').text(
                         '' + sakai.api.i18n.getValueForKey('ITEM_FOUND', 'searchall')
@@ -149,24 +149,24 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
                     );
                 }
                 return sakai.api.Util.TemplateRenderer(searchConfig.results.template, {
-                    "items": items,
-                    "sakai": sakai
+                    'items': items,
+                    'sakai': sakai
                 });
-            }, handleEmptyResultList, sakai.config.URL.INFINITE_LOADING_ICON, renderResults, function(){
+            }, handleEmptyResultList, sakai.config.URL.INFINITE_LOADING_ICON, renderResults, function() {
                 // Initialize content draggable
                 sakai.api.Util.Draggable.setupDraggable({}, $(searchConfig.results.container));
                 // adjust height of grid row elements to be equal
                 sakai_global.data.search.determineAdjustGridElementHeights($rootel);
-            }, false, function(data){
+            }, false, function(data) {
                 // Generate refine by tags
                 sakai_global.data.search.generateTagsRefineBy(data, params);
             });
         };
 
-        $(window).bind("sakai.addToContacts.requested", function(ev, userToAdd){
+        $(window).on('sakai.addToContacts.requested', function(ev, userToAdd) {
             sakai_global.data.search.getMyContacts();
             $('.sakai_addtocontacts_overlay').each(function(index) {
-                if ($(this).attr("sakai-entityid") === userToAdd.uuid){
+                if ($(this).attr('sakai-entityid') === userToAdd.uuid) {
                     $(this).addClass('fl-hidden');
                 }
             });
@@ -176,27 +176,27 @@ require(["jquery", "sakai/sakai.api.core", "/dev/javascript/search_util.js"], fu
         // Initialise Function //
         /////////////////////////
 
-        if (sakai.data.me.user.anon){
+        if (sakai.data.me.user.anon) {
             $(searchConfig.results.resultsContainer).addClass(searchConfig.results.resultsContainerAnonClass);
         }
 
-        $(window).bind("hashchange", function(ev){
-            if (!$.bbq.getState("l") || $.bbq.getState("l") === "all") {
+        $(window).on('hashchange', function(ev) {
+            if (!$.bbq.getState('l') || $.bbq.getState('l') === 'all') {
                 doSearch();
             }
         });
 
-        $(window).bind("sakai.search.util.finish", function(ev, data){
-            if (data && data.tuid === tuid){
+        $(window).on('sakai.search.util.finish', function(ev, data) {
+            if (data && data.tuid === tuid) {
                 doSearch();
             }
         });
 
-        $(window).trigger("sakai.search.util.init", [{"tuid": tuid}]);
+        $(window).trigger('sakai.search.util.init', [{'tuid': tuid}]);
 
     };
 
     // inform Sakai OAE that this widget has loaded and is ready to run
-    sakai.api.Widgets.widgetLoader.informOnLoad("searchall");
+    sakai.api.Widgets.widgetLoader.informOnLoad('searchall');
 
 });
