@@ -223,7 +223,6 @@
     cursor: pointer;
 }
 .addarea_existing_bottom ul li.selected {
-    margin-top: -3px;
     background: #4cb1dc;
     background: -moz-linear-gradient(top, #4cb1dc 0%, #4fbeed 9%, #4dc2f6 22%, #21a9e6 74%, #1aa4e2 87%, #1198d5 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4cb1dc), color-stop(9%,#4fbeed), color-stop(22%,#4dc2f6), color-stop(74%,#21a9e6), color-stop(87%,#1aa4e2), color-stop(100%,#1198d5));
