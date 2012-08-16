@@ -37,8 +37,8 @@ require(
 
         var checkJs = function(jsFile) {
             // test for double quotes in strings
-            var regex = /((?!\'.*)\".*\"(?!.*')|(\'.*\'.*\".*\"|\".*\".*\'.*\'))/gm;
-            var testString = 'Use single quotes';
+            var regex = /(?!\'.*)\".*\"(?!.*')/gm;
+            var testString = 'Double quotes should only be used within single quotes';
             doRegexTest(jsFile, regex, testString);
 
             // test function declarations
