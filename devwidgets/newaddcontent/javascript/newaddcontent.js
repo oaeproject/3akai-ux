@@ -446,7 +446,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
                             $(item).parent().addClass(newaddcontentExistingItemsListContainerDisabledListItem);
                         }
                     });
-                    addContentToQueue(contentToAdd, false, true);
+                    addContentToQueue(contentToAdd);
                     break;
 
             }
@@ -1287,11 +1287,11 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
             $newaddcontentContainerLHChoiceSubItem.off('click', navigateSubItem);
             $newaddcontentContainerNewItemAddToList.off('click', constructItemToAdd);
             $(newaddcontentContainerStartUploadButton).off('click', doUpload);
-            $(newaddcontentSelectedItemsEditDataClose).off('click', closeEditData);
-            $(newaddcontentContainerNewItemSaveChanges).off('click', saveEdit);
-            $(newaddcontentSelectedItemsRemove).off('click', removeItemToAdd);
-            $(newaddcontentSelectedItemsActionsPermissions).off('click', changePermissions);
-            $(newaddcontentSelectedItemsActionsEdit).off('click', editData);
+            $newaddcontentContainer.off('click', newaddcontentSelectedItemsEditDataClose, closeEditData);
+            $newaddcontentContainer.off('click', newaddcontentContainerNewItemSaveChanges, saveEdit);
+            $newaddcontentContainer.off('click', newaddcontentSelectedItemsRemove, removeItemToAdd);
+            $newaddcontentContainer.off('click', newaddcontentSelectedItemsActionsPermissions, changePermissions);
+            $newaddcontentContainer.off('click', newaddcontentSelectedItemsActionsEdit, editData);
             $(newaddcontentExistingItemsListContainerActionsSort).off('change');
             $newaddcontentContainer.off('click', '#newaddcontent_existingitems_paging .sakai_pager button');
             $(window).off('init.deletecontent.sakai', deleteContent);
@@ -1305,17 +1305,17 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
             $newaddcontentContainerLHChoiceSubItem.on('click', navigateSubItem);
             $newaddcontentContainerNewItemAddToList.on('click', constructItemToAdd);
             $(newaddcontentContainerStartUploadButton).on('click', doUpload);
-            $(newaddcontentSelectedItemsEditDataClose).on('click', closeEditData);
-            $(newaddcontentContainerNewItemSaveChanges).on('click', saveEdit);
-            $(newaddcontentSelectedItemsRemove).on('click', removeItemToAdd);
-            $(newaddcontentSelectedItemsActionsPermissions).on('click', changePermissions);
-            $(newaddcontentSelectedItemsActionsEdit).on('click', editData);
+            $newaddcontentContainer.on('click', newaddcontentSelectedItemsEditDataClose, closeEditData);
+            $newaddcontentContainer.on('click', newaddcontentContainerNewItemSaveChanges, saveEdit);
+            $newaddcontentContainer.on('click', newaddcontentSelectedItemsRemove, removeItemToAdd);
+            $newaddcontentContainer.on('click', newaddcontentSelectedItemsActionsPermissions, changePermissions);
+            $newaddcontentContainer.on('click', newaddcontentSelectedItemsActionsEdit, editData);
             $newaddcontentExistingItemsSearch.keydown(searchExistingContent);
             $(newaddcontentAddExistingSearchButton).click(searchExistingContent);
             $(newaddcontentExistingContentForm).on('click', 'input', checkFieldValidToAdd);
             $(newaddcontentExistingCheckAll).on('change', checkUncheckAll);
             $(newaddcontentExistingItemsListContainerActionsSort).on('change', function() {searchPaging(1);});
-            $(newaddcontentSaveTo).on('change', greyOutExistingInLibrary);
+            $newaddcontentContainer.on('change', newaddcontentSaveTo, greyOutExistingInLibrary)
             $newaddcontentContainer.on('click', '#newaddcontent_existingitems_paging .sakai_pager button', function() {
                 return false;
             });
