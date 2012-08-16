@@ -327,10 +327,11 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         /**
          * Change the permission setting for a specific user
          */
-        var changePermission = function() {
-            var userid = $(this).attr('data-userid');
-            selectedUsers[userid].permission = $(this).val();
-            selectedUsers[userid].permissionTitle = $(this).find('option:selected').text();
+        var changePermission = function(ev) {
+            var $selectBox = $(ev.target);
+            var userid = $selectBox.attr('data-userid');
+            selectedUsers[userid].permission = $selectBox.val();
+            selectedUsers[userid].permissionTitle = $selectBox.find('option:selected').text();
         };
 
         /**
@@ -486,10 +487,10 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             $addpeopleSelectAllSelectedContacts.on('click', function() {
                 checkAll(this, addpeopleSelectedCheckbox);
             });
-            $(addpeopleSelectedCheckbox).on('change', decideEnableDisableControls);
+            $addpeopleSelectedContactsContainer.on('change', $(addpeopleSelectedCheckbox), decideEnableDisableControls);
             $addpeopleSelectedAllPermissions.on('change', changeSelectedPermission);
             $addpeopleContainer.off('change', addpeopleCheckbox).on('change', addpeopleCheckbox, constructSelecteduser);
-            $(addpeopleSelectedPermissions).off('change').on('change', changePermission);
+            $addpeopleSelectedContactsContainer.on('change', $(addpeopleSelectedPermissions), changePermission);
             $addpeopleFinishAdding.on('click', finishAdding);
             $addpeopleRemoveSelected.on('click', removeSelected);
 
