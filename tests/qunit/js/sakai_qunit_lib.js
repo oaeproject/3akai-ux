@@ -70,6 +70,7 @@ require(
         for (var i=0, j=sakai_global.qunit.widgets.length; i<j; i++) {
             var widget = sakai_global.qunit.widgets[i];
             sakai_global.qunit.allJSFiles.push(widget.js);
+            sakai_global.qunit.allCssFiles.push(widget.css);
             sakai_global.qunit.allHtmlFiles.push(widget.html);
         }
         if (sakai.api && sakai.api.i18n && sakai.api.i18n.done) { // wait for i18n to finish, then let the tests start that need file access
