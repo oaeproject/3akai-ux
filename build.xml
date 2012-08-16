@@ -8,6 +8,14 @@
 
         <echo message="Sakai OAE UX Build: Initialising..." />
 
+        <property environment="env" />
+
+        <!-- Set the node executable path from $NODE_EXEC if specified -->
+        <condition property="NODE_EXEC" value="${env.NODE_EXEC}">
+            <isset property="env.NODE_EXEC" />
+        </condition>
+        <property name="NODE_EXEC" value="node" />
+
         <!-- SETUP - Source and target paths -->
         <property name="SRC_DIR" value="dev" description="Core source folder" />
         <property name="QUNIT_SRC_DIR" value="tests" description="QUnit test folder" />
@@ -241,7 +249,7 @@
     </target>
 
     <!-- Target: Optimize with requirejs run in node -->
-    <target name="optimize_node">
+    <target name="optimize_node" depends="init">
         <path id="reqjs.path">
             <pathelement location="tools/requirejs-optimizer/r.js"/>
         </path>
@@ -249,7 +257,7 @@
         <property name="requireJs.conf" value="build.js" />
 
         <echo message="Attempting to run the optimizer with Node."/>
-        <exec executable="node" failifexecutionfails="false" resultproperty="optimizeNodeResult">
+        <exec executable="${NODE_EXEC}" failifexecutionfails="false" resultproperty="optimizeNodeResult">
             <arg value="${requireJs.path}" />
             <arg value="-o" />
             <arg value="${requireJs.conf}" />
