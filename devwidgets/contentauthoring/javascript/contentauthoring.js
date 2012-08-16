@@ -705,7 +705,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             isDragging = false;
             $('.contentauthoring_dummy_element', $(this)).remove();
             // If we've dragged in a piece of content
-            if ($(ui.item).data('contentId') || $(ui.item).data('collectionId')) {
+            if ($(ui.item).attr('data-contentId') || $(ui.item).attr('data-collectionId')) {
                 addExistingElement(event, ui);
             // If we've dragged in a widget
             } else if ($(ui.item).hasClass('inserterbar_widget_draggable')) {
@@ -1753,7 +1753,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 'layout':'single',
                 'embedmethod':'original',
                 'items': {
-                    '__array__0__':'/p/' + ($(ui.item).data('contentId') || $(ui.item).data('collectionId'))
+                    '__array__0__':'/p/' + ($(ui.item).attr('data-contentId') || $(ui.item).attr('data-collectionId'))
                 },
                 'title': '',
                 'description': '',
