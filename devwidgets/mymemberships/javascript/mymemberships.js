@@ -450,7 +450,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * and shows the correct view.
          */
         var doInit = function() {
-            addBinding();
             currentQuery = $.bbq.getState('mq') || '';
             $('#mymemberships_livefilter').val(currentQuery);
             mymemberships.sortOrder = $.bbq.getState('mso') || 'modified';
@@ -460,6 +459,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             handleHashChange();
         };
 
+        // add binding
+        addBinding();
         // run the initialization function when the widget object loads
         doInit();
 
