@@ -25,7 +25,7 @@
 /*global Config, $, */
 
 
-require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core', '//www.google.com/recaptcha/api/js/recaptcha_ajax.js'], function($, sakai) {
 
     /**
      * @name sakai_global.captcha
