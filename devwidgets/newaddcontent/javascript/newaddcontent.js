@@ -1312,7 +1312,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
             $(newaddcontentSelectedItemsActionsEdit).on('click', editData);
             $newaddcontentExistingItemsSearch.keydown(searchExistingContent);
             $(newaddcontentAddExistingSearchButton).click(searchExistingContent);
-            $(newaddcontentExistingContentForm + ' input').on('click',checkFieldValidToAdd);
+            $(newaddcontentExistingContentForm).on('click', 'input', checkFieldValidToAdd);
             $(newaddcontentExistingCheckAll).on('change', checkUncheckAll);
             $(newaddcontentExistingItemsListContainerActionsSort).on('change', function() {searchPaging(1);});
             $(newaddcontentSaveTo).on('change', greyOutExistingInLibrary);
