@@ -16,24 +16,95 @@
  * specific language governing permissions and limitations under the License.
  */
 
-#changepic_container{width:550px!important;margin-left:-300px!important;}
-#changepic_container .fl-tabs{border-bottom:1px solid #ddd;padding-bottom:0;}
-#changepic_container .fl-tabs li button{background-color:#EEE;color:#000!important;margin-left:-1px;position:relative;border-color:#EEE #EEE;border-style:solid;border-width:1px;padding:6px 20px;}
-#changepic_fullpicture{cursor:crosshair;}
-#changepic_selectpicture{clear:both;}
-#changepic_picture_selectarea{padding:10px;display:inline-block;width:525px;}
-.changepic_select_instructions{font-weight:bold;}
-.changepic_heading {color:#666666;font-size:14px;font-weight:bold;margin:5px 0;}
-#changepic_upload_input{padding:10px;color:#878a8c;text-align:center;}
-#changepic_upload_input input.changepic_input_error {border: 2px solid #CC0000;}
-#changepic_nofile_error{text-align:center;color:#CC0000;font-weight:bold;margin: -5px 0 10px 100px; width: 330px; background-color: #FFECEC; border: 2px solid #CC0000;}
-#changepic_nofile_error p{padding: 5px; margin: 0;}
-#changepic_uploading{text-align: center; font-weight: bold;}
-#changepic_uploading img{padding: 5px 0 20px 0;}
-#changepic_uploaded_picture, #changepic_uploaded_picture_selection{float:left;}
-#picture_measurer{left:-100000px;top:-100000px;position:absolute;}
-#thumbnail{position:relative;}
-#thumbnail_container{position:relative;overflow:hidden;width:100px;height:100px;}
-.dailog_changepic h4{margin-bottom:10px;}
-#changepic_select_table td{vertical-align:top;}
-#changepic_uploaded_picture{margin-right:25px;}
+#changepic_container {
+    width: 550px !important;
+    margin-left: -300px !important;
+}
+#changepic_container .fl-tabs {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0;
+}
+#changepic_container .fl-tabs li button {
+    background-color: #EEE;
+    color: #000 !important;
+    margin-left: -1px;
+    position: relative;
+    border-color: #EEE #EEE;
+    border-style: solid;
+    border-width: 1px;
+    padding: 6px 20px;
+}
+#changepic_fullpicture {
+    cursor: crosshair;
+}
+#changepic_selectpicture {
+    clear: both;
+}
+#changepic_picture_selectarea {
+    padding: 10px;
+    display: inline-block;
+    width: 525px;
+}
+.changepic_select_instructions {
+    font-weight: bold;
+}
+.changepic_heading {
+    color: #666666;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 5px 0;
+}
+#changepic_upload_input {
+    padding: 10px;
+    color: #878a8c;
+    text-align: center;
+}
+#changepic_upload_input input.changepic_input_error {
+    border: 2px solid #CC0000;
+}
+#changepic_nofile_error {
+    text-align: center;
+    color: #CC0000;
+    font-weight: bold;
+    margin: -5px 0 10px 100px;
+    width: 330px;
+    background-color: #FFECEC;
+    border: 2px solid #CC0000;
+}
+#changepic_nofile_error p {
+    padding: 5px;
+    margin: 0;
+}
+#changepic_uploading {
+    text-align: center;
+    font-weight: bold;
+}
+#changepic_uploading img {
+    padding: 5px 0 20px 0;
+}
+#changepic_uploaded_picture, #changepic_uploaded_picture_selection {
+    float: left;
+}
+#picture_measurer {
+    left: -100000px;
+    top: -100000px;
+    position: absolute;
+}
+#thumbnail {
+    position: relative;
+}
+#thumbnail_container {
+    position: relative;
+    overflow: hidden;
+    width: 100px;
+    height: 100px;
+}
+.dailog_changepic h4 {
+    margin-bottom: 10px;
+}
+#changepic_select_table td {
+    vertical-align: top;
+}
+#changepic_uploaded_picture {
+    margin-right: 25px;
+}

@@ -105,7 +105,7 @@
     margin: 0 10px;
 }
 
-#inserterbar_widget #inserterbar_default_widgets_container ul li a.ui-draggable {
+#inserterbar_widget #inserterbar_default_widgets_container ul li button.ui-draggable {
     width: 34px;
 }
 
@@ -123,6 +123,7 @@
     border: none;
     display: block;
     height: 25px;
+    width: 34px;
 }
 
 #inserterbar_widget .inserterbar_expand_widget {
@@ -132,7 +133,8 @@
     margin: 0px 0 0 5px;
     width: 25px !important;
 }
-#inserterbar_widget button#inserterbar_more_widgets:hover .inserterbar_expand_widget, #inserterbar_widget button#inserterbar_more_widgets:focus .inserterbar_expand_widget {
+#inserterbar_widget button#inserterbar_more_widgets:hover .inserterbar_expand_widget,
+#inserterbar_widget button#inserterbar_more_widgets:focus .inserterbar_expand_widget {
     background: url("/devwidgets/inserterbar/images/inserterbar_expand_widget_hover.png") no-repeat scroll left top transparent;
 }
 
@@ -140,7 +142,9 @@
     background: url("/devwidgets/inserterbar/images/inserterbar_text_widget.png") no-repeat top left transparent;
     width: 25px !important;
 }
-#inserterbar_widget .inserterbar_text_widget:hover, #inserterbar_widget .inserterbar_text_widget:focus {
+#inserterbar_widget .inserterbar_text_widget:hover,
+#inserterbar_widget .inserterbar_text_widget:focus,
+#inserterbar_widget li:focus .inserterbar_text_widget {
     background: url("/devwidgets/inserterbar/images/inserterbar_text_widget_hover.png") no-repeat top left transparent;
 }
 
@@ -148,35 +152,45 @@
     background: url("/devwidgets/inserterbar/images/inserterbar_title_widget.png") no-repeat top left transparent;
     width: 50px !important;
 }
-#inserterbar_widget .inserterbar_title_widget:hover, #inserterbar_widget .inserterbar_title_widget:focus {
+#inserterbar_widget .inserterbar_title_widget:hover,
+#inserterbar_widget .inserterbar_title_widget:focus,
+#inserterbar_widget li:focus .inserterbar_title_widget {
     background: url("/devwidgets/inserterbar/images/inserterbar_title_widget_hover.png") no-repeat top left transparent;
 }
 
 #inserterbar_widget .inserterbar_image_widget {
     background: url("/devwidgets/inserterbar/images/inserterbar_image_widget.png") no-repeat top left transparent;
 }
-#inserterbar_widget .inserterbar_image_widget:hover, #inserterbar_widget .inserterbar_image_widget:focus {
+#inserterbar_widget .inserterbar_image_widget:hover,
+#inserterbar_widget .inserterbar_image_widget:focus,
+#inserterbar_widget li:focus .inserterbar_image_widget {
     background: url("/devwidgets/inserterbar/images/inserterbar_image_widget_hover.png") no-repeat top left transparent;
 }
 
 #inserterbar_widget .inserterbar_video_widget {
     background: url("/devwidgets/inserterbar/images/inserterbar_video_widget.png") no-repeat top left transparent;
 }
-#inserterbar_widget .inserterbar_video_widget:hover, #inserterbar_widget .inserterbar_video_widget:focus {
+#inserterbar_widget .inserterbar_video_widget:hover,
+#inserterbar_widget .inserterbar_video_widget:focus,
+#inserterbar_widget li:focus .inserterbar_video_widget {
     background: url("/devwidgets/inserterbar/images/inserterbar_video_widget_hover.png") no-repeat top left transparent;
 }
 
 #inserterbar_widget .inserterbar_link_widget {
     background: url("/devwidgets/inserterbar/images/inserterbar_link_widget.png") no-repeat top left transparent;
 }
-#inserterbar_widget .inserterbar_link_widget:hover, #inserterbar_widget .inserterbar_link_widget:focus {
+#inserterbar_widget .inserterbar_link_widget:hover,
+#inserterbar_widget .inserterbar_link_widget:focus,
+#inserterbar_widget li:focus .inserterbar_link_widget {
     background: url("/devwidgets/inserterbar/images/inserterbar_link_widget_hover.png") no-repeat top left transparent;
 }
 
 #inserterbar_widget .inserterbar_filelist_widget {
     background: url("/devwidgets/inserterbar/images/inserterbar_filelist_widget.png") no-repeat top left transparent;
 }
-#inserterbar_widget .inserterbar_filelist_widget:hover, #inserterbar_widget .inserterbar_filelist_widget:focus {
+#inserterbar_widget .inserterbar_filelist_widget:hover,
+#inserterbar_widget .inserterbar_filelist_widget:focus,
+#inserterbar_widget li:focus .inserterbar_filelist_widget {
     background: url("/devwidgets/inserterbar/images/inserterbar_filelist_widget_hover.png") no-repeat top left transparent;
 }
 

@@ -49,7 +49,18 @@
 }
 
 /* World Items */
-.featuredworlds_widget .featuredworlds_content {border: 1px solid #fff; background:none repeat scroll 0 0 transparent;height:108px;width:200px;float:left;border-radius:4px 4px 4px 4px;float:left;margin:5px;overflow:hidden;padding:12px;}
+.featuredworlds_widget .featuredworlds_content {
+    border: 1px solid #fff;
+    background: none repeat scroll 0 0 transparent;
+    height: 108px;
+    width: 200px;
+    float: left;
+    border-radius: 4px 4px 4px 4px;
+    float: left;
+    margin: 5px;
+    overflow: hidden;
+    padding: 12px;
+}
 .featuredworlds_widget .featuredworlds_content:hover {
     background: #f2fafc;
     background: -moz-linear-gradient(top, #f2fafc 0%, #eef8fc 100%);
@@ -61,8 +72,21 @@
     border: 1px solid #DBDBDB;
     cursor: pointer;
 }
-.featuredworlds_widget .featuredworlds_image {height:50px;width:50px;float:left;margin:0 6px 12px 0;}
-.featuredworlds_widget .featuredworlds_content .featuredworlds_grouppage_link {display:block;font-size:11px;}
-.featuredworlds_widget #featuredworlds_no_worlds {display: block;margin: 10px;}
+.featuredworlds_widget .featuredworlds_image {
+    height: 50px;
+    width: 50px;
+    float: left;
+    margin: 0 6px 12px 0;
+}
+.featuredworlds_widget .featuredworlds_content .featuredworlds_grouppage_link {
+    display: block;
+    font-size: 11px;
+}
+.featuredworlds_widget #featuredworlds_no_worlds {
+    display: block;
+    margin: 10px;
+}
 
-.featuredworlds_widget .s3d-no-results-container {margin:30px 10px 10px;}
+.featuredworlds_widget .s3d-no-results-container {
+    margin: 30px 10px 10px;
+}

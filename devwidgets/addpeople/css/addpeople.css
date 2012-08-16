@@ -16,12 +16,38 @@
  * specific language governing permissions and limitations under the License.
  */
 /* General */
-#addpeople_container {margin-left:-375px;width:750px;}
+#addpeople_container {
+    margin-left: -375px;
+    width: 750px;
+}
 
 /* Containers */
-#addpeople_container #addpeople_my_contacts, #addpeople_container #addpeople_members_container {border:1px solid #E7E7E7;float:left;height:400px;margin-top:30px;width:300px;background-color:#fff;-moz-border-radius:0 2px 2px;-webkit-border-radius:0 2px 2px;border-radius:0 2px 2px;}
-#addpeople_container #addpeople_members_container {float:right;width:410px;}
-#addpeople_container #addpeople_my_contacts #addpeople_my_contacts_raquo_container {background:none repeat scroll 0 0 #FFFFFF;height:50px;width:30px;position:absolute;right:437px;border:1px solid #E7E7E7;border-left:none;top:46%;background:url("/devwidgets/addpeople/images/addpeople_raquo.png") no-repeat scroll center center #fff;}
+#addpeople_container #addpeople_my_contacts, #addpeople_container #addpeople_members_container {
+    border: 1px solid #E7E7E7;
+    float: left;
+    height: 400px;
+    margin-top: 30px;
+    width: 300px;
+    background-color: #fff;
+    -moz-border-radius: 0 2px 2px;
+    -webkit-border-radius: 0 2px 2px;
+    border-radius: 0 2px 2px;
+}
+#addpeople_container #addpeople_members_container {
+    float: right;
+    width: 410px;
+}
+#addpeople_container #addpeople_my_contacts #addpeople_my_contacts_raquo_container {
+    background: none repeat scroll 0 0 #FFFFFF;
+    height: 50px;
+    width: 30px;
+    position: absolute;
+    right: 437px;
+    border: 1px solid #E7E7E7;
+    border-left: none;
+    top: 46%;
+    background: url("/devwidgets/addpeople/images/addpeople_raquo.png") no-repeat scroll center center #fff;
+}
 
 /* Top tabs */
 #addpeople_container .addpeople_tab {
@@ -40,32 +66,92 @@
     padding: 6px 17px 7px;
     position: absolute;
 }
-#addpeople_container #addpeople_members_container .addpeople_tab {width:376px;border-bottom:1px solid #E7E7E7;}
+#addpeople_container #addpeople_members_container .addpeople_tab {
+    width: 376px;
+    border-bottom: 1px solid #E7E7E7;
+}
 
 /* Autosuggest */
-#addpeople_container #addpeople_members_autosuggest {margin-top:-87px;position:absolute;width:397px;}
-#addpeople_container #addpeople_members_autosuggest label {float: left;margin:10px 12px 0 7px;color:#7C7C7C;}
-#addpeople_container #addpeople_members_autosuggest ul.as-selections {border: 1px solid #E7E7E7;padding: 0;box-shadow:none;}
-#addpeople_container #addpeople_members_autosuggest #addpeople_members_autosuggest_search_icon {background:url("/dev/images/search_icon.png") no-repeat scroll right center transparent;width:16px;height:16px;float:right;margin:10px 3px 0 5px;}
-#addpeople_container .as-results {margin-left:60px;}
+#addpeople_container #addpeople_members_autosuggest {
+    margin-top: -87px;
+    position: absolute;
+    width: 397px;
+}
+#addpeople_container #addpeople_members_autosuggest label {
+    float: left;
+    margin: 10px 12px 0 7px;
+    color: #7C7C7C;
+}
+#addpeople_container #addpeople_members_autosuggest ul.as-selections {
+    border: 1px solid #E7E7E7;
+    padding: 0;
+    box-shadow: none;
+}
+#addpeople_container #addpeople_members_autosuggest #addpeople_members_autosuggest_search_icon {
+    background: url("/dev/images/search_icon.png") no-repeat scroll right center transparent;
+    width: 16px;
+    height: 16px;
+    float: right;
+    margin: 10px 3px 0 5px;
+}
+#addpeople_container .as-results {
+    margin-left: 60px;
+}
 
 /* Contacts list */
-#addpeople_container #addpeople_contacts_list, #addpeople_container #addpeople_selected_contacts_container {border-top: 1px solid #E7E7E7;margin-top:7px;overflow:auto;height:90%;}
-#addpeople_container #addpeople_select_all_contacts, #addpeople_container #addpeople_select_all_selected_contacts {margin:7px 12px 0 10px;}
-#addpeople_container #addpeople_select_all_contacts {margin-bottom: 6px;}
-#addpeople_container .addpeople_checkbox, #addpeople_container .addpeople_selected_checkbox {float:left;margin-right:12px;margin-top:10px;}
-#addpeople_container ul {margin:5px 0 0;}
-#addpeople_container ul hr {border:none;border-top:1px solid #E7E7E7;background:none;}
-#addpeople_container .s3d-list-entity-picture {cursor:pointer;}
-#addpeople_container .addpeople_nocontacts_nomemberships {padding: 0px 10px; font-style: italic;}
+#addpeople_container #addpeople_contacts_list, #addpeople_container #addpeople_selected_contacts_container {
+    border-top: 1px solid #E7E7E7;
+    margin-top: 7px;
+    overflow: auto;
+    height: 90%;
+}
+#addpeople_container #addpeople_select_all_contacts, #addpeople_container #addpeople_select_all_selected_contacts {
+    margin: 7px 12px 0 10px;
+}
+#addpeople_container #addpeople_select_all_contacts {
+    margin-bottom: 6px;
+}
+#addpeople_container .addpeople_checkbox, #addpeople_container .addpeople_selected_checkbox {
+    float: left;
+    margin-right: 12px;
+    margin-top: 10px;
+}
+#addpeople_container ul {
+    margin: 5px 0 0;
+}
+#addpeople_container ul hr {
+    border: none;
+    border-top: 1px solid #E7E7E7;
+    background: none;
+}
+#addpeople_container .s3d-list-entity-picture {
+    cursor: pointer;
+}
+#addpeople_container .addpeople_nocontacts_nomemberships {
+    padding: 0px 10px;
+    font-style: italic;
+}
 
 /* Selected contacts list */
-#addpeople_container select {border:1px solid #e7e7e7;float:right;margin:5px 20px 0 0;}
+#addpeople_container select {
+    border: 1px solid #e7e7e7;
+    float: right;
+    margin: 5px 20px 0 0;
+}
 
 /* Actions */
-#addpeople_container .addpeople_top_actions {margin-top:7px;}
-#addpeople_container #addpeople_actions {float:right;margin:12px 0 0;}
-#addpeople_container #addpeople_actions .s3d-link-button {margin-right:30px;}
+#addpeople_container .addpeople_top_actions {
+    margin-top: 7px;
+}
+#addpeople_container #addpeople_actions {
+    float: right;
+    margin: 12px 0 0;
+}
+#addpeople_container #addpeople_actions .s3d-link-button {
+    margin-right: 30px;
+}
 
 /* Override sakai.base.css */
-#addpeople_container #addpeople_contacts_list a.s3d-entity-displayname{width:185px;}
+#addpeople_container #addpeople_contacts_list a.s3d-entity-displayname {
+    width: 185px;
+}

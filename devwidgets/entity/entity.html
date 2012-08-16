@@ -130,7 +130,7 @@
             <span class="entity_number">
                 {var contactsCount = data.profile.counts["contactsCount"] || 0}
                 ${contactsCount}
-                {if contactsCount === 1} 
+                {if contactsCount === 1}
                     __MSG__CONTACT_LC__
                 {else}
                     __MSG__CONTACTS_LC__
@@ -559,9 +559,9 @@ ${macros["entityContentOwnsMacro"] = entityContentOwnsMacro |eat}
                 {for i in userList}
                     {if sakai.api.Content.Collections.isCollection(i)}
                         ${userlist_groups_index++|eat}
-                        {if userlist_groups_index%2} 
+                        {if userlist_groups_index%2}
                             <li id="${i['sakai:group-id']}">
-                        {else} 
+                        {else}
                             <li id="${i['sakai:group-id']}" class="entity_content_even">
                         {/if}
                         <a href="/content#p=${sakai.api.Content.Collections.getCollectionPoolId(i)}/${i['sakai:group-title']|safeURL}"><img src="/dev/images/mimetypes/collection.png" alt="${i['sakai:group-title']|safeOutput}" class="entity_content_picture"/></a>

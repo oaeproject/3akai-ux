@@ -15,11 +15,34 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-#activegroups_main{margin:0 10px 0 15px;overflow:hidden;}
-#activegroups_main ul li{list-style-type:none;}
-#activegroups_main ul {margin:0;}
-.activegroups_title{padding-left:15px!important;}
-.activegroups_widget{overflow:hidden;}
-.activegroups_ellipsis_text, .activegroups_ellipsis_container {word-wrap:break-word;}
-.activegroups_main_progress{background:url(/dev/images/ajax_load.gif) no-repeat scroll 0 0 transparent;clear:both;height:10px;width:40px;left:30px;position:relative; margin-bottom:5px;}
-.s3d-widget-footer a {text-align:right;}
+#activegroups_main {
+    margin: 0 10px 0 15px;
+    overflow: hidden;
+}
+#activegroups_main ul li {
+    list-style-type: none;
+}
+#activegroups_main ul {
+    margin: 0;
+}
+.activegroups_title {
+    padding-left: 15px !important;
+}
+.activegroups_widget {
+    overflow: hidden;
+}
+.activegroups_ellipsis_text, .activegroups_ellipsis_container {
+    word-wrap: break-word;
+}
+.activegroups_main_progress {
+    background: url(/dev/images/ajax_load.gif) no-repeat scroll 0 0 transparent;
+    clear: both;
+    height: 10px;
+    width: 40px;
+    left: 30px;
+    position: relative;
+    margin-bottom: 5px;
+}
+.s3d-widget-footer a {
+    text-align: right;
+}

@@ -16,17 +16,48 @@
  * specific language governing permissions and limitations under the License.
  */
 /* Title */
-#inbox_box_title_wrapper{text-transform:capitalize;font-weight:normal;}
-.inbox_main, .inbox_main .inbox_name button{font-size:12px;}
-#inbox_show_message,#inbox_message_list{float:left;width:100%;}
-#inbox_message_list{border-bottom:1px solid #d4d4d4;border-top:1px solid #d4d4d4;padding-bottom:5px;}
-.inbox_title_bar span,.inbox_items span{color:#878A8C;font-size:0.9em;}
-#inbox_search_term{margin:10px 0px;}
-#inbox_search_term span{font-weight:bold;}
-.inbox_select_all_container {float:left;height:19px !important;margin:5px 8px 0 1px;padding:2px 0 0 !important;width:22px;}
+#inbox_box_title_wrapper {
+    text-transform: capitalize;
+    font-weight: normal;
+}
+.inbox_main, .inbox_main .inbox_name button {
+    font-size: 12px;
+}
+#inbox_show_message, #inbox_message_list {
+    float: left;
+    width: 100%;
+}
+#inbox_message_list {
+    border-bottom: 1px solid #d4d4d4;
+    border-top: 1px solid #d4d4d4;
+    padding-bottom: 5px;
+}
+.inbox_title_bar span, .inbox_items span {
+    color: #878A8C;
+    font-size: 0.9em;
+}
+#inbox_search_term {
+    margin: 10px 0px;
+}
+#inbox_search_term span {
+    font-weight: bold;
+}
+.inbox_select_all_container {
+    float: left;
+    height: 19px !important;
+    margin: 5px 8px 0 1px;
+    padding: 2px 0 0 !important;
+    width: 22px;
+}
 /* Message Header */
-#inbox_message_header{float:left;width:100%;padding:5px 0 18px;}
-#inbox_select span{font-size:9px;}
+#inbox_message_header {
+    float: left;
+    width: 100%;
+    padding: 5px 0 18px;
+}
+#inbox_select span {
+    font-size: 9px;
+}
 #inbox_search_messages {
     width: 290px;
     margin-top: 2px;
@@ -44,18 +75,52 @@
 }
 #inbox_search_messages[disabled]{background-color:#fff;opacity:0.4;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=40)";filter: alpha(opacity=40);}
 #inbox_select {padding: 3px;}
+
 /* Inbox Columns */
-.inbox_col{float:left;}
-.inbox_left_col{width:10%;}
-.inbox_middle_col{width:70%;}
-.inbox_right_col{width:15%;}
+.inbox_col {
+    float: left;
+}
+.inbox_left_col {
+    width: 10%;
+}
+.inbox_middle_col {
+    width: 70%;
+}
+.inbox_right_col {
+    width: 15%;
+}
 /* Inbox items*/
-.inbox_items_container{color:#333;}
-.inbox_item{cursor:pointer;}
-.inbox_item input, .inbox_item .inbox_action_button{}
-#inbox_message_list .inbox_items_container{box-shadow:0px 1px 2px 0px #DDDDDD;-moz-box-shadow:0px 1px 2px 0px #DDDDDD;-webkit-box-shadow:0px 1px 2px 0px #DDDDDD;border-radius:2px;-moz-border-radius:2px;-webkit-border-radius:2px;margin:6px 0px;overflow:hidden;}
-#inbox_message_list .inbox_items_container .inbox_items_inner{background-color:#f4f4f4;border-radius:2px 2px 6px 6px;-moz-border-radius:2px 2px 6px 6px;-webkit-border-radius:2px 2px 6px 6px;box-shadow:0px 0px 5px 0px #aaa;-moz-box-shadow:0px 0px 5px 0px #aaa;-webkit-box-shadow:0px 0px 5px 0px #aaa;}
-#inbox_message_list .inbox_items_container.unread .inbox_items_inner{background-color:#f0f9fc;font-weight:bold}
+.inbox_items_container {
+    color: #333;
+}
+.inbox_item {
+    cursor: pointer;
+}
+.inbox_item input, .inbox_item .inbox_action_button {
+}
+#inbox_message_list .inbox_items_container {
+    box-shadow: 0px 1px 2px 0px #DDDDDD;
+    -moz-box-shadow: 0px 1px 2px 0px #DDDDDD;
+    -webkit-box-shadow: 0px 1px 2px 0px #DDDDDD;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    margin: 6px 0px;
+    overflow: hidden;
+}
+#inbox_message_list .inbox_items_container .inbox_items_inner {
+    background-color: #f4f4f4;
+    border-radius: 2px 2px 6px 6px;
+    -moz-border-radius: 2px 2px 6px 6px;
+    -webkit-border-radius: 2px 2px 6px 6px;
+    box-shadow: 0px 0px 5px 0px #aaa;
+    -moz-box-shadow: 0px 0px 5px 0px #aaa;
+    -webkit-box-shadow: 0px 0px 5px 0px #aaa;
+}
+#inbox_message_list .inbox_items_container.unread .inbox_items_inner {
+    background-color: #f0f9fc;
+    font-weight: bold
+}
 #inbox_message_list .inbox_items_container .inbox_item_read_icon {
     display: block;
     cursor: text;
@@ -71,25 +136,61 @@
     background: url("/dev/images/message_icon_default.png") no-repeat scroll left top transparent;
 }
 
-.inbox_items_container.last{border-bottom:none;}
-.inbox_items_inner{padding:10px 0px;float:left;width:100%}
-.inbox_items_inner img.person_icon,#inbox_show_message_reply img.person_icon{float:left;padding:0 10px 5px 0;width:30px;}
-.inbox_items_inner.hover{background-color:#C4E4FB;}
-.inbox_name{width:69%;overflow:hidden;display:inline-block;}
-.inbox_name button{margin-right:3px;}
-.inbox_name span,.inbox_name a,.inbox_name button{float:left;}
-.inbox_name span button{float:none;margin:0;}
-.inbox_name span button.inbox_to_group{color:#666666;}
-.inbox_name span{min-width:30%;}
-.inbox_to_list{font-size:11px;display:inline-block;}
-.inbox_date{width:25%;text-align:right;overflow:hidden;display:inline-block;float:right;}
+.inbox_items_container.last {
+    border-bottom: none;
+}
+.inbox_items_inner {
+    padding: 10px 0px;
+    float: left;
+    width: 100%
+}
+.inbox_items_inner img.person_icon, #inbox_show_message_reply img.person_icon {
+    float: left;
+    padding: 0 10px 5px 0;
+    width: 30px;
+}
+.inbox_items_inner.hover {
+    background-color: #C4E4FB;
+}
+.inbox_name {
+    width: 69%;
+    overflow: hidden;
+    display: inline-block;
+}
+.inbox_name button {
+    margin-right: 3px;
+}
+.inbox_name span, .inbox_name a, .inbox_name button {
+    float: left;
+}
+.inbox_name span button {
+    float: none;
+    margin: 0;
+}
+.inbox_name span button.inbox_to_group {
+    color: #666666;
+}
+.inbox_name span {
+    min-width: 30%;
+}
+.inbox_to_list {
+    font-size: 11px;
+    display: inline-block;
+}
+.inbox_date {
+    width: 25%;
+    text-align: right;
+    overflow: hidden;
+    display: inline-block;
+    float: right;
+}
 .inbox_subject {
     display: inline-block;
     vertical-align: top;
     width: 100%;
     word-wrap: break-word;
 }
-.inbox_excerpt{
+.inbox_excerpt {
     display: inline-block;
     margin-top: 11px;
     height: 32px;
@@ -100,44 +201,124 @@
 .inbox_delete a, .inbox_delete button {
     display: inline-block;
 }
-.inbox_delete_button{margin-right:5px;height:22px;}
-.inbox_delete_button:hover{text-decoration:none;}
+.inbox_delete_button {
+    margin-right: 5px;
+    height: 22px;
+}
+.inbox_delete_button:hover {
+    text-decoration: none;
+}
 #inbox_no_messages p {
     margin: 60px 0px;
 }
-#inbox_pager{float:left;width:100%;border-bottom:1px solid #D4D4D4;}
-.inbox_invitation_accept{padding-right:5px;}
-.inbox_invitation_ignore{padding-left:3px;}
-.inbox_reply_button {font-size:15px;height:20px !important;padding:0 !important;}
-.inbox_reply_icon {background:url("/dev/images/inbox_reply_icon_20x20.png") no-repeat scroll 5px top transparent;height:20px;width:30px;}
+#inbox_pager {
+    float: left;
+    width: 100%;
+    border-bottom: 1px solid #D4D4D4;
+}
+.inbox_invitation_accept {
+    padding-right: 5px;
+}
+.inbox_invitation_ignore {
+    padding-left: 3px;
+}
+.inbox_reply_button {
+    font-size: 15px;
+    height: 20px !important;
+    padding: 0 !important;
+}
+.inbox_reply_icon {
+    background: url("/dev/images/inbox_reply_icon_20x20.png") no-repeat scroll 5px top transparent;
+    height: 20px;
+    width: 30px;
+}
 .inbox_delete_icon {
     background: url("/dev/images/inbox_trash_icon_20x20.png") no-repeat scroll 3px -1px transparent;
     height: 20px;
     width: 24px;
 }
 /* Message Detail */
-#inbox_show_message{background-color:#f4f4f4;padding-bottom:10px;margin-top:7px;}
-#inbox_show_message .inbox_items_container{margin-bottom:10px;border-bottom:none;}
-#inbox_show_message .inbox_excerpt{height:auto;overflow:visible;}
-.inbox_show_message_body{padding:10px;border-bottom:1px solid #ddd;}
-#inbox_show_message_header{border-bottom:1px solid #d4d4d4;margin-bottom:11px;}
-#inbox_show_message_header h1{font-weight:normal;}
+#inbox_show_message {
+    background-color: #f4f4f4;
+    padding-bottom: 10px;
+    margin-top: 7px;
+}
+#inbox_show_message .inbox_items_container {
+    margin-bottom: 10px;
+    border-bottom: none;
+}
+#inbox_show_message .inbox_excerpt {
+    height: auto;
+    overflow: visible;
+}
+.inbox_show_message_body {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+#inbox_show_message_header {
+    border-bottom: 1px solid #d4d4d4;
+    margin-bottom: 11px;
+}
+#inbox_show_message_header h1 {
+    font-weight: normal;
+}
 /* Message detail - reply */
-#inbox_show_message_reply{float:left;width:79%;margin-left:25px;border-top:1px dotted #d4d4d4;padding-top:10px;}
-#inbox_show_message_reply .sendmessage_send_form{padding:0;}
-#inbox_show_message_reply .message_dialog{width:92%;float:left;}
-#inbox_show_message_reply textarea{height:100px;}
-#inbox_show_message_reply #send_message_cancel{display:none;}
+#inbox_show_message_reply {
+    float: left;
+    width: 79%;
+    margin-left: 25px;
+    border-top: 1px dotted #d4d4d4;
+    padding-top: 10px;
+}
+#inbox_show_message_reply .sendmessage_send_form {
+    padding: 0;
+}
+#inbox_show_message_reply .message_dialog {
+    width: 92%;
+    float: left;
+}
+#inbox_show_message_reply textarea {
+    height: 100px;
+}
+#inbox_show_message_reply #send_message_cancel {
+    display: none;
+}
 /* New Message */
-#inbox_new_message{width:90%;padding:10px;background-color:#f4f4f4;border-radius:6px;-moz-border-radius:6px;-webkit-border-radius:6px;box-shadow:0px 0px 5px 0px #ccc;-moz-box-shadow:0px 0px 5px 0px #ccc;-webkit-box-shadow:0px 0px 5px 0px #ccc;}
-#inbox_new_message .send_message .compose-form .compose-body{height:100px;}
+#inbox_new_message {
+    width: 90%;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border-radius: 6px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    box-shadow: 0px 0px 5px 0px #ccc;
+    -moz-box-shadow: 0px 0px 5px 0px #ccc;
+    -webkit-box-shadow: 0px 0px 5px 0px #ccc;
+}
+#inbox_new_message .send_message .compose-form .compose-body {
+    height: 100px;
+}
 /* Replies */
-#inbox_show_message_replies{float:left;width:79%;margin-left:25px;}
-.inbox_message_container.reply{border-top:1px dotted #d4d4d4;}
-.inbox_message_container.reply .inbox_placeholder{display:none;}
-.inbox_message_container.reply .inbox_left_col{width:8%;}
-.inbox_message_container.reply .inbox_middle_col{width:89%;}
-.inbox_message_container.reply .inbox_right_col{width:5%;}
+#inbox_show_message_replies {
+    float: left;
+    width: 79%;
+    margin-left: 25px;
+}
+.inbox_message_container.reply {
+    border-top: 1px dotted #d4d4d4;
+}
+.inbox_message_container.reply .inbox_placeholder {
+    display: none;
+}
+.inbox_message_container.reply .inbox_left_col {
+    width: 8%;
+}
+.inbox_message_container.reply .inbox_middle_col {
+    width: 89%;
+}
+.inbox_message_container.reply .inbox_right_col {
+    width: 5%;
+}
 /* General */
 .inbox_placeholder {
     float: left;

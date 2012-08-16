@@ -15,17 +15,17 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-define(["config/config"], function(config) {
+define(['config/config'], function(config) {
 
     // Custom CSS Files to load in
-    // config.skinCSS = ["/dev/skins/default/skin.css"];
+    // config.skinCSS = ['/dev/skins/default/skin.css'];
 
     /**
      * Kaltura Settings
      */
     config.kaltura = {
         enabled: false, // Enable/disable Kaltura player
-        serverURL:  "http://www.kaltura.com", //INSERT_KALTURA_INSTALLATION_URL_HERE
+        serverURL:  'http://www.kaltura.com', //INSERT_KALTURA_INSTALLATION_URL_HERE
         partnerId:  100, //INSERT_YOUR_PARTNER_ID_HERE
         playerId: 100 //INSERT_YOUR_PLAYER_ID_HERE
     };

@@ -16,18 +16,18 @@
  * specific language governing permissions and limitations under the License.
  */
 
-require(["jquery","sakai/sakai.api.core"], function($, sakai) {
+require(['jquery','sakai/sakai.api.core'], function($, sakai) {
 
     sakai_global.explore = function() {
         var doInit = function() {
             if (sakai.config.enableCategories) {
-                sakai.api.Util.TemplateRenderer($("#explore_categories_template"), {}, $("#explore_categories"));
+                sakai.api.Util.TemplateRenderer($('#explore_categories_template'), {}, $('#explore_categories'));
             }
 
-            sakai.api.Util.TemplateRenderer($("#explore_content_template"), sakai.config.explore, $("#explore_content"));
+            sakai.api.Util.TemplateRenderer($('#explore_content_template'), sakai.config.explore, $('#explore_content'));
         };
         doInit();
     };
 
-    sakai.api.Widgets.Container.registerForLoad("explore");
+    sakai.api.Widgets.Container.registerForLoad('explore');
 });

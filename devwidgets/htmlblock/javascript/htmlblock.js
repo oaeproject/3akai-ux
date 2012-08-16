@@ -28,7 +28,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.htmlblock = function (tuid, showSettings, widgetData) {
+    sakai_global.htmlblock = function(tuid, showSettings, widgetData) {
 
         // Element cache
         var $rootel = $('#' + tuid);
@@ -159,7 +159,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var initTinyMCE = function(ui) {
             editorId = ui.id;
-            // Set focus if there is no "An unsaved version has been found" overlay
+            // Set focus if there is no 'An unsaved version has been found' overlay
             // showing
             var ed = tinyMCE.get(editorId);
             focusEditor(ed);
@@ -221,7 +221,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     // Only update the editor height if it has changed
                     if ($editor.height() !== docHt) {
                         $editor.css('height', docHt + 'px');
-                        $(window).trigger("updateheight.contentauthoring.sakai");
+                        $(window).trigger('updateheight.contentauthoring.sakai');
                     }
                 } catch (err) {
                     return false;
@@ -310,7 +310,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Load the HTMLBlock widget
          */
-        var doInit = function () {
+        var doInit = function() {
             // Set the name attribute of the textarea to the widget id, so we can restrict
             // tinyMCE loading to this widget
             var $textarea = $('textarea', $rootel).attr('name', tuid).addClass(tuid);
@@ -327,7 +327,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $textarea.css('height', $('#htmlblock_view_container', $rootel).height());
             loadTinyMCE();
         };
-        
+
         // run the initialization function when the widget object loads
         doInit();
     };

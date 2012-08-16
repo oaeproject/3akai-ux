@@ -28,9 +28,9 @@
 */
 define(
     [
-        "jquery",
-        "underscore",
-        "config/config_custom"
+        'jquery',
+        'underscore',
+        'config/config_custom'
     ],
     function($, _, sakai_conf) {
 
@@ -45,25 +45,25 @@ define(
          */
         batch : function(_requests, _callback, _forcePOST, _async) {
             var cache = true;
-            var method = _forcePOST === true ? "POST" : "GET";
+            var method = _forcePOST === true ? 'POST' : 'GET';
             var async = _async === false ? false : true;
 
             // Append a charset to each request
             $.each(_requests, function(i,req) {
-                if (!req["_charset_"]) {
-                    req["_charset_"] = "utf-8";
+                if (!req['_charset_']) {
+                    req['_charset_'] = 'utf-8';
                 }
-                if (req["parameters"] && !req["parameters"].hasOwnProperty("_charset_")) {
-                    req["parameters"]["_charset_"] = "utf-8";
+                if (req['parameters'] && !req['parameters'].hasOwnProperty('_charset_')) {
+                    req['parameters']['_charset_'] = 'utf-8';
                 }
-                if (req.hasOwnProperty("cache") && req["cache"] === false) {
+                if (req.hasOwnProperty('cache') && req['cache'] === false) {
                     cache = false;
                 }
             });
             // Don't submit a request when the batch is empty
             if (_requests.length === 0) {
                 if ($.isFunction(_callback)) {
-                    _callback(true, {"results": []});
+                    _callback(true, {'results': []});
                 }
             }
             // Don't issue a batch request for a single, cacheable request
@@ -71,16 +71,16 @@ define(
                 $.ajax({
                     url: _requests[0].url,
                     cache: cache,
-                    type: _requests[0].method || "GET",
-                    dataType: "text",
-                    data: _requests[0].parameters || "",
+                    type: _requests[0].method || 'GET',
+                    dataType: 'text',
+                    data: _requests[0].parameters || '',
                     success: function(data) {
                         var retObj = {
-                            "results": [
+                            'results': [
                                 {
-                                    "url": _requests[0].url,
-                                    "success": true,
-                                    "body": data
+                                    'url': _requests[0].url,
+                                    'success': true,
+                                    'body': data
                                 }
                             ]
                         };
@@ -88,12 +88,12 @@ define(
                             _callback(true, retObj);
                         }
                     },
-                    error: function(status){
+                    error: function(status) {
                         if ($.isFunction(_callback)) {
-                            _callback(false, {"results": [{
-                                "url": _requests[0].url,
-                                "success": false,
-                                "body": "{}"
+                            _callback(false, {'results': [{
+                                'url': _requests[0].url,
+                                'success': false,
+                                'body': '{}'
                             }]});
                         }
                     }
@@ -104,14 +104,14 @@ define(
                 // if any request contains a POST, we should be POSTing so the request isn't cached
                 // maybe just GET with no cache? not sure
                 for (var i=0; i<_requests.length; i++) {
-                    if (_requests[i].method === "POST") {
-                        method = "POST";
+                    if (_requests[i].method === 'POST') {
+                        method = 'POST';
                         break;
                     }
                 }
                 var requestString = JSON.stringify(_requests);
                 if (requestString.length > 2000) {
-                    method = "POST";
+                    method = 'POST';
                 }
                 $.ajax({
                     url: sakai_conf.URL.BATCH,
@@ -119,7 +119,7 @@ define(
                     cache: cache,
                     async: async,
                     data: {
-                        "_charset_":"utf-8",
+                        '_charset_':'utf-8',
                         requests: requestString
                     },
                     success: function(data) {
@@ -168,12 +168,12 @@ define(
                             _callback(true, retObj);
                         }
                     },
-                    error: function(status){
+                    error: function(status) {
                         if ($.isFunction(_callback)) {
                             _callback(false, {'results': [{
                                 'url': _requests[0],
                                 'success': false,
-                                'body': "{}"
+                                'body': '{}'
                             }]});
                         }
                     }
@@ -366,7 +366,7 @@ define(
                 // check for additional arrays
                 } else if ($.isPlainObject(obj)) {
                     for (var k in obj) {
-                        if (obj.hasOwnProperty(k)){
+                        if (obj.hasOwnProperty(k)) {
                             obj[k] = convertArrayToObject(obj[k]);
                         }
                     }
@@ -492,7 +492,7 @@ define(
             $.each(pagestructure, function(i, obj) {
                 if (obj && obj.rows && obj.rows.length) {
                     $.each(obj.rows, function(ii, row) {
-                        if(!$.isPlainObject(row)){
+                        if (!$.isPlainObject(row)) {
                             pagestructure[i].rows[ii] = $.parseJSON(row);
                         }
                     });
@@ -516,11 +516,11 @@ define(
             if (!i_url) {
 
                 // Log the error message
-                debug.info("sakai.api.Server.loadJSON: Not enough or empty arguments!");
+                debug.info('sakai.api.Server.loadJSON: Not enough or empty arguments!');
 
                 // Still invoke the callback function
                 if ($.isFunction(callback)) {
-                    callback(false, "The supplied arguments were incorrect.");
+                    callback(false, 'The supplied arguments were incorrect.');
                 }
 
                 // Make sure none of the other code in this function is executed
@@ -528,18 +528,18 @@ define(
             }
 
             // Remove the trailing slash if available
-            if (i_url.substring(i_url.length - 1, i_url.length) === "/"){
+            if (i_url.substring(i_url.length - 1, i_url.length) === '/') {
                 i_url = i_url.substring(0, i_url.length - 1);
             }
             // append .infinity.json if .json isn't present in the url
-            if (i_url.indexOf(".json") === -1) {
-                i_url += ".infinity.json";
+            if (i_url.indexOf('.json') === -1) {
+                i_url += '.infinity.json';
             }
 
             $.ajax({
                 url: i_url,
                 cache: false,
-                dataType: "json",
+                dataType: 'json',
                 data: data,
                 success: function(data) {
 
@@ -554,7 +554,7 @@ define(
                 error: function(xhr, status, e) {
 
                     // Log error
-                    debug.warn("sakai.api.Server.loadJSON: There was an error loading JSON data from: " + this.url);
+                    debug.warn('sakai.api.Server.loadJSON: There was an error loading JSON data from: ' + this.url);
 
                     // Call callback function if present
                     if ($.isFunction(callback)) {
@@ -567,11 +567,11 @@ define(
          * <p>Convert all the objects with format __array__?__ in an object to an array</p>
          * <code>
          * {
-         *     "boolean": true,
-         *     "array_object": {
-         *         "__array__0__": {
-         *             "key1": "value1",
-         *             "key2": "value2"
+         *     'boolean': true,
+         *     'array_object': {
+         *         '__array__0__': {
+         *             'key1': 'value1',
+         *             'key2': 'value2'
          *         }
          *     }
          * }
@@ -579,11 +579,11 @@ define(
          * to
          * <code>
          * {
-         *     "boolean": true,
-         *     "array_object": [
+         *     'boolean': true,
+         *     'array_object': [
          *         {
-         *             "key1": "value1",
-         *             "key2": "value2"
+         *             'key1': 'value1',
+         *             'key2': 'value2'
          *        }
          *     ]
          * }
@@ -602,21 +602,21 @@ define(
                 // If exists and it's an object recurse
                 if (specficObj.hasOwnProperty(i)) {
 
-                    // If it's a non-empty array-object it will have a first element with the key "__array__0__"
-                    if (i === "__array__0__") {
+                    // If it's a non-empty array-object it will have a first element with the key '__array__0__'
+                    if (i === '__array__0__') {
 
                         // We need to get the number of items in the object
                         var arr = [];
                         var count = 0;
                         for (j in specficObj) {
-                            if (specficObj.hasOwnProperty(j) && j.indexOf("__array__") > -1) {
+                            if (specficObj.hasOwnProperty(j) && j.indexOf('__array__') > -1) {
                                 count++;
                             }
                         }
 
                         // Construct array of objects
                         for(k = 0, kl = count; k < kl; k ++) {
-                            arr.push(specficObj["__array__"+k+"__"]);
+                            arr.push(specficObj['__array__'+k+'__']);
                         }
 
                         globalObj[objIndex] = arr;
@@ -640,17 +640,17 @@ define(
          *
          * @returns {Void}
          */
-        removeJSON : function(i_url, callback){
+        removeJSON : function(i_url, callback) {
 
             // Argument check
             if (!i_url) {
 
                 // Log the error message
-                debug.info("sakai.api.Server.removeJSON: Not enough or empty arguments!");
+                debug.info('sakai.api.Server.removeJSON: Not enough or empty arguments!');
 
                 // Still invoke the callback function
                 if ($.isFunction(callback)) {
-                    callback(false, "The supplied arguments were incorrect.");
+                    callback(false, 'The supplied arguments were incorrect.');
                 }
 
                 // Make sure none of the other code in this function is executed
@@ -663,11 +663,11 @@ define(
                 // Note that the type DELETE doesn't work with sling if you do /test.json
                 // You can only perform a DELETE on /test (without extension)
                 // http://sling.apache.org/site/manipulating-content-the-slingpostservlet-servletspost.html
-                type: "POST",
+                type: 'POST',
                 data: {
-                    ":operation" : "delete"
+                    ':operation' : 'delete'
                 },
-                success: function(data){
+                success: function(data) {
 
                     // If a callback function is specified in argument, call it
                     if ($.isFunction(callback)) {
@@ -675,10 +675,10 @@ define(
                     }
                 },
 
-                error: function(xhr, status, e){
+                error: function(xhr, status, e) {
 
                     // Log error
-                    debug.error("sakai.api.Server.removeJSON: There was an error removing the JSON on: " + this.url);
+                    debug.error('sakai.api.Server.removeJSON: There was an error removing the JSON on: ' + this.url);
 
                     // If a callback function is specified in argument, call it
                     if ($.isFunction(callback)) {
@@ -688,7 +688,7 @@ define(
             });
         },
 
-        JCRPropertiesToDelete : ["rep:policy", "_path"],
+        JCRPropertiesToDelete : ['rep:policy', '_path'],
 
         filterJCRProperties : function(data) {
             $(this.JCRPropertiesToDelete).each(function(i,val) {
@@ -718,28 +718,31 @@ define(
          * @param {Boolean} handlePhrases If we should split on ,\s instead of \s to
          *                      better handle phrases
          * @param {String} joinOn String to join keywords on, defaults to AND
+         * @param {Boolean} tagString True if we are processing a directory/tag string
          * @return {String} The string to send to the server
          */
-        createSearchString : function(searchString, handlePhrases, joinOn) {
+        createSearchString : function(searchString, handlePhrases, joinOn, tagString) {
             if (!joinOn) {
                 joinOn = 'AND';
             }
-            var ret = "";
-            var advancedSearchRegex = new RegExp("(AND|OR|\"|-|_)", "g");
+            var ret = '';
+            var advancedSearchRegex = new RegExp('(AND|OR|\'|-|_)', 'g');
             var removeArray = ['AND', 'OR'];
             var truncateLength = 1500;
 
             ret = $.trim(searchString);
 
-            // Remove the forward slashes
-            ret = ret.replace(/\//g, '');
+            if (!tagString) {
+                // Remove the forward slashes
+                ret = ret.replace(/\//g, '');
+            }
 
             // Replace multiple spaces with 1 space
             ret = ret.replace(/(\s)+/g, ' ');
 
-            // We only join every single word with "AND" when
+            // We only join every single word with 'AND' when
             // we are sure there it isn't an advanced search query
-            if (!advancedSearchRegex.test(searchString)) {
+            if (!advancedSearchRegex.test(searchString) || tagString) {
                 if (handlePhrases) {
                     ret = '"' + ret.split(', ').join('" ' + joinOn + ' "') + '"';
                 } else {

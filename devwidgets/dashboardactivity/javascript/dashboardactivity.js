@@ -34,7 +34,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.dashboardactivity = function (tuid, showSettings) {
+    sakai_global.dashboardactivity = function(tuid, showSettings) {
 
 
         /////////////////////////////
@@ -98,7 +98,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 renderActivity(dashboardactivityNoActivityTemplate);
             } else {
                 var filteredData = [];
-                $.each(data.results, function(index, item){
+                $.each(data.results, function(index, item) {
                     item.translatedActivityMessage = sakai.api.i18n.getValueForKey(
                                                         item['sakai:activityMessage'], 'dashboardactivity');
                     item.translatedActivityMessageAction = '';

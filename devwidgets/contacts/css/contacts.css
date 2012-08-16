@@ -15,23 +15,60 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-#contacts_container .contacts_main{overflow:hidden; }
-#contacts_container h1{font-size: 18px;font-weight: normal; margin:0;}
-#contacts_container h2 {padding:5px 0; color:#636363;font-size: 14px;margin:10px 0 0;}
-#contacts_container .contacts_no_contacts {margin:0px 0px 15px;display:block;}
-#contacts_container a.contacts_no_contacts {text-decoration:none;}
-#contacts_container .contacts_pending_name {width:auto;}
-#contacts_container .contacts_highlight {background:#C4E6FD;}
-#contacts_container .contact_delete_button{float:right; margin-top:10px;}
-#contacts_message_button .s3d-action-icon {float: right;margin:2px 0 0 7px;}
-#contacts_select_all_container {float:left;height:19px;margin:6px 8px 0 1px;padding:2px 0 0;width:22px;}
+#contacts_container .contacts_main {
+    overflow: hidden;
+}
+#contacts_container h1 {
+    font-size: 18px;
+    font-weight: normal;
+    margin: 0;
+}
+#contacts_container h2 {
+    padding: 5px 0;
+    color: #636363;
+    font-size: 14px;
+    margin: 10px 0 0;
+}
+#contacts_container .contacts_no_contacts {
+    margin: 0px 0px 15px;
+    display: block;
+}
+#contacts_container a.contacts_no_contacts {
+    text-decoration: none;
+}
+#contacts_container .contacts_pending_name {
+    width: auto;
+}
+#contacts_container .contacts_highlight {
+    background: #C4E6FD;
+}
+#contacts_container .contact_delete_button {
+    float: right;
+    margin-top: 10px;
+}
+#contacts_message_button .s3d-action-icon {
+    float: right;
+    margin: 2px 0 0 7px;
+}
+#contacts_select_all_container {
+    float: left;
+    height: 19px;
+    margin: 6px 8px 0 1px;
+    padding: 2px 0 0;
+    width: 22px;
+}
 
 /* contact lists */
-#contacts_invited_container .contacts_list_items, #contacts_container .contacts_list_items {margin:0; border-top: 1px solid #DDDDDD;}
-#contacts_invited_container .contacts_item,#contacts_container .contacts_item {
+#contacts_invited_container .contacts_list_items, #contacts_container .contacts_list_items {
+    margin: 0;
+    border-top: 1px solid #DDDDDD;
+}
+#contacts_invited_container .contacts_item, #contacts_container .contacts_item {
     padding: 10px 10px 10px 6px;
 }
-#contacts_invited_container .contacts_item_end {margin-bottom:20px;}
+#contacts_invited_container .contacts_item_end {
+    margin-bottom: 20px;
+}
 #contacts_invited_container .contacts_item_left_filler, #contacts_container .contacts_item_left_filler {
     display: inline;
     float: left;
@@ -39,9 +76,15 @@
     margin: 1px 0 0 1px;
     width: 23px;
 }
-#contacts_invited_container .s3d-search-results-grid .contacts_item_left_filler, #contacts_container .s3d-search-results-grid .contacts_item_left_filler {width:auto;}
-#contacts_invited_container .s3d-search-results-grid .contacts_list_picture, #contacts_container .s3d-search-results-grid .contacts_list_picture {display:none;}
-#contacts_invited_container .s3d-search-results-grid .contacts_grid_picture, #contacts_container .s3d-search-results-grid .contacts_grid_picture {display:inline-block !important;}
+#contacts_invited_container .s3d-search-results-grid .contacts_item_left_filler, #contacts_container .s3d-search-results-grid .contacts_item_left_filler {
+    width: auto;
+}
+#contacts_invited_container .s3d-search-results-grid .contacts_list_picture, #contacts_container .s3d-search-results-grid .contacts_list_picture {
+    display: none;
+}
+#contacts_invited_container .s3d-search-results-grid .contacts_grid_picture, #contacts_container .s3d-search-results-grid .contacts_grid_picture {
+    display: inline-block !important;
+}
 #contacts_invited_container .contacts_list, #contacts_container .contacts_list {
     overflow: hidden;
     padding-left: 5px;
@@ -53,34 +96,93 @@
     float: none;
     width: auto;
 }
-#contacts_invited_container .contacts_item_description, #contacts_container .contacts_item_description{margin-bottom:5px;color:#333;font-size:.90em;}
-#contacts_invited_container .contacts_item_counts, #contacts_container .contacts_item_counts {padding:3px 0;font-size:11px;}
-#contacts_invited_container .contacts_item_message_icon, #contacts_container .contacts_item_message_icon{display:inline-block;float:right;}
-#contacts_invited_container .contacts_item_icon, #contacts_container .contacts_item_icon{display: inline-block;height: 10px;width: 15px;}
-#contacts_invited_container .contacts_item_tags_list, #contacts_container .contacts_item_tags_list{font-size:11px;}
-#contacts_invited_container .contacts_item:hover, #contacts_container .contacts_item:hover {background-color: #f2f9fc;}
-#contacts_invited_container .contacts_item_plus, #contacts_container .contacts_item_plus{color:#e4e4e4;font-size:x-large;font-weight:100;margin:5px 10px 0 0;}
-#contacts_invited_container .contacts_item:hover .contacts_item_plus, #contacts_container .contacts_item:hover .contacts_item_plus{cursor:pointer;color:#42a2dc;text-decoration:none;}
-#contacts_invited_container .s3d-search-results-grid .contacts_item_plus, #contacts_container .s3d-search-results-grid .contacts_item_plus {margin:0;}
-#contacts_invited_container .contacts_item:hover .contacts_item_message_icon, #contacts_container .contacts_item:hover .contacts_item_message_icon{cursor:pointer;background: url("/devwidgets/searchpeople/images/searchpeople_message_icon_active.png") no-repeat scroll left top transparent;}
-#contacts_invited_container .contacts_item .s3d-actions-delete, #contacts_container .contacts_item .s3d-actions-delete{float:left;margin:6px 2px 0 0;}
-#contacts_invited_container .contacts_item .left_filler, #contacts_container .contacts_item .left_filler {display:inline;float:left;height:25px;margin:6px 8px 0 0;width:17px;}
-#contacts_container .contacts_list_items.s3d-search-results-grid .contacts_item .left_filler{margin:1px 8px 0 9px;}
-#contacts_invited_container .contacts_item .s3d-actions-addtolibrary, #contacts_container .contacts_item .s3d-actions-addtolibrary {float:left;margin-right:9px;margin-left:-1px;}
-#contacts_container .contacts_list_items .contacts_gridview_items {display:none}
+#contacts_invited_container .contacts_item_description, #contacts_container .contacts_item_description {
+    margin-bottom: 5px;
+    color: #333;
+    font-size: .90em;
+}
+#contacts_invited_container .contacts_item_counts, #contacts_container .contacts_item_counts {
+    padding: 3px 0;
+    font-size: 11px;
+}
+#contacts_invited_container .contacts_item_message_icon, #contacts_container .contacts_item_message_icon {
+    display: inline-block;
+    float: right;
+}
+#contacts_invited_container .contacts_item_icon, #contacts_container .contacts_item_icon {
+    display: inline-block;
+    height: 10px;
+    width: 15px;
+}
+#contacts_invited_container .contacts_item_tags_list, #contacts_container .contacts_item_tags_list {
+    font-size: 11px;
+}
+#contacts_invited_container .contacts_item:hover, #contacts_container .contacts_item:hover {
+    background-color: #f2f9fc;
+}
+#contacts_invited_container .contacts_item_plus, #contacts_container .contacts_item_plus {
+    color: #e4e4e4;
+    font-size: x-large;
+    font-weight: 100;
+    margin: 5px 10px 0 0;
+}
+#contacts_invited_container .contacts_item:hover .contacts_item_plus, #contacts_container .contacts_item:hover .contacts_item_plus {
+    cursor: pointer;
+    color: #42a2dc;
+    text-decoration: none;
+}
+#contacts_invited_container .s3d-search-results-grid .contacts_item_plus, #contacts_container .s3d-search-results-grid .contacts_item_plus {
+    margin: 0;
+}
+#contacts_invited_container .contacts_item:hover .contacts_item_message_icon, #contacts_container .contacts_item:hover .contacts_item_message_icon {
+    cursor: pointer;
+    background: url("/devwidgets/searchpeople/images/searchpeople_message_icon_active.png") no-repeat scroll left top transparent;
+}
+#contacts_invited_container .contacts_item .s3d-actions-delete, #contacts_container .contacts_item .s3d-actions-delete {
+    float: left;
+    margin: 6px 2px 0 0;
+}
+#contacts_invited_container .contacts_item .left_filler, #contacts_container .contacts_item .left_filler {
+    display: inline;
+    float: left;
+    height: 25px;
+    margin: 6px 8px 0 0;
+    width: 17px;
+}
+#contacts_container .contacts_list_items.s3d-search-results-grid .contacts_item .left_filler {
+    margin: 1px 8px 0 9px;
+}
+#contacts_invited_container .contacts_item .s3d-actions-addtolibrary, #contacts_container .contacts_item .s3d-actions-addtolibrary {
+    float: left;
+    margin-right: 9px;
+    margin-left: -1px;
+}
+#contacts_container .contacts_list_items .contacts_gridview_items {
+    display: none
+}
 #contacts_container .contacts_list_items.s3d-search-results-grid .contacts_gridview_items {
     display: block;
     float: right;
     margin-left: 10px;
+    margin-top: -3px;
 }
-#contacts_container .contacts_list_items.s3d-search-results-grid .contacts_listview_items {display:none;}
-#contacts_container .contacts_list_items.s3d-search-results-grid .contacts_select_contact_checkbox {float:left;margin:3px 30px 0 3px;}
-#contacts_container .contacts_list_items.s3d-search-results-grid .contacts_item .s3d-actions-delete {margin:1px 16px 0 0;}
-#contacts_container .contacts_listview_items {float:right;display:block;}
-
 .contacts-menu .s3d-page-header-top-row-right .s3d-listview-options {
     float: right;
 }
 .contacts-menu .s3d-page-header-top-row-right #contacts_sortarea {
     float: left;
+}
+#contacts_container .contacts_list_items.s3d-search-results-grid .contacts_listview_items {
+    display: none;
+}
+#contacts_container .contacts_list_items.s3d-search-results-grid .contacts_select_contact_checkbox {
+    float: left;
+    margin: 3px 30px 0 3px;
+}
+#contacts_container .contacts_list_items.s3d-search-results-grid .contacts_item .s3d-actions-delete {
+    margin: 1px 16px 0 0;
+}
+#contacts_container .contacts_listview_items {
+    float: right;
+    display: block;
 }
