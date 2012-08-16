@@ -446,7 +446,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
                             $(item).parent().addClass(newaddcontentExistingItemsListContainerDisabledListItem);
                         }
                     });
-                    addContentToQueue(contentToAdd, false, true);
+                    addContentToQueue(contentToAdd);
                     break;
 
             }
