@@ -166,6 +166,34 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
 
         var checkTitleProvided = function() {
             if ($.trim($('.addarea_name_field:visible').val())) {
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        /**
+         * Check whether there is an item selected or not
+         * This is necessary since otherwise you can create phantom pages
+         * @return {Boolean} Whether there is an item selected
+         */
+        var checkItemSelected = function() {
+            var $addAreaVisibleContainer = $(addAreaContentContainer + ' > div:visible');
+            var docType = $addAreaVisibleContainer.attr('data-doc-type');
+
+            if (docType === 'existing_everywhere' ||
+                    docType === 'existing_mylibrary' ||
+                    docType === 'existing_currentlyviewing') {
+                return $('.addarea_existing_item.selected').length;
+            }
+            return true;
+        };
+
+        /**
+         * Check whether the form we're going to submit is valid or not
+         */
+        var checkValidForm = function() {
+            if (checkTitleProvided() && checkItemSelected()) {
                 $(addareaCreateDocButton).removeAttr('disabled');
             } else {
                 $(addareaCreateDocButton).attr('disabled', true);
@@ -201,7 +229,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             } else if ($addAreaVisibleContainer.data('doc-type') === 'existing_currentlyviewing') {
                 getCurrentlyViewingDocs();
             }
-            checkTitleProvided();
+            checkValidForm();
         };
 
         /*
@@ -856,9 +884,9 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                     })
                 );
                 $('.addarea_existing_container:visible').find('.addarea_existing_name').val($(this).data('doc-title'));
-                checkTitleProvided();
+                checkValidForm();
             });
-            $('.addarea_name_field').on('keyup', checkTitleProvided);
+            $('.addarea_name_field').on('keyup', checkValidForm);
         };
 
         /*
