@@ -96,7 +96,7 @@ require(
         baseUrl:'/dev/lib/',
         paths: {
             'jquery-plugins': 'jquery/plugins',
-            'jquery': 'jquery/jquery-1.7.1',
+            'jquery': 'jquery/jquery-1.7.2',
             'jquery-ui': 'jquery/jquery-ui-1.8.20.custom',
             'jquery-cookie': 'jquery/plugins/jquery.cookie',
             'jquery-jstree': 'jquery/plugins/jsTree/jquery.jstree.sakai-edit',
