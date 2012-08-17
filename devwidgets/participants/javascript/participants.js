@@ -326,7 +326,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             newlyAdded = _newlyAdded;
             setTimeout(function() {
                 loadParticipants(false);
-            }, 1000);
+            }, 2000);
         });
 
         init();
