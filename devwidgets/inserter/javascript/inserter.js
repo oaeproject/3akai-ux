@@ -613,7 +613,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-fileupload'], function($, sak
                 sortOn: '_lastModified',
                 sortOrder: 'desc',
                 q: query,
-                mimetype: mimetype
+                mimetype: mimetype,
+                userid: sakai_global.profile.main.data.userid
             };
             if (item === 'library' || library) {
                 library = true;
@@ -655,7 +656,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-fileupload'], function($, sak
                 sortOn: '_lastModified',
                 sortOrder: 'desc',
                 q: '',
-                mimetype: 'x-sakai/collection'
+                mimetype: 'x-sakai/collection',
+                userid: sakai_global.profile.main.data.userid
             };
             // Disable the previous infinite scroll
             killInfiniteScroll();
