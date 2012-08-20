@@ -2009,7 +2009,7 @@ define(
          * @param callback {function} a function to be called instead of the default jquery.hide()
          */
         hideOnClickOut : function(elementToHide, ignoreElements, callback) {
-            $(document).click(function(e) {
+            $(document).on('click', function(e) {
                 var $clicked = $(e.target);
                 if (!$.isArray(elementToHide)) {
                     elementToHide = [elementToHide];

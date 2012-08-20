@@ -1030,7 +1030,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
             $rootel.on('click', ['#topnavigation_message_showall', '#topnavigation_message_readfull',
                 '.no_messages .s3d-no-results-container a'], hideMessageInlay);
-            $rootel.on('click', '.topnavigation_trigger_login', forceShowLogin);
+            $('body').on('click', '.topnavigation_trigger_login', function(e) {
+                e.stopPropagation();
+                forceShowLogin();
+            });
 
             $(window).on('updated.messageCount.sakai', setCountUnreadMessages);
             $(window).on('displayName.profile.updated.sakai', setUserName);
