@@ -269,6 +269,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
          * @param {Object} ev Trigger event
          */
         var editData = function(ev) {
+            ev.stopPropagation();
             if ( !$( ev.target ).is( 'a, select, option, textarea' ) ) {
                 $target = $( ev.target ).closest( '.contentmetadata_editable' );
                 if ( $target.length ) {
