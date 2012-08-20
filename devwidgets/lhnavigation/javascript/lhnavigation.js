@@ -1226,12 +1226,12 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             $('#lhnavigation_container .lhnavigation_menu_list').sortable({
                 items: 'li.lhnavigation_outer[data-sakai-manage=true]',
                 update: handleReorder,
-                distance: 30
+                distance: 1
             });
             $('#lhnavigation_container .lhnavigation_subnav').sortable({
                 items: 'li.lhnavigation_subnav_item[data-sakai-manage=true]',
                 update: handleReorder,
-                distance: 30
+                distance: 1
             });
             $('.lhnavigation_menuitem[data-sakai-manage=true]').addClass('lhnavigation_move_cursor');
         };
