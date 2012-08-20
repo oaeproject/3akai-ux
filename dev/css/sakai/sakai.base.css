@@ -59,9 +59,6 @@ abbr, acronym {
     border-bottom: 1px dotted #000;
     cursor: help;
 }
-ol, ul, dl {
-    margin-left: 2em;
-}
 ol li {
     list-style: decimal outside;
 }
@@ -85,6 +82,7 @@ input, textarea, select {
 }
 blockquote, ul, ol, dl {
     margin: 1em;
+    margin-left: 2em;
 }
 /* adding a visible outline on focus for accessibility */
 *:focus {
