@@ -655,7 +655,15 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             }
         });
 
-        $(window).trigger('sakai.entity.ready');
+        var entityReady = function() {
+            $(window).trigger('sakai.entity.ready');
+        };
+
+        entityReady();
+
+        $(window).on('sakai.groups.ready', function() {
+            entityReady();
+        });
 
     };
     sakai.api.Widgets.widgetLoader.informOnLoad('entity');
