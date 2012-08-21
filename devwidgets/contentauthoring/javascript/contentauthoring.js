@@ -126,9 +126,18 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
          * @param {jQuery} $container   Container in which to initialize tinyMCE
          */
         var initializeTinyMCEInstances = function($container) {
+            $(window).off('setTinyMCESettings.htmlblock.sakai');
+            var widgetId = $container.children('.inline_class_widget_nofloat').attr('id');
             $container.find('.tinyMCE').each(function() {
-                tinyMCE.execCommand('mceAddControl', true, $(this).attr('id'));
-                tinyMCEInstanceFix();
+                var editorId = $(this).attr('id');
+                var initTyinyMCE = function(ev, instanceSettings) {
+                    tinyMCE.settings = instanceSettings;
+                    tinyMCE.execCommand('mceAddControl', true, editorId);
+                    tinyMCEInstanceFix();
+                };
+
+                $(window).on('setTinyMCESettings.htmlblock.sakai', initTyinyMCE);
+                $(window).trigger('getTinyMCESettings.htmlblock.sakai', widgetId);
             });
         };
 
