@@ -65,12 +65,9 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         };
 
         $(window).on('sakai.entity.ready', function() {
-            loadGroupEntityWidget();
+            processEntityInfo();
         });
 
-        $(window).on('ready.entity.sakai', function(e) {
-            loadEntityWidget();
-        });
 
         /////////////////////////
         // LOAD LEFT HAND SIDE //
@@ -208,15 +205,12 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }
         });
 
+
         ////////////////////
         // INITIALISATION //
         ////////////////////
 
-        var doInit = function() {
-            processEntityInfo();
-        };
-
-        doInit();
+        $(window).trigger('sakai.groups.ready');
     };
 
     sakai.api.Widgets.Container.registerForLoad('group');

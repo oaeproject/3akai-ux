@@ -494,6 +494,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         $(window).on('sakai.entity.init', function(ev, context, type, data) {
+            if (context === 'group' && (!data || !data.authprofile || !data.authprofile['sakai:group-joinable'])) {
+                data = {
+                    'authprofile': {
+                        'sakai:group-joinable': false
+                    }
+                }
+            }
             if (data && data.data && data.data['sakai:pooled-content-file-name']) {
                 data.data['sakai:pooled-content-file-name-shorter'] = sakai.api.Util.applyThreeDots(data.data['sakai:pooled-content-file-name'], 800, {
                     whole_word: false
@@ -648,7 +655,15 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             }
         });
 
-        $(window).trigger('sakai.entity.ready');
+        var entityReady = function() {
+            $(window).trigger('sakai.entity.ready');
+        };
+
+        entityReady();
+
+        $(window).on('sakai.groups.ready', function() {
+            entityReady();
+        });
 
     };
     sakai.api.Widgets.widgetLoader.informOnLoad('entity');
