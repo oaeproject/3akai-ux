@@ -39,15 +39,16 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
      */
     sakai_global.joinrequests = function(tuid, showSettings) {
 
+
         /////////////////////////////
         // Configuration variables //
         /////////////////////////////
 
-        var numJoinrequests = 0,  // keeps track of the total number of requests
-            groupid = '',
-            joinGroupID = '',
-            joinRole = '',
-            groupData = {};
+        var numJoinrequests = 0;  // keeps track of the total number of requests
+        var groupid = '';
+        var joinGroupID = '';
+        var joinRole = '';
+        var groupData = {};
 
         // DOM elements
         var $rootel = $('#' + tuid);
@@ -57,8 +58,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         var $joinrequestsError = $('#joinrequests_error', $rootel);
         var $joinrequestsSuccess = $('#joinrequests_success', $rootel);
         var $joinrequestsTemplate = $('#joinrequests_template', $rootel);
-        var $addLink = $('.joinrequests_add_link');
-        var $ignoreLink = $('.joinrequests_ignore_link');
+        var joinrequestsAddLink = '.joinrequests_add_link';
+        var joinrequestsIgnoreLink = '.joinrequests_ignore_link';
         var $joinrequests_container = $('#joinrequests_container');
 
 
@@ -233,19 +234,20 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             }
         };
 
+
         /////////////////////////////
         // Event Bindings          //
         /////////////////////////////
 
         // Add the specific user when the 'Add as a member' link is clicked
-        $addLink.on('click', function() {
+        $(document).on('click', joinrequestsAddLink, function() {
             var userid = this.id.split('_')[2];
             showSpinner(userid);
             addUser(userid);
         });
 
         // Ignore the specific user when the 'Ignore' link is clicked
-        $ignoreLink.on('click', function() {
+        $(document).on('click', joinrequestsIgnoreLink, function() {
             var userid = this.id.split('_')[2];
             showSpinner(userid);
             removeJoinRequest(userid);
