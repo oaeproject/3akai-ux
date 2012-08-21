@@ -130,13 +130,13 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
             var widgetId = $container.children('.inline_class_widget_nofloat').attr('id');
             $container.find('.tinyMCE').each(function() {
                 var editorId = $(this).attr('id');
-                var initTyinyMCE = function(ev, instanceSettings) {
+                var initTinyMCE = function(ev, instanceSettings) {
                     tinyMCE.settings = instanceSettings;
                     tinyMCE.execCommand('mceAddControl', true, editorId);
                     tinyMCEInstanceFix();
                 };
 
-                $(window).on('setTinyMCESettings.htmlblock.sakai', initTyinyMCE);
+                $(window).on('setTinyMCESettings.htmlblock.sakai', initTinyMCE);
                 $(window).trigger('getTinyMCESettings.htmlblock.sakai', widgetId);
             });
         };
