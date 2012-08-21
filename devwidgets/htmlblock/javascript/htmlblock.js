@@ -99,6 +99,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 theme_advanced_buttons1: 'bold,italic,underline,|,justifyleft,justifycenter,justifyright,justifyfull,|,formatselect,fontsizeselect,|,bullist,numlist,|,forecolor,|,link,table,code',
                 theme_advanced_buttons2: '',
                 theme_advanced_buttons3: '',
+                // SAKIII-6128 - Pasted in text renders as a blank
+                paste_strip_class_attributes: 'all',
                 // Styles to be shown for tables
                 table_styles: 'Default=default',
                 table_cell_styles: 'Default=default',

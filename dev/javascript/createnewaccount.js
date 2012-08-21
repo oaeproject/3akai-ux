@@ -15,7 +15,7 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn', '//www.google.com/recaptcha/api/js/recaptcha_ajax.js'], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn'], function($, sakai) {
 
     sakai_global.createnewaccount = function() {
 
