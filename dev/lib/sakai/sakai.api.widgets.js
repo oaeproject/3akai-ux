@@ -754,11 +754,14 @@ define(
                     // note that any params in stateToAdd will override those in currentState
                     newState = $.extend({}, currentState, stateToAdd);
                 }
+
                 // Always push with the 2 argument as newState contains the entire state we want
                 $.bbq.pushState(newState, 2);
+                e.stopPropagation();
                 e.preventDefault();
             });
             oldState = $.bbq.getState();
+
             $(window).on('hashchange', sakaiWidgetsAPI.handleHashChange);
             $(window).trigger('hashchange');
         },
