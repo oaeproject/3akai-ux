@@ -16,6 +16,49 @@
  * specific language governing permissions and limitations under the License.
  */
 
+.changepic_section {
+    padding: 60px 0;
+    text-align: center;
+}
+#changepic_form {
+    /*padding: 60px 145px;*/
+}
+#changepic_upload_button {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+}
+#changepic_browse_button {
+    border: 2px solid black;
+    cursor: pointer;
+    display: inline-block;
+    width: 195px;
+    line-height: 2em;
+}
+#changepic_browse_button:hover {
+    background: #069;
+    color: white;
+}
+#changepic_drop_image {
+    position: relative;
+}
+#profilepicture {
+    display: none;
+}
+#changepic_progress {
+    border: 1px solid black;
+    display: inline-block;
+    height: 20px;
+    width: 375px;
+    border-radius: 5px;
+}
+#changepic_progress_bar{
+    width: 0%;
+    height: 100%;
+    background: #009ecb;
+}
+/***/
+
 #changepic_container {
     width: 550px !important;
     margin-left: -300px !important;
@@ -55,8 +98,8 @@
     margin: 5px 0;
 }
 #changepic_upload_input {
-    padding: 10px;
     color: #878a8c;
+    position: relative;
     text-align: center;
 }
 #changepic_upload_input input.changepic_input_error {

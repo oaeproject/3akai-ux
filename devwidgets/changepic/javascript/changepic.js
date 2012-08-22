@@ -23,7 +23,7 @@
  * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
  */
 
-require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js'], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js', '/dev/lib/jquery/plugins/jquery.fileupload.js'], function($, sakai) {
 
     /**
      * @name sakai_global.changepic
@@ -128,6 +128,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
          * @param {Object} img    The thumbnail
          * @param {Object} selection The selection object from imgAreaSelect
          */
+        
         var preview = function(img, selection) {
             // Save the user his selection in a global variable.
             userSelection = selection;
@@ -135,14 +136,6 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
             // How much has the user scaled down the image?
             var scaleX = thumbnailWidth / (selection.width || 1);
             var scaleY = thumbnailHeight / (selection.height || 1);
-
-            // Change the thumbnail according to the user his selection via CSS.
-            $(thumbnail).css({
-                width: Math.round(scaleX * img.width) + 'px',
-                height: Math.round(scaleY * img.height) + 'px',
-                marginLeft: '-' + Math.round(scaleX * selection.x1) + 'px',
-                marginTop: '-' + Math.round(scaleY * selection.y1) + 'px'
-            });
         };
 
         /**
@@ -174,7 +167,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
             $(picForm)[0].reset();
             hideInputError();
             $(uploadProcessing).hide();
-            $(uploadNewButtons).show();
+            $('#changepic_uploadnew').show();
             $('#profile_upload').attr('disabled', 'disabled');
         };
 
@@ -188,7 +181,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
          * On changepic form submit, check that a file has been selected
          * and submit the form.
          */
-        $('#profile_upload').off('click').on('click', function() {
+        $(picInput).off('change').on('change', function() {
             // validate args
             // file extension allow for image
             var extensionArray = ['.png', '.jpg', '.jpeg','.gif'];
@@ -207,6 +200,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
             }
             // if image format is acceptable
             if (allowSubmit) {
+                $('#changepic_uploadnew').fadeOut();
                 hideInputError();
                 $(uploadNewButtons).hide();
                 $(uploadProcessing).show();
@@ -305,6 +299,9 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
                     // Set the images
                     $(fullPictureSpan).html('<img alt="' + $('#changepic_fullpicture_alt').html() + '" id="changepic_fullpicture_img" src="/~' + id + '/public/profile/' + picture._name + '?sid=' + Math.random() + '" />');
                     $(thumbnailSpan).html('<img alt="' + $('#thumbnail_alt').html() + '" id="thumbnail_img" src="/~' + id + '/public/profile/' + picture._name + '?sid=' + Math.random() + '" />');
+                    
+                    var fullPicMarginLeft = ($('#changepic_picture_selectarea').width() - fullPicWidth) / 2;
+                    $(fullPicture).css('marginLeft', fullPicMarginLeft).click();
 
                     // Reset ratio
                     ratio = 1;
@@ -383,7 +380,33 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
             hideInputError();
             $('#profile_upload').removeAttr('disabled');
         });
+        
+        // Click native file input when button is clicked or an image is dropped.
+        $('#changepic_browse_button').on('click', function(ev){
+            $('#changepic_upload_button input').click();
+        });
 
+        $('#changepic_uploadnew').fileupload({
+            url: '/~' + 'dean' + '/public/',
+            singleFileUploads: true,
+            dropZone: $('#changepic_drop_image'),
+            add: function(e, data) {
+                console.log('Added.');
+                $('#changepic_uploading').show();
+                $('#changepic_uploadnew').hide();
+                setTimeout(function() {data.submit();}, 1000);
+            },
+            done: function(e, data) {
+                $('#changepic_selectpicture').show();
+                $('#changepic_uploading').hide();
+            },
+            progress: function(e, data) {
+                var progress = parseInt((data.loaded / data.total) * 100, 10);
+                $('#changepic_progress_bar').css('width', progress + '%');
+                console.log('Progress: '+progress+'% loaded.');
+            }
+        });
+        
         // This is the function that will be called when a user has cut out a selection
         // and saves it.
         $(saveNewSelection).click(function(ev) {
@@ -511,6 +534,11 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
          * @param {Object} hash
          */
         var showArea = function(hash) {
+            // RESET HERE
+             $(uploadNewButtons).show();
+            hideSelectArea();
+            resetUploadField();
+            
             doInit();
             hash.w.show();
         };
