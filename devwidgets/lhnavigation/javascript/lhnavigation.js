@@ -203,6 +203,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                 if (toplevelref && subpageref) {
                     $.ajax({
                         url: '/p/' + toplevelref + '/' + subpageref + '.infinity.json',
+                        cache: false,
                         dataType: 'json',
                         success: function(data) {
                             infinityStructuresPulled.push(ref);
