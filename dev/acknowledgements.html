@@ -11,9 +11,6 @@
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/main.css" />
 
         <!-- Sakai Page CSS -->
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.corev1.css" />
-        
-        <!-- Sakai Page CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.acknowledgements.css" />
 
     </head>
@@ -32,12 +29,12 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- CONTENT -->
-        
+
         <!-- CONTENT -->
         <div id="acknowledgements_featured" style="display:none">
-            
+
             <div class="acknowledgements_content">
 
             <!-- JQUERY -->
@@ -164,12 +161,6 @@
                     <span>__MSG__JEDITABLE_JQUERY_PLUGIN__</span>
                 </div>
                 <div class="acknowledgement_information">
-                    <h2>__MSG__BRANTLEY_HARRIS__</h2>
-                    <a href="http://code.google.com/p/jquery-json" target="_blank">http://code.google.com/p/jquery-json</a>
-                    <br/>
-                    <span>__MSG__JQUERY_JSON_PLUGIN__</span>
-                </div>
-                <div class="acknowledgement_information">
                     <h2>__MSG__IVAN_BOSZHANOV__</h2>
                     <a href="http://jstree.com" target="_blank">jstree.com</a>
                     <br/>
@@ -255,7 +246,7 @@
 
                 <!-- NAKAMURA -->
                 <div class="acknowledgement_information">
-                    <h2>__MSG__NAKAMURA_THE_SERVER_PART_OF_SAKAI_3__</h2>
+                    <h2>__MSG__NAKAMURA_THE_SERVER_PART_OF_SAKAI_OAE__</h2>
                     <ul>
                         <li>__MSG__APACHE_ARIES_JMX_API__</li>
                         <li>__MSG__APACHE_ARIES_JMS_CORE__</li>
@@ -329,7 +320,7 @@
                         <li>__MSG__JAXB_API__</li>
                         <li>__MSG__NAKAMURA_HTTP_JETTY__</li>
                         <li>__MSG__OPS4J_PAX_WEB_SERVICE__</li>
-                        <li>__MSG__SAKAI_3_UX_LOADER__</li>
+                        <li>__MSG__SAKAI_OAE_UX_LOADER__</li>
                         <li>__MSG__SAKAI_NAKAMURA_ACTIVE_MQ_BUNDLE__</li>
                         <li>__MSG__SAKAI_NAKAMURA_ACTIVITY_BUNDLE__</li>
                         <li>__MSG__SAKAI_NAKAMURA_APACHE_COMMONS_HTTPCLIENT_BUNDLE__</li>
@@ -396,7 +387,8 @@
                     <div id="widget_lhnavigation" class="widget_inline"></div>
                 </div>
                 <div class="s3d-page-column-right">
-                    <div id="s3d-page-main-content" class="s3d-page-content-padding">
+                    <div id="s3d-page-main-content" class="s3d-page-content-padding" role="main">
+                        <div id="widget_contentauthoring" class="widget_inline"></div>
                     </div>
                 </div>
             </div>
@@ -413,12 +405,14 @@
         <script>require(["/dev/javascript/acknowledgements.js"]);</script>
 
         <noscript>
-            <h1>Sorry!</h1>
-            <p>
-                JavaScript must be enabled to use this site. Please turn on JavaScript in your browser and refresh the page.
-                If you need assistance, please visit
-                <a href="http://activatejavascript.org/" title="Enable JavaScript in the most popular browsers">activatejavascript.org</a>.
-            </p>
+            <div class="noscript">
+                <h1>Sorry!</h1>
+                <p>
+                    JavaScript must be enabled to use this site. Please turn on JavaScript in your browser and refresh the page.
+                    If you need assistance, please visit
+                    <a href="http://activatejavascript.org/" title="Enable JavaScript in the most popular browsers">activatejavascript.org</a>.
+                </p>
+            </div>
         </noscript>
     </body>
 </html>

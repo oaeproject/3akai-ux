@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 // load the master sakai object to access all Sakai OAE API methods
-require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
+require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) {
 
     /**
      * @name sakai_global.addarea
@@ -27,37 +27,37 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.addarea = function(tuid, showSettings){
+    sakai_global.addarea = function(tuid, showSettings) {
 
 
         //////////////////////
         // WIDGET VARIABLES //
         //////////////////////
 
-        var $rootel = $("#" + tuid);
+        var $rootel = $('#' + tuid);
 
-        var $addAreaContainer = $("#addarea_container");
-        var $groupCreateNewAreaButton = $("#group_create_new_area");
+        var $addAreaContainer = $('#addarea_container');
+        var $groupCreateNewAreaButton = $('#group_create_new_area');
 
         // Navigation
-        var addAreaNavigationButton = ".addarea_content_menu_item button";
-        var addAreaContentMenuItem = ".addarea_content_menu_item";
-        var addAreaSubnavButton = ".subnav_button";
+        var addAreaNavigationButton = '.addarea_content_menu_item button';
+        var addAreaContentMenuItem = '.addarea_content_menu_item';
+        var addAreaSubnavButton = '.subnav_button';
 
         // Containers
-        var addAreaContentContainer = "#addarea_content_container";
+        var addAreaContentContainer = '#addarea_content_container';
 
         // Elements
-        var addareaCreateDocButton = "#addarea_create_doc_button";
-        var addAreaExistingEverywhereSearchInput = "#addarea_existing_everywhere_search";
-        var addAreaExistingMyLibrarySearchInput = "#addarea_existing_mylibrary_search";
-        var addAreaExistingCurrentlyViewingInput = "#addarea_existing_currentlyviewing_search";
-        var addareaExistingItem = ".addarea_existing_item";
-        var addAreaGroupName = ".addarea_group_name";
+        var addareaCreateDocButton = '#addarea_create_doc_button';
+        var addAreaExistingEverywhereSearchInput = '#addarea_existing_everywhere_search';
+        var addAreaExistingMyLibrarySearchInput = '#addarea_existing_mylibrary_search';
+        var addAreaExistingCurrentlyViewingInput = '#addarea_existing_currentlyviewing_search';
+        var addareaExistingItem = '.addarea_existing_item';
+        var addAreaGroupName = '.addarea_group_name';
 
         // Classes
-        var selected = "selected";
-        var addAreaSubnavButtonClass = "subnav_button";
+        var selected = 'selected';
+        var addAreaSubnavButtonClass = 'subnav_button';
 
         ///////////
         // UTILS //
@@ -66,21 +66,21 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
         /**
          * Sort from A - Z or Z - A on the date of creation
          */
-        var dateSort = function(a, b){
-            return a["_created"] > b["_created"];
+        var dateSort = function(a, b) {
+            return a['_created'] > b['_created'];
         };
 
         /**
          * Sort from A - Z or Z - A on a title
          */
-        var titleSort = function(a, b){
-            return a["sakai:pooled-content-file-name"] > b["sakai:pooled-content-file-name"];
+        var titleSort = function(a, b) {
+            return a['sakai:pooled-content-file-name'] > b['sakai:pooled-content-file-name'];
         };
 
         /*
          * Centers the overlay on the screen and handles with variable widths of the overlay
          */
-        var centerOverlay = function(){
+        var centerOverlay = function() {
             $addAreaContainer.animate({
                 'margin-left': -1 * ($addAreaContainer.width() / 2 + 20)
             }, 400);
@@ -89,58 +89,58 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
         /*
          * Reset the UI for new Sakai Docs
          */
-        var resetNewSakaiDoc = function(){
-            $("#addarea_new_name").val("");
-            $("#addarea_new_permissions").val("");
-            $("#addarea_new_numberofpages").val("");
+        var resetNewSakaiDoc = function() {
+            $('#addarea_new_name').val('');
+            $('#addarea_new_permissions').val('');
+            $('#addarea_new_numberofpages').val('');
         };
 
         /*
          * Reset the UI for existing content
          */
-        var resetExisting = function(){
-            $(".addarea_existing_name").val("");
-            $(".addarea_existing_permissions").val("");
-            $(".addarea_existing_bottom").html("");
+        var resetExisting = function() {
+            $('.addarea_existing_name').val('');
+            $('.addarea_existing_permissions').val('');
+            $('.addarea_existing_bottom').html('');
         };
 
         /*
          * Reset the UI for Content lists
          */
-        var resetContentList = function(){
-            $("#addarea_contentlist_name").val(sakai.api.i18n.getValueForKey("LIBRARY"));
-            $("#addarea_contentlist_permissions").val("");
+        var resetContentList = function() {
+            $('#addarea_contentlist_name').val(sakai.api.i18n.getValueForKey('LIBRARY'));
+            $('#addarea_contentlist_permissions').val('');
         };
 
         /*
          * Reset the UI for participant lists
          */
-        var resetParticipantsList = function(){
-            $("#addarea_participants_name").val(sakai.api.i18n.getValueForKey("PARTICIPANTS", "addarea"));
-            $("#addarea_participants_permissions").val("");
+        var resetParticipantsList = function() {
+            $('#addarea_participants_name').val(sakai.api.i18n.getValueForKey('PARTICIPANTS', 'addarea'));
+            $('#addarea_participants_permissions').val('');
         };
 
         /*
          * Reset the UI for Widget pages
          */
-        var resetWidgetPage = function(){
-            $("#addarea_widgets_name").val("");
-            $("#addarea_widgets_permissions").val("");
-            $("#addarea_widgets_numberofpages").val("");
+        var resetWidgetPage = function() {
+            $('#addarea_widgets_name').val('');
+            $('#addarea_widgets_permissions').val('');
+            $('#addarea_widgets_numberofpages').val('');
         };
 
-        var resetNavigation = function(){
-            $("#addarea_content_menu .addarea_content_menu_item").removeClass("selected");
-            $("#addarea_content_menu .addarea_content_menu_item:first").addClass("selected");
-            $("#addarea_content_container > div").hide();
+        var resetNavigation = function() {
+            $('#addarea_content_menu .addarea_content_menu_item').removeClass('selected');
+            $('#addarea_content_menu .addarea_content_menu_item:first').addClass('selected');
+            $('#addarea_content_container > div').hide();
             // Do a click so it runs through switchNavigation
-            $( "button[data-containertoshow='addarea_new_container']" ).click();
+            $( 'button[data-containertoshow="addarea_new_container"]' ).click();
         };
 
         /*
          * Reset the UI completely
          */
-        var resetWidget = function(){
+        var resetWidget = function() {
             // Reset all navigation items
             resetNewSakaiDoc();
             resetExisting();
@@ -149,90 +149,118 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
             resetWidgetPage();
             resetNavigation();
             // Set Group Name
-            $(addAreaGroupName).text(sakai_global.group.groupData["sakai:group-title"]);
+            $(addAreaGroupName).text(sakai_global.group.groupData['sakai:group-title']);
             // Set permission defaults
-            var permissionsSelect = sakai.api.Util.TemplateRenderer("addarea_permissions_template", {
-                "groupVisibility": sakai_global.group.groupData["sakai:group-visible"],
-                "newDoc": true
+            var permissionsSelect = sakai.api.Util.TemplateRenderer('addarea_permissions_template', {
+                'groupVisibility': sakai_global.group.groupData['sakai:group-visible'],
+                'newDoc': true
             });
-            $("#addarea_new_permissions").html(permissionsSelect);
-            $("#addarea_existing_permissions").html(permissionsSelect);
-            $("#addarea_existing_permissions").html(permissionsSelect);
-            $("#addarea_contentlist_permissions").html(permissionsSelect);
-            $("#addarea_participants_permissions").html(permissionsSelect);
-            $("#addarea_widgets_permissions").html(permissionsSelect);
-            $(addareaCreateDocButton).attr("disabled", true);
+            $('#addarea_new_permissions').html(permissionsSelect);
+            $('#addarea_existing_permissions').html(permissionsSelect);
+            $('#addarea_existing_permissions').html(permissionsSelect);
+            $('#addarea_contentlist_permissions').html(permissionsSelect);
+            $('#addarea_participants_permissions').html(permissionsSelect);
+            $('#addarea_widgets_permissions').html(permissionsSelect);
+            $(addareaCreateDocButton).attr('disabled', true);
         };
 
-        var checkTitleProvided = function(){
-            if($.trim($(".addarea_name_field:visible").val())){
-                $(addareaCreateDocButton).removeAttr("disabled");
+        var checkTitleProvided = function() {
+            if ($.trim($('.addarea_name_field:visible').val())) {
+                return true;
             } else {
-                $(addareaCreateDocButton).attr("disabled", true);
+                return false;
+            }
+        };
+
+        /**
+         * Check whether there is an item selected or not
+         * This is necessary since otherwise you can create phantom pages
+         * @return {Boolean} Whether there is an item selected
+         */
+        var checkItemSelected = function() {
+            var $addAreaVisibleContainer = $(addAreaContentContainer + ' > div:visible');
+            var docType = $addAreaVisibleContainer.attr('data-doc-type');
+
+            if (docType === 'existing_everywhere' ||
+                    docType === 'existing_mylibrary' ||
+                    docType === 'existing_currentlyviewing') {
+                return $('.addarea_existing_item.selected').length;
+            }
+            return true;
+        };
+
+        /**
+         * Check whether the form we're going to submit is valid or not
+         */
+        var checkValidForm = function() {
+            if (checkTitleProvided() && checkItemSelected()) {
+                $(addareaCreateDocButton).removeAttr('disabled');
+            } else {
+                $(addareaCreateDocButton).attr('disabled', true);
             }
         };
 
         /*
          * Handles a click in the navigation and loads the new content if necessary
          */
-        var switchNavigation = function(){
+        var switchNavigation = function() {
             resetExisting();
             $(addAreaContentMenuItem).removeClass(selected);
             $(this).parents(addAreaContentMenuItem).addClass(selected);
-            if($(this).hasClass(addAreaSubnavButtonClass)){
+            if ($(this).hasClass(addAreaSubnavButtonClass)) {
                 // Subnav item selected, add selected state
-                $(addAreaSubnavButton).parent().removeClass("selected");
-                $(this).parent().addClass("selected");
-            } else if ($(this).hasClass("subnav_header")){
-                $(addAreaSubnavButton).parent().removeClass("selected");
-                $($(addAreaSubnavButton)[0]).parent().addClass("selected");
+                $(addAreaSubnavButton).parent().removeClass('selected');
+                $(this).parent().addClass('selected');
+            } else if ($(this).hasClass('subnav_header')) {
+                $(addAreaSubnavButton).parent().removeClass('selected');
+                $($(addAreaSubnavButton)[0]).parent().addClass('selected');
             }
-            var containerToShow = $(this).data("containertoshow");
-            if (!$("#" + containerToShow).is(":visible")){
-                $(addAreaContentContainer + " > div").hide();
-                $("#" + containerToShow).show();
+            var containerToShow = $(this).data('containertoshow');
+            if (!$('#' + containerToShow).is(':visible')) {
+                $(addAreaContentContainer + ' > div').hide();
+                $('#' + containerToShow).show();
                 centerOverlay();
             }
-            var $addAreaVisibleContainer = $(addAreaContentContainer + " > div:visible");
-            if($addAreaVisibleContainer.data("doc-type") === "existing_everywhere" ||
-               $addAreaVisibleContainer.data("doc-type") === "existing_mylibrary"){
-                var query = $addAreaVisibleContainer.find(".addarea_existing_search").val();
-                getAllExistingSakaiDocs(query, $addAreaVisibleContainer.data("doc-type") === "existing_mylibrary");
-            } else if ($addAreaVisibleContainer.data("doc-type") === "existing_currentlyviewing"){
+            var $addAreaVisibleContainer = $(addAreaContentContainer + ' > div:visible');
+            if ($addAreaVisibleContainer.data('doc-type') === 'existing_everywhere' ||
+               $addAreaVisibleContainer.data('doc-type') === 'existing_mylibrary') {
+                var query = $addAreaVisibleContainer.find('.addarea_existing_search').val();
+                getAllExistingSakaiDocs(query, $addAreaVisibleContainer.data('doc-type') === 'existing_mylibrary');
+            } else if ($addAreaVisibleContainer.data('doc-type') === 'existing_currentlyviewing') {
                 getCurrentlyViewingDocs();
             }
-            checkTitleProvided();
+            checkValidForm();
         };
 
         /*
          * Determines what type of Sakai Doc should be created and saved by looking at the visible container
          */
-        var determineDocContext = function(){
-            $(this).attr("disabled", "true");
-            switch ($(addAreaContentContainer + " > div:visible").data("doc-type")){
-                case "new":
+        var determineDocContext = function() {
+            $(this).attr('disabled', 'true');
+            switch ($(addAreaContentContainer + ' > div:visible').data('doc-type')) {
+                case 'new':
                     createNewSakaiDoc();
                     break;
-                case "contentlibrary":
+                case 'contentlibrary':
                     createContentLibrary();
                     break;
-                case "participants":
+                case 'participants':
                     createParticipantsList();
                     break;
-                case "widgets":
+                case 'widgets':
                     createWidgetPage();
                     break;
-                case "existing_everywhere":
+                case 'existing_everywhere':
                     createExistingSakaiDoc();
                     break;
-                case "existing_mylibrary":
+                case 'existing_mylibrary':
                     createExistingSakaiDoc();
                     break;
-                case "existing_currentlyviewing":
+                case 'existing_currentlyviewing':
                     createExistingSakaiDoc();
                     break;
                 default:
-                  debug.warn("unrecognized area type: " + $(addAreaContentContainer + " > div:visible").data("doc-type"));
+                  debug.warn('unrecognized area type: ' + $(addAreaContentContainer + ' > div:visible').data('doc-type'));
                   break;
             }
         };
@@ -247,7 +275,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
          * @param {String} title Title of the Sakai Document
          * @param {String} permission ID of the permissions to be set
          * @param {String} docStructure Default content to be set on the Sakai Doc
-         * @param {String|Boolean} preferredTitle Used to make a unique URL, can also be set to false 
+         * @param {String|Boolean} preferredTitle Used to make a unique URL, can also be set to false
          * @param {Object} widgetContents Contains data about any widgets on the page
          * @param {Boolean} nonEditable Defines if the Sakai doc will be editable or not
          * @param {Function} callback Function to be executed after setting (or failing to set) the permissions
@@ -310,7 +338,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
                 toCreate[refID] = docStructure[i];
             }
 
-            parameters['structure0'] = $.toJSON(structure0);
+            parameters['structure0'] = JSON.stringify(structure0);
             $.ajax({
                 url: '/system/pool/createfile',
                 type:'POST',
@@ -336,7 +364,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
                             method: 'POST',
                             parameters: {
                                 'sling:resourceType': 'sakai/pagecontent',
-                                'sakai:pagecontent': $.toJSON(toCreate[obj._ref]),
+                                'sakai:pagecontent': JSON.stringify(toCreate[obj._ref]),
                                 '_charset_': 'utf-8'
                             }
                         });
@@ -356,8 +384,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
          * Fetches the roles in a group
          * @return {Object} JSON object containing information about the different roles in the group
          */
-        var fetchGroupRoles = function(){
-            return $.parseJSON(sakai_global.group.groupData["sakai:roles"]);
+        var fetchGroupRoles = function() {
+            return $.parseJSON(sakai_global.group.groupData['sakai:roles']);
         };
 
         /*
@@ -368,24 +396,24 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
          * @param {Boolean} existingNotMine Determines if the settings should be applied to an existing Sakai Doc that I own
          * @param {Function} callback Function to be executed after setting (or failing to set) the permissions
          */
-        var setSakaiDocPermissions = function(urlName, poolId, docPermission, existingNotMine, callback){
+        var setSakaiDocPermissions = function(urlName, poolId, docPermission, existingNotMine, callback) {
             var filesArray = {};
-            var permission = "private";
-            if (docPermission === "public"){
-                permission = "public";
-            } else if (docPermission === "everyone"){
-                permission = "everyone";
+            var permission = 'private';
+            if (docPermission === 'public') {
+                permission = 'public';
+            } else if (docPermission === 'everyone') {
+                permission = 'everyone';
             }
             filesArray[urlName] = {
-                "hashpath": poolId,
-                "permissions": permission
+                'hashpath': poolId,
+                'permissions': permission
             };
             var viewRoles = [];
             var editRoles = [];
             var roles = fetchGroupRoles();
-            for (var i = 0; i < roles.length; i++){
+            for (var i = 0; i < roles.length; i++) {
                 var role = roles[i];
-                if (role.isManagerRole){
+                if (role.isManagerRole) {
                     editRoles.push(role.id);
                 } else {
                     viewRoles.push(role.id);
@@ -395,53 +423,53 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
                 var batchRequests = [];
                 for (var j = 0; j < editRoles.length; j++) {
                     batchRequests.push({
-                        "url": "/p/" + poolId + ".members.html",
-                        "method": "POST",
-                        "parameters": {
-                            ":viewer": sakai_global.group.groupId + "-" + editRoles[j]
+                        'url': '/p/' + poolId + '.members.html',
+                        'method': 'POST',
+                        'parameters': {
+                            ':viewer': sakai_global.group.groupId + '-' + editRoles[j]
                         }
                     });
                 }
-                if (docPermission !== "advanced") {
+                if (docPermission !== 'advanced') {
                     for (var k = 0; k < viewRoles.length; k++) {
                         batchRequests.push({
-                            "url": "/p/" + poolId + ".members.html",
-                            "method": "POST",
-                            "parameters": {
-                                ":viewer": sakai_global.group.groupId + "-" + viewRoles[k]
+                            'url': '/p/' + poolId + '.members.html',
+                            'method': 'POST',
+                            'parameters': {
+                                ':viewer': sakai_global.group.groupId + '-' + viewRoles[k]
                             }
                         });
                     }
                 }
-                sakai.api.Server.batch(batchRequests, function(success, data){
+                sakai.api.Server.batch(batchRequests, function(success, data) {
                     if (success) {
                         callback(poolId);
                     }
                  });
             } else {
-                sakai.api.Content.setFilePermissions(filesArray, function(){
+                sakai.api.Content.setFilePermissions(filesArray, function() {
                     var batchRequests = [];
                     for (var l = 0; l < editRoles.length; l++) {
                         batchRequests.push({
-                            "url": "/p/" + poolId + ".members.html",
-                            "method": "POST",
-                            "parameters": {
-                                ":manager": sakai_global.group.groupId + "-" + editRoles[l]
+                            'url': '/p/' + poolId + '.members.html',
+                            'method': 'POST',
+                            'parameters': {
+                                ':manager': sakai_global.group.groupId + '-' + editRoles[l]
                             }
                         });
                     }
-                    if (docPermission !== "advanced") {
+                    if (docPermission !== 'advanced') {
                         for (var m = 0; m < viewRoles.length; m++) {
                             batchRequests.push({
-                                "url": "/p/" + poolId + ".members.html",
-                                "method": "POST",
-                                "parameters": {
-                                    ":viewer": sakai_global.group.groupId + "-" + viewRoles[m]
+                                'url': '/p/' + poolId + '.members.html',
+                                'method': 'POST',
+                                'parameters': {
+                                    ':viewer': sakai_global.group.groupId + '-' + viewRoles[m]
                                 }
                             });
                         }
                     }
-                    sakai.api.Server.batch(batchRequests, function(success, data){
+                    sakai.api.Server.batch(batchRequests, function(success, data) {
                         if (success) {
                             callback(poolId);
                         }
@@ -460,52 +488,52 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
          * @param {Boolean} existingNotMine Determines if the settings should be applied to an existing Sakai Doc that I own
          * @param {Function} callback Function to be executed after setting (or failing to set) the permissions
          */
-        var addSakaiDocToWorld = function(urlName, poolId, docTitle, docPermission, nonEditable, existingNotMine, callback){
+        var addSakaiDocToWorld = function(urlName, poolId, docTitle, docPermission, nonEditable, existingNotMine, callback) {
             // Refetch docstructure information
             $.ajax({
-                 url: "/~" + sakai_global.group.groupId + "/docstructure.infinity.json",
+                 url: '/~' + sakai_global.group.groupId + '/docstructure.infinity.json',
                  cache: false,
-                 success: function(data){
+                 success: function(data) {
 
                     var pubdata = sakai.api.Server.cleanUpSakaiDocObject(data);
                     var newView = [];
                     var newEdit = [];
 
-                    if (docPermission === "public"){
-                        newView.push("everyone");
-                        newView.push("anonymous");
-                    } else if (docPermission === "everyone"){
-                        newView.push("everyone");
+                    if (docPermission === 'public') {
+                        newView.push('everyone');
+                        newView.push('anonymous');
+                    } else if (docPermission === 'everyone') {
+                        newView.push('everyone');
                     }
 
                     var roles = fetchGroupRoles();
-                    for (var i = 0; i < roles.length; i++){
+                    for (var i = 0; i < roles.length; i++) {
                         var role = roles[i];
-                        if (role.isManagerRole){
+                        if (role.isManagerRole) {
                             if (existingNotMine) {
-                                newView.push("-" + role.id);
+                                newView.push('-' + role.id);
                             } else {
-                                newEdit.push("-" + role.id);
+                                newEdit.push('-' + role.id);
                             }
-                        } else if (docPermission !== "advanced"){
-                            newView.push("-" + role.id);
+                        } else if (docPermission !== 'advanced') {
+                            newView.push('-' + role.id);
                         }
                     }
 
                     pubdata.structure0[urlName] = {
-                        "_title": docTitle,
-                        "_order": _.size(pubdata.structure0),
-                        "_pid": poolId,
-                        "_view": $.toJSON(newView),
-                        "_edit": $.toJSON(newEdit),
-                        "_nonEditable": nonEditable
+                        '_title': docTitle,
+                        '_order': _.size(pubdata.structure0),
+                        '_pid': poolId,
+                        '_view': JSON.stringify(newView),
+                        '_edit': JSON.stringify(newEdit),
+                        '_nonEditable': nonEditable
                     };
 
                     // Store view and edit roles
                     sakai_global.group.pubdata.structure0 = pubdata.structure0;
-                    sakai.api.Server.saveJSON("/~" + sakai_global.group.groupId + "/docstructure", {
-                        "structure0": $.toJSON(pubdata.structure0)
-                    }, function(){
+                    sakai.api.Server.saveJSON('/~' + sakai_global.group.groupId + '/docstructure', {
+                        'structure0': JSON.stringify(pubdata.structure0)
+                    }, function() {
                         callback(poolId, urlName);
                     });
                 }
@@ -515,17 +543,17 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
         /*
          * Selects a Sakai Doc in the world to show and triggers the permissions overlay if necessary
          */
-        var selectPageAndShowPermissions = function(poolId, path, docPermission){
+        var selectPageAndShowPermissions = function(poolId, path, docPermission) {
             sakai.api.Util.Modal.close($addAreaContainer);
-            if (docPermission === "advanced"){
-                $(window).trigger("permissions.area.trigger", [{
+            if (docPermission === 'advanced') {
+                $(document).trigger('init.areapermissions.sakai', [{
                     isManager: true,
-	                pageSavePath: "/p/" + poolId,
-	                path: path,
-	                savePath: "/~" + sakai_global.group.groupId + "/docstructure"
+                    pageSavePath: '/p/' + poolId,
+                    path: path,
+                    savePath: '/~' + sakai_global.group.groupId + '/docstructure'
                 }]);
             }
-            $(window).trigger("rerender.group.sakai", [path]);
+            $(window).trigger('rerender.group.sakai', [path]);
         };
 
         /**
@@ -534,8 +562,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
          * @param {Object} poolId        Pooled content id of the new area
          * @param {Object} callback      Function to call when the creator has been removed
          */
-        var removeCreatorAsManager = function(poolId, callback){
-            sakai.api.Content.removeUser("manager", poolId, sakai.data.me.user.userid, callback);
+        var removeCreatorAsManager = function(poolId, callback) {
+            sakai.api.Content.removeUser('manager', poolId, sakai.data.me.user.userid, callback);
         };
 
         ///////////////////////
@@ -600,7 +628,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
             var nonEditable = true;
             createSakaiDoc(docTitle, docPermission, docStructure, 'library', nonEditable, function(poolId, urlName) {
                 setSakaiDocPermissions(urlName, poolId, docPermission, false, function(poolId1) {
-                    removeCreatorAsManager(poolId, function(){
+                    removeCreatorAsManager(poolId, function() {
                         addSakaiDocToWorld(urlName, poolId1, docTitle, docPermission, nonEditable, false, function(poolId2, path) {
                             selectPageAndShowPermissions(poolId2, path, docPermission);
                         });
@@ -678,55 +706,55 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
             });
         };
 
-        var docMatches = function (query, docTitle){
-            if(docTitle.toLowerCase().indexOf(query.toLowerCase())  != -1){
+        var docMatches = function(query, docTitle) {
+            if (docTitle.toLowerCase().indexOf(query.toLowerCase())  !== -1) {
                 return true;
             }
             return false;
         };
 
-        var getCurrentlyViewingDocs = function(query){
+        var getCurrentlyViewingDocs = function(query) {
             var currentDocs = [];
-            query = query || "";
+            query = query || '';
             $.each(sakai_global.group.pubdata.structure0, function(i, index) {
                 if ($.isPlainObject(sakai_global.group.pubdata.structure0[i])) {
                     var docObj = {
-                        "sakai:pooled-content-file-name": sakai_global.group.pubdata.structure0[i]["_title"],
-                        "_path": sakai_global.group.pubdata.structure0[i]["_pid"],
-                        "canManage": sakai_global.group.pubdata.structure0[i]["_canSubedit"],
-                        "groupVisibility": sakai_global.group.groupData["sakai:group-visible"]
+                        'sakai:pooled-content-file-name': sakai_global.group.pubdata.structure0[i]['_title'],
+                        '_path': sakai_global.group.pubdata.structure0[i]['_pid'],
+                        'canManage': sakai_global.group.pubdata.structure0[i]['_canSubedit'],
+                        'groupVisibility': sakai_global.group.groupData['sakai:group-visible']
                     };
-                    if (query && docMatches(query, docObj["sakai:pooled-content-file-name"])) {
+                    if (query && docMatches(query, docObj['sakai:pooled-content-file-name'])) {
                         currentDocs.push(docObj);
-                    } else if (query === "") {
+                    } else if (query === '') {
                         currentDocs.push(docObj);
                     }
                 }
             });
-            var sortOrder = $(".addarea_existing_container:visible").find(".addarea_existing_sort").val();
+            var sortOrder = $('.addarea_existing_container:visible').find('.addarea_existing_sort').val();
             currentDocs.sort(dateSort);
-            if (sortOrder === "desc") {
+            if (sortOrder === 'desc') {
                 currentDocs.reverse();
             }
             // Render the results
-            $("#addarea_existing_currentlyviewing_bottom").html(sakai.api.Util.TemplateRenderer("addarea_existing_bottom_template", {
+            $('#addarea_existing_currentlyviewing_bottom').html(sakai.api.Util.TemplateRenderer('addarea_existing_bottom_template', {
                 data: currentDocs,
-                context: "currently_viewing"
+                context: 'currently_viewing'
             }));
         };
 
         /*
          * Initiates the linking of an existing Sakai Doc
          */
-        var createExistingSakaiDoc = function(){
-            var docTitle = $(".addarea_existing_container:visible").find(".addarea_existing_name").val();
-            var docPermission = $(".addarea_existing_container:visible").find(".addarea_existing_permissions").val();
-            var $selectedDoc = $(".addarea_existing_item.selected");
-            var docId = $selectedDoc.data("doc-id");
-            var existingNotMine = !$selectedDoc.data("sakai-manage");
+        var createExistingSakaiDoc = function() {
+            var docTitle = $('.addarea_existing_container:visible').find('.addarea_existing_name').val();
+            var docPermission = $('.addarea_existing_container:visible').find('.addarea_existing_permissions').val();
+            var $selectedDoc = $('.addarea_existing_item.selected');
+            var docId = $selectedDoc.data('doc-id');
+            var existingNotMine = !$selectedDoc.data('sakai-manage');
             var nonEditable = false;
-            setSakaiDocPermissions(docId, docId, docPermission, existingNotMine, function(poolId){
-                addSakaiDocToWorld(poolId, poolId, docTitle, docPermission, nonEditable, existingNotMine, function(poolId, path){
+            setSakaiDocPermissions(docId, docId, docPermission, existingNotMine, function(poolId) {
+                addSakaiDocToWorld(poolId, poolId, docTitle, docPermission, nonEditable, existingNotMine, function(poolId, path) {
                     selectPageAndShowPermissions(poolId, path, docPermission);
                 });
             });
@@ -735,31 +763,31 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
         /*
          * Fetches all Sakai Docs queried for and depending on the context renders a different view
          */
-        var getAllExistingSakaiDocs = function(query, library){
+        var getAllExistingSakaiDocs = function(query, library) {
             var json = {
-                mimetype: "x-sakai/document",
+                mimetype: 'x-sakai/document',
                 q: query,
                 items: 50
             };
-            var url = "/var/search/pool/all.0.json";
+            var url = '/var/search/pool/all.0.json';
             if (!query) {
-                url = "/var/search/pool/all-all.0.json";
+                url = '/var/search/pool/all-all.0.json';
             }
 
             if (library) {
-                json["userid"] = sakai.data.me.user.userid;
+                json['userid'] = sakai.data.me.user.userid;
                 url = sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER;
             }
             sakai.api.Server.loadJSON( url, function(success, data) {
-                var sortOrder = $(".addarea_existing_container:visible").find(".addarea_existing_sort").val();
+                var sortOrder = $('.addarea_existing_container:visible').find('.addarea_existing_sort').val();
                 data.results.sort(dateSort);
-                if (sortOrder === "desc"){
+                if (sortOrder === 'desc') {
                     data.results.reverse();
                 }
                 // Check which items I can manage
                 for (var i = 0; i < data.results.length; i++) {
                     var manager = false;
-                    var managers = data.results[i]["sakai:pooled-content-manager"];
+                    var managers = data.results[i]['sakai:pooled-content-manager'];
                     for (var m = 0; m < managers.length; m++) {
                         if (managers[m] === sakai.data.me.user.userid ||
                         sakai.api.Groups.isCurrentUserAMember(managers[m], sakai.data.me)) {
@@ -768,29 +796,29 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
                     }
                     data.results[i].canManage = manager;
                 }
-                var container = "#addarea_existing_everywhere_bottom";
-                var context = "everywhere";
+                var container = '#addarea_existing_everywhere_bottom';
+                var context = 'everywhere';
                 if (library) {
-                    container = "#addarea_existing_mylibrary_bottom";
-                    context = "my_library";
+                    container = '#addarea_existing_mylibrary_bottom';
+                    context = 'my_library';
                 }
                 // Render the results
-                $(container).html(sakai.api.Util.TemplateRenderer("addarea_existing_bottom_template", {
+                $(container).html(sakai.api.Util.TemplateRenderer('addarea_existing_bottom_template', {
                         data: data.results,
-                        "context": context
+                        'context': context
                     })
                 );
             }, json);
         };
 
-        var handleSearch = function(ev){
-            if(ev.keyCode === 13 || $(ev.currentTarget).hasClass("s3d-search-button") || $(ev.currentTarget).hasClass("addarea_existing_sort")){
-                if($(".addarea_existing_container:visible").data("doc-type") !== "existing_currentlyviewing"){
-                    $(".addarea_existing_bottom").html("");
-                    getAllExistingSakaiDocs($(".addarea_existing_container:visible").find(".s3d-search-inputfield").val(), $(".addarea_existing_container:visible").data("doc-type") === "existing_mylibrary");
+        var handleSearch = function(ev) {
+            if (ev.keyCode === 13 || $(ev.currentTarget).hasClass('s3d-search-button') || $(ev.currentTarget).hasClass('addarea_existing_sort')) {
+                if ($('.addarea_existing_container:visible').data('doc-type') !== 'existing_currentlyviewing') {
+                    $('.addarea_existing_bottom').html('');
+                    getAllExistingSakaiDocs($('.addarea_existing_container:visible').find('.s3d-search-inputfield').val(), $('.addarea_existing_container:visible').data('doc-type') === 'existing_mylibrary');
                 } else {
-                    $(".addarea_existing_bottom").html("");
-                    getCurrentlyViewingDocs($(".addarea_existing_container:visible").find(".s3d-search-inputfield").val());
+                    $('.addarea_existing_bottom').html('');
+                    getCurrentlyViewingDocs($('.addarea_existing_container:visible').find('.s3d-search-inputfield').val());
                 }
             }
         };
@@ -802,7 +830,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
         /*
          * Shows the jqModal overlay for adding areas
          */
-        var initializeJQM = function(){
+        var initializeJQM = function() {
             sakai.api.Util.Modal.setup($addAreaContainer, {
                 modal: true,
                 overlay: 20,
@@ -816,55 +844,55 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
         /*
          * Renders the widget page
          */
-        var renderWidgets = function(){
+        var renderWidgets = function() {
             var widgets = [];
             var nameSet = false;
-            for (var widget in sakai.widgets){
-                if(!nameSet){
-                    $("#addarea_widgets_name").val(sakai.api.Widgets.getWidgetTitle(sakai.widgets[widget].id));
-                    nameSet = true;
-                }
-                if(sakai.widgets[widget].sakaidocs){
+            for (var widget in sakai.widgets) {
+                if (sakai.widgets[widget].sakaidocs) {
+                    if (!nameSet) {
+                        $('#addarea_widgets_name').val(sakai.api.Widgets.getWidgetTitle(sakai.widgets[widget].id));
+                        nameSet = true;
+                    }
                     widgets.push(sakai.widgets[widget]);
                 }
             }
-            $("#addarea_widgets_widget").html(sakai.api.Util.TemplateRenderer("addarea_widgets_widget_container", {data: widgets, sakai: sakai}));
+            $('#addarea_widgets_widget').html(sakai.api.Util.TemplateRenderer('addarea_widgets_widget_container', {data: widgets, sakai: sakai}));
         };
 
         /*
          * Add binding to elements in the widget
          */
-        var addBinding = function(){
+        var addBinding = function() {
             $(addAreaNavigationButton).click(switchNavigation);
             $(addareaCreateDocButton).click(determineDocContext);
-            $(addAreaExistingCurrentlyViewingInput).live("keyup", handleSearch);
-            $(addAreaExistingEverywhereSearchInput).live("keyup", handleSearch);
-            $(addAreaExistingMyLibrarySearchInput).live("keyup", handleSearch);
-            $(".addarea_existing_sort").live("change", handleSearch);
-            $(".s3d-search-button", $rootel).click(handleSearch);
-            $("#addarea_widgets_widget").change(function(){
-                $("#addarea_widgets_name").val(sakai.api.Widgets.getWidgetTitle($(this).val()));
+            $(addAreaExistingCurrentlyViewingInput).on('keyup', handleSearch);
+            $(addAreaExistingEverywhereSearchInput).on('keyup', handleSearch);
+            $(addAreaExistingMyLibrarySearchInput).on('keyup', handleSearch);
+            $('.addarea_existing_sort').on('change', handleSearch);
+            $('.s3d-search-button', $rootel).click(handleSearch);
+            $('#addarea_widgets_widget').change(function() {
+                $('#addarea_widgets_name').val(sakai.api.Widgets.getWidgetTitle($(this).val()));
             });
-            $(addareaExistingItem).live("click", function(){
-                $(addareaExistingItem).removeClass("selected");
-                $(this).addClass("selected");
-                $(".addarea_existing_container:visible").find(".addarea_existing_permissions").html(
-                    sakai.api.Util.TemplateRenderer("addarea_permissions_template", {
-                        "canManage": $(this).data("can-manage"),
-                        "groupVisibility": sakai_global.group.groupData["sakai:group-visible"],
-                        "newDoc": false
+            $addAreaContainer.on('click', addareaExistingItem, function() {
+                $(addareaExistingItem).removeClass('selected');
+                $(this).addClass('selected');
+                $('.addarea_existing_container:visible').find('.addarea_existing_permissions').html(
+                    sakai.api.Util.TemplateRenderer('addarea_permissions_template', {
+                        'canManage': $(this).data('can-manage'),
+                        'groupVisibility': sakai_global.group.groupData['sakai:group-visible'],
+                        'newDoc': false
                     })
                 );
-                $(".addarea_existing_container:visible").find(".addarea_existing_name").val($(this).data("doc-title"));
-                checkTitleProvided();
+                $('.addarea_existing_container:visible').find('.addarea_existing_name').val($(this).data('doc-title'));
+                checkValidForm();
             });
-            $(".addarea_name_field").live("keyup", checkTitleProvided);
+            $('.addarea_name_field').on('keyup', checkValidForm);
         };
 
         /*
          * Binding to enable the Widget to be initialised from outside of the Widget
          */
-        $(window).bind("addarea.initiate.sakai", function(){
+        $(document).on('init.addarea.sakai', function() {
             resetWidget();
             initializeJQM();
             renderWidgets();
@@ -874,5 +902,5 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _){
 
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("addarea");
+    sakai.api.Widgets.widgetLoader.informOnLoad('addarea');
 });

@@ -1,17 +1,21 @@
 {
-    "id":"personinfo",
-    "hasSettings":false,
-    "type":"sakai",
-    "enabled":true,
+    "enabled": true,
+    "hasSettings": false,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/personinfo/bundles/default.properties",
-            "name":"Personinfo",
-            "description":"Overlay that displays person info"
+            "description": "Overlay that displays person info",
+            "name": "Personinfo"
         },
-        "default": {
+        "fr_FR": {
             "bundle": "/devwidgets/personinfo/bundles/fr_FR.properties"
         }
     },
-    "url":"/devwidgets/personinfo/personinfo.html"
+    "id": "personinfo",
+    "trigger": {
+        "selectors": [".personinfo_trigger_click"],
+        "onLoad": false
+    },
+    "type": "sakai",
+    "url": "/devwidgets/personinfo/personinfo.html"
 }

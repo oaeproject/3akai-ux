@@ -15,7 +15,7 @@
             {/if}
             {if data && data.data && data.data.mimeType && data.data.mimeType !== "x-sakai/document" && sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/link" && sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/collection"}
                 <li id="ew_upload">
-                    <button class="s3d-link-button">__MSG__UPLOAD_NEW_VERSION__</button>
+                    <button class="s3d-link-button">__MSG__UPLOAD_A_NEW_VERSION__</button>
                 </li>
                 <hr class="s3d-split-line"/>
             {/if}
@@ -50,7 +50,7 @@
             <hr class="s3d-split-line"/>
             {if joinable}
             <li id="ew_group_join_requests">
-                <button class="s3d-link-button" id="ew_group_join_requests_link">__MSG__JOIN_REQUESTS__</button>
+                <button class="s3d-link-button sakai_joinrequests_overlay">__MSG__JOIN_REQUESTS__</button>
             </li>
             <hr class="s3d-split-line"/>
             {/if}
@@ -62,8 +62,8 @@
                 <button class="s3d-link-button" id="ew_group_export_as_template_link">__MSG__EXPORT_AS_TEMPLATE__</button>
                 <div id='widget_templategenerator' class='widget_inline'></div>
             </li>
-            <hr class="s3d-split-line"/>
-            <li id="ew_group_settings">
+            <hr class="s3d-split-line" style="display:none;"/>
+            <li id="ew_group_settings" style="display:none;">
                 <button class="s3d-link-button" id="ew_group_delete_link">__MSG__DELETE__</button>
             </li>
         <ul>
@@ -88,9 +88,11 @@
     {if type && type == "user_me"}
         <button id="entity_user_image" class="entity_change_avatar">
             <span class="entity_profilepic_internal">
-                <img id="entity_profile_picture" alt="__MSG__PROFILE_PICTURE_FOR__ ${data.displayName}" src="{if data.picture}${data.picture}{else}/dev/images/default_User_icon_50x50.png{/if}"/>
+                <img id="entity_profile_picture" alt="" src="{if data.picture}${data.picture}{else}/dev/images/default_User_icon_50x50.png{/if}"/>
             </span>
+            <span class="s3d-aural-text">__MSG__PROFILE_PICTURE_OPTIONS_FOR__ ${data.displayName}</span> 
             <span class="s3d-dropdown-menu-arrow entity_profile_picture_down_arrow"></span>
+            <span class="s3d-aural-text">__MSG__PROFILE_PICTURE_OPTIONS__</span>
         </button>
         <div class="s3d-dropdown-list entity_user_avatar_menu" style="display:none;">
             <div class="s3d-dropdown-list-arrow-up"></div>
@@ -128,7 +130,7 @@
             <span class="entity_number">
                 {var contactsCount = data.profile.counts["contactsCount"] || 0}
                 ${contactsCount}
-                {if contactsCount === 1} 
+                {if contactsCount === 1}
                     __MSG__CONTACT_LC__
                 {else}
                     __MSG__CONTACTS_LC__
@@ -357,9 +359,9 @@
                 </div>
             </div>
             <span class="entity_comments">
-                <img src="/devwidgets/entity/images/entity_comment_icon.png" alt="__MSG__COMMENTS__" />
+                <img src="/devwidgets/entity/images/entity_comment_icon.png" alt="__MSG__COMMENTS_LC__" />
                 {var commentCount = sakai.api.Content.getCommentCount(data.data)}
-                <a id="entity_comments_link" href="#"><span>${commentCount || "0"}</span> {if commentCount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a>
+                <a id="entity_comments_link" href="#"><span>${commentCount || "0"}</span> {if commentCount == 1} __MSG__COMMENT_LC__{else} __MSG__COMMENTS_LC__{/if}</a>
             </span>
         {else}
             <span class="entity_comments">
@@ -396,9 +398,9 @@
                         {/if}
                     </div>
                 {/if}
-                <img src="/devwidgets/entity/images/entity_comment_icon.png" alt="__MSG__COMMENTS__" />
+                <img src="/devwidgets/entity/images/entity_comment_icon.png" alt="__MSG__COMMENTS_LC__" />
                 {var commentCount = sakai.api.Content.getCommentCount(data.data)}
-                <a id="entity_comments_link" href="javascript:;"><span>${commentCount || "0"}</span> {if commentCount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a>
+                <a id="entity_comments_link" href="javascript:;"><span>${commentCount || "0"}</span> {if commentCount == 1} __MSG__COMMENT_LC__{else} __MSG__COMMENTS_LC__{/if}</a>
                 <div class="entity_number entity_permissions_label">
                     {var permissions = data.data["sakai:permissions"]}
                     <div id="entity_${permissions}_privacy_icon" class="entity_content_details_icon"></div>
@@ -409,7 +411,7 @@
                         {else}
                             __MSG__PRIVATE_TO__ ${sakai.api.User.getDisplayName(sakai.data.me.profile)}
                             {if (peopleCount + groupCount) > 1}
-                            + ${groupCount + peopleCount - 1} __MSG__OTHERS__
+                            + ${groupCount + peopleCount - 1} __MSG__OTHERS_LC__
                         {/if}
                     {/if}
                 </div>
@@ -435,9 +437,11 @@ ${macros["entityContentOwnsMacro"] = entityContentOwnsMacro |eat}
     {if type && type == "group_managed"}
         <button id="entity_group_image" class="entity_change_avatar">
             <span class="entity_profilepic_internal">
-                <img id="entity_profile_picture" alt="__MSG__GROUP_PICTURE_FOR__ ${data.authprofile["sakai:group-title"]|safeOutput}" src="{if data.authprofile.picture}${data.authprofile.picture}{else}/devwidgets/entity/images/entity_default_group.png{/if}"/>
+                <img id="entity_profile_picture" alt="" src="{if data.authprofile.picture}${data.authprofile.picture}{else}/devwidgets/entity/images/entity_default_group.png{/if}"/>
             </span>
+            <span class="s3d-aural-text">__MSG__GROUP_PICTURE_OPTIONS_FOR__ ${data.authprofile["sakai:group-title"]|safeOutput}</span> 
             <span class="s3d-dropdown-menu-arrow entity_profile_picture_down_arrow"></span>
+            <span class="s3d-aural-text">__MSG__PROFILE_PICTURE_OPTIONS__</span>
         </button>
         <div class="s3d-dropdown-list entity_group_avatar_menu" style="display:none;">
             <div class="s3d-dropdown-list-arrow-up"></div>
@@ -470,9 +474,9 @@ ${macros["entityContentOwnsMacro"] = entityContentOwnsMacro |eat}
             </span>
             <span id="entity_participants_text">
                 {if membersCount === 1}
-                    __MSG__PARTICIPANT__
+                    __MSG__PARTICIPANT_LC__
                 {else}
-                    __MSG__PARTICIPANTS__
+                    __MSG__PARTICIPANTS_LC__
                 {/if}
             </span>
         </span>
@@ -555,9 +559,9 @@ ${macros["entityContentOwnsMacro"] = entityContentOwnsMacro |eat}
                 {for i in userList}
                     {if sakai.api.Content.Collections.isCollection(i)}
                         ${userlist_groups_index++|eat}
-                        {if userlist_groups_index%2} 
+                        {if userlist_groups_index%2}
                             <li id="${i['sakai:group-id']}">
-                        {else} 
+                        {else}
                             <li id="${i['sakai:group-id']}" class="entity_content_even">
                         {/if}
                         <a href="/content#p=${sakai.api.Content.Collections.getCollectionPoolId(i)}/${i['sakai:group-title']|safeURL}"><img src="/dev/images/mimetypes/collection.png" alt="${i['sakai:group-title']|safeOutput}" class="entity_content_picture"/></a>

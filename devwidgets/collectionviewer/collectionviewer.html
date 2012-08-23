@@ -19,7 +19,7 @@
         </div>
 
         <div id="collectionviewer_sortarea" class="s3d-margin-top-5 fl-force-right">
-            <label for="collectionviewer_sortby">__MSG__SORT_BY__:</label>
+            <label for="collectionviewer_sortby">__MSG__SORT_BY:__</label>
             <select id="collectionviewer_sortby" name="collectionviewer_sortby">
                 <option value="modified">__MSG__RECENTLY_CHANGED__</option>
                 <option value="asc"> __MSG__A_Z__</option>
@@ -106,10 +106,11 @@
                         __MSG__CHANGED__ ${jQuery.timeago(new Date(i._lastModified))}
                     </div>
                     {if i["sakai:description"]}
-                        <span class="searchcontent_result_description">${i["sakai:description"]|safeOutput}</span>
-                        <span class="searchcontent_result_description_grid">${i["sakai:description-shorter"]|safeOutput}</span>
+                        <span class="searchcontent_result_description">${i["sakai:description"]}</span>
+                        <span class="searchcontent_result_description_grid">${i["sakai:description-shorter"]}</span>
                     {/if}
                     {if i.tagsProcessed && i.tagsProcessed.length}
+                        <span class="s3d-aural-text">__MSG__TAGS_FOR__ ${i["sakai:pooled-content-file-name"]|safeOutput}</span>
                         <ul class="s3d-taglist">
                             {for t in i.tagsProcessed}
                                 <li>
@@ -131,7 +132,7 @@
                     {var commentCount = i.numComments || sakai.api.Content.getCommentCount(i)}
                     {if commentCount > 0}
                         <span class="searchcontent_result_icon searchcontent_result_comments_icon"></span>
-                        ${commentCount} {if commentCount === 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}
+                        ${commentCount} {if commentCount === 1} __MSG__COMMENT_LC__{else} __MSG__COMMENTS_LC__{/if}
                     {/if}
                 </div>
             </li>
@@ -157,12 +158,12 @@
 <div id="collectionviewer_carousel_template"><!--
     {macro fillUpList(itemsShort)}
         <li>
-	        <div class="collectionviewer_carousel_no_thumbnail_container"></div>
-	    </li>
-	    {var itemsShort = itemsShort - 1}
-	    {if itemsShort}
-	        ${fillUpList(itemsShort)}
-	    {/if}
+            <div class="collectionviewer_carousel_no_thumbnail_container"></div>
+        </li>
+        {var itemsShort = itemsShort - 1}
+        {if itemsShort}
+            ${fillUpList(itemsShort)}
+        {/if}
     {/macro}
 
     <div class="collectionviewer_prev_next_container fl-force-right">
@@ -277,7 +278,7 @@
                 </div>
                 <div class="collectionviewer_result_by">
                     {if data.ownerDisplayNameShort}
-                    __MSG__BY__ <a class="s3d-regular-light-links searchcontent_result_username" href="/~${data['sakai:pool-content-created-for']|safeURL}">${data.ownerDisplayNameShort}</a> 
+                    __MSG__BY__ <a class="s3d-regular-light-links searchcontent_result_username" href="/~${data['sakai:pool-content-created-for']|safeURL}">${data.ownerDisplayNameShort}</a>
                     <span class="s3d-search-result-detail-separator">
                         <span> | </span>
                     </span>
@@ -364,7 +365,7 @@
                                 </div>
                                 <div class="collectionviewer_result_by">
                                     {if item.ownerDisplayNameShort}
-                                    __MSG__BY__ <a class="s3d-regular-light-links searchcontent_result_username" href="/~${item['sakai:pool-content-created-for']|safeURL}">${item.ownerDisplayNameShort}</a> 
+                                    __MSG__BY__ <a class="s3d-regular-light-links searchcontent_result_username" href="/~${item['sakai:pool-content-created-for']|safeURL}">${item.ownerDisplayNameShort}</a>
                                     <span class="s3d-search-result-detail-separator">
                                         <span> | </span>
                                     </span>
@@ -380,7 +381,7 @@
                                    {var commentCount = item.numComments || sakai.api.Content.getCommentCount(item)}
                                    {if commentCount > 0}
                                        <span class="searchcontent_result_icon searchcontent_result_comments_icon"></span>
-                                       ${commentCount} {if commentCount === 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}
+                                       ${commentCount} {if commentCount === 1} __MSG__COMMENT_LC__{else} __MSG__COMMENTS_LC__{/if}
                                    {/if}
                                </div>
                             </div>

@@ -1,19 +1,19 @@
 {
-    "id":                 "searchsakai2",
-    "type":               "core",
-    "enabled":            false,
-    "hasSettings":        false,
-    "url":                "/devwidgets/searchsakai2/searchsakai2.html",
+    "enabled": false,
+    "hasSettings": false,
     "i18n": {
         "default": {
-            "bundle":     "/devwidgets/searchsakai2/bundles/default.properties",
-            "name":       "Search Sakai 2",
-            "description":"Search Sakai 2"
+            "bundle": "/devwidgets/searchsakai2/bundles/default.properties",
+            "description": "Search Sakai 2",
+            "name": "Search Sakai 2"
         },
         "fr_FR": {
-            "bundle":     "/devwidgets/searchsakai2/bundles/fr_FR.properties"
+            "bundle": "/devwidgets/searchsakai2/bundles/fr_FR.properties"
         }
     },
-    "personalportal":     false,
-    "sakaidocs":          false
+    "id": "searchsakai2",
+    "personalportal": false,
+    "sakaidocs": false,
+    "type": "core",
+    "url": "/devwidgets/searchsakai2/searchsakai2.html"
 }

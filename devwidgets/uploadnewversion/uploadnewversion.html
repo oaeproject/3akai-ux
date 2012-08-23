@@ -5,25 +5,23 @@
     <div class="s3d-dialog-close jqmClose"></div>
     <h1 class="s3d-dialog-header">__MSG__UPLOAD_NEW_VERSION__</h1>
     __MSG__SELECT_A_NEW_FILE_THEN_UPLOAD__
-    <div id="uploadnewversion_form_container"></div>
+    <div id="uploadnewversion_form_container">
+        <form id="uploadnewversion_upload_content_form" method="POST" enctype="multipart/form-data">
+            <label for="uploadnewversion_fileupload">__MSG__UPLOAD_A_FILE__:</label>
+            <input id="uploadnewversion_fileupload" type="file" name="files[]" size="38"/>
+        </form>
+    </div>
     <div id="uploadnewversion_actions">
         <button type="button" class="s3d-link-button jqmClose s3d-bold">__MSG__CANCEL__</button>
         <button type="button" class="s3d-button s3d-overlay-action-button uploadnewversion_doupload">__MSG__UPLOAD__</button>
     </div>
 </div>
 
-<div id="uploadnewversion_form_template"><!--
-    <form id="uploadnewversion_upload_content_form" method="POST" enctype="multipart/form-data">
-        <label for="multifile_upload">__MSG__UPLOAD_A_FILE__:</label>
-        <input name="fileData" id="multifile_upload" class="multi max-1" maxlength="1" type="file" size="44"/>
-    </form>
---></div>
-
 <div id="uploadnewversion_uploading" class="s3d-dialog s3d-dialog-container" style="display:none;">
     <h1 class="s3d-dialog-header">__MSG__UPLOADING_YOUR_CONTENT__</h1>
-    <p>__MSG__PROCESSING__</p>
+    <p>__MSG__PROCESSING_UPLOAD__</p>
     <div class="s3d-inset-shadow-container">
-        <img src="/dev/images/progress_bar.gif" alt="__MSG__PROCESSING__"/>
+        <img src="/dev/images/progress_bar.gif" alt="__MSG__PROCESSING_UPLOAD__"/>
     </div>
 </div>
 

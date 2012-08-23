@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-require(["jquery", "sakai/sakai.api.core"], function($, sakai){
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     sakai_global = sakai_global || {};
     sakai.widgets = sakai.widgets || {};
@@ -31,142 +31,126 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
      *       you must add it to this list
      */
     var widgetList = [
-        "accountpreferences",
-        "activegroups",
-        "addarea",
-        "addpeople",
-        "addtocontacts",
-        "allcategories",
-        "areapermissions",
-        "assignlocation",
-        "basiclti",
-        "captcha",
-        "carousel",
-        "categories",
-        "changepic",
-        "collectionviewer",
-        "comments",
-        "contacts",
-        "contentauthoring",
-        "contentcomments",
-        "contentmetadata",
-        "contentpermissions",
-        "contentpreview",
-        "createpage",
-        "dashboard",
-        "dashboardactivity",
-        "deletecontent",
-        "discussion",
-        "displayprofilesection",
-        "documentviewer",
-        "embedcontent",
-        "entity",
-        "faceted",
-        "featuredcontent",
-        "featuredpeople",
-        "featuredworlds",
-        "footer",
-        "ggadget",
-        "googlemaps",
-        "helloworld",
-        "help",
-        "htmlblock",
-        "inbox",
-        "inserter",
-        "inserterbar",
-        "institutionalskinning",
-        "joingroup",
-        "joinrequestbuttons",
-        "joinrequests",
-        "lhnavigation",
-        "listgeneral",
-        "listpeople",
-        "listpeopleinnode",
-        "listpeoplewrappergroup",
-        "login",
-        "mycontacts",
-        "mycontent",
-        "mygroups",
-        "mylibrary",
-        "mymemberships",
-        "mysakai2",
-        "navigation",
-        "newaddcontent",
-        "newcreategroup",
-        "newsharecontent",
-        "pagetitle",
-        "pageviewer",
-        "participants",
-        "personinfo",
-        "pickeradvanced",
-        "pickeruser",
-        "poll",
-        "popularcontent",
-        "recentactivity",
-        "recentchangedcontent",
-        "recentcontactsnew",
-        "recentmemberships",
-        "recentmessages",
-        "relatedcontent",
-        "remotecontent",
-        "rss",
-        "sakai2favourites",
-        "sakai2tools",
-        "savecontent",
-        "searchall",
-        "searchcontent",
-        "searchgroups",
-        "searchpeople",
-        "searchsakai2",
-        "selecttemplate",
-        "sendmessage",
-        "siterecentactivity",
-        "systemtour",
-        "tags",
-        "text",
-        "tooltip",
-        "topnavigation",
-        "uploadcontent",
-        "uploadnewversion",
-        "versions",
-        "video",
-        "welcome",
-        "worldsettings"
+        'accountpreferences',
+        'activegroups',
+        'addarea',
+        'addpeople',
+        'addtocontacts',
+        'allcategories',
+        'areapermissions',
+        'assignlocation',
+        'branding',
+        'basiclti',
+        'captcha',
+        'carousel',
+        'categories',
+        'changepic',
+        'collectionviewer',
+        'comments',
+        'contacts',
+        'contentauthoring',
+        'contentcomments',
+        'contentmetadata',
+        'contentpermissions',
+        'contentpreview',
+        'dashboard',
+        'dashboardactivity',
+        'deletecontent',
+        'discussion',
+        'displayprofilesection',
+        'documentviewer',
+        'embedcontent',
+        'entity',
+        'faceted',
+        'featuredcontent',
+        'featuredpeople',
+        'featuredworlds',
+        'footer',
+        'ggadget',
+        'googlemaps',
+        'helloworld',
+        'htmlblock',
+        'inbox',
+        'inserter',
+        'inserterbar',
+        'institutionalskinning',
+        'joingroup',
+        'joinrequestbuttons',
+        'joinrequests',
+        'lhnavigation',
+        'mycontacts',
+        'mycontent',
+        'mygroups',
+        'mylibrary',
+        'mymemberships',
+        'mysakai2',
+        'newaddcontent',
+        'newcreategroup',
+        'newsharecontent',
+        'pagetitle',
+        'pageviewer',
+        'participants',
+        'personinfo',
+        'pickeradvanced',
+        'popularcontent',
+        'recentactivity',
+        'recentchangedcontent',
+        'recentcontactsnew',
+        'recentmemberships',
+        'recentmessages',
+        'relatedcontent',
+        'remotecontent',
+        'rss',
+        'sakai2favourites',
+        'sakai2tools',
+        'savecontent',
+        'searchall',
+        'searchcontent',
+        'searchgroups',
+        'searchpeople',
+        'searchsakai2',
+        'selecttemplate',
+        'sendmessage',
+        'tags',
+        'text',
+        'tooltip',
+        'topnavigation',
+        'uploadnewversion',
+        'versions',
+        'welcome',
+        'worldsettings'
     ];
 
 
     /**
      * Grab all the widget config files
      *
-     * This does the same thing as /var/widgets.json does, but 
+     * This does the same thing as /var/widgets.json does, but
      * since we have to be able to do this without a sever, we recreate
      * the effect here
      */
 
     var loadWidgets = function() {
         sakai_global.qunit.allJSFiles = $.merge([], sakai_global.qunit.devJsFiles);
+        sakai_global.qunit.allCssFiles = $.merge([], sakai_global.qunit.devCssFiles);
         sakai_global.qunit.allHtmlFiles = $.merge([], sakai_global.qunit.devHtmlFiles);
         for (var i=0, j=widgetList.length; i<j; i++) {
             var widget = widgetList[i];
 
             (function(widgetName) {
-                var widgetJS = "/devwidgets/" + widgetName + "/javascript/" + widgetName + ".js",
-                    widgetHTML = false;
+                var widgetJS = '/devwidgets/' + widgetName + '/javascript/' + widgetName + '.js';
+                var widgetCSS = '/devwidgets/' + widgetName + '/css/' + widgetName + '.css';;
+                var widgetHTML = false;
                 $.ajax({
-                    url: "/devwidgets/" + widgetName + "/config.json",
-                    type: "json",
+                    url: '/devwidgets/' + widgetName + '/config.json',
+                    dataType: 'json',
                     success: function(data) {
-                        try {
-                            data = $.parseJSON(data);
-                        } catch (e) {
-                            console.error(widgetName + " has an error in its json");
-                        }
                         sakai.widgets[widgetName] = data;
                         widgetHTML = sakai.widgets[widgetName].url;
-                        sakai_global.qunit.widgets.push({name:widgetName, html: widgetHTML, js: widgetJS});
+                        sakai_global.qunit.widgets.push({name:widgetName, html: widgetHTML, css: widgetCSS, js: widgetJS});
                         if (widgetList.length === sakai_global.qunit.widgets.length) {
                             sakai_global.qunit.widgetsdone = true;
-                            $(window).trigger("widgetsdone.qunit.sakai");
+                            $(window).trigger('widgetsdone.qunit.sakai');
                         }
                     }
                 });
@@ -177,7 +161,7 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai){
     if (sakai_global.qunit.devfilesdone) {
         loadWidgets();
     } else {
-        $(window).bind("devfilesdone.qunit.sakai", function() {
+        $(window).on('devfilesdone.qunit.sakai', function() {
             loadWidgets();
         });
     }

@@ -17,17 +17,17 @@
  */
 define(
     [
-        "sakai/sakai.api.communication",
-        "sakai/sakai.api.content",
-        "sakai/sakai.api.groups",
-        "sakai/sakai.api.i18n",
-        "sakai/sakai.api.l10n",
-        "sakai/sakai.api.server",
-        "sakai/sakai.api.user",
-        "sakai/sakai.api.util",
-        "sakai/sakai.api.widgets",
-        "config/config_custom",
-        "../../../var/widgets.json?callback=define"
+        'sakai/sakai.api.communication',
+        'sakai/sakai.api.content',
+        'sakai/sakai.api.groups',
+        'sakai/sakai.api.i18n',
+        'sakai/sakai.api.l10n',
+        'sakai/sakai.api.server',
+        'sakai/sakai.api.user',
+        'sakai/sakai.api.util',
+        'sakai/sakai.api.widgets',
+        'config/config_custom',
+        '/var/widgets.json?callback=define'
     ],
     function(sakai_comm,
             sakai_content,
@@ -40,8 +40,8 @@ define(
             sakai_widgets,
             sakai_conf,
             sakai_widget_config) {
-    
-    var sakai = {
+
+    return {
         api : {
             Activity : sakai_util.Activity,
             Communication : sakai_comm,
@@ -60,9 +60,4 @@ define(
         data : sakai_user.data,
         widgets : sakai_widget_config
     };
-    // Load in the world templates
-    var templates = sakai_util.getTemplates();
-    sakai.config.worldTemplates = templates;
-    return sakai;
-
 });

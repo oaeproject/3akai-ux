@@ -30,7 +30,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.mylibrary = function (tuid, showSettings, widgetData, state) {
+    sakai_global.mylibrary = function(tuid, showSettings, widgetData, state) {
 
         /////////////////////////////
         // Configuration variables //
@@ -62,8 +62,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var $mylibrary_sortarea = $('#mylibrary_sortarea', $rootel);
         var $mylibrary_empty = $('#mylibrary_empty', $rootel);
         var $mylibrary_admin_actions = $('#mylibrary_admin_actions', $rootel);
-        var $mylibrary_addcontent = $('#mylibrary_addcontent', $rootel);
-        var $mylibrary_remove_icon = $('.mylibrary_remove_icon', $rootel);
+        var mylibrary_remove_icon = '.mylibrary_remove_icon'
         var $mylibrary_search_button = $('#mylibrary_search_button', $rootel);
         var $mylibrary_result_count = $('.s3d-search-result-count', $rootel);
         var $mylibrary_show_grid = $('.s3d-listview-grid', $rootel);
@@ -84,8 +83,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          *
          * @param {String} bundleKey The message bundle key
          */
-        var getPersonalizedText = function (bundleKey) {
-            if(currentGroup) {
+        var getPersonalizedText = function(bundleKey) {
+            if (currentGroup) {
                 return sakai.api.i18n.getValueForKey(
                     bundleKey, 'mylibrary').replace(/\$\{firstname\}/gi,
                         currentGroup.properties['sakai:group-title']);
@@ -142,7 +141,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             sakai.api.Util.TemplateRenderer('mylibrary_title_template', {
                 isMe: mylibrary.isOwnerViewing,
                 isGroup: isGroup,
-                user: sakai.api.Util.Security.safeOutput(contextName)
+                user: contextName
             }, $('#mylibrary_title_container', $rootel));
         };
 
@@ -159,7 +158,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             resetView();
             $mylibrary_items.hide();
             var query = $mylibrary_livefilter.val();
-            // We only show the controls when there is a search query. 
+            // We only show the controls when there is a search query.
             // All other scenarios with no items don't show the top controls
             if (!query) {
                 showHideTopControls(false);
@@ -180,8 +179,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 query: query
             }));
 
-            $('.s3d-page-header-bottom-row', $rootel).hide();
-
             $mylibrary_empty.show();
         };
 
@@ -193,9 +190,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Load the items of the current library and start an infinite scroll on
          * them
          */
-        var showLibraryContent = function () {
+        var showLibraryContent = function() {
             resetView();
-            var query = $mylibrary_livefilter.val() || '*';
+            var query = $mylibrary_livefilter.val();
             // Disable the previous infinite scroll
             if (mylibrary.infinityScroll) {
                 mylibrary.infinityScroll.kill();
@@ -220,13 +217,15 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     $mylibrary_result_count.children('.s3d-search-result-count-label').text(resultLabel);
                     $mylibrary_result_count.children('.s3d-search-result-count-count').text(total);
                 }
-                if(!sakai.data.me.user.anon) {
-                    if(items.length !== 0) {
+                if (!sakai.data.me.user.anon) {
+                    if (total !== 0) {
                         $('.s3d-page-header-top-row', $rootel).show();
                         $('.s3d-page-header-bottom-row', $rootel).show();
+                    } else {
+                        $('.s3d-page-header-bottom-row', $rootel).hide();
                     }
                 } else {
-                    if(items.length !== 0) {
+                    if (total !== 0) {
                         $('.s3d-page-header-top-row', $rootel).show();
                     }
                 }
@@ -322,7 +321,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
              * Enable/disable the remove selected button depending on whether
              * any items in the library are checked
              */
-            $mylibrary_check.live('change', function (ev) {
+            $rootel.on('change', '.mylibrary_check', function(ev) {
                 if ($(this).is(':checked')) {
                     $mylibrary_remove.removeAttr('disabled');
                     $mylibrary_addto.removeAttr('disabled');
@@ -338,7 +337,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             /**
              * Check/uncheck all loaded items in the library
              */
-            $mylibrary_check_all.change(function (ev) {
+            $mylibrary_check_all.change(function(ev) {
                 if ($(this).is(':checked')) {
                     $('.mylibrary_check').attr('checked', 'checked');
                     $mylibrary_remove.removeAttr('disabled');
@@ -357,27 +356,27 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
              * Gather all selected library items and initiate the
              * deletecontent widget
              */
-            $mylibrary_remove.click(function (ev) {
+            $mylibrary_remove.click(function(ev) {
                 var $checked = $('.mylibrary_check:checked:visible', $rootel);
                 if ($checked.length) {
                     var paths = [];
                     var collectionPaths = [];
-                    $checked.each(function () {
-                        paths.push($(this).data('entityid'));
-                        if($checked.attr('data-type') === 'x-sakai/collection') {
-                            collectionPaths.push($(this).data('entityid'));
+                    $checked.each(function() {
+                        paths.push($(this).attr('data-entityid'));
+                        if ($checked.attr('data-type') === 'x-sakai/collection') {
+                            collectionPaths.push($(this).attr('data-entityid'));
                         }
                     });
-                    $(window).trigger('init.deletecontent.sakai', [{
+                    $(document).trigger('init.deletecontent.sakai', [{
                         paths: paths,
                         context: mylibrary.contextId
-                    }, function (success) {
+                    }, function(success) {
                         if (success) {
                             resetView();
                             $(window).trigger('lhnav.updateCount', ['library', -(paths.length)]);
                             mylibrary.infinityScroll.removeItems(paths);
-                            if(collectionPaths.length) {
-                                $(window).trigger('sakai.mylibrary.deletedCollections', {
+                            if (collectionPaths.length) {
+                                $(document).trigger('sakai.mylibrary.deletedCollections', {
                                     items: collectionPaths
                                 });
                             }
@@ -390,23 +389,23 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
              * Called when clicking the remove icon next to an individual content
              * item
              */
-            $mylibrary_remove_icon.live('click', function(ev) {
+            $rootel.on('click', mylibrary_remove_icon, function(ev) {
                 if ($(this).attr('data-entityid')) {
                     var paths = [];
                     var collection = false;
-                    if($(this).attr('data-type') === 'x-sakai/collection') {
+                    if ($(this).attr('data-type') === 'x-sakai/collection') {
                         collection = true;
                     }
                     paths.push($(this).attr('data-entityid'));
-                    $(window).trigger('init.deletecontent.sakai', [{
+                    $(document).trigger('init.deletecontent.sakai', [{
                         paths: paths,
                         context: mylibrary.contextId
-                    }, function (success) {
+                    }, function(success) {
                         if (success) {
                             resetView();
                             $(window).trigger('lhnav.updateCount', ['library', -(paths.length)]);
-                            if(collection) {
-                                $(window).trigger('sakai.mylibrary.deletedCollections', {
+                            if (collection) {
+                                $(document).trigger('sakai.mylibrary.deletedCollections', {
                                     items: paths
                                 });
                             }
@@ -420,7 +419,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
              * Reload the library list based on the newly selected
              * sort option
              */
-            $mylibrary_sortby.change(function (ev) {
+            $mylibrary_sortby.change(function(ev) {
                 var query = $.trim($mylibrary_livefilter.val());
                 var sortSelection = $(this).val();
                 if (sortSelection === 'desc') {
@@ -439,7 +438,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             /**
              * Initiate a library search when the enter key is pressed
              */
-            $mylibrary_livefilter.keyup(function (ev) {
+            $mylibrary_livefilter.keyup(function(ev) {
                 if (ev.keyCode === 13) {
                     doSearch();
                 }
@@ -451,14 +450,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
              * field is pressed
              */
             $mylibrary_search_button.click(doSearch);
-
-            /**
-             * Initiate the add content widget
-             */
-            $mylibrary_addcontent.click(function (ev) {
-                $(window).trigger('init.newaddcontent.sakai');
-                return false;
-            });
 
             /**
              * An event to listen from the worldsettings dialog so that we can refresh the title if it's been changed.
@@ -473,7 +464,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
              * @param {Object} data        Object that contains the new library items
              * @param {Object} library     Context id of the library the content has been added to
              */
-            $(window).bind('done.newaddcontent.sakai', function(e, data, library) {
+            $(document).on('done.newaddcontent.sakai', function(e, data, library) {
                 if (library === mylibrary.contextId || mylibrary.contextId === sakai.data.me.user.userid) {
                     mylibrary.infinityScroll.prependItems(data);
                 }
@@ -483,13 +474,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
              * Keep track as to whether the current library widget is visible or not. If the
              * widget is not visible, it's not necessary to respond to hash change events.
              */
-            $(window).bind(tuid + '.shown.sakai', function(e, shown) {
+            $(window).on(tuid + '.shown.sakai', function(e, shown) {
                 mylibrary.widgetShown = shown;
             });
             /**
              * Bind to hash changes in the URL
              */
-            $(window).bind('hashchange', handleHashChange);
+            $(window).on('hashchange', handleHashChange);
 
             $mylibrary_show_list.click(function() {
                 $.bbq.pushState({'ls': 'list'});
@@ -507,7 +498,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Process library item results from the server
          */
-        var handleLibraryItems = function (results, callback) {
+        var handleLibraryItems = function(results, callback) {
             sakai.api.Content.prepareContentForRender(results, sakai.data.me, function(contentResults) {
                 if (contentResults.length > 0) {
                     callback(contentResults);
@@ -528,7 +519,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             sakai.api.Server.loadJSON('/system/userManager/group/' +  mylibrary.contextId + '.json', function(success, data) {
                 if (success) {
                     currentGroup = data;
-                    var contextName = currentGroup.properties['sakai:group-title'];
+                    var contextName = sakai.api.Util.Security.safeOutput(currentGroup.properties['sakai:group-title']);
                     mylibrary.isOwnerViewing = sakai.api.Groups.isCurrentUserAManager(currentGroup.properties['sakai:group-id'], sakai.data.me, currentGroup.properties);
                     mylibrary.isMemberViewing = sakai.api.Groups.isCurrentUserAMember(currentGroup.properties['sakai:group-id'], sakai.data.me);
                     finishInit(contextName, true);
@@ -550,7 +541,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * which mode the widget is in (settings or main), loads the necessary data
          * and shows the correct view.
          */
-        var doInit = function () {
+        var doInit = function() {
             mylibrary.contextId = '';
 
             // We embed the deletecontent widget, so make sure it's loaded

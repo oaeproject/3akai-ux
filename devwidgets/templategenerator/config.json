@@ -1,23 +1,4 @@
 {
-    "description":        "Export sites to templates",
-    "enabled":            true,
-    "i18n": {
-        "default": {
-            "bundle": "/devwidgets/templategenerator/bundles/default.properties",
-            "name": "Template generator",
-            "description": "Export sites to templates"
-        },
-        "es_ES": { 
-            "bundle": "/devwidgets/templategenerator/bundles/es_ES.properties"
-        },
-        "fr_FR": {
-            "bundle": "/devwidgets/templategenerator/bundles/fr_FR.properties"
-        }
-    },
-    "id":                 "templategenerator",
-    "name":               "Templategenerator Widget",
-    "type":               "core",
-    "url":                "/devwidgets/templategenerator/templategenerator.html",
     "defaultConfiguration": {
         "templategenerator": {
             "targetUser": "admin",
@@ -28,5 +9,22 @@
                 "comments"
             ]
         }
-    }
+    },
+    "enabled": true,
+    "i18n": {
+        "default": {
+            "bundle": "/devwidgets/templategenerator/bundles/default.properties",
+            "description": "Export sites to templates",
+            "name": "Template generator widget"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/templategenerator/bundles/fr_FR.properties"
+        },
+        "es_ES": {
+            "bundle": "/devwidgets/templategenerator/bundles/es_ES.properties"
+        }
+    },
+    "id": "templategenerator",
+    "type": "core",
+    "url": "/devwidgets/templategenerator/templategenerator.html"
 }

@@ -1,26 +1,22 @@
 {
-    "enabled":            true,
-    "groupdashboard":     false,
-    "grouppages":         true,
-    "hasSettings":        false,
+    "enabled": true,
+    "hashParams": ["ls", "lq"],
+    "hasSettings": false,
     "i18n": {
         "default": {
-            "bundle":     "/devwidgets/mylibrary/bundles/default.properties",
-            "name":       "My library",
-            "description":"View and manage a user's library items"
+            "bundle": "/devwidgets/mylibrary/bundles/default.properties",
+            "description": "View and manage a user's library items",
+            "name": "My library"
         },
-        "es_ES": { 
+        "es_ES": {
             "bundle": "/devwidgets/mylibrary/bundles/es_ES.properties"
         },
         "fr_FR": {
             "bundle": "/devwidgets/mylibrary/bundles/fr_FR.properties"
         }
     },
-    "id":                 "mylibrary",
-    "personalportal":     false,
-    "type":               "sakai",
-    "url":                "/devwidgets/mylibrary/mylibrary.html",
-    "userdashboard":      false,
-    "userpages":          false,
-    "hashParams": ["ls", "lq"]
+    "id": "mylibrary",
+    "personalportal": false,
+    "type": "sakai",
+    "url": "/devwidgets/mylibrary/mylibrary.html"
 }

@@ -34,7 +34,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.dashboardactivity = function (tuid, showSettings) {
+    sakai_global.dashboardactivity = function(tuid, showSettings) {
 
 
         /////////////////////////////
@@ -53,7 +53,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var dashboardactivityActivityTemplate = 'dashboardactivity_activity_template';
         var dashboardactivityActivityBadrequestTemplate = 'dashboardactivity_activity_badrequest_template';
         var dashboardactivityNoActivityTemplate = 'dashboardactivity_no_activity_template';
-        var dashboardactivityContentCommentsTemplate = 'dashboardactivity_content_comments_template'
+        var dashboardactivityContentCommentsTemplate = 'dashboardactivity_content_comments_template';
 
         // Widget variables
         var filter = 'all';
@@ -98,7 +98,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 renderActivity(dashboardactivityNoActivityTemplate);
             } else {
                 var filteredData = [];
-                $.each(data.results, function(index, item){
+                $.each(data.results, function(index, item) {
                     item.translatedActivityMessage = sakai.api.i18n.getValueForKey(
                                                         item['sakai:activityMessage'], 'dashboardactivity');
                     item.translatedActivityMessageAction = '';

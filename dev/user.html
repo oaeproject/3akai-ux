@@ -10,9 +10,6 @@
         <!-- Sakai Core CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/main.css" />
 
-        <!-- Sakai Page CSS -->
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.corev1.css" />
-
     </head>
     <body class="fl-centered show i18nable">
         <div id="widget_branding" class="widget_inline"></div>
@@ -37,7 +34,8 @@
                     <div id="widget_lhnavigation" class="widget_inline"></div>
                 </div>
                 <div class="s3d-page-column-right">
-                    <div id="s3d-page-main-content" class="s3d-page-content-lowpadding">
+                    <div id="s3d-page-main-content" class="s3d-page-content-lowpadding" role="main">
+                        <div id="widget_contentauthoring" class="widget_inline"></div>
                     </div>
                 </div>
             </div>
@@ -50,15 +48,17 @@
         <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require.js"></script>
 
         <!-- GROUP JS -->
-        <script>require(["/dev/javascript/user.js", "/devwidgets/video/jwplayer/swfobject.js"]);</script>
+        <script>require(['/dev/javascript/user.js', '/dev/lib/misc/jwplayer/swfobject.js']);</script>
 
         <noscript>
-            <h1>Sorry!</h1>
-            <p>
-                JavaScript must be enabled to use this site. Please turn on JavaScript in your browser and refresh the page.
-                If you need assistance, please visit
-                <a href="http://activatejavascript.org/" title="Enable JavaScript in the most popular browsers">activatejavascript.org</a>.
-            </p>
+            <div class="noscript">
+                <h1>Sorry!</h1>
+                <p>
+                    JavaScript must be enabled to use this site. Please turn on JavaScript in your browser and refresh the page.
+                    If you need assistance, please visit
+                    <a href="http://activatejavascript.org/" title="Enable JavaScript in the most popular browsers">activatejavascript.org</a>.
+                </p>
+            </div>
         </noscript>
     </body>
 </html>

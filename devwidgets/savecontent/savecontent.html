@@ -36,7 +36,7 @@
         {elseif !done}
             __MSG__AND__ ${files.length - 4}
             {if files.length > 4}
-                __MSG__MORE__
+                __MSG__MORE_LC__
             {/if}
             {var done = true}
         {/if}
@@ -44,17 +44,17 @@
             {var canShare = false}
         {/if}
     {/for}
-    __MSG__TO__:
+    __MSG__TO_LC__:
     <select name="savecontent_select" id="savecontent_select">
         {if canShare}
-            {for world in sakai.config.worldTemplates}
+            {for world in templates}
                 <option data-redirect="true" value="${world.id}">__MSG__A_NEW__ ${sakai.api.i18n.getValueForKey(world.title).toLowerCase()}</option>
             {/for}
             <option value="new_collection">__MSG__A_NEW__ __MSG__COLLECTION_LC__</option>
         {/if}
 
         {if libraryHasIt}
-            <option value="${sakai.data.me.user.userid}" id="mylibrary_option" disabled="disabled">__MSG__MY_LIBRARY__ (__MSG__GOT_IT__)</option>
+            <option value="${sakai.data.me.user.userid}" id="mylibrary_option" disabled="disabled">__MSG__MY_LIBRARY__ (__MSG__GOT_IT_LC__)</option>
         {else}
             <option value="${sakai.data.me.user.userid}" id="mylibrary_option">__MSG__MY_LIBRARY__</option>
         {/if}
@@ -64,13 +64,13 @@
                 {if g["sakai:group-title"]}
                     {if sakai.api.Content.Collections.isCollection(g)}
                         {if g.alreadyHasIt}
-                            <option value="${g["sakai:group-id"]}" {if g_index == 0} id="mylibrary_group_first"{/if} disabled="disabled"> ${g["sakai:group-title"]|safeOutput} (__MSG__GOT_IT__)</option>
+                            <option value="${g["sakai:group-id"]}" {if g_index == 0} id="mylibrary_group_first"{/if} disabled="disabled"> ${g["sakai:group-title"]|safeOutput} (__MSG__GOT_IT_LC__)</option>
                         {else}
                             <option value="${g["sakai:group-id"]}" {if g_index == 0} id="mylibrary_group_first"{/if}> ${g["sakai:group-title"]|safeOutput}</option>
                         {/if}
                     {else}
                         {if g.alreadyHasIt}
-                            <option value="${g["sakai:group-id"]}" {if g_index == 0} id="mylibrary_group_first"{/if} disabled="disabled"> __MSG__GROUPS_LIBRARY__ (__MSG__GOT_IT__)</option>
+                            <option value="${g["sakai:group-id"]}" {if g_index == 0} id="mylibrary_group_first"{/if} disabled="disabled"> __MSG__GROUPS_LIBRARY__ (__MSG__GOT_IT_LC__)</option>
                         {else}
                             <option value="${g["sakai:group-id"]}" {if g_index == 0} id="mylibrary_group_first"{/if}> __MSG__GROUPS_LIBRARY__</option>
                         {/if}

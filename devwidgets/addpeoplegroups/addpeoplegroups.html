@@ -25,7 +25,7 @@
 <span style="display:none;" id="addpeoplegroups_group_add_library_body">__MSG__LIBRARY_ADDED__</span>
 
 <div id="addpeoplegroups_template" style="display:none"><!--
-    __MSG__YOU_ARE_ADDING_GROUPS__ 
+    __MSG__YOU_ARE_ADDING_GROUPS__
     {var done = false}
     {for group in groups}
         {if group_index < 4}
@@ -38,7 +38,7 @@
     {if groups.length > 4}
         __MSG__MORE__
     {/if}
-    __MSG__TO__:
+    __MSG__TO:__
     <select name="addpeoplegroups_select" id="addpeoplegroups_select">
         {for world in worlds}
             <option data-redirect="true" value="${world.id}">__MSG__A_NEW__ ${api.i18n.getValueForKey(world.title).toLowerCase()}</option>

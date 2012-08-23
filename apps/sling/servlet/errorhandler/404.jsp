@@ -8,12 +8,11 @@ response.setStatus(404);
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-        <!-- Sakai 3 R&amp;D - Page not found -->
+
         <title></title>
 
         <!-- Sakai Core CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/main.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.corev1.css" />
 
         <!-- Sakai Error CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.error.css" />
@@ -35,7 +34,7 @@ response.setStatus(404);
                 </div>
             </div>
         </div>
-        <div class="fl-fix fl-centered fixed-container s3d-main-container">
+        <div class="fl-fix fl-centered fixed-container s3d-main-container" role="main">
             <div id="error_content">
                 <div id="error_content_second_column">
                     <div id="error_sign_in_button">
@@ -151,5 +150,16 @@ response.setStatus(404);
 
         <!-- 404 JS -->
         <script>require(["/dev/javascript/sakai.404.js"]);</script>
+
+        <noscript>
+            <div class="noscript">
+                <h1>Sorry!</h1>
+                <p>
+                    JavaScript must be enabled to use this site. Please turn on JavaScript in your browser and refresh the page.
+                    If you need assistance, please visit
+                    <a href="http://activatejavascript.org/" title="Enable JavaScript in the most popular browsers">activatejavascript.org</a>.
+                </p>
+            </div>
+        </noscript>
     </body>
 </html>

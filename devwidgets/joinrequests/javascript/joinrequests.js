@@ -22,7 +22,7 @@
  */
 /*global $ */
 
-require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) {
+require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) {
 
     /**
      * @name sakai_global.joinrequests
@@ -37,29 +37,30 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.joinrequests = function (tuid, showSettings) {
+    sakai_global.joinrequests = function(tuid, showSettings) {
+
 
         /////////////////////////////
         // Configuration variables //
         /////////////////////////////
 
-        var numJoinrequests = 0,  // keeps track of the total number of requests
-            groupid = "",
-            joinGroupID = "",
-            joinRole = "",
-            groupData = {};
+        var numJoinrequests = 0;  // keeps track of the total number of requests
+        var groupid = '';
+        var joinGroupID = '';
+        var joinRole = '';
+        var groupData = {};
 
         // DOM elements
-        var $rootel = $("#" + tuid);
-        var $joinrequestsWidget = $(".joinrequests_widget", $rootel);
-        var $joinrequests = $("#joinrequests_joinrequests", $rootel);
-        var $joinrequestsTitle = $("#joinrequests_title", $rootel);
-        var $joinrequestsError = $("#joinrequests_error", $rootel);
-        var $joinrequestsSuccess = $("#joinrequests_success", $rootel);
-        var $joinrequestsTemplate = $("#joinrequests_template", $rootel);
-        var $addLink = $(".joinrequests_add_link");
-        var $ignoreLink = $(".joinrequests_ignore_link");
-        var $joinrequests_container = $("#joinrequests_container");
+        var $rootel = $('#' + tuid);
+        var $joinrequestsWidget = $('.joinrequests_widget', $rootel);
+        var $joinrequests = $('#joinrequests_joinrequests', $rootel);
+        var $joinrequestsTitle = $('#joinrequests_title', $rootel);
+        var $joinrequestsError = $('#joinrequests_error', $rootel);
+        var $joinrequestsSuccess = $('#joinrequests_success', $rootel);
+        var $joinrequestsTemplate = $('#joinrequests_template', $rootel);
+        var joinrequestsAddLink = '.joinrequests_add_link';
+        var joinrequestsIgnoreLink = '.joinrequests_ignore_link';
+        var $joinrequests_container = $('#joinrequests_container');
 
 
         /**
@@ -68,18 +69,18 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
          * @param {Array} joinrequests Array of joinrequest Objects to display,
          * formatted for the UI.  Each joinrequest Object should contain:
          * {
-         *    "userid": <userid>,
-         *    "firstName": <user's first name>,
-         *    "lastName": <user's last name>,
-         *    "request_age": <request create-date, JS Date.toLocaleString() value>
+         *    'userid': <userid>,
+         *    'firstName': <user's first name>,
+         *    'lastName': <user's last name>,
+         *    'request_age': <request create-date, JS Date.toLocaleString() value>
          * }
          */
         var renderJoinRequests = function(joinrequests) {
             if (joinrequests) {
                 // populate template with data
                 var json = {
-                    "joinrequests": joinrequests,
-                    "joinrole": joinRole
+                    'joinrequests': joinrequests,
+                    'joinrole': joinRole
                 };
                 $joinrequests.html(sakai.api.Util.TemplateRenderer($joinrequestsTemplate, json));
                 // show the widget
@@ -92,7 +93,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
          */
         var getJoinRequestsData = function(joinGroupID) {
             // get join requests from server
-            sakai.api.Groups.getJoinRequests(joinGroupID, function (success, data) {
+            sakai.api.Groups.getJoinRequests(joinGroupID, function(success, data) {
                 var joinrequests = [];
                 if (success) {
                     // process joinrequest data for UI
@@ -106,10 +107,10 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
                                     addUser(jr.userid, displayName);
                                 } else {
                                     joinrequests.push({
-                                        "userid": jr.userid,
-                                        "displayName": displayName,
-                                        "request_age": $.timeago(jr["_created"]),
-                                        "pic_src": sakai.api.User.getProfilePicture(jr)
+                                        'userid': jr.userid,
+                                        'displayName': displayName,
+                                        'request_age': $.timeago(jr['_created']),
+                                        'pic_src': sakai.api.User.getProfilePicture(jr)
                                     });
                                 }
                             }
@@ -132,8 +133,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
          */
         var automaticallyAcceptUser = function(userid) {
             if (_.isString(userid)) {
-                var request = new Querystring();
-                return request.get("accept", null) === userid;
+                return $.bbq.getState('accept') === userid;
             } else {
                 return false;
             }
@@ -152,20 +152,20 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         var addUser = function(userid, displayName) {
             // add user to group
             var userToAdd = {
-                "user": userid,
-                "permission": groupData["sakai:joinRole"]
+                'user': userid,
+                'permission': groupData['sakai:joinRole']
             };
             sakai.api.Groups.addUsersToGroup(groupid, [userToAdd], sakai.data.me, false, function(success) {
                 if (success) {
                     // show notification
                     var name = displayName;
                     if (!name) {
-                        name = $("#joinrequests_username_link_" + userid).html();
+                        name = $('#joinrequests_username_link_' + userid).html();
                     }
-                    sakai.api.Util.notification.show($joinrequestsTitle.html(), name + " " + $joinrequestsSuccess.html());
+                    sakai.api.Util.notification.show($joinrequestsTitle.html(), name + ' ' + $joinrequestsSuccess.html());
 
                     // trigger the participants list to refresh
-                    $(window).trigger("usersselected.addpeople.sakai", [userToAdd]);
+                    $(window).trigger('usersselected.addpeople.sakai', [userToAdd]);
 
                     // remove join request from UI and server
                     removeJoinRequest(userid);
@@ -185,9 +185,9 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             // remove join request from server
             sakai.api.Groups.removeJoinRequest(userid, joinGroupID, function(success) {
                 if (success) {
-                    $("#joinrequests_loading_" + userid).hide();
+                    $('#joinrequests_loading_' + userid).hide();
                     // remove the UI joinrequest element
-                    $("#joinrequests_joinrequest_" + userid).fadeOut(function() {
+                    $('#joinrequests_joinrequest_' + userid).fadeOut(function() {
                         $(this).remove();
                         numJoinrequests -= 1;
                         if (numJoinrequests === 0) {
@@ -208,8 +208,8 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
          * @param {String} userid The ID of the user whose join request is being processed
          */
         var showSpinner = function(userid) {
-            $("#joinrequests_actions_" + userid).hide();
-            $("#joinrequests_loading_" + userid).show();
+            $('#joinrequests_actions_' + userid).hide();
+            $('#joinrequests_loading_' + userid).show();
         };
 
 
@@ -219,14 +219,14 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
          * @param {String} userid The ID of the user whose join request has been processed
          */
         var hideSpinner = function(userid) {
-            $("#joinrequests_loading_" + userid).hide();
-            $("#joinrequests_actions_" + userid).show();
+            $('#joinrequests_loading_' + userid).hide();
+            $('#joinrequests_actions_' + userid).show();
         };
 
         /**
          * Callback for onHide for the JQM
          */
-        var handleJQMHide = function(h){
+        var handleJQMHide = function(h) {
             resetEntityCounts();
             h.w.hide();
             if (h.o) {
@@ -234,20 +234,21 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
             }
         };
 
+
         /////////////////////////////
         // Event Bindings          //
         /////////////////////////////
 
         // Add the specific user when the 'Add as a member' link is clicked
-        $addLink.live("click", function() {
-            var userid = this.id.split("_")[2];
+        $(document).on('click', joinrequestsAddLink, function() {
+            var userid = this.id.split('_')[2];
             showSpinner(userid);
             addUser(userid);
         });
 
         // Ignore the specific user when the 'Ignore' link is clicked
-        $ignoreLink.live("click", function() {
-            var userid = this.id.split("_")[2];
+        $(document).on('click', joinrequestsIgnoreLink, function() {
+            var userid = this.id.split('_')[2];
             showSpinner(userid);
             removeJoinRequest(userid);
         });
@@ -260,7 +261,7 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         /**
          * Initialize the modal dialog
          */
-        var initializeJQM = function(){
+        var initializeJQM = function() {
             sakai.api.Util.Modal.setup($joinrequests_container, {
                 modal: true,
                 overlay: 20,
@@ -270,10 +271,10 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         };
 
         var getJoinRoleTitle = function() {
-            var roles = $.parseJSON(groupData["sakai:roles"]),
-                ret = "";
+            var roles = $.parseJSON(groupData['sakai:roles']),
+                ret = '';
             $.each(roles, function(i, role) {
-                if (role.id === groupData["sakai:joinRole"]) {
+                if (role.id === groupData['sakai:joinRole']) {
                     ret = role.titlePlural;
                 }
             });
@@ -286,26 +287,26 @@ require(["jquery", "sakai/sakai.api.core", "underscore"], function($, sakai, _) 
         var init = function() {
             initializeJQM();
             // _groupdata should be the group's authprofile
-            $(window).bind("init.joinrequests.sakai", function(e, _groupdata) {
-                if (_groupdata && _groupdata["sakai:group-id"]) {
-                    groupData = _groupdata;
-                    groupid = groupData["sakai:group-id"];
-                    if (groupData["sakai:joinRole"]) {
-                        joinRole = getJoinRoleTitle();
-                        joinGroupID = groupid + "-" + groupData["sakai:joinRole"];
-                    }
-                    // get join request data
-                    getJoinRequestsData(joinGroupID);
-                    sakai.api.Util.Modal.open($joinrequests_container);
-                } else {
-                    debug.warn("The group's authprofile node wasn't passed in to init.joinrequests.sakai");
+            var _groupdata = sakai_global.group.groupData;
+            if (_groupdata && _groupdata['sakai:group-id']) {
+                groupData = _groupdata;
+                groupid = groupData['sakai:group-id'];
+                if (groupData['sakai:joinRole']) {
+                    joinRole = getJoinRoleTitle();
+                    joinGroupID = groupid + '-' + groupData['sakai:joinRole'];
                 }
-            });
-            $(window).trigger("ready.joinrequests.sakai");
+                // get join request data
+                getJoinRequestsData(joinGroupID);
+                sakai.api.Util.Modal.open($joinrequests_container);
+            } else {
+                debug.warn('The group\'s authprofile node wasn\'t passed in to init.joinrequests.sakai');
+            }
         };
+
+        $('.sakai_joinrequests_overlay').on('click', init);
 
         init();
     };
 
-    sakai.api.Widgets.widgetLoader.informOnLoad("joinrequests");
+    sakai.api.Widgets.widgetLoader.informOnLoad('joinrequests');
 });

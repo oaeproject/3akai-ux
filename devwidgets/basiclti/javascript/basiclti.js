@@ -37,7 +37,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.basiclti = function(tuid, showSettings){
+    sakai_global.basiclti = function(tuid, showSettings) {
 
 
         /////////////////////////////
@@ -76,6 +76,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
         // Containers
         var basicltiMainContainer = basiclti + '_main_container';
+        var $basicltiSettingsForm = $('#basiclti_settings_form', $rootel);
 
         // Classes
         var basicltiSettingsWidthUnitClass = '.basiclti_settings_width_unit';
@@ -101,7 +102,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          *     true: is a decimal
          *     false: is not a decimal
          */
-        var isDecimal = function(value){
+        var isDecimal = function(value) {
             return (/^\d+$/).test(value);
         };
 
@@ -114,7 +115,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var isUrl = function(url) {
             var matches = urlRegExp.exec(url);
-            // e.g. if('http:' && 'localhost')
+            // e.g. if ('http:' && 'localhost')
             if (matches[1] && matches[4]) {
                 return true;
             } else {
@@ -131,12 +132,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          *     false: NOT in the same origin policy
          */
         var isSameOriginPolicy = function(url1, url2) {
-            if (url1 == url2) {
+            if (url1 === url2) {
                 return true;
             }
             // i.e. protocol, domain (and optional port numbers) must match
-            if ((urlRegExp.exec(url1)[2] == urlRegExp.exec(url2)[2]) &&
-               (urlRegExp.exec(url1)[4] == urlRegExp.exec(url2)[4])) {
+            if ((urlRegExp.exec(url1)[2] === urlRegExp.exec(url2)[2]) &&
+               (urlRegExp.exec(url1)[4] === urlRegExp.exec(url2)[4])) {
                 return true;
             } else {
                 return false;
@@ -161,8 +162,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Boolean} complete Render the preview completely or only adjust values
          */
         var renderIframeSettings = function(complete) {
-            if (complete) { 
-                json.launchDataUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + '/_widgets').replace(/__TUID__/, tuid).replace(/__NAME__/, 'basiclti') + '.launch.html';               
+            if (complete) {
+                json.launchDataUrl = sakai.config.URL.SDATA_FETCH_URL.replace(/__PLACEMENT__/, sakai.site.currentsite.id + '/_widgets').replace(/__TUID__/, tuid).replace(/__NAME__/, 'basiclti') + '.launch.html';
                 $(basicltiSettingsPreview, $rootel).html(sakai.api.Util.TemplateRenderer($basicltiSettingsPreviewTemplate, json));
             } else {
                 $(basicltiSettingsPreviewFrame, $rootel).attr('style', 'border: ' + json.border_size + 'px #' + json.border_color + ' solid');
@@ -177,6 +178,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 json.tuidFrame = basicltiSettingsPreviewId;
                 $(basicltiMainContainer, $rootel).html(sakai.api.Util.TemplateRenderer($basicltiSettingsPreviewTemplate, json));
                 json.launchDataUrl = sakai.api.Widgets.getWidgetDataStorageURL(tuid) + '.launch.html';
+                if (sakai_global.group) {
+                    json.launchDataUrl += '?groupid=' + sakai_global.group.groupData['sakai:group-id'];
+                }
                 $('#' + json.tuidFrame, $rootel).attr('src', json.launchDataUrl);
 
                 // resize the iframe to match inner body height if in the same origin (i.e. same protocol/domain/port)
@@ -253,44 +257,37 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Save the basiclti to the jcr
          */
-        var saveRemoteContent = function(){
- 
-            if (json.ltiurl !== '') {
+        var saveRemoteContent = function() {
+            var savejson = {
+                ':operation': 'basiclti',
+                ':contentType': 'json',
+                ':replace': true,
+                ':replaceProperties': true,
+                '_charset_': 'utf-8'
+            };
 
-                var savejson = {
-                    ':operation': 'basiclti',
-                    ':contentType': 'json',
-                    ':replace': true,
-                    ':replaceProperties': true,
-                    '_charset_': 'utf-8'
-                };
-
-                var dbg = $(basicltiSettingsDebug + ':checked', $rootel).val();
-                var savejson_content = {
-                    'sling:resourceType': 'sakai/basiclti',
-                    'ltiurl': $(basicltiSettingsLtiUrl, $rootel).val() || '',
-                    'ltikey': $(basicltiSettingsLtiKey, $rootel).val() || '',
-                    'ltisecret': $(basicltiSettingsLtiSecret, $rootel).val() || '',
-                    'debug@TypeHint': 'Boolean',
-                    'debug': dbg !== undefined  && dbg !== null,
-                    'release_names@TypeHint': 'Boolean',
-                    'release_names': $('#basiclti_settings_release_names:checked', $rootel).val() !== null,
-                    'release_principal_name@TypeHint': 'Boolean',
-                    'release_principal_name': $('#basiclti_settings_release_principal_name:checked', $rootel).val() !== null,
-                    'release_email@TypeHint': 'Boolean',
-                    'release_email': $('#basiclti_settings_release_email:checked', $rootel).val() !== null,
-                    'launchDataUrl': '', // does not need to be persisted
-                    'tuidFrame': '', // does not need to be persisted
-                    'defined': '' // what the heck is this? Where does it come from?
-                };
-                savejson_content = $.extend({}, json, savejson_content);
-                json = savejson_content;
-                savejson[':content'] = $.toJSON(savejson_content);
-                saveContentAjax(savejson);
-            } else {
-                sakai.api.Util.notification.show('', sakai.api.i18n.getValueForKey('PLEASE_SPECIFY_A_URL', 'basiclti'),
-                                                 sakai.api.Util.notification.type.ERROR);
-            }
+            var dbg = $(basicltiSettingsDebug + ':checked', $rootel).val();
+            var savejson_content = {
+                'sling:resourceType': 'sakai/basiclti',
+                'ltiurl': $(basicltiSettingsLtiUrl, $rootel).val() || '',
+                'ltikey': $(basicltiSettingsLtiKey, $rootel).val() || '',
+                'ltisecret': $(basicltiSettingsLtiSecret, $rootel).val() || '',
+                'debug@TypeHint': 'Boolean',
+                'debug': dbg !== undefined  && dbg !== null,
+                'release_names@TypeHint': 'Boolean',
+                'release_names': $('#basiclti_settings_release_names:checked', $rootel).val() !== null,
+                'release_principal_name@TypeHint': 'Boolean',
+                'release_principal_name': $('#basiclti_settings_release_principal_name:checked', $rootel).val() !== null,
+                'release_email@TypeHint': 'Boolean',
+                'release_email': $('#basiclti_settings_release_email:checked', $rootel).val() !== null,
+                'launchDataUrl': '', // does not need to be persisted
+                'tuidFrame': '', // does not need to be persisted
+                'defined': '' // what the heck is this? Where does it come from?
+            };
+            savejson_content = $.extend({}, json, savejson_content);
+            json = savejson_content;
+            savejson[':content'] = JSON.stringify(savejson_content);
+            saveContentAjax(savejson);
         };
 
         /**
@@ -306,6 +303,18 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             }
         };
 
+        /**
+         * Add the validate form handling
+         */
+        var validateForm = function() {
+            var validateOpts = {
+                submitHandler: function(form, validator) {
+                    saveRemoteContent();
+                    return false;
+                }
+            };
+            sakai.api.Util.Forms.validate($basicltiSettingsForm, validateOpts, true);
+        };
 
         //////////////
         // Bindings //
@@ -315,8 +324,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Add binding to all the elements
          */
         var addBinding = function() {
+            $basicltiSettingsForm = $($basicltiSettingsForm.selector);
             // Change the url for the iFrame
-            $(basicltiSettingsLtiUrl, $rootel).on('change', function(){
+            $(basicltiSettingsLtiUrl, $rootel).on('change', function() {
                 var urlValue = $(this).val();
                 if (urlValue !== '') {
                     // Check if someone already wrote http inside the url
@@ -329,7 +339,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             // Change the iframe width
-            $(basicltiSettingsWidth, $rootel).on('change', function(){
+            $(basicltiSettingsWidth, $rootel).on('change', function() {
                 var widthValue = $(basicltiSettingsWidth, $rootel).val();
 
                 if (isDecimal(widthValue)) {
@@ -339,7 +349,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             // Change the iframe height
-            $(basicltiSettingsHeight, $rootel).on('change', function(){
+            $(basicltiSettingsHeight, $rootel).on('change', function() {
                 var heightValue = $(basicltiSettingsHeight, $rootel).val();
                 if (isDecimal(heightValue)) {
                     json.frame_height = heightValue;
@@ -376,10 +386,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 renderIframeSettings(false);
             });
 
-            // Save the settings
-            $(basicltiSettingsInsert, $rootel).on('click', function() {
-                saveRemoteContent();
-            });
+            // Add the validate handler
+            validateForm();
 
             // Cancel the settings
             $(basicltiSettingsCancel, $rootel).on('click', function() {
@@ -405,7 +413,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var displaySettings = function(parameters, exists) {
             if (exists && parameters.ltiurl) {
-                if (parameters[':content']){
+                if (parameters[':content']) {
                     json = $.parseJSON(parameters[':content']);
                 } else {
                     json = parameters;
@@ -438,15 +446,17 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * view we are in, fill in the settings or display an iframe.
          */
         var getRemoteContent = function() {
-            sakai.api.Widgets.loadWidgetData(tuid, function(success,data){
+            sakai.api.Widgets.loadWidgetData(tuid, function(success,data) {
                 if (success) {
                     if (showSettings) {
                         displaySettings(data,true);
                     } else {
                         displayRemoteContent(data);
                     }
-                } else {
+                } else if (showSettings) {
                     displaySettings(null, false);
+                } else {
+                    $(basicltiMainContainer, $rootel).html($('#basiclti_no_settings').text());
                 }
             }, false);
         };

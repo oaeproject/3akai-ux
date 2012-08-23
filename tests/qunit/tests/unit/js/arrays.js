@@ -1,46 +1,52 @@
 require(
     [
-    "jquery",
-    "sakai/sakai.api.core",
-    "qunitjs/qunit",
-    "../../../../tests/qunit/js/sakai_qunit_lib.js"
-    ], 
+    'jquery',
+    'sakai/sakai.api.core',
+    'qunitjs/qunit',
+    '../../../../tests/qunit/js/sakai_qunit_lib.js',
+    '../../../../tests/qunit/js/dev.js',
+    '../../../../tests/qunit/js/devwidgets.js'
+    ],
     function($, sakai) {
 
-    require(["misc/domReady!"], function(doc) {
+        module('Arrays');
 
-    module("Arrays");
+        var dummyArray = ['apple','pear','banana','cherry'];
 
-    var dummyArray = ["apple","pear","banana","cherry"];
+        /**
+         * Test if the indexof returns the expected index
+         */
+        var testCustomIndexOf = function() {
+            asyncTest('Get the first occurence of an item in an array', function() {
+                //in IE the indexOf function from sakai.api.core.js will be used
+                var index = dummyArray.indexOf('pear');
 
-    /**
-     * Test if the indexof returns the expected index
-     */
-    var testCustomIndexOf = function(){
+                //check if it is the same as expected
+                same(index, 1,'Finding the index of the item');
 
-        //in IE the indexOf function from sakai.api.core.js will be used
-        var index = dummyArray.indexOf("pear");
+                //check for the last item in the array
+                index = dummyArray.indexOf('cherry');
+                same(index, dummyArray.length - 1, 'Finding last item');
 
-        //check if it is the same as expected
-        same(index, 1,"Finding the index of the item");
+                //check for unknown item
+                index = dummyArray.indexOf('foo');
+                same(index, -1, 'Not finding unknown item');
+                start();
+            });
+        };
 
-        //check for the last item in the array
-        index = dummyArray.indexOf("cherry");
-        same(index, dummyArray.length - 1, "Finding last item");
+        var startTest = function() {
+            $(window).trigger('addlocalbinding.qunit.sakai');
+            testCustomIndexOf();
+        };
 
-        //check for unknown item
-        index = dummyArray.indexOf("foo");
-        same(index, -1, "Not finding unknown item");
+        if (sakai_global.qunit && sakai_global.qunit.ready) {
+            startTest();
+        } else {
+            $(window).on('ready.qunit.sakai', function() {
+                startTest();
+            });
+        }
 
-    };
-
-    /**
-     * Run a test
-     */
-    test("Get the first occurence of an item in an array", function(){
-        //test to see if the custom index of works correctly
-        testCustomIndexOf();
-    });
-
-    });
-});
+    }
+);

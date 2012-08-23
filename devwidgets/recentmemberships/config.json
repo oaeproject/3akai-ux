@@ -1,21 +1,21 @@
 {
-    "id":"recentmemberships",
+    "deletable": true,
+    "enabled": true,
+    "hasSettings": false,
     "i18n": {
         "default": {
             "bundle": "/devwidgets/recentmemberships/bundles/default.properties",
-            "name":"My recent memberships",
-            "description":"My recent memberships"
+            "description": "My recent memberships",
+            "name": "My recent memberships"
         },
         "fr_FR": {
             "bundle": "/devwidgets/recentmemberships/bundles/fr_FR.properties",
-            "name": "Mes inscriptions récentes",
-            "description": "Mes inscriptions récentes"
+            "description": "Mes inscriptions récentes",
+            "name": "Mes inscriptions récentes"
         }
     },
-    "personalportal":true,
-    "hasSettings":false,
-    "type":"sakai",
-    "enabled":true,
-    "url":"/devwidgets/recentmemberships/recentmemberships.html",
-    "deletable":true
+    "id": "recentmemberships",
+    "personalportal": true,
+    "type": "sakai",
+    "url": "/devwidgets/recentmemberships/recentmemberships.html"
 }

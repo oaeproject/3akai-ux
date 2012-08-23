@@ -16,32 +16,32 @@
  * specific language governing permissions and limitations under the License.
  */
 
-require(["jquery","sakai/sakai.api.core"], function($, sakai) {
+require(['jquery','sakai/sakai.api.core'], function($, sakai) {
 
     sakai_global.nopermissions = function(tuid, showSettings) {
 
         sakai_global.nopermissions.error500 = true;
 
-        var permissionsErrorLoggedOutTemplate = "permission_error_logged_out_template";
-        var permissionsErrorLoggedInTemplate = "permission_error_logged_in_template";
-        var permissionsError = ".permissions_error";
+        var permissionsErrorLoggedOutTemplate = 'permission_error_logged_out_template';
+        var permissionsErrorLoggedInTemplate = 'permission_error_logged_in_template';
+        var permissionsError = '.permissions_error';
         var gatewayURL = sakai.config.URL.GATEWAY_URL;
         var $signinbuttonwrapper = $('#error_sign_in_button');
-        var $signinbutton = $("button",$signinbuttonwrapper);
-        var $browsecatcount = $("#error_browse_category_number");
-        var $browsecats = $(".browse_cats");
-        var $secondcoltemplate = $("#error_second_column_links_template");
-        var $errorsecondcolcontainer = $("#error_content_second_column_box_container");
-        var $errorPageLinksTemplate = $("#error_page_links_template");
-        var $errorPageLinksContainer = $("#error_page_links_container");
-        var $searchinput = $("#errorsearch_text");
-        var $searchButton = $("#error_content .s3d-search-button");
+        var $signinbutton = $('button',$signinbuttonwrapper);
+        var $browsecatcount = $('#error_browse_category_number');
+        var $browsecats = $('.browse_cats');
+        var $secondcoltemplate = $('#error_second_column_links_template');
+        var $errorsecondcolcontainer = $('#error_content_second_column_box_container');
+        var $errorPageLinksTemplate = $('#error_page_links_template');
+        var $errorPageLinksContainer = $('#error_page_links_container');
+        var $searchinput = $('#errorsearch_text');
+        var $searchButton = $('#error_content .s3d-search-button');
 
-        var doSearch = function(){
-            document.location = "/search#q=" + $.trim($searchinput.val());
+        var doSearch = function() {
+            document.location = '/search#q=' + $.trim($searchinput.val());
         };
 
-        var doInit = function(){
+        var doInit = function() {
             var renderedTemplate = false;
             if (sakai.config.enableCategories) {
                 var catcount = 0;
@@ -56,54 +56,60 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
             }
 
             // Create the world links in the second column after People, Content...
-            var worlds = [];
-            var obj = {};
-            for (var c = 0; c < sakai.config.worldTemplates.length; c++){
-                var world = sakai.config.worldTemplates[c];
-                world.label = sakai.api.i18n.getValueForKey(world.titlePlural);
-                if(c===sakai.config.worldTemplates.length-1){
-                    world.last = true;
+            sakai.api.Util.getTemplates(function(success, templates) {
+                if (success) {
+                    var worlds = [];
+                    var obj = {};
+                    for (var c = 0; c < templates.length; c++) {
+                        var world = templates[c];
+                        world.label = sakai.api.i18n.getValueForKey(world.titlePlural);
+                        if (c === templates.length-1) {
+                            world.last = true;
+                        }
+                        worlds.push(world);
+                    }
+                    obj.worlds = worlds;
+                    $errorsecondcolcontainer.append(sakai.api.Util.TemplateRenderer($secondcoltemplate, obj));
+                } else {
+                    debug.error('Could not get the group templates');
                 }
-                worlds.push(world);
-            }
-            obj.worlds = worlds;
-            $errorsecondcolcontainer.append(sakai.api.Util.TemplateRenderer($secondcoltemplate, obj));
+            });
+
             // display the error page links
             var linkObj = {
                 links: sakai.config.ErrorPage.Links,
                 sakai: sakai
             };
             $errorPageLinksContainer.html(sakai.api.Util.TemplateRenderer($errorPageLinksTemplate, linkObj));
-            if (sakai.data.me.user.anon){
+            if (sakai.data.me.user.anon) {
                 $signinbuttonwrapper.show();
 
-                $('html').addClass("requireAnon");
+                $('html').addClass('requireAnon');
                 // the user is anonymous and should be able to log in
                 renderedTemplate = sakai.api.Util.TemplateRenderer(permissionsErrorLoggedOutTemplate, sakai.data.me.user).replace(/\r/g, '');
                 $(permissionsError).append(renderedTemplate);
-                var querystring = new Querystring();
                 var redurl = window.location.pathname + window.location.hash;
                 // Parameter that indicates which page to redirect to. This should be present when
                 // the static 403.html and 404.html page are loaded
-                if (querystring.contains("redurl")){
-                    redurl = querystring.get("redurl");
+                if ($.deparam.querystring().url) {
+                    redurl = $.deparam.querystring().url;
                 }
                 // Set the link for the sign in button
-                $(".login-container a").attr("href", gatewayURL + "?url=" + escape(redurl));
-                if (sakai.config.Authentication.allowInternalAccountCreation){
-                    $("#error_sign_up").show();
+                $('.login-container a').attr('href', gatewayURL + '?url=' + escape(redurl));
+                if (sakai.config.Authentication.allowInternalAccountCreation) {
+                    $('#error_sign_up').show();
                 }
             } else {
                 // Remove the sakai.index stylesheet as it would mess up the design
-                $("LINK[href*='/dev/css/sakai/sakai.index.css']").remove();
+                $('LINK[href*="/dev/css/sakai/sakai.index.css"]').remove();
                 // the user is logged in and should get a page in Sakai itself
                 renderedTemplate = sakai.api.Util.TemplateRenderer(permissionsErrorLoggedInTemplate, sakai.data.me.user).replace(/\r/g, '');
                 $(permissionsError).append(renderedTemplate);
-                $("#permission_error").addClass("error_page_bringdown");
+                $('#permission_error').addClass('error_page_bringdown');
             }
-            document.title = document.title + " " + sakai.api.i18n.getValueForKey("AN_ERROR_HAS_OCCURRED");
+            document.title = document.title + ' ' + sakai.api.i18n.getValueForKey('AN_ERROR_HAS_OCCURRED');
 
-            $searchinput.live("keydown", function(ev){
+            $searchinput.on('keydown', function(ev) {
                 if (ev.keyCode === 13) {
                     doSearch();
                 }
@@ -114,5 +120,5 @@ require(["jquery","sakai/sakai.api.core"], function($, sakai) {
         doInit();
 
     };
-    sakai.api.Widgets.Container.registerForLoad("nopermissions");
+    sakai.api.Widgets.Container.registerForLoad('nopermissions');
 });

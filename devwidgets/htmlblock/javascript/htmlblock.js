@@ -28,7 +28,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-    sakai_global.htmlblock = function (tuid, showSettings, widgetData) {
+    sakai_global.htmlblock = function(tuid, showSettings, widgetData) {
 
         // Element cache
         var $rootel = $('#' + tuid);
@@ -59,8 +59,21 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $toolbar.show();
         };
 
+        /**
+         * Make sure we remove all the insecure content
+         * @param {Object} editor The editor
+         * @param {Object} object Object containing all the information for the editor
+         */
+        var removeInsecureContent = function(editor, object) {
+           // Run all the content through the HTML sanitizer
+           object.content = sakai.api.Security.saneHTML(object.content);
+           // Update the height - we need a setTimeout for this to work
+           setTimeout(updateHeight, 100);
+        };
+
         var editorSetup = function(ed) {
             ed.onClick.add(editorFocus);
+            ed.onBeforeSetContent.add(removeInsecureContent);
         };
 
         /**
@@ -69,6 +82,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var loadTinyMCE = function() {
             if (window['tinyMCE']) {
                 tinyMCE.init({
+                    language: sakai.api.i18n.getEditorLanguage(),
                     mode: 'textareas',
                     theme: 'advanced',
                     skin: 'sakai',
@@ -79,13 +93,15 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                           }
                     },
                     // CSS Files to load in the editor
-                    content_css: '/dev/css/sakai/main.css,/dev/css/sakai/sakai.corev1.css',
+                    content_css: '/dev/css/sakai/main.css,/dev/css/sakai/sakai.editor.css,/devwidgets/htmlblock/css/htmlblock.css',
                     // Plugins and toolbar buttons to show
                     plugins: 'table,advlink,contextmenu,paste,directionality',
                     theme_advanced_blockformats: 'h1,h2,h3,h4,h5,h6,p,blockquote,caption',
                     theme_advanced_buttons1: 'bold,italic,underline,|,justifyleft,justifycenter,justifyright,justifyfull,|,formatselect,fontsizeselect,|,bullist,numlist,|,forecolor,|,link,table,code',
                     theme_advanced_buttons2: '',
                     theme_advanced_buttons3: '',
+                    // SAKIII-6128 - Pasted in text renders as a blank
+                    paste_strip_class_attributes: 'all',
                     // Styles to be shown for tables
                     table_styles: 'Default=default',
                     table_cell_styles: 'Default=default',
@@ -112,16 +128,43 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         /**
+         * Set focus on the editor
+         * @param {Object} ed Editor object
+         */
+        var focusEditor = function(ed) {
+            if (!$('.s3d-dialog:visible').length) {
+                ed.focus();
+            }
+        };
+
+        /**
+         * We need to open the TinyMCE dropdown menus onload
+         * so we can avoid a jump to the top
+         * SAKIII-5482
+         */
+        var openMenus = function() {
+            var ed = tinyMCE.get(editorId);
+            var controls = ed.controlManager.controls;
+
+            $.each(controls, function(index, control) {
+                if (control.showMenu && control.rendered === false) {
+                    control.showMenu();
+                    control.hideMenu();
+                }
+            });
+
+            focusEditor(ed);
+        };
+
+        /**
          * This is executed when the tinyMCE editor has been initialized
          */
         var initTinyMCE = function(ui) {
             editorId = ui.id;
-            // Set focus if there is no "An unsaved version has been found" overlay
+            // Set focus if there is no 'An unsaved version has been found' overlay
             // showing
             var ed = tinyMCE.get(editorId);
-            if (!$('.s3d-dialog:visible').length) {
-                ed.focus();
-            }
+            focusEditor(ed);
             // Cache the editor elements
             $editor = $('#' + editorId + '_ifr');
             $toolbar = $('#' + editorId + '_external').hide();
@@ -136,6 +179,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             // Set timeOut as tinyMCE seems to need a little bit of additional time before we see all
             // of the content in the editor
             setTimeout(function() {
+                openMenus();
                 var $containingCell = $('.htmlblock_widget', $rootel).parents('.contentauthoring_cell_element');
                 $containingCell.removeClass('contentauthoring_init');
                 updateHeight();
@@ -179,7 +223,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     // Only update the editor height if it has changed
                     if ($editor.height() !== docHt) {
                         $editor.css('height', docHt + 'px');
-                        $(window).trigger("updateheight.contentauthoring.sakai");
+                        $(window).trigger('updateheight.contentauthoring.sakai');
                     }
                 } catch (err) {
                     return false;
@@ -268,7 +312,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Load the HTMLBlock widget
          */
-        var doInit = function () {
+        var doInit = function() {
             // Set the name attribute of the textarea to the widget id, so we can restrict
             // tinyMCE loading to this widget
             var $textarea = $('textarea', $rootel).attr('name', tuid).addClass(tuid);
@@ -278,14 +322,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 processedContent = sakai.api.Security.saneHTML(processedContent);
                 $('#htmlblock_view_container', $rootel).html(processedContent);
                 sakai.api.Util.renderMath($rootel);
-                $textarea.val(widgetData.htmlblock.content);
+                $textarea.val(processedContent);
             }
             // Set the height of the textarea to be the same as the height of the view mode,
             // so tinyMCE picks up on this initial height
             $textarea.css('height', $('#htmlblock_view_container', $rootel).height());
             loadTinyMCE();
         };
-        
+
         // run the initialization function when the widget object loads
         doInit();
     };

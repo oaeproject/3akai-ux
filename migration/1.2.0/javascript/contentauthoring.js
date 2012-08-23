@@ -87,7 +87,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                     if (data) {
                         currentPage[id] = data;
                     }
-                }                      
+                }
                 return currentPage;
             };
 
@@ -209,7 +209,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                                 // There is only text in the current top element. Just append it to the collected text
                                 } else {
                                     currentHTMLBlock.append($topLevelElement);
-                                    
+
                                 }
                             });
 
@@ -255,7 +255,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }
             return false;
         };
-    
+
         var migratePageStructure = function(structure, storeURL) {
             var start = new Date().getTime();
             var newStructure = $.extend(true, {}, structure);
@@ -280,27 +280,27 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }
         };
 
-        $('#migration_convert_url').live('click', function() {
+        $('#migration_convert_url').on('click', function() {
             var url = $('#migration_input_url').val();
             sakai.api.Server.loadJSON(url, function(success, data) {
                 if (success) {
-                     $('#migration_output').val($.toJSON(migratePageStructure(data)));
+                     $('#migration_output').val(JSON.stringify(migratePageStructure(data)));
                 } else {
                     alert('No valid JSON structure was entered');
                 }
             });
         });
 
-        $('#migration_convert_structure').live('click', function() {
+        $('#migration_convert_structure').on('click', function() {
             var block = {};
             try {
                 block = eval('(' + $('#migration_input_block').val() + ')');
-                $('#migration_output').val($.toJSON(migratePageStructure(block)));
+                $('#migration_output').val(JSON.stringify(migratePageStructure(block)));
             } catch (err) {
                 alert('An error has occured. Please replace variables by dummy values.\n' + err);
             }
         });
-        
+
     };
 
     sakai.api.Widgets.Container.registerForLoad('contentauthoring');

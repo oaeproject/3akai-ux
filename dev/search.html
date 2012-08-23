@@ -10,9 +10,6 @@
         <!-- Sakai Core CSS -->
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/main.css" />
 
-        <!-- Sakai Page CSS -->
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.corev1.css" />
-
     </head>
     <body class="fl-centered show i18nable">
 
@@ -30,7 +27,7 @@
                 <div class="s3d-page-header">
                     <div id="widget_entity" class="widget_inline"></div>
                     <!-- SEARCH BAR -->
-                    <div class="s3d-search-bar">
+                    <div class="s3d-search-bar" role="search" aria-label="__MSG__SEARCH_FOR__">
                         <span id="form" class="s3d-search-container">
                             <input type="text" maxlength="255" id="search_text" title="__MSG__SEARCH_FOR__" class="s3d-search-inputfield"/>
                             <button type="button" class="s3d-button s3d-overlay-button s3d-search-button" title="__MSG__SUBMIT_SEARCH__">
@@ -61,7 +58,7 @@
             {var tagsListed = false}
             {for t in tags}
                 {if t_index === "0"}
-                    <span class="s3d-search-refineby-title">__MSG__REFINE_YOUR_SEARCH_BY__</span>
+                    <h2 class="s3d-search-refineby-title">__MSG__REFINE_YOUR_SEARCH_BY__</h2>
                     <div class="s3d-search-refineby-list">
                     {var tagsListed = true}
                 {/if}
@@ -84,7 +81,9 @@
                     <div id="widget_lhnavigation" class="widget_inline"></div>
                 </div>
                 <div class="s3d-page-column-right">
-                    <div id="s3d-page-main-content" class="s3d-page-content-padding" style="padding-top:0px;">
+                    <div id="s3d-page-main-content" class="s3d-page-content-padding" style="padding-top:0px;" role="main">
+                        <div id="widget_contentauthoring" class="widget_inline"></div>
+                    </div>
                 </div>
                 <div class="s3d-bottom-spacer"></div>
             </div>
@@ -107,7 +106,6 @@
                         {if ! i.isMe && ! sakai.data.me.user.anon}
                             {if ! i.connected}
                                 <button title="__MSG__REQUEST_CONNECTION_WITH__ ${i.name|safeOutput}" class="s3d-link-button s3d-actions-addtolibrary searchpeople_result_left_filler sakai_addtocontacts_overlay" sakai-entityid="${i.userid|safeOutput}" sakai-entityname="${i.name|safeOutput}" {if i.picture}sakai-entitypicture="${i.picture}"{/if}><span class="s3d-aural-text">__MSG__REQUEST_CONNECTION_WITH__ ${i.name|safeOutput}</span></button>
-                                <div class="searchpeople_result_left_filler" id="searchpeople_result_left_filler_${i.userid|safeOutput}" style="display:none;"></div>
                                 <button title="__MSG__SEND_A_MESSAGE_TO__ ${i.name|safeOutput}" class="s3d-link-button s3d-action-icon s3d-actions-message searchpeople_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i.userid|safeOutput}" sakai-entityname="${i.name|safeOutput}" sakai-entitytype="user"><span class="s3d-aural-text">__MSG__SEND_A_MESSAGE_TO__ ${i.name|safeOutput}</span></button>
                             {elseif i.invited}
                                 <button title="__MSG__ACCEPT_CONNECTION_WITH__ ${i.name|safeOutput}" class="s3d-link-button s3d-actions-addtolibrary searchpeople_result_left_filler link_accept_invitation" sakai-entityid="${i.userid|safeOutput}" sakai-entityname="${i.name|safeOutput}" {if i.picture}sakai-entitypicture="${i.picture}"{/if}><span class="s3d-aural-text">__MSG__ACCEPT_CONNECTION_WITH__ ${i.name|safeOutput}</span></button>
@@ -126,12 +124,12 @@
                     </span>
                     <span class="s3d-search-result-anonuser"></span>
                     {if ! i.picture}
-                        <a href="/~${i.userid|safeURL}" class="fl-icon searchpeople_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__"></a>
+                        <a href="/~${i.userid|safeURL}" class="fl-icon searchpeople_result_person_picture" title="__MSG__VIEW_PERSONS_PROFILE__"></a>
                     {else}
-                        <a href="/~${i.userid|safeURL}" class="searchpeople_result_person_picture" title="__MSG__TO_SEE_THE_PERSON_PROFILE__">
-                            <img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.picture}"/>
+                        <a href="/~${i.userid|safeURL}" class="searchpeople_result_person_picture" title="__MSG__VIEW_PERSONS_PROFILE__">
+                            <img alt="__MSG__VIEW_PERSONS_PROFILE__" src="${i.picture}"/>
                             {if i.pictureLarge}
-                                <img alt="__MSG__TO_SEE_THE_PERSON_PROFILE__" src="${i.pictureLarge}" class="s3d-search-result-avatar-large"/>
+                                <img alt="__MSG__VIEW_PERSONS_PROFILE__" src="${i.pictureLarge}" class="s3d-search-result-avatar-large"/>
                             {/if}
                         </a>
                     {/if}
@@ -170,7 +168,7 @@
                             {/if}
                         </div>
                         {if !$.isEmptyObject(i.tagsProcessed)}
-                            ${macro("search.tags", i.tagsProcessed)}
+                            ${macro("search.tags", i.tagsProcessed, i.name)}
                         {/if}
                     </div>
                 </li>
@@ -192,8 +190,8 @@
                     <div class="s3d-search-result-right">
                         <div>
                             <a class="s3d-bold s3d-regular-light-links" href="${i.homePath}" title="${i["sakai:group-title"]|safeOutput}">
-                                <span class="s3d-search-result-name">${i["sakai:group-title-short"]|safeOutput}</span>
-                                <span class="s3d-search-result-name-grid">${i["sakai:group-title-shorter"]|safeOutput}</span>
+                                <span class="s3d-search-result-name">${i["sakai:group-title-short"]}</span>
+                                <span class="s3d-search-result-name-grid">${i["sakai:group-title-shorter"]}</span>
                             </a>
                             {if i.groupType}
                                 <span class="searchgroups_result_grouptype">${i.groupType.toUpperCase()}</span>
@@ -210,7 +208,7 @@
                             {if participantCount > 0}
                                 <span class="s3d-search-result-detail-separator"><span> | </span></span>
                                 <a class="s3d-regular-light-links" href="${i.homePath}#l=participants">
-                                    <span class="s3d-aural-text">${i['sakai:group-title']|safeOutput} __MSG__HAS__ </span><span id="searchgroups_result_participant_count_${i['sakai:group-id']|safeOutput}">${participantCount}</span> <span id="searchgroups_text_participant_${i['sakai:group-id']|safeOutput}">{if participantCount === 1}__MSG__PARTICIPANT__{else}__MSG__PARTICIPANTS__{/if}</span>
+                                    <span class="s3d-aural-text">${i['sakai:group-title']|safeOutput} __MSG__HAS__ </span><span id="searchgroups_result_participant_count_${i['sakai:group-id']|safeOutput}">${participantCount}</span> <span id="searchgroups_text_participant_${i['sakai:group-id']|safeOutput}">{if participantCount === 1}__MSG__PARTICIPANT_LC__{else}__MSG__PARTICIPANTS_LC__{/if}</span>
                                 </a>
                             {/if}
                         </div>
@@ -219,7 +217,7 @@
                             <div class="searchgroups_result_description_grid">${i["sakai:group-description-shorter"]}</div>
                         {/if}
                         {if !$.isEmptyObject(i.tagsProcessed)}
-                            ${macro("search.tags", i.tagsProcessed)}
+                            ${macro("search.tags", i.tagsProcessed, sakai.api.Util.Security.safeOutput(i["sakai:group-title"]))}
                         {/if}
                     </div>
                 </li>
@@ -240,18 +238,19 @@
 
         <!-- Dependency JS -->
         <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require.js"></script>
-        
+
         <!-- GROUP JS -->
         <script>require(["/dev/javascript/search.js"]);</script>
-        
-        </div>
+
         <noscript>
-            <h1>Sorry!</h1>
-            <p>
-                JavaScript must be enabled to use this site. Please turn on JavaScript in your browser and refresh the page.
-                If you need assistance, please visit
-                <a href="http://activatejavascript.org/" title="Enable JavaScript in the most popular browsers">activatejavascript.org</a>.
-            </p>
+            <div class="noscript">
+                <h1>Sorry!</h1>
+                <p>
+                    JavaScript must be enabled to use this site. Please turn on JavaScript in your browser and refresh the page.
+                    If you need assistance, please visit
+                    <a href="http://activatejavascript.org/" title="Enable JavaScript in the most popular browsers">activatejavascript.org</a>.
+                </p>
+            </div>
         </noscript>
     </body>
 </html>

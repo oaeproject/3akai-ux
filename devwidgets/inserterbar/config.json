@@ -1,22 +1,18 @@
 {
-    "enabled":            true,
-    "groupdashboard":     false,
-    "grouppages":         false,
-    "hasSettings":        false,
+    "enabled": true,
+    "hasSettings": false,
     "i18n": {
         "default": {
-            "bundle":     "/devwidgets/inserterbar/bundles/default.properties",
-            "name":       "Inserter Bar",
-            "description":"Content Authoring Inserter Bar"
+            "bundle": "/devwidgets/inserterbar/bundles/default.properties",
+            "description": "Content Authoring Inserter Bar",
+            "name": "Inserter Bar"
         },
         "fr_FR": {
-            "bundle":     "/devwidgets/inserterbar/bundles/fr_FR.properties"
-        } 
+            "bundle": "/devwidgets/inserterbar/bundles/fr_FR.properties"
+        }
     },
-    "id":                 "inserterbar",
-    "personalportal":     false,
-    "type":               "core",
-    "url":                "/devwidgets/inserterbar/inserterbar.html",
-    "userdashboard":      false,
-    "userpages":          false
+    "id": "inserterbar",
+    "personalportal": false,
+    "type": "core",
+    "url": "/devwidgets/inserterbar/inserterbar.html"
 }
