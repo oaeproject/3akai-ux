@@ -423,7 +423,7 @@ define(
         loadMeData : function(callback) {
             var cache = true;
             // don't use cache for IE8
-            if ($.browser.msie && parseInt($.browser.version, 10) < 9) {
+            if ($.browser.msie) {
                 cache = false;
             }
 
