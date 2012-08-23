@@ -251,7 +251,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
              * @param {Boolean} replyOnly hide the to: and subject: fields
              * @param {String} replyID The ID of the message you're replying to
              */
-            var initialize = function(userObj, $insertInId, callback, subject, body, replyOnly, replyID, buttonText) {
+            var initialize = function(userObj, $insertInId, callback, subject, body, replyOnly, replyID, buttonText, focus) {
                 layover = true;
                 // Make sure that everything is standard.
                 resetView();
@@ -335,8 +335,25 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                     sakai.api.Util.Modal.open(messageDialogContainer, openOptions);
                 }
                 sakai.api.Util.Forms.clearValidation($sendmessage_form);
+
+                if (focus) {
+                    focusBody();
+                }
             };
 
+            var focusBody = function() {
+                var $messageFieldBody = $(messageFieldBody, $rootel);
+                // Only animate if the reply box is below the window's viewable area
+                if ($messageFieldBody.offset().top > (window.innerHeight+200)) {
+                    $('html, body').animate({
+                        scrollTop: $messageFieldBody.offset().top
+                    }, 350, 'swing', function() {
+                        $messageFieldBody.focus();
+                    });
+                } else {
+                    $messageFieldBody.focus();
+                }
+            };
 
 
             ////////////////////
@@ -398,8 +415,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             // Initialization //
             ////////////////////
 
-            $(document).on('initialize.sendmessage.sakai', function(e, userObj, insertInId, callback, subject, body, replyOnly, replyID, buttonText) {
-                initialize(userObj, insertInId, callback, subject, body, replyOnly, replyID, buttonText);
+            $(document).on('initialize.sendmessage.sakai', function(e, userObj, insertInId, callback, subject, body, replyOnly, replyID, buttonText, focus) {
+                initialize(userObj, insertInId, callback, subject, body, replyOnly, replyID, buttonText, focus);
             });
             $(document).on('click', '.sakai_sendmessage_overlay', function(ev) {
                 var el = $(this);

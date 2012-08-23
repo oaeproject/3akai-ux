@@ -19,18 +19,18 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
 
     sakai_global.inbox = function(tuid, showSettings, widgetData, state) {
 
-        var totalMessages = 0,
-            messages = {},
-            currentMessage = {},
-            sortBy = '_created',
-            sortOrder = 'desc',
-            currentPage = 0,
-            searchTerm = null,
-            listViewClass = '.inbox-message-list-view',
-            detailViewClass = '.inbox-message-detail-view',
-            newMessageViewClass = '.inbox-new-message-view',
-            infinityScroll = false,
-            previousPosition = false;
+        var totalMessages = 0;
+        var messages = {};
+        var currentMessage = {};
+        var sortBy = '_created';
+        var sortOrder = 'desc';
+        var currentPage = 0;
+        var searchTerm = null;
+        var listViewClass = '.inbox-message-list-view';
+        var detailViewClass = '.inbox-message-detail-view';
+        var newMessageViewClass = '.inbox-new-message-view';
+        var infinityScroll = false;
+        var previousPosition = false;
 
         var inbox_item = '.inbox_item';
         var inbox_mark_as_read = '#inbox_mark_as_read';
@@ -41,28 +41,28 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         var inbox_search_messages = '#inbox_search_messages';
         var inbox_search_button = '.inbox-message-list-view .s3d-search-button';
 
-        var $rootel = $('#'+tuid),
-            $inbox_items = $('#inbox_message_list .inbox_items_inner', $rootel),
-            $inbox_message_list = $('#inbox_message_list', $rootel),
-            $inbox_show_message = $('#inbox_show_message', $rootel),
-            $inbox_show_message_template = $('#inbox_show_message_template', $rootel),
-            $inbox_back_to_messages = $('#inbox_back_to_messages', $rootel),
-            $inbox_create_new_message = $('#inbox_create_new_message', $rootel),
-            $inbox_new_message = $('#inbox_new_message', $rootel),
-            $inbox_new_message_sendmessage = $('#inbox_new_message_sendmessage', $rootel),
-            $inbox_message_list_item_template = $('#inbox_message_list_item_template', $rootel),
-            $inbox_message_list_item_empty_template = $('#inbox_message_list_item_empty_template', $rootel),
-            $inbox_box_title = $('#inbox_box_title', $rootel),
-            $inbox_delete_button = $('.inbox_delete_button', $rootel),
-            $inbox_show_message_reply_fields = $('.inbox_show_message_reply_fields', $rootel),
-            $inbox_invitation = $(inbox_invitation, $rootel),
-            $inbox_select_checkbox = $(inbox_select_checkbox, $rootel),
-            $inbox_delete_selected = $(inbox_delete_selected, $rootel),
-            $inbox_mark_as_read = $(inbox_mark_as_read, $rootel),
-            $inbox_item = $(inbox_item, $rootel),
-            $inbox_search_messages = $(inbox_search_messages, $rootel),
-            $inbox_search_term = $('#inbox_search_term', $rootel);
-            $inbox_search_button = $(inbox_search_button);
+        var $rootel = $('#'+tuid);
+        var $inbox_items = $('#inbox_message_list .inbox_items_inner', $rootel);
+        var $inbox_message_list = $('#inbox_message_list', $rootel);
+        var $inbox_show_message = $('#inbox_show_message', $rootel);
+        var $inbox_show_message_template = $('#inbox_show_message_template', $rootel);
+        var $inbox_back_to_messages = $('#inbox_back_to_messages', $rootel);
+        var $inbox_create_new_message = $('#inbox_create_new_message', $rootel);
+        var $inbox_new_message = $('#inbox_new_message', $rootel);
+        var $inbox_new_message_sendmessage = $('#inbox_new_message_sendmessage', $rootel);
+        var $inbox_message_list_item_template = $('#inbox_message_list_item_template', $rootel);
+        var $inbox_message_list_item_empty_template = $('#inbox_message_list_item_empty_template', $rootel);
+        var $inbox_box_title = $('#inbox_box_title', $rootel);
+        var $inbox_delete_button = $('.inbox_delete_button', $rootel);
+        var $inbox_show_message_reply_fields = $('.inbox_show_message_reply_fields', $rootel);
+        var $inbox_invitation = $(inbox_invitation, $rootel);
+        var $inbox_select_checkbox = $(inbox_select_checkbox, $rootel);
+        var $inbox_delete_selected = $(inbox_delete_selected, $rootel);
+        var $inbox_mark_as_read = $(inbox_mark_as_read, $rootel);
+        var $inbox_item = $(inbox_item, $rootel);
+        var $inbox_search_messages = $(inbox_search_messages, $rootel);
+        var $inbox_search_term = $('#inbox_search_term', $rootel);
+        var $inbox_search_button = $(inbox_search_button);
 
         /**
          * Toggle the 'mark as read' and 'delete selected' buttons on the message list view
@@ -190,10 +190,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                 $('#' + currentMessage.id, $rootel).removeClass('unread');
             }
             $(detailViewClass).show();
-            showReply();
-            if (_focusReply) {
-                focusReply();
-            }
+            showReply(_focusReply);
         };
 
         /**
@@ -343,7 +340,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         /**
          * Show the reply textarea inline
          */
-        var showReply = function() {
+        var showReply = function(focus) {
             $inbox_show_message_reply_fields = $($inbox_show_message_reply_fields.selector);
             var replyButtonText = sakai.api.i18n.getValueForKey('REPLY', 'inbox');
             var replyText = sakai.api.i18n.getValueForKey('RE', 'inbox');
@@ -352,28 +349,9 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             if (currentMessage.subject.substring(0, replyText.length) !== replyText) {
                 messageSubject = replyText + ' ' + currentMessage.subject;
             }
-            $(document).trigger('initialize.sendmessage.sakai', [currentMessage.replyAll, $inbox_show_message_reply_fields, handleReplyFinished, messageSubject, null, true, currentMessage.id, replyButtonText]);
+            $(document).trigger('initialize.sendmessage.sakai', [currentMessage.replyAll, $inbox_show_message_reply_fields, handleReplyFinished, messageSubject, null, true, currentMessage.id, replyButtonText, focus]);
             $inbox_show_message_reply_fields.show();
         };
-
-        /**
-         * When the user has clicked the reply button on the list of messages
-         * it takes them directly to the textarea in the sendmessage widget
-         */
-        var focusReply = function() {
-            var $replyBody = $('#comp-body', $rootel);
-            // Only animate if the reply box is below the window's viewable area
-            if ($replyBody.offset().top > (window.innerHeight+200)) {
-                $('html, body').animate({
-                    scrollTop: $replyBody.offset().top
-                }, 350, 'swing', function() {
-                    $replyBody.focus();
-                });
-            } else {
-                $replyBody.focus();
-            }
-        };
-
 
         ////////////
         // SEARCH //
@@ -396,7 +374,6 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                 'iq': $inbox_search_messages.val()
             });
         });
-
 
         ////////////////////////////////
         // SCROLL POSITION MANAGEMENT //
@@ -430,7 +407,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         ////////////////////////
 
         $rootel.on('click', inbox_item, function(e) {
-            if (!($(e.target).hasClass('personinfo_trigger_click') || $(e.target).hasClass('inbox_action_button') || $(e.target).hasClass('inbox_delete_icon') || $(e.target).is('input'))) {
+            if (!($(e.target).hasClass('personinfo_trigger_click') || $(e.target).hasClass('inbox_action_button') || $(e.target).hasClass('inbox_reply_icon') || $(e.target).hasClass('inbox_delete_icon') || $(e.target).is('input'))) {
                 $.bbq.pushState({'message': $(this).attr('id')});
             }
         });
