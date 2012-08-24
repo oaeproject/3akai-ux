@@ -10,6 +10,11 @@
         "es_ES": {
             "bundle": "/devwidgets/addarea/bundles/es_ES.properties"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/addarea/bundles/ru_RU.properties",
+            "description": "Добавить виджет",
+            "name": "Добавить виджет"
+        },
         "nl_NL": {
             "bundle": "/devwidgets/addarea/bundles/nl_NL.properties"
         },
