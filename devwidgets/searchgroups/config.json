@@ -7,6 +7,11 @@
             "description": "Search groups",
             "name": "Search groups"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/searchgroups/bundles/ru_RU.properties",
+            "description": "Поиск по группам",
+            "name": "Поиск по группам"
+        },
         "es_ES": {
             "bundle": "/devwidgets/searchgroups/bundles/es_ES.properties"
         },

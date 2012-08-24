@@ -6,6 +6,11 @@
             "bundle": "/devwidgets/tooltip/bundles/default.properties",
             "description": "Displays tooltip help dialog boxes",
             "name": "Tooltip"
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/tooltip/bundles/ru_RU.properties",
+            "description": "Показывает окно с подсказками о помощи",
+            "name": "Подсказка"
         }
     },
     "id": "tooltip",

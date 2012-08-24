@@ -6,6 +6,14 @@
             "description": "Select template",
             "name": "Select template"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/selecttemplate/bundles/ru_RU.properties",
+            "description": "Выбор шаблона",
+            "name": "Выбор шаблона"
+        },
+        "en_US": {
+            "bundle": "/devwidgets/selecttemplate/bundles/en_US.properties"
+        },
         "fr_FR": {
             "bundle": "/devwidgets/selecttemplate/bundles/fr_FR.properties"
         }
