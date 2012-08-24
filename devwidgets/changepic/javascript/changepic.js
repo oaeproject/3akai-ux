@@ -56,6 +56,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
         var mode = null;
         var fullPicHeight = 300;
         var fullPicWidth = 325;
+        var currentFileName = null;
 
         // These values are just in case there are no css values specified.
         // If you want to change the size of a thumbnail please do this in the CSS.
@@ -181,12 +182,14 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
          * On changepic form submit, check that a file has been selected
          * and submit the form.
          */
-        $(picInput).off('change').on('change', function() {
+        
+        var validateAndSubmit = function(data) {
             // validate args
             // file extension allow for image
             var extensionArray = ['.png', '.jpg', '.jpeg','.gif'];
             // get file name
-            fileName = $(picInput).val();
+            fileName = currentFileName;
+            console.log('fileName: ', fileName);
             // get extension from the file name.
             var extension = fileName.slice(fileName.lastIndexOf('.')).toLowerCase();
             var allowSubmit = false;
@@ -209,6 +212,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
                 hideSelectArea();
                 $(picForm).ajaxForm({
                     success: function(data) {
+                        console.log('Success. Calling doInit.');
                         doInit(true);
                     },
                     error: function() {
@@ -216,19 +220,20 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
                         return false;
                     }
                 });
-                $(picForm).submit();
+                data.submit();
             } else {
                 // no input, show error
                 showInputError();
                 return false;
             }
-        });
+        };
 
         /**
          * Initilise function
          * @param {boolean} newpic True if a new picture has just been uploaded
          */
         var doInit = function(newpic) {
+            console.log('doInit');
             hideSelectArea();
 
             if (!id) {
@@ -385,20 +390,28 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
         $('#changepic_browse_button').on('click', function(ev){
             $('#changepic_upload_button input').click();
         });
-
+        
+        $(picInput).on('change', function(){
+            currentFileName = $(this).val();
+        });
         $('#changepic_uploadnew').fileupload({
-            url: '/~' + 'dean' + '/public/',
+            url: '/~' + 'dean' + '/public/profile',
             singleFileUploads: true,
             dropZone: $('#changepic_drop_image'),
             add: function(e, data) {
-                console.log('Added.');
+                console.log('jQuery fileUpload add evt handler.');
+                console.log('data', data);
                 $('#changepic_uploading').show();
-                $('#changepic_uploadnew').hide();
-                setTimeout(function() {data.submit();}, 1000);
+                // $('#changepic_uploadnew').hide();
+                // setTimeout(function() {data.submit();}, 1000);
+                validateAndSubmit(data);
             },
             done: function(e, data) {
-                $('#changepic_selectpicture').show();
-                $('#changepic_uploading').hide();
+                console.log('Done');
+                $('#changepic_progress_bar').css('width', '100%');
+                doInit(true);
+                //$('#changepic_selectpicture').show();
+                //$('#changepic_uploading').hide();
             },
             progress: function(e, data) {
                 var progress = parseInt((data.loaded / data.total) * 100, 10);

@@ -43,7 +43,7 @@
     position: relative;
 }
 #profilepicture {
-    display: none;
+    display: block;
 }
 #changepic_progress {
     border: 1px solid black;
