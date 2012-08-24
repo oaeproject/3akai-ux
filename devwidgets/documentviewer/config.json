@@ -6,6 +6,11 @@
             "bundle": "/devwidgets/documentviewer/bundles/default.properties",
             "description": "Document viewer",
             "name": "Document viewer"
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/documentviewer/bundles/ru_RU.properties",
+            "description": "Просмотр документов",
+            "name": "Просмотр документов"
         }
     },
     "id": "documentviewer",

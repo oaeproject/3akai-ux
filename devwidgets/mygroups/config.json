@@ -7,6 +7,11 @@
             "description": "My memberships",
             "name": "My memberships"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/mygroups/bundles/ru_RU.properties",
+            "description": "Членства",
+            "name": "Членства"
+        },
         "en_US": {
             "bundle": "/devwidgets/mygroups/bundles/en_US.properties"
         },

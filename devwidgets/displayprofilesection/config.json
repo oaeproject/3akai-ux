@@ -6,6 +6,11 @@
             "description": "Show a profile section",
             "name": "Profile section"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/displayprofilesection/bundles/ru_RU.properties",
+            "description": "Показывает профиль",
+            "name": "Профиль"
+        },
         "es_ES": {
             "bundle": "/devwidgets/displayprofilesection/bundles/es_ES.properties"
         },

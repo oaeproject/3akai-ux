@@ -7,6 +7,11 @@
             "description": "Adds people or groups as a member on groups",
             "name": "addpeoplegroups"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/addpeoplegroups/bundles/ru_RU.properties",
+            "description": "Добавляйте пользователей или группы в качестве члена группы",
+            "name": "Добавление членов в группы"
+        },
         "fr_FR": {
             "bundle": "/devwidgets/addpeoplegroups/bundles/fr_FR.properties"
         }
@@ -15,6 +20,7 @@
     "trigger": {
         "selectors": [".addpeoplegroups_trigger"],
         "onLoad": false
+             
     },
     "type": "sakai",
     "url": "/devwidgets/addpeoplegroups/addpeoplegroups.html"
