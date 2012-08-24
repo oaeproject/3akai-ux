@@ -196,7 +196,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                         });
                     }
                 }
-                sakai.api.Util.AutoSuggest.setup($('#sendmessage_to_autoSuggest'), {
+                sakai.api.Util.AutoComplete.setupUserGroupSearch($('#sendmessage_to_autoSuggest'), {
                     'asHtmlID': 'sendmessage_to_autoSuggest',
                     startText: sakai.api.i18n.getValueForKey('ENTER_CONTACT_OR_GROUP_NAMES', 'sendmessage'),
                     keyDelay: '200',

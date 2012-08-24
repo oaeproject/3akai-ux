@@ -2194,6 +2194,203 @@ define(
             return entity;
         },
 
+        AutoComplete: {
+            setupUserGroupSearch: function($element, options, callback, _dataFn) {
+                require(['sakai/sakai.api.i18n', 'sakai/sakai.api.user'], function(sakaii18nAPI, user) {
+
+                    var elId = Math.round(Math.random() * 10000000);
+                    var selectedList = 'autocomplete_selected_' + elId;
+                    var resultsList = 'autocomplete_results_' + elId;
+                    var $container = $element.parent();
+                    $container.append('<ul class="autocomplete_container as-selections" id="' + selectedList
+                        + '"><li id="autocomplete_placeholder"></li class="as-original"></ul>');
+
+                    var $list = $('#' + selectedList);
+                    $element.appendTo('#' + selectedList + ' #autocomplete_placeholder');
+                    $('#' + selectedList + ' #autocomplete_placeholder').append('<input id="autocomplete_selected_values" type="hidden">')
+                    $element.addClass("requiredsuggest s3d-input-full-width s3d-error-autosuggest as-input autocomplete_input")
+                    $element.parent().append('<div class="autocomplete_list" id="' + resultsList + '"><button class="autocomplete_trigger">See more results for "<span></span>"</button></div>');
+
+                    var closeAutocomplete = function() {
+                        $('#' + resultsList).hide();
+                        $element.val('');
+                    };
+                    closeAutocomplete();
+
+                    $('.autocomplete_trigger').off('.autocomplete_trigger').on('click', function(ev){
+                        // open new select user/group widget here
+                        closeAutocomplete();
+                        return false;
+                    });
+                    $('.autocomplete_trigger').off('.autocomplete_trigger').on('blur', function(ev){
+                        closeAutocomplete();
+                    });
+
+                    $list.off('click').on('click', function() {
+                        $('#autocomplete_placeholder').find('input').focus();
+                    });
+                    $list.off('click', '.autocomplete_remove').on('click', '.autocomplete_remove', function() {
+                        var toRemove = $(this).closest('li').attr('data-entity-id');
+                        var selected = $('#autocomplete_selected_values').attr('value');
+                        selected = selected.split(',');
+                        selected.splice($.inArray(toRemove, selected), 1);
+                        $('#autocomplete_selected_values').attr('value', selected.toString());
+                        $(this).closest('li').remove();
+                        return false;
+                    });
+
+                    var dataFn = function(request, response) {
+                        var q = sakai_serv.createSearchString(request.term);
+                        var searchoptions = {
+                            'page': 0,
+                            'items': 15
+                        };
+                        var searchUrl = sakai_conf.URL.SEARCH_USERS_GROUPS;
+                        if (q === '*' || q === '**') {
+                            searchUrl = sakai_conf.URL.SEARCH_USERS_GROUPS_ALL;
+                        } else {
+                            searchoptions['q'] = q;
+                        }
+                        sakai_serv.loadJSON(searchUrl.replace('.json', ''), function(success, data) {
+                            if (success) {
+                                var selected = $('#autocomplete_selected_values').attr('value');
+                                selected = selected.split(',');
+                                var suggestions = [];
+                                $.each(data.results, function(i) {
+                                    if (data.results[i]['rep:userId'] && data.results[i]['rep:userId'] !== user.data.me.user.userid) {
+                                        if ($.inArray(data.results[i]['rep:userId'], selected) !== -1) {
+                                            return;
+                                        }
+                                        if (!options.filterUsersGroups || $.inArray(data.results[i]['rep:userId'], options.filterUsersGroups) === -1) {
+                                            suggestions.push({
+                                                'value': data.results[i]['rep:userId'],
+                                                'name': user.getDisplayName(data.results[i]),
+                                                'desc': user.getDisplayName(data.results[i]),
+                                                'picture': sakai_util.constructProfilePicture(data.results[i], 'user'),
+                                                'type': 'user'
+                                            });
+                                        }
+                                    } else if (data.results[i]['sakai:group-id']) {
+                                        if ($.inArray(data.results[i]['sakai:group-id'], selected) !== -1) {
+                                            return;
+                                        }
+                                        if (!options.filterUsersGroups || $.inArray(data.results[i]['sakai:group-id'], options.filterUsersGroups) === -1) {
+                                            suggestions.push({
+                                                'value': data.results[i]['sakai:group-id'],
+                                                'name': sakai_util.Security.safeOutput(data.results[i]['sakai:group-title']),
+                                                'desc': sakai_util.Security.safeOutput(data.results[i]['sakai:group-title']),
+                                                'picture': sakai_util.constructProfilePicture(data.results[i], 'group'),
+                                                'type': 'group'
+                                            });
+                                        }
+                                    }
+                                });
+                                $('.autocomplete_list button span').text(request.term);
+                                $('.autocomplete_list button span').attr('data-search-query', q);
+                                if (!suggestions.length) {
+                                    suggestions.push({
+                                        value: 'autocomplete_no_results',
+                                        type: 'autocomplete_no_results'
+                                    });
+                                }
+                                response(suggestions, request);
+                            }
+                        }, searchoptions);
+                    };
+
+                    $element.autocomplete({
+                        search: function(){
+                            $(this).addClass('autocomplete_loading');
+                        },
+                        open: function(event, ui) {
+                            $('#' + resultsList).show();
+                            $('ul.ui-autocomplete').removeAttr('style').hide().prependTo('#' + resultsList).show();
+                            $(this).removeClass('autocomplete_loading');
+                        },
+                        close: function(event, ui) {
+                            $('#' + resultsList).hide();
+                        },
+                        source: dataFn,
+                        select: function(event, ui) {
+                            // Format the selected item to render in the list
+                            var lineItem = '<span>' + ui.item.name + '</span>';
+                            if (ui.item.picture) {
+                                lineItem = '<img class="autocomplete_selected_img" src="' + ui.item.picture + '" />' + lineItem;
+                            }
+                            lineItem = lineItem + '<a href="#" class="autocomplete_remove">X</a>';
+                            lineItem = '<li class="as-selection-item blur" data-entity-id="' + ui.item.value + '">' + lineItem + '</li>';
+                            $(lineItem).insertBefore('#autocomplete_placeholder');
+                            $element.val('');
+                            var selected = $('#autocomplete_selected_values').attr('value');
+                            selected = selected.split(',');
+                            selected.push(ui.item.value);
+                            $('#autocomplete_selected_values').attr('value', selected.toString());
+                            return false;
+                        },
+                        focus: function(event, ui) {
+                            $(".autocomplete_list ul li").removeClass("autocomplete_list_selected");
+                            $("#ui-active-menuitem")
+                                .closest("li")
+                                .addClass("autocomplete_list_selected");
+                        }
+                        //position:
+                    })
+                    .off('blur.autocomplete').on('blur.autocomplete', function(event) {
+                        // hide the autocomplete div if focus is lost, except for the "search more" button
+                        setTimeout(function() {
+                            if (!$('.autocomplete_list button').is(':focus') && !$('.autocomplete_list a').is(':focus')) {
+                                closeAutocomplete();
+                            }
+                        }, 50);
+                    })
+                    .data('autocomplete')._renderItem = function(ul, item) {
+                        // formats each line to be presented in autocomplete list
+                        // add the correct image, wrap name in a class
+                        var imgSrc = false;
+                        switch (item.type) {
+                            case 'user':
+                                imgSrc = item.picture;
+                                if (item.picture === sakai_conf.URL.USER_DEFAULT_ICON_URL) {
+                                    imgSrc = sakai_conf.URL.USER_DEFAULT_ICON_URL_SMALL;
+                                }
+                                break;
+                            case 'group':
+                                imgSrc = item.picture;
+                                if (item.picture === sakai_conf.URL.GROUP_DEFAULT_ICON_URL) {
+                                    imgSrc = sakai_conf.URL.GROUP_DEFAULT_ICON_URL_SMALL;
+                                }
+                                break;
+                            case 'autocomplete_no_results':
+                                return $( '<li></li>' )
+                                    .data('item.autocomplete', item)
+                                    .append('No Results')
+                                    .appendTo(ul);
+                                break;
+                            default:
+                                imgSrc = item.picture;
+                                break;
+                        }
+                        // need safeoutput then scan for query to highlight
+                        var lineItem = '<a class="autocomplete_name">' + item.name + '</a>' +
+                            '<br/><span class="autocomplete_desc">' + item.desc + '</span>';
+                        if (imgSrc) {
+                            lineItem = '<img class="autocomplete_img" src="' + imgSrc + '" />' + lineItem;
+                        }
+                        return $( '<li></li>' )
+                            .data('item.autocomplete', item)
+                            .append(lineItem)
+                            .appendTo(ul);
+                    };
+                });
+            },
+
+            destroy: function() {
+            },
+
+            reset: function() {
+            }
+        },
+
         AutoSuggest: {
             /**
             * Autosuggest for users and groups (for other data override the source parameter). setup method creates a new
