@@ -56,7 +56,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
         var mode = null;
         var fullPicHeight = 300;
         var fullPicWidth = 325;
-        var currentFileName = null;
+        var allowSubmit = false;
 
         // These values are just in case there are no css values specified.
         // If you want to change the size of a thumbnail please do this in the CSS.
@@ -183,16 +183,19 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
          * and submit the form.
          */
         
-        var validateAndSubmit = function(data) {
+        //$(picInput).off('change').on('change', validateAndSubmit);
+        
+        var validateAndSubmit = function() {
+            console.log('validateAndSubmit');
             // validate args
             // file extension allow for image
             var extensionArray = ['.png', '.jpg', '.jpeg','.gif'];
             // get file name
-            fileName = currentFileName;
+            fileName = $(picInput).val();
             console.log('fileName: ', fileName);
             // get extension from the file name.
             var extension = fileName.slice(fileName.lastIndexOf('.')).toLowerCase();
-            var allowSubmit = false;
+            allowSubmit = false;
 
             for (var i = 0; i < extensionArray.length; i++) {
                  // extension is acceptable image format
@@ -220,7 +223,9 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
                         return false;
                     }
                 });
-                data.submit();
+                console.log('About to submit with file input value of ', $(picInput).val());
+                //data.submit();
+                $(picForm).submit();
             } else {
                 // no input, show error
                 showInputError();
@@ -380,36 +385,48 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
             }
         };
 
-        // Remove error notification when a new file is chosen
-        $(picInput).on('change', function() {
+        // Remove error notification when a new file is chosen, validate, and submit
+        var removeErrorNotification = function() {
+            console.log('Picture changed! Currently the file selected is ', $(picInput).val());
             hideInputError();
             $('#profile_upload').removeAttr('disabled');
+            validateAndSubmit();
+        };
+        
+        $(picInput).on('change', removeErrorNotification);
+        $('#changepic_drop_image').on('drop', function(ev) {
+            console.log('DROP event data:');
+            console.log(ev);
+            $(picInput).val('asdfadsf');
+            ev.preventDefault();
         });
         
         // Click native file input when button is clicked or an image is dropped.
-        $('#changepic_browse_button').on('click', function(ev){
+        $('#changepic_browse_button').on('click drop', function(ev){
             $('#changepic_upload_button input').click();
         });
         
-        $(picInput).on('change', function(){
-            currentFileName = $(this).val();
-        });
         $('#changepic_uploadnew').fileupload({
-            url: '/~' + 'dean' + '/public/profile',
+            url: '/~' + 'dean' + '/public/profile/',
             singleFileUploads: true,
             dropZone: $('#changepic_drop_image'),
             add: function(e, data) {
-                console.log('jQuery fileUpload add evt handler.');
+                console.log('jQuery fileUpload add evt handler. Currently the file selected is ', $(picInput).val());
                 console.log('data', data);
+                dataToSubmit = data;
+                if (allowSubmit === true) {
+                    console.log('Yay! Submitting data!');
+                    data.submit();
+                }
                 $('#changepic_uploading').show();
                 // $('#changepic_uploadnew').hide();
                 // setTimeout(function() {data.submit();}, 1000);
-                validateAndSubmit(data);
+                // validateAndSubmit(data);
             },
             done: function(e, data) {
-                console.log('Done');
+                console.log('Done uploading file. Currently the file selected is ', $(picInput).val());
                 $('#changepic_progress_bar').css('width', '100%');
-                doInit(true);
+                //$(picForm).submit();
                 //$('#changepic_selectpicture').show();
                 //$('#changepic_uploading').hide();
             },
