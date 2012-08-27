@@ -2198,6 +2198,13 @@ define(
             setupUserGroupSearch: function($element, options, callback, _dataFn) {
                 require(['sakai/sakai.api.i18n', 'sakai/sakai.api.user'], function(sakaii18nAPI, user) {
 
+                    if ($element.hasClass('autocomplete_input')) {
+                        return;
+                    }
+
+                    // need to limit selectors to container...
+                    var selectedEntities = {};
+
                     var elId = Math.round(Math.random() * 10000000);
                     var selectedList = 'autocomplete_selected_' + elId;
                     var resultsList = 'autocomplete_results_' + elId;
@@ -2205,31 +2212,39 @@ define(
                     $container.append('<ul class="autocomplete_container as-selections" id="' + selectedList
                         + '"><li id="autocomplete_placeholder"></li class="as-original"></ul>');
 
-                    var $list = $('#' + selectedList);
+                    var $selectedList = $('#' + selectedList);
                     $element.appendTo('#' + selectedList + ' #autocomplete_placeholder');
                     $('#' + selectedList + ' #autocomplete_placeholder').append('<input id="autocomplete_selected_values" type="hidden">')
                     $element.addClass("requiredsuggest s3d-input-full-width s3d-error-autosuggest as-input autocomplete_input")
-                    $element.parent().append('<div class="autocomplete_list" id="' + resultsList + '"><button class="autocomplete_trigger">See more results for "<span></span>"</button></div>');
+                    $element.parent().append('<div class="autocomplete_list" id="' + resultsList + '"><button class="selectusergroup_trigger">See more results for "<span></span>"</button></div>');
 
-                    var closeAutocomplete = function() {
+                    var $seeMoreButton = $element.parent().find('#' + resultsList + ' button');
+
+                    var hideAutocomplete = function() {
                         $('#' + resultsList).hide();
                         $element.val('');
                     };
-                    closeAutocomplete();
+                    hideAutocomplete();
 
-                    $('.autocomplete_trigger').off('.autocomplete_trigger').on('click', function(ev){
-                        // open new select user/group widget here
-                        closeAutocomplete();
+                    $seeMoreButton.off('click').on('click', function(ev){
+                        // open select user/group widget
+                        $(window).trigger('init.selectusergroup.sakai', {
+                            'q': $seeMoreButton.attr('data-search-query'),
+                            'alreadySelected': selectedEntities,
+                            'filter': [user.data.me.user.userid] // this should be passed in from the widget using autocomplete
+                        });
+
+                        hideAutocomplete();
                         return false;
                     });
-                    $('.autocomplete_trigger').off('.autocomplete_trigger').on('blur', function(ev){
-                        closeAutocomplete();
+                    $seeMoreButton.off('blur').on('blur', function(ev){
+                        hideAutocomplete();
                     });
 
-                    $list.off('click').on('click', function() {
+                    $selectedList.off('click').on('click', function() {
                         $('#autocomplete_placeholder').find('input').focus();
                     });
-                    $list.off('click', '.autocomplete_remove').on('click', '.autocomplete_remove', function() {
+                    $selectedList.off('click', '.autocomplete_remove').on('click', '.autocomplete_remove', function() {
                         var toRemove = $(this).closest('li').attr('data-entity-id');
                         var selected = $('#autocomplete_selected_values').attr('value');
                         selected = selected.split(',');
@@ -2285,8 +2300,8 @@ define(
                                         }
                                     }
                                 });
-                                $('.autocomplete_list button span').text(request.term);
-                                $('.autocomplete_list button span').attr('data-search-query', q);
+                                $seeMoreButton.children('span').text(request.term);
+                                $seeMoreButton.attr('data-search-query', q);
                                 if (!suggestions.length) {
                                     suggestions.push({
                                         value: 'autocomplete_no_results',
@@ -2339,7 +2354,7 @@ define(
                         // hide the autocomplete div if focus is lost, except for the "search more" button
                         setTimeout(function() {
                             if (!$('.autocomplete_list button').is(':focus') && !$('.autocomplete_list a').is(':focus')) {
-                                closeAutocomplete();
+                                hideAutocomplete();
                             }
                         }, 50);
                     })

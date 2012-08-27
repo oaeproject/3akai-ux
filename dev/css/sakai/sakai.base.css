@@ -55,6 +55,13 @@
 .autocomplete_list ul li.autocomplete_list_selected {
     background-color: #DBF3FF;
 }
+.autocomplete_img {
+    height: 32px;
+    width: 32px;
+    margin-right: 5px;
+    float: left;
+    clear: left;
+}
 
 /* selected list */
 .autocomplete_container li {
@@ -62,13 +69,6 @@
 }
 .autocomplete_loading {
     background: #fff url(/dev/images/ajax_load.gif) center center no-repeat;
-}
-.autocomplete_img {
-    height: 32px;
-    width: 32px;
-    margin-right: 5px;
-    float: left;
-    clear: left;
 }
 .autocomplete_selected_img {
     height: 16px;

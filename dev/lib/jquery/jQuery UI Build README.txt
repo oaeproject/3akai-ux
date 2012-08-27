@@ -3,6 +3,7 @@ Our custom build includes:
 Core
 Widget
 Mouse
+Autocomplete
 Draggable
 Droppable
 Resizable

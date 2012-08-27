@@ -1,0 +1,14 @@
+{
+    "enabled": true,
+    "hasSettings": false,
+    "i18n": {
+        "default": {
+            "bundle": "/devwidgets/selectusergroup/bundles/default.properties",
+            "description": "User/group selector",
+            "name": "User/group selector"
+        }
+    },
+    "id": "selectusergroup",
+    "type": "core",
+    "url": "/devwidgets/selectusergroup/selectusergroup.html"
+}

@@ -1,0 +1,87 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/selectusergroup/css/selectusergroup.css" />
+
+<!-- MAIN VIEW -->
+<div id="selectusergroup_container" class="s3d-dialog s3d-dialog-container">
+    <div class="s3d-dialog-close jqmClose"></div>
+    <h1 class="s3d-dialog-header">__MSG__REFINE_SEARCH__</h1>
+    
+    <div id="selectusergroup_search_container">
+        <div id="selectusergroup_search">
+            <form id="selectusergroup_search_form" method="post" action="#">
+                <div class="s3d-search-container"  role="search" aria-label="__MSG__REFINE_SEARCH__">
+                    <label for="selectusergroup_search_query" id="selectusergroup_search_query_label" style="display:none;">__MSG__REFINE_SEARCH__</label>
+                    <input type="text" tabindex_none="40" name="selectusergroup_search_query" id="selectusergroup_search_query" title="__MSG__REFINE_SEARCH__" class="s3d-search-inputfield"/>
+                    <button type="submit" class="s3d-button s3d-overlay-button" id="selectusergroup_search_button">
+                        __MSG__SEARCH_AGAIN__
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        
+        <div>
+            <div id="selectusergroup_tabs_container"></div>
+            <div id="selectusergroup_results_wrapper">
+                <div id="selectusergroup_results_container"></div>
+            </div>
+        </div>
+
+
+        <div id="selectusergroup_tabs_template"><!--
+            <ul id="selectusergroup_tabs" role="tablist">
+                <li>
+                    <button data-type="people" class="selected" aria-controls="selectusergroup_list_people" role="tab">
+                        __MSG__PEOPLE__
+                    </button>
+                </li>
+                {for w in worlds}
+                    <li>
+                        <button data-type="world" data-category-id="${w.id}" aria-controls="selectusergroup_list_${w.id}" role="tab">
+                            ${sakai.api.i18n.getValueForKey(w.titlePlural)}
+                        </button>
+                    </li>
+                {/for}
+            </ul>
+        --></div>
+
+        <div id="selectusergroup_results_template"><!--
+            <ul>
+                {for i in items}
+                    {if type === "people"}
+                        <li>
+                            <img src="${i.picture}" alt="__MSG__VIEW_PERSONS_PROFILE__" />
+                            <a href="${i.homePath}" class="selectusergroup_result_name">${sakai.api.User.getDisplayName(i)}</a>
+                            <br/>
+                            <span class="selectusergroup_result_description">
+                                {if i.description}
+                                    ${i.description}
+                                    <span class="selectusergroup_result_id_seperator">|</span>
+                                {/if}
+                                __MSG__ID__ ${i.userid}
+                            </span>
+                        </li>
+                    {elseif type === "world"}
+                        <li>
+                            <img src="${sakai.api.Groups.getProfilePicture(i)}" alt="${i['sakai:group-title']|safeOutput}" />
+                            <a href="${i.homePath}" class="selectusergroup_result_name">${i['sakai:group-title']|safeOutput}</a>
+                            <br/>
+                            <span class="selectusergroup_result_description">
+                                {if i.description}
+                                    ${i.description}
+                                    <span class="selectusergroup_result_id_seperator">|</span>
+                                {/if}
+                                __MSG__ID__ ${i.groupid}
+                            </span>
+                        </li>
+                    {/if}
+                {forelse}
+                    <span>__MSG__NO_RESULTS__</span>
+                {/for}
+            </ul>
+        --></div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/selectusergroup/javascript/selectusergroup.js"></script>

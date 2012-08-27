@@ -1,0 +1,137 @@
+/**
+ * Licensed to the Sakai Foundation (SF) under one
+ * or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. The SF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+
+#selectusergroup_container {
+    width: 600px !important;
+    margin-left: -360px !important;
+}
+
+#selectusergroup_search_container {
+    background-color: red;
+    padding: 5px
+}
+
+/* SEARCH FORM */
+#selectusergroup_container #selectusergroup_search {
+}
+#selectusergroup_container #selectusergroup_search input {
+    width: 70%;
+}
+
+/* TABS */
+#selectusergroup_tabs {
+    display: inline;
+    margin-left: 5px;
+}
+
+#selectusergroup_tabs li {
+    list-style: none;
+    display: inline;
+}
+
+#selectusergroup_tabs li button {
+    color: #2683bc;
+    margin-top: 6px;
+    padding: 0 20px;
+    height: 30px;
+    font-size: 12px;
+    cursor: pointer;
+    border: 1px solid #dbdbdb;
+    border-bottom: none;
+    border-radius: 3px 3px 0 0;
+    -moz-border-radius: 3px 3px 0 0;
+    -webkit-border-radius: 3px 3px 0 0;
+    background: #ffffff;
+    background: -moz-linear-gradient(top, #ffffff 0%, #f2f2f3 3%, #f2f2f3 69%, #e3e3e4 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(3%,#f2f2f3), color-stop(69%,#f2f2f3), color-stop(100%,#e3e3e4));
+    background: -webkit-linear-gradient(top, #ffffff 0%,#f2f2f3 3%,#f2f2f3 69%,#e3e3e4 100%);
+    background: -o-linear-gradient(top, #ffffff 0%,#f2f2f3 3%,#f2f2f3 69%,#e3e3e4 100%);
+    background: -ms-linear-gradient(top, #ffffff 0%,#f2f2f3 3%,#f2f2f3 69%,#e3e3e4 100%);
+    background: linear-gradient(top, #ffffff 0%,#f2f2f3 3%,#f2f2f3 69%,#e3e3e4 100%);
+}
+
+#selectusergroup_tabs button.selected
+{
+    background-image: none;
+    background-repeat: repeat;
+    background-attachment: scroll;
+    background-position: 0% 0%;
+    background-clip: border-box;
+    background-origin: padding-box;
+    background-size: auto auto;
+    background-color: #ffffff;
+    color: #000000;
+}
+
+
+/* SEARCH RESULTS */
+#selectusergroup_results_wrapper {
+    padding: 5px;
+    background: orange;
+}
+#selectusergroup_results_container {
+    max-height: 400px;
+    overflow-y: auto;
+}
+#selectusergroup_results_container ul {
+    background-color: green;
+    margin: 0;
+    padding: 3px;
+}
+#selectusergroup_results_container ul li {
+    margin: 5px;
+    padding: 5px;
+    list-style: none;
+    min-height: 30px;
+}
+#selectusergroup_results_container ul li:hover {
+    background-color: orange;
+    
+}
+#selectusergroup_results_container img {
+    height: 32px;
+    width: 32px;
+    margin-right: 5px;
+    float: left;
+    clear: left;
+}
+#selectusergroup_results_container a {
+    color: black;
+    font-weight: bold;
+}
+#selectusergroup_results_container .highlight {
+    color: blue;
+}
+#selectusergroup_results_container .selectusergroup_result_description {
+    font-style: italic;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

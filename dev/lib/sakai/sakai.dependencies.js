@@ -104,6 +104,7 @@ require(
             'jquery-iframe-transport': 'jquery/plugins/jquery.iframe-transport',
             'jquery-pager': 'jquery/plugins/jquery.pager.sakai-edited',
             'jquery-tagcloud': 'jquery/plugins/jquery.tagcloud',
+            'jquery-highlight': 'jquery/plugins/jquery.highlight',
             'underscore': 'misc/underscore',
             'config': '../configuration'
         },
