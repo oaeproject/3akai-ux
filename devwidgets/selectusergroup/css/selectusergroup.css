@@ -17,6 +17,7 @@
  */
 
 
+/* Search dialog container */
 #selectusergroup_container {
     width: 600px !important;
     margin-left: -360px !important;
@@ -27,14 +28,14 @@
     padding: 5px
 }
 
-/* SEARCH FORM */
+/* Search form */
 #selectusergroup_container #selectusergroup_search {
 }
 #selectusergroup_container #selectusergroup_search input {
     width: 70%;
 }
 
-/* TABS */
+/* Search tabs */
 #selectusergroup_tabs {
     display: inline;
     margin-left: 5px;
@@ -80,7 +81,7 @@
 }
 
 
-/* SEARCH RESULTS */
+/* Search results */
 #selectusergroup_results_wrapper {
     padding: 5px;
     background: orange;
@@ -102,18 +103,30 @@
 }
 #selectusergroup_results_container ul li:hover {
     background-color: orange;
+    cursor: pointer;
     
+}
+#selectusergroup_results_container input {
+    float: left;
+    margin: 10px 5px 0 0;
+}
+#selectusergroup_results_container .selectusergroup_result_details {
+    float: left;
 }
 #selectusergroup_results_container img {
     height: 32px;
     width: 32px;
     margin-right: 5px;
     float: left;
-    clear: left;
 }
-#selectusergroup_results_container a {
+#selectusergroup_results_container button {
     color: black;
+}
+#selectusergroup_results_container .selectusergroup_result_name {
     font-weight: bold;
+}
+#selectusergroup_results_container .selectusergroup_result_description {
+    display: block;
 }
 #selectusergroup_results_container .highlight {
     color: blue;
@@ -121,17 +134,102 @@
 #selectusergroup_results_container .selectusergroup_result_description {
     font-style: italic;
 }
+#selectusergroup_results_container .selectusergroup_result_rolesdd {
+    font-style: italic;
+    float: right;
+    margin: 8px 5px 0 0;
+}
+
+/* Search world roles popover */
+.selectusergroup_roles_popover {
+    position: absolute;
+    min-width: 150px;
+}
+.selectusergroup_roles_popover .selectusergroup_roles_popover_loading {
+    background: transparent url(/dev/images/ajax_load.gif) center 8px no-repeat;
+    width: 130px;
+    height: 20px;
+}
+.selectusergroup_roles_popover input {
+    height: 12px;
+    width: auto;
+}
+.selectusergroup_roles_popover ul li {
+    list-style: none;
+}
 
 
+/*
+ * Autocomplete
+ */
+
+/* Result list */
+.autocomplete_list {
+    padding: 5px;
+    clear: both;
+    width: 200px;
+    top: 50px;
+    position: absolute;
+    background: orange;
+    z-index: 100;
+}
+.autocomplete_list button {
+    display: block;
+    margin: 5px auto 0 auto;
+}
+.autocomplete_list ul {
+    background-color: white;
+    margin: 0;
+    padding: 3px;
+    max-height: 218px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.autocomplete_list ul li {
+    margin: 0;
+    padding: 3px;
+    list-style: none;
+    float: none !important;
+    min-height: 32px;
+}
+.autocomplete_list ul li.autocomplete_list_selected {
+    background-color: #DBF3FF;
+}
+.autocomplete_list ul li .autocomplete_img {
+    height: 32px;
+    width: 32px;
+    margin-right: 5px;
+    float: left;
+    clear: left;
+}
+.autocomplete_list ul li .autocomplete_desc {
+    display: block;
+}
+.autocomplete_list .highlight {
+    color: red;
+}
+
+/* Selected list */
+.autocomplete_container li {
+    list-style: none;
+}
+.autocomplete_loading {
+    background: #fff url(/dev/images/ajax_load.gif) center center no-repeat;
+}
+.autocomplete_selected_img {
+    height: 16px;
+    width: 16px;
+}
 
 
-
-
-
-
-
-
-
-
+.autocomplete_container li ul {
+    display: inline;
+}
+.autocomplete_container li .autocomplete_role_dropdown {
+    float: left;
+}
+.autocomplete_container li ul.autocomplete_selected_world li {
+    list-style: none;
+}
 
 

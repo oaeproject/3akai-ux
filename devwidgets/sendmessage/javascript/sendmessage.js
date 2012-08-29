@@ -185,24 +185,35 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                     if ($.isPlainObject(toUser) && toUser.uuid) {
                         preFill.push({
                             'name': toUser.username,
-                            'value': toUser.uuid
+                            'value': toUser.uuid,
+                            'type': 'user'
                         });
                     } else if ($.isArray(toUser)) {
                         $.each(toUser, function(i,usr) {
                             preFill.push({
                                 'name': usr.username,
-                                'value': usr.uuid
+                                'value': usr.uuid,
+                                'type': 'user'
                             });
                         });
                     }
                 }
-                sakai.api.Util.AutoComplete.setupUserGroupSearch($('#sendmessage_to_autoSuggest'), {
+                $(document).trigger('init.selectusergroup.sakai', {
+                    'el': $('#sendmessage_to_autoSuggest'),
+                    startText: sakai.api.i18n.getValueForKey('ENTER_CONTACT_OR_GROUP_NAMES', 'sendmessage'),
+                    preFill: preFill,
+                    keyDelay: 200,
+                    retrieveLimit: 10,
+                    filter: [sakai.api.User.data.me.user.userid]
+                });
+                /*sakai.api.Util.AutoComplete.setupUserGroupSearch($('#sendmessage_to_autoSuggest'), {
                     'asHtmlID': 'sendmessage_to_autoSuggest',
                     startText: sakai.api.i18n.getValueForKey('ENTER_CONTACT_OR_GROUP_NAMES', 'sendmessage'),
                     keyDelay: '200',
                     retrieveLimit: 10,
                     preFill: preFill,
                     searchObjProps: 'name,value',
+                    filter: [sakai.api.User.data.me.user.userid],
                     formatList: function(data, elem) {
                         // formats each line to be presented in autosuggest list
                         // add the correct image, wrap name in a class
@@ -215,7 +226,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                             '<span class="sm_suggestion_name">' + data.name + '</span>');
                         return line_item;
                     }
-                });
+                });*/
             };
 
             ///////////////////////////

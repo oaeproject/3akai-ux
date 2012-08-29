@@ -9,6 +9,10 @@
         }
     },
     "id": "selectusergroup",
+    "trigger": {
+        "events": ["init.selectusergroup.sakai"],
+        "onLoad": false
+    },
     "type": "core",
     "url": "/devwidgets/selectusergroup/selectusergroup.html"
 }
