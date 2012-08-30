@@ -62,6 +62,8 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
         // If you want to change the size of a thumbnail please do this in the CSS.
         var thumbnailWidth = 100;
         var thumbnailHeight = 100;
+        var picInputOrigX = 0;
+        var picInputOrigY = 0;
 
 
         //////////////
@@ -185,6 +187,16 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
         
         //$(picInput).off('change').on('change', validateAndSubmit);
         
+        $('#changepic_drop_image').on('dragover drop', function(ev) {
+            var xCoord = ev.pageX || ev.originalEvent.pageX;
+            var yCoord = ev.pageY || ev.originalEvent.pageY;
+            
+            $(picInput).css({
+                'top': ((yCoord - picInputOrigY) - $(picInput).height()/2)  + 'px',
+                'left': ((xCoord - picInputOrigX) - 30) + 'px'
+            });
+        });
+        
         var validateAndSubmit = function() {
             console.log('validateAndSubmit');
             // validate args
@@ -239,6 +251,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
          */
         var doInit = function(newpic) {
             console.log('doInit');
+        
             hideSelectArea();
 
             if (!id) {
@@ -387,23 +400,17 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
 
         // Remove error notification when a new file is chosen, validate, and submit
         var removeErrorNotification = function() {
-            console.log('Picture changed! Currently the file selected is ', $(picInput).val());
+            console.log('### Picture changed! Currently the file selected is ', $(picInput).val());
             hideInputError();
             $('#profile_upload').removeAttr('disabled');
             validateAndSubmit();
         };
         
         $(picInput).on('change', removeErrorNotification);
-        $('#changepic_drop_image').on('drop', function(ev) {
-            console.log('DROP event data:');
-            console.log(ev);
-            $(picInput).val('asdfadsf');
-            ev.preventDefault();
-        });
         
-        // Click native file input when button is clicked or an image is dropped.
-        $('#changepic_browse_button').on('click drop', function(ev){
-            $('#changepic_upload_button input').click();
+        // Click native file input when button is clicked
+        $('#changepic_browse_button').on('click', function(ev){
+            $(picInput).click();
         });
         
         $('#changepic_uploadnew').fileupload({
@@ -589,6 +596,9 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
         $(document).on('click', containerTrigger, function() {
             // This will make the widget popup as a layover.
             sakai.api.Util.Modal.open(container);
+            
+            picInputOrigX = $(picInput).offset().left;
+            picInputOrigY = $(picInput).offset().top;
         });
 
         $(window).trigger('ready.changepic.sakai');

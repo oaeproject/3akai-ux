@@ -43,7 +43,9 @@
     position: relative;
 }
 #profilepicture {
-    display: block;
+    opacity: 0;
+    position: absolute;
+    z-index: 1;
 }
 #changepic_progress {
     border: 1px solid black;
