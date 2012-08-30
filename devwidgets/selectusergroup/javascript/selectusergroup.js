@@ -55,9 +55,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-highlight'], function($, saka
         var popoverContainer = '';
 
         // setup unique selectors for autocomplete
-        var elId = Math.round(Math.random() * 10000000);
-        var selectedList = 'autocomplete_selected_' + elId;
-        var resultsList = 'autocomplete_results_' + elId;
+        var elId = 0;
+        var selectedList = '';
+        var resultsList = '';
 
         var infinityScroll = false;
         var dataCache = {};
@@ -113,6 +113,16 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-highlight'], function($, saka
             var $pseudoGrpups = $worldListEl.find('ul.autocomplete_selected_roles');
             var prevGroupIds = [worldId];
 
+            if (!$.isEmptyObject(selectedRoles)) {
+                $worldListEl.addClass('autocomplete_selected_world');
+                $worldListEl.find('.autocomplete_selected_world_of').show();
+                $worldListEl.find('.autocomplete_remove_world').hide();
+            } else {
+                $worldListEl.removeClass('autocomplete_selected_world');
+                $worldListEl.find('.autocomplete_selected_world_of').hide();
+                $worldListEl.find('.autocomplete_remove_world').show();
+            }
+
             $.each($pseudoGrpups.children('li'), function(i, el) {
                 prevGroupIds.push($(el).attr('data-entity-id'));
             });
@@ -136,15 +146,19 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-highlight'], function($, saka
          * 
          */
         var getSelectedInputVal = function() {
-            var $selectedValuesInput = $('#' + selectedList + ' #autocomplete_placeholder').children('input#autocomplete_selected_values');
-            return $selectedValuesInput.val().split(',');
+            var $selectedValuesInput = $('#' + selectedList + ' #autocomplete_placeholder').children('input.autocomplete_values');
+            var selected = [];
+            if ($selectedValuesInput.val()) {
+                selected = $selectedValuesInput.val().split(',');
+            }
+            return selected;
         };
 
         /**
          * Updates the input field value based on the selected items
          */
         var updateSelectedInputVal = function() {
-            var $selectedValuesInput = $('#' + selectedList + ' #autocomplete_placeholder').children('input#autocomplete_selected_values');
+            var $selectedValuesInput = $('#' + selectedList + ' #autocomplete_placeholder').children('input.autocomplete_values');
             var $selectedEntities = $('#' + selectedList + ' li.autocomplete_selected_item');
             var selected = [];
 
@@ -172,6 +186,13 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-highlight'], function($, saka
                 }
             });
 
+            // Show/hide placeholder depending if there are items selected
+            if (selected.length) {
+                $(config.el).removeAttr('placeholder');
+            } else {
+                $(config.el).attr('placeholder', config.startText);
+            }
+
             $selectedValuesInput.attr('value', selected.toString());
         };
 
@@ -197,6 +218,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-highlight'], function($, saka
 
             var popoverTop = $el.position().top + 25;
             var popoverLeft = $el.position().left - ($(popoverContainer).width() - $el.width());
+            if (type === 'selecteditem') {
+                popoverLeft = $el.position().left;
+            }
             $(popoverContainer).css({
                 top: popoverTop,
                 left: popoverLeft
@@ -214,7 +238,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-highlight'], function($, saka
                         var everyone = true;
 
                         // we need to determine which roles are already selected
-                        $.each($el.siblings('.autocomplete_selected_roles').children('li'), function(i, el) {
+                        $.each($el.siblings('ul.autocomplete_selected_roles').children('li'), function(i, el) {
                             var roleId = $(el).attr('data-role-id');
                             $.each(roles, function(r, role) {
                                 if (role.id === roleId) {
@@ -240,10 +264,12 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-highlight'], function($, saka
                         sakai.api.Util.TemplateRenderer('#selectusergroup_roles_popover_template', json)
                     );
 
-                    // update popover position
-                    $(popoverContainer).css({
-                        left: $el.position().left - ($(popoverContainer).width() - $el.width())
-                    });
+                    // update popover position if in search dialog
+                    if (type !== 'selecteditem') {
+                        $(popoverContainer).css({
+                            left: $el.position().left - ($(popoverContainer).width() - $el.width())
+                        });
+                    }
 
                     // bind apply button
                     $('.selectusergroup_roles_popover_save').off('click').on('click', function() {
@@ -262,7 +288,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-highlight'], function($, saka
                                     }
                                 });
                             }
-                        })
+                        });
                         if (type === 'selecteditem') {
                             updateWorldRolesSelected($el.closest('li'), everyone, selectedRoles);
                         } else {
@@ -369,9 +395,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-highlight'], function($, saka
         });
 
         /**
-         * Add Binding
+         * Add Binding for the search popup
          */
-        var addBinding = function() {
+        var addPopupBinding = function() {
             // bind tabs
             $('#selectusergroup_tabs_container button').off('click').on('click', function() {
                 var $clicked = $(this)
@@ -444,24 +470,29 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-highlight'], function($, saka
             var searchTerm = '';
             var $container = $element.parent();
 
-            // insert the roles popover container for selected groups
-            $container.append('<div id="selectusergroup_roles_popover_selected" class="selectusergroup_roles_popover s3d-popover-container clearfix" style="display:none;">'
-                + '<div class="selectusergroup_roles_popover_loading"></div>'
-                + '<div id="selectusergroup_roles_popover_selected_container"></div>'
-                +'</div>');
+            // insert the roles popover container for selected groups and update the popover id
+            $container.append($('#selectusergroup_roles_popover').clone());
+            $container.children('#selectusergroup_roles_popover').attr('id', 'selectusergroup_roles_popover_selected');
+            $container.children('#selectusergroup_roles_popover_selected')
+                .find('#selectusergroup_roles_popover_container')
+                .attr('id', 'selectusergroup_roles_popover_selected_container');
 
             // insert a list to store selected entities
-            $container.append('<ul class="autocomplete_container as-selections" id="' + selectedList
-                + '"><li id="autocomplete_placeholder"></li class="as-original"></ul>');
+            $container.append('<ul class="autocomplete_container" id="' + selectedList
+                + '"><li id="autocomplete_placeholder"></li></ul>');
 
             // setup input fields and lists
             var $selectedList = $('#' + selectedList);
             $element.appendTo('#' + selectedList + ' #autocomplete_placeholder');
-            $('#' + selectedList + ' #autocomplete_placeholder').append('<input id="autocomplete_selected_values" type="hidden" value="">')
-            $element.addClass("s3d-input-full-width s3d-error-autosuggest as-input autocomplete_input")
-            $element.parent().append('<div class="autocomplete_list" id="' + resultsList + '"><button class="selectusergroup_trigger">__MSG__SEE_MORE_RESULTS_FOR__ "<span></span>"</button></div>');
+            $('#' + selectedList + ' #autocomplete_placeholder').append('<input id="autocomplete_values_' + $element.attr('id')
+                + '" type="hidden" class="autocomplete_values" value="">');
+            $element.addClass("s3d-input-full-width s3d-error-autosuggest autocomplete_input");
 
-            var $selectedValuesInput = $('#' + selectedList + ' #autocomplete_placeholder').children('input#autocomplete_selected_values');
+            // See more results button
+            var dblQuote = sakai.api.i18n.getValueForKey('DOUBLE_QUOTE');
+            $element.parent().append('<div class="autocomplete_list" id="' + resultsList + '"><button class="s3d-button s3d-header-button">'
+                + sakai.api.i18n.getValueForKey('SEE_MORE_RESULTS_FOR', 'selectusergroup') + ' ' + dblQuote + '<span></span>' + dblQuote + '</button></div>');
+
             var $seeMoreButton = $element.parent().find('#' + resultsList + ' button');
 
             var hideAutocomplete = function() {
@@ -470,6 +501,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-highlight'], function($, saka
             };
             hideAutocomplete();
 
+            // bind the see more button
             $seeMoreButton.off('click').on('click', function(ev) {
                 // filter out already selected users/worlds, and the passed in filter if present,
                 // from appearing in the search dialog
@@ -482,7 +514,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-highlight'], function($, saka
 
                 // open the search popover
                 renderTabs(function() {
-                    addBinding();
+                    addPopupBinding();
                     submitSearch();
                     sakai.api.Util.Modal.open($selectusergroup_container);
                 });
@@ -513,15 +545,23 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-highlight'], function($, saka
                 return false;
             });
             $seeMoreButton.off('blur').on('blur', function(ev){
+                // hide autocomplete if user tabs out
                 hideAutocomplete();
             });
-
             $selectedList.off('click').on('click', function() {
                 $('#' + selectedList + ' #autocomplete_placeholder').find('input').focus();
             });
             $selectedList.off('click', '.autocomplete_remove').on('click', '.autocomplete_remove', function() {
                 var $clicked = $(this);
+                var $elList = $clicked.closest('ul');
                 $clicked.closest('li').remove();
+
+                if ($elList.hasClass('autocomplete_selected_roles') && !$elList.children().length) {
+                    $elList.closest('li.autocomplete_selected_item').removeClass('autocomplete_selected_world');
+                    $elList.closest('li.autocomplete_selected_item').find('.autocomplete_remove_world').show();
+                    $elList.closest('li.autocomplete_selected_item').find('.autocomplete_selected_world_of').hide();
+                }
+
                 updateSelectedInputVal();
                 return false;
             });
@@ -535,6 +575,18 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-highlight'], function($, saka
                 }
                 return false;
             });
+            $container.off('click', '.selectusergroup_roles_popover input').on('click', '.selectusergroup_roles_popover input', function() {
+                var $clicked = $(this);
+                var $roleList = $clicked.closest('ul');
+                if ($clicked.hasClass('selectusergroup_everyone')) {
+                    if ($clicked.is(':checked')) {
+                        $roleList.find('input:not(.selectusergroup_everyone)').attr('disabled', 'disabled');
+                        $roleList.find('input:not(.selectusergroup_everyone)').removeAttr('checked', 'checked');
+                    } else {
+                        $roleList.find('input:not(.selectusergroup_everyone)').removeAttr('disabled', 'disabled');
+                    }
+                }
+            });
 
             var addSelected = function(item, selectedRoles) {
                 var lineItem = sakai.api.Util.TemplateRenderer('#selectusergroup_autocomplete_selected_template', {
@@ -543,9 +595,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-highlight'], function($, saka
                     'selectedRoles': selectedRoles,
                     'sakai': sakai
                 });
-
                 $(lineItem).insertBefore('#' + selectedList + ' #autocomplete_placeholder');
-
                 updateSelectedInputVal();
             };
 
@@ -556,6 +606,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-highlight'], function($, saka
                 })
             }
 
+            // function for fetching source data for AutoComplete
             var dataFn = function(request, response) {
                 searchTerm = request.term;
                 var q = sakai.api.Server.createSearchString(request.term);
@@ -634,12 +685,14 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-highlight'], function($, saka
                 },
                 source: dataFn,
                 select: function(event, ui) {
+                    // Add selected item to the list
                     ui.item.id = ui.item.value;
                     $element.val('');
                     addSelected(ui.item);
                     return false;
                 },
                 focus: function(event, ui) {
+                    // focus item
                     $(".autocomplete_list ul li").removeClass("autocomplete_list_selected");
                     $("#ui-active-menuitem")
                         .closest("li")
@@ -676,7 +729,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-highlight'], function($, saka
                     case 'autocomplete_no_results':
                         return $( '<li></li>' )
                             .data('item.autocomplete', item)
-                            .append('No Results')
+                            .append('<span class="autocomplete_noresults">' + sakai.api.i18n.getValueForKey('NO_RESULTS') + '</span>')
                             .appendTo(ul);
                         break;
                     default:
@@ -684,11 +737,12 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-highlight'], function($, saka
                         break;
                 }
 
-                var lineItem = '<a class="autocomplete_name">' + item.name + '</a>' +
-                    '<span class="autocomplete_desc">' + item.desc + '</span>';
+                var lineItem = '<a href="#" class="autocomplete_name">' + sakai.api.Util.applyThreeDots(item.name, 150, null, null, true) + '</a>' +
+                    '<span class="autocomplete_desc">' + sakai.api.Util.applyThreeDots(item.desc, 110, null, null, true) + '</span>';
                 if (imgSrc) {
                     lineItem = '<img class="autocomplete_img" src="' + imgSrc + '" />' + lineItem;
                 }
+
                 return $('<li></li>')
                     .data('item.autocomplete', item)
                     .append(lineItem)
@@ -697,17 +751,32 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-highlight'], function($, saka
         };
 
 
-        //////////
-        // Init //
-        //////////
+        //////////////////////////
+        // Init/destroy methods //
+        //////////////////////////
 
         $(document).off('init.selectusergroup.sakai').on('init.selectusergroup.sakai', function(e, _config) {
+            elId = Math.round(Math.random() * 10000000);
+            selectedList = 'autocomplete_selected_' + elId;
+            resultsList = 'autocomplete_results_' + elId;
+
             $.extend(config, _config);
             if (!config.el) {
                 return;
             }
 
             setupAutocorrect();
+        });
+
+        $(document).off('destroy.selectusergroup.sakai').on('destroy.selectusergroup.sakai', function(e, el) {
+            $element = $(el);
+            if ($element.hasClass('autocomplete_input')) {
+                $element.autocomplete('destroy');
+                var $container = $element.parent().parent().parent();
+                $element.appendTo($container);
+                $element.removeClass("s3d-input-full-width s3d-error-autosuggest autocomplete_input");
+                $container.find('#selectusergroup_roles_popover_selected, .autocomplete_container').remove();
+            }
         });
 
         // Send out an event that says the widget is ready to
