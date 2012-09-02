@@ -62,8 +62,8 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-jstree'], function($, sakai) 
         var assignlocationLocationSuccessfullySaved = $('#assignlocation_location_successfully_saved');
 
         // Actions
-        var $assignlocationSaveButton = $('#assignlocation_save_button');
         var $assignlocationActions = $('#assignlocation_actions');
+        var assignlocationSaveButton = '#assignlocation_save_button';
 
         var renderSelected = function() {
             var locations = {
@@ -99,23 +99,21 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-jstree'], function($, sakai) 
                         });
                     });
                     renderSelected();
-                    $assignlocationSaveButton.removeAttr('disabled');
+                    $(assignlocationSaveButton).removeAttr('disabled');
                 }
             });
         };
 
         var saveLocations = function() {
-            if ( saveCallback ) {
-                saveCallback( initiallyRendered );
+            if (saveCallback) {
+                saveCallback(initiallyRendered);
             }
             sakai.api.Util.Modal.close($assignlocationContainer);
         };
 
         var addWidgetBinding = function() {
-            $assignlocationSaveButton.off('click');
-            $assignlocationSaveButton.on('click', function() {
-                saveLocations();
-            });
+            $(document).off('click', assignlocationSaveButton);
+            $(document).on('click', assignlocationSaveButton, saveLocations);
         };
 
         var showContainer = function(hash) {
@@ -183,7 +181,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-jstree'], function($, sakai) 
 
         var doInit = function() {
 
-            $( window ).on( 'init.assignlocation.sakai', function( e, _initiallySelected, originalEvent, _saveCallback ) {
+            $(window).on('init.assignlocation.sakai', function( e, _initiallySelected, originalEvent, _saveCallback ) {
                 if ( $.isFunction( _saveCallback ) ) {
                     saveCallback = _saveCallback;
                 }
@@ -204,7 +202,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-jstree'], function($, sakai) 
                     zIndex: zIndex
                 });
                 sakai.api.Util.Modal.open($assignlocationContainer);
-                $assignlocationSaveButton.attr('disabled', 'disabled');
+                $(assignlocationSaveButton).attr('disabled', 'disabled');
             });
         };
         doInit();

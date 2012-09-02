@@ -2374,8 +2374,8 @@ define(
                                 // Remove items removed in the dialog
                                 $.each(currentlySelected, function(i, currentCat) {
                                     if ($.inArray(currentCat.id, catsFromOverlay) === -1) {
-                                        var elt = $elt.parents('.as-selections').find('li[data-value="" + currentCat.value + ""]');
-                                        $elt.autoSuggest('remove_item', currentCat.value, elt, $(elt).data('data'));
+                                        var $els = $elt.parents('.as-selections').find('li[data-value="' + currentCat.value + '"]');
+                                        $elt.autoSuggest('remove_item', currentCat.value, $els, $els.data('data'));
                                     }
                                 });
                             }]);
