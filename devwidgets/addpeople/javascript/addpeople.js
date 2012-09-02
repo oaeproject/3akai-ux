@@ -559,6 +559,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
 
             sakai.api.Server.batch(batchRequests, function(success, data) {
                 if (success) {
+                    var newUsers = [];
                     $.each(data.results, function(i, result) {
                         result = $.parseJSON(result.body);
                         var picture = '';
@@ -588,9 +589,10 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                             picture: picture
                         };
                         selectedUsers[userObj.userid] = userObj;
+                        newUsers.push(userObj);
                     });
                     renderSelectedContacts();
-                    $(window).trigger('toadd.addpeople.sakai', [tuid.replace('addpeople', ''), selectedUsers]);
+                    $(window).trigger('toadd.addpeople.sakai', [tuid.replace('addpeople', ''), newUsers]);
                     if ($.isFunction(callback)) {
                         callback();
                     }
