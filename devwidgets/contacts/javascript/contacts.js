@@ -438,11 +438,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
             $(window).on('hashchanged.contacts.sakai', handleHashChange);
 
-            $rootel.on('keyup', '#contacts_search_input', function(ev) {
+            $rootel.on('keypress', '#contacts_search_input', function(ev) {
                 var q = $.trim($(this).val());
                 if (q !== contacts.query && ev.keyCode === 13) {
                     $.bbq.pushState({'cq': q});
+                    return false;
                 }
+                return true;
             });
 
             $rootel.on('click', '#contacts_search_button', function(ev) {

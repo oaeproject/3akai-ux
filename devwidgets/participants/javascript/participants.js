@@ -266,10 +266,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 currentPage = 1;
                 $.bbq.pushState({'pq': $.trim($participantsSearchField.val())});
             });
-            $participantsSearchField.off('keyup').on('keyup', function(ev) {
+            $participantsSearchField.off('keypress').on('keypress', function(ev) {
                 if (ev.keyCode === 13) {
                     $.bbq.pushState({'pq': $.trim($participantsSearchField.val())});
+                    return false;
                 }
+                return true;
             });
             $participants_sort_by.off('change').on('change', function() {
                 $.bbq.pushState({'psb': $participants_sort_by.val()});

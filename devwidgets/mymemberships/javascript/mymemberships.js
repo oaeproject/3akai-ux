@@ -363,13 +363,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 $.bbq.pushState({'ls': 'grid'});
             });
 
-            $('#mymemberships_livefilter').keyup(function(ev) {
+            $('#mymemberships_livefilter').keypress(function(ev) {
                 var q = $.trim($('#mymemberships_livefilter').val());
                 if (q !== currentQuery && ev.keyCode === 13) {
                     $.bbq.pushState({'mq': q, 'mp': 1});
                     currentQuery = q;
+                    return false;
                 }
-                return false;
+                return true;
             });
 
             $rootel.on('change', '#mymemberships_select_checkbox', function() {
@@ -415,7 +416,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             if (sakai_global.profile.main.data.userid !== sakai.data.me.user.userid) {
-                    $('.searchgroups_result_plus',$rootel).on('click', function(ev) {
+                $rootel.on('click', '.searchgroups_result_plus', function(ev) {
                     var joinable = $(this).data('group-joinable');
                     var groupid = $(this).attr('data-groupid');
                     var itemdiv = $(this);

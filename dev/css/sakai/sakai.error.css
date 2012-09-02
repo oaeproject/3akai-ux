@@ -138,7 +138,7 @@
     padding-bottom: 5px;
     padding-top: 5px;
 }
-.error_content_second_column_box .error_content_second_column_box_footer button {
+#error_browse_categories_button {
     margin: 5px 0;
 }
 #error_browse_categories_button .s3d-button-inner {
@@ -195,6 +195,7 @@ body.error404 .s3d-contentpage-title, body.error403 .s3d-contentpage-title, body
     border-radius: 8px;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
+    border: 1px solid #ccc;
     height: 25px;
     line-height: 25px;
     cursor: hand;

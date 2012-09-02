@@ -317,7 +317,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $.each(idArr, function(i, id) {
                 batchRequests.push({
                     'url': '/p/' + id + '.2.json',
-                    'method': 'GET'
+                    'method': 'GET',
+                    'cache': false
                 });
             });
             sakai.api.Server.batch(batchRequests, function(success, data) {
