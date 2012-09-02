@@ -6,7 +6,6 @@
             "bundle": "/devwidgets/mysakai2/bundles/default.properties",
             "name": " My Sakai 2 favorites",
             "description": " My Sakai 2 favorites"
-
         },
         "ru_RU": {
             "bundle": "/devwidgets/mysakai2/bundles/ru_RU.properties",

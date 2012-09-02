@@ -6,7 +6,8 @@
             "bundle": "/devwidgets/tags/bundles/default.properties",
             "description": "Most popular tags",
             "name": "Most popular tags"
-        },"ru_RU": {
+        },
+        "ru_RU": {
             "bundle": "/devwidgets/tags/bundles/ru_RU.properties",
             "description": "Популярные теги",
             "name": "Популярные теги"

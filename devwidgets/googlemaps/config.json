@@ -15,9 +15,6 @@
             "description": "Карты Google",
             "name": "Карта Google"
         },
-        "en_US": {
-            "bundle": "/devwidgets/googlemaps/bundles/en_US.properties"
-        },
         "zh_CN": {
             "bundle": "/devwidgets/googlemaps/bundles/zh_CN.properties"
         },

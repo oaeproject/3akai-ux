@@ -22,9 +22,6 @@
             "description": "Просмотр RSS-каналов",
             "name": "Просмотр RSS"
         },
-        "en_US": {
-            "bundle": "/devwidgets/rss/bundles/en_US.properties"
-        },
         "nl_NL": {
             "bundle": "/devwidgets/rss/bundles/nl_NL.properties"
         },
