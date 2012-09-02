@@ -363,13 +363,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 $.bbq.pushState({'ls': 'grid'});
             });
 
-            $('#mymemberships_livefilter').keyup(function(ev) {
+            $('#mymemberships_livefilter').keypress(function(ev) {
                 var q = $.trim($('#mymemberships_livefilter').val());
                 if (q !== currentQuery && ev.keyCode === 13) {
                     $.bbq.pushState({'mq': q, 'mp': 1});
                     currentQuery = q;
+                    return false;
                 }
-                return false;
+                return true;
             });
 
             $rootel.on('change', '#mymemberships_select_checkbox', function() {

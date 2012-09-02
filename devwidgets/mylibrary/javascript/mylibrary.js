@@ -438,11 +438,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             /**
              * Initiate a library search when the enter key is pressed
              */
-            $mylibrary_livefilter.keyup(function(ev) {
+            $mylibrary_livefilter.keypress(function(ev) {
                 if (ev.keyCode === 13) {
                     doSearch();
+                    return false;
                 }
-                return false;
+                return true;
             });
 
             /**
