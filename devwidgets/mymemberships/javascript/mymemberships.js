@@ -415,7 +415,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             if (sakai_global.profile.main.data.userid !== sakai.data.me.user.userid) {
-                    $('.searchgroups_result_plus',$rootel).on('click', function(ev) {
+                $rootel.on('click', '.searchgroups_result_plus', function(ev) {
                     var joinable = $(this).data('group-joinable');
                     var groupid = $(this).attr('data-groupid');
                     var itemdiv = $(this);
