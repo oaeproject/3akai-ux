@@ -7,6 +7,11 @@
             "description": "Sakai 2 tools",
             "name": "Sakai 2 tools"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/sakai2tools/bundles/ru_RU.properties",
+            "description": "Инструменты Sakai 2",
+            "name": "Инструменты Sakai 2"
+        },
         "es_ES": {
             "bundle": "/devwidgets/sakai2tools/bundles/es_ES.properties"
         },

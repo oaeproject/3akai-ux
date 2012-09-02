@@ -7,6 +7,11 @@
             "description": "Comments",
             "name": "Comment stream"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/comments/bundles/ru_RU.properties",
+            "description": "Комментарии",
+            "name": "Поток комментариев"
+        },
         "fr_FR": {
             "bundle": "/devwidgets/comments/bundles/fr_FR.properties"
         }

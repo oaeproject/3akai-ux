@@ -6,6 +6,11 @@
             "bundle": "/devwidgets/htmlblock/bundles/default.properties",
             "description": "Block of HTML",
             "name": "HTML Block"
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/htmlblock/bundles/ru_RU.properties",
+            "description": "Блок HTML",
+            "name": "Блок HTML"
         }
     },
     "id": "htmlblock",

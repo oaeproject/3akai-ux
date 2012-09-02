@@ -7,6 +7,11 @@
             "description": "Content comments",
             "name": "Content comments"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/contentcomments/bundles/ru_RU.properties",
+            "description": "Комментарии к материалам",
+            "name": "Комментарии к материалам"       
+        },
         "es_ES": {
             "bundle": "/devwidgets/contentcomments/bundles/es_ES.properties"
         },

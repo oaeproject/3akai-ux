@@ -6,6 +6,11 @@
             "bundle": "/devwidgets/institutionalskinning/bundles/default.properties",
             "description": "Institutional skinning widget",
             "name": "Institutional skinning"
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/institutionalskinning/bundles/ru_RU.properties",
+            "description": "Виджет визуального оформления",
+            "name": "Визуальное оформление"
         }
     },
     "id": "institutionalskinning",
