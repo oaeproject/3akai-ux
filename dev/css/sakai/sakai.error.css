@@ -138,7 +138,7 @@
     padding-bottom: 5px;
     padding-top: 5px;
 }
-.error_content_second_column_box .error_content_second_column_box_footer button {
+#error_browse_categories_button {
     margin: 5px 0;
 }
 #error_browse_categories_button .s3d-button-inner {
