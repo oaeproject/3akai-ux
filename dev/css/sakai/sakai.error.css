@@ -195,6 +195,7 @@ body.error404 .s3d-contentpage-title, body.error403 .s3d-contentpage-title, body
     border-radius: 8px;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
+    border: 1px solid #ccc;
     height: 25px;
     line-height: 25px;
     cursor: hand;
