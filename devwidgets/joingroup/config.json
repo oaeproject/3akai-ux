@@ -6,6 +6,11 @@
             "description": "Join group overlay",
             "name": "Join group overlay"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/joingroup/bundles/ru_RU.properties",
+            "description": "Присоединение к группе",
+            "name": "Присоединение к группе"
+        },
         "es_ES": {
             "bundle": "/devwidgets/joingroup/bundles/es_ES.properties"
         },

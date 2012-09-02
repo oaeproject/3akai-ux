@@ -1594,6 +1594,11 @@ define(function() {
             'language': 'ko',
             'bundle': '/dev/bundle/ko_KR.properties',
             'displayName': '한국어'
+        }, {
+            "country": "RU",
+            "language": "ru",
+            "bundle": "/dev/bundle/ru_RU.properties",
+            "displayName": "Русский"
         }],
 
         // Default Language for the deployment, must be one of the language_COUNTRY pairs that exists above

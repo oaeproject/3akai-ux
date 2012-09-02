@@ -7,6 +7,11 @@
             "name": "All categories widget",
             "description": "All categories widget"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/allcategories/bundles/ru_RU.properties",
+            "description": "Виджет всех категорий",
+            "name": "Виджет всех категорий"
+        },
         "fr_FR": {
             "bundle": "/devwidgets/allcategories/bundles/fr_FR.properties"
         }

@@ -6,6 +6,11 @@
             "description": "My contacts",
             "name": "My contacts"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/mycontacts/bundles/ru_RU.properties",
+            "description": "Контакты",
+            "name": "Контакты"
+        },
         "en_US": {
             "bundle": "/devwidgets/mycontacts/bundles/en_US.properties"
         },

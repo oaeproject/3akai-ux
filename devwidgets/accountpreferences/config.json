@@ -7,7 +7,12 @@
             "name": "Account preferences"
         },
         "es_ES": {
-            "bundle": "/devwidgets/accountpreferences/bundles/es_ES.properties"
+            "bundle": "/devwidgets/accountpreferences/bundles/es_ES.properties"        
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/accountpreferences/bundles/ru_RU.properties",
+            "description": "Настройки учетной записи",
+            "name": "Настройки учетной записи"
         },
         "fr_FR": {
             "bundle": "/devwidgets/accountpreferences/bundles/fr_FR.properties",

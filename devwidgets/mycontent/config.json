@@ -8,6 +8,11 @@
             "description": "My content",
             "name": "My content"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/mycontent/bundles/ru_RU.properties",
+            "description": "Материалы",
+            "name": "Материалы"
+        },
         "fr_FR": {
             "bundle": "/devwidgets/mycontent/bundles/fr_FR.properties",
             "name": "Mes contenus",
