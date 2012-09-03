@@ -157,14 +157,6 @@ ul#mymemberships_items li.s3d-search-result {
     height: auto;
     margin-top: 2px;
 }
-
-.mymemberships_item .sakai_joingroup_overlay {
-    float: left;
-    margin-right: 10px;
-}
-.s3d-search-results-grid .mymemberships_item .sakai_joingroup_overlay {
-    margin-top: 1px;
-}
 .mymemberships_item .mymemberships_member_icon {
     margin-left: 3px;
     margin-top: 8px;

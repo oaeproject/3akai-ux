@@ -289,7 +289,7 @@
     margin: 0;
     display: inline;
 }
-#carousel_container .sakai_joingroup_overlay, #carousel_container .sakai_addtocontacts_overlay {
+#carousel_container .sakai_addtocontacts_overlay {
     float: left;
     padding-left: 10px;
     margin-left: 7px;
