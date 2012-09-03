@@ -48,9 +48,11 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         var $rootel = $('#' + tuid);
         var $joinrequestbuttons_widget = $('#joinrequestbuttons_widget', $rootel);
         var $joinrequestbuttons_template = $('#joinrequestbuttons_template', $rootel);
-        var $joinrequestbuttons_request = $('.joinrequestbuttons_request');
-        var $joinrequestbuttons_join = $('.joinrequestbuttons_join');
-        var $joinrequestbuttons_leave = $('.joinrequestbuttons_leave');
+
+        var joinrequestbuttons_request = '.joinrequestbuttons_request';
+        var joinrequestbuttons_join = '.joinrequestbuttons_join';
+        var joinrequestbuttons_leave = '.joinrequestbuttons_leave';
+        var joinrequestbuttons_pending = '.joinrequestbuttons_pending';
 
         // messages
         var $joinrequestbuttons_group_membership = $('#joinrequestbuttons_group_membership', $rootel);
@@ -75,19 +77,19 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             if (_.isString(type)) {
                 switch(type) {
                     case 'join':
-                        $('.joinrequestbuttons_join').show();
+                        $(joinrequestbuttons_join).show();
                         break;
                     case 'leave':
                         // don't display this button on the entity widget
                         if (!$rootel.parents('#entity_container')) {
-                            $('.joinrequestbuttons_leave').show();
+                            $(joinrequestbuttons_leave).show();
                         }
                         break;
                     case 'request':
-                        $('.joinrequestbuttons_request').show();
+                        $(joinrequestbuttons_request).show();
                         break;
                     case 'pending':
-                        $('.joinrequestbuttons_pending').show();
+                        $(joinrequestbuttons_pending).show();
                         break;
                 }
             }
@@ -97,10 +99,10 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
          * Hides any showing group membership button
          */
         var hideButtons = function() {
-            $('.joinrequestbuttons_join').hide();
-            $('.joinrequestbuttons_leave').hide();
-            $('.joinrequestbuttons_request').hide();
-            $('.joinrequestbuttons_pending').hide();
+            $(joinrequestbuttons_join).hide();
+            $(joinrequestbuttons_leave).hide();
+            $(joinrequestbuttons_request).hide();
+            $(joinrequestbuttons_pending).hide();
         };
 
         /**
@@ -199,8 +201,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         // Event Bindings          //
         /////////////////////////////
 
-        $joinrequestbuttons_request.off('click');
-        $joinrequestbuttons_request.on('click', function(ev) {
+        $(document).off('click', joinrequestbuttons_request);
+        $(document).on('click', joinrequestbuttons_request, function(ev) {
             var groupid = this.id.split('joinrequestbuttons_request_')[1];
             if (!groupid || $.trim(groupid) === '') {
                 debug.error('No group id found');
@@ -231,8 +233,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             return true;
         });
 
-        $joinrequestbuttons_join.off('click');
-        $joinrequestbuttons_join.on('click', function(ev) {
+        $(document).off('click', joinrequestbuttons_join);
+        $(document).on('click', joinrequestbuttons_join, function(ev) {
             hideButtons();
             var groupid = this.id.split('joinrequestbuttons_join_')[1];
             if (!groupid || $.trim(groupid) === '') {
@@ -262,8 +264,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             return true;
         });
 
-        $joinrequestbuttons_leave.off('click');
-        $joinrequestbuttons_leave.on('click', function(ev) {
+        $(document).off('click', joinrequestbuttons_leave);
+        $(document).on('click', joinrequestbuttons_leave, function(ev) {
             var groupid = this.id.split('joinrequestbuttons_leave_')[1];
             if (!groupid || $.trim(groupid) === '') {
                 debug.error('No group id found');
