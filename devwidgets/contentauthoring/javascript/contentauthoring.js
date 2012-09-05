@@ -1450,7 +1450,7 @@ require(['jquery', 'underscore', 'sakai/sakai.api.core', 'jquery-ui'], function(
                         'url': currentPageShown.pageSavePath,
                         'method': 'POST',
                         'parameters': {
-                            'sakai:forceupdate': true
+                            'sakai:forceupdate': Math.random()
                         }
                     });
                     sakai.api.Server.batch(batchRequests, function(success, data) {
