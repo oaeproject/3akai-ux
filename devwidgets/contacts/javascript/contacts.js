@@ -306,8 +306,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
             $('#contacts_message_button').attr('sakai-entityid', idArr);
             $('#contacts_message_button').attr('sakai-entityname', nameArr);
-            $('#contacts_addpeople_button').data('entityid', idArr);
-            $('#contacts_addpeople_button').data('entityname', nameArr);
+            $('#contacts_addpeople_button').attr('data-entityid', idArr);
+            $('#contacts_addpeople_button').attr('data-entityname', nameArr);
         };
 
         var uncheckAll = function() {
