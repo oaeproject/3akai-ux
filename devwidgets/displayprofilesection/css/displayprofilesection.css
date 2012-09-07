@@ -64,10 +64,21 @@
     padding: 0 3px 3px 3px;
     float: left;
 }
-.profile-section-save-button {
+
+#displayprofilesection_body .dialog_buttons{
     float: right;
     margin-right: 190px;
     margin-top: 20px;
+}
+#displayprofilesection_header .dialog_buttons{
+    float: right;
+    margin-top: 0;
+}
+#displayprofilesection_body .section_box{
+    background-color: #F4F4F4;
+    float: left;
+    margin-bottom: 10px;
+    padding: 10px 0 10px;
 }
 
 .displayprofilesection_add_section {
