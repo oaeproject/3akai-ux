@@ -13,12 +13,10 @@
         <form id="changepic_form" method="post" enctype="multipart/form-data">
             <div id="changepic_upload_input">
                 <input type="file" name="profilepicture" id="profilepicture" size="65"/>
-                <div id="changepic_drop_image">
-                    <img src="/devwidgets/changepic/images/changepic.png" />
-                </div>
+                <div id="changepic_drop_image"></div>
                 <div>
                     <span id="changepic_upload_button">
-                        <span id="changepic_browse_button">Browse</span>
+                        <span id="changepic_browse_button">__MSG__BROWSE__</span>
                     </span>
                 </div>
             </div>
@@ -27,7 +25,7 @@
 
     <!-- UPLOAD PROGRESS -->
     <div id="changepic_uploading" class="changepic_section" style="display:none;">
-        <p>Uploading</p>
+        <p>__MSG__UPLOADING__</p>
         <div id="changepic_progress">
             <div id="changepic_progress_bar"></div>
         </div>
@@ -35,17 +33,17 @@
     
     <!-- SELECT AREA -->
     <div id="changepic_selectpicture" class="changepic_section">
-        <p>Drag the selected area or move the corners to set the crop</p>
+        <p>__MSG__DRAG_AREA__</p>
         <div id="changepic_picture_selectarea">
             <div id="changepic_uploaded_picture">
                 <p>
-                    <span id="changepic_fullpicture_alt" style="display:none;">__MSG__SELECT_AN_AREA_TO_CREATE__</span>
+                    <span id="changepic_fullpicture_alt" style="display:none;"></span>
                     <span id="changepic_fullpicture"></span>
                 </p>
             </div>
             <div style="display: none;" id="changepic_uploaded_picture_selection">
                 <div id="thumbnail_container">
-                    <span id="thumbnail_alt" style="display:none;">__MSG__THUMBNAIL_PREVIEW__</span>
+                    <span id="thumbnail_alt" style="display:none;"></span>
                     <span id="thumbnail"></span>
                 </div>
             </div>

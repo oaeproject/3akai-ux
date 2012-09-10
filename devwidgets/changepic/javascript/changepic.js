@@ -23,7 +23,7 @@
  * /dev/lib/jquery/plugins/jqmodal.sakai-edited.js
  */
 
-require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselect/jquery.imgareaselect.js', '/dev/lib/jquery/plugins/jquery.fileupload.js'], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core', 'jquery-areaselect', 'jquery-fileupload'], function($, sakai) {
 
     /**
      * @name sakai_global.changepic
@@ -180,13 +180,6 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
             resetUploadField();
         });
 
-        /**
-         * On changepic form submit, check that a file has been selected
-         * and submit the form.
-         */
-        
-        //$(picInput).off('change').on('change', validateAndSubmit);
-        
         $('#changepic_drop_image').on('dragover drop', function(ev) {
             var xCoord = ev.pageX || ev.originalEvent.pageX;
             var yCoord = ev.pageY || ev.originalEvent.pageY;
@@ -196,7 +189,11 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
                 'top': ((yCoord - picInputOrigY) - $(picInput).height()/2)  + 'px'
             });
         });
-        
+
+        /**
+         * On changepic form submit, check that a file has been selected
+         * and submit the form.
+         */
         var validateAndSubmit = function() {
             // validate args
             // file extension allow for image
@@ -560,11 +557,9 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/lib/jquery/plugins/imgareaselec
          * @param {Object} hash
          */
         var showArea = function(hash) {
-            // RESET HERE
              $(uploadNewButtons).show();
             hideSelectArea();
             resetUploadField();
-            
             doInit();
             hash.w.show();
         };

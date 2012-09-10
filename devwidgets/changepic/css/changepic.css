@@ -20,27 +20,28 @@
     padding: 60px 0;
     text-align: center;
 }
-#changepic_form {
-    /*padding: 60px 145px;*/
-}
 #changepic_upload_button {
     cursor: pointer;
     display: inline-block;
     position: relative;
 }
 #changepic_browse_button {
-    border: 2px solid black;
+    border: 2px solid #555;
     cursor: pointer;
     display: inline-block;
+    font-size: 14px;
+    font-weight: bold;
     width: 195px;
     line-height: 2em;
 }
 #changepic_browse_button:hover {
-    background: #069;
+    background: #07a;
     color: white;
 }
 #changepic_drop_image {
+    height: 205px;
     position: relative;
+    background: url(/devwidgets/changepic/images/changepic.png) no-repeat 50% 0;
 }
 #profilepicture {
     opacity: 0;
