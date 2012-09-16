@@ -25,6 +25,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }
 
             sakai.api.Util.TemplateRenderer($('#explore_content_template'), sakai.config.explore, $('#explore_content'));
+            sakai.api.Widgets.widgetLoader.insertWidgets();
         };
         doInit();
     };
