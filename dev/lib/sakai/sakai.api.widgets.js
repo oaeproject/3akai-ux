@@ -601,7 +601,10 @@ define(
 
                 };
 
-                locateWidgets(id, showSettings, widgetData, context, callback);
+                // SAKIII-6144 sometimes the widget loads too quicky or the dom isn't ready if the widget is cached
+                setTimeout(function() {
+                    locateWidgets(id, showSettings, widgetData, context, callback);
+                }, 1);
 
                 return {
                     'informOnLoad' : informOnLoad
