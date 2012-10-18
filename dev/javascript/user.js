@@ -225,9 +225,9 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
 
         var loadSpaceData = function() {
             var userid;
-            if (!entityID || entityID === sakai.data.me.user.userid) {
+            if (!entityID || entityID === sakai.data.me.userId) {
                 isMe = true;
-                userid = sakai.data.me.user.userid;
+                userid = sakai.data.me.userId;
             } else {
                 userid = entityID;
             }
@@ -281,7 +281,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             var permission = structure._view || 'anonymous';
             if (permission === 'contacts' && isContact) {
                 structure._canView = true;
-            } else if (permission === 'everyone' && !sakai.data.me.user.anon) {
+            } else if (permission === 'everyone' && !sakai.data.me.anon) {
                 structure._canView = true;
             } else if (permission === 'anonymous') {
                 structure._canView = true;
@@ -322,9 +322,9 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
 
         var determineContext = function() {
             entityID = sakai.api.Util.extractEntity(window.location.pathname);
-            if (entityID && entityID !== sakai.data.me.user.userid) {
+            if (entityID && entityID !== sakai.data.me.userId) {
                 sakai.api.User.getUser(entityID, getProfileData);
-            } else if (!sakai.data.me.user.anon) {
+            } else if (!sakai.data.me.anon) {
                 if (entityID) {
                     document.location = '/me' + window.location.hash;
                     return;
@@ -337,7 +337,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                 contextData = {
                     'profile': sakai.data.me.profile,
                     'displayName': sakai.api.User.getDisplayName(sakai.data.me.profile),
-                    'userid': sakai.data.me.user.userid,
+                    'userid': sakai.data.me.userId,
                     'picture': sakai.api.User.getProfilePicture(sakai.data.me.profile),
                     'addArea': 'user'
                 };
@@ -364,7 +364,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                     'picture': sakai.api.User.getProfilePicture(profile)
                 };
                 sakai.api.Util.setPageTitle(' ' + sakai.api.Util.Security.unescapeHTML(contextData.displayName), 'pageLevel');
-                if (sakai.data.me.user.anon) {
+                if (sakai.data.me.anon) {
                     contextType = 'user_anon';
                     renderEntity();
                     loadSpaceData();
@@ -416,7 +416,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
 
         var showWelcomeNotification = function() {
             var welcome = $.deparam.querystring().welcome;
-            if (welcome && welcome === 'true' && !sakai.data.me.user.anon) {
+            if (welcome && welcome === 'true' && !sakai.data.me.anon) {
                 sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('WELCOME') + ' ' +
                 sakai.api.User.getFirstName(sakai.data.me.profile), sakai.api.i18n.getValueForKey('YOU_HAVE_CREATED_AN_ACCOUNT'));
             }
@@ -428,7 +428,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
 
         $(window).on('sakai.addToContacts.requested', function(ev, userToAdd) {
             $('.sakai_addtocontacts_overlay').each(function(index) {
-                if (entityID && entityID !== sakai.data.me.user.userid) {
+                if (entityID && entityID !== sakai.data.me.userId) {
                     contextType = 'contact_pending';
                     renderEntity();
                 }
@@ -457,7 +457,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         });
 
         $(document).on('done.newaddcontent.sakai', function(e, data, library) {
-            if (isMe && data && data.length && library === sakai.data.me.user.userid) {
+            if (isMe && data && data.length && library === sakai.data.me.userId) {
                 $(window).trigger('lhnav.updateCount', ['library', data.length]);
             }
         });

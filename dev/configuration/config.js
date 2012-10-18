@@ -50,7 +50,7 @@ define(function() {
             IMAGE_SERVICE: '/var/image/cropit',
             LOGIN_SERVICE: '/system/sling/formlogin',
             LOGOUT_SERVICE: '/system/sling/logout?resource=/index',
-            ME_SERVICE: '/system/me',
+            ME_SERVICE: '/api/me',
             MESSAGE_BOXCATEGORY_SERVICE: '/var/message/boxcategory.json',
             MESSAGE_BOXCATEGORY_ALL_SERVICE: '/var/message/boxcategory-all.json',
             POOLED_CONTENT_MANAGER: '/var/search/pool/me/manager.json',

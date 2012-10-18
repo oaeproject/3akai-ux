@@ -53,12 +53,12 @@ define(
 
         startup : function(meData) {
             // Start polling to keep session alive when logged in
-            if (meData.user.userid) {
+            if (meData.userId) {
                 setInterval(function() {
                     $.ajax({
                         url: sakai_conf.URL.ME_SERVICE,
                         success: function(data) {
-                            if (!data.user.userid) {
+                            if (!data.userId) {
                                 document.location = '/';
                             }
                         }
@@ -2722,7 +2722,7 @@ define(
              * @param {Object} $container Optional container element to add draggables, defaults to $('html') if not set
              */
             setupDraggable: function(params, $container) {
-                if (!require('sakai/sakai.api.user').data.me.user.anon) {
+                if (!require('sakai/sakai.api.user').data.me.anon) {
                     $('.s3d-draggable-container', $container).each(function(index, draggable) {
                         if (!$(draggable).hasClass('ui-draggable')) {
                             // HTML overrides default, JS overrides HTML
@@ -2787,7 +2787,7 @@ define(
              * @param {Object} $container Optional container element to add droppables, defaults to $('html') if not set
              */
             setupDroppable: function(params, $container) {
-                if (!require('sakai/sakai.api.user').data.me.user.anon) {
+                if (!require('sakai/sakai.api.user').data.me.anon) {
                     $('.s3d-droppable-container', $container).each(function(index, droppable) {
                         if (!$(droppable).hasClass('ui-droppable')) {
                             // HTML overrides default, JS overrides HTML

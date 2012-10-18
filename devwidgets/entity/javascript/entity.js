@@ -502,7 +502,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             renderObj = {
                 'context': context,
                 'type': type,
-                'anon': sakai.data.me.user.anon || false,
+                'anon': sakai.data.me.anon || false,
                 'data': data || {}
             };
             renderEntity(renderObj);

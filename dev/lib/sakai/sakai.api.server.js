@@ -180,16 +180,32 @@ define(
                 });
 
             } else {
-
+                var url = '/dev/??';
+                var files = [];
+                for (var i = 0; i < _requests.length; i++) {
+                    if (_requests[i].indexOf('/devwidgets/') === 0) {
+                        files.push(_requests[i].substr(12));
+                        url = '/devwidgets/??';
+                    } else {
+                        files.push(_requests[i].substr(5));
+                    }
+                }
                 $.ajax({
-                    url: sakai_conf.URL.STATIC_BATCH,
-                    data: {
-                        '_charset_': 'utf-8',
-                        f: _requests
-                    },
+                    url: url + files.join(','),
                     success: function(data) {
+                        var bodies = data.split('-------------------');
+                        var results = [];
+                        for (var i = 0; i < _requests.length; i++) {
+                            results.push({
+                                'url': _requests[i],
+                                'success': true,
+                                'status': 200,
+                                'body': bodies[i] || ""
+                            });
+                        }
+
                         if ($.isFunction(_callback)) {
-                            _callback(true, data);
+                            _callback(true, {'results': results});
                         }
                     },
                     error: function(xhr) {

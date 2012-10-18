@@ -141,7 +141,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Decide to show login or logout option
          */
         var decideShowLoginLogout = function() {
-            if (sakai.data.me.user.anon) {
+            if (sakai.data.me.anon) {
                 showLogin();
             } else {
                 showLogout();
@@ -160,7 +160,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 'Authentication': sakai.config.Authentication
             };
             $(topnavUserContainer).html(sakai.api.Util.TemplateRenderer(topnavUserTemplate, {
-                'anon' : sakai.data.me.user.anon,
+                'anon' : sakai.data.me.anon,
                 'auth': auth,
                 'displayName': sakai.api.User.getDisplayName(sakai.data.me.profile),
                 'sakai': sakai

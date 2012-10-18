@@ -437,32 +437,15 @@ define(
 
                     // Check for firstName and lastName property - if not present use 'rep:userId' for both (admin for example)
                     if (sakaiUserAPI.getProfileBasicElementValue(sakaiUserAPI.data.me.profile, 'firstName') === '') {
-                        sakaiUserAPI.setProfileBasicElementValue(sakaiUserAPI.data.me.profile, 'firstName', sakaiUserAPI.data.me.profile['rep:userId']);
+                        sakaiUserAPI.setProfileBasicElementValue(sakaiUserAPI.data.me.profile, 'firstName', sakaiUserAPI.data.me.profile['userId']);
                     }
                     if (sakaiUserAPI.getProfileBasicElementValue(sakaiUserAPI.data.me.profile, 'lastName') === '') {
                         sakaiUserAPI.setProfileBasicElementValue(sakaiUserAPI.data.me.profile, 'lastName', sakaiUserAPI.data.me.profile['rep:userId']);
                     }
 
                     // SAKIII-2419 server isn't saving basic access param
-                    if (sakaiUserAPI.data.me.profile.basic.access === undefined) {
-                        sakaiUserAPI.data.me.profile.basic.access = 'everybody';
-                    }
-
-                    if (sakaiUserAPI.data.me.user.properties) {
-                        if (sakaiUserAPI.data.me.user.properties.isAutoTagging) {
-                            if (sakaiUserAPI.data.me.user.properties.isAutoTagging === 'true') {
-                                sakaiUserAPI.data.me.user.properties.isAutoTagging = true;
-                            } else if (sakaiUserAPI.data.me.user.properties.isAutoTagging === 'false') {
-                                sakaiUserAPI.data.me.user.properties.isAutoTagging = false;
-                            }
-                        }
-                        if (sakaiUserAPI.data.me.user.properties.sendTagMsg) {
-                            if (sakaiUserAPI.data.me.user.properties.sendTagMsg === 'true') {
-                                sakaiUserAPI.data.me.user.properties.sendTagMsg = true;
-                            } else if (sakaiUserAPI.data.me.user.properties.sendTagMsg === 'false') {
-                                sakaiUserAPI.data.me.user.properties.sendTagMsg = false;
-                            }
-                        }
+                    if (sakaiUserAPI.data.me.visibility === undefined) {
+                        sakaiUserAPI.data.me.visibility = 'everybody';
                     }
 
                     // Call callback function if set
@@ -538,6 +521,7 @@ define(
          * @return {String} the name to show for a user
          */
         getDisplayName : function(profile, doSafeOutput) {
+            return profile.displayName;
             var safeOutput = true;
             if (doSafeOutput !== undefined) {
                 safeOutput = doSafeOutput;

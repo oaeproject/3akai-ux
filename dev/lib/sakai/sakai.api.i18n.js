@@ -260,7 +260,41 @@ define(
                 // callback function for response from batch request
                 var bundleReqFunction = function(success, reqData) {
                     if (success) {
-                        var loadDefaultBundleSuccess = reqData.results[0].success;
+                        /*
+                        var data = reqData.split('-------------------');
+                        
+                        var loadDefaultBundleSuccess = true;
+                        var loadDefaultBundleData = data[0];
+                        var loadLocalBundleSuccess;
+                        var loadLocalBundleData;
+                        var loadCustomBundleSuccess;
+                        var loadCustomBundleData;
+
+                        // Custom bundle
+                            loadCustomBundleSuccess = true;
+                            loadCustomBundleData = data[1];
+                        
+                        // Local bundle
+                            loadLocalBundleSuccess = true;
+                            loadLocalBundleData = data[2];
+                        
+                        // process the responses
+                        if (loadCustomBundleSuccess) {
+                            loadCustomBundleData = sakaii18nAPI.changeToJSON(loadCustomBundleData);
+                            sakaii18nAPI.data.customBundle = loadCustomBundleData;
+                        }
+
+                        if (loadLocalBundleSuccess) {
+                            loadLocalBundleData = sakaii18nAPI.changeToJSON(loadLocalBundleData);
+                            sakaii18nAPI.data.localBundle = loadLocalBundleData;
+                        }
+
+                        if (loadDefaultBundleSuccess) {
+                            loadDefaultBundleData = sakaii18nAPI.changeToJSON(loadDefaultBundleData);
+                            sakaii18nAPI.data.defaultBundle = loadDefaultBundleData;
+                        }
+                         */
+                         var loadDefaultBundleSuccess = reqData.results[0].success;
                         var loadDefaultBundleData = reqData.results[0].body;
                         var loadLocalBundleSuccess;
                         var loadLocalBundleData;
