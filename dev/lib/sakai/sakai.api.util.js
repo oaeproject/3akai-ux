@@ -51,22 +51,6 @@ define(
             }
         },
 
-        startup : function(meData) {
-            // Start polling to keep session alive when logged in
-            if (meData.userId) {
-                setInterval(function() {
-                    $.ajax({
-                        url: sakai_conf.URL.ME_SERVICE,
-                        success: function(data) {
-                            if (!data.userId) {
-                                document.location = '/';
-                            }
-                        }
-                    });
-                }, 60000);
-            }
-        },
-
         /**
          * Parse a JavaScript date object to a JCR date string (2009-10-12T10:25:19)
          *
