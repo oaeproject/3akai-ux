@@ -81,7 +81,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             };
             $errorPageLinksContainer.html(sakai.api.Util.TemplateRenderer($errorPageLinksTemplate, linkObj));
 
-            if (sakai.data.me.user.anon) {
+            if (sakai.data.me.anon) {
 
                 $signinbuttonwrapper.show();
 

@@ -91,14 +91,14 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                 } else if ( newProfile || !structure.structure0.profile.hasOwnProperty( title )) {
                     profilestructure[ title ] = setupProfileSection( title, section );
                     if (title !== 'basic') {
-                        paths.push('/~' + sakai.data.me.user.userid + '/public/authprofile/' + title);
+                        paths.push('/~' + sakai.data.me.userId + '/public/authprofile/' + title);
                         permissions.push(section.permission);
                     }
                     if (section.order === 0) {
                         firstWidgetRef = profilestructure[ title ]._ref;
                     }
                     initialProfilePost.push({
-                        'url': '/~' + sakai.data.me.user.userid + '/public/authprofile/' + title,
+                        'url': '/~' + sakai.data.me.userId + '/public/authprofile/' + title,
                         'method': 'POST',
                         'parameters': {
                             'init': true
@@ -133,7 +133,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             $.each( structure.structure0.profile, function( section_title, section_data ) {
                 if ( $.isPlainObject( section_data ) && !profilestructure.hasOwnProperty( section_title ) ) {
                     initialProfilePost.push({
-                        'url': '/~' + sakai.data.me.user.userid + '/public/authprofile/' + section_title,
+                        'url': '/~' + sakai.data.me.userid + '/public/authprofile/' + section_title,
                         'method': 'POST',
                         'parameters': {
                             ':operation': 'delete'
@@ -146,7 +146,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                 updateStructure = true;
                 sakai.api.Server.batch(initialProfilePost, function(success, data) {
                     if (success) {
-                        sakai.api.Content.setACLsOnPath(paths, permissions, sakai.data.me.user.userid, function(success) {
+                        sakai.api.Content.setACLsOnPath(paths, permissions, sakai.data.me.userid, function(success) {
                             if (!success) {
                                 debug.error('Error setting initial profile ACLs');
                             }
@@ -333,6 +333,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                 contextType = 'user_me';
                 // Set the profile data object
                 sakai_global.profile.main.data = $.extend(true, {}, sakai.data.me.profile);
+                sakai_global.profile.main.data.userId = sakai.data.me.userId;
                 sakai_global.profile.main.mode.value = 'edit';
                 contextData = {
                     'profile': sakai.data.me.profile,

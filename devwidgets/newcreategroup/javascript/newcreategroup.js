@@ -98,7 +98,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         });
         users.push({
             'name': sakai.api.User.getDisplayName(sakai.data.me.profile),
-            'userid': sakai.data.me.user.userid,
+            'userid': sakai.data.me.userId,
             'role': currentTemplate.creatorRole,
             'roleString': translatedRoles[currentTemplate.creatorRole],
             'creator': true

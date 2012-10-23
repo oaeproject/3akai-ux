@@ -201,7 +201,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 window.location.pathname === '/index' || window.location.pathname === '/' || window.location.pathname === '/dev') {
                 redirectURL = '/me';
             // 500 not logged in
-            } else if (sakai_global.nopermissions && sakai.data.me.user.anon && sakai_global.nopermissions.error500) {
+            } else if (sakai_global.nopermissions && sakai.data.me.anon && sakai_global.nopermissions.error500) {
                 redirectURL = '/me';
             }
             return redirectURL;
@@ -254,7 +254,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Show the number of unread messages
          */
         var setCountUnreadMessages = function() {
-            $(topnavUserInboxMessages).text(sakai.api.User.data.me.messages.unread);
+            // TODO
+            $(topnavUserInboxMessages).text(0);
         };
 
         var renderResults = function() {
@@ -345,65 +346,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         ////////////////////////
 
         /**
-         * Execute the live search and render the results
-         * @param {Object} templates the available world templates
+         * TODO: Execute the live search and render the results
          */
-        var doSearch = function(templates) {
-            var searchText = $.trim($('#topnavigation_search_input').val());
-            var filesUrl = sakai.config.URL.SEARCH_ALL_FILES.replace('.json', '.infinity.json');
-            var usersUrl = sakai.config.URL.SEARCH_USERS;
-            var groupsUrl = sakai.config.URL.SEARCH_GROUPS;
-            if (searchText === '*' || searchText === '**') {
-                filesUrl = sakai.config.URL.SEARCH_ALL_FILES_ALL;
-                usersUrl = sakai.config.URL.SEARCH_USERS_ALL;
-                groupsUrl = sakai.config.URL.SEARCH_GROUPS_ALL;
-            }
-
-            renderObj.query = searchText;
-            searchText = sakai.api.Server.createSearchString(searchText);
-            var requests = [];
-            requests.push({
-                'url': filesUrl,
-                'method': 'GET',
-                'parameters': {
-                    'page': 0,
-                    'items': 3,
-                    'q': searchText
-                }
-            });
-            requests.push({
-                'url': usersUrl,
-                'method': 'GET',
-                'parameters': {
-                    'page': 0,
-                    'items': 3,
-                    'sortOn': 'lastName',
-                    'sortOrder': 'asc',
-                    'q': searchText
-                }
-            });
-            for (var c = 0; c < templates.length; c++) {
-                var category = templates[c];
-                requests.push({
-                    'url': groupsUrl,
-                    'method': 'GET',
-                    'parameters': {
-                        'page': 0,
-                        'items': 3,
-                        'q': searchText,
-                        'category': category.id
-                    }
-                });
-            }
-
-
-            sakai.api.Server.batch(requests, function(success, data) {
-                renderContent($.parseJSON(data.results[0].body));
-                renderPeople($.parseJSON(data.results[1].body));
-                for (var c = 0; c < templates.length; c++) {
-                    renderGroups($.parseJSON(data.results[2 + c].body), templates[c].id);
-                }
-            });
+        var doSearch = function() {
+            
         };
 
 
@@ -423,7 +369,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             if (temp.id && temp.id === 'subnavigation_hr') {
                 temp = 'hr';
             } else {
-                if (sakai.data.me.user.anon && item.anonUrl) {
+                if (sakai.data.me.anon && item.anonUrl) {
                     temp.url = item.anonUrl;
                 } else {
                     temp.url = item.url;
@@ -442,31 +388,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /**
          * Create a list item for the topnavigation menu including the subnavigation
          * @param {integer} i index of the current item in the loop
-         * @param {Object} templates the available world templates
          */
-        var createMenuList = function(i, templates) {
+        var createMenuList = function(i) {
             var temp = getNavItem(i, sakai.config.Navigation);
-            // Add in the template categories
-            if (sakai.config.Navigation[i].id === 'navigation_create_and_add_link') {
-                for (var c = 0; c < templates.length; c++) {
-                    var category = templates[c];
-                    sakai.config.Navigation[i].subnav.push({
-                        'id': 'subnavigation_' + category.id + '_link',
-                        'label': category.menuLabel || category.title,
-                        'url': '/create#l=' + category.id
-                    });
-                }
-            } else if (sakai.config.Navigation[i].id === 'navigation_explore_link' || sakai.config.Navigation[i].id === 'navigation_anon_explore_link') {
-                for (var x = 0; x < templates.length; x++) {
-                    var categoryx = templates[x];
-                    sakai.config.Navigation[i].subnav.push({
-                        'id': 'subnavigation_explore_' + categoryx.id + '_link',
-                        'label': categoryx.titlePlural,
-                        'url': '/search#l=' + categoryx.id
-                    });
-                }
-            }
-
             if (sakai.config.Navigation[i].subnav) {
                 temp.subnav = [];
                 for (var ii in sakai.config.Navigation[i].subnav) {
@@ -480,9 +404,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
         /**
          * Initialise the rendering of the topnavigation menu
-         * @param {Object} templates the available world templates
          */
-        var renderMenu = function(templates) {
+        var renderMenu = function() {
             var obj = {};
             var leftMenulinks = [];
             var rightMenuLinks = [];
@@ -514,7 +437,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                      * users, and if the link is the account create link,
                      * that internal account creation is allowed
                      */
-                    var anonAndAllowed = sakai.data.me.user.anon &&
+                    var anonAndAllowed = sakai.data.me.anon &&
                         sakai.config.Navigation[i].anonymous &&
                         (
                             sakai.config.Navigation[i].id !== 'navigation_anon_signup_link' ||
@@ -523,11 +446,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                                 sakai.config.Authentication.allowInternalAccountCreation
                             )
                         );
-                    var isNotAnon = !sakai.data.me.user.anon &&
+                    var isNotAnon = !sakai.data.me.anon &&
                         !sakai.config.Navigation[i].anonymous;
                     var shouldPush = anonAndAllowed || isNotAnon;
                     if (shouldPush) {
-                        temp = createMenuList(i, templates);
+                        temp = createMenuList(i);
                         if (sakai.config.Navigation[i].rightLink) {
                             rightMenuLinks.push(temp);
                         } else {
@@ -903,16 +826,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     if (searchTimeout) {
                         clearTimeout(searchTimeout);
                     }
-                    searchTimeout = setTimeout(function() {
-                        sakai.api.Util.getTemplates(function(success, templates) {
-                            if (success) {
-                                doSearch(templates);
-                                lastSearchVal = val;
-                            } else {
-                                debug.error('Could not get the group templates');
-                            }
-                        });
-                    }, 200);
+                    searchTimeout = setTimeout(doSearch, 200);
                 } else if (val === '') {
                     lastSearchVal = val;
                     $('#topnavigation_search_results').hide();
@@ -1095,6 +1009,18 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             }
         });
 
+        ////////////
+        // LOGOUT //
+        ////////////
+        
+        $rootel.on('click', '#subnavigation_logout_link', function() {
+            sakai.api.User.logout(function() {
+                if (!sakai.config.followLogoutRedirects) {
+                    window.location = sakai.config.URL.GATEWAY_URL;
+                }
+            });
+        });
+
 
         ////////////////////////
         ////// INITIALISE //////
@@ -1107,13 +1033,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             checkForRedirect();
             renderUser();
             setUserName();
-            sakai.api.Util.getTemplates(function(success, templates) {
-                if (success) {
-                    renderMenu(templates);
-                } else {
-                    debug.error('Could not get the group templates');
-                }
-            });
+            renderMenu();
             forceShowLoginUrl();
         };
 

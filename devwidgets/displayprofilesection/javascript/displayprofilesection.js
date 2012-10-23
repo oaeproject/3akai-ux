@@ -350,8 +350,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                 callback(true, sakai.data.me.profile);
             } else {
                 sakai.api.User.getUser(userid, function(success, data) {
-                    if (sakai.data.me.user.userid === data.userid) {
-                        sakai.data.me.profile = data;
+                    if (sakai.data.me.userId === data.userId) {
+                        sakai.data.me.profile = data.profile;
                         sakai.data.me.profile._fullProfileLoaded = true;
                     }
                     if ($.isFunction(callback)) {
@@ -362,8 +362,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         };
 
         var init = function() {
-            userid = sakai_global.profile.main.data.userid;
-            editing = userid && userid === sakai.data.me.user.userid;
+            userid = sakai_global.profile.main.data.userId;
+            editing = userid && userid === sakai.data.me.userId;
             getData( renderSection );
         };
 

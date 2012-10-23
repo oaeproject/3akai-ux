@@ -91,7 +91,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                     var canEdit = sakai.api.Groups.isCurrentUserAManager(groupId, sakai.data.me, groupData.authprofile);
                     var canSubedit = false;
                     var canView = false;
-                    if (sakai.data.me.user.anon) {
+                    if (sakai.data.me.anon) {
                         // Check whether anonymous is in
                         if ($.inArray('anonymous', view) !== -1) {
                             canView = true;

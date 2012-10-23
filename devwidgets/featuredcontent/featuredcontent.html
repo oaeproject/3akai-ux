@@ -18,7 +18,7 @@
 
     {macro actionbuttons(item, sakai)}
         <div class="featuredcontent_content_actions s3d-draggable-hidden">
-            <button{if sakai.data.me.user.anon} style="visibility:hidden;"{/if} class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${item["_path"]}" title="__MSG__ADD_TO__">
+            <button{if sakai.data.me.anon} style="visibility:hidden;"{/if} class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${item["_path"]}" title="__MSG__ADD_TO__">
                 <span class="s3d-aural-text">
                     __MSG__ADD_ITEM_TO__
                 </span>
@@ -133,7 +133,7 @@
     {else}
         <div class="s3d-no-results-container">
             <div class="s3d-no-results-arrow-up"></div>
-            <div class="s3d-no-results-icon s3d-no-results-content"></div><p>__MSG__NO_RESULTS_DESCRIPTION_FEATUREDCONTENT__ {if !sakai.data.me.user.anon} <a href="/create" class="s3d-regular-links">__MSG__ADD_REAL_CONTENT__</a>{/if}</p>
+            <div class="s3d-no-results-icon s3d-no-results-content"></div><p>__MSG__NO_RESULTS_DESCRIPTION_FEATUREDCONTENT__ {if !sakai.data.me.anon} <a href="/create" class="s3d-regular-links">__MSG__ADD_REAL_CONTENT__</a>{/if}</p>
         </div>
     {/if}
 
@@ -172,7 +172,7 @@
                     {if item.usedin}<span class="featuredcontent_content_category_description"><span class="featuredcontent_content_usedin_icon featuredcontent_content_icon"></span>__MSG__USED_IN__ ${item.usedin} {if item.usedin == 1} __MSG__PLACE__{else} __MSG__PLACES__{/if}</span>{/if}
                     {if item.commentcount}<span class="featuredcontent_content_category_description"><span class="featuredcontent_content_comments_icon featuredcontent_content_icon"></span><a href="/content#p=${item["_path"]|safeURL}/${item["sakai:pooled-content-file-name"]|safeURL}" class="s3d-bold s3d-regular-links"><span class="s3d-aural-text">${item["sakai:pooled-content-file-name"]|safeOutput} __MSG__HAS__ </span>${item.commentcount} {if item.commentcount == 1} __MSG__COMMENT__{else} __MSG__COMMENTS__{/if}</a></span>{/if}
                     <div class="featuredcontent_content_actions s3d-draggable-hidden">
-                        <button{if sakai.data.me.user.anon} style="visibility:hidden;"{/if} class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${item["_path"]}" title="__MSG__ADD_TO__">
+                        <button{if sakai.data.me.anon} style="visibility:hidden;"{/if} class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary featuredcontent_content_actions_addtolibrary savecontent_trigger" data-entityid="${item["_path"]}" title="__MSG__ADD_TO__">
                             <span class="s3d-aural-text">
                                 __MSG__ADD_ITEM_TO__
                             </span>
@@ -196,7 +196,7 @@
         {forelse}
             <div class="s3d-no-results-container">
                 <div class="s3d-no-results-arrow-up"></div>
-                <div class="s3d-no-results-icon s3d-no-results-content"></div><p>__MSG__NO_RESULTS_DESCRIPTION_FEATUREDCONTENT__ {if !sakai.data.me.user.anon} <button class="s3d-link-button sakai_add_content_overlay">__MSG__ADD_REAL_CONTENT__</button>{/if}</p>
+                <div class="s3d-no-results-icon s3d-no-results-content"></div><p>__MSG__NO_RESULTS_DESCRIPTION_FEATUREDCONTENT__ {if !sakai.data.me.anon} <button class="s3d-link-button sakai_add_content_overlay">__MSG__ADD_REAL_CONTENT__</button>{/if}</p>
             </div>
         {/for}
         </ul>

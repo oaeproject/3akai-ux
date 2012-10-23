@@ -48,26 +48,15 @@ define(
          * @param {Object} extraOptions can include recaptcha: {challenge, response}, locale : 'user_LOCALE', template: 'templateName'
          */
         createUser : function(username, firstName, lastName, email, password, passwordConfirm, extraOptions, callback) {
-            var profileData = {}; profileData.basic = {}; profileData.basic.elements = {};
-            profileData.basic.elements['firstName'] = {};
-            profileData.basic.elements['firstName'].value = firstName;
-            profileData.basic.elements['lastName'] = {};
-            profileData.basic.elements['lastName'].value = lastName;
-            profileData.basic.elements['email'] = {};
-            profileData.basic.elements['email'].value = email;
-            profileData['email'] = email;
-            profileData.basic.access = 'everybody';
             var user = {
-                '_charset_': 'utf-8',
                 'locale': sakai_l10n.getUserDefaultLocale(),
                 'timezone': sakai_l10n.getUserDefaultTimezone(),
-                'pwd': password,
-                'pwdConfirm': passwordConfirm,
+                'password': password,
                 'firstName': firstName,
                 'lastName': lastName,
-                'email': email,
-                ':name': username,
-                ':sakai:profile-import': JSON.stringify(profileData)
+                'displayName': firstName + ' ' + lastName,
+                'username': username,
+                'visibility': 'public'
             };
             for (var i in extraOptions) {
                 if (extraOptions.hasOwnProperty(i)) {
@@ -239,16 +228,22 @@ define(
 
         /**
          * Gets the profile data for a user
-         * @param {String} userid The userId to fetch the profile for
-         * @param {Function} callback Callback function to call when the request is complete
+         * @param {String}      userid      The userId to fetch the profile for
+         * @param {Function}    callback    Callback function to call when the request is complete
          */
-        getUser: function(userid, callback) {
-            var authprofileURL = '/~' + sakai_util.safeURL(userid) + '/public/authprofile.profile.json';
-            sakai_serv.loadJSON(authprofileURL, function(success, data) {
-                if (success && data) {
-                    callback(true, data);
-                } else {
-                    callback(false);
+        getUser: function(userId, callback) {
+            var url = sakai_conf.URL.USER_BASIC.replace('__USERID__', userId)
+            $.ajax({
+                'url': url,
+                'success': function(data) {
+                    if ($.isFunction(callback)) {
+                        callback(true, data);
+                    }
+                },
+                'error': function(xhr, textStatus, thrownError) {
+                    if ($.isFunction(callback)) {
+                        callback(false, xhr);
+                    }
                 }
             });
         },
@@ -312,24 +307,15 @@ define(
                 return;
             }
 
-            /*
-             * sakaiauth:un : the username for the user
-             * sakaiauth:pw : the password for the user
-             * sakaiauth:login : set to 1 because we want to perform a login action
-             */
-            var data = {
-                'sakaiauth:login': 1,
-                'sakaiauth:un': credentials.username,
-                'sakaiauth:pw': credentials.password,
-                '_charset_': 'utf-8'
-            };
-
             // Send the Ajax request
             $.ajax({
                 url : sakai_conf.URL.LOGIN_SERVICE,
                 type : 'POST',
+                data : {
+                    'username': credentials.username,
+                    'password': credentials.password
+                },
                 success: function(data) {
-
                     // Call callback function if set
                     if ($.isFunction(callback)) {
                         callback(true, data);
@@ -337,14 +323,12 @@ define(
 
                 },
                 error: function(xhr, textStatus, thrownError) {
-
                     // Call callback function if set
                     if ($.isFunction(callback)) {
                         callback(false, xhr);
                     }
 
-                },
-                data : data
+                }
             });
 
         },
@@ -358,22 +342,15 @@ define(
          */
         logout : function(callback) {
 
-            /*
-             * Request to the logout service.
-             */
-            if (sakai_conf.followLogoutRedirects) {
-                window.location = sakai_conf.URL.LOGOUT_SERVICE;
-            } else {
-                // hit the logout service to destroy the session
-                $.ajax({
-                    url: sakai_conf.URL.LOGOUT_SERVICE,
-                    // SAKIII-5968 - we need to use cache:false since doing a POST doesn't always work.
-                    cache: false,
-                    complete: function(xhrInner, textStatusInner) {
-                        callback(textStatusInner === 'success');
-                    }
-                });
-            }
+            // hit the logout service to destroy the session
+            $.ajax({
+                'url': sakai_conf.URL.LOGOUT_SERVICE,
+                'type': 'POST',
+                'cache': false,
+                'complete': function(xhrInner, textStatusInner) {
+                    callback(textStatusInner === 'success');
+                }
+            });
         },
 
         /**
@@ -435,12 +412,20 @@ define(
                 success: function(data) {
                     sakaiUserAPI.data.me = sakai_serv.convertObjectToArray(data, null, null);
 
-                    // Check for firstName and lastName property - if not present use 'rep:userId' for both (admin for example)
-                    if (sakaiUserAPI.getProfileBasicElementValue(sakaiUserAPI.data.me.profile, 'firstName') === '') {
-                        sakaiUserAPI.setProfileBasicElementValue(sakaiUserAPI.data.me.profile, 'firstName', sakaiUserAPI.data.me.profile['userId']);
-                    }
-                    if (sakaiUserAPI.getProfileBasicElementValue(sakaiUserAPI.data.me.profile, 'lastName') === '') {
-                        sakaiUserAPI.setProfileBasicElementValue(sakaiUserAPI.data.me.profile, 'lastName', sakaiUserAPI.data.me.profile['rep:userId']);
+                    if (sakaiUserAPI.data.me.anon) {
+                        sakaiUserAPI.data.me.profile = {
+                            'firstName': 'Anonymous',
+                            'lastName': 'User',
+                            'displayName': 'Anonymous User'
+                        };
+                    } else {
+                        // Check for firstName and lastName property - if not present use 'rep:userId' for both (admin for example)
+                        if (sakaiUserAPI.getProfileBasicElementValue(sakaiUserAPI.data.me.profile, 'firstName') === '') {
+                            sakaiUserAPI.setProfileBasicElementValue(sakaiUserAPI.data.me.profile, 'firstName', sakaiUserAPI.data.me.userId);
+                        }
+                        if (sakaiUserAPI.getProfileBasicElementValue(sakaiUserAPI.data.me.profile, 'lastName') === '') {
+                            sakaiUserAPI.setProfileBasicElementValue(sakaiUserAPI.data.me.profile, 'lastName', sakaiUserAPI.data.me.userId);
+                        }
                     }
 
                     // SAKIII-2419 server isn't saving basic access param
@@ -787,7 +772,7 @@ define(
         },
 
         isAnonymous : function(meData) {
-            if (meData.user.userid) {
+            if (meData.userId) {
                 return false;
             } else {
                 return true;
@@ -891,24 +876,21 @@ define(
          */
         savePrivacySettings: function(option, callback) {
             // Both the user's home folder and authorizable node need to be updated
-            var batchRequest = [{
-                'url': '/~' + sakaiUserAPI.data.me.user.userid + '.modifyAce.json',
-                'method':'POST',
-                'parameters':{
-                    'principalId': 'anonymous',
-                    'privilege@jcr:read': (option === 'public' ? 'granted' : 'denied')
-                }
-            }, {
-                'url': '/system/userManager/user/' + sakaiUserAPI.data.me.user.userid + '.modifyAce.json',
-                'method': 'POST',
-                'parameters':{
-                    'principalId': 'anonymous',
-                    'privilege@jcr:read': (option === 'public' ? 'granted' : 'denied')
-                }
-            }];
-            sakai_serv.batch(batchRequest, function(success, data) {
-                if ($.isFunction(callback)) {
-                    callback(success);
+            $.ajax({
+                'url': '/api/user/' + sakaiUserAPI.data.me.user.userid,
+                'type': 'POST',
+                'data': {
+                    'visibility': option
+                },
+                'success': function() {
+                    if ($.isFunction(callback)) {
+                        callback(true);
+                    }
+                },
+                'error': function() {
+                    if ($.isFunction(callback)) {
+                        callback(false);
+                    }
                 }
             });
             return false;

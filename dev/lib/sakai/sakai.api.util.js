@@ -68,64 +68,6 @@ define(
         },
 
         /**
-         * Get the world templates from the server
-         * If the worldTemplates are already fetched they will just be returned from the variable
-         * @param {Function} callback Function executed after the templates have been fetched.
-         *                            The templates are passed through to the function
-         */
-        getTemplates: function(callback) {
-            // There is no point in making the request without providing a callback
-            // function. If the callback function is not available, we throw an error
-            if ($.isFunction(callback)) {
-                // If the templates have already been retrieved, we return the cached templates
-                if (!sakai_util.data.worldTemplates) {
-                    // Because this function can be called multiple times when the templates
-                    // are still asynchronously loading, we keep an array of callbacks that are
-                    // executed when the request has finished
-                    sakai_util.data.worldTemplateCallbacks.push(callback);
-                    if (!sakai_util.data.fetchingWorldTemplates) {
-                        sakai_util.data.fetchingWorldTemplates = true;
-                        $.ajax({
-                            url: sakai_conf.URL.WORLD_INFO_URL,
-                            success: function(data) {
-                                sakai_util.data.worldTemplates = [];
-                                data = sakai_serv.removeServerCreatedObjects(data, ['jcr:']);
-                                $.each(data, function(key, value) {
-                                    if ($.isPlainObject(value) && value.id) {
-                                        sakai_util.data.worldTemplates.push(value);
-                                    }
-                                });
-                                $.each(sakai_util.data.worldTemplates, function(i, temp) {
-                                    $.each(temp, function(k, templ) {
-                                        if ($.isPlainObject(temp[k])) {
-                                            temp.templates = temp.templates || [];
-                                            temp.templates.push(temp[k]);
-                                        }
-                                    });
-                                });
-                                sakai_util.data.worldTemplates = _.sortBy(sakai_util.data.worldTemplates, function(templ) {
-                                    return templ.order;
-                                });
-                                $.each(sakai_util.data.worldTemplateCallbacks, function(index, cb) {
-                                    cb(true, sakai_util.data.worldTemplates);
-                                });
-                            }, error: function(xhr, textStatus, thrownError) {
-                                debug.error('Could not get the group templates');
-                                $.each(sakai_util.data.worldTemplateCallbacks, function(index, cb) {
-                                    cb(false);
-                                });
-                            }
-                        });
-                    }
-                } else {
-                    callback(true, sakai_util.data.worldTemplates);
-                }
-            } else {
-                debug.error('Did not pass in a callback function to retrieve the templates');
-            }
-        },
-
-        /**
          * Parse a JavaScript date object to a JCR date string (2009-10-12T10:25:19)
          *
          * <p>

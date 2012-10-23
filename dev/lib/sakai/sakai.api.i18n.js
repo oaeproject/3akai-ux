@@ -121,7 +121,7 @@ define(
                     sakai_config.requireUser = sakai_config.requireUser.concat(sakai_config.requireUserAnonNotAllowed);
                     sakai_config.requireAnonymous = sakai_config.requireAnonymous.concat(sakai_config.requireAnonymousAnonNotAllowed);
                 }
-                if (meData && meData.user && meData.user.anon) {
+                if (meData && meData.anon) {
                     if ($.inArray(currentPage, sakai_config.requireUser) > -1) {
                         // This is not great, but our util.Templating code needs to call i18n at the moment. TODO
                         require('sakai/sakai.api.util').Security.sendToLogin();
@@ -260,41 +260,7 @@ define(
                 // callback function for response from batch request
                 var bundleReqFunction = function(success, reqData) {
                     if (success) {
-                        /*
-                        var data = reqData.split('-------------------');
-                        
-                        var loadDefaultBundleSuccess = true;
-                        var loadDefaultBundleData = data[0];
-                        var loadLocalBundleSuccess;
-                        var loadLocalBundleData;
-                        var loadCustomBundleSuccess;
-                        var loadCustomBundleData;
-
-                        // Custom bundle
-                            loadCustomBundleSuccess = true;
-                            loadCustomBundleData = data[1];
-                        
-                        // Local bundle
-                            loadLocalBundleSuccess = true;
-                            loadLocalBundleData = data[2];
-                        
-                        // process the responses
-                        if (loadCustomBundleSuccess) {
-                            loadCustomBundleData = sakaii18nAPI.changeToJSON(loadCustomBundleData);
-                            sakaii18nAPI.data.customBundle = loadCustomBundleData;
-                        }
-
-                        if (loadLocalBundleSuccess) {
-                            loadLocalBundleData = sakaii18nAPI.changeToJSON(loadLocalBundleData);
-                            sakaii18nAPI.data.localBundle = loadLocalBundleData;
-                        }
-
-                        if (loadDefaultBundleSuccess) {
-                            loadDefaultBundleData = sakaii18nAPI.changeToJSON(loadDefaultBundleData);
-                            sakaii18nAPI.data.defaultBundle = loadDefaultBundleData;
-                        }
-                         */
-                         var loadDefaultBundleSuccess = reqData.results[0].success;
+                        var loadDefaultBundleSuccess = reqData.results[0].success;
                         var loadDefaultBundleData = reqData.results[0].body;
                         var loadLocalBundleSuccess;
                         var loadLocalBundleData;

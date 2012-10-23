@@ -70,10 +70,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @return 1, 0 or -1
          */
         var groupSortName = function(a, b) {
-            if (a['sakai:group-title'].toLowerCase() > b['sakai:group-title'].toLowerCase()) {
+            if (a['name'].toLowerCase() > b['name'].toLowerCase()) {
                 return 1;
             } else {
-                if (a['sakai:group-title'].toLowerCase() === b['sakai:group-title'].toLowerCase()) {
+                if (a['name'].toLowerCase() === b['name'].toLowerCase()) {
                     return 0;
                 } else {
                     return -1;
@@ -129,7 +129,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Object} groups  JSON containing group data
          */
         var render = function(groups) {
-            if (!groups.entry.length) {
+            if (groups.length === 0) {
                 $mymemberships_items.hide();
                 sakai.api.Util.TemplateRenderer('mymemberships_nogroups_template', {isMe: mymemberships.isOwnerViewing}, $mymemberships_nogroups);
                 $mymemberships_nogroups.show();
@@ -137,27 +137,27 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 $('.s3d-page-header-bottom-row', $rootel).hide();
                 return;
             } else {
-                if (sakai.data.me.user.anon) {
+                if (sakai.data.me.anon) {
                     $('.s3d-page-header-bottom-row', $rootel).hide();
                 } else {
                     $('.s3d-page-header-top-row', $rootel).show();
                     $('.s3d-page-header-bottom-row', $rootel).show();
                 }
                 if (mymemberships.sortOrder === 'modified') {
-                    groups.entry = groups.entry.sort(groupSortModified);
-                    groups.entry.reverse();
+                    groups = groups.sort(groupSortModified);
+                    groups.reverse();
                 } else {
-                    groups.entry = groups.entry.sort(groupSortName);
+                    groups = groups.sort(groupSortName);
                     if (mymemberships.sortOrder === 'desc') {
-                        groups.entry.reverse();
+                        groups.reverse();
                     }
                 }
                 var groupData = [];
-                var tempGroupData = sakai.api.Groups.prepareGroupsForRender(groups.entry, sakai.data.me);
+                var tempGroupData = sakai.api.Groups.prepareGroupsForRender(groups, sakai.data.me);
                 $.each(tempGroupData, function(i, group) {
-                    var titleMatch = group['sakai:group-title'] && group['sakai:group-title'].toLowerCase().indexOf(currentQuery.toLowerCase()) >= 0;
-                    var descriptionMatch = group['sakai:group-description'] && group['sakai:group-description'].toLowerCase().indexOf(currentQuery.toLowerCase()) >= 0;
-                    var idMatch = group.groupid.toLowerCase().indexOf(currentQuery.toLowerCase()) >= 0;
+                    var titleMatch = group['name'] && group['name'].toLowerCase().indexOf(currentQuery.toLowerCase()) >= 0;
+                    var descriptionMatch = group['description'] && group['description'].toLowerCase().indexOf(currentQuery.toLowerCase()) >= 0;
+                    var idMatch = group.id.toLowerCase().indexOf(currentQuery.toLowerCase()) >= 0;
                     if (titleMatch || descriptionMatch || idMatch) {
                         var groupType = sakai.api.i18n.getValueForKey('OTHER');
                         if (group['sakai:category']) {
@@ -180,11 +180,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                             picPath: group.picPath,
                             picPathLarge: group.picPathLarge,
                             edit_url: '/dev/group_edit2.html?id=' + group.groupid,
-                            title: group['sakai:group-title'],
-                            titleShort: group['sakai:group-title-short'],
-                            titleShorter: group['sakai:group-title-shorter'],
-                            descShort: group['sakai:group-description-short'],
-                            descShorter: group['sakai:group-description-shorter'],
+                            title: group['name'],
+                            titleShort: group['name-short'],
+                            titleShorter: group['name-shorter'],
+                            descShort: group['description-short'],
+                            descShorter: group['description-shorter'],
                             type: groupType,
                             lastModified: group.lastModified,
                             contentCount: group.counts.contentCount,
@@ -232,7 +232,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 }
 
                 // display functions available to logged in users
-                if (!sakai.data.me.user.anon) {
+                if (!sakai.data.me.anon) {
                     $('.mymemberships_item_anonuser').hide();
                     $('.mymemberships_item_user_functions').show();
                 }
@@ -240,7 +240,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 if (mymemberships.isOwnerViewing) {
                     // disable remove membership button if not allowed to leave
                     var groupsToCheck = [];
-                    $.each(groups.entry, function(i, group) {
+                    $.each(groups, function(i, group) {
                         groupsToCheck.push(group.groupid);
                     });
                     sakai.api.Groups.isAllowedToLeave(groupsToCheck, sakai.data.me, function(leaveAllowed) {
@@ -279,7 +279,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         var removeMembership = function(groupid,groupname) {
-            sakai.api.Groups.getRole(sakai.data.me.user.userid,groupid,function(success,role) {
+            sakai.api.Groups.getRole(sakai.data.me.userId, groupid, function(success,role) {
                 sakai.api.Groups.leave(groupid,role,sakai.data.me,function(success) {
                     if (success) {
                         $(window).trigger('lhnav.updateCount', ['memberships', -1]);
@@ -315,15 +315,16 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /////////////////////////////
 
         var handleHashChange = function() {
-            if (sakai_global.profile.main.data.userid === sakai.data.me.user.userid) {
+            if (sakai_global.profile.main.data.userId === sakai.data.me.userId) {
                 mymemberships.isOwnerViewing = true;
-                render(sakai.api.Groups.getMemberships(sakai.data.me.groups));
-            } else {
-                sakai.api.Server.loadJSON('/system/me', function(success, data) {
-                    mymemberships.isOwnerViewing = false;
-                    render(sakai.api.Groups.getMemberships(data.groups));
-                }, { uid: sakai_global.profile.main.data.userid });
             }
+
+            sakai.api.Groups.getMyMemberships(function(success, groups) {
+                if (success) {
+                    render(groups);
+                }
+            });
+
             sakai.api.Util.TemplateRenderer('mymemberships_title_template', {
                 isMe: mymemberships.isOwnerViewing,
                 user: sakai.api.User.getFirstName(sakai_global.profile.main.data)
@@ -414,7 +415,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 updateMessageAndAddToData();
             });
 
-            if (sakai_global.profile.main.data.userid !== sakai.data.me.user.userid) {
+            if (sakai_global.profile.main.data.userid !== sakai.data.me.userId) {
                     $('.searchgroups_result_plus',$rootel).on('click', function(ev) {
                     var joinable = $(this).data('group-joinable');
                     var groupid = $(this).attr('data-groupid');

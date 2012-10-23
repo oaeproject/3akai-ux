@@ -167,7 +167,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             }
             // Determine the state of the current user in the current library
             var mode = 'user_me';
-            if (sakai_global.profile && mylibrary.contextId !== sakai.data.me.user.userid) {
+            if (sakai_global.profile && mylibrary.contextId !== sakai.data.me.userId) {
                 mode = 'user_other';
             } else if (!sakai_global.profile && (mylibrary.isOwnerViewing || mylibrary.isMemberViewing)) {
                 mode = 'group_manager_member';
@@ -202,12 +202,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             if (mylibrary.sortOrder === 'modified') {
                 sortOrder = 'desc';
             }
-            mylibrary.infinityScroll = $mylibrary_items.infinitescroll(sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER, {
-                userid: mylibrary.contextId,
-                sortOn: mylibrary.sortBy,
-                sortOrder: sortOrder,
-                q: query
-            }, function(items, total) {
+            mylibrary.infinityScroll = $mylibrary_items.infinitescroll(sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER.replace('__USERID__', mylibrary.contextId), {}, function(items, total) {
                 if (total && query && query !== '*') {
                     $mylibrary_result_count.show();
                     var resultLabel = sakai.api.i18n.getValueForKey('RESULTS');
@@ -217,7 +212,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     $mylibrary_result_count.children('.s3d-search-result-count-label').text(resultLabel);
                     $mylibrary_result_count.children('.s3d-search-result-count-count').text(total);
                 }
-                if (!sakai.data.me.user.anon) {
+                if (!sakai.data.me.anon) {
                     if (total !== 0) {
                         $('.s3d-page-header-top-row', $rootel).show();
                         $('.s3d-page-header-bottom-row', $rootel).show();
@@ -465,7 +460,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
              * @param {Object} library     Context id of the library the content has been added to
              */
             $(document).on('done.newaddcontent.sakai', function(e, data, library) {
-                if (library === mylibrary.contextId || mylibrary.contextId === sakai.data.me.user.userid) {
+                if (library === mylibrary.contextId || mylibrary.contextId === sakai.data.me.userId) {
                     mylibrary.infinityScroll.prependItems(data);
                 }
             });
@@ -528,9 +523,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         var initUserLibrary = function() {
-            mylibrary.contextId = sakai_global.profile.main.data.userid;
+            mylibrary.contextId = sakai_global.profile.main.data.userId;
             var contextName = sakai.api.User.getFirstName(sakai_global.profile.main.data);
-            if (mylibrary.contextId === sakai.data.me.user.userid) {
+            if (mylibrary.contextId === sakai.data.me.userId) {
                 mylibrary.isOwnerViewing = true;
             }
             finishInit(contextName, false);

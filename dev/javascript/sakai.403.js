@@ -80,7 +80,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             };
             $errorPageLinksContainer.html(sakai.api.Util.TemplateRenderer($errorPageLinksTemplate, linkObj));
 
-            if (sakai.data.me.user.anon) {
+            if (sakai.data.me.anon) {
                 $(window).on('ready.login.sakai', function(e) {
                     $(window).trigger('relayout.login.sakai', false);
                 });

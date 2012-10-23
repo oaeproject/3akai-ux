@@ -98,7 +98,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         var initEntityWidget = function() {
             if (sakai_global.content_profile.content_data) {
                 var context = 'content';
-                if (sakai.data.me.user.anon) {
+                if (sakai.data.me.anon) {
                     type = 'content_anon';
                 } else if (sakai_global.content_profile.content_data.isManager) {
                     type = 'content_managed';

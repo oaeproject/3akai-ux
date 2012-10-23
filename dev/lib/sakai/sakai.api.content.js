@@ -192,9 +192,9 @@ define(
          *    - versions.json -> Fetches all versions for a content item
          *    - activityfeed.json -> Fetches all activity for a content item
          * and returns it in a callback function
-         * @param {String}     Pooled content id for the item to load the content profile for
+         * @param {String}     poolId   Pooled content id for the item to load the content profile for
          * @param {Function}   callback Function that executes when all data thas been gathered,
-         *                            passes through the unparsed results.
+         *                              passes through the unparsed results.
          */
         loadFullProfile: function(poolid, callback) {
             var batchRequests = [
@@ -1112,6 +1112,8 @@ define(
                 mimeType = content['_mimeType'];
             } else if (content['mimeType']) {
                 mimeType = content['mimeType'];
+            } else if (content.contentType === 'link') {
+                mimeType = 'x-sakai/link';
             }
             return mimeType;
         },
@@ -1264,41 +1266,41 @@ define(
         prepareContentForRender : function(results, meData, callback, threeDotsWidths) {
             var userArray = [];
             $.each(results, function(i, contentItem) {
-                if (contentItem['sakai:pooled-content-file-name']) {
-                    contentItem.id = contentItem['_path'];
-                    contentItem.link = '/content#p=' + sakai_util.safeURL(contentItem['_path']);
-                    contentItem.canDelete = sakai_content.isContentInLibrary(contentItem, meData.user.userid) || (sakai_content.Collections.isCollection(contentItem) && sakai_content.Collections.isCollectionInMyLibrary(contentItem));
+                if (contentItem.name) {
+                    contentItem.id = contentItem.contentId;
+                    contentItem.link = '/content#p=' + sakai_util.safeURL(contentItem.contentId);
+                    contentItem.canDelete = sakai_content.isContentInLibrary(contentItem, meData.userid) || (sakai_content.Collections.isCollection(contentItem) && sakai_content.Collections.isCollectionInMyLibrary(contentItem));
                     contentItem.numPlaces = sakai_content.getPlaceCount(contentItem);
                     contentItem.numComments = sakai_content.getCommentCount(contentItem);
                     // Only modify the description if there is one
-                    if (contentItem['sakai:description']) {
+                    if (contentItem.description) {
                         var descWidth = 750;
                         if (threeDotsWidths && threeDotsWidths.descriptionWidth) {
                             descWidth = threeDotsWidths.descriptionWidth;
                         }
-                        contentItem['sakai:description-shorter'] = sakai_util.applyThreeDots(contentItem['sakai:description'], 150, {
+                        contentItem['description-shorter'] = sakai_util.applyThreeDots(contentItem.description, 150, {
                             max_rows: 2,
                             whole_word: false
                         }, '');
-                        contentItem['sakai:description-long'] = sakai_util.applyThreeDots(contentItem['sakai:description'], 1200, {
+                        contentItem['description-long'] = sakai_util.applyThreeDots(contentItem.description, 1200, {
                             max_rows: 2,
                             whole_word: false
                         }, '');
-                        contentItem['sakai:description'] = sakai_util.applyThreeDots(contentItem['sakai:description'], descWidth, {
+                        contentItem.description = sakai_util.applyThreeDots(contentItem.description, descWidth, {
                             max_rows: 2,
                             whole_word: false
                         }, '');
                     }
-                    if (contentItem['sakai:pooled-content-file-name']) {
+                    if (contentItem.name) {
                         var fileNameWidth = 560;
                         if (threeDotsWidths && threeDotsWidths.titleWidth) {
                             fileNameWidth = threeDotsWidths.titleWidth;
                         }
-                        contentItem['sakai:pooled-content-file-name-short'] = sakai_util.applyThreeDots(contentItem['sakai:pooled-content-file-name'], fileNameWidth, {
+                        contentItem['name-short'] = sakai_util.applyThreeDots(contentItem.name, fileNameWidth, {
                             max_rows: 1,
                             whole_word: false
                         }, 's3d-bold');
-                        contentItem['sakai:pooled-content-file-name-shorter'] = sakai_util.applyThreeDots(contentItem['sakai:pooled-content-file-name'], 150, {
+                        contentItem['name-shorter'] = sakai_util.applyThreeDots(contentItem.name, 150, {
                             max_rows: 1,
                             whole_word: false
                         }, 's3d-bold');
@@ -1782,7 +1784,7 @@ define(
             currentUserHasCollectionRole: function(collectionid, role) {
                 var hasRole = false;
                 var userRole = sakai_content.Collections.getCollectionRolePseudoGroup(role);
-                if (!sakai_user.data.me.user.anon) {
+                if (!sakai_user.data.me.anon) {
                     $.each(sakai_user.data.me.groups, function(idx, group) {
                         if (group['sakai:group-id'] === collectionid + '-' + userRole) {
                             hasRole = true;
@@ -1817,6 +1819,9 @@ define(
              * Retrieve the number of collections that are in my library
              */
             getMyCollectionsCount: function() {
+                return 0;
+
+                // TODO
                 var count = 0;
                 var memberships = sakai_groups.getMemberships(sakai_user.data.me.groups, true);
                 $.each(memberships.entry, function(index, membership) {

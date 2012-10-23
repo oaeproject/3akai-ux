@@ -180,38 +180,16 @@ define(
                 });
 
             } else {
-                var url = '/dev/??';
-                var files = [];
-                for (var i = 0; i < _requests.length; i++) {
-                    if (_requests[i].indexOf('/devwidgets/') === 0) {
-                        files.push(_requests[i].substr(12));
-                        url = '/devwidgets/??';
-                    } else {
-                        files.push(_requests[i].substr(5));
-                    }
-                }
                 $.ajax({
-                    url: url + files.join(','),
-                    success: function(data) {
-                        var bodies = data.split('-------------------');
-                        var results = [];
-                        for (var i = 0; i < _requests.length; i++) {
-                            results.push({
-                                'url': _requests[i],
-                                'success': true,
-                                'status': 200,
-                                'body': bodies[i] || ""
-                            });
-                        }
-
-                        if ($.isFunction(_callback)) {
-                            _callback(true, {'results': results});
-                        }
+                    'url': '/api/staticfiles',
+                    'data': {
+                        'files': _requests
                     },
-                    error: function(xhr) {
-                        if ($.isFunction(_callback)) {
-                            _callback(false);
-                        }
+                    'success': function(data) {
+                        _callback(true, data);
+                    },
+                    'error': function(xhr) {
+                        _callback(false);
                     }
                 });
             }
