@@ -1921,7 +1921,7 @@ define(
                 element = element[0];
             }
             // Check whether a MathJax formula is available
-            var elementContent = $(element).html();
+            var elementContent = $('#' + element).html();
             if (elementContent && (elementContent.indexOf('$$') !== -1 || elementContent.indexOf('\\(') !== -1)) {
                 // Check whether MathJax has already been loaded
                 if (!window['MathJax'] || !MathJax.Hub) {
