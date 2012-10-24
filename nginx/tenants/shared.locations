@@ -35,3 +35,4 @@
     rewrite ^/$                 /dev/index.html last;
     rewrite ^/s2site            /dev/s23/s23_site.html last;
     rewrite ^/search            /dev/search.html last;
+    rewrite ^/user/(.*)         /dev/user.html last;

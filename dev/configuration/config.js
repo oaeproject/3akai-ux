@@ -63,6 +63,9 @@ define(function() {
             SAKAI2_TOOLS_SERVICE: '/var/proxy/s23/site.json?siteid=__SITEID__',
             STATIC_BATCH: '/system/staticfiles',
             USER_BASIC: '/api/user/__USERID__',
+            USER_PROFILE_FULL: '/api/user/__USERID__/profile',
+            USER_PROFILE_SECTION: '/api/user/__USERID__/profile/__SECTION__',
+            USER_PROFILE_SECTION_VISIBILITY: '/api/user/__USERID__/profile/__SECTION__/visibility',
             USER_MEMBERSHIPS: '/api/user/__USERID__/memberships',
             WORLD_CREATION_SERVICE: '/system/world/create',
             WORLD_INFO_URL: '/var/templates/worlds.2.json',
@@ -290,26 +293,12 @@ define(function() {
                         'permission': 'anonymous',
                         'order': 0,
                         'elements': {
-                            'firstName': {
-                                'label': '__MSG__PROFILE_BASIC_FIRSTNAME_LABEL__',
-                                'errorMessage': '__MSG__PROFILE_BASIC_FIRSTNAME_ERROR__',
-                                'required': true,
-                                'display': true,
-                                'limitDisplayWidth': 300
-                            },
-                            'lastName': {
-                                'label': '__MSG__PROFILE_BASIC_LASTNAME_LABEL__',
-                                'errorMessage': '__MSG__PROFILE_BASIC_LASTNAME_ERROR__',
-                                'required': true,
-                                'display': true,
-                                'limitDisplayWidth': 300
-                            },
                             'picture': {
                                 'label': '__MSG__PROFILE_BASIC_PICTURE_LABEL__',
                                 'required': false,
                                 'display': false
                             },
-                            'preferredName': {
+                            'displayName': {
                                 'label': '__MSG__PROFILE_BASIC_PREFERREDNAME_LABEL__',
                                 'required': false,
                                 'display': true

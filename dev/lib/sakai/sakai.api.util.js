@@ -2100,10 +2100,10 @@ define(
          * Extracts the entity ID from the URL
          * also handles encoded URLs
          * Example:
-         *   input: '/~user1'
+         *   input: '/user/user1'
          *   return: 'user1'
          * Encoded Exmaple:
-         *   input: '/%7E%D8%B4%D8%B3'
+         *   input: '/user/%D8%B4%D8%B3'
          *   return: 'شس'
          *
          * @param {String} pathname The window.location.pathname
@@ -2111,11 +2111,8 @@ define(
          */
         extractEntity : function(pathname) {
             var entity = null;
-            if (pathname.substring(1,4) === '%7E') {
-                pathname = pathname.replace('%7E', '~');
-            }
-            if (pathname.substring(0,2) === '/~') {
-                entity = decodeURIComponent(pathname.substring(2));
+            if (pathname.substring(0,6) === '/user/') {
+                entity = decodeURIComponent(pathname.substring(6));
             }
             return entity;
         },

@@ -62,15 +62,8 @@ define(
                 if (extraOptions.hasOwnProperty(i)) {
                     switch(i) {
                         case 'recaptcha':
-                            user[':create-auth'] = 'reCAPTCHA.net';
-                            user[':recaptcha-challenge'] = extraOptions[i].challenge;
-                            user[':recaptcha-response'] = extraOptions[i].response;
-                            break;
-                        case 'locale':
-                            user['locale'] = extraOptions[i];
-                            break;
-                        case 'template':
-                            user['template'] = '/var/templates/site/' + extraOptions[i];
+                            user['recaptchaChallenge'] = extraOptions[i].challenge;
+                            user['recaptchaResponse'] = extraOptions[i].response;
                             break;
                         default:
                             break;
@@ -102,6 +95,46 @@ define(
         },
 
         /**
+         * Get a user's profile section.
+         *
+         * @param  {String}   userid   A user id
+         * @param  {String}   section  A section name
+         * @param  {Function} callback A callback method
+         */
+        getUserProfileSection: function(userid, section, callback) {
+            callback = callback || function() {};
+            var url = sakai_conf.URL.USER_PROFILE_SECTION.replace('__USERID__', userid).replace('__SECTION__', section);
+            $.ajax({
+                'url': url,
+                'success': function(data) {
+                    callback(true, data);
+                },
+                'error': function() {
+                    callback(false);
+                }
+            });
+        },
+
+        /**
+         * Get all the profile sections for a user
+         * @param  {String}   userid   A user id
+         * @param  {Function} callback A callback method
+         */
+        getAllUserProfileSections: function(userid, callback) {
+            callback = callback || function() {};
+            var url = sakai_conf.URL.USER_PROFILE_FULL.replace('__USERID__', userid);
+            $.ajax({
+                'url': url,
+                'success': function(data) {
+                    callback(true, data);
+                },
+                'error': function() {
+                    callback(false);
+                }
+            });
+        },
+
+        /**
          * Update a user's profile
          *
          * @param {String} userid The userid of the user to update their profile
@@ -113,57 +146,30 @@ define(
          * @param {Boolean} multiple If this is a multi-assign section, like publications
          * @param {Function} callback The callback function for after the data has been saved
          */
-        updateUserProfile: function( userid, section, data, tags, sectionData, multiple, callback ) {
-            var url = '/~' + userid + '/public/authprofile',
-                saveJSONURL = url + '/' + section + '.profile.json';
-
-            var postData = {
-                elements: {}
-            };
-            $.each( data, function( key, value ) {
-                if ( multiple ) {
-                    postData.elements[ key ] = {};
-                    $.each( value, function( subkey, subvalue ) {
-                        //oOrder is special, save it without a value sub-element
-                        if ( subkey === 'order' ) {
-                            postData.elements[ key ][ subkey ] = subvalue;
-                        } else {
-                            postData.elements[ key ][ subkey ] = {
-                                value: subvalue
-                            };
-                        }
-                    });
-                    // TODO set the data nested-like
-                } else {
-                    postData.elements[ key ] = {
-                        value: value
-                    };
-                }
-
-            });
-
-            var savedFunction = function(success, data) {
-                if (success) {
+        updateUserProfileSection: function( userid, section, data, tags, sectionData, multiple, callback ) {
+            callback = callback || function() {};
+            var url = sakai_conf.URL.USER_PROFILE_SECTION.replace('__USERID__', userid).replace('__SECTION__', section);
+            $.ajax({
+                'type': 'POST',
+                'url': url,
+                'data': {
+                    'data': JSON.stringify(data)
+                },
+                'success': function() {
+                    // Update the old names
                     var oldDisplayName = sakaiUserAPI.getDisplayName(sakaiUserAPI.data.me.profile);
                     // Update the users profile to reflect changed data
-                    $.extend(true, sakaiUserAPI.data.me.profile[section], postData);
+                    $.extend(true, sakaiUserAPI.data.me.profile[section], data);
                     var newDisplayName = sakaiUserAPI.getDisplayName(sakaiUserAPI.data.me.profile);
                     if (oldDisplayName !== newDisplayName) {
                         $(window).trigger('displayName.profile.updated.sakai');
                     }
+                    callback(true, data);
+                },
+                'error': function() {
+                    callback(false);
                 }
-                if ($.isFunction(callback)) {
-                    callback(success, data);
-                }
-            };
-
-            var existingTags = sectionData['sakai:tags'] ? sectionData['sakai:tags'].value : false;
-            sakai_util.tagEntity( url, tags, existingTags, function( success, final_tags ) {
-                sectionData['sakai:tags'] = {
-                    value: final_tags
-                };
-                sakai_serv.saveJSON( saveJSONURL, postData, savedFunction, true );
-            });
+            })
 
         },
 
@@ -184,18 +190,34 @@ define(
         },
 
         /**
+         * Sets the visibility setting of a profile section
+         * @param {String}      userid              A userid
+         * @param {String}      section             The name of the section
+         * @param {String}      visibility          The visibility setting
+         * @param {Function}    callback            A callback method.
+         * @param {Boolean}     callback.success    A boolean that indicates whether the change was succesfull.
+         */
+        setUserProfileSectionVisibility: function(userid, section, visibility, callback) {
+            callback = callback || function() {};
+            var url = sakai_conf.URL.USER_PROFILE_SECTION_VISIBILITY.replace('__USERID__', userid).replace('__SECTION__', section);
+            $.ajax({
+                'url': url,
+                'type': 'POST',
+                'data': {
+                    'visibility': visibility
+                },
+                'success': function() {
+                    callback(true);
+                },
+                'error': function() {
+                    callback(false);
+                }
+            })
+        },
+
+        /**
          * Remove the user credentials in the Sakai OAE system.
          * Note that this doesn't actually remove the user, only its permissions.
-         *
-         * @example
-         * sakai.api.User.createUser({
-         *     'firstName': 'User',
-         *     'lastName': '0',
-         *     'email': 'user.0@sakatest.edu',
-         *     'pwd': 'test',
-         *     'pwdConfirm': 'test',
-         *     ':name': 'user0'
-         * });
          *
          * @param {String} userid The id of the user you want to remove from the system
          * @param {Function} [callback] A callback function which will be called after the request to the server.
@@ -419,7 +441,7 @@ define(
                             'displayName': 'Anonymous User'
                         };
                     } else {
-                        // Check for firstName and lastName property - if not present use 'rep:userId' for both (admin for example)
+                        // Check for firstName and lastName property - if not present use 'userId' for both (admin for example)
                         if (sakaiUserAPI.getProfileBasicElementValue(sakaiUserAPI.data.me.profile, 'firstName') === '') {
                             sakaiUserAPI.setProfileBasicElementValue(sakaiUserAPI.data.me.profile, 'firstName', sakaiUserAPI.data.me.userId);
                         }
@@ -474,27 +496,7 @@ define(
          * @return {String} the first name to show for a user
          */
         getFirstName : function(profile, doSafeOutput) {
-            var safeOutput = true;
-            if (doSafeOutput !== undefined) {
-                safeOutput = doSafeOutput;
-            }
-
-            var configFirstName = [sakai_conf.Profile.userFirstNameDisplay];
-            var nameToReturn = '';
-
-            if (profile &&
-                profile.basic &&
-                profile.basic.elements &&
-                profile.basic.elements[configFirstName] !== undefined &&
-                profile.basic.elements[configFirstName].value !== undefined) {
-                nameToReturn += profile.basic.elements[configFirstName].value;
-            }
-
-            if (safeOutput) {
-                return sakai_util.Security.safeOutput($.trim(nameToReturn));
-            } else {
-                return $.trim(nameToReturn);
-            }
+            return sakaiUserAPI.getName(profile, 'firstName', 'displayName', doSafeOutput);
         },
 
         /**
@@ -506,52 +508,42 @@ define(
          * @return {String} the name to show for a user
          */
         getDisplayName : function(profile, doSafeOutput) {
-            return profile.displayName;
-            var safeOutput = true;
-            if (doSafeOutput !== undefined) {
-                safeOutput = doSafeOutput;
+            return sakaiUserAPI.getName(profile, 'displayName', 'userId', doSafeOutput);
+        },
+
+        /**
+         * Retrieves a 'name' from a profile. The name that needs to be retrieved can be
+         * specified in the `key` parameter. In case that key isn't found the `fallbackKey`
+         * will be attempted. If that fails, an empty string will be returned.
+         *
+         * @private
+         * @param  {Object}     profile         The user's profile object (data.me.profile for the current user)
+         * @param  {String}     key             The key to look for in the profile object
+         * @param  {String}     fallbackKey     An optional fallback key.
+         * @param  {Boolean}    doSafeOutput    (Optional) perform html safe output, default to true.
+         * @return {String}                     The requested name.
+         */
+        getName : function(profile, key, fallbackKey, doSafeOutput) {
+            if (doSafeOutput === undefined) {
+                doSafeOutput = true;
             }
 
-            var configDisplayName = [sakai_conf.Profile.userNameDisplay, sakai_conf.Profile.userNameDefaultDisplay];
             var nameToReturn = '';
-            var done = false;
-            var idx = 0;
-
-            var parseName = function(i,key) {
-                if (profile &&
-                    profile.basic &&
-                    profile.basic.elements &&
-                    profile.basic.elements[key] !== undefined &&
-                    profile.basic.elements[key].value !== undefined &&
-                    $.trim(profile.basic.elements[key].value) !== '') {
-                   nameToReturn += profile.basic.elements[key].value + ' ';
-                   done = true;
-               }
-            };
-
-            // iterate over the configDisplayName object until a valid non-empty display name is found
-            while (!done && idx < 2) {
-                if (configDisplayName[idx] !== undefined && configDisplayName[idx] !== '') {
-                    var configEltsArray = configDisplayName[idx].split(' ');
-                    $(configEltsArray).each(parseName);
-                }
-                idx++;
-            }
-
-            if (!done) {
-                if (profile && profile['rep:userId']) {
-                    return profile['rep:userId'];
-                } else {
-                    return '';
-                }
+            if (profile[key]) {
+                nameToReturn = profile[key];
+            } else if (profile[fallbackKey]) {
+                nameToReturn = profile[fallbackKey];
             } else {
-                if (safeOutput) {
-                    return sakai_util.Security.safeOutput($.trim(nameToReturn));
-                } else {
-                    return $.trim(nameToReturn);
-                }
+                // This should never happen, none the less, we log something
+                // that can be picked up in QA
+                debug.info('sakai.api.user.getName: No %s or %s key found on a profile object!', key, fallbackKey);
             }
-            return false;
+
+            if (doSafeOutput) {
+                return sakai_util.Security.safeOutput($.trim(nameToReturn));
+            } else {
+                return $.trim(nameToReturn);
+            }
         },
 
         /**
@@ -771,12 +763,11 @@ define(
             });
         },
 
-        isAnonymous : function(meData) {
-            if (meData.userId) {
-                return false;
-            } else {
-                return true;
-            }
+        /**
+         * @return {Boolean} Whether the current user is anonymous or not.
+         */
+        isAnonymous : function() {
+            return sakaiUserAPI.data.me.anon === true;
         },
 
         /**

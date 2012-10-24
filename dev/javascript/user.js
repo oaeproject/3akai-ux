@@ -133,7 +133,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             $.each( structure.structure0.profile, function( section_title, section_data ) {
                 if ( $.isPlainObject( section_data ) && !profilestructure.hasOwnProperty( section_title ) ) {
                     initialProfilePost.push({
-                        'url': '/~' + sakai.data.me.userid + '/public/authprofile/' + section_title,
+                        'url': '/~' + sakai.data.me.userId + '/public/authprofile/' + section_title,
                         'method': 'POST',
                         'parameters': {
                             ':operation': 'delete'
@@ -146,7 +146,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                 updateStructure = true;
                 sakai.api.Server.batch(initialProfilePost, function(success, data) {
                     if (success) {
-                        sakai.api.Content.setACLsOnPath(paths, permissions, sakai.data.me.userid, function(success) {
+                        sakai.api.Content.setACLsOnPath(paths, permissions, sakai.data.me.userId, function(success) {
                             if (!success) {
                                 debug.error('Error setting initial profile ACLs');
                             }
@@ -244,44 +244,14 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         };
 
         var addCounts = function() {
-            if (pubdata && pubdata.structure0) {
-                if (contextData && contextData.profile && contextData.profile.counts) {
-                    addCount(pubdata, 'library', contextData.profile.counts['contentCount']);
-                    addCount(pubdata, 'memberships', contextData.profile.counts['membershipsCount']);
-                    if (isMe) {
-                        var contactCount = 0;
-                        // determine the count of contacts to list in lhnav
-                        if (sakai.data.me.contacts.accepted && sakai.data.me.contacts.invited) {
-                            contactCount = sakai.data.me.contacts.accepted + sakai.data.me.contacts.invited;
-                        } else if (sakai.data.me.contacts.accepted) {
-                            contactCount = sakai.data.me.contacts.accepted;
-                        } else if (sakai.data.me.contacts.invited) {
-                            contactCount = sakai.data.me.contacts.invited;
-                        }
-                        addCount(pubdata, 'contacts', contactCount);
-                        addCount(privdata, 'messages', sakai.data.me.messages.unread);
-                        if (messageCounts && messageCounts.count && messageCounts.count.length) {
-                            for (var i = 0; i < messageCounts.count.length; i++) {
-                                if (messageCounts.count[i].group && messageCounts.count[i].group === 'message') {
-                                    addCount(privdata, 'messages/inbox', messageCounts.count[i].count);
-                                }
-                                if (messageCounts.count[i].group && messageCounts.count[i].group === 'invitation') {
-                                    addCount(privdata, 'messages/invitations', messageCounts.count[i].count);
-                                }
-                            }
-                        }
-                    } else {
-                        addCount(pubdata, 'contacts', contextData.profile.counts['contactsCount']);
-                    }
-                }
-            }
+            // TODO
         };
 
         var determineUserAreaPermissions = function(structure) {
             var permission = structure._view || 'anonymous';
             if (permission === 'contacts' && isContact) {
                 structure._canView = true;
-            } else if (permission === 'everyone' && !sakai.data.me.anon) {
+            } else if (permission === 'everyone' && !sakai.data.me.user.anon) {
                 structure._canView = true;
             } else if (permission === 'anonymous') {
                 structure._canView = true;
@@ -320,18 +290,35 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }
         };
 
+        /**
+         * Determine if we are looking at our own or another user's profile.
+         */
         var determineContext = function() {
-            entityID = sakai.api.Util.extractEntity(window.location.pathname);
-            if (entityID && entityID !== sakai.data.me.userId) {
-                sakai.api.User.getUser(entityID, getProfileData);
-            } else if (!sakai.data.me.anon) {
-                if (entityID) {
+            // Get the user ID from the URL.
+            userId = sakai.api.Util.extractEntity(window.location.pathname);
+
+            if (userId && userId !== sakai.data.me.userId) {
+                // We're on the /user/<id> page and not looking at our own profile.
+                // It's possible that we're not logged in.
+                //sakai.api.User.getAllUserProfileSections(userId, getProfileData);
+                sakai.api.User.getUser(userId, getProfileData);
+            } else if (!sakai.api.User.isAnonymous()) {
+                // We are logged in.
+                
+                // If a userId ID is specfied it can only be our own.
+                // Redirect to the me page.
+                if (userId) {
                     document.location = '/me' + window.location.hash;
                     return;
                 }
+
+                // We're logged in and the userID is not specified.
+                // We're *not* on the /user/<id> page.
                 sakai.api.Security.showPage();
                 contextType = 'user_me';
                 // Set the profile data object
+                console.log('user_me');
+                console.log(sakai.data.me.profile);
                 sakai_global.profile.main.data = $.extend(true, {}, sakai.data.me.profile);
                 sakai_global.profile.main.data.userId = sakai.data.me.userId;
                 sakai_global.profile.main.mode.value = 'edit';
@@ -350,19 +337,23 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }
         };
 
-        var getProfileData = function(exists, profile) {
-            if (!profile) {
+        var getProfileData = function(exists, data) {
+            if (!data) {
                 sakai.api.Security.sendToLogin();
             } else {
                 sakai.api.Security.showPage();
                 // Set the profile data object
-                sakai_global.profile.main.data = $.extend(true, {}, profile);
+                console.log('getProfileData');
+                console.log(data);
+                sakai_global.profile.main.data = $.extend(true, {}, data.profile);
+                sakai_global.profile.main.data.userId = userId;
+                data.profile.counts = {};
                 contextData = {
-                    'profile': profile,
-                    'displayName': sakai.api.User.getDisplayName(profile),
+                    'profile': data.profile,
+                    'displayName': sakai.api.User.getDisplayName(data.profile),
                     'userid': entityID,
                     'altTitle': true,
-                    'picture': sakai.api.User.getProfilePicture(profile)
+                    'picture': sakai.api.User.getProfilePicture(data.profile)
                 };
                 sakai.api.Util.setPageTitle(' ' + sakai.api.Util.Security.unescapeHTML(contextData.displayName), 'pageLevel');
                 if (sakai.data.me.anon) {
@@ -375,26 +366,11 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             }
         };
 
+        /**
+         * Check if we are connected with this user.
+         */
         var checkContact = function() {
-            var isContactInvited = false;
-            var isContactPending = false;
-            var contactState = contextData.profile['sakai:state'];
-            if (contactState === 'ACCEPTED') {
-                isContact = true;
-            } else if (contactState === 'INVITED') {
-                isContactInvited = true;
-            } else if (contactState === 'PENDING') {
-                isContactPending = true;
-            }
-            if (isContact) {
-                contextType = 'contact';
-            } else if (isContactInvited) {
-                contextType = 'contact_invited';
-            } else if (isContactPending) {
-                contextType = 'contact_pending';
-            } else {
-                contextType = 'user_other';
-            }
+            // TODO
             renderEntity();
             loadSpaceData();
         };
@@ -429,7 +405,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
 
         $(window).on('sakai.addToContacts.requested', function(ev, userToAdd) {
             $('.sakai_addtocontacts_overlay').each(function(index) {
-                if (entityID && entityID !== sakai.data.me.userId) {
+                if (userId && userId !== sakai.data.me.userId) {
                     contextType = 'contact_pending';
                     renderEntity();
                 }
