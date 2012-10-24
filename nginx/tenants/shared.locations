@@ -1,0 +1,37 @@
+    # Contains configuration that each tenant needs.
+    # Rather than copying and pasting the same everywhere
+    # we keep it contained into one file.
+    # Do *NOT* rename the extension to .conf.
+
+
+    # Serve everything under /dev and /devwidgets with nginx.
+    # Adjust the aliases so they point too the correct
+    # 3akai-ux repository.
+    location /dev {
+        alias /opt/sakai/poc/3akai-ux/dev;
+    }
+
+    location /devwidgets {
+        alias /opt/sakai/poc/3akai-ux/devwidgets;
+    }
+
+    location /tests {
+        autoindex on;
+        alias /opt/sakai/poc/3akai-ux/tests;
+    }
+
+
+    # A couple of simple rewrite rules.
+    rewrite ^/acknowledgements  /dev/acknowledgements.html last;
+    rewrite ^/categories        /dev/allcategories.html last;
+    rewrite ^/category          /dev/category.html last;
+    rewrite ^/content           /dev/content_profile.html last;
+    rewrite ^/register          /dev/create_new_account.html last;
+    rewrite ^/create            /dev/createnew.html last;
+    rewrite ^/favicon.ico       /dev/favicon.ico last;
+    rewrite ^/index$            /dev/index.html last;
+    rewrite ^/logout$           /dev/logout.html last;
+    rewrite ^/me$               /dev/me.html last;
+    rewrite ^/$                 /dev/index.html last;
+    rewrite ^/s2site            /dev/s23/s23_site.html last;
+    rewrite ^/search            /dev/search.html last;
