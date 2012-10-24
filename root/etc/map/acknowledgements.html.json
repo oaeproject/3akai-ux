@@ -1,4 +1,0 @@
-{
-  'sling:match': '^[^/]+/[^/]+/acknowledgements',
-  'sling:internalRedirect': '/dev/acknowledgements.html'
-}
