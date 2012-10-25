@@ -129,15 +129,21 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn'], function($, sakai) {
                 else {
                     $('button').removeAttr('disabled');
                     $('input').removeAttr('disabled');
-                    if (data.status === 500 || data.status === 401) {
-                        if (data.responseText.indexOf('Untrusted request') !== -1) {
-                            sakai_global.captcha.reload();
-                            sakai_global.captcha.showError("create_account_input_error");
-                        } else {
-                            showCreateUserError($(data.responseText).find('#Message').text());
-                        }
+
+                    var msg = 'Couldn\'t create your account.';
+                    try {
+                        var json = JSON.parse(data.responseText);
+                        msg = json.msg;
+                    } catch (err) {
+                        // Swallow exception,
+                        // something else went really wrong.
+                    }
+
+                    if (msg === 'Invalid reCaptcha token.') {
+                        sakai_global.captcha.reload();
+                        sakai_global.captcha.showError('create_account_input_error');
                     } else {
-                        showCreateUserError($(data.responseText).find('#Message').text());
+                        showCreateUserError(msg);
                     }
                 }
             });

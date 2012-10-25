@@ -109,8 +109,8 @@ define(
                 'success': function(data) {
                     callback(true, data);
                 },
-                'error': function() {
-                    callback(false);
+                'error': function(xhr) {
+                    callback(false, xhr);
                 }
             });
         },
@@ -128,8 +128,8 @@ define(
                 'success': function(data) {
                     callback(true, data);
                 },
-                'error': function() {
-                    callback(false);
+                'error': function(xhr) {
+                    callback(false, xhr);
                 }
             });
         },
@@ -166,8 +166,8 @@ define(
                     }
                     callback(true, data);
                 },
-                'error': function() {
-                    callback(false);
+                'error': function(xhr) {
+                    callback(false, xhr);
                 }
             })
 
