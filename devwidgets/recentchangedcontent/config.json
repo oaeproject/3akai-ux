@@ -7,6 +7,16 @@
             "bundle": "/devwidgets/recentchangedcontent/bundles/default.properties",
             "description": "My recent content",
             "name": "My recent content"
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/recentchangedcontent/bundles/ru_RU.properties",
+            "description": "Последние материалы",
+            "name": "Последние материалы"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/recentchangedcontent/bundles/fr_FR.properties",
+            "description": "Mes contenus récents",
+            "name": "Mes contenus récents"
         }
     },
     "id": "recentchangedcontent",

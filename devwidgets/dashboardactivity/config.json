@@ -6,6 +6,14 @@
             "bundle": "/devwidgets/dashboardactivity/bundles/default.properties",
             "description": "Shows activity on the users dashboard",
             "name": "Dashboard Activity"
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/dashboardactivity/bundles/ru_RU.properties",
+            "description": "Показывает активность на панели виджетов пользователя",
+            "name": "Активность на панели виджетов"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/dashboardactivity/bundles/fr_FR.properties"
         }
     },
     "id": "dashboardactivity",

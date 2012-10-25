@@ -6,11 +6,19 @@
             "description": "Send a message",
             "name": "Send a message"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/sendmessage/bundles/ru_RU.properties",
+            "description": "Отправка сообщения",
+            "name": "Послать сообщение"
+        },
         "es_ES": {
             "bundle": "/devwidgets/sendmessage/bundles/es_ES.properties"
         },
         "zh_CN": {
             "bundle": "/devwidgets/sendmessage/bundles/zh_CN.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/sendmessage/bundles/fr_FR.properties"
         }
     },
     "id": "sendmessage",

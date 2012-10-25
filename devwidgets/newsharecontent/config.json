@@ -12,8 +12,16 @@
             "description": "Share content widget",
             "name": "Share content"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/newsharecontent/bundles/ru_RU.properties",
+            "description": "Виджет обмена материалов",
+            "name": "Поделиться материалом"
+        },
         "es_ES": {
             "bundle": "/devwidgets/newsharecontent/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/newsharecontent/bundles/fr_FR.properties"
         }
     },
     "id": "newsharecontent",

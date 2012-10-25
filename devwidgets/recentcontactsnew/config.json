@@ -7,6 +7,16 @@
             "bundle": "/devwidgets/recentcontactsnew/bundles/default.properties",
             "description": "My recent contacts",
             "name": "My recent contacts"
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/recentcontactsnew/bundles/ru_RU.properties",
+            "description": "Последние контакты",
+            "name": "Последние контакты"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/recentcontactsnew/bundles/fr_FR.properties",
+            "description": "Mes contacts récents",
+            "name": "Mes contacts récents"
         }
     },
     "id": "recentcontactsnew",

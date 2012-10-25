@@ -9,6 +9,14 @@
         },
         "es_ES": {
             "bundle": "/devwidgets/areapermissions/bundles/es_ES.properties"
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/areapermissions/bundles/ru_RU.properties",
+            "description": "Права доступа",
+            "name": "Права доступа"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/areapermissions/bundles/fr_FR.properties"
         }
     },
     "trigger": {

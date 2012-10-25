@@ -7,9 +7,18 @@
             "description": "Search all",
             "name": "Search all"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/searchall/bundles/ru_RU.properties",
+            "description": "Поиск по всем категориям",
+            "name": "Поиск по всем категориям"
+        },
         "es_ES": {
             "bundle": "/devwidgets/searchall/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/searchall/bundles/fr_FR.properties"
         }
+
     },
     "id": "searchallold",
     "personalportal": false,

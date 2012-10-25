@@ -7,8 +7,16 @@
             "description": "Carousel widget",
             "name": "Carousel"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/carousel/bundles/ru_RU.properties",
+            "description": "Виджет Carousel",
+            "name": "Carousel"
+        },
         "es_ES": {
             "bundle": "/devwidgets/carousel/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/carousel/bundles/fr_FR.properties"
         }
     },
     "id": "carousel",

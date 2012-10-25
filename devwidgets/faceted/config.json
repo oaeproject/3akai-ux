@@ -6,8 +6,16 @@
             "description": "Faceted",
             "name": "Faceted"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/faceted/bundles/ru_RU.properties",
+            "description": "Многогранность",
+            "name": "Многогранность"
+        },
         "es_ES": {
             "bundle": "/devwidgets/faceted/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/faceted/bundles/fr_FR.properties"
         }
     },
     "id": "faceted",

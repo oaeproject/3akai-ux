@@ -8,8 +8,16 @@
             "description": "View and manage a user's library items",
             "name": "My library"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/mylibrary/bundles/ru_RU.properties",
+            "description": "Просмотр и управление объектами библиотеки пользователя",
+            "name": "Моя библиотека"
+        },
         "es_ES": {
             "bundle": "/devwidgets/mylibrary/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/mylibrary/bundles/fr_FR.properties"
         }
     },
     "id": "mylibrary",

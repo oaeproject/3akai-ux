@@ -8,8 +8,16 @@
             "description": "List participants of a group",
             "name": "Participants"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/participants/bundles/ru_RU.properties",
+            "description": "Список участников группы",
+            "name": "Участники"   
+        },
         "es_ES": {
             "bundle": "/devwidgets/participants/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/participants/bundles/fr_FR.properties"
         }
     },
     "id": "participants",

@@ -6,8 +6,18 @@
             "description": "My recent messages",
             "name": "My recent messages"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/recentmessages/bundles/ru_RU.properties",
+            "description": "Последние сообщения",
+            "name": "Последние сообщения"
+        },
         "en_US": {
             "bundle": "/devwidgets/recentmessages/bundles/en_US.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/recentmessages/bundles/fr_FR.properties",
+            "name": "Mes messages récents",
+            "description": "Mes messages récents"
         }
     },
     "id": "recentmessages",

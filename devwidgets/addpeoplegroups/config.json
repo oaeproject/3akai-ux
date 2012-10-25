@@ -6,6 +6,14 @@
             "bundle": "/devwidgets/addpeoplegroups/bundles/default.properties",
             "description": "Adds people or groups as a member on groups",
             "name": "addpeoplegroups"
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/addpeoplegroups/bundles/ru_RU.properties",
+            "description": "Добавляйте пользователей или группы в качестве члена группы",
+            "name": "Добавление членов в группы"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/addpeoplegroups/bundles/fr_FR.properties"
         }
     },
     "id": "addpeoplegroups",

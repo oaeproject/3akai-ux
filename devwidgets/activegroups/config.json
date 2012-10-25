@@ -6,6 +6,19 @@
             "bundle": "/devwidgets/activegroups/bundles/default.properties",
             "description": "Most active groups",
             "name": "Most active groups"
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/activegroups/bundles/ru_RU.properties",
+            "description": "Самые активные группы",
+            "name": "Самые активные группы"
+        },
+        "nl_NL": {
+            "bundle": "/devwidgets/activegroups/bundles/nl_NL.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/activegroups/bundles/fr_FR.properties",
+            "description": "Groupes les plus actifs",
+            "name": "Groupes les plus actifs"
         }
     },
     "id": "activegroups",
@@ -13,3 +26,4 @@
     "type": "sakai",
     "url": "/devwidgets/activegroups/activegroups.html"
 }
+

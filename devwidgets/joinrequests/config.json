@@ -7,8 +7,16 @@
             "description": "Manage join requests for a specific group",
             "name": "Join requests"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/joinrequests/bundles/ru_RU.properties",
+            "description": "Управление запросами о вступлении в определенной группе",
+            "name": "Запросы о вступлении"
+        },
         "es_ES": {
             "bundle": "/devwidgets/joinrequests/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/joinrequests/bundles/fr_FR.properties"
         }
     },
     "trigger": {

@@ -6,6 +6,14 @@
             "bundle": "/devwidgets/contentauthoring/bundles/default.properties",
             "description": "Content Authoring",
             "name": "Content Authoring"
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/contentauthoring/bundles/ru_RU.properties",
+            "description": "Разработка материала",
+            "name": "Разработка материала"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/contentauthoring/bundles/fr_FR.properties"
         }
     },
     "id": "contentauthoring",

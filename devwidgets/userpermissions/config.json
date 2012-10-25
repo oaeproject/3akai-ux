@@ -7,8 +7,16 @@
             "description": "User permissions",
             "name": "User permissions"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/userpermissions/bundles/ru_RU.properties",
+            "description": "Права доступа пользователя",
+            "name": "Права доступа пользователя"
+        },
         "es_ES": {
             "bundle": "/devwidgets/userpermissions/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/userpermissions/bundles/fr_FR.properties"
         }
     },
     "trigger": {

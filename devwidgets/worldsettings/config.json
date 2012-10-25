@@ -7,8 +7,16 @@
             "description": "Edit world settings",
             "name": "World settings"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/worldsettings/bundles/ru_RU.properties",
+            "description": "Редактировать настройки мира",
+            "name": "Настройки мира"
+        },
         "es_ES": {
             "bundle": "/devwidgets/worldsettings/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/worldsettings/bundles/fr_FR.properties"
         }
     },
     "trigger": {

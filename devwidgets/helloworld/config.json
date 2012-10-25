@@ -6,6 +6,14 @@
             "bundle": "/devwidgets/helloworld/bundles/default.properties",
             "description": "Sakai OAE widget SDK demonstration widget",
             "name": "Hello world"
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/helloworld/bundles/ru_RU.properties",
+            "description": "Демонстрационный виджет SDK",
+            "name": "Привет, мир"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/helloworld/bundles/fr_FR.properties"
         }
     },
     "id": "helloworld",

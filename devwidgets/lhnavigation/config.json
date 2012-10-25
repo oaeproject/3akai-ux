@@ -8,8 +8,16 @@
             "description": "Left hand navigation widget",
             "name": "Left hand navigation"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/lhnavigation/bundles/ru_RU.properties",
+            "description": "Виджет навигации с левой стороны",
+            "name": "Навигация с левой стороны"
+        },
         "es_ES": {
             "bundle": "/devwidgets/lhnavigation/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/lhnavigation/bundles/fr_FR.properties"
         }
     },
     "id": "lhnavigation",

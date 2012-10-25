@@ -7,6 +7,16 @@
             "bundle": "/devwidgets/recentmemberships/bundles/default.properties",
             "description": "My recent memberships",
             "name": "My recent memberships"
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/recentmemberships/bundles/ru_RU.properties",
+            "description": "Последние членства",
+            "name": "Последние членства"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/recentmemberships/bundles/fr_FR.properties",
+            "description": "Mes inscriptions récentes",
+            "name": "Mes inscriptions récentes"
         }
     },
     "id": "recentmemberships",

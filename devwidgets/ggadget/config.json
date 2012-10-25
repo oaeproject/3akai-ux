@@ -16,6 +16,14 @@
             "bundle": "/devwidgets/ggadget/bundles/default.properties",
             "description": "Embed Google Gadgets in your page or dashboard",
             "name": "Google Gadget"
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/ggadget/bundles/ru_RU.properties",
+            "description": "Встроеннные гаджеты Google на вашей странице или панели виджетов",
+            "name": "Гаджет Google"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/ggadget/bundles/fr_FR.properties"
         }
     },
     "id": "ggadget",

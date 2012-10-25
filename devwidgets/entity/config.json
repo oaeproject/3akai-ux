@@ -6,8 +6,16 @@
             "description": "Entity widget",
             "name": "Entity widget"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/entity/bundles/ru_RU.properties",
+            "description": "Виджет организаций",
+            "name": "Виджет организаций"
+        },
         "es_ES": {
             "bundle": "/devwidgets/entity/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/entity/bundles/fr_FR.properties"
         }
     },
     "id": "entity",

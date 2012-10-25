@@ -6,6 +6,14 @@
             "bundle": "/devwidgets/inserterbar/bundles/default.properties",
             "description": "Content Authoring Inserter Bar",
             "name": "Inserter Bar"
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/inserterbar/bundles/ru_RU.properties",
+            "description": "Надстройка для вставки авторских материалов",
+            "name": "Надстройка для вставки"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/inserterbar/bundles/fr_FR.properties"
         }
     },
     "id": "inserterbar",

@@ -6,6 +6,14 @@
             "bundle": "/devwidgets/featuredcontent/bundles/default.properties",
             "description": "Featured content widget",
             "name": "Featured content widget"
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/featuredconten/bundles/ru_RU.properties",
+            "description": "Виджет популярных материалов",
+            "name": "Виджет популярных материалов"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/featuredcontent/bundles/fr_FR.properties"
         }
     },
     "id": "featuredcontent",

@@ -5,8 +5,15 @@
             "bundle": "/devwidgets/newaddcontent/bundles/default.properties",
             "name": "Add resource"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/newaddcontent/bundles/ru_RU.properties",
+            "name": "Добавить ресурс"
+        },
         "es_ES": {
             "bundle": "/devwidgets/newaddcontent/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/newaddcontent/bundles/fr_FR.properties"
         }
     },
     "id": "newaddcontent",

@@ -7,10 +7,18 @@
             "name": " My Sakai 2 favorites",
             "description": " My Sakai 2 favorites"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/mysakai2/bundles/ru_RU.properties",
+            "name": "Избранное из Sakai 2",
+            "description": "Избранные сайты Sakai 2"    
+        },
         "en_GB": {
             "bundle": "/devwidgets/mysakai2/bundles/en_GB.properties",
             "name": "My Sakai 2 favourites",
             "description": "My Sakai 2 favourites"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/mysakai2/bundles/fr_FR.properties"
         }
     },
     "id": "mysakai2",

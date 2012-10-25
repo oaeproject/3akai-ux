@@ -6,6 +6,11 @@
             "bundle": "/devwidgets/pagetitle/bundles/default.properties",
             "description": "Title element",
             "name": "Page Title"
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/pagetitle/bundles/ru_RU.properties",
+            "description": "Элемент заголовка",
+            "name": "Заголовок страницы"
         }
     },
     "id": "pagetitle",

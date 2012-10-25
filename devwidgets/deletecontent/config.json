@@ -6,8 +6,16 @@
             "description": "Delete content widget",
             "name": "Delete content"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/deletecontent/bundles/ru_RU.properties",
+            "description": "Виджет для удаления материалов",
+            "name": "Удаление материала"
+        },
         "es_ES": {
             "bundle": "/devwidgets/deletecontent/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/deletecontent/bundles/fr_FR.properties"
         }
     },
     "id": "deletecontent",

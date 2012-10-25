@@ -7,6 +7,11 @@
             "description": "Discussion widget",
             "name": "Discussion forum"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/discussion/bundles/ru_RU.properties",
+            "description": "Виджет дискуссий",
+            "name": "Форум для дискуссий"
+        },
         "en_US": {
             "bundle": "/devwidgets/discussion/bundles/en_US.properties"
         },
@@ -15,7 +20,11 @@
         },
         "zh_CN": {
             "bundle": "/devwidgets/discussion/bundles/zh_CN.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/discussion/bundles/fr_FR.properties"
         }
+
     },
     "id": "discussion",
     "img": "/devwidgets/discussion/images/discussion.png",

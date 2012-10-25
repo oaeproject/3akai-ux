@@ -7,8 +7,16 @@
             "description": "Related content",
             "name": "Related content"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/relatedcontent/bundles/ru_RU.properties",
+            "description": "Похожие материалы",
+            "name": "Похожие материалы"
+        },
         "es_ES": {
             "bundle": "/devwidgets/relatedcontent/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/relatedcontent/bundles/fr_FR.properties"
         }
     },
     "id": "relatedcontent",

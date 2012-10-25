@@ -17,8 +17,13 @@
             "description": "Remote content",
             "name": "Remote content"
         },
-        "en_US": {
-            "bundle": "/devwidgets/remotecontent/bundles/en_US.properties"
+        "ru_RU": {
+            "bundle": "/devwidgets/remotecontent/bundles/ru_RU.properties",
+            "description": "Удаленные материалы",
+            "name": "Удаленные материалы"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/remotecontent/bundles/fr_FR.properties"
         }
     },
     "id": "remotecontent",
@@ -27,3 +32,4 @@
     "type": "sakai",
     "url": "/devwidgets/remotecontent/remotecontent.html"
 }
+

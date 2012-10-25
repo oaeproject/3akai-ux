@@ -6,11 +6,19 @@
             "description": "Change profile picture",
             "name": "Change profile picture"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/changepic/bundles/ru_RU.properties",
+            "description": "Изменение изображения профиля",
+            "name": "Изменение изображения профиля"
+        },
         "es_ES": {
             "bundle": "/devwidgets/changepic/bundles/es_ES.properties"
         },
         "en_US": {
             "bundle": "/devwidgets/changepic/bundles/en_US.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/changepic/bundles/fr_FR.properties"
         },
         "zh_CN": {
             "bundle": "/devwidgets/changepic/bundles/zh_CN.properties"

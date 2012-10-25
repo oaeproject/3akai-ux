@@ -6,14 +6,19 @@
             "description": "Dynamic Footer with Debug Info",
             "name": "Dynamic footer"
         },
-        "en_US": {
-            "bundle": "/devwidgets/footer/bundles/en_US.properties"
+        "ru_RU": {
+            "bundle": "/devwidgets/footer/bundles/ru_RU.properties",
+            "description": "Динамический колонтитул с информацией для отладки",
+            "name": "Динамический колонтитул"
         },
         "es_ES": {
             "bundle": "/devwidgets/footer/bundles/es_ES.properties"
         },
         "zh_CN": {
             "bundle": "/devwidgets/footer/bundles/zh_CN.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/footer/bundles/fr_FR.properties"
         }
     },
     "id": "footer",

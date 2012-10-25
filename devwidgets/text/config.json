@@ -6,6 +6,11 @@
             "bundle": "/devwidgets/text/bundles/default.properties",
             "description": "Text",
             "name": "Text widget"
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/text/bundles/ru_RU.properties",
+            "description": "Текст",
+            "name": "Текстовый виджет"
         }
     },
     "id": "text",

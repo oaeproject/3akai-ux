@@ -6,8 +6,16 @@
             "description": "Content metadata",
             "name": "Content metadata"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/contentmetadata/bundles/ru_RU.properties",
+            "description": "Метаданные материала",
+            "name": "Метаданные материала"
+        },    
         "es_ES": {
             "bundle": "/devwidgets/contentmetadata/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/contentmetadata/bundles/fr_FR.properties"
         }
     },
     "id": "contentmetadata",

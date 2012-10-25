@@ -6,6 +6,14 @@
             "bundle": "/devwidgets/recentactivity/bundles/default.properties",
             "description": "Recent activity widget",
             "name": "Recent activity widget"
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/popularcontent/bundles/ru_RU.properties",
+            "description": "Виджет, показывающий последнюю активность",
+            "name": "Виджет последней активности"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/recentactivity/bundles/fr_FR.properties"
         }
     },
     "id": "recentactivity",
