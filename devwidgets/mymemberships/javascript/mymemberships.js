@@ -319,7 +319,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 mymemberships.isOwnerViewing = true;
             }
 
-            sakai.api.Groups.getMyMemberships(function(success, groups) {
+            sakai.api.Groups.getMemberships(sakai_global.profile.main.data.userId, function(success, groups) {
                 if (success) {
                     render(groups);
                 }

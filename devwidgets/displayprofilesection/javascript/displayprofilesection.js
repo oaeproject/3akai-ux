@@ -251,6 +251,11 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
         };
 
         var renderSection = function( success, data ) {
+            if (!success && data.status === 404) {
+                // This section simply doesn't exist yet.
+                data = false;
+                success = true;
+            }
             if ( success ) {
                 var section = sakai.config.Profile.configuration.defaultConfig[ widgetData.sectionid ];
 

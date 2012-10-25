@@ -1413,10 +1413,10 @@ define(
             } else {
                 sakaiGroupsAPI.getMemberships(sakai_user.data.me.userId, function(success, groups) {
                     if (success) {
-                        myGroups = groups.results;
+                        myGroups = groups;
                     }
                     if ($.isFunction(callback)) {
-                        callback(true, groups.results);
+                        callback(success, groups);
                     }
                 });
             }
@@ -1434,12 +1434,12 @@ define(
                     }
 
                     if ($.isFunction(callback)) {
-                        callback(true, data);
+                        callback(true, data.results);
                     }
                 },
-                'error': function() {
+                'error': function(xhr) {
                     if ($.isFunction(callback)) {
-                        callback(false);
+                        callback(false, xhr);
                     }
                 }
             });
