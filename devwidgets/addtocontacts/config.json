@@ -6,8 +6,16 @@
             "description": "Add a contact",
             "name": "Add a contact"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/addtocontacts/bundles/ru_RU.properties",
+            "description": "Добавить контакт",
+            "name": "Добавить контакт"
+        },
         "es_ES": {
             "bundle": "/devwidgets/addtocontacts/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/addtocontacts/bundles/fr_FR.properties"
         },
         "zh_CN": {
             "bundle": "/devwidgets/addtocontacts/bundles/zh_CN.properties",

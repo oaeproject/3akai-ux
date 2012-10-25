@@ -7,8 +7,16 @@
             "description": "Search people",
             "name": "Search people"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/searchpeople/bundles/ru_RU.properties",
+            "description": "Поиск по пользователям",
+            "name": "Поиск по пользователям"
+        },
         "es_ES": {
             "bundle": "/devwidgets/searchpeople/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/searchpeople/bundles/fr_FR.properties"
         }
     },
     "id": "searchpeople",

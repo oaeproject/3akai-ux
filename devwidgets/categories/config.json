@@ -7,8 +7,16 @@
             "description": "Categories widget",
             "name": "Categories widget"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/categories/bundles/ru_RU.properties",
+            "description": "Виджет категорий",
+            "name": "Виджет категорий"        
+        },
         "es_ES": {
             "bundle": "/devwidgets/categories/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/categories/bundles/fr_FR.properties"
         }
     },
     "id": "categories",

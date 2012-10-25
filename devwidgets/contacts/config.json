@@ -7,8 +7,16 @@
             "description": "Contacts",
             "name": "contacts"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/contacts/bundles/ru_RU.properties",
+            "description": "Контакты",
+            "name": "контакты"
+        },
         "es_ES": {
             "bundle": "/devwidgets/contacts/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/contacts/bundles/fr_FR.properties"
         }
     },
     "id": "contacts",

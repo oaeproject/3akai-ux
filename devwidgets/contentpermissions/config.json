@@ -7,8 +7,16 @@
             "description": "Content permissions widget",
             "name": "Content permissions"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/contentpermissions/bundles/ru_RU.properties",
+            "description": "Виджет доступа к материалам",
+            "name": "Доступ к материалам"
+        },
         "es_ES": {
             "bundle": "/devwidgets/contentpermissions/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/contentpermissions/bundles/fr_FR.properties"
         }
     },
     "id": "contentpermissions",

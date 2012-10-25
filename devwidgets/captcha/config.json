@@ -5,6 +5,14 @@
             "bundle": "/devwidgets/captcha/bundles/default.properties",
             "description": "Display a captcha widget",
             "name": "Captcha widget"
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/captcha/bundles/ru_RU.properties",
+            "description": "Показать виджет для captcha",
+            "name": "Виджет для captcha"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/captcha/bundles/fr_FR.properties"
         }
     },
     "id": "captcha",

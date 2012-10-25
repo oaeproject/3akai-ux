@@ -6,6 +6,14 @@
             "bundle": "/devwidgets/contentpreview/bundles/default.properties",
             "description": "Content preview",
             "name": "Content preview"
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/contentpreview/bundles/ru_RU.properties",
+            "description": "Предварительный просмотр материала",
+            "name": "Предварительный просмотр материала"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/contentpreview/bundles/fr_FR.properties"
         }
     },
     "id": "contentpreview",

@@ -8,6 +8,17 @@
         },
         "es_ES": {
             "bundle": "/devwidgets/addpeople/bundles/es_ES.properties"
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/addpeople/bundles/ru_RU.properties",
+            "description": "Добавить пользователей",
+            "name": "Добавить пользователей"
+        },
+        "nl_NL": {
+            "bundle": "/devwidgets/addpeople/bundles/nl_NL.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/addpeople/bundles/fr_FR.properties"
         }
     },
     "trigger": {

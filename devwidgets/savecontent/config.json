@@ -7,8 +7,16 @@
             "description": "Saves content into the users library",
             "name": "Savecontent"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/savecontent/bundles/ru_RU.properties",
+            "description": "Сохраняет материалы в библиотеку пользователя",
+            "name": "Сохранение материалов"
+        },
         "es_ES": {
             "bundle": "/devwidgets/savecontent/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/savecontent/bundles/fr_FR.properties"
         }
     },
     "id": "savecontent",

@@ -7,8 +7,16 @@
             "description": "Assign a directory location to an entity",
             "name": "Assign location"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/assignlocation/bundles/ru_RU.properties",
+            "description": "Назначить местоположение каталога для компании",
+            "name": "Назначить местоположение"
+        },
         "es_ES": {
             "bundle": "/devwidgets/assignlocation/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/assignlocation/bundles/fr_FR.properties"
         }
     },
     "id": "assignlocation",

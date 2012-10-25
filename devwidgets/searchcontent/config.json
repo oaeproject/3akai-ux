@@ -7,8 +7,16 @@
             "description": "Search content",
             "name": "Search content"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/searchcontent/bundles/ru_RU.properties",
+            "description": "Поиск по материалам",
+            "name": "Поиск по материалам"
+        },
         "es_ES": {
             "bundle": "/devwidgets/searchcontent/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/searchcontent/bundles/fr_FR.properties"
         }
     },
     "id": "searchcontent",

@@ -6,6 +6,11 @@
             "bundle": "/devwidgets/pageviewer/bundles/default.properties",
             "description": "Show single level pages",
             "name": "Page Viewer"
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/pageviewer/bundles/ru_RU.properties",
+            "description": "Показывает страницы первого уровня",
+            "name": "Демонстратор страниц"
         }
     },
     "id": "pageviewer",

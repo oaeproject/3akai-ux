@@ -17,6 +17,14 @@
         },
         "zh_CN": {
             "bundle": "/devwidgets/topnavigation/bundles/zh_CN.properties"
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/topnavigation/bundles/ru_RU.properties",
+            "description": "Основная навигация",
+            "name": "Основная навигация"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/topnavigation/bundles/fr_FR.properties"
         }
     },
     "id": "topnavigation",

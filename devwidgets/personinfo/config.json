@@ -6,6 +6,14 @@
             "bundle": "/devwidgets/personinfo/bundles/default.properties",
             "description": "Overlay that displays person info",
             "name": "Personinfo"
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/personinfo/bundles/ru_RU.properties",
+            "description": "Отображает информацию о пользователя",
+            "name": "Информация о пользователе"   
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/personinfo/bundles/fr_FR.properties"
         }
     },
     "id": "personinfo",

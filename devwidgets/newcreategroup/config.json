@@ -6,11 +6,19 @@
             "description": "Create group",
             "name": "Create group"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/newcreategroup/bundles/ru_RU.properties",
+            "description": "Создание группы",
+            "name": "Создать группу"
+        },
         "en_US": {
             "bundle": "/devwidgets/newcreategroup/bundles/en_US.properties"
         },
         "es_ES": {
             "bundle": "/devwidgets/newcreategroup/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/newcreategroup/bundles/fr_FR.properties"
         }
     },
     "id": "newcreategroup",

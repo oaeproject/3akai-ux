@@ -7,8 +7,16 @@
             "description": "Dashboard",
             "name": "Dashboard"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/dashboard/bundles/ru_RU.properties",
+            "description": "Панель виджетов",
+            "name": "Панель виджетов"
+        },
         "es_ES": {
             "bundle": "/devwidgets/dashboard/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/dashboard/bundles/fr_FR.properties"
         }
     },
     "id": "dashboard",

@@ -6,6 +6,14 @@
             "bundle": "/devwidgets/searchsakai2/bundles/default.properties",
             "description": "Search Sakai 2",
             "name": "Search Sakai 2"
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/searchsakai2/bundles/ru_RU.properties",
+            "description": "Поиск по Sakai 2",
+            "name": "Поиск по Sakai 2"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/searchsakai2/bundles/fr_FR.properties"
         }
     },
     "id": "searchsakai2",

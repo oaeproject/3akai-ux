@@ -5,6 +5,11 @@
             "bundle": "/devwidgets/branding/bundles/default.properties",
             "description": "branding",
             "name": "branding"
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/branding/bundles/ru_RU.properties",
+            "description": "брендинг",
+            "name": "брендинг"
         }
     },
     "id": "branding",

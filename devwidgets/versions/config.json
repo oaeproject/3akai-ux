@@ -7,8 +7,16 @@
             "name": "Version widget",
             "description": "Version widget"
         },
+        "ru_RU": { 
+            "bundle": "/devwidgets/versions/bundles/ru_RU.properties",
+            "name": "Версия",
+            "description": "Версия"
+        },
         "es_ES": {
             "bundle": "/devwidgets/versions/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/versions/bundles/fr_FR.properties"
         }
     },
     "id": "versions",

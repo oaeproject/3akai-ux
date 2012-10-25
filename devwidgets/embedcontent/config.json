@@ -13,6 +13,14 @@
             "bundle": "/devwidgets/embedcontent/bundles/default.properties",
             "description": "Embed content on a page",
             "name": "Files and documents"
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/embedcontent/bundles/ru_RU.properties",
+            "description": "Встроенные на страницу материалы",
+            "name": "Файлы и документы"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/embedcontent/bundles/fr_FR.properties"
         }
     },
     "id": "embedcontent",

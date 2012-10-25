@@ -8,8 +8,16 @@
             "description": "Displays a collection through different views",
             "name": "Collections Viewer"
         },
+        "ru_RU": {
+            "bundle": "/devwidgets/collectionviewer/bundles/ru_RU.properties",
+            "description": "По-разному показывает коллекции",
+            "name": "Демонстратор коллекций"
+        },
         "es_ES": {
             "bundle": "/devwidgets/collectionviewer/bundles/es_ES.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/collectionviewer/bundles/fr_FR.properties"
         }
     },
     "id": "collectionviewer",

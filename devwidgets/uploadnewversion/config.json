@@ -6,6 +6,14 @@
             "bundle": "/devwidgets/uploadnewversion/bundles/default.properties",
             "description": "Upload new version widget",
             "name": "Upload new version widget"
+        },
+        "ru_RU": {
+            "bundle": "/devwidgets/uploadnewversion/bundles/ru_RU.properties",
+            "description": "Загрузка новой версии виджета",
+            "name": "Загрузить новую версию виджета"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/uploadnewversion/bundles/fr_FR.properties"
         }
     },
     "id": "uploadnewversion",

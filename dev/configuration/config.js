@@ -1575,6 +1575,11 @@ define(function() {
             'bundle': '/dev/bundle/en_US.properties',
             'displayName': 'English (United States)'
         }, {
+            "country": "FR",
+            "language": "fr",
+            "bundle": "/dev/bundle/fr_FR.properties",
+            "displayName": "Français"
+        }, {
             'country': 'JP',
             'language': 'ja',
             'bundle': '/dev/bundle/ja_JP.properties',
@@ -1589,6 +1594,11 @@ define(function() {
             'language': 'ko',
             'bundle': '/dev/bundle/ko_KR.properties',
             'displayName': '한국어'
+        }, {
+            "country": "RU",
+            "language": "ru",
+            "bundle": "/dev/bundle/ru_RU.properties",
+            "displayName": "Русский"
         }],
 
         // Default Language for the deployment, must be one of the language_COUNTRY pairs that exists above

@@ -17,11 +17,16 @@
             "description": "RSS feed reader",
             "name": "RSS reader"
         },
-        "en_US": {
-            "bundle": "/devwidgets/rss/bundles/en_US.properties"
+        "ru_RU": {
+            "bundle": "/devwidgets/rss/bundles/ru_RU.properties",
+            "description": "Просмотр RSS-каналов",
+            "name": "Просмотр RSS"
         },
         "nl_NL": {
             "bundle": "/devwidgets/rss/bundles/nl_NL.properties"
+        },
+        "fr_FR": {
+            "bundle": "/devwidgets/rss/bundles/fr_FR.properties"
         }
     },
     "id": "rss",
