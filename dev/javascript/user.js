@@ -317,8 +317,6 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                 sakai.api.Security.showPage();
                 contextType = 'user_me';
                 // Set the profile data object
-                console.log('user_me');
-                console.log(sakai.data.me.profile);
                 sakai_global.profile.main.data = $.extend(true, {}, sakai.data.me.profile);
                 sakai_global.profile.main.data.userId = sakai.data.me.userId;
                 sakai_global.profile.main.mode.value = 'edit';
@@ -343,8 +341,6 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             } else {
                 sakai.api.Security.showPage();
                 // Set the profile data object
-                console.log('getProfileData');
-                console.log(data);
                 sakai_global.profile.main.data = $.extend(true, {}, data.profile);
                 sakai_global.profile.main.data.userId = userId;
                 data.profile.counts = {};
