@@ -127,7 +127,7 @@
                             <button class="s3d-link-button s3d-action-icon s3d-actions-share mylibrary_item_share_icon share_trigger_click s3d-draggable-hidden" data-entityid="${item.id}" title="__MSG__SHARE_CONTENT__"></button>
                         {/if}
                     </div>
-                    <a href="${item.link}/${item["name"]|safeURL}" title="__MSG__VIEW_THIS_ITEM__">
+                    <a href="${item.homePath}" title="__MSG__VIEW_THIS_ITEM__">
                         {if item.thumbnail}
                             <img src="${item.thumbnail}" alt="${item.mimeTypeDescription}" />
                         {else}
@@ -136,7 +136,7 @@
                     </a>
                     <div class="mylibrary_item_right s3d-regular-links s3d-search-result-right">
                         <div>
-                            <a class="s3d-bold s3d-regular-light-links" href="${item.link}/${item["name"]|safeURL}" title="__MSG__VIEW_THIS_ITEM__">
+                            <a class="s3d-bold s3d-regular-light-links" href="${item.homePath}" title="__MSG__VIEW_THIS_ITEM__">
                                 <span class="s3d-search-result-name">${item['name-short']}</span>
                                 <span class="s3d-search-result-name-grid">${item['name-shorter']}</span>
                             </a>

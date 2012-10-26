@@ -192,37 +192,21 @@ define(
          *    - versions.json -> Fetches all versions for a content item
          *    - activityfeed.json -> Fetches all activity for a content item
          * and returns it in a callback function
-         * @param {String}     poolId   Pooled content id for the item to load the content profile for
+         * @param {String}     id       Content id for the item to load the content profile for
          * @param {Function}   callback Function that executes when all data thas been gathered,
          *                              passes through the unparsed results.
          */
-        loadFullProfile: function(poolid, callback) {
-            var batchRequests = [
-                {
-                    'url': poolid + '.infinity.json',
-                    'method':'GET',
-                    'cache':false,
-                    'dataType':'json'
+        loadFullProfile: function(id, callback) {
+            callback = callback || function() {};
+            $.ajax({
+                'url': sakai_conf.URL.POOLED_CONTENT_ITEM.replace('__CONTENTID__', id),
+                'success': function(data) {
+                    callback(true, data);
                 },
-                {
-                    'url': poolid + '.members.json',
-                    'method':'GET',
-                    'cache':false,
-                    'dataType':'json'
+                'error': function(xhr) {
+                    callback(false, xhr);
                 }
-            ];
 
-            sakai_serv.batch(batchRequests, function(success, data) {
-                if (success) {
-                    if ($.isFunction(callback)) {
-                        callback(success, data);
-                    } else {
-                        return data;
-                    }
-                } else if ($.isFunction(callback)) {
-                    callback(success);
-                }
-                return success;
             });
         },
         /**
@@ -377,6 +361,21 @@ define(
                     if (callback) {
                         callback(false);
                     }
+                }
+            });
+        },
+
+        updateContentItem: function(contentId, options, callback) {
+            callback = callback || function() {};
+            $.ajax({
+                'url': sakai_conf.URL.POOLED_CONTENT_ITEM.replace('__CONTENTID__', contentId),
+                'data': options,
+                'type': 'POST',
+                success: function(data) {
+                    callback(true);
+                },
+                error: function(xhr, textStatus, thrownError) {
+                    callback(false);
                 }
             });
         },
@@ -1177,6 +1176,7 @@ define(
             var result = false;
             var mimeType = sakai_content.getMimeType(content);
             if (content['sakai:preview-url'] ||
+                    content.contentType === 'link' ||
                     sakai_content.getThumbnail(content) ||
                     (mimeType.substring(0,6) === 'image/' && mimeType !== 'image/tiff' && mimeType !== 'image/jp2') ||
                     mimeType.substring(0,5) === 'text/' ||

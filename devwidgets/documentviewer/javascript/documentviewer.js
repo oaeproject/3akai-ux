@@ -48,7 +48,7 @@ require(['jquery', 'sakai/sakai.api.core', '/devwidgets/documentviewer/lib/docum
         var data = false;
 
         var getPath = function(data) {
-            return '/p/' + data['_path'];
+            return '/p/' + data.contentId;
         };
 
         var renderDocumentPreview = function(data) {
@@ -263,9 +263,9 @@ require(['jquery', 'sakai/sakai.api.core', '/devwidgets/documentviewer/lib/docum
             }
         };
 
-        if (sakai.api.Content.hasPreview(widgetData.data)) {
-            data = widgetData.data;
-            var mimeType = sakai.api.Content.getMimeType(widgetData.data);
+        if (sakai.api.Content.hasPreview(widgetData)) {
+            data = widgetData;
+            var mimeType = sakai.api.Content.getMimeType(data);
 
             if (sakai.api.Content.isKalturaPlayerSupported(mimeType)) {
                 renderKalturaPlayer(data);
@@ -278,10 +278,10 @@ require(['jquery', 'sakai/sakai.api.core', '/devwidgets/documentviewer/lib/docum
             } else if (mimeType === 'text/html' || mimeType === 'text/plain' || mimeType ==='text/tab-separated-values' ) {
                 renderHTMLPreview(data);
             } else if (mimeType === 'x-sakai/link') {
-                var pUrl = data['sakai:preview-url'];
+                var pUrl = data.link;
                 var pType = data['sakai:preview-type'];
 
-                if (pUrl && pType === 'iframe') {
+                if (pUrl && pType === 'iframe' || !pType) {
                     renderExternalHTMLPreview(pUrl);
                 } else if (pUrl && pType === 'video') {
                     var avatar = data['sakai:preview-avatar'];

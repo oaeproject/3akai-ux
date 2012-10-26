@@ -28,7 +28,11 @@
         // this will always be 0
         parameters.page = 0;
         // Number of items to load per call to the server
-        parameters.items = parameters.items || 18;
+        parameters.limit = parameters.limit || 18;
+        var startKey = parameters.startKey || 'id';
+        delete parameters.startKey;
+        // Gets filled up each time we request a list.
+        var lastItem = null;
         var $container = $scrollContainer ? $scrollContainer.children('ul') : $(this);
         var $loadingContainer = $('<div />');
 
@@ -63,6 +67,7 @@
         /**
          * Function that checks whether the current scroll position is within a certain distance
          * of the end of the page. If it is, we load the next set of results
+         * @param {Object} lastItem The last item in the previous resultset where we can use a value from to get the next set.
          */
         var loadNextList = function() {
             var threshold = overrideThreshold || 500;
@@ -75,7 +80,14 @@
                 pixelsRemainingUntilBottom = $scrollContainer.children('ul').height() - scrollTop;
             }
             if (pixelsRemainingUntilBottom <= threshold && $finalContainer.is(':visible')) {
-                parameters.page++;
+                if (lastItem) {
+                    if ($.isFunction(startKey)) {
+                        console.log(lastItem);
+                        parameters.start = startKey(lastItem);
+                    } else {
+                        parameters.start = lastItem[startKey];
+                    }
+                }
                 loadResultList();
             }
         };
@@ -178,6 +190,7 @@
                 // If there are more results and we're still close to the bottom of the page,
                 // do another one
                 if (doAnotherOne) {
+                    lastItem = data.results[data.results.length - 1];
                     loadNextList();
                 } else {
                     isDoingExtraSearch = true;

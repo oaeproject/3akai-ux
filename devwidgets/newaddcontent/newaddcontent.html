@@ -185,9 +185,9 @@
         <div class="newaddcontent_selecteditems_edit_data_close"></div>
         <form class="newaddcontent_form s3d-form-field-wrapper" id="newaddcontent_selecteditems_edit_data_form">
             <label for="newaddcontent_selecteditems_edit_data_title">__MSG__TITLE__</label>
-            <input type="text" id="newaddcontent_selecteditems_edit_data_title" value="${item["sakai:pooled-content-file-name"]|safeOutput}" class="required"/>
+            <input type="text" id="newaddcontent_selecteditems_edit_data_title" value="${item["name"]|safeOutput}" class="required"/>
             <label for="newaddcontent_selecteditems_edit_data_description">__MSG__DESCRIPTION__</label>
-            <textarea id="newaddcontent_selecteditems_edit_data_description" placeholder="__MSG__EDIT_DESCRIPTION__">${item["sakai:description"]|safeOutput}</textarea>
+            <textarea id="newaddcontent_selecteditems_edit_data_description" placeholder="__MSG__EDIT_DESCRIPTION__">${item["description"]|safeOutput}</textarea>
             <div class="autosuggest_wrapper">
                 <label for="newaddcontent_selecteditems_edit_data_tags">__MSG__TAGS_AND_CATEGORIES__</label>
                 <button type="button" class="s3d-link-button s3d-bold list_categories">__MSG__LIST_CATEGORIES__</button>
@@ -227,10 +227,10 @@
 <div id="newaddcontent_selecteditems_template" style="display:none;"><!--
     {macro listContent(item)}
         <li id="newaddcontent_selecteditems_${item_index}">
-            <a href="#" class="newaddcontent_selecteditems_remove" title="__MSG__REMOVE__ ${item["sakai:pooled-content-file-name"]}"></a>
+            <a href="#" class="newaddcontent_selecteditems_remove" title="__MSG__REMOVE__ ${item["name"]}"></a>
             <div class="${item.css_class} newaddcontent_selecteditems_icon"></div>
             {if item.type !== "existing"}
-                <span class="newaddcontent_selecteditems_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)}</span>
+                <span class="newaddcontent_selecteditems_title">${sakai.api.Util.applyThreeDots(item["name"], 100)}</span>
                 <span class="newaddcontent_selecteditems_actions">
                     <button type="button" class="s3d-link-button s3d-bold newaddcontent_selecteditems_actions_edit">__MSG__EDIT_DETAILS__</button>
                     <span class="newaddcontent_selecteditems_split">|</span>
@@ -238,13 +238,13 @@
                 </span>
             {else}
                 {if $.inArray(currentSelectedLibrary, item["sakai:pooled-content-viewer"]) !== -1 || $.inArray(currentSelectedLibrary, item["sakai:pooled-content-manager"]) !== -1}
-                    <span class="newaddcontent_selecteditems_title newaddcontent_selecteditems_title_gotit">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)} (__MSG__GOT_IT__)</span>
+                    <span class="newaddcontent_selecteditems_title newaddcontent_selecteditems_title_gotit">${sakai.api.Util.applyThreeDots(item["name"], 100)} (__MSG__GOT_IT__)</span>
                 {elseif sakai.api.Content.Collections.isCollection(item) && (sakai.api.Content.Collections.getCollectionGroupId(item) === currentSelectedLibrary || sakai.api.Content.Collections.isCollectionInMyLibrary(item))}
-                    <span class="newaddcontent_selecteditems_title newaddcontent_selecteditems_title_gotit">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)} (__MSG__GOT_IT__)</span>
+                    <span class="newaddcontent_selecteditems_title newaddcontent_selecteditems_title_gotit">${sakai.api.Util.applyThreeDots(item["name"], 100)} (__MSG__GOT_IT__)</span>
                 {elseif item.canshare === 'false' && currentSelectedLibrary !== me.userid}
-                    <span class="newaddcontent_selecteditems_title newaddcontent_selecteditems_title_gotit">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)} (__MSG__SHARING_DISABLED__)</span>
+                    <span class="newaddcontent_selecteditems_title newaddcontent_selecteditems_title_gotit">${sakai.api.Util.applyThreeDots(item["name"], 100)} (__MSG__SHARING_DISABLED__)</span>
                 {else}
-                    <span class="newaddcontent_selecteditems_title">${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 100)}</span>
+                    <span class="newaddcontent_selecteditems_title">${sakai.api.Util.applyThreeDots(item["name"], 100)}</span>
                 {/if}
             {/if}
         </li>
@@ -290,7 +290,7 @@
                         <input type="checkbox" class="newaddcontent_existingitems_select_checkbox" id="${item["_path"]}" {if $.inArray(item["_path"], queue) >= 0} checked="checked"{/if} {if $.inArray(item["_path"], queue) >= 0} disabled{/if} {if item["sakai:pooled-content-manager"]}data-sakai-pooled-content-manager="${item["sakai:pooled-content-manager"].join(",")}"{/if} {if item["sakai:pooled-content-viewer"]}data-sakai-pooled-content-viewer="${item["sakai:pooled-content-viewer"].join(",")}"{/if} data-mimeType="${item["_mimeType"]}" data-canshare="${canShare}"/>
                         <label for="${item["_path"]}">
                             <span id="{if sakai.config.MimeTypes[item["_mimeType"]]}${sakai.config.MimeTypes[item["_mimeType"]].cssClass}{else}${sakai.config.MimeTypes["other"].cssClass}{/if}" class="{if sakai.config.MimeTypes[item["_mimeType"]]} ${sakai.config.MimeTypes[item["_mimeType"]].cssClass}{else} ${sakai.config.MimeTypes["other"].cssClass}{/if} newaddcontent_existingitems_list_container_list_item_icon"></span>
-                            ${sakai.api.Util.applyThreeDots(item["sakai:pooled-content-file-name"], 300) || item["_path"]}
+                            ${sakai.api.Util.applyThreeDots(item["name"], 300) || item["_path"]}
                         </label>
                     </li>
                 {/for}

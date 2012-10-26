@@ -72,6 +72,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             var item = {
                 name: result['name'],
                 path: '/p/' + result['_path'],
+                homePath: result.homePath,
                 link: result['_path'],
                 filename: result['name'],
                 type_img_url: sakai.config.MimeTypes.other.URL,
