@@ -49,7 +49,6 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                     } else if (!success && data.status === 403) {
                         return sakai.api.Security.send403();
                     }
-                    
                     if (data.contentType === 'sakaidoc' || data.contentType === 'collection') {
                         showPreview = false;
                     } else {

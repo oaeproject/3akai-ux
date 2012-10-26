@@ -202,7 +202,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             if (mylibrary.sortOrder === 'modified') {
                 sortOrder = 'desc';
             }
-            mylibrary.infinityScroll = $mylibrary_items.infinitescroll(sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER.replace('__USERID__', mylibrary.contextId), 
+            mylibrary.infinityScroll = $mylibrary_items.infinitescroll(sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER.replace('__USERID__', mylibrary.contextId),
                 {'startKey': function(item) {
                     return item.lastModified + ':' + item.contentId;
                 }},  function(items, total) {
