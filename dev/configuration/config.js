@@ -61,7 +61,7 @@ define(function() {
             POOLED_CONTENT_SPECIFIC_USER: '/api/content/library/__USERID__',
             PRESENCE_SERVICE: '/var/presence.json',
             SAKAI2_TOOLS_SERVICE: '/var/proxy/s23/site.json?siteid=__SITEID__',
-            STATIC_BATCH: '/system/staticfiles',
+            STATIC_BATCH: '/api/staticfiles',
             USER_BASIC: '/api/user/__USERID__',
             USER_PROFILE_FULL: '/api/user/__USERID__/profile',
             USER_PROFILE_SECTION: '/api/user/__USERID__/profile/__SECTION__',

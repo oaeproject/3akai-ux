@@ -181,7 +181,7 @@ define(
 
             } else {
                 $.ajax({
-                    'url': '/api/staticfiles',
+                    'url': sakai_conf.URL.STATIC_BATCH,
                     'data': {
                         'files': _requests
                     },

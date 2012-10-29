@@ -144,6 +144,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
 
             if ( isMe && initialProfilePost.length ) {
                 updateStructure = true;
+                /*
                 sakai.api.Server.batch(initialProfilePost, function(success, data) {
                     if (success) {
                         sakai.api.Content.setACLsOnPath(paths, permissions, sakai.data.me.userId, function(success) {
@@ -155,6 +156,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                         debug.error('Error saving initial profile fields');
                     }
                 });
+                 */
             }
 
             structure.structure0.profile = profilestructure;

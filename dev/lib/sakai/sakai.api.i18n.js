@@ -403,7 +403,7 @@ define(
                 }
                 // Check the bundle for the widget, if provided
                 if (widgetname) {
-                    if (typeof sakaii18nAPI.data.widgets[widgetname]) {
+                    if (sakaii18nAPI.data.widgets[widgetname]) {
                         // First check if the key can be found in the widget's locale bundle
                         if ($.isPlainObject(sakaii18nAPI.data.widgets[widgetname][locale]) && _.isString(sakaii18nAPI.data.widgets[widgetname][locale][key])) {
                             return sakaii18nAPI.processUTF16ToText(sakaii18nAPI.data.widgets[widgetname][locale][key]);
