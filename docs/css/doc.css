@@ -157,6 +157,9 @@ td.jeditable_container:hover {
     max-width: none;
     padding: 12px;
 }
+.bs-docs-private {
+    display: none;
+}
 .bs-docs-sidenav.affix {
     top: 40px;
 }
