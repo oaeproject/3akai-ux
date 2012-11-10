@@ -38,7 +38,7 @@
 
         <div id="doc_docs_template" style="display:none;"><!--
             <h2>${module}</h2>
-            {if docs === 404}
+            {if docs === null}
                 <p>There is no documentation available for this module.</p>
             {else}
                 {for doc in docs}
@@ -47,7 +47,7 @@
                         {if !func.ignore}
                             <div class="bs-docs-{if func.isPrivate}private{else}public{/if}">
                                 {if func.ctx}
-                                    <h4><a name="#${module}.${func.ctx.name}">${func.ctx.name}</a></h4>
+                                    <h4><a name="#${module}.${doc_index.substr(0, doc_index.length - 3)}.${func.ctx.name}">${func.ctx.name}</a></h4>
                                     <p><small>
                                         {if func.ctx.value}
                                             ${func.ctx.value}
@@ -89,10 +89,7 @@
                 {/for}
             {/if}
         --></div>
-        
-        <!-- <script src="/shared/js/jquery-plugins/jquery.ba-hashchange.js" type="text/javascript"></script> -->
-        <!-- <script src="/shared/js/bootstrap.js" type="text/javascript"></script> -->
-        <!-- <script src="/docs/js/doc.js" type="text/javascript"></script> -->
+
         <script data-main="/shared/sakai/sakai.dependencies.js" src="/shared/js/require.js"></script>
         <script>require(["/docs/js/doc.js"]);</script>
         

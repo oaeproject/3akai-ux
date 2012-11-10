@@ -20,16 +20,18 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {Object} docs    The documentation object as returned from the server
      * @param {String} module  The module name to render the documentation for
      */
-    var renderDocs = function(docs, module) {
+    var renderModuleDocs = function(docs, module) {
         sakai.api.Util.TemplateRenderer('doc_docs_template', {
             'docs': docs,
             'module': module
         }, $('#doc_docs_container'));
 
-        // Scroll to the appropriate place on the page
+        // Scroll to the appropriate place on the page. This will be the top of the page most of the time, unless
+        // a direct link to a function has been clicked (e.g. http://cambridge.oae.com/docs#oae-authentication.api.removeStrategies)
+        // In this case, we scroll to the function's documentation
         var offset = 0;
-        var hash = getHash();
-        if (hash !== getModule()){
+        var hash = window.location.hash.replace('#', '');
+        if (hash !== module){
             var $anchor = $('a[name="#' + hash + '"]');
             offset = $anchor.offset().top;
         }
@@ -38,72 +40,64 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * Renders the navigation for the available modules
-     * @param {Array<String>}  modules       An Array of module names
-     * @param {String}         moduleToLoad  The name of the module that is currently shown in the UI
+     * @param {Array<String>}  modules          An Array of module names
+     * @param {String}         currentModule    The name of the module that is currently shown in the UI
      */
-    var renderDocModules = function(modules, moduleToLoad) {
+    var renderNavigation = function(modules, currentModule) {
         sakai.api.Util.TemplateRenderer('doc_contents_template', {
             'modules': modules,
-            'moduleToLoad': moduleToLoad
+            'moduleToLoad': currentModule
         }, $('#doc_contents_container'));
     };
 
     /**
      * Gets the documentation for a specific module and passes it in a callback
-     * @param {String}    module    The name of the module to get the documentation of
-     * @param {Function}  callback  Function executed after the documentation for the module has been retrieved
+     * @param {String}    module            The name of the module to get the documentation for
+     * @param {Function}  callback          Function executed after the documentation for the module has been retrieved
+     * @param {Object}    callback.docs     Retrieved documentation for the specified module. This will be null when the documentation could not be retrieved
      */
-    var getDocsForModule = function(module, callback) {
+    var getModuleDocs = function(module, callback) {
         $.ajax({
             url: '/api/doc/module/' + module,
             success: function(docs) {
                 callback(docs);
             }, error: function(err) {
-                callback(err.status);
+                callback(null);
             }
         });
     };
 
     /**
-     * Gets the available oae modules and passes them in a callback
-     * @param {Function} callback Function executed after the list of modules has been retrieved
+     * Gets the available OAE modules and passes them in a callback
+     * @param {Function}        callback            Function executed after the list of modules has been retrieved
+     * @param {Array<String>}   callback.modules    List of all of the available OAE modules
      */
-    var getDocModules = function(callback) {
+    var getAvailableModules = function(callback) {
         $.ajax({
             url: '/api/doc/modules',
-            success: function(modules) {
-                callback(modules);
-            }
+            success: callback
         });
     };
 
     /**
-     * Gets and returns the hash from the URL
-     * @return {String} Returns the hash from the URL
+     * Gets and returns the currently selected module by retrieving the hash from the URL
+     * @return {String}         The currently selected module
      */
-    var getHash = function() {
-        return window.location.hash.replace('#', '');
-    };
-
-    /**
-     * Gets and returns the module name
-     * @return {String} Returns the module requested in the url
-     */
-    var getModule = function() {
-        var moduleToLoad = getHash();
-        //Trim to just the part before the first '.'
-        if (moduleToLoad.indexOf('.') > -1) {
-            moduleToLoad = moduleToLoad.substring(0, moduleToLoad.indexOf('.'));
-        }
+    var getSelectedModule = function() {
+        var moduleToLoad = window.location.hash.replace('#', '');
+        // As it is possible to reference a specific function in an API directly 
+        // (e.g. http://cambridge.oae.com/docs#oae-authentication.api.removeStrategies),
+        // we strip it out to just get the current module
+        moduleToLoad = moduleToLoad.split('.')[0];
         return moduleToLoad;
     };
 
     /**
-     * Sets the title of the document to `title API Reference - Sakai OAE`
-     * @param {String} title The title to be prefixed to the base document title
+     * Sets the title of the document to `Sakai OAE - API Reference - title`
+     * @param {String}  title   The title to be added to the document title
      */
     var setDocumentTitle = function(title) {
-        document.title = title + ' API Reference - Sakai OAE';
+        document.title = 'Sakai OAE - API Reference - ' + title;
     };
 
     /**
@@ -111,13 +105,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      */
     var addBinding = function() {
         $(window).hashchange(function() {
-            var moduleToLoad = getModule();
+            var moduleToLoad = getSelectedModule();
             setDocumentTitle(moduleToLoad);
-            getDocsForModule(moduleToLoad, function(docs) {
+            getModuleDocs(moduleToLoad, function(docs) {
                 $('.bs-docs-sidenav li').removeClass('active');
                 $('#' + moduleToLoad).addClass('active');
-
-                renderDocs(docs, moduleToLoad);
+                renderModuleDocs(docs, moduleToLoad);
             });
         });
     };
@@ -126,24 +119,23 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * Initializes the API Docs UI
      */
     var doInit = function() {
-
         addBinding();
-
-        var moduleToLoad = getModule();
-
-        getDocModules(function(modules) {
+        // Load the list of the available modules
+        getAvailableModules(function(modules) {
             modules.sort();
 
+            // Get the currently selected module. If there is no selected module,
+            // we select the first one in the list
+            var moduleToLoad = getSelectedModule();
             if (!moduleToLoad) {
                 moduleToLoad = modules[0];
             }
 
+            // Render the docs for the current module
             setDocumentTitle(moduleToLoad);
-
-            renderDocModules(modules, moduleToLoad);
-
-            getDocsForModule(moduleToLoad, function(docs) {
-                renderDocs(docs, moduleToLoad);
+            renderNavigation(modules, moduleToLoad);
+            getModuleDocs(moduleToLoad, function(docs) {
+                renderModuleDocs(docs, moduleToLoad);
             });
         });
     };
