@@ -1,0 +1,35 @@
+{
+  "name": "3akai-ux",
+  "description": "Frontend for Sakai OAE",
+  "version": "1.5.0",
+  "homepage": "https://github.com/sakaiproject/3akai-ux",
+  "author": {
+    "name": "Sakai OAE Team",
+    "email": "oae-dev@collab.sakaiproject.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sakaiproject/3akai-ux.git"
+  },
+  "bugs": {
+    "url": "https://jira.sakaiproject.org/browse/SAKIII"
+  },
+  "licenses": [
+    {
+      "type": "ECL2",
+      "url": "https://github.com/sakaiproject/3akai-ux/blob/master/LICENSE"
+    }
+  ],
+  "main": "",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "grunt": "0.3.x",
+    "grunt-clean": "0.3.x",
+    "grunt-requirejs": "0.2.x",
+    "grunt-hashres": "0.1.x",
+    "shelljs": "0.0.8"
+  },
+  "keywords": []
+}
