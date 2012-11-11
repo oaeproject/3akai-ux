@@ -48,7 +48,6 @@
         <property name="TARGET_TAR_FILE" value="${TARGET_COMPRESSED_DIR}/sakai3-ux.tar.gz" description="Target TAR file" />
 
         <!-- SETUP - Tools -->
-        <property name="YUI_COMPRESSOR" value="tools/yuicompressor/yuicompressor-2.4.2.jar" description="YUI Compressor 2.4.2" />
         <property name="JSDOCTOOLKIT_DIR" value="tools/jsdoc-toolkit" description="JSDoc-Toolkit" />
         <property name="ANT_CONTRIB" value="tools/ant-contrib/ant-contrib-1.0b3.jar" description="Ant-contrib 1.0b3" />
         <property name="HASHTOOL_DIR" value="tools/hashfiles" description="hash js and css files" />
