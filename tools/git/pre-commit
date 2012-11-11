@@ -71,7 +71,7 @@ git diff-index -p -M --cached -U0 $against -- | ruby -e '
             /"[^'\'']*$/ => "Use single quotes",
             /(^|\s)typeof(\s|$)/ => "Use jquery or underscore for type checking",
             /(\s{2}|[^ ])\{/ => "Put exactly one space before opening braces",
-            /\sconsole\./ => "Use debug.log or debug.error instead of console.log",
+            /\sconsole\./ => "Please don't add console.log statements",
             /^\s*var.*,$/ => "Do not comma separate variable definitions",
             /^\s*var[^$]*=\s*(jQuery|\$)/ => "Prefix jQuery vars with $"
         },
