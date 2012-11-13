@@ -73,7 +73,7 @@ git diff-index -p -M --cached -U0 $against -- | ruby -e '
             /(\s{2}|[^ (])\{/ => "Put exactly one space before opening braces",
             /\sconsole\./ => "Please don't add console.log statements",
             /^\s*var.*,$/ => "Do not comma separate variable definitions",
-            /^\s*var[^$]*=\s*(jQuery|\$)/ => "Prefix jQuery vars with $"
+            /^\s*var[^$]*=\s*(jQuery|\$)[^.]+(\s|$)/ => "Prefix jQuery vars with $"
         },
         :comment => {
             ".js" => /^\s*(\/\/|\/\*|\*)/
