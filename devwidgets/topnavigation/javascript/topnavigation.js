@@ -716,8 +716,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             };
 
 
-            var toggleInternalLogin = function() {
+            var toggleInternalLogin = function(e) {
                 $(topnavUserOptionsLoginForm).toggle();
+                e.preventDefault();
             };
 
             $rootel.on('click', '#topnavigation_toggle_internal_login', toggleInternalLogin);
@@ -942,6 +943,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
 
             $rootel.on('click', '#topnavigation_user_options_login_external', function() {
+                e.preventDefault();
                 return false;
             });
 

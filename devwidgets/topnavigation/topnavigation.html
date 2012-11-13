@@ -178,7 +178,7 @@
             {/for}
             {if auth.internalAndExternal}
                 <li>
-                    <button tabindex="-1" role="menuitem" class="s3d-bold s3d-link-button" id="topnavigation_toggle_internal_login">__MSG__INTERNAL_LOGIN__</button>
+                    <a tabindex="-1" role="menuitem" class="s3d-bold s3d-link-button" id="topnavigation_toggle_internal_login" href="#">__MSG__INTERNAL_LOGIN__</button>
                 </li>
             {/if}
         </ul>
@@ -209,8 +209,8 @@
     {/macro}
 
     {if anon}
-        <div class="s3d-dropdown-menu{if auth.internalAndExternal} topnavigation_dual_login{/if}" id="topnavigation_user_options_login_wrapper">
-            <button id="topnavigation_user_options_login">__MSG__SIGN_IN__</button>
+        <div class="s3d-dropdown-menu{if auth.internalAndExternal} topnavigation_dual_login hassubnav{/if}" id="topnavigation_user_options_login_wrapper">
+            <a id="topnavigation_user_options_login" href="#" {if auth.internalAndExternal}role="menuitem" aria-haspopup="true"{/if}>__MSG__SIGN_IN__</a>
             <div id="topnavigation_user_options_login_fields" class="s3d-dropdown-container" style="display:none;">
             {if auth.externalAuth || auth.internalAndExternal}
                 ${externalAuthMenu(auth)}
