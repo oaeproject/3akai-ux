@@ -2828,5 +2828,15 @@ define(
         }
     };
 
+    // Detect any ajax errors
+    $(document).ajaxError(function(ev, xhr, settings) {
+        // notify the user if a server protection service error occurred
+        if (xhr.status === 400 && xhr.statusText === 'POST Requests are only accepted from the Application, this request was not from the application.') {
+            sakai_util.notification.show(sakai_i18n.getValueForKey('ERROR'),
+                sakai_i18n.getValueForKey('SERVER_PROTECTION_ERROR'),
+                sakai_util.notification.type.ERROR, true);
+        }
+    });
+
     return sakai_util;
 });
