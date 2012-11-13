@@ -13,7 +13,441 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'sakai/sakai.api.core', '/shared/js/bootstrap.js', '/admin/js/util.js', '/admin/js/configuration.js'], function($, sakai) {
+require(['jquery', 'sakai/sakai.api.core', '/shared/js/bootstrap.js'], function($, sakai) {
+
+    //////////
+    //////////
+    // UTIL //
+    //////////
+    //////////
+
+    /**
+     * Shows a message to logged in users when they are not authorized to view a page
+     */
+    var showUnauthorized = function() {
+        sakai.api.Util.TemplateRenderer('admin_unauthorized_template', null, $('#admin_unauthorized_container'));
+    };
+
+    /**
+     * Shows an error to the user
+     * usage:
+     * showError({
+     *     'title': 'Operation failed',
+     *     'message' (required): 'The tenant could not be deleted.'
+     * });
+     * @param {Object}   data                        Data object used to render the warning. Missing optional elements will not be rendered. All available elements are shown above in 'usage'
+     * @param {Object}   $outputElement (optional)   Element to render the warning in. By default the container renders on top of the page in absolute position.
+     */
+    var showError = function(data, $outputElement) {
+        if (!$outputElement) {
+            $outputElement = $('#admin_error_container');
+        }
+        sakai.api.Util.TemplateRenderer('admin_error_template', {
+            'error': data
+        }, $outputElement);
+    };
+
+    /**
+     * Shows a warning to the user
+     * usage:
+     * showWarning({
+     *     'title': 'Are you sure?',
+     *     'message' (required): 'Are you sure you want to delete this tenant?'
+     * });
+     * @param {Object}   data                        Data object used to render the warning. Missing optional elements will not be rendered. All available elements are shown above in 'usage'
+     * @param {Object}   $outputElement (optional)   Element to render the warning in. By default the container renders on top of the page in absolute position.
+     */
+    var showWarning = function(data, $outputElement) {
+        if (!$outputElement) {
+            $outputElement = $('#admin_warning_container');
+        }
+        sakai.api.Util.TemplateRenderer('admin_warning_template', {
+            'warning': data
+        }, $outputElement);
+    };
+
+    /**
+     * Shows a success message to the user
+     * usage:
+     * showSuccess({
+     *     'title': 'Tenant deleted.',
+     *     'message' (required): 'The tenant was successfully deleted',
+     *     'sticky': true
+     * });
+     * @param {Object}   data                        Data object used to render the success message. Missing optional elements will not be rendered. All available elements are shown above in 'usage'
+     * @param {Object}   $outputElement (optional)   Element to render the success message in. By default the container renders on top of the page in absolute position.
+     */
+    var showSuccess = function(data, $outputElement) {
+        if (!$outputElement) {
+            $outputElement = $('#admin_success_container');
+        }
+        sakai.api.Util.TemplateRenderer('admin_success_template', {
+            'success': data
+        }, $outputElement);
+        if (!data.sticky) {
+            window.setTimeout( function(){
+                $outputElement.fadeOut('slow', function() {
+                    $outputElement.html('');
+                    $outputElement.show();
+                });
+            }, 2500);
+        }
+    };
+
+    /**
+     * Shows a confirmation dialog to the user using predefined data
+     * usage
+     * showConfirmationModal({
+     *     'id' (required): 'deletetenant_modal',
+     *     'title' (required): 'Delete tenant Cambridge University',
+     *     'message' (required): 'You cannot undo this operation. Are you sure you want to delete this tenant?',
+     *     'cancel': 'Cancel',
+     *     'confirm' (required): 'Yes, delete tenant',
+     *     'confirmclass': (optional): 'danger' (for possible values see http://twitter.github.com/bootstrap/base-css.html#buttons)
+     *     'confirmed' (required): function() {
+     *         // Add handling for confirmation
+     *         // Hide the dialog when done (optionally show a success message)
+     *         $('#deletetenant_modal').modal('hide');
+     *     }
+     * });
+     * @param {Object} data Data object used to render the modal dialog. All required elements are shown above in 'usage' and should be provided
+     */
+    var showConfirmationModal = function(data) {
+        var $outputElement = $('#admin_confirmation_container');
+        sakai.api.Util.TemplateRenderer('admin_confirmation_template', {
+            'modal': data
+        }, $outputElement);
+        $('#' + data.id).modal();
+        $('#' + data.id + '_confirm', $('#' + data.id)).click(data.confirmed);
+    };
+
+    /**
+     * Toggles containers to show or hide
+     */
+    var toggleContainer = function() {
+        $(this).next().toggle(400);
+    };
+
+    /**
+     * When logged out, the UI presents tabs with available log in strategies.
+     * This function switches the view to another strategy when a tab is clicked.
+     */
+    var switchLoginStrategy = function() {
+        var tab = $(this).attr('data-strategy');
+
+        $('.admin_login_tab').removeClass('active');
+        $(this).addClass('active');
+
+        $('.admin_login_container').hide();
+        $('#' + tab).show();
+    };
+
+
+    /* The following log in and log out functions will be moving to the 3akai API */
+
+    /**
+     * Logs the current user out of the admin ui
+     */
+    var doLogOut = function() {
+        $.ajax({
+            url: '/api/auth/logout',
+            type: 'POST',
+            success: function(data) {
+                document.location.reload(true);
+            }
+        });
+    };
+
+    /**
+     * Submits the login form to log a user into the admin ui
+     */
+    var doLogin = function() {
+        if ($(this).hasClass('external_login')) {
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'GET'
+            });
+        } else {
+            $.ajax({
+                url: '/api/auth/login',
+                type: 'POST',
+                data: {
+                    'username': $('#admin_login_form_name').val(),
+                    'password': $('#admin_login_form_password').val()
+                },
+                success: function(data) {
+                    document.location.reload(true);
+                }
+            });
+        }
+        return false;
+    };
+
+    /**
+     * Initializes jEditable on fields throughout the UI
+     * This initialization will also take care of the form submit to /api/tenant
+     */
+    var enableInlineEdit = function() {
+        $('.jeditable_field').editable(function(value) {
+                $.ajax({
+                    url: '/api/tenant',
+                    type: 'POST',
+                    data: {
+                        'port': $(this).attr('id'),
+                        'name': value
+                    }
+                });
+                return(value);
+            }, {
+                indicator: 'Saving...',
+                tooltip: 'Click to edit name',
+                id: 'port',
+                name: 'name',
+                callback: function(value, settings) {
+                    $(this).text(value);
+                }
+        });
+    };
+
+    /**
+     * Renders the login view according to the available login strategies
+     * @param {Object} strategies the available login strategies
+     */
+    var showLogin = function(adminContext, configuration) {
+        sakai.api.Util.TemplateRenderer('admin_login_template', {
+            'strategies': configuration['oae-authentication'],
+            'context': adminContext
+        }, $('#admin_login_container'));
+    };
+
+    /**
+     * Switches the view when a left hand navigation link is clicked or when the page loads.
+     * Defaults to the Tenant configuration page when no or an invalid hash is provided.
+     * @param {String}    hash    hash as returned by `window.location.hash`
+     */
+    var switchView = function(hash) {
+        hash = hash || '#configurationtenants';
+        hash = hash.replace('#', '');
+        $('#admin_views > div').hide();
+        $('#admin_lhnav_container li').removeClass('active');
+        $('#admin_lhnav_container li#' + hash).addClass('active');
+
+        switch (hash) {
+            case 'configurationtenants':
+                $('#admin_views > #admin_tenants_container').show();
+                return;
+            case 'configurationmodules':
+                $('#admin_views > #admin_modules_container').show();
+                return;
+        }
+
+        // Default when incorrect page is specified
+        switchView('#configurationtenants');
+    };
+    
+    //////////
+    //////////
+    // UTIL //
+    //////////
+    //////////
+
+    ///////////////////
+    ///////////////////
+    // CONFIGURATION //
+    ///////////////////
+    ///////////////////
+
+    //////////////////////
+    //// DATA STORING ////
+    //////////////////////
+
+    /**
+     * Writes the configuration changes for a tenant/global to Cassandra
+     */
+    var writeConfig = function(form, adminContext) {
+        var data = {};
+        $.each($(form).context, function(index, item) {
+            if ($(item).attr('data-tenantId')) {
+                if ($(item).attr('type') === "text") {
+                    data[$(item).attr('id')] = $(item).val();
+                } else if ($(item).attr('type') === "checkbox") {
+                    if ($(item).is(':checked') + '' != $(item).attr('data-originalvalue')) {
+                        data[$(item).attr('id')] = $(item).is(':checked');
+                    }
+                } else if ($(item).attr('type') === "radio") {
+                    if ($(item).is(':checked')) {
+                        data[$(item).attr('data-id')] = $(item).val();
+                    }
+                } else if ($(item).children('option').length) {
+                    data[$(item).attr('id')] = $(item).val();
+                }
+            }
+        });
+
+        var url = '/api/config';
+
+        // Tenant and global servers do not need the tenantId to be specified in the URL
+        // If a tenant server is accessed through the global server the tenantId needs to be specified
+        if (!adminContext.tenant.isMainTenantServer) {
+            url += '/' + adminContext.tenant.tenantId;
+        }
+
+        if (!$.isEmptyObject(data)) {
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: data,
+                success: function() {
+                    $.each(data, function(i, item){
+                        $('#' + i.replace(/\//g, '\\/')).attr('data-originalvalue', item);
+                    });
+                    showSuccess({
+                        'title': 'Configuration saved.',
+                        'message': 'The configuration was successfully saved.'
+                    });
+                }, error: function() {
+                    showError({
+                        'title': 'Configuration not saved.',
+                        'message': 'The configuration could not be saved successfully.'
+                    });
+                }
+            });
+        }
+        return false;
+    };
+
+    /**
+     * Creates a new tenant and starts it up immediately
+     * @param  {Function}  callback  A function that executes after the tenant has been created.
+     */
+    var createTenant = function(callback) {
+        $.ajax({
+            url: '/api/tenant/create',
+            type: 'POST',
+            data: {
+                'alias': $('#createtenant_alias').val(),
+                'name': $('#createtenant_name').val(),
+                'host': $('#createtenant_host').val()
+            },
+            success: function(data) {
+                if ($.isFunction(callback)) {
+                    callback(data);
+                }
+            }
+        });
+    };
+
+    /**
+     * Deletes a tenant server
+     * @param {Object}    tenants    Array of tenants to be deleted
+     * @param {Function}  callback   Executed after the tenants have been deleted
+     */
+    var deleteTenant = function(tenants, callback) {
+        var aliases = [];
+        $.each(tenants, function(index, tenant) {
+            aliases.push(tenant.alias);
+        });
+
+        $.ajax({
+            url: '/api/tenant/delete',
+            type: 'POST',
+            data: {
+                'aliases': aliases
+            },
+            success: function(data) {
+                if ($.isFunction(callback)) {
+                    callback(true);
+                }
+            }, error: function() {
+                if ($.isFunction(callback)) {
+                    callback();
+                }
+            }
+        });
+    };
+
+    /**
+     * Starts or stops a tenant server
+     * @param {Object}    tenants   Array of tenants to be started/stopped
+     * @param {Boolean}   isStart   If set to true the tenants need to be started
+     * @param {Function}  callback  Executed after the tenants have been started/stopped
+     */
+    var startStopTenant = function(tenants, isStart, callback) {
+        var aliases = [];
+        $.each(tenants, function(index, tenant) {
+            aliases.push(tenant.alias);
+        });
+
+        var url = '/api/tenant/stop';
+        if (isStart) {
+            url = '/api/tenant/start';
+        }
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: {
+                'aliases': aliases
+            },
+            success: function(data) {
+                if ($.isFunction(callback)) {
+                    callback(true);
+                }
+            }, error: function() {
+                if ($.isFunction(callback)) {
+                    callback();
+                }
+            }
+        });
+    };
+
+
+    ///////////////////////
+    //// DATA FETCHING ////
+    ///////////////////////
+
+    /**
+     * Gets the configuration for the tenant (includes all module and tenant configuration)
+     * @param {Function} callback Callback function executed after the request completes. Passes through the returned data
+     */
+    var getConfiguration = function(adminContext, callback) {
+        var url = '/api/config';
+        // Tenant and global servers do not need the tenantId to be specified in the URL
+        // If a tenant server is accessed through the global server the tenantId needs to be specified
+        if (!adminContext.tenant.isMainTenantServer) {
+            url += '/' + adminContext.tenant.tenantId;
+        }
+
+        $.ajax({
+            url: url,
+            success: function(data) {
+                if ($.isFunction(callback)) {
+                    callback(data);
+                }
+            }
+        });
+    };
+
+    /**
+     * Gets the data for tenants
+     * @param {Function} callback Callback function executed after the request completes. Passes through the returned data
+     */
+    var getTenants = function(callback) {
+        $.ajax({
+            url: '/api/tenants',
+            success: function(data) {
+                if ($.isFunction(callback)) {
+                    callback(data);
+                }
+            }
+        });
+    };
+
+    ///////////////////
+    ///////////////////
+    // CONFIGURATION //
+    ///////////////////
+    ///////////////////
 
     var adminContext = {};
     var cachedTenants = [];
@@ -389,7 +823,7 @@ require(['jquery', 'sakai/sakai.api.core', '/shared/js/bootstrap.js', '/admin/js
      * Initializes the header and sets the document title
      */
     var initializeHeader = function() {
-        renderTemplate('admin_header_template', {
+        sakai.api.Util.TemplateRenderer('admin_header_template', {
             'context': adminContext
         }, $('#admin_header_container'));
 
@@ -407,7 +841,7 @@ require(['jquery', 'sakai/sakai.api.core', '/shared/js/bootstrap.js', '/admin/js
      */
     var initializeFooter = function() {
         if (cachedTenants.length) {
-            renderTemplate('admin_footer_template', {
+            sakai.api.Util.TemplateRenderer('admin_footer_template', {
                 'tenants': cachedTenants,
                 'context': adminContext
             }, $('#admin_footer_container'));
@@ -417,7 +851,7 @@ require(['jquery', 'sakai/sakai.api.core', '/shared/js/bootstrap.js', '/admin/js
             getTenants(function(tenants) {
                 preProcessTenants(tenants, function(tenants) {
                     cachedTenants = tenants;
-                    renderTemplate('admin_footer_template', {
+                    sakai.api.Util.TemplateRenderer('admin_footer_template', {
                         'tenants': tenants,
                         'context': adminContext
                     }, $('#admin_footer_container'));
@@ -426,7 +860,7 @@ require(['jquery', 'sakai/sakai.api.core', '/shared/js/bootstrap.js', '/admin/js
                 });
             });
         } else {
-            renderTemplate('admin_footer_template', {
+            sakai.api.Util.TemplateRenderer('admin_footer_template', {
                 'tenants': [],
                 'context': adminContext
             }, $('#admin_footer_container'));
@@ -437,7 +871,7 @@ require(['jquery', 'sakai/sakai.api.core', '/shared/js/bootstrap.js', '/admin/js
      * Initializes the list of modules and renders them in a view
      */
     var initializeModules = function() {
-        renderTemplate('admin_modules_template', {
+        sakai.api.Util.TemplateRenderer('admin_modules_template', {
             'modules': configuration,
             'context': adminContext
         }, $('#admin_modules_container'));
@@ -451,8 +885,7 @@ require(['jquery', 'sakai/sakai.api.core', '/shared/js/bootstrap.js', '/admin/js
             getTenants(function(tenants) {
                 preProcessTenants(tenants, function(tenants) {
                     cachedTenants = tenants;
-                    console.log(tenants);
-                    renderTemplate('admin_tenants_template', {
+                    sakai.api.Util.TemplateRenderer('admin_tenants_template', {
                         'tenants': tenants,
                         'context': adminContext
                     }, $('#admin_tenants_container'));
@@ -472,7 +905,7 @@ require(['jquery', 'sakai/sakai.api.core', '/shared/js/bootstrap.js', '/admin/js
                 'name': adminContext.tenant.name,
                 'port': adminContext.tenant.port
             }], function(tenants) {
-                renderTemplate('admin_tenants_template', {
+                sakai.api.Util.TemplateRenderer('admin_tenants_template', {
                     'tenants': tenants,
                     'context': adminContext
                 }, $('#admin_tenants_container'));
@@ -490,7 +923,7 @@ require(['jquery', 'sakai/sakai.api.core', '/shared/js/bootstrap.js', '/admin/js
      * Initializes the left hand navigation
      */
     var initializeNavigation = function() {
-        renderTemplate('admin_lhnav_template', {
+        sakai.api.Util.TemplateRenderer('admin_lhnav_template', {
             'context': adminContext
         }, $('#admin_lhnav_container'));
 

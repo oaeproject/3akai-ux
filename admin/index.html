@@ -84,12 +84,12 @@
                         <div class="footer_column tenants">
                             <ul>
                                 <li>
-                                    <a href="/admin" title="Global administration">Global administration</a>
+                                    <a href="/" title="Global administration">Global administration</a>
                                 </li>
                                 {for tenant in tenants}
                                     {if tenant.alias}
                                         <li>
-                                            <a href="/admin/tenant/${tenant.alias}" title="${tenant.name} administration">${tenant.name}</a>
+                                            <a href="/tenant/${tenant.alias}" title="${tenant.name} administration">${tenant.name}</a>
                                         </li>
                                     {/if}
                                 {/for}
