@@ -27,9 +27,8 @@
     margin-bottom: 3px;
 }
 #ggadget_remotecontent_settings_url_error {
-    color: #9f3333;
+    font-size: 12px;
     font-weight: bold;
-    padding: 0 0 10px 15px;
 }
 #ggadget_remotecontent_settings_help {
     color: #666;
