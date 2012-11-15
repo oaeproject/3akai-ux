@@ -97,10 +97,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
         /**
          * This AJAX callback function handles the search result data returned from
-         * /var/search/pool/me/manager.json.  If the call was successful, up to 5 of
+         * /var/search/pool/me/role.json?role=manager.  If the call was successful, up to 5 of
          * the most recently created files are presented to the user.
          * @param {Object} success - indicates the status of the AJAX call
-         * @param {Object} data - JSON data from /var/search/pool/me/manager.json
+         * @param {Object} data - JSON data from /var/search/pool/me/role.json?role=manager
          * @return None
          */
         var handlerecentmembershipsData = function(success, data) {
