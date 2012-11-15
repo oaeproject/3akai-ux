@@ -489,7 +489,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                       var $clicked = $(e.target);
 
                       // Check if the clicked target is not the settings menu
-                      if (!$clicked.is('.settings', $rootel)) {
+                      if (!$clicked.is('.settings', $rootel) && !$clicked.parent('.settings', $rootel).length) {
                           $('#widget_settings_menu', $rootel).hide();
                           $('#' + currentSettingsOpen + '_settings', $rootel).children('.dashboard_widget_arrow').hide();
                           currentSettingsOpen = false;
