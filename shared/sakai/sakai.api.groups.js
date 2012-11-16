@@ -37,6 +37,8 @@ define(
     ],
     function($, sakai_conf, sakai_serv, sakai_util, sakai_i18n, sakai_user, sakai_comm, _) {
 
+    var myGroups = null;
+
     var sakaiGroupsAPI = {
         /**
          * Get the data for the specified group
@@ -577,7 +579,7 @@ define(
                     return false;
                 }
                 var managersGroupId = groupid + '-manager';
-                return $.inArray(managersGroupId, meData.user.subjects) !== -1;
+                return $.inArray(managersGroupId, meData.subjects || []) !== -1;
             }
         },
 
@@ -595,7 +597,7 @@ define(
             if (!groupid || typeof(groupid) !== 'string') {
                 return false;
             }
-            return $.inArray(groupid, meData.user.subjects) !== -1;
+            return $.inArray(groupid, meData.subjects || []) !== -1;
         },
 
 
@@ -1124,14 +1126,14 @@ define(
             $.each(results, function(i, group) {
                 if (group['sakai:group-id']) {
                     group.id = group['sakai:group-id'];
-                    if (group['sakai:group-title']) {
-                        group['sakai:group-title-short'] = sakai_util.applyThreeDots(group['sakai:group-title'], 550, {max_rows: 1,whole_word: false}, 's3d-bold');
-                        group['sakai:group-title-shorter'] = sakai_util.applyThreeDots(group['sakai:group-title'], 130, {max_rows: 1,whole_word: false}, 's3d-bold');
+                    if (group['name']) {
+                        group['name-short'] = sakai_util.applyThreeDots(group['name'], 550, {max_rows: 1,whole_word: false}, 's3d-bold');
+                        group['name-shorter'] = sakai_util.applyThreeDots(group['name'], 130, {max_rows: 1,whole_word: false}, 's3d-bold');
                     }
 
-                    if (group['sakai:group-description']) {
-                        group['sakai:group-description-short'] = sakai_util.applyThreeDots(group['sakai:group-description'], 580, {max_rows: 2,whole_word: false});
-                        group['sakai:group-description-shorter'] = sakai_util.applyThreeDots(group['sakai:group-description'], 150, {max_rows: 2,whole_word: false});
+                    if (group['description']) {
+                        group['description-short'] = sakai_util.applyThreeDots(group['description'], 580, {max_rows: 2,whole_word: false});
+                        group['description-shorter'] = sakai_util.applyThreeDots(group['description'], 150, {max_rows: 2,whole_word: false});
                     }
 
                     var groupType = sakai_i18n.getValueForKey('OTHER');
@@ -1141,26 +1143,29 @@ define(
                                 for (var c = 0; c < templates.length; c++) {
                                     if (templates[c].id === group['sakai:category']) {
                                         groupType = sakai_i18n.getValueForKey(templates[c].title);
+                                    } else {
+                                        debug.error('Could not get the group templates');
                                     }
                                 }
-                            } else {
-                                debug.error('Could not get the group templates');
                             }
                         });
                     }
+
                     // Modify the tags if there are any
                     if (group['sakai:tags']) {
                         group.tagsProcessed = sakai_util.formatTags(group['sakai:tags']);
                     } else if (group.basic && group.basic.elements && group.basic.elements['sakai:tags']) {
                         group.tagsProcessed = sakai_util.formatTags(group.basic.elements['sakai:tags'].value);
                     }
+
                     group.groupType = groupType;
                     group.lastModified = group.lastModified;
                     group.picPath = sakaiGroupsAPI.getProfilePicture(group);
                     group.userMember = false;
-                    if (sakaiGroupsAPI.isCurrentUserAManager(group['sakai:group-id'], meData) || sakaiGroupsAPI.isCurrentUserAMember(group['sakai:group-id'], meData)) {
+                    if (sakaiGroupsAPI.isCurrentUserAManager(group.id, meData) || sakaiGroupsAPI.isCurrentUserAMember(group.id, meData)) {
                         group.userMember = true;
                     }
+
                     // use large default group icon on search page
                     if (group.picPath === sakai_conf.URL.GROUP_DEFAULT_ICON_URL) {
                         group.picPathLarge = sakai_conf.URL.GROUP_DEFAULT_ICON_URL_LARGE;
@@ -1406,25 +1411,42 @@ define(
             }
         },
 
-        getMemberships : function(groups, includeCollections) {
-            var newjson = {entry: []};
-            for (var i = 0, il = groups.length; i < il; i++) {
-                if (sakaiGroupsAPI.filterGroup(groups[i], includeCollections)) {
-                    newjson.entry.push(groups[i]);
-                }
+        getMyMemberships : function(callback) {
+            if (myGroups) {
+                callback(true, myGroups)
+            } else {
+                sakaiGroupsAPI.getMemberships(sakai_user.data.me.userId, function(success, groups) {
+                    if (success) {
+                        myGroups = groups;
+                    }
+                    if ($.isFunction(callback)) {
+                        callback(success, groups); 
+                    }
+                });
             }
-            newjson.entry.sort(function(a, b) {
-                if (a['sakai:category'] === 'collection' && b['sakai:category'] === 'collection') {
-                    return sakai_util.Sorting.naturalSort(a['sakai:group-title'], b['sakai:group-title']);
-                } else if (a['sakai:category'] === 'collection') {
-                    return 1;
-                } else if (b['sakai:category'] === 'collection') {
-                    return -1;
-                } else {
-                    return sakai_util.Sorting.naturalSort(a['sakai:group-title'], b['sakai:group-title']);
+        },
+
+        getMemberships : function(userId, callback) {
+            $.ajax({
+                'url': sakai_conf.URL.USER_MEMBERSHIPS.replace('__USERID__', userId),
+                'success': function(data) {
+                    // TODO: Move this too the backend.
+                    if (data.results && data.results.length > 0) {
+                        for (var i = 0; i < data.results.length;i++) {
+                            data.results[i].counts = {'membersCount': 1, 'contentCount': 0};
+                        }
+                    }
+
+                    if ($.isFunction(callback)) {
+                        callback(true, data.results);
+                    }
+                },
+                'error': function(xhr) {
+                    if ($.isFunction(callback)) {
+                        callback(false, xhr);
+                    }
                 }
             });
-            return newjson;
         },
 
         getTemplate: function(cat, id, callback) {

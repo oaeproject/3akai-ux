@@ -431,7 +431,7 @@ define(
                                             }
                                             var toreplace;
                                             // check for i18n debug
-                                            if (sakai_config.displayDebugInfo === true && sakai_user.data.me.user.locale && sakai_user.data.me.user.locale.language === 'lu' && sakai_user.data.me.user.locale.country === 'GB') {
+                                            if (sakai_config.displayDebugInfo === true && sakai_user.data.me.locale && sakai_user.data.me.locale.language === 'lu' && sakai_user.data.me.user.locale.country === 'GB') {
                                                 toreplace = quotes + replace.substr(7, replace.length - 9) + quotes;
                                                 translated_content += requestedURLsResults[i].body.substring(lastend, expression.lastIndex - replace.length) + toreplace;
                                                 lastend = expression.lastIndex;
@@ -443,7 +443,7 @@ define(
                                         }
                                         translated_content += requestedURLsResults[i].body.substring(lastend);
                                     } else {
-                                        translated_content = sakai_i18n.General.process(requestedURLsResults[i].body, sakai_user.data.me);
+                                        translated_content = sakai_i18n.General.process(requestedURLsResults[i].body, widgetName);
                                     }
                                     var ss = sethtmlover(translated_content, widgetsInternal2, widgetName);
                                     for (var s = 0; s < ss.length; s++) {

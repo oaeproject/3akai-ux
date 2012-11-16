@@ -13,13 +13,13 @@
                 </li>
                 <hr class="s3d-split-line"/>
             {/if}
-            {if data && data.data && data.data.mimeType && data.data.mimeType !== "x-sakai/document" && sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/link" && sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/collection"}
+            {if data && data.contentType && data.contentType !== "sakaidoc" && data.contentType !== "link" && data.contentType !== "collection"}
                 <li id="ew_upload">
                     <button class="s3d-link-button">__MSG__UPLOAD_A_NEW_VERSION__</button>
                 </li>
                 <hr class="s3d-split-line"/>
             {/if}
-            {if sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/document" && sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/link" && sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/collection"}
+            {if data.contentType !== "document" && data.contentType !== "link" && data.contentType !== "collection"}
                 <li id="ew_revhistory">
                     <button class="s3d-link-button">__MSG__REVISION_HISTORY__</button>
                 </li>
@@ -173,18 +173,17 @@
 --></div>
 
 <div id="entity_content_template" style="display:none"><!--
-    {var permissions = data.data["sakai:permissions"]}
     <div id="entity_content_image" class="entity_content_image">
         {if data.isManager}
             <div id="entity_managed_content"></div>
         {/if}
-        <img src="${data.data['iconURL']}" alt="${data.data["sakai:pooled-content-file-name"]|safeOutput}"/>
+        <img src="${data.iconURL}" alt="${data["name"]|safeOutput}"/>
     </div>
     {if !data.isManager}
         <hr class="s3d-margin-top-5 fl-hidden"/>
     {/if}
-    <h1 id="entity_name" data-edit-field="name" class="s3d-bold {if data.isManager} entity_name_editable{else} entity_name_noneditable{/if}" data-original-title="${data.data["sakai:pooled-content-file-name"]|safeOutput}">${data.data["sakai:pooled-content-file-name-shorter"]}</h1>
-    {var mimeType = sakai.api.Content.getMimeTypeData(sakai.api.Content.getMimeType(data.data))}
+    <h1 id="entity_name" data-edit-field="name" class="s3d-bold {if data.isManager} entity_name_editable{else} entity_name_noneditable{/if}" data-original-title="${data.name|safeOutput}">${data.name}</h1>
+    {var mimeType = sakai.api.Content.getMimeTypeData(sakai.api.Content.getMimeType(data))}
     <span id="entity_type">${sakai.api.i18n.getValueForKey(mimeType.description)}</span>
     <div id="entity_owns" class="s3d-regular-links {if !data.isManager} entity_owns_viewer{/if}">
         ${entitymacros.entityContentOwnsMacro(anon,type,data,sakai)}
@@ -197,28 +196,28 @@
 
 <div id="entity_macros_template" style="display:none"><!--
 {macro entityContentOwnsMacro(anon,type,data,sakai)}
-        {var permissions = data.data["sakai:permissions"]}
+        {var visibility = data["visibility"]}
         {var canShare = sakai.api.Content.canCurrentUserShareContent(data)}
         <div id="entity_actions">
             {if !anon}
-                {if type && (type === "content_managed" || (type === "content_edited" && sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/document" && sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/link" && sakai_global.content_profile.content_data.data["_mimeType"] !== "x-sakai/collection"))}
+                {if type && (type === "content_managed" || (type === "content_edited" && sakai_global.content_profile.content_data.contentType !== "sakaidoc" && sakai_global.content_profile.content_data.contentType !== "link" && sakai_global.content_profile.content_data.contentType !== "collection"))}
                     <button type="button" id="entity_content_permissions" class="s3d-button s3d-button-no-text s3d-header-smaller-button s3d-header-button s3d-margin-top-5"><span class="entity_permissions_icon">__MSG__DOWN_ARROW__</span></button>
                 {/if}
-                <button type="button" id="entity_content_save" class="s3d-button s3d-header-button s3d-header-smaller-button savecontent_trigger s3d-margin-top-5" data-entityid="${data.data["_path"]}">__MSG__ADD_TO__<span class="entity_add_to_library"></span></button>
+                <button type="button" id="entity_content_save" class="s3d-button s3d-header-button s3d-header-smaller-button savecontent_trigger s3d-margin-top-5" data-entityid="${data.contentId}">__MSG__ADD_TO__<span class="entity_add_to_library"></span></button>
             {/if}
             {if !data.isManager && canShare}
-                <button type="button" id="entity_content_share" class="s3d-button s3d-header-button s3d-header-smaller-button share_trigger_click s3d-margin-top-5" data-entityid="${data.data["_path"]}">__MSG__SHARE__<div class="s3d-action-icon entity_share_icon"></div></button>
+                <button type="button" id="entity_content_share" class="s3d-button s3d-header-button s3d-header-smaller-button share_trigger_click s3d-margin-top-5" data-entityid="${data.contentId}">__MSG__SHARE__<div class="s3d-action-icon entity_share_icon"></div></button>
             {/if}
-            {if data.data.mimeType === "x-sakai/link"}
-                <a id="contentpreview_download_button" href="${data.data["sakai:pooled-content-url"]}" class="s3d-button s3d-header-smaller-button s3d-header-button fl-force-right s3d-margin-top-5" target="_blank">
+            {if data.contentType === "link"}
+                <a id="contentpreview_download_button" href="${data.link}" class="s3d-button s3d-header-smaller-button s3d-header-button fl-force-right s3d-margin-top-5" target="_blank">
                     __MSG__OPEN_LINK__<span class="entity_download_content"></span>
                 </a>
-            {elseif data.data.mimeType === "x-sakai/document"}
-                {var imspath = "/imscp/" + data.data._path +"/" + sakai.api.Util.safeURL(data.data["sakai:pooled-content-file-name"]) +".zip"}
+            {elseif data.contentType === "sakaidoc"}
+                {var imspath = "/imscp/" + data.contentId +"/" + sakai.api.Util.safeURL(data.name) +".zip"}
                 <a id="contentpreview_download_button" href="${imspath}" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right s3d-margin-top-5" target="_blank">
                     __MSG__DOWNLOAD__<span class="entity_download_content"></span>
                 </a>
-            {elseif data.data.mimeType !== "x-sakai/collection"}
+            {elseif data.contentType !== "collection"}
                 <a id="contentpreview_download_button" href="${data.path}" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right s3d-margin-top-5" target="_blank">
                     __MSG__DOWNLOAD__<span class="entity_download_content"></span>
                 </a>
@@ -229,10 +228,10 @@
             <div class="entity_owns_actions_container">
                 <div class="entity_owns_actions_header">__MSG__VISIBILITY__</div>
                 <div class="s3d-button s3d-header-button s3d-header-smaller-button entity_owns_actions">
-                    <div class="entity_owns_actions_private ew_permissions {if permissions === "private"} selected {/if}" data-permissionvalue="private">
+                    <div class="entity_owns_actions_private ew_permissions {if visibility === "private"} selected {/if}" data-permissionvalue="private">
                         <div class="s3d-dropdown-list">
                             <div class="s3d-dropdown-list-arrow-up"></div>
-                            {if permissions === "private"}
+                            {if visibility === "private"}
                                 <span>__MSG__PRIVATE_SELECTED__</span>
                             {else}
                                 <span>__MSG__PRIVATE_DESCRIPTION__</span>
@@ -240,10 +239,10 @@
                             <button type="button" class="s3d-link-button ew_permissions" data-permissionvalue="private">__MSG__CHANGE__</button>
                         </div>
                     </div>
-                    <div class="entity_owns_actions_institution ew_permissions {if permissions === "everyone"} selected {/if}" data-permissionvalue="selected">
+                    <div class="entity_owns_actions_institution ew_permissions {if visibility === "everyone"} selected {/if}" data-permissionvalue="selected">
                         <div class="s3d-dropdown-list">
                             <div class="s3d-dropdown-list-arrow-up"></div>
-                            {if permissions === "everyone"}
+                            {if visibility === "everyone"}
                                 <span>__MSG__EVERYONE_SELECTED__</span>
                             {else}
                                 <span>__MSG__EVERYONE_DESCRIPTION__</span>
@@ -251,10 +250,10 @@
                             <button type="button" class="s3d-link-button ew_permissions" data-permissionvalue="selected">__MSG__CHANGE__</button>
                         </div>
                     </div>
-                    <div class="entity_owns_actions_public ew_permissions {if permissions === "public"} selected {/if}" data-permissionvalue="public">
+                    <div class="entity_owns_actions_public ew_permissions {if visibility === "public"} selected {/if}" data-permissionvalue="public">
                         <div class="s3d-dropdown-list">
                             <div class="s3d-dropdown-list-arrow-up"></div>
-                            {if permissions === "public"}
+                            {if visibility === "public"}
                                 <span>__MSG__PUBLIC_SELECTED__</span>
                             {else}
                                 <span>__MSG__PUBLIC_DESCRIPTION__</span>
@@ -354,13 +353,13 @@
                         <span>${(data.members.counts.viewergroups + data.members.counts.viewerusers + data.members.counts.viewercollections) || "0"}</span>
                     </div>
                     {if canShare}
-                        <button type="button" class="s3d-link-button s3d-bold share_trigger_click" data-entityid="${data.data["_path"]}">__MSG__SHARE__</button>
+                        <button type="button" class="s3d-link-button s3d-bold share_trigger_click" data-entityid="${data.contentId}">__MSG__SHARE__</button>
                     {/if}
                 </div>
             </div>
             <span class="entity_comments">
                 <img src="/devwidgets/entity/images/entity_comment_icon.png" alt="__MSG__COMMENTS_LC__" />
-                {var commentCount = sakai.api.Content.getCommentCount(data.data)}
+                {var commentCount = sakai.api.Content.getCommentCount(data)}
                 <a id="entity_comments_link" href="#"><span>${commentCount || "0"}</span> {if commentCount == 1} __MSG__COMMENT_LC__{else} __MSG__COMMENTS_LC__{/if}</a>
             </span>
         {else}
@@ -399,14 +398,14 @@
                     </div>
                 {/if}
                 <img src="/devwidgets/entity/images/entity_comment_icon.png" alt="__MSG__COMMENTS_LC__" />
-                {var commentCount = sakai.api.Content.getCommentCount(data.data)}
+                {var commentCount = sakai.api.Content.getCommentCount(data)}
                 <a id="entity_comments_link" href="javascript:;"><span>${commentCount || "0"}</span> {if commentCount == 1} __MSG__COMMENT_LC__{else} __MSG__COMMENTS_LC__{/if}</a>
                 <div class="entity_number entity_permissions_label">
-                    {var permissions = data.data["sakai:permissions"]}
-                    <div id="entity_${permissions}_privacy_icon" class="entity_content_details_icon"></div>
-                        {if permissions == "public"}
+                    {var visibility = data.visibility}
+                    <div id="entity_${visibility}_privacy_icon" class="entity_content_details_icon"></div>
+                        {if visibility == "public"}
                             __MSG__VISIBLE_TO_ANYONE__
-                        {elseif permissions == "everyone"}
+                        {elseif visibility == "everyone"}
                             __MSG__VISIBLE_TO_LOGGED__
                         {else}
                             __MSG__PRIVATE_TO__ ${sakai.api.User.getDisplayName(sakai.data.me.profile)}

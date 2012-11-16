@@ -52,38 +52,18 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                 $browsecats.hide();
             }
 
-            // Create the world links in the second column after People, Content...
-            sakai.api.Util.getTemplates(function(success, templates) {
-                if (success) {
-                    var worlds = [];
-                    var obj = {};
-                    for (var c = 0; c < templates.length; c++) {
-                        var world = templates[c];
-                        world.label = sakai.api.i18n.getValueForKey(world.titlePlural);
-                        if (c === templates.length-1) {
-                            world.last = true;
-                        }
-                        worlds.push(world);
-                    }
-                    obj.worlds = worlds;
-                    $errorsecondcolcontainer.append(sakai.api.Util.TemplateRenderer($secondcoltemplate, obj));
-                } else {
-                    debug.error('Could not get the group templates');
-                }
-            });
-
             // display the error page links
             var linkObj = {
                 links: sakai.config.ErrorPage.Links,
                 sakai: sakai
             };
             $errorPageLinksContainer.html(sakai.api.Util.TemplateRenderer($errorPageLinksTemplate, linkObj));
-            if (sakai.data.me.user.anon) {
+            if (sakai.data.me.anon) {
                 $signinbuttonwrapper.show();
 
                 $('html').addClass('requireAnon');
                 // the user is anonymous and should be able to log in
-                renderedTemplate = sakai.api.Util.TemplateRenderer(permissionsErrorLoggedOutTemplate, sakai.data.me.user).replace(/\r/g, '');
+                renderedTemplate = sakai.api.Util.TemplateRenderer(permissionsErrorLoggedOutTemplate, sakai.data.me).replace(/\r/g, '');
                 $(permissionsError).append(renderedTemplate);
                 var redurl = window.location.pathname + window.location.hash;
                 // Parameter that indicates which page to redirect to. This should be present when
@@ -100,7 +80,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                 // Remove the sakai.index stylesheet as it would mess up the design
                 $('LINK[href*="/dev/css/sakai/sakai.index.css"]').remove();
                 // the user is logged in and should get a page in Sakai itself
-                renderedTemplate = sakai.api.Util.TemplateRenderer(permissionsErrorLoggedInTemplate, sakai.data.me.user).replace(/\r/g, '');
+                renderedTemplate = sakai.api.Util.TemplateRenderer(permissionsErrorLoggedInTemplate, sakai.data.me).replace(/\r/g, '');
                 $(permissionsError).append(renderedTemplate);
                 $('#permission_error').addClass('error_page_bringdown');
             }

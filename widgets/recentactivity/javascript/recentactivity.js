@@ -133,7 +133,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         var doInit = function(initialLoad) {
-            fetchActivity(initialLoad);
+            // Disabling for now.
+            //fetchActivity(initialLoad);
         };
 
         doInit(true);

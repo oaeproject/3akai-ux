@@ -180,20 +180,15 @@ define(
             } else {
 
                 $.ajax({
-                    url: sakai_conf.URL.STATIC_BATCH,
-                    data: {
-                        '_charset_': 'utf-8',
-                        f: _requests
+                    'url': sakai_conf.URL.STATIC_BATCH,
+                    'data': {
+                        'files': _requests
                     },
-                    success: function(data) {
-                        if ($.isFunction(_callback)) {
-                            _callback(true, data);
-                        }
+                    'success': function(data) {
+                        _callback(true, data);
                     },
-                    error: function(xhr) {
-                        if ($.isFunction(_callback)) {
-                            _callback(false);
-                        }
+                    'error': function(xhr) {
+                        _callback(false);
                     }
                 });
             }
