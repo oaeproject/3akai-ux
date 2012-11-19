@@ -59,3 +59,16 @@ define(
         widgets : sakai_widget_config
     };
 });
+
+// TODO
+var init = function() {
+    /**
+     * Make caching the default behavior for $.getScript
+     */
+    jQuery.ajaxSetup({'cache': true});
+    
+    /**
+     * Make sure that arrays passed in as arguments are properly encoded
+     */
+    jQuery.ajaxSettings.traditional = true;
+}
