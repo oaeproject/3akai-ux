@@ -44,13 +44,14 @@ var createLink = module.exports.createLink = function(name, description, visibil
  * @param  {String}       name                Display title for the created content item
  * @param  {String}       [description]       The content item's description
  * @param  {String}       [visibility]        The content item's visibility. This can be public, loggedin or private
+ * @param  {Element}      $file               jQuery element representing the file upload form field that contains the file to be uploaded
  * @param  {String[]}     [managers]          Array of user/group ids that should be added as managers to the content item
  * @param  {String[]}     [viewers]           Array of user/group ids that should be added as viewers to the content item
  * @param  {Function}     [callback]          Standard callback method
  * @param  {Object}       [callback.err]      Error object containing error code and error message
  * @param  {Content}      [callback.content]  Content object representing the created content
  */
-var createFile = module.exports.createFile = function(name, description, visibility, managers, viewers, callback) {};
+var createFile = module.exports.createFile = function(name, description, visibility, $file, managers, viewers, callback) {};
 
 /**
  * Create a new Sakai Doc.

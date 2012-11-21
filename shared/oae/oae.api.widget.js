@@ -19,14 +19,15 @@
  * @param  {String}     widgetName      The name of the widget we want to retrieve
  * @return {Object}                     JSON Object representing the widget's config file. This will be null if no widget can be found for the given widget id
  */
-var getWidget = module.exports.getWidget = function(widgetName) {};
+var getWidgetConfig = module.exports.getWidgetConfig = function(widgetName) {};
 
 /**
- * Get a list of all of the available widgets and their config files.
+ * Get a list of all of the available widgets that have a certain property in their config file and their actual config files.
  * 
- * @return {Object}     JSON Object where the keys represent all of the available widgets and the values are the widget's config files.
+ * @param  {String}     [property]      Property that should be set on the widget's config file before it will return in the final list, so only the widgets we need are returned. If this is not provided, all widgets will be returned.
+ * @return {Object}                     JSON Object where the keys represent all of the available widgets and the values are the widget's config files.
  */
-var getAllWidgets = module.exports.getAllWidgets = function() {};
+var getWidgetConfigs = module.exports.getAllWidgetConfigs = function(property) {};
 
 /**
  * Find all of the widgets declared inside of the provided container, and load them into

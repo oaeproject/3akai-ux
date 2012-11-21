@@ -24,7 +24,7 @@
 var staticBatch = module.exports.staticBatch = function(urls, callback) {};
 
 /**
- * Generate a random UI. This ID generator does not guarantee global uniqueness.
+ * Generate a random ID. This ID generator does not guarantee global uniqueness.
  * 
  * @return {String}         Generated random ID
  */
@@ -89,31 +89,29 @@ var hideOnClickOut = module.exports.hideOnClickOut = function($elementToHide, $i
 
 /**
  * All functionality related to setting up, showing and closing modal dialogs. This uses the jQuery jqModal plugin behind the scenes.
+ * 
+ * @param  {Element|String}     $container       jQuery element representing the element that should become a modal dialog or jQuery selector for that element
+ * @param  {Object}             [options]        JSON object containing options to pass to the jqmodal plugin as defined on http://dev.iceburg.net/jquery/jqModal/
  */
-var modal = module.exports.modal = function() {
+var modal = module.exports.modal = function($container, options) {
     
-    /**
-     * Set up a jqModal modal dialog.
-     *
-     * @param  {Element|String}     $container       jQuery element representing the element that should become a modal dialog or jQuery selector for that element
-     * @param  {Object}             [options]        JSON object containing options to pass to the jqmodal plugin as defined on http://dev.iceburg.net/jquery/jqModal/
-     */
-    module.exports.modal.setup = function($container, options) {};
+    var that = {};
     
     /**
      * Open a jqModal dialog that has already been set up
      * 
      * @param  {Element|String}     $container       jQuery element representing the modal dialog that should be opened. If the dialog has not been set up first, this will not work.
      */
-    module.exports.modal.open = function($container) {};
+    that.open = function() {};
     
     /**
      * Close a jqModal dialog that has been set up
      * 
      * @param  {Element|String}     $container       jQuery element representing the modal dialog that should be closed.
      */
-    module.exports.modal.close = function($container) {};
+    that.close = function($container) {};
 
+    return that;
 };
 
 /**
