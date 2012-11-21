@@ -48,6 +48,7 @@ require(
         'jquery-plugins/jquery.ba-bbq',
         'jquery-plugins/jquery.ba-hashchange',
         'jquery-plugins/jquery.threedots',
+        'jquery-plugins/jquery.fileSize',
         'jquery-plugins/jquery.form',
         'jquery-plugins/gritter/jquery.gritter.sakai-edit',
         'jquery-plugins/jquery.jcarousel.sakai-edit',

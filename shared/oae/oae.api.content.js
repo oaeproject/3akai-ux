@@ -152,3 +152,11 @@ var setThumbnail = function(contentObj) {};
  * @api private
  */
 var setMimeTypeInfo = function(contentObj) {};
+
+/**
+ * Sets the filesize of a file to be a human readable string. This will only be done for uploaded files, other content items will remain unchanged.
+ * 
+ * @param  {Content}        contentObj          Content object for which to set the readable filesize information. This object will be modified to include the mimetype info.
+ * @api private
+ */
+var setFileSize = function(contentObj) {};
