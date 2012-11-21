@@ -105,12 +105,20 @@ module.exports = function(grunt) {
 
     // Load tasks from npm modules
     grunt.loadNpmTasks('grunt-clean');
+    grunt.loadNpmTasks('grunt-git-describe');
     grunt.loadNpmTasks('grunt-hashres');
     grunt.loadNpmTasks('grunt-imagine');
     grunt.loadNpmTasks('grunt-requirejs');
 
+    // Task to write the version to a file
+    grunt.registerTask('writeVersion', function() {
+        this.requires('describe');
+        var json = grunt.template.process('{"sakai:ux-version":"<%= meta.version %>"}');
+        grunt.file.write('target/optimized/ui/version.json', json);
+    });
+
     // Override the test task with the qunit task
     grunt.registerTask('test', 'qunit');
     // Default task.
-    grunt.registerTask('default', 'clean requirejs inlineImg hashres');
+    grunt.registerTask('default', 'clean describe requirejs inlineImg hashres writeVersion');
 };
