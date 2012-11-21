@@ -14,7 +14,7 @@
  */
 
 #signup_header {
-    background: url("/dev/images/signup_artwork.png") no-repeat scroll left top transparent;
+    background: url("/ui/img/signup_artwork.png") no-repeat scroll left top transparent;
     height: 520px;
     width: 920px;
 }
@@ -96,27 +96,8 @@ h2 {
 #signup_form_container .signup_form_column.signup_form_right_column {
     width: 500px;
 }
-#password_strength {
-    float: right;
-    font-size: 12px;
-    padding-top: 5px;
-    text-align: left;
-    width: 127px;
-}
-.strength_zero, .strength_one {
-    color: red;
-}
-.strength_two {
-    color: #666;
-}
-.strength_three, .strength_four {
-    color: green;
-}
-.strength_four {
-    font-weight: bold;
-}
 #signup_form_container #signup_form_shadow {
-    background: url("/dev/images/signup_form_bgshadow.png") no-repeat scroll left top transparent;
+    background: url("/ui/img/signup_form_bgshadow.png") no-repeat scroll left top transparent;
     height: 15px;
     margin-left: 95px;
     margin-top: -14px;
@@ -129,13 +110,13 @@ h2 {
 }
 
 #signup_form_container .username_available_icon {
-    background: url("/dev/images/green_tick.png") no-repeat scroll 194px 4px #fff !important;
+    background: url("/ui/img/green_tick.png") no-repeat scroll 194px 4px #fff !important;
 }
 #signup_form_container .username_available_icon[disabled] {
-    background: url("/dev/images/green_tick.png") no-repeat scroll 194px 4px transparent !important;
+    background: url("/ui/img/green_tick.png") no-repeat scroll 194px 4px transparent !important;
 }
 #signup_form_container .username_unavailable_icon {
-    background: url("/dev/images/red_cross.png") no-repeat scroll 194px 4px #fff;
+    background: url("/ui/img/red_cross.png") no-repeat scroll 194px 4px #fff;
 }
 
 .create_account_input_error {
@@ -173,7 +154,7 @@ h2 {
     margin-right: 0;
 }
 .signup_comment_box_arrow_down {
-    background: url("/dev/images/signup_arrow_down.png") no-repeat scroll left top transparent;
+    background: url("/ui/img/signup_arrow_down.png") no-repeat scroll left top transparent;
     height: 24px;
     margin-left: 100px;
     margin-top: 205px;
@@ -206,15 +187,15 @@ h2 {
     margin: 13px 5px 0;
 }
 .signup_comment_icon_personalspace {
-    background: url("/dev/images/personalspace_icon_50x50.png") no-repeat top left transparent;
+    background: url("/ui/img/personalspace_icon_50x50.png") no-repeat top left transparent;
     height: 50px;
 }
 .signup_comment_icon_cohere {
-    background: url("/dev/images/cohere_icon_50x110.png") no-repeat top left transparent;
+    background: url("/ui/img/cohere_icon_50x110.png") no-repeat top left transparent;
     height: 110px;
 }
 .signup_comment_icon_editable {
-    background: url("/dev/images/editable_icon_50x50.png") no-repeat top left transparent;
+    background: url("/ui/img/editable_icon_50x50.png") no-repeat top left transparent;
     height: 50px;
 }
 

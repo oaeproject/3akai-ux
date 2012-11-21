@@ -13,30 +13,34 @@
  * permissions and limitations under the License.
  */
 
-/**
- * Log in as an internal user
- * 
- * @param  {String}                 username            Username for the user logging in.
- * @param  {String}                 password            The user's password
- * @param  {Function}               callback            Standard callback method
- * @param  {Object}                 callback.err        Error object containing error code and error message                        
- */
-var login = module.exports.login = function(username, password, callback) {};
+define(['exports'], function(exports) {
 
-/**
- * Log out the currently signed in user
- * 
- * @param  {Function}               [callback]          Standard callback method
- * @param  {Object}                 [callback.err]      Error object containing error code and error message   
- */
-var logout = module.exports.logout = function(callback) {};
+    /**
+     * Log in as an internal user
+     * 
+     * @param  {String}                 username            Username for the user logging in.
+     * @param  {String}                 password            The user's password
+     * @param  {Function}               callback            Standard callback method
+     * @param  {Object}                 callback.err        Error object containing error code and error message                        
+     */
+    var login = exports.login = function(username, password, callback) {};
+    
+    /**
+     * Log out the currently signed in user
+     * 
+     * @param  {Function}               [callback]          Standard callback method
+     * @param  {Object}                 [callback.err]      Error object containing error code and error message   
+     */
+    var logout = exports.logout = function(callback) {};
+    
+    /**
+     * Change the password of the currently logged in user
+     * 
+     * @param  {String}                 oldPassword         The user's current password
+     * @param  {String}                 newPassword         The user's new password
+     * @param  {Function}               [callback]          Standard callback method
+     * @param  {Object}                 [callback.err]      Error object containing error code and error message
+     */
+    var changePassword = exports.changePassword = function(oldPassword, newPassword, callback) {};
 
-/**
- * Change the password of the currently logged in user
- * 
- * @param  {String}                 oldPassword         The user's current password
- * @param  {String}                 newPassword         The user's new password
- * @param  {Function}               [callback]          Standard callback method
- * @param  {Object}                 [callback.err]      Error object containing error code and error message
- */
-var changePassword = module.exports.changePassword = function(oldPassword, newPassword, callback) {};
+});

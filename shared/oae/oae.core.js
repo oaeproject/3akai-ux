@@ -13,62 +13,40 @@
  * permissions and limitations under the License.
  */
 
-define(
-    [
-        'oae/oae.api.authentication',
-        'oae/oae.api.content',
-        'oae/oae.api.group',
-        'oae/oae.api.i18n',
-        'oae/oae.api.l10n',
-        'oae/oae.api.profile',
-        'oae/oae.api.user',
-        'oae/oae.api.util',
-        'oae/oae.api.widget',
-        '/ui/configuration/config_custom.js',
-        '/var/widgets.json?callback=define'
-    ],
-    function(sakai_auth,
-            sakai_content,
-            sakai_groups,
-            sakai_i18n,
-            sakai_l10n,
-            sakai_server,
-            sakai_user,
-            sakai_util,
-            sakai_widgets,
-            sakai_conf,
-            sakai_widget_config) {
-
-    return {
-        api : {
-            Activity : sakai_util.Activity,
-            Communication : sakai_comm,
-            Content: sakai_content,
-            Datetime: sakai_util.Datetime,
-            Groups : sakai_groups,
-            i18n : sakai_i18n,
-            l10n : sakai_l10n,
-            Security : sakai_util.Security,
-            Server : sakai_server,
-            User : sakai_user,
-            Util : sakai_util,
-            Widgets : sakai_widgets
+/*!
+ * Initalize requireJS by setting paths and specifying load priorities
+ */
+require(
+    {
+        baseUrl:'/shared/',
+        paths: {
+            'jquery': 'lib/jquery',
+            'jquery-plugins': 'lib/jquery-plugins',
+            'jquery-ui': 'lib/jquery-ui.custom',
+            'underscore': 'lib/underscore'
         },
-        config : sakai_conf,
-        data : sakai_user.data,
-        widgets : sakai_widget_config
-    };
-});
+        priority: ['jquery', 'underscore']
+    }
+);
 
-// TODO
-var init = function() {
-    /**
-     * Make caching the default behavior for $.getScript
-     */
-    jQuery.ajaxSetup({'cache': true});
-    
-    /**
-     * Make sure that arrays passed in as arguments are properly encoded
-     */
-    jQuery.ajaxSettings.traditional = true;
-}
+/*!
+ * Load all of the 3rd party libraries that need to be present from the very beginning, as well as the actual
+ * core client-side Sakai OAE APIs
+ */
+require(['oae/oae.api!', 'jquery', 'underscore', 'jquery-ui', 'lib/l10n/globalize', 'lib/html-sanitizer', 
+         'jquery-plugins/jquery.equal-height-columns', 'jquery-plugins/jquery.contentchange.sakai-edited', 
+         'jquery-plugins/jquery.timeago', 'jquery-plugins/jqmodal.sakai-edited', 'jquery-plugins/jquery.ba-bbq', 
+         'jquery-plugins/jquery.ba-hashchange', 'jquery-plugins/jquery.threedots', 'jquery-plugins/jquery.fileSize', 
+         'jquery-plugins/jquery.form', 'jquery-plugins/gritter/jquery.gritter.sakai-edit', 
+         'jquery-plugins/jquery.infinitescroll-sakai', 'jquery-plugins/jquery.serializeObject'],
+
+    function(oae, $) {
+
+        // Make caching the default behavior for $.getScript
+        $.ajaxSetup({'cache': true});
+        // Make sure that arrays passed in as arguments are properly encoded
+        $.ajaxSettings.traditional = true;
+
+        return oae;
+    }
+);

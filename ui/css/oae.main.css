@@ -13,7 +13,9 @@
  * permissions and limitations under the License.
  */
 
-@import url(sakai.base.css);
-@import url(sakai.components.jq_pager.css);
-@import url(../../lib/jquery/plugins/gritter/css/jquery.gritter.css);
-@import url(../lib/jquery.autoSuggest.css);
+@import url(oae.base.css);
+/*
+ * TODO: Move this out into a better place
+ */
+@import url(../../shared/lib/jquery-plugins/gritter/css/jquery.gritter.css);
+@import url(../../shared/css/jquery.autoSuggest.css);
