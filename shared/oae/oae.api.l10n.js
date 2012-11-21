@@ -14,239 +14,36 @@
  */
 
 /**
- * @class l10n
- *
- * @description
- * Localisation related functions for general page content, widget
- * content and UI elements This should only hold functions
- * which are used across multiple pages, and does not constitute functionality
- * related to a single area/page
- *
- * @namespace
- * Language localisation
+ * Function that will take a date and convert it into a localized date only string, conforming with
+ * the conventions for the user's current locale.
+ * 
+ * e.g. 2/20/2012
+ * 
+ * @param  {Date|Number}    date        Javascript date object or milliseconds since epoch that needs to be converted into a localized date string
+ * @return {String}                     Converted localized date
  */
-define(
-    [
-        '/ui/configuration/config_custom.js',
-        'js/l10n/globalize',
-        'js/l10n/detect_timezone'
-    ],
-    function(sakai_conf) {
-    return {
+var transformDate = module.exports.transformDate = function(date) {};
 
-        /**
-         * Get the current logged in user's locale
-         *
-         * @return {String} The user's locale string in XXX format
-         */
-        getUserLocale : function() {
+/**
+ * Function that will take a date and convert it into a localized date and time string, conforming with
+ * the conventions for the user's current locale.
+ * 
+ * e.g. 2/20/2012 3:35 PM or Monday, February 20, 2012 3:35 PM
+ * 
+ * @param  {Date|Number}    date        Javascript date object or milliseconds since epoch that needs to be converted into a localized date string
+ * @param  {Boolean}        useShort    Whether or not to use the short version (2/20/2012 3:35 PM) or the long version (Monday, February 20, 2012 3:35 PM). By default, the long version will be used
+ * @return {String}                     Converted localized date and time
+ */
+var transformDateTime = module.exports.transformDateTime = function(date, useShort) {};
 
-        },
-
-        getUserDefaultLocale : function() {
-            var ret = sakai_conf.defaultLanguage;
-            // Get the browser language preference - IE uses userLanguage, all other browsers user language
-            var locale = navigator.language ? navigator.language : navigator.userLanguage;
-            if (locale) {
-                var split = locale.split('-');
-                if (split.length > 1) {
-                    split[1] = split[1].toUpperCase();
-                    var langs = sakai_conf.Languages;
-                    // Loop over all the available languages - if the user's browser language preference matches
-                    // then set their locale to that so they don't have to set it manually
-                    var i;
-                    for (i=0,j=langs.length; i<j; i++) {
-                        if (langs[i].language === split[0] && langs[i].country === split[1]) {
-                            ret = split[0] + '_' + split[1];
-                            break;
-                        }
-                    }
-                }
-            }
-            return ret;
-        },
-
-        getUserDefaultTimezone : function() {
-            var tz = jstz.determine_timezone();
-            return tz.name();
-        },
-
-        /**
-         * Parse a date string into a date object and adjust that date to the timezone
-         * set by the current user.
-         * @param {Object} dateString    date to parse in the format 2010-10-06T14:45:54+01:00
-         * @param {Object} meData the data from sakai.api.User.data.me
-         */
-        parseDateString : function(dateString, meData) {
-            var d = new Date();
-            d.setFullYear(parseInt(dateString.substring(0,4),10));
-            d.setMonth(parseInt(dateString.substring(5,7),10) - 1);
-            d.setDate(parseInt(dateString.substring(8,10),10));
-            d.setHours(parseInt(dateString.substring(11,13),10));
-            d.setMinutes(parseInt(dateString.substring(14,16),10));
-            d.setSeconds(parseInt(dateString.substring(17,19),10));
-            // Localization
-            if (!isNaN((parseInt(dateString.substring(19,22),10)))) {
-                d.setTime(d.getTime() - (parseInt(dateString.substring(19,22),10)*60*60*1000));
-            }
-            if (meData && meData.user.locale) {
-                d.setTime(d.getTime() + meData.user.locale.timezone.GMT * 60 * 60 * 1000);
-            }
-            return d;
-        },
-
-        parseDateLong : function(dateLong, meData) {
-            var d = new Date(dateLong);
-            return d;
-        },
-
-        /**
-         * Determines date from an epoch string in UTC and returns a date object and adjust that date to the timezone
-         * set by the current user.
-         * @param {Object} dateString    date epoch
-         * @param {Object} meData the data from sakai.api.User.data.me
-         */
-        fromEpoch : function(dateString, meData) {
-            var d = new Date(parseInt(dateString,10));
-            var UTCDate = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), d.getUTCHours(), d.getUTCMinutes(), d.getUTCSeconds()));
-            if (meData && meData.user.locale) {
-                UTCDate.setHours(UTCDate.getUTCHours() + meData.user.locale.timezone.GMT);
-                // Check to see if UTC is a day in the future
-                if (UTCDate.getUTCHours() + meData.user.locale.timezone.GMT < 0) {
-                    UTCDate.setDate(UTCDate.getUTCDate());
-                }
-            }
-            return UTCDate;
-        },
-
-        /**
-         * Function that will take in a date object and will transform that
-         * date object into a date only string
-         * @param {Date} date
-         *  JavaScript date object that we would like to transform in a
-         *  date string
-         * @return {String} Localized formatted date string
-         */
-        transformDate : function(date) {
-            return Globalize.format(date, 'd');
-        },
-
-        /**
-         * Function that will take in a date object and will transform that
-         * date object into a time only string
-         * @param {Date} date
-         *  JavaScript date object that we would like to transform in a
-         *  time string
-         * @return {String} Localized formatted time string
-         */
-        transformTime : function(date) {
-            return Globalize.format(date, 't');
-        },
-
-        /**
-         * Function that will take in a date object and will transform that
-         * date object into a date and time string
-         * @param {Date} date
-         *  JavaScript date object that we would like to transform in a
-         *  date and time string
-         * @return {String} Localized fomatted date and time string
-         */
-        transformDateTime : function(date) {
-            return Globalize.format(date, 'F');
-        },
-
-        /**
-         * Function to transform a date into a long date time string
-         * eg. Saturday, November 20, 2010 (for en_US)
-         * @param {Date} date
-         * @return {String} localized string
-         */
-        transformDateTimeLong : function(date) {
-            return Globalize.format(date, 'D');
-        },
-
-        /**
-         * Function to transform a date into a short date time string
-         * eg. 11/20/2010 5:12 PM (for en_US)
-         * @param {Date} date
-         * @return {String} localized string
-         */
-        transformDateTimeShort : function(date) {
-            return Globalize.format(date, 'd') + ' ' + Globalize.format(date, 't');
-        },
-
-        /**
-         * Function to localize a number including decimal places
-         * @param {Number} num a number
-         * @param {Integer} decimalplaces the number of decimal places to use
-         * @return {Number} the number formatted
-         */
-        transformDecimal : function(num, decimalplaces) {
-            return Globalize.format(num, 'n' + decimalplaces);
-        },
-
-        /**
-         * Function that will take in a date object and will transform that
-         * date object into a GMT date object. This should always be done before
-         * we try to save a date back to a file or the database. The timezone
-         * we are currently in will be determined from our timezone set in the
-         * personal preferences page
-         * @param {Date} date
-         *  JavaScript date object that we would like to transform in a
-         *  GMT date object
-         * @param {Object} meData the data from sakai.api.User.data.me
-         * @return {Date}
-         *  Date object, that will have transformed the given date and time into
-         *  GMT date and time
-         */
-        toGMT : function(date, meData) {
-            date.setHours(date.getHours() - meData.user.locale.timezone.GMT);
-            return date;
-        },
-
-        /**
-         * Function that will take in a GMT date object and will transform that
-         * date object into a local date object. This should always be done after
-         * we load a date back from a file or the database. The timezone
-         * we are currently in will be determined from our timezone set in the
-         * personal preferences page
-         * @param {Date} date
-         *  JavaScript GMT date object that we would like to transform to a local date object
-         * @param {Object} meData the data from sakai.api.User.data.me
-         * @return {Date}
-         *  Date object, that will have transformed the given GMT date and time into
-         *  a local date and time
-         */
-        fromGMT : function(date, meData) {
-            date.setHours(date.getHours() + meData.user.locale.timezone.GMT);
-            return date;
-        },
-
-        /**
-         * Function that will take in a JavaScript Number and will transform it into
-         * a localised number string that complies with decimal points and character used as separator
-         * as specified in the config file
-         * @param {Number} number
-         * Number we want to localise (eg 10000000.442)
-         * @return {String}
-         * Localised string of the number given to this function(eg '10.000.000,442')
-         */
-        transformNumber : function(number) {
-            return Globalize.format(number, 'n');
-        },
-
-        getDateFormatString : function() {
-            var pattern = Globalize.cultures[require('sakai/sakai.api.i18n').data.culture].calendar.patterns.d;
-            var split = pattern.split('/');
-            var i;
-            for (i=0, j=split.length; i<j; i++) {
-                if (split[i] === 'm' || split[i] === 'M') {
-                    split[i] = 'mm';
-                } else if (split[i] === 'd' || split[i] === 'D') {
-                    split[i] = 'dd';
-                }
-            }
-            return split.join('/').toUpperCase();
-        }
-    };
-});
+/**
+ * Function that will take a number and convert it into a localized number with correct punctuations, 
+ * conforming with the conventions for the user's current locale.
+ * 
+ * e.g. 10.000.000,442
+ * 
+ * @param  {Number}        number           Number that needs to be converted into a localized number
+ * @param  {Number}        decimalPlaces    The maximum number of decimal places that should be used. If this is not provided, all of them will be returned
+ * @return {String}                         Converted localized number
+ */
+var transformNumber = module.exports.transformNumber = function(number, decimalPlaces) {};

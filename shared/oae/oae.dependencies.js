@@ -35,8 +35,7 @@ require(
 require(
     [
         'jquery',
-        'sakai/sakai.api.core',
-        'sakai/sakai.jquery-extensions',
+        'oae/oae.api.core',
         'underscore',
         'jquery-ui',
         'js/l10n/globalize',

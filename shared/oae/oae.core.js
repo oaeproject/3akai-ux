@@ -23,7 +23,7 @@ define(
         'oae/oae.api.profile',
         'oae/oae.api.user',
         'oae/oae.api.util',
-        'oae/oae.api.widgets',
+        'oae/oae.api.widget',
         '/ui/configuration/config_custom.js',
         '/var/widgets.json?callback=define'
     ],
