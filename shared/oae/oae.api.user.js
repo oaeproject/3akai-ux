@@ -24,11 +24,13 @@
  * @param  {String}         [additionalOptions.locale]      The user's locale
  * @param  {String}         [additionalOptions.timezone]    The user's timezone
  * @param  {String}         [additionalOptions.publicAlias] The publically-available alias for users to see when the user's display name is protected
+ * @param  {String}         recaptchaChallenge              The identifier of the recaptcha challenge that has been presented to the user
+ * @param  {String}         recaptchaResponse               The response for the presented recaptcha challenge
  * @param  {Function}       [callback]                      Standard callback method
  * @param  {Object}         [callback.err]                  Error object containing error code and error message
  * @param  {User}           [callback.response]             A User object representing the created user
  */
-var createUser = module.exports.createUser = function(username, password, displayName, additionalOptions, callback) {};
+var createUser = module.exports.createUser = function(username, password, displayName, additionalOptions, recaptchaChallenge, recaptchaResponse, callback) {};
 
 /**
  * Gets the currently logged in user
@@ -47,7 +49,7 @@ var getMe = module.exports.getMe = function(callback) {};
  * @param  {Object}         callback.err        Error object containing error code and error message
  * @param  {User}           callback.response   The user's basic profile
  */
-var getUser = module.exports.getUser = function(restCtx, userId, callback) {};
+var getUser = module.exports.getUser = function(userId, callback) {};
 
 /**
  * Update the current user's basic profile
@@ -56,5 +58,5 @@ var getUser = module.exports.getUser = function(restCtx, userId, callback) {};
  * @param  {Function}       [callback]          Standard callback method
  * @param  {Object}         [callback.err]      Error object containing error code and error message
  */
-var updateUser = module.exports.updateUser = function(restCtx, userId, params, callback) {};
+var updateUser = module.exports.updateUser = function(params, callback) {};
 

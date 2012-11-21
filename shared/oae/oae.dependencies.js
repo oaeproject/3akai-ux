@@ -21,11 +21,8 @@ require(
             'jquery-plugins': 'js/jquery-plugins',
             'jquery-ui': 'js/jquery-ui.custom',
             'jquery-cookie': 'js/jquery-plugins/jquery.cookie',
-            'jquery-jstree': 'js/jquery-plugins/jsTree/jquery.jstree.sakai-edit',
             'jquery-fileupload': 'js/jquery-plugins/jquery.fileupload',
             'jquery-iframe-transport': 'js/jquery-plugins/jquery.iframe-transport',
-            'jquery-pager': 'js/jquery-plugins/jquery.pager.sakai-edited',
-            'jquery-tagcloud': 'js/jquery-plugins/jquery.tagcloud',
             'underscore': 'js/underscore'
         },
         priority: ['jquery', 'underscore']
@@ -50,8 +47,6 @@ require(
         'jquery-plugins/jquery.fileSize',
         'jquery-plugins/jquery.form',
         'jquery-plugins/gritter/jquery.gritter.sakai-edit',
-        'jquery-plugins/jquery.jcarousel.sakai-edit',
-        'jquery-plugins/jquery.jeditable.sakai-edited',
         'jquery-plugins/jquery.infinitescroll-sakai',
         'jquery-plugins/jquery.serializeObject'
     ],
