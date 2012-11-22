@@ -19,15 +19,15 @@ define(['exports'], function(exports) {
      * Get a widget's config.json file.
      * 
      * @param  {String}     widgetName      The name of the widget we want to retrieve
-     * @return {Object}                     JSON Object representing the widget's config file. This will be null if no widget can be found for the given widget id
+     * @return {Object}                     JSON object representing the widget's config file. This will be null if no widget can be found for the given widget id
      */
     var getWidgetConfig = exports.getWidgetConfig = function(widgetName) {};
     
     /**
-     * Get a list of all of the available widgets that have a certain property in their config file and their actual config files.
+     * Get a list of all of the available widgets that have certain properties in their config file and their actual config files.
      * 
-     * @param  {String}     [property]      Property that should be set on the widget's config file before it will return in the final list, so only the widgets we need are returned. If this is not provided, all widgets will be returned.
-     * @return {Object}                     JSON Object where the keys represent all of the available widgets and the values are the widget's config files.
+     * @param  {Object}     [property]      JSON object that lists all of the properties and values for those properties that should be set on the widget's config file before it will return in the final list, so only the widgets we need are returned. If this is not provided, all widgets will be returned.
+     * @return {Object}                     JSON object where the keys represent all of the available widgets and the values are the widget's config files.
      */
     var getWidgetConfigs = exports.getAllWidgetConfigs = function(property) {};
     

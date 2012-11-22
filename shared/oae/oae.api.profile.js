@@ -27,24 +27,14 @@ define(['exports'], function(exports) {
     var getSection = exports.getSection = function(userId, sectionId, callback) {};
     
     /**
-     * Get a list of the profile sections for which a user has data
-     * 
-     * @param  {String}         userId              User id of the user for who we want to retrieve all of the profile section
-     * @param  {Function}       callback            Standard callback method takes arguments `err` and `sections`
-     * @param  {Object}         callback.err        Error object containing error code and error message
-     * @param  {String[]}       callback.sections   Array containing the section ids for all the sections a user has profile information for
-     */
-    var getAvailableSections = exports.getAllSections = function(userId, callback) {};
-    
-    /**
-     * Get an overview of the visibility setting of all of the profile sections of a user.
+     * Get an overview of all of the sections for which a user has profile information set and their visibility setting.
      * 
      * @param  {String}         userId              User id of the user for who we want to retrieve the profile section visibility overview
      * @param  {Function}       callback            Standard callback method takes arguments `err` and `vis`
      * @param  {Object}         callback.err        Error object containing error code and error message
      * @param  {Object}         callback.vis        JSON object representing all of the user's profile sections and their visibility. The keys are the profile section ids, and the values are the visibility settings for those sections
      */
-    var getAllSectionsVisibility = exports.getAllSectionsVisibility = function(userId, callback) {};
+    var getSectionOverview = exports.getSectionOverview = function(userId, callback) {};
     
     /**
      * Set a profile section for the currently logged in user.
