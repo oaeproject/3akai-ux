@@ -1,0 +1,115 @@
+/*!
+ * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ *     http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+/*
+ * Dependencies
+ *
+ * /dev/lib/misc/trimpath.template.js (TrimpathTemplates)
+ */
+
+/*global $ */
+
+require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
+
+    /**
+     * @name sakai.contentpreview
+     *
+     * @class contentpreview
+     *
+     * @description
+     * Initialize the contentpreview widget
+     *
+     * @version 0.0.1
+     * @param {String} tuid Unique id of the widget
+     * @param {Boolean} showSettings Show the settings of the widget or not
+     */
+    sakai_global.contentpreview = function(tuid,showSettings) {
+
+        var $rootel = $('#' + tuid);
+        var obj = {};
+        obj.type = 'showpreview';
+        var contentData = {};
+
+        var determineDataType = function() {
+            hidePreview();
+            obj.type = 'showpreview';
+            obj.buttons = 'default';
+            var callback = null;
+            var mimeType = sakai.api.Content.getMimeType(contentData);
+            obj.userName = sakai.api.User.getDisplayName(contentData.createdBy);
+            if ($.deparam.querystring().nopreview === 'true') {
+                callback = renderDefaultPreview;
+                obj.type = 'default';
+            } else if (contentData.contentType === 'link') {
+                obj.buttons = 'links';
+            }
+            if (sakai.api.Content.hasPreview(contentData)) {
+                callback = renderFullSizePreview;
+            } else {
+                obj.type = 'default';
+            }
+            obj.sakai = sakai;
+            obj.contentData = contentData;
+            if (sakai_global && sakai_global.content_profile && (sakai_global.content_profile.content_data.contentType !== 'collection' &&
+                sakai_global.content_profile.content_data.contentType !== 'sakaidoc')) {
+                $('.collectionviewer_widget .collectionviewer_collection_item_preview').remove();
+            }
+            sakai.api.Util.TemplateRenderer('contentpreview_widget_main_template', obj, $('#contentpreview_widget_main_container', $rootel));
+            if (callback) {
+                callback();
+            }
+        };
+
+        var renderFullSizePreview = function() {
+            var fullSizeContainer = $('#contentpreview_fullsize_preview', $rootel);
+            var tuid = sakai.api.Util.generateWidgetId();
+            var data = {};
+            data[tuid] = contentData;
+            sakai.api.Util.TemplateRenderer($('#contentpreview_fullsize_template', $rootel), {tuid: tuid}, fullSizeContainer);
+            sakai.api.Widgets.widgetLoader.insertWidgets(fullSizeContainer, false, false, data);
+        };
+
+        var hidePreview = function() {
+            $('#contentpreview_widget_main_container', $rootel).html('');
+            $('#contentpreview_image_preview', $rootel).html('');
+        };
+
+        if (!$rootel.parents('.collectionviewer_collection_item_preview').length) {
+            $(window).on('start.contentpreview.sakai', function(ev, data) {
+                contentData = data;
+                determineDataType();
+            });
+
+            $(window).on('updated.version.content.sakai',function() {
+                determineDataType();
+            });
+
+            // Indicate that the widget has finished loading
+            sakai_global.contentpreview.isReady = true;
+            $(window).trigger('ready.contentpreview.sakai', {});
+        } else {
+            $rootel.parents('.collectionviewer_widget').on('start.collectioncontentpreview.sakai', function(ev, data) {
+                contentData = data;
+                determineDataType();
+            });
+
+            // Indicate that the widget has finished loading
+            sakai_global.contentpreview.isReady = true;
+            $rootel.parents('.collectionviewer_widget').trigger('ready.collectioncontentpreview.sakai');
+        }
+    };
+
+    sakai.api.Widgets.widgetLoader.informOnLoad('contentpreview');
+});
