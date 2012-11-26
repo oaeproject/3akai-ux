@@ -3,6 +3,7 @@
 target/
 *.kpf
 nginx.*
+!nginx.conf
 /dev-i
 .DS_Store
 *.swp
