@@ -34,31 +34,37 @@ define(function() {
             I18N_CUSTOM_BUNDLE: '/dev/configuration/custom.properties',
 
             // Services
-            BATCH: '/system/batch',
-            CAPTCHA_SERVICE: '/system/captcha',
+            BATCH: '/api/batch',
+            CAPTCHA_SERVICE: '/api/user/captcha',
             CONTACTS_FIND: '/var/contacts/find.json',
             CONTACTS_FIND_STATE: '/var/contacts/findstate.json',
             CONTACTS_FIND_ALL: '/var/contacts/find-all.json',
-            CREATE_USER_SERVICE: '/system/userManager/user.create.html',
+            CREATE_USER_SERVICE: '/api/user/create',
             DISCUSSION_GETPOSTS_THREADED: '/var/search/discussions/threaded.json?path=__PATH__&marker=__MARKER__',
             GOOGLE_CHARTS_API: 'http://chart.apis.google.com/chart',
-            GROUP_CREATE_SERVICE: '/system/userManager/group.create.json',
+            GROUP_CREATE_SERVICE: '/api/group/create',
             GROUPS_MANAGER: '/system/me/managedgroups.json',
             GROUPS_MEMBER: '/system/me/groups.json',
             IMAGE_SERVICE: '/var/image/cropit',
-            LOGIN_SERVICE: '/system/sling/formlogin',
-            LOGOUT_SERVICE: '/system/sling/logout?resource=/index',
+            LOGIN_SERVICE: '/api/auth/login',
+            LOGOUT_SERVICE: '/api/auth/logout',
             ME_SERVICE: '/api/me',
             MESSAGE_BOXCATEGORY_SERVICE: '/var/message/boxcategory.json',
             MESSAGE_BOXCATEGORY_ALL_SERVICE: '/var/message/boxcategory-all.json',
+            POOLED_CONTENT_ITEM: '/api/content/__CONTENTID__',
             POOLED_CONTENT_MANAGER: '/var/search/pool/me/manager.json',
             POOLED_CONTENT_MANAGER_ALL: '/var/search/pool/me/manager-all.json',
             POOLED_CONTENT_VIEWER: '/var/search/pool/me/viewer.json',
             POOLED_CONTENT_VIEWER_ALL: '/var/search/pool/me/viewer-all.json',
-            POOLED_CONTENT_SPECIFIC_USER: '/var/search/pool/auth-all.json',
+            POOLED_CONTENT_SPECIFIC_USER: '/api/content/library/__USERID__',
             PRESENCE_SERVICE: '/var/presence.json',
             SAKAI2_TOOLS_SERVICE: '/var/proxy/s23/site.json?siteid=__SITEID__',
-            STATIC_BATCH: '/system/staticfiles',
+            STATIC_BATCH: '/api/staticfiles',
+            USER_BASIC: '/api/user/__USERID__',
+            USER_PROFILE_FULL: '/api/user/__USERID__/profile',
+            USER_PROFILE_SECTION: '/api/user/__USERID__/profile/__SECTION__',
+            USER_PROFILE_SECTION_VISIBILITY: '/api/user/__USERID__/profile/__SECTION__/visibility',
+            USER_MEMBERSHIPS: '/api/user/__USERID__/memberships',
             WORLD_CREATION_SERVICE: '/system/world/create',
             WORLD_INFO_URL: '/var/templates/worlds.2.json',
 
@@ -77,7 +83,7 @@ define(function() {
             SEARCH_USERS_GROUPS: '/var/search/usersgroups.json',
             SEARCH_USERS_GROUPS_ALL: '/var/search/usersgroups-all.json',
             USER_CHANGEPASS_SERVICE: '/system/userManager/user/__USERID__.changePassword.html',
-            USER_EXISTENCE_SERVICE: '/system/userManager/user.exists.html?userid=__USERID__'
+            USER_EXISTENCE_SERVICE: 'api/user/exists/__USERNAME__'
         },
 
         PageTitles: {
@@ -285,26 +291,12 @@ define(function() {
                         'permission': 'anonymous',
                         'order': 0,
                         'elements': {
-                            'firstName': {
-                                'label': '__MSG__PROFILE_BASIC_FIRSTNAME_LABEL__',
-                                'errorMessage': '__MSG__PROFILE_BASIC_FIRSTNAME_ERROR__',
-                                'required': true,
-                                'display': true,
-                                'limitDisplayWidth': 300
-                            },
-                            'lastName': {
-                                'label': '__MSG__PROFILE_BASIC_LASTNAME_LABEL__',
-                                'errorMessage': '__MSG__PROFILE_BASIC_LASTNAME_ERROR__',
-                                'required': true,
-                                'display': true,
-                                'limitDisplayWidth': 300
-                            },
                             'picture': {
                                 'label': '__MSG__PROFILE_BASIC_PICTURE_LABEL__',
                                 'required': false,
                                 'display': false
                             },
-                            'preferredName': {
+                            'displayName': {
                                 'label': '__MSG__PROFILE_BASIC_PREFERREDNAME_LABEL__',
                                 'required': false,
                                 'display': true

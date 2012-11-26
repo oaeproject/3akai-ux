@@ -15,18 +15,18 @@
 
 <div id="displayprofilesection_edit_template" style="display:none"><!--
     {macro renderTextInput(config, field_id, data)}
-        <input type="text" id="${field_id}" name="${field_id}" {if data && data.value}value="${data.value|safeOutput}"{/if} class="{if config.required}required {/if}{if config.validation} ${config.validation} {/if}"/>
+        <input type="text" id="${field_id}" name="${field_id}" {if data}value="${data|safeOutput}"{/if} class="{if config.required}required {/if}{if config.validation} ${config.validation} {/if}"/>
     {/macro}
 
     {macro renderTextarea(config, field_id, data)}
-        <textarea id="${field_id}" name="${field_id}" {if config.required} class="required"{/if}>{if data && data.value}${data.value}{/if}</textarea>
+        <textarea id="${field_id}" name="${field_id}" {if config.required} class="required"{/if}>{if data}${data}{/if}</textarea>
     {/macro}
 
     {macro renderDropdown(config, field_id, data)}
         <select id="${field_id}" name="${field_id}" {if config.required} class="required"{/if}>
             <option value=""></option>
         {for option in config.select_elements}
-            <option value="${option_index}"{if data && data.value === option_index} selected="selected"{/if}>${option}</option>
+            <option value="${option_index}"{if data === option_index} selected="selected"{/if}>${option}</option>
         {/for}
         </select>
     {/macro}
@@ -110,7 +110,7 @@
 
 <div id="displayprofilesection_view_template" style="display:none"><!--
     {macro renderField(config, field_id, field_data)}
-        {var value = config.type === "select" ? sakai.api.i18n.General.process(config.select_elements[field_data.value]) : field_data.value}
+        {var value = config.type === "select" ? sakai.api.i18n.General.process(config.select_elements[field_data]) : field_data}
         <span class="field_value">
             {var displayValue = value}
             {if config.limitDisplayWidth}
@@ -130,10 +130,11 @@
     {/macro}
 
     {for field in section.elements}
+
         {if field.display}
             {var field_key = field_index === "tags" ? "sakai:tags" : field_index}
             {var field_data = data && data[ field_key ] ? data[ field_key ] : false}
-            {if field_data && field_data.value && ($.trim(field_data.value) !== "" || $.isArray(field_data.value))}
+            {if field_data && ($.trim(field_data) !== "" || $.isArray(field_data))}
             <div class="displayprofilesection_field">
                 <span class="s3d-input-label">
                     {if field.altLabel}

@@ -127,15 +127,21 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn'], function($, sakai) {
                 else {
                     $('button').removeAttr('disabled');
                     $('input').removeAttr('disabled');
-                    if (data.status === 500 || data.status === 401) {
-                        if (data.responseText.indexOf('Untrusted request') !== -1) {
-                            sakai_global.captcha.reload();
-                            sakai_global.captcha.showError("create_account_input_error");
-                        } else {
-                            showCreateUserError($(data.responseText).find('#Message').text());
-                        }
+                    
+                    var msg = 'Couldn\'t create your account.';
+                    try {
+                        var json = JSON.parse(data.responseText);
+                        msg = json.msg;
+                    } catch (err) {
+                        // Swallow exception,
+                        // something else went really wrong.
+                    }
+   
+                    if (msg === 'Invalid reCaptcha token.') {
+                        sakai_global.captcha.reload();
+                        sakai_global.captcha.showError('create_account_input_error');
                     } else {
-                        showCreateUserError($(data.responseText).find('#Message').text());
+                        showCreateUserError(msg);
                     }
                 }
             });
@@ -174,7 +180,7 @@ require(['jquery', 'sakai/sakai.api.core', 'misc/zxcvbn'], function($, sakai) {
             // If we reach this point, we have a username in a valid format. We then go and check
             // on the server whether this eid is already taken or not. We expect a 200 if it already
             // exists and a 401 if it doesn't exist yet.
-            var url = sakai.config.URL.USER_EXISTENCE_SERVICE.replace(/__USERID__/g, $.trim(values.username));
+            var url = sakai.config.URL.USER_EXISTENCE_SERVICE.replace(/__USERNAME__/g, $.trim(values.username));
             if (errObj.length === 0) {
                 $.ajax({
                     // Replace the preliminary parameter in the service URL by the real username entered

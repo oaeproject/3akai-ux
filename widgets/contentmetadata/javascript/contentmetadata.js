@@ -127,7 +127,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
          */
         var renderUrl = function(mode) {
             sakai_global.content_profile.content_data.mode = mode;
-            contentType = sakai.api.Content.getMimeType(sakai_global.content_profile.content_data.data);
+            contentType = sakai.api.Content.getMimeType(sakai_global.content_profile.content_data);
             if (contentType === 'x-sakai/link') {
                 var json = {
                     data: sakai_global.content_profile.content_data,
@@ -151,14 +151,14 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
             var json = {
                 data: sakai_global.content_profile.content_data,
                 sakai: sakai,
-                tags: sakai.api.Util.formatTags(sakai_global.content_profile.content_data.data['sakai:tags'])
+                tags: sakai.api.Util.formatTags(sakai_global.content_profile.content_data.tags)
             };
             $contentmetadataTagsContainer.html(sakai.api.Util.TemplateRenderer(contentmetadataTagsTemplate, json));
             $contentmetadataTagsContainer.toggleClass('contentmetadata_editing', mode === 'edit');
             $contentmetadataTagsContainer.toggleClass('contentmetadata_editable', mode !== 'edit');
             if (mode === 'edit') {
                 $contentmetadataAutosuggestElt = $( '#contentmetadata_tags_tags' );
-                sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest($contentmetadataAutosuggestElt , null, $( '.list_categories', $contentmetadataTagsContainer ), sakai_global.content_profile.content_data.data['sakai:tags'], function() {
+                sakai.api.Util.AutoSuggest.setupTagAndCategoryAutosuggest($contentmetadataAutosuggestElt , null, $( '.list_categories', $contentmetadataTagsContainer ), sakai_global.content_profile.content_data.tags, function() {
                     $('.as-selections', $contentmetadataTagsContainer ).addClass('contentmetadata_edit_input');
                     $contentmetadataAutosuggestElt.focus();
                 });
@@ -186,23 +186,20 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
          * @param {String|Boolean} mode Can be false or 'edit' depending on the mode you want to be in
          */
         var renderDetails = function(mode) {
-            sakai_global.content_profile.content_data.mode = mode;
-            sakai.api.Content.getCreatorProfile(sakai_global.content_profile.content_data.data, function(success, profile) {
-                var json = {
-                    data: sakai_global.content_profile.content_data,
-                    sakai: sakai,
-                    creator: profile
-                };
-                sakai.api.Util.TemplateRenderer(contentmetadataDetailsTemplate, json, $contentmetadataDetailsContainer);
-                addEditBinding(mode);
-            });
+            var json = {
+                data: sakai_global.content_profile.content_data,
+                sakai: sakai,
+                creator: sakai_global.content_profile.content_data.createdBy
+            };
+            sakai.api.Util.TemplateRenderer(contentmetadataDetailsTemplate, json, $contentmetadataDetailsContainer);
+            addEditBinding(mode);
         };
 
         var createActivity = function(activityMessage) {
             var activityData = {
                 'sakai:activityMessage': activityMessage
             };
-            sakai.api.Activity.createActivity('/p/' + sakai_global.content_profile.content_data.data['_path'], 'content', 'default', activityData, function(responseData, success) {
+            sakai.api.Activity.createActivity('/p/' + sakai_global.content_profile.content_data.contentId, 'content', 'default', activityData, function(responseData, success) {
                 if (success) {
                     // update the entity widget with the new activity
                     $(window).trigger('updateContentActivity.entity.sakai', activityMessage);
@@ -216,12 +213,12 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
 
         var updateTags = function() {
             var tags = sakai.api.Util.AutoSuggest.getTagsAndCategories($contentmetadataAutosuggestElt, true);
-            var path = sakai_global.content_profile.content_data.data['_path'];
-            sakai.api.Util.tagEntity('/p/' + path, tags, sakai_global.content_profile.content_data.data['sakai:tags'], function(success, newTags) {
+            var path = sakai_global.content_profile.content_data.contentId;
+            sakai.api.Util.tagEntity('/p/' + path, tags, sakai_global.content_profile.content_data.tags, function(success, newTags) {
                 // We need this check because it's possible that this is called after new content is shown.
                 // If that is the case, we still need to send the update tags activity, but not render the actual tags.
-                if (path === sakai_global.content_profile.content_data.data['_path']) {
-                    sakai_global.content_profile.content_data.data['sakai:tags'] = newTags;
+                if (path === sakai_global.content_profile.content_data.contentId) {
+                    sakai_global.content_profile.content_data.tags = newTags;
                     renderTags(false);
                 }
                 if (success) {
@@ -236,24 +233,13 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
          * @param {String} updateUrl The new URL to update with
          */
         var updateUrl = function(url) {
-            var preview = sakai.api.Content.getPreviewUrl(url);
-            sakai_global.content_profile.content_data.data['sakai:pooled-content-url'] = url;
-            sakai_global.content_profile.content_data.data['sakai:pooled-content-revurl'] = url;
-            sakai_global.content_profile.content_data.data['sakai:preview-url'] = preview.url;
-            sakai_global.content_profile.content_data.data['sakai:preview-type'] = preview.type;
-            sakai_global.content_profile.content_data.data['sakai:preview-avatar'] = preview.avatar;
-            sakai_global.content_profile.content_data.data['length'] = url.length;
+            var contentId = sakai_global.content_profile.content_data.contentId;
             $.ajax({
-                url: '/p/' + sakai_global.content_profile.content_data.data['_path'] + '.html',
+                url: sakai.config.URL.POOLED_CONTENT_ITEM.replace('__CONTENTID__', contentId),
                 type: 'POST',
                 cache: false,
                 data: {
-                    'sakai:pooled-content-url': url,
-                    'sakai:pooled-content-revurl': url,
-                    'sakai:preview-url': preview.url,
-                    'sakai:preview-type': preview.type,
-                    'sakai:preview-avatar': preview.avatar,
-                    'length': url.length
+                    'link': url,
                 },
                 success: function() {
                     createActivity('UPDATED_URL');
@@ -304,12 +290,13 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
          * @param {String} value The new field value
          */
         var updateData = function(field, value) {
-            if (value !== sakai_global.content_profile.content_data.data['sakai:' + field]) {
+            if (value !== sakai_global.content_profile.content_data[field]) {
                 switch (field) {
                     case 'description':
-                        saveData({'sakai:description': value}, function(success) {
+                        var id = sakai_global.content_profile.content_data.contentId;
+                        sakai.api.Content.updateContentItem(id, {'description': value}, function(success) {
                             if (success) {
-                                sakai_global.content_profile.content_data.data['sakai:description'] = value;
+                                sakai_global.content_profile.content_data.description = value;
                                 createActivity('UPDATED_DESCRIPTION');
                             }
                         });
@@ -317,7 +304,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
                     case 'copyright':
                         saveData({'sakai:copyright': value}, function(success) {
                             if (success) {
-                                sakai_global.content_profile.content_data.data['sakai:copyright'] = value;
+                                sakai_global.content_profile.content_data.copyright = value;
                                 createActivity('UPDATED_COPYRIGHT');
                             }
                         });
@@ -335,7 +322,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
          * @param {Function} callback Function to call when the request is completed
          */
         var saveData = function(dataToSave, callback) {
-            var url = '/p/' + sakai_global.content_profile.content_data.data['_path'] + '.json';
+            var url = '/p/' + sakai_global.content_profile.content_data.contentId + '.json';
             sakai.api.Server.saveJSON(url, dataToSave, function(success, data) {
                 if ($.isFunction(callback)) {
                     callback(success);
@@ -426,7 +413,7 @@ require(['jquery', 'sakai/sakai.api.core', '/dev/javascript/content_profile.js']
             var copyrightData = {};
             var selected = false;
             $.each(sakai.config.Permissions.Copyright.types, function(key, val) {
-                if (sakai_global.content_profile.content_data.data['sakai:copyright'] === key) {
+                if (sakai_global.content_profile.content_data.copyright === key) {
                     selected = key;
                 }
                 copyrightData[key] = sakai.api.i18n.getValueForKey(val.title, 'contentmetadata');
