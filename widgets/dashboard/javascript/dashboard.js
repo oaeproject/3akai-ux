@@ -177,9 +177,9 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         var doInit = function() {
             var person = sakai.data.me;
 
-            if (!person.user.userid) {
+            if (!person.userId) {
                 $(window).trigger('notUsersDashboard.dashboard.sakai');
-            } else if (person.user.anon) {
+            } else if (person.anon) {
                 $(window).trigger('notLoggedIn.dashboard.sakai');
             }
 
@@ -489,7 +489,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
                       var $clicked = $(e.target);
 
                       // Check if the clicked target is not the settings menu
-                      if (!$clicked.is('.settings', $rootel) && !$clicked.parent('.settings', $rootel).length) {
+                      if (!$clicked.is('.settings', $rootel)) {
                           $('#widget_settings_menu', $rootel).hide();
                           $('#' + currentSettingsOpen + '_settings', $rootel).children('.dashboard_widget_arrow').hide();
                           currentSettingsOpen = false;
@@ -1020,7 +1020,7 @@ require(['jquery', 'sakai/sakai.api.core', 'jquery-ui'], function($, sakai) {
         };
 
         // Dashboards are only used in the private space these days
-        init('/~' + sakai.data.me.user.userid + '/private/privspace/', true, 'personalportal', false);
+        init('/~' + sakai.data.me.userId + '/private/privspace/', true, 'personalportal', false);
 
         /**
          * Send out an event to indicate that the dashboard widget has been

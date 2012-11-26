@@ -511,6 +511,9 @@ define(
          * the current user
          */
         getUnreadMessagesCountOverview : function(box, callback, ignoreCache) {
+            // TODO
+            return callback(true, {"count":[{"group":"message","count":0}]})
+
             if (!ignoreCache && sakai_user.data.me.messages.countOverview && $.isFunction(callback)) {
                 callback(true, sakai_user.data.me.messages.countOverview);
             } else {

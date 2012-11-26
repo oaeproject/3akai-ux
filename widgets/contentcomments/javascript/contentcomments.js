@@ -246,7 +246,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 items = widgetSettings.perPage;
             }
 
-            var url = '/p/' + contentData.data['_path'] + '.comments?sortOn=' + sortOn + '&sortOrder=' + sortOrder + '&page=' + (clickedPage - 1) + '&items=' + items;
+            var url = '/p/' + contentData.contentId + '.comments?sortOn=' + sortOn + '&sortOrder=' + sortOrder + '&page=' + (clickedPage - 1) + '&items=' + items;
             $.ajax({
                 url: url,
                 cache: false,
@@ -312,7 +312,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     'comment': body
                 };
 
-                var url = '/p/' + contentData.data['_path'] + '.comments';
+                var url = '/p/' + contentData.contentId + '.comments';
                 $.ajax({
                     url: url,
                     type: 'POST',
@@ -323,7 +323,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                         $(contentcommentsNamePosterTxt, rootel).val('');
                         $(contentcommentsMailPosterTxt, rootel).val('');
                         // Add an acitivty
-                        sakai.api.Activity.createActivity('/p/' + contentData.data['_path'], 'content', 'default', {'sakai:activityMessage': 'CONTENT_ADDED_COMMENT'}, function(responseData, success) {
+                        sakai.api.Activity.createActivity('/p/' + contentData.contentId, 'content', 'default', {'sakai:activityMessage': 'CONTENT_ADDED_COMMENT'}, function(responseData, success) {
                             if (success) {
                                 // update the entity widget with the new activity
                                 $window.trigger('updateContentActivity.entity.sakai', 'CONTENT_ADDED_COMMENT');
@@ -489,13 +489,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * @param {Boolean} getComments true = fetch contentcomments if contentcomments are to be shown, false = do not fetch contentcomments.
          */
         var checkCommentsPermissions = function(getComments) {
-            var showComments = contentData.data['sakai:showcontentcomments'];
-            var allowComments = contentData.data['sakai:allowcontentcomments'];
+            var showComments = contentData['sakai:showcontentcomments'];
+            var allowComments = contentData['sakai:allowcontentcomments'];
             if (showComments === true) {
                 if (getComments) {
                     pagerClickHandler(1);
                 }
-                if (sakai.api.User.isAnonymous(sakai.data.me)) {
+                if (sakai.api.User.isAnonymous()) {
                     // hide contentcomments entry box
                     $('#contentcomments_userCommentContainer', rootel).hide();
                 } else {
@@ -575,27 +575,27 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         var doInit = function() {
             // Temporarily set these here, always allowing comments
             //contentData.data = contentData.data || {};
-            contentData.data['sakai:showcontentcomments'] = true;
-            contentData.data['sakai:allowcontentcomments'] = true;
+            contentData['sakai:showcontentcomments'] = true;
+            contentData['sakai:allowcontentcomments'] = true;
             $(contentcommentsEditorOptions, rootel).hide();
             if (sakai_global.content_profile && contentData) {
-                contentPath = '/p/' + contentData.data['_path'];
+                contentPath = '/p/' + contentData.contentId;
 
                 // check if contentcomments are allowed or shown and display the checkbox options for the manager
                 if (contentData.isManager) {
-                    if (contentData.data['sakai:allowcontentcomments'] === false) {
+                    if (contentData['sakai:allowcontentcomments'] === false) {
                         $(contentcommentsAllowCheckbox, rootel).removeAttr('checked');
                     } else {
-                        contentData.data['sakai:allowcontentcomments'] = true;
+                        contentData['sakai:allowcontentcomments'] = true;
                         $(contentcommentsAllowCheckbox, rootel).attr('checked', 'checked');
                     }
-                    if (contentData.data['sakai:showcontentcomments'] === false) {
+                    if (contentData['sakai:showcontentcomments'] === false) {
                         $(contentcommentsShowCheckbox, rootel).removeAttr('checked');
                         $(contentcommentsAllowCheckbox, rootel).removeAttr('checked');
                         $(contentcommentsAllowCheckbox, rootel).attr('disabled', 'disabled');
                         showCommentsChecked = false;
                     } else {
-                        contentData.data['sakai:showcontentcomments'] = true;
+                        contentData['sakai:showcontentcomments'] = true;
                         $(contentcommentsShowCheckbox, rootel).attr('checked', 'checked');
                         $(contentcommentsAllowCheckbox, rootel).removeAttr('disabled');
                     }
@@ -608,8 +608,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 sakai.api.Util.TemplateRenderer('#contentcomments_userCommentContainer_template', {picture: picture}, $(contentcommentsUserCommentContainer, rootel));
                 $(contentcommentsSettingsContainer, rootel).hide();
                 $(contentcommentsOutputContainer, rootel).show();
-                var isLoggedIn = (me.user.anon && me.user.anon === true) ? false : true;
-                if (!isLoggedIn) {
+                if (sakai.api.User.isAnonymous()) {
                     $(contentcommentsUserCommentContainer, rootel).hide();
                 }
             }

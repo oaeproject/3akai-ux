@@ -106,28 +106,28 @@
     {if items}
         {var count = 0}
         {for item in items}
-            {if item["sakai:pooled-content-file-name"]}
+            {if item.name}
                 {var count = count + 1}
                 {var canShare = sakai.api.Content.canCurrentUserShareContent(item)}
                 <li id="${item.id|safeOutput}" class="fl-container fl-fix mylibrary_item s3d-search-result s3d-draggable-container" data-scope="content" data-entityid="${item.id}" {if sakai.api.Content.Collections.isCollection(item)} data-collection="true" {/if} data-canshare="${canShare}">
                     <div class="s3d-search-result-user-functions s3d-draggable-hidden">
                         <div class="mylibrary_item_left_filler">
-                            {if !sakai.data.me.user.anon}
+                            {if !sakai.data.me.anon}
                                 <input class="mylibrary_check s3d-draggable-select" id="mylibrary_check_${item.id}" type="checkbox" data-entityid="${item.id}" data-entityname="${item["sakai:pooled-content-file-name"]|safeOutput}" data-type="${item.mimeType}" data-canshare="${canShare}"/>
                                 {if isMe}
-                                    <label for="mylibrary_check_${item.id}" class="s3d-aural-text">__MSG__SELECT__ ${item['sakai:pooled-content-file-name-short']|safeOutput} __MSG__SELECT_REMOVE__</label>
+                                    <label for="mylibrary_check_${item.id}" class="s3d-aural-text">__MSG__SELECT__ ${item['name-short']|safeOutput} __MSG__SELECT_REMOVE__</label>
                                     <button class="s3d-link-button s3d-action-icon s3d-actions-delete mylibrary_remove_icon" type="button" title="__MSG__REMOVE__" data-entityid="${item.id}" data-type="${item.mimeType}"></button>
                                 {/if}
                             {/if}
                         </div>
-                        {if !sakai.data.me.user.anon}
+                        {if !sakai.data.me.anon}
                             <button title="__MSG__ADD_TO__" data-entityid="${item.id}" class="s3d-link-button s3d-action-icon s3d-actions-addtolibrary mylibrary_item_share_icon savecontent_trigger s3d-draggable-hidden"></button>
                         {/if}
                         {if canShare}
                             <button class="s3d-link-button s3d-action-icon s3d-actions-share mylibrary_item_share_icon share_trigger_click s3d-draggable-hidden" data-entityid="${item.id}" title="__MSG__SHARE_CONTENT__"></button>
                         {/if}
                     </div>
-                    <a href="${item.link}/${item["sakai:pooled-content-file-name"]|safeURL}" title="__MSG__VIEW_THIS_ITEM__">
+                    <a href="${item.homePath}" title="__MSG__VIEW_THIS_ITEM__">
                         {if item.thumbnail}
                             <img src="${item.thumbnail}" alt="${item.mimeTypeDescription}" />
                         {else}
@@ -136,9 +136,9 @@
                     </a>
                     <div class="mylibrary_item_right s3d-regular-links s3d-search-result-right">
                         <div>
-                            <a class="s3d-bold s3d-regular-light-links" href="${item.link}/${item["sakai:pooled-content-file-name"]|safeURL}" title="__MSG__VIEW_THIS_ITEM__">
-                                <span class="s3d-search-result-name">${item['sakai:pooled-content-file-name-short']}</span>
-                                <span class="s3d-search-result-name-grid">${item['sakai:pooled-content-file-name-shorter']}</span>
+                            <a class="s3d-bold s3d-regular-light-links" href="${item.homePath}" title="__MSG__VIEW_THIS_ITEM__">
+                                <span class="s3d-search-result-name">${item['name-short']}</span>
+                                <span class="s3d-search-result-name-grid">${item['name-shorter']}</span>
                             </a>
                             {if item.mimeTypeDescription}
                                 <span class="mylibrary_item_mimetype">${item.mimeTypeDescription|safeOutput}</span>
@@ -151,7 +151,7 @@
                                     <span> | </span>
                                 </span>
                             {/if}
-                            __MSG__CHANGED__ ${jQuery.timeago(new Date(item._lastModified))}
+                            __MSG__CHANGED__ ${jQuery.timeago(new Date(parseInt(item.lastModified, 10)))}
                         </div>
                         {if item["sakai:description-long"]}
                             <div class="mylibrary_item_description">
@@ -159,7 +159,7 @@
                             </div>{/if}
                         {if item.tags && item.tags.length > 0}
                             <div class="mylibrary_item_tags s3d-taglist">
-                                <span class="s3d-aural-text">__MSG__TAGS_FOR__ ${item["sakai:pooled-content-file-name"]|safeOutput}</span>
+                                <span class="s3d-aural-text">__MSG__TAGS_FOR__ ${item["name"]|safeOutput}</span>
                                 <ul class="mylibrary_item_tags_list">
                                     {for t in item.tags}
                                         <li><a class="s3d-regular-light-links" href="${t.link}" title="${t.linkTitle}">${t.value}</a></li>
@@ -169,7 +169,7 @@
                         {/if}
                         {if !$.isEmptyObject(item.tagsProcessed)}
                             <div class="mylibrary_item_tags s3d-taglist-container">
-                                <span class="s3d-aural-text">__MSG__TAGS_FOR__ ${item["sakai:pooled-content-file-name"]|safeOutput}</span>
+                                <span class="s3d-aural-text">__MSG__TAGS_FOR__ ${item["name"]|safeOutput}</span>
                                 <ul class="mylibrary_item_tags_list s3d-taglist">
                                     {for t in item.tagsProcessed}
                                         <li>

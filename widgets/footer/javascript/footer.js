@@ -112,10 +112,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         var updateLocationLanguage = function() {
-            if (!sakai.data.me.user.anon) {
-                $('#footer_location').text(sakai.data.me.user.locale.timezone.name);
+            if (!sakai.data.me.anon) {
+                $('#footer_location').text(sakai.data.me.locale.timezone.name);
                 for (var i = 0, len = sakai.config.Languages.length; i < len; i++) {
-                    if (sakai.data.me.user.locale.country === sakai.config.Languages[i].country) {
+                    if (sakai.data.me.locale.country === sakai.config.Languages[i].country) {
                         $('#footer_language').text(sakai.config.Languages[i].displayName);
                         break;
                     }
@@ -167,7 +167,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 $footer_logo.attr('disabled', 'disabled');
             }
 
-            if (!sakai.data.me.user.anon && (sakai.config.displayTimezone || sakai.config.displayLanguage)) {
+            if (!sakai.data.me.anon && (sakai.config.displayTimezone || sakai.config.displayLanguage)) {
                 if (sakai.config.displayTimezone) {
                     $('#footer_langdoc_loc').show();
                 }

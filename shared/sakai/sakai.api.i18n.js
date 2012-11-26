@@ -119,7 +119,7 @@ define(
                     sakai_config.requireUser = sakai_config.requireUser.concat(sakai_config.requireUserAnonNotAllowed);
                     sakai_config.requireAnonymous = sakai_config.requireAnonymous.concat(sakai_config.requireAnonymousAnonNotAllowed);
                 }
-                if (meData && meData.user && meData.user.anon) {
+                if (meData && meData.anon) {
                     if ($.inArray(currentPage, sakai_config.requireUser) > -1) {
                         // This is not great, but our util.Templating code needs to call i18n at the moment. TODO
                         require('sakai/sakai.api.util').Security.sendToLogin();
@@ -401,7 +401,7 @@ define(
                 }
                 // Check the bundle for the widget, if provided
                 if (widgetname) {
-                    if (typeof sakaii18nAPI.data.widgets[widgetname]) {
+                    if (sakaii18nAPI.data.widgets[widgetname]) {
                         // First check if the key can be found in the widget's locale bundle
                         if ($.isPlainObject(sakaii18nAPI.data.widgets[widgetname][locale]) && _.isString(sakaii18nAPI.data.widgets[widgetname][locale][key])) {
                             return sakaii18nAPI.processUTF16ToText(sakaii18nAPI.data.widgets[widgetname][locale][key]);

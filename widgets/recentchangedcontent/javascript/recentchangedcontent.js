@@ -60,9 +60,6 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          *   and item.type_img_url (URL for mimetype icon) for the given result
          */
         var parseDataResult = function(result, isRelatedContent) {
-            if (result['sling:resourceType'] !== 'sakai/pooled-content') {
-                return false;
-            }
             // initialize parsed item with default values
             var mimeType = sakai.api.Content.getMimeType(result);
             var mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes['other'].description);
@@ -70,10 +67,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 mimeTypeDescription = sakai.api.i18n.getValueForKey(sakai.config.MimeTypes[mimeType].description);
             }
             var item = {
-                name: result['sakai:pooled-content-file-name'],
+                name: result['name'],
                 path: '/p/' + result['_path'],
+                homePath: result.homePath,
                 link: result['_path'],
-                filename: result['sakai:pooled-content-file-name'],
+                filename: result['name'],
                 type_img_url: sakai.config.MimeTypes.other.URL,
                 size: '',
                 mimeType: mimeType,
@@ -82,7 +80,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 thumbnail: sakai.api.Content.getThumbnail(result),
                 totalcomment: sakai.api.Content.getCommentCount(result),
                 '_mimeType/page1-small': result['_mimeType/page1-small'],
-                '_path': result['_path'],
+                '_path': result.contentId,
                 canShare: sakai.api.Content.canCurrentUserShareContent(result)
             };
 
@@ -183,7 +181,16 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          */
         var handleRecentChangedContentData = function(success, data) {
             if (success && data.results && data.results.length > 0) {
-                getRelatedContent(data.results[0]);
+                // TODO: getRelatedContent(data.results[0]);
+                var items = [];
+                for (var i = 0; i < 2 && i < data.results.length; i++) {
+                    items.push(parseDataResult(data.results[i]));
+                }
+                var json = {
+                    'items': items,
+                    'sakai': sakai
+                };
+                sakai.api.Util.TemplateRenderer(recentchangedcontentItemTemplate, json, $(recentchangedcontentItem, rootel));
                 $('#recentchangedcontent_no_results_container').hide();
                 $('.recentchangedcontent_main').show();
             } else {
@@ -207,7 +214,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
          * Fetches the related content
          */
         var getRelatedContent = function(contentData) {
-            var searchterm = contentData['sakai:pooled-content-file-name'].substring(0,400);
+            var searchterm = contentData['name'].substring(0,400);
             searchquery = sakai.api.Server.createSearchString(searchterm, false, 'OR');
 
             // get related content for contentData
@@ -260,17 +267,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
             // get list of recentchangedcontent items
             $.ajax({
-                url: sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER,
+                url: sakai.config.URL.POOLED_CONTENT_SPECIFIC_USER.replace('__USERID__', sakai.data.me.userId),
                 cache: false,
-                data: {
-                    userid: sakai.data.me.user.userid,
-                    page: 0,
-                    items: 1,
-                    sortOn: '_lastModified',
-                    sortOrder: 'desc'
-                },
                 success: function(data) {
-                    data.results = $.merge(sakai.api.Content.getNewList(sakai.data.me.user.userid), data.results);
+                    data.results = $.merge(sakai.api.Content.getNewList(sakai.data.me.userId), data.results);
+                    parseDataResult(data.results)
                     handleRecentChangedContentData(true, data);
                 },
                 error: function(data) {

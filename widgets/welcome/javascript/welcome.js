@@ -39,7 +39,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
         var renderWidget = function() {
             $welcomeWidget.html(sakai.api.Util.TemplateRenderer(welcomeTemplate, {
-                'anon': sakai.data.me.user.anon || false
+                'anon': sakai.data.me.anon || false
             }));
         };
 
