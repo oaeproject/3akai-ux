@@ -44,10 +44,14 @@ define(['exports'], function(exports) {
     /**
      * Updates a group.
      * 
-     * @param  {String}       groupId             The id of the group you wish to update
-     * @param  {Object}       profileFields       Object where the keys represent the profile fields that need to be updated and the values represent the new values for those profile fields e.g. {'name': 'New group name', 'description': 'New group description', 'visibility': 'private', 'joinable': 'no'}
-     * @param  {Function}     [callback]          Standard callback method
-     * @param  {Object}       [callback.err]      Error object containing error code and error message
+     * @param  {String}       groupId                       The id of the group you wish to update
+     * @param  {Object}       profileFields                 Object where the keys represent the profile fields that need to be updated and the values represent the new values for those profile fields.
+     * @param  {String}       [profileFields.name]          New name for the group
+     * @param  {String}       [profileFields.description]   New description for the group
+     * @param  {String}       [profileFields.visibility]    New visibility setting for the group. The possible values are 'private', 'loggedin' and 'public'
+     * @param  {String}       [profileFields.joinable]      New joinability setting for the group. The possible values are 'yes', 'no' and 'request'
+     * @param  {Function}     [callback]                    Standard callback method
+     * @param  {Object}       [callback.err]                Error object containing error code and error message
      */
     var updateGroup = exports.updateGroup = function (groupId, profileFields, callback) {};
     

@@ -118,13 +118,13 @@ define(['exports'], function(exports) {
      * @param  {Function}     [callback]          Standard callback method
      * @param  {Object}       [callback.err]      Error object containing error code and error message
      */
-    var share = exports.share = function(contentId, principals, callback) {};
+    var shareContent = exports.shareContent = function(contentId, principals, callback) {};
     
     /**
      * Get a principal library.
      * 
      * @param  {String}         principalId         User or group id for who we want to retrieve the library
-     * @param  {String}         [start]             The content id to start from (this will not be included in the response)
+     * @param  {String}         [start]             The content id to start from (this will not be included in the response). If the first page is needed, null should be passed in.
      * @param  {Number}         [limit]             The number of content items to retrieve.
      * @param  {Function}       callback            Standard callback method
      * @param  {Object}         callback.err        Error object containing error code and error message

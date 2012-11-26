@@ -42,7 +42,7 @@ define(['exports'], function(exports) {
      * @param  {String}         sectionId           Id of the profile section we want to set
      * @param  {String}         [visibility]        Visibility of the profile section. This can be public, loggedin or private
      * @param  {Object}         sectionData         JSON object representing the profile section that needs to be stored. The object will be stored (and later on retrieved) as is
-     * @param  {Boolean}        [overwrite]         Whether or not values that are already in the profile section but or not in the updated values should be overwritten or not
+     * @param  {Boolean}        [overwrite]         Whether or not values that are already in the profile section but are not in the updated values should be overwritten or not
      * @param  {Function}       [callback]          Standard callback method takes argument `err`
      * @param  {Object}         [callback.err]      Error object containing error code and error message
      */
@@ -60,10 +60,10 @@ define(['exports'], function(exports) {
     /**
      * Update a profile section's visibility for the currently logged in user
      * 
-     * @param  {String}                  sectionId           Id of the profile section we want to set visibility for
-     * @param  {String}                  [visibility]        The profile section's new visibility. This can be public, loggedin or private
-     * @param  {Function}                [callback]          Standard callback method takes argument `err`
-     * @param  {Object}                  [callback.err]      Error object containing error code and error message
+     * @param  {String}         sectionId           Id of the profile section we want to set visibility for
+     * @param  {String}         [visibility]        The profile section's new visibility. This can be public, loggedin or private
+     * @param  {Function}       [callback]          Standard callback method takes argument `err`
+     * @param  {Object}         [callback.err]      Error object containing error code and error message
      */
     var updateVisibility = exports.updateVisibility = function(sectionId, visibility, callback) {};
 

@@ -14,25 +14,13 @@
  */
 
 define(['exports'], function(exports) {
-
-    /**
-     * Get the translated value for an internationalization key. This can be used to translation
-     * inside of a Javascript function. The translation order for the key is:
-     * 
-     * - Try to find the key in the i18n bundle of the user's language for the provided widget
-     * - Try to find the key in the i18n bundle of the default language for the provided widget
-     * - Try to find the key in the global i18n bundle of the user's language
-     * - Try to find the key in the global default i18n file
-     * 
-     * @param  {String}     key             The key for which we want a translation
-     * @param  {String}     [widgetName]    Widget for which we want to use the translation bundles
-     * @return {String}                     The translation of the key. If the key cannot be found, the unmodified key is returned
-     * 
-     */
-    var getValueForKey = exports.getValueForKey = function(key, widgetName) {};
     
     /**
-     * Translate a string by replacing all of the internationalization key by its translated value.
+     * Function that will translate a string by replacing all of the internationalization key by its translated value. This
+     * original string can be a single internationalization key, or can contain multiple internationalization keys. Parts of
+     * the string that are not internationalization keys will remain unchanged. Internationalization keys are identified by
+     * the following format: __MSG__KEY__
+     * 
      * The translation order for the found keys is:
      * 
      * - Try to find the key in the i18n bundle of the user's language for the provided widget
