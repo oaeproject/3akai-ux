@@ -13,7 +13,10 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'sakai/sakai.api.core', '/shared/js/bootstrap.js'], function($, sakai) {
+require(['jquery', 'oae/oae.api!', '/shared/lib/bootstrap.js'], function($, oae) {
+    
+    console.log('In register now as well');
+    console.log(oae.data.me);
 
     //////////
     //////////
@@ -732,14 +735,14 @@ require(['jquery', 'sakai/sakai.api.core', '/shared/js/bootstrap.js'], function(
      * @param {Function} callback Function to be executed after the request completes.
      */
     var getMe = function(callback) {
-        $.ajax({
-            url: '/api/me',
-            success: function(meData) {
-                callback(false, meData);
-            }, error: function(err) {
-                callback(err);
-            }
-        });
+    //    $.ajax({
+    //        url: '/api/me',
+    //        success: function(meData) {
+    //            callback(false, meData);
+    //        }, error: function(err) {
+    //            callback(err);
+    //        }
+    //    });
     };
 
     /**
