@@ -17,6 +17,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * Renders the documentation for a specific module
+     * 
      * @param {Object} docs    The documentation object as returned from the server
      * @param {String} module  The module name to render the documentation for
      */
@@ -40,8 +41,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * Renders the navigation for the available modules
-     * @param {Array<String>}  modules          An Array of module names
-     * @param {String}         currentModule    The name of the module that is currently shown in the UI
+     * 
+     * @param {String[]}    modules          An Array of module names
+     * @param {String}      currentModule    The name of the module that is currently shown in the UI
      */
     var renderNavigation = function(modules, currentModule) {
         sakai.api.Util.TemplateRenderer('doc_contents_template', {
@@ -52,6 +54,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * Gets the documentation for a specific module and passes it in a callback
+     * 
      * @param {String}    module            The name of the module to get the documentation for
      * @param {Function}  callback          Function executed after the documentation for the module has been retrieved
      * @param {Object}    callback.docs     Retrieved documentation for the specified module. This will be null when the documentation could not be retrieved
@@ -69,8 +72,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * Gets the available OAE modules and passes them in a callback
-     * @param {Function}        callback            Function executed after the list of modules has been retrieved
-     * @param {Array<String>}   callback.modules    List of all of the available OAE modules
+     * 
+     * @param {Function}    callback            Function executed after the list of modules has been retrieved
+     * @param {String[]}    callback.modules    List of all of the available OAE modules
      */
     var getAvailableModules = function(callback) {
         $.ajax({
@@ -81,6 +85,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * Gets and returns the currently selected module by retrieving the hash from the URL
+     * 
      * @return {String}         The currently selected module
      */
     var getSelectedModule = function() {
@@ -94,6 +99,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * Sets the title of the document to `Sakai OAE - API Reference - title`
+     * 
      * @param {String}  title   The title to be added to the document title
      */
     var setDocumentTitle = function(title) {
