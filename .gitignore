@@ -1,6 +1,7 @@
 .DS_STORE
 .project
 *.kpf
+*.swp
 Thumbs.db
 dump.rdb
 target/
