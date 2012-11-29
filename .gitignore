@@ -1,10 +1,10 @@
-.tmp_*
+.DS_STORE
 .project
-target/
 *.kpf
-nginx.*
-/dev-i
-.DS_Store
-*.swp
-/tests/speed/yslow/yslow_results.txt
 Thumbs.db
+dump.rdb
+target/
+node_modules/*
+!node_modules/oae-core
+nginx.*
+!nginx.conf

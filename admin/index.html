@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Administration UI - Sakai OAE</title>
+        <link href="/shared/css/bootstrap.css" type="text/css" rel="stylesheet"/>
+        <link href="/admin/css/admin.css" type="text/css" rel="stylesheet"/>
+
+        <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    </head>
+    <body>
+        <div id="admin_header_container" class="container-fluid"><!-- --></div>
+
+        <div class="container-fluid" id="admin_fluid_container">
+            <div class="row-fluid">
+                <div class="span2" id="admin_lhnav_container" style="display: none;"><!-- --></div>
+                <div class="span10" id="admin_content">
+                    <div id="admin_unauthorized_container"><!-- --></div>
+                    <div id="admin_login_container"><!-- --></div>
+
+                    <div id="admin_views">
+                        <div id="admin_tenants_container" style="display: none;"><!-- --></div>
+                        <div id="admin_modules_container" style="display: none;"><!-- --></div>
+                        <div id="admin_tests_container" style="display: none;"><!-- --></div>
+                    </div>
+
+                    <div id="admin_error_container"><!-- --></div>
+                    <div id="admin_warning_container"><!-- --></div>
+                    <div id="admin_success_container"><!-- --></div>
+                    <div id="admin_confirmation_container"><!-- --></div>
+                </div>
+            </div>
+        </div>
+        <div id="admin_footer_container" class="container-fluid"><!-- --></div>
+
+        <div id="admin_lhnav_template"><!--
+            <ul class="nav nav-list">
+                <li class="nav-header">Configuration</li>
+                <li id="configurationtenants">
+                    <a title="Tenant configuration" href="#configurationtenants">
+                        {if context.tenant.tenantId === 'admin'}
+                            Tenants
+                        {else}
+                            Tenant
+                        {/if}
+                    </a>
+                </li>
+                <li id="configurationmodules">
+                    <a title="Module configuration" href="#configurationmodules">Modules</a>
+                </li>
+            </ul>
+        --></div>
+
+        <div id="admin_unauthorized_template" style="display: none;"><!--
+            <h3 class="text-error">You are not authorized to view this page.</h3>
+        --></div>
+
+        <div id="admin_header_template" style="display: none;"><!--
+            <div class="row-fluid">
+                <div class="span2">
+                </div>
+                <div class="span10" id="admin_header_content">
+                    {if context.me && !context.me.anon}
+                        <div id="admin_header_user">
+                            <span>Hi, ${context.me.profile.displayName}</span>
+                            <button type="button" class="btn btn-inverse" id="admin_header_user_logout">log out</button>
+                        </div>
+                    {/if}
+                    {if context.tenant.tenantId === "admin"}
+                        <h1>Global administration UI</h1>
+                    {else}
+                        <h1>Tenant administration UI</h1>
+                    {/if}
+                </div>
+            </div>
+        --></div>
+
+        <div id="admin_footer_template" style="display: none;"><!--
+            <div class="row-fluid">
+                <div class="span2">
+                </div>
+                <div class="span10" id="admin_footer_content">
+                    <div class="footer_column first"></div>
+                    {if context.me.isGlobalAdmin}
+                        <div class="footer_column tenants">
+                            <ul>
+                                <li>
+                                    <a href="/" title="Global administration">Global administration</a>
+                                </li>
+                                {for tenant in tenants}
+                                    {if tenant.alias}
+                                        <li>
+                                            <a href="/tenant/${tenant.alias}" title="${tenant.name} administration">${tenant.name}</a>
+                                        </li>
+                                    {/if}
+                                {/for}
+                            </ul>
+                        </div>
+                    {/if}
+                </div>
+            </div>
+        --></div>
+
+        <div id="admin_login_template"><!--
+            <h2>Sign in to the OAE Administration Panel</h2>
+
+            {var isOnGlobal = context.tenant.tenantId === 'admin' || !context.tenant.isMainTenantServer}
+
+            <ul class="nav nav-tabs">
+                {var first = true}
+                {for strategy in strategies}
+                    {if strategy_index !== 'title'}
+                        {var hasDefaultValue = strategy.elements.enabled && strategy.elements.enabled.defaultValue}
+                        {if (isOnGlobal && strategy_index === 'local') || (!isOnGlobal && hasDefaultValue)}
+                            <li {if first} class="active admin_login_tab"{else} class="admin_login_tab"{/if} data-strategy="${strategy_index}_login">
+                                <a href="#">${strategy.name}</a>
+                            </li>
+                            {var first = false;}
+                        {/if}
+                    {/if}
+                {/for}
+            </ul>
+            <div>
+                {var first = true}
+                {for strategy in strategies}
+                    {if strategy_index !== 'title'}
+                        {var hasDefaultValue = strategy.elements.enabled && strategy.elements.enabled.defaultValue}
+                        {if (isOnGlobal && strategy_index === 'local') || (!isOnGlobal && hasDefaultValue)}
+                            {if strategy.endpoint}
+                                <div {if !first} style="display: none;"{/if} id="${strategy_index}_login" class="admin_login_container">
+                                    <form id="admin_login_form" method="GET" action="${strategy.endpoint}" class="form-horizontal external_login" enctype="application/x-www-form-urlencoded">
+                                        <button type="submit" class="btn btn-primary ">Sign in with ${strategy.name}</button>
+                                    </form>
+                                </div>
+                            {else}
+                                <div {if !first} style="display: none;"{/if} id="${strategy_index}_login" class="admin_login_container">
+                                    <form id="admin_login_form" form method="POST" action="/api/auth/login" class="form-horizontal" enctype="application/x-www-form-urlencoded">
+                                        <div class="control-group">
+                                            <label for="admin_login_form_name" class="control-label">Name</label>
+                                            <div class="controls">
+                                                <input type="text" id="admin_login_form_name" name="username"/>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label for="admin_login_form_password" class="control-label">Password</label>
+                                            <div class="controls">
+                                                <input type="password" id="admin_login_form_password" name="password"/>
+                                                <button type="submit" class="btn btn-primary">Sign in</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            {/if}
+                            {var first = false;}
+                        {/if}
+                    {/if}
+                {/for}
+            </div>
+        --></div>
+
+        <div id="admin_tenants_template" style="display:none;"><!--
+            {if context}
+                <h2>Tenants<a href="#configurationtenants" class="anchor_section">#</a></h2>
+                {if tenants.info.hasTenants}
+                    <table class="table table-striped">
+                        <tr>
+                            {if context.tenant.tenantId === "admin"}
+                                <th></th>
+                            {/if}
+                            <th>Alias</th>
+                            <th>Name</th>
+                            <th>Host</th>
+                            <th>Status</th>
+                            <th>
+                                {if context.tenant.tenantId === "admin"}
+                                    {if tenants.info.allActive}
+                                        <button type="button" class="btn btn-warning stop_all_tenants">Stop all</button>
+                                    {else}
+                                        <button type="button" class="btn btn-success start_all_tenants">Start all</button>
+                                    {/if}
+                                {/if}
+                            </th>
+                            <th>
+                                {if context.tenant.tenantId === "admin"}
+                                    <button type="button" class="btn btn-danger delete_all_tenants">Delete all</button>
+                                {/if}
+                            </th>
+                        </tr>
+                        {for tenant in tenants}
+                            {if tenant.alias}
+                                <tr>
+                                    {if context.tenant.tenantId === "admin"}
+                                        <td><a href="http://${tenant.host}/admin/tenant/${tenant.alias}" title="Edit ${tenant.name}"><i class="icon-pencil"></i></a></td>
+                                    {/if}
+                                    <td>${tenant.alias}</td>
+                                    {if context.me.isGlobalAdmin}
+                                        <td class="jeditable_container"><div class="jeditable_field" id="${tenant.alias}">${tenant.name}</div></td>
+                                    {else}
+                                        <td>${tenant.name}</td>
+                                    {/if}
+                                    <td><a href="http://${tenant.host}/api/tenant" title="${tenant.name}" target="_blank">${tenant.host}</a></td>
+                                    <td>
+                                        {if tenant.active}
+                                            <span class="text-success">Running</span>
+                                        {else}
+                                            <span class="text-error">Disabled</span>
+                                        {/if}
+                                    </td>
+                                    <td>
+                                        {if tenants.info.canStopTenant || context.me.isGlobalAdmin}
+                                            {if tenant.active}
+                                                <button type="button" class="btn btn-warning stop_tenant" id="${tenant.alias}_stop" data-alias="${tenant.alias}" data-name="${tenant.name}" data-description="${tenant.description}" data-host="${tenant.host}">Stop</button>
+                                            {else}
+                                                <button type="button" class="btn btn-success start_tenant" id="${tenant.alias}_stop" data-alias="${tenant.alias}" data-name="${tenant.name}" data-description="${tenant.description}" data-host="${tenant.host}">Start</button>
+                                            {/if}
+                                        {/if}
+                                    </td>
+                                    <td>
+                                        {if context.me.isGlobalAdmin}
+                                            <button type="button" class="btn btn-danger delete_tenant" id="${tenant.alias}_delete" data-host="${tenant.host}" data-alias="${tenant.alias}" data-name="${tenant.name}" data-description="${tenant.description}">Delete</button>
+                                        {/if}
+                                    </td>
+                                </tr>
+                            {/if}
+                        {/for}
+                    </table>
+                {else}
+                    <p class="text-warning">There are no tenants.</p>
+                {/if}
+                {if context.tenant.tenantId === "admin"}
+                    <div class="container-striped">
+                        <div>
+                            <button type="button" class="createtenant_toggle_button btn">
+                                <i class="icon-plus" style="margin-right:12px;"></i>
+                                Create a new tenant
+                            </button>
+                            <div class="createtenant_container" style="display: none;">
+                                <form method="POST" action="/api/tenant/create" class="form-horizontal" enctype="application/x-www-form-urlencoded">
+                                    <div class="control-group">
+                                        <label for="createtenant_alias" class="control-label">Alias:</label>
+                                        <div class="controls">
+                                            <input type="text" name="alias" id="createtenant_alias" placeholder="Alias"/>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label for="createtenant_name" class="control-label">Name:</label>
+                                        <div class="controls">
+                                            <input type="text" name="name" id="createtenant_name" placeholder="Name"/>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label for="createtenant_host" class="control-label">Host:</label>
+                                        <div class="controls">
+                                            <input type="text" name="host" id="createtenant_host" placeholder="Host"/>
+                                            <button type="button" id="createtenant_submit_button" class="btn btn-primary">Create new tenant</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {/if}
+            {/if}
+        --></div>
+
+        <div id="admin_modules_template" style="display:none;"><!--
+            <h2>Modules<a href="#configurationmodules" class="anchor_section">#</a></h2>
+            <div class="container-striped">
+                {for module in modules}
+                    <div class="module_configuration_container">
+                        <button type="button" title="Edit the ${module.title}" class="module_configuration_toggle_button btn">
+                            <i class="icon-pencil" style="margin-right:12px;"></i>
+                            ${module.title}
+                        </button>
+                        <div class="module_configuration_container" style="display:none;">
+                            <form method="POST" action="/admin/update" class="form-horizontal module_configuration_form">
+                                {for option in module}
+                                    {if option && option_index !== "title"}
+                                        <h5>${option.name} <span>(${option.description})</span></h5>
+                                        {for element in option.elements}
+
+                                            {var showTenantsOnlyFields = true;}
+                                            {if context.tenant.tenantId === "admin" && element.tenantonly !== undefined && element.tenantonly}
+                                                {var showTenantsOnlyFields = false;}
+                                            {/if}
+
+                                            {var tenantCanOverride = context.me.isGlobalAdmin ||
+                                                                     (!(context.tenant.context === "tenant" &&
+                                                                     (element.tenantOverride === false || option.tenantOverride === false)))}
+
+                                            {if showTenantsOnlyFields}
+                                                {if element.type === "boolean"}
+                                                    <div class="control-group">
+                                                        <input type="checkbox" id="${module_index}/${option_index}/${element_index}" {if element.defaultValue}checked="checked"{/if} style="margin-right:12px;float:left;" data-tenantId="${context.tenant.tenantId}" data-originalvalue="${element.defaultValue}" class="module_config_checkbox" {if !tenantCanOverride} disabled="disabled"{/if}/>
+                                                        <label for="${module_index}/${option_index}/${element_index}">${element.description} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                    </div>
+                                                {elseif element.type === "text"}
+                                                    <div class="control-group">
+                                                        <label for="${module_index}/${option_index}/${element_index}" class="control-label">${element.description} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                        <div class="controls">
+                                                            <input type="text" data-tenantId="${context.tenant.tenantId}"  data-originalvalue="${element.defaultValue}" id="${module_index}/${option_index}/${element_index}" value="${element.defaultValue}" {if !tenantCanOverride || (element.dependsOn && !option.elements[element.dependsOn].defaultValue)} disabled="disabled"{/if}/>
+                                                        </div>
+                                                    </div>
+                                                {elseif element.type === "radio"}
+                                                    {for rbt in element.group}
+                                                        <label class="radio">
+                                                            <input name="${element_index}" data-tenantId="${context.tenant.tenantId}" type="radio" data-id="${module_index}/${option_index}/${element_index}" value="${rbt.value}" {if element.defaultValue === rbt.value} checked="checked"{/if} {if !tenantCanOverride} disabled="disabled"{/if}>
+                                                            ${rbt.name} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}
+                                                        </label>
+                                                    {/for}
+                                                {elseif element.type === "list"}
+                                                    <div class="control-group">
+                                                        <label for="${module_index}/${option_index}/${element_index}" class="control-label">${element.description} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                        <div class="controls">
+                                                            <select data-tenantId="${context.tenant.tenantId}" id="${module_index}/${option_index}/${element_index}" {if !tenantCanOverride} disabled="disabled"{/if}>
+                                                                {for opt in element.list}
+                                                                    <option value="${opt.value}" {if element.defaultValue === opt.value} selected="selected"{/if}>${opt.name}</option>
+                                                                {/for}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                {/if}
+                                            {/if}
+                                        {/for}
+                                    {/if}
+                                {/for}
+                                <button type="submit" class="btn btn-primary">Save configuration</button>
+                            </form>
+                        </div>
+                    </div>
+                {/for}
+            </div>
+        --></div>
+
+        <div id="admin_tests_template" style="display:none;"><!--
+            <h2>Tests<a href="#tests" class="anchor_section">#</a></h2>
+            <p>It would be good if tests could be started from within the admin UI. Not only the usual unit tests but also performance tests.</p>
+            <ol>
+                <li>UI Fetches available tests and scripts</li>
+                <li>UI is able to start tests and feed parameters (#users, #groups, #batches,...)</li>
+                <li>UI gets back result set and shows stats</li>
+                <li>The backend saves the test data that can serve as a reference later on</li>
+            </ol>
+        --></div>
+
+        <!-- UTIL TEMPLATES AND CONTAINERS -->
+
+        <div id="admin_error_template" style="display:none;"><!--
+            <div class="alert alert-block alert-error fade in">
+                <button data-dismiss="alert" class="close" type="button">×</button>
+                {if error.title}
+                    <h4 class="alert-heading">${error.title}</h4>
+                {/if}
+                <p>${error.message}</p>
+            </div>
+        --></div>
+
+        <div id="admin_warning_template" style="display:none;"><!--
+            <div class="alert alert-block fade in">
+                <button data-dismiss="alert" class="close" type="button">×</button>
+                {if warning.title}
+                    <h4 class="alert-heading">${warning.title}</h4>
+                {/if}
+                <p>${warning.message}</p>
+            </div>
+        --></div>
+
+        <div id="admin_success_template" style="display:none;"><!--
+            <div class="alert alert-block fade in success">
+                <button data-dismiss="alert" class="close" type="button">×</button>
+                {if success.title}
+                    <h4 class="alert-heading">${success.title}</h4>
+                {/if}
+                <p>${success.message}</p>
+            </div>
+        --></div>
+
+        <div id="admin_confirmation_template" style="display:none;"><!--
+            <div class="modal" id="${modal.id}" tabindex="-1" role="dialog" aria-labelledby="${modal.id}_label" aria-hidden="true">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="${modal.id}_label">${modal.title}</h3>
+                </div>
+                <div class="modal-body">
+                    <p>${modal.message}</p>
+                </div>
+                <div class="modal-footer">
+                    {if modal.cancel}
+                        <button class="btn" data-dismiss="modal" aria-hidden="true">${modal.cancel}</button>
+                    {/if}
+                    <button class="btn {if modal.confirmclass} ${modal.confirmclass}{else} btn-primary{/if}" id="${modal.id}_confirm"
+                        {for attr in modal.confirmdata}
+                            data-${attr_index}="${attr}"
+                        {/for}
+                        >${modal.confirm}</button>
+                </div>
+            </div>
+        --></div>
+        
+        <!-- <script src="/shared/js/jquery.js" type="text/javascript"></script>
+        <script src="/shared/js/trimpath.js" type="text/javascript"></script>
+        <script src="/shared/js/jquery-plugins/jquery.ba-hashchange.js" type="text/javascript"></script>
+        <script src="/shared/js/jquery-plugins/jquery.jeditable.sakai-edited.js" type="text/javascript"></script>
+
+        <script src="/admin/js/util.js" type="text/javascript"></script>
+        <script src="/admin/js/configuration.js" type="text/javascript"></script>
+        <script src="/admin/js/admin.js" type="text/javascript"></script> -->
+        <script data-main="/shared/oae/oae.core.js" src="/shared/lib/require.js"></script>
+        <script>require(["/admin/js/admin.js"]);</script>
+        
+    </body>
+</html>
