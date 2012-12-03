@@ -14,12 +14,14 @@
  */
 
 /*!
- * TODO
+ * Initializes the Sakai OAE UI APIs. First of all, the me data will be retrieved. After that, the configuration for the current
+ * tenant will be retrueved, and the localization and internationalization APIs will be initialized. Finally, the widgets declared
+ * in the page source will be rendered
  */
-define(['oae/oae.api.authentication', 'oae/oae.api.content', 'oae/oae.api.group', 'oae/oae.api.i18n', 
-        'oae/oae.api.l10n', 'oae/oae.api.profile', 'oae/oae.api.user', 'oae/oae.api.util', 'oae/oae.api.widget'],
+define(['oae/api/oae.api.authentication', 'oae/api/oae.api.config', 'oae/api/oae.api.content', 'oae/api/oae.api.group', 'oae/api/oae.api.i18n', 
+        'oae/api/oae.api.l10n', 'oae/api/oae.api.profile', 'oae/api/oae.api.user', 'oae/api/oae.api.util', 'oae/api/oae.api.widget'],
 
-    function(authenticationAPI, contentAPI, groupAPI, i18nAPI, l10nAPI, profileAPI, userAPI, utilAPI, widgetAPI) {
+    function(authenticationAPI, configAPI, contentAPI, groupAPI, i18nAPI, l10nAPI, profileAPI, userAPI, utilAPI, widgetAPI) {
         
         /*!
          * Object containing all of the available OAE API modules and their functions, as well as some
@@ -28,6 +30,7 @@ define(['oae/oae.api.authentication', 'oae/oae.api.content', 'oae/oae.api.group'
         var oae = {
             'api': {
                 'authentication': authenticationAPI,
+                'config': configAPI,
                 'content': contentAPI,
                 'group': groupAPI,
                 'i18n': i18nAPI,
@@ -52,18 +55,24 @@ define(['oae/oae.api.authentication', 'oae/oae.api.content', 'oae/oae.api.group'
                 if (err) {
                     throw new Error('Could not load the me feed. Make sure that the server is running and properly configured');
                 }
-
                 // Add the me object onto the oae data object
                 oae.data.me = meObj;
 
-                // Initialize l10n
-                oae.api.l10n.init('en_GB', function(err) {
+                // Initialize the config API
+                oae.api.config.init(function(err) {
+                    if (err) {
+                        throw new Error('Could not initialize the config API.');
+                    }
                     
-                    // Initialize i18n
-                    // TODO
-    
-                    // The APIs have now fully initialized
-                    callback(oae);
+                    // Initialize l10n 
+                    oae.api.l10n.init(oae.data.me.locale, function(err) {
+                        
+                        // Initialize i18n
+                        // TODO
+        
+                        // The APIs have now fully initialized
+                        callback(oae);
+                    });
                 });
             });
         };
@@ -75,8 +84,3 @@ define(['oae/oae.api.authentication', 'oae/oae.api.content', 'oae/oae.api.group'
         };
     }
 );
-
-
-//    '/ui/configuration/config_custom.js',
-//    '/var/widgets.json?callback=define'
-//],

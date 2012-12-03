@@ -16,20 +16,20 @@
 define(['exports'], function(exports) {
 
     /**
-     * Get a widget's config.json file.
+     * Get a widget's manifest.json file.
      * 
-     * @param  {String}     widgetName      The name of the widget we want to retrieve
-     * @return {Object}                     JSON object representing the widget's config file. This will be null if no widget can be found for the given widget id
+     * @param  {String}     widgetName      The name of the widget for which we want to retrieve the manifest
+     * @return {Object}                     JSON object representing the widget's manifest file. This will be null if no widget can be found for the given widget name
      */
-    var getWidgetConfig = exports.getWidgetConfig = function(widgetName) {};
+    var getWidgetManifest = exports.getWidgetManifest = function(widgetName) {};
     
     /**
-     * Get a list of all of the available widgets that have certain properties in their config file and their actual config files.
+     * Get a list of all of the available widgets that have certain properties in their manifest file and return their actual manifest files.
      * 
-     * @param  {Object}     [property]      JSON object that lists all of the properties and values for those properties that should be set on the widget's config file before it will return in the final list, so only the widgets we need are returned. If this is not provided, all widgets will be returned.
-     * @return {Object}                     JSON object where the keys represent all of the available widgets and the values are the widget's config files.
+     * @param  {Object}     [properties]    JSON object that lists all of the properties and values for those properties that should be set on the widget's manifest file before it will return in the final list, so only the widgets we need are returned. If this is not provided, all widgets will be returned.
+     * @return {Object}                     JSON object where the keys represent all of the available widgets and the values are the widget's manifest files.
      */
-    var getWidgetConfigs = exports.getAllWidgetConfigs = function(property) {};
+    var getWidgetManifests = exports.getWidgetManifests = function(properties) {};
     
     /**
      * Find all of the widgets declared inside of the provided container, and load them into
@@ -39,13 +39,13 @@ define(['exports'], function(exports) {
      * 
      * <div id='widgetId' data-widget='widgetName' />
      * 
-     * @param  {Element|String}     container       HTML container in which we want to look for widgets and load them. This can either be a jQuery Element object or a jQuery selector string
+     * @param  {Element|String}     $container      HTML container in which we want to look for widgets and load them. This can either be a jQuery Element object or a jQuery selector string
      * @param  {Boolean}            showSettings    Whether or not to show the widget's settings view. If this is not set, the widget's view mode will be shown.
      * @param  {Function}           [callback]      Standard callback function executed when all widgets have finished loading and rendering
      * @param  {Object}             [callback.err]  Error containing the error code and message
      * 
      */
-    var loadWidgets = exports.loadWidgets = function(container, showSettings, callback) {};
+    var loadWidgets = exports.loadWidgets = function($container, showSettings, callback) {};
     
     /**
      * Insert a widget into a container into the provided viewmode.

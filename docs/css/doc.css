@@ -19,7 +19,7 @@ html, body {
     padding: 0;
 }
 body {
-    background: url('/shared/img/page-bg.png') repeat left top #eee;
+    background: url('/shared/oae/img/page-bg.png') repeat left top #eee;
 }
 .clear {
     clear: both;
@@ -38,7 +38,7 @@ body {
     width: 100%;
 }
 #doc_header_container #doc_header_content {
-    background: url('/shared/img/logo.png') no-repeat left center transparent;
+    background: url('/shared/oae/img/logo.png') no-repeat left center transparent;
     height: 70px;
     margin: 0 auto;
     width: 1150px;

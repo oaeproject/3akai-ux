@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
+require(['jquery', 'oae/api/oae.api!'], function($, oae) {
 
     /**
      * Renders the documentation for a specific module
@@ -22,7 +22,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String} module  The module name to render the documentation for
      */
     var renderModuleDocs = function(docs, module) {
-        sakai.api.Util.TemplateRenderer('doc_docs_template', {
+        oae.api.util.renderTemplate('doc_docs_template', {
             'docs': docs,
             'module': module
         }, $('#doc_docs_container'));
@@ -32,7 +32,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         // In this case, we scroll to the function's documentation
         var offset = 0;
         var hash = window.location.hash.replace('#', '');
-        if (hash !== module){
+        if (hash && hash !== module){
             var $anchor = $('a[name="#' + hash + '"]');
             offset = $anchor.offset().top;
         }
@@ -46,7 +46,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String}      currentModule    The name of the module that is currently shown in the UI
      */
     var renderNavigation = function(modules, currentModule) {
-        sakai.api.Util.TemplateRenderer('doc_contents_template', {
+        oae.api.util.renderTemplate('doc_contents_template', {
             'modules': modules,
             'moduleToLoad': currentModule
         }, $('#doc_contents_container'));
@@ -103,7 +103,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
      * @param {String}  title   The title to be added to the document title
      */
     var setDocumentTitle = function(title) {
-        document.title = 'Sakai OAE - API Reference - ' + title;
+        oae.api.util.setBrowserTitle(['API Reference', title]);
     };
 
     /**
