@@ -13,8 +13,10 @@
  * permissions and limitations under the License.
  */
 
-/**
- * TODO
+/*!
+ * Initializes the Sakai OAE UI APIs. First of all, the me data will be retrieved. After that, the configuration for the current
+ * tenant will be retrueved, and the localization and internationalization APIs will be initialized. Finally, the widgets declared
+ * in the page source will be rendered
  */
 define(['oae/api/oae.api.authentication', 'oae/api/oae.api.config', 'oae/api/oae.api.content', 'oae/api/oae.api.group', 'oae/api/oae.api.i18n', 
         'oae/api/oae.api.l10n', 'oae/api/oae.api.profile', 'oae/api/oae.api.user', 'oae/api/oae.api.util', 'oae/api/oae.api.widget'],
