@@ -76,10 +76,17 @@ define(['oae/api/oae.api.authentication', 'oae/api/oae.api.config', 'oae/api/oae
                                 throw new Error('Could not initialize the i18n API.')
                             }
 
-                            // The APIs have now fully initialized. We can show the body
-                            // as internationalization and initial widget loading have finished
-                            $('body').removeClass('s3d-hidden');
-                            callback(oae);
+                            // Initialize widgets API
+                            oae.api.widget.init(oae.data.me.locale, function(err) {
+                                if (err) {
+                                    throw new Error('Could not initialize the widgets API.')
+                                }
+
+                                // The APIs have now fully initialized. We can show the body
+                                // as internationalization and initial widget loading have finished
+                                $('body').removeClass('s3d-hidden');
+                                callback(oae);
+                            });
                         });
                     });
                 });

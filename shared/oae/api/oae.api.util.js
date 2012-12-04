@@ -27,10 +27,13 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'vendor/js/tr
     
     /**
      * Generate a random ID. This ID generator does not guarantee global uniqueness.
+     * The generated id will have the following format: `oae-<random number>-<random number>`
      * 
      * @return {String}         Generated random ID
      */
-    var generateId = exports.generateId = function() {};
+    var generateId = exports.generateId = function() {
+        return 'oae-' + Math.round(Math.random() * 10000000) + '-' + Math.round(Math.random() * 10000000);
+    };
     
     /**
      * Change the browser title for a particular page. The browser's title has the following structure
