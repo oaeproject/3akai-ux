@@ -214,10 +214,9 @@
                     __MSG__OPEN_LINK__<span class="entity_download_content"></span>
                 </a>
             {elseif data.data.mimeType === "x-sakai/document"}
-                {var imspath = "/imscp/" + data.data._path +"/" + sakai.api.Util.safeURL(data.data["sakai:pooled-content-file-name"]) +".zip"}
-                <a id="contentpreview_download_button" href="${imspath}" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right s3d-margin-top-5" target="_blank">
+                <button type="button" id="contentpreview_download_overlay_button" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right s3d-margin-top-5" >
                     __MSG__DOWNLOAD__<span class="entity_download_content"></span>
-                </a>
+                </button>
             {elseif data.data.mimeType !== "x-sakai/collection"}
                 <a id="contentpreview_download_button" href="${data.path}" class="s3d-button s3d-header-button s3d-header-smaller-button fl-force-right s3d-margin-top-5" target="_blank">
                     __MSG__DOWNLOAD__<span class="entity_download_content"></span>
@@ -579,6 +578,29 @@ ${macros["entityContentOwnsMacro"] = entityContentOwnsMacro |eat}
         </div>
         <hr class="fl-push fl-hidden">
     </div>
+</div>
+
+<div id="entity_download_template"><!--
+    <div class="download_choice_wrapper">
+        <h2>__MSG__DOWNLOAD_PDF__</h2>
+        <h3>__MSG__DOWNLOAD_PDF_INFO__</h3>
+        {if needsprocessing === "false" && processingfailed === "false"}
+            <a id="entity_download_button_pdf" class="s3d-button s3d-overlay-button" href="/p/${id}/${id}.processed.pdf">__MSG__DOWNLOAD_PDF__</a>
+        {else}
+            <p>__MSG__NOT_YET_AVAILABLE__</p>
+        {/if}
+    </div>
+    <div class="download_choice_wrapper">
+        <h2>__MSG__DOWNLOAD_IMSCP__</h2>
+        <h3>__MSG__DOWNLOAD_IMSCP_INFO__</h3>
+        <a id="entity_download_button_imscp" class="s3d-button s3d-overlay-button" href="/imscp/${id}/${name}.zip">__MSG__DOWNLOAD_IMSCP__</a>
+    </div>
+--></div>
+
+<div id="entity_download" class="s3d-dialog s3d-dialog-container" style="display:none;">
+    <div class="s3d-dialog-close jqmClose"></div>
+    <h1 class="s3d-dialog-header">__MSG__DOWNLOAD__</h1>
+    <div id="entity_download_container" class="s3d-form-field-wrapper"></div>
 </div>
 
 <!-- i18n MESSAGES -->
