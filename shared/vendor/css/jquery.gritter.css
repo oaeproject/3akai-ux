@@ -14,7 +14,7 @@
 }
 
 .gritter-top, .gritter-bottom, .gritter-item, .gritter-close {
-    background-image: url(/dev/lib/jquery/plugins/gritter/images/gritter.png);
+    background-image: url(../img/gritter.png);
 }
 
 .gritter-top {

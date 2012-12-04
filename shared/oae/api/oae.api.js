@@ -66,12 +66,21 @@ define(['oae/api/oae.api.authentication', 'oae/api/oae.api.config', 'oae/api/oae
                     
                     // Initialize l10n 
                     oae.api.l10n.init(oae.data.me.locale, function(err) {
+                        if (err) {
+                            throw new Error('Could not initialize the l10n API.')
+                        }
                         
                         // Initialize i18n
-                        // TODO
-        
-                        // The APIs have now fully initialized
-                        callback(oae);
+                        oae.api.i18n.init(oae.data.me.locale, function(err) {
+                            if (err) {
+                                throw new Error('Could not initialize the i18n API.')
+                            }
+
+                            // The APIs have now fully initialized. We can show the body
+                            // as internationalization and initial widget loading have finished
+                            $('body').removeClass('s3d-hidden');
+                            callback(oae);
+                        });
                     });
                 });
             });

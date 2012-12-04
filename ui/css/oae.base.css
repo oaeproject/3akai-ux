@@ -17,9 +17,15 @@
  * GLOBAL RULES
  */
 html {
-    background: #fff;
     color: #000;
     font: 13px/1.231 arial, helvetica, sans-serif;
+    background: #f2f2f2;
+    background: -moz-linear-gradient(top, #f7f7f7 0%, #f9f9fa 4%, #f2f2f2 10%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f7f7f7), color-stop(4%,#f9f9fa), color-stop(10%,#f2f2f2));
+    background: -webkit-linear-gradient(top, #f7f7f7 0%,#f9f9fa 4%,#f2f2f2 10%);
+    background: -o-linear-gradient(top, #f7f7f7 0%,#f9f9fa 4%,#f2f2f2 10%);
+    background: -ms-linear-gradient(top, #f7f7f7 0%,#f9f9fa 4%,#f2f2f2 10%);
+    background: linear-gradient(top, #f7f7f7 0%,#f9f9fa 4%,#f2f2f2 10%);
 }
 body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote {
     margin: 0;
@@ -28,12 +34,6 @@ body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fiel
 body, button {
     font-family: Arial, Helvetica, sans-serif !important;
     line-height: 120%;
-}
-.section_header {
-    font-weight: bold;
-    border-bottom: 1px solid #ebebeb;
-    font-size: 17px;
-    padding-bottom: 3px;
 }
 fieldset, img {
     border: 0;
@@ -83,18 +83,6 @@ blockquote, ul, ol, dl {
 /* adding a visible outline on focus for accessibility */
 *:focus {
     outline: 1px dotted #000;
-}
-
-/* apply to any container that needs to be rendered off-screen, but available to screen readers */
-.s3d-aural-text {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
 }
 
 /* HTML TAG OVERRIDES */
@@ -150,6 +138,18 @@ caption, .caption {
 /**
  * CORE
  */
+
+/* apply to any container that needs to be rendered off-screen, but available to screen readers */
+.s3d-aural-text {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
 
 .s3d-page-column-left {
     float: left;
@@ -219,14 +219,14 @@ caption, .caption {
     margin-bottom: 10px;
 }
 .s3d-fixed-container .s3d-container-shadow-left, .s3d-container-shadow-right {
-    background: url("/dev/images/container_shadow_left.png") no-repeat scroll 0 0 transparent;
+    background: url("/ui/img/container_shadow_left.png") no-repeat scroll 0 0 transparent;
     height: 346px;
     position: absolute;
     width: 5px;
     margin-left: -5px;
 }
 .s3d-container-shadow-right {
-    background: url("/dev/images/container_shadow_right.png") no-repeat scroll 0 0 transparent;
+    background: url("/ui/img/container_shadow_right.png") no-repeat scroll 0 0 transparent;
     float: right;
     margin-left: 960px;
 }
@@ -243,15 +243,6 @@ caption, .caption {
 }
 .s3d-twocolumn {
     background-color: #fff;
-}
-.requireUser, .requireAnon {
-    background: #f2f2f2;
-    background: -moz-linear-gradient(top, #f7f7f7 0%, #f9f9fa 4%, #f2f2f2 10%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f7f7f7), color-stop(4%,#f9f9fa), color-stop(10%,#f2f2f2));
-    background: -webkit-linear-gradient(top, #f7f7f7 0%,#f9f9fa 4%,#f2f2f2 10%);
-    background: -o-linear-gradient(top, #f7f7f7 0%,#f9f9fa 4%,#f2f2f2 10%);
-    background: -ms-linear-gradient(top, #f7f7f7 0%,#f9f9fa 4%,#f2f2f2 10%);
-    background: linear-gradient(top, #f7f7f7 0%,#f9f9fa 4%,#f2f2f2 10%);
 }
 .s3d-header .fixed-container {
     padding: 0 !important;
@@ -1047,8 +1038,8 @@ a:hover {
     padding: 7px 0;
     width: 200px;
 }
-.s3d-hidden, .i18nable > div {
-    display: none;
+.s3d-hidden {
+    display: none !important;
 }
 .s3d-bold {
     font-weight: bold;
@@ -2025,7 +2016,7 @@ input[type=text], input[type=password], input[type=email], input[type=url], text
 /*
  * AUTOSUGGEST
  */
-.requireUser ul.as-selections {
+ul.as-selections {
     box-shadow: none;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;

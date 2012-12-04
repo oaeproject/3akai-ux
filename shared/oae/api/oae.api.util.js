@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'underscore', 'vendor/js/trimpath'], function(exports, $, _) {
+define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'vendor/js/trimpath'], function(exports, $, _, i18nAPI) {
 
     /**
      * Request a number of static files at once through a static batch request
@@ -52,7 +52,7 @@ define(['exports', 'jquery', 'underscore', 'vendor/js/trimpath'], function(expor
         }
         // Render the page title with the following format
         //   Sakai OAE - Fragment 1 - Fragment 2
-        document.title = 'Sakai OAE - ' + title.join(' - ');
+        document.title = 'Sakai OAE - ' + i18nAPI.translate(title.join(' - '));
     };
     
     ////////////////////////////////
@@ -111,7 +111,7 @@ define(['exports', 'jquery', 'underscore', 'vendor/js/trimpath'], function(expor
         var templateId = $template.attr('id');
         if (!templateCache[templateId]) {
             // We extract the content from the templates, which is wrapped in <!-- -->
-            var templateContent = $template.get(0).firstChild.data.toString();
+            var templateContent = $template[0].firstChild.data.toString();
 
             // Parse the template through TrimPath and add the 
             // parsed template to the template cache
