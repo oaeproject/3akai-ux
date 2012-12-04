@@ -20,6 +20,7 @@ html {
     background: #fff;
     color: #000;
     font: 13px/1.231 arial, helvetica, sans-serif;
+    min-height: 100%;
 }
 body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote {
     margin: 0;
@@ -219,14 +220,14 @@ caption, .caption {
     margin-bottom: 10px;
 }
 .s3d-fixed-container .s3d-container-shadow-left, .s3d-container-shadow-right {
-    background: url("/dev/images/container_shadow_left.png") no-repeat scroll 0 0 transparent;
+    background: url("/ui/img/container_shadow_left.png") no-repeat scroll 0 0 transparent;
     height: 346px;
     position: absolute;
     width: 5px;
     margin-left: -5px;
 }
 .s3d-container-shadow-right {
-    background: url("/dev/images/container_shadow_right.png") no-repeat scroll 0 0 transparent;
+    background: url("/ui/img/container_shadow_right.png") no-repeat scroll 0 0 transparent;
     float: right;
     margin-left: 960px;
 }
@@ -3027,18 +3028,24 @@ ul li.s3d-list-item:hover {
     display: none;
 }
 
-/*
- * No Javascript message
- */
-.noscript {
-    background-color: #e0eff6;
-    border-radius: 5px;
-    color: #666666;
-    display: block;
-    padding: 20px;
-    margin: 20px;
+/* No script styling*/
+.noscript #noscript {
+    background-color: #EE5F5B;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    color: #FEFEFE;
+    font-size: 16px;
+    letter-spacing: 0.014em;
+    line-height: 20px;
+    padding: 10px 40px;
+    text-shadow: 0 1px 0 #333333;
 }
-.noscript p {
-    font-size: 18px;
-    line-height: 140%;
+
+.noscript #noscript h1 {
+    text-shadow: none;
+}
+
+.noscript #noscript a {
+    color: #FEFEFE;
 }

@@ -21,6 +21,11 @@
     -webkit-box-shadow: 0 -5px 9px 6px #555555;
     box-shadow: 0 -5px 9px 6px #555555;
 }
+.noscript .s3d-page-header {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
 #explore_navigation {
     height: 40px;
 }
