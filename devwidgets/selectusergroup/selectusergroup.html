@@ -1,0 +1,169 @@
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/devwidgets/selectusergroup/css/selectusergroup.css" />
+
+<!-- MAIN VIEW -->
+<div id="selectusergroup_container" class="s3d-dialog s3d-dialog-container">
+    <div class="s3d-dialog-close jqmClose"></div>
+    <h1 class="s3d-dialog-header">__MSG__REFINE_SEARCH__</h1>
+
+    <div id="selectusergroup_search_container">
+        <form id="selectusergroup_search_form" method="post" action="#">
+            <div class="s3d-search-container"  role="search" aria-label="__MSG__REFINE_SEARCH__">
+                <label for="selectusergroup_search_query" id="selectusergroup_search_query_label" style="display:none;">__MSG__REFINE_SEARCH__</label>
+                <input type="text" tabindex_none="40" name="selectusergroup_search_query" id="selectusergroup_search_query" title="__MSG__REFINE_SEARCH__" class="s3d-search-inputfield"/>
+                <button type="submit" class="s3d-button s3d-header-button" id="selectusergroup_search_button">
+                    __MSG__SEARCH_AGAIN__
+                </button>
+            </div>
+        </form>
+
+        <div class="selectusergroup_sub_container">
+            <div id="selectusergroup_tabs_container"></div>
+            <div class="selectusergroup_results_wrapper">
+                <div id="selectusergroup_results_container"></div>
+            </div>
+        </div>
+
+        <div id="selectusergroup_tabs_template"><!--
+            <ul id="selectusergroup_tabs" role="tablist">
+                <li>
+                    <button data-type="user" class="selected" aria-controls="selectusergroup_list_people" role="tab">
+                        __MSG__PEOPLE__
+                    </button>
+                </li>
+                {for w in worlds}
+                    <li>
+                        <button data-type="world" data-category-id="${w.id}" aria-controls="selectusergroup_list_${w.id}" role="tab">
+                            ${sakai.api.i18n.getValueForKey(w.titlePlural)}
+                        </button>
+                    </li>
+                {/for}
+            </ul>
+        --></div>
+
+        <div id="selectusergroup_results_template"><!--
+            <ul>
+                {for i in items}
+                    {if type === "user"}
+                        <li data-entity-id="${i.userid}" data-entity-type="${type}">
+                            <img src="${i.picture}" alt="__MSG__VIEW_PERSONS_PROFILE__" />
+                            <span class="selectusergroup_result_details">
+                                <button class="s3d-link-button selectusergroup_result_name">
+                                    ${sakai.api.User.getDisplayName(i)}
+                                </button>
+                                <span class="selectusergroup_result_description">
+                                    {if i.description}
+                                        ${i.description}
+                                        <span class="selectusergroup_result_id_seperator">|</span>
+                                    {/if}
+                                    __MSG__ID__ ${i.userid}
+                                </span>
+                            </span>
+                        </li>
+                    {elseif type === "world"}
+                        <li data-entity-id="${i.groupid}" data-entity-type="${type}">
+                            <img src="${sakai.api.Groups.getProfilePicture(i)}" alt="${i['sakai:group-title']|safeOutput}" />
+                            <span class="selectusergroup_result_details">
+                                <button class="s3d-link-button selectusergroup_result_name">
+                                    ${i['sakai:group-title']|safeOutput}
+                                </button>
+                                <span class="selectusergroup_result_description">
+                                    {if i.description}
+                                        ${i.description}
+                                    {/if}
+                                </span>
+                            </span>
+                            <button class="s3d-link-button selectusergroup_result_rolesdd">
+                                __MSG__ROLES__ __MSG__DOWN_ARROW__
+                            </button>
+                        </li>
+                    {/if}
+                {forelse}
+                    <span>__MSG__NO_RESULTS__</span>
+                {/for}
+            </ul>
+        --></div>
+    </div>
+
+    <div id="selectusergroup_roles_popover" class="selectusergroup_roles_popover s3d-popover-container clearfix" style="display:none;">
+        <div class="s3d-popover-inner">
+            <div class="selectusergroup_roles_popover_loading"></div>
+            <div id="selectusergroup_roles_popover_container"></div>
+        </div>
+    </div>
+
+    <div id="selectusergroup_roles_popover_template"><!--
+        <ul id="selectusergroup_roles_popover_select">
+            {if type === "selecteditem"}
+                <li class="selectusergroup_roles_everyone">
+                    <input type="checkbox" class="selectusergroup_everyone" id="selectusergroup_everyone" value="selectusergroup_everyone"{if everyone} checked="checked"{/if} />
+                    <span>
+                        <label for="selectusergroup_everyone">
+                            __MSG__EVERYONE__
+                        </label>
+                    </span>
+                </li>
+            {/if}
+            {for r in roles}
+                <li>
+                    <input type="checkbox" class="selectusergroup_roles" id="selectusergroup_roles_${r.id}" value="${r.id}"{if worldData.selectedRoles && worldData.selectedRoles[r.id]} checked="checked"{/if}{if everyone} disabled="disabled"{/if}  />
+                    <span>
+                        <label for="selectusergroup_roles_${r.id}">
+                            ${sakai.api.i18n.getValueForKey(r.titlePlural)}
+                        </label>
+                    </span>
+                </li>
+            {/for}
+        </ul>
+        <button type="button" class="selectusergroup_roles_popover_save s3d-button s3d-header-button s3d-header-smaller-button fl-force-right">__MSG__APPLY__</button>
+    --></div>
+
+    <div id="selectusergroup_autocomplete_selected_template"><!--
+        {macro pseudoGroup(selectedRoles, worldId)}
+            {for r in selectedRoles}
+                {var pseudoRole = worldId + "-" + r.id}
+                <li data-entity-type="role" data-role-id="${r.id}" data-entity-id="${pseudoRole}">
+                    <span>${sakai.api.i18n.getValueForKey(r.titlePlural)}</span>
+                    <button class="s3d-link-button autocomplete_remove"></button>
+                </li>
+            {/for}
+        {/macro}
+
+        {if rolesOnly}
+            ${pseudoGroup(selectedRoles, item.value)}
+        {else}
+            {if item.type === "world"}
+                {if selectedRoles}
+                    <li class="autocomplete_selected_item autocomplete_selected_world" data-entity-type="${item.type}" data-entity-id="${item.value}">
+                        <button class="autocomplete_role_dropdown s3d-link-button"></button>
+                        <ul class="autocomplete_selected_roles">
+                            ${pseudoGroup(selectedRoles, item.value)}
+                        </ul>
+                        <span class="autocomplete_selected_world_of">__MSG__OF__</span>
+                        <img class="autocomplete_selected_img" src="${item.picture}" />
+                        <span>${item.name}</span>
+                        <button class="s3d-link-button autocomplete_remove autocomplete_remove_world" data-entity-id="${item.value}" style="display:none;"></button>
+                    </li>
+                {else}
+                    <li class="autocomplete_selected_item" data-entity-type="${item.type}" data-entity-id="${item.value}">
+                        <button class="autocomplete_role_dropdown s3d-link-button"></button>
+                        <ul class="autocomplete_selected_roles"></ul>
+                        <span class="autocomplete_selected_world_of" style="display:none;">__MSG__OF__</span>
+                        <img class="autocomplete_selected_img" src="${item.picture}" />
+                        <span>${item.name}</span>
+                        <button class="s3d-link-button autocomplete_remove autocomplete_remove_world" data-entity-id="${item.value}"></button>
+                    </li>
+                {/if}
+            {elseif item.type === "user"}
+                <li class="autocomplete_selected_item" data-entity-type="${item.type}" data-entity-id="${item.value}">
+                    <img class="autocomplete_selected_img" src="${item.picture}" />
+                    <span>${item.name}</span>
+                    <button class="s3d-link-button autocomplete_remove" data-entity-id="${item.value}"></button>
+                </li>
+            {/if}
+        {/if}
+    --></div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="/devwidgets/selectusergroup/javascript/selectusergroup.js"></script>

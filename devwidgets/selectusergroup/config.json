@@ -1,0 +1,18 @@
+{
+    "enabled": true,
+    "hasSettings": false,
+    "i18n": {
+        "default": {
+            "bundle": "/devwidgets/selectusergroup/bundles/default.properties",
+            "description": "User/group selector",
+            "name": "User/group selector"
+        }
+    },
+    "id": "selectusergroup",
+    "trigger": {
+        "events": ["init.selectusergroup.sakai"],
+        "onLoad": false
+    },
+    "type": "core",
+    "url": "/devwidgets/selectusergroup/selectusergroup.html"
+}

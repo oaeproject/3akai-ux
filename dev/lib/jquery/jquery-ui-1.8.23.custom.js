@@ -1,5 +1,5 @@
 /*!
- * jQuery UI 1.8.20
+ * jQuery UI 1.8.23
  *
  * Copyright 2012, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
@@ -7,8 +7,6 @@
  *
  * http://docs.jquery.com/UI
  */
-require(['jquery'], function (jQuery) {
-
 (function( $, undefined ) {
 
 // prevent duplicate loading
@@ -20,7 +18,7 @@ if ( $.ui.version ) {
 }
 
 $.extend( $.ui, {
-	version: "1.8.20",
+	version: "1.8.23",
 
 	keyCode: {
 		ALT: 18,
@@ -133,49 +131,52 @@ $.fn.extend({
 	}
 });
 
-$.each( [ "Width", "Height" ], function( i, name ) {
-	var side = name === "Width" ? [ "Left", "Right" ] : [ "Top", "Bottom" ],
-		type = name.toLowerCase(),
-		orig = {
-			innerWidth: $.fn.innerWidth,
-			innerHeight: $.fn.innerHeight,
-			outerWidth: $.fn.outerWidth,
-			outerHeight: $.fn.outerHeight
+// support: jQuery <1.8
+if ( !$( "<a>" ).outerWidth( 1 ).jquery ) {
+	$.each( [ "Width", "Height" ], function( i, name ) {
+		var side = name === "Width" ? [ "Left", "Right" ] : [ "Top", "Bottom" ],
+			type = name.toLowerCase(),
+			orig = {
+				innerWidth: $.fn.innerWidth,
+				innerHeight: $.fn.innerHeight,
+				outerWidth: $.fn.outerWidth,
+				outerHeight: $.fn.outerHeight
+			};
+
+		function reduce( elem, size, border, margin ) {
+			$.each( side, function() {
+				size -= parseFloat( $.curCSS( elem, "padding" + this, true) ) || 0;
+				if ( border ) {
+					size -= parseFloat( $.curCSS( elem, "border" + this + "Width", true) ) || 0;
+				}
+				if ( margin ) {
+					size -= parseFloat( $.curCSS( elem, "margin" + this, true) ) || 0;
+				}
+			});
+			return size;
+		}
+
+		$.fn[ "inner" + name ] = function( size ) {
+			if ( size === undefined ) {
+				return orig[ "inner" + name ].call( this );
+			}
+
+			return this.each(function() {
+				$( this ).css( type, reduce( this, size ) + "px" );
+			});
 		};
 
-	function reduce( elem, size, border, margin ) {
-		$.each( side, function() {
-			size -= parseFloat( $.curCSS( elem, "padding" + this, true) ) || 0;
-			if ( border ) {
-				size -= parseFloat( $.curCSS( elem, "border" + this + "Width", true) ) || 0;
+		$.fn[ "outer" + name] = function( size, margin ) {
+			if ( typeof size !== "number" ) {
+				return orig[ "outer" + name ].call( this, size );
 			}
-			if ( margin ) {
-				size -= parseFloat( $.curCSS( elem, "margin" + this, true) ) || 0;
-			}
-		});
-		return size;
-	}
 
-	$.fn[ "inner" + name ] = function( size ) {
-		if ( size === undefined ) {
-			return orig[ "inner" + name ].call( this );
-		}
-
-		return this.each(function() {
-			$( this ).css( type, reduce( this, size ) + "px" );
-		});
-	};
-
-	$.fn[ "outer" + name] = function( size, margin ) {
-		if ( typeof size !== "number" ) {
-			return orig[ "outer" + name ].call( this, size );
-		}
-
-		return this.each(function() {
-			$( this).css( type, reduce( this, size, true, margin ) + "px" );
-		});
-	};
-});
+			return this.each(function() {
+				$( this).css( type, reduce( this, size, true, margin ) + "px" );
+			});
+		};
+	});
+}
 
 // selectors
 function focusable( element, isTabIndexNotNaN ) {
@@ -207,9 +208,16 @@ function visible( element ) {
 }
 
 $.extend( $.expr[ ":" ], {
-	data: function( elem, i, match ) {
-		return !!$.data( elem, match[ 3 ] );
-	},
+	data: $.expr.createPseudo ?
+		$.expr.createPseudo(function( dataName ) {
+			return function( elem ) {
+				return !!$.data( elem, dataName );
+			};
+		}) :
+		// support: jQuery <1.8
+		function( elem, i, match ) {
+			return !!$.data( elem, match[ 3 ] );
+		},
 
 	focusable: function( element ) {
 		return focusable( element, !isNaN( $.attr( element, "tabindex" ) ) );
@@ -246,6 +254,11 @@ $(function() {
 	// http://dev.jquery.com/ticket/4014
 	body.removeChild( div ).style.display = "none";
 });
+
+// jQuery <1.4.3 uses curCSS, in 1.4.3 - 1.7.2 curCSS = css, 1.8+ only has css
+if ( !$.curCSS ) {
+	$.curCSS = $.css;
+}
 
 
 
@@ -320,7 +333,7 @@ $.extend( $.ui, {
 
 })( jQuery );
 /*!
- * jQuery UI Widget 1.8.20
+ * jQuery UI Widget 1.8.23
  *
  * Copyright 2012, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
@@ -592,7 +605,7 @@ $.Widget.prototype = {
 
 })( jQuery );
 /*!
- * jQuery UI Mouse 1.8.20
+ * jQuery UI Mouse 1.8.23
  *
  * Copyright 2012, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
@@ -638,9 +651,11 @@ $.widget("ui.mouse", {
 	// other instances of mouse
 	_mouseDestroy: function() {
 		this.element.unbind('.'+this.widgetName);
-		$(document)
-			.unbind('mousemove.'+this.widgetName, this._mouseMoveDelegate)
-			.unbind('mouseup.'+this.widgetName, this._mouseUpDelegate);
+		if ( this._mouseMoveDelegate ) {
+			$(document)
+				.unbind('mousemove.'+this.widgetName, this._mouseMoveDelegate)
+				.unbind('mouseup.'+this.widgetName, this._mouseUpDelegate);
+		}
 	},
 
 	_mouseDown: function(event) {
@@ -757,7 +772,315 @@ $.widget("ui.mouse", {
 
 })(jQuery);
 /*!
- * jQuery UI Draggable 1.8.20
+ * jQuery UI Position 1.8.23
+ *
+ * Copyright 2012, AUTHORS.txt (http://jqueryui.com/about)
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ * http://jquery.org/license
+ *
+ * http://docs.jquery.com/UI/Position
+ */
+(function( $, undefined ) {
+
+$.ui = $.ui || {};
+
+var horizontalPositions = /left|center|right/,
+	verticalPositions = /top|center|bottom/,
+	center = "center",
+	support = {},
+	_position = $.fn.position,
+	_offset = $.fn.offset;
+
+$.fn.position = function( options ) {
+	if ( !options || !options.of ) {
+		return _position.apply( this, arguments );
+	}
+
+	// make a copy, we don't want to modify arguments
+	options = $.extend( {}, options );
+
+	var target = $( options.of ),
+		targetElem = target[0],
+		collision = ( options.collision || "flip" ).split( " " ),
+		offset = options.offset ? options.offset.split( " " ) : [ 0, 0 ],
+		targetWidth,
+		targetHeight,
+		basePosition;
+
+	if ( targetElem.nodeType === 9 ) {
+		targetWidth = target.width();
+		targetHeight = target.height();
+		basePosition = { top: 0, left: 0 };
+	// TODO: use $.isWindow() in 1.9
+	} else if ( targetElem.setTimeout ) {
+		targetWidth = target.width();
+		targetHeight = target.height();
+		basePosition = { top: target.scrollTop(), left: target.scrollLeft() };
+	} else if ( targetElem.preventDefault ) {
+		// force left top to allow flipping
+		options.at = "left top";
+		targetWidth = targetHeight = 0;
+		basePosition = { top: options.of.pageY, left: options.of.pageX };
+	} else {
+		targetWidth = target.outerWidth();
+		targetHeight = target.outerHeight();
+		basePosition = target.offset();
+	}
+
+	// force my and at to have valid horizontal and veritcal positions
+	// if a value is missing or invalid, it will be converted to center 
+	$.each( [ "my", "at" ], function() {
+		var pos = ( options[this] || "" ).split( " " );
+		if ( pos.length === 1) {
+			pos = horizontalPositions.test( pos[0] ) ?
+				pos.concat( [center] ) :
+				verticalPositions.test( pos[0] ) ?
+					[ center ].concat( pos ) :
+					[ center, center ];
+		}
+		pos[ 0 ] = horizontalPositions.test( pos[0] ) ? pos[ 0 ] : center;
+		pos[ 1 ] = verticalPositions.test( pos[1] ) ? pos[ 1 ] : center;
+		options[ this ] = pos;
+	});
+
+	// normalize collision option
+	if ( collision.length === 1 ) {
+		collision[ 1 ] = collision[ 0 ];
+	}
+
+	// normalize offset option
+	offset[ 0 ] = parseInt( offset[0], 10 ) || 0;
+	if ( offset.length === 1 ) {
+		offset[ 1 ] = offset[ 0 ];
+	}
+	offset[ 1 ] = parseInt( offset[1], 10 ) || 0;
+
+	if ( options.at[0] === "right" ) {
+		basePosition.left += targetWidth;
+	} else if ( options.at[0] === center ) {
+		basePosition.left += targetWidth / 2;
+	}
+
+	if ( options.at[1] === "bottom" ) {
+		basePosition.top += targetHeight;
+	} else if ( options.at[1] === center ) {
+		basePosition.top += targetHeight / 2;
+	}
+
+	basePosition.left += offset[ 0 ];
+	basePosition.top += offset[ 1 ];
+
+	return this.each(function() {
+		var elem = $( this ),
+			elemWidth = elem.outerWidth(),
+			elemHeight = elem.outerHeight(),
+			marginLeft = parseInt( $.curCSS( this, "marginLeft", true ) ) || 0,
+			marginTop = parseInt( $.curCSS( this, "marginTop", true ) ) || 0,
+			collisionWidth = elemWidth + marginLeft +
+				( parseInt( $.curCSS( this, "marginRight", true ) ) || 0 ),
+			collisionHeight = elemHeight + marginTop +
+				( parseInt( $.curCSS( this, "marginBottom", true ) ) || 0 ),
+			position = $.extend( {}, basePosition ),
+			collisionPosition;
+
+		if ( options.my[0] === "right" ) {
+			position.left -= elemWidth;
+		} else if ( options.my[0] === center ) {
+			position.left -= elemWidth / 2;
+		}
+
+		if ( options.my[1] === "bottom" ) {
+			position.top -= elemHeight;
+		} else if ( options.my[1] === center ) {
+			position.top -= elemHeight / 2;
+		}
+
+		// prevent fractions if jQuery version doesn't support them (see #5280)
+		if ( !support.fractions ) {
+			position.left = Math.round( position.left );
+			position.top = Math.round( position.top );
+		}
+
+		collisionPosition = {
+			left: position.left - marginLeft,
+			top: position.top - marginTop
+		};
+
+		$.each( [ "left", "top" ], function( i, dir ) {
+			if ( $.ui.position[ collision[i] ] ) {
+				$.ui.position[ collision[i] ][ dir ]( position, {
+					targetWidth: targetWidth,
+					targetHeight: targetHeight,
+					elemWidth: elemWidth,
+					elemHeight: elemHeight,
+					collisionPosition: collisionPosition,
+					collisionWidth: collisionWidth,
+					collisionHeight: collisionHeight,
+					offset: offset,
+					my: options.my,
+					at: options.at
+				});
+			}
+		});
+
+		if ( $.fn.bgiframe ) {
+			elem.bgiframe();
+		}
+		elem.offset( $.extend( position, { using: options.using } ) );
+	});
+};
+
+$.ui.position = {
+	fit: {
+		left: function( position, data ) {
+			var win = $( window ),
+				over = data.collisionPosition.left + data.collisionWidth - win.width() - win.scrollLeft();
+			position.left = over > 0 ? position.left - over : Math.max( position.left - data.collisionPosition.left, position.left );
+		},
+		top: function( position, data ) {
+			var win = $( window ),
+				over = data.collisionPosition.top + data.collisionHeight - win.height() - win.scrollTop();
+			position.top = over > 0 ? position.top - over : Math.max( position.top - data.collisionPosition.top, position.top );
+		}
+	},
+
+	flip: {
+		left: function( position, data ) {
+			if ( data.at[0] === center ) {
+				return;
+			}
+			var win = $( window ),
+				over = data.collisionPosition.left + data.collisionWidth - win.width() - win.scrollLeft(),
+				myOffset = data.my[ 0 ] === "left" ?
+					-data.elemWidth :
+					data.my[ 0 ] === "right" ?
+						data.elemWidth :
+						0,
+				atOffset = data.at[ 0 ] === "left" ?
+					data.targetWidth :
+					-data.targetWidth,
+				offset = -2 * data.offset[ 0 ];
+			position.left += data.collisionPosition.left < 0 ?
+				myOffset + atOffset + offset :
+				over > 0 ?
+					myOffset + atOffset + offset :
+					0;
+		},
+		top: function( position, data ) {
+			if ( data.at[1] === center ) {
+				return;
+			}
+			var win = $( window ),
+				over = data.collisionPosition.top + data.collisionHeight - win.height() - win.scrollTop(),
+				myOffset = data.my[ 1 ] === "top" ?
+					-data.elemHeight :
+					data.my[ 1 ] === "bottom" ?
+						data.elemHeight :
+						0,
+				atOffset = data.at[ 1 ] === "top" ?
+					data.targetHeight :
+					-data.targetHeight,
+				offset = -2 * data.offset[ 1 ];
+			position.top += data.collisionPosition.top < 0 ?
+				myOffset + atOffset + offset :
+				over > 0 ?
+					myOffset + atOffset + offset :
+					0;
+		}
+	}
+};
+
+// offset setter from jQuery 1.4
+if ( !$.offset.setOffset ) {
+	$.offset.setOffset = function( elem, options ) {
+		// set position first, in-case top/left are set even on static elem
+		if ( /static/.test( $.curCSS( elem, "position" ) ) ) {
+			elem.style.position = "relative";
+		}
+		var curElem   = $( elem ),
+			curOffset = curElem.offset(),
+			curTop    = parseInt( $.curCSS( elem, "top",  true ), 10 ) || 0,
+			curLeft   = parseInt( $.curCSS( elem, "left", true ), 10)  || 0,
+			props     = {
+				top:  (options.top  - curOffset.top)  + curTop,
+				left: (options.left - curOffset.left) + curLeft
+			};
+		
+		if ( 'using' in options ) {
+			options.using.call( elem, props );
+		} else {
+			curElem.css( props );
+		}
+	};
+
+	$.fn.offset = function( options ) {
+		var elem = this[ 0 ];
+		if ( !elem || !elem.ownerDocument ) { return null; }
+		if ( options ) {
+			if ( $.isFunction( options ) ) {
+				return this.each(function( i ) {
+					$( this ).offset( options.call( this, i, $( this ).offset() ) );
+				});
+			}
+			return this.each(function() {
+				$.offset.setOffset( this, options );
+			});
+		}
+		return _offset.call( this );
+	};
+}
+
+// jQuery <1.4.3 uses curCSS, in 1.4.3 - 1.7.2 curCSS = css, 1.8+ only has css
+if ( !$.curCSS ) {
+	$.curCSS = $.css;
+}
+
+// fraction support test (older versions of jQuery don't support fractions)
+(function () {
+	var body = document.getElementsByTagName( "body" )[ 0 ], 
+		div = document.createElement( "div" ),
+		testElement, testElementParent, testElementStyle, offset, offsetTotal;
+
+	//Create a "fake body" for testing based on method used in jQuery.support
+	testElement = document.createElement( body ? "div" : "body" );
+	testElementStyle = {
+		visibility: "hidden",
+		width: 0,
+		height: 0,
+		border: 0,
+		margin: 0,
+		background: "none"
+	};
+	if ( body ) {
+		$.extend( testElementStyle, {
+			position: "absolute",
+			left: "-1000px",
+			top: "-1000px"
+		});
+	}
+	for ( var i in testElementStyle ) {
+		testElement.style[ i ] = testElementStyle[ i ];
+	}
+	testElement.appendChild( div );
+	testElementParent = body || document.documentElement;
+	testElementParent.insertBefore( testElement, testElementParent.firstChild );
+
+	div.style.cssText = "position: absolute; left: 10.7432222px; top: 10.432325px; height: 30px; width: 201px;";
+
+	offset = $( div ).offset( function( _, offset ) {
+		return offset;
+	}).offset();
+
+	testElement.innerHTML = "";
+	testElementParent.removeChild( testElement );
+
+	offsetTotal = offset.top + offset.left + ( body ? 2000 : 0 );
+	support.fractions = offsetTotal > 21 && offsetTotal < 22;
+})();
+
+}( jQuery ));
+/*!
+ * jQuery UI Draggable 1.8.23
  *
  * Copyright 2012, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
@@ -861,6 +1184,8 @@ $.widget("ui.draggable", $.ui.mouse, {
 		//Create and append the visible helper
 		this.helper = this._createHelper(event);
 
+		this.helper.addClass("ui-draggable-dragging");
+
 		//Cache the helper size
 		this._cacheHelperProportions();
 
@@ -921,7 +1246,7 @@ $.widget("ui.draggable", $.ui.mouse, {
 		if ($.ui.ddmanager && !o.dropBehaviour)
 			$.ui.ddmanager.prepareOffsets(this, event);
 
-		this.helper.addClass("ui-draggable-dragging");
+		
 		this._mouseDrag(event, true); //Execute the drag once - this causes the helper not to be visible before getting its correct position
 		
 		//If the ddmanager is used for droppables, inform the manager that dragging has started (see #5003)
@@ -1269,7 +1594,7 @@ $.widget("ui.draggable", $.ui.mouse, {
 });
 
 $.extend($.ui.draggable, {
-	version: "1.8.20"
+	version: "1.8.23"
 });
 
 $.ui.plugin.add("draggable", "connectToSortable", {
@@ -1588,7 +1913,7 @@ $.ui.plugin.add("draggable", "zIndex", {
 
 })(jQuery);
 /*!
- * jQuery UI Droppable 1.8.20
+ * jQuery UI Droppable 1.8.23
  *
  * Copyright 2012, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
@@ -1736,7 +2061,7 @@ $.widget("ui.droppable", {
 });
 
 $.extend($.ui.droppable, {
-	version: "1.8.20"
+	version: "1.8.23"
 });
 
 $.ui.intersect = function(draggable, droppable, toleranceMode) {
@@ -1884,7 +2209,7 @@ $.ui.ddmanager = {
 
 })(jQuery);
 /*!
- * jQuery UI Resizable 1.8.20
+ * jQuery UI Resizable 1.8.23
  *
  * Copyright 2012, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
@@ -2425,7 +2750,7 @@ $.widget("ui.resizable", $.ui.mouse, {
 });
 
 $.extend($.ui.resizable, {
-	version: "1.8.20"
+	version: "1.8.23"
 });
 
 /*
@@ -2691,7 +3016,7 @@ var isNumber = function(value) {
 
 })(jQuery);
 /*!
- * jQuery UI Sortable 1.8.20
+ * jQuery UI Sortable 1.8.23
  *
  * Copyright 2012, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
@@ -2847,11 +3172,6 @@ $.widget("ui.sortable", $.ui.mouse, {
 			left: this.offset.left - this.margins.left
 		};
 
-		// Only after we got the offset, we can change the helper's position to absolute
-		// TODO: Still need to figure out a way to make relative sorting possible
-		this.helper.css("position", "absolute");
-		this.cssPosition = this.helper.css("position");
-
 		$.extend(this.offset, {
 			click: { //Where the click happened, relative to the element
 				left: event.pageX - this.offset.left,
@@ -2861,6 +3181,11 @@ $.widget("ui.sortable", $.ui.mouse, {
 			relative: this._getRelativeOffset() //This is a relative to absolute position minus the actual position calculation - only used for relative positioned helper
 		});
 
+		// Only after we got the offset, we can change the helper's position to absolute
+		// TODO: Still need to figure out a way to make relative sorting possible
+		this.helper.css("position", "absolute");
+		this.cssPosition = this.helper.css("position");
+		
 		//Generate the original position
 		this.originalPosition = this._generatePosition(event);
 		this.originalPageX = event.pageX;
@@ -3422,30 +3747,31 @@ $.widget("ui.sortable", $.ui.mouse, {
 		if(this.containers.length === 1) {
 			this.containers[innermostIndex]._trigger("over", event, this._uiHash(this));
 			this.containers[innermostIndex].containerCache.over = 1;
-		} else if(this.currentContainer != this.containers[innermostIndex]) { 
+		} else if(this.currentContainer != this.containers[innermostIndex]) {
 
-			//When entering a new container, we will find the item with the least distance and append our item near it 
-			var dist = 10000; var itemWithLeastDistance = null; var base = this.positionAbs[this.containers[innermostIndex].floating ? 'left' : 'top']; 
-			for (var j = this.items.length - 1; j >= 0; j--) { 
-				if(!$.ui.contains(this.containers[innermostIndex].element[0], this.items[j].item[0])) continue; 
-				var cur = this.items[j][this.containers[innermostIndex].floating ? 'left' : 'top']; 
-				if(Math.abs(cur - base) < dist) { 
-					dist = Math.abs(cur - base); itemWithLeastDistance = this.items[j]; 
-				} 
-			} 
+			//When entering a new container, we will find the item with the least distance and append our item near it
+			var dist = 10000; var itemWithLeastDistance = null; var base = this.positionAbs[this.containers[innermostIndex].floating ? 'left' : 'top'];
+			for (var j = this.items.length - 1; j >= 0; j--) {
+				if(!$.ui.contains(this.containers[innermostIndex].element[0], this.items[j].item[0])) continue;
+				var cur = this.containers[innermostIndex].floating ? this.items[j].item.offset().left : this.items[j].item.offset().top;
+				if(Math.abs(cur - base) < dist) {
+					dist = Math.abs(cur - base); itemWithLeastDistance = this.items[j];
+					this.direction = (cur - base > 0) ? 'down' : 'up';
+				}
+			}
 
-			if(!itemWithLeastDistance && !this.options.dropOnEmpty) //Check if dropOnEmpty is enabled 
-				return; 
+			if(!itemWithLeastDistance && !this.options.dropOnEmpty) //Check if dropOnEmpty is enabled
+				return;
 
-			this.currentContainer = this.containers[innermostIndex]; 
-			itemWithLeastDistance ? this._rearrange(event, itemWithLeastDistance, null, true) : this._rearrange(event, null, this.containers[innermostIndex].element, true); 
-			this._trigger("change", event, this._uiHash()); 
-			this.containers[innermostIndex]._trigger("change", event, this._uiHash(this)); 
+			this.currentContainer = this.containers[innermostIndex];
+			itemWithLeastDistance ? this._rearrange(event, itemWithLeastDistance, null, true) : this._rearrange(event, null, this.containers[innermostIndex].element, true);
+			this._trigger("change", event, this._uiHash());
+			this.containers[innermostIndex]._trigger("change", event, this._uiHash(this));
 
-			//Update the placeholder 
-			this.options.placeholder.update(this.currentContainer, this.placeholder); 
-		
-			this.containers[innermostIndex]._trigger("over", event, this._uiHash(this)); 
+			//Update the placeholder
+			this.options.placeholder.update(this.currentContainer, this.placeholder);
+
+			this.containers[innermostIndex]._trigger("over", event, this._uiHash(this));
 			this.containers[innermostIndex].containerCache.over = 1;
 		} 
 	
@@ -3725,6 +4051,8 @@ $.widget("ui.sortable", $.ui.mouse, {
 				for (var i=0; i < delayedTriggers.length; i++) { delayedTriggers[i].call(this, event); }; //Trigger all delayed events
 				this._trigger("stop", event, this._uiHash());
 			}
+
+			this.fromOutside = false;
 			return false;
 		}
 
@@ -3767,12 +4095,643 @@ $.widget("ui.sortable", $.ui.mouse, {
 });
 
 $.extend($.ui.sortable, {
-	version: "1.8.20"
+	version: "1.8.23"
 });
 
 })(jQuery);
 /*!
- * jQuery UI Effects 1.8.20
+ * jQuery UI Autocomplete 1.8.23
+ *
+ * Copyright 2012, AUTHORS.txt (http://jqueryui.com/about)
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ * http://jquery.org/license
+ *
+ * http://docs.jquery.com/UI/Autocomplete
+ *
+ * Depends:
+ *	jquery.ui.core.js
+ *	jquery.ui.widget.js
+ *	jquery.ui.position.js
+ */
+(function( $, undefined ) {
+
+// used to prevent race conditions with remote data sources
+var requestIndex = 0;
+
+$.widget( "ui.autocomplete", {
+	options: {
+		appendTo: "body",
+		autoFocus: false,
+		delay: 300,
+		minLength: 1,
+		position: {
+			my: "left top",
+			at: "left bottom",
+			collision: "none"
+		},
+		source: null
+	},
+
+	pending: 0,
+
+	_create: function() {
+		var self = this,
+			doc = this.element[ 0 ].ownerDocument,
+			suppressKeyPress;
+		this.isMultiLine = this.element.is( "textarea" );
+
+		this.element
+			.addClass( "ui-autocomplete-input" )
+			.attr( "autocomplete", "off" )
+			// TODO verify these actually work as intended
+			.attr({
+				role: "textbox",
+				"aria-autocomplete": "list",
+				"aria-haspopup": "true"
+			})
+			.bind( "keydown.autocomplete", function( event ) {
+				if ( self.options.disabled || self.element.propAttr( "readOnly" ) ) {
+					return;
+				}
+
+				suppressKeyPress = false;
+				var keyCode = $.ui.keyCode;
+				switch( event.keyCode ) {
+				case keyCode.PAGE_UP:
+					self._move( "previousPage", event );
+					break;
+				case keyCode.PAGE_DOWN:
+					self._move( "nextPage", event );
+					break;
+				case keyCode.UP:
+					self._keyEvent( "previous", event );
+					break;
+				case keyCode.DOWN:
+					self._keyEvent( "next", event );
+					break;
+				case keyCode.ENTER:
+				case keyCode.NUMPAD_ENTER:
+					// when menu is open and has focus
+					if ( self.menu.active ) {
+						// #6055 - Opera still allows the keypress to occur
+						// which causes forms to submit
+						suppressKeyPress = true;
+						event.preventDefault();
+					}
+					//passthrough - ENTER and TAB both select the current element
+				case keyCode.TAB:
+					if ( !self.menu.active ) {
+						return;
+					}
+					self.menu.select( event );
+					break;
+				case keyCode.ESCAPE:
+					self.element.val( self.term );
+					self.close( event );
+					break;
+				default:
+					// keypress is triggered before the input value is changed
+					clearTimeout( self.searching );
+					self.searching = setTimeout(function() {
+						// only search if the value has changed
+						if ( self.term != self.element.val() ) {
+							self.selectedItem = null;
+							self.search( null, event );
+						}
+					}, self.options.delay );
+					break;
+				}
+			})
+			.bind( "keypress.autocomplete", function( event ) {
+				if ( suppressKeyPress ) {
+					suppressKeyPress = false;
+					event.preventDefault();
+				}
+			})
+			.bind( "focus.autocomplete", function() {
+				if ( self.options.disabled ) {
+					return;
+				}
+
+				self.selectedItem = null;
+				self.previous = self.element.val();
+			})
+			.bind( "blur.autocomplete", function( event ) {
+				if ( self.options.disabled ) {
+					return;
+				}
+
+				clearTimeout( self.searching );
+				// clicks on the menu (or a button to trigger a search) will cause a blur event
+				self.closing = setTimeout(function() {
+					self.close( event );
+					self._change( event );
+				}, 150 );
+			});
+		this._initSource();
+		this.menu = $( "<ul></ul>" )
+			.addClass( "ui-autocomplete" )
+			.appendTo( $( this.options.appendTo || "body", doc )[0] )
+			// prevent the close-on-blur in case of a "slow" click on the menu (long mousedown)
+			.mousedown(function( event ) {
+				// clicking on the scrollbar causes focus to shift to the body
+				// but we can't detect a mouseup or a click immediately afterward
+				// so we have to track the next mousedown and close the menu if
+				// the user clicks somewhere outside of the autocomplete
+				var menuElement = self.menu.element[ 0 ];
+				if ( !$( event.target ).closest( ".ui-menu-item" ).length ) {
+					setTimeout(function() {
+						$( document ).one( 'mousedown', function( event ) {
+							if ( event.target !== self.element[ 0 ] &&
+								event.target !== menuElement &&
+								!$.ui.contains( menuElement, event.target ) ) {
+								self.close();
+							}
+						});
+					}, 1 );
+				}
+
+				// use another timeout to make sure the blur-event-handler on the input was already triggered
+				setTimeout(function() {
+					clearTimeout( self.closing );
+				}, 13);
+			})
+			.menu({
+				focus: function( event, ui ) {
+					var item = ui.item.data( "item.autocomplete" );
+					if ( false !== self._trigger( "focus", event, { item: item } ) ) {
+						// use value to match what will end up in the input, if it was a key event
+						if ( /^key/.test(event.originalEvent.type) ) {
+							self.element.val( item.value );
+						}
+					}
+				},
+				selected: function( event, ui ) {
+					var item = ui.item.data( "item.autocomplete" ),
+						previous = self.previous;
+
+					// only trigger when focus was lost (click on menu)
+					if ( self.element[0] !== doc.activeElement ) {
+						self.element.focus();
+						self.previous = previous;
+						// #6109 - IE triggers two focus events and the second
+						// is asynchronous, so we need to reset the previous
+						// term synchronously and asynchronously :-(
+						setTimeout(function() {
+							self.previous = previous;
+							self.selectedItem = item;
+						}, 1);
+					}
+
+					if ( false !== self._trigger( "select", event, { item: item } ) ) {
+						self.element.val( item.value );
+					}
+					// reset the term after the select event
+					// this allows custom select handling to work properly
+					self.term = self.element.val();
+
+					self.close( event );
+					self.selectedItem = item;
+				},
+				blur: function( event, ui ) {
+					// don't set the value of the text field if it's already correct
+					// this prevents moving the cursor unnecessarily
+					if ( self.menu.element.is(":visible") &&
+						( self.element.val() !== self.term ) ) {
+						self.element.val( self.term );
+					}
+				}
+			})
+			.zIndex( this.element.zIndex() + 1 )
+			// workaround for jQuery bug #5781 http://dev.jquery.com/ticket/5781
+			.css({ top: 0, left: 0 })
+			.hide()
+			.data( "menu" );
+		if ( $.fn.bgiframe ) {
+			 this.menu.element.bgiframe();
+		}
+		// turning off autocomplete prevents the browser from remembering the
+		// value when navigating through history, so we re-enable autocomplete
+		// if the page is unloaded before the widget is destroyed. #7790
+		self.beforeunloadHandler = function() {
+			self.element.removeAttr( "autocomplete" );
+		};
+		$( window ).bind( "beforeunload", self.beforeunloadHandler );
+	},
+
+	destroy: function() {
+		this.element
+			.removeClass( "ui-autocomplete-input" )
+			.removeAttr( "autocomplete" )
+			.removeAttr( "role" )
+			.removeAttr( "aria-autocomplete" )
+			.removeAttr( "aria-haspopup" );
+		this.menu.element.remove();
+		$( window ).unbind( "beforeunload", this.beforeunloadHandler );
+		$.Widget.prototype.destroy.call( this );
+	},
+
+	_setOption: function( key, value ) {
+		$.Widget.prototype._setOption.apply( this, arguments );
+		if ( key === "source" ) {
+			this._initSource();
+		}
+		if ( key === "appendTo" ) {
+			this.menu.element.appendTo( $( value || "body", this.element[0].ownerDocument )[0] )
+		}
+		if ( key === "disabled" && value && this.xhr ) {
+			this.xhr.abort();
+		}
+	},
+
+	_initSource: function() {
+		var self = this,
+			array,
+			url;
+		if ( $.isArray(this.options.source) ) {
+			array = this.options.source;
+			this.source = function( request, response ) {
+				response( $.ui.autocomplete.filter(array, request.term) );
+			};
+		} else if ( typeof this.options.source === "string" ) {
+			url = this.options.source;
+			this.source = function( request, response ) {
+				if ( self.xhr ) {
+					self.xhr.abort();
+				}
+				self.xhr = $.ajax({
+					url: url,
+					data: request,
+					dataType: "json",
+					success: function( data, status ) {
+						response( data );
+					},
+					error: function() {
+						response( [] );
+					}
+				});
+			};
+		} else {
+			this.source = this.options.source;
+		}
+	},
+
+	search: function( value, event ) {
+		value = value != null ? value : this.element.val();
+
+		// always save the actual value, not the one passed as an argument
+		this.term = this.element.val();
+
+		if ( value.length < this.options.minLength ) {
+			return this.close( event );
+		}
+
+		clearTimeout( this.closing );
+		if ( this._trigger( "search", event ) === false ) {
+			return;
+		}
+
+		return this._search( value );
+	},
+
+	_search: function( value ) {
+		this.pending++;
+		this.element.addClass( "ui-autocomplete-loading" );
+
+		this.source( { term: value }, this._response() );
+	},
+
+	_response: function() {
+		var that = this,
+			index = ++requestIndex;
+
+		return function( content ) {
+			if ( index === requestIndex ) {
+				that.__response( content );
+			}
+
+			that.pending--;
+			if ( !that.pending ) {
+				that.element.removeClass( "ui-autocomplete-loading" );
+			}
+		};
+	},
+
+	__response: function( content ) {
+		if ( !this.options.disabled && content && content.length ) {
+			content = this._normalize( content );
+			this._suggest( content );
+			this._trigger( "open" );
+		} else {
+			this.close();
+		}
+	},
+
+	close: function( event ) {
+		clearTimeout( this.closing );
+		if ( this.menu.element.is(":visible") ) {
+			this.menu.element.hide();
+			this.menu.deactivate();
+			this._trigger( "close", event );
+		}
+	},
+	
+	_change: function( event ) {
+		if ( this.previous !== this.element.val() ) {
+			this._trigger( "change", event, { item: this.selectedItem } );
+		}
+	},
+
+	_normalize: function( items ) {
+		// assume all items have the right format when the first item is complete
+		if ( items.length && items[0].label && items[0].value ) {
+			return items;
+		}
+		return $.map( items, function(item) {
+			if ( typeof item === "string" ) {
+				return {
+					label: item,
+					value: item
+				};
+			}
+			return $.extend({
+				label: item.label || item.value,
+				value: item.value || item.label
+			}, item );
+		});
+	},
+
+	_suggest: function( items ) {
+		var ul = this.menu.element
+			.empty()
+			.zIndex( this.element.zIndex() + 1 );
+		this._renderMenu( ul, items );
+		// TODO refresh should check if the active item is still in the dom, removing the need for a manual deactivate
+		this.menu.deactivate();
+		this.menu.refresh();
+
+		// size and position menu
+		ul.show();
+		this._resizeMenu();
+		ul.position( $.extend({
+			of: this.element
+		}, this.options.position ));
+
+		if ( this.options.autoFocus ) {
+			this.menu.next( new $.Event("mouseover") );
+		}
+	},
+
+	_resizeMenu: function() {
+		var ul = this.menu.element;
+		ul.outerWidth( Math.max(
+			// Firefox wraps long text (possibly a rounding bug)
+			// so we add 1px to avoid the wrapping (#7513)
+			ul.width( "" ).outerWidth() + 1,
+			this.element.outerWidth()
+		) );
+	},
+
+	_renderMenu: function( ul, items ) {
+		var self = this;
+		$.each( items, function( index, item ) {
+			self._renderItem( ul, item );
+		});
+	},
+
+	_renderItem: function( ul, item) {
+		return $( "<li></li>" )
+			.data( "item.autocomplete", item )
+			.append( $( "<a></a>" ).text( item.label ) )
+			.appendTo( ul );
+	},
+
+	_move: function( direction, event ) {
+		if ( !this.menu.element.is(":visible") ) {
+			this.search( null, event );
+			return;
+		}
+		if ( this.menu.first() && /^previous/.test(direction) ||
+				this.menu.last() && /^next/.test(direction) ) {
+			this.element.val( this.term );
+			this.menu.deactivate();
+			return;
+		}
+		this.menu[ direction ]( event );
+	},
+
+	widget: function() {
+		return this.menu.element;
+	},
+	_keyEvent: function( keyEvent, event ) {
+		if ( !this.isMultiLine || this.menu.element.is( ":visible" ) ) {
+			this._move( keyEvent, event );
+
+			// prevents moving cursor to beginning/end of the text field in some browsers
+			event.preventDefault();
+		}
+	}
+});
+
+$.extend( $.ui.autocomplete, {
+	escapeRegex: function( value ) {
+		return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+	},
+	filter: function(array, term) {
+		var matcher = new RegExp( $.ui.autocomplete.escapeRegex(term), "i" );
+		return $.grep( array, function(value) {
+			return matcher.test( value.label || value.value || value );
+		});
+	}
+});
+
+}( jQuery ));
+
+/*
+ * jQuery UI Menu (not officially released)
+ * 
+ * This widget isn't yet finished and the API is subject to change. We plan to finish
+ * it for the next release. You're welcome to give it a try anyway and give us feedback,
+ * as long as you're okay with migrating your code later on. We can help with that, too.
+ *
+ * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ * http://jquery.org/license
+ *
+ * http://docs.jquery.com/UI/Menu
+ *
+ * Depends:
+ *	jquery.ui.core.js
+ *  jquery.ui.widget.js
+ */
+(function($) {
+
+$.widget("ui.menu", {
+	_create: function() {
+		var self = this;
+		this.element
+			.addClass("ui-menu ui-widget ui-widget-content ui-corner-all")
+			.attr({
+				role: "listbox",
+				"aria-activedescendant": "ui-active-menuitem"
+			})
+			.click(function( event ) {
+				if ( !$( event.target ).closest( ".ui-menu-item a" ).length ) {
+					return;
+				}
+				// temporary
+				event.preventDefault();
+				self.select( event );
+			});
+		this.refresh();
+	},
+	
+	refresh: function() {
+		var self = this;
+
+		// don't refresh list items that are already adapted
+		var items = this.element.children("li:not(.ui-menu-item):has(a)")
+			.addClass("ui-menu-item")
+			.attr("role", "menuitem");
+		
+		items.children("a")
+			.addClass("ui-corner-all")
+			.attr("tabindex", -1)
+			// mouseenter doesn't work with event delegation
+			.mouseenter(function( event ) {
+				self.activate( event, $(this).parent() );
+			})
+			.mouseleave(function() {
+				self.deactivate();
+			});
+	},
+
+	activate: function( event, item ) {
+		this.deactivate();
+		if (this.hasScroll()) {
+			var offset = item.offset().top - this.element.offset().top,
+				scroll = this.element.scrollTop(),
+				elementHeight = this.element.height();
+			if (offset < 0) {
+				this.element.scrollTop( scroll + offset);
+			} else if (offset >= elementHeight) {
+				this.element.scrollTop( scroll + offset - elementHeight + item.height());
+			}
+		}
+		this.active = item.eq(0)
+			.children("a")
+				.addClass("ui-state-hover")
+				.attr("id", "ui-active-menuitem")
+			.end();
+		this._trigger("focus", event, { item: item });
+	},
+
+	deactivate: function() {
+		if (!this.active) { return; }
+
+		this.active.children("a")
+			.removeClass("ui-state-hover")
+			.removeAttr("id");
+		this._trigger("blur");
+		this.active = null;
+	},
+
+	next: function(event) {
+		this.move("next", ".ui-menu-item:first", event);
+	},
+
+	previous: function(event) {
+		this.move("prev", ".ui-menu-item:last", event);
+	},
+
+	first: function() {
+		return this.active && !this.active.prevAll(".ui-menu-item").length;
+	},
+
+	last: function() {
+		return this.active && !this.active.nextAll(".ui-menu-item").length;
+	},
+
+	move: function(direction, edge, event) {
+		if (!this.active) {
+			this.activate(event, this.element.children(edge));
+			return;
+		}
+		var next = this.active[direction + "All"](".ui-menu-item").eq(0);
+		if (next.length) {
+			this.activate(event, next);
+		} else {
+			this.activate(event, this.element.children(edge));
+		}
+	},
+
+	// TODO merge with previousPage
+	nextPage: function(event) {
+		if (this.hasScroll()) {
+			// TODO merge with no-scroll-else
+			if (!this.active || this.last()) {
+				this.activate(event, this.element.children(".ui-menu-item:first"));
+				return;
+			}
+			var base = this.active.offset().top,
+				height = this.element.height(),
+				result = this.element.children(".ui-menu-item").filter(function() {
+					var close = $(this).offset().top - base - height + $(this).height();
+					// TODO improve approximation
+					return close < 10 && close > -10;
+				});
+
+			// TODO try to catch this earlier when scrollTop indicates the last page anyway
+			if (!result.length) {
+				result = this.element.children(".ui-menu-item:last");
+			}
+			this.activate(event, result);
+		} else {
+			this.activate(event, this.element.children(".ui-menu-item")
+				.filter(!this.active || this.last() ? ":first" : ":last"));
+		}
+	},
+
+	// TODO merge with nextPage
+	previousPage: function(event) {
+		if (this.hasScroll()) {
+			// TODO merge with no-scroll-else
+			if (!this.active || this.first()) {
+				this.activate(event, this.element.children(".ui-menu-item:last"));
+				return;
+			}
+
+			var base = this.active.offset().top,
+				height = this.element.height(),
+				result = this.element.children(".ui-menu-item").filter(function() {
+					var close = $(this).offset().top - base + height - $(this).height();
+					// TODO improve approximation
+					return close < 10 && close > -10;
+				});
+
+			// TODO try to catch this earlier when scrollTop indicates the last page anyway
+			if (!result.length) {
+				result = this.element.children(".ui-menu-item:first");
+			}
+			this.activate(event, result);
+		} else {
+			this.activate(event, this.element.children(".ui-menu-item")
+				.filter(!this.active || this.first() ? ":last" : ":first"));
+		}
+	},
+
+	hasScroll: function() {
+		return this.element.height() < this.element[ $.fn.prop ? "prop" : "attr" ]("scrollHeight");
+	},
+
+	select: function( event ) {
+		this._trigger("selected", event, { item: this.active });
+	}
+});
+
+}(jQuery));
+/*!
+ * jQuery UI Effects 1.8.23
  *
  * Copyright 2012, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
@@ -3848,7 +4807,8 @@ function getColor(elem, attr) {
 		var color;
 
 		do {
-				color = $.curCSS(elem, attr);
+				// jQuery <1.4.3 uses curCSS, in 1.4.3 - 1.7.2 curCSS = css, 1.8+ only has css
+				color = ($.curCSS || $.css)(elem, attr);
 
 				// Keep going until we find an element that has color, or we hit the body
 				if ( color != '' && color != 'transparent' || $.nodeName(elem, "body") )
@@ -4079,7 +5039,7 @@ $.fn.extend({
 /******************************************************************************/
 
 $.extend($.effects, {
-	version: "1.8.20",
+	version: "1.8.23",
 
 	// Saves a set of properties in a data storage
 	save: function(element, set) {
@@ -4143,7 +5103,16 @@ $.extend($.effects, {
 				}),
 			active = document.activeElement;
 
-		element.wrap(wrapper);
+		// support: Firefox
+		// Firefox incorrectly exposes anonymous content
+		// https://bugzilla.mozilla.org/show_bug.cgi?id=561664
+		try {
+			active.id;
+		} catch( e ) {
+			active = document.body;
+		}
+
+		element.wrap( wrapper );
 
 		// Fixes #7595 - Elements lose focus when wrapped.
 		if ( element[ 0 ] === active || $.contains( element[ 0 ], active ) ) {
@@ -4327,215 +5296,54 @@ $.fn.extend({
 /*********************************** EASING ***********************************/
 /******************************************************************************/
 
-/*
- * jQuery Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
- *
- * Uses the built in easing capabilities added In jQuery 1.1
- * to offer multiple easing options
- *
- * TERMS OF USE - jQuery Easing
- *
- * Open source under the BSD License.
- *
- * Copyright 2008 George McGinley Smith
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- *
- * Redistributions of source code must retain the above copyright notice, this list of
- * conditions and the following disclaimer.
- * Redistributions in binary form must reproduce the above copyright notice, this list
- * of conditions and the following disclaimer in the documentation and/or other materials
- * provided with the distribution.
- *
- * Neither the name of the author nor the names of contributors may be used to endorse
- * or promote products derived from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
- * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
- * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
- * AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
- * OF THE POSSIBILITY OF SUCH DAMAGE.
- *
-*/
+// based on easing equations from Robert Penner (http://www.robertpenner.com/easing)
 
-// t: current time, b: begInnIng value, c: change In value, d: duration
-$.easing.jswing = $.easing.swing;
+var baseEasings = {};
 
-$.extend($.easing,
-{
-	def: 'easeOutQuad',
-	swing: function (x, t, b, c, d) {
-		//alert($.easing.default);
-		return $.easing[$.easing.def](x, t, b, c, d);
+$.each( [ "Quad", "Cubic", "Quart", "Quint", "Expo" ], function( i, name ) {
+	baseEasings[ name ] = function( p ) {
+		return Math.pow( p, i + 2 );
+	};
+});
+
+$.extend( baseEasings, {
+	Sine: function ( p ) {
+		return 1 - Math.cos( p * Math.PI / 2 );
 	},
-	easeInQuad: function (x, t, b, c, d) {
-		return c*(t/=d)*t + b;
+	Circ: function ( p ) {
+		return 1 - Math.sqrt( 1 - p * p );
 	},
-	easeOutQuad: function (x, t, b, c, d) {
-		return -c *(t/=d)*(t-2) + b;
+	Elastic: function( p ) {
+		return p === 0 || p === 1 ? p :
+			-Math.pow( 2, 8 * (p - 1) ) * Math.sin( ( (p - 1) * 80 - 7.5 ) * Math.PI / 15 );
 	},
-	easeInOutQuad: function (x, t, b, c, d) {
-		if ((t/=d/2) < 1) return c/2*t*t + b;
-		return -c/2 * ((--t)*(t-2) - 1) + b;
+	Back: function( p ) {
+		return p * p * ( 3 * p - 2 );
 	},
-	easeInCubic: function (x, t, b, c, d) {
-		return c*(t/=d)*t*t + b;
-	},
-	easeOutCubic: function (x, t, b, c, d) {
-		return c*((t=t/d-1)*t*t + 1) + b;
-	},
-	easeInOutCubic: function (x, t, b, c, d) {
-		if ((t/=d/2) < 1) return c/2*t*t*t + b;
-		return c/2*((t-=2)*t*t + 2) + b;
-	},
-	easeInQuart: function (x, t, b, c, d) {
-		return c*(t/=d)*t*t*t + b;
-	},
-	easeOutQuart: function (x, t, b, c, d) {
-		return -c * ((t=t/d-1)*t*t*t - 1) + b;
-	},
-	easeInOutQuart: function (x, t, b, c, d) {
-		if ((t/=d/2) < 1) return c/2*t*t*t*t + b;
-		return -c/2 * ((t-=2)*t*t*t - 2) + b;
-	},
-	easeInQuint: function (x, t, b, c, d) {
-		return c*(t/=d)*t*t*t*t + b;
-	},
-	easeOutQuint: function (x, t, b, c, d) {
-		return c*((t=t/d-1)*t*t*t*t + 1) + b;
-	},
-	easeInOutQuint: function (x, t, b, c, d) {
-		if ((t/=d/2) < 1) return c/2*t*t*t*t*t + b;
-		return c/2*((t-=2)*t*t*t*t + 2) + b;
-	},
-	easeInSine: function (x, t, b, c, d) {
-		return -c * Math.cos(t/d * (Math.PI/2)) + c + b;
-	},
-	easeOutSine: function (x, t, b, c, d) {
-		return c * Math.sin(t/d * (Math.PI/2)) + b;
-	},
-	easeInOutSine: function (x, t, b, c, d) {
-		return -c/2 * (Math.cos(Math.PI*t/d) - 1) + b;
-	},
-	easeInExpo: function (x, t, b, c, d) {
-		return (t==0) ? b : c * Math.pow(2, 10 * (t/d - 1)) + b;
-	},
-	easeOutExpo: function (x, t, b, c, d) {
-		return (t==d) ? b+c : c * (-Math.pow(2, -10 * t/d) + 1) + b;
-	},
-	easeInOutExpo: function (x, t, b, c, d) {
-		if (t==0) return b;
-		if (t==d) return b+c;
-		if ((t/=d/2) < 1) return c/2 * Math.pow(2, 10 * (t - 1)) + b;
-		return c/2 * (-Math.pow(2, -10 * --t) + 2) + b;
-	},
-	easeInCirc: function (x, t, b, c, d) {
-		return -c * (Math.sqrt(1 - (t/=d)*t) - 1) + b;
-	},
-	easeOutCirc: function (x, t, b, c, d) {
-		return c * Math.sqrt(1 - (t=t/d-1)*t) + b;
-	},
-	easeInOutCirc: function (x, t, b, c, d) {
-		if ((t/=d/2) < 1) return -c/2 * (Math.sqrt(1 - t*t) - 1) + b;
-		return c/2 * (Math.sqrt(1 - (t-=2)*t) + 1) + b;
-	},
-	easeInElastic: function (x, t, b, c, d) {
-		var s=1.70158;var p=0;var a=c;
-		if (t==0) return b;  if ((t/=d)==1) return b+c;  if (!p) p=d*.3;
-		if (a < Math.abs(c)) { a=c; var s=p/4; }
-		else var s = p/(2*Math.PI) * Math.asin (c/a);
-		return -(a*Math.pow(2,10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )) + b;
-	},
-	easeOutElastic: function (x, t, b, c, d) {
-		var s=1.70158;var p=0;var a=c;
-		if (t==0) return b;  if ((t/=d)==1) return b+c;  if (!p) p=d*.3;
-		if (a < Math.abs(c)) { a=c; var s=p/4; }
-		else var s = p/(2*Math.PI) * Math.asin (c/a);
-		return a*Math.pow(2,-10*t) * Math.sin( (t*d-s)*(2*Math.PI)/p ) + c + b;
-	},
-	easeInOutElastic: function (x, t, b, c, d) {
-		var s=1.70158;var p=0;var a=c;
-		if (t==0) return b;  if ((t/=d/2)==2) return b+c;  if (!p) p=d*(.3*1.5);
-		if (a < Math.abs(c)) { a=c; var s=p/4; }
-		else var s = p/(2*Math.PI) * Math.asin (c/a);
-		if (t < 1) return -.5*(a*Math.pow(2,10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )) + b;
-		return a*Math.pow(2,-10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )*.5 + c + b;
-	},
-	easeInBack: function (x, t, b, c, d, s) {
-		if (s == undefined) s = 1.70158;
-		return c*(t/=d)*t*((s+1)*t - s) + b;
-	},
-	easeOutBack: function (x, t, b, c, d, s) {
-		if (s == undefined) s = 1.70158;
-		return c*((t=t/d-1)*t*((s+1)*t + s) + 1) + b;
-	},
-	easeInOutBack: function (x, t, b, c, d, s) {
-		if (s == undefined) s = 1.70158;
-		if ((t/=d/2) < 1) return c/2*(t*t*(((s*=(1.525))+1)*t - s)) + b;
-		return c/2*((t-=2)*t*(((s*=(1.525))+1)*t + s) + 2) + b;
-	},
-	easeInBounce: function (x, t, b, c, d) {
-		return c - $.easing.easeOutBounce (x, d-t, 0, c, d) + b;
-	},
-	easeOutBounce: function (x, t, b, c, d) {
-		if ((t/=d) < (1/2.75)) {
-			return c*(7.5625*t*t) + b;
-		} else if (t < (2/2.75)) {
-			return c*(7.5625*(t-=(1.5/2.75))*t + .75) + b;
-		} else if (t < (2.5/2.75)) {
-			return c*(7.5625*(t-=(2.25/2.75))*t + .9375) + b;
-		} else {
-			return c*(7.5625*(t-=(2.625/2.75))*t + .984375) + b;
-		}
-	},
-	easeInOutBounce: function (x, t, b, c, d) {
-		if (t < d/2) return $.easing.easeInBounce (x, t*2, 0, c, d) * .5 + b;
-		return $.easing.easeOutBounce (x, t*2-d, 0, c, d) * .5 + c*.5 + b;
+	Bounce: function ( p ) {
+		var pow2,
+			bounce = 4;
+
+		while ( p < ( ( pow2 = Math.pow( 2, --bounce ) ) - 1 ) / 11 ) {}
+		return 1 / Math.pow( 4, 3 - bounce ) - 7.5625 * Math.pow( ( pow2 * 3 - 2 ) / 22 - p, 2 );
 	}
 });
 
-/*
- *
- * TERMS OF USE - EASING EQUATIONS
- *
- * Open source under the BSD License.
- *
- * Copyright 2001 Robert Penner
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- *
- * Redistributions of source code must retain the above copyright notice, this list of
- * conditions and the following disclaimer.
- * Redistributions in binary form must reproduce the above copyright notice, this list
- * of conditions and the following disclaimer in the documentation and/or other materials
- * provided with the distribution.
- *
- * Neither the name of the author nor the names of contributors may be used to endorse
- * or promote products derived from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
- * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
- * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
- * AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
- * OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- */
+$.each( baseEasings, function( name, easeIn ) {
+	$.easing[ "easeIn" + name ] = easeIn;
+	$.easing[ "easeOut" + name ] = function( p ) {
+		return 1 - easeIn( 1 - p );
+	};
+	$.easing[ "easeInOut" + name ] = function( p ) {
+		return p < .5 ?
+			easeIn( p * 2 ) / 2 :
+			easeIn( p * -2 + 2 ) / -2 + 1;
+	};
+});
 
 })(jQuery);
 /*!
- * jQuery UI Effects Pulsate 1.8.20
+ * jQuery UI Effects Pulsate 1.8.23
  *
  * Copyright 2012, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
@@ -4585,5 +5393,3 @@ $.effects.pulsate = function(o) {
 };
 
 })(jQuery);
-
-});

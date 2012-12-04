@@ -159,6 +159,10 @@
                     if (!$('*[id="' + result.target + '"]', $container).length) {
                         filteredresults.push(result);
                     }
+                } else if (result.hash) {
+                    if (!$('*[id="' + result.hash + '"]', $container).length) {
+                        filteredresults.push(result);
+                    }
                 }
             });
             data.results = filteredresults;

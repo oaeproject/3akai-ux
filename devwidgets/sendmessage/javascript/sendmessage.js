@@ -70,7 +70,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
             var autoSuggestContainer = '#as-selections-sendmessage_to_autoSuggest';
             var autoSuggestResults = '#as-results-sendmessage_to_autoSuggest';
             var autoSuggestInput = '#sendmessage_to_autoSuggest';
-            var autoSuggestValues = '#as-values-sendmessage_to_autoSuggest';
+            var autoSuggestValues = '#autocomplete_values_sendmessage_to_autoSuggest';
             var sendmessage_to = '#sendmessage_to',
                 sendmessage_subject = '#sendmessage_subject',
                 sendmessage_body = '#sendmessage_body',
@@ -134,8 +134,8 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                 // Clear the input fields
                 $(messageFieldSubject + ', ' + messageFieldBody).val('');
 
-                // remove autoSuggest if it exists
-                sakai.api.Util.AutoSuggest.destroy($('#sendmessage_to_autoSuggest'));
+                // remove autoComplete if it exists
+                $(document).trigger('destroy.selectusergroup.sakai', $('#sendmessage_to_autoSuggest'));
             };
 
             /**
@@ -185,36 +185,26 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                     if ($.isPlainObject(toUser) && toUser.uuid) {
                         preFill.push({
                             'name': toUser.username,
-                            'value': toUser.uuid
+                            'value': toUser.uuid,
+                            'type': 'user'
                         });
                     } else if ($.isArray(toUser)) {
                         $.each(toUser, function(i,usr) {
                             preFill.push({
                                 'name': usr.username,
-                                'value': usr.uuid
+                                'value': usr.uuid,
+                                'type': 'user'
                             });
                         });
                     }
                 }
-                sakai.api.Util.AutoSuggest.setup($('#sendmessage_to_autoSuggest'), {
-                    'asHtmlID': 'sendmessage_to_autoSuggest',
+                $(document).trigger('init.selectusergroup.sakai', {
+                    'el': $('#sendmessage_to_autoSuggest'),
                     startText: sakai.api.i18n.getValueForKey('ENTER_CONTACT_OR_GROUP_NAMES', 'sendmessage'),
-                    keyDelay: '200',
-                    retrieveLimit: 10,
                     preFill: preFill,
-                    searchObjProps: 'name,value',
-                    formatList: function(data, elem) {
-                        // formats each line to be presented in autosuggest list
-                        // add the correct image, wrap name in a class
-                        var imgSrc = '/dev/images/user_avatar_icon_32x32.png';
-                        if (data.type === 'group') {
-                            imgSrc = '/dev/images/group_avatar_icon_32x32.png';
-                        }
-                        var line_item = elem.html(
-                            '<img class="sm_suggestion_img" src="' + imgSrc + '" />' +
-                            '<span class="sm_suggestion_name">' + data.name + '</span>');
-                        return line_item;
-                    }
+                    keyDelay: 200,
+                    retrieveLimit: 10,
+                    filter: [sakai.api.User.data.me.user.userid]
                 });
             };
 
@@ -230,7 +220,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore'], function($, sakai, _) 
                             'method': function(value, element) {
                                 return value.indexOf(
                                     sakai.api.i18n.getValueForKey('ENTER_CONTACT_OR_GROUP_NAMES', 'sendmessage')) === -1 &&
-                                        $.trim($(element).next('input.as-values').val()).replace(/,/g, '') !== '';
+                                        $.trim($(element).next('input.autocomplete_values').val()).replace(/,/g, '') !== '';
                             },
                             'text': sakai.api.i18n.getValueForKey('AUTOSUGGEST_REQUIRED_ERROR')
                         }
