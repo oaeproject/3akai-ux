@@ -20,10 +20,10 @@ require(
     {
         baseUrl:'/shared/',
         paths: {
-            'jquery': 'lib/jquery',
-            'jquery-plugins': 'lib/jquery-plugins',
-            'jquery-ui': 'lib/jquery-ui.custom',
-            'underscore': 'lib/underscore'
+            'jquery': 'vendor/js/jquery',
+            'jquery-plugins': 'vendor/js/jquery-plugins',
+            'jquery-ui': 'vendor/js/jquery-ui.custom',
+            'underscore': 'vendor/js/underscore'
         },
         priority: ['jquery', 'underscore']
     }
@@ -33,7 +33,7 @@ require(
  * Load all of the 3rd party libraries that need to be present from the very beginning, as well as the actual
  * core client-side Sakai OAE APIs
  */
-require(['oae/oae.api!', 'jquery', 'underscore', 'jquery-ui', 'lib/l10n/globalize', 'lib/html-sanitizer', 
+require(['oae/api/oae.api!', 'jquery', 'underscore', 'jquery-ui', 'vendor/js/l10n/globalize', 'vendor/js/html-sanitizer', 
          'jquery-plugins/jquery.equal-height-columns', 'jquery-plugins/jquery.contentchange.sakai-edited', 
          'jquery-plugins/jquery.timeago', 'jquery-plugins/jqmodal.sakai-edited', 'jquery-plugins/jquery.ba-bbq', 
          'jquery-plugins/jquery.ba-hashchange', 'jquery-plugins/jquery.threedots', 'jquery-plugins/jquery.fileSize', 

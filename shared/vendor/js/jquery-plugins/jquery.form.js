@@ -8,7 +8,8 @@
  *	http://www.opensource.org/licenses/mit-license.php
  *	http://www.gnu.org/licenses/gpl.html
  */
-;(function($) {
+require(['jquery'], function (jQuery) {
+(function($) {
 
 /*
 	Usage Note:
@@ -326,7 +327,7 @@ $.fn.ajaxSubmit = function(options) {
 			return doc;
 		}
 		
-		// Rails CSRF hack (thanks to Yvan BARTHƒLEMY)
+		// Rails CSRF hack (thanks to Yvan BARTHï¿½LEMY)
 		var csrf_token = $('meta[name=csrf-token]').attr('content');
 		var csrf_param = $('meta[name=csrf-param]').attr('content');
 		if (csrf_param && csrf_token) {
@@ -962,3 +963,4 @@ function log() {
 };
 
 })(jQuery);
+});

@@ -14,9 +14,6 @@
  */
 
 require(['jquery', 'oae/oae.api!', '/shared/lib/bootstrap.js'], function($, oae) {
-    
-    console.log('In register now as well');
-    console.log(oae.data.me);
 
     //////////
     //////////

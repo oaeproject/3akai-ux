@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'lib/l10n/globalize'], function(exports) {
+define(['exports', 'oae/api/oae.api.config', 'vendor/js/l10n/globalize'], function(exports, configAPI) {
 
     /**
      * Initialize all localization functionality by loading the correct culture file.
@@ -25,14 +25,14 @@ define(['exports', 'lib/l10n/globalize'], function(exports) {
      */
     var init = exports.init = function(locale, callback) {
         // Set the locale to be the default one if not provided
-        // TODO
+        locale = locale || configAPI.getValue('oae-principals', 'user', 'defaultLanguage');
 
-        // The globalization plugin we use expects the locale string to be in the 'en-GB', rather than the
-        // 'en_GB' format
+        // The globalization plugin we use expects the locale string to be in the 'en-GB', 
+        // rather than the 'en_GB' format
         locale = locale.replace('_', '-');
 
         // Load the appropriate culture file
-        require(['/shared/lib/l10n/cultures/globalize.culture.' + locale + '.js'], function() {
+        require(['/shared/vendor/js/l10n/cultures/globalize.culture.' + locale + '.js'], function() {
             // Do the actual initialization of the culture
             Globalize.culture(locale);
             callback(null);

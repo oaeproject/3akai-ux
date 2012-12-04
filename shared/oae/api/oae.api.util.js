@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports'], function(exports) {
+define(['exports', 'jquery', 'underscore', 'vendor/js/trimpath'], function(exports, $, _) {
 
     /**
      * Request a number of static files at once through a static batch request
@@ -37,11 +37,35 @@ define(['exports'], function(exports) {
      * 
      * Sakai OAE - Sakai Doc 1 [- Page 1]
      * 
-     * Where the last part is optional.
+     * Where the first part will be fixed.
      * 
-     * @param  {String}     title       The new page title
+     * @param  {String|String[]}     title       The new page title or an array of strings representing the fragments of the page title
      */
-    var setBrowserTitle = exports.setBrowserTitle = function(title) {};
+    var setBrowserTitle = exports.setBrowserTitle = function(title) {
+        if (!title) {
+            throw new Error('No valid page title has been provided');
+        }
+
+        // Convert to an array if a string has been provided
+        if (_.isString(title)) {
+            title = [title];
+        }
+        // Render the page title with the following format
+        //   Sakai OAE - Fragment 1 - Fragment 2
+        document.title = 'Sakai OAE - ' + title.join(' - ');
+    };
+    
+    ////////////////////////////////
+    // TRIMPATH TEMPLATE RENDERER //
+    ////////////////////////////////
+    
+    // TODO: We want to switch Trimpath out for a better maintained HTML templating engine at some point
+    
+    /*!
+     * Variable that will cache all of the parsed Trimpath templates. This avoids the same
+     * template being parsed over and over again
+     */
+    var templateCache = []
     
     /**
      * Functionality that allows you to create HTML Templates, using a JSON object. That template 
@@ -68,7 +92,60 @@ define(['exports'], function(exports) {
      * @param  {Boolean}            [sanitize]      Whether or not to sanitize the rendered HTML (in order to prevent XSS attacks). By default, sanitization will be done.
      * @return {String}                             The rendered HTML
      */
-    var renderTemplate = exports.renderTemplate = function($template, data, $output, sanitize) {};
+    var renderTemplate = exports.renderTemplate = function($template, data, $output, sanitize) {
+        // Parameter validation
+        if (!$template) {
+            throw new Error('No valid template has been provided');
+        } else if (!data) {
+            throw new Error('No template data has been provided');
+        }
+        
+        // Make sure that the provided template is a jQuery object
+        if (_.isString($template)) {
+            $template = $('#' + $template);
+        }
+        if ($template.length === 0) {
+            throw new Error('The provided template could not be found');
+        }
+
+        var templateId = $template.attr('id');
+        if (!templateCache[templateId]) {
+            // We extract the content from the templates, which is wrapped in <!-- -->
+            var templateContent = $template.get(0).firstChild.data.toString();
+
+            // Parse the template through TrimPath and add the 
+            // parsed template to the template cache
+            try {
+                templateCache[templateId] = TrimPath.parseTemplate(templateContent, templateId);
+            } catch (err) {
+                throw new Error('Parsing of template "' + templateId + '" failed: ' + err);
+            }
+        }
+
+        // Render the template
+        var renderedHTML = null;
+        try {
+            renderedHTML = templateCache[templateId].process(data, {'throwExceptions': true});
+        } catch (err) {
+            throw new Error('Rendering of template "' + templateId + '" failed: ' + err);
+        }
+
+        // TODO: Sanitize HTML
+
+        // If an output element has been provided, we can just render the renderer HTML,
+        // otherwise we pass it back to the call function
+        if ($output) {
+            // Make sure that the provided output is a jQuery object
+            $output = $($output);
+            $output.html(renderedHTML);
+
+            // TODO: Initialize draggable
+            // TODO: Initialize droppable
+
+        } else {
+            return renderedHTML;
+        }
+    };
     
     /**
      * Show a notification message (either information or error) on the screen
