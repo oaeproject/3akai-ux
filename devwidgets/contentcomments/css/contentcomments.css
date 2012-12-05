@@ -20,7 +20,7 @@
  * is to organize your CSS into sections like these (or add new sections)
  */
  
-.activity_item_container {
+.contentcomments_item_container {
     background-color: #efeeeb;
     border-radius: 5px;
     -moz-border-radius: 5px;
@@ -30,7 +30,7 @@
     padding: 12px;
 }
 
-.activity_entity_image {
+.contentcomments_entity_image {
     border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -39,30 +39,34 @@
     width: 35px;
 }
 
-.activity_entity_image.activity_reply {
+.contentcomments_entity_image.contentcomments_reply {
     margin-left: 45px;
 }
 
-.activity_content_container {
+.contentcomments_entity_image.contentcomments_reply_on_reply {
+    margin-left: 85px;
+}
+
+.contentcomments_content_container {
     margin-top: 12px;
 }
 
-.activity_content_container.limit {
+.contentcomments_content_container.limit {
     max-height: 315px;
     overflow: auto;
 }
 
-.activity_content_container .activity_comment_box > div span {
+.contentcomments_content_container .contentcomments_comment_box > div span {
     font-weight: normal;
 }
 
-.activity_content_container .activity_comment_box > div span {
+.contentcomments_content_container .contentcomments_comment_box > div span {
     color: #666;
     font-size: 11px;
     font-style: italic;
 }
 
-.activity_content_container .activity_comment_box {
+.contentcomments_content_container .contentcomments_comment_box {
     background: none repeat scroll 0 0 #fff;
     border-radius: 5px;
     -moz-border-radius: 5px;
@@ -75,12 +79,12 @@
     padding: 8px;
 }
 
-.activity_content_container .activity_comment_box .activity_read_more {
-    margin-top: 12px;
-    text-align: center;
+.contentcomments_widget .contentcomments_read_more {
+    display: block;
+    margin: 15px auto 0;
 }
 
-.activity_content_container textarea {
+.contentcomments_content_container textarea {
     height: 16px;
     margin-left: 45px;
     padding: 3px 5px 2px;
@@ -88,11 +92,11 @@
     width: 480px;
 }
 
-.activity_content_container textarea.activity_reply {
+.contentcomments_content_container textarea.contentcomments_reply {
     margin: 0 0 12px 90px;
     width: 435px;
 }
 
-.activity_world_actions .s3d-private-icon {
+.contentcomments_world_actions .s3d-private-icon {
     padding-left: 0;
 }

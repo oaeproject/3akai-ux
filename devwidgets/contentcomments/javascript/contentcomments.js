@@ -42,7 +42,59 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         /////////////////////////////
         // Configuration variables //
         /////////////////////////////
+
         var $rootel = $('#' + tuid);
+
+
+        ///////////////////////
+        // Utility functions //
+        ///////////////////////
+
+        var renderComments = function(commentData) {
+            $('.contentcomments_widget .contentcomments_content_container', $rootel).append(sakai.api.Util.TemplateRenderer('#contentcomments_comment_template', {
+                comments: commentData.results
+            }));
+
+            // Adjust paging button so it fetches next page on click
+            var nextPage = commentData.results[commentData.results.length - 1].created;
+            $('.contentcomments_read_more', $rootel).attr('data-page', nextPage);
+        };
+
+
+        ///////////////////////
+        // Comment functions //
+        ///////////////////////
+
+        var getComments = function(page) {
+            $.ajax({
+                'url': 'devwidgets/contentcomments/dummy/' + page + '.json',
+                'success': function(data) {
+                    renderComments(data);
+                },
+                'error': function(err) {
+                    $('.contentcomments_read_more', $rootel).hide();
+                }
+            })
+        };
+
+
+        //////////////////////////////
+        // Initialization functions //
+        //////////////////////////////
+
+        var addBinding = function() {
+            $('.contentcomments_read_more', $rootel).on('click', function() {
+                var nextPage = $(this).attr('data-page');
+                getComments(nextPage);
+            });
+        };
+
+        var doInit = function() {
+            addBinding();
+            getComments('page1');
+        };
+
+        doInit();
 
     };
 
