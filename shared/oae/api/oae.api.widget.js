@@ -147,6 +147,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
             var widgetId = $element.attr('id');
 
             widgetsToLoad[widgetName] = widgetsToLoad[widgetName] || {};
+            // TODO
             widgetsToLoad[widgetName].prefixPath = '/node_modules/' + widget.path;
             // Set the link to the HTML page
             widgetsToLoad[widgetName].html = widgetsToLoad[widgetName].prefixPath + widget.src;
