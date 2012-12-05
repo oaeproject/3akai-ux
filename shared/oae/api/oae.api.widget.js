@@ -89,7 +89,11 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
         });
         return filteredWidgets;
     };
-    
+
+    ///////////////////
+    // WIDGET LOADER //
+    ///////////////////
+
     /**
      * Find all of the widgets declared inside of the provided container, and load them into
      * the page.
@@ -146,6 +150,13 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
             var widget = getWidgetManifest(widgetName);
             var widgetId = $element.attr('id');
 
+            // If the widget's resource have already been loaded,
+            // we just render the widget
+            if (loadedWidgets[widgetName]) {
+                return renderWidget(widgetName, widgetId, showSettings);
+            }
+
+            // The widget hasn't been loaded yet, we add to the list of widgets to load
             widgetsToLoad[widgetName] = widgetsToLoad[widgetName] || {};
             // TODO
             widgetsToLoad[widgetName].prefixPath = '/node_modules/' + widget.path;
@@ -163,6 +174,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
             widgetsToLoad[widgetName].instances.push(widgetId);
         });
 
+        // We can return if no widgets have been found
         if (_.keys(widgetsToLoad).length === 0) {
             return callback();
         }
@@ -237,17 +249,32 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
      * @api private
      */
     var processWidgetFiles = function(widgetFiles, widgetsToLoad, $container, showSettings, callback) {
+        // Keep track of the number of widgets that need to be loaded
+        var widgetsLoaded = 0;
+
+        // Process the widgets for all of the widgets that need to be loaded
         $.each(widgetsToLoad, function(widgetName, loadData) {
+
             // Parse the new i18n bundles, if bundles are present
+            var widgetHTML = widgetFiles[loadData.html];
             if (loadData.bundles['default']) {
                 i18nAPI.parseWidgetBundles(widgetName, widgetFiles[loadData.bundles['default']], loadData.bundles[locale] ? widgetFiles[loadData.bundles[locale]] : null);
                 // Translate the HTML fragment
-                widgetFiles[loadData.html] = i18nAPI.translate(widgetFiles[loadData.html], widgetName);
+                widgetHTML = i18nAPI.translate(widgetHTML, widgetName);
             }
 
-            // Transform the translated HTML into a jQuery object
-            var $widgetEl = $(widgetFiles[loadData.html]);
+            // We transform the translated HTML into a jQuery object. However, as this will actually load all of the 
+            // images in the widget HTML straight away, and the images will still have relative URLs that need conversion,
+            // we replace all `img` tags to temporary `imgt` tags
+            widgetHTML = widgetHTML.replace(/<img/ig, '<imgt');
+            var $widgetEl = $(widgetHTML);
 
+            // Extract all images and rewrite their path
+            $widgetEl.find('imgt').each(function(index, imgTag) {
+                var $imgTag = $(imgTag);
+                $imgTag.attr('src', widgetsToLoad[widgetName].prefixPath + $imgTag.attr('src'));
+            });
+            
             // Extract CSS and add to body
             $widgetEl.filter('link[rel="stylesheet"]').each(function(index, cssTag) {
                 var $cssTag = $(cssTag);
@@ -255,33 +282,85 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
             });
 
             // Extract JS and require
-            var jsFiles = [];
+            var jsFiles = []
             $widgetEl.filter('script').each(function(index, jsTag) {
                 jsFiles.push(widgetsToLoad[widgetName].prefixPath + $(jsTag).attr('src'));
             });
-
+            
             // Extract the widget HTML without the link and script tags
-            var html = $('div').html($widgetEl.filter(':not(link):not(script)')).html();
+            widgetHTML = $('<div>').html($widgetEl.filter(':not(link):not(script)')).html();
+            // Change the images back to `img` tags
+            widgetHTML = widgetHTML.replace(/imgt/ig, 'img');
 
-            // Cache HTML and JS
-            // Load the widget instance
+            // Require the JS Files
+            require(jsFiles, function(widgetFunction) {
+                // Cache the widget's HTML and widgetFunction
+                loadedWidgets[widgetName] = {
+                    'html': widgetHTML,
+                    'widgetFunction': widgetFunction
+                };
+                // Load all of the declared instances for this widget
+                for (var i = 0; i < loadData.instances.length; i++) {
+                    renderWidget(widgetName, loadData.instances[i], false);
+                }
+                // Check if we have finished loading all widgets
+                widgetsLoaded++;
+                if (widgetsLoaded === _.keys(widgetsToLoad).length) {
+                    callback();
+                }
+            });
         });
     };
 
-    var renderWidget = function(widgetName, $container, showSettings) {
-        
+    /**
+     * Render a widget instance for a widget for which all of the widget files have already been loaded. This will add
+     * the widget's HTML to the widget container, and will execute the main widget function, if it exists
+     * 
+     * @param  {String}     widgetName      The name of the widget we want to render
+     * @param  {String}     widgetId        The widget's unique id. This should be the id on the widget's container
+     * @param  {Boolean}    showSettings        Whether or not to show the widget's settings view. If this is not set, the widget's view mode will be shown.
+     */
+    var renderWidget = function(widgetName, widgetId, showSettings) {
+        var $container = $('#' + widgetId);
+        $container.html(loadedWidgets[widgetName].html);
+        // Execute the widget's main function if it's provided
+        if (loadedWidgets[widgetName].widgetFunction) {
+            loadedWidgets[widgetName].widgetFunction(widgetId, showSettings);
+        }
     };
 
     /**
-     * Insert a widget into a container into the provided viewmode.
+     * Insert a widget into a container with the provided viewmode.
      * 
      * @param  {String}             widgetName      The name of the widget we want to load into the provided container
      * @param  {String}             [widgetId]      The widget's unique id. If this is not provided, a random id wil be generated
-     * @param  {Element|String}     container       HTML container in which we want to insert the widget. This can either be a jQuery Element object or a jQuery selector string.
-     * @param  {Boolean}            showSettings    Whether or not to show the widget's settings view. If this is not set, the widget's view mode will be shown.
+     * @param  {Element|String}     [$container]    HTML container in which we want to insert the widget. This can either be a jQuery Element object or a jQuery selector string. If this is not provided, it will be inserted into the document's body
+     * @param  {Boolean}            [showSettings]  Whether or not to show the widget's settings view. If this is not set, the widget's view mode will be shown.
      * @param  {Function}           [callback]      Standard callback function executed when the widgets has finished loading and rendering
      * @param  {Object}             [callback.err]  Error containing the error code and message
      */
-    var insertWidget = exports.insertWidget = function(widgetName, widgetId, container, showSettings, callback) {};
+    var insertWidget = exports.insertWidget = function(widgetName, widgetId, $container, showSettings, callback) {
+        if (!widgetName || !manifests[widgetName]) {
+            throw new Error('A valid widget name should be provided');
+        }
+
+        // Default value fo showSettings
+        showSettings = showSettings || false;
+        // Default to the body element if the container hasn't been provided
+        if (!$container) {
+            $container = $('body');
+        } else if (_.isString($container)) {
+            $container = $($container);
+        }
+
+        // Add the widget declaration to the container
+        var $widget = $('<div>').attr({
+            'id': widgetId,
+            'data-widget': widgetName
+        })
+        $container.prepend($widget);
+        // Load the widget
+        loadWidgets($container, showSettings, callback);
+    };
 
 });
