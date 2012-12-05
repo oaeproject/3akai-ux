@@ -1,0 +1,15 @@
+{
+    "enabled": true,
+    "hasSettings": true,
+    "i18n": {
+        "default": {
+            "bundle": "/devwidgets/contentcomments/bundles/default.properties",
+            "description": "Content comments",
+            "name": "Content comments"
+        }
+    },
+    "id": "contentcomments",
+    "img": "/devwidgets/contentcomments/images/comments.png",
+    "type": "core",
+    "url": "/devwidgets/contentcomments/contentcomments.html"
+}
