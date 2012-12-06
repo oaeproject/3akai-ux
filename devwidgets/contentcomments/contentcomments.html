@@ -4,10 +4,10 @@
 <!-- MAIN VIEW -->
 <div class="contentcomments_widget fl-push" style="display: none;">
     <div class="contentcomments_item_container">
-        <button type="button" class="s3d-button s3d-overlay-button post_comment fl-force-right">Post</button>
-        <textarea placeholder="Your comment"></textarea>
+        <button type="button" class="s3d-button s3d-overlay-button post_comment fl-force-right">__MSG__POST__</button>
+        <textarea placeholder="__MSG__YOUR_COMMENT__"></textarea>
         <div class="contentcomments_content_container"><!----></div>
-        <button type="button" class="s3d-button s3d-overlay-button contentcomments_read_more">Read more</button>
+        <button type="button" class="s3d-button s3d-overlay-button contentcomments_read_more">__MSG__READ_MORE__</button>
         <hr class="fl-push fl-hidden">
     </div>
 </div>
@@ -24,8 +24,8 @@
         </div>
 
         <div class="contentcomments_reply_container" style="display: none;">
-            <button type="button" class="s3d-button s3d-overlay-button post_comment fl-force-right" data-level="${comment.level + 1}" data-replyTo="${comment.commentId}">Post</button>
-            <textarea placeholder="Your comment" class="{if comment.level > 1} contentcomments_reply_on_reply{elseif comment.level === 1} contentcomments_reply{/if}"></textarea>
+            <button type="button" class="s3d-button s3d-overlay-button post_comment fl-force-right" data-level="${comment.level + 1}" data-replyTo="${comment.commentId}">__MSG__POST__</button>
+            <textarea placeholder="__MSG__YOUR_COMMENT__" class="{if comment.level > 1} contentcomments_reply_on_reply{elseif comment.level === 1} contentcomments_reply{/if}"></textarea>
         </div>
     {/for}
 --></div>
