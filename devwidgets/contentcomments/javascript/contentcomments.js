@@ -60,12 +60,70 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $('.contentcomments_read_more', $rootel).attr('data-page', nextPage);
         };
 
+        var constructAndAppendComment = function(comment, replyTo, level) {
+            var comment = {
+                "results": [{
+                    "commentId": 'c:camtest:' + Date.now(), // Should be coming back from the create comment endpoint
+                    "body": comment,
+                    "replyTo": replyTo,
+                    "contentId": "c:camtest:ePu3OzEzE9J", // Get this from content profile feed
+                    "createdBy": {
+                        "tenant": "camtest", // Get this from me feed
+                        "id": "u:camtest:ee3iRmvC9M", // Get this from me feed
+                        "displayName": "Bert Pareyn", // Get this from me feed
+                        "visibility": "private", // Get this from me feed
+                        "locale": "en_GB", // Get this from me feed
+                        "timezone": "Etc/UTC", // Get this from me feed
+                        "publicAlias": "Bert Pareyn", // Get this from me feed
+                        "smallPicture": "https://secure.gravatar.com/avatar/7937c2985aa325a2f1dd0de91432ed13?s=32", // Get this from me feed
+                        "mediumPicture": "https://secure.gravatar.com/avatar/7937c2985aa325a2f1dd0de91432ed13?s=64", // Get this from me feed
+                        "largePicture": "https://secure.gravatar.com/avatar/7937c2985aa325a2f1dd0de91432ed13?s=256", // Get this from me feed
+                        "extra": {}
+                    },
+                    "created": Date.now() + '|',
+                    "level": level
+                }]
+            };
+
+            if (!replyTo) {
+                $('.contentcomments_widget .contentcomments_content_container', $rootel).prepend(sakai.api.Util.TemplateRenderer('#contentcomments_comment_template', {
+                    comments: comment.results
+                }));
+            } else {
+                $('div[data-commentid="' + replyTo + '"]').next().hide();
+                $('div[data-commentid="' + replyTo + '"] .contentcomments_reply_button').toggleClass('active');
+                $('div[data-commentid="' + replyTo + '"]').next().after(sakai.api.Util.TemplateRenderer('#contentcomments_comment_template', {
+                    comments: comment.results
+                }));
+            }
+        };
 
         ///////////////////////
         // Comment functions //
         ///////////////////////
 
+        var postComment = function(comment, replyTo, level) {
+            /*$.ajax({
+                'url': '/api/content/:contentId/comments',
+                'data': {
+                    'body': comment,
+                    'replyTo': replyTo
+                },
+                'type': 'POST',
+                'success': function(data) {
+                    // Prepend the comment
+                },
+                'error': function(err) {
+                    // Show something bad happend
+                }
+            });*/
+
+            constructAndAppendComment(comment, replyTo, level);
+        };
+
         var getComments = function(page) {
+            page = page || 'page1';
+
             $.ajax({
                 'url': 'devwidgets/contentcomments/dummy/' + page + '.json',
                 'success': function(data) {
@@ -74,7 +132,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 'error': function(err) {
                     $('.contentcomments_read_more', $rootel).hide();
                 }
-            })
+            });
         };
 
 
@@ -87,11 +145,24 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 var nextPage = $(this).attr('data-page');
                 getComments(nextPage);
             });
+
+            $rootel.on('click', '.post_comment', function() {
+                var replyTo = $(this).attr('data-replyTo');
+                var level = parseInt($(this).attr('data-level')) || 0;
+                var comment = $(this).next().val();
+                postComment(comment, replyTo, level);
+            });
+
+            $rootel.on('click', '.contentcomments_reply_button', function() {
+                $(this).toggleClass('active');
+                $(this).parent().next().toggle();
+            });
         };
 
         var doInit = function() {
             addBinding();
-            getComments('page1');
+            getComments();
+            $('.contentcomments_widget').show();
         };
 
         doInit();
