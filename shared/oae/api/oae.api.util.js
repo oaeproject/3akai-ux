@@ -43,6 +43,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'vendor/js/tr
      * Where the first part will be fixed.
      * 
      * @param  {String|String[]}     title       The new page title or an array of strings representing the fragments of the page title
+     * @throws {Error}                           Error thrown when no page title has been provided
      */
     var setBrowserTitle = exports.setBrowserTitle = function(title) {
         if (!title) {
@@ -54,8 +55,9 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'vendor/js/tr
             title = [title];
         }
         // Render the page title with the following format
-        //   Sakai OAE - Fragment 1 - Fragment 2
-        document.title = 'Sakai OAE - ' + i18nAPI.translate(title.join(' - '));
+        //   `Sakai OAE - Fragment 1 - Fragment 2`
+        title.splice(0, 0, '__MSG__TITLE_PREFIX__');
+        document.title = i18nAPI.translate(title.join(' - '));
     };
     
     ////////////////////////////////
@@ -94,6 +96,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'vendor/js/tr
      * @param  {Element|String}     [$output]       jQuery element representing the HTML element in which the template output should be put, or jQuery selector for the output container.
      * @param  {Boolean}            [sanitize]      Whether or not to sanitize the rendered HTML (in order to prevent XSS attacks). By default, sanitization will be done.
      * @return {String}                             The rendered HTML
+     * @throws {Error}                              Error thrown when no template or template data has been provided
      */
     var renderTemplate = exports.renderTemplate = function($template, data, $output, sanitize) {
         // Parameter validation

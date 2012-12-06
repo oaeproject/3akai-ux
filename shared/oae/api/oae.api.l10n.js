@@ -47,6 +47,7 @@ define(['exports', 'underscore', 'oae/api/oae.api.config', 'vendor/js/l10n/globa
      * 
      * @param  {Date|Number}    date        Javascript date object or milliseconds since epoch that needs to be converted into a localized date string
      * @return {String}                     Converted localized date
+     * @throws {Error}                      Error thrown when no date has been provided
      */
     var transformDate = exports.transformDate = function(date) {
         if (!date) {
@@ -68,6 +69,7 @@ define(['exports', 'underscore', 'oae/api/oae.api.config', 'vendor/js/l10n/globa
      * @param  {Date|Number}    date        Javascript date object or milliseconds since epoch that needs to be converted into a localized date string
      * @param  {Boolean}        useShort    Whether or not to use the short version (2/20/2012 3:35 PM) or the long version (Monday, February 20, 2012 3:35 PM). By default, the long version will be used
      * @return {String}                     Converted localized date and time
+     * @throws {Error}                      Error thrown when no date has been provided
      */
     var transformDateTime = exports.transformDateTime = function(date, useShort) {
         if (!date) {
@@ -93,6 +95,7 @@ define(['exports', 'underscore', 'oae/api/oae.api.config', 'vendor/js/l10n/globa
      * @param  {Number}        number           Number that needs to be converted into a localized number
      * @param  {Number}        decimalPlaces    The maximum number of decimal places that should be used. If this is not provided, all of them will be returned
      * @return {String}                         Converted localized number
+     * @throws {Error}                          Error thrown when no number has been provided
      */
     var transformNumber = exports.transformNumber = function(number, decimalPlaces) {
         if (!number || !_.isNumber(number)) {
@@ -101,5 +104,4 @@ define(['exports', 'underscore', 'oae/api/oae.api.config', 'vendor/js/l10n/globa
         // When a certain number of decimal places is required, we pass in n<Number of decimal places>
         return Globalize.format(number, decimalPlaces !== null ? 'n' + decimalPlaces : 'n');
     };
-
 });

@@ -55,6 +55,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
      * 
      * @param  {String}     widgetName      The name of the widget for which we want to retrieve the manifest
      * @return {Object}                     JSON object representing the widget's manifest file. This will be null if no widget can be found for the given widget name
+     * @throws {Error}                      Error thrown when no or an invalid widget name is provided
      */
     var getWidgetManifest = exports.getWidgetManifest = function(widgetName) {
         if (!widgetName || !manifests[widgetName]) {
@@ -106,7 +107,6 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
      * @param  {Boolean}            [showSettings]  Whether or not to show the widget's settings view. If this is not set, the widget's view mode will be shown.
      * @param  {Function}           [callback]      Standard callback function executed when all widgets have finished loading and rendering
      * @param  {Object}             [callback.err]  Error containing the error code and message
-     * 
      */
     var loadWidgets = exports.loadWidgets = function($container, showSettings, callback) {
         // Default callback function
@@ -121,6 +121,31 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
         }
 
         locateWidgets($container, showSettings, callback);
+    };
+
+    /**
+     * Utility function that will be used by the widget loader to convert a relative path
+     * declared somewhere in the widget into an absolute path, so it can be successfully
+     * retrieved from the server. When an absolute path is passed in, it will be returned as is
+     * 
+     * @param  {String}     url     Relative path that should be made absolute
+     * @param  {String}     prefix  The absolute path that should be used to prefix the relative path with
+     * @return {String}             The generated absolute path
+     * @api private
+     */
+    var convertRelativeToAbsolutePath = function(url, prefix) {
+        if (!url) {
+            return null;
+        } else if (!prefix) {
+            return url;
+        }
+        
+        // If the provided URL is already an absolute URL, we just return it
+        if (url.substring(0, 1) === '/') {
+            return url;
+        } else {
+            return prefix + url;
+        }
     };
 
     /**
@@ -158,18 +183,19 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
 
             // The widget hasn't been loaded yet, we add to the list of widgets to load
             widgetsToLoad[widgetName] = widgetsToLoad[widgetName] || {};
-            // TODO
+            // We set the absolute path of the widget loader, which will be used to prefix all relative
+            // paths used in the widget. Widgets live under the `node_modules` folder
             widgetsToLoad[widgetName].prefixPath = '/node_modules/' + widget.path;
             // Set the link to the HTML page
-            widgetsToLoad[widgetName].html = widgetsToLoad[widgetName].prefixPath + widget.src;
+            widgetsToLoad[widgetName].html = convertRelativeToAbsolutePath(widget.src, widgetsToLoad[widgetName].prefixPath);
             // Set the link to the default language bundle
             widgetsToLoad[widgetName].bundles = {};
-            widgetsToLoad[widgetName].bundles['default'] = widgetsToLoad[widgetName].prefixPath + widget.i18n['default'].bundle;
+            widgetsToLoad[widgetName].bundles['default'] = convertRelativeToAbsolutePath(widget.i18n['default'].bundle, widgetsToLoad[widgetName].prefixPath);
             // Set the link to the language bundle for the user's locale
             if (widget.i18n[locale]) {
-                widgetsToLoad[widgetName].bundles[locale] = widgetsToLoad[widgetName].prefixPath + widget.i18n[locale].bundle;
+                widgetsToLoad[widgetName].bundles[locale] = convertRelativeToAbsolutePath(widget.i18n[locale].bundle, widgetsToLoad[widgetName].prefixPath);
             }
-            // Add the id of the widget to the instances that should be loaded
+            // Add the id of the widget to the instances that should be loaded for the current widget name
             widgetsToLoad[widgetName].instances = widgetsToLoad[widgetName].instances || [];
             widgetsToLoad[widgetName].instances.push(widgetId);
         });
@@ -265,32 +291,32 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
 
             // We transform the translated HTML into a jQuery object. However, as this will actually load all of the 
             // images in the widget HTML straight away, and the images will still have relative URLs that need conversion,
-            // we replace all `img` tags to temporary `imgt` tags
-            widgetHTML = widgetHTML.replace(/<img/ig, '<imgt');
+            // we replace all `img` tags to temporary `imgtmp` tags
+            widgetHTML = widgetHTML.replace(/<img/ig, '<imgtmp');
             var $widgetEl = $(widgetHTML);
 
             // Extract all images and rewrite their path
-            $widgetEl.find('imgt').each(function(index, imgTag) {
+            $widgetEl.find('imgtmp').each(function(index, imgTag) {
                 var $imgTag = $(imgTag);
-                $imgTag.attr('src', widgetsToLoad[widgetName].prefixPath + $imgTag.attr('src'));
+                $imgTag.attr('src', convertRelativeToAbsolutePath($imgTag.attr('src'), widgetsToLoad[widgetName].prefixPath));
             });
             
             // Extract CSS and add to body
             $widgetEl.filter('link[rel="stylesheet"]').each(function(index, cssTag) {
                 var $cssTag = $(cssTag);
-                $('head').append($cssTag.attr('href', widgetsToLoad[widgetName].prefixPath + $cssTag.attr('href')));
+                $('head').append($cssTag.attr('href', convertRelativeToAbsolutePath($cssTag.attr('href'), widgetsToLoad[widgetName].prefixPath)));
             });
 
             // Extract JS and require
             var jsFiles = []
             $widgetEl.filter('script').each(function(index, jsTag) {
-                jsFiles.push(widgetsToLoad[widgetName].prefixPath + $(jsTag).attr('src'));
+                jsFiles.push(convertRelativeToAbsolutePath($(jsTag).attr('src'), widgetsToLoad[widgetName].prefixPath));
             });
             
             // Extract the widget HTML without the link and script tags
             widgetHTML = $('<div>').html($widgetEl.filter(':not(link):not(script)')).html();
             // Change the images back to `img` tags
-            widgetHTML = widgetHTML.replace(/imgt/ig, 'img');
+            widgetHTML = widgetHTML.replace(/imgtmp/ig, 'img');
 
             // Require the JS Files
             require(jsFiles, function(widgetFunction) {
@@ -318,7 +344,8 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
      * 
      * @param  {String}     widgetName      The name of the widget we want to render
      * @param  {String}     widgetId        The widget's unique id. This should be the id on the widget's container
-     * @param  {Boolean}    showSettings        Whether or not to show the widget's settings view. If this is not set, the widget's view mode will be shown.
+     * @param  {Boolean}    showSettings    Whether or not to show the widget's settings view.
+     * @api private
      */
     var renderWidget = function(widgetName, widgetId, showSettings) {
         var $container = $('#' + widgetId);
@@ -338,6 +365,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
      * @param  {Boolean}            [showSettings]  Whether or not to show the widget's settings view. If this is not set, the widget's view mode will be shown.
      * @param  {Function}           [callback]      Standard callback function executed when the widgets has finished loading and rendering
      * @param  {Object}             [callback.err]  Error containing the error code and message
+     * @throws {Error}                              Error thrown when no or an invalid widget name is provided
      */
     var insertWidget = exports.insertWidget = function(widgetName, widgetId, $container, showSettings, callback) {
         if (!widgetName || !manifests[widgetName]) {
@@ -362,5 +390,4 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
         // Load the widget
         loadWidgets($container, showSettings, callback);
     };
-
 });
