@@ -50,9 +50,25 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         // Utility functions //
         ///////////////////////
 
+        /**
+        * Checks if the current user is a manager of the content
+        *
+        * @return {Boolean}    Returns true if the user is a manager of the content
+        */
+        var canManage = function() {
+            // Check content permissions to see if user can manage content
+            return true;
+        };
+
+        /**
+         * Renders the paged comment items
+         *
+         * @param {Object}    commentData    Object containing comments as returned by the comment API
+         */
         var renderComments = function(commentData) {
             $('.contentcomments_widget .contentcomments_content_container', $rootel).append(sakai.api.Util.TemplateRenderer('#contentcomments_comment_template', {
-                comments: commentData.results
+                comments: commentData.results,
+                canManage: canManage()
             }));
 
             // Adjust paging button so it fetches next page on click
@@ -60,24 +76,32 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             $('.contentcomments_read_more', $rootel).attr('data-page', nextPage);
         };
 
+        /**
+        * When a reply or comment is made the comment object is constructed added to the UI.
+        * TODO: Once the Comment API is hooked up this will need to be replaced/removed as the created comment will come back from the server.
+        *
+        * @param {String}    comment    The comment text that was created
+        * @param {String}    replyTo    If the comment was a reply on another comment, this is the commentId of that comment
+        * @param {String}    level      The level of the comment
+        */
         var constructAndAppendComment = function(comment, replyTo, level) {
-            var comment = {
+            var comment = { // Should be coming back from the create comment endpoint
                 "results": [{
-                    "commentId": 'c:camtest:' + Date.now(), // Should be coming back from the create comment endpoint
+                    "commentId": 'c:camtest:' + Date.now(),
                     "body": comment,
                     "replyTo": replyTo,
-                    "contentId": "comm:camtest:ePu3OzEzE9J", // Get this from content profile feed
+                    "contentId": "comm:camtest:ePu3OzEzE9J",
                     "createdBy": {
-                        "tenant": "camtest", // Get this from me feed
-                        "id": "u:camtest:ee3iRmvC9M", // Get this from me feed
-                        "displayName": "Bert Pareyn", // Get this from me feed
-                        "visibility": "private", // Get this from me feed
-                        "locale": "en_GB", // Get this from me feed
-                        "timezone": "Etc/UTC", // Get this from me feed
-                        "publicAlias": "Bert Pareyn", // Get this from me feed
-                        "smallPicture": "https://secure.gravatar.com/avatar/7937c2985aa325a2f1dd0de91432ed13?s=32", // Get this from me feed
-                        "mediumPicture": "https://secure.gravatar.com/avatar/7937c2985aa325a2f1dd0de91432ed13?s=64", // Get this from me feed
-                        "largePicture": "https://secure.gravatar.com/avatar/7937c2985aa325a2f1dd0de91432ed13?s=256", // Get this from me feed
+                        "tenant": "camtest",
+                        "id": "u:camtest:ee3iRmvC9M",
+                        "displayName": "Bert Pareyn",
+                        "visibility": "private",
+                        "locale": "en_GB",
+                        "timezone": "Etc/UTC",
+                        "publicAlias": "Bert Pareyn",
+                        "smallPicture": "https://secure.gravatar.com/avatar/7937c2985aa325a2f1dd0de91432ed13?s=32",
+                        "mediumPicture": "https://secure.gravatar.com/avatar/7937c2985aa325a2f1dd0de91432ed13?s=64",
+                        "largePicture": "https://secure.gravatar.com/avatar/7937c2985aa325a2f1dd0de91432ed13?s=256",
                         "extra": {}
                     },
                     "created": Date.now() + '|',
@@ -87,17 +111,24 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
             if (!replyTo) {
                 $('.contentcomments_widget .contentcomments_content_container', $rootel).prepend(sakai.api.Util.TemplateRenderer('#contentcomments_comment_template', {
-                    comments: comment.results
+                    comments: comment.results,
+                    canManage: canManage()
                 }));
             } else {
                 $('div[data-commentid="' + replyTo + '"]').next().hide();
                 $('div[data-commentid="' + replyTo + '"] .contentcomments_reply_button').toggleClass('active');
                 $('div[data-commentid="' + replyTo + '"]').next().after(sakai.api.Util.TemplateRenderer('#contentcomments_comment_template', {
-                    comments: comment.results
+                    comments: comment.results,
+                    canManage: true
                 }));
             }
         };
 
+        /**
+         * Removes a comment from the list of comments
+         *
+         * @param {String}    commentId    The comment ID of the comment to be removed from the content
+         */
         var removeCommentFromList = function(commentId) {
             $comment = $('div[data-commentid="' + commentId + '"]');
             $comment.prev().remove();
@@ -109,7 +140,14 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         // Comment functions //
         ///////////////////////
 
-        var postComment = function(comment, replyTo, level) {
+        /**
+         * Creates a new comment on the content item and calls the functionality that appends/prepends it to the list of comments in the UI.
+         *
+         * @param {String}    comment    The comment text that was created
+         * @param {String}    replyTo    If the comment was a reply on another comment, this is the commentId of that comment
+         * @param {String}    level      The level of the comment
+         */
+        var createComment = function(comment, replyTo, level) {
             /*$.ajax({
                 'url': '/api/content/:contentId/comments',
                 'data': {
@@ -128,6 +166,11 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             constructAndAppendComment(comment, replyTo, level);
         };
 
+        /**
+         * Deletes a comment from the content item and calls the functionality that deletes it from the list of comments in the UI.
+         *
+         * @parm {String}    commentId    The ID of the comment to delete
+         */
         var deleteComment = function(commentId) {
             /*$.ajax({
                 'url': '/api/content/:contentId/comments/:commentId',
@@ -143,6 +186,12 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             removeCommentFromList(commentId);
         };
 
+        /**
+         * Retrieves the paged list of comments
+         *
+         * @param {String}    page    Indicates where to start paging
+         *
+         */
         var getComments = function(page) {
             page = page || 'page1';
 
@@ -162,6 +211,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         // Initialization functions //
         //////////////////////////////
 
+        /**
+         * Binds various functions to elements in the content comments UI.
+         */
         var addBinding = function() {
             // Paging
             $('.contentcomments_read_more', $rootel).on('click', function() {
@@ -174,7 +226,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 var replyTo = $(this).attr('data-replyTo');
                 var level = parseInt($(this).attr('data-level')) || 0;
                 var comment = $(this).next().val();
-                postComment(comment, replyTo, level);
+                createComment(comment, replyTo, level);
             });
 
             // Delete comment/reply
@@ -190,6 +242,9 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             });
         };
 
+        /**
+         * Triggers the initialization of the content comments widget.
+         */
         var doInit = function() {
             addBinding();
             getComments();
