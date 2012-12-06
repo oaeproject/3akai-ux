@@ -51,10 +51,10 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         ///////////////////////
 
         /**
-        * Checks if the current user is a manager of the content
-        *
-        * @return {Boolean}    Returns true if the user is a manager of the content
-        */
+         * Checks if the current user is a manager of the content
+         *
+         * @return {Boolean}    Returns true if the user is a manager of the content
+         */
         var canManage = function() {
             // Check content permissions to see if user can manage content
             return true;
@@ -77,13 +77,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         };
 
         /**
-        * When a reply or comment is made the comment object is constructed added to the UI.
-        * TODO: Once the Comment API is hooked up this will need to be replaced/removed as the created comment will come back from the server.
-        *
-        * @param {String}    comment    The comment text that was created
-        * @param {String}    replyTo    If the comment was a reply on another comment, this is the commentId of that comment
-        * @param {String}    level      The level of the comment
-        */
+         * When a reply or comment is made the comment object is constructed added to the UI.
+         * TODO: Once the Comment API is hooked up this will need to be replaced/removed as the created comment will come back from the server.
+         *
+         * @param {String}    comment    The comment text that was created
+         * @param {String}    replyTo    If the comment was a reply on another comment, this is the commentId of that comment
+         * @param {String}    level      The level of the comment
+         */
         var constructAndAppendComment = function(comment, replyTo, level) {
             var comment = { // Should be coming back from the create comment endpoint
                 "results": [{
