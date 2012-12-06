@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae/api/oae.api!'], function($, oae) {
+require(['jquery', 'oae/api/oae.core'], function($, oae) {
 
     // Redirect the user back to the landing page if he is already logged in or if
     // creating an internal account isn't allowed
@@ -24,7 +24,7 @@ require(['jquery', 'oae/api/oae.api!'], function($, oae) {
     // Set the browser title
     oae.api.util.setBrowserTitle('__MSG__REGISTER__');
 
-
+    return;
 
 
 

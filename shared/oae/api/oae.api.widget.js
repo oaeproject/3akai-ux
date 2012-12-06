@@ -23,8 +23,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
     var locale = null;
 
     /**
-     * Initialize all widget functionality by loading the widget manifests, detecting all
-     * declared widgets in the core HTML and rendering them.
+     * Initialize all widget functionality by loading and caching the widget manifests
      * 
      * @param  {String}     [currentLocale]     The current user's locale. If this has not been provided, the system's default locale will be used.
      * @param  {Function}   callback            Standard callback function
@@ -40,9 +39,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
             'url': '/api/ui/widgets',
             'success': function(data) {
                 manifests = data;
-                
-                // Load the widgets in the core HTML
-                loadWidgets(null, null, callback);
+                callback(null);
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
@@ -175,6 +172,9 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
             var widget = getWidgetManifest(widgetName);
             var widgetId = $element.attr('id');
 
+            // The data-widget attribute is removed, to avoid the widget being rendered again
+            $element.removeAttr('data-widget');
+
             // If the widget's resource have already been loaded,
             // we just render the widget
             if (loadedWidgets[widgetName]) {
@@ -301,10 +301,13 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
                 $imgTag.attr('src', convertRelativeToAbsolutePath($imgTag.attr('src'), widgetsToLoad[widgetName].prefixPath));
             });
             
-            // Extract CSS and add to body
+            // Extract CSS and add to head
             $widgetEl.filter('link[rel="stylesheet"]').each(function(index, cssTag) {
                 var $cssTag = $(cssTag);
-                $('head').append($cssTag.attr('href', convertRelativeToAbsolutePath($cssTag.attr('href'), widgetsToLoad[widgetName].prefixPath)));
+                $cssTag.attr('href', convertRelativeToAbsolutePath($cssTag.attr('href'), widgetsToLoad[widgetName].prefixPath));
+                // We append the CSS file to the head tag. However, appending the jQuery element would not be triggering a repaint
+                // on IE8 and IE9, which means that we have to append the raw element's HTML string
+                $('head').append($cssTag[0].outerHTML);
             });
 
             // Extract JS and require

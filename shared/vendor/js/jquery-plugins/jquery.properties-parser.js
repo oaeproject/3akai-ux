@@ -187,7 +187,7 @@ require(['jquery'], function (jQuery) {
             return buffer;
         }
         function rangesToObject(ranges, text) {
-            var obj = Object.create(null); // Creates to a true hash map
+            var obj = {};
         
             for(var i = 0; i < ranges.length; i++) {
                 var range = ranges[i];
