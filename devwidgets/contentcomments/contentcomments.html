@@ -17,6 +17,7 @@
         <img class="fl-force-left contentcomments_entity_image {if comment.level > 1} contentcomments_reply_on_reply{elseif comment.level === 1} contentcomments_reply{/if}" alt="${comment.createdBy.displayName}" src="${comment.createdBy.smallPicture}">
         <div class="contentcomments_comment_box" data-commentId="${comment.commentId}" data-created="${comment.created}">
             <div class="contentcomments_reply_button fl-force-right"></div>
+            <div class="contentcomments_delete_button fl-force-right"></div>
             <div class="s3d-bold">${comment.createdBy.displayName} <span>${jQuery.timeago(new Date(parseInt(comment.created.substring(0, comment.created.length - 1))))}</span></div>${comment.body}
         </div>
 

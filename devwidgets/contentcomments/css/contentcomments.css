@@ -116,6 +116,15 @@
 .contentcomments_reply_button:hover,
 .contentcomments_reply_button.active {
     background: url('/devwidgets/contentcomments/images/contentcomments_reply_hover.png') no-repeat left top transparent;
+}
+
+.contentcomments_delete_button {
+    cursor: pointer;
+    background: url('/devwidgets/contentcomments/images/contentcomments_delete.png') no-repeat left top transparent;
     height: 20px;
     width: 20px;
+}
+
+.contentcomments_delete_button:hover {
+    background: url('/devwidgets/contentcomments/images/contentcomments_delete_hover.png') no-repeat left top transparent;
 }

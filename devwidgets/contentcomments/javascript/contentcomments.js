@@ -66,7 +66,7 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                     "commentId": 'c:camtest:' + Date.now(), // Should be coming back from the create comment endpoint
                     "body": comment,
                     "replyTo": replyTo,
-                    "contentId": "c:camtest:ePu3OzEzE9J", // Get this from content profile feed
+                    "contentId": "comm:camtest:ePu3OzEzE9J", // Get this from content profile feed
                     "createdBy": {
                         "tenant": "camtest", // Get this from me feed
                         "id": "u:camtest:ee3iRmvC9M", // Get this from me feed
@@ -98,6 +98,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             }
         };
 
+        var removeCommentFromList = function(commentId) {
+            $comment = $('div[data-commentid="' + commentId + '"]');
+            $comment.prev().remove();
+            $comment.next().remove();
+            $comment.remove();
+        };
+
         ///////////////////////
         // Comment functions //
         ///////////////////////
@@ -121,6 +128,21 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
             constructAndAppendComment(comment, replyTo, level);
         };
 
+        var deleteComment = function(commentId) {
+            /*$.ajax({
+                'url': '/api/content/:contentId/comments/:commentId',
+                'type': 'DELETE',
+                'success': function(data) {
+                    // Remove the comment
+                },
+                'error': function(err) {
+                    // Show something bad happend
+                }
+            });*/
+
+            removeCommentFromList(commentId);
+        };
+
         var getComments = function(page) {
             page = page || 'page1';
 
@@ -141,11 +163,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
         //////////////////////////////
 
         var addBinding = function() {
+            // Paging
             $('.contentcomments_read_more', $rootel).on('click', function() {
                 var nextPage = $(this).attr('data-page');
                 getComments(nextPage);
             });
 
+            // Post comment/reply
             $rootel.on('click', '.post_comment', function() {
                 var replyTo = $(this).attr('data-replyTo');
                 var level = parseInt($(this).attr('data-level')) || 0;
@@ -153,6 +177,13 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
                 postComment(comment, replyTo, level);
             });
 
+            // Delete comment/reply
+            $rootel.on('click', '.contentcomments_delete_button', function() {
+                var commentId = $(this).parent().attr('data-commentid');
+                deleteComment(commentId);
+            });
+
+            // Show reply form
             $rootel.on('click', '.contentcomments_reply_button', function() {
                 $(this).toggleClass('active');
                 $(this).parent().next().toggle();
