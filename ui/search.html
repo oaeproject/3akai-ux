@@ -11,31 +11,31 @@
         <link rel="stylesheet" type="text/css" href="/dev/css/sakai/main.css" />
 
     </head>
-    <body class="fl-centered show i18nable">
+    <body class="oae-centered show i18nable">
 
         <div style="display:none">__MSG__IE_PLACEHOLDER__</div>
 
         <!-- HEADER -->
         <div id="widget_branding" class="widget_inline"></div>
-        <div class="fl-container-flex header s3d-header">
-            <div class="s3d-navigation-container">
+        <div class="oae-container-flex header oae-header">
+            <div class="oae-navigation-container">
                 <div id="widget_topnavigation" class="widget_inline"></div>
             </div>
-            <div class="fl-fix fl-centered fixed-container s3d-fixed-container">
-                <div class="s3d-container-shadow-left"><!----></div>
-                <div class="s3d-container-shadow-right"><!----></div>
-                <div class="s3d-page-header">
+            <div class="oae-fix oae-centered fixed-container oae-fixed-container">
+                <div class="oae-container-shadow-left"><!----></div>
+                <div class="oae-container-shadow-right"><!----></div>
+                <div class="oae-page-header">
                     <div id="widget_entity" class="widget_inline"></div>
                     <!-- SEARCH BAR -->
-                    <div class="s3d-search-bar" role="search" aria-label="__MSG__SEARCH_FOR__">
-                        <span id="form" class="s3d-search-container">
-                            <input type="text" maxlength="255" id="search_text" title="__MSG__SEARCH_FOR__" class="s3d-search-inputfield"/>
-                            <button type="button" class="s3d-button s3d-overlay-button s3d-search-button" title="__MSG__SUBMIT_SEARCH__">
-                                <span class="s3d-search-button-icon"></span>
-                                <span class="s3d-aural-text">__MSG__SUBMIT_SEARCH__</span>
+                    <div class="oae-search-bar" role="search" aria-label="__MSG__SEARCH_FOR__">
+                        <span id="form" class="oae-search-container">
+                            <input type="text" maxlength="255" id="search_text" title="__MSG__SEARCH_FOR__" class="oae-search-inputfield"/>
+                            <button type="button" class="oae-button oae-overlay-button oae-search-button" title="__MSG__SUBMIT_SEARCH__">
+                                <span class="oae-search-button-icon"></span>
+                                <span class="oae-aural-text">__MSG__SUBMIT_SEARCH__</span>
                             </button
                         </span>
-                        <div class="s3d-search-activetags" id="search_tags_active_container"></div>
+                        <div class="oae-search-activetags" id="search_tags_active_container"></div>
                     </div>
                 </div>
             </div>
@@ -44,7 +44,7 @@
         <!-- TEMPLATE FOR ACTIVE REFINE BY TAGS -->
         <div id="search_tags_active_template"><!--
             {for t in tags}
-                <span class="s3d-search-tag">
+                <span class="oae-search-tag">
                     <img src=/dev/images/search_tag_active.png" />
                     <button class="search_tag_active_item" data-sakai-entityid="${t.original}" title="__MSG__REMOVE__ ${t.value} __MSG__FROM_SEARCH__">
                         ${sakai.api.Util.applyThreeDots(t.value, 345, null, null, true)}<img src=/dev/images/search_tag_remove.png" />
@@ -58,11 +58,11 @@
             {var tagsListed = false}
             {for t in tags}
                 {if t_index === "0"}
-                    <h2 class="s3d-search-refineby-title">__MSG__REFINE_YOUR_SEARCH_BY__</h2>
-                    <div class="s3d-search-refineby-list">
+                    <h2 class="oae-search-refineby-title">__MSG__REFINE_YOUR_SEARCH_BY__</h2>
+                    <div class="oae-search-refineby-list">
                     {var tagsListed = true}
                 {/if}
-                <span class="s3d-search-tag">
+                <span class="oae-search-tag">
                     <button class="search_tag_refine_item" data-sakai-entityid="${t.original}" title="__MSG__REFINE_SEARCH_TO__ ${t.value}">
                         <img src=/dev/images/search_tag_add.png" />
                         ${sakai.api.Util.applyThreeDots(t.value, 345, null, null, true)}
@@ -75,17 +75,17 @@
         --></div>
 
         <!-- HEADER -->
-        <div class="fl-container-flex">
-            <div class="fl-fix fl-centered fixed-container s3d-main-container s3d-twocolumn">
-                <div class="s3d-page-column-left">
+        <div class="oae-container-flex">
+            <div class="oae-fix oae-centered fixed-container oae-main-container oae-twocolumn">
+                <div class="oae-page-column-left">
                     <div id="widget_lhnavigation" class="widget_inline"></div>
                 </div>
-                <div class="s3d-page-column-right">
-                    <div id="s3d-page-main-content" class="s3d-page-content-padding" style="padding-top:0px;" role="main">
+                <div class="oae-page-column-right">
+                    <div id="oae-page-main-content" class="oae-page-content-padding" style="padding-top:0px;" role="main">
                         <div id="widget_contentauthoring" class="widget_inline"></div>
                     </div>
                 </div>
-                <div class="s3d-bottom-spacer"></div>
+                <div class="oae-bottom-spacer"></div>
             </div>
         </div>
 
@@ -101,68 +101,68 @@
         <div id="search_general_results_template"><!--
 
             {macro listUser(i, sakai)}
-                <li id="${i.id}" class="fl-container fl-fix s3d-search-result-person s3d-search-result{if i_index === "0"} s3d-search-result-first{/if}">
-                    <span class="s3d-search-result-user-functions">
+                <li id="${i.id}" class="oae-container oae-fix oae-search-result-person oae-search-result{if i_index === "0"} oae-search-result-first{/if}">
+                    <span class="oae-search-result-user-functions">
                         {if ! i.isMe && ! sakai.data.me.user.anon}
                             {if ! i.connected}
-                                <button title="__MSG__REQUEST_CONNECTION_WITH__ ${i.name|safeOutput}" class="s3d-link-button s3d-actions-addtolibrary searchpeople_result_left_filler sakai_addtocontacts_overlay" sakai-entityid="${i.userid|safeOutput}" sakai-entityname="${i.name|safeOutput}" {if i.picture}sakai-entitypicture="${i.picture}"{/if}><span class="s3d-aural-text">__MSG__REQUEST_CONNECTION_WITH__ ${i.name|safeOutput}</span></button>
-                                <button title="__MSG__SEND_A_MESSAGE_TO__ ${i.name|safeOutput}" class="s3d-link-button s3d-action-icon s3d-actions-message searchpeople_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i.userid|safeOutput}" sakai-entityname="${i.name|safeOutput}" sakai-entitytype="user"><span class="s3d-aural-text">__MSG__SEND_A_MESSAGE_TO__ ${i.name|safeOutput}</span></button>
+                                <button title="__MSG__REQUEST_CONNECTION_WITH__ ${i.name|safeOutput}" class="oae-link-button oae-actions-addtolibrary searchpeople_result_left_filler sakai_addtocontacts_overlay" sakai-entityid="${i.userid|safeOutput}" sakai-entityname="${i.name|safeOutput}" {if i.picture}sakai-entitypicture="${i.picture}"{/if}><span class="oae-aural-text">__MSG__REQUEST_CONNECTION_WITH__ ${i.name|safeOutput}</span></button>
+                                <button title="__MSG__SEND_A_MESSAGE_TO__ ${i.name|safeOutput}" class="oae-link-button oae-action-icon oae-actions-message searchpeople_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i.userid|safeOutput}" sakai-entityname="${i.name|safeOutput}" sakai-entitytype="user"><span class="oae-aural-text">__MSG__SEND_A_MESSAGE_TO__ ${i.name|safeOutput}</span></button>
                             {elseif i.invited}
-                                <button title="__MSG__ACCEPT_CONNECTION_WITH__ ${i.name|safeOutput}" class="s3d-link-button s3d-actions-addtolibrary searchpeople_result_left_filler link_accept_invitation" sakai-entityid="${i.userid|safeOutput}" sakai-entityname="${i.name|safeOutput}" {if i.picture}sakai-entitypicture="${i.picture}"{/if}><span class="s3d-aural-text">__MSG__ACCEPT_CONNECTION_WITH__ ${i.name|safeOutput}</span></button>
-                                <button title="__MSG__SEND_A_MESSAGE_TO__ ${i.name|safeOutput}" class="s3d-link-button s3d-action-icon s3d-actions-message searchpeople_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i.userid|safeOutput}" sakai-entityname="${i.name|safeOutput}" sakai-entitytype="user"><span class="s3d-aural-text">__MSG__SEND_A_MESSAGE_TO__ ${i.name|safeOutput}</span></button>
+                                <button title="__MSG__ACCEPT_CONNECTION_WITH__ ${i.name|safeOutput}" class="oae-link-button oae-actions-addtolibrary searchpeople_result_left_filler link_accept_invitation" sakai-entityid="${i.userid|safeOutput}" sakai-entityname="${i.name|safeOutput}" {if i.picture}sakai-entitypicture="${i.picture}"{/if}><span class="oae-aural-text">__MSG__ACCEPT_CONNECTION_WITH__ ${i.name|safeOutput}</span></button>
+                                <button title="__MSG__SEND_A_MESSAGE_TO__ ${i.name|safeOutput}" class="oae-link-button oae-action-icon oae-actions-message searchpeople_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i.userid|safeOutput}" sakai-entityname="${i.name|safeOutput}" sakai-entitytype="user"><span class="oae-aural-text">__MSG__SEND_A_MESSAGE_TO__ ${i.name|safeOutput}</span></button>
                                 <div class="searchpeople_result_left_filler" id="search_result_contact_${i.userid|safeOutput}" style="display:none;"><img src="/dev/images/accept.png" alt="__MSG__USER_IS_A_CONTACT__" /></div>
                             {elseif i.pending}
                                 <div class="searchpeople_result_left_filler"></div>
-                                <button title="__MSG__SEND_A_MESSAGE_TO__ ${i.name|safeOutput}" class="s3d-link-button s3d-action-icon s3d-actions-message searchpeople_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i.userid|safeOutput}" sakai-entityname="${i.name|safeOutput}" sakai-entitytype="user"><span class="s3d-aural-text">__MSG__SEND_A_MESSAGE_TO__ ${i.name|safeOutput}</span></button>
+                                <button title="__MSG__SEND_A_MESSAGE_TO__ ${i.name|safeOutput}" class="oae-link-button oae-action-icon oae-actions-message searchpeople_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i.userid|safeOutput}" sakai-entityname="${i.name|safeOutput}" sakai-entitytype="user"><span class="oae-aural-text">__MSG__SEND_A_MESSAGE_TO__ ${i.name|safeOutput}</span></button>
                             {else}
                                 <div class="searchpeople_result_left_filler"><img src="/dev/images/accept.png" alt="__MSG__USER_IS_A_CONTACT__" /></div>
-                                <button title="__MSG__SEND_A_MESSAGE_TO__ ${i.name|safeOutput}" class="s3d-link-button s3d-action-icon s3d-actions-message searchpeople_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i.userid|safeOutput}" sakai-entityname="${i.name|safeOutput}" sakai-entitytype="user"><span class="s3d-aural-text">__MSG__SEND_A_MESSAGE_TO__ ${i.name|safeOutput}</span></button>
+                                <button title="__MSG__SEND_A_MESSAGE_TO__ ${i.name|safeOutput}" class="oae-link-button oae-action-icon oae-actions-message searchpeople_result_message_icon sakai_sendmessage_overlay" sakai-entityid="${i.userid|safeOutput}" sakai-entityname="${i.name|safeOutput}" sakai-entitytype="user"><span class="oae-aural-text">__MSG__SEND_A_MESSAGE_TO__ ${i.name|safeOutput}</span></button>
                             {/if}
                         {else}
                             <div class="searchpeople_result_left_filler"></div>
                         {/if}
                     </span>
-                    <span class="s3d-search-result-anonuser"></span>
+                    <span class="oae-search-result-anonuser"></span>
                     {if ! i.picture}
-                        <a href="/~${i.userid|safeURL}" class="fl-icon searchpeople_result_person_picture" title="__MSG__VIEW_PERSONS_PROFILE__"></a>
+                        <a href="/~${i.userid|safeURL}" class="oae-icon searchpeople_result_person_picture" title="__MSG__VIEW_PERSONS_PROFILE__"></a>
                     {else}
                         <a href="/~${i.userid|safeURL}" class="searchpeople_result_person_picture" title="__MSG__VIEW_PERSONS_PROFILE__">
                             <img alt="__MSG__VIEW_PERSONS_PROFILE__" src="${i.picture}"/>
                             {if i.pictureLarge}
-                                <img alt="__MSG__VIEW_PERSONS_PROFILE__" src="${i.pictureLarge}" class="s3d-search-result-avatar-large"/>
+                                <img alt="__MSG__VIEW_PERSONS_PROFILE__" src="${i.pictureLarge}" class="oae-search-result-avatar-large"/>
                             {/if}
                         </a>
                     {/if}
-                    <div class="s3d-search-result-right">
-                        <a href="/~${i.userid|safeURL}" class="s3d-bold s3d-regular-light-links" title="${i.name}">
-                            <span class="s3d-search-result-name">${i.nameShort}</span>
-                            <span class="s3d-search-result-name-grid">${i.nameShorter}</span>
+                    <div class="oae-search-result-right">
+                        <a href="/~${i.userid|safeURL}" class="oae-bold oae-regular-light-links" title="${i.name}">
+                            <span class="oae-search-result-name">${i.nameShort}</span>
+                            <span class="oae-search-result-name-grid">${i.nameShorter}</span>
                         </a>
                         <div class="searchpeople_result_counts">
                             {if i.counts.contentCount > 0}
-                                <a class="s3d-regular-light-links" href="/~${i.userid|safeURL}#l=library">
-                                    <span class="s3d-search-result-name s3d-aural-text">${i.nameShort} __MSG__HAS__ </span>
-                                    <span class="s3d-search-result-name-grid s3d-aural-text">${i.nameShorter} __MSG__HAS__ </span>
+                                <a class="oae-regular-light-links" href="/~${i.userid|safeURL}#l=library">
+                                    <span class="oae-search-result-name oae-aural-text">${i.nameShort} __MSG__HAS__ </span>
+                                    <span class="oae-search-result-name-grid oae-aural-text">${i.nameShorter} __MSG__HAS__ </span>
                                     ${i.counts.contentCount || 0} {if i.counts.contentCount === 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}
                                 </a>
                                 {if i.counts.contactsCount > 0 || i.counts.membershipsCount > 0}
-                                    <span class="s3d-search-result-detail-separator"><span> | </span></span>
+                                    <span class="oae-search-result-detail-separator"><span> | </span></span>
                                 {/if}
                             {/if}
                             {if i.counts.contactsCount > 0}
-                                <a class="s3d-regular-light-links" href="/~${i.userid|safeURL}#l=contacts">
-                                    <span class="s3d-search-result-name s3d-aural-text">${i.nameShort} __MSG__HAS__ </span>
-                                    <span class="s3d-search-result-name-grid s3d-aural-text">${i.nameShorter} __MSG__HAS__ </span>
+                                <a class="oae-regular-light-links" href="/~${i.userid|safeURL}#l=contacts">
+                                    <span class="oae-search-result-name oae-aural-text">${i.nameShort} __MSG__HAS__ </span>
+                                    <span class="oae-search-result-name-grid oae-aural-text">${i.nameShorter} __MSG__HAS__ </span>
                                     ${i.counts.contactsCount || 0} {if i.counts.contactsCount === 1} __MSG__CONTACT_LC__{else} __MSG__CONTACTS_LC__{/if}
                                 </a>
                                 {if i.counts.membershipsCount > 0}
-                                    <span class="s3d-search-result-detail-separator"><span> | </span></span>
+                                    <span class="oae-search-result-detail-separator"><span> | </span></span>
                                 {/if}
                             {/if}
                             {if i.counts.membershipsCount > 0}
-                                <a class="s3d-regular-light-links" href="/~${i.userid|safeURL}#l=memberships">
-                                    <span class="s3d-search-result-name s3d-aural-text">${i.nameShort} __MSG__HAS__ </span>
-                                    <span class="s3d-search-result-name-grid s3d-aural-text">${i.nameShorter} __MSG__HAS__ </span>
+                                <a class="oae-regular-light-links" href="/~${i.userid|safeURL}#l=memberships">
+                                    <span class="oae-search-result-name oae-aural-text">${i.nameShort} __MSG__HAS__ </span>
+                                    <span class="oae-search-result-name-grid oae-aural-text">${i.nameShorter} __MSG__HAS__ </span>
                                     ${i.counts.membershipsCount || 0} {if i.counts.membershipsCount === 1} __MSG__MEMBERSHIP_LC__{else} __MSG__MEMBERSHIPS_LC__{/if}
                                 </a>
                             {/if}
@@ -175,23 +175,23 @@
             {/macro}
 
             {macro listGroup(i, sakai)}
-                <li id="${i.id}" class="fl-container fl-fix searchgroups_result s3d-search-result-group s3d-search-result{if i_index === "0"} s3d-search-result-first{/if}">
-                    <span class="s3d-search-result-user-functions">
-                        <div class="{if !i.userMember && i["sakai:group-joinable"] !== "no"} s3d-action-icon s3d-actions-addtolibrary searchgroups_result_plus {/if} searchgroups_result_left_filler" data-group-joinable="${i["sakai:group-joinable"]}" data-groupid="${i['sakai:group-id']}"><img src="/dev/images/accept.png" alt="" class="searchgroups_memberimage_${i['sakai:group-id']}" {if !i.userMember}style="display:none;" {/if}>{if !i.userMember && i["sakai:group-joinable"] !== "no"}<span class="s3d-aural-text">__MSG__JOIN__ ${i['sakai:group-title']|safeOutput}</span>{/if}</div>
-                        <button title="__MSG__SEND_A_MESSAGE_TO__ ${i['sakai:group-title']|safeOutput}" class="s3d-link-button searchgroups_result_message_icon s3d-action-icon s3d-actions-message sakai_sendmessage_overlay" sakai-entityid="${i['sakai:group-id']|safeOutput}" sakai-entityname="${i['sakai:group-title']|safeOutput}" sakai-entitytype="group"><span class="s3d-aural-text">__MSG__SEND_A_MESSAGE_TO__ ${i['sakai:group-title']|safeOutput}</span></button>
+                <li id="${i.id}" class="oae-container oae-fix searchgroups_result oae-search-result-group oae-search-result{if i_index === "0"} oae-search-result-first{/if}">
+                    <span class="oae-search-result-user-functions">
+                        <div class="{if !i.userMember && i["sakai:group-joinable"] !== "no"} oae-action-icon oae-actions-addtolibrary searchgroups_result_plus {/if} searchgroups_result_left_filler" data-group-joinable="${i["sakai:group-joinable"]}" data-groupid="${i['sakai:group-id']}"><img src="/dev/images/accept.png" alt="" class="searchgroups_memberimage_${i['sakai:group-id']}" {if !i.userMember}style="display:none;" {/if}>{if !i.userMember && i["sakai:group-joinable"] !== "no"}<span class="oae-aural-text">__MSG__JOIN__ ${i['sakai:group-title']|safeOutput}</span>{/if}</div>
+                        <button title="__MSG__SEND_A_MESSAGE_TO__ ${i['sakai:group-title']|safeOutput}" class="oae-link-button searchgroups_result_message_icon oae-action-icon oae-actions-message sakai_sendmessage_overlay" sakai-entityid="${i['sakai:group-id']|safeOutput}" sakai-entityname="${i['sakai:group-title']|safeOutput}" sakai-entitytype="group"><span class="oae-aural-text">__MSG__SEND_A_MESSAGE_TO__ ${i['sakai:group-title']|safeOutput}</span></button>
                     </span>
-                    <span class="s3d-search-result-anonuser"></span>
+                    <span class="oae-search-result-anonuser"></span>
                     <a href="${i.homePath}" title="${i['sakai:group-title']|safeOutput}">
                         <img src="${sakai.api.Groups.getProfilePicture(i)}" alt="${i['sakai:group-title']|safeOutput}">
                         {if i.picPathLarge}
-                            <img src="${i.picPathLarge}" alt="${i['sakai:group-title']|safeOutput}" class="s3d-search-result-avatar-large">
+                            <img src="${i.picPathLarge}" alt="${i['sakai:group-title']|safeOutput}" class="oae-search-result-avatar-large">
                         {/if}
                     </a>
-                    <div class="s3d-search-result-right">
+                    <div class="oae-search-result-right">
                         <div>
-                            <a class="s3d-bold s3d-regular-light-links" href="${i.homePath}" title="${i["sakai:group-title"]|safeOutput}">
-                                <span class="s3d-search-result-name">${i["sakai:group-title-short"]}</span>
-                                <span class="s3d-search-result-name-grid">${i["sakai:group-title-shorter"]}</span>
+                            <a class="oae-bold oae-regular-light-links" href="${i.homePath}" title="${i["sakai:group-title"]|safeOutput}">
+                                <span class="oae-search-result-name">${i["sakai:group-title-short"]}</span>
+                                <span class="oae-search-result-name-grid">${i["sakai:group-title-shorter"]}</span>
                             </a>
                             {if i.groupType}
                                 <span class="searchgroups_result_grouptype">${i.groupType.toUpperCase()}</span>
@@ -201,14 +201,14 @@
                             __MSG__CHANGED__ ${jQuery.timeago(new Date(i.lastModified))}
                             {var contentItemCount = i.counts.contentCount}
                             {if contentItemCount > 0}
-                                <span class="s3d-search-result-detail-separator"><span> | </span></span>
-                                <a class="s3d-regular-light-links" href="${i.homePath}#l=library">${contentItemCount} {if contentItemCount === 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}</a>
+                                <span class="oae-search-result-detail-separator"><span> | </span></span>
+                                <a class="oae-regular-light-links" href="${i.homePath}#l=library">${contentItemCount} {if contentItemCount === 1} __MSG__CONTENT_ITEM__{else} __MSG__CONTENT_ITEMS__{/if}</a>
                             {/if}
                             {var participantCount = i.counts.membersCount}
                             {if participantCount > 0}
-                                <span class="s3d-search-result-detail-separator"><span> | </span></span>
-                                <a class="s3d-regular-light-links" href="${i.homePath}#l=participants">
-                                    <span class="s3d-aural-text">${i['sakai:group-title']|safeOutput} __MSG__HAS__ </span><span id="searchgroups_result_participant_count_${i['sakai:group-id']|safeOutput}">${participantCount}</span> <span id="searchgroups_text_participant_${i['sakai:group-id']|safeOutput}">{if participantCount === 1}__MSG__PARTICIPANT_LC__{else}__MSG__PARTICIPANTS_LC__{/if}</span>
+                                <span class="oae-search-result-detail-separator"><span> | </span></span>
+                                <a class="oae-regular-light-links" href="${i.homePath}#l=participants">
+                                    <span class="oae-aural-text">${i['sakai:group-title']|safeOutput} __MSG__HAS__ </span><span id="searchgroups_result_participant_count_${i['sakai:group-id']|safeOutput}">${participantCount}</span> <span id="searchgroups_text_participant_${i['sakai:group-id']|safeOutput}">{if participantCount === 1}__MSG__PARTICIPANT_LC__{else}__MSG__PARTICIPANTS_LC__{/if}</span>
                                 </a>
                             {/if}
                         </div>

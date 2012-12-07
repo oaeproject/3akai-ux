@@ -87,7 +87,7 @@ h2 {
     float: left;
     margin-top: 12px;
 }
-#signup_form_container .s3d-form-field-wrapper label.s3d-input-label {
+#signup_form_container .oae-form-field-wrapper label.oae-input-label {
     width: 130px;
 }
 #signup_form_container .signup_form_column input {
@@ -212,7 +212,7 @@ h2 {
     margin: 0
 }
 /* Override CSS */
-.s3d-page-header {
+.oae-page-header {
     height: 0;
     margin-top: 15px;
     min-height: 0;

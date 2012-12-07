@@ -11,24 +11,24 @@
         <link rel='stylesheet' type='text/css' href='/ui/css/oae.register.css' />
 
     </head>
-    <body class='fl-centered s3d-hidden'>
+    <body class='oae-centered oae-force-hidden'>
 
         <!-- HEADER -->
-        <div class='fl-container-flex header s3d-header'>
-            <div class='s3d-navigation-container'>
+        <div class='oae-container-flex header oae-header'>
+            <div class='oae-navigation-container'>
                 <!-- <div data-widget='topnavigation'></div> -->
             </div>
-            <div class='fl-fix fl-centered fixed-container s3d-fixed-container'>
-                <div class='s3d-container-shadow-left'><!-- --></div>
-                <div class='s3d-container-shadow-right'><!-- --></div>
-                <div class='s3d-page-header'><!-- --></div>
+            <div class='oae-fix oae-centered fixed-container oae-fixed-container'>
+                <div class='oae-container-shadow-left'><!-- --></div>
+                <div class='oae-container-shadow-right'><!-- --></div>
+                <div class='oae-page-header'><!-- --></div>
             </div>
         </div>
 
         <!-- BODY -->
-        <div class='fl-container-flex'>
-            <div class='fl-fix fl-centered fixed-container s3d-main-container'>
-                <div class='s3d-main-container-padding'>
+        <div class='oae-container-flex'>
+            <div class='oae-fix oae-centered fixed-container oae-main-container'>
+                <div class='oae-main-container-padding'>
                     <div id='signup_header'>
                         <div id='signup_descriptionbox_left' class='signup_descriptionbox'>__MSG__SIGN_UP_MESSAGE_1__</div>
                         <div id='signup_descriptionbox_right' class='signup_descriptionbox'>__MSG__SIGN_UP_MESSAGE_2__</div>
@@ -40,34 +40,34 @@
                                 <div id='signup_form_shadow'></div>
                                 <h1 class='signup_header'>__MSG__CREATE_A_NEW_ACCOUNT__</h1>
                                 <div class='signup_form_column'>
-                                    <div class='s3d-form-field-wrapper'>
-                                        <label for='firstName' class='firstName s3d-input-label'>__MSG__FIRSTNAME__</label>
+                                    <div class='oae-form-field-wrapper'>
+                                        <label for='firstName' class='firstName oae-input-label'>__MSG__FIRSTNAME__</label>
                                         <input type='text' maxlength='255' id='firstName' name='firstName' class='required' placeholder='Hiroyuki'/>
-                                        <label for='lastName' class='lastName s3d-input-label'>__MSG__LASTNAME__</label>
+                                        <label for='lastName' class='lastName oae-input-label'>__MSG__LASTNAME__</label>
                                         <input type='text' maxlength='255' id='lastName' name='lastName' class='required' placeholder='Sakai'/>
-                                        <label for='email' class='email s3d-input-label'>__MSG__EMAIL_COLON__</label>
+                                        <label for='email' class='email oae-input-label'>__MSG__EMAIL_COLON__</label>
                                         <input type='text' maxlength='255' id='email' name='email' class='required email' placeholder='hiroyuki.sakai@example.com'/>
                                     </div>
                                 </div>
                                 <div class='signup_form_column signup_form_right_column'>
-                                    <div class='s3d-form-field-wrapper'>
-                                        <label id='username_label' class='username s3d-input-label' for='username'>__MSG__USERNAME_COLON__</label>
-                                        <input type='text' maxlength='255' id='username' name='username' class='username_unavailable_icon required s3d-error-calculate' placeholder='Hiroyuki'/>
-                                        <label for='password' class='password s3d-input-label'>__MSG__PASSWORD_COLON__</label>
-                                        <input type='password' maxlength='255' id='password' name='password' class='required s3d-error-calculate' placeholder='&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;'/>
-                                        <label for='password_repeat' class='password_repeat s3d-input-label'>__MSG__RE_TYPE_PASSWORD__</label>
-                                        <input type='password' maxlength='255' id='password_repeat' name='password_repeat' class='required s3d-error-calculate' placeholder='&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;'/>
+                                    <div class='oae-form-field-wrapper'>
+                                        <label id='username_label' class='username oae-input-label' for='username'>__MSG__USERNAME_COLON__</label>
+                                        <input type='text' maxlength='255' id='username' name='username' class='username_unavailable_icon required oae-error-calculate' placeholder='Hiroyuki'/>
+                                        <label for='password' class='password oae-input-label'>__MSG__PASSWORD_COLON__</label>
+                                        <input type='password' maxlength='255' id='password' name='password' class='required oae-error-calculate' placeholder='&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;'/>
+                                        <label for='password_repeat' class='password_repeat oae-input-label'>__MSG__RE_TYPE_PASSWORD__</label>
+                                        <input type='password' maxlength='255' id='password_repeat' name='password_repeat' class='required oae-error-calculate' placeholder='&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;'/>
                                     </div>
                                 </div>
                                 <div class='captcha_container'>
                                     <!-- <div data-widget='captcha'></div> -->
-                                    <button id='save_account' class='s3d-button s3d-large-button' type='submit'>__MSG__CREATE_ACCOUNT__</button>
+                                    <button id='save_account' class='oae-button oae-large-button' type='submit'>__MSG__CREATE_ACCOUNT__</button>
                                 </div>
                             </div>
                         </form>
                     </div>
                     <div role='complementary' aria-labelledby='create_new_account_quote_aria_label'>
-                        <h2 class='s3d-aural-text' id='create_new_account_quote_aria_label'>__MSG__SIGN_UP_QUOTE_HEADER__</h2>
+                        <h2 class='oae-aural-text' id='create_new_account_quote_aria_label'>__MSG__SIGN_UP_QUOTE_HEADER__</h2>
                         <div class='signup_comment_box'>
                             <div class='signup_comment_box_arrow_down'><!-- --></div>
                             <div class='signup_comment_icon signup_comment_icon_personalspace'><!-- --></div>
@@ -103,7 +103,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class='fl-push fl-widget'><!-- --></div>
+                <div class='oae-push oae-widget'><!-- --></div>
             </div>
         </div>
 

@@ -342,7 +342,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'vendor/js/tr
     var dragAndDrop = exports.dragAndDrop = function() {
         
         /**
-         * Make all elements with the s3d-draggable-container CSS class inside of the provided container draggable, using
+         * Make all elements with the oae-draggable-container CSS class inside of the provided container draggable, using
          * jQuery UI behind the scenes.
          * 
          * @param  {Element|String}     [$container]      jQuery element or jQuery selector for the element which will be used as the container to locate draggable items. If this is not provided, the body element will be used.
@@ -351,7 +351,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'vendor/js/tr
         exports.dragAndDrop.setupDraggable = function($container, options) {};
         
         /**
-         * Make all elements with the s3d-droppable-container CSS class inside of the provided container droppable (accept draggable items), using
+         * Make all elements with the oae-droppable-container CSS class inside of the provided container droppable (accept draggable items), using
          * jQuery UI behind the scenes.
          * 
          * @param  {Element|String}     [$container]      jQuery element or jQuery selector for the element which will be used as the container to locate draggable items. If this is not provided, the body element will be used.

@@ -52,8 +52,8 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         /////////////////////
 
         if (config && config.tuid && view === 'grid' &&
-                $('.s3d-search-results-container').length) {
-            $('.s3d-search-results-container').addClass('s3d-search-results-grid');
+                $('.oae-search-results-container').length) {
+            $('.oae-search-results-container').addClass('oae-search-results-grid');
         }
         $('.search_view_' + view).addClass('selected');
         $('.search_view_' + view).children('div').addClass('selected');
@@ -168,8 +168,8 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
          * @param {Object} $rootel jQuery object for the widget container
          */
         sakai_global.data.search.determineAdjustGridElementHeights = function($rootel) {
-            var $searchContainer = $(".s3d-search-results-container", $rootel);
-            if ($searchContainer.hasClass("s3d-search-results-grid")) {
+            var $searchContainer = $(".oae-search-results-container", $rootel);
+            if ($searchContainer.hasClass("oae-search-results-grid")) {
                 var $searchGridElements = $searchContainer.children();
                 adjustGridElementHeights($searchGridElements);
             }
@@ -190,8 +190,8 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             };
             // get the sort by and sort on
             if (!params['sortby'] || !params['sorton']) {
-                params['sortby'] = $('.s3d-search-sort option:selected', $rootel).attr('data-sort-order');
-                params['sorton'] = $('.s3d-search-sort option:selected', $rootel).attr('data-sort-on');
+                params['sortby'] = $('.oae-search-sort option:selected', $rootel).attr('data-sort-order');
+                params['sorton'] = $('.oae-search-sort option:selected', $rootel).attr('data-sort-on');
             }
             return params;
         };
@@ -261,7 +261,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         });
 
         // bind sortby select box
-        $('#' + config.tuid).on('change', '.s3d-search-header .s3d-search-sort select', function(ev) {
+        $('#' + config.tuid).on('change', '.oae-search-header .oae-search-sort select', function(ev) {
             var sortby = $(this).find(':selected').attr('data-sort-order');
             var sorton = $(this).find(':selected').attr('data-sort-on');
             $.bbq.pushState({
@@ -274,18 +274,18 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         // bind search view change
         $(document).off('click', '.search_view_list, .search_view_grid').on('click', '.search_view_list, .search_view_grid', function(ev) {
             if (!$(this).hasClass('selected')) {
-                if ($('.s3d-search-results-container').hasClass('s3d-search-results-grid')) {
+                if ($('.oae-search-results-container').hasClass('oae-search-results-grid')) {
                     view = 'list';
-                    $('.s3d-search-results-container').removeClass('s3d-search-results-grid');
-                    $('.s3d-search-result').height('auto');
+                    $('.oae-search-results-container').removeClass('oae-search-results-grid');
+                    $('.oae-search-result').height('auto');
                 } else {
                     view = 'grid';
-                    $('.s3d-search-results-container').addClass('s3d-search-results-grid');
+                    $('.oae-search-results-container').addClass('oae-search-results-grid');
 
-                    var $searchGridElements = $('.s3d-search-result:visible');
+                    var $searchGridElements = $('.oae-search-result:visible');
                     adjustGridElementHeights($searchGridElements);
                 }
-                $('.s3d-search-listview-options').find('div').removeClass('selected');
+                $('.oae-search-listview-options').find('div').removeClass('selected');
                 $('.search_view_' + view).addClass('selected');
                 $('.search_view_' + view).children('div').addClass('selected');
             }
@@ -307,7 +307,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
                     }
                     sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('GROUP_MEMBERSHIP'),
                         notimsg, sakai.api.Util.notification.type.INFORMATION);
-                    itemdiv.removeClass('s3d-action-icon s3d-actions-addtolibrary searchgroups_result_plus');
+                    itemdiv.removeClass('oae-action-icon oae-actions-addtolibrary searchgroups_result_plus');
                 } else {
                     sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('GROUP_MEMBERSHIP'),
                         sakai.api.i18n.getValueForKey('PROBLEM_ADDING_TO_GROUP'),

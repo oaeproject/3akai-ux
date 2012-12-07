@@ -32,7 +32,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         var $errorPageLinksTemplate = $('#error_page_links_template');
         var $errorPageLinksContainer = $('#error_page_links_container');
         var $searchinput = $('#errorsearch_text');
-        var $searchButton = $('#error_content .s3d-search-button');
+        var $searchButton = $('#error_content .oae-search-button');
 
         var doSearch = function() {
             document.location = '/search#q=' + $.trim($searchinput.val());

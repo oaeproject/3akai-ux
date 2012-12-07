@@ -274,9 +274,9 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             $('#content_profile_preview_container').toggle(!isSakaiDoc);
             $('#content_profile_contentauthoring_container').toggle(isSakaiDoc);
             $('#content_profile_left_column').toggle(isTwoColumn);
-            $('#content_profile_main_container').toggleClass('s3d-twocolumn', isTwoColumn);
-            $('#content_profile_right_container').toggleClass('s3d-page-column-right', isTwoColumn);
-            $('#content_profile_right_metacomments').toggleClass('fl-container-650', !isTwoColumn).toggleClass('fl-container-470', isTwoColumn);
+            $('#content_profile_main_container').toggleClass('oae-twocolumn', isTwoColumn);
+            $('#content_profile_right_container').toggleClass('oae-page-column-right', isTwoColumn);
+            $('#content_profile_right_metacomments').toggleClass('oae-container-650', !isTwoColumn).toggleClass('oae-container-470', isTwoColumn);
         };
 
         // Initialise the content profile page

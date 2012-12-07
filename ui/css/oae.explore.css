@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-.s3d-page-header {
+.oae-page-header {
     padding: 0px;
     height: auto;
     width: 960px;
@@ -24,12 +24,12 @@
 #explore_navigation {
     height: 40px;
 }
-#explore_navigation .s3d-contentpage-title {
+#explore_navigation .oae-contentpage-title {
     border-bottom: none;
     padding: 12px 0px 0px 20px !important;
     margin: 0
 }
-#explore_navigation div.s3d-contentpage-title h1.s3d-contentpage-title {
+#explore_navigation div.oae-contentpage-title h1.oae-contentpage-title {
     display: inline;
     padding-left: 0 !important;
 }
