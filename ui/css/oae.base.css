@@ -517,7 +517,85 @@ caption, .caption {
     clear: both;
 }
 
-
+/*
+ * Forms and Validation
+ */
+.oae-form-field-wrapper {
+    position: relative;
+}
+.oae-form-field-wrapper input, .oae-form-field-wrapper textarea, .oae-form-field-wrapper select, .oae-form-field-wrapper ul.as-selections {
+    float: left;
+    clear: right;
+    margin-bottom: 15px;
+}
+.oae-form-field-wrapper input, .oae-form-field-wrapper textarea {
+    width: 55%;
+    padding: 0 5px;
+}
+.oae-form-field-wrapper ul.as-selections input {
+    padding: 0px;
+}
+.oae-form-field-wrapper textarea {
+    padding: 5px;
+}
+.oae-form-field-wrapper input.oae-input-full-width, .oae-form-field-wrapper textarea.oae-input-full-width {
+    width: 96%;
+    clear: both;
+}
+.oae-form-field-wrapper ul.as-selections {
+    padding: 0px 5px;
+    width: 98%;
+}
+.oae-form-field-wrapper input {
+    height: 21px;
+}
+.oae-form-field-wrapper label.oae-input-label {
+    float: left;
+    width: 35%;
+    clear: left;
+    text-align: right;
+    padding: 5px 2%;
+    color: #666;
+}
+.oae-form-field-wrapper label.oae-input-label-above {
+    width: 100%;
+    clear: both;
+    text-align: left;
+    padding: 0;
+}
+.oae-form-field-wrapper input.oae-error, .oae-form-field-wrapper textarea.oae-error, .oae-form-field-wrapper input.oae-error-after, .oae-form-field-wrapper textarea.oae-error-after, .oae-form-field-wrapper ul.as-selections.oae-error {
+    border: 3px solid #cc0000;
+}
+.oae-form-field-wrapper span.oae-error {
+    clear: both;
+    background-color: #cc0000;
+    color: #fff;
+    padding: 0 5px;
+    width: 55%;
+    float: left;
+    margin-left: 39%;
+    border: 3px solid #cc0000;
+    font-size: 11px;
+}
+.oae-form-field-wrapper span.oae-error-after {
+    clear: both;
+    background-color: #cc0000;
+    color: #fff;
+    padding: 0 5px;
+    width: 96%;
+    float: left;
+    margin-left: 0;
+    border: 3px solid #cc0000;
+    font-size: 11px;
+}
+.oae-form-field-wrapper input::-webkit-input-placeholder, .oae-form-field-wrapper textarea::-webkit-input-placeholder {
+    color: #aaa;
+    font-size: 12px;
+}
+.oae-form-field-wrapper input:-moz-placeholder, .oae-form-field-wrapper textarea:-moz-placeholder {
+    color: #aaa;
+    font-size: 12px;
+}
 
 
 
@@ -2958,86 +3036,6 @@ ul li.oae-list-item:hover {
 }
 .oae-icon-zip {
     background-image: url(/dev/images/mimetypes/small/zip.png);
-}
-
-/*
- * Forms and Validation
- */
-.oae-form-field-wrapper {
-    position: relative;
-}
-.oae-form-field-wrapper input, .oae-form-field-wrapper textarea, .oae-form-field-wrapper select, .oae-form-field-wrapper ul.as-selections {
-    float: left;
-    clear: right;
-    margin-bottom: 15px;
-}
-.oae-form-field-wrapper input, .oae-form-field-wrapper textarea {
-    width: 55%;
-    padding: 0 5px;
-}
-.oae-form-field-wrapper ul.as-selections input {
-    padding: 0px;
-}
-.oae-form-field-wrapper textarea {
-    padding: 5px;
-}
-.oae-form-field-wrapper input.oae-input-full-width, .oae-form-field-wrapper textarea.oae-input-full-width {
-    width: 96%;
-    clear: both;
-}
-.oae-form-field-wrapper ul.as-selections {
-    padding: 0px 5px;
-    width: 98%;
-}
-.oae-form-field-wrapper input {
-    height: 21px;
-}
-.oae-form-field-wrapper label.oae-input-label {
-    float: left;
-    width: 35%;
-    clear: left;
-    text-align: right;
-    padding: 5px 2%;
-    color: #666;
-}
-.oae-form-field-wrapper label.oae-input-label-above {
-    width: 100%;
-    clear: both;
-    text-align: left;
-    padding: 0;
-}
-.oae-form-field-wrapper input.oae-error, .oae-form-field-wrapper textarea.oae-error, .oae-form-field-wrapper input.oae-error-after, .oae-form-field-wrapper textarea.oae-error-after, .oae-form-field-wrapper ul.as-selections.oae-error {
-    border: 3px solid #cc0000;
-}
-.oae-form-field-wrapper span.oae-error {
-    clear: both;
-    background-color: #cc0000;
-    color: #fff;
-    padding: 0 5px;
-    width: 55%;
-    float: left;
-    margin-left: 39%;
-    border: 3px solid #cc0000;
-    font-size: 11px;
-}
-.oae-form-field-wrapper span.oae-error-after {
-    clear: both;
-    background-color: #cc0000;
-    color: #fff;
-    padding: 0 5px;
-    width: 96%;
-    float: left;
-    margin-left: 0;
-    border: 3px solid #cc0000;
-    font-size: 11px;
-}
-.oae-form-field-wrapper input::-webkit-input-placeholder, .oae-form-field-wrapper textarea::-webkit-input-placeholder {
-    color: #aaa;
-    font-size: 12px;
-}
-.oae-form-field-wrapper input:-moz-placeholder, .oae-form-field-wrapper textarea:-moz-placeholder {
-    color: #aaa;
-    font-size: 12px;
 }
 
 /*

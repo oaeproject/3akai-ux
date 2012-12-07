@@ -224,3 +224,15 @@ h2 {
 .recaptchatable input {
     border: 1px solid #E0E1E2 !important;
 }
+
+
+#captcha_error {
+    width: 438px !important;
+    display: inline-block;
+}
+#captcha_container {
+    float: left;
+}
+#captcha_container.oae-error {
+    border: 3px solid #cc0000;
+}

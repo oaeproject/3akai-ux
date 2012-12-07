@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae/api/oae.core'], function($, oae) {
+require(['jquery', 'oae/api/oae.core', '//www.google.com/recaptcha/api/js/recaptcha_ajax.js'], function($, oae) {
 
     // Redirect the user back to the landing page if he is already logged in or if
     // creating an internal account isn't allowed
@@ -24,27 +24,107 @@ require(['jquery', 'oae/api/oae.core'], function($, oae) {
     // Set the browser title
     oae.api.util.setBrowserTitle('__MSG__REGISTER__');
 
+    /**
+     * Set up a reCaptcha container that will used to verify
+     * that the current user is a real human
+     * 
+     * @api private
+     */
+    setUpCaptcha = function() {
+        var captchaContainer = $('#register_captcha_container')[0];
+        Recaptcha.create(oae.api.config.getValue('oae-principals', 'recaptcha', 'publicKey'), captchaContainer, {theme: 'clean'});
+    };
+
+    /**
+     * Set up the validation on the register form, including the error messages
+     * 
+     * @api private
+     */
+    setUpValidation = function() {
+        var validateOpts = {
+            'rules': {
+                'username': {
+                    'minlength': 3,
+                    'nospaces': true,
+                    'validchars': true,
+                    'validusername': true
+                },
+                'password': {
+                    'minlength': 4
+                },
+                'password_repeat': {
+                    'equalTo': '#password'
+                }
+            },
+            'messages': {
+                'firstName': oae.api.i18n.translate('__MSG__PLEASE_ENTER_YOUR_FIRST_NAME__'),
+                'lastName': oae.api.i18n.translate('__MSG__PLEASE_ENTER_YOUR_LAST_NAME__'),
+                'email': {
+                    'required': oae.api.i18n.translate('__MSG__PLEASE_ENTER_A_VALID_EMAIL_ADDRESS__'),
+                    'email': oae.api.i18n.translate('__MSG__THIS_IS_AN_INVALID_EMAIL_ADDRESS__'),
+                },
+                'username': {
+                    'required': oae.api.i18n.translate('__MSG__PLEASE_ENTER_YOUR_USERNAME__'),
+                    'minlength': oae.api.i18n.translate('__MSG__THE_USERNAME_SHOULD_BE_AT_LEAST_THREE_CHARACTERS_LONG__'),
+                    'nospaces': oae.api.i18n.translate('__MSG__THE_USERNAME_SHOULDNT_CONTAIN_SPACES__')
+                },
+                'password': {
+                    'required': oae.api.i18n.translate('__MSG__PLEASE_ENTER_YOUR_PASSWORD__'),
+                    'minlength': oae.api.i18n.translate('__MSG__YOUR_PASSWORD_SHOULD_BE_AT_LEAST_FOUR_CHARACTERS_LONG__')
+                },
+                'password_repeat': {
+                    'required': oae.api.i18n.translate('__MSG__PLEASE_REPEAT_YOUR_PASSWORD__'),
+                    'passwordmatch': oae.api.i18n.translate('__MSG__THIS_PASSWORD_DOES_NOT_MATCH_THE_FIRST_ONE__')
+                }
+            },
+            'methods': {
+                'validusername': {
+                    'method': function(value, element) {
+                        return this.optional(element) || checkUserName();
+                    },
+                    'text': oae.api.i18n.translate('__MSG__THIS_USERNAME_HAS_ALREADY_BEEN_TAKEN__')
+                },
+                'validchars': {
+                    'method': function(value, element) {
+                        return this.optional(element) || !(/[\<\>\\\/{}\[\]!@#\$%^&\*,]+/i.test(value));
+                    },
+                    'text': oae.api.i18n.translate('__MSG__CREATE_ACCOUNT_INVALIDCHAR__')
+                }
+            },
+            'submitHandler': function(form, validator) {
+                doCreateUser();
+                return false;
+            }
+        };
+        sakai.api.Util.Forms.validate($('#create_account_form'), validateOpts);
+    };
+
+    setUpCaptcha();
+    setUpValidation();
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
     return;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     ///////////////////////
     // Utility functions //
     ///////////////////////
 
     var usernameEntered = '';
+    var $captchaError = $('#captcha_error', $rootel);
+    var $captcha_container = $('#captcha_container', $rootel);
 
     /**
      * Get all of the values out of the form fields. This will return
@@ -56,7 +136,10 @@ require(['jquery', 'oae/api/oae.core'], function($, oae) {
         var values = $('#create_account_form').serializeObject();
 
         // Get the values from the captcha form.
-        var captchaValues = sakai_global.captcha.getProperties();
+        var captchaValues = {
+            'recaptcha-challenge': Recaptcha.get_challenge(),
+            'recaptcha-response': Recaptcha.get_response()
+        };
 
         // Add them to the form values.
         values = $.extend(true, {}, values, captchaValues);
@@ -86,7 +169,7 @@ require(['jquery', 'oae/api/oae.core'], function($, oae) {
                 // This will hide the Create and Cancel button and offer a link back to the login page
 
                 // Destroy the captcha
-                sakai_global.captcha.destroy();
+                Recaptcha.destroy();
 
                 // Wait for 2 seconds
                 setTimeout(function() {
@@ -113,13 +196,23 @@ require(['jquery', 'oae/api/oae.core'], function($, oae) {
                     }
    
                     if (msg === 'Invalid reCaptcha token.') {
-                    sakai_global.captcha.reload();
+                    Recaptcha.reload();
                     sakai_global.captcha.showError('create_account_input_error');
                 } else {
                     showCreateUserError(msg);
                 }
             }
         });
+    };
+    
+    var showError = function(messageErrorClass) {
+        if (messageErrorClass && !$captchaError.hasClass(messageErrorClass)) {
+            $captchaError.addClass(messageErrorClass);
+            $captcha_container.addClass('oae-error');
+            $('#recaptcha_response_field').attr('aria-invalid', 'true');
+            $('#recaptcha_response_field').attr('aria-describedby', 'captcha_error');
+        }
+        $captchaError.show();
     };
 
     /**
@@ -215,39 +308,39 @@ require(['jquery', 'oae/api/oae.core'], function($, oae) {
         });
 
         var validateOpts = {
-            rules: {
-                username: {
-                    minlength: 3,
-                    nospaces: true,
-                    validchars: true,
-                    validusername: true
+            'rules': {
+                'username': {
+                    'minlength': 3,
+                    'nospaces': true,
+                    'validchars': true,
+                    'validusername': true
                 },
-                password: {
-                    minlength: 4
+                'password': {
+                    'minlength': 4
                 },
-                password_repeat: {
-                    equalTo: '#password'
+                'password_repeat': {
+                    'equalTo': '#password'
                 }
             },
-            messages: {
-                firstName: oae.api.i18n.translate('__MSG__PLEASE_ENTER_YOUR_FIRST_NAME__'),
-                lastName: oae.api.i18n.translate('__MSG__PLEASE_ENTER_YOUR_LAST_NAME__'),
-                email: {
-                    required: oae.api.i18n.translate('__MSG__PLEASE_ENTER_A_VALID_EMAIL_ADDRESS__'),
-                    email: oae.api.i18n.translate('__MSG__THIS_IS_AN_INVALID_EMAIL_ADDRESS__'),
+            'messages': {
+                'firstName': oae.api.i18n.translate('__MSG__PLEASE_ENTER_YOUR_FIRST_NAME__'),
+                'lastName': oae.api.i18n.translate('__MSG__PLEASE_ENTER_YOUR_LAST_NAME__'),
+                'email': {
+                    'required': oae.api.i18n.translate('__MSG__PLEASE_ENTER_A_VALID_EMAIL_ADDRESS__'),
+                    'email': oae.api.i18n.translate('__MSG__THIS_IS_AN_INVALID_EMAIL_ADDRESS__'),
                 },
-                username: {
-                    required: oae.api.i18n.translate('__MSG__PLEASE_ENTER_YOUR_USERNAME__'),
-                    minlength: oae.api.i18n.translate('__MSG__THE_USERNAME_SHOULD_BE_AT_LEAST_THREE_CHARACTERS_LONG__'),
-                    nospaces: oae.api.i18n.translate('__MSG__THE_USERNAME_SHOULDNT_CONTAIN_SPACES__')
+                'username': {
+                    'required': oae.api.i18n.translate('__MSG__PLEASE_ENTER_YOUR_USERNAME__'),
+                    'minlength': oae.api.i18n.translate('__MSG__THE_USERNAME_SHOULD_BE_AT_LEAST_THREE_CHARACTERS_LONG__'),
+                    'nospaces': oae.api.i18n.translate('__MSG__THE_USERNAME_SHOULDNT_CONTAIN_SPACES__')
                 },
-                password: {
-                    required: oae.api.i18n.translate('__MSG__PLEASE_ENTER_YOUR_PASSWORD__'),
-                    minlength: oae.api.i18n.translate('__MSG__YOUR_PASSWORD_SHOULD_BE_AT_LEAST_FOUR_CHARACTERS_LONG__')
+                'password': {
+                    'required': oae.api.i18n.translate('__MSG__PLEASE_ENTER_YOUR_PASSWORD__'),
+                    'minlength': oae.api.i18n.translate('__MSG__YOUR_PASSWORD_SHOULD_BE_AT_LEAST_FOUR_CHARACTERS_LONG__')
                 },
-                password_repeat: {
-                    required: oae.api.i18n.translate('__MSG__PLEASE_REPEAT_YOUR_PASSWORD__'),
-                    passwordmatch: oae.api.i18n.translate('__MSG__THIS_PASSWORD_DOES_NOT_MATCH_THE_FIRST_ONE__')
+                'password_repeat': {
+                    'required': oae.api.i18n.translate('__MSG__PLEASE_REPEAT_YOUR_PASSWORD__'),
+                    'passwordmatch': oae.api.i18n.translate('__MSG__THIS_PASSWORD_DOES_NOT_MATCH_THE_FIRST_ONE__')
                 }
             },
             'methods': {
@@ -264,7 +357,7 @@ require(['jquery', 'oae/api/oae.core'], function($, oae) {
                     'text': oae.api.i18n.translate('__MSG__CREATE_ACCOUNT_INVALIDCHAR__')
                 }
             },
-            submitHandler: function(form, validator) {
+            'submitHandler': function(form, validator) {
                 doCreateUser();
                 return false;
             }
