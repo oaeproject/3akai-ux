@@ -672,10 +672,6 @@ caption, .caption {
 .oae-twocolumn {
     background-color: #fff;
 }
-.oae-header .fixed-container {
-    padding: 0 !important;
-    width: 960px;
-}
 .oae-header .oae-navigation-container {
     min-width: 960px;
 }
@@ -705,6 +701,8 @@ caption, .caption {
     overflow: hidden;
 }
 .oae-header .fixed-container {
+    padding: 0 !important;
+    width: 960px;
     background-color: #FFF;
 }
 .oae-gray {
@@ -1323,6 +1321,7 @@ a.oae-button {
     display: inline-block;
     text-align: left;
     font-size: 11px;
+    cursor: pointer;
 }
 .oae-link-button:disabled {
     cursor: default !important;
