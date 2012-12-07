@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'oae/api/oae.api.config', 'jquery-plugins/jquery.properties-parser'], function(exports, $, configAPI) {
+define(['exports', 'jquery', 'oae/api/oae.api.config', 'oae/api/oae.api.util', 'jquery-plugins/jquery.properties-parser'], function(exports, $, configAPI, utilAPI) {
 
     // Variable that will keep track of the current user's locale
     var locale = null;
@@ -71,18 +71,15 @@ define(['exports', 'jquery', 'oae/api/oae.api.config', 'jquery-plugins/jquery.pr
      */
     var loadCoreBundles = function(callback) {
         var bundlesToLoad = ['/ui/bundles/default.properties', '/ui/bundles/' + locale + '.properties'];
-        $.ajax({
-            'url': '/api/ui/staticBatch',
-            'data': {'files': bundlesToLoad},
-            'success': function(data) {
-                bundles.core['default'] = $.parseProperties(data[bundlesToLoad[0]]);
-                bundles.core[locale] = $.parseProperties(data[bundlesToLoad[1]]);
-                callback(null);
-            },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+        utilAPI.staticBatch(bundlesToLoad, function(err, data) {
+            if (err) {
+                return callback(err);
             }
-        })
+
+            bundles.core['default'] = $.parseProperties(data[bundlesToLoad[0]]);
+            bundles.core[locale] = $.parseProperties(data[bundlesToLoad[1]]);
+            callback(null);
+        });
     };
 
     /**
@@ -130,18 +127,16 @@ define(['exports', 'jquery', 'oae/api/oae.api.config', 'jquery-plugins/jquery.pr
                 // Check the widget's locale bundle
                 if (bundles.widgets[widgetName][locale] && bundles.widgets[widgetName][locale][i18nkey]) {
                     return bundles.widgets[widgetName][locale][i18nkey];
-                }
                 // Check the widget's default bundle
-                if (bundles.widgets[widgetName]['default'] && bundles.widgets[widgetName]['default'][i18nkey]) {
+                } else if (bundles.widgets[widgetName]['default'] && bundles.widgets[widgetName]['default'][i18nkey]) {
                     return bundles.widgets[widgetName]['default'][i18nkey];
                 }
             }
             // Check the core locale bundle
             if (bundles.core[locale] && bundles.core[locale][i18nkey]) {
                 return bundles.core[locale][i18nkey];
-            }
             // Check the widget's default bundle
-            if (bundles.core['default'] && bundles.core['default'][i18nkey]) {
+            } else if (bundles.core['default'] && bundles.core['default'][i18nkey]) {
                 return bundles.core['default'][i18nkey];
             }
             // If the key hasn't been found, we return as is

@@ -100,7 +100,7 @@ require(['jquery', 'oae/api/oae.core', '//www.google.com/recaptcha/api/js/recapt
     };
 
     setUpCaptcha();
-    setUpValidation();
+    //setUpValidation();
 
     
 
@@ -166,8 +166,6 @@ require(['jquery', 'oae/api/oae.core', '//www.google.com/recaptcha/api/js/recapt
             }
         }, function(success, data) {
             if (success) {
-                // This will hide the Create and Cancel button and offer a link back to the login page
-
                 // Destroy the captcha
                 Recaptcha.destroy();
 

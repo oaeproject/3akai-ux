@@ -98,7 +98,7 @@ define(['exports', 'underscore', 'oae/api/oae.api.config', 'vendor/js/l10n/globa
      * @throws {Error}                          Error thrown when no number has been provided
      */
     var transformNumber = exports.transformNumber = function(number, decimalPlaces) {
-        if (!number || !_.isNumber(number)) {
+        if (!_.isNumber(number)) {
             throw new Error('A valid number must be provided');
         }
         // When a certain number of decimal places is required, we pass in n<Number of decimal places>

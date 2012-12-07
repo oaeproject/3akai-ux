@@ -18,12 +18,27 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'vendor/js/tr
     /**
      * Request a number of static files at once through a static batch request
      * 
-     * @param  {String[]}       urls                Array of URLs that should be retrieved
+     * @param  {String[]}       paths               Array of paths that should be retrieved
      * @param  {Function}       callback            Standard callback function
      * @param  {Object}         callback.err        Error object containing error code and message
-     * @param  {String[]}       callback.response   Array containing the content of the static files, preserving the order of the original array. An element will be null when the static file could not be found.
+     * @param  {Object}         callback.response   JSON Object where the keys are the paths to the requested files and values are the content of those static files. An element will be null when the static file could not be found.
      */
-    var staticBatch = exports.staticBatch = function(urls, callback) {};
+    var staticBatch = exports.staticBatch = function(paths, callback) {
+        if (!paths || paths.length === 0) {
+            throw new Error('At least one path should be provided to the static batch');
+        }
+
+        $.ajax({
+            'url': '/api/ui/staticBatch',
+            'data': {'files': paths},
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Generate a random ID. This ID generator does not guarantee global uniqueness.

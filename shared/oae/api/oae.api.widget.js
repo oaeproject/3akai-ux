@@ -161,16 +161,18 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
         var widgetsToLoad = {};
         
         $('[data-widget]', $container).each(function(index, element) {
-            // Generate a unique id for the widget if it doesn't have one set
             $element = $(element);
-            if (!$element.attr('id')) {
-                $element.attr('id', utilAPI.generateId());
-            }
 
             // Gather the metadata for the widgets that need to be loaded
             var widgetName = $element.attr('data-widget');
             var widget = getWidgetManifest(widgetName);
             var widgetId = $element.attr('id');
+
+            // Generate a unique id for the widget if it doesn't have one set
+            if (!widgetId) {
+                widgetId = utilAPI.generateId();
+                $element.attr('id', widgetId);
+            }
 
             // The data-widget attribute is removed, to avoid the widget being rendered again
             $element.removeAttr('data-widget');
@@ -245,16 +247,13 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
                 files.push(loadData.bundles[locale]);
             }
         });
-        
-        $.ajax({
-            'url': '/api/ui/staticBatch',
-            'data': {'files': files},
-            'success': function(data) {
-                processWidgetFiles(data, widgetsToLoad, $container, showSettings, callback)
-            },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+
+        utilAPI.staticBatch(files, function(err, data) {
+            if (err) {
+                return callback(err);
             }
+
+            processWidgetFiles(data, widgetsToLoad, $container, showSettings, callback);
         });
     };
 
@@ -374,7 +373,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
             throw new Error('A valid widget name should be provided');
         }
 
-        // Default value fo showSettings
+        // Default value for showSettings
         showSettings = showSettings || false;
         // Default to the body element if the container hasn't been provided
         if (!$container) {

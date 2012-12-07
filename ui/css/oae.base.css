@@ -17,6 +17,7 @@
  * GLOBAL RULES
  */
 html {
+    height: 100%;
     color: #000;
     font: 13px/1.231 arial, helvetica, sans-serif;
     background: #f2f2f2;
