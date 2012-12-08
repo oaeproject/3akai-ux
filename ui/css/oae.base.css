@@ -567,25 +567,12 @@ caption, .caption {
 .oae-form-field-wrapper input.oae-error, .oae-form-field-wrapper textarea.oae-error, .oae-form-field-wrapper input.oae-error-after, .oae-form-field-wrapper textarea.oae-error-after, .oae-form-field-wrapper ul.as-selections.oae-error {
     border: 3px solid #cc0000;
 }
-.oae-form-field-wrapper span.oae-error {
+.oae-form-field-wrapper span.oae-error, .oae-form-field-wrapper span.oae-error-after {
     clear: both;
     background-color: #cc0000;
     color: #fff;
     padding: 0 5px;
-    width: 55%;
     float: left;
-    margin-left: 39%;
-    border: 3px solid #cc0000;
-    font-size: 11px;
-}
-.oae-form-field-wrapper span.oae-error-after {
-    clear: both;
-    background-color: #cc0000;
-    color: #fff;
-    padding: 0 5px;
-    width: 96%;
-    float: left;
-    margin-left: 0;
     border: 3px solid #cc0000;
     font-size: 11px;
 }

@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports'], function(exports) {
+define(['exports', 'jquery'], function(exports, $) {
 
     /**
      * Log in as an internal user
@@ -21,9 +21,32 @@ define(['exports'], function(exports) {
      * @param  {String}                 username            Username for the user logging in.
      * @param  {String}                 password            The user's password
      * @param  {Function}               callback            Standard callback method
-     * @param  {Object}                 callback.err        Error object containing error code and error message                        
+     * @param  {Object}                 callback.err        Error object containing error code and error message       
+     * @throws {Error}                                      Error thrown when not all of the required parameters have been provided                 
      */
-    var login = exports.login = function(username, password, callback) {};
+    var login = exports.login = function(username, password, callback) {
+        if (!username) {
+            throw new Error('A valid username should be provided');
+        }
+        if (!password) {
+            throw new Error('A valid password should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/auth/login',
+            'type': 'POST',
+            'data': {
+                'username': username,
+                'password': password
+            },
+            'success': function() {
+                callback(null);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Log out the currently signed in user
