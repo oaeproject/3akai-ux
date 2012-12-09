@@ -1918,7 +1918,7 @@ define(function() {
                                 'elements': [
                                     {
                                         'id': 'id5739346',
-                                        'type': 'mylibrary'
+                                        'type': 'library'
                                     }
                                 ]
                             }
