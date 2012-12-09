@@ -1936,7 +1936,7 @@ define(function() {
                                 'elements': [
                                     {
                                         'id': 'id4347509',
-                                        'type': 'mymemberships'
+                                        'type': 'memberships'
                                     }
                                 ]
                             }
