@@ -111,11 +111,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
         // Default to view mode if showSettings is not provided
         showSettings = showSettings || false;
         // Default to the body element if the container hasn't been provided
-        if (!$container) {
-            $container = $('body');
-        } else if (_.isString($container)) {
-            $container = $($container);
-        }
+        $container = $container ? $($container) : $('body');
 
         locateWidgets($container, showSettings, callback);
     };
@@ -376,11 +372,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
         // Default value for showSettings
         showSettings = showSettings || false;
         // Default to the body element if the container hasn't been provided
-        if (!$container) {
-            $container = $('body');
-        } else if (_.isString($container)) {
-            $container = $($container);
-        }
+        $container = $container ? $($container) : $('body');
 
         // Add the widget declaration to the container
         var $widget = $('<div>').attr({

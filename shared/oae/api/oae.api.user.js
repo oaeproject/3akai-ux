@@ -31,8 +31,53 @@ define(['exports', 'jquery'], function(exports, $) {
      * @param  {Function}       [callback]                      Standard callback method
      * @param  {Object}         [callback.err]                  Error object containing error code and error message
      * @param  {User}           [callback.response]             A User object representing the created user
+     * @throws {Error}                                          Error thrown when not all of the required parameters have been provided
      */
-    var createUser = exports.createUser = function(username, password, displayName, additionalOptions, recaptchaChallenge, recaptchaResponse, callback) {};
+    var createUser = exports.createUser = function(username, password, displayName, additionalOptions, recaptchaChallenge, recaptchaResponse, callback) {
+        if (!username) {
+            throw new Error('A username should be provided');
+        } else if (!password) {
+            throw new Error('A password should be provided');
+        } else if (!displayName) {
+            throw new Error('A display name should be provided');
+        }
+
+        var data = {
+            'username': username,
+            'password': password,
+            'displayName': displayName,
+            'recaptchaChallenge': recaptchaChallenge,
+            'recaptchaResponse': recaptchaResponse 
+        };
+
+        // Add the optional parameters onto the data object
+        additionalOptions = additionalOptions || {};
+        if (additionalOptions.visibility) {
+            data['visibility'] = additionalOptions.visibility
+        }
+        if (additionalOptions.locale) {
+            data['locale'] = additionalOptions.locale
+        }
+        if (additionalOptions.timezone) {
+            data['timezone'] = additionalOptions.timezone
+        }
+        if (additionalOptions.publicAlias) {
+            data['publicAlias'] = additionalOptions.publicAlias
+        }
+
+        // Create the user
+        $.ajax({
+            'url': '/api/user/create',
+            'type': 'POST',
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Gets the currently logged in user. A cached copy of this object will be available on oae.data.me when requiring
