@@ -17,8 +17,8 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
 
     sakai_global.search = function() {
         var worldsOrderIncrement = 3;
-        var searchButton = '#form .s3d-search-button';
-        var searchInput = '#form .s3d-search-inputfield';
+        var searchButton = '#form .oae-search-button';
+        var searchInput = '#form .oae-search-inputfield';
         var searchUrl = sakai.config.URL.SEARCH_URL;
         var pubdata = {
             'structure0': {

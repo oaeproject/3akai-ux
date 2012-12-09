@@ -1,0 +1,98 @@
+/* the norm */
+#gritter-notice-wrapper {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 301px;
+    z-index: 999999;
+}
+
+.gritter-item-wrapper {
+    position: relative;
+    margin: 0 0 10px 0;
+    background: 0; /* ie7/8 fix */
+}
+
+.gritter-top, .gritter-bottom, .gritter-item, .gritter-close {
+    background-image: url(../img/gritter.png);
+}
+
+.gritter-top {
+    background-position: left -30px;
+    background-repeat: no-repeat;
+    height: 10px;
+}
+
+.hover .gritter-top {
+    background-position: right -30px;
+}
+
+.gritter-bottom {
+    background-position: left bottom;
+    background-repeat: no-repeat;
+    height: 8px;
+    margin: 0;
+}
+
+.hover .gritter-bottom {
+    background-position: right bottom;
+}
+
+.gritter-item {
+    display: block;
+    background-position: left -40px;
+    background-repeat: no-repeat;
+    color: #eee;
+    padding: 2px 11px 8px 11px;
+    font-size: 13px;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.hover .gritter-item {
+    background-position: right -40px;
+}
+
+.gritter-item p {
+    padding: 0;
+    margin: 0;
+    word-wrap: break-word;
+}
+
+.gritter-item a {
+    color: #6BC7FF;
+}
+
+.gritter-close {
+    position: absolute;
+    top: 5px;
+    right: 3px;
+    background-position: left top;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+}
+
+.gritter-title {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 0 0 7px 0;
+    display: block;
+    text-shadow: 1px 1px #000; /* Not supported by IE :( */
+}
+
+.gritter-image {
+    width: 47px;
+    height: 44px;
+    float: left;
+}
+
+.gritter-with-image, .gritter-without-image {
+    padding: 0 10px 5px 0;
+}
+
+.gritter-with-image {
+    width: 205px;
+    float: right;
+}
