@@ -13,24 +13,42 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'underscore', 'vendor/js/trimpath'], function(exports, $, _) {
+define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'vendor/js/trimpath'], function(exports, $, _, i18nAPI) {
 
     /**
      * Request a number of static files at once through a static batch request
      * 
-     * @param  {String[]}       urls                Array of URLs that should be retrieved
+     * @param  {String[]}       paths               Array of paths that should be retrieved
      * @param  {Function}       callback            Standard callback function
      * @param  {Object}         callback.err        Error object containing error code and message
-     * @param  {String[]}       callback.response   Array containing the content of the static files, preserving the order of the original array. An element will be null when the static file could not be found.
+     * @param  {Object}         callback.response   JSON Object where the keys are the paths to the requested files and values are the content of those static files. An element will be null when the static file could not be found.
      */
-    var staticBatch = exports.staticBatch = function(urls, callback) {};
+    var staticBatch = exports.staticBatch = function(paths, callback) {
+        if (!paths || paths.length === 0) {
+            throw new Error('At least one path should be provided to the static batch');
+        }
+
+        $.ajax({
+            'url': '/api/ui/staticBatch',
+            'data': {'files': paths},
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Generate a random ID. This ID generator does not guarantee global uniqueness.
+     * The generated id will have the following format: `oae-<random number>-<random number>`
      * 
      * @return {String}         Generated random ID
      */
-    var generateId = exports.generateId = function() {};
+    var generateId = exports.generateId = function() {
+        return 'oae-' + Math.round(Math.random() * 10000000) + '-' + Math.round(Math.random() * 10000000);
+    };
     
     /**
      * Change the browser title for a particular page. The browser's title has the following structure
@@ -40,6 +58,7 @@ define(['exports', 'jquery', 'underscore', 'vendor/js/trimpath'], function(expor
      * Where the first part will be fixed.
      * 
      * @param  {String|String[]}     title       The new page title or an array of strings representing the fragments of the page title
+     * @throws {Error}                           Error thrown when no page title has been provided
      */
     var setBrowserTitle = exports.setBrowserTitle = function(title) {
         if (!title) {
@@ -51,8 +70,9 @@ define(['exports', 'jquery', 'underscore', 'vendor/js/trimpath'], function(expor
             title = [title];
         }
         // Render the page title with the following format
-        //   Sakai OAE - Fragment 1 - Fragment 2
-        document.title = 'Sakai OAE - ' + title.join(' - ');
+        //   `Sakai OAE - Fragment 1 - Fragment 2`
+        title.splice(0, 0, '__MSG__TITLE_PREFIX__');
+        document.title = i18nAPI.translate(title.join(' - '));
     };
     
     ////////////////////////////////
@@ -91,6 +111,7 @@ define(['exports', 'jquery', 'underscore', 'vendor/js/trimpath'], function(expor
      * @param  {Element|String}     [$output]       jQuery element representing the HTML element in which the template output should be put, or jQuery selector for the output container.
      * @param  {Boolean}            [sanitize]      Whether or not to sanitize the rendered HTML (in order to prevent XSS attacks). By default, sanitization will be done.
      * @return {String}                             The rendered HTML
+     * @throws {Error}                              Error thrown when no template or template data has been provided
      */
     var renderTemplate = exports.renderTemplate = function($template, data, $output, sanitize) {
         // Parameter validation
@@ -111,7 +132,7 @@ define(['exports', 'jquery', 'underscore', 'vendor/js/trimpath'], function(expor
         var templateId = $template.attr('id');
         if (!templateCache[templateId]) {
             // We extract the content from the templates, which is wrapped in <!-- -->
-            var templateContent = $template.get(0).firstChild.data.toString();
+            var templateContent = $template[0].firstChild.data.toString();
 
             // Parse the template through TrimPath and add the 
             // parsed template to the template cache
@@ -195,16 +216,144 @@ define(['exports', 'jquery', 'underscore', 'vendor/js/trimpath'], function(expor
     
     /**
      * All functionality related to validating forms
+     * 
+     * TODO: Show how a form should be built and how CSS classes should be used - possible values
+     * TODO: Add examples for all the supported validation rules
      */
     var validation = exports.validation = function() {
         
         /**
          * Validate a form
+         * TODO
          * 
          * @param  {Element|String}     $form       jQuery form element or jQuery selector for that form which we want to validate
          * @param  {Object}             [options]   JSON object containing options to pass to the to the jquery validate plugin, as defined on http://docs.jquery.com/Plugins/Validation/validate#options
          */
-        exports.validation.validate = function($form, options) {}; 
+        exports.validation.validate = function($form, options) {
+            var options = {
+                onclick: false,
+                onkeyup: false,
+                onfocusout: false
+            };
+
+            // When you set onclick to true, you actually just don't set it
+            // to false, because onclick is a handler function, not a boolean
+            if (opts) {
+                $.each(options, function(key,val) {
+                    if (opts.hasOwnProperty(key) && opts[key] === true) {
+                        delete opts[key];
+                        delete options[key];
+                    }
+                });
+            }
+            options.errorElement = 'span';
+            options.errorClass = insertAfterLabel ? 's3d-error-after' : 's3d-error';
+
+            // We need to handle success and invalid in the framework first
+            // then we can pass it to the caller
+            var successCallback = false;
+            var invalidCallback = false;
+
+            if (opts) {
+                if (opts.hasOwnProperty('success') && $.isFunction(opts.success)) {
+                    successCallback = opts.success;
+                    delete opts.success;
+                }
+
+                if (opts && opts.hasOwnProperty('invalidCallback') && $.isFunction(opts.invalidCallback)) {
+                    invalidCallback = opts.invalidCallback;
+                    delete opts.invalidCallback;
+                }
+            }
+
+            // Don't allow spaces in the field
+            $.validator.addMethod('nospaces', function(value, element) {
+                return this.optional(element) || (value.indexOf(' ') === -1);
+            }, sakai_i18n.getValueForKey('NO_SPACES_ARE_ALLOWED'));
+
+            // Appends http:// or ftp:// or https:// when necessary
+            $.validator.addMethod('appendhttp', function(value, element) {
+                if (value.substring(0,7) !== 'http://' &&
+                    value.substring(0,6) !== 'ftp://' &&
+                    value.substring(0,8) !== 'https://' &&
+                    $.trim(value) !== '') {
+                        $(element).val('http://' + value);
+                }
+                return true;
+            });
+
+            // Add the methods that were being passed in
+            if (opts && opts.hasOwnProperty('methods')) {
+                $.each(opts.methods, function(key, value) {
+                    $.validator.addMethod(key, value.method, value.text);
+                });
+                delete opts.methods;
+            }
+
+            // Include the passed in options
+            $.extend(true, options, opts);
+
+            // Success is a callback on each individual field being successfully validated
+            options.success = options.success || function($label) {
+                // For autosuggest clearing, since we have to put the error on the ul instead of the element
+                if (insertAfterLabel && $label.next('ul.as-selections').length) {
+                    $label.next('ul.as-selections').removeClass('s3d-error');
+                } else if ($label.prev('ul.as-selections').length) {
+                    $label.prev('ul.as-selections').removeClass('s3d-error');
+                }
+                $label.remove();
+                if ($.isFunction(successCallback)) {
+                    successCallback($label);
+                }
+            };
+
+            options.errorPlacement = options.errorPlacement || function($error, $element) {
+                if ($element.hasClass('s3d-error-calculate')) {
+                    // special element with variable left margin
+                    // calculate left margin and width, set it directly on the error element
+                    $error.css({
+                        'margin-left': $element.position().left,
+                        'width': $element.width()
+                    });
+                }
+                // Get the closest-previous label in the DOM
+                var $prevLabel = $form.find('label[for="' + $element.attr('id') + '"]');
+                $error.attr('id', $element.attr('name') + '_error');
+                $element.attr('aria-describedby', $element.attr('name') + '_error');
+                if (insertAfterLabel) {
+                    $error.insertAfter($prevLabel);
+                } else {
+                    $error.insertBefore($prevLabel);
+                }
+            };
+
+            options.invalidHandler = options.invalidHandler || function($thisForm, validator) {
+                $form.find('.s3d-error').attr('aria-invalid', 'false');
+                if ($.isFunction(invalidCallback)) {
+                    invalidCallback($thisForm, validator);
+                }
+            };
+
+            options.showErrors = options.showErrors || function(errorMap, errorList) {
+                if (errorList.length !== 0 && $.isFunction(options.error)) {
+                    options.error();
+                }
+                $.each(errorList, function(i,error) {
+                    $(error.element).attr('aria-invalid', 'true');
+                    // Handle errors on autosuggest
+                    if ($(error.element).hasClass('s3d-error-autosuggest')) {
+                        $(error.element).parents('ul.as-selections').addClass('s3d-error');
+                    }
+                });
+                this.defaultShowErrors();
+                if ($.isFunction(options.errorsShown)) {
+                    options.errorsShown();
+                }
+            };
+
+            // Set up the form with these options in jquery.validate
+            $form.validate(options);
+        }; 
         
         /**
          * Clear the validation on a form. This will remove all visible validation styles.
@@ -336,7 +485,7 @@ define(['exports', 'jquery', 'underscore', 'vendor/js/trimpath'], function(expor
     var dragAndDrop = exports.dragAndDrop = function() {
         
         /**
-         * Make all elements with the s3d-draggable-container CSS class inside of the provided container draggable, using
+         * Make all elements with the oae-draggable-container CSS class inside of the provided container draggable, using
          * jQuery UI behind the scenes.
          * 
          * @param  {Element|String}     [$container]      jQuery element or jQuery selector for the element which will be used as the container to locate draggable items. If this is not provided, the body element will be used.
@@ -345,7 +494,7 @@ define(['exports', 'jquery', 'underscore', 'vendor/js/trimpath'], function(expor
         exports.dragAndDrop.setupDraggable = function($container, options) {};
         
         /**
-         * Make all elements with the s3d-droppable-container CSS class inside of the provided container droppable (accept draggable items), using
+         * Make all elements with the oae-droppable-container CSS class inside of the provided container droppable (accept draggable items), using
          * jQuery UI behind the scenes.
          * 
          * @param  {Element|String}     [$container]      jQuery element or jQuery selector for the element which will be used as the container to locate draggable items. If this is not provided, the body element will be used.
