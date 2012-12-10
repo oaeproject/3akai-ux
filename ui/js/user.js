@@ -425,7 +425,7 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
             });
         });
 
-        $(document).on('done.newaddcontent.sakai', function(e, data, library) {
+        $(document).on('done.addcontent.sakai', function(e, data, library) {
             if (isMe && data && data.length && library === sakai.data.me.userId) {
                 $(window).trigger('lhnav.updateCount', ['library', data.length]);
             }
