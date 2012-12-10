@@ -1918,7 +1918,7 @@ define(function() {
                                 'elements': [
                                     {
                                         'id': 'id5739346',
-                                        'type': 'mylibrary'
+                                        'type': 'library'
                                     }
                                 ]
                             }
@@ -1936,7 +1936,7 @@ define(function() {
                                 'elements': [
                                     {
                                         'id': 'id4347509',
-                                        'type': 'mymemberships'
+                                        'type': 'memberships'
                                     }
                                 ]
                             }

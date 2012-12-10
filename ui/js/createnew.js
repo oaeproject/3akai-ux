@@ -74,13 +74,13 @@ require(['jquery','sakai/sakai.api.core'], function($, sakai) {
         };
 
         var renderCreateGroup = function() {
-            $(window).trigger('sakai.newcreategroup.init');
+            $(window).trigger('sakai.creategroup.init');
         };
 
         $(window).on('lhnav.ready', function() {
             fetchTemplates(generateNav);
         });
-        $(window).on('newcreategroup.ready', renderCreateGroup);
+        $(window).on('creategroup.ready', renderCreateGroup);
 
     };
 
