@@ -13,12 +13,15 @@
  * permissions and limitations under the License.
  */
 
-#signup_header {
-    background: url("/ui/img/signup_artwork.png") no-repeat scroll left top transparent;
+h2 {
+    font-size: 15px;
+}
+#register_header {
+    background: url('/ui/img/register_artwork.png') no-repeat scroll left top transparent;
     height: 520px;
     width: 920px;
 }
-#signup_header_bg {
+#register_header_bg {
     background: #e0eef5;
     border-radius: 0 0 6px 6px;
     -moz-border-radius: 0 0 6px 6px;
@@ -27,7 +30,7 @@
     float: left;
     width: 900px;
 }
-#signup_form_container {
+#register_form_container {
     background: #f3f3f3;
     background: -moz-linear-gradient(top, #f3f3f3 0%, #edecec 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f3f3f3), color-stop(100%,#edecec));
@@ -45,7 +48,7 @@
     float: left;
     width: 870px;
 }
-#signup_form_container h1.signup_header {
+#register_form_container h1.register-header {
     color: #2f91cd;
     font-size: 20px;
     font-weight: normal;
@@ -53,92 +56,67 @@
     text-shadow: 0 0 1px #ddd;
     padding-top: 6px;
 }
-h2 {
-    color: #666;
-    font-size: 15px;
-}
-
-.signup_descriptionbox {
+.register-descriptionbox {
     font-size: 16px;
     color: #666;
     width: 195px;
     position: absolute;
     line-height: 18px;
 }
-#signup_descriptionbox_left {
+#register_descriptionbox_left {
     text-align: right;
     margin-left: 128px;
     margin-top: 250px;
 }
-#signup_descriptionbox_right {
+#register_descriptionbox_right {
     text-align: left;
     margin-left: 578px;
     margin-top: 250px;
 }
-#signup_descriptionbox_middle {
+#register_descriptionbox_middle {
     margin-left: 336px;
     margin-top: 344px;
     text-align: center;
     width: 230px;
 }
-
-#signup_form_container .signup_form_column {
+#register_form_container .register-form-column {
     width: 370px;
     float: left;
     margin-top: 12px;
 }
-#signup_form_container .oae-form-field-wrapper label.oae-input-label {
+#register_form_container .oae-form-field-wrapper label.oae-input-label {
     width: 130px;
 }
-#signup_form_container .signup_form_column input {
+#register_form_container .register-form-column input {
     width: 204px;
 }
-#signup_form_container .signup_form_column.signup_form_right_column {
+#register_form_container .register-form-column.register-form-right-column {
     width: 500px;
 }
-#signup_form_container #signup_form_shadow {
-    background: url("/ui/img/signup_form_bgshadow.png") no-repeat scroll left top transparent;
+#register_form_container #register_form_shadow {
+    background: url('/ui/img/register_form_bgshadow.png') no-repeat scroll left top transparent;
     height: 15px;
     margin-left: 95px;
     margin-top: -14px;
     position: absolute;
     width: 700px;
 }
-#signup_form_container #checkUserName {
-    float: right;
-    margin-top: 10px;
+#register_form_container .register-username-available-icon {
+    background: url('/ui/img/green_tick.png') no-repeat scroll 194px 4px #fff !important;
 }
-
-#signup_form_container .username_available_icon {
-    background: url("/ui/img/green_tick.png") no-repeat scroll 194px 4px #fff !important;
+#register_form_container .register-username-unavailable-icon {
+    background: url('/ui/img/red_cross.png') no-repeat scroll 194px 4px #fff;
 }
-#signup_form_container .username_available_icon[disabled] {
-    background: url("/ui/img/green_tick.png") no-repeat scroll 194px 4px transparent !important;
-}
-#signup_form_container .username_unavailable_icon {
-    background: url("/ui/img/red_cross.png") no-repeat scroll 194px 4px #fff;
-}
-
-.create_account_input_error {
-    background: #cc0000;
-    color: #fff;
-    font-size: 11px;
-    padding: 4px 0 2px 10px;
-    width: 206px;
-    clear: both;
-}
-
-.captcha_container #save_account {
-    float: right;
-    margin-top: 74px;
-}
-.captcha_container {
+.register-form-bottom {
     clear: both;
     margin-left: 148px;
     width: 580px;
 }
-
-.signup_comment_box {
+#register_create_account {
+    float: right;
+    margin-top: 74px;
+}
+.register-comment-box {
     background: #e3f0f6;
     width: 290px;
     height: 205px;
@@ -150,25 +128,25 @@ h2 {
     -webkit-border-radius: 6px;
     margin-bottom: 85px;
 }
-.signup_comment_box.last {
+.register-comment-box.register-comment-box-last {
     margin-right: 0;
 }
-.signup_comment_box_arrow_down {
-    background: url("/ui/img/signup_arrow_down.png") no-repeat scroll left top transparent;
+.register-comment-box-arrow-down {
+    background: url('/ui/img/register_arrow_down.png') no-repeat scroll left top transparent;
     height: 24px;
     margin-left: 100px;
     margin-top: 205px;
     position: absolute;
     width: 44px;
 }
-.signup_comment_box_commenter {
+.register-comment-box-commenter {
     color: #666;
     font-size: 12px;
     margin-left: 150px;
     margin-top: 220px;
     position: absolute;
 }
-.signup_comment_quote {
+.register-comment-quote {
     color: #666;
     display: block;
     font-size: 15px;
@@ -177,35 +155,34 @@ h2 {
     overflow: hidden;
     line-height: 19px;
 }
-.signup_comment_box blockquote {
+.register-comment-box blockquote {
     margin: 0;
     padding: 0;
 }
-.signup_comment_icon {
+.register-comment-icon {
     width: 50px;
     float: left;
     margin: 13px 5px 0;
 }
-.signup_comment_icon_personalspace {
-    background: url("/ui/img/personalspace_icon_50x50.png") no-repeat top left transparent;
+.register-comment-icon-personalspace {
+    background: url('/ui/img/personalspace_icon_50x50.png') no-repeat top left transparent;
     height: 50px;
 }
-.signup_comment_icon_cohere {
-    background: url("/ui/img/cohere_icon_50x110.png") no-repeat top left transparent;
+.register-comment-icon-cohere {
+    background: url('/ui/img/cohere_icon_50x110.png') no-repeat top left transparent;
     height: 110px;
 }
-.signup_comment_icon_editable {
-    background: url("/ui/img/editable_icon_50x50.png") no-repeat top left transparent;
+.register-comment-icon-editable {
+    background: url('/ui/img/editable_icon_50x50.png') no-repeat top left transparent;
     height: 50px;
 }
-
-#signup_institution_logos {
+#register_institution_logos {
     height: 40px;
     width: 925px;
     margin: 25px 0 0 0;
     padding: 0
 }
-#signup_institution_logos li {
+#register_institution_logos li {
     list-style: none;
     float: left;
     padding: 0;
@@ -224,15 +201,18 @@ h2 {
 .recaptchatable input {
     border: 1px solid #E0E1E2 !important;
 }
-
-
-#captcha_error {
+#register_captcha_error {
+    background: none repeat scroll 0 0 #CC0000;
+    clear: both;
+    color: #FFFFFF;
+    font-size: 11px;
+    padding: 4px 0 2px 10px;
     width: 438px !important;
     display: inline-block;
 }
-#captcha_container {
+#register_captcha_container {
     float: left;
 }
-#captcha_container.oae-error {
+#register_captcha_container.oae-error {
     border: 3px solid #cc0000;
 }

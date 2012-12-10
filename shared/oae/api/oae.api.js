@@ -65,32 +65,37 @@ define(['oae/api/oae.api.authentication', 'oae/api/oae.api.config', 'oae/api/oae
                     }
                     
                     // Initialize l10n 
-                    oae.api.l10n.init(oae.data.me.locale, function(err) {
+                    var userLocale = oae.data.me.locale ? oae.data.me.locale.locale : null;
+                    oae.api.l10n.init(userLocale, function(err) {
                         if (err) {
                             throw new Error('Could not initialize the l10n API.')
                         }
                         
                         // Initialize i18n
-                        oae.api.i18n.init(oae.data.me.locale, function(err) {
+                        oae.api.i18n.init(userLocale, function(err) {
                             if (err) {
                                 throw new Error('Could not initialize the i18n API.')
                             }
 
-                            // Initialize widgets API
-                            oae.api.widget.init(oae.data.me.locale, function(err) {
-                                if (err) {
-                                    throw new Error('Could not initialize the widgets API.')
-                                }
+                            // Initialize utility API
+                            oae.api.util.init(function() {
 
-                                // The APIs have now fully initialized. All javascript that
-                                // depends on the initialized core APIs can now execute
-                                callback(oae);
-                                
-                                // We now load the widgets in the core HTML
-                                oae.api.widget.loadWidgets(null, null, function() {
-                                    // We can show the body as internationalization and 
-                                    // initial widget loading have finished
-                                    $('body').removeClass('oae-force-hidden');
+                                // Initialize widgets API
+                                oae.api.widget.init(userLocale, function(err) {
+                                    if (err) {
+                                        throw new Error('Could not initialize the widgets API.')
+                                    }
+    
+                                    // The APIs have now fully initialized. All javascript that
+                                    // depends on the initialized core APIs can now execute
+                                    callback(oae);
+                                    
+                                    // We now load the widgets in the core HTML
+                                    oae.api.widget.loadWidgets(null, null, function() {
+                                        // We can show the body as internationalization and 
+                                        // initial widget loading have finished
+                                        $('body').removeClass('oae-force-hidden');
+                                    });
                                 });
                             });
                         });

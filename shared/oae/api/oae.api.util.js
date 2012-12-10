@@ -13,7 +13,19 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'vendor/js/trimpath'], function(exports, $, _, i18nAPI) {
+define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugins/jquery.validate', 'vendor/js/trimpath'], function(exports, $, _, i18nAPI) {
+
+    /**
+     * Initialize all utility functionality.
+     * 
+     * @param  {Function}   callback            Standard callback function
+     * @api private
+     */
+    var init = exports.init = function(callback) {
+        // Set up custom validators
+        validation().init();
+        callback();
+    };
 
     /**
      * Request a number of static files at once through a static batch request
@@ -122,9 +134,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'vendor/js/tr
         }
         
         // Make sure that the provided template is a jQuery object
-        if (_.isString($template)) {
-            $template = $('#' + $template);
-        }
+        $template = $($template);
         if ($template.length === 0) {
             throw new Error('The provided template could not be found');
         }
@@ -186,7 +196,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'vendor/js/tr
      * @param {Function}        callback            Standard callback function executed when the element has been hidden
      */
     var hideOnClickOut = exports.hideOnClickOut = function($elementToHide, $ignoreElements, callback) {};
-    
+
     /**
      * All functionality related to setting up, showing and closing modal dialogs. This uses the jQuery jqModal plugin behind the scenes.
      * 
@@ -194,174 +204,204 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'vendor/js/tr
      * @param  {Object}             [options]        JSON object containing options to pass to the jqmodal plugin as defined on http://dev.iceburg.net/jquery/jqModal/
      */
     var modal = exports.modal = function($container, options) {
-        
+
         var that = {};
-        
+
         /**
          * Open a jqModal dialog that has already been set up
          * 
          * @param  {Element|String}     $container       jQuery element representing the modal dialog that should be opened. If the dialog has not been set up first, this will not work.
          */
         that.open = function() {};
-        
+
         /**
          * Close a jqModal dialog that has been set up
          * 
          * @param  {Element|String}     $container       jQuery element representing the modal dialog that should be closed.
          */
         that.close = function($container) {};
-    
+
         return that;
     };
-    
-    /**
+
+    /*!
      * All functionality related to validating forms
-     * 
-     * TODO: Show how a form should be built and how CSS classes should be used - possible values
-     * TODO: Add examples for all the supported validation rules
      */
     var validation = exports.validation = function() {
-        
+
         /**
-         * Validate a form
-         * TODO
+         * Initialize the validation utility functions by adding some custom validators
+         * to jquery.validate
          * 
-         * @param  {Element|String}     $form       jQuery form element or jQuery selector for that form which we want to validate
-         * @param  {Object}             [options]   JSON object containing options to pass to the to the jquery validate plugin, as defined on http://docs.jquery.com/Plugins/Validation/validate#options
+         * @api private
          */
-        exports.validation.validate = function($form, options) {
-            var options = {
-                onclick: false,
-                onkeyup: false,
-                onfocusout: false
-            };
-
-            // When you set onclick to true, you actually just don't set it
-            // to false, because onclick is a handler function, not a boolean
-            if (opts) {
-                $.each(options, function(key,val) {
-                    if (opts.hasOwnProperty(key) && opts[key] === true) {
-                        delete opts[key];
-                        delete options[key];
-                    }
-                });
-            }
-            options.errorElement = 'span';
-            options.errorClass = insertAfterLabel ? 's3d-error-after' : 's3d-error';
-
-            // We need to handle success and invalid in the framework first
-            // then we can pass it to the caller
-            var successCallback = false;
-            var invalidCallback = false;
-
-            if (opts) {
-                if (opts.hasOwnProperty('success') && $.isFunction(opts.success)) {
-                    successCallback = opts.success;
-                    delete opts.success;
-                }
-
-                if (opts && opts.hasOwnProperty('invalidCallback') && $.isFunction(opts.invalidCallback)) {
-                    invalidCallback = opts.invalidCallback;
-                    delete opts.invalidCallback;
-                }
-            }
-
+        var init = function() {
             // Don't allow spaces in the field
             $.validator.addMethod('nospaces', function(value, element) {
                 return this.optional(element) || (value.indexOf(' ') === -1);
-            }, sakai_i18n.getValueForKey('NO_SPACES_ARE_ALLOWED'));
+            }, i18nAPI.translate('__MSG__NO_SPACES_ARE_ALLOWED__'));
 
-            // Appends http:// or ftp:// or https:// when necessary
-            $.validator.addMethod('appendhttp', function(value, element) {
-                if (value.substring(0,7) !== 'http://' &&
-                    value.substring(0,6) !== 'ftp://' &&
-                    value.substring(0,8) !== 'https://' &&
-                    $.trim(value) !== '') {
-                        $(element).val('http://' + value);
+            // Prepends http if no protocol has been provided
+            $.validator.addMethod('prependhttp', function(value, element) {
+                if ($.trim(value) !== '' && value.substring(0,7) !== 'http://' && value.substring(0,6) !== 'ftp://' && value.substring(0,8) !== 'https://') {
+                    $(element).val('http://' + value);
                 }
                 return true;
             });
+        };
 
-            // Add the methods that were being passed in
-            if (opts && opts.hasOwnProperty('methods')) {
-                $.each(opts.methods, function(key, value) {
-                    $.validator.addMethod(key, value.method, value.text);
-                });
-                delete opts.methods;
+        /**
+         * Validate a form using the jquery.validate plugin. This will automatically style the error messages, as well as positioning
+         * them appropriately and giving all of the required aria roles for accessibility. This function is mostly just a wrapper around
+         * jquery.validate, and supports all of the options supported by jquery.validate (see http://bassistance.de/jquery-plugins/jquery-plugin-validation/)
+         * 
+         * In order for forms to have all of the Sakai OAE stylings, the form fields should be wrapped in a div which has the oae-form-field-wrapper class.
+         * All input fields should be accompanied by a label, mostly for accessibility purposes. These labels can either be next to the field, in which case
+         * they should have the `oae-input-label` class, or they can be above the field, in which case they should have the `oae-input-label-above` class.
+         * 
+         * Metadata can be added directly onto the HTML fields to tell jquery.validate which validation rules to use. These should be added as a class onto
+         * the input field. The available ones are:
+         * 
+         * - `required`: Makes the element always required.
+         * - `email`: Makes the element require a valid email.
+         * - `number`: Makes the element require a decimal number.
+         * - `url`: Makes the element require a valid url.
+         * - `date`: Makes the element require a date.
+         * - `dateISO`: Makes the element require a ISO date.
+         * - `creditcard`: Makes the element require a creditcard number.
+         * 
+         * Example:
+         * 
+         * ```
+         * <form id='form_id' role='main'>
+         *      <div class='oae-form-field-wrapper'>
+         *          <label for='firstName' class='firstName oae-input-label'>__MSG__FIRSTNAME__</label>
+         *          <input type='text' maxlength='255' id='firstName' name='firstName' class='required' placeholder='Hiroyuki'/>
+         *          <label for='lastName' class='lastName oae-input-label'>__MSG__LASTNAME__</label>
+         *          <input type='text' maxlength='255' id='lastName' name='lastName' class='required' placeholder='Sakai'/>
+         *      </div>
+         * </div>
+         * ```
+         * 
+         * All other validation configuration should be passed into the options object when calling `oae.api.util.validation().validate($form, options)`.
+         * 
+         * Sakai OAE defines to additional validation methods:
+         * 
+         * - `nospaces`: Makes the element require no spaces.
+         * - `prependhttp`: Prepends http:// to a URL field if no protocal has been specified.
+         * 
+         * @param  {Element|String}     $form                           jQuery form element or jQuery selector for that form which we want to validate
+         * @param  {Object}             [options]                       JSON object containing options to pass to the to the jquery validate plugin, as defined on http://docs.jquery.com/Plugins/Validation/validate#options
+         * @param  {Boolean}            [options.insertAfterLabel]      Extension to the jquery validate options, allowing to specify whether or not the error message should be created after the input field label or before it. This will default to false.
+         * @param  {Object}             [options.methods]               Extension to the jquery validate options, allowing to specify custom validators. The keys should be the validator identifiers. The value should be an object with a method key containing the validator function and a text key containing the validation message.
+         */
+        var validate = function($form, options) {
+            options = options || {};
+
+            // By default, we disable validation when a field is clicked, when a key is pressed
+            // and when a field loses focus
+            options.onclick = options.onclick === true ? true : false;
+            options.onkeyup = options.onkeyup === true ? true : false;
+            options.onfocusout = options.onfocusout === true ? true : false;
+
+            // We set the element that should be used to create the error message to be a span
+            options.errorElement = 'span';
+            // We set the error class that should be added to the error message and the form field.
+            // This is based on whether or not the error element will be inserted after or before the form field's label
+            options.errorClass = options.insertAfterLabel ? 'oae-error-after' : 'oae-error';
+
+            // We need to first handle the invalid and submit callback inside of this function, in order to set/remove all of the necessary 
+            // styles and aria attributes. Therefore, we cache these callback so they can be  called after those functions have finished
+            var invalidCallback = null;
+            if (options.invalidHandler && $.isFunction(options.invalidHandler)) {
+                invalidCallback = options.invalidHandler;
+            }
+            var submitCallback = null;
+            if (options.submitHandler && $.isFunction(options.submitHandler)) {
+                submitCallback = options.submitHandler;
             }
 
-            // Include the passed in options
-            $.extend(true, options, opts);
+            // Register the custom validation methods
+            if (options.methods) {
+                $.each(options.methods, function(key, value) {
+                    $.validator.addMethod(key, value.method, value.text);
+                });
+            }
 
-            // Success is a callback on each individual field being successfully validated
-            options.success = options.success || function($label) {
-                // For autosuggest clearing, since we have to put the error on the ul instead of the element
-                if (insertAfterLabel && $label.next('ul.as-selections').length) {
-                    $label.next('ul.as-selections').removeClass('s3d-error');
-                } else if ($label.prev('ul.as-selections').length) {
-                    $label.prev('ul.as-selections').removeClass('s3d-error');
+            // We register the submit handler. This will be called when the overall form
+            // validation has succeeded
+            options.submitHandler = function($thisForm, validator) {
+                // We clear all the old validation styles
+                clear($form);
+                // Call the cached invalid handler callback
+                if (submitCallback) {
+                    submitCallback($thisForm, validator);
                 }
-                $label.remove();
-                if ($.isFunction(successCallback)) {
-                    successCallback($label);
-                }
+                return false;
             };
 
-            options.errorPlacement = options.errorPlacement || function($error, $element) {
-                if ($element.hasClass('s3d-error-calculate')) {
-                    // special element with variable left margin
-                    // calculate left margin and width, set it directly on the error element
-                    $error.css({
-                        'margin-left': $element.position().left,
-                        'width': $element.width()
-                    });
-                }
-                // Get the closest-previous label in the DOM
-                var $prevLabel = $form.find('label[for="' + $element.attr('id') + '"]');
-                $error.attr('id', $element.attr('name') + '_error');
-                $element.attr('aria-describedby', $element.attr('name') + '_error');
-                if (insertAfterLabel) {
-                    $error.insertAfter($prevLabel);
-                } else {
-                    $error.insertBefore($prevLabel);
-                }
-            };
-
-            options.invalidHandler = options.invalidHandler || function($thisForm, validator) {
-                $form.find('.s3d-error').attr('aria-invalid', 'false');
-                if ($.isFunction(invalidCallback)) {
+            // We register the invalid handler. This will be called once when the overall
+            // form validation has failed
+            options.invalidHandler = function($thisForm, validator) {
+                // We clear all the old validation styles
+                clear($form);
+                // Call the cached invalid handler callback
+                if (invalidCallback) {
                     invalidCallback($thisForm, validator);
                 }
             };
 
-            options.showErrors = options.showErrors || function(errorMap, errorList) {
-                if (errorList.length !== 0 && $.isFunction(options.error)) {
-                    options.error();
-                }
-                $.each(errorList, function(i,error) {
-                    $(error.element).attr('aria-invalid', 'true');
-                    // Handle errors on autosuggest
-                    if ($(error.element).hasClass('s3d-error-autosuggest')) {
-                        $(error.element).parents('ul.as-selections').addClass('s3d-error');
-                    }
+            // We register the error placement handler. This will be called for each field that
+            // fails validation and will be used to customize the placement of the validation messages
+            options.errorPlacement = options.errorPlacement || function($error, $element) {
+                // We position the validation message so it has the same placement and width as the input field
+                $error.css({
+                    'margin-left': $element.position().left,
+                    'width': $element.width()
                 });
-                this.defaultShowErrors();
-                if ($.isFunction(options.errorsShown)) {
-                    options.errorsShown();
-                }
+                // Set the id on the validation message and set the aria-invalid and aria-describedby attributes
+                $error.attr('id', $element.attr('name') + '_error');
+                $element.attr('aria-invalid', 'true');
+                $element.attr('aria-describedby', $element.attr('name') + '_error');
+                // Get the label for the current form field
+                var $fieldLabel = $form.find('label[for="' + $element.attr('id') + '"]');
+                options.insertAfterLabel ? $error.insertAfter($fieldLabel) : $error.insertBefore($fieldLabel);
             };
 
-            // Set up the form with these options in jquery.validate
+            // Set up the form with the provided options in jquery.validate
             $form.validate(options);
         }; 
         
         /**
-         * Clear the validation on a form. This will remove all visible validation styles.
+         * Clear the validation on a form. This will remove all visible validation styles, as well as the aria roles.
          * 
          * @param  {Element|String}     $form       jQuery form element or jQuery selector for that form for which we want to clear the validation
+         * @throws {Error}                          Error thrown when no form has been provided
          */
-        exports.validation.clear = function($form) {};
-    
+        var clear = function($form) {
+            if (!$form) {
+                throw new Error('A valid form should be provided');
+            }
+            // Make sure the form is a jQuery element
+            $form = $($form);
+            // The oae-error or oae-error-after class will be set on both the validation message and
+            // the form field that failed validation. When clearing validation, we remove the validation
+            // messages, and remove the error class from the input field
+            $form.find('span.oae-error, span.oae-error-after').remove();
+            $form.find('.oae-error').removeClass('oae-error');
+            $form.find('.oae-error-after').removeClass('oae-error-after');
+            // When a field is invalid, the aria-invalid attribute on the field will be set to true, and
+            // the aria-describedby attribute will be set to point to the validation message. When clearing
+            // validation, we remove both of these
+            $form.find('*[aria-invalid]').removeAttr('aria-invalid');
+            $form.find('*[aria-describedby]').removeAttr('aria-describedby');
+        };
+
+        return {
+            'init': init,
+            'validate': validate,
+            'clear': clear
+        }
     };
     
     /**

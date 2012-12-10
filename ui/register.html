@@ -29,72 +29,72 @@
         <div class='oae-container-flex'>
             <div class='oae-fix oae-centered fixed-container oae-main-container'>
                 <div class='oae-main-container-padding'>
-                    <div id='signup_header'>
-                        <div id='signup_descriptionbox_left' class='signup_descriptionbox'>__MSG__SIGN_UP_MESSAGE_1__</div>
-                        <div id='signup_descriptionbox_right' class='signup_descriptionbox'>__MSG__SIGN_UP_MESSAGE_2__</div>
-                        <div id='signup_descriptionbox_middle' class='signup_descriptionbox'>__MSG__SIGN_UP_MESSAGE_3__</div>
+                    <div id='register_header'>
+                        <div id='register_descriptionbox_left' class='register-descriptionbox'>__MSG__SIGN_UP_MESSAGE_1__</div>
+                        <div id='register_descriptionbox_right' class='register-descriptionbox'>__MSG__SIGN_UP_MESSAGE_2__</div>
+                        <div id='register_descriptionbox_middle' class='register-descriptionbox'>__MSG__SIGN_UP_MESSAGE_3__</div>
                     </div>
-                    <div id='signup_header_bg'>
-                        <form id='create_account_form' role='main'>
-                            <div id='signup_form_container'>
-                                <div id='signup_form_shadow'></div>
-                                <h1 class='signup_header'>__MSG__CREATE_A_NEW_ACCOUNT__</h1>
-                                <div class='signup_form_column'>
+                    <div id='register_header_bg'>
+                        <form id='register_form' role='main'>
+                            <div id='register_form_container'>
+                                <div id='register_form_shadow'></div>
+                                <h1 class='register-header'>__MSG__CREATE_A_NEW_ACCOUNT__</h1>
+                                <div class='register-form-column'>
                                     <div class='oae-form-field-wrapper'>
-                                        <label for='firstName' class='firstName oae-input-label'>__MSG__FIRSTNAME__</label>
+                                        <label for='firstName' class='oae-input-label'>__MSG__FIRSTNAME__</label>
                                         <input type='text' maxlength='255' id='firstName' name='firstName' class='required' placeholder='Hiroyuki'/>
-                                        <label for='lastName' class='lastName oae-input-label'>__MSG__LASTNAME__</label>
+                                        <label for='lastName' class='oae-input-label'>__MSG__LASTNAME__</label>
                                         <input type='text' maxlength='255' id='lastName' name='lastName' class='required' placeholder='Sakai'/>
-                                        <label for='email' class='email oae-input-label'>__MSG__EMAIL_COLON__</label>
+                                        <label for='email' class='oae-input-label'>__MSG__EMAIL_COLON__</label>
                                         <input type='text' maxlength='255' id='email' name='email' class='required email' placeholder='hiroyuki.sakai@example.com'/>
                                     </div>
                                 </div>
-                                <div class='signup_form_column signup_form_right_column'>
+                                <div class='register-form-column register-form-right-column'>
                                     <div class='oae-form-field-wrapper'>
-                                        <label id='username_label' class='username oae-input-label' for='username'>__MSG__USERNAME_COLON__</label>
-                                        <input type='text' maxlength='255' id='username' name='username' class='username_unavailable_icon required oae-error-calculate' placeholder='Hiroyuki'/>
-                                        <label for='password' class='password oae-input-label'>__MSG__PASSWORD_COLON__</label>
-                                        <input type='password' maxlength='255' id='password' name='password' class='required oae-error-calculate' placeholder='&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;'/>
-                                        <label for='password_repeat' class='password_repeat oae-input-label'>__MSG__RE_TYPE_PASSWORD__</label>
-                                        <input type='password' maxlength='255' id='password_repeat' name='password_repeat' class='required oae-error-calculate' placeholder='&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;'/>
+                                        <label id='username_label' class='oae-input-label' for='username'>__MSG__USERNAME_COLON__</label>
+                                        <input type='text' maxlength='255' id='username' name='username' class='register-username-unavailable-icon required' placeholder='Hiroyuki'/>
+                                        <label for='password' class='oae-input-label'>__MSG__PASSWORD_COLON__</label>
+                                        <input type='password' maxlength='255' id='password' name='password' class='required' placeholder='&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;'/>
+                                        <label for='password_repeat' class='oae-input-label'>__MSG__RE_TYPE_PASSWORD__</label>
+                                        <input type='password' maxlength='255' id='password_repeat' name='password_repeat' class='required' placeholder='&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;'/>
                                     </div>
                                 </div>
-                                <div class='captcha_container'>
-                                    <span id="captcha_error" style="display:none;">__MSG__CAPTCHA_ERROR__</span>
+                                <div class='register-form-bottom'>
+                                    <span id="register_captcha_error" class="oae-hidden" style="display:none;">__MSG__CAPTCHA_ERROR__</span>
                                     <div id='register_captcha_container'><!-- --></div>
-                                    <button id='save_account' class='oae-button oae-large-button' type='submit'>__MSG__CREATE_ACCOUNT__</button>
+                                    <button id='register_create_account' class='oae-button oae-large-button' type='submit'>__MSG__CREATE_ACCOUNT__</button>
                                 </div>
                             </div>
                         </form>
                     </div>
-                    <div role='complementary' aria-labelledby='create_new_account_quote_aria_label'>
-                        <h2 class='oae-aural-text' id='create_new_account_quote_aria_label'>__MSG__SIGN_UP_QUOTE_HEADER__</h2>
-                        <div class='signup_comment_box'>
-                            <div class='signup_comment_box_arrow_down'><!-- --></div>
-                            <div class='signup_comment_icon signup_comment_icon_personalspace'><!-- --></div>
+                    <div role='complementary' aria-labelledby='register_quote_aria_label'>
+                        <h2 id='register_quote_aria_label' class='oae-aural-text'>__MSG__SIGN_UP_QUOTE_HEADER__</h2>
+                        <div class='register-comment-box'>
+                            <div class='register-comment-box-arrow-down'><!-- --></div>
+                            <div class='register-comment-icon register-comment-icon-personalspace'><!-- --></div>
                             <blockquote>
-                                <div class='signup_comment_box_commenter'>__MSG__SIGN_UP_RECOMMEND_NAME_1__,<br/>__MSG__SIGN_UP_RECOMMEND_INSTITUTION_NYU__</div>
-                                <span class='signup_comment_quote'>&quot;__MSG__SIGN_UP_RECOMMEND_MESSAGE_1__&quot;</span>
+                                <div class='register-comment-box-commenter'>__MSG__SIGN_UP_RECOMMEND_NAME_1__,<br/>__MSG__SIGN_UP_RECOMMEND_INSTITUTION_NYU__</div>
+                                <span class='register-comment-quote'>&quot;__MSG__SIGN_UP_RECOMMEND_MESSAGE_1__&quot;</span>
                             </blockquote>
                         </div>
-                        <div class='signup_comment_box'>
-                            <div class='signup_comment_box_arrow_down'><!-- --></div>
-                            <div class='signup_comment_icon signup_comment_icon_cohere'><!-- --></div>
+                        <div class='register-comment-box'>
+                            <div class='register-comment-box-arrow-down'><!-- --></div>
+                            <div class='register-comment-icon register-comment-icon-cohere'><!-- --></div>
                             <blockquote> 
-                                <div class='signup_comment_box_commenter'>__MSG__SIGN_UP_RECOMMEND_NAME_2__,<br/>__MSG__SIGN_UP_RECOMMEND_INSTITUTION_NYU__</div>
-                                <span class='signup_comment_quote'>&quot;__MSG__SIGN_UP_RECOMMEND_MESSAGE_2__&quot;</span>
+                                <div class='register-comment-box-commenter'>__MSG__SIGN_UP_RECOMMEND_NAME_2__,<br/>__MSG__SIGN_UP_RECOMMEND_INSTITUTION_NYU__</div>
+                                <span class='register-comment-quote'>&quot;__MSG__SIGN_UP_RECOMMEND_MESSAGE_2__&quot;</span>
                             </blockquote>
                         </div>
-                        <div class='signup_comment_box last'>
-                            <div class='signup_comment_box_arrow_down'><!-- --></div>
-                            <div class='signup_comment_icon signup_comment_icon_editable'><!-- --></div>
+                        <div class='register-comment-box register-comment-box-last'>
+                            <div class='register-comment-box-arrow-down'><!-- --></div>
+                            <div class='register-comment-icon register-comment-icon-editable'><!-- --></div>
                             <blockquote>
-                                <div class='signup_comment_box_commenter'>__MSG__SIGN_UP_RECOMMEND_NAME_3__,<br/>__MSG__SIGN_UP_RECOMMEND_INSTITUTION_NYU__</div>
-                                <span class='signup_comment_quote'>&quot;__MSG__SIGN_UP_RECOMMEND_MESSAGE_3__&quot;</span>
+                                <div class='register-comment-box-commenter'>__MSG__SIGN_UP_RECOMMEND_NAME_3__,<br/>__MSG__SIGN_UP_RECOMMEND_INSTITUTION_NYU__</div>
+                                <span class='register-comment-quote'>&quot;__MSG__SIGN_UP_RECOMMEND_MESSAGE_3__&quot;</span>
                             </blockquote>
                         </div>
                         <h2>__MSG__INSTITUTIONS_USING_SAKAI__</h2>
-                        <ul id='signup_institution_logos'>
+                        <ul id='register_institution_logos'>
                             <li><img src='/ui/img/logo_inst_nyu.png' alt='__MSG__SIGN_UP_RECOMMEND_INSTITUTION_NYU__'></li>
                             <li><img src='/ui/img/logo_inst_stanford.png' alt='__MSG__SIGN_UP_RECOMMEND_INSTITUTION_STANFORD__'></li>
                             <li><img src='/ui/img/logo_inst_cambridge.png' alt='__MSG__SIGN_UP_RECOMMEND_INSTITUTION_CAMBRIDGE__'></li>
