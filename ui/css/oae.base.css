@@ -716,11 +716,11 @@ caption, .caption {
     width: 5px;
 }
 .oae-container-shadow-left {
-    background: url("/ui/img/container_shadow_left.png") no-repeat scroll 0 0 transparent;
+    background: url('/ui/img/container_shadow_left.png') no-repeat scroll 0 0 transparent;
     margin-left: -5px;
 }
 .oae-container-shadow-right {
-    background: url("/ui/img/container_shadow_right.png") no-repeat scroll 0 0 transparent;
+    background: url('/ui/img/container_shadow_right.png') no-repeat scroll 0 0 transparent;
     float: right;
     margin-left: 960px;
 }
@@ -876,7 +876,7 @@ input.oae-icon {
     color: #999;
 }
 .oae-dropdown-list .oae-dropdown-list-arrow-up {
-    background: url("/dev/images/dropdown_list_arrow_up.png") no-repeat scroll left top transparent;
+    background: url('/ui/img/dropdown_list_arrow_up.png') no-repeat scroll left top transparent;
     height: 20px;
     margin-top: -20px;
     position: absolute;
@@ -884,7 +884,7 @@ input.oae-icon {
     width: 25px;
 }
 .oae-dropdown-list .oae-dropdown-hassubnav {
-    background: url("/dev/images/arrow_right.png") no-repeat right 7px transparent;
+    background: url('/ui/img/arrow_right.png') no-repeat right 7px transparent;
     padding-right: 12px;
 }
 .oae-dropdown-list .oae-dropdown-hassubnav:hover ul,
@@ -1140,7 +1140,7 @@ a:hover {
     text-decoration: underline;
 }
 .oae-add_another_location {
-    background: url(/dev/images/add_blue_icon.png) no-repeat transparent;
+    background: url(/ui/img/add_blue_icon.png) no-repeat transparent;
     clear: both;
     color: #39C;
     display: block;
@@ -1252,7 +1252,7 @@ a.oae-widget-links, span.oae-widget-links, .oae-widget-links a, button.oae-widge
     float: left;
 }
 .oae-page-header-bottom-row .oae-button .oae-page-header-add-to-icon {
-    background: url("/dev/images/savecontent_button_icon_16x16.png") no-repeat scroll left center transparent;
+    background: url('/ui/img/savecontent_button_icon_16x16.png') no-repeat scroll left center transparent;
     display: block;
     float: right;
     height: 18px;
@@ -1260,10 +1260,10 @@ a.oae-widget-links, span.oae-widget-links, .oae-widget-links a, button.oae-widge
     width: 16px;
 }
 .oae-page-header-bottom-row .oae-button:hover .oae-page-header-add-to-icon {
-    background: url("/dev/images/savecontent_button_icon_16x16_hover.png") no-repeat scroll left center transparent;
+    background: url('/ui/img/savecontent_button_icon_16x16_hover.png') no-repeat scroll left center transparent;
 }
 .oae-page-header-bottom-row .oae-button[disabled]:hover .oae-page-header-add-to-icon {
-    background: url("/dev/images/savecontent_button_icon_16x16.png") no-repeat scroll left center transparent;
+    background: url('/ui/img/savecontent_button_icon_16x16.png') no-repeat scroll left center transparent;
 }
 
 /* LIST VIEW OPTIONS */
@@ -1441,7 +1441,7 @@ a.oae-button.oae-header-button {
 
 /* Left pop out buttons */
 .oae-popout-button-shadow {
-    background: url("/dev/images/button_popout_border_shadow.png") no-repeat scroll left top transparent;
+    background: url('/ui/img/button_popout_border_shadow.png') no-repeat scroll left top transparent;
     float: left;
     height: 56px;
     margin-left: -10px;
@@ -1811,7 +1811,7 @@ a.oae-button.oae-overlay-button {
     display: block;
     width: 16px;
     height: 19px;
-    background: url("/dev/images/search_icon.png") no-repeat top left transparent;
+    background: url('/ui/img/search_icon.png') no-repeat top left transparent;
 }
 .oae-search-container .oae-search-result-count {
     color: #666666;
@@ -1823,7 +1823,7 @@ a.oae-button.oae-overlay-button {
  * NO RESULTS VIEW (When a widget feed doesn't return any results)
  */
 .oae-no-results-container {
-    background: url("/dev/images/noresults_bg.png") repeat scroll left top transparent;
+    background: url('/ui/img/noresults_bg.png') repeat scroll left top transparent;
     -moz-border-radius: 5px;
     border-radius: 5px;
     padding: 20px;
@@ -1831,7 +1831,7 @@ a.oae-button.oae-overlay-button {
     list-style: none
 }
 .oae-no-results-container .oae-no-results-arrow-up {
-    background: url("/dev/images/noresults_arrow_up.png") no-repeat top left transparent;
+    background: url('/ui/img/noresults_arrow_up.png') no-repeat top left transparent;
     position: absolute;
     margin-top: -44px;
     width: 36px;
@@ -1857,67 +1857,67 @@ a.oae-button.oae-overlay-button {
     margin: -8px 12px 0 0;
 }
 .oae-no-results-container .oae-no-results-magnifier {
-    background: url("/dev/images/magnifier_icon_55x55.png") no-repeat top left transparent;
+    background: url('/ui/img/magnifier_icon_55x55.png') no-repeat top left transparent;
 }
 .oae-no-results-container .oae-no-results-world {
-    background: url("/dev/images/world_icon_55x55.png") no-repeat top left transparent;
+    background: url('/ui/img/world_icon_55x55.png') no-repeat top left transparent;
 }
 .oae-no-results-container .oae-no-results-people {
-    background: url("/dev/images/person_icon_55x55.png") no-repeat top left transparent;
+    background: url('/ui/img/person_icon_55x55.png') no-repeat top left transparent;
 }
 .oae-no-results-container .oae-no-results-content {
-    background: url("/dev/images/content_icon_55x55.png") no-repeat top left transparent;
+    background: url('/ui/img/content_icon_55x55.png') no-repeat top left transparent;
 }
 .oae-no-results-container .oae-no-results-content-small {
-    background: url("/dev/images/content_icon_42x46.png") no-repeat top left transparent;
+    background: url('/ui/img/content_icon_42x46.png') no-repeat top left transparent;
     width: 46px;
     height: 42px;
 }
 .oae-no-results-container .oae-no-results-memberships {
-    background: url("/dev/images/memberships_icon_60x55.png") no-repeat top left transparent;
+    background: url('/ui/img/memberships_icon_60x55.png') no-repeat top left transparent;
     width: 60px;
 }
 .oae-no-results-container .oae-no-results-memberships-small {
-    background: url("/dev/images/memberships_icon_42x46.png") no-repeat top left transparent;
+    background: url('/ui/img/memberships_icon_42x46.png') no-repeat top left transparent;
     width: 46px;
     height: 42px;
 }
 .oae-no-results-container .oae-no-results-contacts {
-    background: url("/dev/images/contacts_icon_60x55.png") no-repeat top left transparent;
+    background: url('/ui/img/contacts_icon_60x55.png') no-repeat top left transparent;
     width: 60px;
 }
 .oae-no-results-container .oae-no-results-contacts-small {
-    background: url("/dev/images/contacts_icon_42x46.png") no-repeat top left transparent;
+    background: url('/ui/img/contacts_icon_42x46.png') no-repeat top left transparent;
     width: 46px;
     height: 42px;
 }
 .oae-no-results-container .oae-no-results-replied {
-    background: url("/dev/images/replied_icon_55x55.png") no-repeat top left transparent;
+    background: url('/ui/img/replied_icon_55x55.png') no-repeat top left transparent;
 }
 .oae-no-results-container .oae-no-results-trash {
-    background: url("/dev/images/trash_icon_55x55.png") no-repeat top left transparent;
+    background: url('/ui/img/trash_icon_55x55.png') no-repeat top left transparent;
 }
 .oae-no-results-container .oae-no-results-upload {
-    background: url("/dev/images/upload_icon_42x46.png") no-repeat top left transparent;
+    background: url('/ui/img/upload_icon_42x46.png') no-repeat top left transparent;
     width: 46px;
     height: 42px;
 }
 .oae-no-results-container .oae-no-results-search-messages {
-    background: url("/dev/images/no-messages-found-icon.png") no-repeat top left transparent;
+    background: url('/ui/img/no-messages-found-icon.png') no-repeat top left transparent;
     width: 46px;
     height: 42px;
 }
 .oae-no-results-container .oae-no-results-search-world {
-    background: url("/dev/images/world_search_icon_55x55.png") no-repeat scroll left top transparent;
+    background: url('/ui/img/world_search_icon_55x55.png') no-repeat scroll left top transparent;
 }
 .oae-no-results-container .oae-no-results-search-people {
-    background: url("/dev/images/people_search_icon_55x55.png") no-repeat scroll left top transparent;
+    background: url('/ui/img/people_search_icon_55x55.png') no-repeat scroll left top transparent;
 }
 .oae-no-results-container .oae-no-results-search-content {
-    background: url("/dev/images/content_search_icon_55x55.png") no-repeat scroll left top transparent;
+    background: url('/ui/img/content_search_icon_55x55.png') no-repeat scroll left top transparent;
 }
 .oae-no-results-container .oae-no-results-sakai2sites {
-    background: url("/dev/images/sakai2_icon_43x40.png") no-repeat top left transparent;
+    background: url('/ui/img/sakai2_icon_43x40.png') no-repeat top left transparent;
     width: 46px;
     height: 45px;
 }
@@ -1937,53 +1937,53 @@ a.oae-button.oae-overlay-button {
     display: none;
 }
 .oae-actions-delete {
-    background: url("/dev/images/delete_icon_default.png") no-repeat top left transparent;
+    background: url('/ui/img/delete_icon_default.png') no-repeat top left transparent;
 }
 .oae-actions-delete:hover {
-    background: url("/dev/images/delete_icon_hover.png") no-repeat top left transparent;
+    background: url('/ui/img/delete_icon_hover.png') no-repeat top left transparent;
 }
 .oae-actions-addtolibrary {
-    background: url("/dev/images/addtolibrary_icon_default.png") no-repeat top left transparent;
+    background: url('/ui/img/addtolibrary_icon_default.png') no-repeat top left transparent;
     width: 17px;
     height: 25px;
 }
 .oae-actions-addtolibrary:hover {
-    background: url("/dev/images/addtolibrary_icon_hover.png") no-repeat top left transparent;
+    background: url('/ui/img/addtolibrary_icon_hover.png') no-repeat top left transparent;
 }
 .oae-actions-author {
-    background: url("/dev/images/author_icon_default.png") no-repeat scroll left top transparent;
+    background: url('/ui/img/author_icon_default.png') no-repeat scroll left top transparent;
     width: 32px !important;
 }
 .oae-actions-author:hover {
-    background: url("/dev/images/author_icon_hover.png") no-repeat scroll left top transparent;
+    background: url('/ui/img/author_icon_hover.png') no-repeat scroll left top transparent;
 }
 .oae-actions-share {
-    background: url("/dev/images/share_icon_default.png") no-repeat scroll left top transparent;
+    background: url('/ui/img/share_icon_default.png') no-repeat scroll left top transparent;
     width: 23px !important;
 }
 .oae-actions-share:hover {
-    background: url("/dev/images/share_icon_hover.png") no-repeat scroll left top transparent;
+    background: url('/ui/img/share_icon_hover.png') no-repeat scroll left top transparent;
 }
 .oae-actions-message {
-    background: url("/dev/images/message_icon_default.png") no-repeat scroll left top transparent;
+    background: url('/ui/img/message_icon_default.png') no-repeat scroll left top transparent;
 }
 .oae-actions-message:hover {
-    background: url("/dev/images/message_icon_hover.png") no-repeat scroll left top transparent;
+    background: url('/ui/img/message_icon_hover.png') no-repeat scroll left top transparent;
 }
 .oae-button:hover .oae-actions-message {
-    background: url("/dev/images/message_icon_hover.png") no-repeat scroll left top transparent;
+    background: url('/ui/img/message_icon_hover.png') no-repeat scroll left top transparent;
 }
 .oae-button:disabled:hover .oae-actions-message {
-    background: url("/dev/images/message_icon_default.png") no-repeat scroll left top transparent;
+    background: url('/ui/img/message_icon_default.png') no-repeat scroll left top transparent;
 }
 .oae-black-check-icon {
-    background: url("/dev/images/black_check_icon.png") no-repeat scroll left top transparent;
+    background: url('/ui/img/black_check_icon.png') no-repeat scroll left top transparent;
 }
 .oae-above-icon {
-    background: url("/dev/images/above_icon_16x16.png") no-repeat scroll left top transparent;
+    background: url('/ui/img/above_icon_16x16.png') no-repeat scroll left top transparent;
 }
 .oae-below-icon {
-    background: url("/dev/images/below_icon_16x16.png") no-repeat scroll left top transparent;
+    background: url('/ui/img/below_icon_16x16.png') no-repeat scroll left top transparent;
 }
 
 /*
@@ -2137,7 +2137,7 @@ ul.as-selections {
     border: 1px solid #a9a9a9;
 }
 ul.as-selections.loading {
-    background: #fff url(/dev/images/ajax_load.gif) center center no-repeat;
+    background: #fff url(/ui/img/ajax_load.gif) center center no-repeat;
 }
 ul.as-selections li.as-original input {
     border: 0;
@@ -2259,7 +2259,7 @@ ul.as-selections textarea.as-input {
     font-size: 12px;
 }
 .oae-dialog-container .oae-dialog-close {
-    background-image: url('/dev/images/dialog_close.png');
+    background-image: url('/ui/img/dialog_close.png');
     background-color: transparent;
     background-repeat: no-repeat;
 }
@@ -2414,7 +2414,7 @@ ul li.oae-list-item:hover {
 }
 .oae-taglist li:first-child {
     list-style: none;
-    background: url("/devwidgets/entity/images/entity_tags_icon.png") no-repeat scroll 0 -1px transparent;
+    background: url('/devwidgets/entity/images/entity_tags_icon.png') no-repeat scroll 0 -1px transparent;
     padding-left: 20px;
 }
 
@@ -2580,10 +2580,10 @@ ul li.oae-list-item:hover {
 
 /* search results common elements in content people and group results */
 .oae-search-result-content .searchcontent_result_usedin_icon, .oae-search-result-group .searchgroups_result_usedin_icon {
-    background: url("/devwidgets/entity/images/entity_used_by_icon.png") no-repeat scroll left top transparent;
+    background: url('/devwidgets/entity/images/entity_used_by_icon.png') no-repeat scroll left top transparent;
 }
 .oae-search-result-content .searchcontent_result_comments_icon, .oae-search-result-group .searchgroups_result_comments_icon {
-    background: url("/devwidgets/entity/images/entity_comment_icon.png") no-repeat scroll left top transparent;
+    background: url('/devwidgets/entity/images/entity_comment_icon.png') no-repeat scroll left top transparent;
 }
 .oae-search-result-content .searchcontent_result_left_filler, .oae-search-result-person .searchpeople_result_left_filler, .oae-search-result-group .searchgroups_result_left_filler {
     margin: 1px 8px 0 0;
@@ -2878,34 +2878,34 @@ ul li.oae-list-item:hover {
 
 /* Search icons */
 .oae-search-results-gridview {
-    background: url('/dev/images/search_grid_16x16.png') no-repeat top left transparent;
+    background: url('/ui/img/search_grid_16x16.png') no-repeat top left transparent;
 }
 .oae-search-results-gridview:hover,
 .oae-search-results-gridview.selected {
-    background: url('/dev/images/search_grid_16x16_hover.png') no-repeat top left transparent;
+    background: url('/ui/img/search_grid_16x16_hover.png') no-repeat top left transparent;
 }
 .oae-search-results-listview {
-    background: url('/dev/images/search_list_16x16.png') no-repeat top left transparent;
+    background: url('/ui/img/search_list_16x16.png') no-repeat top left transparent;
 }
 .oae-search-results-listview:hover,
 .oae-search-results-listview.selected {
-    background: url('/dev/images/search_list_16x16_hover.png') no-repeat top left transparent;
+    background: url('/ui/img/search_list_16x16_hover.png') no-repeat top left transparent;
 }
 .oae-search-results-carouselview {
-    background: url('/dev/images/search_carousel_16x16.png') no-repeat top left transparent;
+    background: url('/ui/img/search_carousel_16x16.png') no-repeat top left transparent;
     margin-top: -2px;
 }
 .oae-search-results-carouselview:hover,
 .oae-search-results-carouselview.selected {
-    background: url('/dev/images/search_carousel_16x16_hover.png') no-repeat top left transparent;
+    background: url('/ui/img/search_carousel_16x16_hover.png') no-repeat top left transparent;
 }
 .oae-search-results-blogview {
-    background: url('/dev/images/search_blog_16x16.png') no-repeat top left transparent;
+    background: url('/ui/img/search_blog_16x16.png') no-repeat top left transparent;
     margin-top: -1px;
 }
 .oae-search-results-blogview:hover,
 .oae-search-results-blogview.selected {
-    background: url('/dev/images/search_blog_16x16_hover.png') no-repeat top left transparent;
+    background: url('/ui/img/search_blog_16x16_hover.png') no-repeat top left transparent;
 }
 
 /*
@@ -2981,49 +2981,49 @@ ul li.oae-list-item:hover {
 }
 
 .oae-icon-audio {
-    background-image: url(/dev/images/mimetypes/small/sound.png);
+    background-image: url('/ui/img/mimetypes/small/sound.png');
 }
 .oae-icon-collection {
-    background-image: url(/dev/images/mimetypes/small/collection.png);
+    background-image: url('/ui/img/mimetypes/small/collection.png');
 }
 .oae-icon-doc {
-    background-image: url(/dev/images/mimetypes/small/doc.png);
+    background-image: url('/ui/img/mimetypes/small/doc.png');
 }
 .oae-icon-html, .oae-icon-url {
-    background-image: url(/dev/images/mimetypes/small/html.png);
+    background-image: url('/ui/img/mimetypes/small/html.png');
 }
 .oae-icon-image {
-    background-image: url(/dev/images/mimetypes/small/images.png);
+    background-image: url('/ui/img/mimetypes/small/images.png');
 }
 .oae-icon-kmultiple {
-    background-image: url(/dev/images/mimetypes/small/kmultiple.png);
+    background-image: url('/ui/img/mimetypes/small/kmultiple.png');
 }
 .oae-icon-pdf {
-    background-image: url(/dev/images/mimetypes/small/pdf.png);
+    background-image: url('/ui/img/mimetypes/small/pdf.png');
 }
 .oae-icon-pps {
-    background-image: url(/dev/images/mimetypes/small/pps.png);
+    background-image: url('/ui/img/mimetypes/small/pps.png');
 }
 .oae-icon-sakaidoc {
-    background-image: url(/dev/images/mimetypes/small/sakaidoc.png);
+    background-image: url('/ui/img/mimetypes/small/sakaidoc.png');
 }
 .oae-icon-swf {
-    background-image: url(/dev/images/mimetypes/small/swf.png);
+    background-image: url('/ui/img/mimetypes/small/swf.png');
 }
 .oae-icon-spreadsheet {
-    background-image: url(/dev/images/mimetypes/small/spreadsheet.png);
+    background-image: url('/ui/img/mimetypes/small/spreadsheet.png');
 }
 .oae-icon-txt {
-    background-image: url(/dev/images/mimetypes/small/txt.png);
+    background-image: url('/ui/img/mimetypes/small/txt.png');
 }
 .oae-icon-unknown {
-    background-image: url(/dev/images/mimetypes/small/unknown.png);
+    background-image: url('/ui/img/mimetypes/small/unknown.png');
 }
 .oae-icon-video {
-    background-image: url(/dev/images/mimetypes/small/video.png);
+    background-image: url('/ui/img/mimetypes/small/video.png');
 }
 .oae-icon-zip {
-    background-image: url(/dev/images/mimetypes/small/zip.png);
+    background-image: url('/ui/img/mimetypes/small/zip.png');
 }
 
 /*

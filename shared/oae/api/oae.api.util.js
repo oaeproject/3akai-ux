@@ -111,6 +111,9 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
      *   // Template here
      *  --></div>
      *
+     * NOTE: The OAE core APIs will automatically be passed into each template render, so they can be
+     * called inside of each template without having to explicitly pass it in
+     * 
      * IMPORTANT: There should be no line breaks in between the div and the <!-- declarations,
      * because that line break will be recognized as a node and the template won't show up, as
      * it's expecting the comments tag as the first one.
@@ -123,15 +126,17 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
      * @param  {Element|String}     [$output]       jQuery element representing the HTML element in which the template output should be put, or jQuery selector for the output container.
      * @param  {Boolean}            [sanitize]      Whether or not to sanitize the rendered HTML (in order to prevent XSS attacks). By default, sanitization will be done.
      * @return {String}                             The rendered HTML
-     * @throws {Error}                              Error thrown when no template or template data has been provided
+     * @throws {Error}                              Error thrown when no template has been provided
      */
     var renderTemplate = exports.renderTemplate = function($template, data, $output, sanitize) {
         // Parameter validation
         if (!$template) {
             throw new Error('No valid template has been provided');
-        } else if (!data) {
-            throw new Error('No template data has been provided');
         }
+
+        // Add all of the OAE API functions onto the data object
+        data = data || {};
+        data.oae = require('oae/api/oae.core');
         
         // Make sure that the provided template is a jQuery object
         $template = $($template);
