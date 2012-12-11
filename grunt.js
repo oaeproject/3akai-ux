@@ -21,7 +21,7 @@ module.exports = function(grunt) {
                 'admin/**/*.js',
                 'shared/**/*.js',
                 'ui/**/*.js',
-                'widgets/**/*.js'
+                'node_modules/oae-core/**/*.js'
             ]
         },
         watch: {
@@ -41,34 +41,32 @@ module.exports = function(grunt) {
             folder: 'target/'
         },
         requirejs: {
-            appDir: './',
-            baseUrl: './shared',
-            paths: {
-                'jquery-plugins': 'js/jquery-plugins',
-                'jquery': 'js/jquery',
-                'jquery-ui': 'js/jquery-ui.custom',
-                'jquery-cookie': 'js/jquery-plugins/jquery.cookie',
-                'jquery-jstree': 'js/jquery-plugins/jsTree/jquery.jstree.sakai-edit',
-                'jquery-fileupload': 'js/jquery-plugins/jquery.fileupload',
-                'jquery-iframe-transport': 'js/jquery-plugins/jquery.iframe-transport',
-                'jquery-pager': 'js/jquery-plugins/jquery.pager.sakai-edited',
-                'jquery-tagcloud': 'js/jquery-plugins/jquery.tagcloud',
-                'underscore': 'js/underscore',
-                'config': '../ui/configuration'
-            },
-            dir: 'target/optimized',
-            optimize: 'uglify',
-            optimizeCss: 'standard',
-            cssImportIgnore: null,
-            inlineText: true,
-            useStrict: false,
-            pragmas: {},
-            skipPragmas: false,
-            skipModuleInsertion: false,
-            modules: [{
-                name: 'sakai/sakai.dependencies'
-            }],
-            dirExclusionRegExp: /^(\.|tools|target|tests|node_modules)/
+            optimize: {
+                options: {
+                    appDir: './',
+                    baseUrl: './shared',
+                    paths: {
+                        'jquery': 'vendor/js/jquery',
+                        'jquery-plugins': 'vendor/js/jquery-plugins',
+                        'jquery-ui': 'vendor/js/jquery-ui.custom',
+                        'underscore': 'vendor/js/underscore'
+                    },
+                    dir: 'target/optimized',
+                    optimize: 'uglify',
+                    optimizeCss: 'standard',
+                    cssImportIgnore: null,
+                    inlineText: true,
+                    useStrict: false,
+                    pragmas: {},
+                    skipPragmas: false,
+                    skipModuleInsertion: false,
+                    modules: [{
+                        name: 'oae/api/oae.api'
+                    }],
+                    fileExclusionRegExp: /^(\.|tools|target|tests|node_modules(?!\/oae-core))/,
+                    logLevel: 2
+                }
+            }
         },
         hashres: {
             oae: {
@@ -80,23 +78,19 @@ module.exports = function(grunt) {
                     'target/optimized/ui/**/*.js',
                     'target/optimized/ui/**/*.css',
                     'target/optimized/ui/**/*.properties',
-                    'target/optimized/widgets/**/*.js',
-                    'target/optimized/widgets/**/*.html',
-                    'target/optimized/widgets/**/*.css',
-                    'target/optimized/widgets/**/*.properties'
-                ],
-                // Update the paths to hashed files
-                out: shell.find('target/optimized/').filter(function(file) {
-                    return file.match(/^\(shared\/sakai|ui|widgets\)\/.*\.\(html|js|css|json\)$/) && shell.test('-f', file);
-                })
+                    'target/optimized/node_modules/oae-core/**/*.js',
+                    'target/optimized/node_modules/oae-core/**/*.html',
+                    'target/optimized/node_modules/oae-core/**/*.css',
+                    'target/optimized/node_modules/oae-core/**/*.properties'
+                ]
             }
         },
         inlineImg: {
             src: [
                 'target/optimized/admin/**/*.css',
-                'target/optimized/api/**/*.css',
+                'target/optimized/ui/**/*.css',
                 'target/optimized/shared/**/*.css',
-                'target/optimized/widgets/**/*.css'
+                'target/optimized/node_modules/oae-core/**/*.css'
                  ],
             ie8: true,
             base: __dirname
@@ -117,8 +111,19 @@ module.exports = function(grunt) {
         grunt.file.write('target/optimized/ui/version.json', json);
     });
 
+    // Task to hash files
+    grunt.registerTask('hashFiles', function() {
+        this.requires('requirejs');
+        this.requires('inlineImg');
+        var outFiles = shell.find('target/optimized/').filter(function(file) {
+            return file.match(/^\(shared\/oae|ui|node_modules\/oae-core\)\/.*\.\(html|js|css|json\)$/) && shell.test('-f', file);
+        });
+        grunt.config.set('hashres.oae.out', outFiles);
+        grunt.task.run('hashres');
+    });
+
     // Override the test task with the qunit task
     grunt.registerTask('test', 'qunit');
     // Default task.
-    grunt.registerTask('default', 'clean describe requirejs inlineImg hashres writeVersion');
+    grunt.registerTask('default', 'clean describe requirejs inlineImg hashFiles writeVersion');
 };
