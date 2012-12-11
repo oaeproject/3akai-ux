@@ -21,8 +21,7 @@ define(['oae/api/oae.api!', 'jquery', 'underscore', 'jquery-ui', 'vendor/js/l10n
          'jquery-plugins/jqmodal.sakai-edited', 'jquery-plugins/jquery.ba-bbq', 'jquery-plugins/jquery.ba-hashchange', 
          'jquery-plugins/jquery.contentchange.sakai-edited', 'jquery-plugins/jquery.equal-height-columns', 'jquery-plugins/jquery.fileSize',
          'jquery-plugins/jquery.form', 'jquery-plugins/jquery.gritter.sakai-edit',  'jquery-plugins/jquery.infinitescroll-sakai',
-         'jquery-plugins/jquery.properties-parser', 'jquery-plugins/jquery.serializeObject', 'jquery-plugins/jquery.threedots',
-         'jquery-plugins/jquery.validate'],
+         'jquery-plugins/jquery.properties-parser', 'jquery-plugins/jquery.serializeObject', 'jquery-plugins/jquery.validate'],
 
     function(oae, $) {
 
