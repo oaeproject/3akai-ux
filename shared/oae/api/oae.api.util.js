@@ -463,16 +463,29 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
         };
         
         /**
-         * An extension to encodeURIComponent that does not encode i18n characters when using UTF-8.  The javascript global 
-         * encodeURIComponent works on the ASCII character set, meaning it encodes all the reserved characters for URI components, 
-         * and then all characters above Char Code 127. This uses the regular encodeURIComponent function for ASCII characters, 
-         * and passes through all higher char codes. All of this is needed to make sure that UTF-8 elements in URLs are properly
-         * shown instead of decoded
+         * An extension to encodeURIComponent that does not encode non-ASCII UTF-8 characters. The javascript global  encodeURIComponent 
+         * works on the ASCII character set, meaning it encodes all the reserved characters for URI components, and then all characters 
+         * above Char Code 127. This uses the regular encodeURIComponent function for ASCII characters, and passes through all higher 
+         * char codes. All of this is needed to make sure that UTF-8 elements in URLs are properly shown instead of decoded
          * 
          * @param  {String}     input       URL or part of URL to be encoded.
          * @return {String}                 The encoded URL or URL part
          */
-        var safeURL = function(input) {};
+        var safeURL = function(input) {
+            if (!input) {
+                return '';
+            } else {
+                var safeURL = '';
+                for (var i = 0; i < input.length; i++) {
+                    if (input.charCodeAt(i) < 127) {
+                        safeURL += encodeURIComponent(input[i]);
+                    } else {
+                        safeURL += input[i];
+                    }
+                }
+                return safeURL;
+            }
+        };
 
         return {
             'safeUserInput': safeUserInput,
