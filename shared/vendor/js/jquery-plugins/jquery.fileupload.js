@@ -11,7 +11,6 @@
 
 /*jslint nomen: true, unparam: true, regexp: true */
 /*global define, window, document, Blob, FormData, location */
-require(['jquery', 'jquery-ui'], function (jQuery) {
 (function (factory) {
     'use strict';
     if (typeof define === 'function' && define.amd) {
@@ -945,4 +944,3 @@ require(['jquery', 'jquery-ui'], function (jQuery) {
 
     });
 }));
-})(jQuery);

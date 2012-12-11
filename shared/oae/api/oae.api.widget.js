@@ -39,6 +39,8 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
             'url': '/api/ui/widgets',
             'success': function(data) {
                 manifests = data;
+                initOnLoadWidgets();
+                registerLazyLoading();
                 callback(null);
             },
             'error': function(jqXHR, textStatus) {
@@ -114,6 +116,101 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
         $container = $container ? $($container) : $('body');
 
         locateWidgets($container, showSettings, callback);
+    };
+
+    /**
+     * Add a widget declaration element to the page for all of the widgets that have identified themselves as needing to automatically
+     * load on each page. This is done by adding the following to a widget's manifest.json file:
+     * 
+     * ```
+     * 'trigger': {
+     *     'onLoad': true
+     * }
+     * ```
+     * 
+     * Examples for widget that want to use this are Terms & Conditions widgets, etc.
+     * 
+     * @api private
+     */
+    var initOnLoadWidgets = function() {
+        $.each(getWidgetManifests(), function(widgetName, widget) {
+            if (widget.trigger && widget.trigger.onLoad) {
+                var $widget = $('<div>').attr('data-widget', widgetName);
+                $('body').prepend($widget);
+            }
+        });
+    };
+
+    /**
+     * Register all of the widgets that have identified themselves as needing to lazy load when a certain event is triggered or
+     * when an element with a certain selector is clicked. This is done to make sure that widgets are only loaded when they are
+     * really needed, which significantly cuts down on the initial page load time.
+     * 
+     * A widget can be lazy loaded by declaring one or more events to which it listens. When that event is triggered, the widget
+     * will be loaded and rendered. A widget can also be lazy loaded by declaring one or more jquery selectors for which it listens
+     * to click events. When an element with that selector is clicked, the widget will be loaded and rendered.
+     * 
+     * This is done by adding the following to a widget's manifest.json file:
+     * 
+     * ```
+     * 'trigger': {
+     *     'events': ['oae-trigger-event1', 'oae-trigger-event2'],
+     *     'selectors': ['#oae_trigger_link1', '.oae-trigger-link2']
+     * }
+     * ```
+     */
+    var registerLazyLoading = function() {
+        $.each(getWidgetManifests(), function(widgetName, widget) {
+            // Only register the widget for lazy loading if it isn't
+            // set as an onLoad widget
+            if (widget.trigger && !widget.trigger.onLoad) {
+
+                // Convert all of the properties to an array
+                widget.trigger.events = widget.trigger.events || [];
+                if (_.isString(widget.trigger.events)) {
+                    widget.trigger.events = [widget.trigger.events];
+                }
+                widget.trigger.selectors = widget.trigger.selectors || [];
+                if (_.isString(widget.trigger.selectors)) {
+                    widget.trigger.selectors = [widget.trigger.selectors];
+                }
+
+                var lazyLoadWidget = function(callback) {
+                    // Unbind all of the events for the widget
+                    $.each(widget.trigger.events, function(index, eventId) {
+                        $(document).off(eventId);
+                    });
+                    // Also unbind the click events associated to this widget
+                    $.each(widget.trigger.selectors, function(index, selector) {
+                        $(document).off('click', selector);
+                    });
+
+                    // Load and render the widget
+                    insertWidget(widgetName, null, null, false, callback);
+                };
+
+                // Bind the widget to all of the events it wants to listen to
+                $.each(widget.trigger.events, function(index, eventId) {
+                    $(document).on(eventId, function() {
+                        // Pass all of the passed in arguments into the widget, except
+                        // for the event data which will be the first parameter
+                        var args = Array.prototype.slice.call(arguments).slice(1);
+                        lazyLoadWidget(function() {
+                            $(document).trigger(eventId, args);
+                        });
+                    });
+                });
+
+                // Bind the widget to all click handlers it wants to listen to
+                $.each(widget.trigger.selectors, function(index, selector) {
+                    $(document).on('click', selector, function(event, ui) {
+                        lazyLoadWidget(function() {
+                            $(event.target).trigger('click', [event, ui]);
+                        });
+                    });
+                });
+            }
+        });
     };
 
     /**
