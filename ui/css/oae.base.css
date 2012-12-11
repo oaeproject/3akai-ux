@@ -568,7 +568,6 @@ caption, .caption {
     border: 3px solid #cc0000;
 }
 .oae-form-field-wrapper span.oae-error, .oae-form-field-wrapper span.oae-error-after {
-    clear: both;
     background-color: #cc0000;
     color: #fff;
     padding: 0 5px;

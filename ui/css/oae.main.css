@@ -14,6 +14,7 @@
  */
 
 /* 3rd party CSS files */
+@import url(/shared/vendor/css/auth-buttons.css);
 @import url(/shared/vendor/css/jquery.gritter.css);
 @import url(/shared/vendor/css/jquery.autoSuggest.css);
 
