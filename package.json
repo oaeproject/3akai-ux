@@ -26,8 +26,9 @@
   "devDependencies": {
     "grunt": "latest",
     "grunt-clean": "latest",
-    "grunt-requirejs": "latest",
     "grunt-hashres": "latest",
+    "grunt-imagine": "latest",
+    "grunt-requirejs": "latest",
     "shelljs": "latest"
   },
   "bundleDependencies": [

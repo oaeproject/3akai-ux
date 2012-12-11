@@ -12,18 +12,17 @@ module.exports = function(grunt) {
             '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
             ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */'
         },
-        concat: {
-            //dist: {
-            //  src: ['<banner:meta.banner>', '<file_strip_banner:lib/<%= pkg.name %>.js>'],
-            //  dest: 'dist/<%= pkg.name %>.js'
-            //}
-        },
-        min: {},
         qunit: {
             index: ['tests/qunit/tests/unit/*.html']
         },
         lint: {
-            files: ['grunt.js', 'ui/**/*.js']//, 'widgets/**/*.js']
+            files: [
+                'grunt.js',
+                'admin/**/*.js',
+                'shared/**/*.js',
+                'ui/**/*.js',
+                'widgets/**/*.js'
+            ]
         },
         watch: {
             files: '<config:lint.files>',
@@ -38,7 +37,6 @@ module.exports = function(grunt) {
                 module: false
             }
         },
-        uglify: {},
         clean: {
             folder: 'target/'
         },
@@ -92,16 +90,27 @@ module.exports = function(grunt) {
                     return file.match(/^\(shared\/sakai|ui|widgets\)\/.*\.\(html|js|css|json\)$/) && shell.test('-f', file);
                 })
             }
+        },
+        inlineImg: {
+            src: [
+                'target/optimized/admin/**/*.css',
+                'target/optimized/api/**/*.css',
+                'target/optimized/shared/**/*.css',
+                'target/optimized/widgets/**/*.css'
+                 ],
+            ie8: true,
+            base: __dirname
         }
     });
 
     // Load tasks from npm modules
     grunt.loadNpmTasks('grunt-clean');
-    grunt.loadNpmTasks('grunt-requirejs');
     grunt.loadNpmTasks('grunt-hashres');
+    grunt.loadNpmTasks('grunt-imagine');
+    grunt.loadNpmTasks('grunt-requirejs');
 
     // Override the test task with the qunit task
     grunt.registerTask('test', 'qunit');
     // Default task.
-    grunt.registerTask('default', 'clean requirejs hashres');
+    grunt.registerTask('default', 'clean requirejs inlineImg hashres');
 };
