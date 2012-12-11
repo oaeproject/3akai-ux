@@ -736,7 +736,52 @@ caption, .caption {
     top: -4px;
 }
 
-
+/*
+ * MODAL DIALOGS
+ */
+.oae-dialog {
+    color: #333;
+    display: none;
+    left: 50%;
+    margin-left: -250px;
+    position: absolute;
+    top: 50px;
+    width: 500px;
+}
+.oae-dialog-container {
+    background-color: #fff;
+    border: 1px solid #a9a9a9;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding: 7px 20px 12px;
+    box-shadow: 0 0 10px #000;
+    -moz-box-shadow: 0 0 10px #000;
+    -webkit-box-shadow: 0 0 10px #000;
+    color: #424242;
+    font-size: 12px;
+}
+.oae-dialog-container .oae-dialog-close {
+    background: url('/ui/img/dialog_close.png') transparent no-repeat;
+}
+.oae-dialog-container .oae-dialog-close {
+    background-position: left top;
+    width: 19px;
+    height: 17px;
+    float: right;
+    cursor: pointer;
+    margin: -2px -15px 0 0;
+}
+.oae-dialog-container .oae-dialog-close:hover {
+    background-position: left -19px;
+}
+.oae-dialog-container h1.oae-dialog-header {
+    border-bottom: 1px dotted #d4d4d4;
+    color: #666;
+    font-size: 19px;
+    font-weight: normal;
+    padding-bottom: 11px;
+    margin-bottom: 15px;
+}
 
 
 
@@ -2219,88 +2264,6 @@ ul.as-selections textarea.as-input {
     top: 4px;
     z-index: -1;
     width: 0;
-}
-
-/*
- * NEW DIALOG LAYOUT
- */
-.oae-dialog {
-    color: #333;
-    display: none;
-    left: 50%;
-    margin-left: -250px;
-    position: absolute;
-    top: 50px;
-    width: 500px;
-}
-.oae-dialog-container {
-    background-color: #fff;
-    border: 1px solid #a9a9a9;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    padding: 7px 20px 12px;
-    box-shadow: 0 0 10px #000;
-    -moz-box-shadow: 0 0 10px #000;
-    -webkit-box-shadow: 0 0 10px #000;
-    color: #424242;
-    font-size: 12px;
-}
-.oae-dialog-container .oae-dialog-close {
-    background-image: url('/ui/img/dialog_close.png');
-    background-color: transparent;
-    background-repeat: no-repeat;
-}
-.oae-dialog-container .oae-dialog-close {
-    background-position: left top;
-    width: 19px;
-    height: 17px;
-    float: right;
-    cursor: pointer;
-    margin: -2px -15px 0 0;
-}
-.oae-dialog-container .oae-dialog-close:hover {
-    background-position: left -19px;
-}
-.oae-dialog-container h1.oae-dialog-header {
-    border-bottom: 1px dotted #d4d4d4;
-    color: #666;
-    font-size: 19px;
-    font-weight: normal;
-    padding-bottom: 11px;
-    margin-bottom: 15px;
-}
-
-/* Widget bar item counts */
-.oae-counts-outer {
-    padding: 3px 2px;
-    background: #fff;
-    border: 1px solid #D6D9DB;
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    box-shadow: 0 0 4px -2px #A8A8A8 inset;
-    -webkit-box-shadow: 0 0 4px -2px #A8A8A8 inset;
-    -moz-box-shadow: 0 0 4px -2px #A8A8A8 inset;
-    font-size: 11px;
-    position: relative;
-    top: -1px;
-    margin-left: 5px;
-}
-.oae-counts-outer a {
-    padding-right: 6px;
-    color: #707070;
-}
-.oae-counts-inner {
-    color: #fff;
-    padding: 0px 4px;
-    background: #D4D4D4;
-    border: 1px solid #CACACA;
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    box-shadow: 0 0 4px -2px #A2A2A2 inset;
-    -webkit-box-shadow: 0 0 4px -2px #A2A2A2 inset;
-    -moz-box-shadow: 0 0 4px -2px #A2A2A2 inset;
 }
 
 /*

@@ -203,30 +203,96 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
     var hideOnClickOut = exports.hideOnClickOut = function($elementToHide, $ignoreElements, callback) {};
 
     /**
-     * All functionality related to setting up, showing and closing modal dialogs. This uses the jQuery jqModal plugin behind the scenes.
+     * All functionality related to setting up, showing and closing modal dialogs. This uses the jQuery jqModal plugin behind the scenes. By default,
+     * the dialog will be initialized as a modal dialog, unless `modal: false` is passed into the options object. When using jqModal as a modal
+     * dialog, keyboard accessibility will be automatically set up as well.
+     * 
+     * This is an example as to how a modal dialog can be initialized and used.
+     * 
+     * ```
+     * var modal = oae.api.util.modal($('#modal_dialog_id'), options);
+     * modal.open();
+     * modal.close();
+     * ```
      * 
      * @param  {Element|String}     $container       jQuery element representing the element that should become a modal dialog or jQuery selector for that element
      * @param  {Object}             [options]        JSON object containing options to pass to the jqmodal plugin as defined on http://dev.iceburg.net/jquery/jqModal/
+     * @throws {Error}                               Error thrown when an invalid container element has been passed in
      */
     var modal = exports.modal = function($container, options) {
+        // Parameter validation
+        if (!$container) {
+            throw new Error('A valid modal dialog container should be provided');
+        }
 
-        var that = {};
+        //Default values
+        options = options || {};
+        options.modal = options.modal === false ? false : true;
+        options.overlay = options.modal ? 20 : 0;
+
+        // Initialize the overlay
+        $container = $($container);
+        $container.jqm(options);
 
         /**
-         * Open a jqModal dialog that has already been set up
-         * 
-         * @param  {Element|String}     $container       jQuery element representing the modal dialog that should be opened. If the dialog has not been set up first, this will not work.
+         * Open a jqModal dialog.
          */
-        that.open = function() {};
+        var open = function() {
+            if (options.modal) {
+                // If the overlay is a modal dialog, we position it at the current
+                // scroll location, and bind the escape button to close the overlay
+                $container.css('top', $(document).scrollTop() + 50 + 'px');
+                // Set keyboard accessibility on the modal dialog
+                setDialogKeyboardAccessibility();
+            }           
+
+            // Show the dialog
+            $container.jqmShow();
+            // Focus on the first heading in the dialog
+            $container.find(':header:visible:first').attr('tabindex', '0').focus();
+        };
 
         /**
-         * Close a jqModal dialog that has been set up
-         * 
-         * @param  {Element|String}     $container       jQuery element representing the modal dialog that should be closed.
+         * Set up keyboard accessibility for modal dialogs. When the ESC button is pressed, the dialog will
+         * be closed and focus will be returned to the element that had focus before the modal dialog appeared.
+         * It will also make sure that a user can't tab outside of the modal dialog
          */
-        that.close = function($container) {};
+        var setDialogKeyboardAccessibility = function() {
+            // Cache the element that has keyboard focus
+            var $origFocus = $(':focus');
+            $container.off('keydown').on('keydown', function(ev) {
+                // We close the modal dialog when the escape button is pressed and return focus to the
+                // previously selected element
+                if ($container.is(':visible') && $container.has(':focus').length && ev.which === $.ui.keyCode.ESCAPE) {
+                    close();
+                    $origFocus.focus();
+                // If the tab button is pressed, we make sure that focus doesn't leave the modal dialog
+                } else if ($container.is(':visible') && ev.which === $.ui.keyCode.TAB) {
+                    var $tabbable = $(':tabbable', $container);
+                    var focusedIndex = $tabbable.index($(':focus'));
+                    // If we shift-tab from the first element, we move to the last tabbable element in the dialog
+                    if (ev.shiftKey && $tabbable.length && (focusedIndex === 0)) {
+                        $tabbable.last().focus();
+                    // If we tab from the last element, we move to the first tabbable element in the dialog
+                    } else if (!ev.shiftKey && $tabbable.length && (focusedIndex === $tabbable.length - 1)) {
+                        $tabbable.first().focus();
+                    }
+                    return false;
+                }
+            });
+        };
 
-        return that;
+        /**
+         * Close a jqModal dialog.
+         */
+        var close = function() {
+            $container.jqmHide();
+        };
+
+        return {
+            'open': open,
+            'close': close
+        };
     };
 
     /*!
