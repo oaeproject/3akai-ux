@@ -98,8 +98,29 @@ define(['exports'], function(exports) {
      * @param  {Object}          callback.err        Error object containing error code and error message
      * @param  {User[]|Group[]}  callback.members    Array that contains an object for each member. Each object has a role property that contains the role of the member and a profile property that contains the principal profile of the member
      */
-    var getMembers = exports.getMembers = function(contentId, start, limit, callback) {};
-    
+    var getMembers = exports.getMembers = function(contentId, start, limit, callback) {
+        if (!contentId) {
+            throw new Error('A content ID should be provided');
+        }
+
+        var data = {
+            'start': start,
+            'limit': limit,
+        };
+
+        $.ajax({
+            'url': '/api/content/'+ contentId + '/members',
+            'type': 'GET',
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
+
     /**
      * Change the members and managers of a content item.
      * 
