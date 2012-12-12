@@ -48,9 +48,9 @@ define(['exports', 'jquery'], function(exports, $) {
      * @throws {Error}                                                 Error thrown when no module, feature or element has been provided
      */
     var getValue = exports.getValue = function(module, feature, element) {
-        if (!module || config[module] === undefined) {
+        if (!module || !config[module]) {
             throw new Error('A valid module id should be provided when getting a config value');
-        } else if (!feature || config[module][feature] === undefined) {
+        } else if (!feature || !config[module][feature]) {
             throw new Error('A valid feature should be provided when getting a config value');
         } else if (!element || config[module][feature][element] === undefined) {
             throw new Error('A valid element should be provided when getting a config value');
