@@ -88,7 +88,28 @@ define(['exports'], function(exports) {
      * @param  {Object}       callback.err        Error object containing error code and error message
      * @param  {Group[]}      callback.response   An array of groups representing the direct and indirect memberships of the provided user
      */
-    var memberOf = exports.memberOf = function(userId, start, limit, callback) {};
+    var memberOf = exports.memberOf = function(userId, start, limit, callback) {
+        if (!userId) {
+            throw new Error('A username should be provided');
+        }
+
+        var data = {
+            'start': start,
+            'limit': limit
+        };
+
+        $.ajax({
+            'url': '/api/user/' + userId + '/memberships',
+            'type': 'GET',
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Checks whether a group alias exists.
