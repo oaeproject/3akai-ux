@@ -21,7 +21,7 @@ module.exports = function(grunt) {
                 'admin/**/*.js',
                 'shared/**/*.js',
                 'ui/**/*.js',
-                'node_modules/oae-core/**/*.js'
+                'node_modules/oae-*/**/*.js'
             ]
         },
         watch: {
@@ -63,7 +63,7 @@ module.exports = function(grunt) {
                     modules: [{
                         name: 'oae/api/oae.api'
                     }],
-                    fileExclusionRegExp: /^(\.|tools|target|tests|node_modules(?!\/oae-core))/,
+                    fileExclusionRegExp: /^(\.|tools|target|tests|node_modules(?!\/oae-))/,
                     logLevel: 2
                 }
             }
@@ -78,10 +78,10 @@ module.exports = function(grunt) {
                     'target/optimized/ui/**/*.js',
                     'target/optimized/ui/**/*.css',
                     'target/optimized/ui/**/*.properties',
-                    'target/optimized/node_modules/oae-core/**/*.js',
-                    'target/optimized/node_modules/oae-core/**/*.html',
-                    'target/optimized/node_modules/oae-core/**/*.css',
-                    'target/optimized/node_modules/oae-core/**/*.properties'
+                    'target/optimized/node_modules/oae-*/**/*.js',
+                    'target/optimized/node_modules/oae-*/**/*.html',
+                    'target/optimized/node_modules/oae-*/**/*.css',
+                    'target/optimized/node_modules/oae-*/**/*.properties'
                 ]
             }
         },
@@ -90,7 +90,7 @@ module.exports = function(grunt) {
                 'target/optimized/admin/**/*.css',
                 'target/optimized/ui/**/*.css',
                 'target/optimized/shared/**/*.css',
-                'target/optimized/node_modules/oae-core/**/*.css'
+                'target/optimized/node_modules/oae-*/**/*.css'
                  ],
             ie8: true,
             base: __dirname
@@ -116,7 +116,7 @@ module.exports = function(grunt) {
         this.requires('requirejs');
         this.requires('inlineImg');
         var outFiles = shell.find('target/optimized/').filter(function(file) {
-            return file.match(/^\(shared\/oae|ui|node_modules\/oae-core\)\/.*\.\(html|js|css|json\)$/) && shell.test('-f', file);
+            return file.match(/^\(shared\/oae|ui|node_modules\/oae-.*\)\/.*\.\(html|js|css|json\)$/) && shell.test('-f', file);
         });
         grunt.config.set('hashres.oae.out', outFiles);
         grunt.task.run('hashres');
