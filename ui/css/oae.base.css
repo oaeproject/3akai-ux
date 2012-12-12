@@ -2137,7 +2137,7 @@ ul.as-selections {
     border: 1px solid #a9a9a9;
 }
 ul.as-selections.loading {
-    background: #fff url(/dev/images/ajax_load.gif) center center no-repeat;
+    background: #fff url(/ui/img/ajax_load.gif) center center no-repeat;
 }
 ul.as-selections li.as-original input {
     border: 0;

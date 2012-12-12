@@ -151,7 +151,28 @@ define(['exports'], function(exports) {
      * @param  {Object}         callback.err        Error object containing error code and error message
      * @param  {Content[]}      callback.items      Array of content items representing the content items present in the library
      */
-    var getLibrary = exports.getLibrary = function(principalId, start, limit, callback) {};
+    var getLibrary = exports.getLibrary = function(principalId, start, limit, callback) {
+        if (!principalId) {
+            throw new Error('A user ID should be provided');
+        }
+
+        var data = {
+            'start': start,
+            'limit': limit,
+        };
+
+        $.ajax({
+            'url': '/api/content/library/' + principalId,
+            'type': 'GET',
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Set the thumbnail URL of a piece of content. For links and Sakai Docs, this will just be a thumbnail representing their type.
