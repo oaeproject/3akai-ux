@@ -102,7 +102,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-git-describe');
     grunt.loadNpmTasks('grunt-hashres');
     grunt.loadNpmTasks('grunt-imagine');
-    grunt.loadNpmTasks('grunt-requirejs');
+    grunt.loadNpmTasks('grunt-contrib-requirejs');
 
     // Task to write the version to a file
     grunt.registerTask('writeVersion', function() {
