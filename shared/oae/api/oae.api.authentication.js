@@ -54,7 +54,18 @@ define(['exports', 'jquery'], function(exports, $) {
      * @param  {Function}               [callback]          Standard callback method
      * @param  {Object}                 [callback.err]      Error object containing error code and error message   
      */
-    var logout = exports.logout = function(callback) {};
+    var logout = exports.logout = function(callback) {
+        $.ajax({
+            'url': '/api/auth/logout',
+            'type': 'POST',
+            'success': function() {
+                callback(null);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        })
+    };
     
     /**
      * Change the password of the currently logged in user

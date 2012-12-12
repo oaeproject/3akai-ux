@@ -111,6 +111,9 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
      *   // Template here
      *  --></div>
      *
+     * NOTE: The OAE core APIs will automatically be passed into each template render, so they can be
+     * called inside of each template without having to explicitly pass it in
+     * 
      * IMPORTANT: There should be no line breaks in between the div and the <!-- declarations,
      * because that line break will be recognized as a node and the template won't show up, as
      * it's expecting the comments tag as the first one.
@@ -123,15 +126,17 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
      * @param  {Element|String}     [$output]       jQuery element representing the HTML element in which the template output should be put, or jQuery selector for the output container.
      * @param  {Boolean}            [sanitize]      Whether or not to sanitize the rendered HTML (in order to prevent XSS attacks). By default, sanitization will be done.
      * @return {String}                             The rendered HTML
-     * @throws {Error}                              Error thrown when no template or template data has been provided
+     * @throws {Error}                              Error thrown when no template has been provided
      */
     var renderTemplate = exports.renderTemplate = function($template, data, $output, sanitize) {
         // Parameter validation
         if (!$template) {
             throw new Error('No valid template has been provided');
-        } else if (!data) {
-            throw new Error('No template data has been provided');
         }
+
+        // Add all of the OAE API functions onto the data object
+        data = data || {};
+        data.oae = require('oae/api/oae.core');
         
         // Make sure that the provided template is a jQuery object
         $template = $($template);
@@ -355,10 +360,10 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
             // fails validation and will be used to customize the placement of the validation messages
             options.errorPlacement = options.errorPlacement || function($error, $element) {
                 // We position the validation message so it has the same placement and width as the input field
-                $error.css({
-                    'margin-left': $element.position().left,
-                    'width': $element.width()
-                });
+                $error.css('width', $element.width());
+                if (!options.insertAfterLabel) {
+                    $error.css('margin-left', $element.position().left);
+                };
                 // Set the id on the validation message and set the aria-invalid and aria-describedby attributes
                 $error.attr('id', $element.attr('name') + '_error');
                 $element.attr('aria-invalid', 'true');
@@ -405,18 +410,6 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
     };
     
     /**
-     * Truncate a string so it fits inside of the space it has available. Behind the scenes, this uses the jQuery threedots plugin and '...' will be used 
-     * when a string needs to be truncated, otherwise the original string will remain unchanged. 
-     * 
-     * @param  {String}             text        String that needs truncating
-     * @param  {Number}             width       The desired maximum width of the text
-     * @param  {Object}             options     JSON object containing options to pass to the threedots plugin, as defined in http://tpgblog.com/2009/12/21/threedots-the-jquery-ellipsis-plugin/
-     * @param  {String|String[]}    [classes]   CSS class or array of CSS classes to take into account when calculating.
-     * @return {String}                         The truncated string
-     */
-    var threeDots = exports.threeDots = function(text, width, options, classes) {};
-    
-    /**
      * All functionality related to showing and hiding a processing animation, which can be shown when the UI needs to undertake
      * an action that can take a while, like uploading files, etc.
      */
@@ -453,15 +446,21 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
      * to XSS attacks
      */
     var security = exports.security = function() {
-        
+
         /**
-         * Sanitizes HTML content to prevent XSS attacks. All user-generated content should be run through
+         * Sanitizes user input to prevent XSS attacks. All user-generated content should be run through
          * this function before putting it into the DOM
          * 
-         * @param  {String}     input       The HTML string that should be sanitized
-         * @return {String}                 The sanitized HTML string
+         * @param  {String}     [input]     The user input string that should be sanitized. If this is not provided, an empty string will be returned.
+         * @return {String}                 The sanitized user input
          */
-        exports.security.saneHTML = function(input) {};
+        var safeUserInput = function(input) {
+            if (!input) {
+                return '';
+            } else {
+                return $('<div/>').text(input).html();
+            }
+        };
         
         /**
          * An extension to encodeURIComponent that does not encode i18n characters when using UTF-8.  The javascript global 
@@ -473,24 +472,12 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
          * @param  {String}     input       URL or part of URL to be encoded.
          * @return {String}                 The encoded URL or URL part
          */
-        exports.security.safeURL = function(input) {};
-        
-        /**
-         * Encodes the HTML characters inside a string so that the HTML characters (e.g. <, >, ...)
-         * are treated as text and not as HTML entities
-         * 
-         * @param  {String}     input       The string to HTML escape
-         * @return {String}                 The escaped string
-         */
-        exports.security.escapeHTML = function(input) {};
-        
-        /**
-         * Unescapes HTML entities in a string
-         * 
-         * @param  {String}     input       The HTML escaped string to unescape
-         * @return {String}                 The unescaped string
-         */
-        exports.security.unescapeHTML = function(input) {};
+        var safeURL = function(input) {};
+
+        return {
+            'safeUserInput': safeUserInput,
+            'safeURL': safeURL
+        };
     
     };
     
