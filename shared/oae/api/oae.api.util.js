@@ -90,14 +90,19 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
     ////////////////////////////////
     // TRIMPATH TEMPLATE RENDERER //
     ////////////////////////////////
-    
-    // TODO: We want to switch Trimpath out for a better maintained HTML templating engine at some point
-    
-    /*!
-     * Variable that will cache all of the parsed Trimpath templates. This avoids the same
-     * template being parsed over and over again
-     */
-    var templateCache = []
+
+    // Variable that will cache all of the parsed Trimpath templates. This avoids the same
+    // template being parsed over and over again
+    var templateCache = [];
+    // Trimpath modifiers
+    var trimpathModifiers = {
+        'safeUserInput': function(str) {
+            return security().safeUserInput(str);
+        },
+        'safeURL': function(str) {
+            return security().safeURL(str);
+        }
+    }
     
     /**
      * Functionality that allows you to create HTML Templates, using a JSON object. That template 
@@ -112,7 +117,11 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
      *  --></div>
      *
      * NOTE: The OAE core APIs will automatically be passed into each template render, so they can be
-     * called inside of each template without having to explicitly pass it in
+     * called inside of each template without having to explicitly pass it in. There are also two standard
+     * TrimPath modifiers that will be available:
+     * 
+     * - `${value|safeUserInput}`: Should be used for all user input rendered as text
+     * - `${value|safeURL}`: Should be used for all user input used as part of a URL
      * 
      * IMPORTANT: There should be no line breaks in between the div and the <!-- declarations,
      * because that line break will be recognized as a node and the template won't show up, as
@@ -137,6 +146,8 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
         // Add all of the OAE API functions onto the data object
         data = data || {};
         data.oae = require('oae/api/oae.core');
+        // Add the Trimpath modifiers onto the data object.
+        data._MODIFIERS = trimpathModifiers;
         
         // Make sure that the provided template is a jQuery object
         $template = $($template);
@@ -165,8 +176,6 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
         } catch (err) {
             throw new Error('Rendering of template "' + templateId + '" failed: ' + err);
         }
-
-        // TODO: Sanitize HTML
 
         // If an output element has been provided, we can just render the renderer HTML,
         // otherwise we pass it back to the call function
@@ -273,11 +282,12 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
                     // If we shift-tab from the first element, we move to the last tabbable element in the dialog
                     if (ev.shiftKey && $tabbable.length && (focusedIndex === 0)) {
                         $tabbable.last().focus();
+                        return false;
                     // If we tab from the last element, we move to the first tabbable element in the dialog
                     } else if (!ev.shiftKey && $tabbable.length && (focusedIndex === $tabbable.length - 1)) {
                         $tabbable.first().focus();
+                        return false;
                     }
-                    return false;
                 }
             });
         };

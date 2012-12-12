@@ -783,7 +783,43 @@ caption, .caption {
     margin-bottom: 15px;
 }
 
-
+/*
+ * AUTOSUGGEST
+ */
+.oae-autosuggest-wrapper {
+    float: left;
+    position: relative;
+    width: 100%;
+}
+.oae-autosuggest-wrapper ul.as-list {
+    top: 100%;
+    margin-top: -15px;
+}
+.oae-autosuggest_wrapper .oae-list-categories {
+    float: right;
+}
+.oae-autosuggest-wrapper textarea {
+    overflow: hidden;
+}
+ul.as-selections {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    border: 1px solid #a9a9a9;
+}
+ul.as-selections.loading {
+    background: #fff url('/ui/img/ajax_load.gif') center center no-repeat;
+}
+ul.as-selections li.as-original input {
+    border: 0;
+}
+ul.as-selections textarea.as-input, ul.as-selections input.as-input {
+    border: 0;
+    resize: none;
+}
+ul.as-selections textarea.as-input {
+    padding: 0;
+}
 
 
 
@@ -2158,43 +2194,6 @@ input[type=text], input[type=password], input[type=email], input[type=url], text
     margin-top: -7px;
     overflow: hidden;
     padding: 20px 20px 10px;
-}
-/*
- * AUTOSUGGEST
- */
-ul.as-selections {
-    box-shadow: none;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    border: 1px solid #a9a9a9;
-}
-ul.as-selections.loading {
-    background: #fff url(/ui/img/ajax_load.gif) center center no-repeat;
-}
-ul.as-selections li.as-original input {
-    border: 0;
-}
-ul.as-selections textarea.as-input, ul.as-selections input.as-input {
-    border: 0;
-    resize: none;
-}
-ul.as-selections textarea.as-input {
-    padding: 0;
-}
-.autosuggest_wrapper {
-    float: left;
-    position: relative;
-    width: 100%;
-}
-.autosuggest_wrapper ul.as-list {
-    top: 100%;
-    margin-top: -15px;
-}
-.autosuggest_wrapper .list_categories {
-    float: right;
-}
-.autosuggest_wrapper textarea {
-    overflow: hidden;
 }
 /* http://blogs.sitepoint.com/2005/02/26/simple-clearing-of-floats/ */
 .clearfix {

@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports'], function(exports) {
+define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
 
     /**
      * Creates a group.
@@ -54,8 +54,7 @@ define(['exports'], function(exports) {
      * @param  {Object}       [callback.err]                Error object containing error code and error message
      */
     var updateGroup = exports.updateGroup = function (groupId, profileFields, callback) {};
-    
-    
+
     /**
      * Get the members of a group.
      * 
@@ -67,7 +66,7 @@ define(['exports'], function(exports) {
      * @param  {User[]|Group[]}     callback.response   Array of principals representing the group members
      */
     var getGroupMembers = exports.getGroupMembers = function(groupId, start, limit, callback) {};
-    
+
     /**
      * Update the members of a group.
      * 
@@ -77,18 +76,38 @@ define(['exports'], function(exports) {
      * @param  {Object}       [callback.err]      Error object containing error code and error message
      */
     var setGroupMembers = exports.setGroupMembers = function(groupId, members, callback) {};
-    
+
     /**
      * Returns all of the groups that a user is a direct and indirect member of.
      * 
-     * @param  {String}       userId              The user id for which we want to get all of the memberships
+     * @param  {String}       [userId]            The user id for which we want to get all of the memberships. If this is not provided, the current user's id will be used.
      * @param  {String}       [start]             The group id to start from (this will not be included in the response)
      * @param  {Number}       [limit]             The number of members to retrieve
      * @param  {Function}     callback            Standard callback method
      * @param  {Object}       callback.err        Error object containing error code and error message
      * @param  {Group[]}      callback.response   An array of groups representing the direct and indirect memberships of the provided user
+     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */
-    var memberOf = exports.memberOf = function(userId, start, limit, callback) {};
+    var memberOf = exports.memberOf = function(userId, start, limit, callback) {
+        // Default values
+        userId = userId || require('oae/api/oae.core').data.me.userId;
+        limit = limit || 10;
+        
+        // Parameter validation
+        if (!_.isNumber(limit)) {
+            throw new Error('A valid limit should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/user/' + userId + '/memberships',
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Checks whether a group alias exists.
