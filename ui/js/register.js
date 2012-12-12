@@ -86,7 +86,7 @@ require(['jquery', 'oae/api/oae.core', '//www.google.com/recaptcha/api/js/recapt
         // We expect a 200 if it already exists and a 404 if it doesn't exist yet.
         var exists = false;
         $.ajax({
-            url: '/api/auth/' + username,
+            url: '/api/auth/exists/' + username,
             async: callback ? true : false,
             success: function() {
                 // The username already exists
