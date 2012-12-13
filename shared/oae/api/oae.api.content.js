@@ -139,7 +139,29 @@ define(['exports'], function(exports) {
      * @param  {Function}     [callback]          Standard callback method
      * @param  {Object}       [callback.err]      Error object containing error code and error message
      */
-    var shareContent = exports.shareContent = function(contentId, principals, callback) {};
+    var shareContent = exports.shareContent = function(contentId, principals, callback) {
+        if (!contentId) {
+            throw new Error('A content ID should be provided');
+        } else if (!principals.length) {
+            throw new Error('A user to share with should be provided');
+        }
+
+        var data = {
+            'viewers': principals,
+        };
+
+        $.ajax({
+            'url': '/api/content/' + contentId + '/share',
+            'type': 'POST',
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Get a principal library.
