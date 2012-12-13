@@ -355,7 +355,10 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
      * widget rendering. First of all, the new language bundles will be parsed by the i18n API and
      * the HTML fragments will be translated. Next, the CSS and JS tags will be extracted and removed
      * from the HTML fragment, the CSS styles will be added to the header and the JS files will be
-     * required. Finally, all of the widgets will be rendered
+     * required. Finally, all of the widgets will be rendered.
+     * 
+     * NOTE: All text in a widget should be wrapped in an HTML element. Text that is not wrapped in a tag
+     * will not be rendered.
      * 
      * @param  {Object}         widgetFiles     JSON object containing all of the loaded static widget files. The keys are the paths to the widget file, and the value is the actual file content.
      * @param  {Object}         widgetsToLoad   JSON Object representing the widgets that should be loaded

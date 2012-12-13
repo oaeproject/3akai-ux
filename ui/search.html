@@ -25,13 +25,13 @@
                     <!-- SEARCH BAR -->
                     <div class='oae-search' role='search' aria-label='__MSG__SEARCH_FOR__'>
                         <h1 class='oae-bold oae-force-left'>__MSG__SEARCH__</h1>
-                        <div id='search_form' class='oae-search-bar'>
-                            <input type='text' maxlength='255' id='search_text' title='__MSG__SEARCH_FOR__' class='oae-search-inputfield'/>
-                            <button type='button' class='oae-button oae-overlay-button oae-search-button' title='__MSG__SUBMIT_SEARCH__'>
+                        <form id='search_form' class='oae-search-bar'>
+                            <input type='text' maxlength='255' id='search_query' title='__MSG__SEARCH_FOR__' class='oae-search-inputfield'/>
+                            <button type='submit' class='oae-button oae-overlay-button oae-search-button' title='__MSG__SUBMIT_SEARCH__'>
                                 <span class='oae-search-button-icon'></span>
                                 <span class='oae-aural-text'>__MSG__SUBMIT_SEARCH__</span>
-                            </button
-                        </div>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -54,11 +54,6 @@
 
         <!-- FOOTER -->
         <div data-widget='footer'><!-- --></div>
-
-        <!-- TEMPLATE FOR UPDATING CONTENT ITEM ROWS -->
-        <div id='search_content_item_template'><!--
-            ${macro('search.listContentBody',item,sakai)}
-        --></div>
 
         <!-- TEMPLATE CONTAINING THE RESULTS -->
         <div id='search_general_results_template'><!--

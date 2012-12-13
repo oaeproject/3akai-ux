@@ -15,8 +15,7 @@
 
 require(['jquery','oae/api/oae.core'], function($, oae) {
 
-    var searchButton = '#form .oae-search-button';
-    var searchInput = '#form .oae-search-inputfield';
+    // TODO: Replace this with more effective page configuration
     var pubdata = {
         'structure0': {
             'all': {
@@ -135,39 +134,26 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
     };
 
     /**
-     * Generate the left hand navigation
-     * @param {Boolean} success Whether the ajax call was successful
-     * @param {Object} pubdata The public data, necessary to construct the left hand navigation
+     * Set up the search form. Every time the search form is submitted,
+     * the querystring will be adjusted and picked up by the search widgets
      */
-    var generateNav = function() {
-        $(window).trigger('lhnav.init', [pubdata, {}, {}]);
-    };
-
-    var fireSearch = function() {
-        $.bbq.pushState({
-            'q': $(searchInput).val(),
-            'refine': $.bbq.getState('refine')
-        }, 0);
-    };
-
-    ///////////////////
-    // Event binding //
-    ///////////////////
-
-    var eventBinding = function() {
-        $(searchInput).on('keydown', function(ev) {
-            if (ev.keyCode === 13) {
-                fireSearch();
-            }
-        });
-
-        $(searchButton).on('click', function(ev) {
-            fireSearch();
+    var setUpSearch = function() {
+        $('#search_form').submit(function() {;
+            $.bbq.pushState({'q': $('#search_query').val()}, 0);
+            return false;
         });
     };
+    
+    /**
+     * Set up the left hand navigation with the provided structure
+     */
+    var setUpNavigation = function() {
+        $(window).on('lhnav.ready', function() {
+            $(window).trigger('lhnav.init', [pubdata, {}, {}]);
+        });  
+    };
 
-    $(window).on('lhnav.ready', generateNav);
-
-    eventBinding();
+    setUpSearch();
+    setUpNavigation();
 
 });
