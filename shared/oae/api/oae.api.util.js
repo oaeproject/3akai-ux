@@ -41,7 +41,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
         }
 
         $.ajax({
-            'url': '/api/ui/staticBatch',
+            'url': '/api/ui/staticbatch',
             'data': {'files': paths},
             'success': function(data) {
                 callback(null, data);
