@@ -13,216 +13,161 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery','sakai/sakai.api.core'], function($, sakai) {
+require(['jquery','oae/api/oae.core'], function($, oae) {
 
-    sakai_global.search = function() {
-        var worldsOrderIncrement = 3;
-        var searchButton = '#form .oae-search-button';
-        var searchInput = '#form .oae-search-inputfield';
-        var searchUrl = sakai.config.URL.SEARCH_URL;
-        var pubdata = {
-            'structure0': {
-                'all': {
-                    '_ref': 'id9574379429432',
+    var searchButton = '#form .oae-search-button';
+    var searchInput = '#form .oae-search-inputfield';
+    var pubdata = {
+        'structure0': {
+            'all': {
+                '_order': 0,
+                '_ref': 'id9574379429432',
+                '_title': oae.api.i18n.translate('__MSG__ALL_TYPES__'),
+                'main': {
                     '_order': 0,
-                    '_title': sakai.api.i18n.getValueForKey('ALL_TYPES'),
-                    '_url': searchUrl,
-                    'main': {
-                        '_ref': 'id9574379429432',
-                        '_order': 0,
-                        '_title': sakai.api.i18n.getValueForKey('ALL_TYPES'),
-                        '_url': searchUrl
-                    }
-                },
-                'content': {
-                    '_ref': 'id6573920372',
-                    '_order': 1,
-                    '_title': sakai.api.i18n.getValueForKey('CONTENT'),
-                    '_url': searchUrl,
-                    'main': {
-                        '_ref': 'id6573920372',
-                        '_order': 0,
-                        '_title': sakai.api.i18n.getValueForKey('CONTENT'),
-                        '_url': searchUrl
-                    }
-                },
-                'people': {
-                    '_title': sakai.api.i18n.getValueForKey('PEOPLE'),
-                    '_ref': 'id49294509202',
-                    '_order': 2,
-                    '_url': searchUrl,
-                    'main': {
-                        '_ref': 'id49294509202',
-                        '_order': 0,
-                        '_title': sakai.api.i18n.getValueForKey('PEOPLE'),
-                        '_url': searchUrl
-                    }
+                    '_ref': 'id9574379429432',
+                    '_title': oae.api.i18n.translate('__MSG__ALL_TYPES__')
                 }
             },
-            'id9574379429432': {
-                'rows': [
-                    {
-                        'id': 'id4382631',
-                        'columns': [
-                            {
-                                'width': 1,
-                                'elements': [
-                                    {
-                                        'id': 'id8403845',
-                                        'type': 'searchall'
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
+            'content': {
+                '_order': 1,
+                '_ref': 'id6573920372',
+                '_title': oae.api.i18n.translate('__MSG__CONTENT__'),
+                'main': {
+                    '_order': 0,
+                    '_ref': 'id6573920372',
+                    '_title': oae.api.i18n.translate('__MSG__CONTENT__')
+                }
             },
-            'id6573920372': {
-                'rows': [
-                    {
-                        'id': 'id1813095',
-                        'columns': [
-                            {
-                                'width': 1,
-                                'elements': [
-                                    {
-                                        'id': 'id9436392',
-                                        'type': 'searchcontent'
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
+            'people': {
+                '_order': 2,
+                '_ref': 'id49294509202',
+                '_title': oae.api.i18n.translate('__MSG__PEOPLE__'),
+                'main': {
+                    '_order': 0,
+                    '_ref': 'id49294509202',
+                    '_title': oae.api.i18n.translate('__MSG__PEOPLE__')
+                }
             },
-            'id49294509202': {
-                'rows': [
-                    {
-                        'id': 'id152530',
-                        'columns': [
-                            {
-                                'width': 1,
-                                'elements': [
-                                    {
-                                        'id': 'id1187051',
-                                        'type': 'searchpeople'
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
+            'groups': {
+                '_order': 3,
+                '_ref': 'id7645524364',
+                '_title': oae.api.i18n.translate('__MSG__GROUPS__'),
+                'main': {
+                    '_order': 0,
+                    '_ref': 'id7645524364',
+                    '_title': oae.api.i18n.translate('__MSG__GROUPS__')
+                }
             }
-        };
-
-        /**
-         * Generate the left hand navigation
-         * @param {Boolean} success Whether the ajax call was successful
-         * @param {Object} pubdata The public data, necessary to construct the left hand navigation
-         */
-        var generateNav = function(success, pubdata) {
-            if (success) {
-                $(window).trigger('lhnav.init', [pubdata, {}, {}]);
-            } else {
-                debug.error('search.js - Can\'t generate the left hand navigation');
-            }
-        };
-
-        /**
-         * Fetch the templates
-         * @param {Function} callback Callback function
-         */
-        var fetchTemplates = function(callback) {
-            sakai.api.Util.getTemplates(function(success, templates) {
-                if (success) {
-                    for (var c = 0; c < templates.length; c++) {
-                        var category = templates[c];
-                        var refId = sakai.api.Util.generateWidgetId();
-                        var title = sakai.api.i18n.getValueForKey(category.titlePlural);
-                        pubdata.structure0[category.id] = {
-                            '_title': title,
-                            '_ref': refId,
-                            '_order': (c + worldsOrderIncrement),
-                            '_url': searchUrl,
-                            'main': {
-                                '_ref': refId,
-                                '_order': 0,
-                                '_title': title,
-                                '_url': searchUrl
-                            }
-                        };
-                        var searchWidgetId = sakai.api.Util.generateWidgetId();
-                        pubdata[refId] = {
-                            'rows': [
+        },
+        'id9574379429432': {
+            'rows': [
+                {
+                    'id': 'id4382631',
+                    'columns': [
+                        {
+                            'width': 1,
+                            'elements': [
                                 {
-                                    'id': sakai.api.Util.generateWidgetId(),
-                                    'columns': [
-                                        {
-                                            'width': 1,
-                                            'elements': [
-                                                {
-                                                    'id': searchWidgetId,
-                                                    'type': 'searchgroups'
-                                                }
-                                            ]
-                                        }
-                                    ]
+                                    'id': 'id8403845',
+                                    'type': 'searchall'
                                 }
                             ]
-                        };
-                        pubdata[refId][searchWidgetId] = {
-                            'category': category.id
-                        };
-
-                    }
-                } else {
-                    debug.error('Could not get the group templates');
+                        }
+                    ]
                 }
-                if ($.isFunction(callback)) {
-                    callback(success, pubdata);
+            ]
+        },
+        'id6573920372': {
+            'rows': [
+                {
+                    'id': 'id1813095',
+                    'columns': [
+                        {
+                            'width': 1,
+                            'elements': [
+                                {
+                                    'id': 'id9436392',
+                                    'type': 'searchcontent'
+                                }
+                            ]
+                        }
+                    ]
                 }
-            });
-        };
-
-        var fireSearch = function() {
-            $.bbq.pushState({
-                'q': $(searchInput).val(),
-                'refine': $.bbq.getState('refine')
-            }, 0);
-        };
-
-        ///////////////////
-        // Event binding //
-        ///////////////////
-
-        var eventBinding = function() {
-            $(searchInput).on('keydown', function(ev) {
-                if (ev.keyCode === 13) {
-                    fireSearch();
+            ]
+        },
+        'id49294509202': {
+            'rows': [
+                {
+                    'id': 'id152530',
+                    'columns': [
+                        {
+                            'width': 1,
+                            'elements': [
+                                {
+                                    'id': 'id1187051',
+                                    'type': 'searchpeople'
+                                }
+                            ]
+                        }
+                    ]
                 }
-            });
-
-            $(searchButton).on('click', function(ev) {
-                fireSearch();
-            });
-        };
-
-        var renderEntity = function() {
-            $(window).trigger('sakai.entity.init', ['search']);
-        };
-
-        $(window).on('sakai.entity.ready', function() {
-            renderEntity();
-        });
-
-        $(window).on('lhnav.ready', function() {
-            fetchTemplates(generateNav);
-        });
-
-        renderEntity();
-        eventBinding();
-
+            ]
+        },
+        'id7645524364': {
+            'rows': [
+                {
+                    'id': 'id65342243',
+                    'columns': [
+                        {
+                            'width': 1,
+                            'elements': [
+                                {
+                                    'id': 'id0129412',
+                                    'type': 'searchgroups'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
     };
 
-    sakai.api.Widgets.Container.registerForLoad('search');
+    /**
+     * Generate the left hand navigation
+     * @param {Boolean} success Whether the ajax call was successful
+     * @param {Object} pubdata The public data, necessary to construct the left hand navigation
+     */
+    var generateNav = function() {
+        $(window).trigger('lhnav.init', [pubdata, {}, {}]);
+    };
+
+    var fireSearch = function() {
+        $.bbq.pushState({
+            'q': $(searchInput).val(),
+            'refine': $.bbq.getState('refine')
+        }, 0);
+    };
+
+    ///////////////////
+    // Event binding //
+    ///////////////////
+
+    var eventBinding = function() {
+        $(searchInput).on('keydown', function(ev) {
+            if (ev.keyCode === 13) {
+                fireSearch();
+            }
+        });
+
+        $(searchButton).on('click', function(ev) {
+            fireSearch();
+        });
+    };
+
+    $(window).on('lhnav.ready', generateNav);
+
+    eventBinding();
+
 });

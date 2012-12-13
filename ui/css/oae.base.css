@@ -687,7 +687,7 @@ caption, .caption {
 /*
  * SEARCH BOXES
  */
-.oae-search-container .oae-search-button {
+.oae-search .oae-search-button {
     height: 25px !important;
     width: 24px;
     padding: 3px 8px 0 0 !important;
@@ -698,7 +698,7 @@ caption, .caption {
     -moz-box-shadow: none !important;
     -webkit-box-shadow: none !important;
 }
-.oae-search-container input {
+.oae-search input {
     height: 22px;
     padding: 0 4px;
     color: #333;
@@ -706,12 +706,7 @@ caption, .caption {
     border: 1px solid #ccc !important;
     float: left;
 }
-.oae-search-container input::-webkit-input-placeholder, .oae-search-container input:-moz-placeholder {
-    color: #7c7b7b;
-    font-style: italic;
-    font-size: 11px !important;
-}
-.oae-search-container .oae-search-button:hover, .oae-search-container .oae-search-button:focus {
+.oae-search .oae-search-button:hover, .oae-search-bar .oae-search-button:focus {
     background: #fefefe;
     background: -moz-linear-gradient(top, #fefefe 0%, #e8edf0 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fefefe), color-stop(100%,#e8edf0));
@@ -720,17 +715,17 @@ caption, .caption {
     background: -ms-linear-gradient(top, #fefefe 0%,#e8edf0 100%);
     background: linear-gradient(top, #fefefe 0%,#e8edf0 100%);
 }
-.oae-search-container .oae-search-button img {
+.oae-search .oae-search-button img {
     margin: 0 auto;
 }
-.oae-search-container .oae-search-button .oae-search-button-icon {
+.oae-search .oae-search-button .oae-search-button-icon {
     margin: 0 auto;
     display: block;
     width: 16px;
     height: 19px;
     background: url('/ui/img/search_icon.png') no-repeat top left transparent;
 }
-.oae-search-container .oae-search-result-count {
+.oae-search .oae-search-result-count {
     color: #666666;
     position: relative;
     top: -4px;
@@ -922,7 +917,7 @@ ul.as-selections textarea.as-input {
     background: -ms-linear-gradient(top, #f9f9f9 0%,#f6f6f6 50%,#ededed 100%);
     background: linear-gradient(top, #f9f9f9 0%,#f6f6f6 50%,#ededed 100%);
     border-bottom: 1px solid #B3B3B4;
-    min-height: 45px;
+    min-height: 55px;
     margin-top: 40px;
     width: 960px;
 }
@@ -2389,8 +2384,8 @@ ul li.oae-list-item:hover {
  * SEARCH
  */
 
-/* SEARCH BAR */
-.oae-search-bar {
+/* SEARCH HEADER */
+.oae-search-bar .oae-search-container {
     margin-left: 205px;
     position: relative;
     top: -10px;
@@ -2402,7 +2397,6 @@ ul li.oae-list-item:hover {
     display: block;
 }
 
-/* SEARCH HEADER */
 .oae-search-header {
     text-align: left;
     font-weight: normal;
@@ -2443,51 +2437,6 @@ ul li.oae-list-item:hover {
 }
 .oae-search-header .oae-search-selects .oae-search-sort {
     margin-left: 10px;
-}
-
-/* SEARCH REFINE BY TAGS */
-.oae-search-tag {
-    padding: 0;
-    margin: 5px 2px 0 2px;
-}
-.oae-search-activetags span, .oae-search-refineby span {
-    display: inline-block;
-}
-.oae-search-activetags button {
-    color: #6C6C6C;
-    cursor: pointer;
-    border: 1px solid #b4b5b5;
-    border-radius: 10px;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
-    background-color: #FEFEFE;
-}
-.oae-search-activetags button img {
-    margin-left: 8px;
-}
-.oae-search-refineby-list {
-    margin-bottom: 15px;
-}
-.oae-search-refineby .oae-search-refineby-title {
-    margin: 0;
-    font-size: 13px;
-    font-weight: normal;
-    color: #64707E;
-}
-.oae-search-refineby button {
-    cursor: pointer;
-    color: #585858;
-    border: 1px solid #A5BECF;
-    border-radius: 10px;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
-    background: #dceefe;
-    background: -moz-linear-gradient(top, #dceefe 0%, #c1e0f1 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#dceefe), color-stop(100%,#c1e0f1));
-    background: -webkit-linear-gradient(top, #dceefe 0%,#c1e0f1 100%);
-    background: -o-linear-gradient(top, #dceefe 0%,#c1e0f1 100%);
-    background: -ms-linear-gradient(top, #dceefe 0%,#c1e0f1 100%);
-    background: linear-gradient(top, #dceefe 0%,#c1e0f1 100%);
 }
 
 /* SEARCH RESULTS */
