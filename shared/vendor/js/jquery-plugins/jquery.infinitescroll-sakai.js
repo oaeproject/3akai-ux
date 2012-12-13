@@ -16,26 +16,27 @@
 require(['jquery'], function (jQuery) {
 (function($) {
 
-    var containerCache = [];
-
     /**
-     * Function that will provide infinite scrolling for lists of items being
-     * displayed
-     * @param {String} source                If this is a String, it'll be treated as the URL to use for the search action
+     * Function that will provide infinite scrolling for lists of items being displayed. This plugin will take care of retrieving the
+     * list items and deciding when to retrieve the next set of results, as well as the actual appending to the list, showing loading
+     * animations, etc.
+     * 
+     * @param  {String}     source                The REST endpoint URL to use for retrieving server data.
+     * When a function is provided, this will be called with a `parameters` value, specifying the `parameters` that have been passed into the infinite scroll, and a `callback` value. When the function is finished
      *                                       If this is a Function, this will be called to get the lists of results
-     * @param {Object} parameters            Parameters to send along for search requests.
+     * @param  {Object} parameters            Parameters to send along for search requests.
      *                                       The 'items' property will be used to determine how many results are loaded per call [optional]
-     * @param {Function} render              Render callback function called when the plugin is ready to render the list
+     * @param  {Function} render              Render callback function called when the plugin is ready to render the list
      *                                       using a specific template
-     * @param {Function} emptyListProcessor  Function used to deal with an empty result list [optional]
-     * @param {String} loadingImage          Path to the loading image that should be shown when 
-     * @param {Function} postProcessor       Function used to transform the search results before rendering
+     * @param  {Function} emptyListProcessor  Function used to deal with an empty result list [optional]
+     * @param  {String} loadingImage          Path to the loading image that should be shown when 
+     * @param  {Function} postProcessor       Function used to transform the search results before rendering
      *                                       the template [optional]
-     * @param {Function} postRenderer        Function executed after the rendered HTML has been appened to the infinite scroll [optional]                         
-     * @param {Object} initialContent        Initial content to be added to the list [optional]
-     * @param {Function} initialCallback     Function to call with data from initial request [optional]
-     * @param {Object} $scrollContainer      Container used for infinite scrolling that is not the document [optional]
-     * @param {Integer} overrideThreshold    Integer to override the default scroll threshold for when the next request is done [optional]
+     * @param  {Function} postRenderer        Function executed after the rendered HTML has been appened to the infinite scroll [optional]                         
+     * @param  {Object} initialContent        Initial content to be added to the list [optional]
+     * @param  {Function} initialCallback     Function to call with data from initial request [optional]
+     * @param  {Object} $scrollContainer      Container used for infinite scrolling that is not the document [optional]
+     * @param  {Integer} overrideThreshold    Integer to override the default scroll threshold for when the next request is done [optional]
      */
     $.fn.infinitescroll = function(source, parameters, render, emptyListProcessor, loadingImage, postProcessor, postRenderer, initialContent, initialCallback, $scrollContainer, overrideThreshold) {
 
@@ -142,17 +143,6 @@ require(['jquery'], function (jQuery) {
             });
         };
 
-        /**
-         * Function called to prepend items to the list. This will be used when UI caching needs
-         * to be used
-         * @param {Object} items    Array of items to be prepended
-         */
-        var prependItems = function(items) {
-            processList({
-                'results': items
-            }, true);
-        };
-
         ////////////////////
         // List rendering //
         ////////////////////
@@ -160,10 +150,8 @@ require(['jquery'], function (jQuery) {
         /**
          * Add a list of items to the current infinite scroll list.
          * @param {Object} data       List of items to add to the infinite scroll list
-         * @param {Object} prepend    True when we want to prepend the new items to the list
-         *                            False when we want to append the new items to the list
          */
-        var renderList = function(data, prepend) {
+        var renderList = function(data) {
             // Filter out items that are already in the list
             var filteredresults = [];
 
@@ -192,11 +180,7 @@ require(['jquery'], function (jQuery) {
             // Render the template and put it in the container
             var templateOutput = render(data.results, data.total);
             if ($container) {
-                if (prepend) {
-                    $container.prepend(templateOutput);
-                } else {
-                    $container.append(templateOutput);
-                }
+                $container.append(templateOutput);
                 if ($.isFunction(postRenderer)) {
                     postRenderer();
                 }
@@ -258,7 +242,7 @@ require(['jquery'], function (jQuery) {
                         }
                     } else {
                         showHideLoadingContainer(false);
-                        debug.log('An error has occured while retrieving the list of results');
+                        console.error('An error has occured while retrieving the list of results');
                     }
                 });
             // Load the results ourselves
@@ -275,7 +259,7 @@ require(['jquery'], function (jQuery) {
                     },
                     'error': function() {
                         showHideLoadingContainer(false);
-                        debug.log('An error has occured while retrieving the list of results');
+                        console.error('An error has occured while retrieving the list of results');
                     }
                 });
             }
@@ -351,7 +335,6 @@ require(['jquery'], function (jQuery) {
 
         return {
             'removeItems': removeItems,
-            'prependItems': prependItems,
             'kill': kill
         };
 
