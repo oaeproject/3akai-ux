@@ -13,9 +13,9 @@
  * permissions and limitations under the License.
  */
 
-/* 3rd party CSS files */
-@import url(/shared/vendor/css/jquery.gritter.css);
-@import url(/shared/vendor/css/jquery.autoSuggest.css);
+/* 3rd party CSS files -- using relative paths for requirejs optimizer */
+@import url(../../shared/vendor/css/jquery.gritter.css);
+@import url(../../shared/vendor/css/jquery.autoSuggest.css);
 
 /* OAE Specific CSS files */
 @import url(oae.base.css);

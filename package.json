@@ -26,10 +26,10 @@
   "devDependencies": {
     "grunt": "latest",
     "grunt-clean": "latest",
-    "grunt-git-describe": "git://github.com/mikaelkaron/grunt-git-describe.git#master",
-    "grunt-hashres": "latest",
-    "grunt-imagine": "latest",
     "grunt-contrib-requirejs": "latest",
+    "grunt-git-describe": "git://github.com/mikaelkaron/grunt-git-describe.git#master",
+    "grunt-imagine": "latest",
+    "grunt-ver": "latest",
     "shelljs": "latest"
   },
   "bundleDependencies": [

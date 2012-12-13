@@ -63,25 +63,47 @@ module.exports = function(grunt) {
                     modules: [{
                         name: 'oae/api/oae.api'
                     }],
-                    fileExclusionRegExp: /^(\.|tools|target|tests|node_modules(?!\/oae-))/,
+                    fileExclusionRegExp: /^(\.|tools|target|tests|grunt|shelljs)/,
                     logLevel: 2
                 }
             }
         },
-        hashres: {
+        ver: {
             oae: {
+                phases: [
                 // Hash these files
-                files: [
-                    // Warning these files will be renamed
-                    'target/optimized/shared/**/*.js',
-                    'target/optimized/shared/**/*.css',
-                    'target/optimized/ui/**/*.js',
-                    'target/optimized/ui/**/*.css',
-                    'target/optimized/ui/**/*.properties',
-                    'target/optimized/node_modules/oae-*/**/*.js',
-                    'target/optimized/node_modules/oae-*/**/*.html',
-                    'target/optimized/node_modules/oae-*/**/*.css',
-                    'target/optimized/node_modules/oae-*/**/*.properties'
+                    {
+                        files: [
+                            // Warning these files will be renamed
+                            'target/optimized/shared/**/*.js',
+                            'target/optimized/shared/**/*.css',
+                            'target/optimized/ui/**/*.js',
+                            'target/optimized/ui/**/*.css',
+                            'target/optimized/ui/**/*.properties',
+                            'target/optimized/admin/**/*.js',
+                            'target/optimized/admin/**/*.css',
+                            'target/optimized/admin/**/*.properties',
+                            'target/optimized/node_modules/oae-*/**/*.js',
+                            'target/optimized/node_modules/oae-*/**/*.html',
+                            'target/optimized/node_modules/oae-*/**/*.css',
+                            'target/optimized/node_modules/oae-*/**/*.properties'
+                        ],
+                        // Look for references to the above files in these files
+                        references: [
+                           'target/optimized/shared/**/*.js',
+                           'target/optimized/shared/**/*.css',
+                           'target/optimized/ui/**/*.html',
+                           'target/optimized/ui/**/*.js',
+                           'target/optimized/ui/**/*.css',
+                           'target/optimized/admin/**/*.html',
+                           'target/optimized/admin/**/*.js',
+                           'target/optimized/admin/**/*.css',
+                           'target/optimized/node_modules/oae-*/**/*.html',
+                           'target/optimized/node_modules/oae-*/**/*.js',
+                           'target/optimized/node_modules/oae-*/**/*.css',
+                           'target/optimized/node_modules/oae-*/**/*.json'
+                        ]
+                    }
                 ]
             }
         },
@@ -92,7 +114,7 @@ module.exports = function(grunt) {
                 'target/optimized/shared/**/*.css',
                 'target/optimized/node_modules/oae-*/**/*.css'
                  ],
-            ie8: true,
+            ie8: false,
             base: __dirname
         }
     });
@@ -100,7 +122,7 @@ module.exports = function(grunt) {
     // Load tasks from npm modules
     grunt.loadNpmTasks('grunt-clean');
     grunt.loadNpmTasks('grunt-git-describe');
-    grunt.loadNpmTasks('grunt-hashres');
+    grunt.loadNpmTasks('grunt-ver');
     grunt.loadNpmTasks('grunt-imagine');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
 
@@ -111,19 +133,29 @@ module.exports = function(grunt) {
         grunt.file.write('target/optimized/ui/version.json', json);
     });
 
+    // Task to fill out the nginx config template
+    grunt.registerTask('configNginx', function() {
+        if (shell.test('-f', './nginx.json')) {
+            var nginxConf = require('./nginx.json');
+            var template = grunt.file.read('./nginx.conf');
+            grunt.config.set('nginxConf', nginxConf);
+            var conf = grunt.template.process(template);
+            grunt.file.write('./target/optimized/nginx.conf', conf);
+            grunt.log.writeln('nginx.conf rendered at ./target/optimized/nginx.conf'.green);
+        } else {
+            grunt.log.writeln('No nginx.json found, not rendering nginx.conf template'.yellow);
+        }
+    });
+
     // Task to hash files
     grunt.registerTask('hashFiles', function() {
         this.requires('requirejs');
         this.requires('inlineImg');
-        var outFiles = shell.find('target/optimized/').filter(function(file) {
-            return file.match(/^\(shared\/oae|ui|node_modules\/oae-.*\)\/.*\.\(html|js|css|json\)$/) && shell.test('-f', file);
-        });
-        grunt.config.set('hashres.oae.out', outFiles);
-        grunt.task.run('hashres');
+        grunt.task.run('ver');
     });
 
     // Override the test task with the qunit task
     grunt.registerTask('test', 'qunit');
     // Default task.
-    grunt.registerTask('default', 'clean describe requirejs inlineImg hashFiles writeVersion');
+    grunt.registerTask('default', 'clean describe requirejs inlineImg hashFiles writeVersion configNginx');
 };
