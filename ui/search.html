@@ -57,14 +57,90 @@
 
         <!-- TEMPLATE CONTAINING THE RESULTS -->
         <div id="search_general_results_template"><!--
-            {for result in results}
-                {if result.resourceType === 'user'}
-                    // INSERT USER TEMPLATE HERE
-                {elseif result.resourceType === 'group'}
-                    // INSERT GROUP TEMPLATE HERE
-                {elseif result.resourceType === 'content'}
-                    // INSERT CONTENT TEMPLATE HERE
-                {/if}
+            {for r in results}
+                <li class="oae-list-item">
+                    {if r.resourceType === 'user'}
+                        <div class="oae-list-item-banner" style="display: none;">
+                            <div>${r.displayName}</div>
+                        </div>
+                        <div class="oae-list-item-right">
+                            <div class="oae-list-item-right-hidden">
+
+                            </div>
+                            <div class="oae-list-item-right-hidden grid" style="display: none;">
+
+                            </div>
+                        </div>
+                        <img src="/ui/img/lists/puzzle_border.png" class="oae-puzzle-border"/>
+                        <div class="oae-list-item-left">
+                            <img src="http://www.gravatar.com/avatar?s=256" alt="${r.displayName}" class="oae-list-item-profile-picture grid"/>
+                            <div class="oae-list-item-left-inner">
+                                <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" class="oae-force-left"/>
+                                <label for="${r.id}_chk">
+                                    <img src="http://www.gravatar.com/avatar" alt="${r.displayName}" class="oae-list-item-profile-picture"/>
+                                    <img src="/ui/img/entities/${r.resourceType}_icon.png" alt="${r.displayName}" class="oae-list-item-small-picture"/>
+                                    ${r.displayName}
+                                </label>
+                                <div class="participants_institution">Cambridge University</div>
+                            </div>
+                        </div>
+
+                    {elseif r.resourceType === 'group'}
+                        <div class="oae-list-item-banner" style="display: none;">
+                            <div>${r.displayName}</div>
+                        </div>
+                        <div class="oae-list-item-right">
+                            <div class="oae-list-item-right-hidden">
+
+                            </div>
+                            <div class="oae-list-item-right-hidden grid" style="display: none;">
+
+                            </div>
+                        </div>
+                        <img src="/ui/img/lists/puzzle_border.png" class="oae-puzzle-border"/>
+                        <div class="oae-list-item-left">
+                            <img src="http://www.gravatar.com/avatar?s=256" alt="${r.displayName}" class="oae-list-item-profile-picture grid"/>
+                            <div class="oae-list-item-left-inner">
+                                <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" class="oae-force-left"/>
+                                <label for="${r.id}_chk">
+                                    <img src="http://www.gravatar.com/avatar" alt="${r.displayName}" class="oae-list-item-profile-picture"/>
+                                    <img src="/ui/img/entities/${r.resourceType}_icon.png" alt="${r.displayName}" class="oae-list-item-small-picture"/>
+                                    ${r.displayName}
+                                </label>
+                                <div class="participants_institution">Cambridge University</div>
+                            </div>
+                        </div>
+
+                    {elseif r.resourceType === 'content'}
+                        <div class="oae-list-item-banner" style="display: none;">
+                            <div>${r.displayName}</div>
+                        </div>
+                        <div class="oae-list-item-right">
+                            <div class="oae-list-item-right-hidden">
+
+                            </div>
+                            <div class="oae-list-item-right-hidden grid" style="display: none;">
+
+                            </div>
+                        </div>
+                        <img src="/ui/img/lists/puzzle_border.png" class="oae-puzzle-border"/>
+                        <div class="oae-list-item-left">
+                            <img src="http://www.gravatar.com/avatar?s=256" alt="${r.displayName}" class="oae-list-item-profile-picture grid"/>
+                            <div class="oae-list-item-left-inner">
+                                <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" class="oae-force-left"/>
+                                <label for="${r.id}_chk">
+                                    <img src="http://www.gravatar.com/avatar" alt="${r.displayName}" class="oae-list-item-profile-picture"/>
+                                    <img src="/ui/img/mimetypes/small/unknown.png" alt="${r.displayName}" class="oae-list-item-small-picture"/>
+                                    ${r.displayName}
+                                </label>
+                                <div class="participants_institution">Cambridge University</div>
+                            </div>
+                        </div>
+                    {/if}
+
+                    <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" class="oae-list-item-checkbox grid" style="display: none;"/>
+                    <div class="oae-push"></div>
+                </li>
             {/for}
         --></div>
 
