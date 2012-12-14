@@ -3006,12 +3006,12 @@ ul.oae-list.grid li.oae-list-item {
     clear: none;
     float: left;
     height: 162px;
-    margin: 12px 7px;
+    margin: 12px 7px 20px;
     position: relative;
     width: 162px;
 }
 ul.oae-list li.oae-list-item.active {
-    background-color: #e1e1e1;
+    background-color: #dededd;
 }
 
 
@@ -3066,7 +3066,7 @@ ul.oae-list li.oae-list-item.active .oae-list-item-left .oae-list-item-left-inne
 }
 
 ul.oae-list li.oae-list-item .oae-list-item-right {
-    background-color: #e1e1e1;
+    background-color: #dededd;
     float: right;
     min-height: 36px;
     width: 2%;
