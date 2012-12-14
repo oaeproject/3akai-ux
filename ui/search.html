@@ -58,7 +58,7 @@
         <!-- TEMPLATE CONTAINING THE RESULTS -->
         <div id="search_general_results_template"><!--
             {for r in results}
-                <li class="oae-list-item">
+                <li class="oae-list-item" data-id=${r.id}>
                     {if r.resourceType === 'user'}
                         <div class="oae-list-item-banner" style="display: none;">
                             <div>${r.displayName}</div>
