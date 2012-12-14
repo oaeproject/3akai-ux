@@ -108,7 +108,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             }
         });
     };
-    
+
     /**
      * Checks whether a group alias exists.
      * 

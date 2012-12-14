@@ -2989,8 +2989,9 @@ input[type=text], input[type=password], input[type=email], input[type=url], text
 
 /* list containers */
 ul.oae-list {
+    margin: 10px 0 0;
+    padding: 0;
     clear: both;
-    margin: 0;
 }
 ul.oae-list li.oae-list-item {
     clear: both;
@@ -3004,10 +3005,10 @@ ul.oae-list li.oae-list-item {
 ul.oae-list.grid li.oae-list-item {
     clear: none;
     float: left;
-    height: 170px;
+    height: 162px;
     margin: 12px 7px;
     position: relative;
-    width: 170px;
+    width: 162px;
 }
 ul.oae-list li.oae-list-item.active {
     background-color: #e1e1e1;
@@ -3042,7 +3043,7 @@ ul.oae-list.grid li.oae-list-item .oae-list-item-left {
     border-radius: 3px 0 0 3px;
     -moz-border-radius: 3px 0 0 3px;
     -webkit-border-radius: 3px 0 0 3px;
-    height: 170px;
+    height: 162px;
     margin-top: 0;
     overflow: hidden;
     width: 95.5%;
@@ -3071,7 +3072,7 @@ ul.oae-list li.oae-list-item .oae-list-item-right {
     width: 2%;
 }
 ul.oae-list.grid li.oae-list-item .oae-list-item-right {
-    min-height: 170px;
+    min-height: 162px;
     position: relative;
     width: 4%;
     z-index: 1000;
@@ -3107,17 +3108,17 @@ ul.oae-list li.oae-list-item.active .oae-list-item-right {
 }
 
 /* clickable puzzle piece */
-ul.oae-list li.oae-list-item .puzzle_border {
+ul.oae-list li.oae-list-item .oae-puzzle-border {
     margin-left: -9px;
     margin-top: 8px;
     position: absolute;
     z-index: 200;
     cursor: pointer;
 }
-ul.oae-list li.oae-list-item.active .puzzle_border {
+ul.oae-list li.oae-list-item.active .oae-puzzle-border {
     margin-top: 25px;
 }
-ul.oae-list.grid li.oae-list-item .puzzle_border {
+ul.oae-list.grid li.oae-list-item .oae-puzzle-border {
     margin-top: 75px;
 }
 
@@ -3128,7 +3129,7 @@ ul.oae-list.grid li.oae-list-item .oae-list-item-banner {
     display: block !important;
     font-weight: bold;
     position: absolute;
-    width: 170px;
+    width: 162px;
 }
 ul.oae-list.grid li.oae-list-item .oae-list-item-banner > div:first-child {
     background-color: #000;
@@ -3147,9 +3148,9 @@ ul.oae-list.grid li.oae-list-item .oae-list-item-banner > div:first-child + div 
 
 /* profile pictures */
 ul.oae-list.grid li.oae-list-item .oae-list-item-left img.oae-list-item-profile-picture.grid {
-    height: 170px;
+    height: 162px;
     margin: 0;
-    width: 170px;
+    width: 162px;
     display: inline;
 }
 ul.oae-list li.oae-list-item .oae-list-item-left img.oae-list-item-profile-picture {

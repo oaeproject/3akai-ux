@@ -163,8 +163,23 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
         }
     };
 
+    var setUpViewMode = function() {
+        $(document).on('click', '.search_view_grid', function() {
+            $('.oae-search-results .oae-list').addClass('grid');
+        });
+
+        $(document).on('click', '.search_view_list', function() {
+            $('.oae-search-results .oae-list').removeClass('grid');
+        });
+
+        $(document).on('click', '.oae-puzzle-border', function() {
+            $(this).parent().toggleClass('active');
+        });
+    };
+
     setUpSearch();
     setUpNavigation();
     setUpSearchQuery();
+    setUpViewMode();
 
 });
