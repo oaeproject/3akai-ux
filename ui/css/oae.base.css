@@ -816,7 +816,11 @@ ul.as-selections textarea.as-input {
     padding: 0;
 }
 
-
+/* INFINITE SCROLLING */
+.oae-infinitescroll-loading {
+    margin-top: '15px';
+    text-align: 'center';
+}
 
 
 

@@ -153,7 +153,18 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
         });  
     };
 
+    /**
+     * Take the search string from the query string and add it to the search box,
+     * in case the page was loaded with a query already in the URL
+     */
+    var setUpSearchQuery = function() {
+        if ($.bbq.getState('q')) {
+            $('#search_query').val($.bbq.getState('q'));
+        }
+    };
+
     setUpSearch();
     setUpNavigation();
+    setUpSearchQuery();
 
 });
