@@ -1,35 +1,35 @@
 <!DOCTYPE HTML>
-<html xmlns='http://www.w3.org/1999/xhtml'>
+<html xmlns="http://www.w3.org/1999/xhtml">
     <head>
 
-        <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
-        <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1' />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
         <!-- CORE CSS -->
-        <link rel='stylesheet' type='text/css' href='/ui/css/oae.main.css' />
+        <link rel="stylesheet" type="text/css" href="/ui/css/oae.main.css" />
         <!-- PAGE CSS -->
-        <link rel='stylesheet' type='text/css' href='/ui/css/oae.search.css' />
+        <link rel="stylesheet" type="text/css" href="/ui/css/oae.search.css" />
 
     </head>
-    <body class='oae-centered oae-force-hidden'>
+    <body class="oae-centered oae-force-hidden">
 
         <!-- HEADER -->
-        <div class='oae-container-flex header oae-header'>
-            <div class='oae-navigation-container'>
-                <div data-widget='topnavigation'><!-- --></div>
+        <div class="oae-container-flex header oae-header">
+            <div class="oae-navigation-container">
+                <div data-widget="topnavigation"><!-- --></div>
             </div>
-            <div class='oae-fix oae-centered fixed-container oae-fixed-container'>
-                <div class='oae-container-shadow-left'><!-- --></div>
-                <div class='oae-container-shadow-right'><!-- --></div>
-                <div class='oae-page-header'>
+            <div class="oae-fix oae-centered fixed-container oae-fixed-container">
+                <div class="oae-container-shadow-left"><!-- --></div>
+                <div class="oae-container-shadow-right"><!-- --></div>
+                <div class="oae-page-header">
                     <!-- SEARCH BAR -->
-                    <div class='oae-search' role='search' aria-label='__MSG__SEARCH_FOR__'>
-                        <h1 class='oae-bold oae-force-left'>__MSG__SEARCH__</h1>
-                        <form id='search_form' class='oae-search-bar'>
-                            <input type='text' maxlength='255' id='search_query' title='__MSG__SEARCH_FOR__' class='oae-search-inputfield'/>
-                            <button type='submit' class='oae-button oae-overlay-button oae-search-button' title='__MSG__SUBMIT_SEARCH__'>
-                                <span class='oae-search-button-icon'></span>
-                                <span class='oae-aural-text'>__MSG__SUBMIT_SEARCH__</span>
+                    <div class="oae-search" role="search" aria-label="__MSG__SEARCH_FOR__">
+                        <h1 class="oae-bold oae-force-left">__MSG__SEARCH__</h1>
+                        <form id="search_form" class="oae-search-bar">
+                            <input type="text" maxlength="255" id="search_query" title="__MSG__SEARCH_FOR__" class="oae-search-inputfield"/>
+                            <button type="submit" class="oae-button oae-overlay-button oae-search-button" title="__MSG__SUBMIT_SEARCH__">
+                                <span class="oae-search-button-icon"></span>
+                                <span class="oae-aural-text">__MSG__SUBMIT_SEARCH__</span>
                             </button>
                         </form>
                     </div>
@@ -38,25 +38,25 @@
         </div>
 
         <!-- BODY -->
-        <div class='oae-container-flex'>
-            <div class='oae-fix oae-centered fixed-container oae-main-container oae-twocolumn'>
-                <div class='oae-page-column-left'>
-                    <div data-widget='lhnavigation'><!-- --></div>
+        <div class="oae-container-flex">
+            <div class="oae-fix oae-centered fixed-container oae-main-container oae-twocolumn">
+                <div class="oae-page-column-left">
+                    <div data-widget="lhnavigation"><!-- --></div>
                 </div>
-                <div class='oae-page-column-right'>
-                    <div id='oae-page-main-content' class='oae-page-content-padding' role='main'>
-                        <div data-widget='contentauthoring'><!-- --></div>
+                <div class="oae-page-column-right">
+                    <div id="oae-page-main-content" class="oae-page-content-padding" role="main">
+                        <div data-widget="contentauthoring"><!-- --></div>
                     </div>
                 </div>
-                <div class='oae-bottom-spacer'></div>
+                <div class="oae-bottom-spacer"></div>
             </div>
         </div>
 
         <!-- FOOTER -->
-        <div data-widget='footer'><!-- --></div>
+        <div data-widget="footer"><!-- --></div>
 
         <!-- TEMPLATE CONTAINING THE RESULTS -->
-        <div id='search_general_results_template'><!--
+        <div id="search_general_results_template"><!--
             {for result in results}
                 {if result.resourceType === 'user'}
                     // INSERT USER TEMPLATE HERE
@@ -69,9 +69,9 @@
         --></div>
 
         <!-- DEPENDENCIES -->
-        <script data-main='/shared/oae/api/oae.bootstrap.js' src='/shared/vendor/js/require.js'></script>
+        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/require.js"></script>
         <!-- PAGE JS -->
-        <script>require(['/ui/js/search.js']);</script>
+        <script>require(["/ui/js/search.js"]);</script>
 
     </body>
 </html>
