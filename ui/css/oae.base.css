@@ -17,7 +17,7 @@
  * GLOBAL RULES
  */
 html {
-    height: 100%;
+    min-height: 100%;
     color: #000;
     font: 13px/1.231 arial, helvetica, sans-serif;
     background: #f2f2f2;
@@ -818,8 +818,10 @@ ul.as-selections textarea.as-input {
 
 /* INFINITE SCROLLING */
 .oae-infinitescroll-loading {
-    margin-top: '15px';
-    text-align: 'center';
+    display: block;
+    height: 15px;
+    margin: 15px auto 0;
+    width: 48px;
 }
 
 
