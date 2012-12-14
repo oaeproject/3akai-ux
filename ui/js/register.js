@@ -86,7 +86,7 @@ require(['jquery', 'oae/api/oae.core', '//www.google.com/recaptcha/api/js/recapt
         // We expect a 200 if it already exists and a 404 if it doesn't exist yet.
         var exists = false;
         $.ajax({
-            url: '/api/auth/' + username,
+            url: '/api/auth/exists/' + username,
             async: callback ? true : false,
             success: function() {
                 // The username already exists
@@ -119,7 +119,7 @@ require(['jquery', 'oae/api/oae.core', '//www.google.com/recaptcha/api/js/recapt
                     'validusername': true
                 },
                 'password': {
-                    'minlength': 4
+                    'minlength': 6
                 },
                 'password_repeat': {
                     'equalTo': '#password'
@@ -139,7 +139,7 @@ require(['jquery', 'oae/api/oae.core', '//www.google.com/recaptcha/api/js/recapt
                 },
                 'password': {
                     'required': oae.api.i18n.translate('__MSG__PLEASE_ENTER_YOUR_PASSWORD__'),
-                    'minlength': oae.api.i18n.translate('__MSG__YOUR_PASSWORD_SHOULD_BE_AT_LEAST_FOUR_CHARACTERS_LONG__')
+                    'minlength': oae.api.i18n.translate('__MSG__YOUR_PASSWORD_SHOULD_BE_AT_LEAST_SIX_CHARACTERS_LONG__')
                 },
                 'password_repeat': {
                     'required': oae.api.i18n.translate('__MSG__PLEASE_REPEAT_YOUR_PASSWORD__'),

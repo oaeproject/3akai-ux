@@ -52,7 +52,7 @@ define(['exports', 'jquery'], function(exports, $) {
             throw new Error('A valid module id should be provided when getting a config value');
         } else if (!feature || !config[module][feature]) {
             throw new Error('A valid feature should be provided when getting a config value');
-        } else if (!element || !config[module][feature][element]) {
+        } else if (!element || config[module][feature][element] === undefined) {
             throw new Error('A valid element should be provided when getting a config value');
         }
 
