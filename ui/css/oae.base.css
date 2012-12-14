@@ -2772,34 +2772,41 @@ input[type=text], input[type=password], input[type=email], input[type=url], text
 
 /* Search icons */
 .oae-search-results-gridview {
-    background: url('/ui/img/search_grid_16x16.png') no-repeat top left transparent;
+    background: url('/ui/img/search_grid_16x16.png') no-repeat center center transparent;
 }
 .oae-search-results-gridview:hover,
 .oae-search-results-gridview.selected {
-    background: url('/ui/img/search_grid_16x16_hover.png') no-repeat top left transparent;
+    background: url('/ui/img/search_grid_16x16_hover.png') no-repeat center center transparent;
 }
 .oae-search-results-listview {
-    background: url('/ui/img/search_list_16x16.png') no-repeat top left transparent;
+    background: url('/ui/img/search_list_16x16.png') no-repeat center center transparent;
 }
 .oae-search-results-listview:hover,
 .oae-search-results-listview.selected {
-    background: url('/ui/img/search_list_16x16_hover.png') no-repeat top left transparent;
+    background: url('/ui/img/search_list_16x16_hover.png') no-repeat center center transparent;
+}
+.oae-search-results-expandedlistview {
+    background: url('/ui/img/search_expandedlist_16x16.png') no-repeat center center transparent;
+}
+.oae-search-results-expandedlistview:hover,
+.oae-search-results-expandedlistview.selected {
+    background: url('/ui/img/search_expandedlist_16x16_hover.png') no-repeat center center transparent;
 }
 .oae-search-results-carouselview {
-    background: url('/ui/img/search_carousel_16x16.png') no-repeat top left transparent;
+    background: url('/ui/img/search_carousel_16x16.png') no-repeat center center transparent;
     margin-top: -2px;
 }
 .oae-search-results-carouselview:hover,
 .oae-search-results-carouselview.selected {
-    background: url('/ui/img/search_carousel_16x16_hover.png') no-repeat top left transparent;
+    background: url('/ui/img/search_carousel_16x16_hover.png') no-repeat center center transparent;
 }
 .oae-search-results-blogview {
-    background: url('/ui/img/search_blog_16x16.png') no-repeat top left transparent;
+    background: url('/ui/img/search_blog_16x16.png') no-repeat center center transparent;
     margin-top: -1px;
 }
 .oae-search-results-blogview:hover,
 .oae-search-results-blogview.selected {
-    background: url('/ui/img/search_blog_16x16_hover.png') no-repeat top left transparent;
+    background: url('/ui/img/search_blog_16x16_hover.png') no-repeat center center transparent;
 }
 
 /*
@@ -3027,16 +3034,22 @@ ul.oae-list li.oae-list-item .oae-list-item-left {
     margin-left: .5%;
     height: 34px;
 }
+ul.oae-list.expandedlist li.oae-list-item:hover .oae-list-item-left,
 ul.oae-list li.oae-list-item:hover .oae-list-item-left {
     width: 95.5%;
 }
 ul.oae-list li.oae-list-item.active .oae-list-item-left {
     box-shadow: 0 0 2px 0 #999;
 }
+ul.oae-list.expandedlist li.oae-list-item.active .oae-list-item-left,
 ul.oae-list li.oae-list-item.active .oae-list-item-left,
 ul.oae-list li.oae-list-item.active:hover .oae-list-item-left {
     height: 70px;
     width: 52%;
+}
+ul.oae-list.expandedlist li.oae-list-item .oae-list-item-left {
+    height: 70px;
+    width: 97.5%;
 }
 ul.oae-list.grid li.oae-list-item:hover .oae-list-item-left,
 ul.oae-list.grid li.oae-list-item .oae-list-item-left {
@@ -3099,6 +3112,7 @@ ul.oae-list li.oae-list-item .oae-list-item-right .oae-list-item-right-hidden {
 ul.oae-list.grid .oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden {
     display: none;
 }
+ul.oae-list.expandedlist li.oae-list-item .oae-list-item-right,
 ul.oae-list li.oae-list-item.active .oae-list-item-right {
     min-height: 74px;
 }
@@ -3115,6 +3129,7 @@ ul.oae-list li.oae-list-item .oae-puzzle-border {
     z-index: 200;
     cursor: pointer;
 }
+ul.oae-list.expandedlist li.oae-list-item .oae-puzzle-border,
 ul.oae-list li.oae-list-item.active .oae-puzzle-border {
     margin-top: 25px;
 }
@@ -3160,6 +3175,7 @@ ul.oae-list li.oae-list-item .oae-list-item-left img.oae-list-item-profile-pictu
     width: 50px;
     margin: 0 12px;
 }
+ul.oae-list.expandedlist li.oae-list-item .oae-list-item-left img.oae-list-item-profile-picture,
 ul.oae-list li.oae-list-item.active .oae-list-item-left img.oae-list-item-profile-picture {
     display: block;
 }
@@ -3174,6 +3190,7 @@ ul.oae-list li.oae-list-item .oae-list-item-left .oae-list-item-left-inner img.o
 ul.oae-list li.oae-list-item .oae-list-item-left .oae-list-item-left-inner img.oae-list-item-small-picture + div {
     margin-left: -26px;
 }
+ul.oae-list.expandedlist li.oae-list-item .oae-list-item-left .oae-list-item-left-inner img.oae-list-item-small-picture,
 ul.oae-list li.oae-list-item.active .oae-list-item-left .oae-list-item-left-inner img.oae-list-item-small-picture {
     display: none;
 }
@@ -3219,6 +3236,7 @@ ul.oae-list li.oae-list-item label {
     letter-spacing: 0.04em;
     margin: 0 7px;
 }
+ul.oae-list.expandedlist li.oae-list-item label,
 ul.oae-list li.oae-list-item.active label {
     font-size: 16px;
     margin: 0;
