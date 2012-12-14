@@ -17,11 +17,11 @@
  * Load all of the 3rd party libraries that need to be present from the very beginning, as well as the actual
  * core client-side Sakai OAE APIs
  */
-define(['oae/api/oae.api!', 'jquery', 'underscore', 'jquery-ui', 'vendor/js/l10n/globalize', 'vendor/js/html-sanitizer',
-         'jquery-plugins/jqmodal.sakai-edited', 'jquery-plugins/jquery.ba-bbq', 'jquery-plugins/jquery.ba-hashchange', 
-         'jquery-plugins/jquery.contentchange.sakai-edited', 'jquery-plugins/jquery.equal-height-columns', 'jquery-plugins/jquery.fileSize',
-         'jquery-plugins/jquery.form', 'jquery-plugins/jquery.gritter.sakai-edit',  'jquery-plugins/jquery.infinitescroll-sakai',
-         'jquery-plugins/jquery.properties-parser', 'jquery-plugins/jquery.serializeObject', 'jquery-plugins/jquery.validate'],
+define(['oae/api/oae.api!', 'jquery', 'underscore', 'jquery-ui', 'vendor/js/l10n/globalize', 'jquery-plugins/jqmodal.sakai-edited',
+        'jquery-plugins/jquery.ba-bbq', 'jquery-plugins/jquery.ba-hashchange', 'jquery-plugins/jquery.contentchange.sakai-edited',
+        'jquery-plugins/jquery.equal-height-columns', 'jquery-plugins/jquery.fileSize', 'jquery-plugins/jquery.form',
+        'jquery-plugins/jquery.gritter.sakai-edit',  'jquery-plugins/jquery.infinitescroll-sakai', 'jquery-plugins/jquery.properties-parser',
+        'jquery-plugins/jquery.serializeObject', 'jquery-plugins/jquery.validate'],
 
     function(oae, $) {
 

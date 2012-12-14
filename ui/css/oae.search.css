@@ -13,6 +13,14 @@
  * permissions and limitations under the License.
  */
 
-#index_content {
-    padding: 20px;
+/* Search bar */
+.oae-search h1 {
+    font-size: 18px;
+    margin-left: 25px;
+    margin-top: 15px;
+}
+.oae-search .oae-search-bar {
+    margin-left: 205px;
+    position: relative;
+    top: 15px;
 }

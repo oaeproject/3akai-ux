@@ -12,7 +12,6 @@
 /*jslint unparam: true, nomen: true */
 /*global define, window, document */
 
-require(['jquery', 'jquery-ui'], function (jQuery) {
 (function (factory) {
     'use strict';
     if (typeof define === 'function' && define.amd) {
@@ -170,4 +169,3 @@ require(['jquery', 'jquery-ui'], function (jQuery) {
     });
 
 }));
-})(jQuery);
