@@ -15,7 +15,10 @@
 
 require(['jquery','oae/api/oae.core'], function($, oae) {
 
-    // TODO: Redirect if not logged in
+    // Redirect the user back to the landing page if he is not logged in
+    if (oae.data.me.anon) {
+        document.location = '/';
+    }
 
     // TODO: Replace this with more effective page configuration
     var privdata = {
