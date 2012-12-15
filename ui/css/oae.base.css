@@ -818,15 +818,55 @@ ul.as-selections textarea.as-input {
 
 /* INFINITE SCROLLING */
 .oae-infinitescroll-loading {
-    margin-top: '15px';
-    text-align: 'center';
+    margin-top: 15px;
+    text-align: center;
 }
 
-
-
-
-
-
+/* ENTITY */
+.oae-entity-container {
+    padding: 20px;
+}
+.oae-entity-container button.oae-entity-picture {
+    background: none repeat scroll 0 center transparent;
+    border: 0 none;
+    cursor: pointer;
+    display: inline-block;
+    float: left;
+    margin-right: 10px;
+    padding: 3px 0 3px 3px;
+}
+.oae-entity-container button.oae-entity-picture:hover {
+    background-color: #32b3ec;
+}
+.oae-entity-container button.oae-entity-picture .oae-entity-picture-image {
+    background-color: #FFFFFF;
+    box-shadow: 0 0 1px 2px #AAAAAA;
+    float: left;
+    height: 50px;
+    padding: 1px;
+    width: 50px;
+}
+.oae-entity-container button.oae-entity-picture .oae-entity-picture-image img {
+    height: 50px;
+    width: 50px;
+}
+.oae-entity-container button.oae-entity-picture .oae-dropdown-menu-arrow {
+    background: url('/node_modules/oae-core/entity/images/entity_changepic_arrow.png') no-repeat top left transparent;
+    height: 6px;
+    margin: 45px 1px 0 4px;
+    width: 12px;
+    float: right;
+}
+.oae-entity-container button.oae-entity-picture:hover .oae-dropdown-menu-arrow {
+    background: url('/node_modules/oae-core/entity/images/entity_changepic_hover_arrow.png') no-repeat top left transparent;
+}
+.oae-entity-container .oae-entity-title {
+    clear: both;
+    font-size: 14px;
+    padding: 5px 5px 0px;
+    color: #666;
+    word-wrap: break-word;
+}
 
 
 
