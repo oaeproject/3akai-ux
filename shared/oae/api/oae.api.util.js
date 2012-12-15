@@ -437,9 +437,14 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
             options.errorPlacement = options.errorPlacement || function($error, $element) {
                 // We position the validation message so it has the same placement and width as the input field
                 $error.css('width', $element.width());
-                if (!options.insertAfterLabel) {
+                if (options.insertAfterLabel) {
+                    console.log($element.position().left);
+                    console.log($element.parent().position().left);
+                    //$error.css('margin-left', $element.position().left - $element.parent().position().left);
                     $error.css('margin-left', $element.position().left);
-                };
+                } else {
+                    $error.css('margin-left', $element.position().left);
+                }
                 // Set the id on the validation message and set the aria-invalid and aria-describedby attributes
                 $error.attr('id', $element.attr('name') + '_error');
                 $element.attr('aria-invalid', 'true');

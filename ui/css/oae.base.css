@@ -563,6 +563,7 @@ caption, .caption {
     clear: both;
     text-align: left;
     padding: 0;
+    margin-bottom: 7px;
 }
 .oae-form-field-wrapper input.oae-error, .oae-form-field-wrapper textarea.oae-error, .oae-form-field-wrapper input.oae-error-after, .oae-form-field-wrapper textarea.oae-error-after, .oae-form-field-wrapper ul.as-selections.oae-error {
     border: 3px solid #cc0000;
