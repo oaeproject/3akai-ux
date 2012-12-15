@@ -579,20 +579,31 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
          * Redirect the currently logged in user to the landing/login page. This can be used when an anonymous user tries to access
          * a page that requires login.
          */
-        exports.redirect.redirectToLogin = function() {};  
+        var redirectToLogin = function() {
+            document.location = '/';
+        };  
         
         /**
          * Redirect the currently logged in user to the 403 page. This can be used when the currently logged user does not have
          * permission to see a certain page.
          */
-        exports.redirect.redirectTo403 = function() {};
+        var redirectTo403 = function() {
+            document.location = '/403'
+        };
         
         /**
          * Redirect the currently logged in user to the 404 page. This can be used when the user requests a page that cannot
          * be found.
          */
-        exports.redirect.redirectTo404 = function() {};
+        var redirectTo404 = function() {
+            document.location = '/404'
+        };
         
+        return {
+            'redirectToLogin': redirectToLogin,
+            'redirectTo403': redirectTo403,
+            'redirectTo404': redirectTo404
+        };
     };
     
     /**
@@ -624,6 +635,8 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
      * Function that can be called once a specific page has finished checking for access by the content user, to avoid flickering when
      * the user doesn't have access. This function will then show the page and set the page title.
      */
-    var showPage = exports.showPage = function() {};
+    var showPage = exports.showPage = function() {
+        $('body').show();
+    };
 
 });

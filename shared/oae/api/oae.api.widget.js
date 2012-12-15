@@ -208,6 +208,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
                         lazyLoadWidget(function() {
                             $(event.target).trigger('click', [event, ui]);
                         });
+                        return false;
                     });
                 });
             }
