@@ -20,4 +20,7 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
         oae.api.util.redirect().redirectToLogin();
     }
 
+    // Set the browser title
+    oae.api.util.setBrowserTitle('__MSG__CREATE_A_GROUP__');
+
 });
