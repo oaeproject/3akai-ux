@@ -107,6 +107,8 @@ require(['jquery', 'oae/api/oae.core'], function($, oae) {
             userProfile = profile;
             renderEntity();
             setUpNavigation();
+            // Set the browser title
+            oae.api.util.setBrowserTitle(userProfile.profile.displayName);
             // We can now unhide the page
             oae.api.util.showPage();
         });

@@ -20,6 +20,9 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
         oae.api.util.redirect().redirectToLogin();
     }
 
+    // Set the browser title
+    oae.api.util.setBrowserTitle(oae.data.me.profile.displayName);
+
     // TODO: Replace this with more effective page configuration
     var privdata = {
         'structure0': {
