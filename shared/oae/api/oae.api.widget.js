@@ -41,6 +41,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
                 manifests = data;
                 initOnLoadWidgets();
                 registerLazyLoading();
+                registerHashBinding();
                 callback(null);
             },
             'error': function(jqXHR, textStatus) {
@@ -231,7 +232,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
         }
         
         // If the provided URL is already an absolute URL, we just return it
-        if (url.substring(0, 1) === '/') {
+        if (url.substring(0, 1) === '/' || url.substring(0, 4) === 'http') {
             return url;
         } else {
             return prefix + url;
@@ -451,6 +452,52 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
         if (loadedWidgets[widgetName].widgetFunction) {
             loadedWidgets[widgetName].widgetFunction(widgetId, showSettings);
         }
+    };
+
+    /**
+     * Register all of the widgets that have indicated that they want to listen to certain hash parameter changes.
+     * Every time the hash is changed, this function will look which widgets are interested in the removed/added/changed
+     * hash parameters. For all widgets interested in a changed hash parameter, a `hashchange.<widgetName>.oae` event
+     * will be triggered.
+     * 
+     * A widget can start listening to hash parameter changes by adding the following to its manifest.json file:
+     * 
+     * ```
+     * 'hashParams': ['hashParam1', 'hashParam2'],
+     * ```
+     */
+    var registerHashBinding = function() {
+        // Cache the hash state on page load
+        var oldState = $.bbq.getState();
+        // Bind to the global hashchange event
+        $(window).on('hashchange', function() {
+            // Get the current hash state
+            var newState = $.bbq.getState();
+            // Determine which widgets are interested in the changes
+            $.each(getWidgetManifests(), function(widgetName, widget) {
+                if (widget.hashParams) {
+                    var triggerEvent = false;
+                    $.each(widget.hashParams, function(index, hashParam) {
+                        // If the current state has the value
+                        if (newState[hashParam]) {
+                            // Check if the value has been added or if the value has been changed
+                            if (newState[hashParam] !== oldState[hashParam]) {
+                                triggerEvent = true;
+                            }
+                        // If the current state doesn't have the value, but the
+                        // old one does, then the parameter has been removed    
+                        } else if (oldState[hashParam]) {
+                            triggerEvent = true;
+                        }
+                        if (triggerEvent) {
+                            // Inform the widget of the hash change
+                            $(window).trigger('hashchanged.' + widgetName + '.oae', [newState]);
+                        }
+                    });
+                }
+            });
+            oldState = newState;
+        });
     };
 
     /**
