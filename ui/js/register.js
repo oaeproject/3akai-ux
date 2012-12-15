@@ -18,7 +18,7 @@ require(['jquery', 'oae/api/oae.core', '//www.google.com/recaptcha/api/js/recapt
     // Redirect the user back to the landing page if he is already logged in or if
     // creating an internal account isn't allowed
     if (!oae.data.me.anon || !oae.api.config.getValue('oae-authentication', 'local', 'allowAccountCreation')) {
-        document.location = '/';
+        oae.api.util.redirect().redirectToLogin();
     }
 
     // Set the browser title

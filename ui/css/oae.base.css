@@ -824,12 +824,11 @@ ul.as-selections textarea.as-input {
 
 /* ENTITY */
 .oae-entity-container {
-    padding: 20px;
+    padding: 10px 20px;
 }
-.oae-entity-container button.oae-entity-picture {
+.oae-entity-container .oae-entity-picture {
     background: none repeat scroll 0 center transparent;
     border: 0 none;
-    cursor: pointer;
     display: inline-block;
     float: left;
     margin-right: 10px;
@@ -837,8 +836,9 @@ ul.as-selections textarea.as-input {
 }
 .oae-entity-container button.oae-entity-picture:hover {
     background-color: #32b3ec;
+    cursor: pointer;
 }
-.oae-entity-container button.oae-entity-picture .oae-entity-picture-image {
+.oae-entity-container .oae-entity-picture .oae-entity-picture-image {
     background-color: #FFFFFF;
     box-shadow: 0 0 1px 2px #AAAAAA;
     float: left;
@@ -851,17 +851,21 @@ ul.as-selections textarea.as-input {
     width: 50px;
 }
 .oae-entity-container button.oae-entity-picture .oae-dropdown-menu-arrow {
-    background: url('/node_modules/oae-core/entity/images/entity_changepic_arrow.png') no-repeat top left transparent;
+    background: url('/ui/img/entity_changepic_arrow.png') no-repeat top left transparent;
     height: 6px;
     margin: 45px 1px 0 4px;
     width: 12px;
     float: right;
 }
 .oae-entity-container button.oae-entity-picture:hover .oae-dropdown-menu-arrow {
-    background: url('/node_modules/oae-core/entity/images/entity_changepic_hover_arrow.png') no-repeat top left transparent;
+    background: url('/ui/img/entity_changepic_hover_arrow.png') no-repeat top left transparent;
 }
 .oae-entity-container .oae-entity-title {
-    clear: both;
+    font-size: 18px;
+    margin: 20px 20px 20px 70px;
+    color: #454A4F;
+}
+.oae-entity-container .oae-entity-title-below {
     font-size: 14px;
     padding: 5px 5px 0px;
     color: #666;
