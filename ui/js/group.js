@@ -23,96 +23,6 @@ require(['jquery', 'oae/api/oae.core'], function($, oae) {
     
     // Variable used to cache the requested user's profile
     var groupProfile = null;
-    
-    // TODO: Replace this with more effective page configuration
-    var pubdata = {
-        'structure0': {
-            'activity': {
-                '_order': 0,
-                '_ref': 'id52052932',
-                '_title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
-                'main': {
-                    '_order': 0,
-                    '_ref': 'id52052932',
-                    '_title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__')
-                }
-            },
-            'library': {
-                '_order': 1,
-                '_ref': 'id88785643',
-                '_title': oae.api.i18n.translate('__MSG__LIBRARY__'),
-                'main': {
-                    '_order': 0,
-                    '_ref': 'id88785643',
-                    '_title': oae.api.i18n.translate('__MSG__LIBRARY__')
-                }
-            },
-            'memberships': {
-                '_order': 2,
-                '_ref': 'id1234354657',
-                '_title': oae.api.i18n.translate('__MSG__MEMBERS__'),
-                'main': {
-                    '_order': 0,
-                    '_ref': 'id1234354657',
-                    '_title': oae.api.i18n.translate('__MSG__MEMBERS__')
-                }
-            }
-        },
-        'id52052932': {
-            'rows': [
-                {
-                    'id': 'id6535423',
-                    'columns': [
-                        {
-                            'width': 1,
-                            'elements': [
-                                {
-                                    'id': 'id5244321',
-                                    'type': 'activity'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        'id88785643': {
-            'rows': [
-                {
-                    'id': 'id54243241',
-                    'columns': [
-                        {
-                            'width': 1,
-                            'elements': [
-                                {
-                                    'id': 'id032184831',
-                                    'type': 'library'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        'id1234354657': {
-            'rows': [
-                {
-                    'id': 'id49343902',
-                    'columns': [
-                        {
-                            'width': 1,
-                            'elements': [
-                                {
-                                    'id': 'id7184318',
-                                    'type': 'participants'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }
-    };
 
     /**
      * Get the group's basic profile and set up the screen. If the groups
@@ -130,6 +40,8 @@ require(['jquery', 'oae/api/oae.core'], function($, oae) {
             groupProfile = profile;
             renderEntity();
             setUpNavigation();
+            // Set the browser title
+            oae.api.util.setBrowserTitle(groupProfile.name);
             // We can now unhide the page
             oae.api.util.showPage();
         });
@@ -149,6 +61,106 @@ require(['jquery', 'oae/api/oae.core'], function($, oae) {
         // Only render the left hand navigation if the group's profile
         // has already been retrieved
         if (groupProfile) {
+            // TODO: Replace this with more effective page configuration
+            var pubdata = {
+                'structure0': {
+                    'activity': {
+                        '_order': 0,
+                        '_ref': 'id52052932',
+                        '_title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
+                        'main': {
+                            '_order': 0,
+                            '_ref': 'id52052932',
+                            '_title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__')
+                        }
+                    },
+                    'library': {
+                        '_order': 1,
+                        '_ref': 'id88785643',
+                        '_title': oae.api.i18n.translate('__MSG__LIBRARY__'),
+                        'main': {
+                            '_order': 0,
+                            '_ref': 'id88785643',
+                            '_title': oae.api.i18n.translate('__MSG__LIBRARY__')
+                        }
+                    },
+                    'memberships': {
+                        '_order': 2,
+                        '_ref': 'id1234354657',
+                        '_title': oae.api.i18n.translate('__MSG__MEMBERS__'),
+                        'main': {
+                            '_order': 0,
+                            '_ref': 'id1234354657',
+                            '_title': oae.api.i18n.translate('__MSG__MEMBERS__')
+                        }
+                    }
+                },
+                'id52052932': {
+                    'rows': [
+                        {
+                            'id': 'id6535423',
+                            'columns': [
+                                {
+                                    'width': 1,
+                                    'elements': [
+                                        {
+                                            'id': 'id5244321',
+                                            'type': 'activity'
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    'id5244321': {
+                        'principalId': groupProfile.id
+                    }
+                },
+                'id88785643': {
+                    'rows': [
+                        {
+                            'id': 'id54243241',
+                            'columns': [
+                                {
+                                    'width': 1,
+                                    'elements': [
+                                        {
+                                            'id': 'id032184831',
+                                            'type': 'library'
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    'id032184831': {
+                        'principalId': groupProfile.id,
+                        'canManage': groupProfile.isManager
+                    }
+                },
+                'id1234354657': {
+                    'rows': [
+                        {
+                            'id': 'id49343902',
+                            'columns': [
+                                {
+                                    'width': 1,
+                                    'elements': [
+                                        {
+                                            'id': 'id7184318',
+                                            'type': 'participants'
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    'id7184318': {
+                        'principalId': groupProfile.id,
+                        'canManage': groupProfile.isManager
+                    }
+                }
+            };
             $(window).trigger('lhnav.init', [pubdata, {}, {}]);
         }
     };

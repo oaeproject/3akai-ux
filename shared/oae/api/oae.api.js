@@ -91,7 +91,7 @@ define(['oae/api/oae.api.authentication', 'oae/api/oae.api.config', 'oae/api/oae
                                     callback(oae);
                                     
                                     // We now load the widgets in the core HTML
-                                    oae.api.widget.loadWidgets(null, null, function() {
+                                    oae.api.widget.loadWidgets(null, null, null, function() {
                                         // We can show the body as internationalization and 
                                         // initial widget loading have finished
                                         $('body').removeClass('oae-force-hidden');
