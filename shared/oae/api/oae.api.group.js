@@ -28,8 +28,37 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Function}          [callback]               Standard callback method
      * @param  {Object}            [callback.err]           Error object containing error code and error message
      * @param  {Group}             [callback.response]      A Group object representing the created group
+     * @throws {Error}                                      Error thrown when not all of the required parameters have been provided
      */
-    var createGroup = exports.createGroup = function (alias, name, description, visibility, joinable, managers, members, callback) {};
+    var createGroup = exports.createGroup = function (alias, name, description, visibility, joinable, managers, members, callback) {
+        if (!alias) {
+             throw new Error('A group alias should be provided');
+        } else if (!name) {
+             throw new Error('A group name should be provided');
+        }
+
+        var data = {
+            'alias': alias,
+            'name': name,
+            'description': description,
+            'visibility': visibility,
+            'joinable': joinable,
+            'managers': managers,
+            'members': members
+        };
+
+        $.ajax({
+            'url': '/api/group/create',
+            'type': 'POST',
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
        
     /**
      * Get a group.
@@ -38,8 +67,23 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Function}     callback            Standard callback method
      * @param  {Object}       callback.err        Error object containing error code and error message
      * @param  {Group}        callback.response   The group object representing the requested group
+     * @throws {Error}                            Error thrown when no group id has been provided
      */
-    var getGroup = exports.getGroup = function(groupId, callback) {};
+    var getGroup = exports.getGroup = function(groupId, callback) {
+        if (!groupId) {
+            throw new Error('A valid group id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/group/' + userId,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Updates a group.
@@ -108,15 +152,5 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             }
         });
     };
-    
-    /**
-     * Checks whether a group alias exists.
-     * 
-     * @param  {String}       alias               The group alias to check.
-     * @param  {Function}     callback            Standard callback method takes arguments `err` and `exists`
-     * @param  {Object}       callback.err        Error object containing error code and error message
-     * @param  {Boolean}      callback.exists     True if the group already exists, false if it doesn't
-     */
-    var exists = exports.exists = function(alias, callback) {};
 
 });

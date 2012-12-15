@@ -84,7 +84,7 @@ require(['jquery', 'oae/api/oae.core', '//www.google.com/recaptcha/api/js/recapt
 
         // We check if the userid is still available on the current tenant. 
         // We expect a 200 if it already exists and a 404 if it doesn't exist yet.
-        var exists = false;
+        var available = false;
         $.ajax({
             url: '/api/auth/exists/' + username,
             async: callback ? true : false,
@@ -99,11 +99,11 @@ require(['jquery', 'oae/api/oae.core', '//www.google.com/recaptcha/api/js/recapt
                 if (callback) {
                     callback(true);
                 } else {
-                    exists = true;
+                    available = true;
                 }
             }
         });
-        return exists;
+        return available;
     };
 
     /**

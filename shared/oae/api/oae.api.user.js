@@ -42,28 +42,19 @@ define(['exports', 'jquery'], function(exports, $) {
             throw new Error('A display name should be provided');
         }
 
+        additionalOptions = additionalOptions || {};
+
         var data = {
             'username': username,
             'password': password,
             'displayName': displayName,
             'recaptchaChallenge': recaptchaChallenge,
-            'recaptchaResponse': recaptchaResponse 
+            'recaptchaResponse': recaptchaResponse,
+            'visibility': additionalOptions.visibility,
+            'locale': additionalOptions.locale,
+            'timezone': additionalOptions.timezone,
+            'publicAlias': additionalOptions.publicAlias
         };
-
-        // Add the optional parameters onto the data object
-        additionalOptions = additionalOptions || {};
-        if (additionalOptions.visibility) {
-            data['visibility'] = additionalOptions.visibility
-        }
-        if (additionalOptions.locale) {
-            data['locale'] = additionalOptions.locale
-        }
-        if (additionalOptions.timezone) {
-            data['timezone'] = additionalOptions.timezone
-        }
-        if (additionalOptions.publicAlias) {
-            data['publicAlias'] = additionalOptions.publicAlias
-        }
 
         // Create the user
         $.ajax({

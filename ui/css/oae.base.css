@@ -563,6 +563,7 @@ caption, .caption {
     clear: both;
     text-align: left;
     padding: 0;
+    margin-bottom: 7px;
 }
 .oae-form-field-wrapper input.oae-error, .oae-form-field-wrapper textarea.oae-error, .oae-form-field-wrapper input.oae-error-after, .oae-form-field-wrapper textarea.oae-error-after, .oae-form-field-wrapper ul.as-selections.oae-error {
     border: 3px solid #cc0000;
@@ -872,6 +873,26 @@ ul.as-selections textarea.as-input {
     word-wrap: break-word;
 }
 
+/*
+ * PROGRESS INDICATOR
+ */
+#oae_progressindicator {
+    margin-top: 25px;
+}
+#oae_progressindicator h1, #oae_progressindicator p {
+    text-align: center;
+}
+#oae_progressindicator .oae-inset-shadow-container {
+    height: 50px;
+    padding-top: 30px;
+}
+#oae_progressindicator .oae-inset-shadow-container img {
+    display: block;
+    height: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 188px;
+}
 
 
 
@@ -2852,27 +2873,6 @@ ul li.oae-list-item:hover {
 .oae-search-results-blogview:hover,
 .oae-search-results-blogview.selected {
     background: url('/ui/img/search_blog_16x16_hover.png') no-repeat top left transparent;
-}
-
-/*
- * Progress indicator
- */
-#sakai_progressindicator {
-    margin-top: 25px;
-}
-#sakai_progressindicator h1, #sakai_progressindicator p {
-    text-align: center;
-}
-#sakai_progressindicator .oae-inset-shadow-container {
-    height: 50px;
-    padding-top: 30px;
-}
-#sakai_progressindicator .oae-inset-shadow-container img {
-    display: block;
-    height: 20px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 188px;
 }
 
 /*
