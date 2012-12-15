@@ -75,7 +75,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         }
 
         $.ajax({
-            'url': '/api/group/' + userId,
+            'url': '/api/group/' + groupId,
             'success': function(data) {
                 callback(null, data);
             },
