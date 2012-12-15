@@ -60,27 +60,25 @@
         <div id="search_general_results_template"><!--
             {for r in results}
                 <li class="oae-list-item" data-id=${r.id}>
-                    {if r.resourceType === 'user'}
+                    {if !r.resourceType}
                         <div class="oae-list-item-banner" style="display: none;">
-                            <div>${r.displayName}</div>
+                            <div>${r.title}</div>
                         </div>
                         <div class="oae-list-item-right">
-                            <div class="oae-list-item-right-hidden">
-
-                            </div>
-                            <div class="oae-list-item-right-hidden grid" style="display: none;">
-
-                            </div>
+                            <div class="oae-list-item-right-hidden"></div>
+                            <div class="oae-list-item-right-hidden grid" style="display: none;"></div>
                         </div>
                         <img src="/ui/img/lists/puzzle_border.png" class="oae-puzzle-border"/>
                         <div class="oae-list-item-left">
-                            <img src="http://www.gravatar.com/avatar?s=256" alt="${r.displayName}" class="oae-list-item-profile-picture grid"/>
+                            <img src="http://www.gravatar.com/avatar?s=256" alt="${r.title}" class="oae-list-item-profile-picture grid"/>
                             <div class="oae-list-item-left-inner">
-                                <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" class="oae-force-left"/>
+                                {if !oae.data.me.anon}
+                                    <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" class="oae-force-left"/>
+                                {/if}
                                 <label for="${r.id}_chk">
-                                    <img src="http://www.gravatar.com/avatar" alt="${r.displayName}" class="oae-list-item-profile-picture"/>
-                                    <img src="/ui/img/entities/${r.resourceType}_icon.png" alt="${r.displayName}" class="oae-list-item-small-picture"/>
-                                    ${r.displayName}
+                                    <img src="http://www.gravatar.com/avatar" alt="${r.title}" class="oae-list-item-profile-picture"/>
+                                    <img src="/ui/img/entities/user_icon.png" alt="${r.title}" class="oae-list-item-small-picture"/>
+                                    ${r.title}
                                 </label>
                                 <div class="participants_institution">Cambridge University</div>
                             </div>
@@ -88,25 +86,23 @@
 
                     {elseif r.resourceType === 'group'}
                         <div class="oae-list-item-banner" style="display: none;">
-                            <div>${r.displayName}</div>
+                            <div>${r.title}</div>
                         </div>
                         <div class="oae-list-item-right">
-                            <div class="oae-list-item-right-hidden">
-
-                            </div>
-                            <div class="oae-list-item-right-hidden grid" style="display: none;">
-
-                            </div>
+                            <div class="oae-list-item-right-hidden"></div>
+                            <div class="oae-list-item-right-hidden grid" style="display: none;"></div>
                         </div>
                         <img src="/ui/img/lists/puzzle_border.png" class="oae-puzzle-border"/>
                         <div class="oae-list-item-left">
-                            <img src="http://www.gravatar.com/avatar?s=256" alt="${r.displayName}" class="oae-list-item-profile-picture grid"/>
+                            <img src="http://www.gravatar.com/avatar?s=256" alt="${r.title}" class="oae-list-item-profile-picture grid"/>
                             <div class="oae-list-item-left-inner">
-                                <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" class="oae-force-left"/>
+                                {if !oae.data.me.anon}
+                                    <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" class="oae-force-left"/>
+                                {/if}
                                 <label for="${r.id}_chk">
-                                    <img src="http://www.gravatar.com/avatar" alt="${r.displayName}" class="oae-list-item-profile-picture"/>
-                                    <img src="/ui/img/entities/${r.resourceType}_icon.png" alt="${r.displayName}" class="oae-list-item-small-picture"/>
-                                    ${r.displayName}
+                                    <img src="http://www.gravatar.com/avatar" alt="${r.title}" class="oae-list-item-profile-picture"/>
+                                    <img src="/ui/img/entities/${r.resourceType}_icon.png" alt="${r.title}" class="oae-list-item-small-picture"/>
+                                    ${r.title}
                                 </label>
                                 <div class="participants_institution">Cambridge University</div>
                             </div>
@@ -115,7 +111,7 @@
                     {elseif r.resourceType === 'content'}
                         <div class="oae-list-item-banner" style="display: none;">
                             <div>
-                                <span>${r.displayName}</span>
+                                <span>${r.title}</span>
                                 <div class="oae-visibility-${r.visibility} oae-force-right"></div>
                             </div>
                         </div>
@@ -131,21 +127,27 @@
                         </div>
                         <img src="/ui/img/lists/puzzle_border.png" class="oae-puzzle-border"/>
                         <div class="oae-list-item-left">
-                            <img src="http://www.gravatar.com/avatar?s=256" alt="${r.displayName}" class="oae-list-item-profile-picture grid"/>
-                            <button type="button" class="oae-button oae-link-button oae-force-right oae-share-button" data-contentid="${r.id}" data-contentname="${r.displayName}"></button>
+                            <img src="http://www.gravatar.com/avatar?s=256" alt="${r.title}" class="oae-list-item-profile-picture grid"/>
+                            {if !oae.data.me.anon}
+                                <button type="button" class="oae-button oae-link-button oae-force-right oae-share-button" data-contentid="${r.id}" data-contentname="${r.title}"></button>
+                            {/if}
                             <div class="oae-list-item-left-inner">
-                                <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" class="oae-force-left"/>
+                                {if !oae.data.me.anon}
+                                    <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" class="oae-force-left"/>
+                                {/if}
                                 <label for="${r.id}_chk">
-                                    <img src="http://www.gravatar.com/avatar" alt="${r.displayName}" class="oae-list-item-profile-picture"/>
-                                    <img src="/node_modules/oae-core/memberships/img/group_icon.png" alt="${r.displayName}" class="oae-list-item-small-picture"/>
+                                    <img src="http://www.gravatar.com/avatar" alt="${r.title}" class="oae-list-item-profile-picture"/>
+                                    <img src="/node_modules/oae-core/memberships/img/group_icon.png" alt="${r.title}" class="oae-list-item-small-picture"/>
                                     <div class="oae-visibility-${r.visibility} oae-force-left"></div>
-                                    ${r.displayName}
+                                    ${r.title}
                                 </label>
                             </div>
                         </div>
                     {/if}
 
-                    <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" class="oae-list-item-checkbox grid" style="display: none;"/>
+                    {if !oae.data.me.anon}
+                        <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" class="oae-list-item-checkbox grid" style="display: none;"/>
+                    {/if}
                     <div class="oae-push"></div>
                 </li>
             {/for}
