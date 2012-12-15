@@ -872,6 +872,27 @@ ul.as-selections textarea.as-input {
     color: #666;
     word-wrap: break-word;
 }
+.oae-entity-container .oae-entity-actions {
+    margin-top: 15px;
+}
+.oae-entity-container .oae-entity-actions .oae-button {
+    margin-left: 5px;
+    color: #666;
+    line-height: 17px;
+}
+.oae-entity-container .oae-entity-actions .oae-entity_actions_menu {
+    background: url("/ui/img/settings_icon_16x16.png") no-repeat left center transparent;
+    margin-left: 5px;
+    padding: 2px 0 0 20px;
+    margin-right: 4px;
+    display: block;
+    height: 19px;
+    font-size: 10px;
+}
+.oae-entity-container .oae-entity-actions .oae-button:hover .oae-entity_actions_menu {
+    background: url("/ui/img/settings_icon_16x16_hover.png") no-repeat left center transparent;
+}
+
 
 /*
  * PROGRESS INDICATOR
@@ -1857,6 +1878,7 @@ a.oae-button.oae-overlay-button {
 /* No text buttons */
 .oae-button.oae-button-no-text {
     padding: 0 !important;
+    height: 24px;
 }
 
 /* Button in another button */
