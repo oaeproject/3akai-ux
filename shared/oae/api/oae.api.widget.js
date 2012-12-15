@@ -96,30 +96,6 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
     ///////////////////
 
     /**
-     * Find all of the widgets declared inside of the provided container, and load them into
-     * the page.
-     * 
-     * Widgets are declared in the following way:
-     * 
-     * <div id='widgetId' data-widget='widgetName' />
-     * 
-     * @param  {Element|String}     [$container]    HTML container in which we want to look for widgets and load them. This can either be a jQuery Element object or a jQuery selector string. If no container is provided, the body element will be used
-     * @param  {Boolean}            [showSettings]  Whether or not to show the widget's settings view. If this is not set, the widget's view mode will be shown.
-     * @param  {Function}           [callback]      Standard callback function executed when all widgets have finished loading and rendering
-     * @param  {Object}             [callback.err]  Error containing the error code and message
-     */
-    var loadWidgets = exports.loadWidgets = function($container, showSettings, callback) {
-        // Default callback function
-        callback = callback || function() {};
-        // Default to view mode if showSettings is not provided
-        showSettings = showSettings || false;
-        // Default to the body element if the container hasn't been provided
-        $container = $container ? $($container) : $('body');
-
-        locateWidgets($container, showSettings, callback);
-    };
-
-    /**
      * Add a widget declaration element to the page for all of the widgets that have identified themselves as needing to automatically
      * load on each page. This is done by adding the following to a widget's manifest.json file:
      * 
@@ -241,16 +217,44 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
     };
 
     /**
+     * Find all of the widgets declared inside of the provided container, and load them into
+     * the page.
+     * 
+     * Widgets are declared in the following way:
+     * 
+     * <div id='widgetId' data-widget='widgetName' />
+     * 
+     * @param  {Element|String}     [$container]    HTML container in which we want to look for widgets and load them. This can either be a jQuery Element object or a jQuery selector string. If no container is provided, the body element will be used
+     * @param  {Boolean}            [showSettings]  Whether or not to show the widget's settings view. If this is not set, the widget's view mode will be shown.
+     * @param  {Function}           [callback]      Standard callback function executed when all widgets have finished loading and rendering
+     * @param  {Object}             [widgetData]    JSON object containing the data that should be passed into the widgets. The keys are the widget's unique instance ids, and the value is what will be passed into the widget with that id
+     * @param  {Object}             [callback.err]  Error containing the error code and message
+     */
+    var loadWidgets = exports.loadWidgets = function($container, showSettings, widgetData, callback) {
+        // Default callback function
+        callback = callback || function() {};
+        // Default to view mode if showSettings is not provided
+        showSettings = showSettings || false;
+        // Default to the body element if the container hasn't been provided
+        $container = $container ? $($container) : $('body');
+        // Default to empty widget data if no widget data has been provided
+        widgetData = widgetData || {};
+
+        locateWidgets($container, showSettings, widgetData, callback);
+    };
+
+    /**
      * Find all of the widgets declared inside of the provided container, and pass this information
      * on so all of the widget files can be loaded using a static batch get
      * 
      * @param  {Element}        $container      jQuery element representing the HTML container in which we want to look for widgets and load them.
      * @param  {Boolean}        showSettings    Whether or not to show the widget's settings view.
+     * @param  {Object}         widgetData      JSON object containing the data that should be passed into the widgets. The keys are the widget's unique instance ids, and the value is what will be passed into the widget with that id
      * @param  {Function}       callback        Standard callback function
      * @param  {Object}         callback.err    Error containing the error code and message
      * @api private
      */
-    var locateWidgets = function($container, showSettings, callback) {
+    var locateWidgets = function($container, showSettings, widgetData, callback) {
         // Locate the available widgets in the container. This is done by getting
         // all tags with a `data-widget` attribute
         var widgetsToLoad = {};
@@ -275,7 +279,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
             // If the widget's resource have already been loaded,
             // we just render the widget
             if (loadedWidgets[widgetName]) {
-                return renderWidget(widgetName, widgetId, showSettings);
+                return renderWidget(widgetName, widgetId, showSettings, widgetData[widgetId]);
             }
 
             // The widget hasn't been loaded yet, we add to the list of widgets to load
@@ -300,7 +304,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
         if (_.keys(widgetsToLoad).length === 0) {
             return callback();
         }
-        loadWidgetFiles(widgetsToLoad, $container, showSettings, callback);
+        loadWidgetFiles(widgetsToLoad, $container, showSettings, widgetData, callback);
     };
 
     /**
@@ -326,11 +330,12 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
      * @param  {Object}         widgetsToLoad   JSON Object representing the widgets that should be loaded
      * @param  {Element}        $container      jQuery element representing the HTML container in which we want to look for widgets and load them.
      * @param  {Boolean}        showSettings    Whether or not to show the widget's settings view.
+     * @param  {Object}         widgetData      JSON object containing the data that should be passed into the widgets. The keys are the widget's unique instance ids, and the value is what will be passed into the widget with that id
      * @param  {Function}       callback        Standard callback function
      * @param  {Object}         callback.err    Error containing the error code and message
      * @api private 
      */
-    var loadWidgetFiles = function(widgetsToLoad, $container, showSettings, callback) {
+    var loadWidgetFiles = function(widgetsToLoad, $container, showSettings, widgetData, callback) {
         // Collect all static files that need to be loaded
         var files = [];
         $.each(widgetsToLoad, function(widgetName, loadData) {
@@ -348,7 +353,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
                 return callback(err);
             }
 
-            processWidgetFiles(data, widgetsToLoad, $container, showSettings, callback);
+            processWidgetFiles(data, widgetsToLoad, $container, showSettings, widgetData, callback);
         });
     };
 
@@ -370,7 +375,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
      * @param  {Object}         callback.err    Error containing the error code and message
      * @api private
      */
-    var processWidgetFiles = function(widgetFiles, widgetsToLoad, $container, showSettings, callback) {
+    var processWidgetFiles = function(widgetFiles, widgetsToLoad, $container, showSettings, widgetData, callback) {
         // Keep track of the number of widgets that need to be loaded
         var widgetsLoaded = 0;
 
@@ -426,7 +431,8 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
                 };
                 // Load all of the declared instances for this widget
                 for (var i = 0; i < loadData.instances.length; i++) {
-                    renderWidget(widgetName, loadData.instances[i], false);
+                    // Render the widget instance, and pass in the widget data for the widget instance
+                    renderWidget(widgetName, loadData.instances[i], showSettings, widgetData[loadData.instances[i]]);
                 }
                 // Check if we have finished loading all widgets
                 widgetsLoaded++;
@@ -444,14 +450,15 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
      * @param  {String}     widgetName      The name of the widget we want to render
      * @param  {String}     widgetId        The widget's unique id. This should be the id on the widget's container
      * @param  {Boolean}    showSettings    Whether or not to show the widget's settings view.
+     * @param  {Object}     widgetData      JSON object representing widget instance data that should be passed into the widget load function
      * @api private
      */
-    var renderWidget = function(widgetName, widgetId, showSettings) {
+    var renderWidget = function(widgetName, widgetId, showSettings, widgetData) {
         var $container = $('#' + widgetId);
         $container.html(loadedWidgets[widgetName].html);
         // Execute the widget's main function if it's provided
         if (loadedWidgets[widgetName].widgetFunction) {
-            loadedWidgets[widgetName].widgetFunction(widgetId, showSettings);
+            loadedWidgets[widgetName].widgetFunction(widgetId, showSettings, widgetData);
         }
     };
 
@@ -529,6 +536,6 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
         })
         $container.prepend($widget);
         // Load the widget
-        loadWidgets($container, showSettings, callback);
+        loadWidgets($container, showSettings, null, callback);
     };
 });

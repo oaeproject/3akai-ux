@@ -13,6 +13,14 @@
  * permissions and limitations under the License.
  */
 
-#group_create_new_area_container {
-    margin: 0 0 30px 23px;
-}
+require(['jquery','oae/api/oae.core'], function($, oae) {
+
+    // Redirect the user back to the landing page if he is not logged in
+    if (oae.data.me.anon) {
+        oae.api.util.redirect().redirectToLogin();
+    }
+
+    // Set the browser title
+    oae.api.util.setBrowserTitle('__MSG__CREATE_A_GROUP__');
+
+});

@@ -20,6 +20,9 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
         oae.api.util.redirect().redirectToLogin();
     }
 
+    // Set the browser title
+    oae.api.util.setBrowserTitle(oae.data.me.profile.displayName);
+
     // TODO: Replace this with more effective page configuration
     var privdata = {
         'structure0': {
@@ -50,7 +53,10 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
                         }
                     ]
                 }
-            ]
+            ],
+            'id7646542': {
+                'principalId': oae.data.me.userId
+            }
         }
     };
 
@@ -94,7 +100,11 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
                         }
                     ]
                 }
-            ]
+            ],
+            'id6335742432': {
+                'principalId': oae.data.me.userId,
+                'canManage': true
+            }
         },
         'id934093203': {
             'rows': [
@@ -112,7 +122,11 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
                         }
                     ]
                 }
-            ]
+            ],
+            'id56436534': {
+                'principalId': oae.data.me.userId,
+                'canManage': true
+            }
         }
     };
 

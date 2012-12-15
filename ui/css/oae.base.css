@@ -563,6 +563,7 @@ caption, .caption {
     clear: both;
     text-align: left;
     padding: 0;
+    margin-bottom: 7px;
 }
 .oae-form-field-wrapper input.oae-error, .oae-form-field-wrapper textarea.oae-error, .oae-form-field-wrapper input.oae-error-after, .oae-form-field-wrapper textarea.oae-error-after, .oae-form-field-wrapper ul.as-selections.oae-error {
     border: 3px solid #cc0000;
@@ -873,7 +874,48 @@ ul.as-selections textarea.as-input {
     color: #666;
     word-wrap: break-word;
 }
+.oae-entity-container .oae-entity-actions {
+    margin-top: 15px;
+}
+.oae-entity-container .oae-entity-actions .oae-button {
+    margin-left: 5px;
+    color: #666;
+    line-height: 17px;
+}
+.oae-entity-container .oae-entity-actions .oae-entity_actions_menu {
+    background: url("/ui/img/settings_icon_16x16.png") no-repeat left center transparent;
+    margin-left: 5px;
+    padding: 2px 0 0 20px;
+    margin-right: 4px;
+    display: block;
+    height: 19px;
+    font-size: 10px;
+}
+.oae-entity-container .oae-entity-actions .oae-button:hover .oae-entity_actions_menu {
+    background: url("/ui/img/settings_icon_16x16_hover.png") no-repeat left center transparent;
+}
 
+
+/*
+ * PROGRESS INDICATOR
+ */
+#oae_progressindicator {
+    margin-top: 25px;
+}
+#oae_progressindicator h1, #oae_progressindicator p {
+    text-align: center;
+}
+#oae_progressindicator .oae-inset-shadow-container {
+    height: 50px;
+    padding-top: 30px;
+}
+#oae_progressindicator .oae-inset-shadow-container img {
+    display: block;
+    height: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 188px;
+}
 
 
 
@@ -1838,6 +1880,7 @@ a.oae-button.oae-overlay-button {
 /* No text buttons */
 .oae-button.oae-button-no-text {
     padding: 0 !important;
+    height: 24px;
 }
 
 /* Button in another button */
@@ -2865,27 +2908,6 @@ input[type=text], input[type=password], input[type=email], input[type=url], text
 .oae-search-results-blogview:hover,
 .oae-search-results-blogview.selected {
     background: url('/ui/img/search_blog_16x16_hover.png') no-repeat center center transparent;
-}
-
-/*
- * Progress indicator
- */
-#sakai_progressindicator {
-    margin-top: 25px;
-}
-#sakai_progressindicator h1, #sakai_progressindicator p {
-    text-align: center;
-}
-#sakai_progressindicator .oae-inset-shadow-container {
-    height: 50px;
-    padding-top: 30px;
-}
-#sakai_progressindicator .oae-inset-shadow-container img {
-    display: block;
-    height: 20px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 188px;
 }
 
 /*

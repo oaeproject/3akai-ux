@@ -15,6 +15,9 @@
 
 require(['jquery','oae/api/oae.core'], function($, oae) {
 
+    // Set the browser title
+    oae.api.util.setBrowserTitle(oae.api.i18n.translate('__MSG__SEARCH__'));
+
     // TODO: Replace this with more effective page configuration
     var pubdata = {
         'structure0': {
