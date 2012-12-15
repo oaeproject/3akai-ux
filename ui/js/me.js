@@ -53,7 +53,10 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
                         }
                     ]
                 }
-            ]
+            ],
+            'id7646542': {
+                'principalId': oae.data.me.userId
+            }
         }
     };
 
@@ -97,7 +100,11 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
                         }
                     ]
                 }
-            ]
+            ],
+            'id6335742432': {
+                'principalId': oae.data.me.userId,
+                'canManage': true
+            }
         },
         'id934093203': {
             'rows': [
@@ -115,7 +122,11 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
                         }
                     ]
                 }
-            ]
+            ],
+            'id56436534': {
+                'principalId': oae.data.me.userId,
+                'canManage': true
+            }
         }
     };
 
