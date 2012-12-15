@@ -1879,6 +1879,18 @@ a.oae-button.oae-overlay-button {
     margin-top: -3px;
 }
 
+/* Share button */
+.oae-share-button {
+    background: url('/ui/img/actions/share_icon.png') no-repeat center center transparent;
+    height: 21px;
+    margin: 6px 20px 0 0;
+    width: 21px;
+}
+.oae-share-button:hover,
+.oae-share-button.active {
+    background: url('/ui/img/actions/share_icon_hover.png') no-repeat center center transparent;
+}
+
 /*
  * WIDGET LAYOUT
  */
@@ -3179,6 +3191,10 @@ ul.oae-list.expandedlist li.oae-list-item .oae-puzzle-border,
 ul.oae-list li.oae-list-item.active .oae-puzzle-border {
     margin-top: 25px;
 }
+ul.oae-list.expandedlist li.oae-list-item .oae-share-button,
+ul.oae-list li.oae-list-item.active .oae-share-button {
+    margin-top: 23px;
+}
 ul.oae-list.grid li.oae-list-item .oae-puzzle-border {
     margin-top: 75px;
 }
@@ -3240,6 +3256,7 @@ ul.oae-list.expandedlist li.oae-list-item .oae-list-item-left .oae-list-item-lef
 ul.oae-list li.oae-list-item.active .oae-list-item-left .oae-list-item-left-inner img.oae-list-item-small-picture {
     display: none;
 }
+ul.oae-list.expandedlist li.oae-list-item .oae-list-item-left .oae-list-item-left-inner img.oae-list-item-small-picture + div,
 ul.oae-list li.oae-list-item.active .oae-list-item-left .oae-list-item-left-inner img.oae-list-item-small-picture + div {
     margin-left: -22px;
     margin-top: 37px;

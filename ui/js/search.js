@@ -142,8 +142,12 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
             $.bbq.pushState({'q': $('#search_query').val()}, 0);
             return false;
         });
+
+        $(window).on('hashchange', function(ev) {
+            $('#search_query').val($.bbq.getState('q'))
+        });
     };
-    
+
     /**
      * Set up the left hand navigation with the provided structure
      */
