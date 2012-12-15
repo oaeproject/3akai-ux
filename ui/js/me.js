@@ -17,7 +17,7 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
 
     // Redirect the user back to the landing page if he is not logged in
     if (oae.data.me.anon) {
-        document.location = '/';
+        oae.api.util.redirect().redirectToLogin();
     }
 
     // TODO: Replace this with more effective page configuration

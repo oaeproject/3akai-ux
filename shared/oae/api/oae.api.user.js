@@ -106,8 +106,23 @@ define(['exports', 'jquery'], function(exports, $) {
      * @param  {Function}       callback            Standard callback method
      * @param  {Object}         callback.err        Error object containing error code and error message
      * @param  {User}           callback.response   The user's basic profile
+     * @throws {Error}                              Error thrown when no userId has been provided
      */
-    var getUser = exports.getUser = function(userId, callback) {};
+    var getUser = exports.getUser = function(userId, callback) {
+        if (!userId) {
+            throw new Error('A valid user id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/user/' + userId,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Update the current user's basic profile
