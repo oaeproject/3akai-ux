@@ -123,7 +123,7 @@ require(['jquery', 'underscore', 'oae/api/oae.api.i18n', 'oae/api/oae.api.util']
             // Get the key of the latest
             var $lastElement = $('li', $container).filter(':visible').filter(':last');
             if ($lastElement.length === 0) {
-                parameters.start = 0;
+                parameters.start = '';
             } else {
                 parameters.start = $lastElement.attr('data-key') ? $lastElement.attr('data-key') : $lastElement.index();
             }

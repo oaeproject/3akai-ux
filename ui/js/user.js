@@ -130,6 +130,33 @@ require(['jquery', 'oae/api/oae.core'], function($, oae) {
         }
     };
 
+    var switchViewMode = function(el) {
+        $('.oae-search-listview-options:visible .oae-action-icon').removeClass('selected');
+        $(el).children('div').addClass('selected');
+    };
+
+    $(document).on('click', '.search_view_grid', function() {
+        switchViewMode(this);
+        $('.oae-list:visible').addClass('grid');
+        $('.oae-list:visible').removeClass('expandedlist');
+    });
+
+    $(document).on('click', '.search_view_expandedlist', function() {
+        switchViewMode(this);
+        $('.oae-list:visible').removeClass('grid');
+        $('.oae-list:visible').addClass('expandedlist');
+    });
+
+    $(document).on('click', '.search_view_list', function() {
+        switchViewMode(this);
+        $('.oae-list:visible').removeClass('expandedlist');
+        $('.oae-list:visible').removeClass('grid');
+    });
+
+    $(document).on('click', '.oae-puzzle-border', function() {
+        $(this).parent().toggleClass('active');
+    });
+
     // List to the left hand navigation ready event for navigation rendering
     $(window).on('lhnav.ready', setUpNavigation);  
 
