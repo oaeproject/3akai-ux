@@ -1,64 +1,60 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml">
-
     <head>
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-        <title></title>
 
-        <!-- Sakai Core CSS -->
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/main.css" />
+        <!-- CORE CSS -->
+        <link rel="stylesheet" type="text/css" href="/ui/css/oae.main.css" />
 
     </head>
-    <body class="oae-centered show i18nable">
-        <div id="widget_branding" class="widget_inline"></div>
+    <body class="oae-centered oae-force-hidden oae-hidden">
+
         <!-- HEADER -->
         <div class="oae-container-flex header oae-header">
             <div class="oae-navigation-container">
-                <div id="widget_topnavigation" class="widget_inline"></div>
+                <div data-widget="topnavigation"><!-- --></div>
             </div>
             <div class="oae-fix oae-centered fixed-container oae-fixed-container">
-                <div class="oae-container-shadow-left"><!----></div>
-                <div class="oae-container-shadow-right"><!----></div>
+                <div class="oae-container-shadow-left"><!-- --></div>
+                <div class="oae-container-shadow-right"><!-- --></div>
                 <div class="oae-page-header">
-                    <div id="widget_entity" class="widget_inline"></div>
+                    <div id="oae_entity_container" class="oae-entity-container"><!-- --></div>
+                    <div id="oae_entity_template"><!--
+                        <div class="oae-entity-picture">
+                            <span class="oae-entity-picture-image">
+                                <img src="/ui/img/default_User_icon_50x50.png"/>
+                            </span>
+                        </div>
+                        <div class="oae-bold oae-entity-title">${profile.displayName|safeUserInput}</div>
+                        <div class="oae-push"></div>
+                    --></div>
                 </div>
             </div>
         </div>
 
-        <!-- HEADER -->
+        <!-- BODY -->
         <div class="oae-container-flex">
             <div class="oae-fix oae-centered fixed-container oae-main-container oae-twocolumn">
                 <div class="oae-page-column-left">
-                    <div id="widget_lhnavigation" class="widget_inline"></div>
+                    <div data-widget="lhnavigation"><!-- --></div>
                 </div>
                 <div class="oae-page-column-right">
                     <div id="oae-page-main-content" class="oae-page-content-lowpadding" role="main">
-                        <div id="widget_contentauthoring" class="widget_inline"></div>
+                        <div data-widget="contentauthoring"><!-- --></div>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- FOOTER -->
-        <div data-widget='footer'><!-- --></div>
+        <div data-widget="footer"><!-- --></div>
 
-        <!-- Dependency JS -->
-        <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require.js"></script>
+        <!-- DEPENDENCIES -->
+        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/require.js"></script>
+        <!-- PAGE JS -->
+        <script>require(['/ui/js/user.js']);</script>
 
-        <!-- GROUP JS -->
-        <script>require(['/dev/javascript/user.js', '/dev/lib/misc/jwplayer/swfobject.js']);</script>
-
-        <noscript>
-            <div class="noscript">
-                <h1>Sorry!</h1>
-                <p>
-                    JavaScript must be enabled to use this site. Please turn on JavaScript in your browser and refresh the page.
-                    If you need assistance, please visit
-                    <a href="http://activatejavascript.org/" title="Enable JavaScript in the most popular browsers">activatejavascript.org</a>.
-                </p>
-            </div>
-        </noscript>
     </body>
 </html>

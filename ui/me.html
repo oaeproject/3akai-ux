@@ -27,8 +27,8 @@
         <div class="oae-container-flex">
             <div class="oae-fix oae-centered fixed-container oae-main-container oae-twocolumn">
                 <div class="oae-page-column-left">
-                    <div id='oae_entity_container' class='oae-entity-container'><!-- --></div>
-                    <div id='oae_entity_template'><!--
+                    <div id="oae_entity_container" class="oae-entity-container"><!-- --></div>
+                    <div id="oae_entity_template"><!--
                         <button class="oae-entity-picture">
                             <span class="oae-entity-picture-image">
                                 <img src="/ui/img/default_User_icon_50x50.png"/>
@@ -43,7 +43,8 @@
                                 <li><button id="changepic_container_trigger" class="oae-link-button oae-bold">__MSG__CHANGE_PICTURE__</button></li>
                             </ul>
                         </div>
-                        <div class="oae-bold oae-entity-title">${oae.data.me.profile.displayName|safeUserInput}</div>
+                        <div class="oae-bold oae-push oae-entity-title-below">${oae.data.me.profile.displayName|safeUserInput}</div>
+                        <div class="oae-push"></div>
                     --></div>
                     <div data-widget="lhnavigation"><!-- --></div>
                 </div>
