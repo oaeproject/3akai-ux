@@ -163,7 +163,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
                     });
 
                     // Load and render the widget
-                    insertWidget(widgetName, null, null, false, callback);
+                    insertWidget(widgetName, null, null, null, null, callback);
                 };
 
                 // Bind the widget to all of the events it wants to listen to
