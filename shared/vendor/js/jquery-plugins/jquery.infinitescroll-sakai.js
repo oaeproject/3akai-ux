@@ -122,9 +122,7 @@ require(['jquery', 'underscore', 'oae/api/oae.api.i18n', 'oae/api/oae.api.util']
             showLoadingContainer();
             // Get the key of the latest
             var $lastElement = $('li', $container).filter(':visible').filter(':last');
-            if ($lastElement.length === 0) {
-                parameters.start = '';
-            } else {
+            if ($lastElement.length !== 0) {
                 parameters.start = $lastElement.attr('data-key') ? $lastElement.attr('data-key') : $lastElement.index();
             }
 

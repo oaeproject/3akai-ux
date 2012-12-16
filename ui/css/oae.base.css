@@ -3100,7 +3100,11 @@ ul.oae-list.grid li.oae-list-item {
 ul.oae-list li.oae-list-item.active {
     background-color: #dededd;
 }
-
+ul.oae-list li.oae-list-item .oae-list-description {
+    margin-top: 1px;
+    color: #666;
+    font-style: italic;
+}
 
 ul.oae-list li.oae-list-item .oae-list-item-left {
     background-color: #fff;
@@ -3303,6 +3307,7 @@ ul.oae-list li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hi
     text-align: right;
     margin: 0 0 3px 5px;
     color: #333;
+    width: 330px;
 }
 ul.oae-list li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden .oae-list-item-align-left p {
     text-align: left;
@@ -3316,6 +3321,7 @@ ul.oae-list li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hi
 
 /* list elements */
 ul.oae-list li.oae-list-item label {
+    display: block;
     float: left;
     font-size: 13px;
     letter-spacing: 0.04em;

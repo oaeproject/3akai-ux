@@ -73,14 +73,14 @@
                             <img src="http://www.gravatar.com/avatar?s=256" alt="${r.title}" class="oae-list-item-profile-picture grid"/>
                             <div class="oae-list-item-left-inner">
                                 {if !oae.data.me.anon}
-                                    <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" class="oae-force-left"/>
+                                    <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" data-id="${r.id}" class="oae-force-left"/>
                                 {/if}
                                 <label for="${r.id}_chk">
                                     <img src="http://www.gravatar.com/avatar" alt="${r.title}" class="oae-list-item-profile-picture"/>
                                     <img src="/ui/img/entities/user_icon.png" alt="${r.title}" class="oae-list-item-small-picture"/>
                                     ${r.title}
                                 </label>
-                                <div class="participants_institution">Cambridge University</div>
+                                <div class="oae-list-description">Cambridge University</div>
                             </div>
                         </div>
 
@@ -97,14 +97,14 @@
                             <img src="http://www.gravatar.com/avatar?s=256" alt="${r.title}" class="oae-list-item-profile-picture grid"/>
                             <div class="oae-list-item-left-inner">
                                 {if !oae.data.me.anon}
-                                    <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" class="oae-force-left"/>
+                                    <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" data-id="${r.id}" class="oae-force-left"/>
                                 {/if}
                                 <label for="${r.id}_chk">
                                     <img src="http://www.gravatar.com/avatar" alt="${r.title}" class="oae-list-item-profile-picture"/>
                                     <img src="/ui/img/entities/${r.resourceType}_icon.png" alt="${r.title}" class="oae-list-item-small-picture"/>
                                     ${r.title}
                                 </label>
-                                <div class="participants_institution">Cambridge University</div>
+                                <div class="oae-list-description">Cambridge University</div>
                             </div>
                         </div>
 
@@ -133,11 +133,11 @@
                             {/if}
                             <div class="oae-list-item-left-inner">
                                 {if !oae.data.me.anon}
-                                    <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" class="oae-force-left"/>
+                                    <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" data-id="${r.id}" class="oae-force-left"/>
                                 {/if}
                                 <label for="${r.id}_chk">
                                     <img src="http://www.gravatar.com/avatar" alt="${r.title}" class="oae-list-item-profile-picture"/>
-                                    <img src="/node_modules/oae-core/memberships/img/group_icon.png" alt="${r.title}" class="oae-list-item-small-picture"/>
+                                    <img src="/ui/img/mimetypes/small/unknown.png" alt="${r.title}" class="oae-list-item-small-picture"/>
                                     <div class="oae-visibility-${r.visibility} oae-force-left"></div>
                                     ${r.title}
                                 </label>
@@ -146,7 +146,7 @@
                     {/if}
 
                     {if !oae.data.me.anon}
-                        <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" class="oae-list-item-checkbox grid" style="display: none;"/>
+                        <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" data-id="${r.id}" class="oae-list-item-checkbox grid" style="display: none;"/>
                     {/if}
                     <div class="oae-push"></div>
                 </li>
