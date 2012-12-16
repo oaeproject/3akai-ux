@@ -229,7 +229,28 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
      * @param {String|Element}  $ignoreElements     jQuery element or jQuery selector for that element representing the elements outside of the main element that should not cause a hide when clicked
      * @param {Function}        callback            Standard callback function executed when the element has been hidden
      */
-    var hideOnClickOut = exports.hideOnClickOut = function($elementToHide, $ignoreElements, callback) {};
+    var hideOnClickOut = exports.hideOnClickOut = function(elementToHide, ignoreElements, callback) {
+        $(document).on('click', function(e) {
+            var $clicked = $(e.target);
+            if (!$.isArray(elementToHide)) {
+                elementToHide = [elementToHide];
+            }
+            $.each(elementToHide, function(index, el) {
+                if (el instanceof jQuery) {
+                    $el = el;
+                } else {
+                    $el = $(el);
+                }
+                if ($el.is(':visible') && ! ($.contains($el.get(0), $clicked.get(0)) || $clicked.is(ignoreElements) || $(ignoreElements).has($clicked.get(0)).length)) {
+                    if ($.isFunction(callback)) {
+                        callback();
+                    } else {
+                        $el.hide();
+                    }
+                }
+            });
+        });
+    };
 
     /**
      * All functionality related to setting up, showing and closing modal dialogs. This uses the jQuery jqModal plugin behind the scenes. By default,
