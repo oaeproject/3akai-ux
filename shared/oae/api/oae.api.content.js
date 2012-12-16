@@ -274,4 +274,99 @@ define(['exports'], function(exports) {
      */
     var setFileSize = function(contentObj) {};
 
+    /**
+     * Gets the comments on a content item
+     *
+     * @param  {String}       contentId           Content id of the content item we're trying to get comments for
+     * @param  {String}       start               Determines the point at which content items are returned for paging purposed.
+     * @param  {Integer}      limit               Number of items to return.
+     * @param  {Function}     callback            Standard callback method
+     * @param  {Object}       callback.err        Error object containing error code and error message
+     * @param  {Comment[]}    callback.comments   Array of comments on the content item
+     */
+    var getComments = exports.getComments = function(contentId, start, limit, callback) {
+        if (!contentId) {
+            throw new Error('A content ID should be provided');
+        }
+
+        var data = {
+            'start': start,
+            'limit': limit
+        };
+
+        $.ajax({
+            'url': '/api/content/' + contentId + '/comments',
+            'type': 'GET',
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
+
+    /**
+     * Creates a comment on a content item or a reply to another comment if the `replyTo` parameter is specified
+     *
+     * @param  {String}       contentId           Content id of the content item we're trying to comment on
+     * @param  {String}       body                The comment to be placed on the content item
+     * @param  {String}       [replyTo]           Id of the comment to reply to
+     * @param  {Function}     callback            Standard callback method
+     * @param  {Object}       callback.err        Error object containing error code and error message
+     */
+    var createComment = exports.createComment = function(contentId, body, replyTo, callback) {
+        if (!contentId) {
+            throw new Error('A content ID should be provided');
+        } else if (!body) {
+            throw new Error('A comment should be provided');
+        }
+
+        var data = {
+            'body': body,
+            'replyTo': replyTo
+        };
+
+        $.ajax({
+            'url': '/api/content/' + contentId + '/comments',
+            'type': 'POST',
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
+
+    /**
+     * Deletes a comment from a content item
+     *
+     * @param  {String}       contentId           Content id of the content item we're trying to delete a comment from
+     * @param  {String}       commentId           The ID of the comment to delete
+     * @param  {Function}     callback            Standard callback method
+     * @param  {Object}       callback.err        Error object containing error code and error message
+     * @param  {Comment}      callback.comment    If the comment is not deleted, but instead flagged as deleted, the comment with properties stripped from it returns.
+     */
+    var deleteComment = exports.deleteComment = function(contentId, commentId, callback) {
+        if (!contentId) {
+            throw new Error('A content ID should be provided');
+        } else if (!commentId) {
+            throw new Error('A comment ID should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/content/' + contentId + '/comments/' + commentId,
+            'type': 'DELETE',
+            'success': function(comment) {
+                callback(null, comment);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
+
 });
