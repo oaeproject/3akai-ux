@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports'], function(exports) {
+define(['exports', 'oae/api/oae.core'], function(exports, oae) {
 
     /**
      * Request a profile section from a user's profile.
@@ -24,7 +24,23 @@ define(['exports'], function(exports) {
      * @param  {Object}         callback.err        Error object containing error code and error message
      * @param  {Object}         callback.section    JSON object representing the user's profile section. This will be the same as what was saved by the user
      */
-    var getSection = exports.getSection = function(userId, sectionId, callback) {};
+    var getSection = exports.getSection = function(userId, sectionId, callback) {
+        if (!userId) {
+            throw new Error("A userId should be provided.");
+        } else if (!sectionId) {
+            throw new Error("A sectionId should be provided");
+        }
+        var url = '/api/user/' + userId + '/profile/' + sectionId;
+        $.ajax({
+            'url': url,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Get an overview of all of the sections for which a user has profile information set and their visibility setting.
@@ -34,7 +50,21 @@ define(['exports'], function(exports) {
      * @param  {Object}         callback.err        Error object containing error code and error message
      * @param  {Object}         callback.vis        JSON object representing all of the user's profile sections and their visibility. The keys are the profile section ids, and the values are the visibility settings for those sections
      */
-    var getSectionOverview = exports.getSectionOverview = function(userId, callback) {};
+    var getSectionOverview = exports.getSectionOverview = function(userId, callback) {
+        if (!userId) {
+            throw new Error("A userId should be provided.");
+        }
+
+        $.ajax({
+            'url': '/api/user/' + userId + '/profile/sections',
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Set a profile section for the currently logged in user.
@@ -46,7 +76,41 @@ define(['exports'], function(exports) {
      * @param  {Function}       [callback]          Standard callback method takes argument `err`
      * @param  {Object}         [callback.err]      Error object containing error code and error message
      */
-    var setSection = exports.setSection = function(sectionId, visibility, sectionData, overwrite, callback) {};
+    var setSection = exports.setSection = function(sectionId, visibility, sectionData, overwrite, callback) {
+        if (!sectionId) {
+            throw new Error("A sectionId should be provided.");
+        }
+        // Require oae here to avoid a cyclical dependency.
+        var oae = require('oae/api/oae.core');
+
+        // Get the current user and construct the endpoint url.
+        var userId = oae.data.me.userId;
+        var url = '/api/user/' + userId + '/profile/' + sectionId;
+
+        // Depending on the supplied parameters we send more or less data.
+        var data = {
+            'data': JSON.stringify(sectionData)
+        };
+        if (visibility) {
+            data.visibility = visibility;
+        }
+        if (overwrite) {
+            data.overwrite = true;
+        }
+
+        // Perform the request
+        $.ajax({
+            'url': url,
+            'type': 'POST',
+            'data': data,
+            'success': function() {
+                callback(null);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Delete a profile section for the currently logged in user.
@@ -55,7 +119,29 @@ define(['exports'], function(exports) {
      * @param  {Function}       [callback]          Standard callback method takes argument `err`
      * @param  {Object}         [callback.err]      Error object containing error code and error message
      */
-    var deleteSection = exports.deleteSection = function(sectionId, callback) {};
+    var deleteSection = exports.deleteSection = function(sectionId, callback) {
+        if (!sectionId) {
+            throw new Error("A sectionId should be provided.");
+        }
+        // Require oae here to avoid a cyclical dependency.
+        var oae = require('oae/api/oae.core');
+
+        // Get the current user and construct the endpoint url.
+        var userId = oae.data.me.userId;
+        var url = '/api/user/' + userId + '/profile/' + sectionId;
+
+        // Perform the request
+        $.ajax({
+            'url': url,
+            'type': 'DELETE',
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Update a profile section's visibility for the currently logged in user
