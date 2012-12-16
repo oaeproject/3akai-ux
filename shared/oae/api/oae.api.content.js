@@ -22,8 +22,23 @@ define(['exports'], function(exports) {
      * @param  {Function}     callback            Standard callback method
      * @param  {Object}       callback.err        Error object containing error code and error message
      * @param  {Content}      callback.content    Content object representing the retrieved content
+     * @throws {Error}                            Error thrown when no content id has been provided
      */
-    var getContent = exports.getContent = function(contentId, callback) {};
+    var getContent = exports.getContent = function(contentId, callback) {
+        if (!contentId) {
+            throw new Error('A valid content id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/content/' + contentId,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Create a new link.
@@ -37,8 +52,37 @@ define(['exports'], function(exports) {
      * @param  {Function}       [callback]          Standard callback method
      * @param  {Object}         [callback.err]      Error object containing error code and error message
      * @param  {Content}        [callback.content]  Content object representing the created content
+     * @throws {Error}                              Error thrown when not all of the required parameters have been provided
      */
-    var createLink = exports.createLink = function(name, description, visibility, link, managers, viewers, callback) {};
+    var createLink = exports.createLink = function(name, description, visibility, link, managers, viewers, callback) {
+        if (!name) {
+            throw new Error('A valid link name should be provided');
+        } else if (!link) {
+            throw new Error('A valid link should be provided');
+        }
+
+        var data = {
+            'contentType': 'link',
+            'name': name,
+            'description': description,
+            'visibility': visibility,
+            'link': link,
+            'managers': managers,
+            'viewers': viewers
+        };
+
+        $.ajax({
+            'url': '/api/content/create',
+            'type': 'POST',
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Create a new file.
@@ -66,8 +110,34 @@ define(['exports'], function(exports) {
      * @param  {Function}     [callback]          Standard callback method
      * @param  {Object}       [callback.err]      Error object containing error code and error message
      * @param  {Content}      [callback.content]  Content object representing the created content
+     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */
-    var createSakaiDoc = exports.createSakaiDoc = function(name, description, visibility, managers, viewers, callback) {};
+    var createSakaiDoc = exports.createSakaiDoc = function(name, description, visibility, managers, viewers, callback) {
+        if (!name) {
+            throw new Error('A valid document name should be provided');
+        }
+
+        var data = {
+            'contentType': 'sakaidoc',
+            'name': name,
+            'description': description,
+            'visibility': visibility,
+            'managers': managers,
+            'viewers': viewers
+        };
+
+        $.ajax({
+            'url': '/api/content/create',
+            'type': 'POST',
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Update a content item's metadata.
