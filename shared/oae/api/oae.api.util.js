@@ -192,21 +192,6 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
         }
     };
 
-    ///////////////////
-    // Notifications //
-    //
-
-    var notificationTypes = {
-        INFORMATION : {
-            image: '/ui/img/notifications_info_icon.png',
-            time: 5000
-        },
-        ERROR : {
-            image: '/ui/img/notifications_exclamation_icon.png',
-            time: 10000
-        }
-    };
-
     /**
      * Show a notification message (either information or error) on the screen
      * 
