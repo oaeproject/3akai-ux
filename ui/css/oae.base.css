@@ -3102,11 +3102,14 @@ ul.oae-list li.oae-list-item.active {
     background-color: #999;
 }
 ul.oae-list li.oae-list-item .oae-list-description {
+    display: none;
     margin-top: 1px;
     color: #666;
     font-style: italic;
 }
-
+ul.oae-list.expandedlist li.oae-list-item .oae-list-description {
+    display: block;
+}
 ul.oae-list li.oae-list-item .oae-list-item-left {
     background-color: #fff;
     border-radius: 3px;
@@ -3118,9 +3121,6 @@ ul.oae-list li.oae-list-item .oae-list-item-left {
     margin-top: 2px;
     margin-left: .5%;
     height: 34px;
-}
-ul.oae-list li.oae-list-item.active .oae-list-item-left {
-    box-shadow: 0 0 2px 0 #999;
 }
 ul.oae-list.expandedlist li.oae-list-item.active .oae-list-item-left,
 ul.oae-list li.oae-list-item.active .oae-list-item-left,
@@ -3268,6 +3268,9 @@ ul.oae-list li.oae-list-item.active .oae-list-item-left img.oae-list-item-profil
     -webkit-border-radius: 3px;
     display: block;
 }
+ul.oae-list.grid li.oae-list-item .oae-list-item-left img.oae-list-item-profile-picture {
+    border: none;
+}
 ul.oae-list li.oae-list-item .oae-list-item-left img.oae-list-item-profile-picture.grid {
     display: none;
 }
@@ -3316,9 +3319,8 @@ ul.oae-list li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hi
 ul.oae-list li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden .oae-list-item-align-right {
     margin-left: 7px;
 }
-ul.oae-list li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden .oae-list-item-align-right p {
-    font-style: italic;
-    width :125px;
+ul.oae-list.grid li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden p {
+    width: 130px;
 }
 
 /* list elements */
@@ -3328,6 +3330,14 @@ ul.oae-list li.oae-list-item label {
     font-size: 13px;
     letter-spacing: 0.04em;
     margin: 0 7px;
+}
+ul.oae-list li.oae-list-item label a {
+    display: inline-block;
+    line-height: 20px;
+    max-width: 550px;
+}
+ul.oae-list li.oae-list-item.active label a {
+    max-width: 250px;
 }
 ul.oae-list.expandedlist li.oae-list-item label,
 ul.oae-list li.oae-list-item.active label {

@@ -69,7 +69,9 @@
                             <div class="oae-list-item-right-hidden grid" style="display: none;"></div>
                         </div>
                         <div class="oae-list-item-banner" style="display: none;">
-                            <div class="oae-threedots"><a href="/user/${r.id}" title="${r.title}">${r.title}</a></div>
+                            <div>
+                                <a class="oae-threedots" href="/user/${r.id}" title="${r.title}">${r.title}</a>
+                            </div>
                         </div>
                         <div class="oae-list-item-left">
                             <img src="${thumbnailUrl}" alt="${r.title}" class="oae-list-item-profile-picture grid"/>
@@ -80,7 +82,7 @@
                                 <label for="${r.id}_chk" class="oae-threedots">
                                     <img src="${mediumThumbnailUrl}" alt="${r.title}" class="oae-list-item-profile-picture"/>
                                     <img src="${smallThumbnailUrl}" alt="${r.title}" class="oae-list-item-small-picture"/>
-                                    <a href="/user/${r.id}" title="${r.title}">${r.title}</a>
+                                    <a class="oae-threedots" href="/user/${r.id}" title="${r.title}">${r.title}</a>
                                 </label>
                                 <div class="oae-list-description">Cambridge University</div>
                             </div>
@@ -95,7 +97,9 @@
                             <div class="oae-list-item-right-hidden grid" style="display: none;"></div>
                         </div>
                         <div class="oae-list-item-banner" style="display: none;">
-                            <div class="oae-threedots"><a href="/group/${r.id}" title="${r.title}">${r.title}</a></div>
+                            <div>
+                                <a class="oae-threedots" href="/group/${r.id}" title="${r.title}">${r.title}</a>
+                            </div>
                         </div>
                         <div class="oae-list-item-left">
                             <img src="${thumbnailUrl}" alt="${r.title}" class="oae-list-item-profile-picture grid"/>
@@ -106,7 +110,7 @@
                                 <label for="${r.id}_chk" class="oae-threedots">
                                     <img src="${mediumThumbnailUrl}" alt="${r.title}" class="oae-list-item-profile-picture"/>
                                     <img src="${smallThumbnailUrl}" alt="${r.title}" class="oae-list-item-small-picture"/>
-                                    <a href="/group/${r.id}" title="${r.title}">${r.title}</a>
+                                    <a class="oae-threedots" href="/group/${r.id}" title="${r.title}">${r.title}</a>
                                 </label>
                                 <div class="oae-list-description">Cambridge University</div>
                             </div>
@@ -128,8 +132,8 @@
                         </div>
                         <div class="oae-list-item-banner" style="display: none;">
                             <div>
-                                <span class="oae-threedots"><a href="/content/${r.id}" title="${r.title}">${r.title}</a></span>
                                 <div class="oae-visibility-${r.visibility} oae-force-right"></div>
+                                <a class="oae-threedots" href="/content/${r.id}" title="${r.title}">${r.title}</a>
                             </div>
                         </div>
                         <div class="oae-list-item-left">
@@ -145,7 +149,7 @@
                                     <img src="${mediumThumbnailUrl}" alt="${r.title}" class="oae-list-item-profile-picture"/>
                                     <img src="${smallThumbnailUrl}" alt="${r.title}" class="oae-list-item-small-picture"/>
                                     <div class="oae-visibility-${r.visibility} oae-force-left"></div>
-                                    <a href="/content/${r.id}" title="${r.title}">${r.title}</a>
+                                    <a class="oae-threedots" href="/content/${r.id}" title="${r.title}">${r.title}</a>
                                 </label>
                             </div>
                         </div>
