@@ -13,7 +13,100 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery','sakai/sakai.api.core'], function($, sakai) {
+require(['jquery','oae/api/oae.core'], function($, oae) {
+
+    //  Get the content id from the URL. The expected URL is /content/<groupId>
+    var contentId = document.location.pathname.split('/').pop();
+    if (!contentId) {
+        oae.api.util.redirect().redirectToLogin();
+    }
+
+    // Variable used to cache the requested content profile
+    var contentProfile = null;
+
+    /**
+     * Get the content's basic profile and set up the screen. If the content
+     * can't be found or is private to the current user, the appropriate
+     * error page will be shown
+     */
+    var getContentProfile = function() {
+        oae.api.content.getContent(contentId, function(err, profile) {
+            if (err && err.code === 404) {
+                oae.api.util.redirect().redirectTo404();
+            } else if (err && err.code === 401) {
+                oae.api.util.redirect().redirectTo403();
+            }
+
+            contentProfile = profile;
+            //renderEntity();
+            // Set the browser title
+            oae.api.util.setBrowserTitle(contentProfile.name);
+            // We can now unhide the page
+            oae.api.util.showPage();
+        });
+    };
+
+    getContentProfile();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    return;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     sakai_global.content_profile = function() {
 
