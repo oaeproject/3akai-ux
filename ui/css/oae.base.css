@@ -3163,9 +3163,9 @@ ul.oae-list li.oae-list-item.active .oae-list-item-left .oae-list-item-left-inne
 ul.oae-list.expandedlist li.oae-list-item .oae-list-item-right,
 ul.oae-list li.oae-list-item .oae-list-item-right {
     background: url("/ui/img/lists/list_grabber.png") no-repeat scroll 5px center #dededd;
-    border-radius: 0 3px 3px 0;
-    -moz-border-radius: 0 3px 3px 0;
-    -webkit-border-radius: 0 3px 3px 0;
+    border-radius: 0 3px 2px 0;
+    -moz-border-radius: 0 3px 2px 0;
+    -webkit-border-radius: 0 3px 2px 0;
     cursor: pointer;
     float: right;
     min-height: 36px;
@@ -3210,25 +3210,9 @@ ul.oae-list li.oae-list-item.active .oae-list-item-right {
     background-color: #999;
     width: 47.5%;
 }
-
-/* clickable puzzle piece */
-ul.oae-list li.oae-list-item .oae-puzzle-border {
-    margin-left: -9px;
-    margin-top: 8px;
-    position: absolute;
-    z-index: 200;
-    cursor: pointer;
-}
-ul.oae-list.expandedlist li.oae-list-item .oae-puzzle-border,
-ul.oae-list li.oae-list-item.active .oae-puzzle-border {
-    margin-top: 25px;
-}
 ul.oae-list.expandedlist li.oae-list-item .oae-share-button,
 ul.oae-list li.oae-list-item.active .oae-share-button {
     margin-top: 23px;
-}
-ul.oae-list.grid li.oae-list-item .oae-puzzle-border {
-    margin-top: 75px;
 }
 
 /* Bottom banner for grid view */
@@ -3251,6 +3235,9 @@ ul.oae-list.grid li.oae-list-item .oae-list-item-banner > div:first-child {
     -webkit-border-radius: 0 0 3px 3px;
     opacity: 0.85;
     padding: 7px 14px 7px 7px;
+}
+ul.oae-list.grid li.oae-list-item .oae-list-item-banner > div:first-child  a {
+    color: #fff;
 }
 ul.oae-list.grid li.oae-list-item .oae-list-item-banner > div:first-child + div {
     margin-left: 7px;
