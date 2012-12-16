@@ -3262,6 +3262,10 @@ ul.oae-list li.oae-list-item .oae-list-item-left img.oae-list-item-profile-pictu
 }
 ul.oae-list.expandedlist li.oae-list-item .oae-list-item-left img.oae-list-item-profile-picture,
 ul.oae-list li.oae-list-item.active .oae-list-item-left img.oae-list-item-profile-picture {
+    border: 1px solid #E3E2DB;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
     display: block;
 }
 ul.oae-list li.oae-list-item .oae-list-item-left img.oae-list-item-profile-picture.grid {
