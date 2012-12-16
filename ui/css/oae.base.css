@@ -2500,7 +2500,7 @@ input[type=text], input[type=password], input[type=email], input[type=url], text
     font-weight: normal;
     font-size: 1em;
     color: #666;
-    width: 700px;
+    width: 723px;
 }
 .oae-search-header {
     margin-bottom: 5px;
@@ -2541,7 +2541,7 @@ input[type=text], input[type=password], input[type=email], input[type=url], text
 .oae-search-results {
     display: block;
     overflow: hidden;
-    width: 715px;
+    width: 740px;
 }
 .oae-search-results .oae-search-results-container {
     margin: 10px 0 0;
