@@ -165,9 +165,39 @@ require(['jquery', 'oae/api/oae.core'], function($, oae) {
         }
     };
 
+    var switchViewMode = function(el) {
+        $('.oae-search-listview-options .oae-action-icon').removeClass('selected');
+        $(el).children('div').addClass('selected');
+    };
+
+    var setUpViewMode = function() {
+        $(document).on('click', '.search_view_grid', function() {
+            switchViewMode(this);
+            $('.oae-list').addClass('grid');
+            $('.oae-list').removeClass('expandedlist');
+        });
+
+        $(document).on('click', '.search_view_expandedlist', function() {
+            switchViewMode(this);
+            $('.oae-list').removeClass('grid');
+            $('.oae-list').addClass('expandedlist');
+        });
+
+        $(document).on('click', '.search_view_list', function() {
+            switchViewMode(this);
+            $('.oae-list').removeClass('expandedlist');
+            $('.oae-list').removeClass('grid');
+        });
+
+        $(document).on('click', '.oae-list-item-right', function() {
+            $(this).parent().toggleClass('active');
+        });
+    };
+
     // List to the left hand navigation ready event for navigation rendering
     $(window).on('lhnav.ready', setUpNavigation);  
 
     getGroupProfile();
+    setUpViewMode();
 
 });

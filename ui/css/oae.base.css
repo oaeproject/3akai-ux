@@ -3107,6 +3107,7 @@ ul.oae-list li.oae-list-item .oae-list-description {
     color: #666;
     font-style: italic;
 }
+ul.oae-list li.oae-list-item.active .oae-list-description,
 ul.oae-list.expandedlist li.oae-list-item .oae-list-description {
     display: block;
 }
