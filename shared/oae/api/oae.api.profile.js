@@ -92,9 +92,12 @@ define(['exports'], function(exports) {
         // Depending on the supplied parameters we send more or less data.
         var data = {
             'data': JSON.stringify(sectionData),
-            'overwrite': overwrite === true ? true : false,
-            'visibility': visibility
+            'overwrite': overwrite === true ? true : false
         };
+
+        if (visibility) {
+            data['visibility'] = visibility;
+        }
 
         $.ajax({
             'url': '/api/user/' + userId + '/profile/' + sectionId,
