@@ -545,7 +545,10 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
                 progressIndicatorHTML += '<p id="oae_progressindicator_body"></p>';
                 progressIndicatorHTML += '<div class="oae-inset-shadow-container"><img src="/ui/img/progress_bar.gif"/></div></div>';
             $('body').prepend($(progressIndicatorHTML));
-            progressIndicatorModal = modal($('#oae_progressindicator'));
+            progressIndicatorModal = modal($('#oae_progressindicator'), {
+                // Make sure the progress indicator is displayed above everything else
+                'zIndex': 50000,
+            });
         }
         
         /**
