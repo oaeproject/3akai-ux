@@ -22,8 +22,23 @@ define(['exports'], function(exports) {
      * @param  {Function}     callback            Standard callback method
      * @param  {Object}       callback.err        Error object containing error code and error message
      * @param  {Content}      callback.content    Content object representing the retrieved content
+     * @throws {Error}                            Error thrown when no content id has been provided
      */
-    var getContent = exports.getContent = function(contentId, callback) {};
+    var getContent = exports.getContent = function(contentId, callback) {
+        if (!contentId) {
+            throw new Error('A valid content id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/content/' + contentId,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Create a new link.
@@ -37,23 +52,92 @@ define(['exports'], function(exports) {
      * @param  {Function}       [callback]          Standard callback method
      * @param  {Object}         [callback.err]      Error object containing error code and error message
      * @param  {Content}        [callback.content]  Content object representing the created content
+     * @throws {Error}                              Error thrown when not all of the required parameters have been provided
      */
-    var createLink = exports.createLink = function(name, description, visibility, link, managers, viewers, callback) {};
+    var createLink = exports.createLink = function(name, description, visibility, link, managers, viewers, callback) {
+        if (!name) {
+            throw new Error('A valid link name should be provided');
+        } else if (!link) {
+            throw new Error('A valid link should be provided');
+        }
+
+        var data = {
+            'contentType': 'link',
+            'name': name,
+            'description': description,
+            'visibility': visibility,
+            'link': link,
+            'managers': managers,
+            'viewers': viewers
+        };
+
+        $.ajax({
+            'url': '/api/content/create',
+            'type': 'POST',
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Create a new file.
      * 
-     * @param  {String}       name                Display title for the created content item
-     * @param  {String}       [description]       The content item's description
-     * @param  {String}       [visibility]        The content item's visibility. This can be public, loggedin or private
-     * @param  {Element}      $file               jQuery element representing the file upload form field that contains the file to be uploaded
-     * @param  {String[]}     [managers]          Array of user/group ids that should be added as managers to the content item
-     * @param  {String[]}     [viewers]           Array of user/group ids that should be added as viewers to the content item
-     * @param  {Function}     [callback]          Standard callback method
-     * @param  {Object}       [callback.err]      Error object containing error code and error message
-     * @param  {Content}      [callback.content]  Content object representing the created content
+     * @param  {String}             name                Display title for the created content item
+     * @param  {String}             [description]       The content item's description
+     * @param  {String}             [visibility]        The content item's visibility. This can be public, loggedin or private
+     * @param  {Element|String}     $fileUploadField    jQuery element or selector for that jQuery element representing the file upload form field that has been used to initialise jQuery.fileupload
+     * @param  {Object}             file                jQuery.fileUpload object that was returned when selecting the file that needed to be uploaded
+     * @param  {String[]}           [managers]          Array of user/group ids that should be added as managers to the content item
+     * @param  {String[]}           [viewers]           Array of user/group ids that should be added as viewers to the content item
+     * @param  {Function}           [callback]          Standard callback method
+     * @param  {Object}             [callback.err]      Error object containing error code and error message
+     * @param  {Content}            [callback.content]  Content object representing the created content
+     * @throws {Error}                                  Error thrown when not all of the required parameters have been provided
      */
-    var createFile = exports.createFile = function(name, description, visibility, $file, managers, viewers, callback) {};
+    var createFile = exports.createFile = function(name, description, visibility, $fileUploadField, file, managers, viewers, callback) {
+        if (!name) {
+            throw new Error('A valid file name should be provided');
+        } else if (!$fileUploadField) {
+            throw new Error('A valid jquery.fileUpload container should be provided');
+        } else if (!file) {
+            throw new Error('A valid jquery.fileUpload file object should be provided');
+        }
+
+        // jQuery.fileupload requires sending the other form data as a .serializeArray object
+        // http://api.jquery.com/serializeArray/
+        var data = [
+            {'name': 'contentType', 'value': 'file'},
+            {'name': 'name', 'value': name},
+            {'name': 'description', 'value': description},
+            {'name': 'visibility', 'value': visibility}
+        ];
+
+        // Add the managers and viewers as an array
+        managers = managers || [];
+        $.each(managers, function(index, manager) {
+            data.push({'name': 'managers', 'value': manager});
+        });
+        viewers = viewers || [];
+        $.each(viewers, function(index, viewer) {
+            data.push({'name': 'viewers', 'value': viewer});
+        });
+
+        $($fileUploadField).fileupload('send', {
+            'files': [file],
+            'formData': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Create a new Sakai Doc.
@@ -66,8 +150,34 @@ define(['exports'], function(exports) {
      * @param  {Function}     [callback]          Standard callback method
      * @param  {Object}       [callback.err]      Error object containing error code and error message
      * @param  {Content}      [callback.content]  Content object representing the created content
+     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */
-    var createSakaiDoc = exports.createSakaiDoc = function(name, description, visibility, managers, viewers, callback) {};
+    var createSakaiDoc = exports.createSakaiDoc = function(name, description, visibility, managers, viewers, callback) {
+        if (!name) {
+            throw new Error('A valid document name should be provided');
+        }
+
+        var data = {
+            'contentType': 'sakaidoc',
+            'name': name,
+            'description': description,
+            'visibility': visibility,
+            'managers': managers,
+            'viewers': viewers
+        };
+
+        $.ajax({
+            'url': '/api/content/create',
+            'type': 'POST',
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Update a content item's metadata.
