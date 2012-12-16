@@ -169,7 +169,7 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
         $('.oae-list:visible').removeClass('grid');
     });
 
-    $(document).on('click', '.oae-puzzle-border', function() {
+    $(document).on('click', '.oae-list-item-right', function() {
         $(this).parent().toggleClass('active');
     });
 

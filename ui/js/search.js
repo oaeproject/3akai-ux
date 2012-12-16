@@ -194,7 +194,7 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
             $('.oae-search-results .oae-list').removeClass('grid');
         });
 
-        $(document).on('click', '.oae-puzzle-border', function() {
+        $(document).on('click', '.oae-list-item-right', function() {
             $(this).parent().toggleClass('active');
         });
     };

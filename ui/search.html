@@ -61,12 +61,12 @@
             {for r in results}
                 <li class="oae-list-item" data-id=${r.id}>
                     {if !r.resourceType}
-                        <div class="oae-list-item-banner" style="display: none;">
-                            <div>${r.title}</div>
-                        </div>
                         <div class="oae-list-item-right">
                             <div class="oae-list-item-right-hidden"></div>
                             <div class="oae-list-item-right-hidden grid" style="display: none;"></div>
+                        </div>
+                        <div class="oae-list-item-banner" style="display: none;">
+                            <div class="oae-threedots"><a href="/user/${r.id}" title="${r.title}">${r.title}</a></div>
                         </div>
                         <img src="/ui/img/lists/puzzle_border.png" class="oae-puzzle-border"/>
                         <div class="oae-list-item-left">
@@ -75,22 +75,22 @@
                                 {if !oae.data.me.anon}
                                     <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" data-id="${r.id}" class="oae-force-left"/>
                                 {/if}
-                                <label for="${r.id}_chk">
+                                <label for="${r.id}_chk" class="oae-threedots">
                                     <img src="http://www.gravatar.com/avatar" alt="${r.title}" class="oae-list-item-profile-picture"/>
                                     <img src="/ui/img/entities/user_icon.png" alt="${r.title}" class="oae-list-item-small-picture"/>
-                                    ${r.title}
+                                    <a href="/user/${r.id}" title="${r.title}">${r.title}</a>
                                 </label>
                                 <div class="oae-list-description">Cambridge University</div>
                             </div>
                         </div>
 
                     {elseif r.resourceType === 'group'}
-                        <div class="oae-list-item-banner" style="display: none;">
-                            <div>${r.title}</div>
-                        </div>
                         <div class="oae-list-item-right">
                             <div class="oae-list-item-right-hidden"></div>
                             <div class="oae-list-item-right-hidden grid" style="display: none;"></div>
+                        </div>
+                        <div class="oae-list-item-banner" style="display: none;">
+                            <div class="oae-threedots"><a href="/group/${r.id}" title="${r.title}">${r.title}</a></div>
                         </div>
                         <img src="/ui/img/lists/puzzle_border.png" class="oae-puzzle-border"/>
                         <div class="oae-list-item-left">
@@ -99,22 +99,16 @@
                                 {if !oae.data.me.anon}
                                     <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" data-id="${r.id}" class="oae-force-left"/>
                                 {/if}
-                                <label for="${r.id}_chk">
+                                <label for="${r.id}_chk" class="oae-threedots">
                                     <img src="http://www.gravatar.com/avatar" alt="${r.title}" class="oae-list-item-profile-picture"/>
                                     <img src="/ui/img/entities/${r.resourceType}_icon.png" alt="${r.title}" class="oae-list-item-small-picture"/>
-                                    ${r.title}
+                                    <a href="/group/${r.id}" title="${r.title}">${r.title}</a>
                                 </label>
                                 <div class="oae-list-description">Cambridge University</div>
                             </div>
                         </div>
 
                     {elseif r.resourceType === 'content'}
-                        <div class="oae-list-item-banner" style="display: none;">
-                            <div>
-                                <span>${r.title}</span>
-                                <div class="oae-visibility-${r.visibility} oae-force-right"></div>
-                            </div>
-                        </div>
                         <div class="oae-list-item-right">
                             <div class="oae-list-item-right-hidden">
                                 <div class="oae-list-item-align-right">
@@ -123,6 +117,12 @@
                             <div class="oae-list-item-right-hidden grid" style="display: none;">
                                 <div class="oae-list-item-align-right">
                                 </div>
+                            </div>
+                        </div>
+                        <div class="oae-list-item-banner" style="display: none;">
+                            <div>
+                                <span class="oae-threedots"><a href="/content/${r.id}" title="${r.title}">${r.title}</a></span>
+                                <div class="oae-visibility-${r.visibility} oae-force-right"></div>
                             </div>
                         </div>
                         <img src="/ui/img/lists/puzzle_border.png" class="oae-puzzle-border"/>
@@ -135,11 +135,11 @@
                                 {if !oae.data.me.anon}
                                     <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" data-id="${r.id}" class="oae-force-left"/>
                                 {/if}
-                                <label for="${r.id}_chk">
+                                <label for="${r.id}_chk" class="oae-threedots">
                                     <img src="http://www.gravatar.com/avatar" alt="${r.title}" class="oae-list-item-profile-picture"/>
                                     <img src="/ui/img/mimetypes/small/unknown.png" alt="${r.title}" class="oae-list-item-small-picture"/>
                                     <div class="oae-visibility-${r.visibility} oae-force-left"></div>
-                                    ${r.title}
+                                    <a href="/content/${r.id}" title="${r.title}">${r.title}</a>
                                 </label>
                             </div>
                         </div>
