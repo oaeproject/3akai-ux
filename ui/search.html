@@ -46,6 +46,7 @@
                 <div class="oae-page-column-right">
                     <div id="oae-page-main-content" class="oae-page-content-padding" role="main">
                         <div data-widget="contentauthoring"><!-- --></div>
+                        <div data-widget="sharecontent"><!-- --></div>
                     </div>
                 </div>
                 <div class="oae-bottom-spacer"></div>
@@ -57,14 +58,97 @@
 
         <!-- TEMPLATE CONTAINING THE RESULTS -->
         <div id="search_general_results_template"><!--
-            {for result in results}
-                {if result.resourceType === 'user'}
-                    // INSERT USER TEMPLATE HERE
-                {elseif result.resourceType === 'group'}
-                    // INSERT GROUP TEMPLATE HERE
-                {elseif result.resourceType === 'content'}
-                    // INSERT CONTENT TEMPLATE HERE
-                {/if}
+            {for r in results}
+                <li class="oae-list-item" data-id=${r.id}>
+                    {if !r.resourceType}
+                        {var thumbnailUrl = r.thumbnailUrl || '/ui/img/entities/user_icon_large.png'}
+                        <div class="oae-list-item-right">
+                            <div class="oae-list-item-right-hidden"></div>
+                            <div class="oae-list-item-right-hidden grid" style="display: none;"></div>
+                        </div>
+                        <div class="oae-list-item-banner" style="display: none;">
+                            <div class="oae-threedots"><a href="/user/${r.id}" title="${r.title}">${r.title}</a></div>
+                        </div>
+                        <div class="oae-list-item-left">
+                            <img src="${thumbnailUrl}" alt="${r.title}" class="oae-list-item-profile-picture grid"/>
+                            <div class="oae-list-item-left-inner">
+                                {if !oae.data.me.anon}
+                                    <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" data-id="${r.id}" class="oae-force-left"/>
+                                {/if}
+                                <label for="${r.id}_chk" class="oae-threedots">
+                                    <img src="${thumbnailUrl}" alt="${r.title}" class="oae-list-item-profile-picture"/>
+                                    <img src="/ui/img/entities/user_icon.png" alt="${r.title}" class="oae-list-item-small-picture"/>
+                                    <a href="/user/${r.id}" title="${r.title}">${r.title}</a>
+                                </label>
+                                <div class="oae-list-description">Cambridge University</div>
+                            </div>
+                        </div>
+
+                    {elseif r.resourceType === 'group'}
+                        {var thumbnailUrl = r.thumbnailUrl || '/ui/img/entities/group_icon_large.png'}
+                        <div class="oae-list-item-right">
+                            <div class="oae-list-item-right-hidden"></div>
+                            <div class="oae-list-item-right-hidden grid" style="display: none;"></div>
+                        </div>
+                        <div class="oae-list-item-banner" style="display: none;">
+                            <div class="oae-threedots"><a href="/group/${r.id}" title="${r.title}">${r.title}</a></div>
+                        </div>
+                        <div class="oae-list-item-left">
+                            <img src="${thumbnailUrl}" alt="${r.title}" class="oae-list-item-profile-picture grid"/>
+                            <div class="oae-list-item-left-inner">
+                                {if !oae.data.me.anon}
+                                    <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" data-id="${r.id}" class="oae-force-left"/>
+                                {/if}
+                                <label for="${r.id}_chk" class="oae-threedots">
+                                    <img src="${thumbnailUrl}" alt="${r.title}" class="oae-list-item-profile-picture"/>
+                                    <img src="/ui/img/entities/${r.resourceType}_icon.png" alt="${r.title}" class="oae-list-item-small-picture"/>
+                                    <a href="/group/${r.id}" title="${r.title}">${r.title}</a>
+                                </label>
+                                <div class="oae-list-description">Cambridge University</div>
+                            </div>
+                        </div>
+
+                    {elseif r.resourceType === 'content'}
+                        <div class="oae-list-item-right">
+                            <div class="oae-list-item-right-hidden">
+                                <div class="oae-list-item-align-right">
+                                </div>
+                            </div>
+                            <div class="oae-list-item-right-hidden grid" style="display: none;">
+                                <div class="oae-list-item-align-right">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="oae-list-item-banner" style="display: none;">
+                            <div>
+                                <span class="oae-threedots"><a href="/content/${r.id}" title="${r.title}">${r.title}</a></span>
+                                <div class="oae-visibility-${r.visibility} oae-force-right"></div>
+                            </div>
+                        </div>
+                        <div class="oae-list-item-left">
+                            <img src="http://www.gravatar.com/avatar?s=256" alt="${r.title}" class="oae-list-item-profile-picture grid"/>
+                            {if !oae.data.me.anon}
+                                <button type="button" class="oae-button oae-link-button oae-force-right oae-share-button" data-contentid="${r.id}" data-contentname="${r.title}"></button>
+                            {/if}
+                            <div class="oae-list-item-left-inner">
+                                {if !oae.data.me.anon}
+                                    <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" data-id="${r.id}" class="oae-force-left"/>
+                                {/if}
+                                <label for="${r.id}_chk" class="oae-threedots">
+                                    <img src="http://www.gravatar.com/avatar" alt="${r.title}" class="oae-list-item-profile-picture"/>
+                                    <img src="/ui/img/mimetypes/small/unknown.png" alt="${r.title}" class="oae-list-item-small-picture"/>
+                                    <div class="oae-visibility-${r.visibility} oae-force-left"></div>
+                                    <a href="/content/${r.id}" title="${r.title}">${r.title}</a>
+                                </label>
+                            </div>
+                        </div>
+                    {/if}
+
+                    {if !oae.data.me.anon}
+                        <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" data-id="${r.id}" class="oae-list-item-checkbox grid" style="display: none;"/>
+                    {/if}
+                    <div class="oae-push"></div>
+                </li>
             {/for}
         --></div>
 

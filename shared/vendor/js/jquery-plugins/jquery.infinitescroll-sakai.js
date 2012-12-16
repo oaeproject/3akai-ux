@@ -121,8 +121,11 @@ require(['jquery', 'underscore', 'oae/api/oae.api.i18n', 'oae/api/oae.api.util']
             isDoingSearch = true;
             showLoadingContainer();
             // Get the key of the latest
-            var $lastElement = $('[data-key]', $container).filter(':visible').filter(':last');
-            parameters.start = ($lastElement.length > 0) ? $lastElement.attr('data-key') : '';
+            var $lastElement = $('li', $container).filter(':visible').filter(':last');
+            if ($lastElement.length !== 0) {
+                parameters.start = $lastElement.attr('data-key') ? $lastElement.attr('data-key') : $lastElement.index();
+            }
+
             // Get the data from the server
             $.ajax({
                 'url': source,
