@@ -207,9 +207,30 @@ define(['exports'], function(exports) {
      * @param  {Function}        callback            Standard callback method
      * @param  {Object}          callback.err        Error object containing error code and error message
      * @param  {User[]|Group[]}  callback.members    Array that contains an object for each member. Each object has a role property that contains the role of the member and a profile property that contains the principal profile of the member
+     * @throws {Error}                               Error thrown when no content ID has been provided
      */
-    var getMembers = exports.getMembers = function(contentId, start, limit, callback) {};
-    
+    var getMembers = exports.getMembers = function(contentId, start, limit, callback) {
+        if (!contentId) {
+            throw new Error('A content ID should be provided');
+        }
+
+        var data = {
+            'start': start,
+            'limit': limit
+        };
+
+        $.ajax({
+            'url': '/api/content/'+ contentId + '/members',
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
+
     /**
      * Change the members and managers of a content item.
      * 
@@ -227,8 +248,31 @@ define(['exports'], function(exports) {
      * @param  {String[]}     principals          Array of principal ids with who the content should be shared
      * @param  {Function}     [callback]          Standard callback method
      * @param  {Object}       [callback.err]      Error object containing error code and error message
+     * @throws {Error}                            Error thrown when no content ID or Array of principal IDs has been provided
      */
-    var shareContent = exports.shareContent = function(contentId, principals, callback) {};
+    var shareContent = exports.shareContent = function(contentId, principals, callback) {
+        if (!contentId) {
+            throw new Error('A content ID should be provided');
+        } else if (!principals.length) {
+            throw new Error('A user or group to share with should be provided');
+        }
+
+        var data = {
+            'viewers': principals
+        };
+
+        $.ajax({
+            'url': '/api/content/' + contentId + '/share',
+            'type': 'POST',
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Get a principal library.
@@ -239,8 +283,29 @@ define(['exports'], function(exports) {
      * @param  {Function}       callback            Standard callback method
      * @param  {Object}         callback.err        Error object containing error code and error message
      * @param  {Content[]}      callback.items      Array of content items representing the content items present in the library
+     * @throws {Error}                              Error thrown when no principal ID has been provided
      */
-    var getLibrary = exports.getLibrary = function(principalId, start, limit, callback) {};
+    var getLibrary = exports.getLibrary = function(principalId, start, limit, callback) {
+        if (!principalId) {
+            throw new Error('A user ID should be provided');
+        }
+
+        var data = {
+            'start': start,
+            'limit': limit
+        };
+
+        $.ajax({
+            'url': '/api/content/library/' + principalId,
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
 
     //////////////////////
     // Content comments //
