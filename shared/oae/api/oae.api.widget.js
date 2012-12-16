@@ -279,7 +279,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
             // If the widget's resource have already been loaded,
             // we just render the widget
             if (loadedWidgets[widgetName]) {
-                return renderWidget(widgetName, widgetId, widgetData, showSettings);
+                return renderWidget(widgetName, widgetId, showSettings, widgetData[widgetId]);
             }
 
             // The widget hasn't been loaded yet, we add to the list of widgets to load
