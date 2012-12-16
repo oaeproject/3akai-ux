@@ -63,6 +63,26 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
     // TODO: Replace this with more effective page configuration
     var pubdata = {
         'structure0': {
+            'profile': {
+                '_order': 0,
+                '_ref': 'id12940812409',
+                '_title': oae.api.i18n.translate('__MSG__MY_PROFILE__'),
+                'basic': {
+                    '_order': 0,
+                    '_ref': 'id12940812409',
+                    '_title': oae.api.i18n.translate('__MSG__PROFILE_BASIC_LABEL__')
+                },
+                'aboutme': {
+                    '_order': 0,
+                    '_ref': 'id209875202349',
+                    '_title': oae.api.i18n.translate('__MSG__PROFILE_ABOUTME_LABEL__')
+                },
+                'publiciations': {
+                    '_order': 0,
+                    '_ref': 'id018942094517',
+                    '_title': oae.api.i18n.translate('__MSG__PROFILE_PUBLICATIONS_LABEL__')
+                }
+            },
             'library': {
                 '_order': 0,
                 '_ref': 'id7646345443',
@@ -82,6 +102,72 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
                     '_ref': 'id934093203',
                     '_title': oae.api.i18n.translate('__MSG__MY_MEMBERSHIPS__')
                 }
+            }
+        },
+        'id12940812409' : {
+            'rows': [
+                {
+                    'id': 'id87829108921',
+                    'columns': [
+                        {
+                            'width': 1,
+                            'elements': [
+                                {
+                                    'id': 'id130841987897',
+                                    'type': 'displayprofilesection'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            'id130841987897': {
+                'user': oae.data.me,
+                'sectionName': 'basic'
+            }
+        },
+        'id209875202349' : {
+            'rows': [
+                {
+                    'id': 'id28937529847',
+                    'columns': [
+                        {
+                            'width': 1,
+                            'elements': [
+                                {
+                                    'id': 'id2938402384',
+                                    'type': 'displayprofilesection'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            'id2938402384': {
+                'user': oae.data.me,
+                'sectionName': 'aboutme'
+            }
+        },
+        'id018942094517' : {
+            'rows': [
+                {
+                    'id': 'id9827598274983',
+                    'columns': [
+                        {
+                            'width': 1,
+                            'elements': [
+                                {
+                                    'id': 'id98237498237492834',
+                                    'type': 'displayprofilesection'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            'id98237498237492834': {
+                'user': oae.data.me,
+                'sectionName': 'publications'
             }
         },
         'id7646345443': {

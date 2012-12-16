@@ -122,6 +122,27 @@ define(['exports', 'jquery'], function(exports, $) {
      * @param  {Function}       [callback]          Standard callback method
      * @param  {Object}         [callback.err]      Error object containing error code and error message
      */
-    var updateUser = exports.updateUser = function(params, callback) {};
+    var updateUser = exports.updateUser = function(params, callback) {
+        if (!params || Object.keys(params).length === 0) {
+            throw new Error('At least 1 parameter should be provided');
+        }
+        // Require oae here to avoid a cyclical dependency.
+        var oae = require('oae/api/oae.core');
+
+        // Get the current user and construct the endpoint url.
+        var userId = oae.data.me.userId;
+
+        $.ajax({
+            'url': '/api/user/' + userId,
+            'type': 'POST',
+            'data': params,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
 
 });
