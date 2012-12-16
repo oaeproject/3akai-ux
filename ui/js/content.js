@@ -43,11 +43,14 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
             contentProfile = profile;
 
             // TODO: Remove this
-            sakai_global.contentProfile = contentProfile
+            sakai_global.contentProfile = contentProfile;
             $(window).trigger('ready.content.oae');
 
             // Render the entity information
             //renderEntity();
+
+            // Insert the preview
+            oae.api.widget.insertWidget('documentviewer', null, $('#content_preview_container'), null, contentProfile);
             // Set the browser title
             oae.api.util.setBrowserTitle(contentProfile.name);
             // We can now unhide the page
