@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery'], function(exports, $) {
+define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
 
     /**
      * Creates a new user with an internal login strategy.
@@ -121,16 +121,15 @@ define(['exports', 'jquery'], function(exports, $) {
      * @param  {Object}         params              Object representing the profile fields that need to be updated. The keys are the profile fields, the values are the profile field values
      * @param  {Function}       [callback]          Standard callback method
      * @param  {Object}         [callback.err]      Error object containing error code and error message
+     * @throws {Error}                              Error thrown when no update parameters have been provided
      */
     var updateUser = exports.updateUser = function(params, callback) {
-        if (!params || Object.keys(params).length === 0) {
+        if (!params || _.keys(params).length === 0) {
             throw new Error('At least 1 parameter should be provided');
         }
-        // Require oae here to avoid a cyclical dependency.
-        var oae = require('oae/api/oae.core');
 
-        // Get the current user and construct the endpoint url.
-        var userId = oae.data.me.userId;
+        // Get the current user to construct the endpoint url.
+        var userId = require('oae/api/oae.core').data.me.userId;
 
         $.ajax({
             'url': '/api/user/' + userId,
