@@ -62,12 +62,16 @@
                 <li class="oae-list-item" data-id=${r.id}>
                     {if !r.resourceType}
                         {var thumbnailUrl = r.thumbnailUrl || '/ui/img/entities/user_icon_large.png'}
+                        {var mediumThumbnailUrl = r.thumbnailUrl || '/ui/img/entities/user_icon_medium.png'}
+                        {var smallThumbnailUrl = r.thumbnailUrl || '/ui/img/entities/user_icon.png'}
                         <div class="oae-list-item-right">
                             <div class="oae-list-item-right-hidden"></div>
                             <div class="oae-list-item-right-hidden grid" style="display: none;"></div>
                         </div>
                         <div class="oae-list-item-banner" style="display: none;">
-                            <div class="oae-threedots"><a href="/user/${r.id}" title="${r.title}">${r.title}</a></div>
+                            <div>
+                                <a class="oae-threedots" href="/user/${r.id}" title="${r.title}">${r.title}</a>
+                            </div>
                         </div>
                         <div class="oae-list-item-left">
                             <img src="${thumbnailUrl}" alt="${r.title}" class="oae-list-item-profile-picture grid"/>
@@ -76,9 +80,9 @@
                                     <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" data-id="${r.id}" class="oae-force-left"/>
                                 {/if}
                                 <label for="${r.id}_chk" class="oae-threedots">
-                                    <img src="${thumbnailUrl}" alt="${r.title}" class="oae-list-item-profile-picture"/>
-                                    <img src="/ui/img/entities/user_icon.png" alt="${r.title}" class="oae-list-item-small-picture"/>
-                                    <a href="/user/${r.id}" title="${r.title}">${r.title}</a>
+                                    <img src="${mediumThumbnailUrl}" alt="${r.title}" class="oae-list-item-profile-picture"/>
+                                    <img src="${smallThumbnailUrl}" alt="${r.title}" class="oae-list-item-small-picture"/>
+                                    <a class="oae-threedots" href="/user/${r.id}" title="${r.title}">${r.title}</a>
                                 </label>
                                 <div class="oae-list-description">Cambridge University</div>
                             </div>
@@ -86,12 +90,16 @@
 
                     {elseif r.resourceType === 'group'}
                         {var thumbnailUrl = r.thumbnailUrl || '/ui/img/entities/group_icon_large.png'}
+                        {var mediumThumbnailUrl = r.thumbnailUrl || '/ui/img/entities/group_icon_medium.png'}
+                        {var smallThumbnailUrl = r.thumbnailUrl || '/ui/img/entities/group_icon.png'}
                         <div class="oae-list-item-right">
                             <div class="oae-list-item-right-hidden"></div>
                             <div class="oae-list-item-right-hidden grid" style="display: none;"></div>
                         </div>
                         <div class="oae-list-item-banner" style="display: none;">
-                            <div class="oae-threedots"><a href="/group/${r.id}" title="${r.title}">${r.title}</a></div>
+                            <div>
+                                <a class="oae-threedots" href="/group/${r.id}" title="${r.title}">${r.title}</a>
+                            </div>
                         </div>
                         <div class="oae-list-item-left">
                             <img src="${thumbnailUrl}" alt="${r.title}" class="oae-list-item-profile-picture grid"/>
@@ -100,15 +108,18 @@
                                     <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" data-id="${r.id}" class="oae-force-left"/>
                                 {/if}
                                 <label for="${r.id}_chk" class="oae-threedots">
-                                    <img src="${thumbnailUrl}" alt="${r.title}" class="oae-list-item-profile-picture"/>
-                                    <img src="/ui/img/entities/${r.resourceType}_icon.png" alt="${r.title}" class="oae-list-item-small-picture"/>
-                                    <a href="/group/${r.id}" title="${r.title}">${r.title}</a>
+                                    <img src="${mediumThumbnailUrl}" alt="${r.title}" class="oae-list-item-profile-picture"/>
+                                    <img src="${smallThumbnailUrl}" alt="${r.title}" class="oae-list-item-small-picture"/>
+                                    <a class="oae-threedots" href="/group/${r.id}" title="${r.title}">${r.title}</a>
                                 </label>
                                 <div class="oae-list-description">Cambridge University</div>
                             </div>
                         </div>
 
                     {elseif r.resourceType === 'content'}
+                        {var thumbnailUrl = r.thumbnailUrl || '/ui/img/entities/content_icon_large.png'}
+                        {var mediumThumbnailUrl = r.thumbnailUrl || '/ui/img/entities/content_icon_medium.png'}
+                        {var smallThumbnailUrl = r.thumbnailUrl || '/ui/img/entities/content_icon.png'}
                         <div class="oae-list-item-right">
                             <div class="oae-list-item-right-hidden">
                                 <div class="oae-list-item-align-right">
@@ -121,12 +132,12 @@
                         </div>
                         <div class="oae-list-item-banner" style="display: none;">
                             <div>
-                                <span class="oae-threedots"><a href="/content/${r.id}" title="${r.title}">${r.title}</a></span>
                                 <div class="oae-visibility-${r.visibility} oae-force-right"></div>
+                                <a class="oae-threedots" href="/content/${r.id}" title="${r.title}">${r.title}</a>
                             </div>
                         </div>
                         <div class="oae-list-item-left">
-                            <img src="http://www.gravatar.com/avatar?s=256" alt="${r.title}" class="oae-list-item-profile-picture grid"/>
+                            <img src="${thumbnailUrl}" alt="${r.title}" class="oae-list-item-profile-picture grid"/>
                             {if !oae.data.me.anon}
                                 <button type="button" class="oae-button oae-link-button oae-force-right oae-share-button" data-contentid="${r.id}" data-contentname="${r.title}"></button>
                             {/if}
@@ -135,10 +146,10 @@
                                     <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" data-id="${r.id}" class="oae-force-left"/>
                                 {/if}
                                 <label for="${r.id}_chk" class="oae-threedots">
-                                    <img src="http://www.gravatar.com/avatar" alt="${r.title}" class="oae-list-item-profile-picture"/>
-                                    <img src="/ui/img/mimetypes/small/unknown.png" alt="${r.title}" class="oae-list-item-small-picture"/>
+                                    <img src="${mediumThumbnailUrl}" alt="${r.title}" class="oae-list-item-profile-picture"/>
+                                    <img src="${smallThumbnailUrl}" alt="${r.title}" class="oae-list-item-small-picture"/>
                                     <div class="oae-visibility-${r.visibility} oae-force-left"></div>
-                                    <a href="/content/${r.id}" title="${r.title}">${r.title}</a>
+                                    <a class="oae-threedots" href="/content/${r.id}" title="${r.title}">${r.title}</a>
                                 </label>
                             </div>
                         </div>
