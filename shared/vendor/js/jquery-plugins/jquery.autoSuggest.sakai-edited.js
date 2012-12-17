@@ -23,9 +23,8 @@
  */
 
 // Note: This version of the code is from Chris's repo at https://github.com/croby/jquery-autosuggest
-
-require([ 'jquery' ], function(jQuery) {
-
+// Note: Temporarily disabling require for jQuery and using the global jQuery object.
+//require([ 'jquery' ], function(jQuery) {
 (function( $ ) {
     var methods = {
 
@@ -526,4 +525,4 @@ require([ 'jquery' ], function(jQuery) {
     };
 })(jQuery);
 
-});
+//});

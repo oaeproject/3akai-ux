@@ -63,6 +63,11 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
      */
     var renderEntity = function() {
         oae.api.util.renderTemplate($('#oae_entity_template'), contentProfile, $('#oae_entity_container'));
+
+        // Share button.
+        $('#entity_content_permissions').on('click', function() {
+            $('body').trigger('init.contentpermissions.sakai', { 'content': contentProfile });
+        });
     };
 
     getContentProfile();
