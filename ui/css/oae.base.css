@@ -629,7 +629,7 @@ caption, .caption {
     -webkit-box-shadow: 0 10px 10px -3px #333333;
     box-shadow: 0 10px 10px -3px #333333;
     position: absolute;
-    z-index: 999;
+    z-index: 2001;
     min-width: 140px;
     padding: 5px;
     -moz-border-radius: 0 2px 2px 2px;
@@ -693,7 +693,7 @@ caption, .caption {
     height: 25px !important;
     width: 24px;
     padding: 3px 8px 0 0 !important;
-    margin-left: 2px;
+    margin-left: 2px !important;
     background: none !important;
     border: none !important;
     box-shadow: none !important;
@@ -2539,19 +2539,23 @@ input[type=text], input[type=password], input[type=email], input[type=url], text
     text-align: left;
     margin: 0;
 }
-.oae-search-header .oae-search-selects {
-    float: right;
+.oae-list-selects {
+    position: relative;
+    top: 10px;
+}
+.oae-search-compact {
+    position: relative;
+    top: 5px;
+    margin-right: 155px;
+}
+.oae-search-compact input {
+    height: 20px !important;
+    margin-top: 1px;
+    width: 12.25em !important;
 }
 .oae-search-header .oae-search-selects div {
     display: inline;
     float: left;
-}
-.oae-search-header .oae-search-selects select {
-    border: 1px solid #CCCCCC;
-    margin: 0;
-}
-.oae-search-header .oae-search-selects .oae-search-sort {
-    margin-left: 10px;
 }
 
 /* SEARCH RESULTS */
@@ -3026,22 +3030,22 @@ input[type=text], input[type=password], input[type=email], input[type=url], text
 }
 .oae-visibility-public {
     background: url('/shared/oae/img/visibility/public_icon.png') no-repeat center center transparent;
-    height: 20px;
+    height: 16px;
     width: 20px;
 }
 .oae-visibility-loggedin {
     background: url('/shared/oae/img/visibility/loggedin_icon.png') no-repeat center center transparent;
-    height: 20px;
+    height: 16px;
     width: 20px;
 }
 .oae-visibility-department {
     background: url('/shared/oae/img/visibility/department_icon.png') no-repeat center center transparent;
-    height: 20px;
+    height: 16px;
     width: 20px;
 }
 .oae-visibility-private {
     background: url('/shared/oae/img/visibility/private_icon.png') no-repeat center center transparent;
-    height: 20px;
+    height: 16px;
     width: 20px;
 }
 
@@ -3298,7 +3302,8 @@ ul.oae-list li.oae-list-item .oae-list-item-left .oae-list-item-left-inner img.o
     margin: 0 12px 0 7px;
 }
 ul.oae-list li.oae-list-item .oae-list-item-left .oae-list-item-left-inner img.oae-list-item-small-picture + div {
-    margin-left: -26px;
+    margin-left: -23px;
+    margin-top: 8px;
 }
 ul.oae-list.expandedlist li.oae-list-item .oae-list-item-left .oae-list-item-left-inner img.oae-list-item-small-picture,
 ul.oae-list li.oae-list-item.active .oae-list-item-left .oae-list-item-left-inner img.oae-list-item-small-picture {
@@ -3307,7 +3312,7 @@ ul.oae-list li.oae-list-item.active .oae-list-item-left .oae-list-item-left-inne
 ul.oae-list.expandedlist li.oae-list-item .oae-list-item-left .oae-list-item-left-inner img.oae-list-item-small-picture + div,
 ul.oae-list li.oae-list-item.active .oae-list-item-left .oae-list-item-left-inner img.oae-list-item-small-picture + div {
     margin-left: -22px;
-    margin-top: 37px;
+    margin-top: 44px;
 }
 
 /* right hand side list item content */
