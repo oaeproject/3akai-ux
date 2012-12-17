@@ -163,7 +163,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
                     });
 
                     // Load and render the widget
-                    insertWidget(widgetName, null, null, false, callback);
+                    insertWidget(widgetName, null, null, null, null, callback);
                 };
 
                 // Bind the widget to all of the events it wants to listen to
@@ -515,11 +515,12 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
      * @param  {String}             [widgetId]      The widget's unique id. If this is not provided, a random id wil be generated
      * @param  {Element|String}     [$container]    HTML container in which we want to insert the widget. This can either be a jQuery Element object or a jQuery selector string. If this is not provided, it will be inserted into the document's body
      * @param  {Boolean}            [showSettings]  Whether or not to show the widget's settings view. If this is not set, the widget's view mode will be shown.
+     * @param  {Object}             [widgetData]    JSON object representing widget instance data that should be passed into the widget load function
      * @param  {Function}           [callback]      Standard callback function executed when the widgets has finished loading and rendering
      * @param  {Object}             [callback.err]  Error containing the error code and message
      * @throws {Error}                              Error thrown when no or an invalid widget name is provided
      */
-    var insertWidget = exports.insertWidget = function(widgetName, widgetId, $container, showSettings, callback) {
+    var insertWidget = exports.insertWidget = function(widgetName, widgetId, $container, showSettings, widgetData, callback) {
         if (!widgetName || !manifests[widgetName]) {
             throw new Error('A valid widget name should be provided');
         }
@@ -528,6 +529,13 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
         showSettings = showSettings || false;
         // Default to the body element if the container hasn't been provided
         $container = $container ? $($container) : $('body');
+        // Default widget id if it hasn't been provided
+        widgetId = widgetId || utilAPI.generateId();
+        // Create a widget data object to pass into the widget loader
+        var widgetDataToPassIn = {};
+        if (widgetData) {
+            widgetDataToPassIn[widgetId] = widgetData;
+        }
 
         // Add the widget declaration to the container
         var $widget = $('<div>').attr({
@@ -536,6 +544,6 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
         })
         $container.prepend($widget);
         // Load the widget
-        loadWidgets($container, showSettings, null, callback);
+        loadWidgets($container, showSettings, widgetDataToPassIn, callback);
     };
 });
