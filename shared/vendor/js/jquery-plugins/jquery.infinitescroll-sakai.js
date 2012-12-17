@@ -31,7 +31,7 @@ require(['jquery', 'underscore', 'oae/api/oae.api.i18n', 'oae/api/oae.api.util']
      * @param  {Object}                            [options]                       Optional object containing additional configuraton options.
      * @param  {String|Element}                    [options.scrollcontainer]       jQuery element or selector for that jQuery element that identifies the container on which the scrollposition should be watched to check when we are close enough to the bottom to load a new set of results. If this is not provided, the document body will be used.
      * @param  {Function}                          [options.emptyListProcessor]    Function that will be executed when the rendered list doesn't have any elements.
-     * @param  {Function}                          [options.postProcessor]         Function used to transform the search results before rendering the template. This function will be called with 2 parameters: the list of retrieved items and a callback that should pass in the processed HTML
+     * @param  {Function}                          [options.postProcessor]         Function used to transform the search results before rendering the template. This function will be called with a data parameter containing the retrieved data and should return the processed data
      * @param  {Function}                          [options.postRenderer]          Function executed after the rendered HTML has been appended to the rendered list. The full retrieved server response will be passed into this function.
      * @param  {String}                            [options.loadingImage]          Path to the loading image that should be shown when a new set of list items is being loaded
      * @throws {Error}                                                             Error thrown when not all of the required parameters have been provided
@@ -149,12 +149,9 @@ require(['jquery', 'underscore', 'oae/api/oae.api.i18n', 'oae/api/oae.api.util']
          */
         var processList = function(data) {
             if (options.postProcessor) {
-                options.postProcessor(data, function(data) {
-                    renderList(data);
-                });
-            } else {
-                renderList(data);
+                data = options.postProcessor(data);
             }
+            renderList(data);
         };
 
         /**
