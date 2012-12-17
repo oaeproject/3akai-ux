@@ -63,7 +63,7 @@
                     {if !r.resourceType}
                         {var thumbnailUrl = r.thumbnailUrl || '/ui/img/entities/user_icon_large.png'}
                         {var mediumThumbnailUrl = r.thumbnailUrl || '/ui/img/entities/user_icon_medium.png'}
-                        {var smallThumbnailUrl = r.thumbnailUrl || '/ui/img/entities/user_icon.png'}
+                        {var smallThumbnailUrl = '/ui/img/entities/user_icon.png'}
                         <div class="oae-list-item-right">
                             <div class="oae-list-item-right-hidden"></div>
                             <div class="oae-list-item-right-hidden grid" style="display: none;"></div>
@@ -91,13 +91,14 @@
                     {elseif r.resourceType === 'group'}
                         {var thumbnailUrl = r.thumbnailUrl || '/ui/img/entities/group_icon_large.png'}
                         {var mediumThumbnailUrl = r.thumbnailUrl || '/ui/img/entities/group_icon_medium.png'}
-                        {var smallThumbnailUrl = r.thumbnailUrl || '/ui/img/entities/group_icon.png'}
+                        {var smallThumbnailUrl = '/ui/img/entities/group_icon.png'}
                         <div class="oae-list-item-right">
                             <div class="oae-list-item-right-hidden"></div>
                             <div class="oae-list-item-right-hidden grid" style="display: none;"></div>
                         </div>
                         <div class="oae-list-item-banner" style="display: none;">
                             <div>
+                                <div class="oae-visibility-${r.visibility} oae-force-right"></div>
                                 <a class="oae-threedots" href="/group/${r.id}" title="${r.title}">${r.title}</a>
                             </div>
                         </div>
@@ -110,6 +111,7 @@
                                 <label for="${r.id}_chk" class="oae-threedots">
                                     <img src="${mediumThumbnailUrl}" alt="${r.title}" class="oae-list-item-profile-picture"/>
                                     <img src="${smallThumbnailUrl}" alt="${r.title}" class="oae-list-item-small-picture"/>
+                                    <div class="oae-visibility-${r.visibility} oae-force-left"></div>
                                     <a class="oae-threedots" href="/group/${r.id}" title="${r.title}">${r.title}</a>
                                 </label>
                                 <div class="oae-list-description">Cambridge University</div>
@@ -119,7 +121,7 @@
                     {elseif r.resourceType === 'content'}
                         {var thumbnailUrl = r.thumbnailUrl || '/ui/img/entities/content_icon_large.png'}
                         {var mediumThumbnailUrl = r.thumbnailUrl || '/ui/img/entities/content_icon_medium.png'}
-                        {var smallThumbnailUrl = r.thumbnailUrl || '/ui/img/entities/content_icon.png'}
+                        {var smallThumbnailUrl = '/ui/img/entities/content_icon.png'}
                         <div class="oae-list-item-right">
                             <div class="oae-list-item-right-hidden">
                                 <div class="oae-list-item-align-right">
