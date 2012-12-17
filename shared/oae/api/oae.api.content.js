@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports'], function(exports) {
+define(['exports', 'underscore'], function(exports, _) {
 
     /**
      * Get a full content profile.
@@ -187,7 +187,25 @@ define(['exports'], function(exports) {
      * @param  {Function}     [callback]          Standard callback method
      * @param  {Object}       [callback.err]      Error object containing error code and error message
      */
-    var updateContent = exports.updateContent = function(contentId, params, callback) {};
+    var updateContent = exports.updateContent = function(contentId, params, callback) {
+        if (!contentId) {
+            throw new Error('A valid content ID should be provided');
+        } else if (!params || _.keys(params).length === 0) {
+            throw new Error('Parameters should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/content/' + contentId,
+            'type': 'POST',
+            'data': params,
+            'success': function() {
+                callback(null);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Delete a content item through the REST API.
@@ -239,7 +257,25 @@ define(['exports'], function(exports) {
      * @param  {Function}     [callback]          Standard callback method
      * @param  {Object}       [callback.err]      Error object containing error code and error message
      */
-    var updateMembers = exports.updateMembers = function(contentId, updatedMembers, callback) {};
+    var updateMembers = exports.updateMembers = function(contentId, updatedMembers, callback) {
+        if (!contentId) {
+            throw new Error('A content ID should be provided');
+        } else if (!updatedMembers || _.keys(updatedMembers).length === 0) {
+            throw new Error('The updatedMembers hash should contain at least 1 update.');
+        }
+
+        $.ajax({
+            'url': '/api/content/'+ contentId + '/members',
+            'type': 'POST',
+            'data': updatedMembers,
+            'success': function() {
+                callback(null);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Share a content item.
