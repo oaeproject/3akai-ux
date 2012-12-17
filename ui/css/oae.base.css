@@ -3197,7 +3197,7 @@ ul.oae-list.grid li.oae-list-item .oae-list-item-right {
     min-height: 162px;
     position: relative;
     width: 8%;
-    z-index: 1000;
+    z-index: 100;
 }
 ul.oae-list li.oae-list-item:hover .oae-list-item-right {
     background-color: #565656;

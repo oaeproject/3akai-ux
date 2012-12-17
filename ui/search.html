@@ -98,6 +98,7 @@
                         </div>
                         <div class="oae-list-item-banner" style="display: none;">
                             <div>
+                                <div class="oae-visibility-${r.visibility} oae-force-right"></div>
                                 <a class="oae-threedots" href="/group/${r.id}" title="${r.title}">${r.title}</a>
                             </div>
                         </div>
@@ -110,6 +111,7 @@
                                 <label for="${r.id}_chk" class="oae-threedots">
                                     <img src="${mediumThumbnailUrl}" alt="${r.title}" class="oae-list-item-profile-picture"/>
                                     <img src="${smallThumbnailUrl}" alt="${r.title}" class="oae-list-item-small-picture"/>
+                                    <div class="oae-visibility-${r.visibility} oae-force-left"></div>
                                     <a class="oae-threedots" href="/group/${r.id}" title="${r.title}">${r.title}</a>
                                 </label>
                                 <div class="oae-list-description">Cambridge University</div>
