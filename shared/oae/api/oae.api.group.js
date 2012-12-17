@@ -97,7 +97,43 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Function}     [callback]                    Standard callback method
      * @param  {Object}       [callback.err]                Error object containing error code and error message
      */
-    var updateGroup = exports.updateGroup = function (groupId, profileFields, callback) {};
+    var updateGroup = exports.updateGroup = function (groupId, profileFields, callback) {
+        if (!groupId) {
+            throw new Error('A valid group ID should be provided');
+        } else if (!profileFields || _.keys(profileFields).length === 0) {
+            throw new Error('At least one parameter should be provided');
+        }
+
+        // Only send those things that are truly supported.
+        // TODO: Bring in underscore 1.4.3 after demo and use one-liner.
+        //var data = _.pick(profileFields, 'name', 'description', 'visibility', 'joinable');
+        var data = {};
+        if (profileFields.name) {
+            data.name = profileFields.name;
+        }
+        if (profileFields.description) {
+            data.description = profileFields.description;
+        }
+        if (profileFields.visibility) {
+            data.visibility = profileFields.visibility;
+        }
+        if (profileFields.joinable) {
+            data.joinable = profileFields.joinable;
+        }
+
+        // Send away.
+        $.ajax({
+            'url': '/api/group/' + groupId,
+            'type': 'POST',
+            'data': data,
+            'success': function() {
+                callback(null);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
 
     /**
      * Get the members of a group.
@@ -140,7 +176,25 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Function}     [callback]          Standard callback method
      * @param  {Object}       [callback.err]      Error object containing error code and error message
      */
-    var setGroupMembers = exports.setGroupMembers = function(groupId, members, callback) {};
+    var setGroupMembers = exports.setGroupMembers = function(groupId, members, callback) {
+        if (!groupId) {
+            throw new Error('A valid group id should be provided');
+        } else if (!members || _.keys(members).length === 0) {
+            throw new Error('At least one member should be speficied.');
+        }
+
+        $.ajax({
+            'url': '/api/group/'  + groupId + '/members',
+            'type': 'POST',
+            'data': members,
+            'success': function() {
+                callback(null);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
 
     /**
      * Returns all of the groups that a user is a direct and indirect member of.
