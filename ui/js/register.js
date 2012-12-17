@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae/api/oae.core', '//www.google.com/recaptcha/api/js/recaptcha_ajax.js'], function($, oae) {
+require(['jquery', 'oae.core', '//www.google.com/recaptcha/api/js/recaptcha_ajax.js'], function($, oae) {
 
     // Redirect the user back to the landing page if he is already logged in or if
     // creating an internal account isn't allowed

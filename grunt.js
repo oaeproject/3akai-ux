@@ -45,12 +45,7 @@ module.exports = function(grunt) {
                 options: {
                     appDir: './',
                     baseUrl: './shared',
-                    paths: {
-                        'jquery': 'vendor/js/jquery',
-                        'jquery-plugins': 'vendor/js/jquery-plugins',
-                        'jquery-ui': 'vendor/js/jquery-ui.custom',
-                        'underscore': 'vendor/js/underscore'
-                    },
+                    mainConfigFile: './shared/oae/api/oae.bootstrap.js',
                     dir: 'target/optimized',
                     optimize: 'uglify',
                     optimizeCss: 'standard',
@@ -104,7 +99,8 @@ module.exports = function(grunt) {
                            'target/optimized/node_modules/oae-*/**/*.json'
                         ]
                     }
-                ]
+                ],
+                version: 'target/hashes.json'
             }
         },
         inlineImg: {

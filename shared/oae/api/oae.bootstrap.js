@@ -22,7 +22,8 @@ requirejs.config({
         'jquery': 'vendor/js/jquery',
         'jquery-plugins': 'vendor/js/jquery-plugins',
         'jquery-ui': 'vendor/js/jquery-ui.custom',
-        'underscore': 'vendor/js/underscore'
+        'underscore': 'vendor/js/underscore',
+        'oae.core': 'oae/api/oae.core'
     },
     priority: ['jquery', 'underscore']
 });
@@ -30,4 +31,4 @@ requirejs.config({
 /*!
  * Load all of the dependencies and core OAE APIs
  */
-require(['oae/api/oae.core']);
+require(['oae.core']);

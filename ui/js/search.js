@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery','oae/api/oae.core'], function($, oae) {
+require(['jquery','oae.core'], function($, oae) {
 
     // TODO: Replace this with more effective page configuration
     var pubdata = {
