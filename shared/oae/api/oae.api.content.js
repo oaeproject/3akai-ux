@@ -186,12 +186,13 @@ define(['exports', 'underscore'], function(exports, _) {
      * @param  {Object}       params              JSON object where the keys represent all of the profile field names we want to update and the values represent the new values for those fields
      * @param  {Function}     [callback]          Standard callback method
      * @param  {Object}       [callback.err]      Error object containing error code and error message
+     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */
     var updateContent = exports.updateContent = function(contentId, params, callback) {
         if (!contentId) {
-            throw new Error('A valid content ID should be provided');
+            throw new Error('A valid content id should be provided');
         } else if (!params || _.keys(params).length === 0) {
-            throw new Error('Parameters should be provided');
+            throw new Error('At least one update parameter should be provided');
         }
 
         $.ajax({
@@ -256,10 +257,11 @@ define(['exports', 'underscore'], function(exports, _) {
      * @param  {Object}       updatedMembers      JSON Object where the keys are the user/group ids we want to update membership for, and the values are the roles these members should get (manager or viewer). If false is passed in as a role, the principal will be removed as a member
      * @param  {Function}     [callback]          Standard callback method
      * @param  {Object}       [callback.err]      Error object containing error code and error message
+     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */
     var updateMembers = exports.updateMembers = function(contentId, updatedMembers, callback) {
         if (!contentId) {
-            throw new Error('A content ID should be provided');
+            throw new Error('A valid content id should be provided');
         } else if (!updatedMembers || _.keys(updatedMembers).length === 0) {
             throw new Error('The updatedMembers hash should contain at least 1 update.');
         }
