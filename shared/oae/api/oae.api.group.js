@@ -96,10 +96,11 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {String}       [profileFields.joinable]      New joinability setting for the group. The possible values are 'yes', 'no' and 'request'
      * @param  {Function}     [callback]                    Standard callback method
      * @param  {Object}       [callback.err]                Error object containing error code and error message
+     * @throws {Error}                                      Error thrown when not all of the required parameters have been provided
      */
     var updateGroup = exports.updateGroup = function (groupId, profileFields, callback) {
         if (!groupId) {
-            throw new Error('A valid group ID should be provided');
+            throw new Error('A valid group id should be provided');
         } else if (!profileFields || _.keys(profileFields).length === 0) {
             throw new Error('At least one parameter should be provided');
         }
@@ -121,7 +122,6 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             data.joinable = profileFields.joinable;
         }
 
-        // Send away.
         $.ajax({
             'url': '/api/group/' + groupId,
             'type': 'POST',
@@ -175,6 +175,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Object}       members             A hash object where each key is the id of a user or group and the value is one of 'manager', 'member' or false. In case the value is false, the member will be deleted.
      * @param  {Function}     [callback]          Standard callback method
      * @param  {Object}       [callback.err]      Error object containing error code and error message
+     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */
     var setGroupMembers = exports.setGroupMembers = function(groupId, members, callback) {
         if (!groupId) {
