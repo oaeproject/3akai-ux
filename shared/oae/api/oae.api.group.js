@@ -108,6 +108,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Function}           callback            Standard callback method
      * @param  {Object}             callback.err        Error object containing error code and error message
      * @param  {User[]|Group[]}     callback.response   Array of principals representing the group members
+     * @throws {Error}                                  Error thrown when no group id has been provided
      */
     var getGroupMembers = exports.getGroupMembers = function(groupId, start, limit, callback) {
         if (!groupId) {

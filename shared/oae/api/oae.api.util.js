@@ -195,14 +195,14 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
     /**
      * Show a notification message (either information or error) on the screen
      * 
-     * @param  {String}     title           The notification title
-     * @param  {String}     [text]          The notification description that will be shown underneath the title
+     * @param  {String}     [title]         The notification title
+     * @param  {String}     text            The notification description that will be shown underneath the title
      * @param  {String}     [type]          The notification type. This can be either 'info' or 'error'. If the type is not provided, this will default to 'info'
      * @throws {Error}                      Error thrown when no title has been provided
      */
     var showNotification = exports.showNotification = function(title, text, type) {
-        if (!title) {
-            throw new Error('A valid title should be provided');
+        if (!text) {
+            throw new Error('A valid body should be provided');
         }
 
         var notification = {
