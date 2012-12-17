@@ -2539,19 +2539,18 @@ input[type=text], input[type=password], input[type=email], input[type=url], text
     text-align: left;
     margin: 0;
 }
-.oae-search-header .oae-search-selects {
-    float: right;
+.oae-list-selects {
+    position: relative;
+    top: 10px;
+}
+.oae-list-compact-search {
+    height: 20px !important;
+    margin-top: 1px;
+    width: 12.25em !important;
 }
 .oae-search-header .oae-search-selects div {
     display: inline;
     float: left;
-}
-.oae-search-header .oae-search-selects select {
-    border: 1px solid #CCCCCC;
-    margin: 0;
-}
-.oae-search-header .oae-search-selects .oae-search-sort {
-    margin-left: 10px;
 }
 
 /* SEARCH RESULTS */
