@@ -875,6 +875,13 @@ ul.as-selections textarea.as-input {
     color: #666;
     word-wrap: break-word;
 }
+.oae-entity-container .oae-entity-title-secondary {
+    color: #999999;
+    margin-left: 7px;
+    text-transform: uppercase;
+    font-weight: normal;
+    font-size: 13px;
+}
 .oae-entity-container .oae-entity-actions {
     margin-top: 15px;
 }
@@ -882,6 +889,16 @@ ul.as-selections textarea.as-input {
     margin-left: 5px;
     color: #666;
     line-height: 17px;
+}
+.oae-entity-container .oae-entity-actions .oae-button .oae-share-icon {
+    background: url("/ui/img/share_icon_default_16x11.png") no-repeat scroll left top transparent;
+    float: right;
+    margin-left: 8px;
+    margin-top: 3px;
+}
+
+.oae-entity-container .oae-entity-actions .oae-button:hover .oae-share-icon {
+    background: url("/ui/img/share_icon_hover_16x11.png") no-repeat scroll left top transparent;
 }
 .oae-entity-container .oae-entity-actions .oae-entity_actions_menu {
     background: url("/ui/img/settings_icon_16x16.png") no-repeat left center transparent;

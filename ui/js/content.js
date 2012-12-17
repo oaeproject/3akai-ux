@@ -46,8 +46,8 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
             sakai_global.contentProfile = contentProfile;
             $(window).trigger('ready.content.oae');
 
-            // TODO: Render the entity information
-            //renderEntity();
+            // Render the entity information
+            renderEntity();
 
             // Insert the preview
             oae.api.widget.insertWidget('contentpreview', null, $('#content_preview_container'), null, contentProfile);
@@ -56,6 +56,13 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
             // We can now unhide the page
             oae.api.util.showPage();
         });
+    };
+
+    /**
+     * Render the content's profile picture and name
+     */
+    var renderEntity = function() {
+        oae.api.util.renderTemplate($('#oae_entity_template'), contentProfile, $('#oae_entity_container'));
     };
 
     getContentProfile();

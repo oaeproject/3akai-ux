@@ -21,7 +21,26 @@
             <div class="oae-fix oae-centered fixed-container oae-fixed-container">
                 <div class="oae-container-shadow-left"><!-- --></div>
                 <div class="oae-container-shadow-right"><!-- --></div>
-                <div class="oae-page-header"><!-- --></div>
+                <div class="oae-page-header">
+                    <div id="oae_entity_container" class="oae-entity-container"><!-- --></div>
+                    <div id="oae_entity_template"><!--
+                        {if isManager}
+                            <div class="oae-force-right oae-entity-actions">
+                                <button type="button" id="entity_content_permissions" class="oae-button oae-header-button">
+                                    __MSG__SHARE__<div class="oae-action-icon oae-share-icon"></div>
+                                </button>
+                            </div>
+                        {/if}
+                        <div class="oae-entity-picture">
+                            <img class="oae-icon-50" src="/ui/img/mimetypes/unknown.png" />
+                        </div>
+                        <div class="oae-bold oae-entity-title content-entity-title">
+                            ${name|safeUserInput}
+                            <span class="oae-entity-title-secondary">__MSG__OTHER_DOCUMENT__</span>
+                        </div>
+                        <div class="oae-push"></div>
+                    --></div>
+                </div>
             </div>
         </div>
 
