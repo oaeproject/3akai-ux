@@ -52,6 +52,9 @@ require(['jquery', 'oae/api/oae.core'], function($, oae) {
      */
     var renderEntity = function() {
         oae.api.util.renderTemplate($('#oae_entity_template'), groupProfile, $('#oae_entity_container'));
+        $('#entity_group_permissions').on('click', function() {
+            $('body').trigger('init.grouppermissions.sakai', { 'group': groupProfile });
+        });
     };
     
     /**
