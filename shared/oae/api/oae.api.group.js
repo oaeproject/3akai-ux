@@ -108,8 +108,29 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Function}           callback            Standard callback method
      * @param  {Object}             callback.err        Error object containing error code and error message
      * @param  {User[]|Group[]}     callback.response   Array of principals representing the group members
+     * @throws {Error}                                  Error thrown when no group id has been provided
      */
-    var getGroupMembers = exports.getGroupMembers = function(groupId, start, limit, callback) {};
+    var getGroupMembers = exports.getGroupMembers = function(groupId, start, limit, callback) {
+        if (!groupId) {
+            throw new Error('A valid group id should be provided');
+        }
+
+        var data = {
+            'start': start,
+            'limit': limit
+        };
+
+        $.ajax({
+            'url': '/api/group/'  + groupId + '/members',
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
 
     /**
      * Update the members of a group.
