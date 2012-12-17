@@ -352,6 +352,7 @@ define(['exports'], function(exports) {
      * @param  {String}       [replyTo]           Id of the comment to reply to
      * @param  {Function}     callback            Standard callback method
      * @param  {Object}       callback.err        Error object containing error code and error message
+     * @param  {Comment}      callback.comment    Comment object representing the created comment
      * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */
     var createComment = exports.createComment = function(contentId, body, replyTo, callback) {
@@ -370,8 +371,8 @@ define(['exports'], function(exports) {
             'url': '/api/content/' + contentId + '/comments',
             'type': 'POST',
             'data': data,
-            'success': function() {
-                callback(null);
+            'success': function(data) {
+                callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
