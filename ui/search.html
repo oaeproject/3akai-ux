@@ -63,7 +63,7 @@
                     {if !r.resourceType}
                         {var thumbnailUrl = r.thumbnailUrl || '/ui/img/entities/user_icon_large.png'}
                         {var mediumThumbnailUrl = r.thumbnailUrl || '/ui/img/entities/user_icon_medium.png'}
-                        {var smallThumbnailUrl = r.thumbnailUrl || '/ui/img/entities/user_icon.png'}
+                        {var smallThumbnailUrl = '/ui/img/entities/user_icon.png'}
                         <div class="oae-list-item-right">
                             <div class="oae-list-item-right-hidden"></div>
                             <div class="oae-list-item-right-hidden grid" style="display: none;"></div>
@@ -91,7 +91,7 @@
                     {elseif r.resourceType === 'group'}
                         {var thumbnailUrl = r.thumbnailUrl || '/ui/img/entities/group_icon_large.png'}
                         {var mediumThumbnailUrl = r.thumbnailUrl || '/ui/img/entities/group_icon_medium.png'}
-                        {var smallThumbnailUrl = r.thumbnailUrl || '/ui/img/entities/group_icon.png'}
+                        {var smallThumbnailUrl = '/ui/img/entities/group_icon.png'}
                         <div class="oae-list-item-right">
                             <div class="oae-list-item-right-hidden"></div>
                             <div class="oae-list-item-right-hidden grid" style="display: none;"></div>
@@ -121,7 +121,7 @@
                     {elseif r.resourceType === 'content'}
                         {var thumbnailUrl = r.thumbnailUrl || '/ui/img/entities/content_icon_large.png'}
                         {var mediumThumbnailUrl = r.thumbnailUrl || '/ui/img/entities/content_icon_medium.png'}
-                        {var smallThumbnailUrl = r.thumbnailUrl || '/ui/img/entities/content_icon.png'}
+                        {var smallThumbnailUrl = '/ui/img/entities/content_icon.png'}
                         <div class="oae-list-item-right">
                             <div class="oae-list-item-right-hidden">
                                 <div class="oae-list-item-align-right">
