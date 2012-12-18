@@ -20,10 +20,27 @@ requirejs.config({
     baseUrl:'/shared/',
     paths: {
         'jquery': 'vendor/js/jquery',
-        'jquery-plugins': 'vendor/js/jquery-plugins',
+        'globalize': 'vendor/js/l10n/globalize',
+        'jqmodal.sakai-edited': 'vendor/js/jquery-plugins/jqmodal.sakai-edited',
+        'jquery.ba-bbq': 'vendor/js/jquery-plugins/jquery.ba-bbq',
+        'jquery.ba-hashchange': 'vendor/js/jquery-plugins/jquery.ba-hashchange',
+        'jquery.contentchange.sakai-edited': 'vendor/js/jquery-plugins/jquery.contentchange.sakai-edited',
+        'jquery.equal-height-columns': 'vendor/js/jquery-plugins/jquery.equal-height-columns',
+        'jquery.fileSize': 'vendor/js/jquery-plugins/jquery.fileSize',
+        'jquery.form': 'vendor/js/jquery-plugins/jquery.form',
+        'jquery.gritter.sakai-edit': 'vendor/js/jquery-plugins/jquery.gritter.sakai-edit',
+        'jquery.infinitescroll-sakai': 'vendor/js/jquery-plugins/jquery.infinitescroll-sakai',
+        'jquery.properties-parser': 'vendor/js/jquery-plugins/jquery.properties-parser',
+        'jquery.serializeObject': 'vendor/js/jquery-plugins/jquery.serializeObject',
+        'jquery.validate': 'vendor/js/jquery-plugins/jquery.validate',
+        'jquery.iframe-transport': 'vendor/js/jquery-plugins/jquery.iframe-transport',
+        'jquery.timeago': 'vendor/js/jquery-plugins/jquery.timeago',
+        'jquery.fileupload': 'vendor/js/jquery-plugins/jquery.fileupload',
+        'jquery.autoSuggest.sakai-edited': 'vendor/js/jquery-plugins/jquery.autoSuggest.sakai-edited',
         'jquery-ui': 'vendor/js/jquery-ui.custom',
         'underscore': 'vendor/js/underscore',
-        'oae.core': 'oae/api/oae.core'
+        'oae.core': 'oae/api/oae.core',
+        'oae.api': 'oae/api/oae.api'
     },
     priority: ['jquery', 'underscore']
 });

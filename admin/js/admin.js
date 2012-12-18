@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae/oae.api!', '/shared/lib/bootstrap.js'], function($, oae) {
+require(['jquery', 'oae.api!', '/shared/lib/bootstrap.js'], function($, oae) {
 
     //////////
     //////////

@@ -49,6 +49,8 @@ module.exports = function(grunt) {
                     mainConfigFile: './shared/oae/api/oae.bootstrap.js',
                     dir: 'target/optimized',
                     optimize: 'uglify',
+                    findNestedDependencies: true,
+                    preserveLicenseComments: false,
                     optimizeCss: 'standard',
                     cssImportIgnore: null,
                     inlineText: true,
@@ -57,7 +59,7 @@ module.exports = function(grunt) {
                     skipPragmas: false,
                     skipModuleInsertion: false,
                     modules: [{
-                        name: 'oae/api/oae.api'
+                        name: 'oae.api'
                     }],
                     fileExclusionRegExp: /^(\.|tools|target|tests|grunt|shelljs)/,
                     logLevel: 2

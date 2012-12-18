@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugins/jquery.validate', 'vendor/js/trimpath'], function(exports, $, _, i18nAPI) {
+define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery.validate', 'vendor/js/trimpath'], function(exports, $, _, i18nAPI) {
 
     /**
      * Initialize all utility functionality.
