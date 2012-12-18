@@ -15,6 +15,9 @@
 
 require(['jquery','oae.core'], function($, oae) {
 
+    // Set the browser title
+    oae.api.util.setBrowserTitle(oae.api.i18n.translate('__MSG__SEARCH__'));
+
     // TODO: Replace this with more effective page configuration
     var pubdata = {
         'structure0': {
@@ -142,8 +145,12 @@ require(['jquery','oae.core'], function($, oae) {
             $.bbq.pushState({'q': $('#search_query').val()}, 0);
             return false;
         });
+
+        $(window).on('hashchange', function(ev) {
+            $('#search_query').val($.bbq.getState('q'))
+        });
     };
-    
+
     /**
      * Set up the left hand navigation with the provided structure
      */
@@ -163,8 +170,38 @@ require(['jquery','oae.core'], function($, oae) {
         }
     };
 
+    var switchViewMode = function(el) {
+        $('.oae-search-listview-options .oae-action-icon:visible').removeClass('selected');
+        $(el).children('div').addClass('selected');
+    };
+
+    var setUpViewMode = function() {
+        $(document).on('click', '.search_view_grid', function() {
+            switchViewMode(this);
+            $('.oae-search-results .oae-list:visible').addClass('grid');
+            $('.oae-search-results .oae-list:visible').removeClass('expandedlist');
+        });
+
+        $(document).on('click', '.search_view_expandedlist', function() {
+            switchViewMode(this);
+            $('.oae-search-results .oae-list:visible').removeClass('grid');
+            $('.oae-search-results .oae-list:visible').addClass('expandedlist');
+        });
+
+        $(document).on('click', '.search_view_list', function() {
+            switchViewMode(this);
+            $('.oae-search-results .oae-list:visible').removeClass('expandedlist');
+            $('.oae-search-results .oae-list:visible').removeClass('grid');
+        });
+
+        $(document).on('click', '.oae-list-item-right', function() {
+            $(this).parent().toggleClass('active');
+        });
+    };
+
     setUpSearch();
     setUpNavigation();
     setUpSearchQuery();
+    setUpViewMode();
 
 });

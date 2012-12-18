@@ -20,6 +20,9 @@ require(['jquery','oae.core'], function($, oae) {
         oae.api.util.redirect().redirectToLogin();
     }
 
+    // Set the browser title
+    oae.api.util.setBrowserTitle(oae.data.me.profile.displayName);
+
     // TODO: Replace this with more effective page configuration
     var privdata = {
         'structure0': {
@@ -50,13 +53,36 @@ require(['jquery','oae.core'], function($, oae) {
                         }
                     ]
                 }
-            ]
+            ],
+            'id7646542': {
+                'principalId': oae.data.me.userId
+            }
         }
     };
 
     // TODO: Replace this with more effective page configuration
     var pubdata = {
         'structure0': {
+            'profile': {
+                '_order': 0,
+                '_ref': 'id12940812409',
+                '_title': oae.api.i18n.translate('__MSG__MY_PROFILE__'),
+                'basic': {
+                    '_order': 0,
+                    '_ref': 'id12940812409',
+                    '_title': oae.api.i18n.translate('__MSG__PROFILE_BASIC_LABEL__')
+                },
+                'aboutme': {
+                    '_order': 0,
+                    '_ref': 'id209875202349',
+                    '_title': oae.api.i18n.translate('__MSG__PROFILE_ABOUTME_LABEL__')
+                },
+                'publiciations': {
+                    '_order': 0,
+                    '_ref': 'id018942094517',
+                    '_title': oae.api.i18n.translate('__MSG__PROFILE_PUBLICATIONS_LABEL__')
+                }
+            },
             'library': {
                 '_order': 0,
                 '_ref': 'id7646345443',
@@ -78,6 +104,72 @@ require(['jquery','oae.core'], function($, oae) {
                 }
             }
         },
+        'id12940812409' : {
+            'rows': [
+                {
+                    'id': 'id87829108921',
+                    'columns': [
+                        {
+                            'width': 1,
+                            'elements': [
+                                {
+                                    'id': 'id130841987897',
+                                    'type': 'displayprofilesection'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            'id130841987897': {
+                'user': oae.data.me,
+                'sectionName': 'basic'
+            }
+        },
+        'id209875202349' : {
+            'rows': [
+                {
+                    'id': 'id28937529847',
+                    'columns': [
+                        {
+                            'width': 1,
+                            'elements': [
+                                {
+                                    'id': 'id2938402384',
+                                    'type': 'displayprofilesection'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            'id2938402384': {
+                'user': oae.data.me,
+                'sectionName': 'aboutme'
+            }
+        },
+        'id018942094517' : {
+            'rows': [
+                {
+                    'id': 'id9827598274983',
+                    'columns': [
+                        {
+                            'width': 1,
+                            'elements': [
+                                {
+                                    'id': 'id98237498237492834',
+                                    'type': 'displayprofilesection'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            'id98237498237492834': {
+                'user': oae.data.me,
+                'sectionName': 'publications'
+            }
+        },
         'id7646345443': {
             'rows': [
                 {
@@ -94,7 +186,11 @@ require(['jquery','oae.core'], function($, oae) {
                         }
                     ]
                 }
-            ]
+            ],
+            'id6335742432': {
+                'principalId': oae.data.me.userId,
+                'canManage': true
+            }
         },
         'id934093203': {
             'rows': [
@@ -112,7 +208,11 @@ require(['jquery','oae.core'], function($, oae) {
                         }
                     ]
                 }
-            ]
+            ],
+            'id56436534': {
+                'principalId': oae.data.me.userId,
+                'canManage': true
+            }
         }
     };
 
@@ -131,6 +231,33 @@ require(['jquery','oae.core'], function($, oae) {
             $(window).trigger('lhnav.init', [pubdata, privdata, {}]);
         });  
     };
+
+    var switchViewMode = function(el) {
+        $('.oae-search-listview-options:visible .oae-action-icon').removeClass('selected');
+        $(el).children('div').addClass('selected');
+    };
+
+    $(document).on('click', '.search_view_grid', function() {
+        switchViewMode(this);
+        $('.oae-list:visible').addClass('grid');
+        $('.oae-list:visible').removeClass('expandedlist');
+    });
+
+    $(document).on('click', '.search_view_expandedlist', function() {
+        switchViewMode(this);
+        $('.oae-list:visible').removeClass('grid');
+        $('.oae-list:visible').addClass('expandedlist');
+    });
+
+    $(document).on('click', '.search_view_list', function() {
+        switchViewMode(this);
+        $('.oae-list:visible').removeClass('expandedlist');
+        $('.oae-list:visible').removeClass('grid');
+    });
+
+    $(document).on('click', '.oae-list-item-right', function() {
+        $(this).parent().toggleClass('active');
+    });
 
     renderEntity();
     setUpNavigation();

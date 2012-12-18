@@ -29,68 +29,6 @@ require(['jquery', 'oae.core'], function($, oae) {
     // Variable used to cache the requested user's profile
     var userProfile = null;
 
-    // TODO: Replace this with more effective page configuration
-    var pubdata = {
-        'structure0': {
-            'library': {
-                '_order': 0,
-                '_ref': 'id90384303',
-                '_title': oae.api.i18n.translate('__MSG__LIBRARY__'),
-                'main': {
-                    '_order': 0,
-                    '_ref': 'id90384303',
-                    '_title': oae.api.i18n.translate('__MSG__LIBRARY__')
-                }
-            },
-            'memberships': {
-                '_order': 0,
-                '_ref': 'id79683054',
-                '_title': oae.api.i18n.translate('__MSG__MEMBERSHIPS__'),
-                'main': {
-                    '_order': 0,
-                    '_ref': 'id79683054',
-                    '_title': oae.api.i18n.translate('__MSG__MEMBERSHIPS__')
-                }
-            }
-        },
-        'id90384303': {
-            'rows': [
-                {
-                    'id': 'id4325634',
-                    'columns': [
-                        {
-                            'width': 1,
-                            'elements': [
-                                {
-                                    'id': 'id65324322',
-                                    'type': 'library'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        'id79683054': {
-            'rows': [
-                {
-                    'id': 'id34356454',
-                    'columns': [
-                        {
-                            'width': 1,
-                            'elements': [
-                                {
-                                    'id': 'id8571283901',
-                                    'type': 'memberships'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }
-    };
-
     /**
      * Get the user's basic profile and set up the screen. If the user
      * can't be found or is private to the current user, the appropriate
@@ -107,6 +45,8 @@ require(['jquery', 'oae.core'], function($, oae) {
             userProfile = profile;
             renderEntity();
             setUpNavigation();
+            // Set the browser title
+            oae.api.util.setBrowserTitle(userProfile.profile.displayName);
             // We can now unhide the page
             oae.api.util.showPage();
         });
@@ -126,9 +66,191 @@ require(['jquery', 'oae.core'], function($, oae) {
         // Only render the left hand navigation if the user's profile
         // has already been retrieved
         if (userProfile) {
+            // TODO: Replace this with more effective page configuration
+            var pubdata = {
+                'structure0': {
+                    'profile': {
+                        '_order': 0,
+                        '_ref': 'id12940812409',
+                        '_title': oae.api.i18n.translate('__MSG__MY_PROFILE__'),
+                        'basic': {
+                            '_order': 0,
+                            '_ref': 'id12940812409',
+                            '_title': oae.api.i18n.translate('__MSG__PROFILE_BASIC_LABEL__')
+                        },
+                        'aboutme': {
+                            '_order': 0,
+                            '_ref': 'id209875202349',
+                            '_title': oae.api.i18n.translate('__MSG__PROFILE_ABOUTME_LABEL__')
+                        },
+                        'publiciations': {
+                            '_order': 0,
+                            '_ref': 'id018942094517',
+                            '_title': oae.api.i18n.translate('__MSG__PROFILE_PUBLICATIONS_LABEL__')
+                        }
+                    },
+                    'library': {
+                        '_order': 0,
+                        '_ref': 'id90384303',
+                        '_title': oae.api.i18n.translate('__MSG__LIBRARY__'),
+                        'main': {
+                            '_order': 0,
+                            '_ref': 'id90384303',
+                            '_title': oae.api.i18n.translate('__MSG__LIBRARY__')
+                        }
+                    },
+                    'memberships': {
+                        '_order': 0,
+                        '_ref': 'id79683054',
+                        '_title': oae.api.i18n.translate('__MSG__MEMBERSHIPS__'),
+                        'main': {
+                            '_order': 0,
+                            '_ref': 'id79683054',
+                            '_title': oae.api.i18n.translate('__MSG__MEMBERSHIPS__')
+                        }
+                    }
+                },
+                'id12940812409' : {
+                    'rows': [
+                        {
+                            'id': 'id87829108921',
+                            'columns': [
+                                {
+                                    'width': 1,
+                                    'elements': [
+                                        {
+                                            'id': 'id130841987897',
+                                            'type': 'displayprofilesection'
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    'id130841987897': {
+                        'user': userProfile,
+                        'sectionName': 'basic'
+                    }
+                },
+                'id209875202349' : {
+                    'rows': [
+                        {
+                            'id': 'id28937529847',
+                            'columns': [
+                                {
+                                    'width': 1,
+                                    'elements': [
+                                        {
+                                            'id': 'id2938402384',
+                                            'type': 'displayprofilesection'
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    'id2938402384': {
+                        'user': userProfile,
+                        'sectionName': 'aboutme'
+                    }
+                },
+                'id018942094517' : {
+                    'rows': [
+                        {
+                            'id': 'id9827598274983',
+                            'columns': [
+                                {
+                                    'width': 1,
+                                    'elements': [
+                                        {
+                                            'id': 'id98237498237492834',
+                                            'type': 'displayprofilesection'
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    'id98237498237492834': {
+                        'user': userProfile,
+                        'sectionName': 'publications'
+                    }
+                },
+                'id90384303': {
+                    'rows': [
+                        {
+                            'id': 'id4325634',
+                            'columns': [
+                                {
+                                    'width': 1,
+                                    'elements': [
+                                        {
+                                            'id': 'id65324322',
+                                            'type': 'library'
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    'id65324322': {
+                        'principalId': userProfile.userId,
+                        'canManage': false
+                    }
+                },
+                'id79683054': {
+                    'rows': [
+                        {
+                            'id': 'id34356454',
+                            'columns': [
+                                {
+                                    'width': 1,
+                                    'elements': [
+                                        {
+                                            'id': 'id8571283901',
+                                            'type': 'memberships'
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    'id8571283901': {
+                        'principalId': userProfile.userId,
+                        'canManage': false
+                    }
+                }
+            };
             $(window).trigger('lhnav.init', [pubdata, {}, {}]);
         }
     };
+
+    var switchViewMode = function(el) {
+        $('.oae-search-listview-options:visible .oae-action-icon').removeClass('selected');
+        $(el).children('div').addClass('selected');
+    };
+
+    $(document).on('click', '.search_view_grid', function() {
+        switchViewMode(this);
+        $('.oae-list:visible').addClass('grid');
+        $('.oae-list:visible').removeClass('expandedlist');
+    });
+
+    $(document).on('click', '.search_view_expandedlist', function() {
+        switchViewMode(this);
+        $('.oae-list:visible').removeClass('grid');
+        $('.oae-list:visible').addClass('expandedlist');
+    });
+
+    $(document).on('click', '.search_view_list', function() {
+        switchViewMode(this);
+        $('.oae-list:visible').removeClass('expandedlist');
+        $('.oae-list:visible').removeClass('grid');
+    });
+
+    $(document).on('click', '.oae-list-item-right', function() {
+        $(this).parent().toggleClass('active');
+    });
 
     // List to the left hand navigation ready event for navigation rendering
     $(window).on('lhnav.ready', setUpNavigation);  

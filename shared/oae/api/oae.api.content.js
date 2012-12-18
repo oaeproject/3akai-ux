@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports'], function(exports) {
+define(['exports', 'underscore'], function(exports, _) {
 
     /**
      * Get a full content profile.
@@ -22,8 +22,23 @@ define(['exports'], function(exports) {
      * @param  {Function}     callback            Standard callback method
      * @param  {Object}       callback.err        Error object containing error code and error message
      * @param  {Content}      callback.content    Content object representing the retrieved content
+     * @throws {Error}                            Error thrown when no content id has been provided
      */
-    var getContent = exports.getContent = function(contentId, callback) {};
+    var getContent = exports.getContent = function(contentId, callback) {
+        if (!contentId) {
+            throw new Error('A valid content id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/content/' + contentId,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Create a new link.
@@ -37,23 +52,92 @@ define(['exports'], function(exports) {
      * @param  {Function}       [callback]          Standard callback method
      * @param  {Object}         [callback.err]      Error object containing error code and error message
      * @param  {Content}        [callback.content]  Content object representing the created content
+     * @throws {Error}                              Error thrown when not all of the required parameters have been provided
      */
-    var createLink = exports.createLink = function(name, description, visibility, link, managers, viewers, callback) {};
+    var createLink = exports.createLink = function(name, description, visibility, link, managers, viewers, callback) {
+        if (!name) {
+            throw new Error('A valid link name should be provided');
+        } else if (!link) {
+            throw new Error('A valid link should be provided');
+        }
+
+        var data = {
+            'contentType': 'link',
+            'name': name,
+            'description': description,
+            'visibility': visibility,
+            'link': link,
+            'managers': managers,
+            'viewers': viewers
+        };
+
+        $.ajax({
+            'url': '/api/content/create',
+            'type': 'POST',
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Create a new file.
      * 
-     * @param  {String}       name                Display title for the created content item
-     * @param  {String}       [description]       The content item's description
-     * @param  {String}       [visibility]        The content item's visibility. This can be public, loggedin or private
-     * @param  {Element}      $file               jQuery element representing the file upload form field that contains the file to be uploaded
-     * @param  {String[]}     [managers]          Array of user/group ids that should be added as managers to the content item
-     * @param  {String[]}     [viewers]           Array of user/group ids that should be added as viewers to the content item
-     * @param  {Function}     [callback]          Standard callback method
-     * @param  {Object}       [callback.err]      Error object containing error code and error message
-     * @param  {Content}      [callback.content]  Content object representing the created content
+     * @param  {String}             name                Display title for the created content item
+     * @param  {String}             [description]       The content item's description
+     * @param  {String}             [visibility]        The content item's visibility. This can be public, loggedin or private
+     * @param  {Element|String}     $fileUploadField    jQuery element or selector for that jQuery element representing the file upload form field that has been used to initialise jQuery.fileupload
+     * @param  {Object}             file                jQuery.fileUpload object that was returned when selecting the file that needed to be uploaded
+     * @param  {String[]}           [managers]          Array of user/group ids that should be added as managers to the content item
+     * @param  {String[]}           [viewers]           Array of user/group ids that should be added as viewers to the content item
+     * @param  {Function}           [callback]          Standard callback method
+     * @param  {Object}             [callback.err]      Error object containing error code and error message
+     * @param  {Content}            [callback.content]  Content object representing the created content
+     * @throws {Error}                                  Error thrown when not all of the required parameters have been provided
      */
-    var createFile = exports.createFile = function(name, description, visibility, $file, managers, viewers, callback) {};
+    var createFile = exports.createFile = function(name, description, visibility, $fileUploadField, file, managers, viewers, callback) {
+        if (!name) {
+            throw new Error('A valid file name should be provided');
+        } else if (!$fileUploadField) {
+            throw new Error('A valid jquery.fileUpload container should be provided');
+        } else if (!file) {
+            throw new Error('A valid jquery.fileUpload file object should be provided');
+        }
+
+        // jQuery.fileupload requires sending the other form data as a .serializeArray object
+        // http://api.jquery.com/serializeArray/
+        var data = [
+            {'name': 'contentType', 'value': 'file'},
+            {'name': 'name', 'value': name},
+            {'name': 'description', 'value': description},
+            {'name': 'visibility', 'value': visibility}
+        ];
+
+        // Add the managers and viewers as an array
+        managers = managers || [];
+        $.each(managers, function(index, manager) {
+            data.push({'name': 'managers', 'value': manager});
+        });
+        viewers = viewers || [];
+        $.each(viewers, function(index, viewer) {
+            data.push({'name': 'viewers', 'value': viewer});
+        });
+
+        $($fileUploadField).fileupload('send', {
+            'files': [file],
+            'formData': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Create a new Sakai Doc.
@@ -66,8 +150,34 @@ define(['exports'], function(exports) {
      * @param  {Function}     [callback]          Standard callback method
      * @param  {Object}       [callback.err]      Error object containing error code and error message
      * @param  {Content}      [callback.content]  Content object representing the created content
+     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */
-    var createSakaiDoc = exports.createSakaiDoc = function(name, description, visibility, managers, viewers, callback) {};
+    var createSakaiDoc = exports.createSakaiDoc = function(name, description, visibility, managers, viewers, callback) {
+        if (!name) {
+            throw new Error('A valid document name should be provided');
+        }
+
+        var data = {
+            'contentType': 'sakaidoc',
+            'name': name,
+            'description': description,
+            'visibility': visibility,
+            'managers': managers,
+            'viewers': viewers
+        };
+
+        $.ajax({
+            'url': '/api/content/create',
+            'type': 'POST',
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Update a content item's metadata.
@@ -76,8 +186,27 @@ define(['exports'], function(exports) {
      * @param  {Object}       params              JSON object where the keys represent all of the profile field names we want to update and the values represent the new values for those fields
      * @param  {Function}     [callback]          Standard callback method
      * @param  {Object}       [callback.err]      Error object containing error code and error message
+     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */
-    var updateContent = exports.updateContent = function(contentId, params, callback) {};
+    var updateContent = exports.updateContent = function(contentId, params, callback) {
+        if (!contentId) {
+            throw new Error('A valid content id should be provided');
+        } else if (!params || _.keys(params).length === 0) {
+            throw new Error('At least one update parameter should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/content/' + contentId,
+            'type': 'POST',
+            'data': params,
+            'success': function() {
+                callback(null);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Delete a content item through the REST API.
@@ -97,9 +226,30 @@ define(['exports'], function(exports) {
      * @param  {Function}        callback            Standard callback method
      * @param  {Object}          callback.err        Error object containing error code and error message
      * @param  {User[]|Group[]}  callback.members    Array that contains an object for each member. Each object has a role property that contains the role of the member and a profile property that contains the principal profile of the member
+     * @throws {Error}                               Error thrown when no content ID has been provided
      */
-    var getMembers = exports.getMembers = function(contentId, start, limit, callback) {};
-    
+    var getMembers = exports.getMembers = function(contentId, start, limit, callback) {
+        if (!contentId) {
+            throw new Error('A content ID should be provided');
+        }
+
+        var data = {
+            'start': start,
+            'limit': limit
+        };
+
+        $.ajax({
+            'url': '/api/content/'+ contentId + '/members',
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
+
     /**
      * Change the members and managers of a content item.
      * 
@@ -107,8 +257,27 @@ define(['exports'], function(exports) {
      * @param  {Object}       updatedMembers      JSON Object where the keys are the user/group ids we want to update membership for, and the values are the roles these members should get (manager or viewer). If false is passed in as a role, the principal will be removed as a member
      * @param  {Function}     [callback]          Standard callback method
      * @param  {Object}       [callback.err]      Error object containing error code and error message
+     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */
-    var updateMembers = exports.updateMembers = function(contentId, updatedMembers, callback) {};
+    var updateMembers = exports.updateMembers = function(contentId, updatedMembers, callback) {
+        if (!contentId) {
+            throw new Error('A valid content id should be provided');
+        } else if (!updatedMembers || _.keys(updatedMembers).length === 0) {
+            throw new Error('The updatedMembers hash should contain at least 1 update.');
+        }
+
+        $.ajax({
+            'url': '/api/content/'+ contentId + '/members',
+            'type': 'POST',
+            'data': updatedMembers,
+            'success': function() {
+                callback(null);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Share a content item.
@@ -117,8 +286,31 @@ define(['exports'], function(exports) {
      * @param  {String[]}     principals          Array of principal ids with who the content should be shared
      * @param  {Function}     [callback]          Standard callback method
      * @param  {Object}       [callback.err]      Error object containing error code and error message
+     * @throws {Error}                            Error thrown when no content ID or Array of principal IDs has been provided
      */
-    var shareContent = exports.shareContent = function(contentId, principals, callback) {};
+    var shareContent = exports.shareContent = function(contentId, principals, callback) {
+        if (!contentId) {
+            throw new Error('A content ID should be provided');
+        } else if (!principals.length) {
+            throw new Error('A user or group to share with should be provided');
+        }
+
+        var data = {
+            'viewers': principals
+        };
+
+        $.ajax({
+            'url': '/api/content/' + contentId + '/share',
+            'type': 'POST',
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
     
     /**
      * Get a principal library.
@@ -129,9 +321,131 @@ define(['exports'], function(exports) {
      * @param  {Function}       callback            Standard callback method
      * @param  {Object}         callback.err        Error object containing error code and error message
      * @param  {Content[]}      callback.items      Array of content items representing the content items present in the library
+     * @throws {Error}                              Error thrown when no principal ID has been provided
      */
-    var getLibrary = exports.getLibrary = function(principalId, start, limit, callback) {};
-    
+    var getLibrary = exports.getLibrary = function(principalId, start, limit, callback) {
+        if (!principalId) {
+            throw new Error('A user ID should be provided');
+        }
+
+        var data = {
+            'start': start,
+            'limit': limit
+        };
+
+        $.ajax({
+            'url': '/api/content/library/' + principalId,
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
+
+    //////////////////////
+    // Content comments //
+    //////////////////////
+
+    /**
+     * Gets the comments on a content item
+     *
+     * @param  {String}       contentId           Content id of the content item for which to get the comments
+     * @param  {String}       [start]             Determines the point at which content items are returned for paging purposed.
+     * @param  {Integer}      [limit]             Number of items to return
+     * @param  {Function}     callback            Standard callback method
+     * @param  {Object}       callback.err        Error object containing error code and error message
+     * @param  {Comment[]}    callback.comments   Array of comments on the content item
+     * @throws {Error}                            Error thrown when no content id has been provided
+     */
+    var getComments = exports.getComments = function(contentId, start, limit, callback) {
+        if (!contentId) {
+            throw new Error('A valid content id should be provided');
+        }
+
+        var data = {
+            'start': start,
+            'limit': limit
+        };
+
+        $.ajax({
+            'url': '/api/content/' + contentId + '/comments',
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
+
+    /**
+     * Create a comment on a content item or reply to an existing comment.
+     *
+     * @param  {String}       contentId           Content id of the content item we're trying to comment on
+     * @param  {String}       body                The comment to be placed on the content item
+     * @param  {String}       [replyTo]           Id of the comment to reply to
+     * @param  {Function}     callback            Standard callback method
+     * @param  {Object}       callback.err        Error object containing error code and error message
+     * @param  {Comment}      callback.comment    Comment object representing the created comment
+     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
+     */
+    var createComment = exports.createComment = function(contentId, body, replyTo, callback) {
+        if (!contentId) {
+            throw new Error('A valid content id should be provided');
+        } else if (!body) {
+            throw new Error('A comment should be provided');
+        }
+
+        var data = {
+            'body': body,
+            'replyTo': replyTo
+        };
+
+        $.ajax({
+            'url': '/api/content/' + contentId + '/comments',
+            'type': 'POST',
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
+
+    /**
+     * Delete an existing comment from a content item
+     *
+     * @param  {String}       contentId           Content id of the content item we're trying to delete a comment from
+     * @param  {String}       commentId           The ID of the comment to delete
+     * @param  {Function}     callback            Standard callback method
+     * @param  {Object}       callback.err        Error object containing error code and error message
+     * @param  {Object}       callback.deleted    If the comment has been properly deleted, in case there are no replies to it, this will return `{deleted: true}`. If the comment has just been flagged as deleted because it has replies, this will return `{deleted: false}`
+     */
+    var deleteComment = exports.deleteComment = function(contentId, commentId, callback) {
+        if (!contentId) {
+            throw new Error('A valid content id should be provided');
+        } else if (!commentId) {
+            throw new Error('A comment id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/content/' + contentId + '/comments/' + commentId,
+            'type': 'DELETE',
+            'success': function(deleted) {
+                callback(null, deleted);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
+
     /**
      * Set the thumbnail URL of a piece of content. For links and Sakai Docs, this will just be a thumbnail representing their type.
      * For uploaded files, we will first check if a thumbnail URL is already set on the back-end side (which will use the generated

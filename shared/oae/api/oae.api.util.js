@@ -191,15 +191,35 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
             return renderedHTML;
         }
     };
-    
+
     /**
      * Show a notification message (either information or error) on the screen
      * 
-     * @param  {String}     title           The notification title
-     * @param  {String}     [description]   The notification description that will be shown underneath the title
+     * @param  {String}     [title]         The notification title
+     * @param  {String}     text            The notification description that will be shown underneath the title
      * @param  {String}     [type]          The notification type. This can be either 'info' or 'error'. If the type is not provided, this will default to 'info'
+     * @throws {Error}                      Error thrown when no title has been provided
      */
-    var showNotification = exports.showNotification = function(title, description, type) {};
+    var showNotification = exports.showNotification = function(title, text, type) {
+        if (!text) {
+            throw new Error('A valid body should be provided');
+        }
+
+        var notification = {
+            'title': title,
+            'text': text,
+            'image': '/ui/img/notifications_info_icon.png',
+            'time': 5000
+        }
+        // Set a different icon and longer timeout for error notifications 
+        if (type === 'error') {
+            notification['image'] = '/ui/img/notifications_exclamation_icon.png';
+            notification['time'] = 10000;
+        }
+
+        // Show the notification on the screen
+        $.gritter.add(notification);
+    };
     
     /**
      * Register an element that should be hidden when a user clicks outside of it. This could for example be used for dropdowns, etc. Clicking
@@ -209,7 +229,28 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
      * @param {String|Element}  $ignoreElements     jQuery element or jQuery selector for that element representing the elements outside of the main element that should not cause a hide when clicked
      * @param {Function}        callback            Standard callback function executed when the element has been hidden
      */
-    var hideOnClickOut = exports.hideOnClickOut = function($elementToHide, $ignoreElements, callback) {};
+    var hideOnClickOut = exports.hideOnClickOut = function(elementToHide, ignoreElements, callback) {
+        $(document).on('click', function(e) {
+            var $clicked = $(e.target);
+            if (!$.isArray(elementToHide)) {
+                elementToHide = [elementToHide];
+            }
+            $.each(elementToHide, function(index, el) {
+                if (el instanceof jQuery) {
+                    $el = el;
+                } else {
+                    $el = $(el);
+                }
+                if ($el.is(':visible') && ! ($.contains($el.get(0), $clicked.get(0)) || $clicked.is(ignoreElements) || $(ignoreElements).has($clicked.get(0)).length)) {
+                    if ($.isFunction(callback)) {
+                        callback();
+                    } else {
+                        $el.hide();
+                    }
+                }
+            });
+        });
+    };
 
     /**
      * All functionality related to setting up, showing and closing modal dialogs. This uses the jQuery jqModal plugin behind the scenes. By default,
@@ -238,6 +279,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
         options = options || {};
         options.modal = options.modal === false ? false : true;
         options.overlay = options.modal ? 20 : 0;
+        options.toTop = options.modal ? true : false;
 
         // Initialize the overlay
         $container = $($container);
@@ -340,6 +382,8 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
          * All input fields should be accompanied by a label, mostly for accessibility purposes. These labels can either be next to the field, in which case
          * they should have the `oae-input-label` class, or they can be above the field, in which case they should have the `oae-input-label-above` class.
          * 
+         * The validation messages will be automatically positioned, and will be based on the input element's offsetParent (http://api.jquery.com/offsetParent/)
+         * 
          * Metadata can be added directly onto the HTML fields to tell jquery.validate which validation rules to use. These should be added as a class onto
          * the input field. The available ones are:
          * 
@@ -436,10 +480,10 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
             // fails validation and will be used to customize the placement of the validation messages
             options.errorPlacement = options.errorPlacement || function($error, $element) {
                 // We position the validation message so it has the same placement and width as the input field
-                $error.css('width', $element.width());
-                if (!options.insertAfterLabel) {
-                    $error.css('margin-left', $element.position().left);
-                };
+                $error.css({
+                    'width': $element.width(),
+                    'margin-left': $element.position().left
+                });
                 // Set the id on the validation message and set the aria-invalid and aria-describedby attributes
                 $error.attr('id', $element.attr('name') + '_error');
                 $element.attr('aria-invalid', 'true');
@@ -484,27 +528,58 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
             'clear': clear
         }
     };
-    
+
+    ////////////////////////
+    // PROGRESS INDICATOR //
+    ////////////////////////
+
+    var progressIndicatorModal = null;
+
     /**
      * All functionality related to showing and hiding a processing animation, which can be shown when the UI needs to undertake
      * an action that can take a while, like uploading files, etc.
+     * 
+     * @param  {String}     title           The title to show in the progress indicator overlay
+     * @param  {String}     description     The description to show in the progress indicator overlay
      */
-    var progressIndicator = exports.progressIndicator = function() {
+    var progressIndicator = exports.progressIndicator = function(title, description) {
+        
+        // We create the progress indicator and it to the document if it doesn't exist yet
+        if (!progressIndicatorModal) {
+            var progressIndicatorHTML = '<div id="oae_progressindicator" class="oae-dialog oae-dialog-container oae-hidden">';
+                progressIndicatorHTML += '<h1 id="oae_progressindicator_title" class="oae-dialog-header"></h1>';
+                progressIndicatorHTML += '<p id="oae_progressindicator_body"></p>';
+                progressIndicatorHTML += '<div class="oae-inset-shadow-container"><img src="/ui/img/progress_bar.gif"/></div></div>';
+            $('body').prepend($(progressIndicatorHTML));
+            progressIndicatorModal = modal($('#oae_progressindicator'), {
+                // Make sure the progress indicator is displayed above everything else
+                'zIndex': 50000,
+            });
+        }
         
         /**
          * Show a progress indicator. This will show in a modal dialog and will take over the entire screen. Other screen elements
          * will not be accessible until the progress indicator has been hidden
-         * 
-         * @param  {String}     title           The title to show in the progress indicator overlay
-         * @param  {String}     description     The description to show in the progress indicator overlay
          */
-        exports.progressIndicator.show = function(title, description) {};
+        var show = function() {
+            // Set the title and the description
+            $('#oae_progressindicator_title').text(title);
+            $('#oae_progressindicator_body').text(description);
+            // Show the overlay
+            progressIndicatorModal.open();
+        };
     
         /**
          * Hide the progress indicator, if it is showing. If it is not showing, nothing will happen
          */
-        exports.progressIndicator.hide = function() {};
-    
+        var hide = function() {
+            progressIndicatorModal.close();
+        };
+
+        return {
+            'show': show,
+            'hide': hide
+        }    
     };
     
     /**
