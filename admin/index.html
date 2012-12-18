@@ -1,26 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <title>Administration UI - Sakai OAE</title>
-        <link href="/shared/css/bootstrap.css" type="text/css" rel="stylesheet"/>
+
+        <title>Sakai OAE - Administration UI</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+        <!-- BOOTSTRAP CSS -->
+        <link href="/shared/vendor/css/bootstrap.css" type="text/css" rel="stylesheet"/>
+        <!-- PAGE CSS -->
         <link href="/admin/css/admin.css" type="text/css" rel="stylesheet"/>
 
-        <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
     </head>
     <body>
+
         <div id="admin_header_container" class="container-fluid"><!-- --></div>
 
         <div class="container-fluid" id="admin_fluid_container">
             <div class="row-fluid">
                 <div class="span2" id="admin_lhnav_container" style="display: none;"><!-- --></div>
                 <div class="span10" id="admin_content">
-                    <div id="admin_unauthorized_container"><!-- --></div>
-                    <div id="admin_login_container"><!-- --></div>
+                    <!-- Unauthorized access -->
+                    <div id="admin_unauthorized_container" style="display: none;">
+                        <h3 class="text-error">You are not authorized to view this page.</h3>
+                    </div>
+                    <!-- Login -->
+                    <div id="admin_login_container" style="display: none;">
+                        <h2>Sign in to the OAE Administration Panel</h2>
+                        <div>
+                            <div id="admin_login" class="admin_login_container">
+                                <form id="admin_login_form" form method="POST" class="form-horizontal">
+                                    <div class="control-group">
+                                        <label for="admin_login_form_name" class="control-label">Name</label>
+                                        <div class="controls">
+                                            <input type="text" id="admin_login_form_name" name="username"/>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label for="admin_login_form_password" class="control-label">Password</label>
+                                        <div class="controls">
+                                            <input type="password" id="admin_login_form_password" name="password"/>
+                                            <button type="submit" class="btn btn-primary">Sign in</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
                     <div id="admin_views">
                         <div id="admin_tenants_container" style="display: none;"><!-- --></div>
                         <div id="admin_modules_container" style="display: none;"><!-- --></div>
-                        <div id="admin_tests_container" style="display: none;"><!-- --></div>
                     </div>
 
                     <div id="admin_error_container"><!-- --></div>
@@ -50,22 +80,17 @@
             </ul>
         --></div>
 
-        <div id="admin_unauthorized_template" style="display: none;"><!--
-            <h3 class="text-error">You are not authorized to view this page.</h3>
-        --></div>
-
         <div id="admin_header_template" style="display: none;"><!--
             <div class="row-fluid">
-                <div class="span2">
-                </div>
+                <div class="span1"></div>
                 <div class="span10" id="admin_header_content">
-                    {if context.me && !context.me.anon}
+                    {if !oae.data.me.anon}
                         <div id="admin_header_user">
-                            <span>Hi, ${context.me.profile.displayName}</span>
-                            <button type="button" class="btn btn-inverse" id="admin_header_user_logout">log out</button>
+                            <span>Hi, ${oae.data.me.profile.displayName}</span>
+                            <button type="button" class="btn btn-inverse" id="admin_header_user_logout">Log out</button>
                         </div>
                     {/if}
-                    {if context.tenant.tenantId === "admin"}
+                    {if context.isGlobalAdminServer && !context.host}
                         <h1>Global administration UI</h1>
                     {else}
                         <h1>Tenant administration UI</h1>
@@ -76,11 +101,10 @@
 
         <div id="admin_footer_template" style="display: none;"><!--
             <div class="row-fluid">
-                <div class="span2">
-                </div>
+                <div class="span1"></div>
                 <div class="span10" id="admin_footer_content">
                     <div class="footer_column first"></div>
-                    {if context.me.isGlobalAdmin}
+                    {if !oae.data.me.anon && context.isGlobalAdminServer}
                         <div class="footer_column tenants">
                             <ul>
                                 <li>
@@ -97,63 +121,6 @@
                         </div>
                     {/if}
                 </div>
-            </div>
-        --></div>
-
-        <div id="admin_login_template"><!--
-            <h2>Sign in to the OAE Administration Panel</h2>
-
-            {var isOnGlobal = context.tenant.tenantId === 'admin' || !context.tenant.isMainTenantServer}
-
-            <ul class="nav nav-tabs">
-                {var first = true}
-                {for strategy in strategies}
-                    {if strategy_index !== 'title'}
-                        {var hasDefaultValue = strategy.elements.enabled && strategy.elements.enabled.defaultValue}
-                        {if (isOnGlobal && strategy_index === 'local') || (!isOnGlobal && hasDefaultValue)}
-                            <li {if first} class="active admin_login_tab"{else} class="admin_login_tab"{/if} data-strategy="${strategy_index}_login">
-                                <a href="#">${strategy.name}</a>
-                            </li>
-                            {var first = false;}
-                        {/if}
-                    {/if}
-                {/for}
-            </ul>
-            <div>
-                {var first = true}
-                {for strategy in strategies}
-                    {if strategy_index !== 'title'}
-                        {var hasDefaultValue = strategy.elements.enabled && strategy.elements.enabled.defaultValue}
-                        {if (isOnGlobal && strategy_index === 'local') || (!isOnGlobal && hasDefaultValue)}
-                            {if strategy.endpoint}
-                                <div {if !first} style="display: none;"{/if} id="${strategy_index}_login" class="admin_login_container">
-                                    <form id="admin_login_form" method="GET" action="${strategy.endpoint}" class="form-horizontal external_login" enctype="application/x-www-form-urlencoded">
-                                        <button type="submit" class="btn btn-primary ">Sign in with ${strategy.name}</button>
-                                    </form>
-                                </div>
-                            {else}
-                                <div {if !first} style="display: none;"{/if} id="${strategy_index}_login" class="admin_login_container">
-                                    <form id="admin_login_form" form method="POST" action="/api/auth/login" class="form-horizontal" enctype="application/x-www-form-urlencoded">
-                                        <div class="control-group">
-                                            <label for="admin_login_form_name" class="control-label">Name</label>
-                                            <div class="controls">
-                                                <input type="text" id="admin_login_form_name" name="username"/>
-                                            </div>
-                                        </div>
-                                        <div class="control-group">
-                                            <label for="admin_login_form_password" class="control-label">Password</label>
-                                            <div class="controls">
-                                                <input type="password" id="admin_login_form_password" name="password"/>
-                                                <button type="submit" class="btn btn-primary">Sign in</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            {/if}
-                            {var first = false;}
-                        {/if}
-                    {/if}
-                {/for}
             </div>
         --></div>
 
@@ -265,7 +232,7 @@
         <div id="admin_modules_template" style="display:none;"><!--
             <h2>Modules<a href="#configurationmodules" class="anchor_section">#</a></h2>
             <div class="container-striped">
-                {for module in modules}
+                {for module in schema}
                     <div class="module_configuration_container">
                         <button type="button" title="Edit the ${module.title}" class="module_configuration_toggle_button btn">
                             <i class="icon-pencil" style="margin-right:12px;"></i>
@@ -279,13 +246,11 @@
                                         {for element in option.elements}
 
                                             {var showTenantsOnlyFields = true;}
-                                            {if context.tenant.tenantId === "admin" && element.tenantonly !== undefined && element.tenantonly}
+                                            {if oae.data.me.isGlobalAdmin}
                                                 {var showTenantsOnlyFields = false;}
                                             {/if}
 
-                                            {var tenantCanOverride = context.me.isGlobalAdmin ||
-                                                                     (!(context.tenant.context === "tenant" &&
-                                                                     (element.tenantOverride === false || option.tenantOverride === false)))}
+                                            {var tenantCanOverride = oae.data.me.isGlobalAdmin || !(element.tenantOverride === false || option.tenantOverride === false)}
 
                                             {if showTenantsOnlyFields}
                                                 {if element.type === "boolean"}
@@ -329,17 +294,6 @@
                     </div>
                 {/for}
             </div>
-        --></div>
-
-        <div id="admin_tests_template" style="display:none;"><!--
-            <h2>Tests<a href="#tests" class="anchor_section">#</a></h2>
-            <p>It would be good if tests could be started from within the admin UI. Not only the usual unit tests but also performance tests.</p>
-            <ol>
-                <li>UI Fetches available tests and scripts</li>
-                <li>UI is able to start tests and feed parameters (#users, #groups, #batches,...)</li>
-                <li>UI gets back result set and shows stats</li>
-                <li>The backend saves the test data that can serve as a reference later on</li>
-            </ol>
         --></div>
 
         <!-- UTIL TEMPLATES AND CONTAINERS -->
@@ -396,8 +350,9 @@
             </div>
         --></div>
 
-        <script data-main="/shared/sakai/sakai.dependencies.js" src="/shared/js/require.js"></script>
-        <script>require(["/admin/js/admin.js"]);</script>
+        <!-- DEPENDENCIES -->
+        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/require.js"></script>
+        <script>require(['/admin/js/admin.js']);</script>
         
     </body>
 </html>

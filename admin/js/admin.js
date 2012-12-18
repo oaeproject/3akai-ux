@@ -13,20 +13,16 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae/oae.api!', '/shared/lib/bootstrap.js'], function($, oae) {
+require(['jquery', 'oae/api/oae.core', 'vendor/js/bootstrap'], function($, oae) {
 
-    //////////
-    //////////
-    // UTIL //
-    //////////
-    //////////
-
-    /**
-     * Shows a message to logged in users when they are not authorized to view a page
-     */
-    var showUnauthorized = function() {
-        sakai.api.Util.TemplateRenderer('admin_unauthorized_template', null, $('#admin_unauthorized_container'));
-    };
+    // Variable that will be used to keep track of current tenant
+    var currentContext = null;
+    // Variable that will cache the list of available tenants
+    var tenants = null;
+    // Variable that will cache the config schema
+    var configurationSchema = null;
+    // Variable that will cache the configuration for the current tenant
+    var configuration = null;
 
     /**
      * Shows an error to the user
@@ -42,9 +38,7 @@ require(['jquery', 'oae/oae.api!', '/shared/lib/bootstrap.js'], function($, oae)
         if (!$outputElement) {
             $outputElement = $('#admin_error_container');
         }
-        sakai.api.Util.TemplateRenderer('admin_error_template', {
-            'error': data
-        }, $outputElement);
+        oae.api.util.renderTemplate($('#admin_error_template'), {'error': data}, $outputElement);
     };
 
     /**
@@ -61,9 +55,7 @@ require(['jquery', 'oae/oae.api!', '/shared/lib/bootstrap.js'], function($, oae)
         if (!$outputElement) {
             $outputElement = $('#admin_warning_container');
         }
-        sakai.api.Util.TemplateRenderer('admin_warning_template', {
-            'warning': data
-        }, $outputElement);
+        oae.api.util.renderTemplate($('#admin_warning_template'), {'warning': data}, $outputElement);
     };
 
     /**
@@ -81,11 +73,9 @@ require(['jquery', 'oae/oae.api!', '/shared/lib/bootstrap.js'], function($, oae)
         if (!$outputElement) {
             $outputElement = $('#admin_success_container');
         }
-        sakai.api.Util.TemplateRenderer('admin_success_template', {
-            'success': data
-        }, $outputElement);
+        oae.api.util.renderTemplate('admin_success_template', {'success': data}, $outputElement);
         if (!data.sticky) {
-            window.setTimeout( function(){
+            setTimeout( function(){
                 $outputElement.fadeOut('slow', function() {
                     $outputElement.html('');
                     $outputElement.show();
@@ -113,10 +103,7 @@ require(['jquery', 'oae/oae.api!', '/shared/lib/bootstrap.js'], function($, oae)
      * @param {Object} data Data object used to render the modal dialog. All required elements are shown above in 'usage' and should be provided
      */
     var showConfirmationModal = function(data) {
-        var $outputElement = $('#admin_confirmation_container');
-        sakai.api.Util.TemplateRenderer('admin_confirmation_template', {
-            'modal': data
-        }, $outputElement);
+        oae.api.util.renderTemplate($('#admin_confirmation_template'), {'modal': data}, $('#admin_confirmation_container'));
         $('#' + data.id).modal();
         $('#' + data.id + '_confirm', $('#' + data.id)).click(data.confirmed);
     };
@@ -129,95 +116,29 @@ require(['jquery', 'oae/oae.api!', '/shared/lib/bootstrap.js'], function($, oae)
     };
 
     /**
-     * When logged out, the UI presents tabs with available log in strategies.
-     * This function switches the view to another strategy when a tab is clicked.
-     */
-    var switchLoginStrategy = function() {
-        var tab = $(this).attr('data-strategy');
-
-        $('.admin_login_tab').removeClass('active');
-        $(this).addClass('active');
-
-        $('.admin_login_container').hide();
-        $('#' + tab).show();
-    };
-
-
-    /* The following log in and log out functions will be moving to the 3akai API */
-
-    /**
-     * Logs the current user out of the admin ui
-     */
-    var doLogOut = function() {
-        $.ajax({
-            url: '/api/auth/logout',
-            type: 'POST',
-            success: function(data) {
-                document.location.reload(true);
-            }
-        });
-    };
-
-    /**
-     * Submits the login form to log a user into the admin ui
-     */
-    var doLogin = function() {
-        if ($(this).hasClass('external_login')) {
-            $.ajax({
-                url: $(this).attr('action'),
-                type: 'GET'
-            });
-        } else {
-            $.ajax({
-                url: '/api/auth/login',
-                type: 'POST',
-                data: {
-                    'username': $('#admin_login_form_name').val(),
-                    'password': $('#admin_login_form_password').val()
-                },
-                success: function(data) {
-                    document.location.reload(true);
-                }
-            });
-        }
-        return false;
-    };
-
-    /**
      * Initializes jEditable on fields throughout the UI
      * This initialization will also take care of the form submit to /api/tenant
      */
     var enableInlineEdit = function() {
         $('.jeditable_field').editable(function(value) {
-                $.ajax({
-                    url: '/api/tenant',
-                    type: 'POST',
-                    data: {
-                        'port': $(this).attr('id'),
-                        'name': value
-                    }
-                });
-                return(value);
-            }, {
-                indicator: 'Saving...',
-                tooltip: 'Click to edit name',
-                id: 'port',
-                name: 'name',
-                callback: function(value, settings) {
-                    $(this).text(value);
+            $.ajax({
+                url: '/api/tenant',
+                type: 'POST',
+                data: {
+                    'port': $(this).attr('id'),
+                    'name': value
                 }
+            });
+            return(value);
+        }, {
+            indicator: 'Saving...',
+            tooltip: 'Click to edit name',
+            id: 'port',
+            name: 'name',
+            callback: function(value, settings) {
+                $(this).text(value);
+            }
         });
-    };
-
-    /**
-     * Renders the login view according to the available login strategies
-     * @param {Object} strategies the available login strategies
-     */
-    var showLogin = function(adminContext, configuration) {
-        sakai.api.Util.TemplateRenderer('admin_login_template', {
-            'strategies': configuration['oae-authentication'],
-            'context': adminContext
-        }, $('#admin_login_container'));
     };
 
     /**
@@ -244,18 +165,6 @@ require(['jquery', 'oae/oae.api!', '/shared/lib/bootstrap.js'], function($, oae)
         // Default when incorrect page is specified
         switchView('#configurationtenants');
     };
-    
-    //////////
-    //////////
-    // UTIL //
-    //////////
-    //////////
-
-    ///////////////////
-    ///////////////////
-    // CONFIGURATION //
-    ///////////////////
-    ///////////////////
 
     //////////////////////
     //// DATA STORING ////
@@ -400,63 +309,6 @@ require(['jquery', 'oae/oae.api!', '/shared/lib/bootstrap.js'], function($, oae)
             }
         });
     };
-
-
-    ///////////////////////
-    //// DATA FETCHING ////
-    ///////////////////////
-
-    /**
-     * Gets the configuration for the tenant (includes all module and tenant configuration)
-     * @param {Function} callback Callback function executed after the request completes. Passes through the returned data
-     */
-    var getConfiguration = function(adminContext, callback) {
-        var url = '/api/config';
-        // Tenant and global servers do not need the tenantId to be specified in the URL
-        // If a tenant server is accessed through the global server the tenantId needs to be specified
-        if (!adminContext.tenant.isMainTenantServer) {
-            url += '/' + adminContext.tenant.tenantId;
-        }
-
-        $.ajax({
-            url: url,
-            success: function(data) {
-                if ($.isFunction(callback)) {
-                    callback(data);
-                }
-            }
-        });
-    };
-
-    /**
-     * Gets the data for tenants
-     * @param {Function} callback Callback function executed after the request completes. Passes through the returned data
-     */
-    var getTenants = function(callback) {
-        $.ajax({
-            url: '/api/tenants',
-            success: function(data) {
-                if ($.isFunction(callback)) {
-                    callback(data);
-                }
-            }
-        });
-    };
-
-    ///////////////////
-    ///////////////////
-    // CONFIGURATION //
-    ///////////////////
-    ///////////////////
-
-    var adminContext = {};
-    var cachedTenants = [];
-    var configuration = {};
-
-    /////////////////
-    //// UTILITY ////
-    /////////////////
-
 
     /**
      * Preprocesses tenants retrieved form the server and sets some global variables
@@ -727,59 +579,103 @@ require(['jquery', 'oae/oae.api!', '/shared/lib/bootstrap.js'], function($, oae)
         });
     };
 
+    //////////////////////
+    // LOGIN AND LOGOUT //
+    //////////////////////
+
     /**
-     * Gets the current user's information
-     * @param {Function} callback Function to be executed after the request completes.
+     * Set up the log in handler
      */
-    var getMe = function(callback) {
-    //    $.ajax({
-    //        url: '/api/me',
-    //        success: function(meData) {
-    //            callback(false, meData);
-    //        }, error: function(err) {
-    //            callback(err);
-    //        }
-    //    });
+    var setUpLogin = function() {
+        $('#admin_login_container').on('submit', '#admin_login_form', function() {
+            oae.api.authentication.login($('#admin_login_form_name').val(), $('#admin_login_form_password').val(), function(err) {
+                if (err) {
+                    // TODO: Show error message
+                } else {
+                    document.location.reload(true);
+                }
+            });
+            return false;
+        });
     };
 
     /**
-     * Gets more information about the current context and stores it in a variable `adminContext`
-     * @param  {Object}    meData    Data returned in the `getMe` function, contains data on the current user
-     * @param  {Function}  callback  Function to be executed after the request completes.
+     * Set up the log out button
      */
-    var getCtx = function(meData, callback) {
-        adminContext = {
-            'me': meData,
-            'tenant': {}
-        };
+    var setUpLogout = function() {
+        
+    };
 
-        var path = window.location.pathname.split('/');
-        var url = '/api/tenant';
-        var isMainTenantServer = true;
+    ///////////////////////
+    //// DATA FETCHING ////
+    ///////////////////////
 
-        // If path looks like `/admin/cam` POSTS the url needs to reflect that (e.g. `/api/tenant/cam`)
-        if (path.length > 2) {
-            url += '/' + path[2];
-            isMainTenantServer = false;
-        }
-
+    /**
+     * Gets the configuration schema and the configuration for the current tenant.
+     * 
+     * @param {Function}    callback        Standard callback function
+     */
+    var getConfiguration = function(callback) {
+        // Get the config schema
         $.ajax({
-            url: url,
-            success: function(data) {
-                adminContext.tenant = {
-                    'context': 'tenant',
-                    'tenantId': data.alias,
-                    'active': data.active,
-                    'host': data.host,
-                    'name': data.name || '',
-                    'isMainTenantServer': isMainTenantServer
-                };
+            'url': '/api/config/schema',
+            'success': function(data) {
+                configurationSchema = data;
 
-                callback(adminContext);
+                // Get the tenant configuration values
+                var url = '/api/config';
+                if (currentContext.isGlobalAdminServer && currentContext.alias) {
+                    url += '/' + currentContext.alias;
+                }
+
+                $.ajax({
+                    url: url,
+                    success: function(data) {
+                        configuration = data;
+                        callback();
+                    }
+                });
             }
         });
     };
 
+    /**
+     * Get all of the available tenants and cache them
+     * 
+     * @param {Function}    callback        Standard callback function
+     */
+    var getTenants = function(callback) {
+        $.ajax({
+            url: '/api/tenants',
+            success: function(data) {
+                tenants = data;
+                callback();
+            }
+        });
+    };
+
+    /**
+     * Determine whether or not we're current on the global admin server and whether or not we need the UI for
+     * the global admin or for an admin. This will then be stored in the `currentContext` variable.
+     * 
+     * @param  {Function}  callback  Function to be executed after the context has been determined
+     */
+    var getCurrentContext = function(callback) {
+        // Get information about the current tenant
+        $.ajax({
+            'url': '/api/tenant',
+            'success': function(data) {
+                currentContext = data;
+
+                // Check if we're currently on a tenant admin on the global server
+                if (window.location.pathname.split('/') > 2) {
+                    var tenantAlias = window.location.pathname.split('/').pop();
+                    $.extend(currentContext, tenants[tenantAlias]);
+                }
+                callback();
+            }
+        });
+    };
 
     ////////////////////////
     //// INITIALIZATION ////
@@ -796,7 +692,6 @@ require(['jquery', 'oae/oae.api!', '/shared/lib/bootstrap.js'], function($, oae)
 
         $adminHeaderContainer.on('click', '#admin_header_user_logout', doLogOut);
         $adminLoginContainer.on('submit', '#admin_login_form', doLogin);
-        $adminLoginContainer.on('click', '.admin_login_tab', switchLoginStrategy);
         $adminTenantsContainer.on('click', '.createtenant_toggle_button', toggleContainer);
         $adminTenantsContainer.on('click', '#createtenant_submit_button', function() {
             createTenant(function() {
@@ -820,60 +715,36 @@ require(['jquery', 'oae/oae.api!', '/shared/lib/bootstrap.js'], function($, oae)
     };
 
     /**
-     * Initializes the header and sets the document title
+     * Initializes the header and set the document title
      */
     var initializeHeader = function() {
-        sakai.api.Util.TemplateRenderer('admin_header_template', {
-            'context': adminContext
-        }, $('#admin_header_container'));
+        oae.api.util.renderTemplate($('#admin_header_template'), {'context': currentContext}, $('#admin_header_container'));
 
         // Set the page title
-        if (adminContext.tenant.context === 'tenant') {
-            document.title = 'Tenant Administration UI - Sakai OAE';
+        if (currentContext.isGlobalAdminServer && !currentContext.host) {
+            oae.api.util.setBrowserTitle('Global Administration');
         } else {
-            document.title = 'Global Administration UI - Sakai OAE';
+            oae.api.util.setBrowserTitle('Tenant Administration');
         }
     };
 
     /**
      * Initializes the footer that shows links to other tenants.
-     * If the tenants have not been retrieved yet it does that first, otherwise it used the cached tenants.
      */
     var initializeFooter = function() {
-        if (cachedTenants.length) {
-            sakai.api.Util.TemplateRenderer('admin_footer_template', {
-                'tenants': cachedTenants,
-                'context': adminContext
-            }, $('#admin_footer_container'));
-
-            $('#admin_content').css('padding-bottom', $('#admin_footer_container').height());
-        } else if (adminContext.tenant.context === 'admin') {
-            getTenants(function(tenants) {
-                preProcessTenants(tenants, function(tenants) {
-                    cachedTenants = tenants;
-                    sakai.api.Util.TemplateRenderer('admin_footer_template', {
-                        'tenants': tenants,
-                        'context': adminContext
-                    }, $('#admin_footer_container'));
-
-                    $('#admin_content').css('padding-bottom', $('#admin_footer_container').height());
-                });
-            });
-        } else {
-            sakai.api.Util.TemplateRenderer('admin_footer_template', {
-                'tenants': [],
-                'context': adminContext
-            }, $('#admin_footer_container'));
-        }
+        oae.api.util.renderTemplate($('#admin_footer_template'), {
+            'context': currentContext,
+            'tenants': tenants
+        }, $('#admin_footer_container'));
     };
 
     /**
      * Initializes the list of modules and renders them in a view
      */
     var initializeModules = function() {
-        sakai.api.Util.TemplateRenderer('admin_modules_template', {
-            'modules': configuration,
-            'context': adminContext
+        oae.api.util.renderTemplate($('#admin_modules_template'), {
+            'schema': configurationSchema,
+            'context': currentContext
         }, $('#admin_modules_container'));
     };
 
@@ -934,34 +805,22 @@ require(['jquery', 'oae/oae.api!', '/shared/lib/bootstrap.js'], function($, oae)
      * Initializes the admin UI
      */
     var doInit = function() {
-        addBinding();
+        //addBinding();
 
-        // Get the data on the current user
-        getMe(function(err, meData){
-            if (err) {
-                return showError({
-                    'title': 'Data not retrieved.',
-                    'message': 'Some data cannot be retrieved at this time. Try again later.'
-                });
-            }
+        // Fetch the list of available tenants
+        getTenants(function() {
+            // Determine for which tenant we want to see the admin UI
+            getCurrentContext(function() {
 
-            if (meData.anon) {
-                getCtx(meData, function(ctx) {
-                    getConfiguration(adminContext, function(config) {
-                        configuration = config;
-                        // The anonymous user needs to log in
-                        showLogin(adminContext, configuration);
-                    });
-                });
-            } else if (meData.isTenantAdmin || meData.isGlobalAdmin) {
-                // Get contextual data and continue rendering the page
-                getCtx(meData, function(ctx) {
-                    initializeNavigation();
-                    // Initialize the header
-                    initializeHeader();
+                initializeHeader();
+                initializeFooter();
+    
+                if (oae.data.me.anon) {
+                    $('#admin_login_container').show();
+                } else if (oae.data.me.isTenantAdmin || oae.data.me.isGlobalAdmin) {
+                    
                     // Get the configuration and continue rendering the page
-                    getConfiguration(adminContext, function(config) {
-                        configuration = config;
+                    getConfiguration(function() {
                         // Initialize configurable modules
                         initializeModules();
                         // Initialize the tenants table (only 1 tenant if not on global server)
@@ -969,14 +828,16 @@ require(['jquery', 'oae/oae.api!', '/shared/lib/bootstrap.js'], function($, oae)
                         // Show requested view
                         switchView(window.location.hash);
                     });
-                });
-            } else {
-                // The user is not authorized to view the page
-                showUnauthorized();
-            }
+                } else {
+                    // The user is not authorized to view the page
+                    $('#admin_unauthorized_container').show();
+                }
+            });
         });
     };
 
+    setUpLogin();
+    setUpLogout();
     doInit();
 
 });

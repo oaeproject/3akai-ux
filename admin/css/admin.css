@@ -17,7 +17,7 @@ html, body {
     height: 100%;
 }
 body {
-    background: url('/shared/img/page-bg.png') repeat left top #eee;
+    background: url('/shared/oae/img/page-bg.png') repeat left top #eee;
     margin: 0;
     padding: 0;
 }
@@ -33,7 +33,7 @@ body {
     padding: 0 15px !important;
 }
 #admin_header_container #admin_header_content {
-    background: url('/shared/img/logo.png') no-repeat left center transparent;
+    background: url('/shared/oae/img/logo.png') no-repeat left center transparent;
     height: 70px;
 }
 #admin_header_container #admin_header_user {
@@ -97,7 +97,7 @@ body {
     float: left;
     height: 75px;
     width: 225px;
-    background: url("/shared/img/logo_white.png") no-repeat scroll left 20px transparent;
+    background: url("/shared/oae/img/logo_white.png") no-repeat scroll left 20px transparent;
 }
 #admin_footer_container .footer_column.tenants {
     overflow: auto;
