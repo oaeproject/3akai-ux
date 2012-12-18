@@ -13,353 +13,222 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae/oae.core'], function($, oae) {
-    
-    sakai_global.createnewaccount = function() {
+require(['jquery', 'oae/api/oae.core', '//www.google.com/recaptcha/api/js/recaptcha_ajax.js'], function($, oae) {
 
+    // Redirect the user back to the landing page if he is already logged in or if
+    // creating an internal account isn't allowed
+    if (!oae.data.me.anon || !oae.api.config.getValue('oae-authentication', 'local', 'allowAccountCreation')) {
+        oae.api.util.redirect().redirectToLogin();
+    }
 
-        /////////////////////////////
-        // Configuration variables //
-        /////////////////////////////
+    // Set the browser title
+    oae.api.util.setBrowserTitle('__MSG__REGISTER__');
 
-        var defaultUserType = 'default';
-        var pagestemplate = 'defaultuser';
+    ////////////////
+    // Re-captcha //
+    ////////////////
 
-        // Links and labels
-        var checkUserNameLink = '#checkUserName';
-        var buttonsContainer = '.create_account_button_bar';
-
-        // Input fields
-        var usernameField = '#username';
-        var firstNameField = '#firstName';
-        var lastNameField = '#lastName';
-        var emailField = '#email';
-        var passwordField = '#password';
-        var passwordRepeatField = '#passwordRepeat';
-        var captchaField = '#uword';
-
-        // Error fields
-        var usernameTaken = '#username_taken';
-        var usernameShort = '#username_short';
-        var usernameSpaces = '#username_spaces';
-        var usernameEmpty = '#username_empty';
-        var firstNameEmpty = '#firstName_empty';
-        var lastNameEmpty = '#lastName_empty';
-        var emailEmpty = '#email_empty';
-        var emailInvalid = '#email_invalid';
-        var passwordEmpty = '#password_empty';
-        var passwordShort = '#password_short';
-        var passwordRepeatEmpty = '#password_repeat_empty';
-        var passwordRepeatNoMatch = '#password_repeat_nomatch';
-        var errorFields = '.create_account_error_msg';
-        var usernameLabel = '#username_label';
-        var inputFields = '.create_account_input';
-        var usernameAvailable = '#username_available';
-
-
-        //CSS Classes
-        var invalidFieldClass = 'invalid';
-        var formContainer = '#create_account_form';
-        var inputFieldHoverClass = 'input_field_hover';
-
-        // Contains executable errors
-        var errObj = [];
-
-        ///////////////////////
-        // Utility functions //
-        ///////////////////////
-
-        var usernameEntered = '';
-
-        /**
-         * Get all of the values out of the form fields. This will return
-         * a JSON object where the keys are the names of all of the form fields, and the values are
-         * the values entered by the user in those fields.
-         */
-        var getFormValues = function() {
-            // Get the values from the form.
-            var values = $(formContainer).serializeObject();
-
-            // Get the values from the captcha form.
-            var captchaValues = sakai_global.captcha.getProperties();
-
-            // Add them to the form values.
-            values = $.extend(true, {}, values, captchaValues);
-
-            return values;
-        };
-
-        ///////////////////////
-        // Creating the user //
-        ///////////////////////
-
-        /*
-         * Function that will actually collect all of the values out of the form and
-         * will try to create the new user
-         */
-        var doCreateUser = function() {
-            var values = getFormValues();
-            $('button').attr('disabled', 'disabled');
-            $('input').attr('disabled', 'disabled');
-            sakai.api.User.createUser(values.username, values.firstName, values.lastName, values.email, values.password, values.password, {
-                recaptcha: {
-                    challenge: values['recaptcha-challenge'],
-                    response: values['recaptcha-response']
-                }
-            }, function(success, data) {
-                if (success) {
-                    // This will hide the Create and Cancel button and offer a link back to the login page
-
-                    // Destroy the captcha
-                    sakai_global.captcha.destroy();
-
-                    // Wait for 2 seconds
-                    setTimeout(function() {
-                        sakai.api.User.login({
-                            'username': values.username,
-                            'password': values.password
-                        }, function() {
-                            // Relocate to the user home space
-                            document.location = '/me?welcome=true';
-                        });
-                    }, 2000);
-                }
-                else {
-                    $('button').removeAttr('disabled');
-                    $('input').removeAttr('disabled');
-                    
-                    var msg = 'Couldn\'t create your account.';
-                    try {
-                        var json = JSON.parse(data.responseText);
-                        msg = json.msg;
-                    } catch (err) {
-                        // Swallow exception,
-                        // something else went really wrong.
-                    }
-   
-                    if (msg === 'Invalid reCaptcha token.') {
-                        sakai_global.captcha.reload();
-                        sakai_global.captcha.showError('create_account_input_error');
-                    } else {
-                        showCreateUserError(msg);
-                    }
-                }
-            });
-        };
-
-        /**
-         * Displays an error if the user creation failed
-         * @param {String} errorMessage The error message to display
-         */
-        var showCreateUserError = function(errorMessage){
-            sakai.api.Util.notification.show(
-                sakai.api.i18n.getValueForKey('AN_ERROR_HAS_OCCURRED'),
-                sakai.api.i18n.getValueForKey('CREATE_ACCOUNT_FAILURE') + ' ' + sakai.api.Security.safeOutput(errorMessage),
-                sakai.api.Util.notification.type.ERROR, true);
-        };
-
-        //////////////////////////////
-        // Check username existence //
-        //////////////////////////////
-
-        /*
-         * Check whether the username (eid) is valid and then check
-         * whether the username already exists in the system.
-         * checkingOnly will define whether we are just checking the existence,
-         * and don't want to do anything else afterwards if set to true. If set
-         * to false, it will start doing the actual creation of the user once
-         * the check has been completed.
-         */
-        var checkUserName = function(checkingOnly, callback) {
-            var values = getFormValues();
-            var ret = false;
-            var async = false;
-            if (callback) {
-                async = true;
-            }
-            // If we reach this point, we have a username in a valid format. We then go and check
-            // on the server whether this eid is already taken or not. We expect a 200 if it already
-            // exists and a 401 if it doesn't exist yet.
-            var url = sakai.config.URL.USER_EXISTENCE_SERVICE.replace(/__USERNAME__/g, $.trim(values.username));
-            if (errObj.length === 0) {
-                $.ajax({
-                    // Replace the preliminary parameter in the service URL by the real username entered
-                    url: url,
-                    cache: false,
-                    async: async,
-                    success: function() {
-                        if (callback) {
-                            callback(false);
-                        }
-                    },
-                    error: function(xhr, textStatus, thrownError) {
-                        // SAKIII-1736 - IE will interpret the 204 returned by the server as a
-                        // status code 1223, which will cause the error clause to activate
-                        if (xhr.status === 1223 || xhr.status === 409) {
-                            ret = false;
-                        } else {
-                            ret = true;
-                        }
-                        if (callback) {
-                            callback(ret);
-                        }
-                    }
-                });
-            }
-            return ret;
-        };
-
-        var initCaptcha = function() {
-            sakai.api.Widgets.widgetLoader.insertWidgets('captcha_box', false);
-        };
-
-        ////////////////////
-        // Event Handlers //
-        ////////////////////
-
-
-        /*
-         * If the Cancel button is clicked, we redirect them back to the login page
-         */
-        var doBinding = function() {
-
-            $('#cancel_button').on('click', function(ev) {
-                document.location = sakai.config.URL.GATEWAY_URL;
-            });
-
-            $('#username').on('keyup blur', function() {
-                var username = $.trim($(usernameField).val());
-                if (usernameEntered !== username) {
-                    usernameEntered = username;
-                    if (username && username.length > 2 && username.indexOf(' ') === -1) {
-                        $(usernameField).removeClass('signup_form_error');
-                        checkUserName(true, function(success) {
-                            $('#create_account_username_error').hide();
-                            if (success) {
-                                $(usernameField).removeClass('signup_form_error');
-                                $(usernameField).addClass('username_available_icon');
-                                $('.' + $(usernameField)[0].id).removeClass('signup_form_error_label');
-                            } else {
-                                $(usernameField).removeClass('username_available_icon');
-                            }
-                        });
-                    } else {
-                        $(usernameField).removeClass('username_available_icon');
-                    }
-                }
-            });
-
-            var validateOpts = {
-                rules: {
-                    password: {
-                        minlength: 4
-                    },
-                    password_repeat: {
-                        equalTo: '#password'
-                    },
-                    username: {
-                        minlength: 3,
-                        nospaces: true,
-                        validchars: true,
-                        reservedprefix: true,
-                        validfirstchar: true,
-                        validusername: true
-                    }
-                },
-                messages: {
-                    firstName: $(firstNameEmpty).text(),
-                    lastName: $(lastNameEmpty).text(),
-                    email: {
-                        required: $(emailEmpty).text(),
-                        email: $(emailInvalid).text()
-                    },
-                    username: {
-                        required: $(usernameEmpty).text(),
-                        minlength: $(usernameShort).text(),
-                        nospaces: $(usernameSpaces).text()
-                    },
-                    password: {
-                        required: $(passwordEmpty).text(),
-                        minlength: $(passwordShort).text()
-                    },
-                    password_repeat: {
-                        required: $(passwordRepeatEmpty).text(),
-                        passwordmatch: $(passwordRepeatNoMatch).text()
-                    }
-                },
-                'methods': {
-                    'validusername': {
-                        'method': function(value, element) {
-                            return this.optional(element) || checkUserName();
-                        },
-                        'text': sakai.api.i18n.getValueForKey('THIS_USERNAME_HAS_ALREADY_BEEN_TAKEN')
-                    },
-                    'validchars': {
-                        'method': function(value, element) {
-                            return this.optional(element) || !(/[\<\>\\\/{}\[\]!@#\$%^&\*,]+/i.test(value));
-                        },
-                        'text': sakai.api.i18n.getValueForKey('CREATE_ACCOUNT_INVALIDCHAR')
-                    },
-                    'reservedprefix': {
-                        'method': function(value, element) {
-                            return this.optional(element) || (value.substr(0, 11) !== 'g-contacts-');
-                        },
-                        'text': sakai.api.i18n.getValueForKey('CREATE_ACCOUNT_RESERVED_PREFIX')
-                    },
-                    'validfirstchar': {
-                        'method': function(value, element) {
-                            return this.optional(element) || (value.substr(0, 1) !== '_');
-                        },
-                        'text': sakai.api.i18n.getValueForKey('CREATE_ACCOUNT_START_WITH')
-                    }
-                },
-                submitHandler: function(form, validator) {
-                    doCreateUser();
-                    return false;
-                }
-            };
-            sakai.api.Util.Forms.validate($('#create_account_form'), validateOpts);
-        };
-
-        $('#save_account').click(function() {
-            sakai_global.captcha.hideError();
-            $('.signup_form_column_labels label').removeClass('signup_form_error_label');
-            $('.create_account_input_error').hide('');
-        });
-
-        var doInit = function() {
-            // hide body first
-            $('body').hide();
-
-            // check if using internalaccountcreation is false if so redirect
-            if (!sakai.config.Authentication.allowInternalAccountCreation) {
-                document.location = sakai.config.URL.GATEWAY_URL;
-            }
-            else {
-                $('body').show();
-            }
-
-            $(inputFields).on('mouseenter mouseleave', function(ev) {
-                $(this).toggleClass(inputFieldHoverClass);
-            });
-
-            // Initialize the captcha widget.
-            initCaptcha();
-            doBinding();
-        };
-
-        var renderEntity = function() {
-            $(window).trigger('sakai.entity.init', ['newaccount']);
-        };
-
-        $(window).on('sakai.entity.ready', function() {
-            renderEntity();
-        });
-
-        renderEntity();
-        doInit();
-
+    /**
+     * Set up a reCaptcha container that will used to verify
+     * that the current user is a real human
+     */
+    var setUpCaptcha = function() {
+        var captchaContainer = $('#register_captcha_container')[0];
+        Recaptcha.create(oae.api.config.getValue('oae-principals', 'recaptcha', 'publicKey'), captchaContainer, {theme: 'clean'});
     };
 
-    sakai.api.Widgets.Container.registerForLoad('createnewaccount');
+    /**
+     * Show a validation message for reCaptcha
+     */
+    var hideRecaptchaError = function() {
+        // Remove the aria attributes on the main recaptcha input field
+        $('#recaptcha_response_field').removeAttr('aria-invalid aria-describedby');
+        $('#register_captcha_error').hide();
+        $('#register_captcha_container').removeClass('oae-error');
+    };
+
+    /**
+     * Show a validation message for reCaptcha
+     */
+    var showRecaptchaError = function() {
+        // Set the aria attributes on the main recaptcha input field
+        $('#recaptcha_response_field').attr({
+            'aria-invalid': 'true',
+            'aria-describedby': 'register_captcha_error'
+        });
+        $('#register_captcha_error').show();
+        $('#register_captcha_container').addClass('oae-error');
+    };
+
+    /*!
+     * Hide the recaptcha validation error when clicking submit
+     */
+    $('#register_create_account').click(hideRecaptchaError);
+
+    ///////////////////
+    // Register form //
+    ///////////////////
+
+    /**
+     * Verify whether or not the entered username already exists as a login id on the
+     * current tenant. This will happen synchronously when it is part of the form
+     * validation
+     * 
+     * @param  {Function}   [callback]              Standard callback function.
+     * @param  {Boolean}    [callback.available]    Whether or not the username is available
+     * @return {Boolean}                            When no callback is provided, this function will be synchronous and will return whether or not the username is available
+     */
+    var isUserNameAvailable = function(callback) {
+        // If we reach this point, we have a username in a valid format.
+        var username = $.trim($('#username').val());
+
+        // We check if the userid is still available on the current tenant. 
+        // We expect a 200 if it already exists and a 404 if it doesn't exist yet.
+        var available = false;
+        $.ajax({
+            url: '/api/auth/exists/' + username,
+            async: callback ? true : false,
+            success: function() {
+                // The username already exists
+                if (callback) {
+                    callback(false);
+                }
+            },
+            error: function(xhr, textStatus, thrownError) {
+                // The username is still available
+                if (callback) {
+                    callback(true);
+                } else {
+                    available = true;
+                }
+            }
+        });
+        return available;
+    };
+
+    /**
+     * Set up the validation on the register form, including the error messages
+     */
+    setUpValidation = function() {
+        var validateOpts = {
+            'rules': {
+                'username': {
+                    'minlength': 3,
+                    'nospaces': true,
+                    'validchars': true,
+                    'validusername': true
+                },
+                'password': {
+                    'minlength': 6
+                },
+                'password_repeat': {
+                    'equalTo': '#password'
+                }
+            },
+            'messages': {
+                'firstName': oae.api.i18n.translate('__MSG__PLEASE_ENTER_YOUR_FIRST_NAME__'),
+                'lastName': oae.api.i18n.translate('__MSG__PLEASE_ENTER_YOUR_LAST_NAME__'),
+                'email': {
+                    'required': oae.api.i18n.translate('__MSG__PLEASE_ENTER_A_VALID_EMAIL_ADDRESS__'),
+                    'email': oae.api.i18n.translate('__MSG__THIS_IS_AN_INVALID_EMAIL_ADDRESS__'),
+                },
+                'username': {
+                    'required': oae.api.i18n.translate('__MSG__PLEASE_ENTER_YOUR_USERNAME__'),
+                    'minlength': oae.api.i18n.translate('__MSG__THE_USERNAME_SHOULD_BE_AT_LEAST_THREE_CHARACTERS_LONG__'),
+                    'nospaces': oae.api.i18n.translate('__MSG__THE_USERNAME_SHOULDNT_CONTAIN_SPACES__')
+                },
+                'password': {
+                    'required': oae.api.i18n.translate('__MSG__PLEASE_ENTER_YOUR_PASSWORD__'),
+                    'minlength': oae.api.i18n.translate('__MSG__YOUR_PASSWORD_SHOULD_BE_AT_LEAST_SIX_CHARACTERS_LONG__')
+                },
+                'password_repeat': {
+                    'required': oae.api.i18n.translate('__MSG__PLEASE_REPEAT_YOUR_PASSWORD__'),
+                    'passwordmatch': oae.api.i18n.translate('__MSG__THIS_PASSWORD_DOES_NOT_MATCH_THE_FIRST_ONE__')
+                }
+            },
+            'methods': {
+                'validusername': {
+                    'method': function(value, element) {
+                        return this.optional(element) || isUserNameAvailable();
+                    },
+                    'text': oae.api.i18n.translate('__MSG__THIS_USERNAME_HAS_ALREADY_BEEN_TAKEN__')
+                },
+                'validchars': {
+                    'method': function(value, element) {
+                        return this.optional(element) || !(/[\<\>\\\/{}\[\]!@#\$%^&\*,:]+/i.test(value));
+                    },
+                    'text': oae.api.i18n.translate('__MSG__CREATE_ACCOUNT_INVALIDCHAR__')
+                }
+            },
+            'submitHandler': createUser
+        };
+        oae.api.util.validation().validate($('#register_form'), validateOpts);
+    };
+
+    /**
+     * Set up the check that verifies whether or not the entered username is still availble. This will
+     * be done every time the user changes the username
+     */
+    var setUpUsernameCheck = function() {
+        // Keep track of the previously entered username, so we don't send
+        // unneccesary requests when the username hasn't actually changed
+        var previousUsername = '';
+
+        $('#username').on('keyup blur', function() {
+            var username = $.trim($('#username').val());
+            if (previousUsername !== username) {
+                previousUsername = username;
+                // Make sure that the username is acceptable
+                if (username.length > 2 && username.indexOf(' ') === -1) {
+                    isUserNameAvailable(function(available) {
+                        // Show the available icon if the username is available, otherwise show the unavailable icon
+                        available ? $('#username').addClass('register-username-available-icon') : $('#username').removeClass('register-username-available-icon');
+                    });
+                } else {
+                    $('#username').removeClass('register-username-available-icon');
+                }
+            }
+        });
+    };
+
+    /////////////////
+    // Create user //
+    /////////////////
+
+    /**
+     * Create the new user. This will be called after validation has succeeded
+     */
+    var createUser = function() {
+        // Get the form values
+        var values = $('#register_form').serializeObject();
+        // Collect the recaptcha values
+        values['recaptchaChallenge'] = Recaptcha.get_challenge();
+        values['recaptchaResponse'] = Recaptcha.get_response();
+
+        // Disable the register button during creation, so it can't be clicked
+        // multiple times
+        $('button, input').attr('disabled', 'disabled');
+
+        // Create the user
+        var displayName = values.firstName + ' ' + values.lastName;
+        oae.api.user.createUser(values.username, values.password, displayName, null, values.recaptchaChallenge, values.recaptchaResponse, function(err, createdUser) {
+            if (!err) {
+                oae.api.authentication.login(values.username, values.password, function() {
+                    // Relocate to the user home space
+                    document.location = '/me?welcome=true';
+                });
+            } else {
+                // Refresh recaptcha
+                Recaptcha.reload();
+                showRecaptchaError();
+                // Unlock the register button again
+                $('button, input').removeAttr('disabled');
+            }
+        });
+    };
+
+    setUpCaptcha();
+    setUpValidation();
+    setUpUsernameCheck();
+
 });

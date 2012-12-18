@@ -13,44 +13,61 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery'], function (jQuery) {
+require(['jquery', 'underscore', 'oae/api/oae.api.i18n', 'oae/api/oae.api.util'], function (jQuery, _, i18nAPI, utilAPI) {
 (function($) {
 
-    var containerCache = [];
-
     /**
-     * Function that will provide infinite scrolling for lists of items being
-     * displayed
-     * @param {String} source                If this is a String, it'll be treated as the URL to use for the search action
-     *                                       If this is a Function, this will be called to get the lists of results
-     * @param {Object} parameters            Parameters to send along for search requests.
-     *                                       The 'items' property will be used to determine how many results are loaded per call [optional]
-     * @param {Function} render              Render callback function called when the plugin is ready to render the list
-     *                                       using a specific template
-     * @param {Function} emptyListProcessor  Function used to deal with an empty result list [optional]
-     * @param {String} loadingImage          Path to the loading image that should be shown when 
-     * @param {Function} postProcessor       Function used to transform the search results before rendering
-     *                                       the template [optional]
-     * @param {Function} postRenderer        Function executed after the rendered HTML has been appened to the infinite scroll [optional]                         
-     * @param {Object} initialContent        Initial content to be added to the list [optional]
-     * @param {Function} initialCallback     Function to call with data from initial request [optional]
-     * @param {Object} $scrollContainer      Container used for infinite scrolling that is not the document [optional]
-     * @param {Integer} overrideThreshold    Integer to override the default scroll threshold for when the next request is done [optional]
+     * Sakai OAE plugin that will provide infinite scrolling for lists of items being displayed. This plugin will take care of retrieving the
+     * list items and deciding when to retrieve the next set of results, as well as the actual appending to the list, showing loading
+     * animations, etc.
+     * 
+     * The template used to render the result should put each item into its own `li` tag, and should have a `data-id` attribute containing
+     * the item's id and a `data-key` attribute containing the value that should be used as the start value for paging.
+     * 
+     * @param  {String}                            source                          The REST endpoint URL to use for retrieving list data.
+     * @param  {Object}                            [parameters]                    Parameters to send along for each list items retrieval ajax request.
+     * @param  {Object}                            [parameters.limit]              The number of items to load per ajax request. This will default to 10 if not provided.
+     * @param  {String|Element|Function}           render                          jQuery element or selector for that jQuery element that identifies the Trimpath template that should be used to render retrieved results. If a function is provided, this function will be called instead with 1 parameters: the server response containing the retrieved results. The function should return the generated HTML string. 
+     * @param  {Object}                            [options]                       Optional object containing additional configuraton options.
+     * @param  {String|Element}                    [options.scrollcontainer]       jQuery element or selector for that jQuery element that identifies the container on which the scrollposition should be watched to check when we are close enough to the bottom to load a new set of results. If this is not provided, the document body will be used.
+     * @param  {Function}                          [options.emptyListProcessor]    Function that will be executed when the rendered list doesn't have any elements.
+     * @param  {Function}                          [options.postProcessor]         Function used to transform the search results before rendering the template. This function will be called with a data parameter containing the retrieved data and should return the processed data
+     * @param  {Function}                          [options.postRenderer]          Function executed after the rendered HTML has been appended to the rendered list. The full retrieved server response will be passed into this function.
+     * @param  {String}                            [options.loadingImage]          Path to the loading image that should be shown when a new set of list items is being loaded
+     * @throws {Error}                                                             Error thrown when not all of the required parameters have been provided
      */
-    $.fn.infinitescroll = function(source, parameters, render, emptyListProcessor, loadingImage, postProcessor, postRenderer, initialContent, initialCallback, $scrollContainer, overrideThreshold) {
+    $.fn.infiniteScroll = function(source, parameters, render, options) {
+        // Parameter validation
+        if (!source) {
+            throw new Error('A valid source URL should be provided');
+        } else if (!render) {
+            throw new Error('A valid template name or render function should be provided')
+        }
 
+        // Default values
         parameters = parameters || {};
-        // Page number to start listing results from. As this is an infinite scroll,
-        // this will always be 0
-        parameters.page = 0;
+        options = options || {};
+
         // Number of items to load per call to the server
         parameters.limit = parameters.limit || 10;
-        var startKey = parameters.startKey || 'id';
-        delete parameters.startKey;
+        // Make sure render is a jQuery object if a string has been provided
+        if (_.isString(render)) {
+            render = $(render);
+        }
+        // Make sure the scollcontainer is a jQuery element if it's been provided
+        if (options.scrollContainer) {
+            options.scrollContainer = $(options.scrollContainer);
+        }
+        // Set default loading animation
+        options.loadingImage = '/ui/img/Infinite_Scrolling_Loader_v01.gif';
+
+        // Set the container in which the results should be rendered
+        var $container = options.scrollContainer ? options.scrollContainer : $(this);
+        // Container that will be used to show the loading animation
+        var $loadingContainer = $('<div />');
+
         // Gets filled up each time we request a list.
         var lastItem = null;
-        var $container = $scrollContainer ? $scrollContainer.children('ul') : $(this);
-        var $loadingContainer = $('<div />');
 
         ////////////////////////
         // Infinite scrolling //
@@ -58,50 +75,136 @@ require(['jquery'], function (jQuery) {
 
         // Keep track as to whether we're currently fetching a new list of items or not.
         // If we're doing that, we wait until it has finished before fetching the next list.
-        var isDoingExtraSearch = false;
+        var isDoingSearch = false;
 
         /**
          * Start listening to the window's scroll event and decide when we are close enough to the end of the
          * page before fetching the next set of items
          */
         var startInfiniteScrolling = function() {
-            if($scrollContainer) {
-                $scrollContainer.scroll(function() {
-                    if (!isDoingExtraSearch) {
-                        loadNextList();
-                    }
-                });
+            if (options.scrollContainer) {
+                options.scrollContainer.scroll(checkLoadNext);
             } else {
-                $(window).scroll(function() {
-                    if (!isDoingExtraSearch) {
-                        loadNextList();
-                    }
-                });
+                $(window).scroll(checkLoadNext);
             }
         };
 
         /**
          * Function that checks whether the current scroll position is within a certain distance
-         * of the end of the page. If it is, we load the next set of results
-         * @param {Object} lastItem The last item in the previous resultset where we can use a value from to get the next set.
+         * of the end of the page or the end of the scroll container. If it is, we load the next set of results.
          */
-        var loadNextList = function() {
-            var threshold = overrideThreshold || 500;
-            var scrollTop = $.browser.msie ? $('html').scrollTop() : $(window).scrollTop();
-            var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - scrollTop;
-            var $finalContainer = $scrollContainer || $container;
-            if ($scrollContainer) {
-                threshold = overrideThreshold || 280;
-                scrollTop = $scrollContainer.scrollTop();
-                pixelsRemainingUntilBottom = $scrollContainer.children('ul').height() - scrollTop;
+        var checkLoadNext = function() {
+            if (!isDoingSearch) {
+                // In case we use the body
+                var threshold = 500;
+                var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - $(window).scrollTop();
+                // In case we use a scroll container 
+                if (options.scrollContainer) {
+                    threshold = 280;
+                    pixelsRemainingUntilBottom = options.scrollContainer.height() - options.scrollContainer.scrollTop();
+                }
+                // Check if this is close enough to the bottom to kick off a new item load
+                if (pixelsRemainingUntilBottom <= threshold && $container.is(':visible')) {
+                    loadResultList();
+                }
             }
-            if (pixelsRemainingUntilBottom <= threshold && $finalContainer.is(':visible')) {
-                if (lastItem) {
-                    if ($.isFunction(startKey)) {
-                        console.log(lastItem);
-                        parameters.start = startKey(lastItem);
-                    } else {
-                        parameters.start = lastItem[startKey];
+        };
+
+        ////////////////////
+        // List rendering //
+        ////////////////////
+
+        /**
+         * Retrieve the next set of results from the server
+         */
+        var loadResultList = function() {
+            isDoingSearch = true;
+            showLoadingContainer();
+            // Get the key of the latest
+            var $lastElement = $('li', $container).filter(':visible').filter(':last');
+            if ($lastElement.length !== 0) {
+                parameters.start = $lastElement.attr('data-key') ? $lastElement.attr('data-key') : $lastElement.index();
+            }
+
+            // Get the data from the server
+            $.ajax({
+                'url': source,
+                'data': parameters,
+                'success': function(data) {
+                    processList(data);
+                },
+                'error': function() {
+                    hideLoadingContainer();
+                    console.error('An error has occured while retrieving the list of results');
+                }
+            });
+        };
+
+        /**
+         * Run the list of items to be added through a processor before pushing them through
+         * a template. The postProcessor will be pass on the server response to the postProcessor
+         * function.
+         * 
+         * @param {Object}      data       Response received from the server
+         */
+        var processList = function(data) {
+            if (options.postProcessor) {
+                data = options.postProcessor(data);
+            }
+            renderList(data);
+        };
+
+        /**
+         * Add a list of items to the current infinite scroll list. We expect the list of items
+         * to be wrapped in a `results` object, and have an `id` parameter for each of the results.
+         * Results that are already in the list will not be re-rendered. 
+         * 
+         * @param {Object} data       Post-processed server response
+         */
+        var renderList = function(data) {
+            // Determine if we should attempt to load a next page
+            var canFetchMore = (data.results.length === parameters.limit);
+
+            // Filter out items that are already in the list
+            var filteredresults = [];
+            $.each(data.results, function(i, result) {
+                // Determine whether this item is already in the list
+                // by looking for an element with the same id
+                if (!$('*[data-id="' + result.id + '"]', $container).length) {
+                    filteredresults.push(result);
+                }
+            });
+            data.results = filteredresults;
+
+            // Render the template and put it in the container
+            hideLoadingContainer();
+            var templateOutput = '';
+            if (_.isFunction(render)) {
+                templateOutput = render(data.results);
+            } else {
+                templateOutput = utilAPI.renderTemplate(render, data);
+            }
+            $container.append(templateOutput);
+
+            // Call the post renderer if it has been provided
+            if (options.postRenderer) {
+                options.postRenderer(data);
+            }
+
+            // If there are more results and we're still close to the bottom of the page,
+            // check if we should do another one. However, we pause for a second, as to
+            // not to send too many requests at once
+            if (canFetchMore) {
+                setTimeout(function() {
+                    isDoingSearch = false;
+                    checkLoadNext();
+                }, 1000);
+            } else {
+                // Don't do any more searches when scrolling
+                isDoingSearch = true;
+                if ($('li:visible', $container).length === 0) {
+                    if (options.emptyListProcessor) {
+                        options.emptyListProcessor();
                     }
                 }
             }
@@ -112,173 +215,26 @@ require(['jquery'], function (jQuery) {
         ///////////////////////
 
         /**
-         * Function called when items are removed from the list. This will fade the items out and
-         * hide them.
-         * @param {Object} items    Array of jQuery elements or array of strings of ids that need to be removed. 
-         *                          For the latter case, each of these string should correspond with a Dom element 
-         *                          that has this string as an id.
+         * Remove one or more items from the list. This will fade the items out and hide them.
+         * 
+         * @param  {String|String[]}       items       Id of the element that should be removed from the list or array of ids for all elements that should be removed from the list
          */
         var removeItems = function(items) {
-            var toFadeOut = 0;
+            if (!_.isArray(items)) {
+                items = [items];
+            }
+
+            var removed = 0;
             $.each(items, function(i, item) {
-                // Check whether the item is a string
-                // If so, we will create the jQuery selector
-                // If not, we assume a jQuery element was passed & will set the context to the container
-                var $item;
-                if (typeof item === 'string') {
-                    $item = $('*[id="' + item + '"]', $container);
-                } else {
-                    $item = $(item, $container);
-                }
+                $item = $('[data-id="' + item + '"]', $container);
                 $item.fadeOut(false, function() {
                     $(this).remove();
-                    isDoingExtraSearch = false;
-                    toFadeOut++;
-                    if (toFadeOut === items.length) {
-                        parameters.page = 0;
-                        loadResultList();
+                    removed++;
+                    if (removed === items.length) {
+                        checkLoadNext();
                     }
                 });
             });
-        };
-
-        /**
-         * Function called to prepend items to the list. This will be used when UI caching needs
-         * to be used
-         * @param {Object} items    Array of items to be prepended
-         */
-        var prependItems = function(items) {
-            processList({
-                'results': items
-            }, true);
-        };
-
-        ////////////////////
-        // List rendering //
-        ////////////////////
-
-        /**
-         * Add a list of items to the current infinite scroll list.
-         * @param {Object} data       List of items to add to the infinite scroll list
-         * @param {Object} prepend    True when we want to prepend the new items to the list
-         *                            False when we want to append the new items to the list
-         */
-        var renderList = function(data, prepend) {
-            // Filter out items that are already in the list
-            var filteredresults = [];
-
-            // Determine if there are more items to load
-            var doAnotherOne = data.results.length > 0;
-            if (data.items && data.total) {
-                var itemsDisplayed = data.items * (parameters.page + 1);
-                doAnotherOne = itemsDisplayed < data.total;
-            }
-
-            showHideLoadingContainer(false);
-            $.each(data.results, function(i, result) {
-                if (result.id) {
-                    // Determine whether this item is already in the list
-                    // by looking for an element with the same id
-                    if (!$('*[id="' + result.id + '"]', $container).length) {
-                        filteredresults.push(result);
-                    }
-                } else if (result.target) {
-                    if (!$('*[id="' + result.target + '"]', $container).length) {
-                        filteredresults.push(result);
-                    }
-                }
-            });
-            data.results = filteredresults;
-            // Render the template and put it in the container
-            var templateOutput = render(data.results, data.total);
-            if ($container) {
-                if (prepend) {
-                    $container.prepend(templateOutput);
-                } else {
-                    $container.append(templateOutput);
-                }
-                if ($.isFunction(postRenderer)) {
-                    postRenderer();
-                }
-
-                isDoingExtraSearch = false;
-                // If there are more results and we're still close to the bottom of the page,
-                // do another one
-                if (doAnotherOne) {
-                    lastItem = data.results[data.results.length - 1];
-                    loadNextList();
-                } else {
-                    isDoingExtraSearch = true;
-                    if ($('div:visible', $container).length === 0 && $('li:visible', $container).length === 0) {
-                        if ($.isFunction(emptyListProcessor)) {
-                            emptyListProcessor();
-                        }
-                    }
-                }
-            }
-        };
-
-        /**
-         * Run the list of items to be added to a processor before pushing them through
-         * a template. The postProcessor will be given an array of items to be added to
-         * the infinite scroll. The plugin expects an array of items to come back from
-         * the postProcessor as well.
-         * @param {Object} data       List of items to add to the infinite scroll list
-         * @param {Object} prepend    True when we want to prepend the new items to the list
-         *                            False when we want to append the new items to the list
-         */
-        var processList = function(data, prepend) {
-            if (data) {
-                data.results = data.results || [];
-                if ($.isFunction(postProcessor)) {
-                    postProcessor(data.results, function(items) {
-                        data.results = items;
-                        renderList(data, prepend);
-                    });
-                } else {
-                    renderList(data, prepend);
-                }
-            }
-        };
-
-        /**
-         * Retrieve the next set of results from the server
-         * @param {Object} initial    Whether or not this is the initial set of results that's being loaded
-         */
-        var loadResultList = function(initial) {
-            isDoingExtraSearch = true;
-            showHideLoadingContainer(true);
-            // If the source is a function that will load the results for us
-            if ($.isFunction(source)) {
-                source(parameters, function(success, data) {
-                    if (success) {
-                        processList(data);
-                        if (initial && $.isFunction(initialCallback)) {
-                            initialCallback(data);
-                        }
-                    } else {
-                        showHideLoadingContainer(false);
-                        debug.log('An error has occured while retrieving the list of results');
-                    }
-                });
-            // Load the results ourselves
-            } else {
-                $.ajax({
-                    'url': source,
-                    'data': parameters,
-                    'cache': false,
-                    'success': function(data) {
-                        processList(data);
-                        if (initial && $.isFunction(initialCallback)) {
-                            initialCallback(data);
-                        }
-                    },
-                    'error': function() {
-                        showHideLoadingContainer(false);
-                        debug.log('An error has occured while retrieving the list of results');
-                    }
-                });
-            }
         };
 
         ////////////////////////////
@@ -291,7 +247,7 @@ require(['jquery'], function (jQuery) {
          */
         var kill = function() {
             $container.html('');
-            isDoingExtraSearch = true;
+            isDoingSearch = true;
             $container = null;
         };
 
@@ -300,28 +256,28 @@ require(['jquery'], function (jQuery) {
         ///////////////////
 
         /**
-         * Show or hide the loading image
-         * @param {Object} show    True when the loading image should be shown
-         *                         False when the loading image should be hidden
+         * Show the loading animation
          */
-        var showHideLoadingContainer = function(show) {
-            if (show) {
-                $loadingContainer.hide().show();
-            } else {
-                $loadingContainer.hide();
-            }
+        var showLoadingContainer = function() {
+            $loadingContainer.show();
+        };
+        
+        /**
+         * Hide the loading animation
+         */
+        var hideLoadingContainer = function() {
+            $loadingContainer.hide();
         };
 
         /**
          * Create a div underneath the infinite scroll list that shows a loading
          * image provided by the container when a new set of results is being loaded
          */
-        var setUpLoadingIcon = function() {
-            var loadingText = require('sakai/sakai.api.i18n').getValueForKey('LOADING');
-            if (loadingImage) {
-                $loadingContainer.append($('<img />', {'src': loadingImage, 'alt': loadingText}));
-                $loadingContainer.css({'margin-top': '15px', 'text-align': 'center'});
-                showHideLoadingContainer(false);
+        var setUpLoadingImage = function() {
+            if (options.loadingImage) {
+                var $loader = $('<img />', {'src': options.loadingImage, 'alt': i18nAPI.translate('__MSG__LOADING__')}).addClass('oae-infinitescroll-loading');
+                $loadingContainer.append($loader);
+                hideLoadingContainer(false);
                 $loadingContainer.insertAfter($container);
             }
         };
@@ -330,28 +286,13 @@ require(['jquery'], function (jQuery) {
         // Initialisation //
         ////////////////////
 
-        /**
-         * Get the initial list of items to add to the list
-         */
-        var loadInitialList = function() {
-            $container.attr('aria-live', 'assertive');
-            var initial = true;
-            setUpLoadingIcon();
-            if (initialContent && initialContent.length > 0) {
-                initial = false;
-                processList({
-                    'results': initialContent
-                });
-            }
-            loadResultList(initial);
-            startInfiniteScrolling();
-        };
-
-        loadInitialList();
+        $container.attr('aria-live', 'assertive');
+        setUpLoadingImage();
+        loadResultList();
+        startInfiniteScrolling();
 
         return {
             'removeItems': removeItems,
-            'prependItems': prependItems,
             'kill': kill
         };
 

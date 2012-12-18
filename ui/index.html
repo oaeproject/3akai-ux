@@ -1,62 +1,46 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
+
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <noscript>
             <meta http-equiv="Refresh" content="1;URL=/noscript">
         </noscript>
-        <title></title>
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/main.css" />
-        <link rel="stylesheet" type="text/css" href="/dev/css/sakai/sakai.explore.css" />
-    </head>
-    <body class="fl-centered explore i18nable">
 
-        <div style="display:none">__MSG__IE_PLACEHOLDER__</div>
+        <!-- CORE CSS -->
+        <link rel="stylesheet" type="text/css" href="/ui/css/oae.main.css" />
+
+    </head>
+    <body class="oae-centered oae-force-hidden">
 
         <!-- HEADER -->
-        <div class="fl-container-flex header s3d-header">
-            <div class="s3d-navigation-container">
-                <div id="widget_topnavigation" class="widget_inline"></div>
+        <div class="oae-container-flex header oae-header">
+            <div class="oae-navigation-container">
+                <div data-widget="topnavigation"><!-- --></div>
             </div>
-            <div class="fl-centered fixed-container s3d-fixed-container">
-                <div class="s3d-container-shadow-left"><!----></div>
-                <div class="s3d-container-shadow-right"><!----></div>
-                <div class="s3d-page-header">
-                    <div id="widget_institutionalskinning" class="widget_inline"></div>
-                    <div id="explore_categories"></div>
-                    <div id="explore_categories_template"><!--
-                        <div id="widget_categories" class="widget_inline"></div>
-                    --></div>
-                    <div id="explore_navigation">
-                    </div>
+            <div class="oae-fix oae-centered fixed-container oae-fixed-container">
+                <div class="oae-container-shadow-left"><!-- --></div>
+                <div class="oae-container-shadow-right"><!-- --></div>
+                <div class="oae-page-header">
+                    <div data-widget="institutionalskinning"><!-- --></div>
                 </div>
             </div>
         </div>
-        <div class="fl-fix fl-centered fixed-container s3d-main-container" role="main">
-            <div id="explore_content"></div>
-            <div class="s3d-bottom-spacer"></div>
+
+        <!-- BODY -->
+        <div class="oae-fix oae-centered fixed-container oae-main-container" role="main">
+            <div class="oae-main-container-padding">
+                <div data-widget='welcome'><!-- --></div>
+            </div>
+            <div class="oae-bottom-spacer"><!-- --></div>
         </div>
-        <div id="explore_content_template"><!--
-            {if oneRow && widgets.oneRowWidget}
-                <div id="widget_${widgets.oneRowWidget}" class="widget_inline"></div>
-            {else}
-                <div id="explore_content_second_column">
-                    <div id="widget_${widgets.rightColumn}" class="widget_inline"></div>
-                </div>
-                <div id="explore_content_first_column">
-                    <div id="widget_${widgets.main}" class="widget_inline"></div>
-                    <hr class="s3d-split-line"/>
-                    <div id="widget_${widgets.bottom}" class="widget_inline"></div>
-                </div>
-            {/if}
-        --></div>
 
-        <!-- FOOTER WIDGET -->
-        <div id="widget_footer" class="widget_inline footercontainer"></div>
+        <!-- FOOTER -->
+        <div data-widget="footer"><!-- --></div>
 
-        <!-- Dependency JS -->
-        <script data-main="/dev/lib/sakai/sakai.dependencies.js" src="/dev/lib/jquery/require.js"></script>
-        <script>require(["/dev/javascript/explore.js"]);</script>
+        <!-- DEPENDENCIES -->
+        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/require.js"></script>
+
     </body>
 </html>

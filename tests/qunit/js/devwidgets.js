@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
+require(['jquery', 'underscore', 'oae/api/oae.core'], function($, _, oae) {
 
     sakai_global = sakai_global || {};
     sakai.widgets = sakai.widgets || {};
@@ -24,99 +24,8 @@ require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
 
     /**
      * An array of all of the widgets in the system
-     * NOTE: This has to be manually updated, so whenever you add a widget
-     *       you must add it to this list
      */
-    var widgetList = [
-        'accountpreferences',
-        'activegroups',
-        'addarea',
-        'addpeople',
-        'addtocontacts',
-        'allcategories',
-        'areapermissions',
-        'assignlocation',
-        'branding',
-        'basiclti',
-        'captcha',
-        'carousel',
-        'categories',
-        'changepic',
-        'collectionviewer',
-        'comments',
-        'contacts',
-        'contentauthoring',
-        'contentcomments',
-        'contentmetadata',
-        'contentpermissions',
-        'contentpreview',
-        'dashboard',
-        'dashboardactivity',
-        'deletecontent',
-        'discussion',
-        'displayprofilesection',
-        'documentviewer',
-        'embedcontent',
-        'entity',
-        'faceted',
-        'featuredcontent',
-        'featuredpeople',
-        'featuredworlds',
-        'footer',
-        'ggadget',
-        'googlemaps',
-        'helloworld',
-        'htmlblock',
-        'inbox',
-        'inserter',
-        'inserterbar',
-        'institutionalskinning',
-        'joingroup',
-        'joinrequestbuttons',
-        'joinrequests',
-        'lhnavigation',
-        'mycontacts',
-        'mycontent',
-        'mygroups',
-        'mylibrary',
-        'mymemberships',
-        'mysakai2',
-        'newaddcontent',
-        'newcreategroup',
-        'newsharecontent',
-        'pagetitle',
-        'pageviewer',
-        'participants',
-        'personinfo',
-        'pickeradvanced',
-        'popularcontent',
-        'recentactivity',
-        'recentchangedcontent',
-        'recentcontactsnew',
-        'recentmemberships',
-        'recentmessages',
-        'relatedcontent',
-        'remotecontent',
-        'rss',
-        'sakai2favourites',
-        'sakai2tools',
-        'savecontent',
-        'searchall',
-        'searchcontent',
-        'searchgroups',
-        'searchpeople',
-        'searchsakai2',
-        'selecttemplate',
-        'sendmessage',
-        'tags',
-        'text',
-        'tooltip',
-        'topnavigation',
-        'uploadnewversion',
-        'versions',
-        'welcome',
-        'worldsettings'
-    ];
+    var widgetList = _.keys(oae.api.widget.getWidgetManifests());
 
 
     /**

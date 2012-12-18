@@ -23,9 +23,8 @@
  */
 
 // Note: This version of the code is from Chris's repo at https://github.com/croby/jquery-autosuggest
-
-require([ 'jquery' ], function(jQuery) {
-
+// Note: Temporarily disabling require for jQuery and using the global jQuery object.
+//require([ 'jquery' ], function(jQuery) {
 (function( $ ) {
     var methods = {
 
@@ -373,10 +372,7 @@ require([ 'jquery' ], function(jQuery) {
                                 if ( !input.data( "opts" ).matchCase ) {
                                     str = str.toLowerCase();
                                 }
-                                // Sakai mod - SAKIII-5747 - changed str.search to str.indexOf
-                                if ( str.indexOf(query) != -1 && input.data( "values_input" ).val().search( "," + data[ num ][ input.data( "opts" ).selectedValuesProp ] + "," ) === -1 ) {
-                                    forward = true;
-                                }
+                                forward = true;
                             }
                             if ( forward ) {
                                 var formatted = $( "<li class='as-result-item' id='as-result-item-" + num + "'></li>" ).click(function() {
@@ -529,4 +525,4 @@ require([ 'jquery' ], function(jQuery) {
     };
 })(jQuery);
 
-});
+//});

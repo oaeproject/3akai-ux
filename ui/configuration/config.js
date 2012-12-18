@@ -626,198 +626,198 @@ define(function() {
         },
         MimeTypes: {
             'application/doc': {
-                cssClass: 's3d-icon-doc',
+                cssClass: 'oae-icon-doc',
                 URL: '/dev/images/mimetypes/doc.png',
                 description: 'WORD_DOCUMENT'
             },
             'application/msword': {
-                cssClass: 's3d-icon-doc',
+                cssClass: 'oae-icon-doc',
                 URL: '/dev/images/mimetypes/doc.png',
                 description: 'WORD_DOCUMENT'
             },
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document': {
-                cssClass: 's3d-icon-doc',
+                cssClass: 'oae-icon-doc',
                 URL: '/dev/images/mimetypes/doc.png',
                 description: 'WORD_DOCUMENT'
             },
             'application/pdf': {
-                cssClass: 's3d-icon-pdf',
+                cssClass: 'oae-icon-pdf',
                 URL: '/dev/images/mimetypes/pdf.png',
                 description: 'PDF_DOCUMENT'
             },
             'application/x-download': {
-                cssClass: 's3d-icon-pdf',
+                cssClass: 'oae-icon-pdf',
                 URL: '/dev/images/mimetypes/pdf.png',
                 description: 'PDF_DOCUMENT'
             },
             'application/x-pdf': {
-                cssClass: 's3d-icon-pdf',
+                cssClass: 'oae-icon-pdf',
                 URL: '/dev/images/mimetypes/pdf.png',
                 description: 'PDF_DOCUMENT'
             },
             'application/vnd.ms-powerpoint': {
-                cssClass: 's3d-icon-pps',
+                cssClass: 'oae-icon-pps',
                 URL: '/dev/images/mimetypes/pps.png',
                 description: 'POWERPOINT_DOCUMENT'
             },
             'application/vnd.openxmlformats-officedocument.presentationml.presentation': {
-                cssClass: 's3d-icon-pps',
+                cssClass: 'oae-icon-pps',
                 URL: '/dev/images/mimetypes/pps.png',
                 description: 'POWERPOINT_DOCUMENT'
             },
             'application/vnd.oasis.opendocument.text': {
-                cssClass: 's3d-icon-doc',
+                cssClass: 'oae-icon-doc',
                 URL: '/dev/images/mimetypes/doc.png',
                 description: 'OPEN_OFFICE_DOCUMENT'
             },
             'application/vnd.oasis.opendocument.presentation': {
-                cssClass: 's3d-icon-pps',
+                cssClass: 'oae-icon-pps',
                 URL: '/dev/images/mimetypes/pps.png',
                 description: 'OPEN_OFFICE_PRESENTATION'
             },
             'application/vnd.oasis.opendocument.spreadsheet': {
-                cssClass: 's3d-icon-pps',
+                cssClass: 'oae-icon-pps',
                 URL: '/dev/images/mimetypes/spreadsheet.png',
                 description: 'OPEN_OFFICE_SPREADSHEET'
             },
 
             'application/x-shockwave-flash': {
-                cssClass: 's3d-icon-swf',
+                cssClass: 'oae-icon-swf',
                 URL: '/dev/images/mimetypes/swf.png',
                 description: 'FLASH_PLAYER_FILE'
             },
             'application/zip': {
-                cssClass: 's3d-icon-zip',
+                cssClass: 'oae-icon-zip',
                 URL: '/dev/images/mimetypes/zip.png',
                 description: 'ARCHIVE_FILE'
             },
             'application/x-zip-compressed': {
-                cssClass: 's3d-icon-zip',
+                cssClass: 'oae-icon-zip',
                 URL: '/dev/images/mimetypes/zip.png',
                 description: 'ARCHIVE_FILE'
             },
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': {
-                cssClass: 's3d-icon-spreadsheet',
+                cssClass: 'oae-icon-spreadsheet',
                 URL: '/dev/images/mimetypes/spreadsheet.png',
                 description: 'SPREADSHEET_DOCUMENT'
             },
             'application/vnd.ms-excel': {
-                cssClass: 's3d-icon-spreadsheet',
+                cssClass: 'oae-icon-spreadsheet',
                 URL: '/dev/images/mimetypes/spreadsheet.png',
                 description: 'SPREADSHEET_DOCUMENT'
             },
             'audio/x-wav': {
-                cssClass: 's3d-icon-audio',
+                cssClass: 'oae-icon-audio',
                 URL: '/dev/images/mimetypes/sound.png',
                 description: 'SOUND_FILE'
             },
             'audio/mpeg': {
-                cssClass: 's3d-icon-audio',
+                cssClass: 'oae-icon-audio',
                 URL: '/dev/images/mimetypes/sound.png',
                 description: 'SOUND_FILE'
             },
             'text/plain': {
-                cssClass: 's3d-icon-txt',
+                cssClass: 'oae-icon-txt',
                 URL: '/dev/images/mimetypes/txt.png',
                 description: 'TEXT_DOCUMENT'
             },
             'text/rtf': {
-                cssClass: 's3d-icon-txt',
+                cssClass: 'oae-icon-txt',
                 URL: '/dev/images/mimetypes/txt.png',
                 description: 'TEXT_DOCUMENT'
             },
             'image/png': {
-                cssClass: 's3d-icon-image',
+                cssClass: 'oae-icon-image',
                 URL: '/dev/images/mimetypes/images.png',
                 description: 'PNG_IMAGE'
             },
             'image/bmp': {
-                cssClass: 's3d-icon-image',
+                cssClass: 'oae-icon-image',
                 URL: '/dev/images/mimetypes/images.png',
                 description: 'BMP_IMAGE'
             },
             'image/gif': {
-                cssClass: 's3d-icon-image',
+                cssClass: 'oae-icon-image',
                 URL: '/dev/images/mimetypes/images.png',
                 description: 'GIF_IMAGE'
             },
             'image/jp2': {
-                cssClass: 's3d-icon-image',
+                cssClass: 'oae-icon-image',
                 URL: '/dev/images/mimetypes/images.png',
                 description: 'JPG2000_IMAGE'
             },
             'image/jpeg': {
-                cssClass: 's3d-icon-image',
+                cssClass: 'oae-icon-image',
                 URL: '/dev/images/mimetypes/images.png',
                 description: 'JPG_IMAGE'
             },
             'image/pjpeg': {
-                cssClass: 's3d-icon-image',
+                cssClass: 'oae-icon-image',
                 URL: '/dev/images/mimetypes/images.png',
                 description: 'JPG_IMAGE'
             },
             'image/tiff': {
-                cssClass: 's3d-icon-image',
+                cssClass: 'oae-icon-image',
                 URL: '/dev/images/mimetypes/images.png',
                 description: 'TIFF_IMAGE'
             },
             'text/html': {
-                cssClass: 's3d-icon-html',
+                cssClass: 'oae-icon-html',
                 URL: '/dev/images/mimetypes/html.png',
                 description: 'HTML_DOCUMENT'
             },
             'video/x-msvideo': {
-                cssClass: 's3d-icon-video',
+                cssClass: 'oae-icon-video',
                 URL: '/dev/images/mimetypes/video.png',
                 description: 'VIDEO_FILE'
             },
             'video/mp4': {
-                cssClass: 's3d-icon-video',
+                cssClass: 'oae-icon-video',
                 URL: '/dev/images/mimetypes/video.png',
                 description: 'VIDEO_FILE'
             },
             'video/quicktime': {
-                cssClass: 's3d-icon-video',
+                cssClass: 'oae-icon-video',
                 URL: '/dev/images/mimetypes/video.png',
                 description: 'VIDEO_FILE'
             },
             'video/x-ms-wmv': {
-                cssClass: 's3d-icon-video',
+                cssClass: 'oae-icon-video',
                 URL: '/dev/images/mimetypes/video.png',
                 description: 'VIDEO_FILE'
             },
             'folder': {
-                cssClass: 's3d-icon-kmultiple',
+                cssClass: 'oae-icon-kmultiple',
                 URL: '/dev/images/mimetypes/kmultiple.png',
                 description: 'FOLDER'
             },
             'x-sakai/link': {
-                cssClass: 's3d-icon-url',
+                cssClass: 'oae-icon-url',
                 URL: '/dev/images/mimetypes/html.png',
                 description: 'URL_LINK'
             },
             'x-sakai/document': {
-                cssClass: 's3d-icon-sakaidoc',
+                cssClass: 'oae-icon-sakaidoc',
                 URL: '/dev/images/mimetypes/sakaidoc.png',
                 description: 'DOCUMENT'
             },
             'x-sakai/collection': {
-                cssClass: 's3d-icon-collection',
+                cssClass: 'oae-icon-collection',
                 URL: '/dev/images/mimetypes/collection.png',
                 description: 'COLLECTION'
             },
             'kaltura/video': {
-                cssClass: 's3d-icon-video',
+                cssClass: 'oae-icon-video',
                 URL: '/dev/images/mimetypes/video.png',
                 description: 'VIDEO_FILE'
             },
             'kaltura/audio': {
-                cssClass: 's3d-icon-audio',
+                cssClass: 'oae-icon-audio',
                 URL: '/dev/images/mimetypes/sound.png',
                 description: 'SOUND_FILE'
             },
             'other': {
-                cssClass: 's3d-icon-unknown',
+                cssClass: 'oae-icon-unknown',
                 URL: '/dev/images/mimetypes/unknown.png',
                 description: 'OTHER_DOCUMENT'
             }
@@ -1698,7 +1698,7 @@ define(function() {
             '${refid}0': {
                 'id2506067': {
                     'htmlblock': {
-                        'content': '<div class="fl-force-right"><button type="button" class="s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_change_layout" data-tuid="${refid}5">__MSG__EDIT_LAYOUT__</button><button type="button" class="s3d-button s3d-margin-top-5 s3d-header-button s3d-header-smaller-button dashboard_global_add_widget" data-tuid="${refid}5">__MSG__ADD_WIDGET__</button></div><h1 class="s3d-contentpage-title">__MSG__MY_DASHBOARD__</h1>'
+                        'content': '<div class="oae-force-right"><button type="button" class="oae-button oae-margin-top-5 oae-header-button oae-header-smaller-button dashboard_change_layout" data-tuid="${refid}5">__MSG__EDIT_LAYOUT__</button><button type="button" class="oae-button oae-margin-top-5 oae-header-button oae-header-smaller-button dashboard_global_add_widget" data-tuid="${refid}5">__MSG__ADD_WIDGET__</button></div><h1 class="oae-contentpage-title">__MSG__MY_DASHBOARD__</h1>'
                     }
                 },
                 '${refid}5': {
@@ -1918,7 +1918,7 @@ define(function() {
                                 'elements': [
                                     {
                                         'id': 'id5739346',
-                                        'type': 'mylibrary'
+                                        'type': 'library'
                                     }
                                 ]
                             }
@@ -1936,7 +1936,7 @@ define(function() {
                                 'elements': [
                                     {
                                         'id': 'id4347509',
-                                        'type': 'mymemberships'
+                                        'type': 'memberships'
                                     }
                                 ]
                             }

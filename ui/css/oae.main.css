@@ -13,9 +13,10 @@
  * permissions and limitations under the License.
  */
 
-@import url(oae.base.css);
-/*
- * TODO: Move this out into a better place
- */
-@import url(/shared/vendor/js/jquery-plugins/gritter/css/jquery.gritter.css);
+/* 3rd party CSS files */
+@import url(/shared/vendor/css/auth-buttons.css);
+@import url(/shared/vendor/css/jquery.gritter.css);
 @import url(/shared/vendor/css/jquery.autoSuggest.css);
+
+/* OAE Specific CSS files */
+@import url(oae.base.css);

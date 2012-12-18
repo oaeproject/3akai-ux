@@ -26,7 +26,7 @@
 
         <div id="doc_contents_template" style="display:none;"><!--
             <div class="span3 bs-docs-sidebar">
-            <ul class="nav nav-list bs-docs-sidenav affix">
+            <ul class="nav nav-list bs-docs-sidenav">
                 {for module in modules}
                     <li id="${module}" {if moduleToLoad === module} class="active"{/if}>
                         <a href="#${module}"><i class="icon-chevron-right"></i> ${module}</a>
@@ -90,7 +90,7 @@
             {/if}
         --></div>
 
-        <script data-main="/shared/oae/api/oae.core.js" src="/shared/vendor/js/require.js"></script>
+        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/require.js"></script>
         <script>require(["/docs/js/doc.js"]);</script>
         
     </body>

@@ -79,24 +79,25 @@ body {
 h2 {
     border-bottom: 1px solid #DDDDDD;
     color: #0088CC;
+    font-size: 40px;
     font-weight: normal;
     letter-spacing: 0.06em;
-    margin: 20px 0 12px;
+    margin: 20px 0;
 }
 h3 {
     border-bottom: 1px solid #DDDDDD;
     color: #0088CC;
-    font-size: 20px;
+    font-size: 30px;
     font-weight: normal;
     line-height: 40px;
-    margin: 12px 0 7px;
+    margin: 12px 0 20px;
 }
 h4 {
     border-bottom: 1px solid #DDDDDD;
     color: #0088CC;
-    font-size: 15px;
+    font-size: 22px;
     font-weight: normal;
-    line-height: 20px;
+    line-height: 27px;
     margin: 7px 0 12px;
 }
 .anchor_section {
@@ -157,6 +158,9 @@ td.jeditable_container:hover {
     max-width: none;
     padding: 12px;
 }
+.bs-docs-public, .bs-docs-private {
+    margin-bottom: 30px;
+}
 .bs-docs-private {
     display: none;
 }
@@ -172,7 +176,7 @@ td.jeditable_container:hover {
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
     -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
     -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
-    margin: 60px 0 0;
+    margin: 25px 0 0;
     padding: 0;
     width: 228px;
 }
