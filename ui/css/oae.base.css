@@ -3027,25 +3027,3 @@ ul li.s3d-list-item:hover {
 #s3d-draggeditems-container .s3d-draggable-hidden {
     display: none;
 }
-
-/* No script styling*/
-.noscript #noscript {
-    background-color: #EE5F5B;
-    border-radius: 4px;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    color: #FEFEFE;
-    font-size: 16px;
-    letter-spacing: 0.014em;
-    line-height: 20px;
-    padding: 10px 40px;
-    text-shadow: 0 1px 0 #333333;
-}
-
-.noscript #noscript h1 {
-    text-shadow: none;
-}
-
-.noscript #noscript a {
-    color: #FEFEFE;
-}
