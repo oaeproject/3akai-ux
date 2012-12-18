@@ -1,6 +1,7 @@
 module.exports = function(grunt) {
 
     var shell = require('shelljs');
+    var vm = require('vm');
 
     // Project configuration.
     grunt.initConfig({
@@ -148,6 +149,30 @@ module.exports = function(grunt) {
         this.requires('requirejs');
         this.requires('inlineImg');
         grunt.task.run('ver');
+        grunt.task.run('updateBootstrapPaths');
+    });
+
+    // Task to update the paths in oae.bootstrap to the hashed versions
+    grunt. registerTask('updateBootstrapPaths', function() {
+        this.requires('ver');
+        var hashedPaths = require('./target/hashes.json');
+        var bootstrapPath = hashedPaths['target/optimized/shared/oae/api/oae.bootstrap.js'];
+        var bootstrap = grunt.file.read(bootstrapPath);
+        var regex = /paths:\{[^}]*\}/;
+        var paths = vm.runInThisContext('paths = {' + bootstrap.match(regex) + '}').paths;
+        Object.keys(paths).forEach(function(key) {
+            var prefix = 'target/optimized/shared/';
+            var path = prefix + paths[key] + '.js';
+            var hashedPath = '';
+            if (hashedPaths[path]) {
+                hashedPath = hashedPaths[path];
+                // trim off prefix and .js
+                paths[key] = hashedPath.substring(prefix.length, hashedPath.length - 3);
+            }
+        });
+        bootstrap = bootstrap.replace(regex, 'paths:' + JSON.stringify(paths));
+        grunt.file.write(bootstrapPath, bootstrap);
+        grunt.log.writeln('Boots strapped'.green);
     });
 
     // Override the test task with the qunit task
