@@ -1980,7 +1980,7 @@ a.oae-button.oae-overlay-button {
 }
 .oae-share-button.white {
     background: url('/ui/img/actions/share_icon_white.png') no-repeat center center transparent;
-    margin: 6px 0 0;
+    margin: 3px 0 0;
 }
 .oae-share-button:hover,
 .oae-share-button.active,
@@ -3167,7 +3167,10 @@ ul.oae-list li.oae-list-item .oae-list-description,
 ul.oae-list li.oae-list-item.active .oae-list-description,
 ul.oae-list.expandedlist li.oae-list-item .oae-list-description {
     display: block;
+    font-size: 11px;
+    line-height: 20px;
     max-width: 200px;
+    text-transform: uppercase;
 }
 ul.oae-list li.oae-list-item.active .oae-list-description,
 ul.oae-list.expandedlist li.oae-list-item .oae-list-description {
@@ -3291,12 +3294,15 @@ ul.oae-list.grid li.oae-list-item .oae-list-item-banner {
 }
 ul.oae-list.grid li.oae-list-item .oae-list-item-banner .oae-list-item-banner-description {
     display: inline-block;
-    font-style: italic;
-    font-weight: normal;
-    padding-top: 8px;
+    font-size: 10px;
+    text-transform: uppercase;
+    width: 120px;
 }
 ul.oae-list.grid li.oae-list-item .oae-list-item-banner span.oae-threedots {
     display: inline-block;
+    font-style: italic;
+    font-weight: normal;
+    text-transform: uppercase;
     width: 120px;
 }
 ul.oae-list.grid li.oae-list-item .oae-list-item-banner > div:first-child {
