@@ -38,20 +38,23 @@ require(['jquery', 'underscore', 'oae/api/oae.core', '/admin/js/admin.util.js', 
     var enableInlineEdit = function() {
         $('.jeditable_field').editable(function(value) {
             $.ajax({
-                url: '/api/tenant',
-                type: 'POST',
-                data: {
+                'url': '/api/tenant',
+                'type': 'POST',
+                'data': {
                     'alias': $(this).attr('data-alias'),
                     'name': value
+                },
+                'success': function() {
+                    adminUtil.showSuccess({
+                        'title': 'Tenant name updated.',
+                        'message': 'The tenant name has been successfully updated.'
+                    });
                 }
             });
             return(value);
         }, {
-            indicator: 'Saving...',
-            tooltip: 'Click to edit name',
-            id: 'port',
-            name: 'name',
-            callback: function(value, settings) {
+            'tooltip': 'Click to edit name',
+            'callback': function(value, settings) {
                 $(this).text(value);
             }
         });
@@ -152,7 +155,13 @@ require(['jquery', 'underscore', 'oae/api/oae.core', '/admin/js/admin.util.js', 
                 'name': $('#createtenant_name').val(),
                 'host': $('#createtenant_host').val()
             },
-            'success': reloadTenants,
+            'success': function() {
+                adminUtil.showSuccess({
+                    'title': 'Tenant created.',
+                    'message': 'The new tenant "' + $('#createtenant_name').val() + '" has been successfully created.'
+                });
+                reloadTenants()
+            },
             'error': function(jqXHR, textStatus) {
                 adminUtil.showError({
                     'title': 'Tenant could not be created.',
