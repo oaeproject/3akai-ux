@@ -13,7 +13,7 @@
  *
  * Copyright (c) 2008-2010, Ryan McGeary (ryanonjavascript -[at]- mcgeary [*dot*] org)
  */
-require(['jquery'], function (jQuery) {
+define(['jquery'], function (jQuery) {
 (function($) {
   $.timeago = function(timestamp) {
     if (timestamp instanceof Date) return inWords(timestamp);

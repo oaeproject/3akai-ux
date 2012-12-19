@@ -14,7 +14,7 @@
  *        then leave as auto so that it well expend or contract naturally as it would normally.
 **/ 
 
-require(['jquery'], function (jQuery) {
+define(['jquery'], function (jQuery) {
 (function ($)
 {
     $.fn.equalHeightColumns = function (options)

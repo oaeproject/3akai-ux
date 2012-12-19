@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oae.api.i18n', 'oae/api/oae.api.util'], function(exports, $, _, configAPI, i18nAPI, utilAPI) {
+define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oae.api.i18n', 'oae/api/oae.api.util', 'jquery.ba-bbq'], function(exports, $, _, configAPI, i18nAPI, utilAPI) {
 
     // Variable that will be used to cache the widget manifests
     var manifests = null;
