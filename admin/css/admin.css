@@ -117,6 +117,10 @@ h2 {
 .container-striped form {
     margin: 12px 0 20px;
 }
+.module_configuration_container input[type="checkbox"] {
+    margin-right:12px;
+    float:left;
+}
 .module_configuration_container .form-horizontal .control-label {
     width: 225px;
 }

@@ -139,15 +139,16 @@
                         <th>Status</th>
                         <th>
                             {if isMainGlobalAdmin}
-                                <button type="button" class="btn btn-warning stop_all_tenants">Stop all</button>
-                                <button type="button" class="btn btn-success start_all_tenants">Start all</button>
+                                {if hasStoppedServer}
+                                    <button type="button" class="btn btn-success start_all_tenants">Start all</button>
+                                {else}
+                                    <button type="button" class="btn btn-warning stop_all_tenants">Stop all</button>
+                                {/if}
                             {/if}
                         </th>
-                        <th>
-                            {if isMainGlobalAdmin}
-                                <button type="button" class="btn btn-danger delete_all_tenants">Delete all</button>
-                            {/if}
-                        </th>
+                        {if oae.data.me.isGlobalAdmin}
+                            <th></th>
+                        {/if}
                     </tr>
                     {for tenant in tenants}
                         {if tenant.alias}
@@ -172,15 +173,15 @@
                                 <td>
                                     {if true || oae.data.me.isGlobalAdmin}
                                         {if tenant.active}
-                                            <button type="button" class="btn btn-warning stop_tenant" id="${tenant.alias}_stop" data-alias="${tenant.alias}" data-name="${tenant.name}" data-description="${tenant.description}" data-host="${tenant.host}">Stop</button>
+                                            <button type="button" class="btn btn-warning stop_tenant" id="${tenant.alias}_stop" data-alias="${tenant.alias}" data-name="${tenant.name}">Stop</button>
                                         {else}
-                                            <button type="button" class="btn btn-success start_tenant" id="${tenant.alias}_stop" data-alias="${tenant.alias}" data-name="${tenant.name}" data-description="${tenant.description}" data-host="${tenant.host}">Start</button>
+                                            <button type="button" class="btn btn-success start_tenant" id="${tenant.alias}_stop" data-alias="${tenant.alias}" data-name="${tenant.name}">Start</button>
                                         {/if}
                                     {/if}
                                 </td>
                                 <td>
                                     {if oae.data.me.isGlobalAdmin}
-                                        <button type="button" class="btn btn-danger delete_tenant" id="${tenant.alias}_delete" data-host="${tenant.host}" data-alias="${tenant.alias}" data-name="${tenant.name}" data-description="${tenant.description}">Delete</button>
+                                        <button type="button" class="btn btn-danger delete_tenant" id="${tenant.alias}_delete" data-alias="${tenant.alias}" data-name="${tenant.name}" data-description="${tenant.description}">Delete</button>
                                     {/if}
                                 </td>
                             </tr>
@@ -245,14 +246,14 @@
                                             {var configValue = configuration[module_index][option_index][element_index]}
                                             {if element.type === "boolean"}
                                                 <div class="control-group">
-                                                    <input type="checkbox" id="${configPath}" name="${configPath}" {if configValue}checked="checked"{/if} style="margin-right:12px;float:left;" data-originalvalue="${configValue}" class="module_config_checkbox" {if !tenantCanOverride} disabled="disabled"{/if}/>
+                                                    <input type="checkbox" id="${configPath}" name="${configPath}" {if configValue}checked="checked"{/if} class="module_config_checkbox" {if !tenantCanOverride} disabled="disabled"{/if}/>
                                                     <label for="${configPath}">${element.description} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
                                                 </div>
                                             {elseif element.type === "text"}
                                                 <div class="control-group">
                                                     <label for="${configPath}" class="control-label">${element.description} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
                                                     <div class="controls">
-                                                        <input type="text" id="${configPath}" name="${configPath}" value="${configValue}" data-originalvalue="${configValue}" {if !tenantCanOverride} disabled="disabled"{/if}/>
+                                                        <input type="text" id="${configPath}" name="${configPath}" value="${configValue}" {if !tenantCanOverride} disabled="disabled"{/if}/>
                                                     </div>
                                                 </div>
                                             {elseif element.type === "radio"}

@@ -44,7 +44,7 @@ define(['exports', 'jquery', 'oae/api/oae.core'], function(exports, $, oae) {
      * @param {Object}   data               Data object used to render the warning. Missing optional elements will not be rendered. All available elements are shown above in 'usage'
      * @param {Element}  [$outputElement]   jQuery element to render the warning in. By default the container renders on top of the page in absolute position.
      */
-    var showWarning = function(data, $outputElement) {
+    exports.showWarning = function(data, $outputElement) {
         if (!$outputElement) {
             $outputElement = $('#admin_warning_container');
         }
@@ -63,7 +63,7 @@ define(['exports', 'jquery', 'oae/api/oae.core'], function(exports, $, oae) {
      * @param {Object}   data               Data object used to render the success message. Missing optional elements will not be rendered. All available elements are shown above in 'usage'
      * @param {Element}  [$outputElement]   jQuery element to render the success message in. By default the container renders on top of the page in absolute position.
      */
-    var showSuccess = function(data, $outputElement) {
+    exports.showSuccess = function(data, $outputElement) {
         if (!$outputElement) {
             $outputElement = $('#admin_success_container');
         }
@@ -97,7 +97,7 @@ define(['exports', 'jquery', 'oae/api/oae.core'], function(exports, $, oae) {
      * 
      * @param {Object}  data    Data object used to render the modal dialog. All required elements are shown above in 'usage' and should be provided
      */
-    var showConfirmationModal = function(data) {
+    exports.showConfirmationModal = function(data) {
         oae.api.util.renderTemplate($('#admin_confirmation_template'), {'modal': data}, $('#admin_confirmation_container'));
         $('#' + data.id).modal();
         $('#' + data.id + '_confirm', $('#' + data.id)).click(data.confirmed);
