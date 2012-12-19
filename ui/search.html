@@ -4,6 +4,10 @@
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <noscript>
+            <meta http-equiv="Refresh" content="1; URL=/noscript">
+        </noscript>
+        <title></title>
 
         <!-- CORE CSS -->
         <link rel="stylesheet" type="text/css" href="/ui/css/oae.main.css" />
@@ -70,19 +74,19 @@
                         </div>
                         <div class="oae-list-item-banner" style="display: none;">
                             <div>
-                                <a class="oae-threedots" href="/user/${r.id}" title="${r.title}">${r.title}</a>
+                                <a class="oae-threedots" href="/user/${r.id}" title="${r.title|safeUserInput}">${r.title|safeUserInput}</a>
                             </div>
                         </div>
                         <div class="oae-list-item-left">
-                            <img src="${thumbnailUrl}" alt="${r.title}" class="oae-list-item-profile-picture grid"/>
+                            <img src="${thumbnailUrl}" alt="${r.title|safeUserInput}" class="oae-list-item-profile-picture grid"/>
                             <div class="oae-list-item-left-inner">
                                 {if !oae.data.me.anon}
                                     <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" data-id="${r.id}" class="oae-force-left"/>
                                 {/if}
                                 <label for="${r.id}_chk" class="oae-threedots">
-                                    <img src="${mediumThumbnailUrl}" alt="${r.title}" class="oae-list-item-profile-picture"/>
-                                    <img src="${smallThumbnailUrl}" alt="${r.title}" class="oae-list-item-small-picture"/>
-                                    <a class="oae-threedots" href="/user/${r.id}" title="${r.title}">${r.title}</a>
+                                    <img src="${mediumThumbnailUrl}" alt="${r.title|safeUserInput}" class="oae-list-item-profile-picture"/>
+                                    <img src="${smallThumbnailUrl}" alt="${r.title|safeUserInput}" class="oae-list-item-small-picture"/>
+                                    <a class="oae-threedots" href="/user/${r.id}" title="${r.title|safeUserInput}">${r.title|safeUserInput}</a>
                                 </label>
                                 <div class="oae-list-description">Cambridge University</div>
                             </div>
@@ -99,20 +103,20 @@
                         <div class="oae-list-item-banner" style="display: none;">
                             <div>
                                 <div class="oae-visibility-${r.visibility} oae-force-right"></div>
-                                <a class="oae-threedots" href="/group/${r.id}" title="${r.title}">${r.title}</a>
+                                <a class="oae-threedots" href="/group/${r.id}" title="${r.title|safeUserInput}">${r.title|safeUserInput}</a>
                             </div>
                         </div>
                         <div class="oae-list-item-left">
-                            <img src="${thumbnailUrl}" alt="${r.title}" class="oae-list-item-profile-picture grid"/>
+                            <img src="${thumbnailUrl}" alt="${r.title|safeUserInput}" class="oae-list-item-profile-picture grid"/>
                             <div class="oae-list-item-left-inner">
                                 {if !oae.data.me.anon}
                                     <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" data-id="${r.id}" class="oae-force-left"/>
                                 {/if}
                                 <label for="${r.id}_chk" class="oae-threedots">
-                                    <img src="${mediumThumbnailUrl}" alt="${r.title}" class="oae-list-item-profile-picture"/>
-                                    <img src="${smallThumbnailUrl}" alt="${r.title}" class="oae-list-item-small-picture"/>
+                                    <img src="${mediumThumbnailUrl}" alt="${r.title|safeUserInput}" class="oae-list-item-profile-picture"/>
+                                    <img src="${smallThumbnailUrl}" alt="${r.title|safeUserInput}" class="oae-list-item-small-picture"/>
                                     <div class="oae-visibility-${r.visibility} oae-force-left"></div>
-                                    <a class="oae-threedots" href="/group/${r.id}" title="${r.title}">${r.title}</a>
+                                    <a class="oae-threedots" href="/group/${r.id}" title="${r.title|safeUserInput}">${r.title|safeUserInput}</a>
                                 </label>
                                 <div class="oae-list-description">Cambridge University</div>
                             </div>
@@ -135,23 +139,23 @@
                         <div class="oae-list-item-banner" style="display: none;">
                             <div>
                                 <div class="oae-visibility-${r.visibility} oae-force-right"></div>
-                                <a class="oae-threedots" href="/content/${r.id}" title="${r.title}">${r.title}</a>
+                                <a class="oae-threedots" href="/content/${r.id}" title="${r.title|safeUserInput}">${r.title|safeUserInput}</a>
                             </div>
                         </div>
                         <div class="oae-list-item-left">
-                            <img src="${thumbnailUrl}" alt="${r.title}" class="oae-list-item-profile-picture grid"/>
+                            <img src="${thumbnailUrl}" alt="${r.title|safeUserInput}" class="oae-list-item-profile-picture grid"/>
                             {if !oae.data.me.anon}
-                                <button type="button" class="oae-button oae-link-button oae-force-right oae-share-button" data-contentid="${r.id}" data-contentname="${r.title}"></button>
+                                <button type="button" class="oae-button oae-link-button oae-force-right oae-share-button" data-contentid="${r.id}" data-contentname="${r.title|safeUserInput}"></button>
                             {/if}
                             <div class="oae-list-item-left-inner">
                                 {if !oae.data.me.anon}
                                     <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" data-id="${r.id}" class="oae-force-left"/>
                                 {/if}
                                 <label for="${r.id}_chk" class="oae-threedots">
-                                    <img src="${mediumThumbnailUrl}" alt="${r.title}" class="oae-list-item-profile-picture"/>
-                                    <img src="${smallThumbnailUrl}" alt="${r.title}" class="oae-list-item-small-picture"/>
+                                    <img src="${mediumThumbnailUrl}" alt="${r.title|safeUserInput}" class="oae-list-item-profile-picture"/>
+                                    <img src="${smallThumbnailUrl}" alt="${r.title|safeUserInput}" class="oae-list-item-small-picture"/>
                                     <div class="oae-visibility-${r.visibility} oae-force-left"></div>
-                                    <a class="oae-threedots" href="/content/${r.id}" title="${r.title}">${r.title}</a>
+                                    <a class="oae-threedots" href="/content/${r.id}" title="${r.title|safeUserInput}">${r.title|safeUserInput}</a>
                                 </label>
                             </div>
                         </div>
@@ -169,6 +173,5 @@
         <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/require.js"></script>
         <!-- PAGE JS -->
         <script>require(['/ui/js/search.js']);</script>
-
     </body>
 </html>

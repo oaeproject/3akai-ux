@@ -129,10 +129,6 @@ caption, .caption {
     font-size: 11px;
     color: #666;
 }
-/* adding a visible outline on focus for accessibility */
-*:focus {
-    outline: 1px dotted #000;
-}
 
 /**
  * CORE CSS CLASSES
@@ -836,7 +832,7 @@ ul.as-selections textarea.as-input {
     display: inline-block;
     float: left;
     margin-right: 10px;
-    padding: 3px 0 3px 3px;
+    padding: 4px 2px;
 }
 .oae-entity-container button.oae-entity-picture:hover {
     background-color: #32b3ec;
@@ -3074,23 +3070,6 @@ input[type=text], input[type=password], input[type=email], input[type=url], text
 #oae-draggeditems-container .oae-draggable-hidden {
     display: none;
 }
-
-/*
- * No Javascript message
- */
-.noscript {
-    background-color: #e0eff6;
-    border-radius: 5px;
-    color: #666666;
-    display: block;
-    padding: 20px;
-    margin: 20px;
-}
-.noscript p {
-    font-size: 18px;
-    line-height: 140%;
-}
-
 
 /**
  * lists
