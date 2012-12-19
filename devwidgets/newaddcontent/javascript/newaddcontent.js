@@ -658,6 +658,20 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
                     sakai.data.me.user.properties.contentCount += itemsUploaded - existingAdded.length;
                     var tmpItemsAdded = $.extend(true, [], existingAdded);
                     var itemsAdded = [];
+
+                    // Variables passed to 'Content Added' Notification Template
+                    var libraryTitle = $(newaddcontentSaveTo + ' option:selected').text();
+                    var uploadToCollection = false;
+                    var notificationHeading = '';
+                    var contentFileName = sakai.api.i18n.getValueForKey('CONTENT');
+                    var contentURL = '';
+                    var libraryId = '';
+                    if (contentObj) {
+                        contentFileName = $.trim(contentObj['sakai:pooled-content-file-name-short']) ||
+                            $.trim(contentObj['sakai:pooled-content-file-name']);
+                        contentURL = '/content#p='+ contentObj['_path'] + '/' + contentFileName;
+                    }
+
                     $.merge(tmpItemsAdded, lastUpload);
                     // SAKIII-5583 Filter out items that cannot be shared (and were not shared)
                     $.each(tmpItemsAdded, function(index, item) {
@@ -677,20 +691,34 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
                     lastUpload = [];
                     sakai.api.Util.Modal.close($newaddcontentContainer);
                     sakai.api.Util.progressIndicator.hideProgressIndicator();
-                    var librarytitle = $(newaddcontentSaveTo + ' option:selected').text();
+
+                    // Set variables to send to template, based on whether we're uploading to a Collection or a library
                     if (sakai.api.Content.Collections.isCollection(libraryToUploadTo)) {
-                        sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('COLLECTION'), sakai.api.Util.TemplateRenderer('newaddcontent_notification_collection_finished_template', {
-                            collectionid: libraryToUploadTo.substring(2),
-                            collectiontitle: librarytitle
-                        }));
+                        notificationHeading = sakai.api.i18n.getValueForKey('COLLECTION');
+                        libraryToUploadTo = libraryToUploadTo.substring(2);
+                        uploadToCollection = true;
                     } else {
-                        sakai.api.Util.notification.show(sakai.api.i18n.getValueForKey('LIBRARY'), sakai.api.Util.TemplateRenderer('newaddcontent_notification_finished_template', {
+                        notificationHeading = sakai.api.i18n.getValueForKey('LIBRARY');
+
+                        // Make sure we don't have an extra redirect to the users library
+                        if (libraryToUploadTo === sakai.data.me.user.userid) {
+                            libraryId = 'me';
+                        } else {
+                            libraryId = '~' + libraryToUploadTo;
+                        }
+                    }
+
+                    sakai.api.Util.notification.show(notificationHeading,
+                        sakai.api.Util.TemplateRenderer('newaddcontent_notification_finished_template', {
                             sakai: sakai,
                             me: sakai.data.me,
-                            libraryid: libraryToUploadTo,
-                            librarytitle: librarytitle
-                        }));
-                    }
+                            libraryid: libraryId || libraryToUploadTo,
+                            librarytitle: libraryTitle,
+                            uploadcount: itemsUploaded,
+                            contenttitle: contentFileName,
+                            contenturl: contentURL,
+                            uploadtocollection: uploadToCollection
+                    }));
                 });
             }
         };
@@ -958,7 +986,7 @@ require(['jquery', 'sakai/sakai.api.core', 'underscore', 'jquery-fileupload', 'j
                 sakai.api.Util.tagEntity('/p/' + (obj['_path']), obj['sakai:tags'], false, function() {
                     // Set the correct file permissions
                     sakai.api.Content.setFilePermissions([{'hashpath': obj['_path'], 'permissions': obj['sakai:permissions']}], function() {
-                        checkUploadCompleted();
+                        checkUploadCompleted(false, contentObj);
                     });
                 });
             };
