@@ -34,18 +34,11 @@
                     <div id="oae_entity_template"><!--
                         <button class="oae-entity-picture">
                             <span class="oae-entity-picture-image">
-                                <img src="/ui/img/entities/user_icon_medium.png"/>
+                                {var pic = oae.data.me.mediumPicture || "/ui/img/entities/user_icon_medium.png"}
+                                <img src="${pic}"/>
                             </span>
                             <span class="oae-aural-text">__MSG__PROFILE_PICTURE_OPTIONS_FOR__ ${oae.data.me.profile.displayName|safeUserInput}</span> 
-                            <span class="oae-dropdown-menu-arrow"></span>
-                            <span class="oae-aural-text">__MSG__PROFILE_PICTURE_OPTIONS__</span>
                         </button>
-                        <div class="oae-dropdown-list oae-hidden">
-                            <div class="oae-dropdown-list-arrow-up"></div>
-                            <ul>
-                                <li><button id="changepic_container_trigger" class="oae-link-button oae-bold">__MSG__CHANGE_PICTURE__</button></li>
-                            </ul>
-                        </div>
                         <div class="oae-bold oae-push oae-entity-title-below oae-my-displayname">${oae.data.me.profile.displayName|safeUserInput}</div>
                         <div class="oae-push"></div>
                     --></div>

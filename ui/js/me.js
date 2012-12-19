@@ -259,6 +259,10 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
         $(this).parent().toggleClass('active');
     });
 
+    $(document).on('click', '.oae-entity-picture', function() {
+        $('body').trigger('init.changepic.sakai', {'type': 'user', 'data': oae.data.me});
+    });
+
     renderEntity();
     setUpNavigation();
 });
