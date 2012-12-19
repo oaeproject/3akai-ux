@@ -60,7 +60,7 @@
         <div id="search_general_results_template"><!--
             {for r in results}
                 <li class="oae-list-item" data-id=${r.id}>
-                    {if !r.resourceType}
+                    {if r.resourceType === 'user'}
                         {var thumbnailUrl = r.thumbnailUrl || '/ui/img/entities/user_icon_large.png'}
                         {var mediumThumbnailUrl = r.thumbnailUrl || '/ui/img/entities/user_icon_medium.png'}
                         {var smallThumbnailUrl = '/ui/img/entities/user_icon.png'}
