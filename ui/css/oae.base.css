@@ -836,7 +836,7 @@ ul.as-selections textarea.as-input {
     display: inline-block;
     float: left;
     margin-right: 10px;
-    padding: 3px 0 3px 3px;
+    padding: 4px 2px;
 }
 .oae-entity-container button.oae-entity-picture:hover {
     background-color: #32b3ec;
