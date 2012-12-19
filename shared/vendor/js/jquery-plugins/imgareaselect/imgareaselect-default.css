@@ -3,11 +3,11 @@
  */
 
 .imgareaselect-border1, .imgareaselect-border3 {
-    background-image: url(/dev/lib/jquery/plugins/imgareaselect/border-v.gif);
+    background-image: url('/shared/vendor/js/jquery-plugins/imgareaselect/border-v.gif');
 }
 
 .imgareaselect-border2, .imgareaselect-border4 {
-    background-image: url(/dev/lib/jquery/plugins/imgareaselect/border-h.gif);
+    background-image: url('/shared/vendor/js/jquery-plugins/imgareaselect/border-h.gif');
 }
 
 .imgareaselect-border1 {
