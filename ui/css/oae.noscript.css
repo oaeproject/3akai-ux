@@ -13,30 +13,7 @@
  * permissions and limitations under the License.
  */
 
-.noscript #noscript {
-    background-color: #EE5F5B;
-    border-radius: 4px;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    color: #FEFEFE;
-    font-size: 16px;
-    letter-spacing: 0.014em;
-    line-height: 20px;
+#noscript {
     margin: 12px;
     padding: 10px 40px;
-    text-shadow: 0 1px 0 #333333;
-}
-
-.noscript #noscript h1 {
-    text-shadow: none;
-}
-
-.noscript #noscript a {
-    color: #FEFEFE;
-}
-
-.noscript .s3d-page-header {
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
 }
