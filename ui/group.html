@@ -25,7 +25,7 @@
                 <div class="oae-page-header">
                     <div id="oae_entity_container" class="oae-entity-container"><!-- --></div>
                     <div id="oae_entity_template"><!--
-                        {if isManager}
+                        {if group.isManager}
                             <div class="oae-force-right oae-entity-actions">
                                 <button type="button" class="oae-button oae-header-button group_permissions_trigger">
                                     Manage members<div class="oae-action-icon oae-share-icon"></div>
@@ -33,9 +33,9 @@
                             </div>
                             <button class="oae-entity-picture">
                                 <span class="oae-entity-picture-image">
-                                    <img src="/ui/img/entities/group_icon_medium.png"/>
+                                    <img class="oae-icon-50" src="${group.mediumPicture || '/ui/img/entities/group_icon_medium.png'}"/>
                                 </span>
-                                <span class="oae-aural-text">__MSG__PROFILE_PICTURE_OPTIONS_FOR__ ${name|safeUserInput}</span> 
+                                <span class="oae-aural-text">__MSG__PROFILE_PICTURE_OPTIONS_FOR__ ${group.name|safeUserInput}</span> 
                                 <span class="oae-dropdown-menu-arrow"></span>
                                 <span class="oae-aural-text">__MSG__PROFILE_PICTURE_OPTIONS__</span>
                             </button>
@@ -48,11 +48,11 @@
                         {else}
                             <div class="oae-entity-picture">
                                 <span class="oae-entity-picture-image">
-                                    <img src="/ui/img/entities/group_icon_medium.png"/>
+                                    <img class="oae-icon-50" src="${group.mediumPicture || '/ui/img/entities/group_icon_medium.png'}"/>
                                 </span>
                             </div>
                         {/if}
-                        <div class="oae-bold oae-entity-title">${name|safeUserInput}</div>
+                        <div class="oae-bold oae-entity-title">${group.name|safeUserInput}</div>
                         <div class="oae-push"></div>
                     --></div>
                 </div>

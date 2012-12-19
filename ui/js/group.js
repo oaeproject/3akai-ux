@@ -51,7 +51,8 @@ require(['jquery', 'oae/api/oae.core'], function($, oae) {
      * Render the group's profile picture and name
      */
     var renderEntity = function() {
-        oae.api.util.renderTemplate($('#oae_entity_template'), groupProfile, $('#oae_entity_container'));
+        // TODO: Unwrap the data from the group variable when the profile pictures are no longer top-level props
+        oae.api.util.renderTemplate($('#oae_entity_template'), {'group': groupProfile}, $('#oae_entity_container'));
         $(document).on('click', '.group_permissions_trigger', function() {
             $(document).trigger('init.grouppermissions.sakai', {'group': groupProfile});
         });
