@@ -17,7 +17,7 @@ html, body {
     height: 100%;
 }
 body {
-    background: url('/shared/img/page-bg.png') repeat left top #eee;
+    background: url('/shared/oae/img/page-bg.png') repeat left top #eee;
     margin: 0;
     padding: 0;
 }
@@ -33,7 +33,7 @@ body {
     padding: 0 15px !important;
 }
 #admin_header_container #admin_header_content {
-    background: url('/shared/img/logo.png') no-repeat left center transparent;
+    background: url('/shared/oae/img/logo.png') no-repeat left center transparent;
     height: 70px;
 }
 #admin_header_container #admin_header_user {
@@ -97,7 +97,7 @@ body {
     float: left;
     height: 75px;
     width: 225px;
-    background: url("/shared/img/logo_white.png") no-repeat scroll left 20px transparent;
+    background: url("/shared/oae/img/logo_white.png") no-repeat scroll left 20px transparent;
 }
 #admin_footer_container .footer_column.tenants {
     overflow: auto;
@@ -115,11 +115,25 @@ h2 {
     text-decoration: none;
 }
 .container-striped form {
-    margin: 12px 0 0;
+    margin: 12px 0 20px;
 }
-.module_configuration_container h5 span,
+.module_configuration_container input[type="checkbox"] {
+    margin-right:12px;
+    float:left;
+}
+.module_configuration_container .form-horizontal .control-label {
+    width: 225px;
+}
+.module_configuration_container .form-horizontal .controls {
+    margin-left: 250px;
+}
+.module_configuration_container h4 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.module_configuration_container h4 span,
 .module_configuration_container label span {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: normal;
 }
 
