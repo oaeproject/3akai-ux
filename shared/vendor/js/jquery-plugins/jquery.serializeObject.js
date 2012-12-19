@@ -35,6 +35,7 @@ require(['jquery'], function($) {
         $.fn.serializeObject = function(includeEmpty) {
             var o = {};
             var a = this.serializeArray();
+            console.log(a);
             includeEmpty = includeEmpty === false ? false : true;
             $.each(a, function() {
                 // In case the field id already exist (e.g. list of checkboxes), we treat

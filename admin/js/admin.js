@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae/api/oae.core', 'vendor/js/bootstrap'], function($, oae) {
+require(['jquery', 'oae/api/oae.core', '/admin/js/admin.util.js', 'vendor/js/bootstrap', 'jquery-plugins/jquery.jeditable.sakai-edited'], function($, oae, adminUtil) {
 
     // Variable that will be used to keep track of current tenant
     var currentContext = null;
@@ -23,90 +23,6 @@ require(['jquery', 'oae/api/oae.core', 'vendor/js/bootstrap'], function($, oae) 
     var configurationSchema = null;
     // Variable that will cache the configuration for the current tenant
     var configuration = null;
-
-    /**
-     * Shows an error to the user
-     * usage:
-     * showError({
-     *     'title': 'Operation failed',
-     *     'message' (required): 'The tenant could not be deleted.'
-     * });
-     * @param {Object}   data                        Data object used to render the warning. Missing optional elements will not be rendered. All available elements are shown above in 'usage'
-     * @param {Object}   $outputElement (optional)   Element to render the warning in. By default the container renders on top of the page in absolute position.
-     */
-    var showError = function(data, $outputElement) {
-        if (!$outputElement) {
-            $outputElement = $('#admin_error_container');
-        }
-        oae.api.util.renderTemplate($('#admin_error_template'), {'error': data}, $outputElement);
-    };
-
-    /**
-     * Shows a warning to the user
-     * usage:
-     * showWarning({
-     *     'title': 'Are you sure?',
-     *     'message' (required): 'Are you sure you want to delete this tenant?'
-     * });
-     * @param {Object}   data                        Data object used to render the warning. Missing optional elements will not be rendered. All available elements are shown above in 'usage'
-     * @param {Object}   $outputElement (optional)   Element to render the warning in. By default the container renders on top of the page in absolute position.
-     */
-    var showWarning = function(data, $outputElement) {
-        if (!$outputElement) {
-            $outputElement = $('#admin_warning_container');
-        }
-        oae.api.util.renderTemplate($('#admin_warning_template'), {'warning': data}, $outputElement);
-    };
-
-    /**
-     * Shows a success message to the user
-     * usage:
-     * showSuccess({
-     *     'title': 'Tenant deleted.',
-     *     'message' (required): 'The tenant was successfully deleted',
-     *     'sticky': true
-     * });
-     * @param {Object}   data                        Data object used to render the success message. Missing optional elements will not be rendered. All available elements are shown above in 'usage'
-     * @param {Object}   $outputElement (optional)   Element to render the success message in. By default the container renders on top of the page in absolute position.
-     */
-    var showSuccess = function(data, $outputElement) {
-        if (!$outputElement) {
-            $outputElement = $('#admin_success_container');
-        }
-        oae.api.util.renderTemplate('admin_success_template', {'success': data}, $outputElement);
-        if (!data.sticky) {
-            setTimeout( function(){
-                $outputElement.fadeOut('slow', function() {
-                    $outputElement.html('');
-                    $outputElement.show();
-                });
-            }, 2500);
-        }
-    };
-
-    /**
-     * Shows a confirmation dialog to the user using predefined data
-     * usage
-     * showConfirmationModal({
-     *     'id' (required): 'deletetenant_modal',
-     *     'title' (required): 'Delete tenant Cambridge University',
-     *     'message' (required): 'You cannot undo this operation. Are you sure you want to delete this tenant?',
-     *     'cancel': 'Cancel',
-     *     'confirm' (required): 'Yes, delete tenant',
-     *     'confirmclass': (optional): 'danger' (for possible values see http://twitter.github.com/bootstrap/base-css.html#buttons)
-     *     'confirmed' (required): function() {
-     *         // Add handling for confirmation
-     *         // Hide the dialog when done (optionally show a success message)
-     *         $('#deletetenant_modal').modal('hide');
-     *     }
-     * });
-     * @param {Object} data Data object used to render the modal dialog. All required elements are shown above in 'usage' and should be provided
-     */
-    var showConfirmationModal = function(data) {
-        oae.api.util.renderTemplate($('#admin_confirmation_template'), {'modal': data}, $('#admin_confirmation_container'));
-        $('#' + data.id).modal();
-        $('#' + data.id + '_confirm', $('#' + data.id)).click(data.confirmed);
-    };
 
     /**
      * Toggles containers to show or hide
@@ -125,7 +41,7 @@ require(['jquery', 'oae/api/oae.core', 'vendor/js/bootstrap'], function($, oae) 
                 url: '/api/tenant',
                 type: 'POST',
                 data: {
-                    'port': $(this).attr('id'),
+                    'alias': $(this).attr('data-alias'),
                     'name': value
                 }
             });
@@ -144,26 +60,22 @@ require(['jquery', 'oae/api/oae.core', 'vendor/js/bootstrap'], function($, oae) 
     /**
      * Switches the view when a left hand navigation link is clicked or when the page loads.
      * Defaults to the Tenant configuration page when no or an invalid hash is provided.
-     * @param {String}    hash    hash as returned by `window.location.hash`
      */
     var switchView = function(hash) {
-        hash = hash || '#configurationtenants';
+        hash = window.location.hash || '#configurationtenants';
         hash = hash.replace('#', '');
         $('#admin_views > div').hide();
         $('#admin_lhnav_container li').removeClass('active');
         $('#admin_lhnav_container li#' + hash).addClass('active');
 
         switch (hash) {
-            case 'configurationtenants':
-                $('#admin_views > #admin_tenants_container').show();
-                return;
             case 'configurationmodules':
                 $('#admin_views > #admin_modules_container').show();
-                return;
-        }
-
-        // Default when incorrect page is specified
-        switchView('#configurationtenants');
+                break;
+            default:
+                $('#admin_views > #admin_tenants_container').show();
+                break;
+        };
     };
 
     //////////////////////
@@ -171,11 +83,26 @@ require(['jquery', 'oae/api/oae.core', 'vendor/js/bootstrap'], function($, oae) 
     //////////////////////
 
     /**
-     * Writes the configuration changes for a tenant/global to Cassandra
+     * Persists the configuration changes for a tenant/global admin
      */
-    var writeConfig = function(form, adminContext) {
+    var writeConfig = function() {
         var data = {};
-        $.each($(form).context, function(index, item) {
+        var values = $form.serializeObject();
+
+        var module = $form.attr('data-module');
+        $.each(configuration[module], function(option, optionValues) {
+            $.each(optionValues, function(element, elementValue) {
+                // Convert the value in case it's a checkbox
+                if (configurationSchema[module][option].elements[element].type === 'boolean') {
+                    values[module + '/' + option + '/' + element] ? true : false;
+                }
+                // Check if the value has changed and overwrite
+                if (elementValue !== configuration[module][option][element]) {
+                    data
+                }
+            });
+        });
+        $.each($form.context, function(index, item) {
             if ($(item).attr('data-tenantId')) {
                 if ($(item).attr('type') === "text") {
                     data[$(item).attr('id')] = $(item).val();
@@ -194,7 +121,6 @@ require(['jquery', 'oae/api/oae.core', 'vendor/js/bootstrap'], function($, oae) 
         });
 
         var url = '/api/config';
-
         // Tenant and global servers do not need the tenantId to be specified in the URL
         // If a tenant server is accessed through the global server the tenantId needs to be specified
         if (!adminContext.tenant.isMainTenantServer) {
@@ -226,10 +152,12 @@ require(['jquery', 'oae/api/oae.core', 'vendor/js/bootstrap'], function($, oae) 
     };
 
     /**
-     * Creates a new tenant and starts it up immediately
+     * Creates a new tenant and starts it up immediately. It will re-render the list of available
+     * tenants in the main content and in the footer
+     * 
      * @param  {Function}  callback  A function that executes after the tenant has been created.
      */
-    var createTenant = function(callback) {
+    var createTenant = function() {
         $.ajax({
             url: '/api/tenant/create',
             type: 'POST',
@@ -239,11 +167,13 @@ require(['jquery', 'oae/api/oae.core', 'vendor/js/bootstrap'], function($, oae) 
                 'host': $('#createtenant_host').val()
             },
             success: function(data) {
-                if ($.isFunction(callback)) {
-                    callback(data);
-                }
+                getTenants(function() {
+                    initializeTenants();
+                    initializeFooter();
+                });
             }
         });
+        return false;
     };
 
     /**
@@ -308,43 +238,6 @@ require(['jquery', 'oae/api/oae.core', 'vendor/js/bootstrap'], function($, oae) 
                 }
             }
         });
-    };
-
-    /**
-     * Preprocesses tenants retrieved form the server and sets some global variables
-     * that can be used when rendering views.
-     * Variables set are:
-     * - tenants.info.hasTenants (true or false)  If there are tenants in the system
-     * - tenants.info.allActive (true or false)   If all tenants are active or not
-     * @param {Object}   tenants    The tenant data coming back from the server
-     * @param {Function} callback   Executed when the tenants have been preprocessed
-     */
-    var preProcessTenants = function(tenants, callback) {
-        var hasTenants = false;
-        var allActive = true;
-        $.each(tenants, function(i, tenant) {
-            hasTenants = true;
-            !tenant.active ? allActive = false : '';
-        });
-
-        tenants.info = {
-            'hasTenants': hasTenants,
-            'allActive': allActive,
-            'canStopTenant': false,
-            'canChangeDetails': false
-        };
-
-        // Check if the tenant can stop the server
-        if (configuration['oae-tenants'] &&
-            configuration['oae-tenants'].config &&
-            configuration['oae-tenants'].config.options &&
-            configuration['oae-tenants'].config.options['allow-tenant-stop'] &&
-            configuration['oae-tenants'].config.options['allow-tenant-stop'].elements &&
-            configuration['oae-tenants'].config.options['allow-tenant-stop'].elements['allow-tenant-stop-enabled']) {
-                tenants.info.canStopTenant = configuration['oae-tenants'].config.options['allow-tenant-stop'].elements['allow-tenant-stop-enabled'].value;
-        }
-
-        callback(tenants);
     };
 
     /**
@@ -586,24 +479,24 @@ require(['jquery', 'oae/api/oae.core', 'vendor/js/bootstrap'], function($, oae) 
     /**
      * Set up the log in handler
      */
-    var setUpLogin = function() {
-        $('#admin_login_container').on('submit', '#admin_login_form', function() {
-            oae.api.authentication.login($('#admin_login_form_name').val(), $('#admin_login_form_password').val(), function(err) {
-                if (err) {
-                    // TODO: Show error message
-                } else {
-                    document.location.reload(true);
-                }
-            });
-            return false;
+    var login = function() {
+        oae.api.authentication.login($('#admin_login_form_name').val(), $('#admin_login_form_password').val(), function(err) {
+            if (err) {
+                // TODO: Show error message
+            } else {
+                document.location.reload(true);
+            }
         });
+        return false;
     };
 
     /**
      * Set up the log out button
      */
-    var setUpLogout = function() {
-        
+    var logout = function() {
+        oae.api.authentication.logout(function() {
+            document.location.reload(true);
+        });
     };
 
     ///////////////////////
@@ -685,33 +578,28 @@ require(['jquery', 'oae/api/oae.core', 'vendor/js/bootstrap'], function($, oae) 
      * Adds binding to various elements in the admin UI
      */
     var addBinding = function() {
-        var $adminTenantsContainer = $('#admin_tenants_container');
-        var $adminModulesContainer = $('#admin_modules_container');
-        var $adminHeaderContainer = $('#admin_header_container');
-        var $adminLoginContainer = $('#admin_login_container');
+        // Login
+        $(document).on('submit', '#admin_login_form', login);
+        // Logout
+        $(document).on('click', '#admin_header_user_logout', logout);
+        // Toggles
+        $(document).on('click', '#createtenant_toggle_button', toggleContainer);
+        $(document).on('click', '.module_configuration_toggle_button', toggleContainer);
+        // Create new tenant
+        $(document).on('submit','#createtenant_form', createTenant);
+        // Change config value
+        $(document).on('submit', '.module_configuration_form', writeConfig);
+        // Left hand navigation switching
+        $(window).hashchange(switchView);
 
-        $adminHeaderContainer.on('click', '#admin_header_user_logout', doLogOut);
-        $adminLoginContainer.on('submit', '#admin_login_form', doLogin);
-        $adminTenantsContainer.on('click', '.createtenant_toggle_button', toggleContainer);
-        $adminTenantsContainer.on('click', '#createtenant_submit_button', function() {
-            createTenant(function() {
-                initializeTenants(initializeFooter);
-            });
-        });
+/*       
         $adminTenantsContainer.on('click', '.stop_tenant', stopTenantHandler);
         $adminTenantsContainer.on('click', '.stop_all_tenants', stopAllTenantsHandler);
         $adminTenantsContainer.on('click', '.start_tenant', startTenantHandler);
         $adminTenantsContainer.on('click', '.start_all_tenants', startAllTenantsHandler);
         $adminTenantsContainer.on('click', '.delete_tenant', deleteTenantHandler);
         $adminTenantsContainer.on('click', '.delete_all_tenants', deleteAllTenantsHandler);
-        $adminModulesContainer.on('click', '.module_configuration_toggle_button', toggleContainer);
-        $adminModulesContainer.on('submit', '.module_configuration_form', function(ev) {
-            ev.preventDefault();
-            writeConfig(this, adminContext);
-        });
-        $(window).hashchange(function() {
-            switchView(window.location.hash);
-        });
+*/
     };
 
     /**
@@ -744,6 +632,7 @@ require(['jquery', 'oae/api/oae.core', 'vendor/js/bootstrap'], function($, oae) 
     var initializeModules = function() {
         oae.api.util.renderTemplate($('#admin_modules_template'), {
             'schema': configurationSchema,
+            'configuration': configuration,
             'context': currentContext
         }, $('#admin_modules_container'));
     };
@@ -751,53 +640,24 @@ require(['jquery', 'oae/api/oae.core', 'vendor/js/bootstrap'], function($, oae) 
     /**
      * Initializes the list of tenants and renders them in a view
      */
-    var initializeTenants = function(callback) {
-        if (adminContext.tenant.tenantId === 'admin') {
-            getTenants(function(tenants) {
-                preProcessTenants(tenants, function(tenants) {
-                    cachedTenants = tenants;
-                    sakai.api.Util.TemplateRenderer('admin_tenants_template', {
-                        'tenants': tenants,
-                        'context': adminContext
-                    }, $('#admin_tenants_container'));
-
-                    enableInlineEdit();
-
-                    if ($.isFunction(callback)) {
-                        callback();
-                    }
-                });
-            });
-        } else {
-            preProcessTenants([{
-                'active': adminContext.tenant.active,
-                'alias': adminContext.tenant.tenantId,
-                'host': adminContext.tenant.host,
-                'name': adminContext.tenant.name,
-                'port': adminContext.tenant.port
-            }], function(tenants) {
-                sakai.api.Util.TemplateRenderer('admin_tenants_template', {
-                    'tenants': tenants,
-                    'context': adminContext
-                }, $('#admin_tenants_container'));
-
-                enableInlineEdit();
-
-                if ($.isFunction(callback)) {
-                    callback();
-                }
-            });
+    var initializeTenants = function() {
+        var tenantsToRender = tenants;
+        // Tenant admin UI
+        if (currentContext.host) {
+            tenantsToRender = [tenants[currentContext.alias]];
         }
+        oae.api.util.renderTemplate($('#admin_tenants_template'), {
+            'tenants': tenantsToRender,
+            'context': currentContext
+        }, $('#admin_tenants_container'));
+        enableInlineEdit();
     };
 
     /**
      * Initializes the left hand navigation
      */
     var initializeNavigation = function() {
-        sakai.api.Util.TemplateRenderer('admin_lhnav_template', {
-            'context': adminContext
-        }, $('#admin_lhnav_container'));
-
+        oae.api.util.renderTemplate($('#admin_lhnav_template'), {'context': currentContext}, $('#admin_lhnav_container'));
         $('#admin_lhnav_container').show();
     };
 
@@ -805,28 +665,29 @@ require(['jquery', 'oae/api/oae.core', 'vendor/js/bootstrap'], function($, oae) 
      * Initializes the admin UI
      */
     var doInit = function() {
-        //addBinding();
-
         // Fetch the list of available tenants
         getTenants(function() {
+
             // Determine for which tenant we want to see the admin UI
             getCurrentContext(function() {
 
+                // Render the header and the footer
                 initializeHeader();
                 initializeFooter();
     
                 if (oae.data.me.anon) {
                     $('#admin_login_container').show();
                 } else if (oae.data.me.isTenantAdmin || oae.data.me.isGlobalAdmin) {
-                    
                     // Get the configuration and continue rendering the page
                     getConfiguration(function() {
+                        // Initialize left hand navigation
+                        initializeNavigation();
                         // Initialize configurable modules
                         initializeModules();
                         // Initialize the tenants table (only 1 tenant if not on global server)
-                        initializeTenants(initializeFooter);
+                        initializeTenants();
                         // Show requested view
-                        switchView(window.location.hash);
+                        switchView();
                     });
                 } else {
                     // The user is not authorized to view the page
@@ -836,8 +697,7 @@ require(['jquery', 'oae/api/oae.core', 'vendor/js/bootstrap'], function($, oae) 
         });
     };
 
-    setUpLogin();
-    setUpLogout();
+    addBinding();
     doInit();
 
 });

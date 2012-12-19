@@ -115,11 +115,21 @@ h2 {
     text-decoration: none;
 }
 .container-striped form {
-    margin: 12px 0 0;
+    margin: 12px 0 20px;
 }
-.module_configuration_container h5 span,
+.module_configuration_container .form-horizontal .control-label {
+    width: 225px;
+}
+.module_configuration_container .form-horizontal .controls {
+    margin-left: 250px;
+}
+.module_configuration_container h4 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.module_configuration_container h4 span,
 .module_configuration_container label span {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: normal;
 }
 
