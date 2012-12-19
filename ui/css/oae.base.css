@@ -896,6 +896,16 @@ ul.as-selections textarea.as-input {
 .oae-entity-container .oae-entity-actions .oae-button:hover .oae-share-icon {
     background: url("/ui/img/share_icon_hover_16x11.png") no-repeat scroll left top transparent;
 }
+.oae-entity-container .oae-entity-actions .oae-button .oae-download-icon {
+    background: url("/ui/img/download_button_image.png") no-repeat scroll left top transparent;
+    float: right;
+    margin-left: 8px;
+    margin-top: 6px;
+}
+
+.oae-entity-container .oae-entity-actions .oae-button:hover .oae-download-icon {
+    background: url("/ui/img/download_button_image_hover.png") no-repeat scroll left top transparent;
+}
 .oae-entity-container .oae-entity-actions .oae-entity_actions_menu {
     background: url("/ui/img/settings_icon_16x16.png") no-repeat left center transparent;
     margin-left: 5px;
@@ -1720,6 +1730,9 @@ a.oae-button.oae-header-button {
     height: 23px;
     padding: 0 5px;
     line-height: 19px;
+}
+a.oae-button.oae-header-button.oae-header-smaller-button {
+    line-height: 23px;
 }
 a.oae-button.oae-header-button.oae-header-smaller-button {
     display: inline-block;
