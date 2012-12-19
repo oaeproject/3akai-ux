@@ -1,26 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <title>Administration UI - Sakai OAE</title>
-        <link href="/shared/css/bootstrap.css" type="text/css" rel="stylesheet"/>
+
+        <title>Sakai OAE - Administration UI</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+        <!-- BOOTSTRAP CSS -->
+        <link href="/shared/vendor/css/bootstrap.css" type="text/css" rel="stylesheet"/>
+        <!-- PAGE CSS -->
         <link href="/admin/css/admin.css" type="text/css" rel="stylesheet"/>
 
-        <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
     </head>
     <body>
+
         <div id="admin_header_container" class="container-fluid"><!-- --></div>
 
         <div class="container-fluid" id="admin_fluid_container">
             <div class="row-fluid">
                 <div class="span2" id="admin_lhnav_container" style="display: none;"><!-- --></div>
                 <div class="span10" id="admin_content">
-                    <div id="admin_unauthorized_container"><!-- --></div>
-                    <div id="admin_login_container"><!-- --></div>
+                    <!-- Unauthorized access -->
+                    <div id="admin_unauthorized_container" style="display: none;">
+                        <h3 class="text-error">You are not authorized to view this page.</h3>
+                    </div>
+                    <!-- Login -->
+                    <div id="admin_login_container" style="display: none;">
+                        <h2>Sign in to the OAE Administration Panel</h2>
+                        <div>
+                            <div id="admin_login" class="admin_login_container">
+                                <form id="admin_login_form" form method="POST" class="form-horizontal">
+                                    <div class="control-group">
+                                        <label for="admin_login_form_name" class="control-label">Name</label>
+                                        <div class="controls">
+                                            <input type="text" id="admin_login_form_name" name="username"/>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label for="admin_login_form_password" class="control-label">Password</label>
+                                        <div class="controls">
+                                            <input type="password" id="admin_login_form_password" name="password"/>
+                                            <button type="submit" class="btn btn-primary">Sign in</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
                     <div id="admin_views">
                         <div id="admin_tenants_container" style="display: none;"><!-- --></div>
                         <div id="admin_modules_container" style="display: none;"><!-- --></div>
-                        <div id="admin_tests_container" style="display: none;"><!-- --></div>
                     </div>
 
                     <div id="admin_error_container"><!-- --></div>
@@ -37,7 +67,7 @@
                 <li class="nav-header">Configuration</li>
                 <li id="configurationtenants">
                     <a title="Tenant configuration" href="#configurationtenants">
-                        {if context.tenant.tenantId === 'admin'}
+                        {if context.isGlobalAdminServer && !context.host}
                             Tenants
                         {else}
                             Tenant
@@ -50,22 +80,17 @@
             </ul>
         --></div>
 
-        <div id="admin_unauthorized_template" style="display: none;"><!--
-            <h3 class="text-error">You are not authorized to view this page.</h3>
-        --></div>
-
         <div id="admin_header_template" style="display: none;"><!--
             <div class="row-fluid">
-                <div class="span2">
-                </div>
+                <div class="span1"></div>
                 <div class="span10" id="admin_header_content">
-                    {if context.me && !context.me.anon}
+                    {if !oae.data.me.anon}
                         <div id="admin_header_user">
-                            <span>Hi, ${context.me.profile.displayName}</span>
-                            <button type="button" class="btn btn-inverse" id="admin_header_user_logout">log out</button>
+                            <span>Hi, ${oae.data.me.profile.displayName}</span>
+                            <button type="button" class="btn btn-inverse" id="admin_header_user_logout">Log out</button>
                         </div>
                     {/if}
-                    {if context.tenant.tenantId === "admin"}
+                    {if context.isGlobalAdminServer && !context.host}
                         <h1>Global administration UI</h1>
                     {else}
                         <h1>Tenant administration UI</h1>
@@ -76,11 +101,10 @@
 
         <div id="admin_footer_template" style="display: none;"><!--
             <div class="row-fluid">
-                <div class="span2">
-                </div>
+                <div class="span1"></div>
                 <div class="span10" id="admin_footer_content">
                     <div class="footer_column first"></div>
-                    {if context.me.isGlobalAdmin}
+                    {if !oae.data.me.anon && context.isGlobalAdminServer}
                         <div class="footer_column tenants">
                             <ul>
                                 <li>
@@ -100,225 +124,158 @@
             </div>
         --></div>
 
-        <div id="admin_login_template"><!--
-            <h2>Sign in to the OAE Administration Panel</h2>
-
-            {var isOnGlobal = context.tenant.tenantId === 'admin' || !context.tenant.isMainTenantServer}
-
-            <ul class="nav nav-tabs">
-                {var first = true}
-                {for strategy in strategies}
-                    {if strategy_index !== 'title'}
-                        {var hasDefaultValue = strategy.elements.enabled && strategy.elements.enabled.defaultValue}
-                        {if (isOnGlobal && strategy_index === 'local') || (!isOnGlobal && hasDefaultValue)}
-                            <li {if first} class="active admin_login_tab"{else} class="admin_login_tab"{/if} data-strategy="${strategy_index}_login">
-                                <a href="#">${strategy.name}</a>
-                            </li>
-                            {var first = false;}
+        <div id="admin_tenants_template"><!--
+            {var isMainGlobalAdmin = context.isGlobalAdminServer && !context.host}
+            <h2>Tenants<a href="#configurationtenants" class="anchor_section">#</a></h2>
+            {if _.keys(tenants).length > 0}
+                <table class="table table-striped">
+                    <tr>
+                        {if isMainGlobalAdmin}
+                            <th></th>
                         {/if}
-                    {/if}
-                {/for}
-            </ul>
-            <div>
-                {var first = true}
-                {for strategy in strategies}
-                    {if strategy_index !== 'title'}
-                        {var hasDefaultValue = strategy.elements.enabled && strategy.elements.enabled.defaultValue}
-                        {if (isOnGlobal && strategy_index === 'local') || (!isOnGlobal && hasDefaultValue)}
-                            {if strategy.endpoint}
-                                <div {if !first} style="display: none;"{/if} id="${strategy_index}_login" class="admin_login_container">
-                                    <form id="admin_login_form" method="GET" action="${strategy.endpoint}" class="form-horizontal external_login" enctype="application/x-www-form-urlencoded">
-                                        <button type="submit" class="btn btn-primary ">Sign in with ${strategy.name}</button>
-                                    </form>
-                                </div>
-                            {else}
-                                <div {if !first} style="display: none;"{/if} id="${strategy_index}_login" class="admin_login_container">
-                                    <form id="admin_login_form" form method="POST" action="/api/auth/login" class="form-horizontal" enctype="application/x-www-form-urlencoded">
-                                        <div class="control-group">
-                                            <label for="admin_login_form_name" class="control-label">Name</label>
-                                            <div class="controls">
-                                                <input type="text" id="admin_login_form_name" name="username"/>
-                                            </div>
-                                        </div>
-                                        <div class="control-group">
-                                            <label for="admin_login_form_password" class="control-label">Password</label>
-                                            <div class="controls">
-                                                <input type="password" id="admin_login_form_password" name="password"/>
-                                                <button type="submit" class="btn btn-primary">Sign in</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
+                        <th>Alias</th>
+                        <th>Name</th>
+                        <th>Host</th>
+                        <th>Status</th>
+                        <th>
+                            {if isMainGlobalAdmin}
+                                {if hasStoppedServer}
+                                    <button type="button" class="btn btn-success start_all_tenants">Start all</button>
+                                {else}
+                                    <button type="button" class="btn btn-warning stop_all_tenants">Stop all</button>
+                                {/if}
                             {/if}
-                            {var first = false;}
+                        </th>
+                        {if oae.data.me.isGlobalAdmin}
+                            <th></th>
                         {/if}
-                    {/if}
-                {/for}
-            </div>
-        --></div>
-
-        <div id="admin_tenants_template" style="display:none;"><!--
-            {if context}
-                <h2>Tenants<a href="#configurationtenants" class="anchor_section">#</a></h2>
-                {if tenants.info.hasTenants}
-                    <table class="table table-striped">
-                        <tr>
-                            {if context.tenant.tenantId === "admin"}
-                                <th></th>
-                            {/if}
-                            <th>Alias</th>
-                            <th>Name</th>
-                            <th>Host</th>
-                            <th>Status</th>
-                            <th>
-                                {if context.tenant.tenantId === "admin"}
-                                    {if tenants.info.allActive}
-                                        <button type="button" class="btn btn-warning stop_all_tenants">Stop all</button>
-                                    {else}
-                                        <button type="button" class="btn btn-success start_all_tenants">Start all</button>
-                                    {/if}
+                    </tr>
+                    {for tenant in tenants}
+                        {if tenant.alias}
+                            <tr>
+                                {if isMainGlobalAdmin}
+                                    <td><a href="/tenant/${tenant.alias}" title="Edit ${tenant.name}"><i class="icon-pencil"></i></a></td>
                                 {/if}
-                            </th>
-                            <th>
-                                {if context.tenant.tenantId === "admin"}
-                                    <button type="button" class="btn btn-danger delete_all_tenants">Delete all</button>
+                                <td>${tenant.alias}</td>
+                                {if oae.data.me.isGlobalAdmin}
+                                    <td class="jeditable_container"><div class="jeditable_field" data-alias="${tenant.alias}">${tenant.name}</div></td>
+                                {else}
+                                    <td>${tenant.name}</td>
                                 {/if}
-                            </th>
-                        </tr>
-                        {for tenant in tenants}
-                            {if tenant.alias}
-                                <tr>
-                                    {if context.tenant.tenantId === "admin"}
-                                        <td><a href="http://${tenant.host}/admin/tenant/${tenant.alias}" title="Edit ${tenant.name}"><i class="icon-pencil"></i></a></td>
-                                    {/if}
-                                    <td>${tenant.alias}</td>
-                                    {if context.me.isGlobalAdmin}
-                                        <td class="jeditable_container"><div class="jeditable_field" id="${tenant.alias}">${tenant.name}</div></td>
+                                <td><a href="http://${tenant.host}" title="${tenant.name}" target="_blank">${tenant.host}</a></td>
+                                <td>
+                                    {if tenant.active}
+                                        <span class="text-success">Running</span>
                                     {else}
-                                        <td>${tenant.name}</td>
+                                        <span class="text-error">Disabled</span>
                                     {/if}
-                                    <td><a href="http://${tenant.host}/api/tenant" title="${tenant.name}" target="_blank">${tenant.host}</a></td>
-                                    <td>
+                                </td>
+                                <td>
+                                    {if true || oae.data.me.isGlobalAdmin}
                                         {if tenant.active}
-                                            <span class="text-success">Running</span>
+                                            <button type="button" class="btn btn-warning stop_tenant" id="${tenant.alias}_stop" data-alias="${tenant.alias}" data-name="${tenant.name}">Stop</button>
                                         {else}
-                                            <span class="text-error">Disabled</span>
+                                            <button type="button" class="btn btn-success start_tenant" id="${tenant.alias}_stop" data-alias="${tenant.alias}" data-name="${tenant.name}">Start</button>
                                         {/if}
-                                    </td>
-                                    <td>
-                                        {if tenants.info.canStopTenant || context.me.isGlobalAdmin}
-                                            {if tenant.active}
-                                                <button type="button" class="btn btn-warning stop_tenant" id="${tenant.alias}_stop" data-alias="${tenant.alias}" data-name="${tenant.name}" data-description="${tenant.description}" data-host="${tenant.host}">Stop</button>
-                                            {else}
-                                                <button type="button" class="btn btn-success start_tenant" id="${tenant.alias}_stop" data-alias="${tenant.alias}" data-name="${tenant.name}" data-description="${tenant.description}" data-host="${tenant.host}">Start</button>
-                                            {/if}
-                                        {/if}
-                                    </td>
-                                    <td>
-                                        {if context.me.isGlobalAdmin}
-                                            <button type="button" class="btn btn-danger delete_tenant" id="${tenant.alias}_delete" data-host="${tenant.host}" data-alias="${tenant.alias}" data-name="${tenant.name}" data-description="${tenant.description}">Delete</button>
-                                        {/if}
-                                    </td>
-                                </tr>
-                            {/if}
-                        {/for}
-                    </table>
-                {else}
-                    <p class="text-warning">There are no tenants.</p>
-                {/if}
-                {if context.tenant.tenantId === "admin"}
-                    <div class="container-striped">
-                        <div>
-                            <button type="button" class="createtenant_toggle_button btn">
-                                <i class="icon-plus" style="margin-right:12px;"></i>
-                                Create a new tenant
-                            </button>
-                            <div class="createtenant_container" style="display: none;">
-                                <form method="POST" action="/api/tenant/create" class="form-horizontal" enctype="application/x-www-form-urlencoded">
-                                    <div class="control-group">
-                                        <label for="createtenant_alias" class="control-label">Alias:</label>
-                                        <div class="controls">
-                                            <input type="text" name="alias" id="createtenant_alias" placeholder="Alias"/>
-                                        </div>
+                                    {/if}
+                                </td>
+                                <td>
+                                    {if oae.data.me.isGlobalAdmin}
+                                        <button type="button" class="btn btn-danger delete_tenant" id="${tenant.alias}_delete" data-alias="${tenant.alias}" data-name="${tenant.name}" data-description="${tenant.description}">Delete</button>
+                                    {/if}
+                                </td>
+                            </tr>
+                        {/if}
+                    {/for}
+                </table>
+            {else}
+                <p class="text-warning">There are no tenants.</p>
+            {/if}
+            {if isMainGlobalAdmin}
+                <div class="container-striped">
+                    <div>
+                        <button id="createtenant_toggle_button" type="button" class="btn">
+                            <i class="icon-plus" style="margin-right:12px;"></i>
+                            Create a new tenant
+                        </button>
+                        <div class="createtenant_container" style="display: none;">
+                            <form method="POST" id="createtenant_form" class="form-horizontal">
+                                <div class="control-group">
+                                    <label for="createtenant_alias" class="control-label">Alias:</label>
+                                    <div class="controls">
+                                        <input type="text" name="alias" id="createtenant_alias" placeholder="Alias"/>
                                     </div>
-                                    <div class="control-group">
-                                        <label for="createtenant_name" class="control-label">Name:</label>
-                                        <div class="controls">
-                                            <input type="text" name="name" id="createtenant_name" placeholder="Name"/>
-                                        </div>
+                                </div>
+                                <div class="control-group">
+                                    <label for="createtenant_name" class="control-label">Name:</label>
+                                    <div class="controls">
+                                        <input type="text" name="name" id="createtenant_name" placeholder="Name"/>
                                     </div>
-                                    <div class="control-group">
-                                        <label for="createtenant_host" class="control-label">Host:</label>
-                                        <div class="controls">
-                                            <input type="text" name="host" id="createtenant_host" placeholder="Host"/>
-                                            <button type="button" id="createtenant_submit_button" class="btn btn-primary">Create new tenant</button>
-                                        </div>
+                                </div>
+                                <div class="control-group">
+                                    <label for="createtenant_host" class="control-label">Host:</label>
+                                    <div class="controls">
+                                        <input type="text" name="host" id="createtenant_host" placeholder="Host"/>
+                                        <button type="submit" id="createtenant_submit_button" class="btn btn-primary">Create new tenant</button>
                                     </div>
-                                </form>
-                            </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                {/if}
+                </div>
             {/if}
         --></div>
 
         <div id="admin_modules_template" style="display:none;"><!--
             <h2>Modules<a href="#configurationmodules" class="anchor_section">#</a></h2>
             <div class="container-striped">
-                {for module in modules}
+                {for module in schema}
                     <div class="module_configuration_container">
                         <button type="button" title="Edit the ${module.title}" class="module_configuration_toggle_button btn">
                             <i class="icon-pencil" style="margin-right:12px;"></i>
                             ${module.title}
                         </button>
                         <div class="module_configuration_container" style="display:none;">
-                            <form method="POST" action="/admin/update" class="form-horizontal module_configuration_form">
+                            <form class="form-horizontal module_configuration_form" data-module="${module_index}">
                                 {for option in module}
                                     {if option && option_index !== "title"}
-                                        <h5>${option.name} <span>(${option.description})</span></h5>
+                                        <h4>${option.name} <span style="display:none;">(${option.description})</span></h4>
                                         {for element in option.elements}
-
-                                            {var showTenantsOnlyFields = true;}
-                                            {if context.tenant.tenantId === "admin" && element.tenantonly !== undefined && element.tenantonly}
-                                                {var showTenantsOnlyFields = false;}
-                                            {/if}
-
-                                            {var tenantCanOverride = context.me.isGlobalAdmin ||
-                                                                     (!(context.tenant.context === "tenant" &&
-                                                                     (element.tenantOverride === false || option.tenantOverride === false)))}
-
-                                            {if showTenantsOnlyFields}
-                                                {if element.type === "boolean"}
-                                                    <div class="control-group">
-                                                        <input type="checkbox" id="${module_index}/${option_index}/${element_index}" {if element.defaultValue}checked="checked"{/if} style="margin-right:12px;float:left;" data-tenantId="${context.tenant.tenantId}" data-originalvalue="${element.defaultValue}" class="module_config_checkbox" {if !tenantCanOverride} disabled="disabled"{/if}/>
-                                                        <label for="${module_index}/${option_index}/${element_index}">${element.description} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                            {var tenantCanOverride = oae.data.me.isGlobalAdmin || option.tenantOverride !== false}
+                                            {var configPath = module_index + '/' + option_index + '/' + element_index}
+                                            {var configValue = configuration[module_index][option_index][element_index]}
+                                            {if element.type === "boolean"}
+                                                <div class="control-group">
+                                                    <input type="checkbox" id="${configPath}" name="${configPath}" {if configValue}checked="checked"{/if} class="module_config_checkbox" {if !tenantCanOverride} disabled="disabled"{/if}/>
+                                                    <label for="${configPath}">${element.description} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                </div>
+                                            {elseif element.type === "text"}
+                                                <div class="control-group">
+                                                    <label for="${configPath}" class="control-label">${element.description} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                    <div class="controls">
+                                                        <input type="text" id="${configPath}" name="${configPath}" value="${configValue}" {if !tenantCanOverride} disabled="disabled"{/if}/>
                                                     </div>
-                                                {elseif element.type === "text"}
-                                                    <div class="control-group">
-                                                        <label for="${module_index}/${option_index}/${element_index}" class="control-label">${element.description} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
-                                                        <div class="controls">
-                                                            <input type="text" data-tenantId="${context.tenant.tenantId}"  data-originalvalue="${element.defaultValue}" id="${module_index}/${option_index}/${element_index}" value="${element.defaultValue}" {if !tenantCanOverride || (element.dependsOn && !option.elements[element.dependsOn].defaultValue)} disabled="disabled"{/if}/>
-                                                        </div>
-                                                    </div>
-                                                {elseif element.type === "radio"}
+                                                </div>
+                                            {elseif element.type === "radio"}
+                                                <div class="control-group">
                                                     {for rbt in element.group}
                                                         <label class="radio">
-                                                            <input name="${element_index}" data-tenantId="${context.tenant.tenantId}" type="radio" data-id="${module_index}/${option_index}/${element_index}" value="${rbt.value}" {if element.defaultValue === rbt.value} checked="checked"{/if} {if !tenantCanOverride} disabled="disabled"{/if}>
+                                                            <input type="radio" id="${configPath}" name="${configPath}" value="${rbt.value}" {if configValue === rbt.value} checked="checked"{/if} {if !tenantCanOverride} disabled="disabled"{/if}>
                                                             ${rbt.name} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}
                                                         </label>
                                                     {/for}
-                                                {elseif element.type === "list"}
-                                                    <div class="control-group">
-                                                        <label for="${module_index}/${option_index}/${element_index}" class="control-label">${element.description} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
-                                                        <div class="controls">
-                                                            <select data-tenantId="${context.tenant.tenantId}" id="${module_index}/${option_index}/${element_index}" {if !tenantCanOverride} disabled="disabled"{/if}>
-                                                                {for opt in element.list}
-                                                                    <option value="${opt.value}" {if element.defaultValue === opt.value} selected="selected"{/if}>${opt.name}</option>
-                                                                {/for}
-                                                            </select>
-                                                        </div>
+                                                </div>
+                                            {elseif element.type === "list"}
+                                                <div class="control-group">
+                                                    <label for="${configPath}" class="control-label">${element.description} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                    <div class="controls">
+                                                        <select id="${configPath}" name="${configPath}" {if !tenantCanOverride} disabled="disabled"{/if}>
+                                                            {for opt in element.list}
+                                                                <option value="${opt.value}" {if configValue === opt.value} selected="selected"{/if}>${opt.name}</option>
+                                                            {/for}
+                                                        </select>
                                                     </div>
-                                                {/if}
+                                                </div>
                                             {/if}
                                         {/for}
                                     {/if}
@@ -329,17 +286,6 @@
                     </div>
                 {/for}
             </div>
-        --></div>
-
-        <div id="admin_tests_template" style="display:none;"><!--
-            <h2>Tests<a href="#tests" class="anchor_section">#</a></h2>
-            <p>It would be good if tests could be started from within the admin UI. Not only the usual unit tests but also performance tests.</p>
-            <ol>
-                <li>UI Fetches available tests and scripts</li>
-                <li>UI is able to start tests and feed parameters (#users, #groups, #batches,...)</li>
-                <li>UI gets back result set and shows stats</li>
-                <li>The backend saves the test data that can serve as a reference later on</li>
-            </ol>
         --></div>
 
         <!-- UTIL TEMPLATES AND CONTAINERS -->
@@ -396,8 +342,9 @@
             </div>
         --></div>
 
-        <script data-main="/shared/sakai/sakai.dependencies.js" src="/shared/js/require.js"></script>
-        <script>require(["/admin/js/admin.js"]);</script>
+        <!-- DEPENDENCIES -->
+        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/require.js"></script>
+        <script>require(['/admin/js/admin.js']);</script>
         
     </body>
 </html>
