@@ -13,6 +13,9 @@
  * permissions and limitations under the License.
  */
 
+// TODO: Remove this once we have a better way of sharing data
+var sakai_global = sakai_global || {};
+
 require(['jquery', 'oae/api/oae.core'], function($, oae) {
 
     //  Get the group id from the URL. The expected URL is /group/<groupId>
@@ -20,16 +23,13 @@ require(['jquery', 'oae/api/oae.core'], function($, oae) {
     if (!groupId) {
         oae.api.util.redirect().redirectToLogin();
     }
-    
-    // Variable used to cache the requested user's profile
-    var groupProfile = null;
 
     /**
      * Get the group's basic profile and set up the screen. If the groups
      * can't be found or is private to the current user, the appropriate
      * error page will be shown
      */
-    var getGroupProfile = function() {
+    var getGroupdata = function() {
         oae.api.group.getGroup(groupId, function(err, profile) {
             if (err && err.code === 404) {
                 oae.api.util.redirect().redirectTo404();
@@ -37,11 +37,11 @@ require(['jquery', 'oae/api/oae.core'], function($, oae) {
                 oae.api.util.redirect().redirectTo403();
             }
 
-            groupProfile = profile;
+            sakai_global.group = profile;
             renderEntity();
             setUpNavigation();
             // Set the browser title
-            oae.api.util.setBrowserTitle(groupProfile.name);
+            oae.api.util.setBrowserTitle(sakai_global.group.name);
             // We can now unhide the page
             oae.api.util.showPage();
         });
@@ -51,9 +51,9 @@ require(['jquery', 'oae/api/oae.core'], function($, oae) {
      * Render the group's profile picture and name
      */
     var renderEntity = function() {
-        oae.api.util.renderTemplate($('#oae_entity_template'), groupProfile, $('#oae_entity_container'));
+        oae.api.util.renderTemplate($('#oae_entity_template'), sakai_global.group, $('#oae_entity_container'));
         $('#entity_group_permissions').on('click', function() {
-            $('body').trigger('init.grouppermissions.sakai', { 'group': groupProfile });
+            $('body').trigger('init.grouppermissions.sakai');
         });
     };
     
@@ -63,7 +63,7 @@ require(['jquery', 'oae/api/oae.core'], function($, oae) {
     var setUpNavigation = function() {
         // Only render the left hand navigation if the group's profile
         // has already been retrieved
-        if (groupProfile) {
+        if (sakai_global.group) {
             // TODO: Replace this with more effective page configuration
             var pubdata = {
                 'structure0': {
@@ -116,7 +116,7 @@ require(['jquery', 'oae/api/oae.core'], function($, oae) {
                         }
                     ],
                     'id5244321': {
-                        'principalId': groupProfile.id
+                        'principalId': sakai_global.group.id
                     }
                 },
                 'id88785643': {
@@ -137,8 +137,8 @@ require(['jquery', 'oae/api/oae.core'], function($, oae) {
                         }
                     ],
                     'id032184831': {
-                        'principalId': groupProfile.id,
-                        'canManage': groupProfile.isManager
+                        'principalId': sakai_global.group.id,
+                        'canManage': sakai_global.group.isManager
                     }
                 },
                 'id1234354657': {
@@ -159,8 +159,8 @@ require(['jquery', 'oae/api/oae.core'], function($, oae) {
                         }
                     ],
                     'id7184318': {
-                        'principalId': groupProfile.id,
-                        'canManage': groupProfile.isManager
+                        'principalId': sakai_global.group.id,
+                        'canManage': sakai_global.group.isManager
                     }
                 }
             };
@@ -200,7 +200,7 @@ require(['jquery', 'oae/api/oae.core'], function($, oae) {
     // List to the left hand navigation ready event for navigation rendering
     $(window).on('lhnav.ready', setUpNavigation);  
 
-    getGroupProfile();
+    getGroupdata();
     setUpViewMode();
 
 });

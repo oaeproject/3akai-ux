@@ -135,7 +135,9 @@
                         <div class="oae-list-item-banner" style="display: none;">
                             <div>
                                 <div class="oae-visibility-${r.visibility} oae-force-right"></div>
+                                <button type="button" class="oae-button oae-link-button oae-force-right oae-push oae-share-button white" data-contentid="${r.id}" data-contentname="${r.title}"></button>
                                 <a class="oae-threedots" href="/content/${r.id}" title="${r.title}">${r.title}</a>
+                                <span class="oae-list-item-banner-description oae-threedots">Other document</span>
                             </div>
                         </div>
                         <div class="oae-list-item-left">
@@ -153,6 +155,7 @@
                                     <div class="oae-visibility-${r.visibility} oae-force-left"></div>
                                     <a class="oae-threedots" href="/content/${r.id}" title="${r.title}">${r.title}</a>
                                 </label>
+                                <div class="oae-list-description oae-threedots">Other document</div>
                             </div>
                         </div>
                     {/if}
