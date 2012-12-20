@@ -28,19 +28,19 @@
                     <div id="oae_entity_container" class="oae-entity-container"><!-- --></div>
                     <div id="oae_entity_template"><!--
                         <div class="oae-force-right oae-entity-actions">
-                            {if contentType === 'file'}
-                                <a href="${downloadLink}" target="_blank" class="oae-button oae-header-button oae-header-smaller-button">
-                                    __MSG__DOWNLOAD__<span class="oae-action-icon oae-download-icon"></span>
-                                </a>
-                            {/if}
                             {if isManager}
-                                <button type="button" id="entity_content_permissions" class="oae-button oae-header-button oae-header-smaller-button">
+                                <button type="button" id="entity_content_permissions" class="oae-button oae-header-button oae-header-smaller-button oae-force-right">
                                     __MSG__SHARE__<div class="oae-action-icon oae-share-icon"></div>
                                 </button>
                             {else}
-                                <button type="button" class="oae-button oae-header-button oae-header-smaller-button oae-trigger-sharecontent" data-contentid="${contentId|safeUserInput}" data-contentname="${name|safeUserInput}">
+                                <button type="button" class="oae-button oae-header-button oae-header-smaller-button oae-trigger-sharecontent oae-force-right" data-contentid="${contentId|safeUserInput}" data-contentname="${name|safeUserInput}">
                                     __MSG__SHARE__<div class="oae-action-icon oae-share-icon"></div>
                                 </button>
+                            {/if}
+                            {if contentType === 'file'}
+                                <a href="${downloadLink}" target="_blank" class="oae-button oae-header-button oae-header-smaller-button oae-force-right">
+                                    __MSG__DOWNLOAD__<span class="oae-action-icon oae-download-icon"></span>
+                                </a>
                             {/if}
                         </div>
                         <div class="oae-entity-picture">
