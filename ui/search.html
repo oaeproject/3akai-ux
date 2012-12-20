@@ -49,7 +49,6 @@
                 <div class="oae-page-column-right">
                     <div id="oae-page-main-content" class="oae-page-content-padding" role="main">
                         <div data-widget="contentauthoring"><!-- --></div>
-                        <div data-widget="sharecontent"><!-- --></div>
                     </div>
                 </div>
                 <div class="oae-bottom-spacer"></div>
@@ -144,7 +143,7 @@
                         <div class="oae-list-item-left">
                             <img src="${thumbnailUrl}" alt="${r.title|safeUserInput}" class="oae-list-item-profile-picture grid"/>
                             {if !oae.data.me.anon}
-                                <button type="button" class="oae-button oae-link-button oae-force-right oae-share-button" data-contentid="${r.id}" data-contentname="${r.title|safeUserInput}"></button>
+                                <button type="button" class="oae-button oae-link-button oae-force-right oae-share-button oae-trigger-sharecontent" data-contentid="${r.id}" data-contentname="${r.title|safeUserInput}"></button>
                             {/if}
                             <div class="oae-list-item-left-inner">
                                 {if !oae.data.me.anon}

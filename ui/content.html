@@ -38,7 +38,7 @@
                                     __MSG__SHARE__<div class="oae-action-icon oae-share-icon"></div>
                                 </button>
                             {else}
-                                <button type="button" id="entity_content_permissions" class="oae-button oae-header-button oae-header-smaller-button">
+                                <button type="button" class="oae-button oae-header-button oae-header-smaller-button oae-trigger-sharecontent" data-contentid="${contentId|safeUserInput}" data-contentname="${name|safeUserInput}">
                                     __MSG__SHARE__<div class="oae-action-icon oae-share-icon"></div>
                                 </button>
                             {/if}
