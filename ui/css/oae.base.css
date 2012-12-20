@@ -1680,6 +1680,36 @@ a.oae-button.oae-header-button {
     line-height: 24px;
 }
 
+/* Large dark colored buttons */
+.oae-button.oae-large-button.dark {
+    background: #e9edf0;
+    background: -moz-linear-gradient(center top , #505050 0%, #303030 100%) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#505050), color-stop(100%,#303030));
+    background: -webkit-linear-gradient(top, #505050 0%, #303030 100%);
+    background: -o-linear-gradient(top, #505050 0%, #303030 100%);
+    background: -ms-linear-gradient(top, #505050 0%, #303030 100%);
+    background: linear-gradient(top, #505050 0%, #303030 100%);
+    border: 1px solid #444444;
+    box-shadow: none;
+    color: #FFFFFF;
+    text-shadow: 0 2px 3px #555555;
+    font-size: 11px;
+    height: 25px;
+}
+.oae-button.oae-large-button.dark:hover {
+    background: #e9edf0;
+    background: -moz-linear-gradient(center top , #707070 0%, #505050 100%) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#707070), color-stop(100%,#505050));
+    background: -webkit-linear-gradient(top, #707070 0%, #505050 100%);
+    background: -o-linear-gradient(top, #707070 0%, #505050 100%);
+    background: -ms-linear-gradient(top, #707070 0%, #505050 100%);
+    background: linear-gradient(top, #707070 0%, #505050 100%);
+    border: 1px solid #666;
+    box-shadow: none;
+    color: #FFFFFF;
+    text-shadow: 0 2px 3px #555555;
+}
+
 /* Left pop out buttons */
 .oae-popout-button-shadow {
     background: url('/ui/img/button_popout_border_shadow.png') no-repeat scroll left top transparent;
@@ -1771,6 +1801,9 @@ a.oae-button.oae-regular-button {
 }
 
 /* Large in-page buttons */
+a.oae-button.oae-large-button {
+    display: inline-block;
+}
 .oae-button.oae-large-button {
     background: #f6f6f5;
     background: -moz-linear-gradient(top, #f6f6f5 0%, #e0e0e0 93%, #e0e0e0 97%, #e9e9e9 100%);
@@ -1801,7 +1834,7 @@ a.oae-button.oae-regular-button {
     color: #666;
 }
 a.oae-button.oae-large-button {
-    line-height: 31px;
+    line-height: 26px;
 }
 
 /* Overlay buttons */
@@ -1956,11 +1989,15 @@ a.oae-button.oae-overlay-button {
     margin: 6px 20px 0 0;
     width: 21px;
 }
+.oae-share-button.white {
+    background: url('/ui/img/actions/share_icon_white.png') no-repeat center center transparent;
+    margin: 3px 0 0;
+}
 .oae-share-button:hover,
-.oae-share-button.active {
+.oae-share-button.active,
+.oae-share-button.white:hover {
     background: url('/ui/img/actions/share_icon_hover.png') no-repeat center center transparent;
 }
-
 /*
  * WIDGET LAYOUT
  */
@@ -3120,9 +3157,18 @@ ul.oae-list li.oae-list-item .oae-list-description {
     color: #666;
     font-style: italic;
 }
+ul.oae-list li.oae-list-item .oae-list-description,
 ul.oae-list li.oae-list-item.active .oae-list-description,
 ul.oae-list.expandedlist li.oae-list-item .oae-list-description {
     display: block;
+    font-size: 11px;
+    line-height: 20px;
+    max-width: 200px;
+    text-transform: uppercase;
+}
+ul.oae-list li.oae-list-item.active .oae-list-description,
+ul.oae-list.expandedlist li.oae-list-item .oae-list-description {
+    max-width: 550px;
 }
 ul.oae-list li.oae-list-item .oae-list-item-left {
     background-color: #fff;
@@ -3228,7 +3274,9 @@ ul.oae-list.expandedlist li.oae-list-item .oae-share-button,
 ul.oae-list li.oae-list-item.active .oae-share-button {
     margin-top: 23px;
 }
-
+ul.oae-list.grid li.oae-list-item.active .oae-share-button {
+    margin-top: 6px;
+}
 /* Bottom banner for grid view */
 ul.oae-list.grid li.oae-list-item .oae-list-item-banner {
     bottom: 0;
@@ -3238,8 +3286,17 @@ ul.oae-list.grid li.oae-list-item .oae-list-item-banner {
     position: absolute;
     width: 162px;
 }
+ul.oae-list.grid li.oae-list-item .oae-list-item-banner .oae-list-item-banner-description {
+    display: inline-block;
+    font-size: 10px;
+    text-transform: uppercase;
+    width: 120px;
+}
 ul.oae-list.grid li.oae-list-item .oae-list-item-banner span.oae-threedots {
     display: inline-block;
+    font-style: italic;
+    font-weight: normal;
+    text-transform: uppercase;
     width: 120px;
 }
 ul.oae-list.grid li.oae-list-item .oae-list-item-banner > div:first-child {
@@ -3346,10 +3403,18 @@ ul.oae-list li.oae-list-item label {
     letter-spacing: 0.04em;
     margin: 0 7px;
 }
+ul.oae-list li.oae-list-item.active label a,
+ul.oae-list.expandedlist li.oae-list-item label a {
+    max-width: 550px;
+}
 ul.oae-list li.oae-list-item label a {
     display: inline-block;
     line-height: 20px;
-    max-width: 550px;
+    max-width: 400px;
+}
+ul.oae-list li.oae-list-item label a .oae-list-item-mimetype {
+    display: inline-block;
+    max-width: 190px;
 }
 ul.oae-list li.oae-list-item.active label a {
     max-width: 250px;

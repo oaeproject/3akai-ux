@@ -134,10 +134,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="oae-list-item-banner" style="display: none;">
+                        <div class="oae-list-item-banner oae-hidden">
                             <div>
                                 <div class="oae-visibility-${r.visibility} oae-force-right"></div>
                                 <a class="oae-threedots" href="/content/${r.id}" title="${r.title|safeUserInput}">${r.title|safeUserInput}</a>
+                                <span class="oae-list-item-banner-description oae-threedots">__MSG__OTHER_DOCUMENT__</span>
                             </div>
                         </div>
                         <div class="oae-list-item-left">
@@ -155,6 +156,7 @@
                                     <div class="oae-visibility-${r.visibility} oae-force-left"></div>
                                     <a class="oae-threedots" href="/content/${r.id}" title="${r.title|safeUserInput}">${r.title|safeUserInput}</a>
                                 </label>
+                                <div class="oae-list-description oae-threedots">__MSG__OTHER_DOCUMENT__</div>
                             </div>
                         </div>
                     {/if}

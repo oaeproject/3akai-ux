@@ -27,10 +27,10 @@
                     <div id="oae_entity_template"><!--
                         <div class="oae-entity-picture">
                             <span class="oae-entity-picture-image">
-                                <img src="/ui/img/entities/user_icon_medium.png"/>
+                                <img class="oae-icon-50" src="${user.mediumPicture || '/ui/img/entities/user_icon_medium.png'}"/>
                             </span>
                         </div>
-                        <div class="oae-bold oae-entity-title">${profile.displayName|safeUserInput}</div>
+                        <div class="oae-bold oae-entity-title">${user.profile.displayName|safeUserInput}</div>
                         <div class="oae-push"></div>
                     --></div>
                 </div>
