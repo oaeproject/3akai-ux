@@ -49,7 +49,6 @@
                 <div class="oae-page-column-right">
                     <div id="oae-page-main-content" class="oae-page-content-padding" role="main">
                         <div data-widget="contentauthoring"><!-- --></div>
-                        <div data-widget="sharecontent"><!-- --></div>
                     </div>
                 </div>
                 <div class="oae-bottom-spacer"></div>
@@ -135,16 +134,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="oae-list-item-banner" style="display: none;">
+                        <div class="oae-list-item-banner oae-hidden">
                             <div>
                                 <div class="oae-visibility-${r.visibility} oae-force-right"></div>
                                 <a class="oae-threedots" href="/content/${r.id}" title="${r.title|safeUserInput}">${r.title|safeUserInput}</a>
+                                <span class="oae-list-item-banner-description oae-threedots">__MSG__OTHER_DOCUMENT__</span>
                             </div>
                         </div>
                         <div class="oae-list-item-left">
                             <img src="${thumbnailUrl}" alt="${r.title|safeUserInput}" class="oae-list-item-profile-picture grid"/>
                             {if !oae.data.me.anon}
-                                <button type="button" class="oae-button oae-link-button oae-force-right oae-share-button" data-contentid="${r.id}" data-contentname="${r.title|safeUserInput}"></button>
+                                <button type="button" class="oae-button oae-link-button oae-force-right oae-share-button oae-trigger-sharecontent" data-contentid="${r.id}" data-contentname="${r.title|safeUserInput}"></button>
                             {/if}
                             <div class="oae-list-item-left-inner">
                                 {if !oae.data.me.anon}
@@ -156,6 +156,7 @@
                                     <div class="oae-visibility-${r.visibility} oae-force-left"></div>
                                     <a class="oae-threedots" href="/content/${r.id}" title="${r.title|safeUserInput}">${r.title|safeUserInput}</a>
                                 </label>
+                                <div class="oae-list-description oae-threedots">__MSG__OTHER_DOCUMENT__</div>
                             </div>
                         </div>
                     {/if}
