@@ -446,6 +446,9 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery.valid
                 submitCallback = options.submitHandler;
             }
 
+            // Make sure form is a jquery object with validate() on it
+            $form = $($form);
+
             // Register the custom validation methods
             if (options.methods) {
                 $.each(options.methods, function(key, value) {
