@@ -40,7 +40,8 @@ requirejs.config({
         'jquery-ui': 'vendor/js/jquery-ui.custom',
         'underscore': 'vendor/js/underscore',
         'oae.core': 'oae/api/oae.core',
-        'oae.api': 'oae/api/oae.api'
+        'oae.api': 'oae/api/oae.api',
+        'oae.culture-map': 'oae/api/oae.culture-map'
     },
     priority: ['jquery', 'underscore']
 });

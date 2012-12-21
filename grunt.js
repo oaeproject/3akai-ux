@@ -58,7 +58,10 @@ module.exports = function(grunt) {
                     skipPragmas: false,
                     skipModuleInsertion: false,
                     modules: [{
-                        name: 'oae.api'
+                        name: 'oae.api',
+                        exclude: [
+                            'oae.culture-map'
+                        ]
                     }],
                     fileExclusionRegExp: /^(\.|tools|target|tests|grunt|shelljs)/,
                     logLevel: 2
@@ -174,6 +177,22 @@ module.exports = function(grunt) {
         bootstrap = bootstrap.replace(regex, 'paths:' + JSON.stringify(paths));
         grunt.file.write(bootstrapPath, bootstrap);
         grunt.log.writeln('Boots strapped'.green);
+
+        // Make a map for the hashed culture files
+        var cultures = {};
+        var cultureKeys = Object.keys(hashedPaths).filter(function(hp) {
+            return hp.match(/globalize\.culture\./);
+        });
+        cultureKeys.forEach(function(key) {
+            var path = hashedPaths[key];
+            var hash = path.substring(key.length - 2, path.length - 3);
+            var newKey = key.match(/globalize\.culture\.(.*)\.js/)[1];
+            cultures[newKey] = hash;
+        });
+
+        var cultureMapPath = hashedPaths['target/optimized/shared/oae/api/oae.culture-map.js'];
+        grunt.file.write(cultureMapPath, 'define([], function() {return '+ JSON.stringify(cultures) +';});');
+        grunt.log.writeln('Cultures mapped'.green);
     });
 
     // Override the test task with the qunit task
