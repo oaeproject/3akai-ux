@@ -90,22 +90,32 @@ module.exports = function(grunt) {
                         ],
                         // Look for references to the above files in these files
                         references: [
-                           'target/optimized/shared/**/*.js',
-                           'target/optimized/shared/**/*.css',
-                           'target/optimized/ui/**/*.html',
-                           'target/optimized/ui/**/*.js',
-                           'target/optimized/ui/**/*.css',
-                           'target/optimized/admin/**/*.html',
-                           'target/optimized/admin/**/*.js',
-                           'target/optimized/admin/**/*.css',
-                           'target/optimized/node_modules/oae-*/**/*.html',
-                           'target/optimized/node_modules/oae-*/**/*.js',
-                           'target/optimized/node_modules/oae-*/**/*.css',
-                           'target/optimized/node_modules/oae-*/**/*.json'
+                            'target/optimized/shared/**/*.js',
+                            'target/optimized/shared/**/*.css',
+                            'target/optimized/ui/**/*.html',
+                            'target/optimized/ui/**/*.js',
+                            'target/optimized/ui/**/*.css',
+                            'target/optimized/admin/**/*.html',
+                            'target/optimized/admin/**/*.js',
+                            'target/optimized/admin/**/*.css',
+                            'target/optimized/node_modules/oae-*/**/*.html',
+                            'target/optimized/node_modules/oae-*/**/*.js',
+                            'target/optimized/node_modules/oae-*/**/*.css',
+                            'target/optimized/node_modules/oae-*/**/*.json'
                         ]
                     }
                 ],
                 version: 'target/hashes.json'
+            },
+            culturemap: {
+                phases: [
+                    {
+                        files: [
+                            'target/optimized/shared/oae/api/oae.culture-map.js'
+                        ]
+                    }
+                ],
+                version: 'target/cmhash.json'
             }
         },
         inlineImg: {
@@ -136,15 +146,17 @@ module.exports = function(grunt) {
 
     // Task to fill out the nginx config template
     grunt.registerTask('configNginx', function() {
-        if (shell.test('-f', './nginx.json')) {
-            var nginxConf = require('./nginx.json');
+        var infile = './nginx.json';
+        if (shell.test('-f', infile)) {
+            var nginxConf = require(infile);
             var template = grunt.file.read('./nginx.conf');
             grunt.config.set('nginxConf', nginxConf);
             var conf = grunt.template.process(template);
             grunt.file.write('./target/optimized/nginx.conf', conf);
             grunt.log.writeln('nginx.conf rendered at ./target/optimized/nginx.conf'.green);
         } else {
-            grunt.log.writeln('No nginx.json found, not rendering nginx.conf template'.yellow);
+            var msg = 'No ' + infile + 'found, not rendering nginx.conf template';
+            grunt.log.writeln(msg.yellow);
         }
     });
 
@@ -152,31 +164,18 @@ module.exports = function(grunt) {
     grunt.registerTask('hashFiles', function() {
         this.requires('requirejs');
         this.requires('inlineImg');
-        grunt.task.run('ver');
+        grunt.task.run('ver:oae');
         grunt.task.run('updateBootstrapPaths');
     });
 
     // Task to update the paths in oae.bootstrap to the hashed versions
     grunt. registerTask('updateBootstrapPaths', function() {
-        this.requires('ver');
-        var hashedPaths = require('./target/hashes.json');
+        this.requires('ver:oae');
+        var hashedPaths = require('./' + grunt.config.get('ver.oae.version'));
         var bootstrapPath = hashedPaths['target/optimized/shared/oae/api/oae.bootstrap.js'];
         var bootstrap = grunt.file.read(bootstrapPath);
         var regex = /paths:\{[^}]*\}/;
         var paths = vm.runInThisContext('paths = {' + bootstrap.match(regex) + '}').paths;
-        Object.keys(paths).forEach(function(key) {
-            var prefix = 'target/optimized/shared/';
-            var path = prefix + paths[key] + '.js';
-            var hashedPath = '';
-            if (hashedPaths[path]) {
-                hashedPath = hashedPaths[path];
-                // trim off prefix and .js
-                paths[key] = hashedPath.substring(prefix.length, hashedPath.length - 3);
-            }
-        });
-        bootstrap = bootstrap.replace(regex, 'paths:' + JSON.stringify(paths));
-        grunt.file.write(bootstrapPath, bootstrap);
-        grunt.log.writeln('Boots strapped'.green);
 
         // Make a map for the hashed culture files
         var cultures = {};
@@ -190,9 +189,39 @@ module.exports = function(grunt) {
             cultures[newKey] = hash;
         });
 
-        var cultureMapPath = hashedPaths['target/optimized/shared/oae/api/oae.culture-map.js'];
-        grunt.file.write(cultureMapPath, 'define([], function() {return '+ JSON.stringify(cultures) +';});');
+        // Remove the hashed empty culture-map.js
+        var oldcmpath = hashedPaths['target/optimized/shared/oae/api/oae.culture-map.js'];
+        shell.rm(oldcmpath);
+        // Write out the culture-map
+        grunt.file.write('target/optimized/shared/oae/api/oae.culture-map.js', 'define([], function() {return '+ JSON.stringify(cultures) +';});');
+
+        // rehash the culture map file
+        var phases = grunt.config.get('ver.culturemap.phases');
+        var version = grunt.config.get('ver.culturemap.version');
+        var forceversion = grunt.config.get('ver.culturemap.forceversion');
+        grunt.helper('ver', phases, version, forceversion);
         grunt.log.writeln('Cultures mapped'.green);
+
+        var newcmpath = require('./' + grunt.config.get('ver.culturemap.version'));
+        // Update the hashedpaths with the newcmpath
+        Object.keys(newcmpath).forEach(function(key) {
+            hashedPaths[key] = newcmpath[key];
+        });
+
+        // Update the bootstrap file with the hashed paths
+        Object.keys(paths).forEach(function(key) {
+            var prefix = 'target/optimized/shared/';
+            var path = prefix + paths[key] + '.js';
+            var hashedPath = '';
+            if (hashedPaths[path]) {
+                hashedPath = hashedPaths[path];
+                // trim off prefix and .js
+                paths[key] = hashedPath.substring(prefix.length, hashedPath.length - 3);
+            }
+        });
+        bootstrap = bootstrap.replace(regex, 'paths:' + JSON.stringify(paths));
+        grunt.file.write(bootstrapPath, bootstrap);
+        grunt.log.writeln('Boots strapped'.green);
     });
 
     // Override the test task with the qunit task
