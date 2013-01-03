@@ -33,8 +33,8 @@ define(['exports', 'underscore', 'oae/api/oae.api.config', 'oae.culture-map', 'g
 
         var hash = '';
 
-        if (cultureMap[locale]) {
-            hash = '.' + cultureMap[locale];
+        if (cultureMap.cultures[locale]) {
+            hash = '.' + cultureMap.cultures[locale];
         }
 
         // Load the appropriate culture file

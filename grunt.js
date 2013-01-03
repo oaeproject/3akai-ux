@@ -82,11 +82,11 @@ module.exports = function(grunt) {
                             'target/optimized/ui/**/*.properties',
                             'target/optimized/admin/**/*.js',
                             'target/optimized/admin/**/*.css',
-                            'target/optimized/admin/**/*.properties',
-                            'target/optimized/node_modules/oae-*/**/*.js',
-                            'target/optimized/node_modules/oae-*/**/*.html',
-                            'target/optimized/node_modules/oae-*/**/*.css',
-                            'target/optimized/node_modules/oae-*/**/*.properties'
+                            'target/optimized/admin/**/*.properties'//,
+                            //'target/optimized/node_modules/oae-*/**/*.js',
+                            //'target/optimized/node_modules/oae-*/**/*.html',
+                            //'target/optimized/node_modules/oae-*/**/*.css',
+                            //'target/optimized/node_modules/oae-*/**/*.properties'
                         ],
                         // Look for references to the above files in these files
                         references: [
@@ -97,11 +97,11 @@ module.exports = function(grunt) {
                             'target/optimized/ui/**/*.css',
                             'target/optimized/admin/**/*.html',
                             'target/optimized/admin/**/*.js',
-                            'target/optimized/admin/**/*.css',
-                            'target/optimized/node_modules/oae-*/**/*.html',
-                            'target/optimized/node_modules/oae-*/**/*.js',
-                            'target/optimized/node_modules/oae-*/**/*.css',
-                            'target/optimized/node_modules/oae-*/**/*.json'
+                            'target/optimized/admin/**/*.css'//,
+                            //'target/optimized/node_modules/oae-*/**/*.html',
+                            //'target/optimized/node_modules/oae-*/**/*.js',
+                            //'target/optimized/node_modules/oae-*/**/*.css',
+                            //'target/optimized/node_modules/oae-*/**/*.json'
                         ]
                     }
                 ],
@@ -177,23 +177,32 @@ module.exports = function(grunt) {
         var regex = /paths:\{[^}]*\}/;
         var paths = vm.runInThisContext('paths = {' + bootstrap.match(regex) + '}').paths;
 
+        // Utility function to get a map of locales to their file hashes
+        var getMap = function(pathRegex, keyRegex, trim) {
+            var results = {};
+            var keys = Object.keys(hashedPaths).filter(function(hp) {
+                return hp.match(pathRegex);
+            });
+            keys.forEach(function(key) {
+                var path = hashedPaths[key];
+                var hash = path.substring(key.length - trim + 1, path.length - trim);
+                var newKey = key.match(keyRegex)[1];
+                results[newKey] = hash;
+            });
+            return results;
+        };
+
+        // Make a map for the hashed bundle files
+        var bundles = getMap(/ui\/bundles\//, /ui\/bundles\/(.*)\.properties/, 11);
+
         // Make a map for the hashed culture files
-        var cultures = {};
-        var cultureKeys = Object.keys(hashedPaths).filter(function(hp) {
-            return hp.match(/globalize\.culture\./);
-        });
-        cultureKeys.forEach(function(key) {
-            var path = hashedPaths[key];
-            var hash = path.substring(key.length - 2, path.length - 3);
-            var newKey = key.match(/globalize\.culture\.(.*)\.js/)[1];
-            cultures[newKey] = hash;
-        });
+        var cultures = getMap(/globalize\.culture\./, /globalize\.culture\.(.*)\.js/, 3);
 
         // Remove the hashed empty culture-map.js
         var oldcmpath = hashedPaths['target/optimized/shared/oae/api/oae.culture-map.js'];
         shell.rm(oldcmpath);
         // Write out the culture-map
-        grunt.file.write('target/optimized/shared/oae/api/oae.culture-map.js', 'define([], function() {return '+ JSON.stringify(cultures) +';});');
+        grunt.file.write('target/optimized/shared/oae/api/oae.culture-map.js', 'define([], function() {return {bundles:' + JSON.stringify(bundles) + ',cultures:' + JSON.stringify(cultures) +'};});');
 
         // rehash the culture map file
         var phases = grunt.config.get('ver.culturemap.phases');

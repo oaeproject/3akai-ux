@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'oae/api/oae.api.config', 'oae/api/oae.api.util', 'jquery.properties-parser'], function(exports, $, configAPI, utilAPI) {
+define(['exports', 'jquery', 'oae/api/oae.api.config', 'oae/api/oae.api.util', 'oae.culture-map', 'jquery.properties-parser'], function(exports, $, configAPI, utilAPI, cultureMap) {
 
     // Variable that will keep track of the current user's locale
     var locale = null;
@@ -70,7 +70,13 @@ define(['exports', 'jquery', 'oae/api/oae.api.config', 'oae/api/oae.api.util', '
      * @api private
      */
     var loadCoreBundles = function(callback) {
-        var bundlesToLoad = ['/ui/bundles/default.properties', '/ui/bundles/' + locale + '.properties'];
+        var hash = '';
+
+        if (cultureMap.bundles[locale]) {
+            hash = '.' + cultureMap.bundles[locale];
+        }
+
+        var bundlesToLoad = ['/ui/bundles/default.properties', '/ui/bundles/' + locale + hash + '.properties'];
         utilAPI.staticBatch(bundlesToLoad, function(err, data) {
             if (err) {
                 return callback(err);
