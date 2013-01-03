@@ -82,12 +82,7 @@ module.exports = function(grunt) {
                             'target/optimized/ui/**/*.properties',
                             'target/optimized/admin/**/*.js',
                             'target/optimized/admin/**/*.css',
-                            'target/optimized/admin/**/*.properties'//,
-                            //'target/optimized/node_modules/oae-*/**/*.js',
-                            //'target/optimized/node_modules/oae-*/**/*.html',
-                            //'target/optimized/node_modules/oae-*/**/*.css',
-                            //'target/optimized/node_modules/oae-*/**/*.properties'
-                        ],
+                            'target/optimized/admin/**/*.properties'                        ],
                         // Look for references to the above files in these files
                         references: [
                             'target/optimized/shared/**/*.js',
@@ -97,12 +92,7 @@ module.exports = function(grunt) {
                             'target/optimized/ui/**/*.css',
                             'target/optimized/admin/**/*.html',
                             'target/optimized/admin/**/*.js',
-                            'target/optimized/admin/**/*.css'//,
-                            //'target/optimized/node_modules/oae-*/**/*.html',
-                            //'target/optimized/node_modules/oae-*/**/*.js',
-                            //'target/optimized/node_modules/oae-*/**/*.css',
-                            //'target/optimized/node_modules/oae-*/**/*.json'
-                        ]
+                            'target/optimized/admin/**/*.css'                        ]
                     }
                 ],
                 version: 'target/hashes.json'
@@ -164,6 +154,29 @@ module.exports = function(grunt) {
     grunt.registerTask('hashFiles', function() {
         this.requires('requirejs');
         this.requires('inlineImg');
+
+        // Add the modules as phases to ver:oae
+        var oaeModules = grunt.file.expandDirs('target/optimized/node_modules/oae-*/*');
+        oaeModules.forEach(function(module) {
+            grunt.log.writeln(module);
+            var conf = {
+                files : [
+                    module + '**/*.js',
+                    module + '**/*.html',
+                    module + '**/*.css',
+                    module + '**/*.properties'
+                ],
+                references: [
+                    module + '**/*.html',
+                    module + '**/*.js',
+                    module + '**/*.css',
+                    module + '**/*.json'
+                ]
+            };
+            grunt.config.set('ver.' + module + '.phases', [conf]);
+            grunt.task.run('ver:' + module);
+        });
+
         grunt.task.run('ver:oae');
         grunt.task.run('updateBootstrapPaths');
     });
