@@ -4,6 +4,9 @@
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <noscript>
+            <meta http-equiv="Refresh" content="1; URL=/noscript">
+        </noscript>
 
         <!-- CORE CSS -->
         <link rel="stylesheet" type="text/css" href="/ui/css/oae.main.css" />
@@ -24,10 +27,10 @@
                     <div id="oae_entity_template"><!--
                         <div class="oae-entity-picture">
                             <span class="oae-entity-picture-image">
-                                <img src="/ui/img/entities/user_icon_medium.png"/>
+                                <img class="oae-icon-50" src="${user.mediumPicture || '/ui/img/entities/user_icon_medium.png'}"/>
                             </span>
                         </div>
-                        <div class="oae-bold oae-entity-title">${profile.displayName|safeUserInput}</div>
+                        <div class="oae-bold oae-entity-title">${user.profile.displayName|safeUserInput}</div>
                         <div class="oae-push"></div>
                     --></div>
                 </div>
@@ -47,8 +50,6 @@
                 </div>
             </div>
         </div>
-
-        <div data-widget="sharecontent"><!-- --></div>
 
         <!-- FOOTER -->
         <div data-widget="footer"><!-- --></div>

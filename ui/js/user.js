@@ -56,7 +56,8 @@ require(['jquery', 'oae.core'], function($, oae) {
      * Render the user's profile picture and name
      */
     var renderEntity = function() {
-        oae.api.util.renderTemplate($('#oae_entity_template'), userProfile, $('#oae_entity_container'));
+        // TODO: Unwrap the data from the user variable when the profile pictures are no longer top-level props
+        oae.api.util.renderTemplate($('#oae_entity_template'), {'user': userProfile}, $('#oae_entity_container'));
     };
 
     /**

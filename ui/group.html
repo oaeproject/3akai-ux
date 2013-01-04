@@ -4,6 +4,9 @@
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <noscript>
+            <meta http-equiv="Refresh" content="1; URL=/noscript">
+        </noscript>
 
         <!-- CORE CSS -->
         <link rel="stylesheet" type="text/css" href="/ui/css/oae.main.css" />
@@ -22,17 +25,17 @@
                 <div class="oae-page-header">
                     <div id="oae_entity_container" class="oae-entity-container"><!-- --></div>
                     <div id="oae_entity_template"><!--
-                        {if isManager}
+                        {if group.isManager}
                             <div class="oae-force-right oae-entity-actions">
-                                <button type="button" id="entity_group_permissions" class="oae-button oae-header-button">
-                                    Manage members<div class="oae-action-icon oae-share-icon"></div>
+                                <button type="button" class="oae-button oae-header-button group_permissions_trigger">
+                                    __MSG__MANAGE_MEMBERS__<div class="oae-action-icon oae-share-icon"></div>
                                 </button>
                             </div>
                             <button class="oae-entity-picture">
                                 <span class="oae-entity-picture-image">
-                                    <img src="/ui/img/entities/group_icon_medium.png"/>
+                                    <img class="oae-icon-50" src="${group.mediumPicture || '/ui/img/entities/group_icon_medium.png'}"/>
                                 </span>
-                                <span class="oae-aural-text">__MSG__PROFILE_PICTURE_OPTIONS_FOR__ ${name|safeUserInput}</span> 
+                                <span class="oae-aural-text">__MSG__PROFILE_PICTURE_OPTIONS_FOR__ ${group.name|safeUserInput}</span> 
                                 <span class="oae-dropdown-menu-arrow"></span>
                                 <span class="oae-aural-text">__MSG__PROFILE_PICTURE_OPTIONS__</span>
                             </button>
@@ -45,11 +48,11 @@
                         {else}
                             <div class="oae-entity-picture">
                                 <span class="oae-entity-picture-image">
-                                    <img src="/ui/img/entities/group_icon_medium.png"/>
+                                    <img class="oae-icon-50" src="${group.mediumPicture || '/ui/img/entities/group_icon_medium.png'}"/>
                                 </span>
                             </div>
                         {/if}
-                        <div class="oae-bold oae-entity-title">${name|safeUserInput}</div>
+                        <div class="oae-bold oae-entity-title">${group.name|safeUserInput}</div>
                         <div class="oae-push"></div>
                     --></div>
                 </div>

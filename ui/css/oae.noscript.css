@@ -13,29 +13,7 @@
  * permissions and limitations under the License.
  */
 
-.sharecontent_widget {
-    padding: 7px;
-    position: absolute;
-    width: 240px;
-    z-index: 1000;
-}
-
-.sharecontent_widget h3 {
-    font-size: 13px;
-}
-
-.sharecontent_widget label {
-    display: inline-block;
-    font-size: 11px;
-    margin-bottom: 5px;
-    margin-top: 5px;
-}
-
-.sharecontent_widget #sharecontent_share {
-    margin: 12px 0;
-}
-
-#toolbox a {
-    float: left;
-    margin-right: 5px;
+#noscript {
+    margin: 12px;
+    padding: 10px 40px;
 }

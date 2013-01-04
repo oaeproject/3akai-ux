@@ -145,9 +145,11 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery.valid
 
         // Add all of the OAE API functions onto the data object
         data = data || {};
-        data.oae = require('oae.core');
+        data['oae'] = require('oae.core');
+        // Make underscore available
+        data['_'] = require('underscore');
         // Add the Trimpath modifiers onto the data object.
-        data._MODIFIERS = trimpathModifiers;
+        data['_MODIFIERS'] = trimpathModifiers;
         
         // Make sure that the provided template is a jQuery object
         $template = $($template);
