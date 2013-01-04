@@ -249,5 +249,6 @@ module.exports = function(grunt) {
     // Override the test task with the qunit task
     grunt.registerTask('test', 'qunit');
     // Default task.
-    grunt.registerTask('default', 'clean describe requirejs inlineImg hashFiles writeVersion configNginx');
+    //grunt.registerTask('default', 'clean describe requirejs inlineImg hashFiles writeVersion configNginx');
+    grunt.registerTask('default', 'clean describe requirejs inlineImg writeVersion configNginx');
 };
