@@ -431,6 +431,48 @@ require(['jquery', 'underscore', 'oae/api/oae.core', '/admin/js/admin.util.js', 
         });
     };
 
+    var loginOnTenant = function() {
+        var tenantAlias = $(this).attr('data-alias');
+        getToken(tenantAlias, function(err, token) {
+            if (err) {
+                adminUtil.showError({
+                    'title': 'Token error.',
+                    'message': 'Could not retrieve a token to log onto the tenant.'
+                });
+            } else {
+                // Fill in our hidden form and submit it.
+                // The action should have the url of the tenant in there.
+                var $form = $('#admin_tenant_login_form');
+                $form.attr('action', 'http://' + token.host + '/api/auth/signed');
+                $('#admin_tenant_login_form_expires', $form).val(token.expires);
+                $('#admin_tenant_login_form_signature', $form).val(token.signature);
+                $('#admin_tenant_login_form_userid', $form).val(token.userId);
+                $form.submit();
+            }
+        });
+    };
+
+    /**
+     * Retrieves a signed token that can be used to log onto a tenant.
+     *
+     * @param  {String}     tenant      The tenant alias to log onto.
+     * @param  {Function}   callback    Function to be executed after the context has been determined
+     */
+    var getToken = function(tenantAlias, callback) {
+        $.ajax({
+            'url': '/api/auth/signed',
+            'data': {
+                'tenant': tenantAlias
+            },
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
+
     ///////////////////////
     //// DATA FETCHING ////
     ///////////////////////
@@ -541,6 +583,8 @@ require(['jquery', 'underscore', 'oae/api/oae.core', '/admin/js/admin.util.js', 
         $(document).on('click', '.start_all_tenants', startAllTenantsHandler);
         // Delete tenant
         $(document).on('click', '.delete_tenant', deleteTenantHandler);
+        // Log onto a tenant.
+        $(document).on('click', '.login_tenant', loginOnTenant);
         // Change config value
         $(document).on('submit', '.module_configuration_form', writeConfig);
         // Left hand navigation switching
