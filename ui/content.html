@@ -33,7 +33,7 @@
                                     __MSG__SHARE__<div class="oae-action-icon oae-share-icon"></div>
                                 </button>
                             {else}
-                                <button type="button" class="oae-button oae-header-button oae-header-smaller-button oae-trigger-sharecontent oae-force-right" data-contentid="${contentId|safeUserInput}" data-contentname="${name|safeUserInput}">
+                                <button type="button" class="oae-button oae-header-button oae-header-smaller-button oae-trigger-sharecontent oae-force-right" data-contentid="${contentId|safeUserInput}" data-contentname="${displayName|safeUserInput}">
                                     __MSG__SHARE__<div class="oae-action-icon oae-share-icon"></div>
                                 </button>
                             {/if}
@@ -47,7 +47,7 @@
                             <img class="oae-icon-50" src="/ui/img/mimetypes/unknown.png" />
                         </div>
                         <div class="oae-bold oae-entity-title content-entity-title">
-                            ${name|safeUserInput}
+                            ${displayName|safeUserInput}
                             <span class="oae-entity-title-secondary">__MSG__OTHER_DOCUMENT__</span>
                         </div>
                         <div class="oae-push"></div>
