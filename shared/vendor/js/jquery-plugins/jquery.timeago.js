@@ -136,8 +136,5 @@ require(['jquery'], function (jQuery) {
     return (new Date().getTime() - date.getTime());
   }
 
-  // fix for IE6 suckage
-  //document.createElement("abbr");
-  //document.createElement("time");
 })(jQuery);
 });
