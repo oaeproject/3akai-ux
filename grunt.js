@@ -60,7 +60,8 @@ module.exports = function(grunt) {
                     modules: [{
                         name: 'oae.api',
                         exclude: [
-                            'oae.culture-map'
+                            'oae.culture-map',
+                            'jquery'
                         ]
                     }],
                     fileExclusionRegExp: /^(\.|tools|target|tests|grunt|shelljs)/,
