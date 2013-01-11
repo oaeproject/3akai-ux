@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <noscript>
+            <meta http-equiv="Refresh" content="1; URL=/noscript">
+        </noscript>
+
+        <!-- CORE CSS -->
+        <link rel="stylesheet" type="text/css" href="/ui/css/oae.main.css" />
+
+    </head>
+    <body class="oae-centered oae-force-hidden oae-hidden">
+
+        <!-- HEADER -->
+        <div class="oae-container-flex header oae-header">
+            <div class="oae-navigation-container">
+                <div data-widget="topnavigation"><!-- --></div>
+            </div>
+            <div class="oae-fix oae-centered fixed-container oae-fixed-container">
+                <div class="oae-container-shadow-left"><!-- --></div>
+                <div class="oae-container-shadow-right"><!-- --></div>
+                <div class="oae-page-header">
+                    <div id="oae_entity_container" class="oae-entity-container"><!-- --></div>
+                    <div id="oae_entity_template"><!--
+                        {if group.isManager}
+                            <div class="oae-force-right oae-entity-actions">
+                                <button type="button" class="oae-button oae-header-button group_permissions_trigger">
+                                    __MSG__MANAGE_MEMBERS__<div class="oae-action-icon oae-share-icon"></div>
+                                </button>
+                            </div>
+                            <button class="oae-entity-picture">
+                                <span class="oae-entity-picture-image">
+                                    <img class="oae-icon-50" src="${group.mediumPicture || '/ui/img/entities/group_icon_medium.png'}"/>
+                                </span>
+                                <span class="oae-aural-text">__MSG__PROFILE_PICTURE_OPTIONS_FOR__ ${group.name|safeUserInput}</span> 
+                                <span class="oae-dropdown-menu-arrow"></span>
+                                <span class="oae-aural-text">__MSG__PROFILE_PICTURE_OPTIONS__</span>
+                            </button>
+                            <div class="oae-dropdown-list oae-hidden">
+                                <div class="oae-dropdown-list-arrow-up"></div>
+                                <ul>
+                                    <li><button id="changepic_container_trigger" class="oae-link-button oae-bold">__MSG__CHANGE_PICTURE__</button></li>
+                                </ul>
+                            </div>
+                        {else}
+                            <div class="oae-entity-picture">
+                                <span class="oae-entity-picture-image">
+                                    <img class="oae-icon-50" src="${group.mediumPicture || '/ui/img/entities/group_icon_medium.png'}"/>
+                                </span>
+                            </div>
+                        {/if}
+                        <div class="oae-bold oae-entity-title">${group.name|safeUserInput}</div>
+                        <div class="oae-push"></div>
+                    --></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BODY -->
+        <div class="oae-container-flex">
+            <div class="oae-fix oae-centered fixed-container oae-main-container oae-twocolumn">
+                <div class="oae-page-column-left">
+                    <div data-widget="lhnavigation"><!-- --></div>
+                </div>
+                <div class="oae-page-column-right">
+                    <div id="oae-page-main-content" class="oae-page-content-lowpadding" role="main">
+                        <div data-widget="contentauthoring"><!-- --></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div data-widget='footer'><!-- --></div>
+
+        <!-- DEPENDENCIES -->
+        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/require.js"></script>
+        <!-- PAGE JS -->
+        <script>require(['/ui/js/group.js']);</script>
+
+    </body>
+</html>
