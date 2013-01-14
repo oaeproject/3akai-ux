@@ -17,90 +17,94 @@
     <body>
         <div id="oae-page-container">
             <!-- Logged out -->
-            <div id="oae-topnavigation-container">
-                <div id="oae-topnavigation-left">
-                    <a href="#" title="Sign up for free">Sign up</a>
+            <div id="oae-topnav-container">
+                <div id="oae-topnav-left">
+                    <a href="#" title="Sign up for free" id="topnav-links">Sign up</a>
                 </div>
-                <div id="oae-topnavigation-right">
-                    <a href="#" title="Sign in" class="oae-force-right">Sign in</a>
-                    <form id="topnavigation_search_form" class="oae-force-right">
-                        <input type="text" id="topnavigation_search_input" class="oae-force-right"/>
+                <div id="oae-topnav-right">
+                    <a href="#" title="Sign in" class="force-right" id="topnav-links">Sign in</a>
+                    <form id="topnav_search_form" class="force-right">
+                        <input type="text" id="topnav_search_input" class="force-right"/>
                     </form>
                 </div>
-                <div id="oae-topnavigation-center"></div>
+                <div id="oae-topnav-center"></div>
             </div>
             <!-- Logged in -->
-            <div id="oae-topnavigation-container">
-                <div id="oae-topnavigation-left">
+            <div id="oae-topnav-container">
+                <div id="oae-topnav-left">
                     <ul>
                         <li>
-                            <a href="#" title="Dashboard" id="topnavigation_home">
+                            <a href="#" title="Dashboard" id="topnav_home">
                                 <div class="oae-home-icon"></div>
                             </a>
                         </li>
                         <li>
-                            <a href="#" title="Messages" id="topnavigation_inbox">
+                            <a href="#" title="Messages" id="topnav_inbox">
                                 <div class="oae-inbox-icon"></div>
                             </a>
                         </li>
-                        <li style="display:none">
-                            <a href="#" title="Tasks" id="topnavigation_task">
+                        <li style="display: none">
+                            <a href="#" title="Tasks" id="topnav_task">
                                 <div class="oae-task-icon"></div>
                             </a>
                         </li>
-                        <li style="display:none">
-                            <a href="#" title="Collections" id="topnavigation_library">
+                        <li style="display: none">
+                            <a href="#" title="Collections" id="topnav_library">
                                 <div class="oae-library-icon"></div>
                             </a>
                         </li>
                     </ul>
                 </div>
-                <div id="oae-topnavigation-right">
-                    <a href="#" title="Account settings" id="topnavigation_settings" class="oae-force-right">
+                <div id="oae-topnav-right">
+                    <a href="#" title="Account settings" class="force-right">
                         <div class="oae-cogwheel-icon"></div>
                     </a>
-                    <form id="topnavigation_search_form" class="oae-force-right">
-                        <input type="text" id="topnavigation_search_input" class="oae-force-right"/>
+                    <form id="topnav_search_form" class="force-right">
+                        <input type="text" id="topnav_search_input" class="force-right"/>
                     </form>
                 </div>
-                <div id="oae-topnavigation-center"></div>
+                <div id="oae-topnav-center"></div>
             </div>
-            <!-- With message -->
-            <div id="oae-topnavigation-container">
-                <div id="oae-topnavigation-left">
+            <!-- With message start -->
+            <div id="oae-topnav-container">
+                <div id="oae-topnav-left">
                     <ul>
                         <li>
-                            <a href="#" title="Dashboard" id="topnavigation_home">
+                            <a href="#" title="Dashboard" id="topnav_home">
                                 <div class="oae-home-icon"></div>
                             </a>
                         </li>
                         <li>
-                            <a href="#" title="Messages" id="topnavigation_inbox">
-                                <div class="oae-inbox-icon"><span class="notification">10</span></div>
+                            <a href="#" title="Messages" id="topnav_inbox">
+                                <div class="oae-inbox-icon"><span class="notification">100</span></div>
                             </a>
-                        </li>
+                        </li>   
                         <li style="display:none">
-                            <a href="#" title="Tasks" id="topnavigation_task">
+                            <a href="#" title="Tasks" id="topnav_task">
                                 <div class="oae-task-icon"></div>
                             </a>
                         </li>
                         <li style="display:none">
-                            <a href="#" title="Collections" id="topnavigation_library">
+                            <a href="#" title="Collections" id="topnav_library">
                                 <div class="oae-library-icon"></div>
                             </a>
                         </li>
                     </ul>
                 </div>
-                <div id="oae-topnavigation-right">
-                    <a href="#" title="Account settings" id="topnavigation_settings" class="oae-force-right">
+                <div id="oae-topnav-right">
+                    <a href="#" title="Account settings" class="force-right">
                         <div class="oae-cogwheel-icon"></div>
                     </a>
-                    <form id="topnavigation_search_form" class="oae-force-right">
-                        <input type="text" id="topnavigation_search_input" class="oae-force-right"/>
+                    <form id="topnav_search_form" class="force-right">
+                        <input type="text" id="topnav_search_input" class="force-right"/>
                     </form>
                 </div>
-                <div id="oae-topnavigation-center"></div>
+                <div id="oae-topnav-center"></div>
             </div>
-        </div> 
+            <div id="oae-content-container">
+                <div class="oae-content-column" id="oae-center-column"></div>
+                <div class="oae-content-column" id="oae-right-column"></div>
+            </div>
+        </div>
     </body>
 </html>

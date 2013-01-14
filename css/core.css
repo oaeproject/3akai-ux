@@ -395,11 +395,11 @@ a:active {
 
 /* FORCE ALIGNMENT */
 
-.oae-force-right {
+.force-right {
     float: right;
 }
 
-.oae-force-left {
+.force-left {
     float: left;
 }
 
@@ -411,14 +411,6 @@ a:active {
     margin: 0 auto;
     min-width: 1000px;
     width: 96%;
-    margin: 0 2%;
-}
-
-#oae-topnavigation-container {
-    clear: both;
-    margin-bottom: 20px;
-    height: 50px;
-    width: 100%;
 }
 
 #oae-content-container {
@@ -430,7 +422,6 @@ a:active {
     border-bottom: none;
     overflow: hidden;
     padding: 12px 0 0 12px;
-    margin: 0 2% 0 2%;
     min-width: 1000px;
      box-shadow:  0 2px 4px #dbdbdb;
     -moz-box-shadow:  0 2px 4px #dbdbdb;
