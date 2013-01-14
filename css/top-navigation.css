@@ -1,0 +1,161 @@
+/******************
+ * TOP NAVIGATION *
+ ******************/
+
+ /** TOP NAV ICONS **/
+
+.oae-home-icon,
+.oae-inbox-icon,
+.oae-library-icon,
+.oae-cogwheel-icon,
+.oae-magnifier-icon,
+.oae-task-icon {
+    height: 25px;
+    width: 25px;
+    margin-right:12px;
+}
+
+.oae-home-icon, .oae-home-icon:visited {
+    background: url("../images/main-header-icon-home.png") no-repeat center center transparent;
+}
+
+.oae-home-icon:hover {
+    background: url("../images/main-header-icon-home-hover.png") no-repeat center center transparent;
+}
+
+.oae-home-icon:active {
+    background: url("../images/main-header-icon-home-click.png") no-repeat center center transparent;
+}
+
+.oae-inbox-icon, .oae-inbox-icon:visited {
+    background: url("../images/main-header-icon-messages.png") no-repeat center center transparent;
+}
+
+.oae-inbox-icon:hover {
+    background: url("../images/main-header-icon-messages-hover.png") no-repeat center center transparent;
+}
+
+.oae-inbox-icon:active {
+    background: url("../images/main-header-icon-messages-click.png") no-repeat center center transparent;
+}
+
+.oae-library-icon, .oae-home-library:visited {
+    background: url("../images/main-header-icon-collections.png") no-repeat center center transparent;
+}
+
+.oae-library-icon:hover {
+    background: url("../images/main-header-icon-collections-hover.png") no-repeat center center transparent;
+}
+
+.oae-library-icon:active {
+    background: url("../images/main-header-icon-collections-click.png") no-repeat center center transparent;
+}
+
+.oae-cogwheel-icon, .oae-home-cogwheel:visited {
+    background: url("../images/main-header-icon-settings.png") no-repeat center center transparent;
+}
+
+.oae-cogwheel-icon:hover {
+    background: url("../images/main-header-icon-settings-hover.png") no-repeat center center transparent;
+}
+
+.oae-cogwheel-icon:active {
+    background: url("../images/main-header-icon-settings-click.png") no-repeat center center transparent;
+}
+
+.oae-magnifier-icon, .oae-home-magnifier:visited {
+    background: url("../images/icon_search.png") no-repeat center center transparent;
+}
+
+.oae-task-icon, .oae-home-task:visited {
+    background: url("../images/main-header-icon-tasks.png") no-repeat center center transparent;
+}
+
+.oae-task-icon:hover {
+    background: url("../images/main-header-icon-tasks-hover.png") no-repeat center center transparent;
+}
+
+.oae-task-icon:active {
+    background: url("../images/main-header-icon-tasks-click.png") no-repeat center center transparent;
+}
+
+/** TOP NAV STRUCTURE **/
+
+#oae-topnavigation-container #oae-topnavigation-right {
+    float: right;
+    height: 50px;
+}
+
+#oae-topnavigation-container #oae-topnavigation-center {
+    background: url("../images/oae-logo.png") no-repeat scroll center center transparent;
+    height: 50px;
+    margin: 0 auto;
+    width: 236px;
+}
+
+#oae-topnavigation-container #oae-topnavigation-left {
+    float: left;
+    height: 50px;
+}
+
+/** TOP NAV ELEMENTS **/
+
+#oae-topnavigation-container ul {
+    margin: 0;
+    padding: 0;
+}
+
+#oae-topnavigation-container ul li {
+    display: inline-block;
+    float: left;
+    list-style: none;
+    margin: 12px 12px 0;
+}
+
+/** TOP NAV EXPLORE **/
+
+#oae-topnavigation-container #oae-topnavigation-right #topnavigation-explore-link {
+    color: #666666;
+    margin: 18px 34px 0 0 !important;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #ffffff;
+}
+
+#oae-topnavigation-container #oae-topnavigation-right #topnavigation-explore-link:hover {
+    color: #222222;
+}
+
+#oae-topnavigation-container #oae-topnavigation-right #topnavigation-explore-link:active {
+    color: #ffffff;
+    text-shadow: 0px 1px 0px #999999;
+}
+
+/** TOP NAV SEARCH **/
+
+#oae-topnavigation-container #oae-topnavigation-right #topnavigation_search_input {
+    width: 190px;
+    background-color: #ffffff;
+    background-image: url("../images/icon-search.png");
+    background-position: 200px 4px;
+    background-repeat: no-repeat;
+    padding-right: 25px;
+}
+
+#oae-topnavigation-container #oae-topnavigation-right #topnavigation_search_form {
+    margin-right: 24px;
+}
+
+/** TOP NAV SETTINGS **/
+
+#oae-topnavigation-container #oae-topnavigation-right > * {
+    margin-top: 14px;
+    z-index: 1000;
+}
+
+#oae-topnavigation-container #oae-topnavigation-right a #topnavigation_settings {
+    margin-top: 14px;   
+}
+
+

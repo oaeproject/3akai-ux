@@ -1,0 +1,958 @@
+/******************
+ * CORE FRAMEWORK *
+ ******************/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    border: 0;
+    vertical-align: baseline;
+}
+
+html {
+    height: 100%;
+    min-height: 100%;
+}
+
+body {
+    background: url("../images/oae-bg-pattern.png") repeat-x 0 0 #eceae5;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+nav,
+section {
+    display: block;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+table { /* tables still need 'cellspacing="0"' in the markup */
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+caption, th, td {
+    font-weight: normal;
+    text-align: left;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: "";
+}
+
+blockquote, q {
+    quotes: "" "";
+}
+
+a:focus {
+    outline: none;
+}
+
+a:hover,
+a:active { /* Improves readability when focused and also mouse hovered in all browsers people.opera.com/patrickl/experiments/keyboard/test */
+    outline: 0;
+}
+
+a img {
+    border: 0;
+}
+
+ /** GLOBAL **/
+
+body,
+button,
+input,
+select,
+textarea {
+    color: #333333;
+    font-family:'Open Sans', sans-serif; arial, helvetica, sans-serif;
+    font-size: 16px;
+    font-size: 1.6rem;
+    line-height: 1.5;
+}
+
+/* HEADINGS */
+
+h1,h2,h3,h4,h5,h6 {
+    
+}
+
+hr {
+    background-color: #cccccc;
+    border: 0;
+    height: 1px;
+    margin-bottom: 1.5em;
+}
+
+/* TEXT ELEMENTS */
+
+p {
+    margin-bottom: 1.5em;
+}
+
+ul, ol {
+    margin: 0 0 1.5em 3em;
+}
+
+ul {
+    list-style: disc;
+}
+
+ol {
+    list-style: decimal;
+}
+
+ul ul, ol ol, ul ol, ol ul {
+    margin-bottom: 0;
+    margin-left: 1.5em;
+}
+
+dt {
+    font-weight: bold;
+}
+
+dd {
+    margin: 0 1.5em 1.5em;
+}
+
+b, strong {
+    font-weight: bold;
+}
+
+dfn, cite, em, i {
+    font-style: italic;
+}
+
+blockquote {
+    margin: 0 1.5em;
+}
+
+address {
+    margin: 0 0 1.5em;
+}
+
+pre {
+    background: #eee;
+    font-family: "Courier 10 Pitch", Courier, monospace;
+    font-size: 15px;
+    font-size: 1.5rem;
+    line-height: 1.6;
+    margin-bottom: 1.6em;
+    padding: 1.6em;
+    overflow: auto;
+    max-width: 100%;
+}
+
+code, kbd, tt, var {
+    font: 15px Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
+}
+
+abbr, acronym {
+    border-bottom: 1px dotted #666666;
+    cursor: help;
+}
+
+mark, ins {
+    background: #fff9c0;
+    text-decoration: none;
+}
+
+sup,
+sub {
+    font-size: 75%;
+    height: 0;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sup {
+    bottom: 1ex;
+}
+
+sub {
+    top: .5ex;
+}
+
+small {
+    font-size: 75%;
+}
+
+big {
+    font-size: 125%;
+}
+
+figure {
+    margin: 0;
+}
+
+table {
+    margin: 0 0 1.5em;
+    width: 100%;
+}
+
+th {
+    font-weight: bold;
+}
+
+button,
+input,
+select,
+textarea {
+    font-size: 100%; /* Corrects font size not being inherited in all browsers */
+    margin: 0; /* Addresses margins set differently in IE6/7, F3/4, S5, Chrome */
+    vertical-align: baseline; /* Improves appearance and consistency in all browsers */
+    *vertical-align: middle; /* Improves appearance and consistency in all browsers */
+}
+
+button,
+input {
+    line-height: normal; /* Addresses FF3/4 setting line-height using !important in the UA stylesheet */
+    *overflow: visible;  /* Corrects inner spacing displayed oddly in IE6/7 */
+}
+
+button,
+html input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+    border: 1px solid #cccccc;
+    border-color: #cccccc #cccccc #bbbbbb #cccccc;
+    border-radius: 3px;
+    background: #e6e6e6;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), inset 0 15px 17px rgba(255,255,255,0.5), inset 0 -5px 12px rgba(0,0,0,0.05);
+    -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), inset 0 15px 17px rgba(255,255,255,0.5), inset 0 -5px 12px rgba(0,0,0,0.05);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), inset 0 15px 17px rgba(255,255,255,0.5), inset 0 -5px 12px rgba(0,0,0,0.05);
+    color: rgba(0,0,0,.8);
+    cursor: pointer; /* Improves usability and consistency of cursor style between image-type 'input' and others */
+    -webkit-appearance: button; /* Corrects inability to style clickable 'input' types in iOS */
+    font-size: 12px;
+    font-size: 1.4rem;
+    line-height: 1;
+    padding: 1.12em 1.5em 1em;
+    text-shadow: 0 1px 0 rgba(255,255,255,.8);
+}
+
+button:hover,
+html input[type="button"]:hover,
+input[type="reset"]:hover,
+input[type="submit"]:hover {
+    border-color: #cccccc #bbbbbb #aaaaaa #bbbbbb;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), inset 0 15px 17px rgba(255,255,255,0.8), inset 0 -5px 12px rgba(0,0,0,0.02);
+    -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), inset 0 15px 17px rgba(255,255,255,0.8), inset 0 -5px 12px rgba(0,0,0,0.02);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), inset 0 15px 17px rgba(255,255,255,0.8), inset 0 -5px 12px rgba(0,0,0,0.02);
+}
+
+button:focus,
+html input[type="button"]:focus,
+input[type="reset"]:focus,
+input[type="submit"]:focus,
+button:active,
+html input[type="button"]:active,
+input[type="reset"]:active,
+input[type="submit"]:active {
+    border-color: #cccccc #bbbbbb #aaaaaa #bbbbbb;
+    -webkit-box-shadow: inset 0 -1px 0 rgba(255,255,255,0.5), inset 0 2px 5px rgba(0,0,0,0.15);
+    -moz-box-shadow: inset 0 -1px 0 rgba(255,255,255,0.5), inset 0 2px 5px rgba(0,0,0,0.15);
+    box-shadow: inset 0 -1px 0 rgba(255,255,255,0.5), inset 0 2px 5px rgba(0,0,0,0.15);
+}
+
+input[type="checkbox"]:checked + label,
+input[type="radio"] {
+    color: #444444;
+    font-weight: bold;
+    box-sizing: border-box; /* Addresses box sizing set to content-box in IE8/9 */
+    padding: 0; /* Addresses excess padding in IE8/9 */
+}
+
+input[type="search"] {
+    -webkit-appearance: textfield; /* Addresses appearance set to searchfield in S5, Chrome */
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box; /* Addresses box sizing set to border-box in S5, Chrome (include -moz to future-proof) */
+    box-sizing: content-box;
+}
+
+input[type="search"]::-webkit-search-decoration { /* Corrects inner padding displayed oddly in S5, Chrome on OSX */
+    -webkit-appearance: none;
+}
+
+button::-moz-focus-inner,
+input::-moz-focus-inner { /* Corrects inner padding and border displayed oddly in FF3/4 www.sitepen.com/blog/2008/05/14/the-devils-in-the-details-fixing-dojos-toolbar-buttons/ */
+    border: 0;
+    padding: 0;
+}
+
+input[type=text],
+input[type=email],
+textarea {
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    padding: 0 5px;
+    font-size: 13px;
+    width: 95%;
+}
+
+::-webkit-input-placeholder  {
+    color: #999999;
+    font-style: italic;
+    font-size: 12px;
+}
+
+input:-moz-placeholder {
+    color: #999999;
+    font-style: italic;
+    font-size: 12px;
+}
+
+input[type=text]:focus,
+input[type=email]:focus,
+textarea:focus {
+    color: #111111;
+}
+
+input[type=text],
+input[type=email] {
+    padding: 3px;
+}
+
+textarea {
+    overflow: auto; /* Removes default vertical scrollbar in IE6/7/8/9 */
+    padding-left: 3px;
+    vertical-align: top; /* Improves readability and alignment in all browsers */
+    width: 98%;
+}
+
+label {
+    color: #777777;
+}
+
+/* LINKS */
+
+a {
+    color: #0074a7;
+}
+
+a:visited {
+    color: purple;
+}
+
+a:hover,
+a:focus,
+a:active {
+    color: #0074a7;
+}
+a:active {
+    text-decoration: underline;
+}
+
+/* ALIGNMENT */
+
+.alignleft {
+    display: inline;
+    float: left;
+    margin-right: 1.5em;
+}
+
+.alignright {
+    display: inline;
+    float: right;
+    margin-left: 1.5em;
+}
+
+.aligncenter {
+    clear: both;
+    display: block;
+    margin: 0 auto;
+}
+
+/* TEXT MEANT ONLY FOR SCREEN READERS */
+
+.assistive-text {
+    clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+    clip: rect(1px, 1px, 1px, 1px);
+    position: absolute !important;
+}
+
+/* FORCE ALIGNMENT */
+
+.oae-force-right {
+    float: right;
+}
+
+.oae-force-left {
+    float: left;
+}
+
+/*********************
+* STRUCTURAL LAYOUT *
+*********************/
+
+#oae-page-container {
+    margin: 0 auto;
+    min-width: 1000px;
+    width: 96%;
+    margin: 0 2%;
+}
+
+#oae-topnavigation-container {
+    clear: both;
+    margin-bottom: 20px;
+    height: 50px;
+    width: 100%;
+}
+
+#oae-content-container {
+    border-radius: 2px 2px 0 0;
+    -moz-border-radius: 2px 2px 0 0;
+    -webkit-border-radius: 2px 2px 0 0;
+    background-color: #FFF;
+    border: 1px solid #dddddd;
+    border-bottom: none;
+    overflow: hidden;
+    padding: 12px 0 0 12px;
+    margin: 0 2% 0 2%;
+    min-width: 1000px;
+     box-shadow:  0 2px 4px #dbdbdb;
+    -moz-box-shadow:  0 2px 4px #dbdbdb;
+    -webkit-box-shadow:  0 2px 4px #dbdbdb;
+}
+
+#oae-lhnav-container {
+    float: left;
+    width: 60px;
+}
+
+.oae-content-column {
+    float: left;
+    min-height: 400px;
+    min-width: 400px;
+    margin: 40px 0 0 20px;
+    width: 17%;
+}
+.oae-content-column#oae-center-column {
+    float: left;
+    width: 58%;
+}
+
+.oae-content-column#oae-center-column-wide {
+    float: left;
+    width: 77%;
+}
+
+.oae-content-column#oae-center-column-wide.right-column-collapsed {
+    width: 92%;
+}
+
+.oae-content-column#oae-right-column {
+    float: left;
+    margin-top: 36px;
+    width: 17%;
+    min-width: 100px;
+}
+
+.oae-content-column#oae-right-column-open {
+    float: right;
+    padding: 0;
+    margin-top: -12px;
+    overflow: hidden;
+    display: block;
+    background: url("../images/right-column-fade.png") no-repeat left top #efefef;
+    min-height: 452px;
+}
+
+#oae-right-column-open #close-column-button {
+    background: url("../images/close-column-icon.png") no-repeat center center transparent;
+    width: 14px;
+    height: 13px;
+    margin: 15px 0 0 10px;
+}
+
+#oae-right-column-open #close-column-button:hover {
+    background: url("../images/close-column-icon-hover.png") no-repeat center center transparent;
+    cursor: pointer;
+}
+
+#oae-right-column-open #close-column-button:active {
+    background: url("../images/close-column-icon-active.png") no-repeat center center transparent;
+}
+
+#oae-right-column-open #open-column-button {
+    background: url("../images/s2-images/open-column-icon.png") no-repeat scroll center center transparent;
+    height: 12px;
+    margin: 11px 0 0 7px;
+    width: 17px;
+}
+
+#oae-right-column-open #open-column-button:hover {
+    background: url("../images/s2-images/open-column-icon-hover.png") no-repeat center center transparent;
+    cursor: pointer;
+}
+
+#oae-right-column-open #open-column-button:active {
+    background: url("../images/s2-images/open-column-icon-active.png") no-repeat center center transparent;
+}
+
+/************************
+ * LEFT (PRIMARY) CLIPS *
+ ************************/
+
+.oae-title-clip {
+    background: url("../images/clip-title-panel.png") repeat-x center center transparent;
+    height: 58px;
+    line-height: 40px;
+    margin-top: -18px;
+    position: absolute;
+    min-width: 127px;
+}
+
+.oae-title-clip form {
+    display: inline-block;
+    margin-right: 4px;
+    width: 75%;
+}
+
+.oae-title-clip form input {
+    width: 98%;
+}
+
+.oae-title-clip .oae-title-clip-left {
+    background: url("../images/clip-title-panel-left-alt.png") no-repeat 0 0 transparent;
+    float: left;
+    height: 58px;
+    width: 12px;
+}
+
+.oae-title-clip .oae-title-clip-right {
+    background: url("../images/clip-title-panel-right-alt.png") no-repeat 0 0 transparent;
+    float: right;
+    height: 58px;
+    width: 12px;
+}
+
+.oae-title-clip h1 {
+    color: #ffffff;
+    float: left;
+    font-size: 16px;
+    font-weight: 600;
+    height: 33px;
+    line-height: 18px;
+    margin-top: 7px;
+    padding: 12px 10px 0;
+    text-shadow: 0 1px 0 #000000;
+}
+
+/** USER / GROUP CLIP **/
+
+#user-box.oae-title-clip,
+#group-box.oae-title-clip {
+    float: left;
+    min-width: 100px;
+}
+
+#user-box.oae-title-clip img,
+#group-box.oae-title-clip img {
+    float: left;
+    height: 30px;
+    margin: 12px 3px 3px 6px;
+    width: 30px;
+}
+
+#user-box.oae-title-clip img:hover,
+#group-box.oae-title-clip img:hover {
+    margin: 9px 0 0 3px;
+    cursor: pointer;
+    border: 3px solid #25a9df;
+    border-radius: 3px;
+    -moz-border-radius: 3px 3px 3px 3px;
+    -webkit-border-radius: 3px 3px 3px 3px;
+}
+
+#user-box a h1 {
+    color: #dbdbdb;
+    float: left;
+    font-size: 16px;
+    font-weight: 600;
+    height: 33px;
+    line-height: 18px;
+    padding: 12px 25px 0 10px;
+    margin-right: 5px;
+    text-shadow: 0 1px 0 #000000;
+    text-decoration: none;
+    float: left;
+    background: url("../images/header-clip-down-arrow.png") no-repeat center right transparent;
+}
+
+#group-box a h1 {
+    color: #dbdbdb;
+    float: left;
+    font-size: 16px;
+    font-weight: 600;
+    height: 33px;
+    line-height: 18px;
+    padding: 12px 25px 0 10px;
+    margin-right: 5px;
+    text-shadow: 0 1px 0 #000000;
+    text-decoration: none;
+    float: left;
+}
+
+#user-box a h1:hover {
+    color: #ffffff;
+    float: left;
+    background: url("../images/header-clip-down-arrow-hover.png") no-repeat center right transparent;
+}
+
+#group-box a h1:hover {
+    color: #ffffff;
+    float: left;
+}
+
+#user-box a h1:active {
+    color: #666666;
+    float: left;
+    background: url("../images/header-clip-down-arrow-clicked.png") no-repeat center right transparent;
+}
+
+#group-box a h1:active {
+    color: #666666;
+    float: left;
+}
+
+#user-box .user-box-multiline-arrow h1,
+#group-box .group-box-multiline-arrow h1{
+    background: url("../images/header-clip-down-arrow.png") no-repeat scroll right center transparent;
+    display: inline-block;
+    float: left;
+    height: 20px;
+    line-height: 3px;
+    margin: 6px 10px -20px 0;
+    padding-right: 25px;
+}
+
+#user-box .user-box-multiline h1,
+#group-box .group-box-multiline h1{
+    display: inline-block;
+    float: left;
+    height: 20px;
+    line-height: 3px;
+    margin: 6px 10px -20px 0;
+    padding-right: 25px;
+}
+
+#user-box .user-box-multiline span,
+#group-box .group-box-multiline span,
+#user-box .user-box-multiline-arrow span,
+#group-box .group-box-multiline-arrow span {
+    color: #ffffff;
+    display: block;
+    font-size: 13px;
+    padding-left: 10px;
+}
+
+/** SEARCH BOX CLIP **/
+
+#search-box.oae-title-clip {
+    float: left;
+    min-width: 721px;
+    width: 65%;
+}
+
+/******************************
+ * RIGHT (ACTION) CLIPS BLACK *
+ ******************************/
+
+.oae-action-clip-primary {
+    background: url("../images/clip-title-panel.png") repeat-x center center transparent;
+    height: 58px;
+    line-height: 40px;
+    margin-top: -18px;
+    position: absolute;
+    min-width: 127px;
+}
+
+.oae-action-clip-secondary-bg-gradient {
+    background: -moz-linear-gradient(top,  #555555 25%, #444444 50%, #000000 100%));
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(25%,#555555), color-stop(50%,#444444), color-stop(100%,#000000));
+    background: -webkit-linear-gradient(top,  #555555 25%,#444444 50%,);
+    background: -o-linear-gradient(top,  #555555 25%,#444444 50%,#000000 100%);
+    background: -ms-linear-gradient(top,  #555555 25%,#444444 50%,#000000 100%);
+    background: linear-gradient(to bottom,  #555555 25%,#444444 50%,#000000 100%);
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-box-shadow: 0px 0px 1px #888;
+    -webkit-box-shadow: 0px 0px 1px #888;
+    box-shadow: 0px 0px 1px #888;
+    margin: -18px 30px 0 0; 
+    position: absolute;
+}
+
+.oae-action-clip-secondary-clip-top {
+    background: url("../images/clip-action-panel-top.png") no-repeat center center transparent;
+    width: 40px;
+    height: 6px;
+    margin-left: -6px;
+    position: absolute;
+}
+
+.oae-action-clip-secondary {
+    background: url("../images/clip-action-panel.png") repeat-x 0 0 transparent;
+    height: 45px;
+    margin-right: 20px;
+    margin-top: -18px;
+    position: absolute;
+    min-width: 120px;
+}
+
+.oae-action-clip-secondary .action-clip-left {
+    background: url("../images/clip-action-panel-left.png") no-repeat 0 0 transparent;
+    float: left;
+    height: 45px;
+    width: 12px;
+}
+
+.oae-action-clip-secondary .action-clip-right {
+    background: url("../images/clip-action-panel-right.png") no-repeat 0 0 transparent;
+    float: right;
+    height: 45px;
+    width: 12px;
+}
+
+.oae-action-clip-secondary .action-icon {
+    color: #ffffff;
+    text-shadow: 0 1px 0 #000000;
+}
+
+.oae-action-clip-secondary .action-icon:hover {
+    color: #ffffff;
+    text-shadow: 0 1px 0 #000000;
+}
+
+.oae-action-clip-secondary .action-icon:active {
+    color: #999999;
+    text-shadow: 0 1px 0 #000;
+}
+
+/** UPLOAD CLIP **/
+
+a.upload {
+    float: right;
+    margin-right: 300px;
+}
+
+.action-icon#upload {
+    background: url("../images/clip-button-icon-upload.png") no-repeat 10px 10px transparent;
+    padding: 13px 5px 0 40px;
+}
+
+.action-icon#upload:hover {
+    background: url("../images/clip-button-icon-upload-hover.png") no-repeat 10px 10px transparent;
+}
+
+.action-icon#upload:active {
+    background: url("../images/clip-button-icon-upload-clicked.png") no-repeat 10px 10px transparent;
+}
+
+/** SHARE CLIP **/
+
+a.share_add {
+    float: right;
+    margin-right: 170px;
+}
+
+.action-icon#share_add {
+    background: url("../images/clip-action-icon-share+add.png") no-repeat 8px 8px transparent;
+    padding: 13px 5px 0 40px;
+}
+
+.action-icon#share_add:hover {
+    background: url("../images/clip-action-icon-share+add-hover.png") no-repeat 8px 8px transparent;
+}
+
+.action-icon#share_add:active {
+    background: url("../images/clip-action-icon-share+add-active.png") no-repeat 8px 8px transparent;
+}
+
+/** ARCHIVE CLIP **/
+
+a.archive {
+    float: right;
+    margin-right: 115px;
+}
+
+.action-icon#archive {
+    background: url("../images/clip-action-icon-archive.png") no-repeat 8px 8px transparent;
+    padding: 13px 5px 0 40px;
+}
+
+.action-icon#archive:hover {
+    background: url("../images/clip-action-icon-archive-hover.png") no-repeat 8px 8px transparent;
+}
+
+.action-icon#archive:active {
+    background: url("../images/clip-action-icon-active.png") no-repeat 8px 8px transparent;
+}
+
+/********************************
+ * RIGHT (ACTION) CLIPS BRANDED *
+ ********************************/
+
+.oae-action-clip-primary {
+    background: url("../images/clip-button-primary-bg-tile.png") repeat-x 0 0 transparent;
+    height: 44px;
+    margin-right: 20px;
+    position: absolute;
+}
+
+.action-clip-left {
+    background: url("../images/clip-button-primary-left-alt.png") no-repeat;
+    float: left;
+    height: 44px;
+    width: 11px;
+}
+
+.action-clip-right {
+    background: url("../images/clip-button-primary-right-alt.png") no-repeat;
+    float: right;
+    height: 44px;
+    width: 6px;
+}
+
+.action-icon {
+    color: #ffffff;
+    float: left;
+    font-size: 13px;
+    font-weight: 600;
+    height: 31px;
+    line-height: 18px;
+    margin: 0;
+    text-shadow: 0 1px 0 #0074a7;
+}
+
+.action-icon:hover {
+    color: #ffffff;
+    text-shadow: 0 1px 0 #0074a7;
+}
+
+.action-icon:active {
+    color: #000000;
+    text-shadow: 0 1px 0 #333333;
+}
+#clip-down-arrow {
+    float: right;
+    background: url("../images/primary-clip-down-arrow.png") no-repeat center center transparent;
+    width: 20px;
+    height: 18px;
+    margin: 1px 0 0 3px;
+}
+
+/** QUESTIONS CLIP **/
+
+a.questions {
+    float: right;
+    margin-right: 180px;
+}
+
+a.questions .oae-action-clip-primary {
+    width: 170px;
+}
+
+.action-icon#ask-question {
+    background: url("../images/clip-button-icon-ask-question.png") no-repeat 10px 10px transparent;
+    padding: 13px 10px 0 50px;
+}
+
+.action-icon#ask-question:hover {
+    background: url("../images/clip-button-icon-ask-question-hover.png") no-repeat 10px 10px transparent;
+}
+
+.action-icon#ask-question:active {
+    background: url("../images/clip-button-icon-ask-question-click.png") no-repeat 10px 10px transparent;
+}
+
+/** CREATE CLIP **/
+
+a.create {
+    float: right;
+    margin-right: 180px;
+}
+.action-icon#create {
+    background: url("../images/clip-button-icon-add.png") no-repeat 10px 10px transparent;
+    padding: 13px 5px 0 40px;
+}
+
+.action-icon#create:hover {
+    background: url("../images/clip-button-icon-add-hover.png") no-repeat 10px 10px transparent;
+}
+
+.action-icon#create:active {
+    background: url("../images/clip-button-icon-add-clicked.png") no-repeat 10px 10px transparent;
+}
+
+.oae-action-clip-tertiary-bg-gradient {
+    background-color: #eeb211;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-box-shadow: inset 0px 0px 1px #c59353;
+    -webkit-box-shadow: inset 0px 0px 1px #c59353;
+    box-shadow: inset 0px 0px 1px #c59353;
+    margin-top: -18px;
+    margin-left: 29px;
+    position: absolute;
+    border-left: solid 1px #c59353;
+}
+
+.oae-action-clip-tertiary-clip-top {
+    background: url("../images/clip-button-primary-bg-top.png") no-repeat center center transparent;
+    width: 40px;
+    height: 6px;
+    margin-left: -7px;
+    position: absolute;
+}
+
+/** DISCUSSION CLIP **/
+
+a.discussions {
+    float: right;
+    margin-right: 115px;
+}
+
+.action-icon#discussions {
+    background: url("../images/clip-button-icon-ask-question.png") no-repeat 8px 8px transparent;
+    padding: 13px 5px 0 40px;
+}
+
+.action-icon#discussions:hover {
+    background: url("../images/clip-button-icon-ask-question-hover.png") no-repeat 8px 8px transparent;
+}
+
+.action-icon#discussions:active {
+    background: url("../images/clip-button-icon-ask-question-click.png") no-repeat 8px 8px transparent;
+}
+
+/***********
+ * BUTTONS *
+ ***********/
+
+/** PRIMARY BUTTONS **/
+
