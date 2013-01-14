@@ -2,6 +2,75 @@
  * TOP NAVIGATION *
  ******************/
 
+ /** TOP NAV STRUCTURE **/
+
+#oae-topnavigation-container #oae-topnavigation-left {
+    float: left;
+}
+
+#oae-topnavigation-container #oae-topnavigation-right {
+    float: right;
+}
+
+#oae-topnavigation-container #oae-topnavigation-center {
+    background: url("../images/sakaioae-logox2.png") no-repeat scroll center center transparent;
+    height: 50px;
+    margin: 0 auto;
+    width: 236px;
+    background-size: 50%;
+}
+
+/** TOP NAV ELEMENTS **/
+
+#oae-topnavigation-container ul {
+    margin: 0;
+    padding: 0;
+}
+
+#oae-topnavigation-container ul li {
+    display: inline-block;
+    float: left;
+    list-style: none;
+    margin: 12px 12px 0;
+}
+
+/** TOP NAV LINKS **/
+
+#oae-topnavigation-container a {
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #ffffff;
+    margin: 0;
+}
+
+#oae-topnavigation-container a:hover {
+    text-decoration: underline;
+
+}
+
+/** TOP NAV NOTIFICATIONS **/
+
+span.notification {
+    font-size: .87em;
+    color: #fff;
+    border-radius: 3px;
+    background-color: #c80f0f;
+    position: absolute;
+    margin: -7px 0 0 15px;
+    padding: 0 4px 0 3px;
+    text-shadow: 0px 1px 0px #6d0019;
+    font-weight: 600;
+    background: #a90329; /* Old browsers */
+    background: -moz-linear-gradient(top,  #a90329 0%, #8f0222 44%, #6d0019 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a90329), color-stop(44%,#8f0222), color-stop(100%,#6d0019)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #a90329 0%,#8f0222 44%,#6d0019 100%); /* Chrome10+,Safari5.1+ */
+    background: -ms-linear-gradient(top,  #a90329 0%,#8f0222 44%,#6d0019 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #a90329 0%,#8f0222 44%,#6d0019 100%); /* W3C */
+
+
+}
+
  /** TOP NAV ICONS **/
 
 .oae-home-icon,
@@ -13,6 +82,7 @@
     height: 25px;
     width: 25px;
     margin-right:12px;
+    background-size: 25%;
 }
 
 .oae-home-icon, .oae-home-icon:visited {
@@ -33,6 +103,7 @@
 
 .oae-inbox-icon:hover {
     background: url("../images/main-header-icon-messages-hover.png") no-repeat center center transparent;
+
 }
 
 .oae-inbox-icon:active {
@@ -77,59 +148,6 @@
 
 .oae-task-icon:active {
     background: url("../images/main-header-icon-tasks-click.png") no-repeat center center transparent;
-}
-
-/** TOP NAV STRUCTURE **/
-
-#oae-topnavigation-container #oae-topnavigation-right {
-    float: right;
-    height: 50px;
-}
-
-#oae-topnavigation-container #oae-topnavigation-center {
-    background: url("../images/oae-logo.png") no-repeat scroll center center transparent;
-    height: 50px;
-    margin: 0 auto;
-    width: 236px;
-}
-
-#oae-topnavigation-container #oae-topnavigation-left {
-    float: left;
-    height: 50px;
-}
-
-/** TOP NAV ELEMENTS **/
-
-#oae-topnavigation-container ul {
-    margin: 0;
-    padding: 0;
-}
-
-#oae-topnavigation-container ul li {
-    display: inline-block;
-    float: left;
-    list-style: none;
-    margin: 12px 12px 0;
-}
-
-/** TOP NAV EXPLORE **/
-
-#oae-topnavigation-container #oae-topnavigation-right #topnavigation-explore-link {
-    color: #666666;
-    margin: 18px 34px 0 0 !important;
-    font-size: 13px;
-    font-weight: 600;
-    text-decoration: none;
-    text-shadow: 0px 1px 0px #ffffff;
-}
-
-#oae-topnavigation-container #oae-topnavigation-right #topnavigation-explore-link:hover {
-    color: #222222;
-}
-
-#oae-topnavigation-container #oae-topnavigation-right #topnavigation-explore-link:active {
-    color: #ffffff;
-    text-shadow: 0px 1px 0px #999999;
 }
 
 /** TOP NAV SEARCH **/

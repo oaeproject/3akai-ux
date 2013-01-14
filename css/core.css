@@ -349,10 +349,11 @@ label {
 
 a {
     color: #0074a7;
+    text-decoration: none;
 }
 
 a:visited {
-    color: purple;
+    color: €0074a7;
 }
 
 a:hover,

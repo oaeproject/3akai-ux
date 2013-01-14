@@ -16,6 +16,20 @@
     </head>
     <body>
         <div id="oae-page-container">
+            <!-- Logged out -->
+            <div id="oae-topnavigation-container">
+                <div id="oae-topnavigation-left">
+                    <a href="#" title="Sign up for free">Sign up</a>
+                </div>
+                <div id="oae-topnavigation-right">
+                    <a href="#" title="Sign in" class="oae-force-right">Sign in</a>
+                    <form id="topnavigation_search_form" class="oae-force-right">
+                        <input type="text" id="topnavigation_search_input" class="oae-force-right"/>
+                    </form>
+                </div>
+                <div id="oae-topnavigation-center"></div>
+            </div>
+            <!-- Logged in -->
             <div id="oae-topnavigation-container">
                 <div id="oae-topnavigation-left">
                     <ul>
@@ -43,44 +57,50 @@
                 </div>
                 <div id="oae-topnavigation-right">
                     <a href="#" title="Account settings" id="topnavigation_settings" class="oae-force-right">
-                    	<div class="oae-cogwheel-icon"></div>
+                        <div class="oae-cogwheel-icon"></div>
                     </a>
                     <form id="topnavigation_search_form" class="oae-force-right">
                         <input type="text" id="topnavigation_search_input" class="oae-force-right"/>
                     </form>
-                    <a href="#" id="topnavigation-explore-link" class="oae-force-right" style="display:none">Explore</a>
                 </div>
                 <div id="oae-topnavigation-center"></div>
             </div>
-        </div>
-        <div id="oae-content-container">
-            <div id="user-box" class="oae-title-clip">
-                <div class="oae-title-clip-right"></div>
-                <div class="oae-title-clip-left"></div>
-                <a href="#" title="John's dashboard"><img id="profile-image" src="images/profile-pic-john.png" alt="John Librarian"/></a>
-                <a href="#" title="More related to me (My profile, messages, account)"><h1>John Librarian</h1><div id="my-dropdown"></div></a>
-            </div>
-            <a title="Create anything (Document, To-do, Collection, Group)" class="create" href="#">
-                <div class="oae-action-clip-primary">
-                    <div class="action-clip-right"></div>
-                    <div class="action-clip-left"></div>
-                    <div class="action-icon" id="create">Create<span id="clip-down-arrow"></span></div>
+            <!-- With message -->
+            <div id="oae-topnavigation-container">
+                <div id="oae-topnavigation-left">
+                    <ul>
+                        <li>
+                            <a href="#" title="Dashboard" id="topnavigation_home">
+                                <div class="oae-home-icon"></div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" title="Messages" id="topnavigation_inbox">
+                                <div class="oae-inbox-icon"><span class="notification">10</span></div>
+                            </a>
+                        </li>
+                        <li style="display:none">
+                            <a href="#" title="Tasks" id="topnavigation_task">
+                                <div class="oae-task-icon"></div>
+                            </a>
+                        </li>
+                        <li style="display:none">
+                            <a href="#" title="Collections" id="topnavigation_library">
+                                <div class="oae-library-icon"></div>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-            </a>
-            <a title="Upload video, files, documents and links" class="upload" href="#">
-                <div class="oae-action-clip-secondary">
-                    <div class="action-clip-right"></div>
-                    <div class="action-clip-left"></div>
-                    <div class="action-icon" id="upload">Upload</div>
+                <div id="oae-topnavigation-right">
+                    <a href="#" title="Account settings" id="topnavigation_settings" class="oae-force-right">
+                        <div class="oae-cogwheel-icon"></div>
+                    </a>
+                    <form id="topnavigation_search_form" class="oae-force-right">
+                        <input type="text" id="topnavigation_search_input" class="oae-force-right"/>
+                    </form>
                 </div>
-            </a>
-            <!-- Level 01 navigation -->
-            <div class="oae-content-column" id="oae-center-column">
-            <!-- 80% content width -->
+                <div id="oae-topnavigation-center"></div>
             </div>
-            <div class="oae-content-column" id="oae-right-column">
-            <!-- 20% content width -->
-             </div>
-        </div>
+        </div> 
     </body>
 </html>
