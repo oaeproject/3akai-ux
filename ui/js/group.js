@@ -41,7 +41,7 @@ require(['jquery', 'oae/api/oae.core'], function($, oae) {
             renderEntity();
             setUpNavigation();
             // Set the browser title
-            oae.api.util.setBrowserTitle(groupProfile.name);
+            oae.api.util.setBrowserTitle(groupProfile.displayName);
             // We can now unhide the page
             oae.api.util.showPage();
         });

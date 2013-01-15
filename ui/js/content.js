@@ -52,7 +52,7 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
             // Insert the preview
             oae.api.widget.insertWidget('contentpreview', null, $('#content_preview_container'), null, contentProfile);
             // Set the browser title
-            oae.api.util.setBrowserTitle(contentProfile.name);
+            oae.api.util.setBrowserTitle(contentProfile.displayName);
             // We can now unhide the page
             oae.api.util.showPage();
         });
