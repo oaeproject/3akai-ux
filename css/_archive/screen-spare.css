@@ -290,19 +290,19 @@ a {
 }
 
 #gt-right-column-open #close-column-button {
-    background: url("../images/close-column-icon.png") no-repeat center center transparent;
+    background: url("../images/icons/close-column-icon.png") no-repeat center center transparent;
     width: 14px;
     height: 13px;
     margin: 15px 0 0 10px;
 }
 
 #gt-right-column-open #close-column-button:hover {
-    background: url("../images/close-column-icon-hover.png") no-repeat center center transparent;
+    background: url("../images/icons/close-column-icon-hover.png") no-repeat center center transparent;
     cursor: pointer;
 }
 
 #gt-right-column-open #close-column-button:active {
-    background: url("../images/close-column-icon-active.png") no-repeat center center transparent;
+    background: url("../images/icons/close-column-icon-active.png") no-repeat center center transparent;
 }
 
 #gt-right-column-open #open-column-button {
@@ -1285,7 +1285,7 @@ a {
     text-shadow: 0 1px 0 #000000;
     text-decoration: none;
     float: left;
-    background: url("../images/header-clip-down-arrow.png") no-repeat center right transparent;
+    background: url("../images/icons/header-clip-down-arrow.png") no-repeat center right transparent;
 }
 
 #group-box a h1 {
@@ -1305,7 +1305,7 @@ a {
 #user-box a h1:hover {
     color: #fff;
     float: left;
-    background: url("../images/header-clip-down-arrow-hover.png") no-repeat center right transparent;
+    background: url("../images/icons/header-clip-down-arrow-hover.png") no-repeat center right transparent;
 }
 
 #group-box a h1:hover {
@@ -1316,7 +1316,7 @@ a {
 #user-box a h1:active {
     color: #666;
     float: left;
-    background: url("../images/header-clip-down-arrow-clicked.png") no-repeat center right transparent;
+    background: url("../images/icons/header-clip-down-arrow-clicked.png") no-repeat center right transparent;
 }
 
 #group-box a h1:active {
@@ -1326,7 +1326,7 @@ a {
 
 #user-box .user-box-multiline-arrow h1,
 #group-box .group-box-multiline-arrow h1{
-    background: url("../images/header-clip-down-arrow.png") no-repeat scroll right center transparent;
+    background: url("../images/icons/header-clip-down-arrow.png") no-repeat scroll right center transparent;
     display: inline-block;
     float: left;
     height: 20px;
@@ -1401,7 +1401,7 @@ a {
 
 #clip-down-arrow {
     float: right;
-    background: url("../images/primary-clip-down-arrow.png") no-repeat center center transparent;
+    background: url("../images/icons/primary-clip-down-arrow.png") no-repeat center center transparent;
     width: 20px;
     height: 18px;
     margin: 1px 0 0 3px;
@@ -1788,7 +1788,7 @@ a.discussions {
     padding: 0 20px 0 0;
     text-align:right;
     margin: 10px 0 0 0;
-    background: url("../images/collected-icon-folder.png") no-repeat center center transparent;
+    background: url("../images/icons/collected-icon-folder.png") no-repeat center center transparent;
     background-position: right top; 
     font-weight: 600;
     color: #666;
@@ -2632,13 +2632,13 @@ input.refine_search {
 #select-all {
     margin: 5px 0 0 0;
     float: left;
-    background: url("../images/down-arrow.png") no-repeat center right transparent;
+    background: url("../images/icons/down-arrow.png") no-repeat center right transparent;
     width: 28px;
     height: 20px;
 }
 
 #panel_sort_by {
-    background: url("../images/down-arrow.png") no-repeat center right transparent;
+    background: url("../images/icons/down-arrow.png") no-repeat center right transparent;
     width: 50px;
     height: 15px;
     line-height: 9px;
@@ -2646,7 +2646,7 @@ input.refine_search {
 }
 
 #panel_expand_all {
-    background: url("../images/down-arrow.png") no-repeat center right transparent;
+    background: url("../images/icons/down-arrow.png") no-repeat center right transparent;
     width: 70px;
     height: 15px;
     line-height: 9px;

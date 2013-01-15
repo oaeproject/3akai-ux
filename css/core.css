@@ -469,19 +469,19 @@ a:active {
 }
 
 #oae-right-column-open #close-column-button {
-    background: url("../images/close-column-icon.png") no-repeat center center transparent;
+    background: url("../images/icons/close-column-icon.png") no-repeat center center transparent;
     width: 14px;
     height: 13px;
     margin: 15px 0 0 10px;
 }
 
 #oae-right-column-open #close-column-button:hover {
-    background: url("../images/close-column-icon-hover.png") no-repeat center center transparent;
+    background: url("../images/icons/close-column-icon-hover.png") no-repeat center center transparent;
     cursor: pointer;
 }
 
 #oae-right-column-open #close-column-button:active {
-    background: url("../images/close-column-icon-active.png") no-repeat center center transparent;
+    background: url("../images/icons/close-column-icon-active.png") no-repeat center center transparent;
 }
 
 #oae-right-column-open #open-column-button {
@@ -848,7 +848,7 @@ a.archive {
 }
 #clip-down-arrow {
     float: right;
-    background: url("../images/primary-clip-down-arrow.png") no-repeat center center transparent;
+    background: url("../images/icons/primary-clip-down-arrow.png") no-repeat center center transparent;
     width: 20px;
     height: 18px;
     margin: 1px 0 0 3px;
