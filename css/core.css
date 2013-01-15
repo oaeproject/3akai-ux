@@ -414,16 +414,16 @@ a:active {
 }
 
 #oae-content-container {
-    border-radius: 2px 2px 0 0;
-    -moz-border-radius: 2px 2px 0 0;
-    -webkit-border-radius: 2px 2px 0 0;
-    background-color: #FFF;
-    border: 1px solid #dddddd;
-    border-bottom: none;
     overflow: hidden;
     padding: 12px 0 0 12px;
     min-width: 1000px;
-     box-shadow:  0 2px 4px #dbdbdb;
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-bottom: none;
+    border-radius: 2px 2px 0 0;
+    -moz-border-radius: 2px 2px 0 0;
+    -webkit-border-radius: 2px 2px 0 0;
+    box-shadow:  0 2px 4px #dbdbdb;
     -moz-box-shadow:  0 2px 4px #dbdbdb;
     -webkit-box-shadow:  0 2px 4px #dbdbdb;
 }
@@ -456,9 +456,6 @@ a:active {
 
 .oae-content-column#oae-right-column {
     float: left;
-    margin-top: 36px;
-    width: 17%;
-    min-width: 100px;
 }
 
 .oae-content-column#oae-right-column-open {
