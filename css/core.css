@@ -23,7 +23,7 @@ html {
 }
 
 body {
-    background: url("../images/oae-bg-pattern.png") repeat-x 0 0 #eceae5;
+    background: url("../images/framework/oae-bg-pattern.png") repeat 0 0 #eceae5;
 }
 
 article,
@@ -67,7 +67,7 @@ a:focus {
 }
 
 a:hover,
-a:active { /* Improves readability when focused and also mouse hovered in all browsers people.opera.com/patrickl/experiments/keyboard/test */
+a:active {
     outline: 0;
 }
 
@@ -82,8 +82,8 @@ button,
 input,
 select,
 textarea {
-    color: #333333;
-    font-family:'Open Sans', sans-serif; arial, helvetica, sans-serif;
+    color: #333;
+    font-family: 'Open Sans', sans-serif; arial, helvetica, sans-serif;
     font-size: 16px;
     font-size: 1.6rem;
     line-height: 1.5;
@@ -91,12 +91,12 @@ textarea {
 
 /* HEADINGS */
 
-h1,h2,h3,h4,h5,h6 {
-    
+h1, h2, h3, h4, h5, h6 {
+
 }
 
 hr {
-    background-color: #cccccc;
+    background-color: #CCC;
     border: 0;
     height: 1px;
     margin-bottom: 1.5em;
@@ -166,7 +166,7 @@ code, kbd, tt, var {
 }
 
 abbr, acronym {
-    border-bottom: 1px dotted #666666;
+    border-bottom: 1px dotted #666;
     cursor: help;
 }
 
@@ -220,21 +220,14 @@ textarea {
     font-size: 100%; /* Corrects font size not being inherited in all browsers */
     margin: 0; /* Addresses margins set differently in IE6/7, F3/4, S5, Chrome */
     vertical-align: baseline; /* Improves appearance and consistency in all browsers */
-    *vertical-align: middle; /* Improves appearance and consistency in all browsers */
-}
-
-button,
-input {
-    line-height: normal; /* Addresses FF3/4 setting line-height using !important in the UA stylesheet */
-    *overflow: visible;  /* Corrects inner spacing displayed oddly in IE6/7 */
 }
 
 button,
 html input[type="button"],
 input[type="reset"],
 input[type="submit"] {
-    border: 1px solid #cccccc;
-    border-color: #cccccc #cccccc #bbbbbb #cccccc;
+    border: 1px solid #CCC;
+    border-color: #CCC #CCC #BBB #CCC;
     border-radius: 3px;
     background: #e6e6e6;
     -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), inset 0 15px 17px rgba(255,255,255,0.5), inset 0 -5px 12px rgba(0,0,0,0.05);
@@ -254,7 +247,7 @@ button:hover,
 html input[type="button"]:hover,
 input[type="reset"]:hover,
 input[type="submit"]:hover {
-    border-color: #cccccc #bbbbbb #aaaaaa #bbbbbb;
+    border-color: #CCC #BBB #AAA #BBB;
     -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), inset 0 15px 17px rgba(255,255,255,0.8), inset 0 -5px 12px rgba(0,0,0,0.02);
     -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), inset 0 15px 17px rgba(255,255,255,0.8), inset 0 -5px 12px rgba(0,0,0,0.02);
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), inset 0 15px 17px rgba(255,255,255,0.8), inset 0 -5px 12px rgba(0,0,0,0.02);
@@ -268,7 +261,7 @@ button:active,
 html input[type="button"]:active,
 input[type="reset"]:active,
 input[type="submit"]:active {
-    border-color: #cccccc #bbbbbb #aaaaaa #bbbbbb;
+    border-color: #CCC #BBB #AAA #BBB;
     -webkit-box-shadow: inset 0 -1px 0 rgba(255,255,255,0.5), inset 0 2px 5px rgba(0,0,0,0.15);
     -moz-box-shadow: inset 0 -1px 0 rgba(255,255,255,0.5), inset 0 2px 5px rgba(0,0,0,0.15);
     box-shadow: inset 0 -1px 0 rgba(255,255,255,0.5), inset 0 2px 5px rgba(0,0,0,0.15);
@@ -276,7 +269,7 @@ input[type="submit"]:active {
 
 input[type="checkbox"]:checked + label,
 input[type="radio"] {
-    color: #444444;
+    color: #444;
     font-weight: bold;
     box-sizing: border-box; /* Addresses box sizing set to content-box in IE8/9 */
     padding: 0; /* Addresses excess padding in IE8/9 */
@@ -302,7 +295,7 @@ input::-moz-focus-inner { /* Corrects inner padding and border displayed oddly i
 input[type=text],
 input[type=email],
 textarea {
-    border: 1px solid #cccccc;
+    border: 1px solid #CCC;
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
@@ -312,13 +305,13 @@ textarea {
 }
 
 ::-webkit-input-placeholder  {
-    color: #999999;
+    color: #999;
     font-style: italic;
     font-size: 12px;
 }
 
 input:-moz-placeholder {
-    color: #999999;
+    color: #999;
     font-style: italic;
     font-size: 12px;
 }
@@ -326,7 +319,7 @@ input:-moz-placeholder {
 input[type=text]:focus,
 input[type=email]:focus,
 textarea:focus {
-    color: #111111;
+    color: #111;
 }
 
 input[type=text],
@@ -342,7 +335,7 @@ textarea {
 }
 
 label {
-    color: #777777;
+    color: #777;
 }
 
 /* LINKS */
@@ -353,7 +346,7 @@ a {
 }
 
 a:visited {
-    color: €0074a7;
+    color: #0074a7;
 }
 
 a:hover,
@@ -367,19 +360,24 @@ a:active {
 
 /* ALIGNMENT */
 
-.alignleft {
+.oae-force-right {
+    float: right;
+}
+.oae-force-left {
+    float: left;
+}
+
+.oae-align-left {
     display: inline;
     float: left;
     margin-right: 1.5em;
 }
-
-.alignright {
+.oae-alight-right {
     display: inline;
     float: right;
     margin-left: 1.5em;
 }
-
-.aligncenter {
+.oae-align-center {
     clear: both;
     display: block;
     margin: 0 auto;
@@ -391,16 +389,6 @@ a:active {
     clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
     clip: rect(1px, 1px, 1px, 1px);
     position: absolute !important;
-}
-
-/* FORCE ALIGNMENT */
-
-.force-right {
-    float: right;
-}
-
-.force-left {
-    float: left;
 }
 
 /*********************
@@ -440,6 +428,7 @@ a:active {
     margin: 40px 0 0 20px;
     width: 17%;
 }
+
 .oae-content-column#oae-center-column {
     float: left;
     width: 58%;
@@ -464,7 +453,7 @@ a:active {
     margin-top: -12px;
     overflow: hidden;
     display: block;
-    background: url("../images/right-column-fade.png") no-repeat left top #efefef;
+    background: url("../images/framework/right-column-fade.png") no-repeat left top #efefef;
     min-height: 452px;
 }
 
