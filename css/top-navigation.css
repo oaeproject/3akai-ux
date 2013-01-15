@@ -25,7 +25,7 @@
 }
 
 #oae-topnav-center {
-    background: url("../images/sakaioae-logox2.png") no-repeat scroll center center transparent;
+    background: url("../images/framework/sakaioae-logox2.png") no-repeat scroll center center transparent;
     background-size: 50%;
     height: 50px;
     width: 236px;
@@ -125,67 +125,67 @@ span.notification {
 
 .oae-home-icon,
 .oae-home-icon:visited {
-    background: url("../images/main-header-icon-home.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-home.png") no-repeat center center transparent;
 }
 
 .oae-home-icon:hover {
-    background: url("../images/main-header-icon-home-hover.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-home-hover.png") no-repeat center center transparent;
 }
 
 .oae-home-icon:active {
-    background: url("../images/main-header-icon-home-active.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-home-active.png") no-repeat center center transparent;
 }
 
 .oae-inbox-icon,
 .oae-inbox-icon:visited {
-    background: url("../images/main-header-icon-messages.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-messages.png") no-repeat center center transparent;
 }
 
 .oae-inbox-icon:hover {
-    background: url("../images/main-header-icon-messages-hover.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-messages-hover.png") no-repeat center center transparent;
 }
 
 .oae-inbox-icon:active {
-    background: url("../images/main-header-icon-messages-active.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-messages-active.png") no-repeat center center transparent;
 }
 
 .oae-task-icon,
 .oae-home-task:visited {
-    background: url("../images/main-header-icon-tasks.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-tasks.png") no-repeat center center transparent;
 }
 
 .oae-task-icon:hover {
-    background: url("../images/main-header-icon-tasks-hover.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-tasks-hover.png") no-repeat center center transparent;
 }
 
 .oae-task-icon:active {
-    background: url("../images/main-header-icon-tasks-active.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-tasks-active.png") no-repeat center center transparent;
 }
 
 .oae-library-icon,
 .oae-home-library:visited {
-    background: url("../images/main-header-icon-collections.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-collections.png") no-repeat center center transparent;
 }
 
 .oae-library-icon:hover {
-    background: url("../images/main-header-icon-collections-hover.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-collections-hover.png") no-repeat center center transparent;
 }
 
 .oae-library-icon:active {
-    background: url("../images/main-header-icon-collections-active.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-collections-active.png") no-repeat center center transparent;
 }
 
 .oae-notifications-icon,
 .oae-home-notifications:visited {
-    background: url("../images/main-header-icon-notifications.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-notifications.png") no-repeat center center transparent;
 }
 
 .oae-notifications-icon:hover {
-    background: url("../images/main-header-icon-notifications-hover.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-notifications-hover.png") no-repeat center center transparent;
 }
 
 .oae-notifications-icon:active {
-    background: url("../images/main-header-icon-notifications-active.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-notifications-active.png") no-repeat center center transparent;
 }
 
 /** TOP NAV SEARCH **/
@@ -221,13 +221,13 @@ span.notification {
 
 .oae-cogwheel-icon,
 .oae-home-cogwheel:visited {
-    background: url("../images/main-header-icon-settings.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-settings.png") no-repeat center center transparent;
 }
 
 .oae-cogwheel-icon:hover {
-    background: url("../images/main-header-icon-settings-hover.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-settings-hover.png") no-repeat center center transparent;
 }
 
 .oae-cogwheel-icon:active {
-    background: url("../images/main-header-icon-settings-active.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-settings-active.png") no-repeat center center transparent;
 }

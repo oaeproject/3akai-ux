@@ -361,52 +361,52 @@ a {
 }
 
 .gt-home-icon, .gt-home-icon:visited {
-    background: url("../images/main-header-icon-home.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-home.png") no-repeat center center transparent;
 }
 .gt-home-icon:hover {
-    background: url("../images/main-header-icon-home-hover.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-home-hover.png") no-repeat center center transparent;
 }
 .gt-home-icon:active {
-    background: url("../images/main-header-icon-home-click.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-home-click.png") no-repeat center center transparent;
 }
 .gt-inbox-icon, .gt-inbox-icon:visited {
-    background: url("../images/main-header-icon-messages.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-messages.png") no-repeat center center transparent;
 }
 .gt-inbox-icon:hover {
-    background: url("../images/main-header-icon-messages-hover.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-messages-hover.png") no-repeat center center transparent;
 }
 .gt-inbox-icon:active {
-    background: url("../images/main-header-icon-messages-click.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-messages-click.png") no-repeat center center transparent;
 }
 .gt-library-icon, .gt-home-library:visited {
-    background: url("../images/main-header-icon-collections.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-collections.png") no-repeat center center transparent;
 }
 .gt-library-icon:hover {
-    background: url("../images/main-header-icon-collections-hover.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-collections-hover.png") no-repeat center center transparent;
 }
 .gt-library-icon:active {
-    background: url("../images/main-header-icon-collections-click.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-collections-click.png") no-repeat center center transparent;
 }
 .gt-cogwheel-icon, .gt-home-cogwheel:visited {
-    background: url("../images/main-header-icon-settings.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-settings.png") no-repeat center center transparent;
 }
 .gt-cogwheel-icon:hover {
-    background: url("../images/main-header-icon-settings-hover.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-settings-hover.png") no-repeat center center transparent;
 }
 .gt-cogwheel-icon:active {
-    background: url("../images/main-header-icon-settings-click.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-settings-click.png") no-repeat center center transparent;
 }
 .gt-magnifier-icon, .gt-home-magnifier:visited {
     background: url("../images/icon_search.png") no-repeat center center transparent;
 }
 .gt-task-icon, .gt-home-task:visited {
-    background: url("../images/main-header-icon-tasks.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-tasks.png") no-repeat center center transparent;
 }
 .gt-task-icon:hover {
-    background: url("../images/main-header-icon-tasks-hover.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-tasks-hover.png") no-repeat center center transparent;
 }
 .gt-task-icon:active {
-    background: url("../images/main-header-icon-tasks-click.png") no-repeat center center transparent;
+    background: url("../images/icons/main-header-icon-tasks-click.png") no-repeat center center transparent;
 }
 
  /** TOP NAV ELEMENTS **/
@@ -443,7 +443,7 @@ a {
 #gt-topnavigation-container #gt-topnavigation-right #topnavigation_search_input {
     width: 190px;
 	background-color: #fff;
-	background-image: url("../images/icon-search.png");
+	background-image: url("../images/icons/icon-search.png");
 	background-position: 200px 4px;
 	background-repeat: no-repeat;
 	padding-right: 25px;
@@ -596,7 +596,7 @@ a {
     height: 58px;
     display: block;
     width: 77%;
-    background: url("../images/icon-search.png") no-repeat center center transparent;
+    background: url("../images/icons/icon-search.png") no-repeat center center transparent;
     background-position: 220px 37px;
     background-color: #fff;
 }
@@ -1208,7 +1208,7 @@ a {
 
 .gt-title-clip,
 .gt-action-clip-primary {
-    background-image: url("../images/clip-title-panel.png");
+    background-image: url("../images/clips/clip-title-panel.png");
     height: 58px;
     line-height: 40px;
     margin-top: -18px;
@@ -1227,14 +1227,14 @@ a {
 }
 
 .gt-title-clip .gt-title-clip-left {
-    background-image: url("../images/clip-title-panel-left-alt.png");
+    background-image: url("../images/clips/clip-title-panel-left-alt.png");
     float: left;
     height: 58px;
     width: 12px;
 }
 
 .gt-title-clip .gt-title-clip-right {
-    background: url("../images/clip-title-panel-right-alt.png") no-repeat transparent;
+    background: url("../images/clips/clip-title-panel-right-alt.png") no-repeat transparent;
     float: right;
     height: 58px;
     width: 12px;
@@ -1358,21 +1358,21 @@ a {
 /** RIGHT YELLOW PRIMARY ACTION CLIPS **/
 
 .gt-action-clip-primary {
-    background-image: url("../images/clip-button-primary-bg-tile.png");
+    background-image: url("../images/clips/clip-button-primary-bg-tile.png");
     height: 44px;
     margin-right: 20px;
     position: absolute;
 }
 
 .action-clip-left {
-    background: url("../images/clip-button-primary-left-alt.png") no-repeat;
+    background: url("../images/clips/clip-button-primary-left-alt.png") no-repeat;
     float: left;
     height: 44px;
     width: 11px;
 }
 
 .action-clip-right {
-    background: url("../images/clip-button-primary-right-alt.png") no-repeat;
+    background: url("../images/clips/clip-button-primary-right-alt.png") no-repeat;
     float: right;
     height: 44px;
     width: 6px;
@@ -1418,16 +1418,16 @@ a.questions .gt-action-clip-primary {
 
 
 .action-icon#ask-question {
-    background: url("../images/clip-button-icon-ask-question.png") no-repeat 10px 10px transparent;
+    background: url("../images/clips/clip-button-icon-ask-question.png") no-repeat 10px 10px transparent;
     padding: 13px 10px 0 50px;
 }
 
 .action-icon#ask-question:hover {
-    background: url("../images/clip-button-icon-ask-question-hover.png") no-repeat 10px 10px transparent;
+    background: url("../images/clips/clip-button-icon-ask-question-hover.png") no-repeat 10px 10px transparent;
 }
 
 .action-icon#ask-question:active {
-    background: url("../images/clip-button-icon-ask-question-click.png") no-repeat 10px 10px transparent;
+    background: url("../images/clips/clip-button-icon-ask-question-click.png") no-repeat 10px 10px transparent;
 }
 
 a.create {
@@ -1436,17 +1436,17 @@ a.create {
 }
 
 .action-icon#create {
-    background: url("../images/clip-button-icon-add.png") no-repeat 10px 10px transparent;
+    background: url("../images/clips/clip-button-icon-add.png") no-repeat 10px 10px transparent;
     padding: 13px 5px 0 40px;
 }
 
 .action-icon#create:hover {
-    background: url("../images/clip-button-icon-add-hover.png") no-repeat 10px 10px transparent;
+    background: url("../images/clips/clip-button-icon-add-hover.png") no-repeat 10px 10px transparent;
 
 }
 
 .action-icon#create:active {
-    background: url("../images/clip-button-icon-add-clicked.png") no-repeat 10px 10px transparent;
+    background: url("../images/clips/clip-button-icon-add-clicked.png") no-repeat 10px 10px transparent;
 
 }
 
@@ -1472,7 +1472,7 @@ a.create {
 }
 
 .gt-action-clip-secondary-clip-top {
-    background: url("../images/clip-action-panel-top.png") no-repeat center center transparent;
+    background: url("../images/clips/clip-action-panel-top.png") no-repeat center center transparent;
     width: 40px;
     height: 6px;
     margin-left: -6px;
@@ -1480,7 +1480,7 @@ a.create {
 }
 
 .gt-action-clip-secondary {
-    background-image: url("../images/clip-action-panel.png");
+    background-image: url("../images/clips/clip-action-panel.png");
     height: 45px;
     margin-right: 20px;
     margin-top: -18px;
@@ -1488,14 +1488,14 @@ a.create {
 }
 
 .gt-action-clip-secondary .action-clip-left {
-    background: url("../images/clip-action-panel-left.png") no-repeat;
+    background: url("../images/clips/clip-action-panel-left.png") no-repeat;
     float: left;
     height: 45px;
     width: 12px;
 }
 
 .gt-action-clip-secondary .action-clip-right {
-    background: url("../images/clip-action-panel-right.png") no-repeat;
+    background: url("../images/clips/clip-action-panel-right.png") no-repeat;
     float: right;
     height: 45px;
     width: 12px;
@@ -1522,17 +1522,17 @@ a.upload {
 }
 
 .action-icon#upload {
-    background: url("../images/clip-button-icon-upload.png") no-repeat 10px 10px transparent;
+    background: url("../images/clips/clip-button-icon-upload.png") no-repeat 10px 10px transparent;
     padding: 13px 5px 0 40px;
 }
 
 .action-icon#upload:hover {
-    background: url("../images/clip-button-icon-upload-hover.png") no-repeat 10px 10px transparent;
+    background: url("../images/clips/clip-button-icon-upload-hover.png") no-repeat 10px 10px transparent;
 
 }
 
 .action-icon#upload:active {
-    background: url("../images/clip-button-icon-upload-clicked.png") no-repeat 10px 10px transparent;
+    background: url("../images/clips/clip-button-icon-upload-clicked.png") no-repeat 10px 10px transparent;
 
 }
 
@@ -1542,17 +1542,17 @@ a.share_add {
 }
 
 .action-icon#share_add {
-    background: url("../images/clip-action-icon-share+add.png") no-repeat 8px 8px transparent;
+    background: url("../images/clips/clip-action-icon-share+add.png") no-repeat 8px 8px transparent;
     padding: 13px 5px 0 40px;
 }
 
 .action-icon#share_add:hover {
-    background: url("../images/clip-action-icon-share+add-hover.png") no-repeat 8px 8px transparent;
+    background: url("../images/clips/clip-action-icon-share+add-hover.png") no-repeat 8px 8px transparent;
 
 }
 
 .action-icon#share_add:active {
-    background: url("../images/clip-action-icon-share+add-active.png") no-repeat 8px 8px transparent;
+    background: url("../images/clips/clip-action-icon-share+add-active.png") no-repeat 8px 8px transparent;
 
 }
 
@@ -1562,17 +1562,17 @@ a.archive {
 }
 
 .action-icon#archive {
-    background: url("../images/clip-action-icon-archive.png") no-repeat 8px 8px transparent;
+    background: url("../images/clips/clip-action-icon-archive.png") no-repeat 8px 8px transparent;
     padding: 13px 5px 0 40px;
 }
 
 .action-icon#archive:hover {
-    background: url("../images/clip-action-icon-archive-hover.png") no-repeat 8px 8px transparent;
+    background: url("../images/clips/clip-action-icon-archive-hover.png") no-repeat 8px 8px transparent;
 
 }
 
 .action-icon#archive:active {
-    background: url("../images/clip-action-icon-active.png") no-repeat 8px 8px transparent;
+    background: url("../images/clips/clip-action-icon-active.png") no-repeat 8px 8px transparent;
 
 }
 
@@ -1593,7 +1593,7 @@ a.archive {
 }
 
 .gt-action-clip-tertiary-clip-top {
-    background: url("../images/clip-button-primary-bg-top.png") no-repeat center center transparent;
+    background: url("../images/clips/clip-button-primary-bg-top.png") no-repeat center center transparent;
     width: 40px;
     height: 6px;
     margin-left: -7px;
@@ -1606,17 +1606,17 @@ a.discussions {
 }
 
 .action-icon#discussions {
-    background: url("../images/clip-button-icon-ask-question.png") no-repeat 8px 8px transparent;
+    background: url("../images/clips/clip-button-icon-ask-question.png") no-repeat 8px 8px transparent;
     padding: 13px 5px 0 40px;
 }
 
 .action-icon#discussions:hover {
-    background: url("../images/clip-button-icon-ask-question-hover.png") no-repeat 8px 8px transparent;
+    background: url("../images/clips/clip-button-icon-ask-question-hover.png") no-repeat 8px 8px transparent;
 
 }
 
 .action-icon#discussions:active {
-    background: url("../images/clip-button-icon-ask-question-click.png") no-repeat 8px 8px transparent;
+    background: url("../images/clips/clip-button-icon-ask-question-click.png") no-repeat 8px 8px transparent;
 
 }
 
@@ -1724,17 +1724,17 @@ a.discussions {
     float: right;
     height: 29px;
     width: 26px;
-    background: url("../images/icon-add+share-white.png") no-repeat;
+    background: url("../images/icons/icon-add+share-white.png") no-repeat;
     background-position: center center;
     cursor: pointer;
 }
 
 .gridview-listed-item #title #type-add-share span:hover {
-    background: url("../images/icon-add+share-white-hover.png") no-repeat;
+    background: url("../images/icons/icon-add+share-white-hover.png") no-repeat;
 }
 
 .gridview-listed-item #title #type-add-share span:active {
-    background: url("../images/icon-add+share-white-clicked.png") no-repeat;
+    background: url("../images/icons/icon-add+share-white-clicked.png") no-repeat;
 }
 
 #gridview-content-details {
@@ -2045,7 +2045,7 @@ a.discussions {
 #thumb-listed-item #add-share { 
     float: right;
     margin: 15px 20px 15px 0;
-    background: url("../images/icon-add+share-list.png") no-repeat;
+    background: url("../images/icons/icon-add+share-list.png") no-repeat;
     background-position: center center;
     cursor: pointer;
     height: 32px;
@@ -2053,7 +2053,7 @@ a.discussions {
 }
 
 #thumb-listed-item #add-share:hover {
-    background: url("../images/icon-add+share-white.png") no-repeat;
+    background: url("../images/icons/icon-add+share-white.png") no-repeat;
     background-position: center center;
     background-color: #333;
     border-radius: 3px 3px 3px 3px;
@@ -2062,7 +2062,7 @@ a.discussions {
 }
 
 #thumb-listed-item #add-share:active {
-    background: url("../images/icon-add+share-white-clicked.png") no-repeat;
+    background: url("../images/icons/icon-add+share-white-clicked.png") no-repeat;
     background-position: center center;
     background-color: #333;
     border-radius: 3px 3px 3px 3px;
@@ -2157,7 +2157,7 @@ a.discussions {
 }
 
 .gt-popup-close:hover {
-    background: url('../images/icon-close-hover.png') no-repeat center center transparent;
+    background: url('../images/icons/icon-close-hover.png') no-repeat center center transparent;
     height: 10px;
     width: 10px;
 }
@@ -2179,7 +2179,7 @@ a.discussions {
 }
 
 .share-black-icon {
-    background: url("../images/icon-add+share-list-options.png") no-repeat scroll center center transparent;
+    background: url("../images/icons/icon-add+share-list-options.png") no-repeat scroll center center transparent;
     height: 30px;
     width: 30px;
     margin-right: 5px;
@@ -2187,7 +2187,7 @@ a.discussions {
 
 .share-black-icon:hover,
 a:hover .share-black-icon {
-    background: url("../images/icon-add+share-list-options-white.png") no-repeat scroll center center transparent;
+    background: url("../images/icons/icon-add+share-list-options-white.png") no-repeat scroll center center transparent;
     cursor: pointer;
     height: 30px;
     width: 30px;
@@ -2201,7 +2201,7 @@ a:hover .share-black-icon {
 }
 
 .archive-black-icon {
-    background: url("../images/icon-archive-list-options.png") no-repeat scroll center center transparent;
+    background: url("../images/icons/icon-archive-list-options.png") no-repeat scroll center center transparent;
     height: 30px;
     width: 30px;
     margin-right: 5px;
@@ -2209,7 +2209,7 @@ a:hover .share-black-icon {
 
 .archive-black-icon:hover,
 a:hover .archive-black-icon {
-    background: url("../images/icon-archive-list-options-white.png") no-repeat scroll center center transparent;
+    background: url("../images/icons/icon-archive-list-options-white.png") no-repeat scroll center center transparent;
     cursor: pointer;
     height: 30px;
     width: 30px;
@@ -2890,7 +2890,7 @@ div.discussion-bubble#smaller {
 
 .research-summary {
     float: right;
-    background: url('../images/clip-research-summary-bg.png') no-repeat left top transparent;
+    background: url('../images/clips/clip-research-summary-bg.png') no-repeat left top transparent;
     width: 102px;
     height: 37px;
     z-index: 2000;
@@ -2902,7 +2902,7 @@ div.discussion-bubble#smaller {
 }
 
 .research-summary:hover {
-    background: url('../images/clip-research-summary-bg-hover.png') no-repeat left top transparent;
+    background: url('../images/clips/clip-research-summary-bg-hover.png') no-repeat left top transparent;
     cursor: pointer;
 }
 
@@ -3034,17 +3034,17 @@ div.discussion-bubble#smaller {
     float: right;
     height: 29px;
     width: 26px;
-    background: url("../images/icon-add+share-white.png") no-repeat;
+    background: url("../images/icons/icon-add+share-white.png") no-repeat;
     background-position: center center;
     cursor: pointer;
 }
 
 .activity-content-preview #title #type-add-share span:hover {
-    background: url("../images/icon-add+share-white-hover.png") no-repeat;
+    background: url("../images/icons/icon-add+share-white-hover.png") no-repeat;
 }
 
 .activity-content-preview #title #type-add-share span:active {
-    background: url("../images/icon-add+share-white-clicked.png") no-repeat;
+    background: url("../images/icons/icon-add+share-white-clicked.png") no-repeat;
 }
 
 .activity-content-preview #container-inner {
