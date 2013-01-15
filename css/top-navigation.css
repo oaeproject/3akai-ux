@@ -94,7 +94,7 @@ span.notification {
     text-shadow: 0px 1px 0px #6d0019;
     font-weight: 600;
     position: absolute;
-    margin: -7px 0 0 15px;
+    margin: -4px 0 0 15px;
     padding: 0 4px 0 3px;   
     border-radius: 3px;
     -moz-border-radius: 3px;
@@ -115,7 +115,8 @@ span.notification {
 .oae-library-icon,
 .oae-cogwheel-icon,
 .oae-magnifier-icon,
-.oae-task-icon {
+.oae-task-icon,
+.oae-notifications-icon {
     height: 25px;
     width: 25px;
     margin-right:12px;
@@ -132,7 +133,7 @@ span.notification {
 }
 
 .oae-home-icon:active {
-    background: url("../images/main-header-icon-home-click.png") no-repeat center center transparent;
+    background: url("../images/main-header-icon-home-active.png") no-repeat center center transparent;
 }
 
 .oae-inbox-icon,
@@ -145,7 +146,7 @@ span.notification {
 }
 
 .oae-inbox-icon:active {
-    background: url("../images/main-header-icon-messages-click.png") no-repeat center center transparent;
+    background: url("../images/main-header-icon-messages-active.png") no-repeat center center transparent;
 }
 
 .oae-task-icon,
@@ -158,7 +159,7 @@ span.notification {
 }
 
 .oae-task-icon:active {
-    background: url("../images/main-header-icon-tasks-click.png") no-repeat center center transparent;
+    background: url("../images/main-header-icon-tasks-active.png") no-repeat center center transparent;
 }
 
 .oae-library-icon,
@@ -171,26 +172,48 @@ span.notification {
 }
 
 .oae-library-icon:active {
-    background: url("../images/main-header-icon-collections-click.png") no-repeat center center transparent;
+    background: url("../images/main-header-icon-collections-active.png") no-repeat center center transparent;
+}
+
+.oae-notifications-icon,
+.oae-home-notifications:visited {
+    background: url("../images/main-header-icon-notifications.png") no-repeat center center transparent;
+}
+
+.oae-notifications-icon:hover {
+    background: url("../images/main-header-icon-notifications-hover.png") no-repeat center center transparent;
+}
+
+.oae-notifications-icon:active {
+    background: url("../images/main-header-icon-notifications-active.png") no-repeat center center transparent;
 }
 
 /** TOP NAV SEARCH **/
 
-#oae-topnav-container #oae-topnav-right #topnav_search_input {
-    width: 190px;
+#oae-topnav-container #oae-topnav-right #topnav-search-input {
+    width: 150px;
     background-color: #ffffff;
     background-image: url("../images/icon-search.png");
-    background-position: 200px 4px;
+    background-position: 159px 5px;
+    background-repeat: no-repeat;
+    padding-right: 25px;
+    opacity: 0.75;
+}
+
+#oae-topnav-container #oae-topnav-right #topnav-search-input-long {
+    width: 300px;
+    background-image: url("../images/icon-search.png");
+    background-position: 309px 5px;
     background-repeat: no-repeat;
     padding-right: 25px;
 }
 
 .oae-magnifier-icon,
 .oae-home-magnifier:visited {
-    background: url("../images/icon_search.png") no-repeat center center transparent;
+    background: url("../images/icon-search.png") no-repeat center center transparent;
 }
 
-#oae-topnav-container #oae-topnav-right #topnav_search_form {
+#oae-topnav-container #oae-topnav-right #topnav-search-form {
     margin-right: 24px;
 }
 
@@ -206,7 +229,5 @@ span.notification {
 }
 
 .oae-cogwheel-icon:active {
-    background: url("../images/main-header-icon-settings-click.png") no-repeat center center transparent;
+    background: url("../images/main-header-icon-settings-active.png") no-repeat center center transparent;
 }
-
-
