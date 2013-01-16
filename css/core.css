@@ -770,21 +770,21 @@ a.upload {
 
 /** SHARE CLIP **/
 
-a.share_add {
+a.share-add {
     float: right;
     margin-right: 170px;
 }
 
-.action-icon#share_add {
+.action-icon#share-add {
     background: url("../images/clips/clip-action-icon-share+add.png") no-repeat 8px 8px transparent;
     padding: 13px 5px 0 40px;
 }
 
-.action-icon#share_add:hover {
+.action-icon#share-add:hover {
     background: url("../images/clips/clip-action-icon-share+add-hover.png") no-repeat 8px 8px transparent;
 }
 
-.action-icon#share_add:active {
+.action-icon#share-add:active {
     background: url("../images/clips/clip-action-icon-share+add-active.png") no-repeat 8px 8px transparent;
 }
 

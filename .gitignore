@@ -1,4 +1,4 @@
-.tmp_*
+.tmp-*
 .project
 target/
 *.kpf
@@ -6,5 +6,5 @@ nginx.*
 /dev-i
 .DS_Store
 *.swp
-/tests/speed/yslow/yslow_results.txt
+/tests/speed/yslow/yslow-results.txt
 Thumbs.db
