@@ -423,9 +423,13 @@ a:active {
 
 #oae-lhnav-container {
     background-color: #ccc;
+    box-shadow:  0 2px 4px #dbdbdb;
+    -moz-box-shadow:  0 2px 4px #dbdbdb;
+    -webkit-box-shadow:  0 2px 4px #dbdbdb;
     float: left;
     min-height: 424px;
     width: 60px;
+    padding: 1%;
 }
 
 .oae-content-column {
