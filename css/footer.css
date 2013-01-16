@@ -1,0 +1,8 @@
+#footer-container img {
+    margin: 12px 12px 0 1%;
+    width: 60px;
+}
+
+#footer-container #footer-copyright {
+    padding-top: 1em;
+}

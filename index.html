@@ -7,6 +7,7 @@
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic&subset=latin,cyrillic-ext,greek-ext' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" type="text/css" href="lib/jquery.autosuggest/autoSuggest.css">
         <link rel="stylesheet" type="text/css" href="css/core.css">
+        <link rel="stylesheet" type="text/css" href="css/footer.css">
         <link rel="stylesheet" type="text/css" href="css/top-navigation.css">
         <link rel="stylesheet" type="text/css" href="css/global-search.css">
         <script src="lib/jquery-1.8.2.js"></script>
@@ -55,38 +56,48 @@
                     </form>
                 </div>
                 <div id="oae-topnav-center">
-                    <a href="#"><img src="images/framework/oae-logox2.png"/></a>
+                    <a href="#" title="My dashboard">
+                        <img src="images/framework/oae-logox2.png"/>
+                    </a>
                 </div>
             </div>
-        <div class="oae-content-container two-column">
-            <div id="user-box" class="oae-title-clip">
-                <div class="oae-title-clip-right"></div>
-                <div class="oae-title-clip-left"></div>
-                <a href="#" title="John's dashboard"><img id="profile-image" src="images/dummy/profile-pic-john.png" alt="John Librarian"/></a>
-                <a href="#" title="More related to me (My profile, messages, account)"><h1>John Librarian</h1><div id="my-dropdown"></div></a>
-            </div>
-            <a title="Create anything (Document, To-do, Collection, Group)" class="create" href="#">
-                <div class="oae-action-clip-primary">
-                    <div class="action-clip-right"></div>
-                    <div class="action-clip-left"></div>
-                    <div class="action-icon" id="create">Create<span id="clip-down-arrow"></span></div>
+            <div class="oae-content-container two-column">
+                <div id="user-box" class="oae-title-clip">
+                    <div class="oae-title-clip-right"></div>
+                    <div class="oae-title-clip-left"></div>
+                    <a href="#" title="John's dashboard"><img id="profile-image" src="images/dummy/profile-pic-john.png" alt="John Librarian"/></a>
+                    <a href="#" title="More related to me (My profile, messages, account)"><h1>John Librarian</h1><div id="my-dropdown"></div></a>
                 </div>
-            </a>
-            <a title="Upload video, files, documents and links" class="upload" href="#">
-                <div class="oae-action-clip-secondary">
-                    <div class="action-clip-right"></div>
-                    <div class="action-clip-left"></div>
-                    <div class="action-icon" id="upload">Upload</div>
+                <a title="Create anything (Document, To-do, Collection, Group)" class="create" href="#">
+                    <div class="oae-action-clip-primary">
+                        <div class="action-clip-right"></div>
+                        <div class="action-clip-left"></div>
+                        <div class="action-icon" id="create">Create<span id="clip-down-arrow"></span></div>
+                    </div>
+                </a>
+                <a title="Upload video, files, documents and links" class="upload" href="#">
+                    <div class="oae-action-clip-secondary">
+                        <div class="action-clip-right"></div>
+                        <div class="action-clip-left"></div>
+                        <div class="action-icon" id="upload">Upload</div>
+                    </div>
+                </a>
+                <!-- Level 01 navigation -->
+                <div class="oae-content-column" id="oae-left-column">
+                <!-- 80% content width -->
                 </div>
-            </a>
-            <!-- Level 01 navigation -->
-            <div class="oae-content-column" id="oae-left-column">
-            <!-- 80% content width -->
+                <div class="oae-content-column" id="oae-center-column">
+                <!-- 20% content width -->
+                 </div>
             </div>
-            <div class="oae-content-column" id="oae-center-column">
-            <!-- 20% content width -->
-             </div>
+            <div id="footer-container">
+                <a href="#" title="My dashboard">
+                    <img src="images/framework/oae-logox2.png" class="oae-force-left">
+                </a>
+                <div>
+                    <p id="footer-copyright"><a target="_blank" href="http://sakaiproject.org/foundation-licenses" title="Copyright">&copy;</a> The Sakai Foundation <span id="footer_date_end">2013</span> All rights reserved</p>
+                </div>
+            </div>
         </div>
-    </div>
     </body>
 </html>
