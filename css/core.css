@@ -23,7 +23,8 @@ html {
 }
 
 body {
-    background: url("../images/framework/oae-bg-pattern.png") repeat 0 0 #eceae5;
+    background: url("../images/framework/oae-bg-pattern-x2.png") repeat 0 0 #eceae5;
+    background-size: 4px 4px;
 }
 
 article,
@@ -85,7 +86,7 @@ textarea {
     color: #333;
     font-family: 'Open Sans', sans-serif; arial, helvetica, sans-serif;
     font-size: 16px;
-    font-size: 1.6rem;
+    font-size: 1rem;
     line-height: 1.5;
 }
 
@@ -237,9 +238,9 @@ input[type="submit"] {
     cursor: pointer; /* Improves usability and consistency of cursor style between image-type 'input' and others */
     -webkit-appearance: button; /* Corrects inability to style clickable 'input' types in iOS */
     font-size: 12px;
-    font-size: 1.4rem;
+    font-size: 1rem;
     line-height: 1;
-    padding: 1.12em 1.5em 1em;
+    padding: 0.25em 0.45em;
     text-shadow: 0 1px 0 rgba(255,255,255,.8);
 }
 
@@ -247,7 +248,7 @@ button:hover,
 html input[type="button"]:hover,
 input[type="reset"]:hover,
 input[type="submit"]:hover {
-    border-color: #CCC #BBB #AAA #BBB;
+    border-color: #ccc #bbb #aaa #bbb;
     -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), inset 0 15px 17px rgba(255,255,255,0.8), inset 0 -5px 12px rgba(0,0,0,0.02);
     -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), inset 0 15px 17px rgba(255,255,255,0.8), inset 0 -5px 12px rgba(0,0,0,0.02);
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), inset 0 15px 17px rgba(255,255,255,0.8), inset 0 -5px 12px rgba(0,0,0,0.02);
@@ -429,6 +430,18 @@ a:active {
     width: 17%;
 }
 
+.oae-content-column .single-column {
+    box-size: border;
+}
+
+.oae-content-column .two-column {
+    box-size: border;
+}
+
+.oae-content-column .three-column {
+    box-size: border;
+}
+
 .oae-content-column#oae-center-column {
     float: left;
     width: 58%;
@@ -474,19 +487,19 @@ a:active {
 }
 
 #oae-right-column-open #open-column-button {
-    background: url("../images/s2-images/open-column-icon.png") no-repeat scroll center center transparent;
+    background: url("../images/icons/open-column-icon.png") no-repeat scroll center center transparent;
     height: 12px;
     margin: 11px 0 0 7px;
     width: 17px;
 }
 
 #oae-right-column-open #open-column-button:hover {
-    background: url("../images/s2-images/open-column-icon-hover.png") no-repeat center center transparent;
+    background: url("../images/icons/open-column-icon-hover.png") no-repeat center center transparent;
     cursor: pointer;
 }
 
 #oae-right-column-open #open-column-button:active {
-    background: url("../images/s2-images/open-column-icon-active.png") no-repeat center center transparent;
+    background: url("../images/icons/open-column-icon-active.png") no-repeat center center transparent;
 }
 
 /************************
@@ -494,7 +507,8 @@ a:active {
  ************************/
 
 .oae-title-clip {
-    background: url("../images/clips/clip-title-panel.png") repeat-x center center transparent;
+    background: url("../images/clips/clip-title-panel-tile-x2.png") repeat-x center center transparent;
+    background-size: 1px 58px;
     height: 58px;
     line-height: 40px;
     margin-top: -18px;
@@ -513,14 +527,16 @@ a:active {
 }
 
 .oae-title-clip .oae-title-clip-left {
-    background: url("../images/clips/clip-title-panel-left-alt.png") no-repeat 0 0 transparent;
+    background: url("../images/clips/clip-title-panel-left-x2.png") no-repeat 0 0 transparent;
+    background-size: 12px 58px;
     float: left;
     height: 58px;
     width: 12px;
 }
 
 .oae-title-clip .oae-title-clip-right {
-    background: url("../images/clips/clip-title-panel-right-alt.png") no-repeat 0 0 transparent;
+    background: url("../images/clips/clip-title-panel-right-x2.png") no-repeat 0 0 transparent;
+    background-size: 12px 58px;
     float: right;
     height: 58px;
     width: 12px;
@@ -576,7 +592,8 @@ a:active {
     text-shadow: 0 1px 0 #000000;
     text-decoration: none;
     float: left;
-    background: url("../images/icons/header-clip-down-arrow.png") no-repeat center right transparent;
+    background: url("../images/icons/header-clip-down-arrow-x2.png") no-repeat center right transparent;
+    background-size: 13px 7px;
 }
 
 #group-box a h1 {
@@ -596,7 +613,8 @@ a:active {
 #user-box a h1:hover {
     color: #ffffff;
     float: left;
-    background: url("../images/icons/header-clip-down-arrow-hover.png") no-repeat center right transparent;
+    background: url("../images/icons/header-clip-down-arrow-x2-hover.png") no-repeat center right transparent;
+    background-size: 13px 7px;
 }
 
 #group-box a h1:hover {
@@ -607,7 +625,8 @@ a:active {
 #user-box a h1:active {
     color: #666666;
     float: left;
-    background: url("../images/icons/header-clip-down-arrow-clicked.png") no-repeat center right transparent;
+    background: url("../images/icons/header-clip-down-arrow-x2-active.png") no-repeat center right transparent;
+    background-size: 13px 7px;
 }
 
 #group-box a h1:active {
@@ -617,13 +636,14 @@ a:active {
 
 #user-box .user-box-multiline-arrow h1,
 #group-box .group-box-multiline-arrow h1{
-    background: url("../images/icons/header-clip-down-arrow.png") no-repeat scroll right center transparent;
+    background: url("../images/icons/header-clip-down-arrow-x2.png") no-repeat scroll right center transparent;
     display: inline-block;
     float: left;
     height: 20px;
     line-height: 3px;
     margin: 6px 10px -20px 0;
     padding-right: 25px;
+    background-size: 13px 7px;
 }
 
 #user-box .user-box-multiline h1,
@@ -684,16 +704,9 @@ a:active {
     position: absolute;
 }
 
-.oae-action-clip-secondary-clip-top {
-    background: url("../images/clips/clip-action-panel-top.png") no-repeat center center transparent;
-    width: 40px;
-    height: 6px;
-    margin-left: -6px;
-    position: absolute;
-}
-
 .oae-action-clip-secondary {
-    background: url("../images/clips/clip-action-panel.png") repeat-x 0 0 transparent;
+    background: url("../images/clips/clip-action-panel-tile-x2.png") repeat-x 0 0 transparent;
+    background-size: 1px 44px;
     height: 45px;
     margin-right: 20px;
     margin-top: -18px;
@@ -702,17 +715,19 @@ a:active {
 }
 
 .oae-action-clip-secondary .action-clip-left {
-    background: url("../images/clips/clip-action-panel-left.png") no-repeat 0 0 transparent;
+    background: url("../images/clips/clip-action-panel-left-x2.png") no-repeat 0 0 transparent;
+    background-size: 11px 44px;
     float: left;
-    height: 45px;
-    width: 12px;
+    height: 44px;
+    width: 11px;
 }
 
 .oae-action-clip-secondary .action-clip-right {
-    background: url("../images/clips/clip-action-panel-right.png") no-repeat 0 0 transparent;
+    background: url("../images/clips/clip-action-panel-right-x2.png") no-repeat 0 0 transparent;
+    background-size: 6px 44px;
     float: right;
-    height: 45px;
-    width: 12px;
+    height: 44px;
+    width: 6px;
 }
 
 .oae-action-clip-secondary .action-icon {
@@ -738,16 +753,19 @@ a.upload {
 }
 
 .action-icon#upload {
-    background: url("../images/clips/clip-button-icon-upload.png") no-repeat 10px 10px transparent;
+    background: url("../images/clips/clip-button-icon-upload-x2.png") no-repeat 10px 10px transparent;
     padding: 13px 5px 0 40px;
+    background-size: 25px 25px;
 }
 
 .action-icon#upload:hover {
-    background: url("../images/clips/clip-button-icon-upload-hover.png") no-repeat 10px 10px transparent;
+    background: url("../images/clips/clip-button-icon-upload-x2-hover.png") no-repeat 10px 10px transparent;
+    background-size: 25px 25px;
 }
 
 .action-icon#upload:active {
-    background: url("../images/clips/clip-button-icon-upload-clicked.png") no-repeat 10px 10px transparent;
+    background: url("../images/clips/clip-button-icon-upload-x2-active.png") no-repeat 10px 10px transparent;
+    background-size: 25px 25px;
 }
 
 /** SHARE CLIP **/
@@ -795,21 +813,24 @@ a.archive {
  ********************************/
 
 .oae-action-clip-primary {
-    background: url("../images/clips/clip-button-primary-bg-tile.png") repeat-x 0 0 transparent;
+    background: url("../images/clips/clip-button-primary-bg-tile-x2.png") repeat-x 0 0 transparent;
+    background-size: 1px 44px;
     height: 44px;
     margin-right: 20px;
     position: absolute;
 }
 
 .action-clip-left {
-    background: url("../images/clips/clip-button-primary-left-alt.png") no-repeat;
+    background: url("../images/clips/clip-button-primary-left-x2.png") no-repeat;
+    background-size: 11px 44px;
     float: left;
     height: 44px;
     width: 11px;
 }
 
 .action-clip-right {
-    background: url("../images/clips/clip-button-primary-right-alt.png") no-repeat;
+    background: url("../images/clips/clip-button-primary-right-x2.png") no-repeat;
+    background-size: 6px 44px;
     float: right;
     height: 44px;
     width: 6px;
@@ -837,7 +858,8 @@ a.archive {
 }
 #clip-down-arrow {
     float: right;
-    background: url("../images/icons/primary-clip-down-arrow.png") no-repeat center center transparent;
+    background: url("../images/icons/primary-clip-down-arrow-x2.png") no-repeat center center transparent;
+    background-size: 13px 7px;
     width: 20px;
     height: 18px;
     margin: 1px 0 0 3px;
@@ -874,16 +896,19 @@ a.create {
     margin-right: 180px;
 }
 .action-icon#create {
-    background: url("../images/clips/clip-button-icon-add.png") no-repeat 10px 10px transparent;
+    background: url("../images/clips/clip-button-icon-add-x2.png") no-repeat 10px 10px transparent;
     padding: 13px 5px 0 40px;
+    background-size: 25px 25px;
 }
 
 .action-icon#create:hover {
-    background: url("../images/clips/clip-button-icon-add-hover.png") no-repeat 10px 10px transparent;
+    background: url("../images/clips/clip-button-icon-add-x2-hover.png") no-repeat 10px 10px transparent;
+    background-size: 25px 25px;
 }
 
 .action-icon#create:active {
-    background: url("../images/clips/clip-button-icon-add-clicked.png") no-repeat 10px 10px transparent;
+    background: url("../images/clips/clip-button-icon-add-x2-active.png") no-repeat 10px 10px transparent;
+    background-size: 25px 25px;
 }
 
 .oae-action-clip-tertiary-bg-gradient {
