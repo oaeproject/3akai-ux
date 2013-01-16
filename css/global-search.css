@@ -66,7 +66,7 @@
 }
 
 #topnav-search-results-suggests ul li {
-    font-size: 12px;
+    font-size: .75rem;
     line-height: 18px;
     margin: 0;
     padding: 2px;
@@ -91,8 +91,7 @@
 
 #topnav-search-results-bottom {
     border-top: 1px solid #CCC;
-    height: 18px;
-    padding: 5px 5px;
+    padding: 2%;
 }
 
 #topnav-search-results-bottom a:hover {
@@ -106,7 +105,7 @@
     width: 77%;
     background: url("../images/icons/icon-search.png") no-repeat center center transparent;
     background-position: 220px 37px;
-    background-color: #FFF;
+    background-color: #ffffff;
 }
 
 #topnav-search-form #search-keywords #search-bar ul {
@@ -120,4 +119,27 @@
 
 #topnav-search-form #search-keywords #search-bar input {
     margin: 0;
+}
+#topnav-search-results-bottom h3 {
+    font-size: .75rem;
+    font-weight: 400;
+    margin: 2% 0 0 2%;
+}
+
+#topnav-search-results-bottom button {
+    font-size: .75rem;
+    color: #0074A7;
+    font-weight: 600;
+    padding: 2% 5% 2% 5%;
+    margin-bottom: 2%;
+}
+
+#topnav-search-results-bottom button:hover {
+    color: #333333;
+    text-shadow: 0px -1px 0px #ffffff;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    background: #ffffff;
+
 }
