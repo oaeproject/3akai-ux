@@ -593,8 +593,8 @@ a:active {
     font-weight: 600;
     height: 33px;
     line-height: 18px;
-    padding: 12px 25px 0 10px;
-    margin-right: 5px;
+    padding: 12px 20px 0 10px;
+    margin-right: 10px;
     text-shadow: 0 1px 0 #000000;
     text-decoration: none;
     float: left;
@@ -761,18 +761,18 @@ a.upload {
 }
 
 .action-icon#upload {
-    background: url("../images/clips/clip-button-icon-upload.png") no-repeat 10px 10px transparent;
+    background: url("../images/icons/upload-icon-white.png") no-repeat 10px 10px transparent;
     padding: 13px 5px 0 40px;
     background-size: 25px 25px;
 }
 
 .action-icon#upload:hover {
-    background: url("../images/clips/clip-button-icon-upload-hover.png") no-repeat 10px 10px transparent;
+    background: url("../images/icons/upload-icon-white-hover.png") no-repeat 10px 10px transparent;
     background-size: 25px 25px;
 }
 
 .action-icon#upload:active {
-    background: url("../images/clips/clip-button-icon-upload-active.png") no-repeat 10px 10px transparent;
+    background: url("../images/icons/upload-icon-white-active.png") no-repeat 10px 10px transparent;
     background-size: 25px 25px;
 }
 
@@ -784,16 +784,16 @@ a.share-add {
 }
 
 .action-icon#share-add {
-    background: url("../images/clips/clip-action-icon-share+add.png") no-repeat 8px 8px transparent;
+    background: url("../images/icons/share+add-icon-white.png") no-repeat 8px 8px transparent;
     padding: 13px 5px 0 40px;
 }
 
 .action-icon#share-add:hover {
-    background: url("../images/clips/clip-action-icon-share+add-hover.png") no-repeat 8px 8px transparent;
+    background: url("../images/icons/share+add-icon-white-hover.png") no-repeat 8px 8px transparent;
 }
 
 .action-icon#share-add:active {
-    background: url("../images/clips/clip-action-icon-share+add-active.png") no-repeat 8px 8px transparent;
+    background: url("../images/icons/share+add-icon-active.png") no-repeat 8px 8px transparent;
 }
 
 /** ARCHIVE CLIP **/
@@ -804,16 +804,16 @@ a.archive {
 }
 
 .action-icon#archive {
-    background: url("../images/clips/clip-action-icon-archive.png") no-repeat 8px 8px transparent;
+    background: url("../images/icons/archive-icon-white.png") no-repeat 8px 8px transparent;
     padding: 13px 5px 0 40px;
 }
 
 .action-icon#archive:hover {
-    background: url("../images/clips/clip-action-icon-archive-hover.png") no-repeat 8px 8px transparent;
+    background: url("../images/icons/archive-icon-white-hover.png") no-repeat 8px 8px transparent;
 }
 
 .action-icon#archive:active {
-    background: url("../images/clips/clip-action-icon-active.png") no-repeat 8px 8px transparent;
+    background: url("../images/icons/active-icon-active.png") no-repeat 8px 8px transparent;
 }
 
 /********************************
@@ -886,16 +886,16 @@ a.questions .oae-action-clip-primary {
 }
 
 .action-icon#ask-question {
-    background: url("../images/clips/clip-button-icon-ask-question.png") no-repeat 10px 10px transparent;
+    background: url("../images/icons/ask-question-white.png") no-repeat 10px 10px transparent;
     padding: 13px 10px 0 50px;
 }
 
 .action-icon#ask-question:hover {
-    background: url("../images/clips/clip-button-icon-ask-question-hover.png") no-repeat 10px 10px transparent;
+    background: url("../images/icons/ask-question-white-hover.png") no-repeat 10px 10px transparent;
 }
 
 .action-icon#ask-question:active {
-    background: url("../images/clips/clip-button-icon-ask-question-click.png") no-repeat 10px 10px transparent;
+    background: url("../images/icons/ask-question-white-active.png") no-repeat 10px 10px transparent;
 }
 
 /** CREATE CLIP **/
@@ -905,19 +905,21 @@ a.create {
     margin-right: 180px;
 }
 .action-icon#create {
-    background: url("../images/clips/clip-button-icon-add.png") no-repeat 10px 10px transparent;
+    background: url("../images/icons/add-icon-white.png") no-repeat 10px 10px transparent;
     padding: 13px 5px 0 40px;
     background-size: 25px 25px;
 }
 
 .action-icon#create:hover {
-    background: url("../images/clips/clip-button-icon-add-hover.png") no-repeat 10px 10px transparent;
+    background: url("../images/icons/add-icon-white-hover.png") no-repeat 10px 10px transparent;
     background-size: 25px 25px;
 }
 
 .action-icon#create:active {
-    background: url("../images/clips/clip-button-icon-add-active.png") no-repeat 10px 10px transparent;
+    background: url("../images/icons/add-icon-white-active.png") no-repeat 10px 10px transparent;
     background-size: 25px 25px;
+    text-shadow: 0 1px 0 #9acce0;
+    color: #444444;
 }
 
 .oae-action-clip-tertiary-bg-gradient {
@@ -950,16 +952,16 @@ a.discussions {
 }
 
 .action-icon#discussions {
-    background: url("../images/clips/clip-button-icon-ask-question.png") no-repeat 8px 8px transparent;
+    background: url("../images/icons/ask-question-icon-white.png") no-repeat 8px 8px transparent;
     padding: 13px 5px 0 40px;
 }
 
 .action-icon#discussions:hover {
-    background: url("../images/clips/clip-button-icon-ask-question-hover.png") no-repeat 8px 8px transparent;
+    background: url("../images/icons/ask-question-icon-white-hover.png") no-repeat 8px 8px transparent;
 }
 
 .action-icon#discussions:active {
-    background: url("../images/clips/clip-button-icon-ask-question-click.png") no-repeat 8px 8px transparent;
+    background: url("../images/icons/ask-question-icon-active.png") no-repeat 8px 8px transparent;
 }
 
 /***********
