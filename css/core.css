@@ -402,11 +402,11 @@ a:active {
 
 #oae-page-container {
     margin: 0 auto;
-    min-width: 1000px;
+    min-width: 1100px;
     width: 96%;
 }
 
-#oae-content-container {
+.oae-content-container {
     overflow: hidden;
     padding: 12px 0 0 12px;
     min-width: 1000px;
@@ -419,36 +419,51 @@ a:active {
     box-shadow:  0 2px 4px #dbdbdb;
     -moz-box-shadow:  0 2px 4px #dbdbdb;
     -webkit-box-shadow:  0 2px 4px #dbdbdb;
+    padding: 1%;
 }
 
 #oae-lhnav-container {
+    background-color: #CCCCCC;
     float: left;
+    min-height: 424px;
     width: 60px;
 }
 
 .oae-content-column {
     float: left;
     min-height: 400px;
-    min-width: 400px;
-    margin: 40px 0 0 20px;
-    width: 17%;
+    width: 18%;
 }
 
-.oae-content-column .single-column {
-    box-size: border;
+.oae-content-container.one-column > #oae-center-column{
+    background-color: #CCC;
+    min-height: 400px;
+    width: 100%;
 }
 
-.oae-content-column .two-column {
-    box-size: border;
+.oae-content-container.two-column #oae-left-column {
+    background-color: #CCC;
+    margin-right: 2%;
+    width: 18%;
+}
+.oae-content-container.two-column #oae-center-column {
+    background-color: #DDD;
+    width: 80%;
 }
 
-.oae-content-column .three-column {
-    box-size: border;
+.oae-content-container.three-column #oae-left-column {
+    background-color: #CCC;
+    margin-right: 2%;
+    width: 10%;
 }
-
-.oae-content-column#oae-center-column {
-    float: left;
-    width: 58%;
+.oae-content-container.three-column #oae-center-column {
+    background-color: #DDD;
+    margin-right: 2%;
+    width: 50%;
+}
+.oae-content-container.three-column #oae-right-column {
+    background-color: #EEE;
+    width: 36%;
 }
 
 .oae-content-column#oae-center-column-wide {
@@ -458,10 +473,6 @@ a:active {
 
 .oae-content-column#oae-center-column-wide.right-column-collapsed {
     width: 92%;
-}
-
-.oae-content-column#oae-right-column {
-    float: left;
 }
 
 .oae-content-column#oae-right-column-open {
