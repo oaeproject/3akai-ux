@@ -98,7 +98,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 hr {
-    background-color: #CCC;
+    background-color: #ccc;
     border: 0;
     height: 1px;
     margin-bottom: 1.5em;
@@ -228,8 +228,8 @@ button,
 html input[type="button"],
 input[type="reset"],
 input[type="submit"] {
-    border: 1px solid #CCC;
-    border-color: #CCC #CCC #BBB #CCC;
+    border: 1px solid #ccc;
+    border-color: #ccc #ccc #bbb #ccc;
     border-radius: 3px;
     background: #e6e6e6;
     -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), inset 0 15px 17px rgba(255,255,255,0.5), inset 0 -5px 12px rgba(0,0,0,0.05);
@@ -263,7 +263,7 @@ button:active,
 html input[type="button"]:active,
 input[type="reset"]:active,
 input[type="submit"]:active {
-    border-color: #CCC #BBB #AAA #BBB;
+    border-color: #ccc #bbb #aaa #bbb;
     -webkit-box-shadow: inset 0 -1px 0 rgba(255,255,255,0.5), inset 0 2px 5px rgba(0,0,0,0.15);
     -moz-box-shadow: inset 0 -1px 0 rgba(255,255,255,0.5), inset 0 2px 5px rgba(0,0,0,0.15);
     box-shadow: inset 0 -1px 0 rgba(255,255,255,0.5), inset 0 2px 5px rgba(0,0,0,0.15);
@@ -297,7 +297,7 @@ input::-moz-focus-inner { /* Corrects inner padding and border displayed oddly i
 input[type=text],
 input[type=email],
 textarea {
-    border: 1px solid #CCC;
+    border: 1px solid #ccc;
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
@@ -402,53 +402,67 @@ a:active {
 
 #oae-page-container {
     margin: 0 auto;
-    min-width: 1000px;
+    min-width: 1100px;
     width: 96%;
 }
 
-#oae-content-container {
-    overflow: hidden;
-    padding: 12px 0 0 12px;
-    min-width: 1000px;
-    background-color: #ffffff;
-    border: 1px solid #dddddd;
+.oae-content-container {
+    background-color: #fff;
+    border: 1px solid #ddd;
     border-bottom: none;
     border-radius: 2px 2px 0 0;
     -moz-border-radius: 2px 2px 0 0;
     -webkit-border-radius: 2px 2px 0 0;
-    box-shadow:  0 2px 4px #dbdbdb;
-    -moz-box-shadow:  0 2px 4px #dbdbdb;
-    -webkit-box-shadow:  0 2px 4px #dbdbdb;
+    box-shadow: 0 2px 4px #dbdbdb;
+    -moz-box-shadow: 0 2px 4px #dbdbdb;
+    -webkit-box-shadow: 0 2px 4px #dbdbdb;
+    overflow: hidden;
+    padding: 1%;
+    min-width: 1000px;
 }
 
 #oae-lhnav-container {
+    background-color: #ccc;
     float: left;
+    min-height: 424px;
     width: 60px;
 }
 
 .oae-content-column {
     float: left;
     min-height: 400px;
-    min-width: 400px;
-    margin: 40px 0 0 20px;
-    width: 17%;
+    width: 18%;
 }
 
-.oae-content-column .single-column {
-    box-size: border;
+.oae-content-container.one-column > #oae-center-column{
+    background-color: #ccc;
+    min-height: 400px;
+    width: 100%;
 }
 
-.oae-content-column .two-column {
-    box-size: border;
+.oae-content-container.two-column #oae-left-column {
+    background-color: #ccc;
+    margin-right: 2%;
+    width: 18%;
+}
+.oae-content-container.two-column #oae-center-column {
+    background-color: #ddd;
+    width: 80%;
 }
 
-.oae-content-column .three-column {
-    box-size: border;
+.oae-content-container.three-column #oae-left-column {
+    background-color: #ccc;
+    margin-right: 2%;
+    width: 10%;
 }
-
-.oae-content-column#oae-center-column {
-    float: left;
-    width: 58%;
+.oae-content-container.three-column #oae-center-column {
+    background-color: #ddd;
+    margin-right: 2%;
+    width: 50%;
+}
+.oae-content-container.three-column #oae-right-column {
+    background-color: #eee;
+    width: 36%;
 }
 
 .oae-content-column#oae-center-column-wide {
@@ -460,25 +474,21 @@ a:active {
     width: 92%;
 }
 
-.oae-content-column#oae-right-column {
-    float: left;
-}
-
 .oae-content-column#oae-right-column-open {
+    background: url("../images/framework/shadow-right.png") no-repeat left top #efefef;
+    display: block;
     float: right;
     padding: 0;
     margin-top: -12px;
     overflow: hidden;
-    display: block;
-    background: url("../images/framework/shadow-right.png") no-repeat left top #efefef;
     min-height: 452px;
 }
 
 #oae-right-column-open #close-column-button {
     background: url("../images/icons/close-column-icon.png") no-repeat center center transparent;
-    width: 14px;
     height: 13px;
     margin: 15px 0 0 10px;
+    width: 14px;
 }
 
 #oae-right-column-open #close-column-button:hover {
@@ -547,7 +557,7 @@ a:active {
 }
 
 .oae-title-clip h1 {
-    color: #ffffff;
+    color: #fff;
     float: left;
     font-size: 16px;
     font-size: 1.6rem;
@@ -556,7 +566,7 @@ a:active {
     line-height: 18px;
     margin-top: 7px;
     padding: 12px 10px 0;
-    text-shadow: 0 1px 0 #000000;
+    text-shadow: 0 1px 0 #000;
 }
 
 /** USER / GROUP CLIP **/
@@ -577,15 +587,17 @@ a:active {
 
 #user-box.oae-title-clip img:hover,
 #group-box.oae-title-clip img:hover {
-    margin: 9px 0 0 3px;
-    cursor: pointer;
     border: 3px solid #25a9df;
     border-radius: 3px;
     -moz-border-radius: 3px 3px 3px 3px;
     -webkit-border-radius: 3px 3px 3px 3px;
+    cursor: pointer;
+    margin: 9px 0 0 3px;
 }
 
 #user-box a h1 {
+    background: url("../images/icons/down-arrow-icon-white.png") no-repeat center right transparent;
+    background-size: 13px 7px;
     color: #dbdbdb;
     float: left;
     font-size: 16px;
@@ -595,11 +607,8 @@ a:active {
     line-height: 18px;
     padding: 12px 20px 0 10px;
     margin-right: 10px;
-    text-shadow: 0 1px 0 #000000;
+    text-shadow: 0 1px 0 #000;
     text-decoration: none;
-    float: left;
-    background: url("../images/icons/down-arrow-icon-white.png") no-repeat center right transparent;
-    background-size: 13px 7px;
 }
 
 #group-box a h1 {
@@ -610,18 +619,17 @@ a:active {
     font-weight: 600;
     height: 33px;
     line-height: 18px;
-    padding: 12px 25px 0 10px;
     margin-right: 5px;
-    text-shadow: 0 1px 0 #000000;
+    padding: 12px 25px 0 10px;
+    text-shadow: 0 1px 0 #000;
     text-decoration: none;
-    float: left;
 }
 
 #user-box a h1:hover {
-    color: #ffffff;
-    float: left;
     background: url("../images/icons/down-arrow-icon-hover.png") no-repeat center right transparent;
     background-size: 13px 7px;
+    color: #ffffff;
+    float: left;
 }
 
 #group-box a h1:hover {
@@ -630,27 +638,27 @@ a:active {
 }
 
 #user-box a h1:active {
-    color: #666666;
-    float: left;
     background: url("../images/icons/down-arrow-icon-active.png") no-repeat center right transparent;
     background-size: 13px 7px;
+    color: #666;
+    float: left;
 }
 
 #group-box a h1:active {
-    color: #666666;
+    color: #666;
     float: left;
 }
 
 #user-box .user-box-multiline-arrow h1,
 #group-box .group-box-multiline-arrow h1{
     background: url("../images/icons/down-arrow-icon.png") no-repeat scroll right center transparent;
+    background-size: 13px 7px;
     display: inline-block;
     float: left;
     height: 20px;
     line-height: 3px;
     margin: 6px 10px -20px 0;
     padding-right: 25px;
-    background-size: 13px 7px;
 }
 
 #user-box .user-box-multiline h1,
@@ -667,7 +675,7 @@ a:active {
 #group-box .group-box-multiline span,
 #user-box .user-box-multiline-arrow span,
 #group-box .group-box-multiline-arrow span {
-    color: #ffffff;
+    color: #fff;
     display: block;
     font-size: 13px;
     font-size: 1.3rem;
@@ -690,18 +698,18 @@ a:active {
     background: url("../images/clips/clip-title-panel.png") repeat-x center center transparent;
     height: 58px;
     line-height: 40px;
-    margin-top: -18px;
     position: absolute;
+    margin-top: -18px;
     min-width: 127px;
 }
 
 .oae-action-clip-secondary-bg-gradient {
-    background: -moz-linear-gradient(top,  #555555 25%, #444444 50%, #000000 100%));
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(25%,#555555), color-stop(50%,#444444), color-stop(100%,#000000));
-    background: -webkit-linear-gradient(top,  #555555 25%,#444444 50%,);
-    background: -o-linear-gradient(top,  #555555 25%,#444444 50%,#000000 100%);
-    background: -ms-linear-gradient(top,  #555555 25%,#444444 50%,#000000 100%);
-    background: linear-gradient(to bottom,  #555555 25%,#444444 50%,#000000 100%);
+    background: -moz-linear-gradient(top,  #555 25%, #444 50%, #000 100%));
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(25%,#555), color-stop(50%,#444), color-stop(100%,#000));
+    background: -webkit-linear-gradient(top,  #555 25%,#444 50%,);
+    background: -o-linear-gradient(top,  #555 25%,#444 50%,#000 100%);
+    background: -ms-linear-gradient(top,  #555 25%,#444 50%,#000 100%);
+    background: linear-gradient(to bottom,  #555 25%,#444 50%,#000 100%);
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
@@ -739,17 +747,17 @@ a:active {
 }
 
 .oae-action-clip-secondary .action-icon {
-    color: #ffffff;
-    text-shadow: 0 1px 0 #000000;
+    color: #fff;
+    text-shadow: 0 1px 0 #000;
 }
 
 .oae-action-clip-secondary .action-icon:hover {
-    color: #ffffff;
-    text-shadow: 0 1px 0 #000000;
+    color: #fff;
+    text-shadow: 0 1px 0 #000;
 }
 
 .oae-action-clip-secondary .action-icon:active {
-    color: #999999;
+    color: #999;
     text-shadow: 0 1px 0 #000;
 }
 
@@ -762,8 +770,8 @@ a.upload {
 
 .action-icon#upload {
     background: url("../images/icons/upload-icon-white.png") no-repeat 10px 10px transparent;
-    padding: 13px 5px 0 40px;
     background-size: 25px 25px;
+    padding: 13px 5px 0 40px;
 }
 
 .action-icon#upload:hover {
@@ -845,7 +853,7 @@ a.archive {
 }
 
 .action-icon {
-    color: #ffffff;
+    color: #fff;
     float: left;
     font-size: 13px;
     font-size: 1.3rem;
@@ -857,13 +865,13 @@ a.archive {
 }
 
 .action-icon:hover {
-    color: #ffffff;
+    color: #fff;
     text-shadow: 0 1px 0 #0074a7;
 }
 
 .action-icon:active {
-    color: #000000;
-    text-shadow: 0 1px 0 #333333;
+    color: #000;
+    text-shadow: 0 1px 0 #333;
 }
 #clip-down-arrow {
     float: right;
@@ -919,11 +927,12 @@ a.create {
     background: url("../images/icons/add-icon-white-active.png") no-repeat 10px 10px transparent;
     background-size: 25px 25px;
     text-shadow: 0 1px 0 #9acce0;
-    color: #444444;
+    color: #444;
 }
 
 .oae-action-clip-tertiary-bg-gradient {
     background-color: #eeb211;
+    border-left: solid 1px #c59353;
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
@@ -933,15 +942,14 @@ a.create {
     margin-top: -18px;
     margin-left: 29px;
     position: absolute;
-    border-left: solid 1px #c59353;
 }
 
 .oae-action-clip-tertiary-clip-top {
     background: url("../images/clips/clip-button-primary-bg-top.png") no-repeat center center transparent;
-    width: 40px;
     height: 6px;
     margin-left: -7px;
     position: absolute;
+    width: 40px;
 }
 
 /** DISCUSSION CLIP **/
