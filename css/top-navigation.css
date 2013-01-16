@@ -6,13 +6,14 @@
 
 #oae-topnav-container {
     clear: both;
-    margin-bottom: 20px;
     height: 50px;
+    margin-bottom: 20px;
     width: 100%;
 }
 
 #oae-topnav-container #oae-topnav-left {
     float: left;
+    margin-top: .75% 
 }
 
 #oae-topnav-container #oae-topnav-right {
@@ -37,7 +38,6 @@
 
 #oae-topnav-center img:hover {
     opacity:0.4;
-    filter:alpha(opacity=40); /* For IE8 and earlier */
 }
 
 /** TOP NAV ELEMENTS **/
@@ -62,7 +62,7 @@
     font-size: 1.3rem;
     font-weight: 600;
     text-decoration: none;
-    text-shadow: 0px 1px 0px #ffffff;
+    text-shadow: 0px 1px 0px #fff;
 }
 
 #oae-topnav-container a#topnav-links {
@@ -70,41 +70,30 @@
 }
 
 #oae-topnav-container a#topnav-links:hover {
-    color: #333333;
-    text-decoration: none;
-    text-shadow: 0px -1px 0px #ffffff;
+    background: #fff;
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
-    background: #ffffff;
+    color: #333;
+    text-decoration: none;
+    text-shadow: 0px -1px 0px #fff;
 
 }
 
 #oae-topnav-container a#topnav-links:active {
-    color: #666666;
-    text-decoration: none;
-    text-shadow: 0px 1px 0px #ffffff;
+    background: #fff;
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
-    background: #ffffff;
+    color: #666;
     opacity: 0.75;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #fff;
 }
 
 /** TOP NAV NOTIFICATIONS **/
 
 span.notification {
-    font-size: 11.5px;
-    font-size: 1.15rem;
-    color: #fff;
-    text-shadow: 0px 1px 0px #6d0019;
-    font-weight: 600;
-    position: absolute;
-    margin: -4px 0 0 15px;
-    padding: 0 4px 0 3px;   
-    border-radius: 3px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
     background-color: #c80f0f;
     background: #a90329; /* Old browsers */
     background: -moz-linear-gradient(top,  #a90329 0%, #8f0222 44%, #6d0019 100%); /* FF3.6+ */
@@ -112,6 +101,17 @@ span.notification {
     background: -webkit-linear-gradient(top,  #a90329 0%,#8f0222 44%,#6d0019 100%); /* Chrome10+,Safari5.1+ */
     background: -ms-linear-gradient(top,  #a90329 0%,#8f0222 44%,#6d0019 100%); /* IE10+ */
     background: linear-gradient(to bottom,  #a90329 0%,#8f0222 44%,#6d0019 100%); /* W3C */
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    color: #fff;
+    font-size: 11.5px;
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin: -4px 0 0 15px;
+    padding: 0 4px 0 3px;  
+    position: absolute; 
+    text-shadow: 0px 1px 0px #6d0019;
 }
 
  /** TOP NAV ICONS **/
@@ -130,110 +130,110 @@ span.notification {
 
 .oae-home-icon,
 .oae-home-icon:visited {
-    background: url("../images/icons/main-header-icon-home-x2.png") no-repeat center center transparent;
+    background: url("../images/icons/home-icon.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-home-icon:hover {
-    background: url("../images/icons/main-header-icon-home-x2-hover.png") no-repeat center center transparent;
+    background: url("../images/icons/home-icon-hover.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-home-icon:active {
-    background: url("../images/icons/main-header-icon-home-x2-active.png") no-repeat center center transparent;
+    background: url("../images/icons/home-icon-active.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-inbox-icon,
 .oae-inbox-icon:visited {
-    background: url("../images/icons/main-header-icon-messages-x2.png") no-repeat center center transparent;
+    background: url("../images/icons/messages-icon.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-inbox-icon:hover {
-    background: url("../images/icons/main-header-icon-messages-x2-hover.png") no-repeat center center transparent;
+    background: url("../images/icons/messages-icon-hover.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-inbox-icon:active {
-    background: url("../images/icons/main-header-icon-messages-x2-active.png") no-repeat center center transparent;
+    background: url("../images/icons/messages-icon-active.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-task-icon,
 .oae-home-task:visited {
-    background: url("../images/icons/main-header-icon-tasks-x2.png") no-repeat center center transparent;
+    background: url("../images/icons/tasks-icon.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-task-icon:hover {
-    background: url("../images/icons/main-header-icon-tasks-x2-hover.png") no-repeat center center transparent;
+    background: url("../images/icons/tasks-icon-hover.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-task-icon:active {
-    background: url("../images/icons/main-header-icon-tasks-x2-active.png") no-repeat center center transparent;
+    background: url("../images/icons/tasks-icon-active.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-library-icon,
 .oae-home-library:visited {
-    background: url("../images/icons/main-header-icon-collections-x2.png") no-repeat center center transparent;
+    background: url("../images/icons/collections-icon.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-library-icon:hover {
-    background: url("../images/icons/main-header-icon-collections-x2-hover.png") no-repeat center center transparent;
+    background: url("../images/icons/collections-icon-hover.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-library-icon:active {
-    background: url("../images/icons/main-header-icon-collections-x2-active.png") no-repeat center center transparent;
+    background: url("../images/icons/collections-icon-active.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-notifications-icon,
 .oae-home-notifications:visited {
-    background: url("../images/icons/main-header-icon-notifications-x2.png") no-repeat center center transparent;
+    background: url("../images/icons/notifications-icon.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-notifications-icon:hover {
-    background: url("../images/icons/main-header-icon-notifications-x2-hover.png") no-repeat center center transparent;
+    background: url("../images/icons/notifications-icon-hover.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-notifications-icon:active {
-    background: url("../images/icons/main-header-icon-notifications-x2-active.png") no-repeat center center transparent;
+    background: url("../images/icons/notifications-icon-active.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 /** TOP NAV SEARCH **/
 
 #oae-topnav-container #oae-topnav-right #topnav-search-input {
-    width: 150px;
-    background-color: #ffffff;
-    background-image: url("../images/icons/icon-search-x2.png");
+    background-color: #fff;
+    background-image: url("../images/icons/search-icon.png");
     background-position: 159px 5px;
     background-repeat: no-repeat;
-    padding-right: 25px;
-    opacity: 0.75;
     background-size: 15px 15px;
+    opacity: 0.75;
+    padding-right: 25px;
+    width: 150px;
 }
 
 #oae-topnav-container #oae-topnav-right #topnav-search-input-long {
-    width: 300px;
-    background-color: #ffffff;
-    background-image: url("../images/icons/icon-search-x2.png");
+    background-color: #fff;
+    background-image: url("../images/icons/search-icon.png");
     background-position: 309px 5px;
     background-repeat: no-repeat;
-    padding-right: 25px;
     background-size: 15px 15px;
+    padding-right: 25px;
+    width: 300px;
 }
 
 .oae-magnifier-icon,
 .oae-home-magnifier:visited {
-    background: url("../images/icons/icon-search-x2.png") no-repeat center center transparent;
+    background: url("../images/icons/search-icon.png") no-repeat center center transparent;
 }
 
 #oae-topnav-container #oae-topnav-right #topnav-search-form {
@@ -244,16 +244,16 @@ span.notification {
 
 .oae-cogwheel-icon,
 .oae-home-cogwheel:visited {
-    background: url("../images/icons/main-header-icon-settings-x2.png") no-repeat center center transparent;
+    background: url("../images/icons/settings-icon.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-cogwheel-icon:hover {
-    background: url("../images/icons/main-header-icon-settings-x2-hover.png") no-repeat center center transparent;
+    background: url("../images/icons/settings-icon-hover.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-cogwheel-icon:active {
-    background: url("../images/icons/main-header-icon-settings-x2-active.png") no-repeat center center transparent;
+    background: url("../images/icons/settings-icon-active.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
