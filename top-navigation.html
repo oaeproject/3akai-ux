@@ -32,6 +32,45 @@
                     <a href="#"><img src="images/framework/oae-logo.png"/></a>
                 </div>
             </div>
+            <!-- Logged out (sign in dropdown) -->
+            <div id="oae-topnav-container">
+                <div id="oae-topnav-left">
+                    <a href="#" title="Sign up for free" id="topnav-links">Sign up</a>
+                </div>
+                <div id="oae-topnav-right">
+                    <a href="#" title="Sign in" class="oae-force-right oae-signin-selected" id="topnav-links">Sign in</a>
+                    <!-- Sign in dropdown start -->
+                    
+                    <div class="oae-popup-white oae-topnav-signin">
+                        <div class="3rd-party-login-container">
+                             <a>Sign in with <b>Twitter</b></a>
+                             <a>Sign in with <b>Google</b></a>
+                        </div>
+                        <div class="login-container oae-force-left">
+                            <form novalidate="novalidate">
+                                <label for="topnav_login_username">Username</label>
+                                <input maxlength="255" type="text">
+                                <label for="topnav_login_password">Password</label>
+                                <input maxlength="255" type="password">
+                                <hr>
+                                    <span>No account yet?
+                                        <a href="/register">Sign up</a>
+                                    </span>
+                                <button type="submit">Sign in</button>
+                                <span>Signing in ...</span>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Sign in dropdown end -->
+                    <form id="topnav-search-form" class="oae-force-right">
+                        <input type="text" id="topnav-search-input" class="oae-force-right"/>
+                    </form>
+                </div>
+                <div id="oae-topnav-center">
+                    <a href="#"><img src="images/framework/oae-logo.png"/></a>
+                </div>
+            </div>
             <!-- Logged in -->
             <div id="oae-topnav-container">
                 <div id="oae-topnav-left">
@@ -200,15 +239,14 @@
                         <input type="text" id="topnav-search-input-long" class="oae-force-right"/>
                     </form>
                     <div id="topnav-search-results-container">
-                <div id="topnav-search-results-top">
-                    <div class="oae-force-right">
-                        <a href="#"><img src="images/framework/switch-off.png" class="oae-force-right"/></a>
-                        <a href="#"><img src="images/framework/switch-on.png" class="oae-force-right" style="display: none;"/></a>
-                        <h3>Search the OAE network</h3>
+                <div class="oae-popup-white" id="topnav-search-results-suggests">
+                    <div id="topnav-search-results-top">
+                        <div class="oae-force-right">
+                            <a href="#"><img src="images/framework/switch-off.png" class="oae-force-right"/></a>
+                            <a href="#"><img src="images/framework/switch-on.png" class="oae-force-right" style="display: none;"/></a>
+                            <h3>Search the OAE network</h3>
+                        </div>
                     </div>
-                </div>
-                <div id="topnav-search-results-suggests">
-                    <!-- OAE network-wide search off (instution only) -->
                     <div>
                         <h2>Documents, files and links</h2>
                         <ul>
@@ -304,11 +342,10 @@
                             </li>
                         </ul>
                     </div>
-                </div>
-                <!-- Global search footer -->
-                <div id="topnav-search-results-bottom">
-                    <a href="#"><button type="button" class="oae-force-right">See all</button></a>
-                    <h3 class="oae-force-left">16 of 134 search results</h3>
+                    <div id="topnav-search-results-bottom">
+                        <a href="#"><button type="button" class="oae-force-right">See all</button></a>
+                        <h3 class="oae-force-left">16 of 134 search results</h3>
+                    </div>
                 </div>
             </div>
                 </div>
@@ -328,6 +365,7 @@
                     <p id="footer-copyright"><a target="_blank" href="http://sakaiproject.org/foundation-licenses" title="Copyright">&copy;</a> The Sakai Foundation <span id="footer_date_end">2013</span> All rights reserved</p>
                 </div>
             </div>
+            <!-- -->
         </div>
     </body>
 </html>
