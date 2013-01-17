@@ -1184,6 +1184,27 @@ a.oae-button.oae-overlay-button {
 
  /** ICONS **/
 
+.oae-visibility-public {
+    background: url('/shared/oae/img/visibility/public_icon.png') no-repeat center center transparent;
+    height: 16px;
+    width: 20px;
+}
+.oae-visibility-loggedin {
+    background: url('/shared/oae/img/visibility/loggedin_icon.png') no-repeat center center transparent;
+    height: 16px;
+    width: 20px;
+}
+.oae-visibility-department {
+    background: url('/shared/oae/img/visibility/department_icon.png') no-repeat center center transparent;
+    height: 16px;
+    width: 20px;
+}
+.oae-visibility-private {
+    background: url('/shared/oae/img/visibility/private_icon.png') no-repeat center center transparent;
+    height: 16px;
+    width: 20px;
+}
+
 .oae-home-icon,
 .oae-inbox-icon,
 .oae-library-icon,
