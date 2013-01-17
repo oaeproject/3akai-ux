@@ -24,7 +24,7 @@ html {
 }
 
 body {
-    background: url("../images/framework/oae-bg-pattern.png") repeat 0 0 #eceae5;
+    background: url("/ui/img/framework/oae-bg-pattern.png") repeat 0 0 #eceae5;
     background-size: 4px 4px;
 }
 
@@ -479,7 +479,7 @@ a:active {
 }
 
 .oae-content-column#oae-right-column-open {
-    background: url("../images/framework/shadow-right.png") no-repeat left top #efefef;
+    background: url("/ui/img/framework/shadow-right.png") no-repeat left top #efefef;
     display: block;
     float: right;
     padding: 0;
@@ -489,35 +489,35 @@ a:active {
 }
 
 #oae-right-column-open #close-column-button {
-    background: url("../images/icons/close-column-icon.png") no-repeat center center transparent;
+    background: url("/ui/img/icons/close-column-icon.png") no-repeat center center transparent;
     height: 13px;
     margin: 15px 0 0 10px;
     width: 14px;
 }
 
 #oae-right-column-open #close-column-button:hover {
-    background: url("../images/icons/close-column-icon-hover.png") no-repeat center center transparent;
+    background: url("/ui/img/icons/close-column-icon-hover.png") no-repeat center center transparent;
     cursor: pointer;
 }
 
 #oae-right-column-open #close-column-button:active {
-    background: url("../images/icons/close-column-icon-active.png") no-repeat center center transparent;
+    background: url("/ui/img/icons/close-column-icon-active.png") no-repeat center center transparent;
 }
 
 #oae-right-column-open #open-column-button {
-    background: url("../images/icons/open-column-icon.png") no-repeat scroll center center transparent;
+    background: url("/ui/img/icons/open-column-icon.png") no-repeat scroll center center transparent;
     height: 12px;
     margin: 11px 0 0 7px;
     width: 17px;
 }
 
 #oae-right-column-open #open-column-button:hover {
-    background: url("../images/icons/open-column-icon-hover.png") no-repeat center center transparent;
+    background: url("/ui/img/icons/open-column-icon-hover.png") no-repeat center center transparent;
     cursor: pointer;
 }
 
 #oae-right-column-open #open-column-button:active {
-    background: url("../images/icons/open-column-icon-active.png") no-repeat center center transparent;
+    background: url("/ui/img/icons/open-column-icon-active.png") no-repeat center center transparent;
 }
 
 /************************
@@ -525,7 +525,7 @@ a:active {
  ************************/
 
 .oae-title-clip {
-    background: url("../images/clips/clip-title-panel-tile.png") repeat-x center center transparent;
+    background: url("/ui/img/clips/clip-title-panel-tile.png") repeat-x center center transparent;
     background-size: 1px 58px;
     height: 58px;
     line-height: 40px;
@@ -545,7 +545,7 @@ a:active {
 }
 
 .oae-title-clip .oae-title-clip-left {
-    background: url("../images/clips/clip-title-panel-left.png") no-repeat 0 0 transparent;
+    background: url("/ui/img/clips/clip-title-panel-left.png") no-repeat 0 0 transparent;
     background-size: 12px 58px;
     float: left;
     height: 58px;
@@ -553,7 +553,7 @@ a:active {
 }
 
 .oae-title-clip .oae-title-clip-right {
-    background: url("../images/clips/clip-title-panel-right.png") no-repeat 0 0 transparent;
+    background: url("/ui/img/clips/clip-title-panel-right.png") no-repeat 0 0 transparent;
     background-size: 12px 58px;
     float: right;
     height: 58px;
@@ -600,7 +600,7 @@ a:active {
 }
 
 #user-box a h1 {
-    background: url("../images/icons/down-arrow-icon-white.png") no-repeat center right transparent;
+    background: url("/ui/img/icons/down-arrow-icon-white.png") no-repeat center right transparent;
     background-size: 13px 7px;
     color: #dbdbdb;
     float: left;
@@ -630,7 +630,7 @@ a:active {
 }
 
 #user-box a h1:hover {
-    background: url("../images/icons/down-arrow-icon-hover.png") no-repeat center right transparent;
+    background: url("/ui/img/icons/down-arrow-icon-hover.png") no-repeat center right transparent;
     background-size: 13px 7px;
     color: #ffffff;
     float: left;
@@ -642,7 +642,7 @@ a:active {
 }
 
 #user-box a h1:active {
-    background: url("../images/icons/down-arrow-icon-active.png") no-repeat center right transparent;
+    background: url("/ui/img/icons/down-arrow-icon-active.png") no-repeat center right transparent;
     background-size: 13px 7px;
     color: #666;
     float: left;
@@ -655,7 +655,7 @@ a:active {
 
 #user-box .user-box-multiline-arrow h1,
 #group-box .group-box-multiline-arrow h1{
-    background: url("../images/icons/down-arrow-icon.png") no-repeat scroll right center transparent;
+    background: url("/ui/img/icons/down-arrow-icon.png") no-repeat scroll right center transparent;
     background-size: 13px 7px;
     display: inline-block;
     float: left;
@@ -699,7 +699,7 @@ a:active {
  ******************************/
 
 .oae-action-clip-primary {
-    background: url("../images/clips/clip-title-panel.png") repeat-x center center transparent;
+    background: url("/ui/img/clips/clip-title-panel.png") repeat-x center center transparent;
     height: 58px;
     line-height: 40px;
     position: absolute;
@@ -723,7 +723,7 @@ a:active {
 }
 
 .oae-action-clip-secondary {
-    background: url("../images/clips/clip-action-panel-tile.png") repeat-x 0 0 transparent;
+    background: url("/ui/img/clips/clip-action-panel-tile.png") repeat-x 0 0 transparent;
     background-size: 1px 44px;
     height: 45px;
     margin-right: 20px;
@@ -733,7 +733,7 @@ a:active {
 }
 
 .oae-action-clip-secondary .action-clip-left {
-    background: url("../images/clips/clip-action-panel-left.png") no-repeat 0 0 transparent;
+    background: url("/ui/img/clips/clip-action-panel-left.png") no-repeat 0 0 transparent;
     background-size: 11px 44px;
     float: left;
     height: 44px;
@@ -741,7 +741,7 @@ a:active {
 }
 
 .oae-action-clip-secondary .action-clip-right {
-    background: url("../images/clips/clip-action-panel-right.png") no-repeat 0 0 transparent;
+    background: url("/ui/img/clips/clip-action-panel-right.png") no-repeat 0 0 transparent;
     background-size: 6px 44px;
     float: right;
     height: 44px;
@@ -771,18 +771,18 @@ a.upload {
 }
 
 .action-icon#upload {
-    background: url("../images/icons/upload-icon-white.png") no-repeat 10px 10px transparent;
+    background: url("/ui/img/icons/upload-icon-white.png") no-repeat 10px 10px transparent;
     background-size: 25px 25px;
     padding: 13px 5px 0 40px;
 }
 
 .action-icon#upload:hover {
-    background: url("../images/icons/upload-icon-white-hover.png") no-repeat 10px 10px transparent;
+    background: url("/ui/img/icons/upload-icon-white-hover.png") no-repeat 10px 10px transparent;
     background-size: 25px 25px;
 }
 
 .action-icon#upload:active {
-    background: url("../images/icons/upload-icon-white-active.png") no-repeat 10px 10px transparent;
+    background: url("/ui/img/icons/upload-icon-white-active.png") no-repeat 10px 10px transparent;
     background-size: 25px 25px;
 }
 
@@ -794,16 +794,16 @@ a.share-add {
 }
 
 .action-icon#share-add {
-    background: url("../images/icons/share+add-icon-white.png") no-repeat 8px 8px transparent;
+    background: url("/ui/img/icons/share+add-icon-white.png") no-repeat 8px 8px transparent;
     padding: 13px 5px 0 40px;
 }
 
 .action-icon#share-add:hover {
-    background: url("../images/icons/share+add-icon-white-hover.png") no-repeat 8px 8px transparent;
+    background: url("/ui/img/icons/share+add-icon-white-hover.png") no-repeat 8px 8px transparent;
 }
 
 .action-icon#share-add:active {
-    background: url("../images/icons/share+add-icon-active.png") no-repeat 8px 8px transparent;
+    background: url("/ui/img/icons/share+add-icon-active.png") no-repeat 8px 8px transparent;
 }
 
 /** ARCHIVE CLIP **/
@@ -814,16 +814,16 @@ a.archive {
 }
 
 .action-icon#archive {
-    background: url("../images/icons/archive-icon-white.png") no-repeat 8px 8px transparent;
+    background: url("/ui/img/icons/archive-icon-white.png") no-repeat 8px 8px transparent;
     padding: 13px 5px 0 40px;
 }
 
 .action-icon#archive:hover {
-    background: url("../images/icons/archive-icon-white-hover.png") no-repeat 8px 8px transparent;
+    background: url("/ui/img/icons/archive-icon-white-hover.png") no-repeat 8px 8px transparent;
 }
 
 .action-icon#archive:active {
-    background: url("../images/icons/active-icon-active.png") no-repeat 8px 8px transparent;
+    background: url("/ui/img/icons/active-icon-active.png") no-repeat 8px 8px transparent;
 }
 
 /********************************
@@ -831,7 +831,7 @@ a.archive {
  ********************************/
 
 .oae-action-clip-primary {
-    background: url("../images/clips/clip-button-primary-bg-tile.png") repeat-x 0 0 transparent;
+    background: url("/ui/img/clips/clip-button-primary-bg-tile.png") repeat-x 0 0 transparent;
     background-size: 1px 44px;
     height: 44px;
     margin-right: 20px;
@@ -839,7 +839,7 @@ a.archive {
 }
 
 .action-clip-left {
-    background: url("../images/clips/clip-button-primary-left.png") no-repeat;
+    background: url("/ui/img/clips/clip-button-primary-left.png") no-repeat;
     background-size: 11px 44px;
     float: left;
     height: 44px;
@@ -847,7 +847,7 @@ a.archive {
 }
 
 .action-clip-right {
-    background: url("../images/clips/clip-button-primary-right.png") no-repeat;
+    background: url("/ui/img/clips/clip-button-primary-right.png") no-repeat;
     background-size: 6px 44px;
     float: right;
     height: 44px;
@@ -877,7 +877,7 @@ a.archive {
 }
 #clip-down-arrow {
     float: right;
-    background: url("../images/icons/down-arrow-icon-black.png") no-repeat center center transparent;
+    background: url("/ui/img/icons/down-arrow-icon-black.png") no-repeat center center transparent;
     background-size: 13px 7px;
     width: 20px;
     height: 18px;
@@ -896,16 +896,16 @@ a.questions .oae-action-clip-primary {
 }
 
 .action-icon#ask-question {
-    background: url("../images/icons/ask-question-white.png") no-repeat 10px 10px transparent;
+    background: url("/ui/img/icons/ask-question-white.png") no-repeat 10px 10px transparent;
     padding: 13px 10px 0 50px;
 }
 
 .action-icon#ask-question:hover {
-    background: url("../images/icons/ask-question-white-hover.png") no-repeat 10px 10px transparent;
+    background: url("/ui/img/icons/ask-question-white-hover.png") no-repeat 10px 10px transparent;
 }
 
 .action-icon#ask-question:active {
-    background: url("../images/icons/ask-question-white-active.png") no-repeat 10px 10px transparent;
+    background: url("/ui/img/icons/ask-question-white-active.png") no-repeat 10px 10px transparent;
 }
 
 /** CREATE CLIP **/
@@ -915,18 +915,18 @@ a.create {
     margin-right: 180px;
 }
 .action-icon#create {
-    background: url("../images/icons/add-icon-white.png") no-repeat 10px 10px transparent;
+    background: url("/ui/img/icons/add-icon-white.png") no-repeat 10px 10px transparent;
     padding: 13px 5px 0 40px;
     background-size: 25px 25px;
 }
 
 .action-icon#create:hover {
-    background: url("../images/icons/add-icon-white-hover.png") no-repeat 10px 10px transparent;
+    background: url("/ui/img/icons/add-icon-white-hover.png") no-repeat 10px 10px transparent;
     background-size: 25px 25px;
 }
 
 .action-icon#create:active {
-    background: url("../images/icons/add-icon-white-active.png") no-repeat 10px 10px transparent;
+    background: url("/ui/img/icons/add-icon-white-active.png") no-repeat 10px 10px transparent;
     background-size: 25px 25px;
     text-shadow: 0 1px 0 #9acce0;
     color: #444;
@@ -947,7 +947,7 @@ a.create {
 }
 
 .oae-action-clip-tertiary-clip-top {
-    background: url("../images/clips/clip-button-primary-bg-top.png") no-repeat center center transparent;
+    background: url("/ui/img/clips/clip-button-primary-bg-top.png") no-repeat center center transparent;
     height: 6px;
     margin-left: -7px;
     position: absolute;
@@ -962,16 +962,16 @@ a.discussions {
 }
 
 .action-icon#discussions {
-    background: url("../images/icons/ask-question-icon-white.png") no-repeat 8px 8px transparent;
+    background: url("/ui/img/icons/ask-question-icon-white.png") no-repeat 8px 8px transparent;
     padding: 13px 5px 0 40px;
 }
 
 .action-icon#discussions:hover {
-    background: url("../images/icons/ask-question-icon-white-hover.png") no-repeat 8px 8px transparent;
+    background: url("/ui/img/icons/ask-question-icon-white-hover.png") no-repeat 8px 8px transparent;
 }
 
 .action-icon#discussions:active {
-    background: url("../images/icons/ask-question-icon-active.png") no-repeat 8px 8px transparent;
+    background: url("/ui/img/icons/ask-question-icon-active.png") no-repeat 8px 8px transparent;
 }
 
 /***********
@@ -1019,101 +1019,101 @@ a.discussions {
 
 .oae-home-icon,
 .oae-home-icon:visited {
-    background: url("../images/icons/home-icon.png") no-repeat center center transparent;
+    background: url("/ui/img/icons/home-icon.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-home-icon:hover {
-    background: url("../images/icons/home-icon-hover.png") no-repeat center center transparent;
+    background: url("/ui/img/icons/home-icon-hover.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-home-icon:active {
-    background: url("../images/icons/home-icon-active.png") no-repeat center center transparent;
+    background: url("/ui/img/icons/home-icon-active.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-inbox-icon,
 .oae-inbox-icon:visited {
-    background: url("../images/icons/messages-icon.png") no-repeat center center transparent;
+    background: url("/ui/img/icons/messages-icon.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-inbox-icon:hover {
-    background: url("../images/icons/messages-icon-hover.png") no-repeat center center transparent;
+    background: url("/ui/img/icons/messages-icon-hover.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-inbox-icon:active {
-    background: url("../images/icons/messages-icon-active.png") no-repeat center center transparent;
+    background: url("/ui/img/icons/messages-icon-active.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-task-icon,
 .oae-home-task:visited {
-    background: url("../images/icons/tasks-icon.png") no-repeat center center transparent;
+    background: url("/ui/img/icons/tasks-icon.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-task-icon:hover {
-    background: url("../images/icons/tasks-icon-hover.png") no-repeat center center transparent;
+    background: url("/ui/img/icons/tasks-icon-hover.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-task-icon:active {
-    background: url("../images/icons/tasks-icon-active.png") no-repeat center center transparent;
+    background: url("/ui/img/icons/tasks-icon-active.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-library-icon,
 .oae-home-library:visited {
-    background: url("../images/icons/collections-icon.png") no-repeat center center transparent;
+    background: url("/ui/img/icons/collections-icon.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-library-icon:hover {
-    background: url("../images/icons/collections-icon-hover.png") no-repeat center center transparent;
+    background: url("/ui/img/icons/collections-icon-hover.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-library-icon:active {
-    background: url("../images/icons/collections-icon-active.png") no-repeat center center transparent;
+    background: url("/ui/img/icons/collections-icon-active.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-notifications-icon,
 .oae-home-notifications:visited {
-    background: url("../images/icons/notifications-icon.png") no-repeat center center transparent;
+    background: url("/ui/img/icons/notifications-icon.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-notifications-icon:hover {
-    background: url("../images/icons/notifications-icon-hover.png") no-repeat center center transparent;
+    background: url("/ui/img/icons/notifications-icon-hover.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-notifications-icon:active {
-    background: url("../images/icons/notifications-icon-active.png") no-repeat center center transparent;
+    background: url("/ui/img/icons/notifications-icon-active.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-magnifier-icon,
 .oae-home-magnifier:visited {
-    background: url("../images/icons/search-icon.png") no-repeat center center transparent;
+    background: url("/ui/img/icons/search-icon.png") no-repeat center center transparent;
 }
 
 .oae-cogwheel-icon,
 .oae-home-cogwheel:visited {
-    background: url("../images/icons/settings-icon.png") no-repeat center center transparent;
+    background: url("/ui/img/icons/settings-icon.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-cogwheel-icon:hover {
-    background: url("../images/icons/settings-icon-hover.png") no-repeat center center transparent;
+    background: url("/ui/img/icons/settings-icon-hover.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }
 
 .oae-cogwheel-icon:active {
-    background: url("../images/icons/settings-icon-active.png") no-repeat center center transparent;
+    background: url("/ui/img/icons/settings-icon-active.png") no-repeat center center transparent;
     background-size: 25px 25px;
 }

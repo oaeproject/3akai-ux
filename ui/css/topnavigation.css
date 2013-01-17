@@ -117,7 +117,7 @@ span.notification {
 
 #topnav-container #topnav-right #topnav-search-input {
     background-color: #fff;
-    background-image: url("../images/icons/search-icon.png");
+    background-image: url("/ui/img/icons/search-icon.png");
     background-position: 159px 5px;
     background-repeat: no-repeat;
     background-size: 15px 15px;
@@ -128,7 +128,7 @@ span.notification {
 
 #topnav-container #topnav-right #topnav-search-input-long {
     background-color: #fff;
-    background-image: url("../images/icons/search-icon.png");
+    background-image: url("/ui/img/icons/search-icon.png");
     background-position: 309px 5px;
     background-repeat: no-repeat;
     background-size: 15px 15px;
@@ -265,7 +265,7 @@ span.notification {
 }
 
 #topnav-search-form #search-keywords #search-bar {
-    background: url("../images/icons/icon-search.png") no-repeat center center transparent;
+    background: url("/ui/img/icons/icon-search.png") no-repeat center center transparent;
     background-position: 220px 37px;
     background-color: #fff;
     display: block;
