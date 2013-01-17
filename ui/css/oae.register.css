@@ -1,0 +1,218 @@
+/*!
+ * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ *     http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+h2 {
+    font-size: 15px;
+}
+#register_header {
+    background: url('/ui/img/register_artwork.png') no-repeat scroll left top transparent;
+    height: 520px;
+    width: 920px;
+}
+#register_header_bg {
+    background: #e0eef5;
+    border-radius: 0 0 6px 6px;
+    -moz-border-radius: 0 0 6px 6px;
+    -webkit-border-radius: 0 0 6px 6px;
+    padding: 10px;
+    float: left;
+    width: 900px;
+}
+#register_form_container {
+    background: #f3f3f3;
+    background: -moz-linear-gradient(top, #f3f3f3 0%, #edecec 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f3f3f3), color-stop(100%,#edecec));
+    background: -webkit-linear-gradient(top, #f3f3f3 0%,#edecec 100%);
+    background: -o-linear-gradient(top, #f3f3f3 0%,#edecec 100%);
+    background: -ms-linear-gradient(top, #f3f3f3 0%,#edecec 100%);
+    background: linear-gradient(top, #f3f3f3 0%,#edecec 100%);
+    border-radius: 6px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    min-height: 280px;
+    margin-top: -120px;
+    box-shadow: 0 5px 7px -6px #424242;
+    padding: 0 15px 15px;
+    float: left;
+    width: 870px;
+}
+#register_form_container h1.register-header {
+    color: #2f91cd;
+    font-size: 20px;
+    font-weight: normal;
+    margin: 0;
+    text-shadow: 0 0 1px #ddd;
+    padding-top: 6px;
+}
+.register-descriptionbox {
+    font-size: 16px;
+    color: #666;
+    width: 195px;
+    position: absolute;
+    line-height: 18px;
+}
+#register_descriptionbox_left {
+    text-align: right;
+    margin-left: 128px;
+    margin-top: 250px;
+}
+#register_descriptionbox_right {
+    text-align: left;
+    margin-left: 578px;
+    margin-top: 250px;
+}
+#register_descriptionbox_middle {
+    margin-left: 336px;
+    margin-top: 344px;
+    text-align: center;
+    width: 230px;
+}
+#register_form_container .register-form-column {
+    width: 370px;
+    float: left;
+    margin-top: 12px;
+}
+#register_form_container .oae-form-field-wrapper label.oae-input-label {
+    width: 130px;
+}
+#register_form_container .register-form-column input {
+    width: 204px;
+}
+#register_form_container .register-form-column.register-form-right-column {
+    width: 500px;
+}
+#register_form_container #register_form_shadow {
+    background: url('/ui/img/register_form_bgshadow.png') no-repeat scroll left top transparent;
+    height: 15px;
+    margin-left: 95px;
+    margin-top: -14px;
+    position: absolute;
+    width: 700px;
+}
+#register_form_container .register-username-available-icon {
+    background: url('/ui/img/green_tick.png') no-repeat scroll 194px 4px #fff !important;
+}
+#register_form_container .register-username-unavailable-icon {
+    background: url('/ui/img/red_cross.png') no-repeat scroll 194px 4px #fff;
+}
+.register-form-bottom {
+    clear: both;
+    margin-left: 148px;
+    width: 580px;
+}
+#register_create_account {
+    float: right;
+    margin-top: 74px;
+}
+.register-comment-box {
+    background: #e3f0f6;
+    width: 290px;
+    height: 205px;
+    margin-top: 20px;
+    float: left;
+    margin-right: 25px;
+    border-radius: 6px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    margin-bottom: 85px;
+}
+.register-comment-box.register-comment-box-last {
+    margin-right: 0;
+}
+.register-comment-box-arrow-down {
+    background: url('/ui/img/register_arrow_down.png') no-repeat scroll left top transparent;
+    height: 24px;
+    margin-left: 100px;
+    margin-top: 205px;
+    position: absolute;
+    width: 44px;
+}
+.register-comment-box-commenter {
+    color: #666;
+    font-size: 12px;
+    margin-left: 150px;
+    margin-top: 220px;
+    position: absolute;
+}
+.register-comment-quote {
+    color: #666;
+    display: block;
+    font-size: 15px;
+    font-style: italic;
+    margin: 14px;
+    overflow: hidden;
+    line-height: 19px;
+}
+.register-comment-box blockquote {
+    margin: 0;
+    padding: 0;
+}
+.register-comment-icon {
+    width: 50px;
+    float: left;
+    margin: 13px 5px 0;
+}
+.register-comment-icon-personalspace {
+    background: url('/ui/img/personalspace_icon_50x50.png') no-repeat top left transparent;
+    height: 50px;
+}
+.register-comment-icon-cohere {
+    background: url('/ui/img/cohere_icon_50x110.png') no-repeat top left transparent;
+    height: 110px;
+}
+.register-comment-icon-editable {
+    background: url('/ui/img/editable_icon_50x50.png') no-repeat top left transparent;
+    height: 50px;
+}
+#register_institution_logos {
+    height: 40px;
+    width: 925px;
+    margin: 25px 0 0 0;
+    padding: 0
+}
+#register_institution_logos li {
+    list-style: none;
+    float: left;
+    padding: 0;
+    margin: 0
+}
+/* Override CSS */
+.oae-page-header {
+    height: 0;
+    margin-top: 15px;
+    min-height: 0;
+}
+.recaptchatable {
+    background: #FFF;
+    float: left;
+}
+.recaptchatable input {
+    border: 1px solid #E0E1E2 !important;
+}
+#register_captcha_error {
+    background: none repeat scroll 0 0 #CC0000;
+    clear: both;
+    color: #FFFFFF;
+    font-size: 11px;
+    padding: 4px 0 2px 10px;
+    width: 438px !important;
+    display: inline-block;
+}
+#register_captcha_container {
+    float: left;
+}
+#register_captcha_container.oae-error {
+    border: 3px solid #cc0000;
+}

@@ -1,0 +1,29 @@
+The following people are active contributors on Sakai OAE front-end development:
+(alphabetic order)
+
+D. Stuart Freeman - stuart.freeman@et.gatech.edu
+Simon Gaeremynck - sg555@cam.ac.uk
+Nicolaas Matthijs - nicolaas.matthijs@caret.cam.ac.uk
+Bert Pareyn - pareyn.bert@gmail.com
+Branden Visser - mrvisser@gmail.com
+
+The following people are inactive / committed in the past:
+(alphabetic order)
+
+Dean Angerer - deanangerer@gmail.com
+Gaurav Bhatnagar - gbhatnag@umich.edu
+Noah Botimer - botimer@umich.edu
+Eli Cochran - eli@media.berkeley.edu
+Ray Davis - r...@media.berkeley.edu
+Maxim Debosschere - md538@caret.cam.ac.uk
+Dr Wu Di - dr.wudi@googlemail.com
+Adrian Fish - a.fish@lancaster.ac.uk
+Olivier Janssens - oj218@caret.cam.ac.uk
+Khin Soe Soe Kyaw - kkyaw@csu.edu.au
+Oszkar Nagy - oszkar@caret.cam.ac.uk
+Chris Roby - christopher.roby@gmail.com
+James Sloane - jsloane@csu.edu.au
+Chris Tweney - chris@media.berkeley.edu
+Christian Vuerings - christian@media.berkeley.edu
+Anthony Whyte - arwhyte@umich.edu
+
