@@ -390,7 +390,7 @@ a:active {
 
 /* TEXT MEANT ONLY FOR SCREEN READERS */
 
-.assistive-text {
+.oae-assistive-text {
     clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
     clip: rect(1px, 1px, 1px, 1px);
     position: absolute !important;
@@ -1001,4 +1001,119 @@ a.discussions {
     -webkit-box-shadow: 0 0 4px 0 #777;
     font-size: 12px;
     font-size: 1.2rem;
+}
+
+ /** TOP NAV ICONS **/
+
+.oae-home-icon,
+.oae-inbox-icon,
+.oae-library-icon,
+.oae-cogwheel-icon,
+.oae-magnifier-icon,
+.oae-task-icon,
+.oae-notifications-icon {
+    height: 25px;
+    width: 25px;
+    margin-right:12px;
+}
+
+.oae-home-icon,
+.oae-home-icon:visited {
+    background: url("../images/icons/home-icon.png") no-repeat center center transparent;
+    background-size: 25px 25px;
+}
+
+.oae-home-icon:hover {
+    background: url("../images/icons/home-icon-hover.png") no-repeat center center transparent;
+    background-size: 25px 25px;
+}
+
+.oae-home-icon:active {
+    background: url("../images/icons/home-icon-active.png") no-repeat center center transparent;
+    background-size: 25px 25px;
+}
+
+.oae-inbox-icon,
+.oae-inbox-icon:visited {
+    background: url("../images/icons/messages-icon.png") no-repeat center center transparent;
+    background-size: 25px 25px;
+}
+
+.oae-inbox-icon:hover {
+    background: url("../images/icons/messages-icon-hover.png") no-repeat center center transparent;
+    background-size: 25px 25px;
+}
+
+.oae-inbox-icon:active {
+    background: url("../images/icons/messages-icon-active.png") no-repeat center center transparent;
+    background-size: 25px 25px;
+}
+
+.oae-task-icon,
+.oae-home-task:visited {
+    background: url("../images/icons/tasks-icon.png") no-repeat center center transparent;
+    background-size: 25px 25px;
+}
+
+.oae-task-icon:hover {
+    background: url("../images/icons/tasks-icon-hover.png") no-repeat center center transparent;
+    background-size: 25px 25px;
+}
+
+.oae-task-icon:active {
+    background: url("../images/icons/tasks-icon-active.png") no-repeat center center transparent;
+    background-size: 25px 25px;
+}
+
+.oae-library-icon,
+.oae-home-library:visited {
+    background: url("../images/icons/collections-icon.png") no-repeat center center transparent;
+    background-size: 25px 25px;
+}
+
+.oae-library-icon:hover {
+    background: url("../images/icons/collections-icon-hover.png") no-repeat center center transparent;
+    background-size: 25px 25px;
+}
+
+.oae-library-icon:active {
+    background: url("../images/icons/collections-icon-active.png") no-repeat center center transparent;
+    background-size: 25px 25px;
+}
+
+.oae-notifications-icon,
+.oae-home-notifications:visited {
+    background: url("../images/icons/notifications-icon.png") no-repeat center center transparent;
+    background-size: 25px 25px;
+}
+
+.oae-notifications-icon:hover {
+    background: url("../images/icons/notifications-icon-hover.png") no-repeat center center transparent;
+    background-size: 25px 25px;
+}
+
+.oae-notifications-icon:active {
+    background: url("../images/icons/notifications-icon-active.png") no-repeat center center transparent;
+    background-size: 25px 25px;
+}
+
+.oae-magnifier-icon,
+.oae-home-magnifier:visited {
+    background: url("../images/icons/search-icon.png") no-repeat center center transparent;
+}
+
+.oae-cogwheel-icon,
+.oae-home-cogwheel:visited {
+    background: url("../images/icons/settings-icon.png") no-repeat center center transparent;
+    background-size: 25px 25px;
+}
+
+.oae-cogwheel-icon:hover {
+    background: url("../images/icons/settings-icon-hover.png") no-repeat center center transparent;
+    background-size: 25px 25px;
+}
+
+.oae-cogwheel-icon:active {
+    background: url("../images/icons/settings-icon-active.png") no-repeat center center transparent;
+    background-size: 25px 25px;
 }
