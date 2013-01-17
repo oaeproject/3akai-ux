@@ -296,6 +296,7 @@ input::-moz-focus-inner { /* Corrects inner padding and border displayed oddly i
 
 input[type=text],
 input[type=email],
+input[type="password"],
 textarea {
     border: 1px solid #ccc;
     border-radius: 3px;
@@ -328,7 +329,8 @@ textarea:focus {
 }
 
 input[type=text],
-input[type=email] {
+input[type=email],
+input[type="password"] {
     padding: 3px;
 }
 
@@ -388,12 +390,20 @@ a:active {
     margin: 0 auto;
 }
 
-/* TEXT MEANT ONLY FOR SCREEN READERS */
+.oae-hidden {
+    display: none;
+}
 
-.oae-assistive-text {
-    clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
-    clip: rect(1px, 1px, 1px, 1px);
-    position: absolute !important;
+/* TEXT MEANT ONLY FOR SCREEN READERS */
+.oae-aural-text {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
 }
 
 /*********************
@@ -446,8 +456,8 @@ a:active {
 
 .oae-content-container.two-column #oae-left-column {
     background-color: #ccc;
-    margin-right: 2%;
-    width: 18%;
+    margin-right: 1%;
+    width: 19%;
 }
 .oae-content-container.two-column #oae-center-column {
     background-color: #ddd;
@@ -456,13 +466,13 @@ a:active {
 
 .oae-content-container.three-column #oae-left-column {
     background-color: #ccc;
-    margin-right: 2%;
-    width: 10%;
+    margin-right: 1%;
+    width: 11%;
 }
 .oae-content-container.three-column #oae-center-column {
     background-color: #ddd;
-    margin-right: 2%;
-    width: 50%;
+    margin-right: 1%;
+    width: 51%;
 }
 .oae-content-container.three-column #oae-right-column {
     background-color: #eee;
@@ -1003,7 +1013,176 @@ a.discussions {
     font-size: 1.2rem;
 }
 
- /** TOP NAV ICONS **/
+ /** BUTTONS **/
+/* General */
+.oae-button {
+    border-radius: 5px 5px 5px 5px;
+    color: #666;
+    height: 27px;
+    padding: 1px 12px 0;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 11px;
+    text-align: center;
+    margin-right: 5px;
+    border: none;
+}
+button.oae-button:focus {
+    box-shadow: 0 0 2px 1px #2683BC;
+}
+a.oae-button {
+    text-decoration: none;
+}
+
+/* Overlay buttons */
+.oae-button.oae-overlay-button {
+    background: #f5f5f4;
+    background: -moz-linear-gradient(top, #f5f5f4 0%, #e0e0e0 96%, #e7e7e7 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f5f5f4), color-stop(96%,#e0e0e0), color-stop(100%,#e7e7e7));
+    background: -webkit-linear-gradient(top, #f5f5f4 0%,#e0e0e0 96%,#e7e7e7 100%);
+    background: -o-linear-gradient(top, #f5f5f4 0%,#e0e0e0 96%,#e7e7e7 100%);
+    background: -ms-linear-gradient(top, #f5f5f4 0%,#e0e0e0 96%,#e7e7e7 100%);
+    background: linear-gradient(top, #f5f5f4 0%,#e0e0e0 96%,#e7e7e7 100%);
+    border: 1px solid #E0E3E5;
+    font-size: 11px;
+    font-weight: bold;
+    height: 24px;
+    margin-left: 15px;
+    box-shadow: 0 1px 1px 0 #999;
+    text-shadow: 0 2px 3px #fff;
+    color: #2683bc;
+}
+.oae-button.oae-overlay-button:hover {
+    background: #f0f1f2;
+    background: -moz-linear-gradient(top, #fefefe 0%, #e9edf0 96%, #e2e5e7 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fefefe), color-stop(96%,#e9edf0), color-stop(100%,#e2e5e7));
+    background: -webkit-linear-gradient(top, #fefefe 0%,#e9edf0 96%,#e2e5e7 100%);
+    background: -o-linear-gradient(top, #fefefe 0%,#e9edf0 96%,#e2e5e7 100%);
+    background: -ms-linear-gradient(top, #fefefe 0%,#e9edf0 96%,#e2e5e7 100%);
+    background: linear-gradient(top, #fefefe 0%,#e9edf0 96%,#e2e5e7 100%);
+}
+.oae-button.oae-overlay-button:disabled {
+    color: #ccc;
+}
+.oae-button.oae-overlay-button:disabled:hover {
+    background: #e9e9e9;
+    background: -moz-linear-gradient(top, #f5f5f4 0%, #e0e0e0 96%, #e7e7e7 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f5f5f4), color-stop(96%,#e0e0e0), color-stop(100%,#e7e7e7));
+    background: -webkit-linear-gradient(top, #f5f5f4 0%,#e0e0e0 96%,#e7e7e7 100%);
+    background: -o-linear-gradient(top, #f5f5f4 0%,#e0e0e0 96%,#e7e7e7 100%);
+    background: -ms-linear-gradient(top, #f5f5f4 0%,#e0e0e0 96%,#e7e7e7 100%);
+    background: linear-gradient(top, #f5f5f4 0%,#e0e0e0 96%,#e7e7e7 100%);
+    cursor: auto;
+}
+a.oae-button.oae-overlay-button {
+    display: inline-block;
+    height: 21px;
+    line-height: 21px;
+}
+
+/* Link buttons */
+.oae-link-button {
+    margin: 0;
+    padding: 0;
+    background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    color: #2683bc;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    display: inline-block;
+    text-align: left;
+    font-size: 11px;
+    cursor: pointer;
+}
+.oae-link-button:disabled {
+    cursor: default !important;
+    color: #999;
+}
+.oae-link-button:focus {
+    box-shadow: none !important;
+}
+.oae-link-button:hover {
+    cursor: pointer;
+    text-decoration: none;
+    color: #999;
+}
+.oae-link-button::-moz-focus-inner {
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+
+
+/*
+ * Forms and Validation
+ */
+.oae-form-field-wrapper {
+    position: relative;
+}
+.oae-form-field-wrapper input, .oae-form-field-wrapper textarea, .oae-form-field-wrapper select, .oae-form-field-wrapper ul.as-selections {
+    float: left;
+    clear: right;
+    margin-bottom: 15px;
+}
+.oae-form-field-wrapper input, .oae-form-field-wrapper textarea {
+    width: 55%;
+    padding: 0 5px;
+}
+.oae-form-field-wrapper ul.as-selections input {
+    padding: 0px;
+}
+.oae-form-field-wrapper textarea {
+    padding: 5px;
+}
+.oae-form-field-wrapper input.oae-input-full-width, .oae-form-field-wrapper textarea.oae-input-full-width {
+    width: 96%;
+    clear: both;
+}
+.oae-form-field-wrapper ul.as-selections {
+    padding: 0px 5px;
+    width: 98%;
+}
+.oae-form-field-wrapper input {
+    height: 21px;
+}
+.oae-form-field-wrapper label.oae-input-label {
+    float: left;
+    width: 35%;
+    clear: left;
+    text-align: right;
+    padding: 5px 2%;
+    color: #666;
+}
+.oae-form-field-wrapper label.oae-input-label-above {
+    width: 100%;
+    clear: both;
+    text-align: left;
+    padding: 0;
+    margin-bottom: 7px;
+}
+.oae-form-field-wrapper input.oae-error, .oae-form-field-wrapper textarea.oae-error, .oae-form-field-wrapper input.oae-error-after, .oae-form-field-wrapper textarea.oae-error-after, .oae-form-field-wrapper ul.as-selections.oae-error {
+    border: 3px solid #cc0000;
+}
+.oae-form-field-wrapper span.oae-error, .oae-form-field-wrapper span.oae-error-after {
+    background-color: #cc0000;
+    color: #fff;
+    padding: 0 5px;
+    float: left;
+    border: 3px solid #cc0000;
+    font-size: 11px;
+}
+.oae-form-field-wrapper input::-webkit-input-placeholder, .oae-form-field-wrapper textarea::-webkit-input-placeholder {
+    color: #aaa;
+    font-size: 12px;
+}
+.oae-form-field-wrapper input:-moz-placeholder, .oae-form-field-wrapper textarea:-moz-placeholder {
+    color: #aaa;
+    font-size: 12px;
+}
+
+
+ /** ICONS **/
 
 .oae-home-icon,
 .oae-inbox-icon,
