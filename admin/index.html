@@ -33,13 +33,19 @@
                                     <div class="control-group">
                                         <label for="admin_login_form_name" class="control-label">Name</label>
                                         <div class="controls">
-                                            <input type="text" id="admin_login_form_name" name="username"/>
+                                            <input type="text" id="admin_login_form_name" name="username" class="required"/>
+                                            <span id="admin_login_form_name_error" class="help-inline"></span>
                                         </div>
                                     </div>
                                     <div class="control-group">
                                         <label for="admin_login_form_password" class="control-label">Password</label>
                                         <div class="controls">
-                                            <input type="password" id="admin_login_form_password" name="password"/>
+                                            <input type="password" id="admin_login_form_password" name="password" class="required"/>
+                                            <span class="help-inline"></span>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <div class="controls">
                                             <button type="submit" class="btn btn-primary">Sign in</button>
                                         </div>
                                     </div>
@@ -203,19 +209,26 @@
                                 <div class="control-group">
                                     <label for="createtenant_alias" class="control-label">Alias:</label>
                                     <div class="controls">
-                                        <input type="text" name="alias" id="createtenant_alias" placeholder="Alias"/>
+                                        <input type="text" name="alias" id="createtenant_alias" placeholder="Alias" class="required"/>
+                                        <span class="help-inline"></span>
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label for="createtenant_name" class="control-label">Name:</label>
                                     <div class="controls">
-                                        <input type="text" name="name" id="createtenant_name" placeholder="Name"/>
+                                        <input type="text" name="name" id="createtenant_name" placeholder="Name" class="required"/>
+                                        <span class="help-inline"></span>
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label for="createtenant_host" class="control-label">Host:</label>
                                     <div class="controls">
-                                        <input type="text" name="host" id="createtenant_host" placeholder="Host"/>
+                                        <input type="text" name="host" id="createtenant_host" placeholder="Host" class="required"/>
+                                        <span class="help-inline"></span>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <div class="controls">
                                         <button type="submit" id="createtenant_submit_button" class="btn btn-primary">Create new tenant</button>
                                     </div>
                                 </div>
