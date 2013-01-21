@@ -47,4 +47,3 @@ _Note: These servers may get wiped at any time._
 Nakamura is the back-end project for Sakai OAE.
 
 Have a look at the [source code](http://github.com/sakaiproject/nakamura), [documentation](http://confluence.sakaiproject.org/display/KERNDOC/Nakamura+Documentation) and [current issues/bugs](http://jira.sakaiproject.org/browse/KERN).
->>>>>>> origin/Hilary
