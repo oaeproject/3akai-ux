@@ -1409,6 +1409,9 @@ a.oae-button.oae-header-button.oae-header-smaller-button {
 }
 .oae-form-field-wrapper input.oae-error, .oae-form-field-wrapper textarea.oae-error, .oae-form-field-wrapper input.oae-error-after, .oae-form-field-wrapper textarea.oae-error-after, .oae-form-field-wrapper ul.as-selections.oae-error {
     border: 3px solid #cc0000;
+    border-radius: 0 0 3px 3px;
+    -moz-border-radius: 0 0 3px 3px;
+    -webkit-border-radius: 0 0 3px 3px;
 }
 .oae-form-field-wrapper span.oae-error, .oae-form-field-wrapper span.oae-error-after {
     background-color: #cc0000;

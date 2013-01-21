@@ -216,22 +216,6 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
         }
     };
 
-    /**
-     * Render the user's profile picture and name
-     */
-    var renderEntity = function() {
-        oae.api.util.renderTemplate($('#oae_entity_template'), null, $('#oae_entity_container'));
-    };
-
-    /**
-     * Set up the left hand navigation with the provided structure
-     */
-    var setUpNavigation = function() {
-        $(window).on('lhnav.ready', function() {
-            $(window).trigger('lhnav.init', [pubdata, privdata, {}]);
-        });  
-    };
-
     var switchViewMode = function(el) {
         $('.oae-search-listview-options:visible .oae-action-icon').removeClass('selected');
         $(el).children('div').addClass('selected');
@@ -262,7 +246,4 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
     $(document).on('click', '.oae-entity-picture', function() {
         $('body').trigger('init.changepic.sakai', {'type': 'user', 'data': oae.data.me});
     });
-
-    renderEntity();
-    setUpNavigation();
 });
