@@ -91,6 +91,16 @@ textarea {
     line-height: 1.5;
 }
 
+/**
+ * THREEDOTS
+ */
+.oae-threedots {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 /* HEADINGS */
 
 h1, h2, h3, h4, h5, h6 {
@@ -1726,7 +1736,6 @@ ul.oae-list.expandedlist li.oae-list-item label a {
 }
 ul.oae-list li.oae-list-item label a {
     display: inline-block;
-    line-height: 1.7;
     max-width: 400px;
 }
 ul.oae-list li.oae-list-item label a .oae-list-item-mimetype {
