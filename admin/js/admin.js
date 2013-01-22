@@ -431,7 +431,12 @@ require(['jquery', 'underscore', 'oae/api/oae.core', '/admin/js/admin.util.js', 
         });
     };
 
-    var loginOnTenant = function() {
+    /**
+     * Handler method that will perform the necessary actions to log onto a tenant.
+     * If successful, the user will be redirected to the tenant where he should be logged in.
+     * If we were unable to retrieve a login token, a notification will be shown.
+     */
+    var loginOnTenantHandler = function() {
         var tenantAlias = $(this).attr('data-alias');
         getToken(tenantAlias, function(err, token) {
             if (err) {
@@ -455,8 +460,10 @@ require(['jquery', 'underscore', 'oae/api/oae.core', '/admin/js/admin.util.js', 
     /**
      * Retrieves a signed token that can be used to log onto a tenant.
      *
-     * @param  {String}     tenant      The tenant alias to log onto.
-     * @param  {Function}   callback    Function to be executed after the context has been determined
+     * @param  {String}     tenant          The tenant alias to log onto.
+     * @param  {Function}   callback        Function to be executed after the context has been determined
+     * @param  {Object}     callback.err    Standard error object
+     * @param  {Object}     callback.token  A token that can be used to log onto the specified tenant.
      */
     var getToken = function(tenantAlias, callback) {
         $.ajax({
@@ -584,7 +591,7 @@ require(['jquery', 'underscore', 'oae/api/oae.core', '/admin/js/admin.util.js', 
         // Delete tenant
         $(document).on('click', '.delete_tenant', deleteTenantHandler);
         // Log onto a tenant.
-        $(document).on('click', '.login_tenant', loginOnTenant);
+        $(document).on('click', '.login_tenant', loginOnTenantHandler);
         // Change config value
         $(document).on('submit', '.module_configuration_form', writeConfig);
         // Left hand navigation switching
