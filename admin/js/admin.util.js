@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'oae/api/oae.core'], function(exports, $, oae) {
+define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
 
     /**
      * Shows an error to the user

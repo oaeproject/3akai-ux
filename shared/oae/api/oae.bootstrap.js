@@ -37,6 +37,7 @@ requirejs.config({
         'jquery.timeago': 'vendor/js/jquery-plugins/jquery.timeago',
         'jquery.fileupload': 'vendor/js/jquery-plugins/jquery.fileupload',
         'jquery.autoSuggest.sakai-edited': 'vendor/js/jquery-plugins/jquery.autoSuggest.sakai-edited',
+        'jquery.jeditable.sakai-edited': 'vendor/js/jquery-plugins/jquery.jeditable.sakai-edited',
         'jquery-ui': 'vendor/js/jquery-ui.custom',
         'underscore': 'vendor/js/underscore',
         'oae.core': 'oae/api/oae.core',
