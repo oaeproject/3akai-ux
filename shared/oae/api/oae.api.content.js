@@ -43,7 +43,7 @@ define(['exports', 'underscore'], function(exports, _) {
     /**
      * Create a new link.
      * 
-     * @param  {String}         name                Display title for the created content item
+     * @param  {String}         displayName         Display title for the created content item
      * @param  {String}         [description]       The content item's description
      * @param  {String}         [visibility]        The content item's visibility. This can be public, loggedin or private
      * @param  {String}         link                The URL that should be stored against this content item
@@ -54,8 +54,8 @@ define(['exports', 'underscore'], function(exports, _) {
      * @param  {Content}        [callback.content]  Content object representing the created content
      * @throws {Error}                              Error thrown when not all of the required parameters have been provided
      */
-    var createLink = exports.createLink = function(name, description, visibility, link, managers, viewers, callback) {
-        if (!name) {
+    var createLink = exports.createLink = function(displayName, description, visibility, link, managers, viewers, callback) {
+        if (!displayName) {
             throw new Error('A valid link name should be provided');
         } else if (!link) {
             throw new Error('A valid link should be provided');
@@ -63,7 +63,7 @@ define(['exports', 'underscore'], function(exports, _) {
 
         var data = {
             'contentType': 'link',
-            'name': name,
+            'displayName': displayName,
             'description': description,
             'visibility': visibility,
             'link': link,
@@ -87,7 +87,7 @@ define(['exports', 'underscore'], function(exports, _) {
     /**
      * Create a new file.
      * 
-     * @param  {String}             name                Display title for the created content item
+     * @param  {String}             displayName         Display title for the created content item
      * @param  {String}             [description]       The content item's description
      * @param  {String}             [visibility]        The content item's visibility. This can be public, loggedin or private
      * @param  {Element|String}     $fileUploadField    jQuery element or selector for that jQuery element representing the file upload form field that has been used to initialise jQuery.fileupload
@@ -99,8 +99,8 @@ define(['exports', 'underscore'], function(exports, _) {
      * @param  {Content}            [callback.content]  Content object representing the created content
      * @throws {Error}                                  Error thrown when not all of the required parameters have been provided
      */
-    var createFile = exports.createFile = function(name, description, visibility, $fileUploadField, file, managers, viewers, callback) {
-        if (!name) {
+    var createFile = exports.createFile = function(displayName, description, visibility, $fileUploadField, file, managers, viewers, callback) {
+        if (!displayName) {
             throw new Error('A valid file name should be provided');
         } else if (!$fileUploadField) {
             throw new Error('A valid jquery.fileUpload container should be provided');
@@ -112,7 +112,7 @@ define(['exports', 'underscore'], function(exports, _) {
         // http://api.jquery.com/serializeArray/
         var data = [
             {'name': 'contentType', 'value': 'file'},
-            {'name': 'name', 'value': name},
+            {'name': 'displayName', 'value': displayName},
             {'name': 'description', 'value': description},
             {'name': 'visibility', 'value': visibility}
         ];
@@ -142,7 +142,7 @@ define(['exports', 'underscore'], function(exports, _) {
     /**
      * Create a new Sakai Doc.
      * 
-     * @param  {String}       name                Display title for the created content item
+     * @param  {String}       displayName         Display title for the created content item
      * @param  {String}       [description]       The content item's description
      * @param  {String}       [visibility]        The content item's visibility. This can be public, loggedin or private
      * @param  {String[]}     [managers]          Array of user/group ids that should be added as managers to the content item
@@ -152,14 +152,14 @@ define(['exports', 'underscore'], function(exports, _) {
      * @param  {Content}      [callback.content]  Content object representing the created content
      * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */
-    var createSakaiDoc = exports.createSakaiDoc = function(name, description, visibility, managers, viewers, callback) {
-        if (!name) {
+    var createSakaiDoc = exports.createSakaiDoc = function(displayName, description, visibility, managers, viewers, callback) {
+        if (!displayName) {
             throw new Error('A valid document name should be provided');
         }
 
         var data = {
             'contentType': 'sakaidoc',
-            'name': name,
+            'displayName': displayName,
             'description': description,
             'visibility': visibility,
             'managers': managers,

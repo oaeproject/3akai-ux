@@ -19,7 +19,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * Creates a group.
      * 
      * @param  {String}            alias                    The alias for this group
-     * @param  {String}            name                     The name for this group
+     * @param  {String}            displayName              The displayName for this group
      * @param  {String}            [description]            The description for this group
      * @param  {String}            [visibility]             The visibility for this group
      * @param  {String}            [joinable]               Whether or not this group is joinable
@@ -30,16 +30,16 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Group}             [callback.response]      A Group object representing the created group
      * @throws {Error}                                      Error thrown when not all of the required parameters have been provided
      */
-    var createGroup = exports.createGroup = function (alias, name, description, visibility, joinable, managers, members, callback) {
+    var createGroup = exports.createGroup = function (alias, displayName, description, visibility, joinable, managers, members, callback) {
         if (!alias) {
              throw new Error('A group alias should be provided');
-        } else if (!name) {
-             throw new Error('A group name should be provided');
+        } else if (!displayName) {
+             throw new Error('A group displayName should be provided');
         }
 
         var data = {
             'alias': alias,
-            'name': name,
+            'displayName': displayName,
             'description': description,
             'visibility': visibility,
             'joinable': joinable,
@@ -90,7 +90,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * 
      * @param  {String}       groupId                       The id of the group you wish to update
      * @param  {Object}       profileFields                 Object where the keys represent the profile fields that need to be updated and the values represent the new values for those profile fields.
-     * @param  {String}       [profileFields.name]          New name for the group
+     * @param  {String}       [profileFields.displayName]   New displayName for the group
      * @param  {String}       [profileFields.description]   New description for the group
      * @param  {String}       [profileFields.visibility]    New visibility setting for the group. The possible values are 'private', 'loggedin' and 'public'
      * @param  {String}       [profileFields.joinable]      New joinability setting for the group. The possible values are 'yes', 'no' and 'request'
@@ -106,21 +106,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         }
 
         // Only send those things that are truly supported.
-        // TODO: Bring in underscore 1.4.3 after demo and use one-liner.
-        //var data = _.pick(profileFields, 'name', 'description', 'visibility', 'joinable');
-        var data = {};
-        if (profileFields.name) {
-            data.name = profileFields.name;
-        }
-        if (profileFields.description) {
-            data.description = profileFields.description;
-        }
-        if (profileFields.visibility) {
-            data.visibility = profileFields.visibility;
-        }
-        if (profileFields.joinable) {
-            data.joinable = profileFields.joinable;
-        }
+        var data = _.pick(profileFields, 'displayName', 'description', 'visibility', 'joinable');
 
         $.ajax({
             'url': '/api/group/' + groupId,

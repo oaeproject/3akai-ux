@@ -35,7 +35,7 @@
                                 <span class="oae-entity-picture-image">
                                     <img class="oae-icon-50" src="${group.mediumPicture || '/ui/img/entities/group_icon_medium.png'}"/>
                                 </span>
-                                <span class="oae-aural-text">__MSG__PROFILE_PICTURE_OPTIONS_FOR__ ${group.name|safeUserInput}</span> 
+                                <span class="oae-aural-text">__MSG__PROFILE_PICTURE_OPTIONS_FOR__ ${group.displayName|safeUserInput}</span>
                                 <span class="oae-dropdown-menu-arrow"></span>
                                 <span class="oae-aural-text">__MSG__PROFILE_PICTURE_OPTIONS__</span>
                             </button>
@@ -52,7 +52,7 @@
                                 </span>
                             </div>
                         {/if}
-                        <div class="oae-bold oae-entity-title">${group.name|safeUserInput}</div>
+                        <div class="oae-bold oae-entity-title">${group.displayName|safeUserInput}</div>
                         <div class="oae-push"></div>
                     --></div>
                 </div>
