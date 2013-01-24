@@ -117,7 +117,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     
     /**
      * Update the current user's basic profile
-     * 
+     *
      * @param  {Object}         params              Object representing the profile fields that need to be updated. The keys are the profile fields, the values are the profile field values
      * @param  {Function}       [callback]          Standard callback method
      * @param  {Object}         [callback.err]      Error object containing error code and error message
@@ -147,6 +147,21 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
             }
         });
+    };
+
+    /**
+     * Determines whether or not the given id represents a user id
+     *
+     * @param  {String}     userId      A string that may or may not be a user id
+     * @return {Boolean}                `true` if the given id is a user id, `false` otherwise
+     */
+    var isUserId = exports.isUserId = function(userId, callback) {
+        if (!userId) {
+            throw new Error('A valid string should be provided');
+        }
+
+        // All user ids begin with 'u:'
+        return userId.indexOf('u:') === 0;
     };
 
 });
