@@ -1,0 +1,242 @@
+/*!
+ * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ *     http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+/**********************
+ * BASIC CSS CLASSES **
+ **********************/
+
+/**
+ * Hide an element 
+ *   e.g. <div class="oae-hidden">...</div> 
+ */
+.oae-hidden {
+    display: none;
+}
+
+/**
+ * Hide an element 
+ *   e.g. <div class="oae-force-hidden">...</div> 
+ */
+.oae-force-hidden {
+    display: none !important;
+}
+
+/**
+ * Align the text inside of a container
+ *   e.g. <div class="oae-text-align-center">...</div>
+ */
+.oae-text-align-left {
+    text-align: left;
+}
+.oae-text-align-center {
+    text-align: center;
+}
+.oae-text-align-right {
+    text-align: right;
+}
+
+/**
+ * Right float or left float an element
+ *   e.g. <div class="oae-align-left">...</div>   
+ */
+.oae-align-right {
+    float: right;
+}
+.oae-align-left {
+    float: left;
+}
+
+/**
+ * Make sure an element displays below the elements
+ * defined before
+ *   e.g. <button class="oae-align-left">Floating button</button>
+ *        <div class="oae-push"></div>
+ */
+.oae-push {
+    clear: both;
+}
+
+/**
+ * Used for accessibility purposes as it allows to put text content
+ * for items that might not have text content (e.g. icons) or create
+ * additional clues for screenreader users
+ *   e.g. <button class="oae-icon oae-icon-home"><span class="oae-aural-text"></button>
+ */
+.oae-aural-text {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+
+/*************
+ ** LAYOUTS **
+ ************/
+
+/**
+ * Set up a multi-column layout with relative widths for each of the columns. This works
+ * for 1 column, 2 column and 3 column layouts.
+ * 
+ * One column layout:
+ * 
+ * <div class="oae-layout-100">
+ *   <div>Full width content</div>
+ * </div>
+ */
+
+/* One column layout */
+.oae-layout-100 > div {width: 100%;}
+
+/* Two column layout */
+.oae-layout-10-90 > div:nth-child(1) {width: 9%; float: left;}
+.oae-layout-10-90 > div:nth-child(2) {width: 89%; margin-left: 10%}
+.oae-layout-20-80 > div:nth-child(1) {width: 19%; float: left;}
+.oae-layout-20-80 > div:nth-child(2) {width: 79%; margin-left: 20%}
+.oae-layout-30-70 > div:nth-child(1) {width: 29%; float: left;}
+.oae-layout-30-70 > div:nth-child(2) {width: 69%; margin-left: 30%}
+.oae-layout-40-60 > div:nth-child(1) {width: 39%; float: left;}
+.oae-layout-40-60 > div:nth-child(2) {width: 59%; margin-left: 40%}
+.oae-layout-50-50 > div:nth-child(1) {width: 49%; float: left;}
+.oae-layout-50-50 > div:nth-child(2) {width: 49%; margin-left: 50%}
+.oae-layout-60-40 > div:nth-child(1) {width: 59%; float: left;}
+.oae-layout-60-40 > div:nth-child(2) {width: 39%; margin-left: 60%}
+.oae-layout-70-30 > div:nth-child(1) {width: 69%; float: left;}
+.oae-layout-70-30 > div:nth-child(2) {width: 29%; margin-left: 70%}
+.oae-layout-80-20 > div:nth-child(1) {width: 79%; float: left;}
+.oae-layout-80-20 > div:nth-child(2) {width: 19%; margin-left: 80%}
+.oae-layout-90-10 > div:nth-child(1) {width: 89%; float: left;}
+.oae-layout-90-10 > div:nth-child(2) {width: 9%; margin-left: 90%}
+
+/* Three column layout */
+.oae-layout-10-10-80 > div:nth-child(1) {width: 9%; float: left;}
+.oae-layout-10-10-80 > div:nth-child(2) {width: 9%; float: left; margin-left: 1%;}
+.oae-layout-10-10-80 > div:nth-child(3) {width: 79%; margin-left: 20%;}
+.oae-layout-10-20-70 > div:nth-child(1) {width: 9%; float: left;}
+.oae-layout-10-20-70 > div:nth-child(2) {width: 19%; float: left; margin-left: 1%;}
+.oae-layout-10-20-70 > div:nth-child(3) {width: 69%; margin-left: 30%;}
+.oae-layout-10-30-60 > div:nth-child(1) {width: 9%; float: left;}
+.oae-layout-10-30-60 > div:nth-child(2) {width: 29%; float: left; margin-left: 1%;}
+.oae-layout-10-30-60 > div:nth-child(3) {width: 59%; margin-left: 40%;}
+.oae-layout-10-40-50 > div:nth-child(1) {width: 9%; float: left;}
+.oae-layout-10-40-50 > div:nth-child(2) {width: 39%; float: left; margin-left: 1%;}
+.oae-layout-10-40-50 > div:nth-child(3) {width: 49%; margin-left: 50%;}
+.oae-layout-10-50-40 > div:nth-child(1) {width: 9%; float: left;}
+.oae-layout-10-50-40 > div:nth-child(2) {width: 49%; float: left; margin-left: 1%;}
+.oae-layout-10-50-40 > div:nth-child(3) {width: 39%; margin-left: 60%;}
+.oae-layout-10-60-30 > div:nth-child(1) {width: 9%; float: left;}
+.oae-layout-10-60-30 > div:nth-child(2) {width: 59%; float: left; margin-left: 1%;}
+.oae-layout-10-60-30 > div:nth-child(3) {width: 29%; margin-left: 70%;}
+.oae-layout-10-70-20 > div:nth-child(1) {width: 9%; float: left;}
+.oae-layout-10-70-20 > div:nth-child(2) {width: 69%; float: left; margin-left: 1%;}
+.oae-layout-10-70-20 > div:nth-child(3) {width: 19%; margin-left: 80%;}
+.oae-layout-10-80-10 > div:nth-child(1) {width: 9%; float: left;}
+.oae-layout-10-80-10 > div:nth-child(2) {width: 79%; float: left; margin-left: 1%;}
+.oae-layout-10-80-10 > div:nth-child(3) {width: 9%; margin-left: 90%;}
+
+.oae-layout-20-10-70 > div:nth-child(1) {width: 19%; float: left;}
+.oae-layout-20-10-70 > div:nth-child(2) {width: 9%; float: left; margin-left: 1%;}
+.oae-layout-20-10-70 > div:nth-child(3) {width: 69%; margin-left: 30%;}
+.oae-layout-20-20-60 > div:nth-child(1) {width: 19%; float: left;}
+.oae-layout-20-20-60 > div:nth-child(2) {width: 19%; float: left; margin-left: 1%;}
+.oae-layout-20-20-60 > div:nth-child(3) {width: 59%; margin-left: 40%;}
+.oae-layout-20-30-50 > div:nth-child(1) {width: 19%; float: left;}
+.oae-layout-20-30-50 > div:nth-child(2) {width: 29%; float: left; margin-left: 1%;}
+.oae-layout-20-30-50 > div:nth-child(3) {width: 49%; margin-left: 50%;}
+.oae-layout-20-40-40 > div:nth-child(1) {width: 19%; float: left;}
+.oae-layout-20-40-40 > div:nth-child(2) {width: 39%; float: left; margin-left: 1%;}
+.oae-layout-20-40-40 > div:nth-child(3) {width: 39%; margin-left: 60%;}
+.oae-layout-20-50-30 > div:nth-child(1) {width: 19%; float: left;}
+.oae-layout-20-50-30 > div:nth-child(2) {width: 49%; float: left; margin-left: 1%;}
+.oae-layout-20-50-30 > div:nth-child(3) {width: 29%; margin-left: 70%;}
+.oae-layout-20-60-20 > div:nth-child(1) {width: 19%; float: left;}
+.oae-layout-20-60-20 > div:nth-child(2) {width: 59%; float: left; margin-left: 1%;}
+.oae-layout-20-60-20 > div:nth-child(3) {width: 19%; margin-left: 80%;}
+.oae-layout-20-70-10 > div:nth-child(1) {width: 19%; float: left;}
+.oae-layout-20-70-10 > div:nth-child(2) {width: 69%; float: left; margin-left: 1%;}
+.oae-layout-20-70-10 > div:nth-child(3) {width: 9%; margin-left: 90%;}
+
+.oae-layout-30-10-60 > div:nth-child(1) {width: 29%; float: left;}
+.oae-layout-30-10-60 > div:nth-child(2) {width: 9%; float: left; margin-left: 1%;}
+.oae-layout-30-10-60 > div:nth-child(3) {width: 59%; margin-left: 40%;}
+.oae-layout-30-20-50 > div:nth-child(1) {width: 29%; float: left;}
+.oae-layout-30-20-50 > div:nth-child(2) {width: 19%; float: left; margin-left: 1%;}
+.oae-layout-30-20-50 > div:nth-child(3) {width: 49%; margin-left: 50%;}
+.oae-layout-30-30-40 > div:nth-child(1) {width: 29%; float: left;}
+.oae-layout-30-30-40 > div:nth-child(2) {width: 29%; float: left; margin-left: 1%;}
+.oae-layout-30-30-40 > div:nth-child(3) {width: 39%; margin-left: 60%;}
+.oae-layout-30-40-30 > div:nth-child(1) {width: 29%; float: left;}
+.oae-layout-30-40-30 > div:nth-child(2) {width: 39%; float: left; margin-left: 1%;}
+.oae-layout-30-40-30 > div:nth-child(3) {width: 29%; margin-left: 70%;}
+.oae-layout-30-50-20 > div:nth-child(1) {width: 29%; float: left;}
+.oae-layout-30-50-20 > div:nth-child(2) {width: 49%; float: left; margin-left: 1%;}
+.oae-layout-30-50-20 > div:nth-child(3) {width: 19%; margin-left: 80%;}
+.oae-layout-30-60-10 > div:nth-child(1) {width: 29%; float: left;}
+.oae-layout-30-60-10 > div:nth-child(2) {width: 59%; float: left; margin-left: 1%;}
+.oae-layout-30-60-10 > div:nth-child(3) {width: 9%; margin-left: 90%;}
+
+.oae-layout-40-10-50 > div:nth-child(1) {width: 39%; float: left;}
+.oae-layout-40-10-50 > div:nth-child(2) {width: 9%; float: left; margin-left: 1%;}
+.oae-layout-40-10-50 > div:nth-child(3) {width: 49%; margin-left: 50%;}
+.oae-layout-40-20-40 > div:nth-child(1) {width: 39%; float: left;}
+.oae-layout-40-20-40 > div:nth-child(2) {width: 19%; float: left; margin-left: 1%;}
+.oae-layout-40-20-40 > div:nth-child(3) {width: 39%; margin-left: 60%;}
+.oae-layout-40-30-30 > div:nth-child(1) {width: 39%; float: left;}
+.oae-layout-40-30-30 > div:nth-child(2) {width: 29%; float: left; margin-left: 1%;}
+.oae-layout-40-30-30 > div:nth-child(3) {width: 29%; margin-left: 70%;}
+.oae-layout-40-40-20 > div:nth-child(1) {width: 39%; float: left;}
+.oae-layout-40-40-20 > div:nth-child(2) {width: 39%; float: left; margin-left: 1%;}
+.oae-layout-40-40-20 > div:nth-child(3) {width: 19%; margin-left: 80%;}
+.oae-layout-40-50-10 > div:nth-child(1) {width: 39%; float: left;}
+.oae-layout-40-50-10 > div:nth-child(2) {width: 49%; float: left; margin-left: 1%;}
+.oae-layout-40-50-10 > div:nth-child(3) {width: 9%; margin-left: 90%;}
+
+.oae-layout-50-10-40 > div:nth-child(1) {width: 49%; float: left;}
+.oae-layout-50-10-40 > div:nth-child(2) {width: 9%; float: left; margin-left: 1%;}
+.oae-layout-50-10-40 > div:nth-child(3) {width: 39%; margin-left: 60%;}
+.oae-layout-50-20-30 > div:nth-child(1) {width: 49%; float: left;}
+.oae-layout-50-20-30 > div:nth-child(2) {width: 19%; float: left; margin-left: 1%;}
+.oae-layout-50-20-30 > div:nth-child(3) {width: 29%; margin-left: 70%;}
+.oae-layout-50-30-20 > div:nth-child(1) {width: 49%; float: left;}
+.oae-layout-50-30-20 > div:nth-child(2) {width: 29%; float: left; margin-left: 1%;}
+.oae-layout-50-30-20 > div:nth-child(3) {width: 19%; margin-left: 80%;}
+.oae-layout-50-40-10 > div:nth-child(1) {width: 49%; float: left;}
+.oae-layout-50-40-10 > div:nth-child(2) {width: 39%; float: left; margin-left: 1%;}
+.oae-layout-50-40-10 > div:nth-child(3) {width: 9%; margin-left: 90%;}
+
+.oae-layout-60-10-30 > div:nth-child(1) {width: 59%; float: left;}
+.oae-layout-60-10-30 > div:nth-child(2) {width: 9%; float: left; margin-left: 1%;}
+.oae-layout-60-10-30 > div:nth-child(3) {width: 29%; margin-left: 70%;}
+.oae-layout-60-20-20 > div:nth-child(1) {width: 59%; float: left;}
+.oae-layout-60-20-20 > div:nth-child(2) {width: 19%; float: left; margin-left: 1%;}
+.oae-layout-60-20-20 > div:nth-child(3) {width: 19%; margin-left: 80%;}
+.oae-layout-60-30-10 > div:nth-child(1) {width: 59%; float: left;}
+.oae-layout-60-30-10 > div:nth-child(2) {width: 29%; float: left; margin-left: 1%;}
+.oae-layout-60-30-10 > div:nth-child(3) {width: 9%; margin-left: 90%;}
+
+.oae-layout-70-10-20 > div:nth-child(1) {width: 69%; float: left;}
+.oae-layout-70-10-20 > div:nth-child(2) {width: 9%; float: left; margin-left: 1%;}
+.oae-layout-70-10-20 > div:nth-child(3) {width: 19%; margin-left: 80%;}
+.oae-layout-70-20-10 > div:nth-child(1) {width: 69%; float: left;}
+.oae-layout-70-20-10 > div:nth-child(2) {width: 19%; float: left; margin-left: 1%;}
+.oae-layout-70-20-10 > div:nth-child(3) {width: 9%; margin-left: 90%;}
+
+.oae-layout-80-10-10 > div:nth-child(1) {width: 79%; float: left;}
+.oae-layout-80-10-10 > div:nth-child(2) {width: 9%; float: left; margin-left: 1%;}
+.oae-layout-80-10-10 > div:nth-child(3) {width: 9%; margin-left: 90%;}

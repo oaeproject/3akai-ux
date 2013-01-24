@@ -1,0 +1,55 @@
+/*!
+ * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ *     http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+/***********************
+ * CORE CSS OVERRIDES **
+ **********************/
+
+html {
+    font-size: 6.25%;
+}
+
+body {
+    margin-left: 2%;
+    margin-right: 2%;
+    min-width: 1100px;
+}
+
+body, button, input, select, textarea {
+    color: #333;
+    font-family: 'Open Sans', sans-serif; arial, helvetica, sans-serif;
+    font-size: 16rem;
+    line-height: 1.5;
+}
+
+/*****************
+ ** MAIN LAYOUT **
+ *****************/
+
+.oae-main-content {
+    background-color: #FFF;
+    border: 1px solid #DDD;
+    border-bottom: none;
+    border-radius: 2px 2px 0 0;
+    -moz-border-radius: 2px 2px 0 0;
+    -webkit-border-radius: 2px 2px 0 0;
+    box-shadow: 0 2px 4px #DBDBDB;
+    -moz-box-shadow: 0 2px 4px #DBDBDB;
+    -webkit-box-shadow: 0 2px 4px #DBDBDB;
+    overflow: hidden;
+    padding: 1%;
+    min-height: 400px;
+    clear: both;
+}
