@@ -17,10 +17,6 @@
  * CORE CSS OVERRIDES **
  **********************/
 
-html {
-    /* font-size: 6.25%; */
-}
-
 body {
     margin-left: 2%;
     margin-right: 2%;
@@ -30,8 +26,11 @@ body {
 body, button, input, select, textarea {
     color: #333;
     font-family: 'Open Sans', sans-serif; arial, helvetica, sans-serif;
-    /* font-size: 16rem; */
     line-height: 1.5;
+}
+
+a:hover {
+    text-decoration: none;
 }
 
 /*****************
