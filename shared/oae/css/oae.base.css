@@ -18,7 +18,7 @@
  **********************/
 
 html {
-    font-size: 6.25%;
+    /* font-size: 6.25%; */
 }
 
 body {
@@ -30,7 +30,7 @@ body {
 body, button, input, select, textarea {
     color: #333;
     font-family: 'Open Sans', sans-serif; arial, helvetica, sans-serif;
-    font-size: 16rem;
+    /* font-size: 16rem; */
     line-height: 1.5;
 }
 

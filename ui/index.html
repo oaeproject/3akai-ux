@@ -12,7 +12,7 @@
         <!-- PAGE CSS -->
         <link rel="stylesheet" type="text/css" href="/ui/css/oae.index.css" />
     </head>
-    <body>
+    <body class="oae-force-hidden">
 
          <!-- HEADER -->
         <div data-widget="topnavigation"><!-- --></div>
@@ -22,6 +22,11 @@
             <div class="oae-layout-100"><!-- --></div>
         </div>
 
+        <!-- FOOTER -->
+        <div data-widget="footer"><!-- --></div>
+
+        <!-- DEPENDENCIES -->
+        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/require.js"></script>
 
         <!-- <div class="oae-content-container two-column">
             <div id="user-box" class="oae-title-clip">
@@ -52,12 +57,6 @@
                 <div data-widget="activity"><!-- -></div>
              </div>
         </div> -->
-
-        <!-- FOOTER -->
-        <div data-widget="footer"><!-- --></div>
-
-        <!-- DEPENDENCIES -->
-        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/require.js"></script>
 
     </body>
 </html>

@@ -99,6 +99,30 @@
  * <div class="oae-layout-100">
  *   <div>Full width content</div>
  * </div>
+ * 
+ * Two column layout:
+ * 
+ * <div class="oae-layout-30-70">
+ *   <div>Column 1 at 30%</div>
+ *   <div>Column 2 at 70%</div>
+ * </div>
+ * 
+ * In the class oae-layout-xx-yy, xx can be replaced by the desired percentage width for the
+ * left column (10, 20, 30, ..., 90) and yy can be replaced by the desired percentage width
+ * for the right column (10, 20, 30, ... 90). The sum of these 2 column widths should be 100.
+ * 
+ * Three column layout:
+ * 
+ * <div class="oae-layout-30-50-20">
+ *   <div>Column 1 at 30%</div>
+ *   <div>Column 2 at 50%</div>
+ *   <div>Column 3 at 20%</div>
+ * </div>
+ *  
+ * In the class oae-layout-xx-yy-zz, xx can be replaced by the desired percentage width for the
+ * left column (10, 20, 30, ..., 80), yy can be replaced by the desired percentage width
+ * for the center column (10, 20, 30, ... 80) and zz can replaced by the desired percentage width
+ * for the right column (10, 20, 30, ... 80). The sum of these 3 column widths should be 100.
  */
 
 /* One column layout */
