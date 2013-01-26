@@ -205,7 +205,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             }
         });
     };
-    
+
     /**
      * Update a content item's metadata.
      * 
