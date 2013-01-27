@@ -13,6 +13,25 @@
  * permissions and limitations under the License.
  */
 
+/* PAGE BACKGROUND COLOR */
+
 body {
     background-color: #ECEAE5;
+}
+
+/* INSTITUTION LOGO */
+
+.oae-institutional-logo {
+    background-image: url('/ui/img/framework/oae-logo.png');
+    background-size: auto 34.5px;
+}
+
+/* DEFAULT LINK COLORS */
+
+a, .btn-link {
+    color: #0088CC;
+}
+
+a:hover, .btn-link:hover {
+    color: #005580;
 }
