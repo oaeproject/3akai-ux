@@ -13,13 +13,12 @@
  * permissions and limitations under the License.
  */
 
-/* Import the Open Sans font */
-@import url('/shared/vendor/css/opensans.css');
-
 /* Import the Bootstrap CSS file */
 @import url('/shared/vendor/css/bootstrap.css');
 /* Import the Font Awesome Icon Set */
 @import url('/shared/vendor/css/font-awesome/css/font-awesome.css');
+/* Import the Open Sans font */
+@import url('/shared/vendor/css/opensans/css/opensans.css');
 
 /* Import the OAE Core styles. These will be used for bootstrap overrides, as well
    as styles used in the main portal that are not expected to be re-used in widgets */
@@ -31,7 +30,7 @@
 
 /* Import the OAE Skin. This is the file that will define common colors, like the
    background colors, component colors, etc. */
-@import url('/shared/oae/css/oae.skin.css');
+@import url('/shared/oae/css/oae.skin.gt.css');
 
 /* Import the Google, Facebook and Twitter login, as this will be needed on every
    page because of the topnavigation */

@@ -94,7 +94,7 @@ define(['oae/api/oae.api.authentication', 'oae/api/oae.api.config', 'oae/api/oae
                                     oae.api.widget.loadWidgets(null, null, null, function() {
                                         // We can show the body as internationalization and 
                                         // initial widget loading have finished
-                                        $('body').removeClass('oae-force-hidden');
+                                        $('body').show();
                                     });
                                 });
                             });

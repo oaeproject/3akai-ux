@@ -16,20 +16,20 @@
 /* PAGE BACKGROUND COLOR */
 
 body {
-   background-color: #ECEAE5;
+   background-color: #E0AA0F;
 }
 
 /* INSTITUTION LOGO */
 
 .oae-institutional-logo {
-    background-image: url('/ui/img/framework/oae-logo.png');
-    background-size: auto 34.5px;
+    background-image: url('https://research.cc.gatech.edu/polaris/sites/edu.polaris/files/images/logo-georgia.gif');
+    background-size: auto 50px;
 }
 
 /* LINK COLORS */
 
 a, .btn-link {
-   color: #0088CC;
+   color: #00274D;
 }
 
 a:hover, .btn-link:hover {
@@ -41,7 +41,7 @@ a:hover, .btn-link:hover {
 /* ICON BUTTON COLORS */
 
 [class^="icon-"], [class*=" icon-"] {
-   color: #A9A9A9;
+   color: #333;
 }
 
 [class^="icon-"]:hover, [class*=" icon-"]:hover,
