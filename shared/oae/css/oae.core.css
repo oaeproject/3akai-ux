@@ -30,7 +30,7 @@
 
 /* Import the OAE Skin. This is the file that will define common colors, like the
    background colors, component colors, etc. */
-@import url('/shared/oae/css/oae.skin.gt.css');
+@import url('/shared/oae/css/oae.skin.css');
 
 /* Import the Google, Facebook and Twitter login, as this will be needed on every
    page because of the topnavigation */

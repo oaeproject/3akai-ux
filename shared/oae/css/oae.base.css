@@ -92,7 +92,10 @@ a:hover, .btn-link:hover {
 }
 
 .label-important, .badge-important {
-    background: linear-gradient(to bottom, #A90329 0%, #8F0222 44%, #6D0019 100%) repeat scroll 0 0 transparent;
+    background: -moz-linear-gradient(top,  #a90329 0%, #8f0222 44%, #6d0019 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a90329), color-stop(44%,#8f0222), color-stop(100%,#6d0019)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #a90329 0%,#8f0222 44%,#6d0019 100%); /* Chrome10+,Safari5.1+ */
+    background: linear-gradient(to bottom,  #a90329 0%,#8f0222 44%,#6d0019 100%); /* W3C */
 }
 
 /*****************
