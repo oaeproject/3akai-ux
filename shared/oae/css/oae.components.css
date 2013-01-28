@@ -47,3 +47,59 @@
     position: absolute;
     width: 1px;
 }
+
+/**
+ * Clips at the top of the content containers. When clicked open a pop-over with more actions.
+ */
+.oae-clip-container {
+    margin-top: -20px;
+    position: absolute;
+}
+
+.oae-clip-container.pull-right {
+    right: 50px;
+}
+.oae-clip-container.pull-right .oae-clip {
+    float: right;
+    margin-left: 7px;
+}
+
+.oae-clip-container.pull-left {
+    left: 50px;
+}
+.oae-clip-container.pull-left .oae-clip {
+    float: left;
+    margin-right: 7px;
+}
+
+.oae-clip button {
+    border-radius: 0 5px 5px;
+    border-style: none none solid solid;
+    border-width: 1px;
+    height: 40px;
+    margin-left: -1px;
+    padding: 0 12px;
+}
+
+.oae-clip .oae-clip-fold {
+    height: 6px;
+    position: relative;
+    width: 7px;
+    z-index: 10;
+}
+
+.oae-clip .oae-clip-fold .oae-clip-fold-inner {
+    border-radius: 50px 50px 0 0;
+    height: 6px;
+    position: absolute;
+    width: 7px;
+    z-index: 1;
+}
+
+.oae-clip .oae-clip-fold .oae-clip-fold-outer {
+    height: 6px;
+    margin-left: 4px;
+    position: absolute;
+    width: 7px;
+    z-index: 0;
+}

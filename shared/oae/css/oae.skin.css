@@ -48,3 +48,40 @@ a:hover, .btn-link:hover {
 .btn-link:hover [class^="icon-"], .btn-link:hover [class*=" icon-"] {
     color: #555;
 }
+
+
+/* CLIP COLORS */
+
+.oae-clip button {
+    background-color: #25a9e0;
+    border-color: #2f8cb3;
+}
+.oae-clip .oae-clip-fold .oae-clip-fold-inner {
+    background-color: #2f8cb3;
+}
+.oae-clip .oae-clip-fold .oae-clip-fold-outer {
+    background-color: #25a9e0;
+}
+
+.oae-clip.yellow button {
+    background-color: #EEB211;
+    border-color: #C59353;
+}
+.oae-clip.yellow .oae-clip-fold .oae-clip-fold-inner {
+    background-color: #C59353;
+}
+.oae-clip.yellow .oae-clip-fold .oae-clip-fold-outer {
+    background-color: #EEB211;
+}
+
+.oae-clip.black button {
+    background-color: #040404;
+    border-color: #666;
+    color: #fff;
+}
+.oae-clip.black .oae-clip-fold .oae-clip-fold-inner {
+    background-color: #666;
+}
+.oae-clip.black .oae-clip-fold .oae-clip-fold-outer {
+    background-color: #040404;
+}
