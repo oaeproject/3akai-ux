@@ -2905,18 +2905,22 @@ input[type=text], input[type=password], input[type=email], input[type=url], text
 
 /* Search list or grid view buttons */
 .oae-search-listview-options {
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: none !important;
     float: right;
-    padding: 0 !important;
     height: 19px !important;
     margin-left: 20px;
+    padding: 0 !important;
 }
 .oae-search-listview-options:hover {
     background: #fff !important;
-    box-shadow: 0 0 4px -2px #A8A8A8 inset !important;
+    box-shadow: none !important;
 }
 .oae-search-listview-options > div {
     float: left;
-    height: 15px;
+    height: 14px;
     padding: 3px 4px 2px;
 }
 .oae-search-listview-options > div.selected, .oae-search-listview-options > div:hover {
@@ -2930,10 +2934,10 @@ input[type=text], input[type=password], input[type=email], input[type=url], text
     box-shadow: 0 0 4px -2px #A8A8A8 inset;
 }
 .oae-search-listview-options .search_view_list {
-    border-radius: 0 5px 5px 0;
+    border-radius: 3px 0 0 3px;
 }
 .oae-search-listview-options .search_view_grid {
-    border-radius: 5px 0 0 5px;
+    border-radius: 0 3px 3px 0;
 }
 .oae-search-listview-options .oae-action-icon {
     display: block !important;
@@ -2944,21 +2948,21 @@ input[type=text], input[type=password], input[type=email], input[type=url], text
     background: url('/ui/img/search_grid_16x16.png') no-repeat center center transparent;
 }
 .oae-search-results-gridview:hover,
-.oae-search-results-gridview.selected {
+div.selected > .oae-search-results-gridview {
     background: url('/ui/img/search_grid_16x16_hover.png') no-repeat center center transparent;
 }
 .oae-search-results-listview {
     background: url('/ui/img/search_list_16x16.png') no-repeat center center transparent;
 }
 .oae-search-results-listview:hover,
-.oae-search-results-listview.selected {
+div.selected > .oae-search-results-listview {
     background: url('/ui/img/search_list_16x16_hover.png') no-repeat center center transparent;
 }
 .oae-search-results-expandedlistview {
     background: url('/ui/img/search_expandedlist_16x16.png') no-repeat center center transparent;
 }
 .oae-search-results-expandedlistview:hover,
-.oae-search-results-expandedlistview.selected {
+div.selected > .oae-search-results-expandedlistview {
     background: url('/ui/img/search_expandedlist_16x16_hover.png') no-repeat center center transparent;
 }
 .oae-search-results-carouselview {
@@ -3217,7 +3221,7 @@ ul.oae-list.grid li.oae-list-item .oae-list-item-left .oae-list-item-left-inner 
     display: none;
 }
 ul.oae-list li.oae-list-item.active .oae-list-item-left .oae-list-item-left-inner {
-    padding: 10px 12px 0;
+    padding: 9px 7px 0;
 }
 
 ul.oae-list.expandedlist li.oae-list-item .oae-list-item-right,

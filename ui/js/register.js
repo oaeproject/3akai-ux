@@ -15,6 +15,8 @@
 
 require(['jquery', 'oae/api/oae.core', '//www.google.com/recaptcha/api/js/recaptcha_ajax.js'], function($, oae) {
 
+    var recaptchaEnabled = oae.api.config.getValue('oae-principals', 'recaptcha', 'enabled') === true;
+
     // Redirect the user back to the landing page if he is already logged in or if
     // creating an internal account isn't allowed
     if (!oae.data.me.anon || !oae.api.config.getValue('oae-authentication', 'local', 'allowAccountCreation')) {
@@ -202,8 +204,10 @@ require(['jquery', 'oae/api/oae.core', '//www.google.com/recaptcha/api/js/recapt
         // Get the form values
         var values = $('#register_form').serializeObject();
         // Collect the recaptcha values
-        values['recaptchaChallenge'] = Recaptcha.get_challenge();
-        values['recaptchaResponse'] = Recaptcha.get_response();
+        if (recaptchaEnabled) {
+            values['recaptchaChallenge'] = Recaptcha.get_challenge();
+            values['recaptchaResponse'] = Recaptcha.get_response();
+        }
 
         // Disable the register button during creation, so it can't be clicked
         // multiple times
@@ -219,15 +223,21 @@ require(['jquery', 'oae/api/oae.core', '//www.google.com/recaptcha/api/js/recapt
                 });
             } else {
                 // Refresh recaptcha
-                Recaptcha.reload();
-                showRecaptchaError();
+                if (recaptchaEnabled) {
+                    Recaptcha.reload();
+                    showRecaptchaError();
+                }
                 // Unlock the register button again
                 $('button, input').removeAttr('disabled');
             }
         });
     };
 
-    setUpCaptcha();
+    if (recaptchaEnabled) {
+        setUpCaptcha();
+    } else {
+        $('#register_create_account').addClass('no-recaptcha');
+    }
     setUpValidation();
     setUpUsernameCheck();
 
