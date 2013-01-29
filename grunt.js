@@ -146,7 +146,7 @@ module.exports = function(grunt) {
             grunt.file.write('./target/optimized/nginx.conf', conf);
             grunt.log.writeln('nginx.conf rendered at ./target/optimized/nginx.conf'.green);
         } else {
-            var msg = 'No ' + infile + 'found, not rendering nginx.conf template';
+            var msg = 'No ' + infile + ' found, not rendering nginx.conf template';
             grunt.log.writeln(msg.yellow);
         }
     });
