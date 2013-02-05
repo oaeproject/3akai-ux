@@ -1,0 +1,49 @@
+/*!
+ * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ *     http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+/**********************
+ * BASIC CSS CLASSES **
+ **********************/
+
+/**
+ * Align the text inside of a container
+ *   e.g. <div class="oae-text-align-center">...</div>
+ */
+.oae-text-align-left {
+    text-align: left;
+}
+.oae-text-align-center {
+    text-align: center;
+}
+.oae-text-align-right {
+    text-align: right;
+}
+
+/**
+ * Used for accessibility purposes as it allows to put text content
+ * for items that might not have text content (e.g. icons) or create
+ * additional clues for screenreader users
+ *   e.g. <button class="oae-icon oae-icon-home"><span class="oae-aural-text"></button>
+ */
+.oae-aural-text {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
