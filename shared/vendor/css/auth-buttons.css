@@ -81,27 +81,27 @@
 .btn-facebook {
     border-color: #29447e;
     border-bottom-color: #1a356e;
-    color: #fff;
-    background-color: #5872a7;
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#637bad), to(#5872a7));
-    background-image: -webkit-linear-gradient(#637bad, #5872a7);
-    background-image: -moz-linear-gradient(#637bad, #5872a7);
-    background-image: -ms-linear-gradient(#637bad, #5872a7);
-    background-image: -o-linear-gradient(#637bad, #5872a7);
-    background-image: linear-gradient(#637bad, #5872a7);
+    color: #fff !important;
+    background-color: #5872a7 !important;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#637bad), to(#5872a7)) !important;
+    background-image: -webkit-linear-gradient(#637bad, #5872a7) !important;
+    background-image: -moz-linear-gradient(#637bad, #5872a7) !important;
+    background-image: -ms-linear-gradient(#637bad, #5872a7) !important;
+    background-image: -o-linear-gradient(#637bad, #5872a7) !important;
+    background-image: linear-gradient(#637bad, #5872a7) !important;
     -webkit-box-shadow: inset 0 1px 0 #879ac0;
     box-shadow: inset 0 1px 0 #879ac0;
 }
 
 .btn-facebook:hover,
 .btn-facebook:focus {
-    color: #fff;
-    background-color: #3b5998;
+    color: #fff !important;
+    background-color: #3b5998 !important;
 }
 
 .btn-facebook:active {
-    color: #fff;
-    background: #4f6aa3;
+    color: #fff !important;
+    background: #4f6aa3 !important;
     -webkit-box-shadow: inset 0 1px 0 #45619d;
     box-shadow: inset 0 1px 0 #45619d;
 }
@@ -139,7 +139,7 @@
 .btn-github:focus {
     border-color: #518cc6;
     border-bottom-color: #2a65a0;
-    color: #fff;
+    color: #fff !important;
     background-color: #599bdc;
     background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#599bdc), to(#3072b3));
     background-image: -webkit-linear-gradient(#599bdc, #3072b3);
@@ -152,7 +152,7 @@
 .btn-github:active {
     border-color: #2A65A0;
     border-bottom-color: #518CC6;
-    color: #fff;
+    color: #fff !important;
     background: #3072B3;
     background: -webkit-gradient(linear, 0 0, 0 100%, from(#3072b3), to(#599bdc));
     background: -webkit-linear-gradient(#3072b3, #599bdc);
@@ -192,9 +192,9 @@
    ========================================================================== */
 
 .btn-google {
-    border-color: #3079ed;
-    color: #fff;
-    background: #4787ed;
+    border-color: #3079ed !important;
+    color: #fff !important;
+    background: #4787ed !important;
     background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#4d90fe), to(#4787ed));
     background-image: -webkit-linear-gradient(#4d90fe, #4787ed);
     background-image: -moz-linear-gradient(#4d90fe, #4787ed);
@@ -206,8 +206,8 @@
 .btn-google:hover,
 .btn-google:focus,
 .btn-google:active {
-    color: #fff;
-    background-color: #357ae8;
+    color: #fff !important;
+    background-color: #357ae8 !important;
     background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#4d90fe), to(#357ae8));
     background-image: -webkit-linear-gradient(#4d90fe, #357ae8);
     background-image: -moz-linear-gradient(#4d90fe, #357ae8);
@@ -228,7 +228,7 @@
 .btn-google:before {
     margin: 0 1em 0 -1em;
     background-position: -88px 0;
-    background-color: #e6e6e6;
+    background-color: #e6e6e6 !important;
 }
 
 .btn-google.large:before {
@@ -267,9 +267,9 @@
    ========================================================================== */
 
 .btn-twitter {
-    border-color: #a6cde6;
-    color: #327695;
-    background: #cfe4f0;
+    border-color: #a6cde6 !important;
+    color: #327695 !important;
+    background: #cfe4f0 !important;
     /* css3 */
     background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f1f5f7), to(rgba(255,255,255,0)));
     background-image: -webkit-linear-gradient(#f1f5f7, rgba(255,255,255,0));
@@ -284,13 +284,13 @@
 .btn-twitter:hover,
 .btn-twitter:focus,
 .btn-twitter:active {
-    color: #327695;    
-    border-color: #8dc2e4;
-    background-color: #cadde9;
+    color: #327695 !important;    
+    border-color: #8dc2e4 !important;
+    background-color: #cadde9 !important;
 }
 
 .btn-twitter:active {
-    background: #cadde9;
+    background: #cadde9 !important;
     -webkit-box-shadow: inset 0 1px 0 #bbd6e7;
     box-shadow: inset 0 1px 0 #bbd6e7;
 }
