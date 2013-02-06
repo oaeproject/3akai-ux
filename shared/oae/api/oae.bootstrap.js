@@ -19,6 +19,7 @@
 requirejs.config({
     baseUrl:'/shared/',
     paths: {
+        'bootstrap': 'vendor/js/bootstrap',
         'jquery': 'vendor/js/jquery',
         'jquery-plugins': 'vendor/js/jquery-plugins',
         'jquery-ui': 'vendor/js/jquery-ui.custom',
