@@ -13,6 +13,10 @@
  * permissions and limitations under the License.
  */
 
+body {
+    margin: 0;
+}
+
 .oae-main-content {
     background: url('/ui/img/framework/landing.png') no-repeat top center #055b91;
 }
@@ -27,7 +31,7 @@
     border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
-    margin: 25px auto 40px;
+    margin: 25px auto 75px;
     padding: 2% 0;
 }
 
@@ -78,11 +82,44 @@
     display: block;
 }
 
-#landing-description {
+#landing-slogan-description {
     color: #fff;
     font-size: 1.9rem;
     font-weight: 200;
     margin-top: 25px;
     text-shadow: 0 0 1px #444;
     width: 350px;
+}
+
+.landing-bottom-slogan {
+    color: #fff;
+    font-size: 1.9rem;
+    font-weight: 200;
+    line-height: 1;
+    margin: 0;
+    text-shadow: 0 0 1px #444;
+}
+
+.landing-bottom-description {
+    color: #fff;
+    font-size: 1.4rem;
+    font-weight: 200;
+    margin-top: 25px;
+    text-shadow: 0 0 1px #444;
+}
+
+#landing-contentauthoring-experiences,
+#landing-channels-of-communication,
+#landing-access-to-content {
+    background: url('/ui/img/framework/contentauthoring-experiences.png') no-repeat top left transparent;
+    margin-top: 75px;
+    padding-left: 80px;
+}
+
+#landing-channels-of-communication {
+    background: url('/ui/img/framework/channels-of-communication.png') no-repeat top left transparent;
+}
+
+#landing-access-to-content {
+    background: url('/ui/img/framework/access-to-content.png') no-repeat top left transparent;
 }
