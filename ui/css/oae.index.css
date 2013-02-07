@@ -13,3 +13,76 @@
  * permissions and limitations under the License.
  */
 
+.oae-main-content {
+    background: url('/ui/img/framework/landing.png') no-repeat top center #055b91;
+}
+
+#landing-content {
+    margin: 0 auto;
+    width: 985px;
+}
+
+.landing-search-container {
+    background: url("/ui/img/framework/landing-search-bg.png") repeat scroll 0 0 transparent;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    margin: 25px auto 40px;
+    padding: 2% 0;
+}
+
+.landing-search-container form,
+.landing-search-container form .control-group {
+    margin: 0;
+}
+
+.landing-search-container label {
+    color: #fff;
+    font-size: 1.8rem;
+    line-height: 2;
+    text-shadow: 0 0 2px #666;
+}
+
+.landing-search-container input#landing-search-input {
+    box-sizing: padding-box;
+    -moz-box-sizing: padding-box;
+    -webkit-box-sizing: padding-box;
+    border-radius: 0;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    float: left;
+    height: 42px;
+    margin-right: 7px;
+    width: 620px;
+}
+
+#cross-collab-image {
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 0 7px #444;
+    height: 290px;
+    width: 515px;
+}
+
+#landing-slogan {
+    color: #fff;
+    font-size: 5rem;
+    font-weight: 200;
+    line-height: 1;
+    margin: 0;
+    text-shadow: 0 0 1px #444;
+}
+
+#landing-slogan span {
+    display: block;
+}
+
+#landing-description {
+    color: #fff;
+    font-size: 1.9rem;
+    font-weight: 200;
+    margin-top: 25px;
+    text-shadow: 0 0 1px #444;
+    width: 350px;
+}
