@@ -70,10 +70,6 @@ a:hover, .btn-link:hover {
 
 .dropdown-menu {
     padding: 10px;
-    background: -moz-linear-gradient(top, #fff 5%, #f5f5f5 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(5%,#fff), color-stop(100%,#f5f5f5));
-    background: -webkit-linear-gradient(top, #fff 5%,#f5f5f5 100%);
-    background: linear-gradient(to bottom, #fff 5%,#f5f5f5 100%);
     -webkit-border-radius: 5px;
        -moz-border-radius: 5px;
             border-radius: 5px;
@@ -112,6 +108,29 @@ a:hover, .btn-link:hover {
     margin-bottom: 0px;
 }
 
+/* MODAL DIALOGS */
+
+.modal {
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+    border: none;
+    -webkit-box-shadow: 0px 0px 6px #000;
+       -moz-box-shadow: 0px 0px 6px #000;
+            box-shadow: 0px 0px 6px #000;
+}
+
+.modal-header  {
+    border-bottom: none; 
+    padding: 10px 20px;
+}
+
+.modal-header h3 {
+    color: #777;
+    font-size: 16px;
+    font-weight: normal;
+}
+
 /* BADGES */
 
 .badge {
@@ -123,16 +142,11 @@ a:hover, .btn-link:hover {
 }
 
 .label-important, .badge-important {
-    background: -moz-linear-gradient(top,  #a90329 0%, #8f0222 44%, #6d0019 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a90329), color-stop(44%,#8f0222), color-stop(100%,#6d0019)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  #a90329 0%,#8f0222 44%,#6d0019 100%); /* Chrome10+,Safari5.1+ */
-    background: linear-gradient(to bottom,  #a90329 0%,#8f0222 44%,#6d0019 100%); /* W3C */
-}
-
-/* 3RD PARTY LOGIN */
-
-.btn-twitter {
-    color: #327695 !important;
+    background: #6D0019;
+    background: linear-gradient(to bottom, #A90329 0%, #8F0222 44%,#6D0019 100%);
+    background: -moz-linear-gradient(top, #A90329 0%, #8F0222 44%, #6D0019 100%);
+    background: -webkit-linear-gradient(top, #A90329 0%, #8F0222 44%, #6D0019 100%);
+    background: -ms-linear-gradient(top, #A90329 0%, #8F0222 44%, #6D0019 100%);
 }
 
 /*****************

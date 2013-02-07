@@ -48,3 +48,17 @@ a:hover, .btn-link:hover {
 .btn-link:hover [class^="icon-"], .btn-link:hover [class*=" icon-"] {
     color: #555;
 }
+
+/* OVERLAY COLORS */
+
+.modal, .dropdown-menu {
+    background: #FFF;
+    background: linear-gradient(to bottom, #FFF 0%, #F5F5F5 100%); 
+    background: -moz-linear-gradient(top, #FFF 0%, #F5F5F5 100%);
+    background: -webkit-linear-gradient(top, #FFF 0%, #F5F5F5 100%);
+    background: -ms-linear-gradient(top, #FFF 0%, #F5F5F5 100%); 
+}
+
+.modal-header h3 {
+    color: #777;
+}
