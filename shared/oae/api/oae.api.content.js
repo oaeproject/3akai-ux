@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'underscore'], function(exports, _) {
+define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
 
     /**
      * Get a full content profile.
