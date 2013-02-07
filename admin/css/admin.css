@@ -103,11 +103,11 @@ body {
     overflow: auto;
 }
 h2 {
-    border-bottom: 1px solid #DDDDDD;
+    font-size: 25px;
     color: #0088CC;
     font-weight: normal;
     letter-spacing: 0.06em;
-    margin: 20px 0 12px;
+    margin: 20px 0;
 }
 .anchor_section {
     color: #9A9A9A;

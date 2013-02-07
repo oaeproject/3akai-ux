@@ -103,4 +103,24 @@ define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
         $('#' + data.id + '_confirm', $('#' + data.id)).click(data.confirmed);
     };
 
+    /**
+     * Set up validation for a form in the admin UI. This will automatically set the correct
+     * validation classes using the Bootstrap CSS classes.
+     * 
+     * @param {Element}     $form               jQuery selector for the form that's being validated
+     * @param {Function}    submitHandler       Function that should be executed when the form validation has succeeded
+     */
+    exports.setUpValidation = function($form, submitHandler) {
+        $form.validate({
+            'errorClass': 'help-inline',
+            'highlight': function(element, errorClass) {
+                $(element).parents('.control-group').addClass('error');
+            },
+            'unhighlight': function(element) {
+                $(element).parents('.control-group').removeClass('error');
+            },
+            'submitHandler': submitHandler
+        });
+    };
+
 });

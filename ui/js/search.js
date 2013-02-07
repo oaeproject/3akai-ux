@@ -171,8 +171,8 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     var switchViewMode = function(el) {
-        $('.oae-search-listview-options .oae-action-icon:visible').removeClass('selected');
-        $(el).children('div').addClass('selected');
+        $('.oae-search-listview-options > div:visible').removeClass('selected');
+        $(el).addClass('selected');
     };
 
     var setUpViewMode = function() {
