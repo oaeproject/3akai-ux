@@ -33,7 +33,7 @@
                             </div>
                             <button class="oae-entity-picture">
                                 <span class="oae-entity-picture-image">
-                                    <img class="oae-icon-50" src="${group.mediumPicture || '/ui/img/entities/group_icon_medium.png'}"/>
+                                    <img class="oae-icon-50" src="${group.picture.medium || '/ui/img/entities/group_icon_medium.png'}"/>
                                 </span>
                                 <span class="oae-aural-text">__MSG__PROFILE_PICTURE_OPTIONS_FOR__ ${group.displayName|safeUserInput}</span>
                                 <span class="oae-dropdown-menu-arrow"></span>
@@ -48,7 +48,7 @@
                         {else}
                             <div class="oae-entity-picture">
                                 <span class="oae-entity-picture-image">
-                                    <img class="oae-icon-50" src="${group.mediumPicture || '/ui/img/entities/group_icon_medium.png'}"/>
+                                    <img class="oae-icon-50" src="${group.picture.medium || '/ui/img/entities/group_icon_medium.png'}"/>
                                 </span>
                             </div>
                         {/if}
