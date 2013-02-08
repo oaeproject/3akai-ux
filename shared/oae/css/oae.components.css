@@ -146,6 +146,14 @@
     white-space: nowrap;
 }
 
+.oae-clip .oae-clip-content .oae-visibility-private,
+.oae-clip .oae-clip-content .oae-visibility-public,
+.oae-clip .oae-clip-content .oae-visibility-department,
+.oae-clip .oae-clip-content .oae-visibility-loggedin {
+    margin: 15px 0 0 24px;
+    position: absolute;
+}
+
 /* Menu in a clip */
 .oae-clip ul.clip-menulisting {
     list-style: none;
