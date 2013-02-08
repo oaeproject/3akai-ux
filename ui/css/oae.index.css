@@ -17,16 +17,16 @@ body {
     margin: 0;
 }
 
-.oae-main-content {
+.landing.oae-main-content {
     background: url('/ui/img/framework/landing.png') no-repeat top center #055b91;
 }
 
-#landing-content {
+.landing #landing-content {
     margin: 0 auto;
     width: 985px;
 }
 
-.landing-search-container {
+.landing .landing-search-container {
     background: url("/ui/img/framework/landing-search-bg.png") repeat scroll 0 0 transparent;
     border-radius: 5px;
     -moz-border-radius: 5px;
@@ -35,19 +35,19 @@ body {
     padding: 2% 0;
 }
 
-.landing-search-container form,
-.landing-search-container form .control-group {
+.landing .landing-search-container form,
+.landing .landing-search-container form .control-group {
     margin: 10px 0;
 }
 
-.landing-search-container label {
+.landing .landing-search-container label {
     color: #fff;
     font-size: 1.8rem;
     line-height: 2;
     text-shadow: 0 0 2px #666;
 }
 
-.landing-search-container input#landing-search-input {
+.landing .landing-search-container input#landing-search-input {
     box-sizing: padding-box;
     -moz-box-sizing: padding-box;
     -webkit-box-sizing: padding-box;
@@ -60,11 +60,11 @@ body {
     width: 620px;
 }
 
-.landing-search-container .control-label {
+.landing .landing-search-container .control-label {
     padding-top: 0;
 }
 
-.landing-search-container button[type="submit"] {
+.landing .landing-search-container button[type="submit"] {
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
@@ -77,7 +77,7 @@ body {
     line-height: 0;
 }
 
-#cross-collab-image {
+.landing #cross-collab-image {
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
@@ -86,7 +86,7 @@ body {
     width: 515px;
 }
 
-#landing-slogan {
+.landing #landing-slogan {
     color: #fff;
     font-size: 5rem;
     font-weight: 200;
@@ -95,11 +95,11 @@ body {
     text-shadow: 0 0 1px #444;
 }
 
-#landing-slogan span {
+.landing #landing-slogan span {
     display: block;
 }
 
-#landing-slogan-description {
+.landing #landing-slogan-description {
     color: #fff;
     font-size: 1.9rem;
     font-weight: 200;
@@ -108,7 +108,7 @@ body {
     width: 350px;
 }
 
-.landing-bottom-slogan {
+.landing .landing-bottom-slogan {
     color: #fff;
     font-size: 1.9rem;
     font-weight: 200;
@@ -117,7 +117,7 @@ body {
     text-shadow: 0 0 1px #444;
 }
 
-.landing-bottom-description {
+.landing .landing-bottom-description {
     color: #fff;
     font-size: 1.4rem;
     font-weight: 200;
@@ -125,18 +125,18 @@ body {
     text-shadow: 0 0 1px #444;
 }
 
-#landing-contentauthoring-experiences,
-#landing-channels-of-communication,
-#landing-access-to-content {
+.landing #landing-contentauthoring-experiences,
+.landing #landing-channels-of-communication,
+.landing #landing-access-to-content {
     background: url('/ui/img/framework/contentauthoring-experiences.png') no-repeat top left transparent;
     margin: 50px 0 20px;
     padding-left: 90px;
 }
 
-#landing-channels-of-communication {
+.landing #landing-channels-of-communication {
     background: url('/ui/img/framework/channels-of-communication.png') no-repeat top left transparent;
 }
 
-#landing-access-to-content {
+.landing #landing-access-to-content {
     background: url('/ui/img/framework/access-to-content.png') no-repeat top left transparent;
 }
