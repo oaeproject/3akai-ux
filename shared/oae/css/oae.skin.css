@@ -51,37 +51,66 @@ a:hover, .btn-link:hover {
 
 
 /* CLIP COLORS */
-
-.oae-clip button {
-    background-color: #25a9e0;
+.oae-clip .oae-clip-content {
+    background: #24a7dd;
+    background: -moz-linear-gradient(top,  #24a7dd 0%, #24a7dd 10%, #0175a9 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#24a7dd), color-stop(10%,#24a7dd), color-stop(100%,#0175a9));
+    background: -webkit-linear-gradient(top,  #24a7dd 0%,#24a7dd 10%,#0175a9 100%);
+    background: -o-linear-gradient(top,  #24a7dd 0%,#24a7dd 10%,#0175a9 100%);
+    background: -ms-linear-gradient(top,  #24a7dd 0%,#24a7dd 10%,#0175a9 100%);
+    background: linear-gradient(to bottom,  #24a7dd 0%,#24a7dd 10%,#0175a9 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#24a7dd', endColorstr='#0175a9',GradientType=0 );
     border-color: #2f8cb3;
-}
-.oae-clip .oae-clip-fold .oae-clip-fold-inner {
-    background-color: #2f8cb3;
-}
-.oae-clip .oae-clip-fold .oae-clip-fold-outer {
-    background-color: #25a9e0;
+    color: #DBDBDB;
 }
 
-.oae-clip.yellow button {
-    background-color: #EEB211;
-    border-color: #C59353;
-}
-.oae-clip.yellow .oae-clip-fold .oae-clip-fold-inner {
-    background-color: #C59353;
-}
-.oae-clip.yellow .oae-clip-fold .oae-clip-fold-outer {
-    background-color: #EEB211;
-}
-
-.oae-clip.black button {
-    background-color: #040404;
-    border-color: #666;
+.oae-clip-container [class^="icon-"],
+.oae-clip-container [class*=" icon-"] {
     color: #fff;
 }
+
+.oae-clip button {
+    color: #ECEAE5;
+}
+.oae-clip button:hover {
+    color: #fff;
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+}
+.oae-clip .oae-clip-fold .oae-clip-fold-inner {
+    background-color: #0175a9;
+}
+.oae-clip .oae-clip-fold .oae-clip-fold-outer {
+    background-color: #24a7dd;
+}
+
+.oae-clip.black .oae-clip-content {
+    background: #545454;
+    background: -moz-linear-gradient(top,  #545454 0%, #545454 10%, #000000 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#545454), color-stop(10%,#545454), color-stop(100%,#000000));
+    background: -webkit-linear-gradient(top,  #545454 0%,#545454 10%,#000000 100%);
+    background: -o-linear-gradient(top,  #545454 0%,#545454 10%,#000000 100%);
+    background: -ms-linear-gradient(top,  #545454 0%,#545454 10%,#000000 100%);
+    background: linear-gradient(to bottom,  #545454 0%,#545454 10%,#000000 100%);
+    border-color: #000;
+}
 .oae-clip.black .oae-clip-fold .oae-clip-fold-inner {
-    background-color: #666;
+    background-color: #000;
 }
 .oae-clip.black .oae-clip-fold .oae-clip-fold-outer {
-    background-color: #040404;
+    background-color: #545454;
+}
+
+.oae-clip .clip-description {
+    color: #999;
+}
+
+/* Menu in a clip */
+
+.oae-clip ul.clip-menulisting li button {
+    color: #999;
+}
+
+.oae-clip ul.clip-menulisting li button:hover {
+    background-color: #000;
+    color: #fff;
 }
