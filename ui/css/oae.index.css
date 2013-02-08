@@ -31,13 +31,13 @@ body {
     border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
-    margin: 25px auto 75px;
+    margin: 25px auto 50px;
     padding: 2% 0;
 }
 
 .landing-search-container form,
 .landing-search-container form .control-group {
-    margin: 0;
+    margin: 10px 0;
 }
 
 .landing-search-container label {
@@ -55,9 +55,26 @@ body {
     -moz-border-radius: 0;
     -webkit-border-radius: 0;
     float: left;
-    height: 42px;
+    height: 35px;
     margin-right: 7px;
     width: 620px;
+}
+
+.landing-search-container .control-label {
+    padding-top: 0;
+}
+
+.landing-search-container button[type="submit"] {
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    box-shadow: 1px 1px 2px #ddd;
+    -moz-box-shadow: 1px 1px 2px #ddd;
+    -webkit-box-shadow: 1px 1px 2px #ddd;
+    font-size: 1.5rem;
+    font-weight: 200;
+    height: 36px;
+    line-height: 0;
 }
 
 #cross-collab-image {
@@ -112,8 +129,8 @@ body {
 #landing-channels-of-communication,
 #landing-access-to-content {
     background: url('/ui/img/framework/contentauthoring-experiences.png') no-repeat top left transparent;
-    margin-top: 75px;
-    padding-left: 80px;
+    margin: 50px 0 20px;
+    padding-left: 90px;
 }
 
 #landing-channels-of-communication {
