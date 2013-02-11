@@ -42,8 +42,6 @@ requirejs.config({
         'underscore': 'vendor/js/underscore',
         'oae.core': 'oae/api/oae.core',
         'oae.api': 'oae/api/oae.api',
-        'oae.api.i18n': 'oae/api/oae.api.i18n',
-        'oae.api.util': 'oae/api/oae.api.util',
         'oae.culture-map': 'oae/api/oae.culture-map'
     },
     priority: ['jquery', 'underscore']
