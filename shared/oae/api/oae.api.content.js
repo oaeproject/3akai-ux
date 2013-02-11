@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'underscore'], function(exports, _) {
+define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
 
     /**
      * Get a full content profile.
@@ -444,6 +444,21 @@ define(['exports', 'underscore'], function(exports, _) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
             }
         });
+    };
+
+    /**
+     * Determines whether or not the given id represents a content id
+     *
+     * @param  {String}     contentId   A string that may or may not be a content id
+     * @return {Boolean}                `true` if the given id is a content id, `false` otherwise
+     */
+    var isContentId = exports.isContentId = function(contentId, callback) {
+        if (!contentId) {
+            throw new Error('A valid string should be provided');
+        }
+
+        // All content ids begin with 'c:'
+        return contentId.indexOf('c:') === 0;
     };
 
     /**

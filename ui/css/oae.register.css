@@ -41,7 +41,7 @@ h2 {
     border-radius: 6px;
     -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
-    min-height: 280px;
+    min-height: 180px;
     margin-top: -120px;
     box-shadow: 0 5px 7px -6px #424242;
     padding: 0 15px 15px;
@@ -115,6 +115,9 @@ h2 {
 #register_create_account {
     float: right;
     margin-top: 74px;
+}
+#register_create_account.no-recaptcha {
+    margin-top: 0px;
 }
 .register-comment-box {
     background: #e3f0f6;

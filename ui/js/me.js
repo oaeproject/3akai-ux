@@ -233,8 +233,8 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
     };
 
     var switchViewMode = function(el) {
-        $('.oae-search-listview-options:visible .oae-action-icon').removeClass('selected');
-        $(el).children('div').addClass('selected');
+        $('.oae-search-listview-options > div:visible').removeClass('selected');
+        $(el).addClass('selected');
     };
 
     $(document).on('click', '.search_view_grid', function() {
