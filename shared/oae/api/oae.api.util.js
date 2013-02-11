@@ -238,7 +238,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery.valid
                 elementToHide = [elementToHide];
             }
             $.each(elementToHide, function(index, el) {
-                if (el instanceof jQuery) {
+                if (el instanceof $) {
                     $el = el;
                 } else {
                     $el = $(el);

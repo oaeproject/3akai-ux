@@ -215,4 +215,19 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         });
     };
 
+    /**
+     * Determines whether or not the given id represents a group id
+     *
+     * @param  {String}     groupId     A string that may or may not be a group id
+     * @return {Boolean}                `true` if the given id is a group id, `false` otherwise
+     */
+    var isGroupId = exports.isGroupId = function(groupId, callback) {
+        if (!groupId) {
+            throw new Error('A valid string should be provided');
+        }
+
+        // All user ids begin with 'g:'
+        return groupId.indexOf('g:') === 0;
+    };
+
 });
