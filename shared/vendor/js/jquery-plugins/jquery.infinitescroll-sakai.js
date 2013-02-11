@@ -13,21 +13,21 @@
  * permissions and limitations under the License.
  */
 
-define(['jquery', 'underscore', 'oae.api.i18n', 'oae.api.util'], function (jQuery, _, i18nAPI, utilAPI) {
+define(['jquery', 'underscore', 'oae.api'], function (jQuery, _, oae) {
 (function($) {
 
     /**
      * Sakai OAE plugin that will provide infinite scrolling for lists of items being displayed. This plugin will take care of retrieving the
      * list items and deciding when to retrieve the next set of results, as well as the actual appending to the list, showing loading
      * animations, etc.
-     * 
+     *
      * The template used to render the result should put each item into its own `li` tag, and should have a `data-id` attribute containing
      * the item's id and a `data-key` attribute containing the value that should be used as the start value for paging.
-     * 
+     *
      * @param  {String}                            source                          The REST endpoint URL to use for retrieving list data.
      * @param  {Object}                            [parameters]                    Parameters to send along for each list items retrieval ajax request.
      * @param  {Object}                            [parameters.limit]              The number of items to load per ajax request. This will default to 10 if not provided.
-     * @param  {String|Element|Function}           render                          jQuery element or selector for that jQuery element that identifies the Trimpath template that should be used to render retrieved results. If a function is provided, this function will be called instead with 1 parameters: the server response containing the retrieved results. The function should return the generated HTML string. 
+     * @param  {String|Element|Function}           render                          jQuery element or selector for that jQuery element that identifies the Trimpath template that should be used to render retrieved results. If a function is provided, this function will be called instead with 1 parameters: the server response containing the retrieved results. The function should return the generated HTML string.
      * @param  {Object}                            [options]                       Optional object containing additional configuraton options.
      * @param  {String|Element}                    [options.scrollcontainer]       jQuery element or selector for that jQuery element that identifies the container on which the scrollposition should be watched to check when we are close enough to the bottom to load a new set of results. If this is not provided, the document body will be used.
      * @param  {Function}                          [options.emptyListProcessor]    Function that will be executed when the rendered list doesn't have any elements.
@@ -41,7 +41,7 @@ define(['jquery', 'underscore', 'oae.api.i18n', 'oae.api.util'], function (jQuer
         if (!source) {
             throw new Error('A valid source URL should be provided');
         } else if (!render) {
-            throw new Error('A valid template name or render function should be provided')
+            throw new Error('A valid template name or render function should be provided');
         }
 
         // Default values
@@ -98,7 +98,7 @@ define(['jquery', 'underscore', 'oae.api.i18n', 'oae.api.util'], function (jQuer
                 // In case we use the body
                 var threshold = 500;
                 var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - $(window).scrollTop();
-                // In case we use a scroll container 
+                // In case we use a scroll container
                 if (options.scrollContainer) {
                     threshold = 280;
                     pixelsRemainingUntilBottom = options.scrollContainer.height() - options.scrollContainer.scrollTop();
@@ -144,7 +144,7 @@ define(['jquery', 'underscore', 'oae.api.i18n', 'oae.api.util'], function (jQuer
          * Run the list of items to be added through a processor before pushing them through
          * a template. The postProcessor will be pass on the server response to the postProcessor
          * function.
-         * 
+         *
          * @param {Object}      data       Response received from the server
          */
         var processList = function(data) {
@@ -157,8 +157,8 @@ define(['jquery', 'underscore', 'oae.api.i18n', 'oae.api.util'], function (jQuer
         /**
          * Add a list of items to the current infinite scroll list. We expect the list of items
          * to be wrapped in a `results` object, and have an `id` parameter for each of the results.
-         * Results that are already in the list will not be re-rendered. 
-         * 
+         * Results that are already in the list will not be re-rendered.
+         *
          * @param {Object} data       Post-processed server response
          */
         var renderList = function(data) {
@@ -182,7 +182,7 @@ define(['jquery', 'underscore', 'oae.api.i18n', 'oae.api.util'], function (jQuer
             if (_.isFunction(render)) {
                 templateOutput = render(data.results);
             } else {
-                templateOutput = utilAPI.renderTemplate(render, data);
+                templateOutput = oae.api.util.renderTemplate(render, data);
             }
             $container.append(templateOutput);
 
@@ -216,7 +216,7 @@ define(['jquery', 'underscore', 'oae.api.i18n', 'oae.api.util'], function (jQuer
 
         /**
          * Remove one or more items from the list. This will fade the items out and hide them.
-         * 
+         *
          * @param  {String|String[]}       items       Id of the element that should be removed from the list or array of ids for all elements that should be removed from the list
          */
         var removeItems = function(items) {
@@ -275,7 +275,7 @@ define(['jquery', 'underscore', 'oae.api.i18n', 'oae.api.util'], function (jQuer
          */
         var setUpLoadingImage = function() {
             if (options.loadingImage) {
-                var $loader = $('<img />', {'src': options.loadingImage, 'alt': i18nAPI.translate('__MSG__LOADING__')}).addClass('oae-infinitescroll-loading');
+                var $loader = $('<img />', {'src': options.loadingImage, 'alt': oae.api.i18n.translate('__MSG__LOADING__')}).addClass('oae-infinitescroll-loading');
                 $loadingContainer.append($loader);
                 hideLoadingContainer(false);
                 $loadingContainer.insertAfter($container);

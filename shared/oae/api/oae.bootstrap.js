@@ -40,10 +40,8 @@ requirejs.config({
         'jquery.jeditable.sakai-edited': 'vendor/js/jquery-plugins/jquery.jeditable.sakai-edited',
         'jquery-ui': 'vendor/js/jquery-ui.custom',
         'underscore': 'vendor/js/underscore',
-        'oae.core': 'oae/api/oae.core',
         'oae.api': 'oae/api/oae.api',
-        'oae.api.i18n': 'oae/api/oae.api.i18n',
-        'oae.api.util': 'oae/api/oae.api.util',
+        'oae.core': 'oae/api/oae.core',
         'oae.culture-map': 'oae/api/oae.culture-map'
     },
     priority: ['jquery', 'underscore']
