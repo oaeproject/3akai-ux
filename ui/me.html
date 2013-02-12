@@ -9,47 +9,18 @@
         </noscript>
 
         <!-- CORE CSS -->
-        <link rel="stylesheet" type="text/css" href="/ui/css/oae.main.css" />
+        <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
 
     </head>
-    <body class="oae-centered oae-force-hidden">
+    <body>
 
-        <!-- HEADER -->
-        <div class="oae-container-flex header oae-header">
-            <div class="oae-navigation-container">
-                <div data-widget="topnavigation"><!-- --></div>
-            </div>
-            <div class="oae-fix oae-centered fixed-container oae-fixed-container">
-                <div class="oae-container-shadow-left"><!-- --></div>
-                <div class="oae-container-shadow-right"><!-- --></div>
-                <div class="oae-page-noheader"><!-- --></div>
-            </div>
-        </div>
+         <!-- HEADER -->
+        <div data-widget="topnavigation"><!-- --></div>
 
         <!-- BODY -->
-        <div class="oae-container-flex">
-            <div class="oae-fix oae-centered fixed-container oae-main-container oae-twocolumn">
-                <div class="oae-page-column-left">
-                    <div id="oae_entity_container" class="oae-entity-container"><!-- --></div>
-                    <div id="oae_entity_template"><!--
-                        <button class="oae-entity-picture">
-                            <span class="oae-entity-picture-image">
-                                {var pic = oae.data.me.mediumPicture || "/ui/img/entities/user_icon_medium.png"}
-                                <img src="${pic}"/>
-                            </span>
-                            <span class="oae-aural-text">__MSG__PROFILE_PICTURE_OPTIONS_FOR__ ${oae.data.me.displayName|safeUserInput}</span> 
-                        </button>
-                        <div class="oae-bold oae-push oae-entity-title-below oae-my-displayname">${oae.data.me.displayName|safeUserInput}</div>
-                        <div class="oae-push"></div>
-                    --></div>
-                    <div data-widget="lhnavigation"><!-- --></div>
-                </div>
-                <div class="oae-page-column-right">
-                    <div id="oae-page-main-content" class="oae-page-content-lowpadding" role="main">
-                        <div data-widget="contentauthoring"><!-- --></div>
-                    </div>
-                    <div class="oae-bottom-spacer"></div>
-                </div>
+        <div class="oae-main-content">
+            <div class="row-fluid">
+                <div data-widget="page"><!-- --></div>
             </div>
         </div>
 
