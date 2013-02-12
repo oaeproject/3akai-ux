@@ -20,7 +20,7 @@ body {
 }
 
 /* LANDING PAGE */
-.landing.oae-main-content {
+#index-container.oae-main-content {
     background: url('/ui/img/framework/landing.png') no-repeat top center #055b91;
 }
 

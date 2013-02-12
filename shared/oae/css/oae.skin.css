@@ -19,11 +19,16 @@ body {
    background-color: #ECEAE5;
 }
 
-/* INSTITUTION LOGO */
-
+/* BRANDING */
+/* institution logo */
 .oae-institutional-logo {
     background-image: url('/ui/img/framework/oae-logo.png');
     background-size: auto 34.5px;
+}
+
+/* landing page background */
+#index-container.oae-main-content {
+    background: url('/ui/img/framework/landing.png') no-repeat top center #055B91;
 }
 
 /* LINK COLORS */
