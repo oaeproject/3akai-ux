@@ -17,7 +17,7 @@
  * Initalize requireJS by setting paths and specifying load priorities
  */
 requirejs.config({
-    baseUrl:'/shared/',
+    baseUrl: '/shared/',
     paths: {
         'jquery': 'vendor/js/jquery',
         'globalize': 'vendor/js/l10n/globalize',
@@ -40,9 +40,20 @@ requirejs.config({
         'jquery.jeditable.sakai-edited': 'vendor/js/jquery-plugins/jquery.jeditable.sakai-edited',
         'jquery-ui': 'vendor/js/jquery-ui.custom',
         'underscore': 'vendor/js/underscore',
-        'oae.core': 'oae/api/oae.core',
         'oae.api': 'oae/api/oae.api',
-        'oae.culture-map': 'oae/api/oae.culture-map'
+        'oae.api.authentication': 'oae/api/oae.api.authentication',
+        'oae.api.config': 'oae/api/oae.api.config',
+        'oae.api.content': 'oae/api/oae.api.content',
+        'oae.api.group': 'oae/api/oae.api.group',
+        'oae.api.i18n': 'oae/api/oae.api.i18n',
+        'oae.api.l10n': 'oae/api/oae.api.l10n',
+        'oae.api.profile': 'oae/api/oae.api.profile',
+        'oae.api.user': 'oae/api/oae.api.user',
+        'oae.api.util': 'oae/api/oae.api.util',
+        'oae.api.widget': 'oae/api/oae.api.widget',
+        'oae.core': 'oae/api/oae.core',
+        'oae.culture-map': 'oae/api/oae.culture-map',
+        'trimpath': 'vendor/js/trimpath'
     },
     priority: ['jquery', 'underscore']
 });

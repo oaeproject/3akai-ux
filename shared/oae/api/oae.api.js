@@ -18,8 +18,8 @@
  * tenant will be retrueved, and the localization and internationalization APIs will be initialized. Finally, the widgets declared
  * in the page source will be rendered
  */
-define(['oae/api/oae.api.authentication', 'oae/api/oae.api.config', 'oae/api/oae.api.content', 'oae/api/oae.api.group', 'oae/api/oae.api.i18n', 
-        'oae/api/oae.api.l10n', 'oae/api/oae.api.profile', 'oae/api/oae.api.user', 'oae/api/oae.api.util', 'oae/api/oae.api.widget'],
+define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.group', 'oae.api.i18n',
+        'oae.api.l10n', 'oae.api.profile', 'oae.api.user', 'oae.api.util', 'oae.api.widget'],
 
     function(authenticationAPI, configAPI, contentAPI, groupAPI, i18nAPI, l10nAPI, profileAPI, userAPI, utilAPI, widgetAPI) {
         

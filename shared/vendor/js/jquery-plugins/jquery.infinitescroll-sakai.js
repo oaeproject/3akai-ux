@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['jquery', 'underscore', 'oae/api/oae.api.util', 'oae/api/oae.api.i18n'], function (jQuery, _, oaeUtil, oaeI18n) {
+define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuery, _, oaeUtil, oaeI18n) {
 (function($) {
 
     /**
