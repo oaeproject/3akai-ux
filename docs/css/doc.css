@@ -19,7 +19,7 @@ html, body {
     padding: 0;
 }
 body {
-    background: url('/shared/oae/img/page-bg.png') repeat left top #eee;
+    background: #EEE;
 }
 .clear {
     clear: both;
@@ -32,13 +32,13 @@ body {
     position: relative;
 }
 #doc_header_container {
-    background-color: #fff;
+    background-color: #FFF;
     height: 70px;
     margin: 0 auto;
     width: 100%;
 }
 #doc_header_container #doc_header_content {
-    background: url('/shared/oae/img/logo.png') no-repeat left center transparent;
+    background: url('/shared/oae/img/oae-logo.png') no-repeat left center transparent;
     height: 70px;
     margin: 0 auto;
     width: 1150px;
