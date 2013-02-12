@@ -40,6 +40,7 @@ requirejs.config({
         'jquery.jeditable.sakai-edited': 'vendor/js/jquery-plugins/jquery.jeditable.sakai-edited',
         'jquery-ui': 'vendor/js/jquery-ui.custom',
         'underscore': 'vendor/js/underscore',
+        'bootstrap': 'vendor/js/bootstrap',
         'oae.api': 'oae/api/oae.api',
         'oae.api.authentication': 'oae/api/oae.api.authentication',
         'oae.api.config': 'oae/api/oae.api.config',

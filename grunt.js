@@ -165,8 +165,8 @@ module.exports = function(grunt) {
             grunt.log.writeln(module);
             var conf = {
                 files : [
-                    module + '**/*.js',
                     module + '**/*.html',
+                    module + '**/*.js',
                     module + '**/*.css',
                     module + '**/*.properties'
                 ],
@@ -174,7 +174,7 @@ module.exports = function(grunt) {
                     module + '**/*.html',
                     module + '**/*.js',
                     module + '**/*.css',
-                    module + '**/*.json'
+                    module + '*.json'
                 ]
             };
             grunt.config.set('ver.' + module + '.basedir', module);
@@ -193,7 +193,7 @@ module.exports = function(grunt) {
         var hashedPaths = require('./' + grunt.config.get('ver.oae.version'));
         var bootstrapPath = hashedPaths['target/optimized/shared/oae/api/oae.bootstrap.js'];
         var bootstrap = grunt.file.read(bootstrapPath);
-        var regex = /paths: \{[^}]*\}/;
+        var regex = /paths: ?\{[^}]*\}/;
         var match = bootstrap.match(regex);
         var scriptPaths = 'paths = {' + bootstrap.match(regex) + '}';
         var paths = vm.runInThisContext(scriptPaths).paths;
@@ -258,5 +258,5 @@ module.exports = function(grunt) {
     grunt.registerTask('test', 'qunit');
     // Default task.
     //grunt.registerTask('default', 'clean describe requirejs inlineImg hashFiles writeVersion configNginx');
-    grunt.registerTask('default', 'clean describe requirejs inlineImg writeVersion configNginx');
+    grunt.registerTask('default', 'clean describe requirejs inlineImg hashFiles writeVersion configNginx');
 };
