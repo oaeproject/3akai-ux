@@ -87,7 +87,6 @@ textarea {
     color: #333;
     font-family: 'Open Sans', sans-serif; arial, helvetica, sans-serif;
     font-size: 16px;
-    font-size: 1.6rem;
     line-height: 1.5;
 }
 
@@ -164,7 +163,6 @@ pre {
     background: #eee;
     font-family: "Courier 10 Pitch", Courier, monospace;
     font-size: 15px;
-    font-size: 1.5rem;
     line-height: 1.6;
     margin-bottom: 1.6em;
     padding: 1.6em;
@@ -248,7 +246,6 @@ input[type="submit"] {
     cursor: pointer; /* Improves usability and consistency of cursor style between image-type 'input' and others */
     -webkit-appearance: button; /* Corrects inability to style clickable 'input' types in iOS */
     font-size: 12px;
-    font-size: 1.2rem;
     line-height: 1;
     padding: 0.25em 0.45em;
     text-shadow: 0 1px 0 rgba(255,255,255,.8);
@@ -313,7 +310,6 @@ textarea {
     -webkit-border-radius: 3px;
     padding: 0 5px;
     font-size: 13px;
-    font-size: 1.3rem;
     width: 95%;
 }
 
@@ -321,14 +317,12 @@ textarea {
     color: #999;
     font-style: italic;
     font-size: 12px;
-    font-size: 1.2rem;
 }
 
 input:-moz-placeholder {
     color: #999;
     font-style: italic;
     font-size: 12px;
-    font-size: 1.2rem;
 }
 
 input[type=text]:focus,
@@ -590,7 +584,6 @@ a:active {
     color: #fff;
     float: left;
     font-size: 16px;
-    font-size: 1.6rem;
     font-weight: 600;
     height: 33px;
     line-height: 18px;
@@ -631,7 +624,6 @@ a:active {
     color: #dbdbdb;
     float: left;
     font-size: 16px;
-    font-size: 1.6rem;
     font-weight: 600;
     height: 33px;
     line-height: 18px;
@@ -645,7 +637,6 @@ a:active {
     color: #dbdbdb;
     float: left;
     font-size: 16px;
-    font-size: 1.6rem;
     font-weight: 600;
     height: 33px;
     line-height: 18px;
@@ -708,7 +699,6 @@ a:active {
     color: #fff;
     display: block;
     font-size: 13px;
-    font-size: 1.3rem;
     padding-left: 10px;
 }
 
@@ -884,7 +874,6 @@ a.archive {
     color: #fff;
     float: left;
     font-size: 13px;
-    font-size: 1.3rem;
     font-weight: 600;
     height: 31px;
     line-height: 18px;
@@ -1026,7 +1015,6 @@ a.discussions {
     -moz-box-shadow: 0 0 4px 0 #777;
     -webkit-box-shadow: 0 0 4px 0 #777;
     font-size: 12px;
-    font-size: 1.2rem;
 }
 
  /** BUTTONS **/

@@ -19,6 +19,11 @@ body {
    background-color: #E0AA0F;
 }
 
+/* LANDING PAGE */
+#index-container.oae-main-content {
+    background: url('/ui/img/framework/landing.png') no-repeat top center #055b91;
+}
+
 /* INSTITUTION LOGO */
 
 .oae-institutional-logo {
