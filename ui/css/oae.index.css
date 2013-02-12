@@ -13,20 +13,18 @@
  * permissions and limitations under the License.
  */
 
-#landing-content {
-    color: #FFF;
+#index-content {
     font-weight: 200;
     margin: 0 auto;
     width: 985px;
 }
 
-#landing-content h1,
-#landing-content h2 {
+#index-content h1,
+#index-content h2 {
     font-weight: 200;
 }
 
-#index-container .landing-search-container {
-    background-color: rgba(255,255,255,0.3);
+#index-container .index-search-container {
     -webkit-border-radius: 5px;
        -moz-border-radius: 5px;
             border-radius: 5px;
@@ -34,57 +32,55 @@
     padding: 3% 0;
 }
 
-#index-container .landing-search-container form,
-#index-container .landing-search-container form .control-group {
+#index-container .index-search-container form,
+#index-container .index-search-container form .control-group {
     margin: 0;
 }
 
-#index-container .landing-search-container label {
+#index-container .index-search-container label {
     font-size: 18px;
     line-height: 2;
 }
 
-#index-container .landing-search-container input#landing-search-input {
-    box-sizing: padding-box;
-    -moz-box-sizing: padding-box;
+#index-container .index-search-container input#index-search-input {
     -webkit-box-sizing: padding-box;
+       -moz-box-sizing: padding-box;
+            box-sizing: padding-box;
     height: 35px;
     margin-right: 7px;
     width: 620px;
 }
 
-#index-container .landing-search-container .control-label {
+#index-container .index-search-container .control-label {
     padding-top: 0;
 }
 
-#index-container .landing-search-container button[type="submit"] {
+#index-container .index-search-container button[type="submit"] {
     height: 36px;
     line-height: 0;
 }
 
-#index-container #landing-video-container {
-    background: url('/ui/img/framework/landing-video-bg.png') no-repeat center bottom #FFF;
+#index-container #index-video-container {
+    background: url('/ui/img/framework/index-video-bg.png') no-repeat center bottom #FFF;
     -webkit-border-radius: 3px;
        -moz-border-radius: 3px;
             border-radius: 3px;
     -webkit-box-shadow: 0 0 7px #444;
        -moz-box-shadow: 0 0 7px #444;
             box-shadow: 0 0 7px #444;
-    color: #666;
     height: 290px;
     width: 515px;
 }
 
-#index-container #landing-video-container p {
+#index-container #index-video-container p {
     font-size: 18px;
     font-weight: normal;
     margin: 15px auto 0;
-    text-align: center;
     width: 350px;
 }
 
-#index-container #landing-video-container #landing-video-launch {
-    background: url('/ui/img/framework/landing-video-launch.png') no-repeat center center transparent;
+#index-container #index-video-container #index-video-launch {
+    background: url('/ui/img/framework/index-video-launch.png') no-repeat center center transparent;
     border: none;
     display: block;
     height: 67px;
@@ -92,39 +88,38 @@
     width: 67px;
 }
 
-#index-container #landing-video-container #landing-video-launch:hover {
+#index-container #index-video-container #index-video-launch:hover {
     opacity: 0.8;
 }
 
-#index-container #landing-slogan {
+#index-container #index-slogan {
     font-size: 50px;
     line-height: 1;
     margin: 0;
 }
 
-#index-container #landing-slogan-description {
+#index-container #index-slogan-description {
     font-size: 19px;
     margin-top: 25px;
     width: 350px;
 }
 
-.landing-bottom {
+.index-bottom {
     margin-top: 30px;
 }
 
-.landing-bottom i,
-.landing-bottom i:hover {
-    color: #FFF;
+.index-bottom i,
+.index-bottom i:hover {
     font-size: 90px;
 }
 
-.landing-bottom .landing-bottom-slogan {
+.index-bottom .index-bottom-slogan {
     font-size: 19px;
     line-height: 1;
     margin: 0;
 }
 
-.landing-bottom .landing-bottom-description {
+.index-bottom .index-bottom-description {
     font-size: 14px;
     margin-top: 25px;
     overflow: auto;

@@ -13,25 +13,89 @@
  * permissions and limitations under the License.
  */
 
-/* PAGE BACKGROUND COLOR */
+/***************************
+ ** PAGE BACKGROUND COLOR **
+ ***************************/
 
 body {
    background-color: #ECEAE5;
 }
 
-/* BRANDING */
-/* institution logo */
+
+/**************
+ ** BRANDING **
+ **************/
+
+/* INSTITUTIONAL LOGO */
+
 .oae-institutional-logo {
     background-image: url('/ui/img/framework/oae-logo.png');
     background-size: auto 34.5px;
 }
 
-/* landing page background */
+/* INDEX PAGE BACKGROUND */
+
 #index-container.oae-main-content {
-    background: url('/ui/img/framework/landing.png') no-repeat top center #055B91;
+    background: url('/ui/img/framework/index.png') no-repeat top center #055B91;
 }
 
-/* LINK COLORS */
+/*****************
+ ** TEXT COLORS **
+ *****************/
+
+/* DEFAULT TEXT COLOR */
+
+body, button, input, select, textarea {
+    color: #333;
+}
+
+
+/******************
+ ** PANEL COLORS **
+ ******************/
+
+/* PRIMARY PANEL */
+
+.oae-panel-primary {
+    color: #FFF;
+    background: transparent;
+}
+
+.oae-panel-primary h1, .oae-panel-primary h2, .oae-panel-primary h3, 
+.oae-panel-primary h4, .oae-panel-primary h5, .oae-panel-primary h6,
+.oae-panel-primary i, .oae-panel-primary i:hover {
+    color: #FFF;
+}
+
+/* SECUNDARY PANEL */
+
+.oae-panel-secondary {
+    color: #FFF;
+    background: transparent;
+}
+
+.oae-panel-secondary h1, .oae-panel-secondary h2, .oae-panel-secondary h3, 
+.oae-panel-secondary h4, .oae-panel-secondary h5, .oae-panel-secondary h6,
+.oae-panel-secondary i, .oae-panel-secondary i:hover {
+    color: #FFF;
+}
+
+/* TERTIARY PANEL */
+
+.oae-panel-tertiary {
+    color: #FFF;
+    background: rgba(255,255,255,0.3);
+}
+
+.oae-panel-tertiary h1, .oae-panel-tertiary h2, .oae-panel-tertiary h3, 
+.oae-panel-tertiary h4, .oae-panel-tertiary h5, .oae-panel-tertiary h6,
+.oae-panel-tertiary i, .oae-panel-tertiary i:hover {
+    color: #FFF;
+}
+
+/*****************
+ ** LINK COLORS **
+ *****************/
 
 a, .btn-link {
    color: #0088CC;
@@ -41,9 +105,17 @@ a:hover, .btn-link:hover {
     color: #005580;
 }
 
-/* BUTTON COLORS */
 
-/* ICON BUTTON COLORS */
+/*******************
+ ** BUTTON COLORS **
+ *******************/
+
+/* TODO */
+
+
+/************************
+ ** ICON BUTTON COLORS **
+ ************************/
 
 [class^="icon-"], [class*=" icon-"] {
    color: #A9A9A9;
