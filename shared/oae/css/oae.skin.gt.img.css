@@ -37,13 +37,13 @@ body {
 
 #index-container.oae-main-content {
     /* Color background */
-    background-image: url('/ui/img/framework/index.png') rgb(238,178,17);
+    /* background-image: url('/ui/img/framework/index.png') rgb(238,178,17);
     background-image: url('/ui/img/framework/index.png'), -moz-linear-gradient(top, rgb(238,178,17) 0%, rgba(197,147,83,1) 100%);
     background-image: url('/ui/img/framework/index.png'), -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgb(238,178,17)), color-stop(100%, rgba(197,147,83,1)));
     background-image: url('/ui/img/framework/index.png'), -webkit-linear-gradient(top, rgb(238,178,17) 0%, rgba(197,147,83,1) 100%);
-    background-image: url('/ui/img/framework/index.png'), linear-gradient(to bottom, rgb(238,178,17) 0%, rgba(197,147,83,1) 100%);
+    background-image: url('/ui/img/framework/index.png'), linear-gradient(to bottom, rgb(238,178,17) 0%, rgba(197,147,83,1) 100%); */
     /* Image background */
-    /* background: url('http://ravian100.files.wordpress.com/2011/01/cambridge-university.jpg') no-repeat center center transparent; */
+    background: url('http://api.ning.com/files/ZVGcNjqMgOwGrh8d6LyUisW7VDq2lfZhSJSYp*cFs6VLJY3Ao2soLWun*0mSy9DFOjqiJiJuTvvte1n2w4Px3nZqCpg8y8Ba/CampusoftheweekGT102111.jpg') no-repeat center center transparent; 
 }
 
 
@@ -99,21 +99,21 @@ body, button, input, select, textarea, a.oae-plain-link {
 /* PRIMARY PANEL */
 
 .oae-panel-primary {
-    color: #333;
-    background: transparent;
+    color: #fff;
+    background: rgba(0, 37, 76, 0.95);
 }
 
 .oae-panel-primary h1, .oae-panel-primary h2, .oae-panel-primary h3, 
 .oae-panel-primary h4, .oae-panel-primary h5, .oae-panel-primary h6,
 .oae-panel-primary i, .oae-panel-primary i:hover {
-    color: #333;
+    color: #EEB211;
 }
 
 /* SECONDARY PANEL */
 
 .oae-panel-secondary {
     color: #333;
-    background: transparent;
+    background: rgba(238, 178, 17, 0.85);
 }
 
 .oae-panel-secondary h1, .oae-panel-secondary h2, .oae-panel-secondary h3, 
@@ -126,7 +126,7 @@ body, button, input, select, textarea, a.oae-plain-link {
 
 .oae-panel-tertiary {
     color: #333;
-    background: rgba(255,255,255,0.3);
+    background: rgba(238, 178, 17, 0.85);
 }
 
 .oae-panel-tertiary h1, .oae-panel-tertiary h2, .oae-panel-tertiary h3, 
