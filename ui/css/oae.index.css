@@ -45,10 +45,10 @@
 }
 
 #index-container .landing-search-container input#landing-search-input {
-    box-sizing: padding-box;
-    -moz-box-sizing: padding-box;
-    -webkit-box-sizing: padding-box;
-    height: 35px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    height: 37px;
     margin-right: 7px;
     width: 620px;
 }
@@ -84,12 +84,12 @@
 }
 
 #index-container #landing-video-container #landing-video-launch {
-    background: url('/ui/img/framework/landing-video-launch.png') no-repeat center center transparent;
+    background: transparent;
     border: none;
+    color: #474747;
     display: block;
-    height: 67px;
-    margin: 30px auto;
-    width: 67px;
+    font-size: 90px;
+    margin: 20px auto;
 }
 
 #index-container #landing-video-container #landing-video-launch:hover {
