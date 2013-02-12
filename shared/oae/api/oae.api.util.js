@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery.validate', 'vendor/js/trimpath'], function(exports, $, _, i18nAPI) {
+define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpath'], function(exports, require, $, _) {
 
     /**
      * Initialize all utility functionality.
@@ -84,7 +84,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery.valid
         // Render the page title with the following format
         //   `Sakai OAE - Fragment 1 - Fragment 2`
         title.splice(0, 0, '__MSG__TITLE_PREFIX__');
-        document.title = i18nAPI.translate(title.join(' - '));
+        document.title = require('oae.api.i18n').translate(title.join(' - '));
     };
     
     ////////////////////////////////
@@ -364,7 +364,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery.valid
             // Don't allow spaces in the field
             $.validator.addMethod('nospaces', function(value, element) {
                 return this.optional(element) || (value.indexOf(' ') === -1);
-            }, i18nAPI.translate('__MSG__NO_SPACES_ARE_ALLOWED__'));
+            }, require('oae.api.i18n').translate('__MSG__NO_SPACES_ARE_ALLOWED__'));
 
             // Prepends http if no protocol has been provided
             $.validator.addMethod('prependhttp', function(value, element) {

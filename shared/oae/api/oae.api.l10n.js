@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'underscore', 'oae/api/oae.api.config', 'oae.culture-map', 'globalize'], function(exports, _, configAPI, cultureMap) {
+define(['exports', 'underscore', 'oae.api.config', 'oae.culture-map', 'globalize'], function(exports, _, configAPI, cultureMap) {
 
     /**
      * Initialize all localization functionality by loading the correct culture file.

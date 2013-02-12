@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'oae/api/oae.api.config', 'oae/api/oae.api.util', 'oae.culture-map', 'jquery.properties-parser'], function(exports, $, configAPI, utilAPI, cultureMap) {
+define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'oae.culture-map', 'jquery.properties-parser'], function($, configAPI, utilAPI, cultureMap) {
 
     // Variable that will keep track of the current user's locale
     var locale = null;

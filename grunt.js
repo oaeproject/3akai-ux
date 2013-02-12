@@ -71,6 +71,7 @@ module.exports = function(grunt) {
         },
         ver: {
             oae: {
+                basedir: 'target/optimized',
                 phases: [
                 // Hash these files
                     {
@@ -83,7 +84,8 @@ module.exports = function(grunt) {
                             'target/optimized/ui/**/*.properties',
                             'target/optimized/admin/**/*.js',
                             'target/optimized/admin/**/*.css',
-                            'target/optimized/admin/**/*.properties'                        ],
+                            'target/optimized/admin/**/*.properties'
+                        ],
                         // Look for references to the above files in these files
                         references: [
                             'target/optimized/shared/**/*.js',
@@ -93,7 +95,8 @@ module.exports = function(grunt) {
                             'target/optimized/ui/**/*.css',
                             'target/optimized/admin/**/*.html',
                             'target/optimized/admin/**/*.js',
-                            'target/optimized/admin/**/*.css'                        ]
+                            'target/optimized/admin/**/*.css'
+                        ]
                     }
                 ],
                 version: 'target/hashes.json'
@@ -174,6 +177,7 @@ module.exports = function(grunt) {
                     module + '**/*.json'
                 ]
             };
+            grunt.config.set('ver.' + module + '.basedir', module);
             grunt.config.set('ver.' + module + '.phases', [conf]);
             grunt.task.run('ver:' + module);
         });
@@ -183,13 +187,16 @@ module.exports = function(grunt) {
     });
 
     // Task to update the paths in oae.bootstrap to the hashed versions
-    grunt. registerTask('updateBootstrapPaths', function() {
+    grunt.registerTask('updateBootstrapPaths', function() {
         this.requires('ver:oae');
+
         var hashedPaths = require('./' + grunt.config.get('ver.oae.version'));
         var bootstrapPath = hashedPaths['target/optimized/shared/oae/api/oae.bootstrap.js'];
         var bootstrap = grunt.file.read(bootstrapPath);
-        var regex = /paths:\{[^}]*\}/;
-        var paths = vm.runInThisContext('paths = {' + bootstrap.match(regex) + '}').paths;
+        var regex = /paths: \{[^}]*\}/;
+        var match = bootstrap.match(regex);
+        var scriptPaths = 'paths = {' + bootstrap.match(regex) + '}';
+        var paths = vm.runInThisContext(scriptPaths).paths;
 
         // Utility function to get a map of locales to their file hashes
         var getMap = function(pathRegex, keyRegex, trim) {
