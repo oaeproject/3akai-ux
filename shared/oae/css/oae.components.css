@@ -13,23 +13,9 @@
  * permissions and limitations under the License.
  */
 
-/**********************
- * BASIC CSS CLASSES **
- **********************/
-
-/**
- * Align the text inside of a container
- *   e.g. <div class="oae-text-align-center">...</div>
- */
-.oae-text-align-left {
-    text-align: left;
-}
-.oae-text-align-center {
-    text-align: center;
-}
-.oae-text-align-right {
-    text-align: right;
-}
+/******************
+ * ACCESSIBILITY **
+ ******************/
 
 /**
  * Used for accessibility purposes as it allows to put text content
