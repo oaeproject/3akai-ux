@@ -13,20 +13,43 @@
  * permissions and limitations under the License.
  */
 
-/* PAGE BACKGROUND COLOR */
+/***************************
+ ** PAGE BACKGROUND COLOR **
+ ***************************/
 
 body {
    background-color: #ECEAE5;
 }
 
-/* INSTITUTION LOGO */
+
+/**************
+ ** BRANDING **
+ **************/
+
+/* INSTITUTIONAL LOGO */
 
 .oae-institutional-logo {
-    background-image: url('/ui/img/framework/oae-logo.png');
+    background-image: url('/shared/oae/img/oae-logo.png');
     background-size: auto 34.5px;
 }
 
-/* LINK COLORS */
+/* INDEX PAGE BACKGROUND */
+
+#index-container.oae-main-content {
+    /* Color background */
+    background-image: url('/ui/img/framework/index.png') rgb(37,169,223);
+    background-image: url('/ui/img/framework/index.png'), -moz-linear-gradient(top, rgba(37,169,223,1) 0%, rgba(0,116,167,1) 100%);
+    background-image: url('/ui/img/framework/index.png'), -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(37,169,223,1)), color-stop(100%, rgba(0,116,167,1)));
+    background-image: url('/ui/img/framework/index.png'), -webkit-linear-gradient(top, rgba(37,169,223,1) 0%, rgba(0,116,167,1) 100%);
+    background-image: url('/ui/img/framework/index.png'), linear-gradient(to bottom, rgba(37,169,223,1) 0%, rgba(0,116,167,1) 100%);
+    /* Image background */
+    /* background: url('http://ravian100.files.wordpress.com/2011/01/cambridge-university.jpg') no-repeat center center transparent; */
+}
+
+
+/*****************
+ ** LINK COLORS **
+ *****************/
 
 a, .btn-link {
    color: #0088CC;
@@ -36,9 +59,17 @@ a:hover, .btn-link:hover {
     color: #005580;
 }
 
-/* BUTTON COLORS */
 
-/* ICON BUTTON COLORS */
+/*******************
+ ** BUTTON COLORS **
+ *******************/
+
+/* TODO */
+
+
+/************************
+ ** ICON BUTTON COLORS **
+ ************************/
 
 [class^="icon-"], [class*=" icon-"] {
    color: #A9A9A9;
@@ -47,4 +78,59 @@ a:hover, .btn-link:hover {
 [class^="icon-"]:hover, [class*=" icon-"]:hover,
 .btn-link:hover [class^="icon-"], .btn-link:hover [class*=" icon-"] {
     color: #555;
+}
+
+
+/*****************
+ ** TEXT COLORS **
+ *****************/
+
+/* DEFAULT TEXT COLOR */
+
+body, button, input, select, textarea, a.oae-plain-link {
+    color: #333;
+}
+
+
+/******************
+ ** PANEL COLORS **
+ ******************/
+
+/* PRIMARY PANEL */
+
+.oae-panel-primary {
+    color: #FFF;
+    background: transparent;
+}
+
+.oae-panel-primary h1, .oae-panel-primary h2, .oae-panel-primary h3, 
+.oae-panel-primary h4, .oae-panel-primary h5, .oae-panel-primary h6,
+.oae-panel-primary i, .oae-panel-primary i:hover {
+    color: #FFF;
+}
+
+/* SECONDARY PANEL */
+
+.oae-panel-secondary {
+    color: #FFF;
+    background: transparent;
+}
+
+.oae-panel-secondary h1, .oae-panel-secondary h2, .oae-panel-secondary h3, 
+.oae-panel-secondary h4, .oae-panel-secondary h5, .oae-panel-secondary h6,
+.oae-panel-secondary i, .oae-panel-secondary i:hover {
+    color: #FFF;
+}
+
+/* TERTIARY PANEL */
+
+.oae-panel-tertiary {
+    color: #FFF;
+    background: rgba(255,255,255,0.3);
+}
+
+.oae-panel-tertiary h1, .oae-panel-tertiary h2, .oae-panel-tertiary h3, 
+.oae-panel-tertiary h4, .oae-panel-tertiary h5, .oae-panel-tertiary h6,
+.oae-panel-tertiary i, .oae-panel-tertiary i:hover {
+    color: #FFF;
 }
