@@ -13,29 +13,24 @@
  * permissions and limitations under the License.
  */
 
-/**********************
- * BASIC CSS CLASSES **
- **********************/
+/******************
+ * ACCESSIBILITY **
+ ******************/
 
 /**
- * Align the text inside of a container
- *   e.g. <div class="oae-text-align-center">...</div>
+ * Style that can be used for links if we just want them to have the same color as the
+ * text. These links will be underlined when hovering over them.
+ *   e.g. <a href="http://www.google.co.uk" class="oae-plain-link">Google</a>
  */
-.oae-text-align-left {
-    text-align: left;
-}
-.oae-text-align-center {
-    text-align: center;
-}
-.oae-text-align-right {
-    text-align: right;
+a.oae-plain-link:hover {
+    text-decoration: underline;
 }
 
 /**
  * Used for accessibility purposes as it allows to put text content
  * for items that might not have text content (e.g. icons) or create
  * additional clues for screenreader users
- *   e.g. <button class="oae-icon oae-icon-home"><span class="oae-aural-text"></button>
+ *   e.g. <button class="oae-icon oae-icon-home"><span class="oae-aural-text">Additional information</span></button>
  */
 .oae-aural-text {
     border: 0;
@@ -47,6 +42,31 @@
     position: absolute;
     width: 1px;
 }
+
+
+/************
+ ** PANELS **
+ ************/
+
+/**
+ * Panels that can be used to show HTML content on top of a background
+ * color or background image. Three different panels can be used
+ *  - `oae-panel-primary`: Panel that contains content that should really stand out
+ *  - `oae-panel-secondary`: Panel that contains the secondary content
+ *  - `oae-panel-tertiary`: Other panel content (e.g. search box on the landing page)
+ *   e.g. <div class="oae-panel-primary">...</div>
+ */
+.oae-panel-primary, .oae-panel-secondary, .oae-panel-tertiary {
+    padding: 15px;
+    -webkit-border-radius: 5px;
+       -moz-border-radius: 5px;
+            border-radius: 5px;
+}
+
+
+/***********
+ ** CLIPS **
+ ***********/
 
 /**
  * Clips at the top of the content containers. When clicked open a pop-over with more actions.
