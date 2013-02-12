@@ -423,6 +423,12 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * @param  {Object}             [options.methods]               Extension to the jquery validate options, allowing to specify custom validators. The keys should be the validator identifiers. The value should be an object with a method key containing the validator function and a text key containing the validation message.
          */
         var validate = function($form, options) {
+            if (!$form) {
+                throw new Error('A valid form should be provided');
+            }
+            // Make sure the form is a jQuery element
+            $form = $($form);
+
             options = options || {};
 
             // By default, we disable validation when a field is clicked, when a key is pressed
@@ -447,9 +453,6 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             if (options.submitHandler && $.isFunction(options.submitHandler)) {
                 submitCallback = options.submitHandler;
             }
-
-            // Make sure form is a jquery object with validate() on it
-            $form = $($form);
 
             // Register the custom validation methods
             if (options.methods) {

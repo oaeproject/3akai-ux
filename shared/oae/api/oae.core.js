@@ -17,10 +17,10 @@
  * Load all of the 3rd party libraries that need to be present from the very beginning, as well as the actual
  * core client-side Sakai OAE APIs
  */
-define(['oae.api!', 'jquery', 'underscore', 'jquery-ui', 'globalize', 'jqmodal.sakai-edited',
-        'jquery.ba-bbq', 'jquery.ba-hashchange', 'jquery.contentchange.sakai-edited',
+define(['oae.api!', 'jquery', 'underscore', 'jquery-ui', 'globalize', 'jqmodal',
+        'jquery.ba-bbq', 'jquery.ba-hashchange', 'jquery.contentchange',
         'jquery.equal-height-columns', 'jquery.fileSize', 'jquery.form',
-        'jquery.gritter.sakai-edit',  'jquery.infinitescroll-sakai', 'jquery.properties-parser',
+        'jquery.gritter',  'jquery.infinitescroll', 'jquery.properties-parser',
         'jquery.serializeObject', 'jquery.validate'],
 
     function(oae, $) {
