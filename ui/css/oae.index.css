@@ -13,6 +13,12 @@
  * permissions and limitations under the License.
  */
 
+#index-container.oae-main-content {
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
 #index-content {
     font-weight: 200;
     margin: 0 auto;
@@ -25,9 +31,6 @@
 }
 
 #index-container .index-search-container {
-    -webkit-border-radius: 5px;
-       -moz-border-radius: 5px;
-            border-radius: 5px;
     margin: 25px auto 50px;
     padding: 3% 0;
 }
@@ -61,7 +64,7 @@
 }
 
 #index-container #index-video-container {
-    background: url('/ui/img/framework/index-video-bg.png') no-repeat center bottom #FFF;
+    background: url('/ui/img/framework/index-video-bg.png') no-repeat center 90px #FFF;
     -webkit-border-radius: 3px;
        -moz-border-radius: 3px;
             border-radius: 3px;
@@ -84,7 +87,7 @@
     border: none;
     display: block;
     font-size: 70px;
-    margin: 30px auto;
+    margin: 25px auto;
 }
 
 #index-container #index-video-container #index-video-launch:hover {
@@ -106,11 +109,6 @@
 .index-bottom {
     margin-top: 30px;
     margin-bottom: 30px;
-}
-
-.index-bottom i,
-.index-bottom i:hover {
-    font-size: 90px;
 }
 
 .index-bottom .index-bottom-slogan {

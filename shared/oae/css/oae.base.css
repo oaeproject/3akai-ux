@@ -40,6 +40,10 @@ a:hover, .btn-link:hover {
     text-decoration: none;
 }
 
+a.oae-plain-link:hover {
+    text-decoration: underline;
+}
+
 /* NAVIGATION */
 
 .navbar-search {

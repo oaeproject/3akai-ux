@@ -47,3 +47,22 @@
     position: absolute;
     width: 1px;
 }
+
+/************
+ ** PANELS **
+ ************/
+
+/**
+ * Panels that can be used to show HTML content on top of a background
+ * color or background image. Three different panels can be used
+ *  - `oae-panel-primary`: Panel that contains content that should really stand out
+ *  - `oae-panel-secondary`: Panel that contains the secondary content
+ *  - `oae-panel-tertiary`: Other panel content (e.g. search box on the landing page)
+ */
+
+.oae-panel-primary, .oae-panel-secondary, .oae-panel-tertiary {
+    padding: 15px;
+    -webkit-border-radius: 5px;
+       -moz-border-radius: 5px;
+            border-radius: 5px;
+}
