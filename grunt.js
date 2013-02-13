@@ -59,10 +59,7 @@ module.exports = function(grunt) {
                     skipModuleInsertion: false,
                     modules: [{
                         name: 'oae.api',
-                        exclude: [
-                            'oae.culture-map',
-                            'jquery'
-                        ]
+                        exclude: ['jquery']
                     }],
                     fileExclusionRegExp: /^(\.|tools|target|tests|grunt|shelljs)/,
                     logLevel: 2
@@ -73,20 +70,31 @@ module.exports = function(grunt) {
             oae: {
                 basedir: 'target/optimized',
                 phases: [
-                // Hash these files
                     {
+                        // Rename and hash these folders
+                        folders: [
+                            'target/optimized/shared/bundles',
+                            'target/optimized/ui/bundles',
+                            'target/optimized/admin/bundles',
+                            'target/optimized/shared/vendor/js/l10n/cultures'
+                        ],
+
+                        // Rename and hash these files
                         files: [
-                            // Warning these files will be renamed
                             'target/optimized/shared/**/*.js',
                             'target/optimized/shared/**/*.css',
                             'target/optimized/ui/**/*.js',
                             'target/optimized/ui/**/*.css',
-                            'target/optimized/ui/**/*.properties',
                             'target/optimized/admin/**/*.js',
-                            'target/optimized/admin/**/*.css',
-                            'target/optimized/admin/**/*.properties'
+                            'target/optimized/admin/**/*.css'
                         ],
-                        // Look for references to the above files in these files
+
+                        // Exclude these files from being renamed/hashed
+                        excludeFiles: [
+                            'target/optimized/shared/vendor/js/l10n/cultures.*/**'
+                        ],
+
+                        // Look for and replace references to the above (non-excluded) files and folders in these files
                         references: [
                             'target/optimized/shared/**/*.js',
                             'target/optimized/shared/**/*.css',
@@ -100,16 +108,6 @@ module.exports = function(grunt) {
                     }
                 ],
                 version: 'target/hashes.json'
-            },
-            culturemap: {
-                phases: [
-                    {
-                        files: [
-                            'target/optimized/shared/oae/api/oae.culture-map.js'
-                        ]
-                    }
-                ],
-                version: 'target/cmhash.json'
             }
         },
         inlineImg: {
@@ -164,11 +162,11 @@ module.exports = function(grunt) {
         oaeModules.forEach(function(module) {
             grunt.log.writeln(module);
             var conf = {
-                files : [
+                folders: [ module + 'bundles' ],
+                files: [
                     module + '**/*.html',
                     module + '**/*.js',
-                    module + '**/*.css',
-                    module + '**/*.properties'
+                    module + '**/*.css'
                 ],
                 references: [
                     module + '**/*.html',
@@ -197,46 +195,6 @@ module.exports = function(grunt) {
         var match = bootstrap.match(regex);
         var scriptPaths = 'paths = {' + bootstrap.match(regex) + '}';
         var paths = vm.runInThisContext(scriptPaths).paths;
-
-        // Utility function to get a map of locales to their file hashes
-        var getMap = function(pathRegex, keyRegex, trim) {
-            var results = {};
-            var keys = Object.keys(hashedPaths).filter(function(hp) {
-                return hp.match(pathRegex);
-            });
-            keys.forEach(function(key) {
-                var path = hashedPaths[key];
-                var hash = path.substring(key.length - trim + 1, path.length - trim);
-                var newKey = key.match(keyRegex)[1];
-                results[newKey] = hash;
-            });
-            return results;
-        };
-
-        // Make a map for the hashed bundle files
-        var bundles = getMap(/ui\/bundles\//, /ui\/bundles\/(.*)\.properties/, 11);
-
-        // Make a map for the hashed culture files
-        var cultures = getMap(/globalize\.culture\./, /globalize\.culture\.(.*)\.js/, 3);
-
-        // Remove the hashed empty culture-map.js
-        var oldcmpath = hashedPaths['target/optimized/shared/oae/api/oae.culture-map.js'];
-        shell.rm(oldcmpath);
-        // Write out the culture-map
-        grunt.file.write('target/optimized/shared/oae/api/oae.culture-map.js', 'define([], function() {return {bundles:' + JSON.stringify(bundles) + ',cultures:' + JSON.stringify(cultures) +'};});');
-
-        // rehash the culture map file
-        var phases = grunt.config.get('ver.culturemap.phases');
-        var version = grunt.config.get('ver.culturemap.version');
-        var forceversion = grunt.config.get('ver.culturemap.forceversion');
-        grunt.helper('ver', phases, version, forceversion);
-        grunt.log.writeln('Cultures mapped'.green);
-
-        var newcmpath = require('./' + grunt.config.get('ver.culturemap.version'));
-        // Update the hashedpaths with the newcmpath
-        Object.keys(newcmpath).forEach(function(key) {
-            hashedPaths[key] = newcmpath[key];
-        });
 
         // Update the bootstrap file with the hashed paths
         Object.keys(paths).forEach(function(key) {

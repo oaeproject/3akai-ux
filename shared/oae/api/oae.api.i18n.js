@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'oae.culture-map', 'jquery.properties-parser'], function(exports, $, configAPI, utilAPI, cultureMap) {
+define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.properties-parser'], function(exports, $, configAPI, utilAPI) {
 
     // Variable that will keep track of the current user's locale
     var locale = null;
@@ -26,7 +26,7 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'oae.culture-map'
     /**
      * Initialize all internationalization functionality by loading the core internationalization bundles
      * and translating the keys that can be found in the core HTML document.
-     * 
+     *
      * @param  {String}     [currentLocale]     The current user's locale. If this has not been provided, the system's default locale will be used.
      * @param  {Function}   callback            Standard callback function
      * @param  {Object}     callback.err        Error object containing error code and message
@@ -54,7 +54,7 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'oae.culture-map'
             var coreHTML = $('body').html();
             var translatedHTML = translate(coreHTML);
 
-            // We put the translated string back into the HTML. We use the old innerHTML function here because the 
+            // We put the translated string back into the HTML. We use the old innerHTML function here because the
             // `$.html()` function will try to reload all of the JavaScript files declared in the HTML.
             $('body')[0].innerHTML = translatedHTML;
             callback();
@@ -64,19 +64,13 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'oae.culture-map'
     /**
      * Load the core default language bundle, as well as the core language bundle for the current user's
      * language. These bundles will be transformed into JSON objects and will be cached for use during translation
-     * 
+     *
      * @param  {Function}   callback            Standard callback function
      * @param  {Object}     callback.err        Error object containing error code and message
      * @api private
      */
     var loadCoreBundles = function(callback) {
-        var hash = '';
-
-        if (cultureMap.bundles[locale]) {
-            hash = '.' + cultureMap.bundles[locale];
-        }
-
-        var bundlesToLoad = ['/ui/bundles/default.properties', '/ui/bundles/' + locale + hash + '.properties'];
+        var bundlesToLoad = ['/ui/bundles/default.properties', '/ui/bundles/' + locale + '.properties'];
         utilAPI.staticBatch(bundlesToLoad, function(err, data) {
             if (err) {
                 return callback(err);
@@ -91,7 +85,7 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'oae.culture-map'
     /**
      * Function that will take the translation bundles for a widget and will cache them for usage by the
      * translate function
-     * 
+     *
      * @param  {String}     widgetName      The widget for which we have retrieved the language bundles
      * @param  {String}     defaultBundle   Content of the default translation bundle for the widget
      * @param  {String}     [localeBundle]  Content of the translation bundle for the user's locale
@@ -110,14 +104,14 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'oae.culture-map'
      * original string can be a single internationalization key, or can contain multiple internationalization keys. Parts of
      * the string that are not internationalization keys will remain unchanged. Internationalization keys are identified by
      * the following format: __MSG__KEY__
-     * 
+     *
      * The translation order for the found keys is:
-     * 
+     *
      * - Try to find the key in the i18n bundle of the user's language for the provided widget
      * - Try to find the key in the i18n bundle of the default language for the provided widget
      * - Try to find the key in the global i18n bundle of the user's language
      * - Try to find the key in the global default i18n file
-     * 
+     *
      * @param  {String}     input           The text which we want to translate
      * @param  {String}     [widgetName]    Widget for which we want to use the translation bundles
      * @return {String}                     The translated text

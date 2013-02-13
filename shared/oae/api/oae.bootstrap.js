@@ -53,7 +53,6 @@ requirejs.config({
         'oae.api.util': 'oae/api/oae.api.util',
         'oae.api.widget': 'oae/api/oae.api.widget',
         'oae.core': 'oae/api/oae.core',
-        'oae.culture-map': 'oae/api/oae.culture-map',
         'trimpath': 'vendor/js/trimpath'
     },
     priority: ['jquery', 'underscore']
