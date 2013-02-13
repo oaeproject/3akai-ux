@@ -46,15 +46,26 @@
                         </button>
                         <div class="hide">
                             <ul class="clip-menulisting">
-                                <li><button type="button"><i class="icon-user icon-x2"></i>Profile</button></li>
-                                <li><button type="button"><i class="icon-envelope icon-x2"></i>Messages</button></li>
-                                <li><button type="button"><i class="icon-wrench icon-x2"></i>Account</button></li>
+                                <li><a href="#myModal" role="button" class="btn btn-link" data-toggle="modal"><i class="icon-user icon-x2"></i>Profile</a></li>
+                                <li><a href="#myModal" role="button" class="btn btn-link" data-toggle="modal"><i class="icon-envelope icon-x2"></i>Messages</a></li>
+                                <li><a href="#myModal" role="button" class="btn btn-link" data-toggle="modal"><i class="icon-wrench icon-x2"></i>Account</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
         --></div>
+
+        <!-- Modal -->
+        <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">Some title</h3>
+            </div>
+            <div class="modal-body">
+                <p>Some content</p>
+            </div>
+        </div>
 
         <!-- FOOTER -->
         <div data-widget="footer"><!-- --></div>

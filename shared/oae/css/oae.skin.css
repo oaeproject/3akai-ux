@@ -195,10 +195,16 @@ body, button, input, select, textarea, a.oae-plain-link {
 }
 
 /* Menu in a clip */
-.oae-clip ul.clip-menulisting li button {
+.oae-clip ul.clip-menulisting li .btn {
+    background-color: transparent;
     color: #999;
 }
 
-.oae-clip ul.clip-menulisting li button:hover {
+.oae-clip ul.clip-menulisting li .btn:hover {
     background-color: #000;
     color: #fff;
+}
+
+.oae-clip ul.clip-menulisting li .btn:hover i {
+    color:#fff;
+}

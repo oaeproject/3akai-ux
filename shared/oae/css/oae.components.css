@@ -184,7 +184,7 @@ a.oae-plain-link:hover {
     display: inline;
 }
 
-.oae-clip ul.clip-menulisting li button {
+.oae-clip ul.clip-menulisting li .btn {
     border-radius: 6px;
     -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
@@ -193,11 +193,12 @@ a.oae-plain-link:hover {
     min-width: 80px;
     padding: 15px;
     text-align: center;
+    text-decoration: none;
 }
 
-.oae-clip ul.clip-menulisting li button:hover {/* Defined in oae.skin.css */}
+.oae-clip ul.clip-menulisting li .btn:hover {/* Defined in oae.skin.css */}
 
-.oae-clip ul.clip-menulisting li button i {
+.oae-clip ul.clip-menulisting li .btn i {
     display: block;
     margin: 0 auto 3px;
 }
