@@ -169,7 +169,7 @@ body, button, input, select, textarea {
        -moz-box-shadow: 0 2px 4px #DBDBDB;
             box-shadow: 0 2px 4px #DBDBDB;
     overflow: hidden;
-    padding: 1%;
+    padding: 12px;
     min-height: 400px;
     clear: both;
 }
