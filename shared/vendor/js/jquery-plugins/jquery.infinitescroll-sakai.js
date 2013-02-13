@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'underscore', 'oae/api/oae.api.i18n', 'oae/api/oae.api.util'], function (jQuery, _, i18nAPI, utilAPI) {
+define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuery, _, oaeUtil, oaeI18n) {
 (function($) {
 
     /**
@@ -182,7 +182,7 @@ require(['jquery', 'underscore', 'oae/api/oae.api.i18n', 'oae/api/oae.api.util']
             if (_.isFunction(render)) {
                 templateOutput = render(data.results);
             } else {
-                templateOutput = utilAPI.renderTemplate(render, data);
+                templateOutput = oaeUtil.renderTemplate(render, data);
             }
             $container.append(templateOutput);
 
@@ -275,7 +275,7 @@ require(['jquery', 'underscore', 'oae/api/oae.api.i18n', 'oae/api/oae.api.util']
          */
         var setUpLoadingImage = function() {
             if (options.loadingImage) {
-                var $loader = $('<img />', {'src': options.loadingImage, 'alt': i18nAPI.translate('__MSG__LOADING__')}).addClass('oae-infinitescroll-loading');
+                var $loader = $('<img />', {'src': options.loadingImage, 'alt': oaeI18n.translate('__MSG__LOADING__')}).addClass('oae-infinitescroll-loading');
                 $loadingContainer.append($loader);
                 hideLoadingContainer(false);
                 $loadingContainer.insertAfter($container);

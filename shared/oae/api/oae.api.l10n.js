@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'underscore', 'oae/api/oae.api.config', 'vendor/js/l10n/globalize'], function(exports, _, configAPI) {
+define(['exports', 'underscore', 'oae.api.config', 'oae.culture-map', 'globalize'], function(exports, _, configAPI, cultureMap) {
 
     /**
      * Initialize all localization functionality by loading the correct culture file.
@@ -31,8 +31,14 @@ define(['exports', 'underscore', 'oae/api/oae.api.config', 'vendor/js/l10n/globa
         // rather than the 'en_GB' format
         locale = locale.replace('_', '-');
 
+        var hash = '';
+
+        if (cultureMap.cultures[locale]) {
+            hash = '.' + cultureMap.cultures[locale];
+        }
+
         // Load the appropriate culture file
-        require(['/shared/vendor/js/l10n/cultures/globalize.culture.' + locale + '.js'], function() {
+        require(['/shared/vendor/js/l10n/cultures/globalize.culture.' + locale + hash + '.js'], function() {
             // Do the actual initialization of the culture
             Globalize.culture(locale);
             callback(null);

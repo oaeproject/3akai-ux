@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugins/jquery.validate', 'vendor/js/trimpath'], function(exports, $, _, i18nAPI) {
+define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpath'], function(exports, require, $, _) {
 
     /**
      * Initialize all utility functionality.
@@ -84,7 +84,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
         // Render the page title with the following format
         //   `Sakai OAE - Fragment 1 - Fragment 2`
         title.splice(0, 0, '__MSG__TITLE_PREFIX__');
-        document.title = i18nAPI.translate(title.join(' - '));
+        document.title = require('oae.api.i18n').translate(title.join(' - '));
     };
     
     ////////////////////////////////
@@ -145,7 +145,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
 
         // Add all of the OAE API functions onto the data object
         data = data || {};
-        data['oae'] = require('oae/api/oae.core');
+        data['oae'] = require('oae.core');
         // Make underscore available
         data['_'] = require('underscore');
         // Add the Trimpath modifiers onto the data object.
@@ -364,7 +364,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
             // Don't allow spaces in the field
             $.validator.addMethod('nospaces', function(value, element) {
                 return this.optional(element) || (value.indexOf(' ') === -1);
-            }, i18nAPI.translate('__MSG__NO_SPACES_ARE_ALLOWED__'));
+            }, require('oae.api.i18n').translate('__MSG__NO_SPACES_ARE_ALLOWED__'));
 
             // Prepends http if no protocol has been provided
             $.validator.addMethod('prependhttp', function(value, element) {
@@ -447,6 +447,9 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
             if (options.submitHandler && $.isFunction(options.submitHandler)) {
                 submitCallback = options.submitHandler;
             }
+
+            // Make sure form is a jquery object with validate() on it
+            $form = $($form);
 
             // Register the custom validation methods
             if (options.methods) {

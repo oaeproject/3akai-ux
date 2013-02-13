@@ -8,7 +8,7 @@
  * http://www.opensource.org/licenses/MIT
  */
 
-require(['jquery'], function (jQuery) {
+define(['jquery'], function (jQuery) {
     (function($) {
         function Iterator(text) {
             var pos = 0, length = text.length;
