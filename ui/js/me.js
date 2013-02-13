@@ -220,7 +220,7 @@ require(['jquery','oae.core'], function($, oae) {
      * Render the user's profile picture and name
      */
     var renderEntity = function() {
-        oae.api.util.renderTemplate($('#oae_entity_template'), null, $('#oae_entity_container'));
+        oae.api.util.renderTemplate($('#me-clip-template'), null, $('#me-clip-container'));
     };
 
     /**
@@ -263,6 +263,6 @@ require(['jquery','oae.core'], function($, oae) {
         $('body').trigger('init.changepic.sakai', {'type': 'user', 'data': oae.data.me});
     });
 
-    //renderEntity();
+    renderEntity();
     //setUpNavigation();
 });

@@ -13,17 +13,12 @@
  * permissions and limitations under the License.
  */
 
-.page-widget {
-    margin-top: 60px;
-}
-
-ul.nav-tabs,
-ul.nav-tabs li.active a {
-    border: none !important;
-}
-
-ul.nav-tabs li a {
-    line-height: 1;
-    margin-right: 30px !important;
-    white-space: nowrap;
-}
+require(['jquery'], function (jQuery) {
+    (function() {
+        // Add click event handler that toggles the visibility of the menu items of a clip
+        $(document).on('click', '.oae-clip-content button', function(ev) {
+            $(ev.target).next().toggleClass('hide');
+            $(ev.target).find('i.oae-clip-button-icon').toggleClass('icon-caret-down icon-caret-up');
+        });
+    })();
+});

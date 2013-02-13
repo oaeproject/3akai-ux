@@ -20,9 +20,41 @@
         <!-- BODY -->
         <div class="oae-main-content">
             <div class="row-fluid">
+                <div id="me-clip-container"><!-- --></div>
                 <div data-widget="page"><!-- --></div>
             </div>
         </div>
+
+        <div id="me-clip-template" class="hide"><!--
+            <div class="oae-clip-container pull-left">
+                <div class="oae-clip flipped black">
+                    <div class="oae-clip-fold pull-right">
+                        <div class="pull-left oae-clip-fold-inner"></div>
+                        <div class="pull-right oae-clip-fold-outer"></div>
+                    </div>
+                    <div class="oae-clip-content">
+                        <button type="button">
+                            {if oae.data.me.mediumPicture}
+                                <img src="${oae.data.me.mediumPicture}" alt="${oae.data.me.profile.displayName|safeUserInput}" class="clip-avatar pull-left"/>
+                            {else}
+                                <img src="/ui/img/dummy/profile-pic-john.png" alt="${oae.data.me.profile.displayName|safeUserInput}" class="clip-avatar pull-left"/>
+                            {/if}
+                            <div class="action-icon pull-left" id="create">${oae.data.me.profile.displayName|safeUserInput}
+                                <i class="oae-clip-button-icon icon-caret-down pull-right"></i>
+                                <div class="clip-description">${oae.data.me.profile.department}</div>
+                            </div>
+                        </button>
+                        <div class="hide">
+                            <ul class="clip-menulisting">
+                                <li><button type="button"><i class="icon-user icon-x2"></i>Profile</button></li>
+                                <li><button type="button"><i class="icon-envelope icon-x2"></i>Messages</button></li>
+                                <li><button type="button"><i class="icon-wrench icon-x2"></i>Account</button></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        --></div>
 
         <!-- FOOTER -->
         <div data-widget="footer"><!-- --></div>

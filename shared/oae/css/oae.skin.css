@@ -180,6 +180,8 @@ body, button, input, select, textarea, a.oae-plain-link {
     background: -ms-linear-gradient(top,  #545454 0%,#545454 10%,#000000 100%);
     background: linear-gradient(to bottom,  #545454 0%,#545454 10%,#000000 100%);
     border-color: #000;
+    position: relative;
+    z-index: 1000;
 }
 .oae-clip.black .oae-clip-fold .oae-clip-fold-inner {
     background-color: #000;
