@@ -34,12 +34,6 @@ body, button, input, select, textarea {
     line-height: 1.5;
 }
 
-/* DEFAULT LINK STYLE */
-
-a:hover, .btn-link:hover {
-    text-decoration: none;
-}
-
 /* THREEDOTTING */
 .oae-threedots {
     display: block;
@@ -495,4 +489,13 @@ ul.oae-list.grid li.oae-list-item .oae-list-item-checkbox.grid {
     display: block !important;
     float: left;
     margin-top: 7px;
+}
+
+/*****************
+ ** SEARCH VIEW **
+ ****************/
+
+.search-view-container .btn i {
+    color: #666;
+    font-size: 12px;
 }
