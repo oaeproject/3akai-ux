@@ -148,6 +148,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         data['oae'] = require('oae.core');
         // Make underscore available
         data['_'] = require('underscore');
+        // Ensure jQuery is available
+        data['$'] = require('jquery');
+
         // Add the Trimpath modifiers onto the data object.
         data['_MODIFIERS'] = trimpathModifiers;
         

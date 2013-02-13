@@ -58,6 +58,7 @@ define([
         'jquery.infinitescroll',
         'jquery.properties-parser',
         'jquery.serializeObject',
+        'jquery.timeago',
         'jquery-ui',
         'jquery.validate',
         'underscore'

@@ -19,9 +19,12 @@
 requirejs.config({
     baseUrl: '/shared/',
     paths: {
-        'jquery': 'vendor/js/jquery',
         'globalize': 'vendor/js/l10n/globalize',
         'jqmodal': 'vendor/js/jquery-plugins/jqmodal.sakai-edited',
+
+        // jQuery module is managed by require-jquery variation of require.js
+        'jquery': 'empty:',
+
         'jquery.ba-bbq': 'vendor/js/jquery-plugins/jquery.ba-bbq',
         'jquery.ba-hashchange': 'vendor/js/jquery-plugins/jquery.ba-hashchange',
         'jquery.contentchange': 'vendor/js/jquery-plugins/jquery.contentchange.sakai-edited',
