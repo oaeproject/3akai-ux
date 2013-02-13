@@ -58,7 +58,7 @@ module.exports = function(grunt) {
                     skipPragmas: false,
                     skipModuleInsertion: false,
                     modules: [{
-                        name: 'oae.api',
+                        name: 'oae.core',
                         exclude: ['jquery']
                     }],
                     fileExclusionRegExp: /^(\.|tools|target|tests|grunt|shelljs)/,
@@ -214,7 +214,7 @@ module.exports = function(grunt) {
 
     // Override the test task with the qunit task
     grunt.registerTask('test', 'qunit');
+
     // Default task.
-    //grunt.registerTask('default', 'clean describe requirejs inlineImg hashFiles writeVersion configNginx');
     grunt.registerTask('default', 'clean describe requirejs inlineImg hashFiles writeVersion configNginx');
 };

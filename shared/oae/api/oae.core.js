@@ -17,11 +17,51 @@
  * Load all of the 3rd party libraries that need to be present from the very beginning, as well as the actual
  * core client-side Sakai OAE APIs
  */
-define(['oae.api!', 'jquery', 'underscore', 'jquery-ui', 'globalize', 'jqmodal',
-        'jquery.ba-bbq', 'jquery.ba-hashchange', 'jquery.contentchange',
-        'jquery.equal-height-columns', 'jquery.fileSize', 'jquery.form',
-        'jquery.gritter',  'jquery.infinitescroll', 'jquery.properties-parser',
-        'jquery.serializeObject', 'jquery.validate'],
+define([
+        /*!
+         * The ! after `oae.api` indicates that this module is actually treated as a *plugin*, which is a special kind of
+         * requirejs module. The difference we need is that the module can return a `load` function that can chain together
+         * an initialization process client-size. We use this to initialize the client-side data.
+         */
+        'oae.api!',
+
+        'jquery',
+
+        /*!
+         * All the OAE API libraries found in /shared/oae/api. By including these here, requirejs will know that the
+         * libraries are already included in the `oae.core` dependency and individual libraries will not be loaded
+         * on the client when requested.
+         */
+        'oae.api.authentication',
+        'oae.api.config',
+        'oae.api.content',
+        'oae.api.group',
+        'oae.api.i18n',
+        'oae.api.l10n',
+        'oae.api.profile',
+        'oae.api.user',
+        'oae.api.util',
+        'oae.api.widget',
+
+        /*!
+         * Third-party dependencies.
+         */
+        'globalize',
+        'jqmodal',
+        'jquery.ba-bbq',
+        'jquery.ba-hashchange',
+        'jquery.contentchange',
+        'jquery.equal-height-columns',
+        'jquery.fileSize',
+        'jquery.form',
+        'jquery.gritter',
+        'jquery.infinitescroll',
+        'jquery.properties-parser',
+        'jquery.serializeObject',
+        'jquery-ui',
+        'jquery.validate',
+        'underscore'
+    ],
 
     function(oae, $) {
 
