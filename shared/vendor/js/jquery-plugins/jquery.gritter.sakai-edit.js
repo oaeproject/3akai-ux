@@ -8,7 +8,7 @@
  * Date: December 1, 2009
  * Version: 1.6
  */
-require(['jquery'], function (jQuery) {
+define(['jquery'], function (jQuery) {
 (function($){
 
     /**

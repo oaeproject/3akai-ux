@@ -11,7 +11,7 @@
  *   http://www.gnu.org/licenses/gpl.html
  */
 
-require(['jquery'], function (jQuery) {
+define(['jquery'], function (jQuery) {
 
 (function($) {
 
