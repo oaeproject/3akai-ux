@@ -437,6 +437,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         $.ajax({
             'url': '/api/content/' + contentId + '/comments/' + commentId,
             'type': 'DELETE',
+            'dataType': 'json',
             'success': function(softDeleted) {
                 callback(null, softDeleted);
             },
