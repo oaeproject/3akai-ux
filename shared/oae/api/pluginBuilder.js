@@ -12,15 +12,10 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
-require(['jquery','oae.core'], function($, oae) {
-
-    // Redirect the user back to the landing page if he is not logged in
-    if (oae.data.me.anon) {
-        oae.api.util.redirect().redirectToLogin();
-    }
-
-    // Set the browser title
-    oae.api.util.setBrowserTitle('__MSG__CREATE_A_GROUP__');
-
+define([], function() {
+    return {
+        'load': function(name, parentRequire, load, config) {
+            load({});
+        }
+    };
 });
