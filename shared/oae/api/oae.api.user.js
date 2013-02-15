@@ -129,7 +129,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         }
 
         // Get the current user to construct the endpoint url.
-        var userId = require('oae/api/oae.core').data.me.id;
+        var userId = require('oae.core').data.me.id;
 
         // Update all places that are showing the current user's display name
         if (params['displayName']) {

@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugins/jquery.validate', 'vendor/js/trimpath'], function(exports, $, _, i18nAPI) {
+define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpath'], function(exports, require, $, _) {
 
     /**
      * Initialize all utility functionality.
@@ -84,7 +84,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
         // Render the page title with the following format
         //   `Sakai OAE - Fragment 1 - Fragment 2`
         title.splice(0, 0, '__MSG__TITLE_PREFIX__');
-        document.title = i18nAPI.translate(title.join(' - '));
+        document.title = require('oae.api.i18n').translate(title.join(' - '));
     };
     
     ////////////////////////////////
@@ -145,9 +145,12 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
 
         // Add all of the OAE API functions onto the data object
         data = data || {};
-        data['oae'] = require('oae/api/oae.core');
+        data['oae'] = require('oae.core');
         // Make underscore available
         data['_'] = require('underscore');
+        // Ensure jQuery is available
+        data['$'] = require('jquery');
+
         // Add the Trimpath modifiers onto the data object.
         data['_MODIFIERS'] = trimpathModifiers;
         
@@ -364,7 +367,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
             // Don't allow spaces in the field
             $.validator.addMethod('nospaces', function(value, element) {
                 return this.optional(element) || (value.indexOf(' ') === -1);
-            }, i18nAPI.translate('__MSG__NO_SPACES_ARE_ALLOWED__'));
+            }, require('oae.api.i18n').translate('__MSG__NO_SPACES_ARE_ALLOWED__'));
 
             // Prepends http if no protocol has been provided
             $.validator.addMethod('prependhttp', function(value, element) {
@@ -423,6 +426,12 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.i18n', 'jquery-plugi
          * @param  {Object}             [options.methods]               Extension to the jquery validate options, allowing to specify custom validators. The keys should be the validator identifiers. The value should be an object with a method key containing the validator function and a text key containing the validation message.
          */
         var validate = function($form, options) {
+            if (!$form) {
+                throw new Error('A valid form should be provided');
+            }
+            // Make sure the form is a jQuery element
+            $form = $($form);
+
             options = options || {};
 
             // By default, we disable validation when a field is clicked, when a key is pressed

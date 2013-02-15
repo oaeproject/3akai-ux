@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae/api/oae.core'], function($, oae) {
+require(['jquery', 'oae.core'], function($, oae) {
 
     //  Get the user id from the URL. The expected URL is /user/<userId>
     var userId = document.location.pathname.split('/').pop();
