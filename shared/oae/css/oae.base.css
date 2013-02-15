@@ -34,10 +34,12 @@ body, button, input, select, textarea {
     line-height: 1.5;
 }
 
-/* DEFAULT LINK STYLE */
-
-a:hover, .btn-link:hover {
-    text-decoration: none;
+/* THREEDOTTING */
+.oae-threedots {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* NAVIGATION */
@@ -170,4 +172,330 @@ a:hover, .btn-link:hover {
     padding: 1%;
     min-height: 400px;
     clear: both;
+}
+
+/* LISTS */
+
+/* list containers */
+ul.oae-list {
+    margin: 10px 0 0;
+    padding: 0;
+    clear: both;
+}
+ul.oae-list li.oae-list-item {
+    clear: both;
+    border: 1px solid #f5f5f5;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    list-style: none;
+    margin-bottom: 2px;
+}
+ul.oae-list.grid li.oae-list-item {
+    clear: none;
+    float: left;
+    height: 162px;
+    margin: 12px 7px 20px;
+    position: relative;
+    width: 162px;
+}
+ul.oae-list li.oae-list-item i,
+ul.oae-list li.oae-list-item i:hover {
+  color: #fff;
+  font-size: 100%;
+}
+ul.oae-list li.oae-list-item.active {
+    background-color: #999;
+}
+ul.oae-list li.oae-list-item .oae-list-description {
+    display: none;
+    margin-top: 1px;
+    color: #666;
+    font-style: italic;
+}
+ul.oae-list li.oae-list-item .oae-list-description,
+ul.oae-list li.oae-list-item.active .oae-list-description,
+ul.oae-list.expandedlist li.oae-list-item .oae-list-description {
+    display: block;
+    font-size: 11px;
+    line-height: 20px;
+    max-width: 200px;
+    text-transform: uppercase;
+}
+ul.oae-list li.oae-list-item.active .oae-list-description,
+ul.oae-list.expandedlist li.oae-list-item .oae-list-description {
+    max-width: 550px;
+}
+ul.oae-list li.oae-list-item .oae-list-item-left {
+    background-color: #fff;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    float: left;
+    overflow: auto;
+    width: 97.5%;
+    margin-top: 2px;
+    margin-left: .5%;
+    height: 34px;
+}
+ul.oae-list.expandedlist li.oae-list-item.active .oae-list-item-left,
+ul.oae-list li.oae-list-item.active .oae-list-item-left,
+ul.oae-list li.oae-list-item.active:hover .oae-list-item-left {
+    overflow: hidden;
+    height: 70px;
+    width: 52%;
+}
+ul.oae-list.expandedlist li.oae-list-item .oae-list-item-left {
+    height: 70px;
+    width: 97.5%;
+}
+ul.oae-list.grid li.oae-list-item:hover .oae-list-item-left,
+ul.oae-list.grid li.oae-list-item .oae-list-item-left {
+    border-radius: 3px 0 0 3px;
+    -moz-border-radius: 3px 0 0 3px;
+    -webkit-border-radius: 3px 0 0 3px;
+    height: 162px;
+    margin-top: 0;
+    overflow: hidden;
+}
+ul.oae-list.grid li.oae-list-item.active:hover .oae-list-item-left,
+ul.oae-list.grid li.oae-list-item.active .oae-list-item-left {
+    width: 12%;
+}
+ul.oae-list.grid li.oae-list-item .oae-list-item-left,
+ul.oae-list.grid li.oae-list-item:hover .oae-list-item-left {
+    width: 91.5%;
+}
+ul.oae-list li.oae-list-item .oae-list-item-left .oae-list-item-left-inner {
+    padding: 9px 17px 0 7px;
+}
+ul.oae-list.grid li.oae-list-item .oae-list-item-left .oae-list-item-left-inner {
+    display: none;
+}
+ul.oae-list li.oae-list-item.active .oae-list-item-left .oae-list-item-left-inner {
+    padding: 9px 7px 0;
+}
+
+ul.oae-list.expandedlist li.oae-list-item .oae-list-item-right,
+ul.oae-list li.oae-list-item .oae-list-item-right {
+    background: url("/ui/img/lists/list_grabber.png") no-repeat scroll 5px center #dededd;
+    border-radius: 0 3px 2px 0;
+    -moz-border-radius: 0 3px 2px 0;
+    -webkit-border-radius: 0 3px 2px 0;
+    cursor: pointer;
+    float: right;
+    min-height: 36px;
+    width: 2%;
+}
+ul.oae-list.grid li.oae-list-item .oae-list-item-right {
+    min-height: 162px;
+    position: relative;
+    width: 8%;
+    z-index: 100;
+}
+ul.oae-list li.oae-list-item:hover .oae-list-item-right {
+    background-color: #565656;
+}
+ul.oae-list.grid li.oae-list-item.active:hover .oae-list-item-right,
+ul.oae-list.grid li.oae-list-item.active .oae-list-item-right {
+    position: inherit;
+    width: 87%;
+}
+ul.oae-list.grid li.oae-list-item:hover .oae-list-item-right {
+    width: 8%;
+}
+ul.oae-list li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden {
+    display: inline;
+}
+ul.oae-list li.oae-list-item .oae-list-item-right .oae-list-item-right-hidden {
+    display: none;
+}
+ul.oae-list.grid .oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden {
+    display: none;
+}
+ul.oae-list.grid li.oae-list-item.active .oae-list-item-right {
+    background-color: transparent !important;
+    min-height: 162px;
+}
+ul.oae-list.expandedlist li.oae-list-item .oae-list-item-right,
+ul.oae-list li.oae-list-item.active .oae-list-item-right {
+    min-height: 74px;
+}
+ul.oae-list li.oae-list-item.active:hover .oae-list-item-right,
+ul.oae-list li.oae-list-item.active .oae-list-item-right {
+    background-color: #999;
+    width: 47.5%;
+}
+ul.oae-list.expandedlist li.oae-list-item .oae-share-button,
+ul.oae-list li.oae-list-item.active .oae-share-button {
+    margin-top: 23px;
+}
+ul.oae-list.grid li.oae-list-item.active .oae-share-button {
+    margin-top: 6px;
+}
+/* Bottom banner for grid view */
+ul.oae-list.grid li.oae-list-item .oae-list-item-banner {
+    bottom: 0;
+    color: #fff;
+    display: block !important;
+    font-weight: bold;
+    position: absolute;
+    width: 162px;
+}
+ul.oae-list.grid li.oae-list-item .oae-list-item-banner .oae-list-item-banner-description {
+    display: inline-block;
+    font-size: 10px;
+    text-transform: uppercase;
+    width: 120px;
+}
+ul.oae-list.grid li.oae-list-item .oae-list-item-banner span.oae-threedots {
+    display: inline-block;
+    font-style: italic;
+    font-weight: normal;
+    text-transform: uppercase;
+    width: 120px;
+}
+ul.oae-list.grid li.oae-list-item .oae-list-item-banner > div:first-child {
+    background-color: #000;
+    border-radius: 0 0 3px 3px;
+    -moz-border-radius: 0 0 3px 3px;
+    -webkit-border-radius: 0 0 3px 3px;
+    opacity: 0.85;
+    padding: 7px 14px 7px 7px;
+}
+ul.oae-list.grid li.oae-list-item .oae-list-item-banner > div:first-child a {
+    color: #fff;
+}
+ul.oae-list.grid li.oae-list-item .oae-list-item-banner > div:first-child + div {
+    margin-left: 7px;
+    margin-top: -22px;
+    position: relative;
+    z-index: 100;
+}
+
+/* profile pictures */
+ul.oae-list.grid li.oae-list-item .oae-list-item-left img.oae-list-item-profile-picture.grid {
+    height: 162px;
+    margin: 0;
+    max-width: none;
+    width: 162px;
+    display: inline;
+}
+ul.oae-list li.oae-list-item .oae-list-item-left img.oae-list-item-profile-picture {
+    display: none;
+    float: left;
+    height: 50px;
+    width: 50px;
+    margin: 0 12px;
+}
+ul.oae-list.expandedlist li.oae-list-item .oae-list-item-left img.oae-list-item-profile-picture,
+ul.oae-list li.oae-list-item.active .oae-list-item-left img.oae-list-item-profile-picture {
+    border: 1px solid #E3E2DB;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    display: block;
+}
+ul.oae-list.grid li.oae-list-item .oae-list-item-left img.oae-list-item-profile-picture {
+    border: none;
+}
+ul.oae-list li.oae-list-item .oae-list-item-left img.oae-list-item-profile-picture.grid {
+    display: none;
+}
+ul.oae-list li.oae-list-item .oae-list-item-left .oae-list-item-left-inner img.oae-list-item-small-picture {
+    display: block;
+    float: left;
+    margin: 0 12px 0 7px;
+}
+ul.oae-list li.oae-list-item .oae-list-item-left .oae-list-item-left-inner img.oae-list-item-small-picture + div {
+    margin-left: -23px;
+    margin-top: 8px;
+}
+ul.oae-list.expandedlist li.oae-list-item .oae-list-item-left .oae-list-item-left-inner img.oae-list-item-small-picture,
+ul.oae-list li.oae-list-item.active .oae-list-item-left .oae-list-item-left-inner img.oae-list-item-small-picture {
+    display: none;
+}
+ul.oae-list.expandedlist li.oae-list-item .oae-list-item-left .oae-list-item-left-inner img.oae-list-item-small-picture + div,
+ul.oae-list li.oae-list-item.active .oae-list-item-left .oae-list-item-left-inner img.oae-list-item-small-picture + div {
+    margin-left: -22px;
+    margin-top: 44px;
+}
+
+/* right hand side list item content */
+ul.oae-list.grid li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden.grid {
+    display: inline !important;
+}
+ul.oae-list.grid li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden.grid .oae-list-item-align-right,
+ul.oae-list.grid li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden.grid .oae-list-item-align-left{
+    font-size: 12px;
+    margin: 10px 0;
+}
+ul.oae-list li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden .oae-list-item-align-right,
+ul.oae-list li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden .oae-list-item-align-left {
+    margin-top: 10px;
+    float: left;
+}
+ul.oae-list li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden .oae-list-item-align-right p,
+ul.oae-list li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden .oae-list-item-align-left p {
+    text-align: right;
+    margin: 0 0 3px 5px;
+    color: #333;
+    width: 330px;
+}
+ul.oae-list li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden .oae-list-item-align-left p {
+    text-align: left;
+}
+ul.oae-list li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden .oae-list-item-align-right {
+    margin-left: 7px;
+}
+ul.oae-list.grid li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden p {
+    width: 130px;
+}
+
+/* list elements */
+ul.oae-list li.oae-list-item label {
+    display: block;
+    float: left;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    margin: 0 7px;
+}
+ul.oae-list li.oae-list-item.active label a,
+ul.oae-list.expandedlist li.oae-list-item label a {
+    max-width: 550px;
+}
+ul.oae-list li.oae-list-item label a {
+    display: inline-block;
+    line-height: 20px;
+    max-width: 400px;
+}
+ul.oae-list li.oae-list-item label a .oae-list-item-mimetype {
+    display: inline-block;
+    max-width: 190px;
+}
+ul.oae-list li.oae-list-item.active label a {
+    max-width: 250px;
+}
+ul.oae-list.expandedlist li.oae-list-item label,
+ul.oae-list li.oae-list-item.active label {
+    display: block;
+    float: none;
+    font-size: 16px;
+    margin: 0;
+    overflow: inherit;
+}
+ul.oae-list.grid li.oae-list-item .oae-list-item-checkbox.grid {
+    clear: both;
+    display: block !important;
+    float: left;
+    margin-top: 7px;
+}
+
+/*****************
+ ** SEARCH VIEW **
+ ****************/
+
+.search-view-container .btn i {
+    color: #666;
+    font-size: 12px;
 }

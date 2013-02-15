@@ -233,8 +233,8 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     var switchViewMode = function(el) {
-        $('.oae-search-listview-options > div:visible').removeClass('selected');
-        $(el).addClass('selected');
+        $('.search-view-container > .btn:visible').removeClass('active');
+        $(el).addClass('active');
     };
 
     $(document).on('click', '.search_view_grid', function() {
@@ -263,6 +263,6 @@ require(['jquery','oae.core'], function($, oae) {
         $('body').trigger('init.changepic.sakai', {'type': 'user', 'data': oae.data.me});
     });
 
-    renderEntity();
-    setUpNavigation();
+    //renderEntity();
+    //setUpNavigation();
 });
