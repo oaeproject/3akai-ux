@@ -27,7 +27,7 @@
 * Tested in IE6 IE7 Firefox & Safari. Any browser strangeness, please report.
 *
 */
-require(['jquery'], function ($) {
+define(['jquery'], function ($) {
 (function($) {
 
     $.fn.pager = function(options){

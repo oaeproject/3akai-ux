@@ -129,7 +129,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         }
 
         // Get the current user to construct the endpoint url.
-        var userId = require('oae/api/oae.core').data.me.userId;
+        var userId = require('oae.core').data.me.id;
 
         // Update all places that are showing the current user's display name
         if (params['displayName']) {
@@ -147,21 +147,6 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
             }
         });
-    };
-
-    /**
-     * Determines whether or not the given id represents a user id
-     *
-     * @param  {String}     userId      A string that may or may not be a user id
-     * @return {Boolean}                `true` if the given id is a user id, `false` otherwise
-     */
-    var isUserId = exports.isUserId = function(userId, callback) {
-        if (!userId) {
-            throw new Error('A valid string should be provided');
-        }
-
-        // All user ids begin with 'u:'
-        return userId.indexOf('u:') === 0;
     };
 
 });

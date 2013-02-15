@@ -421,11 +421,11 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     /**
      * Delete an existing comment from a content item
      *
-     * @param  {String}       contentId           Content id of the content item we're trying to delete a comment from
-     * @param  {String}       commentId           The ID of the comment to delete
-     * @param  {Function}     callback            Standard callback method
-     * @param  {Object}       callback.err        Error object containing error code and error message
-     * @param  {Object}       callback.deleted    If the comment has been properly deleted, in case there are no replies to it, this will return `{deleted: true}`. If the comment has just been flagged as deleted because it has replies, this will return `{deleted: false}`
+     * @param  {String}       contentId               Content id of the content item we're trying to delete a comment from
+     * @param  {String}       commentId               The ID of the comment to delete
+     * @param  {Function}     callback                Standard callback method
+     * @param  {Object}       callback.err            Error object containing error code and error message
+     * @param  {Object}       [callback.softDeleted]  If the comment is not deleted, but instead flagged as deleted because it has replies, this will return a stripped down comment object representing the deleted comment will be returned, with the `deleted` parameter set to `false`.. If the comment has been properly deleted, no comment will be returned.
      */
     var deleteComment = exports.deleteComment = function(contentId, commentId, callback) {
         if (!contentId) {
@@ -437,28 +437,14 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         $.ajax({
             'url': '/api/content/' + contentId + '/comments/' + commentId,
             'type': 'DELETE',
-            'success': function(deleted) {
-                callback(null, deleted);
+            'dataType': 'json',
+            'success': function(softDeleted) {
+                callback(null, softDeleted);
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
             }
         });
-    };
-
-    /**
-     * Determines whether or not the given id represents a content id
-     *
-     * @param  {String}     contentId   A string that may or may not be a content id
-     * @return {Boolean}                `true` if the given id is a content id, `false` otherwise
-     */
-    var isContentId = exports.isContentId = function(contentId, callback) {
-        if (!contentId) {
-            throw new Error('A valid string should be provided');
-        }
-
-        // All content ids begin with 'c:'
-        return contentId.indexOf('c:') === 0;
     };
 
     /**

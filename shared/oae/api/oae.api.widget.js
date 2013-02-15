@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oae.api.i18n', 'oae/api/oae.api.util'], function(exports, $, _, configAPI, i18nAPI, utilAPI) {
+define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oae.api.util', 'jquery.ba-bbq'], function(exports, $, _, configAPI, i18nAPI, utilAPI) {
 
     // Variable that will be used to cache the widget manifests
     var manifests = null;
@@ -310,9 +310,9 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
     /**
      * Load all static files for all of the widgets that need to be loaded. This will load the widget's
      * main HTML view, as well as the default bundle and the language bundle for the current user's locale (if exists)
-     * 
+     *
      * The widgetsToLoad object will have the following structure
-     * 
+     *
      * ```
      * {
      *     'widgetName1': {
@@ -326,7 +326,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
      *     'widgetName2': ...
      * }
      * ```
-     * 
+     *
      * @param  {Object}         widgetsToLoad   JSON Object representing the widgets that should be loaded
      * @param  {Element}        $container      jQuery element representing the HTML container in which we want to look for widgets and load them.
      * @param  {Boolean}        showSettings    Whether or not to show the widget's settings view.
@@ -412,7 +412,7 @@ define(['exports', 'jquery', 'underscore', 'oae/api/oae.api.config', 'oae/api/oa
             });
 
             // Extract JS and require
-            var jsFiles = []
+            var jsFiles = [];
             $widgetEl.filter('script').each(function(index, jsTag) {
                 jsFiles.push(convertRelativeToAbsolutePath($(jsTag).attr('src'), widgetsToLoad[widgetName].prefixPath));
             });

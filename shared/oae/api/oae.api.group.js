@@ -196,7 +196,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      */
     var memberOf = exports.memberOf = function(userId, start, limit, callback) {
         // Default values
-        userId = userId || require('oae/api/oae.core').data.me.userId;
+        userId = userId || require('oae.core').data.me.id;
         limit = limit || 10;
         
         // Parameter validation
@@ -213,21 +213,6 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
             }
         });
-    };
-
-    /**
-     * Determines whether or not the given id represents a group id
-     *
-     * @param  {String}     groupId     A string that may or may not be a group id
-     * @return {Boolean}                `true` if the given id is a group id, `false` otherwise
-     */
-    var isGroupId = exports.isGroupId = function(groupId, callback) {
-        if (!groupId) {
-            throw new Error('A valid string should be provided');
-        }
-
-        // All user ids begin with 'g:'
-        return groupId.indexOf('g:') === 0;
     };
 
 });

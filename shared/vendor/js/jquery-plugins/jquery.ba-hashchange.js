@@ -85,7 +85,7 @@
 //         extra awesomeness that BBQ provides. This plugin will be included as
 //         part of jQuery BBQ, but also be available separately.
 
-require(['jquery'], function (jQuery) {
+define(['jquery'], function (jQuery) {
 (function($,window,undefined){
   '$:nomunge'; // Used by YUI compressor.
   

@@ -17,12 +17,47 @@
  * Initalize requireJS by setting paths and specifying load priorities
  */
 requirejs.config({
-    baseUrl:'/shared/',
+    baseUrl: '/shared/',
     paths: {
-        'jquery': 'vendor/js/jquery',
-        'jquery-plugins': 'vendor/js/jquery-plugins',
+        'globalize': 'vendor/js/l10n/globalize',
+        'jqmodal': 'vendor/js/jquery-plugins/jqmodal.sakai-edited',
+
+        // jQuery module is managed by require-jquery variation of require.js
+        'jquery': 'empty:',
+
+        'jquery.ba-bbq': 'vendor/js/jquery-plugins/jquery.ba-bbq',
+        'jquery.ba-hashchange': 'vendor/js/jquery-plugins/jquery.ba-hashchange',
+        'jquery.contentchange': 'vendor/js/jquery-plugins/jquery.contentchange.sakai-edited',
+        'jquery.equal-height-columns': 'vendor/js/jquery-plugins/jquery.equal-height-columns',
+        'jquery.fileSize': 'vendor/js/jquery-plugins/jquery.fileSize',
+        'jquery.form': 'vendor/js/jquery-plugins/jquery.form',
+        'jquery.gritter': 'vendor/js/jquery-plugins/jquery.gritter.sakai-edit',
+        'jquery.infinitescroll': 'vendor/js/jquery-plugins/jquery.infinitescroll-sakai',
+        'jquery.properties-parser': 'vendor/js/jquery-plugins/jquery.properties-parser',
+        'jquery.serializeObject': 'vendor/js/jquery-plugins/jquery.serializeObject',
+        'jquery.validate': 'vendor/js/jquery-plugins/jquery.validate',
+        'jquery.iframe-transport': 'vendor/js/jquery-plugins/jquery.iframe-transport',
+        'jquery.timeago': 'vendor/js/jquery-plugins/jquery.timeago',
+        'jquery.fileupload': 'vendor/js/jquery-plugins/jquery.fileupload',
+        'jquery.autoSuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest.sakai-edited',
+        'jquery.jeditable': 'vendor/js/jquery-plugins/jquery.jeditable.sakai-edited',
         'jquery-ui': 'vendor/js/jquery-ui.custom',
-        'underscore': 'vendor/js/underscore'
+        'underscore': 'vendor/js/underscore',
+        'bootstrap': 'vendor/js/bootstrap',
+        'oae.api': 'oae/api/oae.api',
+        'oae.api.authentication': 'oae/api/oae.api.authentication',
+        'oae.api.config': 'oae/api/oae.api.config',
+        'oae.api.content': 'oae/api/oae.api.content',
+        'oae.api.group': 'oae/api/oae.api.group',
+        'oae.api.i18n': 'oae/api/oae.api.i18n',
+        'oae.api.l10n': 'oae/api/oae.api.l10n',
+        'oae.api.profile': 'oae/api/oae.api.profile',
+        'oae.api.user': 'oae/api/oae.api.user',
+        'oae.api.util': 'oae/api/oae.api.util',
+        'oae.api.widget': 'oae/api/oae.api.widget',
+        'oae.core': 'oae/api/oae.core',
+        'pluginBuilder': 'oae/api/pluginBuilder',
+        'trimpath': 'vendor/js/trimpath'
     },
     priority: ['jquery', 'underscore']
 });
@@ -30,4 +65,4 @@ requirejs.config({
 /*!
  * Load all of the dependencies and core OAE APIs
  */
-require(['oae/api/oae.core']);
+require(['oae.core']);

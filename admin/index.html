@@ -92,7 +92,7 @@
                 <div class="span10" id="admin_header_content">
                     {if !oae.data.me.anon}
                         <div id="admin_header_user">
-                            <span>Hi, ${oae.data.me.profile.displayName}</span>
+                            <span>Hi, ${oae.data.me.displayName}</span>
                             <button type="button" class="btn btn-inverse" id="admin_header_user_logout">Log out</button>
                         </div>
                     {/if}
@@ -370,7 +370,7 @@
         </form>
 
         <!-- DEPENDENCIES -->
-        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/require.js"></script>
+        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/require-jquery.js"></script>
         <script>require(['/admin/js/admin.js']);</script>
         
     </body>

@@ -15,7 +15,7 @@
 /*jslint browser: true, onevar: true, undef: true, bitwise: true, strict: true */
 /*global window : false, clearInterval: false, clearTimeout: false, document: false, setInterval: false, setTimeout: false, jQuery: false, navigator: false, XSLTProcessor: false, DOMParser: false, XMLSerializer: false*/
 
-require(['jquery', 'sakai/sakai.api.core'], function (jQuery, sakai) {
+define(['jquery', 'sakai/sakai.api.core'], function (jQuery, sakai) {
 "use strict";
 // Common functions not related to jsTree 
 // decided to move them to a `vakata` "namespace"
