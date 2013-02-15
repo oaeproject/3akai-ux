@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'underscore', 'oae/api/oae.core', '/admin/js/admin.util.js', 'vendor/js/bootstrap', 'jquery-plugins/jquery.jeditable.sakai-edited'], function($, _, oae, adminUtil) {
+require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstrap', 'jquery.jeditable'], function($, _, oae, adminUtil) {
 
     // Variable that will be used to keep track of current tenant
     var currentContext = null;

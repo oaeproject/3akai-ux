@@ -16,10 +16,13 @@
 /*!
  * Initializes the Sakai OAE UI APIs. First of all, the me data will be retrieved. After that, the configuration for the current
  * tenant will be retrueved, and the localization and internationalization APIs will be initialized. Finally, the widgets declared
- * in the page source will be rendered
+ * in the page source will be rendered,
+ *
+ * This module is intended to be referenced as a *plugin*, not a regular module. Do not depend on this directly, instead depend
+ * on `oae.core`, which invokes this plugin, and also efficiently pre-loads many third-party dependencies.
  */
-define(['oae/api/oae.api.authentication', 'oae/api/oae.api.config', 'oae/api/oae.api.content', 'oae/api/oae.api.group', 'oae/api/oae.api.i18n', 
-        'oae/api/oae.api.l10n', 'oae/api/oae.api.profile', 'oae/api/oae.api.user', 'oae/api/oae.api.util', 'oae/api/oae.api.widget'],
+define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.group', 'oae.api.i18n',
+        'oae.api.l10n', 'oae.api.profile', 'oae.api.user', 'oae.api.util', 'oae.api.widget'],
 
     function(authenticationAPI, configAPI, contentAPI, groupAPI, i18nAPI, l10nAPI, profileAPI, userAPI, utilAPI, widgetAPI) {
         
@@ -64,17 +67,17 @@ define(['oae/api/oae.api.authentication', 'oae/api/oae.api.config', 'oae/api/oae
                         throw new Error('Could not initialize the config API.');
                     }
                     
-                    // Initialize l10n 
+                    // Initialize l10n
                     var userLocale = oae.data.me.locale ? oae.data.me.locale.locale : null;
                     oae.api.l10n.init(userLocale, function(err) {
                         if (err) {
-                            throw new Error('Could not initialize the l10n API.')
+                            throw new Error('Could not initialize the l10n API.');
                         }
                         
                         // Initialize i18n
                         oae.api.i18n.init(userLocale, function(err) {
                             if (err) {
-                                throw new Error('Could not initialize the i18n API.')
+                                throw new Error('Could not initialize the i18n API.');
                             }
 
                             // Initialize utility API
@@ -83,7 +86,7 @@ define(['oae/api/oae.api.authentication', 'oae/api/oae.api.config', 'oae/api/oae
                                 // Initialize widgets API
                                 oae.api.widget.init(userLocale, function(err) {
                                     if (err) {
-                                        throw new Error('Could not initialize the widgets API.')
+                                        throw new Error('Could not initialize the widgets API.');
                                     }
     
                                     // The APIs have now fully initialized. All javascript that
@@ -92,7 +95,7 @@ define(['oae/api/oae.api.authentication', 'oae/api/oae.api.config', 'oae/api/oae
                                     
                                     // We now load the widgets in the core HTML
                                     oae.api.widget.loadWidgets(null, null, null, function() {
-                                        // We can show the body as internationalization and 
+                                        // We can show the body as internationalization and
                                         // initial widget loading have finished
                                         $('body').removeClass('oae-force-hidden');
                                     });
@@ -105,6 +108,20 @@ define(['oae/api/oae.api.authentication', 'oae/api/oae.api.config', 'oae/api/oae
         };
 
         return {
+
+            /*!
+             * This pluginBuilder property tells requirejs to use a different module file for the plugin ONLY when
+             * this module is being evaluated at server-size build time. The string value 'pluginBuilder' is
+             * referencing a different module, aliased in the paths of `oae.bootstrap.js`. The key is that the
+             * server-side substitute does not have any other dependencies, which means that all dependencies herein
+             * will not be attempted to be "executed" (eval'd) on the server-side. Dependencies such as jQuery cause
+             * issues when that happens.
+             */
+            'pluginBuilder': 'pluginBuilder',
+
+            /*!
+             * Invoked when the module has been loaded, which can trigger initialization in a chained manner.
+             */
             'load': function(name, parentRequire, load, config) {
                 initOAE(load);
             }

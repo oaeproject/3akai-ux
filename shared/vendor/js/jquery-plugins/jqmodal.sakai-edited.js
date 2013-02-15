@@ -9,7 +9,7 @@
  * 
  * $Version: 03/01/2009 +r14
  */
-require(['jquery'], function (jQuery) {
+define(['jquery'], function (jQuery) {
 (function($) {
 $.fn.jqm=function(o){
 var p={
