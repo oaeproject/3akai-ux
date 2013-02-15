@@ -11,7 +11,7 @@
  *
  */
 
-require(['jquery'], function (jQuery) {
+define(['jquery'], function (jQuery) {
 (function($) {
 
 var abs = Math.abs,

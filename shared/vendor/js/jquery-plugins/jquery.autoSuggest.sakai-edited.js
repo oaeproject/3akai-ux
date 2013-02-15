@@ -23,8 +23,7 @@
  */
 
 // Note: This version of the code is from Chris's repo at https://github.com/croby/jquery-autosuggest
-// Note: Temporarily disabling require for jQuery and using the global jQuery object.
-//require([ 'jquery' ], function(jQuery) {
+define([ 'jquery' ], function(jQuery) {
 (function( $ ) {
     var methods = {
 
@@ -41,7 +40,7 @@
                 searchObjProps: "value", //comma separated list of object property names
                 queryParam: "q",
                 retrieveLimit: false, //number for 'limit' param on ajax request
-                extraParams: "",
+                extraParams: {},
                 matchCase: false,
                 minChars: 1,
                 keyDelay: 400,
@@ -92,11 +91,18 @@
                     d_fetcher = data;
                 } else if ( typeof data === "string" ) {
                     d_fetcher = function( query, next ) {
-                        var limit = "";
+                        // Apply the "query" param and the limit as core params
+                        var coreParams = {};
+                        coreParams[input.data( "opts" ).queryParam] = query;
                         if ( input.data( "opts" ).retrieveLimit ) {
-                            limit = "&limit=" + encodeURIComponent( input.data( "opts" ).retrieveLimit );
+                            coreParams.limit = input.data( "opts" ).retrieveLimit;
                         }
-                        $.getJSON( data + "?" + input.data( "opts" ).queryParam + "=" + encodeURIComponent( query ) + limit + input.data( "opts" ).extraParams, function( data ) {
+
+                        // Apply the "extraParams", but override it with the core params
+                        var queryString = $.extend( {}, input.data( "opts" ).extraParams, coreParams );
+
+                        // Fetch the content
+                        $.getJSON( data, queryString, function( data ) {
                             var new_data = input.data( "opts" ).retrieveComplete.call( this, data );
                             next( new_data, query );
                         });
@@ -525,4 +531,4 @@
     };
 })(jQuery);
 
-//});
+});
