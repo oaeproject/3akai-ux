@@ -22,7 +22,7 @@ require(['jquery', 'oae.core'], function($, oae) {
     }
 
     // Redirect to /me if the requested user is the currently logged in user
-    if (userId === oae.data.me.userId) {
+    if (userId === oae.data.me.id) {
         document.location = '/me';
     }
 
@@ -195,7 +195,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                         }
                     ],
                     'id65324322': {
-                        'principalId': userProfile.userId,
+                        'principalId': userProfile.id,
                         'canManage': false
                     }
                 },
@@ -217,7 +217,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                         }
                     ],
                     'id8571283901': {
-                        'principalId': userProfile.userId,
+                        'principalId': userProfile.id,
                         'canManage': false
                     }
                 }
