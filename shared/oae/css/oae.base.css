@@ -490,6 +490,40 @@ ul.oae-list.grid li.oae-list-item .oae-list-item-checkbox.grid {
     float: left;
     margin-top: 7px;
 }
+ul.oae-list li.oae-list-item.oae-list-item-dnd {
+    border: none;
+}
+ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-dnd-container {
+    border: 1px solid #F5F5F5;
+    height: 120px;
+}
+ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-dnd-container > div {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    border: 1px dashed #999;
+    height: 112px;
+    margin: 4px;
+}
+ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-dnd-container .oae-list-dnd-label {
+    color: #999;
+    font-size: 13px;
+    font-style: italic;
+    line-height: 1.3;
+    margin: 10px auto 0;
+    width: 100px;
+}
+ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-dnd-container .oae-trigger-addcontent,
+ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-newdocument {
+    display: block;
+    margin: 10px auto;
+}
+ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-dnd-container .oae-trigger-addcontent i,
+ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-newdocument i {
+    color: #333;
+    font-size: 18px;
+}
+
 
 /******************
  ** LIST OPTIONS **
