@@ -27,6 +27,7 @@ requirejs.config({
         'jquery.ba-bbq': 'vendor/js/jquery-plugins/jquery.ba-bbq',
         'jquery.ba-hashchange': 'vendor/js/jquery-plugins/jquery.ba-hashchange',
         'jquery.clip': 'vendor/js/jquery-plugins/jquery.clip',
+        'jquery.list-options': 'vendor/js/jquery-plugins/jquery.list-options',
         'jquery.contentchange': 'vendor/js/jquery-plugins/jquery.contentchange.sakai-edited',
         'jquery.equal-height-columns': 'vendor/js/jquery-plugins/jquery.equal-height-columns',
         'jquery.fileSize': 'vendor/js/jquery-plugins/jquery.fileSize',

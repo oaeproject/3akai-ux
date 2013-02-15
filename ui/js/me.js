@@ -232,37 +232,9 @@ require(['jquery','oae.core'], function($, oae) {
         });  
     };
 
-    var switchViewMode = function(el) {
-        $('.search-view-container > .btn:visible').removeClass('active');
-        $(el).addClass('active');
-    };
-
-    $(document).on('click', '.search_view_grid', function() {
-        switchViewMode(this);
-        $('.oae-list:visible').addClass('grid');
-        $('.oae-list:visible').removeClass('expandedlist');
-    });
-
-    $(document).on('click', '.search_view_expandedlist', function() {
-        switchViewMode(this);
-        $('.oae-list:visible').removeClass('grid');
-        $('.oae-list:visible').addClass('expandedlist');
-    });
-
-    $(document).on('click', '.search_view_list', function() {
-        switchViewMode(this);
-        $('.oae-list:visible').removeClass('expandedlist');
-        $('.oae-list:visible').removeClass('grid');
-    });
-
-    $(document).on('click', '.oae-list-item-right', function() {
-        $(this).parent().toggleClass('active');
-    });
-
     $(document).on('click', '.oae-entity-picture', function() {
         $('body').trigger('init.changepic.sakai', {'type': 'user', 'data': oae.data.me});
     });
 
     renderEntity();
-    //setUpNavigation();
 });
