@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery'], function (jQuery) {
+define(['jquery'], function (jQuery) {
     (function() {
         // Add click event handler that toggles the visibility of the menu items of a clip
         $(document).on('click', '.oae-clip-content button', function(ev) {

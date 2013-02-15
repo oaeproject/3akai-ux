@@ -50,6 +50,7 @@ define([
         'globalize',
         'jquery.ba-bbq',
         'jquery.ba-hashchange',
+        'jquery.clip',
         'jquery.contentchange',
         'jquery.equal-height-columns',
         'jquery.fileSize',
