@@ -43,6 +43,7 @@ a.oae-plain-link:hover {
     width: 1px;
 }
 
+
 /************
  ** PANELS **
  ************/
@@ -60,4 +61,143 @@ a.oae-plain-link:hover {
     -webkit-border-radius: 5px;
        -moz-border-radius: 5px;
             border-radius: 5px;
+}
+
+
+/***********
+ ** CLIPS **
+ ***********/
+
+/**
+ * Clips at the top of the content containers. When clicked open a pop-over with more actions.
+ */
+.oae-clip-container {
+    margin-top: -18px;
+    position: absolute;
+}
+
+.oae-clip .oae-clip-content {
+    border-radius: 0 6px 6px;
+    border-left: 1px solid;
+    border-right: 1px solid;
+    box-shadow: 0 2px 4px 0 #999;
+    -moz-box-shadow: 0 2px 4px 0 #999;
+    -webkit-box-shadow: 0 2px 4px 0 #999;
+}
+
+.oae-clip.flipped .oae-clip-content {
+    border-bottom: 1px solid;
+    border-radius: 6px 0 6px 6px;
+    -moz-border-radius: 6px 0 6px 6px;
+    -webkit-border-radius: 6px 0 6px 6px;
+    border-right: 1px solid;
+}
+
+.oae-clip-container.pull-right {
+    right: 50px;
+}
+.oae-clip-container.pull-right .oae-clip {
+    float: right;
+    margin-left: 15px;
+}
+
+.oae-clip-container.pull-left {
+    left: 50px;
+}
+.oae-clip-container.pull-left .oae-clip {
+    float: left;
+    margin-right: 15px;
+}
+
+.oae-clip button {
+    background: none;
+    border: none;
+    font-weight: 600;
+    min-height: 30px;
+    padding: 15px;
+    text-align: left;
+}
+
+.oae-clip button:hover {/* defined in oae.skin.css */}
+
+.oae-clip .oae-clip-fold {
+    height: 6px;
+    margin-left: -8px;
+    position: relative;
+    width: 7px;
+    z-index: 10;
+}
+
+.oae-clip.flipped .oae-clip-fold {
+    margin-right: -7px;
+}
+
+.oae-clip .oae-clip-fold .oae-clip-fold-inner {
+    border-radius: 50px 50px 0 0;
+    height: 6px;
+    position: absolute;
+    width: 9px;
+    z-index: 1;
+}
+.oae-clip.flipped .oae-clip-fold .oae-clip-fold-inner {
+    margin-left: -1px;
+}
+
+.oae-clip .oae-clip-fold .oae-clip-fold-outer {
+    height: 6px;
+    margin-left: 4px;
+    position: absolute;
+    width: 7px;
+    z-index: 0;
+}
+.oae-clip.flipped .oae-clip-fold .oae-clip-fold-outer {
+    margin-left: -5px;
+}
+
+.oae-clip .clip-avatar {
+    height: 35px;
+    margin-right: 12px;
+    width: 35px;
+}
+
+.oae-clip .clip-description {
+    font-size: 0.7rem;
+    font-weight: 200;
+    white-space: nowrap;
+}
+
+.oae-clip .oae-clip-content .oae-visibility-private,
+.oae-clip .oae-clip-content .oae-visibility-public,
+.oae-clip .oae-clip-content .oae-visibility-department,
+.oae-clip .oae-clip-content .oae-visibility-loggedin {
+    margin: 15px 0 0 24px;
+    position: absolute;
+}
+
+/* Menu in a clip */
+.oae-clip ul.clip-menulisting {
+    list-style: none;
+    margin: 0 14px 12px;
+}
+
+.oae-clip ul.clip-menulisting li {
+    display: inline;
+}
+
+.oae-clip ul.clip-menulisting li button {
+    border-radius: 6px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 200;
+    min-width: 80px;
+    padding: 15px;
+    text-align: center;
+}
+
+.oae-clip ul.clip-menulisting li button:hover {/* Defined in oae.skin.css */}
+
+.oae-clip ul.clip-menulisting li button i {
+    display: block;
+    margin: 0 auto 3px;
 }
