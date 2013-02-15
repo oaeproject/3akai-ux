@@ -46,6 +46,7 @@ define([
         /*!
          * Third-party dependencies.
          */
+        'bootstrap',
         'globalize',
         'jquery.ba-bbq',
         'jquery.ba-hashchange',
