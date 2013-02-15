@@ -21,6 +21,34 @@
         <div class="oae-main-content">
             <div class="row-fluid">
                 <div id="me-clip-container"><!-- --></div>
+
+                <div class="oae-clip-container pull-right">
+                    <div class="oae-clip">
+                        <div class="oae-clip-fold pull-left">
+                            <div class="pull-left oae-clip-fold-inner"></div>
+                            <div class="pull-right oae-clip-fold-outer"></div>
+                        </div>
+                        <div class="oae-clip-content">
+                            <button type="button">
+                                <i class="icon-plus-sign pull-left"></i>
+                                <div class="pull-left" id="create">__MSG__CREATE__</div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="oae-clip black">
+                        <div class="oae-clip-fold pull-left">
+                            <div class="pull-left oae-clip-fold-inner"></div>
+                            <div class="pull-right oae-clip-fold-outer"></div>
+                        </div>
+                        <div class="oae-clip-content">
+                            <button type="button">
+                                <i class="icon-cloud-upload pull-left"></i>
+                                <div class="pull-left" id="create">__MSG__UPLOAD__</div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 <div data-widget="page"><!-- --></div>
             </div>
         </div>
@@ -35,13 +63,13 @@
                     <div class="oae-clip-content">
                         <button type="button">
                             {if oae.data.me.mediumPicture}
-                                <img src="${oae.data.me.mediumPicture}" alt="${oae.data.me.profile.displayName|safeUserInput}" class="clip-avatar pull-left"/>
+                                <img src="${oae.data.me.mediumPicture}" alt="${oae.data.me.displayName|safeUserInput}" class="clip-avatar pull-left"/>
                             {else}
-                                <img src="/ui/img/dummy/profile-pic-john.png" alt="${oae.data.me.profile.displayName|safeUserInput}" class="clip-avatar pull-left"/>
+                                <img src="/ui/img/dummy/profile-pic-john.png" alt="${oae.data.me.displayName|safeUserInput}" class="clip-avatar pull-left"/>
                             {/if}
-                            <div class="action-icon pull-left" id="create">${oae.data.me.profile.displayName|safeUserInput}
+                            <div class="action-icon pull-left" id="create">${oae.data.me.displayName|safeUserInput}
                                 <i class="oae-clip-button-icon icon-caret-down pull-right"></i>
-                                <div class="clip-description">${oae.data.me.profile.department}</div>
+                                <div class="clip-description">${oae.data.me.department}</div>
                             </div>
                         </button>
                         <div class="hide">
