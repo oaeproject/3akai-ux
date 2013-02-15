@@ -448,21 +448,6 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     };
 
     /**
-     * Determines whether or not the given id represents a content id
-     *
-     * @param  {String}     contentId   A string that may or may not be a content id
-     * @return {Boolean}                `true` if the given id is a content id, `false` otherwise
-     */
-    var isContentId = exports.isContentId = function(contentId, callback) {
-        if (!contentId) {
-            throw new Error('A valid string should be provided');
-        }
-
-        // All content ids begin with 'c:'
-        return contentId.indexOf('c:') === 0;
-    };
-
-    /**
      * Set the thumbnail URL of a piece of content. For links and Sakai Docs, this will just be a thumbnail representing their type.
      * For uploaded files, we will first check if a thumbnail URL is already set on the back-end side (which will use the generated
      * previews). If this is not present, we add a icon URL based on the file's mimeType
