@@ -117,7 +117,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     
     /**
      * Update the current user's basic profile
-     * 
+     *
      * @param  {Object}         params              Object representing the profile fields that need to be updated. The keys are the profile fields, the values are the profile field values
      * @param  {Function}       [callback]          Standard callback method
      * @param  {Object}         [callback.err]      Error object containing error code and error message
@@ -129,7 +129,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         }
 
         // Get the current user to construct the endpoint url.
-        var userId = require('oae/api/oae.core').data.me.userId;
+        var userId = require('oae.core').data.me.id;
 
         // Update all places that are showing the current user's display name
         if (params['displayName']) {

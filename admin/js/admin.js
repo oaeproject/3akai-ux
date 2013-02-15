@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'underscore', 'oae/api/oae.core', '/admin/js/admin.util.js', 'vendor/js/bootstrap', 'jquery-plugins/jquery.jeditable.sakai-edited'], function($, _, oae, adminUtil) {
+require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstrap', 'jquery.jeditable'], function($, _, oae, adminUtil) {
 
     // Variable that will be used to keep track of current tenant
     var currentContext = null;
@@ -449,23 +449,23 @@ require(['jquery', 'underscore', 'oae/api/oae.core', '/admin/js/admin.util.js', 
     };
 
     /**
-     * Handler method that will perform the necessary actions to log onto a tenant.
-     * If successful, the user will be redirected to the tenant where he should be logged in.
-     * If we were unable to retrieve a login token, a notification will be shown.
+     * As a global admin, log onto a tenant. If successful, the user will be redirected 
+     * to the tenant where he should be logged in. If we were unable to retrieve a login 
+     * token, a notification will be shown.
      */
     var loginOnTenantHandler = function() {
         var tenantAlias = $(this).attr('data-alias');
         getToken(tenantAlias, function(err, token) {
             if (err) {
                 adminUtil.showError({
-                    'title': 'Token error.',
+                    'title': 'Token error',
                     'message': 'Could not retrieve a token to log onto the tenant.'
                 });
-            } else {
-                // Fill in our hidden form and submit it.
-                // The action should have the url of the tenant in there.
+            } else {;
+                // Fill in our hidden form and submit it. This is done because we are
+                // dealing with a cross-domain request. The action should have the tenant URL.
                 var $form = $('#admin_tenant_login_form');
-                $form.attr('action', 'http://' + token.host + '/api/auth/signed');
+                $form.attr('action', '//' + token.host + '/api/auth/signed');
                 $('#admin_tenant_login_form_expires', $form).val(token.expires);
                 $('#admin_tenant_login_form_signature', $form).val(token.signature);
                 $('#admin_tenant_login_form_userid', $form).val(token.userId);

@@ -87,7 +87,7 @@ define(['exports'], function(exports) {
         }
 
         // Get the current user to construct the endpoint url.
-        var userId = require('oae/api/oae.core').data.me.userId;
+        var userId = require('oae.core').data.me.id;
 
         // Depending on the supplied parameters we send more or less data.
         var data = {
@@ -126,7 +126,7 @@ define(['exports'], function(exports) {
         }
 
         // Get the current user to construct the endpoint url.
-        var userId = require('oae/api/oae.core').data.me.userId;
+        var userId = require('oae.core').data.me.id;
 
         $.ajax({
             'url': '/api/user/' + userId + '/profile/' + sectionId,

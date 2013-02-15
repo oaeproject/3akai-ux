@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery'], function($) {
+define(['jquery'], function($) {
 
     (function($) {
 
