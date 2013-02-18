@@ -78,19 +78,15 @@ a.oae-plain-link:hover {
 
 .oae-clip .oae-clip-content {
     border-radius: 0 6px 6px;
-    border-left: 1px solid;
-    border-right: 1px solid;
-    box-shadow: 0 2px 4px 0 #999;
-    -moz-box-shadow: 0 2px 4px 0 #999;
-    -webkit-box-shadow: 0 2px 4px 0 #999;
+    box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
 }
 
 .oae-clip.flipped .oae-clip-content {
-    border-bottom: 1px solid;
     border-radius: 6px 0 6px 6px;
     -moz-border-radius: 6px 0 6px 6px;
     -webkit-border-radius: 6px 0 6px 6px;
-    border-right: 1px solid;
 }
 
 .oae-clip-container.pull-right {
@@ -114,15 +110,26 @@ a.oae-plain-link:hover {
     border: none;
     font-weight: 600;
     min-height: 30px;
-    padding: 15px;
+    padding: 13px 15px 15px;
     text-align: left;
+}
+
+.oae-clip button h1 {
+    display: inline-block;
+    font-size: 16px;
+    line-height: 1.2;
+    margin: 0;
 }
 
 .oae-clip button:hover {/* defined in oae.skin.css */}
 
+.oae-clip button i[class^="icon-"] {
+    margin-left: 10px;
+}
+
 .oae-clip .oae-clip-fold {
     height: 6px;
-    margin-left: -8px;
+    margin-left: -9px;
     position: relative;
     width: 7px;
     z-index: 10;
@@ -155,14 +162,28 @@ a.oae-plain-link:hover {
 }
 
 .oae-clip .clip-avatar {
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.35);
     height: 35px;
-    margin-right: 12px;
+    margin: 3px 12px 0 0;
     width: 35px;
 }
 
+.oae-clip .clip-avatar + i[class^="icon-"] {
+    color: #fff;
+    display: block;
+    font-size: 20px;
+    margin: 18px 0 0 28px;
+    position: absolute;
+    text-shadow: 0 0 2px #000;
+}
+
 .oae-clip .clip-description {
-    font-size: 0.7rem;
-    font-weight: 200;
+    display: block;
+    font-size: 12px;
+    font-weight: normal;
     white-space: nowrap;
 }
 
@@ -177,7 +198,7 @@ a.oae-plain-link:hover {
 /* Menu in a clip */
 .oae-clip ul.clip-menulisting {
     list-style: none;
-    margin: 0 14px 12px;
+    margin: 0 10px;
 }
 
 .oae-clip ul.clip-menulisting li {
@@ -188,10 +209,10 @@ a.oae-plain-link:hover {
     border-radius: 6px;
     -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
-    font-size: 0.7rem;
-    font-weight: 200;
-    min-width: 80px;
-    padding: 15px;
+    font-size: 11px;
+    font-weight: 600;
+    min-width: 70px;
+    padding: 10px;
     text-align: center;
     text-decoration: none;
 }
@@ -202,6 +223,11 @@ a.oae-plain-link:hover {
     display: block;
     margin: 0 auto 3px;
 }
+
+.oae-clip ul.clip-menulisting li .btn:hover i[class^="icon-"] {
+    color: #999;
+}
+
 
 /*******************
  ** DRAG AND DROP **

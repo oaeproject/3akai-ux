@@ -148,7 +148,6 @@ body, button, input, select, textarea, a.oae-plain-link {
     background: -ms-linear-gradient(top,  #24a7dd 0%,#24a7dd 10%,#0175a9 100%);
     background: linear-gradient(to bottom,  #24a7dd 0%,#24a7dd 10%,#0175a9 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#24a7dd', endColorstr='#0175a9',GradientType=0 );
-    border-color: #2f8cb3;
     color: #DBDBDB;
 }
 
@@ -158,7 +157,7 @@ body, button, input, select, textarea, a.oae-plain-link {
 }
 
 .oae-clip button {
-    color: #ECEAE5;
+    color: #DBDBDB;
 }
 .oae-clip button:hover {
     color: #fff;
@@ -171,7 +170,7 @@ body, button, input, select, textarea, a.oae-plain-link {
     background-color: #24a7dd;
 }
 
-.oae-clip.black .oae-clip-content {
+.oae-clip.oae-clip-primary .oae-clip-content {
     background: #545454;
     background: -moz-linear-gradient(top,  #545454 0%, #545454 10%, #000000 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#545454), color-stop(10%,#545454), color-stop(100%,#000000));
@@ -179,14 +178,12 @@ body, button, input, select, textarea, a.oae-plain-link {
     background: -o-linear-gradient(top,  #545454 0%,#545454 10%,#000000 100%);
     background: -ms-linear-gradient(top,  #545454 0%,#545454 10%,#000000 100%);
     background: linear-gradient(to bottom,  #545454 0%,#545454 10%,#000000 100%);
-    border-color: #000;
-    position: relative;
     z-index: 1000;
 }
-.oae-clip.black .oae-clip-fold .oae-clip-fold-inner {
+.oae-clip.oae-clip-primary .oae-clip-fold .oae-clip-fold-inner {
     background-color: #000;
 }
-.oae-clip.black .oae-clip-fold .oae-clip-fold-outer {
+.oae-clip.oae-clip-primary .oae-clip-fold .oae-clip-fold-outer {
     background-color: #545454;
 }
 

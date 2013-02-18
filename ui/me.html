@@ -31,11 +31,13 @@
                         <div class="oae-clip-content">
                             <button type="button">
                                 <i class="icon-plus-sign pull-left"></i>
-                                <div class="pull-left" id="create">__MSG__CREATE__</div>
+                                <div class="pull-left" id="create">
+                                    <h1>__MSG__CREATE__</h1>
+                                </div>
                             </button>
                         </div>
                     </div>
-                    <div class="oae-clip black">
+                    <div class="oae-clip oae-clip-primary">
                         <div class="oae-clip-fold pull-left">
                             <div class="pull-left oae-clip-fold-inner"></div>
                             <div class="pull-right oae-clip-fold-outer"></div>
@@ -43,7 +45,9 @@
                         <div class="oae-clip-content">
                             <button type="button">
                                 <i class="icon-cloud-upload pull-left"></i>
-                                <div class="pull-left" id="create">__MSG__UPLOAD__</div>
+                                <div class="pull-left" id="create">
+                                    <h1>__MSG__UPLOAD__</h1>
+                                </div>
                             </button>
                         </div>
                     </div>
@@ -55,7 +59,7 @@
 
         <div id="me-clip-template" class="hide"><!--
             <div class="oae-clip-container pull-left">
-                <div class="oae-clip flipped black">
+                <div class="oae-clip flipped oae-clip-primary">
                     <div class="oae-clip-fold pull-right">
                         <div class="pull-left oae-clip-fold-inner"></div>
                         <div class="pull-right oae-clip-fold-outer"></div>
@@ -67,9 +71,10 @@
                             {else}
                                 <img src="/ui/img/dummy/profile-pic-john.png" alt="${oae.data.me.displayName|safeUserInput}" class="clip-avatar pull-left"/>
                             {/if}
-                            <div class="action-icon pull-left" id="create">${oae.data.me.displayName|safeUserInput}
+                            <div class="action-icon pull-left" id="create">
+                                <h1>${oae.data.me.displayName|safeUserInput}</h1>
                                 <i class="oae-clip-button-icon icon-caret-down pull-right"></i>
-                                <div class="clip-description">${oae.data.me.department}</div>
+                                <small class="clip-description">${oae.data.me.department}</small>
                             </div>
                         </button>
                         <div class="hide">
