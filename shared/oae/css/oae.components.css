@@ -202,3 +202,12 @@ a.oae-plain-link:hover {
     display: block;
     margin: 0 auto 3px;
 }
+
+/*******************
+ ** DRAG AND DROP **
+ ******************/
+
+.oae-dnd-upload.dragover {
+    opacity: 0.3;
+    transition: opacity 0.15s linear 0s;
+}

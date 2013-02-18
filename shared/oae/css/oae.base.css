@@ -492,6 +492,10 @@ ul.oae-list.grid li.oae-list-item .oae-list-item-checkbox.grid {
 }
 ul.oae-list li.oae-list-item.oae-list-item-dnd {
     border: none;
+    display: none;
+}
+ul.oae-list li.oae-list-item.oae-list-item-dnd:first-child {
+    display: block;
 }
 ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-dnd-container {
     border: 1px solid #F5F5F5;

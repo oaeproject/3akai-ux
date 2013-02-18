@@ -60,6 +60,7 @@ define([
         'jquery.properties-parser',
         'jquery.serializeObject',
         'jquery.timeago',
+        'jquery.dnd-upload',
         'jquery-ui',
         'jquery.validate',
         'underscore'

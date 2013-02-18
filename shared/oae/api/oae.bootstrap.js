@@ -39,6 +39,7 @@ requirejs.config({
         'jquery.iframe-transport': 'vendor/js/jquery-plugins/jquery.iframe-transport',
         'jquery.timeago': 'vendor/js/jquery-plugins/jquery.timeago',
         'jquery.fileupload': 'vendor/js/jquery-plugins/jquery.fileupload',
+        'jquery.dnd-upload': 'vendor/js/jquery-plugins/jquery.dnd-upload',
         'jquery.autoSuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest.sakai-edited',
         'jquery.jeditable': 'vendor/js/jquery-plugins/jquery.jeditable.sakai-edited',
         'jquery-ui': 'vendor/js/jquery-ui.custom',
