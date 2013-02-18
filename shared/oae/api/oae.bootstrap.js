@@ -19,31 +19,34 @@
 requirejs.config({
     baseUrl: '/shared/',
     paths: {
+        'bootstrap': 'vendor/js/bootstrap',
         'globalize': 'vendor/js/l10n/globalize',
         'jqmodal': 'vendor/js/jquery-plugins/jqmodal.sakai-edited',
 
         // jQuery module is managed by require-jquery variation of require.js
         'jquery': 'empty:',
 
+        // jQuery plugins
+        'jquery.autoSuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest.sakai-edited',
         'jquery.ba-bbq': 'vendor/js/jquery-plugins/jquery.ba-bbq',
         'jquery.ba-hashchange': 'vendor/js/jquery-plugins/jquery.ba-hashchange',
         'jquery.contentchange': 'vendor/js/jquery-plugins/jquery.contentchange.sakai-edited',
         'jquery.equal-height-columns': 'vendor/js/jquery-plugins/jquery.equal-height-columns',
         'jquery.fileSize': 'vendor/js/jquery-plugins/jquery.fileSize',
+        'jquery.fileupload': 'vendor/js/jquery-plugins/jquery.fileupload',
         'jquery.form': 'vendor/js/jquery-plugins/jquery.form',
         'jquery.gritter': 'vendor/js/jquery-plugins/jquery.gritter.sakai-edit',
+        'jquery.iframe-transport': 'vendor/js/jquery-plugins/jquery.iframe-transport',
+        'jquery.imgareaselect': 'vendor/js/jquery-plugins/imgareaselect/jquery.imgareaselect',
         'jquery.infinitescroll': 'vendor/js/jquery-plugins/jquery.infinitescroll-sakai',
+        'jquery.jeditable': 'vendor/js/jquery-plugins/jquery.jeditable.sakai-edited',
         'jquery.properties-parser': 'vendor/js/jquery-plugins/jquery.properties-parser',
         'jquery.serializeObject': 'vendor/js/jquery-plugins/jquery.serializeObject',
-        'jquery.validate': 'vendor/js/jquery-plugins/jquery.validate',
-        'jquery.iframe-transport': 'vendor/js/jquery-plugins/jquery.iframe-transport',
         'jquery.timeago': 'vendor/js/jquery-plugins/jquery.timeago',
-        'jquery.fileupload': 'vendor/js/jquery-plugins/jquery.fileupload',
-        'jquery.autoSuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest.sakai-edited',
-        'jquery.jeditable': 'vendor/js/jquery-plugins/jquery.jeditable.sakai-edited',
         'jquery-ui': 'vendor/js/jquery-ui.custom',
-        'underscore': 'vendor/js/underscore',
-        'bootstrap': 'vendor/js/bootstrap',
+        'jquery.validate': 'vendor/js/jquery-plugins/jquery.validate',
+        
+        // OAE API modules
         'oae.api': 'oae/api/oae.api',
         'oae.api.authentication': 'oae/api/oae.api.authentication',
         'oae.api.config': 'oae/api/oae.api.config',
@@ -57,7 +60,9 @@ requirejs.config({
         'oae.api.widget': 'oae/api/oae.api.widget',
         'oae.core': 'oae/api/oae.core',
         'pluginBuilder': 'oae/api/pluginBuilder',
-        'trimpath': 'vendor/js/trimpath'
+
+        'trimpath': 'vendor/js/trimpath',
+        'underscore': 'vendor/js/underscore'
     },
     priority: ['jquery', 'underscore']
 });
