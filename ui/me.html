@@ -34,7 +34,7 @@
                     <div id="oae_entity_template"><!--
                         <button class="oae-entity-picture">
                             <span class="oae-entity-picture-image">
-                                {var pic = oae.data.me.mediumPicture || "/ui/img/entities/user_icon_medium.png"}
+                                {var pic = oae.data.me.picture.medium || "/ui/img/entities/user_icon_medium.png"}
                                 <img src="${pic}"/>
                             </span>
                             <span class="oae-aural-text">__MSG__PROFILE_PICTURE_OPTIONS_FOR__ ${oae.data.me.displayName|safeUserInput}</span> 
