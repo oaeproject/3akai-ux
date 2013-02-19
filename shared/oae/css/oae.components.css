@@ -66,6 +66,37 @@ a.oae-plain-link:hover {
 
 /***********
  ** CLIPS **
+ **
+ **   <div class="oae-clip-container pull-left">
+ **       <div class="oae-clip">
+ **           <div class="oae-clip-fold">
+ **               <div class="oae-clip-fold-inner"></div>
+ **               <div class="oae-clip-fold-outer"></div>
+ **           </div>
+ **           <div class="oae-clip-content">
+ **               <button type="button">
+ **                   <div class="oae-visibility-avatar">
+ **                       <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian"/>
+ **                       <i class="icon-oae-public"></i>
+ **                   </div>
+ **                   <div>
+ **                       <div>
+ **                           <h1>John Librarian</h1>
+ **                           <i class="icon-caret-down"></i>
+ **                           <small>Professor of Typography</small>
+ **                       </div>
+ **                   </div>
+ **               </button>
+ **               <div>
+ **                   <ul class="oae-clip-menulisting">
+ **                       <li><button type="button"><i class="icon-user"></i>Profile</button></li>
+ **                       <li><button type="button"><i class="icon-envelope"></i>Messages</button></li>
+ **                       <li><button type="button"><i class="icon-wrench"></i>Account</button></li>
+ **                   </ul>
+ **               </div>
+ **           </div>
+ **       </div>
+ **
  ***********/
 
 /**
@@ -76,24 +107,37 @@ a.oae-plain-link:hover {
     position: absolute;
 }
 
-.oae-clip .oae-clip-content {
-    border-radius: 0 6px 6px;
-    box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
-    -moz-box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
+.oae-clip {
+    float: left;
 }
 
-.oae-clip.flipped .oae-clip-content {
-    border-radius: 6px 0 6px 6px;
-    -moz-border-radius: 6px 0 6px 6px;
+.oae-clip.oae-clip-secondary {
+    float: none;
+}
+
+.oae-clip .oae-clip-content {
     -webkit-border-radius: 6px 0 6px 6px;
+       -moz-border-radius: 6px 0 6px 6px;
+            border-radius: 6px 0 6px 6px;
+    -webkit-box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
+       -moz-box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
+}
+
+.oae-clip.oae-flipped {
+    float: right;
+}
+
+.oae-clip.oae-flipped .oae-clip-content {
+    -webkit-border-radius: 0 6px 6px;
+       -moz-border-radius: 0 6px 6px;
+            border-radius: 0 6px 6px;
 }
 
 .oae-clip-container.pull-right {
     right: 50px;
 }
 .oae-clip-container.pull-right .oae-clip {
-    float: right;
     margin-left: 15px;
 }
 
@@ -101,7 +145,6 @@ a.oae-plain-link:hover {
     left: 50px;
 }
 .oae-clip-container.pull-left .oae-clip {
-    float: left;
     margin-right: 15px;
 }
 
@@ -114,73 +157,70 @@ a.oae-plain-link:hover {
     text-align: left;
 }
 
-.oae-clip button h1 {
-    display: inline-block;
-    font-size: 16px;
-    line-height: 1.2;
-    margin: 0;
+.oae-clip .oae-clip-content > button i {
+    float: right;
 }
 
-.oae-clip button:hover {/* defined in oae.skin.css */}
-
-.oae-clip button i[class^="icon-"] {
-    margin-left: 10px;
+.oae-clip button h1 {
+    display: inline-block;
+    float: left;
+    font-size: 16px;
+    line-height: 1.2;
+    margin: 0 10px 0 0;
 }
 
 .oae-clip .oae-clip-fold {
     height: 6px;
-    margin-left: -9px;
+    float: right;
+    margin-right: -7px;
     position: relative;
     width: 7px;
     z-index: 10;
 }
 
-.oae-clip.flipped .oae-clip-fold {
-    margin-right: -7px;
+.oae-clip.oae-flipped .oae-clip-fold {
+    float: left;
+    margin-left: -9px;
 }
 
 .oae-clip .oae-clip-fold .oae-clip-fold-inner {
     border-radius: 50px 50px 0 0;
+    float: left;
     height: 6px;
+    margin-left: -1px;
     position: absolute;
     width: 9px;
     z-index: 1;
 }
-.oae-clip.flipped .oae-clip-fold .oae-clip-fold-inner {
-    margin-left: -1px;
+.oae-clip.oae-flipped .oae-clip-fold .oae-clip-fold-inner {
+    margin-left: 0;
 }
 
 .oae-clip .oae-clip-fold .oae-clip-fold-outer {
+    float: right;
     height: 6px;
-    margin-left: 4px;
+    margin-left: -5px;
     position: absolute;
     width: 7px;
     z-index: 0;
 }
-.oae-clip.flipped .oae-clip-fold .oae-clip-fold-outer {
-    margin-left: -5px;
+.oae-clip.oae-flipped .oae-clip-fold .oae-clip-fold-outer {
+    margin-left: 4px;
 }
 
-.oae-clip .clip-avatar {
-    -webkit-border-radius: 4px;
-       -moz-border-radius: 4px;
-            border-radius: 4px;
-    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.35);
-    height: 35px;
-    margin: 3px 12px 0 0;
-    width: 35px;
+.oae-clip button > div {
+    display: table;
+    float: left;
+    height: 37px;
 }
 
-.oae-clip .clip-avatar + i[class^="icon-"] {
-    color: #fff;
-    display: block;
-    font-size: 20px;
-    margin: 18px 0 0 28px;
-    position: absolute;
-    text-shadow: 0 0 2px #000;
+.oae-clip button div div {
+    display: table-cell;
+    vertical-align: middle;
 }
 
-.oae-clip .clip-description {
+.oae-clip button small {
+    clear: both;
     display: block;
     font-size: 12px;
     font-weight: normal;
@@ -196,33 +236,107 @@ a.oae-plain-link:hover {
 }
 
 /* Menu in a clip */
-.oae-clip ul.clip-menulisting {
+.oae-clip ul.oae-clip-menulisting {
     list-style: none;
     margin: 0 10px;
 }
 
-.oae-clip ul.clip-menulisting li {
+.oae-clip ul.oae-clip-menulisting li {
     display: inline;
 }
 
-.oae-clip ul.clip-menulisting li button {
-    border-radius: 6px;
-    -moz-border-radius: 6px;
+.oae-clip ul.oae-clip-menulisting li button {
     -webkit-border-radius: 6px;
+       -moz-border-radius: 6px;
+            border-radius: 6px;
     font-size: 11px;
     font-weight: 600;
     min-width: 70px;
     padding: 10px;
     text-align: center;
+    text-decoration: none;
 }
 
-.oae-clip ul.clip-menulisting li button:hover {/* Defined in oae.skin.css */}
-
-.oae-clip ul.clip-menulisting li button i {
+.oae-clip ul.oae-clip-menulisting li button i {
     display: block;
     margin: 0 auto 3px;
 }
 
-.oae-clip ul.clip-menulisting li button:hover i {
-    color: #999;
+
+/*******************
+ ** DRAG AND DROP **
+ ******************/
+
+.oae-dnd-upload.dragover {
+    opacity: 0.3;
+    transition: opacity 0.15s linear 0s;
+}
+
+
+/***********************
+ ** VISIBILITY IMAGES **
+ **
+ **    <div class="oae-visibility-avatar">
+ **        <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian"/>
+ **        <i class="icon-oae-public"></i>
+ **    </div>
+ **
+ **********************/
+
+.oae-visibility-avatar img {
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.35);
+    float: left;
+    margin: 3px 12px 0 0;
+    max-height: 35px;
+    width: 35px;
+}
+
+.oae-visibility-avatar img + i[class^="icon-"] {
+    color: #FFF;
+    display: block;
+    font-size: 20px;
+    margin: 18px 0 0 20px;
+    position: absolute;
+    text-shadow: 0 0 2px #000;
+}
+
+.icon-oae-private,
+.icon-oae-loggedin,
+.icon-oae-public {
+    background: #FFF;
+    -webkit-border-radius: 10px;
+       -moz-border-radius: 10px;
+            border-radius: 10px;
+    padding: 0 5px;
+}
+.icon-oae-private:before,
+.icon-oae-loggedin:before,
+.icon-oae-public:before {
+    color: #313131;
+    text-shadow: none;
+}
+
+.icon-oae-private {
+    background-color: #FFBC78;
+}
+.icon-oae-private:before {
+    content: "\f023";
+}
+
+.icon-oae-loggedin {
+    background-color: #c4e6ff;
+}
+.icon-oae-loggedin:before {
+    content: "\f041";
+}
+
+.icon-oae-public {
+    background-color: #a6e0ab;
+}
+.icon-oae-public:before {
+    content: "\f0ac";
+    font-size: 18px;
 }
