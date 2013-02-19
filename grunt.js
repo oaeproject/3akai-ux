@@ -118,7 +118,11 @@ module.exports = function(grunt) {
                             'target/optimized/ui/**/*.css',
                             'target/optimized/admin/**/*.html',
                             'target/optimized/admin/**/*.js',
-                            'target/optimized/admin/**/*.css'
+                            'target/optimized/admin/**/*.css',
+                            'target/optimized/node_modules/oae-*/**/*.html',
+                            'target/optimized/node_modules/oae-*/**/*.js',
+                            'target/optimized/node_modules/oae-*/**/*.css',
+                            'target/optimized/node_modules/oae-*/**/*.json'
                         ]
                     }
                 ],
