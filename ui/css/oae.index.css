@@ -90,7 +90,7 @@
     margin: 25px auto;
 }
 
-#index-container #index-video-container #index-video-launch:hover {
+#index-container #index-video-container #index-video-launch {
     opacity: 0.8;
 }
 
