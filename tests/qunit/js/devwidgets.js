@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'underscore', 'oae/api/oae.core'], function($, _, oae) {
+require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
     sakai_global = sakai_global || {};
     sakai.widgets = sakai.widgets || {};

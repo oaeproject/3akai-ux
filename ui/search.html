@@ -72,7 +72,7 @@
                         </div>
                         <div class="oae-list-item-banner" style="display: none;">
                             <div>
-                                <a class="oae-threedots" href="/user/${r.id}" title="${r.displayName|safeUserInput}">${r.displayName|safeUserInput}</a>
+                                <a class="oae-threedots" href="${r.profilePath}" title="${r.displayName|safeUserInput}">${r.displayName|safeUserInput}</a>
                             </div>
                         </div>
                         <div class="oae-list-item-left">
@@ -84,7 +84,7 @@
                                 <label for="${r.id}_chk" class="oae-threedots">
                                     <img src="${mediumThumbnailUrl}" alt="${r.displayName|safeUserInput}" class="oae-list-item-profile-picture"/>
                                     <img src="${smallThumbnailUrl}" alt="${r.displayName|safeUserInput}" class="oae-list-item-small-picture"/>
-                                    <a class="oae-threedots" href="/user/${r.id}" title="${r.displayName|safeUserInput}">${r.displayName|safeUserInput}</a>
+                                    <a class="oae-threedots" href="${r.profilePath}" title="${r.displayName|safeUserInput}">${r.displayName|safeUserInput}</a>
                                 </label>
                                 <div class="oae-list-description">Cambridge University</div>
                             </div>
@@ -114,7 +114,7 @@
                                     <img src="${mediumThumbnailUrl}" alt="${r.displayName|safeUserInput}" class="oae-list-item-profile-picture"/>
                                     <img src="${smallThumbnailUrl}" alt="${r.displayName|safeUserInput}" class="oae-list-item-small-picture"/>
                                     <div class="oae-visibility-${r.visibility} oae-force-left"></div>
-                                    <a class="oae-threedots" href="/group/${r.id}" title="${r.displayName|safeUserInput}">${r.displayName|safeUserInput}</a>
+                                    <a class="oae-threedots" href="${r.profilePath}" title="${r.displayName|safeUserInput}">${r.displayName|safeUserInput}</a>
                                 </label>
                                 <div class="oae-list-description">Cambridge University</div>
                             </div>
@@ -137,7 +137,7 @@
                         <div class="oae-list-item-banner oae-hidden">
                             <div>
                                 <div class="oae-visibility-${r.visibility} oae-force-right"></div>
-                                <a class="oae-threedots" href="/content/${r.id}" title="${r.displayName|safeUserInput}">${r.displayName|safeUserInput}</a>
+                                <a class="oae-threedots" href="${r.profilePath}" title="${r.displayName|safeUserInput}">${r.displayName|safeUserInput}</a>
                                 <span class="oae-list-item-banner-description oae-threedots">__MSG__OTHER_DOCUMENT__</span>
                             </div>
                         </div>
@@ -154,7 +154,7 @@
                                     <img src="${mediumThumbnailUrl}" alt="${r.displayName|safeUserInput}" class="oae-list-item-profile-picture"/>
                                     <img src="${smallThumbnailUrl}" alt="${r.displayName|safeUserInput}" class="oae-list-item-small-picture"/>
                                     <div class="oae-visibility-${r.visibility} oae-force-left"></div>
-                                    <a class="oae-threedots" href="/content/${r.id}" title="${r.displayName|safeUserInput}">${r.displayName|safeUserInput}</a>
+                                    <a class="oae-threedots" href="${r.profilePath}" title="${r.displayName|safeUserInput}">${r.displayName|safeUserInput}</a>
                                 </label>
                                 <div class="oae-list-description oae-threedots">__MSG__OTHER_DOCUMENT__</div>
                             </div>
@@ -170,7 +170,7 @@
         --></div>
 
         <!-- DEPENDENCIES -->
-        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/require.js"></script>
+        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/require-jquery.js"></script>
         <!-- PAGE JS -->
         <script>require(['/ui/js/search.js']);</script>
 

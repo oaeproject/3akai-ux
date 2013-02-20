@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery','oae/api/oae.core'], function($, oae) {
+require(['jquery','oae.core'], function($, oae) {
 
     // Redirect the user back to the landing page if he is not logged in
     if (oae.data.me.anon) {
@@ -21,7 +21,7 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
     }
 
     // Set the browser title
-    oae.api.util.setBrowserTitle(oae.data.me.profile.displayName);
+    oae.api.util.setBrowserTitle(oae.data.me.displayName);
 
     // TODO: Replace this with more effective page configuration
     var privdata = {
@@ -55,7 +55,7 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
                 }
             ],
             'id7646542': {
-                'principalId': oae.data.me.userId
+                'principalId': oae.data.me.id
             }
         }
     };
@@ -188,7 +188,7 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
                 }
             ],
             'id6335742432': {
-                'principalId': oae.data.me.userId,
+                'principalId': oae.data.me.id,
                 'canManage': true
             }
         },
@@ -210,7 +210,7 @@ require(['jquery','oae/api/oae.core'], function($, oae) {
                 }
             ],
             'id56436534': {
-                'principalId': oae.data.me.userId,
+                'principalId': oae.data.me.id,
                 'canManage': true
             }
         }

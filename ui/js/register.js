@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae/api/oae.core', '//www.google.com/recaptcha/api/js/recaptcha_ajax.js'], function($, oae) {
+require(['jquery', 'oae.core', '//www.google.com/recaptcha/api/js/recaptcha_ajax.js'], function($, oae) {
 
     var recaptchaEnabled = oae.api.config.getValue('oae-principals', 'recaptcha', 'enabled') === true;
 

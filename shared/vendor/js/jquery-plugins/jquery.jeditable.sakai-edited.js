@@ -62,7 +62,7 @@
   *             
   */
 
-require(['jquery'], function (jQuery) {
+define(['jquery'], function (jQuery) {
 (function($) {
 
     $.fn.editable = function(target, options) {

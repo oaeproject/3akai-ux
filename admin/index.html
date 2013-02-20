@@ -92,7 +92,7 @@
                 <div class="span10" id="admin_header_content">
                     {if !oae.data.me.anon}
                         <div id="admin_header_user">
-                            <span>Hi, ${oae.data.me.profile.displayName}</span>
+                            <span>Hi, ${oae.data.me.displayName}</span>
                             <button type="button" class="btn btn-inverse" id="admin_header_user_logout">Log out</button>
                         </div>
                     {/if}
@@ -180,20 +180,20 @@
                                 <td>
                                     {if true || oae.data.me.isGlobalAdmin}
                                         {if tenant.active}
-                                            <button type="button" class="btn btn-warning stop_tenant" id="${tenant.alias}_stop" data-alias="${tenant.alias}" data-name="${tenant.name}">Stop</button>
+                                            <button type="button" class="btn btn-warning stop_tenant" data-alias="${tenant.alias}" data-name="${tenant.name}">Stop</button>
                                         {else}
-                                            <button type="button" class="btn btn-success start_tenant" id="${tenant.alias}_stop" data-alias="${tenant.alias}" data-name="${tenant.name}">Start</button>
+                                            <button type="button" class="btn btn-success start_tenant" data-alias="${tenant.alias}" data-name="${tenant.name}">Start</button>
                                         {/if}
                                     {/if}
                                 </td>
                                 <td>
                                     {if oae.data.me.isGlobalAdmin}
-                                        <button type="button" class="btn btn-danger delete_tenant" id="${tenant.alias}_delete" data-alias="${tenant.alias}" data-name="${tenant.name}" data-description="${tenant.description}">Delete</button>
+                                        <button type="button" class="btn btn-danger delete_tenant" data-alias="${tenant.alias}" data-name="${tenant.name}">Delete</button>
                                     {/if}
                                 </td>
                                 <td>
                                     {if oae.data.me.isGlobalAdmin}
-                                        <button type="button" class="btn btn-primary login_tenant" id="${tenant.alias}_login" data-alias="${tenant.alias}" data-name="${tenant.name}" data-description="${tenant.description}">Login</button>
+                                        <button type="button" class="btn btn-primary login_tenant" data-alias="${tenant.alias}">Login</button>
                                     {/if}
                                 </td>
                             </tr>
@@ -361,14 +361,16 @@
             </div>
         --></div>
 
-        <form style="display:none" action="" id="admin_tenant_login_form" method="post">
+        <!-- Hidden form that will be submitted for logging a global admin onto a tenant.
+             This is done through a hidden form as this will be a cross-domain request -->
+        <form id="admin_tenant_login_form" class="hide" method="post">
             <input type="hidden" name="expires" id="admin_tenant_login_form_expires" />
             <input type="hidden" name="signature" id="admin_tenant_login_form_signature" />
             <input type="hidden" name="userId" id="admin_tenant_login_form_userid" />
         </form>
 
         <!-- DEPENDENCIES -->
-        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/require.js"></script>
+        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/require-jquery.js"></script>
         <script>require(['/admin/js/admin.js']);</script>
         
     </body>

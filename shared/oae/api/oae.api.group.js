@@ -196,7 +196,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      */
     var memberOf = exports.memberOf = function(userId, start, limit, callback) {
         // Default values
-        userId = userId || require('oae/api/oae.core').data.me.userId;
+        userId = userId || require('oae.core').data.me.id;
         limit = limit || 10;
         
         // Parameter validation
