@@ -9,47 +9,102 @@
         </noscript>
 
         <!-- CORE CSS -->
-        <link rel="stylesheet" type="text/css" href="/ui/css/oae.main.css" />
+        <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
 
     </head>
-    <body class="oae-centered oae-force-hidden">
+    <body>
 
-        <!-- HEADER -->
-        <div class="oae-container-flex header oae-header">
-            <div class="oae-navigation-container">
-                <div data-widget="topnavigation"><!-- --></div>
-            </div>
-            <div class="oae-fix oae-centered fixed-container oae-fixed-container">
-                <div class="oae-container-shadow-left"><!-- --></div>
-                <div class="oae-container-shadow-right"><!-- --></div>
-                <div class="oae-page-noheader"><!-- --></div>
+         <!-- HEADER -->
+        <div data-widget="topnavigation"><!-- --></div>
+
+        <!-- BODY -->
+        <div class="oae-main-content">
+            <div class="row-fluid">
+                <div id="me-clip-container"><!-- --></div>
+
+                <div class="oae-clip-container pull-right">
+                    <div class="oae-clip oae-clip-secondary oae-flipped">
+                        <div class="oae-clip-fold">
+                            <div class="oae-clip-fold-inner"></div>
+                            <div class="oae-clip-fold-outer"></div>
+                        </div>
+                        <div class="oae-clip-content">
+                            <button type="button">
+                                <div>
+                                    <div>
+                                        <i class="icon-cloud-upload pull-left"></i>
+                                        <h1>__MSG__UPLOAD__</h1>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="oae-clip oae-flipped">
+                        <div class="oae-clip-fold">
+                            <div class="oae-clip-fold-inner"></div>
+                            <div class="oae-clip-fold-outer"></div>
+                        </div>
+                        <div class="oae-clip-content">
+                            <button type="button">
+                                <div>
+                                    <div>
+                                        <i class="icon-plus-sign pull-left"></i>
+                                        <h1>__MSG__CREATE__</h1>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div data-widget="page"><!-- --></div>
             </div>
         </div>
 
-        <!-- BODY -->
-        <div class="oae-container-flex">
-            <div class="oae-fix oae-centered fixed-container oae-main-container oae-twocolumn">
-                <div class="oae-page-column-left">
-                    <div id="oae_entity_container" class="oae-entity-container"><!-- --></div>
-                    <div id="oae_entity_template"><!--
-                        <button class="oae-entity-picture">
-                            <span class="oae-entity-picture-image">
-                                {var pic = oae.data.me.mediumPicture || "/ui/img/entities/user_icon_medium.png"}
-                                <img src="${pic}"/>
-                            </span>
-                            <span class="oae-aural-text">__MSG__PROFILE_PICTURE_OPTIONS_FOR__ ${oae.data.me.displayName|safeUserInput}</span> 
-                        </button>
-                        <div class="oae-bold oae-push oae-entity-title-below oae-my-displayname">${oae.data.me.displayName|safeUserInput}</div>
-                        <div class="oae-push"></div>
-                    --></div>
-                    <div data-widget="lhnavigation"><!-- --></div>
-                </div>
-                <div class="oae-page-column-right">
-                    <div id="oae-page-main-content" class="oae-page-content-lowpadding" role="main">
-                        <div data-widget="contentauthoring"><!-- --></div>
+        <div id="me-clip-template" class="hide"><!--
+            <div class="oae-clip-container pull-left">
+                <div class="oae-clip">
+                    <div class="oae-clip-fold">
+                        <div class="oae-clip-fold-inner"></div>
+                        <div class="oae-clip-fold-outer"></div>
                     </div>
-                    <div class="oae-bottom-spacer"></div>
+                    <div class="oae-clip-content">
+                        <button type="button">
+                            <div class="oae-visibility-avatar">
+                                {if oae.data.me.picture.medium}
+                                    <img src="${oae.data.me.picture.medium}" alt="${oae.data.me.displayName|safeUserInput}"/>
+                                {else}
+                                    <img src="/ui/img/dummy/profile-pic-john.png" alt="${oae.data.me.displayName|safeUserInput}"/>
+                                {/if}
+                            </div>
+                            <div>
+                                <div>
+                                    <h1>${oae.data.me.displayName|safeUserInput}</h1>
+                                    <i class="icon-caret-down"></i>
+                                    <small>${oae.data.me.department}</small>
+                                </div>
+                            </div>
+                        </button>
+                        <div class="hide">
+                            <ul class="oae-clip-menulisting">
+                                <li><button type="button"><i class="icon-user"></i>__MSG__PROFILE__</button></li>
+                                <li><button type="button"><i class="icon-envelope"></i>__MSG__MESSAGES__</button></li>
+                                <li><button type="button"><i class="icon-wrench"></i>__MSG__ACCOUNT__</button></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        --></div>
+
+        <!-- Modal -->
+        <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">Some title</h3>
+            </div>
+            <div class="modal-body">
+                <p>Some content</p>
             </div>
         </div>
 

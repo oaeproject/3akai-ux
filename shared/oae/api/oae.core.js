@@ -50,6 +50,8 @@ define([
         'globalize',
         'jquery.ba-bbq',
         'jquery.ba-hashchange',
+        'jquery.clip',
+        'jquery.list-options',
         'jquery.contentchange',
         'jquery.equal-height-columns',
         'jquery.fileSize',
@@ -58,6 +60,7 @@ define([
         'jquery.properties-parser',
         'jquery.serializeObject',
         'jquery.timeago',
+        'jquery.dnd-upload',
         'jquery-ui',
         'jquery.validate',
         'underscore'

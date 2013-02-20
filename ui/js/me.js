@@ -220,7 +220,7 @@ require(['jquery','oae.core'], function($, oae) {
      * Render the user's profile picture and name
      */
     var renderEntity = function() {
-        oae.api.util.renderTemplate($('#oae_entity_template'), null, $('#oae_entity_container'));
+        oae.api.util.renderTemplate($('#me-clip-template'), null, $('#me-clip-container'));
     };
 
     /**
@@ -232,37 +232,9 @@ require(['jquery','oae.core'], function($, oae) {
         });  
     };
 
-    var switchViewMode = function(el) {
-        $('.oae-search-listview-options > div:visible').removeClass('selected');
-        $(el).addClass('selected');
-    };
-
-    $(document).on('click', '.search_view_grid', function() {
-        switchViewMode(this);
-        $('.oae-list:visible').addClass('grid');
-        $('.oae-list:visible').removeClass('expandedlist');
-    });
-
-    $(document).on('click', '.search_view_expandedlist', function() {
-        switchViewMode(this);
-        $('.oae-list:visible').removeClass('grid');
-        $('.oae-list:visible').addClass('expandedlist');
-    });
-
-    $(document).on('click', '.search_view_list', function() {
-        switchViewMode(this);
-        $('.oae-list:visible').removeClass('expandedlist');
-        $('.oae-list:visible').removeClass('grid');
-    });
-
-    $(document).on('click', '.oae-list-item-right', function() {
-        $(this).parent().toggleClass('active');
-    });
-
     $(document).on('click', '.oae-entity-picture', function() {
         $('body').trigger('init.changepic.sakai', {'type': 'user', 'data': oae.data.me});
     });
 
     renderEntity();
-    setUpNavigation();
 });
