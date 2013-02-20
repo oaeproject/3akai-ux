@@ -71,8 +71,8 @@
                     <div class="oae-clip-content">
                         <button type="button">
                             <div class="oae-visibility-avatar">
-                                {if oae.data.me.mediumPicture}
-                                    <img src="${oae.data.me.mediumPicture}" alt="${oae.data.me.displayName|safeUserInput}"/>
+                                {if oae.data.me.picture.medium}
+                                    <img src="${oae.data.me.picture.medium}" alt="${oae.data.me.displayName|safeUserInput}"/>
                                 {else}
                                     <img src="/ui/img/dummy/profile-pic-john.png" alt="${oae.data.me.displayName|safeUserInput}"/>
                                 {/if}
