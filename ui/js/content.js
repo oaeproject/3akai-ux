@@ -34,10 +34,10 @@ require(['jquery','oae.core'], function($, oae) {
      */
     var getContentProfile = function() {
         oae.api.content.getContent(contentId, function(err, profile) {
-            if (err && err.code === 404) {
+            if (err && (err.code === 404 || err.code === 400)) {
                 oae.api.util.redirect().redirectTo404();
             } else if (err && err.code === 401) {
-                oae.api.util.redirect().redirectTo403();
+                oae.api.util.redirect().redirectTo401();
             }
 
             contentProfile = profile;

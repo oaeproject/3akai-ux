@@ -53,58 +53,68 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
          * `oae.api!`
          */
         var initOAE = function(callback) {
-            // Get the me feed
-            oae.api.user.getMe(function(err, meObj) {
-                if (err) {
-                    throw new Error('Could not load the me feed. Make sure that the server is running and properly configured');
-                }
-                // Add the me object onto the oae data object
-                oae.data.me = meObj;
-
-                // Initialize the config API
-                oae.api.config.init(function(err) {
+            var path = document.location.pathname
+            if (path !== '/503' && path !== '/502') {
+                // Get the me feed
+                oae.api.user.getMe(function(err, meObj) {
                     if (err) {
-                        throw new Error('Could not initialize the config API.');
-                    }
-                    
-                    // Initialize l10n
-                    var userLocale = oae.data.me.locale ? oae.data.me.locale.locale : null;
-                    oae.api.l10n.init(userLocale, function(err) {
-                        if (err) {
-                            throw new Error('Could not initialize the l10n API.');
+                        if (err.code === 502) {
+                            utilAPI.redirect().redirectTo502();
+                        } else if (err.code === 503) {
+                            utilAPI.redirect().redirectTo503();
                         }
-                        
-                        // Initialize i18n
-                        oae.api.i18n.init(userLocale, function(err) {
+                        throw new Error('Could not load the me feed. Make sure that the server is running and properly configured');
+                    }
+                    // Add the me object onto the oae data object
+                    oae.data.me = meObj;
+
+                    // Initialize the config API
+                    oae.api.config.init(function(err) {
+                        if (err) {
+                            throw new Error('Could not initialize the config API.');
+                        }
+
+                        // Initialize l10n
+                        var userLocale = oae.data.me.locale ? oae.data.me.locale.locale : null;
+                        oae.api.l10n.init(userLocale, function(err) {
                             if (err) {
-                                throw new Error('Could not initialize the i18n API.');
+                                throw new Error('Could not initialize the l10n API.');
                             }
 
-                            // Initialize utility API
-                            oae.api.util.init(function() {
+                            // Initialize i18n
+                            oae.api.i18n.init(userLocale, function(err) {
+                                if (err) {
+                                    throw new Error('Could not initialize the i18n API.');
+                                }
 
-                                // Initialize widgets API
-                                oae.api.widget.init(userLocale, function(err) {
-                                    if (err) {
-                                        throw new Error('Could not initialize the widgets API.');
-                                    }
-    
-                                    // The APIs have now fully initialized. All javascript that
-                                    // depends on the initialized core APIs can now execute
-                                    callback(oae);
-                                    
-                                    // We now load the widgets in the core HTML
-                                    oae.api.widget.loadWidgets(null, null, null, function() {
-                                        // We can show the body as internationalization and
-                                        // initial widget loading have finished
-                                        $('body').show();
+                                // Initialize utility API
+                                oae.api.util.init(function() {
+
+                                    // Initialize widgets API
+                                    oae.api.widget.init(userLocale, function(err) {
+                                        if (err) {
+                                            throw new Error('Could not initialize the widgets API.');
+                                        }
+
+                                        // The APIs have now fully initialized. All javascript that
+                                        // depends on the initialized core APIs can now execute
+                                        callback(oae);
+
+                                        // We now load the widgets in the core HTML
+                                        oae.api.widget.loadWidgets(null, null, null, function() {
+                                            // We can show the body as internationalization and
+                                            // initial widget loading have finished
+                                            $('body').show();
+                                        });
                                     });
                                 });
                             });
                         });
                     });
                 });
-            });
+            } else {
+                $('body').show();
+            }
         };
 
         return {

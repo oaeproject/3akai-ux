@@ -680,8 +680,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * Redirect the currently logged in user to the 403 page. This can be used when the currently logged user does not have
          * permission to see a certain page.
          */
-        var redirectTo403 = function() {
-            document.location = '/403'
+        var redirectTo401 = function() {
+            document.location = '/401'
         };
         
         /**
@@ -691,11 +691,29 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         var redirectTo404 = function() {
             document.location = '/404'
         };
-        
+
+        /**
+         * Redirect the currently logged in user to the 404 page. This can be used when the user requests a page on a node
+         * that is currently not available.
+         */
+        var redirectTo502 = function() {
+            document.location = '/502'
+        };
+
+        /**
+         * Redirect the currently logged in user to the 404 page. This can be used when the user requests a page that is
+         * currently not available.
+         */
+        var redirectTo503 = function() {
+            document.location = '/503'
+        };
+
         return {
             'redirectToLogin': redirectToLogin,
-            'redirectTo403': redirectTo403,
-            'redirectTo404': redirectTo404
+            'redirectTo401': redirectTo401,
+            'redirectTo404': redirectTo404,
+            'redirectTo502': redirectTo502,
+            'redirectTo503': redirectTo503
         };
     };
     

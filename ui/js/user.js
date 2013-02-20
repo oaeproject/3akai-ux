@@ -39,7 +39,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             if (err && err.code === 404) {
                 oae.api.util.redirect().redirectTo404();
             } else if (err && err.code === 401) {
-                oae.api.util.redirect().redirectTo403();
+                oae.api.util.redirect().redirectTo401();
             }
 
             userProfile = profile;
