@@ -162,7 +162,6 @@ body, button, input, select, textarea, a.oae-plain-link {
 }
 .oae-clip button:hover {
     color: #FFF;
-    text-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
 }
 
 .oae-clip .oae-clip-content {

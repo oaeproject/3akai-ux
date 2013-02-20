@@ -174,18 +174,17 @@ a.oae-plain-link:hover {
     border: none;
     font-weight: 600;
     min-height: 30px;
-    padding: 14px;
+    padding: 10px 14px 14px;
     text-align: left;
 }
 
-/*.oae-clip .oae-clip-content button > div {
-    float: left;
-    display: table;
-    height: 35px;
-}*/
-
 .oae-clip .oae-clip-content button div {
     display: table-cell;
+}
+
+.oae-clip .oae-clip-content button div,
+.oae-clip .oae-clip-content button i,
+.oae-clip .oae-clip-content button h1 {
     vertical-align: middle;
 }
 
@@ -201,7 +200,6 @@ a.oae-plain-link:hover {
 }
 
 .oae-clip .oae-clip-content button i {
-    /* float: right; */
     margin-left: 10px;
     margin-right: 10px;
 }
@@ -220,7 +218,6 @@ a.oae-plain-link:hover {
     font-size: 12px;
     font-weight: normal;
     white-space: nowrap;
-    line-height: 1;
 }
 
 /* Clip actions */
