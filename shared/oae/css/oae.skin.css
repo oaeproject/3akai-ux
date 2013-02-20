@@ -156,13 +156,8 @@ body, button, input, select, textarea, a.oae-plain-link {
     background: linear-gradient(to bottom,  #24a7dd 0%,#24a7dd 10%,#0175a9 100%);
 }
 
-.oae-clip-container [class^="icon-"],
-.oae-clip-container [class*=" icon-"] {
-    color: #FFF;
-}
-
-.oae-clip button,
-.oae-clip.oae-clip-secondary .oae-clip-content {
+.oae-clip .oae-clip-content button,
+.oae-clip .oae-clip-content i {
     color: #DBDBDB;
 }
 .oae-clip button:hover {
@@ -187,21 +182,13 @@ body, button, input, select, textarea, a.oae-plain-link {
 }
 
 /* Menu in a clip */
-.oae-clip ul.oae-clip-menulisting li button,
-.oae-clip button small {
+.oae-clip button small,
+.oae-clip ul li button,
+.oae-clip ul li button i {
     color: #999;
 }
 
-.oae-clip ul.oae-clip-menulisting li button:hover,
-.oae-clip button:hover small {
+.oae-clip ul li button:hover {
     background-color: #000;
     color: #FFF;
-}
-
-.oae-clip button:hover small {
-    background-color: transparent;
-}
-
-.oae-clip ul.oae-clip-menulisting li .btn:hover i[class^="icon-"] {
-    color: #999;
 }

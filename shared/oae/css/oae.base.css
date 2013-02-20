@@ -166,8 +166,7 @@ a:hover, .btn-link:hover {
     -webkit-box-shadow: 0 2px 4px #DBDBDB;
        -moz-box-shadow: 0 2px 4px #DBDBDB;
             box-shadow: 0 2px 4px #DBDBDB;
-    overflow: hidden;
-    padding: 1%;
+    padding: 10px;
     min-height: 400px;
     clear: both;
 }

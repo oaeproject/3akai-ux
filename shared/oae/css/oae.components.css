@@ -102,72 +102,16 @@ a.oae-plain-link:hover {
 /**
  * Clips at the top of the content containers. When clicked open a pop-over with more actions.
  */
-.oae-clip-container {
-    margin-top: -18px;
-    position: absolute;
-}
+
+/* Clip container */
 
 .oae-clip {
     float: left;
+    margin: -15px 10px 10px;
+    position: relative;
 }
 
-.oae-clip.oae-clip-secondary {
-    float: none;
-}
-
-.oae-clip .oae-clip-content {
-    -webkit-border-radius: 6px 0 6px 6px;
-       -moz-border-radius: 6px 0 6px 6px;
-            border-radius: 6px 0 6px 6px;
-    -webkit-box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
-       -moz-box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
-            box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
-}
-
-.oae-clip.oae-flipped {
-    float: right;
-}
-
-.oae-clip.oae-flipped .oae-clip-content {
-    -webkit-border-radius: 0 6px 6px;
-       -moz-border-radius: 0 6px 6px;
-            border-radius: 0 6px 6px;
-}
-
-.oae-clip-container.pull-right {
-    right: 50px;
-}
-.oae-clip-container.pull-right .oae-clip {
-    margin-left: 15px;
-}
-
-.oae-clip-container.pull-left {
-    left: 50px;
-}
-.oae-clip-container.pull-left .oae-clip {
-    margin-right: 15px;
-}
-
-.oae-clip button {
-    background: none;
-    border: none;
-    font-weight: 600;
-    min-height: 30px;
-    padding: 13px 15px 15px;
-    text-align: left;
-}
-
-.oae-clip .oae-clip-content > button i {
-    float: right;
-}
-
-.oae-clip button h1 {
-    display: inline-block;
-    float: left;
-    font-size: 16px;
-    line-height: 1.2;
-    margin: 0 10px 0 0;
-}
+/* Clip fold */
 
 .oae-clip .oae-clip-fold {
     height: 6px;
@@ -178,7 +122,7 @@ a.oae-plain-link:hover {
     z-index: 10;
 }
 
-.oae-clip.oae-flipped .oae-clip-fold {
+.oae-clip.oae-clip-flipped .oae-clip-fold {
     float: left;
     margin-left: -9px;
 }
@@ -192,7 +136,7 @@ a.oae-plain-link:hover {
     width: 9px;
     z-index: 1;
 }
-.oae-clip.oae-flipped .oae-clip-fold .oae-clip-fold-inner {
+.oae-clip.oae-clip-flipped .oae-clip-fold .oae-clip-fold-inner {
     margin-left: 0;
 }
 
@@ -204,63 +148,127 @@ a.oae-plain-link:hover {
     width: 7px;
     z-index: 0;
 }
-.oae-clip.oae-flipped .oae-clip-fold .oae-clip-fold-outer {
+.oae-clip.oae-clip-flipped .oae-clip-fold .oae-clip-fold-outer {
     margin-left: 4px;
 }
 
-.oae-clip button > div {
-    display: table;
-    float: left;
-    height: 37px;
+/* Clip content */
+
+.oae-clip .oae-clip-content {
+    -webkit-border-radius: 6px 0 6px 6px;
+       -moz-border-radius: 6px 0 6px 6px;
+            border-radius: 6px 0 6px 6px;
+    -webkit-box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
+       -moz-box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
 }
 
-.oae-clip button div div {
+.oae-clip.oae-clip-flipped .oae-clip-content {
+    -webkit-border-radius: 0 6px 6px;
+       -moz-border-radius: 0 6px 6px;
+            border-radius: 0 6px 6px;
+}
+
+.oae-clip .oae-clip-content button {
+    background: none;
+    border: none;
+    font-weight: 600;
+    min-height: 30px;
+    padding: 14px;
+    text-align: left;
+}
+
+/*.oae-clip .oae-clip-content button > div {
+    float: left;
+    display: table;
+    height: 35px;
+}*/
+
+.oae-clip .oae-clip-content button div {
     display: table-cell;
     vertical-align: middle;
 }
 
-.oae-clip button small {
+.oae-clip .oae-clip-content button img {
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.35);
+    float: left;
+    max-height: 35px;
+    width: 35px;
+    margin-right: 12px;
+}
+
+.oae-clip .oae-clip-content button i {
+    /* float: right; */
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.oae-clip .oae-clip-content button h1 {
+    display: inline-block;
+    font-size: 16px;
+    line-height: 1;
+    margin: 0;
+    font-weight: 600;
+}
+
+.oae-clip .oae-clip-content small {
     clear: both;
     display: block;
     font-size: 12px;
     font-weight: normal;
     white-space: nowrap;
+    line-height: 1;
 }
 
-.oae-clip .oae-clip-content .oae-visibility-private,
-.oae-clip .oae-clip-content .oae-visibility-public,
-.oae-clip .oae-clip-content .oae-visibility-department,
-.oae-clip .oae-clip-content .oae-visibility-loggedin {
-    margin: 15px 0 0 24px;
-    position: absolute;
-}
+/* Clip actions */
 
-/* Menu in a clip */
-.oae-clip ul.oae-clip-menulisting {
+.oae-clip .oae-clip-content ul {
     list-style: none;
     margin: 0 10px;
 }
 
-.oae-clip ul.oae-clip-menulisting li {
+.oae-clip .oae-clip-content ul li {
     display: inline;
 }
 
-.oae-clip ul.oae-clip-menulisting li button {
+.oae-clip .oae-clip-content ul li button {
     -webkit-border-radius: 6px;
        -moz-border-radius: 6px;
             border-radius: 6px;
     font-size: 11px;
-    font-weight: 600;
     min-width: 70px;
     padding: 10px;
+    margin-bottom: 10px;
     text-align: center;
-    text-decoration: none;
 }
 
-.oae-clip ul.oae-clip-menulisting li button i {
+.oae-clip .oae-clip-content ul li button i {
     display: block;
     margin: 0 auto 3px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*******************
@@ -284,14 +292,8 @@ a.oae-plain-link:hover {
  **********************/
 
 .oae-visibility-avatar img {
-    -webkit-border-radius: 4px;
-       -moz-border-radius: 4px;
-            border-radius: 4px;
-    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.35);
     float: left;
-    margin: 3px 12px 0 0;
-    max-height: 35px;
-    width: 35px;
+    margin-right: 12px;
 }
 
 .oae-visibility-avatar img + i[class^="icon-"] {
