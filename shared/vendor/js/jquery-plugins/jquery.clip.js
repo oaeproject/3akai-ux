@@ -18,7 +18,7 @@ define(['jquery'], function (jQuery) {
         // Add click event handler that toggles the visibility of the menu items of a clip
         $(document).on('click', '.oae-clip-content button', function(ev) {
             $(ev.target).next().toggleClass('hide');
-            $(ev.target).find('i.oae-clip-button-icon').toggleClass('icon-caret-down icon-caret-up');
+            $(ev.target).find('i.icon-caret-down, i.icon-caret-up').toggleClass('icon-caret-down icon-caret-up');
         });
     })();
 });

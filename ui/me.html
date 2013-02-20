@@ -23,30 +23,34 @@
                 <div id="me-clip-container"><!-- --></div>
 
                 <div class="oae-clip-container pull-right">
-                    <div class="oae-clip">
-                        <div class="oae-clip-fold pull-left">
-                            <div class="pull-left oae-clip-fold-inner"></div>
-                            <div class="pull-right oae-clip-fold-outer"></div>
+                    <div class="oae-clip oae-clip-secondary oae-flipped">
+                        <div class="oae-clip-fold">
+                            <div class="oae-clip-fold-inner"></div>
+                            <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
                             <button type="button">
-                                <i class="icon-plus-sign pull-left"></i>
-                                <div class="pull-left" id="create">
-                                    <h1>__MSG__CREATE__</h1>
+                                <div>
+                                    <div>
+                                        <i class="icon-cloud-upload pull-left"></i>
+                                        <h1>__MSG__UPLOAD__</h1>
+                                    </div>
                                 </div>
                             </button>
                         </div>
                     </div>
-                    <div class="oae-clip oae-clip-primary">
-                        <div class="oae-clip-fold pull-left">
-                            <div class="pull-left oae-clip-fold-inner"></div>
-                            <div class="pull-right oae-clip-fold-outer"></div>
+                    <div class="oae-clip oae-flipped">
+                        <div class="oae-clip-fold">
+                            <div class="oae-clip-fold-inner"></div>
+                            <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
                             <button type="button">
-                                <i class="icon-cloud-upload pull-left"></i>
-                                <div class="pull-left" id="create">
-                                    <h1>__MSG__UPLOAD__</h1>
+                                <div>
+                                    <div>
+                                        <i class="icon-plus-sign pull-left"></i>
+                                        <h1>__MSG__CREATE__</h1>
+                                    </div>
                                 </div>
                             </button>
                         </div>
@@ -59,29 +63,33 @@
 
         <div id="me-clip-template" class="hide"><!--
             <div class="oae-clip-container pull-left">
-                <div class="oae-clip flipped oae-clip-primary">
-                    <div class="oae-clip-fold pull-right">
-                        <div class="pull-left oae-clip-fold-inner"></div>
-                        <div class="pull-right oae-clip-fold-outer"></div>
+                <div class="oae-clip">
+                    <div class="oae-clip-fold">
+                        <div class="oae-clip-fold-inner"></div>
+                        <div class="oae-clip-fold-outer"></div>
                     </div>
                     <div class="oae-clip-content">
                         <button type="button">
-                            {if oae.data.me.mediumPicture}
-                                <img src="${oae.data.me.mediumPicture}" alt="${oae.data.me.displayName|safeUserInput}" class="clip-avatar pull-left"/>
-                            {else}
-                                <img src="/ui/img/dummy/profile-pic-john.png" alt="${oae.data.me.displayName|safeUserInput}" class="clip-avatar pull-left"/>
-                            {/if}
-                            <div class="action-icon pull-left" id="create">
-                                <h1>${oae.data.me.displayName|safeUserInput}</h1>
-                                <i class="oae-clip-button-icon icon-caret-down pull-right"></i>
-                                <small class="clip-description">${oae.data.me.department}</small>
+                            <div class="oae-visibility-avatar">
+                                {if oae.data.me.mediumPicture}
+                                    <img src="${oae.data.me.mediumPicture}" alt="${oae.data.me.displayName|safeUserInput}"/>
+                                {else}
+                                    <img src="/ui/img/dummy/profile-pic-john.png" alt="${oae.data.me.displayName|safeUserInput}"/>
+                                {/if}
+                            </div>
+                            <div>
+                                <div>
+                                    <h1>${oae.data.me.displayName|safeUserInput}</h1>
+                                    <i class="icon-caret-down"></i>
+                                    <small>${oae.data.me.department}</small>
+                                </div>
                             </div>
                         </button>
                         <div class="hide">
-                            <ul class="clip-menulisting">
-                                <li><a href="#myModal" role="button" class="btn btn-link" data-toggle="modal"><i class="icon-user icon-x2"></i>Profile</a></li>
-                                <li><a href="#myModal" role="button" class="btn btn-link" data-toggle="modal"><i class="icon-envelope icon-x2"></i>Messages</a></li>
-                                <li><a href="#myModal" role="button" class="btn btn-link" data-toggle="modal"><i class="icon-wrench icon-x2"></i>Account</a></li>
+                            <ul class="oae-clip-menulisting">
+                                <li><button type="button"><i class="icon-user"></i>__MSG__PROFILE__</button></li>
+                                <li><button type="button"><i class="icon-envelope"></i>__MSG__MESSAGES__</button></li>
+                                <li><button type="button"><i class="icon-wrench"></i>__MSG__ACCOUNT__</button></li>
                             </ul>
                         </div>
                     </div>

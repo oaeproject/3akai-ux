@@ -32,10 +32,6 @@
    background colors, component colors, etc. */
 @import url('/shared/oae/css/oae.skin.css');
 
-/* Import the OAE icon Styles. This file contains styles for icons used accross OAE that are
-   not already available in the Font Awesome icon set */
-@import url('/shared/oae/css/oae.icons.css');
-
 /* Import the Google, Facebook and Twitter login, as this will be needed on every
    page because of the topnavigation */
 @import url('/shared/vendor/css/auth-buttons.css');
