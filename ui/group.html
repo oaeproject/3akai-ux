@@ -31,13 +31,12 @@
                                     __MSG__MANAGE_MEMBERS__<div class="oae-action-icon oae-share-icon"></div>
                                 </button>
                             </div>
-                            <button class="oae-entity-picture">
+                            <button class="oae-entity-picture" title="__MSG__PROFILE_PICTURE_OPTIONS_FOR__ ${group.displayName|safeUserInput}">
                                 <span class="oae-entity-picture-image">
-                                    <img class="oae-icon-50" src="${group.picture.medium || '/ui/img/entities/group_icon_medium.png'}"/>
+                                    {var pic = group.picture.medium || "/ui/img/entities/group_icon_medium.png"}
+                                    <img src="${pic}" alt="__MSG__PROFILE_PICTURE__" />
                                 </span>
                                 <span class="oae-aural-text">__MSG__PROFILE_PICTURE_OPTIONS_FOR__ ${group.displayName|safeUserInput}</span>
-                                <span class="oae-dropdown-menu-arrow"></span>
-                                <span class="oae-aural-text">__MSG__PROFILE_PICTURE_OPTIONS__</span>
                             </button>
                             <div class="oae-dropdown-list oae-hidden">
                                 <div class="oae-dropdown-list-arrow-up"></div>
