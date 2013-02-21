@@ -28,9 +28,9 @@ define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
      */
     exports.showError = function(data, $outputElement) {
         if (!$outputElement) {
-            $outputElement = $('#admin_error_container');
+            $outputElement = $('#admin-error-container');
         }
-        oae.api.util.renderTemplate($('#admin_error_template'), {'error': data}, $outputElement);
+        oae.api.util.renderTemplate($('#admin-error-template'), {'error': data}, $outputElement);
     };
 
     /**
@@ -46,9 +46,9 @@ define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
      */
     exports.showWarning = function(data, $outputElement) {
         if (!$outputElement) {
-            $outputElement = $('#admin_warning_container');
+            $outputElement = $('#admin-warning-container');
         }
-        oae.api.util.renderTemplate($('#admin_warning_template'), {'warning': data}, $outputElement);
+        oae.api.util.renderTemplate($('#admin-warning-template'), {'warning': data}, $outputElement);
     };
 
     /**
@@ -65,9 +65,9 @@ define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
      */
     exports.showSuccess = function(data, $outputElement) {
         if (!$outputElement) {
-            $outputElement = $('#admin_success_container');
+            $outputElement = $('#admin-success-container');
         }
-        oae.api.util.renderTemplate($('#admin_success_template'), {'success': data}, $outputElement);
+        oae.api.util.renderTemplate($('#admin-success-template'), {'success': data}, $outputElement);
         if (!data.sticky) {
             setTimeout( function(){
                 $outputElement.fadeOut('slow', function() {
@@ -82,7 +82,7 @@ define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
      * Shows a confirmation dialog to the user using predefined data
      * usage
      * showConfirmationModal({
-     *     'id' (required): 'deletetenant_modal',
+     *     'id' (required): 'deletetenant-modal',
      *     'title' (required): 'Delete tenant Cambridge University',
      *     'message' (required): 'You cannot undo this operation. Are you sure you want to delete this tenant?',
      *     'cancel': 'Cancel',
@@ -91,36 +91,16 @@ define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
      *     'confirmed' (required): function() {
      *         // Add handling for confirmation
      *         // Hide the dialog when done (optionally show a success message)
-     *         $('#deletetenant_modal').modal('hide');
+     *         $('#deletetenant-modal').modal('hide');
      *     }
      * });
      * 
      * @param {Object}  data    Data object used to render the modal dialog. All required elements are shown above in 'usage' and should be provided
      */
     exports.showConfirmationModal = function(data) {
-        oae.api.util.renderTemplate($('#admin_confirmation_template'), {'modal': data}, $('#admin_confirmation_container'));
+        oae.api.util.renderTemplate($('#admin-confirmation-template'), {'modal': data}, $('#admin-confirmation-container'));
         $('#' + data.id).modal();
-        $('#' + data.id + '_confirm', $('#' + data.id)).click(data.confirmed);
-    };
-
-    /**
-     * Set up validation for a form in the admin UI. This will automatically set the correct
-     * validation classes using the Bootstrap CSS classes.
-     * 
-     * @param {Element}     $form               jQuery selector for the form that's being validated
-     * @param {Function}    submitHandler       Function that should be executed when the form validation has succeeded
-     */
-    exports.setUpValidation = function($form, submitHandler) {
-        $form.validate({
-            'errorClass': 'help-inline',
-            'highlight': function(element, errorClass) {
-                $(element).parents('.control-group').addClass('error');
-            },
-            'unhighlight': function(element) {
-                $(element).parents('.control-group').removeClass('error');
-            },
-            'submitHandler': submitHandler
-        });
+        $('#' + data.id + '-confirm', $('#' + data.id)).click(data.confirmed);
     };
 
 });

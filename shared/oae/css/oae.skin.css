@@ -150,3 +150,84 @@ body, button, input, select, textarea, a.oae-plain-link {
 .oae-panel-tertiary i, .oae-panel-tertiary i:hover {
     color: #FFF;
 }
+
+
+/*****************
+ ** CLIP COLORS **
+ *****************/
+
+/* PRIMARY CLIP */
+
+.oae-clip .oae-clip-fold .oae-clip-fold-inner {
+    background-color: #000;
+}
+
+.oae-clip .oae-clip-fold .oae-clip-fold-outer {
+    background-color: #545454;
+}
+
+.oae-clip .oae-clip-content {
+    background: #545454;
+    background: -moz-linear-gradient(top,  #545454 0%, #545454 10%, #000000 100%);
+    background: -webkit-linear-gradient(top,  #545454 0%,#545454 10%,#000000 100%);
+    background: -o-linear-gradient(top,  #545454 0%,#545454 10%,#000000 100%);
+    background: -ms-linear-gradient(top,  #545454 0%,#545454 10%,#000000 100%);
+    background: linear-gradient(to bottom,  #545454 0%,#545454 10%,#000000 100%);
+}
+
+.oae-clip .oae-clip-content button,
+.oae-clip .oae-clip-content i {
+    color: #DBDBDB;
+}
+
+.oae-clip button small {
+    color: #999;
+}
+
+.oae-clip button:hover,
+.oae-clip button:focus,
+.oae-clip .oae-clip-content i:hover {
+    color: #FFF;
+    border-color: 1px dotted #FFF;
+}
+
+.oae-clip ul li button:hover {
+    background-color: #000;
+}
+
+/* SECONDARY CLIP */
+
+.oae-clip.oae-clip-secondary .oae-clip-content {
+    background: -moz-linear-gradient(top,  #24A7DD 0%, #24A7DD 10%, #0175A9 100%);
+    background: -webkit-linear-gradient(top,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
+    background: -o-linear-gradient(top,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
+    background: -ms-linear-gradient(top,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
+    background: linear-gradient(to bottom,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
+}
+
+.oae-clip.oae-clip-secondary .oae-clip-fold .oae-clip-fold-inner {
+    background-color: #0175A9;
+}
+.oae-clip.oae-clip-secondary .oae-clip-fold .oae-clip-fold-outer,
+.oae-clip.oae-clip-secondary .oae-clip-content {
+    background-color: #24A7DD;
+}
+
+.oae-clip.oae-clip-secondary .oae-clip-content button,
+.oae-clip.oae-clip-secondary .oae-clip-content i {
+    color: #F5F5F5;
+}
+
+.oae-clip.oae-clip-secondary button small {
+    color: #DBDBDB;
+}
+
+.oae-clip.oae-clip-secondary button:hover,
+.oae-clip.oae-clip-secondary button:focus,
+.oae-clip.oae-clip-secondary .oae-clip-content i:hover {
+    color: #FFF;
+}
+
+.oae-clip.oae-clip-secondary ul li button:hover {
+    background-color: #2096C6;
+}
