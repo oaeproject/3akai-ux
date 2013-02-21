@@ -64,43 +64,128 @@ a.oae-plain-link:hover {
 }
 
 
-/***********
- ** CLIPS **
- **
- **   <div class="oae-clip-container pull-left">
- **       <div class="oae-clip">
- **           <div class="oae-clip-fold">
- **               <div class="oae-clip-fold-inner"></div>
- **               <div class="oae-clip-fold-outer"></div>
- **           </div>
- **           <div class="oae-clip-content">
- **               <button type="button">
- **                   <div class="oae-visibility-avatar">
- **                       <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian"/>
- **                       <i class="icon-oae-public"></i>
- **                   </div>
- **                   <div>
- **                       <div>
- **                           <h1>John Librarian</h1>
- **                           <i class="icon-caret-down"></i>
- **                           <small>Professor of Typography</small>
- **                       </div>
- **                   </div>
- **               </button>
- **               <div>
- **                   <ul class="oae-clip-menulisting">
- **                       <li><button type="button"><i class="icon-user"></i>Profile</button></li>
- **                       <li><button type="button"><i class="icon-envelope"></i>Messages</button></li>
- **                       <li><button type="button"><i class="icon-wrench"></i>Account</button></li>
- **                   </ul>
- **               </div>
- **           </div>
- **       </div>
- **
- ***********/
+/**********************
+ ** VISIBILITY ICONS **
+ **********************/
 
 /**
- * Clips at the top of the content containers. When clicked open a pop-over with more actions.
+ * These icons are used consistently to indicate the visibility setting for an entity
+ * in the system. The available visibility privacy options are `private`, `loggedin` and
+ * `public`.
+ *   e.g. <i class="icon-oae-private"></i>
+ *        <i class="icon-oae-loggedin"></i>
+ *        <i class="icon-oae-public"></i>
+ */
+
+.icon-oae-private:before,
+.icon-oae-loggedin:before,
+.icon-oae-public:before {
+    -webkit-border-radius: 500px;
+       -moz-border-radius: 500px;
+            border-radius: 500px;
+    color: #313131;
+    font-size: 15px;
+    width: 17px;
+    height: 16px;
+    padding-top: 1px;
+    text-align: center;
+}
+
+/* 
+ * NOTE: Some of these icons are slightly differently positioned relative
+ * to each other, which is why we need to play around with widths and paddings 
+ * to get them visually centered in the visibility area
+ */
+.icon-oae-private:before {
+    background-color: #FFBC78;
+    content: "\f023";
+}
+
+.icon-oae-loggedin:before {
+    background-color: #C4E6FF;
+    content: "\f041";
+    width: 16px;
+    padding-right: 1px;
+}
+
+.icon-oae-public:before {
+    background-color: #A6E0AB;
+    content: "\f0ac";
+    width: 18px;
+}
+
+
+/************************
+ ** VISIBILITY AVATARS **
+************************/
+
+/**
+ * A visibility avatar is a combination of a thumbnail picture/profile picture and
+ * a visibility icon, which will come back consistently through the UI. The available
+ * visibility icons are `icon-oae-private`, `icon-oae-loggedin` and `icon-oae-public`.
+ *   e.g. <div class="oae-visibility-avatar">
+ *          <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian"/>
+ *          <i class="icon-oae-public"></i>
+ *        </div>
+ */
+
+.oae-visibility-avatar img + i[class^="icon-"] {
+    position: absolute;
+    margin: 20px 0 0 -25px;
+}
+
+
+/***********
+ ** CLIPS **
+***********/
+
+/**
+ * Clips are the elements that are used for page (entity) titles and page actions.
+ * They are folded onto the top of a container, which is usually the main page content
+ * container. Each clip can have a set of actions associated to it, which will automatically
+ * show when opening the clip through the dropdown icon.
+ * 
+ * The HTML structure required for creating a clip is the following:
+ * 
+ *  <div class="oae-clip">
+ *      <div class="oae-clip-fold">
+ *          <div class="oae-clip-fold-inner"></div>
+ *          <div class="oae-clip-fold-outer"></div>
+ *      </div>
+ *      <div class="oae-clip-content">
+ *          <button>
+ *              <div>
+ *                  <img src="/url/to/picture" alt="John Doe"/>
+ *              </div>
+ *              <div>
+ *                  <h1>John Doe</h1>
+ *                  <i class="icon-caret-down"></i>
+ *                  <small>Job Title</small>
+ *              </div>
+ *          </button>
+ *          <div>
+ *              <ul>
+ *                  <li><button><i class="icon-user"></i>Action 1</button></li>
+ *                  <li><button><i class="icon-envelope"></i>Action 2</button></li>
+ *                  <li><button type="button"><i class="icon-wrench"></i>Action 3</button></li>
+ *              </ul>
+ *          </div>
+ *      </div>
+ *  </div>
+ *
+ * Notes:
+ * 
+ * - The fold on a clip can be on the left of the clip or on the right of the clip. By default, the
+ *   fold will be on the right. When a fold on the left is required, an `oae-clip-flipped` class should
+ *   be added to the .`oae-clip` element.
+ * - Clips are available in two different skinnable styles. By default, the primary style will be used. If
+ *   the secundary style is needed, this can be done by adding an 'oae-clip-secondary' class to the
+ *   `.oae-clip` element.
+ * - The avatar image in the clip can be given a visibility icon by turning the div containing the image
+ *   into an `.oae-visibility-avatar` container and following the structure outlined there.
+ * - The `icon-caret-down` element is optional. If it is not provided, the clip will be shown in view
+ *   only mode. If it is provided, the clip will be toggleable and the action menu will be shown when clicked.
+ * - The `small` tag is used to show some additional clip metadata and is optional
  */
 
 /* Clip container */
@@ -199,7 +284,8 @@ a.oae-plain-link:hover {
     margin-right: 12px;
 }
 
-.oae-clip .oae-clip-content button i {
+.oae-clip .oae-clip-content button i.icon-caret-down,
+.oae-clip .oae-clip-content button i.icon-caret-up {
     margin-left: 10px;
     margin-right: 10px;
 }
@@ -225,6 +311,7 @@ a.oae-plain-link:hover {
 .oae-clip .oae-clip-content ul {
     list-style: none;
     margin: 0 10px;
+    display: none;
 }
 
 .oae-clip .oae-clip-content ul li {
@@ -248,94 +335,13 @@ a.oae-plain-link:hover {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*******************
  ** DRAG AND DROP **
  ******************/
 
+/* TODO: Add documentation for this */
+
 .oae-dnd-upload.dragover {
     opacity: 0.3;
     transition: opacity 0.15s linear 0s;
-}
-
-
-/***********************
- ** VISIBILITY IMAGES **
- **
- **    <div class="oae-visibility-avatar">
- **        <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian"/>
- **        <i class="icon-oae-public"></i>
- **    </div>
- **
- **********************/
-
-.oae-visibility-avatar img {
-    float: left;
-    margin-right: 12px;
-}
-
-.oae-visibility-avatar img + i[class^="icon-"] {
-    color: #FFF;
-    display: block;
-    font-size: 20px;
-    margin: 18px 0 0 20px;
-    position: absolute;
-    text-shadow: 0 0 2px #000;
-}
-
-.icon-oae-private,
-.icon-oae-loggedin,
-.icon-oae-public {
-    background: #FFF;
-    -webkit-border-radius: 10px;
-       -moz-border-radius: 10px;
-            border-radius: 10px;
-    padding: 0 5px;
-}
-.icon-oae-private:before,
-.icon-oae-loggedin:before,
-.icon-oae-public:before {
-    color: #313131;
-    text-shadow: none;
-}
-
-.icon-oae-private {
-    background-color: #FFBC78;
-}
-.icon-oae-private:before {
-    content: "\f023";
-}
-
-.icon-oae-loggedin {
-    background-color: #c4e6ff;
-}
-.icon-oae-loggedin:before {
-    content: "\f041";
-}
-
-.icon-oae-public {
-    background-color: #a6e0ab;
-}
-.icon-oae-public:before {
-    content: "\f0ac";
-    font-size: 18px;
 }
