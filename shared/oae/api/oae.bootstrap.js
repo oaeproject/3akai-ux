@@ -63,7 +63,8 @@ requirejs.config({
         'oae.api.util': 'oae/api/oae.api.util',
         'oae.api.widget': 'oae/api/oae.api.widget',
         'oae.core': 'oae/api/oae.core',
-        'pluginBuilder': 'oae/api/pluginBuilder'
+        'pluginBuilder': 'oae/api/pluginBuilder',
+        'qunitjs': '/tests/qunit/js/qunit'
     },
     priority: ['jquery', 'underscore']
 });
