@@ -1,0 +1,206 @@
+/*!
+ * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ *     http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+html, body {
+    height: 100%;
+}
+body {
+    background: url('/shared/oae/img/page-bg.png') repeat left top #eee;
+    margin: 0;
+    padding: 0;
+}
+#admin_header_container {
+    background-color: #fff;
+    height: 70px;
+    min-width: 1100px;
+    padding: 0;
+    width: 100%
+}
+#admin_fluid_container {
+    min-width: 1100px;
+    padding: 0 15px !important;
+}
+#admin_header_container #admin_header_content {
+    background: url('/shared/oae/img/logo.png') no-repeat left center transparent;
+    height: 70px;
+}
+#admin_header_container #admin_header_user {
+    float: right;
+    margin: 20px;
+}
+#admin_header_container #admin_header_user #admin_header_user_logout {
+    margin-left: 12px;
+}
+#admin_header_container h1 {
+    font-size: 22px;
+    font-weight: normal;
+    margin: 0;
+    padding: 15px 0 0 150px;
+}
+#admin_fluid_container {
+    margin: 0;
+    padding: 0;
+}
+#admin_lhnav_container {
+    padding-top: 20px;
+}
+#admin_content,
+#admin_footer_content {
+    padding-bottom: 120px;
+}
+#admin_footer_content {
+    padding-bottom: 0px;
+}
+#admin_footer_container {
+    background: #3b3b3b; /* Old browsers */
+    background: -moz-linear-gradient(top, #3b3b3b 0%, #333333 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3b3b3b), color-stop(100%,#333333)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #3b3b3b 0%,#333333 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #3b3b3b 0%,#333333 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #3b3b3b 0%,#333333 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #3b3b3b 0%,#333333 100%); /* W3C */
+    min-height: 75px;
+    min-width: 1100px;
+    bottom: 0;
+    padding: 0;
+    position: fixed;
+    width: 100%;
+}
+#admin_footer_container ul {
+    color: #eee;
+    list-style: none outside none;
+    margin: 28px 0 10px 25px;
+}
+#admin_footer_container ul li {
+    float: left;
+    line-height: 20px;
+    padding: 0 0 3px;
+    width: 225px;
+}
+#admin_footer_container ul li a {
+    color: #eee;
+    font-size: 13px;
+}
+#admin_footer_container .footer_column.first {
+    float: left;
+    height: 75px;
+    width: 225px;
+    background: url("/shared/oae/img/logo_white.png") no-repeat scroll left 20px transparent;
+}
+#admin_footer_container .footer_column.tenants {
+    overflow: auto;
+}
+h2 {
+    font-size: 25px;
+    color: #0088CC;
+    font-weight: normal;
+    letter-spacing: 0.06em;
+    margin: 20px 0;
+}
+.anchor_section {
+    color: #9A9A9A;
+    float: right;
+    text-decoration: none;
+}
+.container-striped form {
+    margin: 12px 0 20px;
+}
+.module_configuration_container input[type="checkbox"] {
+    margin-right:12px;
+    float:left;
+}
+.module_configuration_container .form-horizontal .control-label {
+    width: 225px;
+}
+.module_configuration_container .form-horizontal .controls {
+    margin-left: 250px;
+}
+.module_configuration_container h4 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.module_configuration_container h4 span,
+.module_configuration_container label span {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+
+/* ALERT MESSAGES */
+#admin_error_container,
+#admin_warning_container,
+#admin_success_container {
+    left: 50%;
+    margin-left: -350px;
+    position: fixed;
+    top: 10px;
+    width: 700px;
+}
+
+.alert {
+    box-shadow: 0 0 7px #999;
+    -moz-box-shadow: 0 0 7px #999;
+    -webkit-box-shadow: 0 0 7px #999;
+}
+
+/* BOOTSTRAP ADDITIONS/OVERRIDES */
+.alert.success {
+    background-color: #DFF0D8;
+    border: 1px solid #D0DFC9;
+    color: #728F66;
+}
+
+td form {
+    margin: 0;
+}
+
+td.jeditable_container:hover {
+    cursor: pointer;
+    color: #666;
+    background: #3b3b3b !important; /* Old browsers */
+    background: -moz-linear-gradient(top, #ddd 0%, #ccc 100%) !important; /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ddd), color-stop(100%,#ccc)) !important; /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #ddd 0%,#ccc 100%) !important; /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #ddd 0%,#ccc 100%) !important; /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #ddd 0%,#ccc 100%) !important; /* IE10+ */
+    background: linear-gradient(to bottom, #ddd 0%,#ccc 100%) !important; /* W3C */
+}
+
+.table-striped tbody tr:nth-child(2n+1) td,
+.table-striped tbody tr:nth-child(2n+1) th,
+.container-striped > div:nth-child(2n+1) {
+    background: #f8f8f8; /* Old browsers */
+    background: -moz-linear-gradient(top, #f8f8f8 0%, #F0f0f0 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f8f8f8), color-stop(100%,#F0f0f0)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #f8f8f8 0%,#F0f0f0 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #f8f8f8 0%,#F0f0f0 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #f8f8f8 0%,#F0f0f0 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #f8f8f8 0%,#F0f0f0 100%); /* W3C */
+    max-width: 150px;
+    vertical-align: middle;
+}
+.table-striped tbody tr:nth-child(2n+2) td,
+.table-striped tbody tr:nth-child(2n+2) th,
+.container-striped > div:nth-child(2n+2) {
+    background-color: #fff;
+    max-width: 150px;
+    vertical-align: middle;
+}
+.container-striped > div:nth-child(2n+1),
+.container-striped > div:nth-child(2n+2) {
+    border-top: 1px solid #ddd;
+    max-width: none;
+    padding: 12px;
+}
