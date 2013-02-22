@@ -170,3 +170,13 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     min-height: 400px;
     clear: both;
 }
+
+
+/*****************
+ ** SEARCH VIEW **
+ ****************/
+
+.search-view-container .btn i {
+    color: #666;
+    font-size: 12px;
+}
