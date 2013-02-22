@@ -43,6 +43,7 @@ a.oae-plain-link:hover {
     width: 1px;
 }
 
+
 /***************
  ** THREEDOTS **
  **************/
@@ -53,6 +54,7 @@ a.oae-plain-link:hover {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
 
 /************
  ** PANELS **
@@ -390,4 +392,287 @@ ul.oae-list.grid li.oae-list-item .oae-list-item-checkbox.grid {
     display: block !important;
     float: left;
     margin-top: 7px;
+}
+
+
+/**********************
+ ** VISIBILITY ICONS **
+ **********************/
+
+/**
+ * These icons are used consistently to indicate the visibility setting for an entity
+ * in the system. The available visibility privacy options are `private`, `loggedin` and
+ * `public`.
+ *   e.g. <i class="icon-oae-private"></i>
+ *        <i class="icon-oae-loggedin"></i>
+ *        <i class="icon-oae-public"></i>
+ */
+
+.icon-oae-private:before,
+.icon-oae-loggedin:before,
+.icon-oae-public:before {
+    -webkit-border-radius: 500px;
+       -moz-border-radius: 500px;
+            border-radius: 500px;
+    color: #313131;
+    font-size: 15px;
+    width: 17px;
+    height: 16px;
+    padding-top: 1px;
+    text-align: center;
+}
+
+/* 
+ * NOTE: Some of these icons are slightly differently positioned relative
+ * to each other, which is why we need to play around with widths and paddings 
+ * to get them visually centered in the visibility area
+ */
+.icon-oae-private:before {
+    background-color: #FFBC78;
+    content: "\f023";
+}
+
+.icon-oae-loggedin:before {
+    background-color: #C4E6FF;
+    content: "\f041";
+    width: 16px;
+    padding-right: 1px;
+}
+
+.icon-oae-public:before {
+    background-color: #A6E0AB;
+    content: "\f0ac";
+    width: 18px;
+}
+
+
+/************************
+ ** VISIBILITY AVATARS **
+************************/
+
+/**
+ * A visibility avatar is a combination of a thumbnail picture/profile picture and
+ * a visibility icon, which will come back consistently through the UI. The available
+ * visibility icons are `icon-oae-private`, `icon-oae-loggedin` and `icon-oae-public`.
+ *   e.g. <div class="oae-visibility-avatar">
+ *          <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian"/>
+ *          <i class="icon-oae-public"></i>
+ *        </div>
+ */
+
+.oae-visibility-avatar img + i[class^="icon-"] {
+    position: absolute;
+    margin: 20px 0 0 -25px;
+}
+
+
+/***********
+ ** CLIPS **
+***********/
+
+/**
+ * Clips are the elements that are used for page (entity) titles and page actions.
+ * They are folded onto the top of a container, which is usually the main page content
+ * container. Each clip can have a set of actions associated to it, which will automatically
+ * show when opening the clip through the dropdown icon.
+ * 
+ * The HTML structure required for creating a clip is the following:
+ * 
+ *  <div class="oae-clip">
+ *      <div class="oae-clip-fold">
+ *          <div class="oae-clip-fold-inner"></div>
+ *          <div class="oae-clip-fold-outer"></div>
+ *      </div>
+ *      <div class="oae-clip-content">
+ *          <button>
+ *              <div>
+ *                  <img src="/url/to/picture" alt="John Doe"/>
+ *              </div>
+ *              <div>
+ *                  <h1>John Doe</h1>
+ *                  <i class="icon-caret-down"></i>
+ *                  <small>Job Title</small>
+ *              </div>
+ *          </button>
+ *          <div>
+ *              <ul>
+ *                  <li><button><i class="icon-user"></i>Action 1</button></li>
+ *                  <li><button><i class="icon-envelope"></i>Action 2</button></li>
+ *                  <li><button type="button"><i class="icon-wrench"></i>Action 3</button></li>
+ *              </ul>
+ *          </div>
+ *      </div>
+ *  </div>
+ *
+ * Notes:
+ * 
+ * - The fold on a clip can be on the left of the clip or on the right of the clip. By default, the
+ *   fold will be on the right. When a fold on the left is required, an `oae-clip-flipped` class should
+ *   be added to the .`oae-clip` element.
+ * - Clips are available in two different skinnable styles. By default, the primary style will be used. If
+ *   the secundary style is needed, this can be done by adding an 'oae-clip-secondary' class to the
+ *   `.oae-clip` element.
+ * - The avatar image in the clip can be given a visibility icon by turning the div containing the image
+ *   into an `.oae-visibility-avatar` container and following the structure outlined there.
+ * - The `icon-caret-down` element is optional. If it is not provided, the clip will be shown in view
+ *   only mode. If it is provided, the clip will be toggleable and the action menu will be shown when clicked.
+ * - The `small` tag is used to show some additional clip metadata and is optional
+ */
+
+/* Clip container */
+
+.oae-clip {
+    float: left;
+    margin: -15px 10px 10px;
+    position: relative;
+}
+
+/* Clip fold */
+
+.oae-clip .oae-clip-fold {
+    height: 6px;
+    float: right;
+    margin-right: -7px;
+    position: relative;
+    width: 7px;
+    z-index: 10;
+}
+
+.oae-clip.oae-clip-flipped .oae-clip-fold {
+    float: left;
+    margin-left: -9px;
+}
+
+.oae-clip .oae-clip-fold .oae-clip-fold-inner {
+    border-radius: 50px 50px 0 0;
+    float: left;
+    height: 6px;
+    margin-left: -1px;
+    position: absolute;
+    width: 9px;
+    z-index: 1;
+}
+.oae-clip.oae-clip-flipped .oae-clip-fold .oae-clip-fold-inner {
+    margin-left: 0;
+}
+
+.oae-clip .oae-clip-fold .oae-clip-fold-outer {
+    float: right;
+    height: 6px;
+    margin-left: -5px;
+    position: absolute;
+    width: 7px;
+    z-index: 0;
+}
+.oae-clip.oae-clip-flipped .oae-clip-fold .oae-clip-fold-outer {
+    margin-left: 4px;
+}
+
+/* Clip content */
+
+.oae-clip .oae-clip-content {
+    -webkit-border-radius: 6px 0 6px 6px;
+       -moz-border-radius: 6px 0 6px 6px;
+            border-radius: 6px 0 6px 6px;
+    -webkit-box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
+       -moz-box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
+}
+
+.oae-clip.oae-clip-flipped .oae-clip-content {
+    -webkit-border-radius: 0 6px 6px;
+       -moz-border-radius: 0 6px 6px;
+            border-radius: 0 6px 6px;
+}
+
+.oae-clip .oae-clip-content button {
+    background: none;
+    border: none;
+    font-weight: 600;
+    min-height: 30px;
+    padding: 10px 14px 14px;
+    text-align: left;
+}
+
+.oae-clip .oae-clip-content button div {
+    display: table-cell;
+}
+
+.oae-clip .oae-clip-content button div,
+.oae-clip .oae-clip-content button i,
+.oae-clip .oae-clip-content button h1 {
+    vertical-align: middle;
+}
+
+.oae-clip .oae-clip-content button img {
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.35);
+    float: left;
+    max-height: 35px;
+    width: 35px;
+    margin-right: 12px;
+}
+
+.oae-clip .oae-clip-content button i.icon-caret-down,
+.oae-clip .oae-clip-content button i.icon-caret-up {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.oae-clip .oae-clip-content button h1 {
+    display: inline-block;
+    font-size: 16px;
+    line-height: 1;
+    margin: 0;
+    font-weight: 600;
+}
+
+.oae-clip .oae-clip-content small {
+    clear: both;
+    display: block;
+    font-size: 12px;
+    font-weight: normal;
+    white-space: nowrap;
+}
+
+/* Clip actions */
+
+.oae-clip .oae-clip-content ul {
+    list-style: none;
+    margin: 0 10px;
+    display: none;
+}
+
+.oae-clip .oae-clip-content ul li {
+    display: inline;
+}
+
+.oae-clip .oae-clip-content ul li button {
+    -webkit-border-radius: 6px;
+       -moz-border-radius: 6px;
+            border-radius: 6px;
+    font-size: 11px;
+    min-width: 70px;
+    padding: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.oae-clip .oae-clip-content ul li button i {
+    display: block;
+    margin: 0 auto 3px;
+}
+
+
+/*******************
+ ** DRAG AND DROP **
+ ******************/
+
+/* TODO: Add documentation for this */
+
+.oae-dnd-upload.dragover {
+    opacity: 0.3;
+    transition: opacity 0.15s linear 0s;
 }
