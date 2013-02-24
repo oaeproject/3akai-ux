@@ -16,7 +16,7 @@
 require(['jquery', 'oae.core'], function($, oae) {
 
     //  Get the group id from the URL. The expected URL is /group/<groupId>
-    var groupId = document.location.pathname.split('/').pop();
+    var groupId = document.location.pathname.split('/')[2];
     if (!groupId) {
         oae.api.util.redirect().redirectToLogin();
     }
@@ -38,139 +38,90 @@ require(['jquery', 'oae.core'], function($, oae) {
             }
 
             groupProfile = profile;
-            renderEntity();
+            setUpClip();
             setUpNavigation();
             // Set the browser title
             oae.api.util.setBrowserTitle(groupProfile.displayName);
-            // We can now unhide the page
-            oae.api.util.showPage();
         });
     };
     
     /**
-     * Render the group's profile picture and name
+     * Render the group's clip, containing the profile picture, display name as well as the
+     * group's admin options
      */
-    var renderEntity = function() {
-        // TODO: Unwrap the data from the group variable when the profile pictures are no longer top-level props
-        oae.api.util.renderTemplate($('#oae_entity_template'), {'group': groupProfile}, $('#oae_entity_container'));
-        $(document).on('click', '.group_permissions_trigger', function() {
-            $(document).trigger('init.grouppermissions.sakai', {'group': groupProfile});
-        });
+    var setUpClip = function() {
+        oae.api.util.renderTemplate($('#me-clip-template'), groupProfile, $('#me-clip-container'));
     };
     
     /**
-     * Set up the left hand navigation with the provided structure
+     * Set up the left hand navigation with the me space page structure
      */
     var setUpNavigation = function() {
-        // Only render the left hand navigation if the group's profile
-        // has already been retrieved
-        if (groupProfile) {
-            // TODO: Replace this with more effective page configuration
-            var pubdata = {
-                'structure0': {
-                    'activity': {
-                        '_order': 0,
-                        '_ref': 'id52052932',
-                        '_title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
-                        'main': {
-                            '_order': 0,
-                            '_ref': 'id52052932',
-                            '_title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__')
-                        }
-                    },
-                    'library': {
-                        '_order': 1,
-                        '_ref': 'id88785643',
-                        '_title': oae.api.i18n.translate('__MSG__LIBRARY__'),
-                        'main': {
-                            '_order': 0,
-                            '_ref': 'id88785643',
-                            '_title': oae.api.i18n.translate('__MSG__LIBRARY__')
-                        }
-                    },
-                    'memberships': {
-                        '_order': 2,
-                        '_ref': 'id1234354657',
-                        '_title': oae.api.i18n.translate('__MSG__MEMBERS__'),
-                        'main': {
-                            '_order': 0,
-                            '_ref': 'id1234354657',
-                            '_title': oae.api.i18n.translate('__MSG__MEMBERS__')
-                        }
-                    }
-                },
-                'id52052932': {
-                    'rows': [
-                        {
-                            'id': 'id6535423',
-                            'columns': [
-                                {
-                                    'width': 1,
-                                    'elements': [
-                                        {
-                                            'id': 'id5244321',
-                                            'type': 'activity'
-                                        }
-                                    ]
+        // Structure that will be used to construct the left hand navigation
+        var lhNavigation = [
+            {
+                'id': 'activity',
+                'title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
+                'icon': 'icon-dashboard',
+                'layout': [
+                    {
+                        'width': 'span8',
+                        'widgets': [
+                            {
+                                'id': 'activity',
+                                'settings': {
+                                    'principalId': groupProfile.id,
+                                    'canManage': groupProfile.isManager
                                 }
-                            ]
-                        }
-                    ],
-                    'id5244321': {
-                        'principalId': groupProfile.id
+                            }
+                        ]
                     }
-                },
-                'id88785643': {
-                    'rows': [
-                        {
-                            'id': 'id54243241',
-                            'columns': [
-                                {
-                                    'width': 1,
-                                    'elements': [
-                                        {
-                                            'id': 'id032184831',
-                                            'type': 'library'
-                                        }
-                                    ]
+                ]
+            },
+            {
+                'id': 'library',
+                'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
+                'icon': 'icon-briefcase',
+                'layout': [
+                    {
+                        'width': 'span12',
+                        'widgets': [
+                            {
+                                'id': 'library',
+                                'settings': {
+                                    'principalId': groupProfile.id,
+                                    'canManage': groupProfile.isManager
                                 }
-                            ]
-                        }
-                    ],
-                    'id032184831': {
-                        'principalId': groupProfile.id,
-                        'canManage': groupProfile.isManager
+                            }
+                        ]
                     }
-                },
-                'id1234354657': {
-                    'rows': [
-                        {
-                            'id': 'id49343902',
-                            'columns': [
-                                {
-                                    'width': 1,
-                                    'elements': [
-                                        {
-                                            'id': 'id7184318',
-                                            'type': 'participants'
-                                        }
-                                    ]
+                ]
+            },
+            {
+                'id': 'members',
+                'title': oae.api.i18n.translate('__MSG__MEMBERS__'),
+                'icon': 'icon-user',
+                'layout': [
+                    {
+                        'width': 'span12',
+                        'widgets': [
+                            {
+                                'id': 'participants',
+                                'settings': {
+                                    'principalId': groupProfile.id,
+                                    'canManage': groupProfile.isManager
                                 }
-                            ]
-                        }
-                    ],
-                    'id7184318': {
-                        'principalId': groupProfile.id,
-                        'canManage': groupProfile.isManager
+                            }
+                        ]
                     }
-                }
-            };
-            $(window).trigger('lhnav.init', [pubdata, {}, {}]);
-        }
+                ]
+            }
+        ];
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavigation]);
+        $(window).on('oae.ready.lhnavigation', function() {
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavigation]);
+        });
     };
-
-    // List to the left hand navigation ready event for navigation rendering
-    $(window).on('lhnav.ready', setUpNavigation);  
 
     getGroupProfile();
 
