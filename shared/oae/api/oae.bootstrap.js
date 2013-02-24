@@ -32,6 +32,7 @@ requirejs.config({
         'jquery.fileSize': 'vendor/js/jquery-plugins/jquery.fileSize',
         'jquery.fileupload': 'vendor/js/jquery-plugins/jquery.fileupload',
         'jquery.form': 'vendor/js/jquery-plugins/jquery.form',
+        'jquery.history': 'vendor/js/jquery-plugins/jquery.history',
         'jquery.iframe-transport': 'vendor/js/jquery-plugins/jquery.iframe-transport',
         'jquery.properties-parser': 'vendor/js/jquery-plugins/jquery.properties-parser',
         'jquery.serializeObject': 'vendor/js/jquery-plugins/jquery.serializeObject',

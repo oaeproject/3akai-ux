@@ -13,6 +13,12 @@
  * permissions and limitations under the License.
  */
 
+/**
+ * jQuery plugin that will detect the clips that are present on the page, and 
+ * will take care of making them active where necessary. This includes showing
+ * and hiding the admin options and toggling the caret icons
+ */
+
 define(['jquery'], function (jQuery) {
     (function($) {
         // Add click event handler that toggles the action items of a clip

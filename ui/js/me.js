@@ -79,15 +79,16 @@ require(['jquery','oae.core'], function($, oae) {
                 }
             ]
         }
-    ]
+    ];
 
     /**
-     * Set up the left hand navigation with the provided structure
+     * Set up the left hand navigation with the me space page structure
      */
     var setUpNavigation = function() {
-        $(window).on('lhnav.ready', function() {
-            $(window).trigger('lhnav.init', [pubdata, privdata, {}]);
-        });  
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavigation]);
+        $(window).on('oae.ready.lhnavigation', function() {
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavigation]);
+        });
     };
 
     /**
@@ -99,5 +100,6 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     setUpClip();
+    setUpNavigation();
 
 });

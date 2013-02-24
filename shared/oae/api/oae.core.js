@@ -54,6 +54,7 @@ define([
         'jquery.list-options',
         'jquery.fileSize',
         'jquery.form',
+        'jquery.history',
         'jquery.infinitescroll',
         'jquery.properties-parser',
         'jquery.serializeObject',
