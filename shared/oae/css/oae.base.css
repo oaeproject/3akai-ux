@@ -40,7 +40,7 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     text-decoration: none;
 }
 
-/* NAVIGATION */
+/* TOP NAVIGATION */
 
 .navbar-search {
   display: inline;
@@ -58,6 +58,21 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 
 .navbar-search .search-query:focus {
   width: 300px;
+}
+
+/* LEFT HAND NAVIGATION */
+
+.nav-list > li > a {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    margin-bottom: 4px;
+}
+
+.nav-list [class^="icon-"], .nav-list [class*=" icon-"] {
+    font-size: 1.5em;
+    margin-right: 10px;
+    position: relative;
+    top: 2px;
 }
 
 /* ICONS */
