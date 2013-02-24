@@ -30,7 +30,7 @@
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button>
+                            <button {if !isManager} class="oae-clip-viewonly" {/if}>
                                 <div class="oae-visibility-avatar">
                                     {if picture.medium}
                                         <img src="${picture.medium}" alt="${displayName|safeUserInput}"/>
@@ -47,16 +47,17 @@
                             </button>
                             <div>
                                 <ul>
-                                    <li><button><i class="icon-camera"></i>__MSG__MY_PICTURE__</button></li>
-                                    <li><button><i class="icon-user"></i>__MSG__MY_PROFILE__</button></li>
-                                    <li><button><i class="icon-wrench"></i>__MSG__MY_ACCOUNT__</button></li>
+                                    <li><button><i class="icon-camera"></i>__MSG__CHANGE_PICTURE__</button></li>
+                                    <li><button><i class="icon-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
+                                    <li><button><i class="icon-user"></i>__MSG__EDIT_MEMBERS__</button></li>
+                                    <li><button><i class="icon-trash"></i>__MSG__DELETE__</button></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 --></div>
 
-                <div class="pull-right">
+                <div id="group-actions" class="pull-right hide">
                     <div class="oae-clip oae-clip-flipped">
                         <div class="oae-clip-fold">
                             <div class="oae-clip-fold-inner"></div>
@@ -87,7 +88,6 @@
                             </button>
                             <div>
                                 <ul>
-                                    <li><button><i class="icon-group"></i>__MSG__GROUP__</button></li>
                                     <li><button><i class="icon-link"></i>__MSG__LINK__</button></li>
                                     <li><button><i class="icon-edit"></i>__MSG__DOCUMENT__</button></li>
                                     <li><button><i class="icon-comments"></i>__MSG__DISCUSSION__</button></li>

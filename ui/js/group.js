@@ -51,6 +51,11 @@ require(['jquery', 'oae.core'], function($, oae) {
      */
     var setUpClip = function() {
         oae.api.util.renderTemplate($('#me-clip-template'), groupProfile, $('#me-clip-container'));
+
+        // Only show the create and upload clips to managers
+        if (groupProfile.isManager) {
+            $('#group-actions').show();
+        }
     };
     
     /**

@@ -22,7 +22,7 @@
 define(['jquery'], function (jQuery) {
     (function($) {
         // Add click event handler that toggles the action items of a clip
-        $(document).on('click', '.oae-clip-content > button', function(ev) {
+        $(document).on('click', '.oae-clip-content > button:not(.oae-clip-viewonly)', function(ev) {
             var $clip = $(this).parent();
             // Only do this in if a toggle icon is available. If not, this indicates
             // that we're looking and the clip in view only mode or there are no

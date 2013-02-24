@@ -9,23 +9,128 @@
         </noscript>
 
         <!-- CORE CSS -->
+        <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
+
+    </head>
+    <body>
+
+        <!-- HEADER -->
+        <div data-widget="topnavigation"><!-- --></div>
+
+        <!-- BODY -->
+        <div class="oae-main-content">
+
+            <!-- CLIPS -->
+            <div>
+                <div id="content-clip-container"><!-- --></div>
+                <div id="content-clip-template"><!--
+                    <div class="oae-clip">
+                        <div class="oae-clip-fold">
+                            <div class="oae-clip-fold-inner"></div>
+                            <div class="oae-clip-fold-outer"></div>
+                        </div>
+                        <div class="oae-clip-content">
+                            <button {if !isManager} class="oae-clip-viewonly" {/if}>
+                                <div class="oae-visibility-avatar">
+                                    <img src="/ui/img/entities/content_icon_medium.png" alt="${displayName|safeUserInput}"/>
+                                    <i class="icon-oae-${visibility}"></i>
+                                </div>
+                                <div>
+                                    <h1>${displayName|safeUserInput}</h1>
+                                    <i class="icon-caret-down"></i>
+                                </div>
+                            </button>
+                            <div>
+                                <ul>
+                                    <li><button><i class="icon-lock"></i>__MSG__PERMISSIONS__</button></li>
+                                    <li><button><i class="icon-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
+                                    <li><button><i class="icon-upload"></i>__MSG__UPLOAD_NEW_VERSION__</button></li>
+                                    <li><button><i class="icon-undo"></i>__MSG__REVISIONS__</button></li>
+                                    <li><button><i class="icon-trash"></i>__MSG__DELETE__</button></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                --></div>
+
+                <div class="pull-right">
+                    <div class="oae-clip oae-clip-flipped">
+                        <div class="oae-clip-fold">
+                            <div class="oae-clip-fold-inner"></div>
+                            <div class="oae-clip-fold-outer"></div>
+                        </div>
+                        <div class="oae-clip-content">
+                            <button>
+                                <div>
+                                    <i class="icon-share pull-left"></i>
+                                    <h1>__MSG__SHARE__</h1>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="oae-clip oae-clip-secondary oae-clip-flipped">
+                        <div class="oae-clip-fold">
+                            <div class="oae-clip-fold-inner"></div>
+                            <div class="oae-clip-fold-outer"></div>
+                        </div>
+                        <div class="oae-clip-content">
+                            <button>
+                                <div>
+                                    <i class="icon-comments pull-left"></i>
+                                    <h1>__MSG__COMMENT__</h1>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="content_preview_container"><!-- --></div>
+            <div data-widget="contentcomments"><!-- --></div>
+        </div>
+
+        <!-- FOOTER -->
+        <div data-widget="footer"><!-- --></div>
+
+        <!-- DEPENDENCIES -->
+        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/require-jquery.js"></script>
+        <!-- PAGE JS -->
+        <script>require(['/ui/js/content.js']);</script>
+
+    </body>
+</html>
+
+
+<!-- 
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <noscript>
+            <meta http-equiv="Refresh" content="1; URL=/noscript">
+        </noscript>
+
+        CORE CSS 
         <link rel="stylesheet" type="text/css" href="/ui/css/oae.main.css" />
-        <!-- PAGE CSS -->
+        <!-- PAGE CSS
         <link rel="stylesheet" type="text/css" href="/ui/css/oae.content.css" />
 
     </head>
     <body class="oae-centered oae-force-hidden oae-hidden">
 
-        <!-- HEADER -->
+        <!-- HEADER
         <div class="oae-container-flex header oae-header">
             <div class="oae-navigation-container">
-                <div data-widget="topnavigation"><!-- --></div>
+                <div data-widget="topnavigation"><!--</div>
             </div>
             <div class="oae-fix oae-centered fixed-container oae-fixed-container">
-                <div class="oae-container-shadow-left"><!-- --></div>
-                <div class="oae-container-shadow-right"><!-- --></div>
+                <div class="oae-container-shadow-left"><!--</div>
+                <div class="oae-container-shadow-right"><!--</div>
                 <div class="oae-page-header">
-                    <div id="oae_entity_container" class="oae-entity-container"><!-- --></div>
+                    <div id="oae_entity_container" class="oae-entity-container"><!--</div>
                     <div id="oae_entity_template"><!--
                         <div class="oae-force-right oae-entity-actions">
                             {if isManager}
@@ -51,28 +156,28 @@
                             <span class="oae-entity-title-secondary">__MSG__OTHER_DOCUMENT__</span>
                         </div>
                         <div class="oae-push"></div>
-                    --></div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- BODY -->
+        <!-- BODY
         <div class="oae-fix oae-centered fixed-container oae-main-container">
-            <div id="content_preview_container" class="oae-main-container-padding"><!-- --></div>
+            <div id="content_preview_container" class="oae-main-container-padding"><!--</div>
             <div id="content_profile_bottom_container">
-                <div id="widget_contentmetadata" class="widget_inline"><!-- --></div>
-                <div data-widget="contentcomments"><!-- --></div>
+                <div id="widget_contentmetadata" class="widget_inline"><!--</div>
+                <div data-widget="contentcomments"><!--/div>
             </div>
-            <div class="oae-bottom-spacer"><!-- --></div>
+            <div class="oae-bottom-spacer"><!--</div>
         </div>
 
-        <!-- FOOTER -->
-        <div data-widget="footer"><!-- --></div>
+        <!-- FOOTER
+        <div data-widget="footer"><!--</div>
 
-        <!-- DEPENDENCIES -->
+        <!-- DEPENDENCIES
         <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/require-jquery.js"></script>
-        <!-- PAGE JS -->
+        <!-- PAGE JS
         <script>require(['/ui/js/content.js']);</script>
 
     </body>
-</html>
+</html> -->

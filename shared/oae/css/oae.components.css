@@ -126,12 +126,13 @@ a.oae-plain-link:hover {
     background-color: #C4E6FF;
     content: "\f041";
     width: 16px;
+    padding-left: 1px;
 }
 
 .icon-oae-public:before {
     background-color: #A6E0AB;
     content: "\f0ac";
-    width: 18px;
+    padding-left: 1px;
 }
 
 
@@ -206,6 +207,7 @@ a.oae-plain-link:hover {
  * - The `icon-caret-down` element is optional. If it is not provided, the clip will be shown in view
  *   only mode. If it is provided, the clip will be toggleable and the action menu will be shown when clicked.
  * - The `small` tag is used to show some additional clip metadata and is optional
+ * - TODO: Document `oae-clip-viewonly`
  */
 
 /* Clip container */
@@ -287,6 +289,10 @@ a.oae-plain-link:hover {
     text-align: left;
 }
 
+.oae-clip .oae-clip-content button.oae-clip-viewonly {
+    cursor: default;
+}
+
 .oae-clip .oae-clip-content button div {
     display: table-cell;
 }
@@ -311,6 +317,11 @@ a.oae-plain-link:hover {
 .oae-clip .oae-clip-content button i.icon-caret-down,
 .oae-clip .oae-clip-content button i.icon-caret-up {
     margin-left: 10px;
+}
+
+.oae-clip .oae-clip-content button.oae-clip-viewonly i.icon-caret-down,
+.oae-clip .oae-clip-content button.oae-clip-viewonly i.icon-caret-up {
+    display: none;
 }
 
 .oae-clip .oae-clip-content button h1 {
