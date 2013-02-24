@@ -217,6 +217,10 @@ a.oae-plain-link:hover {
     position: relative;
 }
 
+.pull-right .oae-clip:last-child {
+    margin-right: 50px;
+}
+
 /* Clip fold */
 
 .oae-clip .oae-clip-fold {
