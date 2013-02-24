@@ -26,6 +26,8 @@ requirejs.config({
 
         'jquery.ba-bbq': 'vendor/js/jquery-plugins/jquery.ba-bbq',
         'jquery.ba-hashchange': 'vendor/js/jquery-plugins/jquery.ba-hashchange',
+        'jquery.clip': 'vendor/js/jquery-plugins/jquery.clip',
+        'jquery.list-options': 'vendor/js/jquery-plugins/jquery.list-options',
         'jquery.contentchange': 'vendor/js/jquery-plugins/jquery.contentchange.sakai-edited',
         'jquery.equal-height-columns': 'vendor/js/jquery-plugins/jquery.equal-height-columns',
         'jquery.fileSize': 'vendor/js/jquery-plugins/jquery.fileSize',
@@ -37,6 +39,7 @@ requirejs.config({
         'jquery.iframe-transport': 'vendor/js/jquery-plugins/jquery.iframe-transport',
         'jquery.timeago': 'vendor/js/jquery-plugins/jquery.timeago',
         'jquery.fileupload': 'vendor/js/jquery-plugins/jquery.fileupload',
+        'jquery.dnd-upload': 'vendor/js/jquery-plugins/jquery.dnd-upload',
         'jquery.autoSuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest.sakai-edited',
         'jquery.jeditable': 'vendor/js/jquery-plugins/jquery.jeditable.sakai-edited',
         'jquery-ui': 'vendor/js/jquery-ui.custom',

@@ -172,11 +172,30 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 }
 
 
-/*****************
- ** SEARCH VIEW **
- ****************/
+/******************
+ ** LIST OPTIONS **
+ *****************/
 
-.search-view-container .btn i {
+.oae-list-options > div:first-child > * {
+    margin-right: 7px;
+}
+
+.btn.oae-list-options-toggle {
+    color: #333;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.btn.oae-list-options-toggle i {
+    color: #333;
+}
+
+.oae-list-options button i[class^="icon-"],
+.oae-list-options button i[class*=" icon-"] {
+    font-size: 18px;
+}
+
+.oae-list-options .search-view-container .btn i {
     color: #666;
     font-size: 12px;
 }
