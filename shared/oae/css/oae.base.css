@@ -171,6 +171,10 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     clear: both;
 }
 
+.oae-main-content > div {
+    clear: both;
+}
+
 
 /******************
  ** LIST OPTIONS **

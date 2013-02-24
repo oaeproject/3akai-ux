@@ -170,9 +170,9 @@ body, button, input, select, textarea, a.oae-plain-link {
 
 .oae-clip button:hover,
 .oae-clip button:focus,
-.oae-clip .oae-clip-content i:hover {
+.oae-clip button:hover i,
+.oae-clip button:focus i {
     color: #FFF;
-    border-color: 1px dotted #FFF;
 }
 
 .oae-clip ul li button:hover {
@@ -208,7 +208,8 @@ body, button, input, select, textarea, a.oae-plain-link {
 
 .oae-clip.oae-clip-secondary button:hover,
 .oae-clip.oae-clip-secondary button:focus,
-.oae-clip.oae-clip-secondary .oae-clip-content i:hover {
+.oae-clip.oae-clip-secondary button:hover i,
+.oae-clip.oae-clip-secondary button:focus i {
     color: #FFF;
 }
 

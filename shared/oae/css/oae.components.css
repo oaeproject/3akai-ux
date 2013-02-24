@@ -213,7 +213,7 @@ a.oae-plain-link:hover {
 
 .oae-clip {
     float: left;
-    margin: -15px 10px 10px;
+    margin: -16px 10px 10px;
     position: relative;
 }
 
@@ -280,7 +280,7 @@ a.oae-plain-link:hover {
     border: none;
     font-weight: 600;
     min-height: 30px;
-    padding: 10px 14px 14px;
+    padding: 14px 20px 14px 14px;
     text-align: left;
 }
 
@@ -308,7 +308,6 @@ a.oae-plain-link:hover {
 .oae-clip .oae-clip-content button i.icon-caret-down,
 .oae-clip .oae-clip-content button i.icon-caret-up {
     margin-left: 10px;
-    margin-right: 10px;
 }
 
 .oae-clip .oae-clip-content button h1 {
@@ -317,6 +316,8 @@ a.oae-plain-link:hover {
     line-height: 1;
     margin: 0;
     font-weight: 600;
+    max-width: 500px;
+    word-wrap: break-word;
 }
 
 .oae-clip .oae-clip-content small {

@@ -52,8 +52,6 @@ define([
         'jquery.ba-hashchange',
         'jquery.clip',
         'jquery.list-options',
-        'jquery.contentchange',
-        'jquery.equal-height-columns',
         'jquery.fileSize',
         'jquery.form',
         'jquery.infinitescroll',
