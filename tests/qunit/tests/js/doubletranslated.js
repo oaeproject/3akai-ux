@@ -1,83 +1,28 @@
-require(
-    [
-        'jquery',
-        'oae.core',
-        'qunitjs',
-        '../js/util.js',
-        '../js/jshint.js'
-    ], function($, oae) {
+/*!
+ * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ *     http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+require(['jquery', 'oae.core', '../js/util.js', '../js/jshint.js', 'qunitjs'], function($, oae, util) {
 
         module("Double Translation Keys");
 
-        var changeToJSON = function(input) {
-            var json = {};
-            var inputLine = input.split(/\n/);
-            var i;
-            for (i in inputLine) {
-                // IE 8 i has indexof as well which breaks the page.
-                if (inputLine.hasOwnProperty(i)) {
-                    var keyValuePair = inputLine[i].split(/\=/);
-                    var key = $.trim(keyValuePair.shift());
-                    var value = $.trim(keyValuePair.join('='));
-                    json[key] = value;
-                }
-            }
-            return json;
-        }
-
         /**
-         * Retrieves the bundle files from widgets
+         * Checks if there are keys in the system that are defined twice or more.
+         * @param  {Array}     An Array of objects containing bundles and translations
+         * @param  {String}    The widget ID of the widget that holds the key
+         * @param  {String}    The key to check
          */
-        var getWidgetBundles = function(widgetBundles, callback) {
-            var widgetsToDo = 0;
-
-            /**
-             * Gets the bundles for a widget
-             */
-            var getBundles = function(widgetBundle) {
-                var bundlesToDo = 0;
-
-                /**
-                 * Gets the individual bundles in a widget
-                 */
-                var getBundle = function() {
-                    $.ajax({
-                        dataType: 'text',
-                        url: '/node_modules/oae-core/' + widgetBundle.id + '/bundles/default.properties',
-                        success: function(data) {
-                            widgetBundles[widgetsToDo].i18n = widgetBundles[widgetsToDo].i18n || [];
-                            widgetBundles[widgetsToDo].i18n['default'] = changeToJSON(data);
-                            bundlesToDo++;
-                            if (bundlesToDo === widgetBundle.bundles.length) {
-                                widgetsToDo++;
-                                if (widgetsToDo !== widgetBundles.length) {
-                                    getBundles(widgetBundles[widgetsToDo]);
-                                } else {
-                                    $.ajax({
-                                        dataType: 'text',
-                                        url: '/ui/bundles/default.properties',
-                                        success: function(data) {
-                                            widgetBundles[widgetsToDo] = {};
-                                            widgetBundles[widgetsToDo].i18n = {};
-                                            widgetBundles[widgetsToDo].id = 'default bundle';
-                                            widgetBundles[widgetsToDo].i18n['default'] = changeToJSON(data);
-                                            callback(widgetBundles);
-                                        }
-                                    });
-                                }
-                            } else {
-                                getBundle();
-                            }
-                        }
-                    });
-                };
-
-                getBundle();
-            };
-
-            getBundles(widgetBundles[0]);
-        };
-
         var checkForDoubleKey = function(widgetBundles, widgetId, key) {
             var doubleKeys = [];
             $.each(widgetBundles, function(i, widget) {
@@ -103,18 +48,7 @@ require(
         var doubleTranslationKeysTest = function(widgets) {
             QUnit.load();
 
-            var widgetBundles = [];
-            $.each(widgets, function(i, widget) {
-                var widgetObj = {'id': widget.id, 'bundles': []};
-                $.each(widget.i18n, function(i, bundle) {
-                    if (i === 'default') {
-                        widgetObj.bundles.push(i);
-                    }
-                });
-                widgetBundles.push(widgetObj);
-            });
-
-            getWidgetBundles(widgetBundles, function(widgetBundles) {
+            util.loadWidgetBundles(widgets, function(widgetBundles) {
                 $.each(widgetBundles, function(i, widget) {
                     if (widget.id) {
                         QUnit.test(widget.id, function() {
@@ -129,8 +63,6 @@ require(
             });
         };
 
-        $(window).on('widgetsdone.qunit.oae', function(ev, widgets) {
-            doubleTranslationKeysTest(widgets);
-        });
+        util.loadWidgets(doubleTranslationKeysTest);
     }
 );
