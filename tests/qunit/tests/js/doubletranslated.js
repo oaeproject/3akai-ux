@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae.core', '../js/util.js', '../js/jshint.js', 'qunitjs'], function($, oae, util) {
+require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, util) {
 
         module("Double Translation Keys");
 

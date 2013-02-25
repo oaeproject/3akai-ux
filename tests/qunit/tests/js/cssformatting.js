@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae.core', '../js/util.js', 'qunitjs', '../js/jshint.js'], function($, oae, util) {
+require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, util) {
 
         module("CSS Formatting");
 
