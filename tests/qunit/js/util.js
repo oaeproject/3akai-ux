@@ -15,6 +15,9 @@
 
 define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
 
+    var tests = [];
+    var currentTest = false;
+
     var changeToJSON = function(input) {
         var json = {};
         var inputLine = input.split(/\n/);
@@ -107,5 +110,47 @@ define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
             }
         });
     };
+
+
+
+
+
+    /**
+     * Run an individual test
+     *
+     * @param {Object} test The test to run, should be in format
+     * {url:'tests/mytest.html', title: 'My Test'}
+     */
+    var runTest = function(test) {
+        currentTest = test;
+        var $iframe = $('<iframe/>');
+        $('#tests_run_all_container').append($iframe);
+        $iframe.attr('src', test.url);
+        startTime = new Date();
+    };
+
+    /**
+     * runAllTests populates the tests array with any link in the index.html file
+     * that contains a test class. It will then kick off the first test.
+     */
+    var runAllTests = function() {
+        var $tests = $('a.test');
+        $.each($tests, function(i, val) {
+            tests.push({
+                'url': $(val).attr('href'),
+                'title': $(val).text()
+            });
+        });
+
+        tests.reverse();
+
+        $('#tests_run_all_container').empty();
+
+        $.each(tests, function() {
+            runTest(tests.pop());
+        });
+    };
+
+    $(document).on('click', '#tests_run_all', runAllTests);
 
 });
