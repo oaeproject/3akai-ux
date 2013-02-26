@@ -13,9 +13,10 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
+define(['exports', 'jquery', 'qunitjs', 'oae.core'], function(exports, $, oae) {
 
     var tests = [];
+    var testResults = {};
     var currentTest = false;
 
     var changeToJSON = function(input) {
@@ -111,9 +112,24 @@ define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
         });
     };
 
+    /**
+     * QUnit calls this function when it has completed all of its tests
+     * We simply define the function and it gets called
+     */
+    QUnit.done = function(completed) {
+        var location = window.location.href.split('/');
+        location = location[location.length-1];
+        testDone({
+            'url': location,
+            'failed': completed.failed,
+            'passed': completed.passed,
+            'total': completed.total
+        });
+    };
 
-
-
+    var testDone = function(results) {
+        parent.$(parent.document).trigger('tests.qunit.done', results);
+    };
 
     /**
      * Run an individual test
@@ -124,7 +140,7 @@ define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
     var runTest = function(test) {
         currentTest = test;
         var $iframe = $('<iframe/>');
-        $('#tests_run_all_container').append($iframe);
+        $('#tests-run-all-container').append($iframe);
         $iframe.attr('src', test.url);
         startTime = new Date();
     };
@@ -134,6 +150,15 @@ define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
      * that contains a test class. It will then kick off the first test.
      */
     var runAllTests = function() {
+
+        $(document).off('tests.qunit.done').on('tests.qunit.done', function(ev, results) {
+            testResults[results.url] = testResults[results.url] || {};
+            $.extend(testResults[results.url], results);
+            if (tests.length) {
+                runTest(tests.pop());
+            }
+        });
+
         var $tests = $('a.test');
         $.each($tests, function(i, val) {
             tests.push({
@@ -144,11 +169,9 @@ define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
 
         tests.reverse();
 
-        $('#tests_run_all_container').empty();
+        $('#tests-run-all-container').empty();
 
-        $.each(tests, function() {
-            runTest(tests.pop());
-        });
+        runTest(tests.pop());
     };
 
     $(document).on('click', '#tests_run_all', runAllTests);
