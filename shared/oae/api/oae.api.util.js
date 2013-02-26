@@ -148,7 +148,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         data['oae'] = require('oae.core');
         // Make underscore available
         data['_'] = require('underscore');
-        // Ensure jQuery is available
+        
+        // Ensure jQuery is available. Since there is a version of jQuery in the global scope, ensure use of
+        // either jQuery or $ do not pick up the global-scope on inadvertently.
+        data['jQuery'] = require('jquery');
         data['$'] = require('jquery');
 
         // Add the Trimpath modifiers onto the data object.

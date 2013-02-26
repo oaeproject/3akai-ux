@@ -1,7 +1,25 @@
-module.exports = function(grunt) {
+/*!
+ * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ *     http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
 
-    var shell = require('shelljs');
-    var vm = require('vm');
+var shell = require('shelljs');
+var util = require('util');
+var vm = require('vm');
+
+var HASHED_EXTENSIONS = ['bmp', 'css', 'gif', 'html', 'jpeg', 'jpg', 'js', 'png', 'svg', 'tiff'];
+
+module.exports = function(grunt) {
 
     // Project configuration.
     grunt.initConfig({
@@ -80,14 +98,11 @@ module.exports = function(grunt) {
                         ],
 
                         // Rename and hash these files
-                        files: [
-                            'target/optimized/shared/**/*.js',
-                            'target/optimized/shared/**/*.css',
-                            'target/optimized/ui/**/*.js',
-                            'target/optimized/ui/**/*.css',
-                            'target/optimized/admin/**/*.js',
-                            'target/optimized/admin/**/*.css'
-                        ],
+                        files: _hashFiles([
+                            'target/optimized/shared',
+                            'target/optimized/ui',
+                            'target/optimized/admin'
+                        ], ['html']),
 
                         // Exclude these files from being renamed/hashed
                         excludeFiles: [
@@ -103,7 +118,11 @@ module.exports = function(grunt) {
                             'target/optimized/ui/**/*.css',
                             'target/optimized/admin/**/*.html',
                             'target/optimized/admin/**/*.js',
-                            'target/optimized/admin/**/*.css'
+                            'target/optimized/admin/**/*.css',
+                            'target/optimized/node_modules/oae-*/**/*.html',
+                            'target/optimized/node_modules/oae-*/**/*.js',
+                            'target/optimized/node_modules/oae-*/**/*.css',
+                            'target/optimized/node_modules/oae-*/**/*.json'
                         ]
                     }
                 ],
@@ -163,11 +182,7 @@ module.exports = function(grunt) {
             grunt.log.writeln(module);
             var conf = {
                 folders: [ module + 'bundles' ],
-                files: [
-                    module + '**/*.html',
-                    module + '**/*.js',
-                    module + '**/*.css'
-                ],
+                files: _hashFiles([module]),
                 references: [
                     module + '**/*.html',
                     module + '**/*.js',
@@ -217,4 +232,26 @@ module.exports = function(grunt) {
 
     // Default task.
     grunt.registerTask('default', 'clean describe requirejs inlineImg hashFiles writeVersion configNginx');
+};
+
+/**
+ * Generating the glob expressions to match all files that have extensions that are supposed to be hashed (as defined
+ * by `HASHED_EXTENSIONS`). You can optionally exclude extensions for special cases.
+ *
+ * @param  {String[]}   directories     The list of directories whose files to hash
+ * @param  {String[]}   [excludeExts]   The extensions to exclude from the list of `HASHED_EXTENSIONS`, IF ANY
+ * @return {String[]}                   An array of glob expressions that match the files to hash in the directories
+ * @api private
+ */
+var _hashFiles = function(directories, excludeExts) {
+    excludeExts = excludeExts || [];
+    var globs = [];
+    directories.forEach(function(directory) {
+        HASHED_EXTENSIONS.forEach(function(ext) {
+            if (excludeExts.indexOf(ext) === -1) {
+                globs.push(util.format('%s/**/*.%s', directory, ext));
+            }
+        });
+    });
+    return globs;
 };

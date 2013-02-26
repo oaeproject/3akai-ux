@@ -59,7 +59,7 @@ requirejs.config({
         'oae.api.util': 'oae/api/oae.api.util',
         'oae.api.widget': 'oae/api/oae.api.widget',
         'oae.core': 'oae/api/oae.core',
-        'pluginBuilder': 'oae/api/pluginBuilder',
+        'pluginBuilder': 'oae/pluginBuilder',
 
         'trimpath': 'vendor/js/trimpath',
         'underscore': 'vendor/js/underscore'
