@@ -46,8 +46,6 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
          * @param  {Object}   widgets    Object containing the manifests of all widgets in node_modules/oae-core.
          */
         var doubleTranslationKeysTest = function(widgets) {
-            QUnit.load();
-
             util.loadWidgetBundles(widgets, function(widgetBundles) {
                 $.each(widgetBundles, function(i, widget) {
                     if (widget.id) {
@@ -64,5 +62,7 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
         };
 
         util.loadWidgets(doubleTranslationKeysTest);
+
+        QUnit.load();
     }
 );
