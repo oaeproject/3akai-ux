@@ -148,7 +148,6 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
                             'index',
                             'me',
                             'noscript',
-                            'register',
                             'search',
                             'user'];
             $.each(coreHTML, function(ii, coreHTMLFile) {
