@@ -36,7 +36,7 @@ body, button, input, select, textarea {
 
 /* DEFAULT LINK STYLE */
 
-a:hover, .btn-link:hover {
+a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     text-decoration: none;
 }
 
@@ -70,10 +70,10 @@ a:hover, .btn-link:hover {
 
 .dropdown-menu {
     padding: 10px;
-    background: -moz-linear-gradient(top, #fff 5%, #f5f5f5 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(5%,#fff), color-stop(100%,#f5f5f5));
-    background: -webkit-linear-gradient(top, #fff 5%,#f5f5f5 100%);
-    background: linear-gradient(to bottom, #fff 5%,#f5f5f5 100%);
+    background: -moz-linear-gradient(top, #FFF 5%, #F5F5F5 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(5%,#FFF), color-stop(100%,#F5F5F5));
+    background: -webkit-linear-gradient(top, #FFF 5%,#F5F5F5 100%);
+    background: linear-gradient(to bottom, #FFF 5%,#F5F5F5 100%);
     -webkit-border-radius: 5px;
        -moz-border-radius: 5px;
             border-radius: 5px;
@@ -123,10 +123,10 @@ a:hover, .btn-link:hover {
 }
 
 .label-important, .badge-important {
-    background: -moz-linear-gradient(top,  #a90329 0%, #8f0222 44%, #6d0019 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a90329), color-stop(44%,#8f0222), color-stop(100%,#6d0019)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  #a90329 0%,#8f0222 44%,#6d0019 100%); /* Chrome10+,Safari5.1+ */
-    background: linear-gradient(to bottom,  #a90329 0%,#8f0222 44%,#6d0019 100%); /* W3C */
+    background: -moz-linear-gradient(top,  #A90329 0%, #8F0222 44%, #6D0019 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#A90329), color-stop(44%,#8F0222), color-stop(100%,#6D0019));
+    background: -webkit-linear-gradient(top,  #A90329 0%,#8F0222 44%,#6D0019 100%);
+    background: linear-gradient(to bottom,  #A90329 0%,#8F0222 44%,#6D0019 100%);
 }
 
 /* 3RD PARTY LOGIN */
@@ -166,8 +166,36 @@ a:hover, .btn-link:hover {
     -webkit-box-shadow: 0 2px 4px #DBDBDB;
        -moz-box-shadow: 0 2px 4px #DBDBDB;
             box-shadow: 0 2px 4px #DBDBDB;
-    overflow: hidden;
-    padding: 1%;
+    padding: 10px;
     min-height: 400px;
     clear: both;
+}
+
+
+/******************
+ ** LIST OPTIONS **
+ *****************/
+
+.oae-list-options > div:first-child > * {
+    margin-right: 7px;
+}
+
+.btn.oae-list-options-toggle {
+    color: #333;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.btn.oae-list-options-toggle i {
+    color: #333;
+}
+
+.oae-list-options button i[class^="icon-"],
+.oae-list-options button i[class*=" icon-"] {
+    font-size: 18px;
+}
+
+.oae-list-options .search-view-container .btn i {
+    color: #666;
+    font-size: 12px;
 }

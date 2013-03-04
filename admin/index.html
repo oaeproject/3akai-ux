@@ -6,42 +6,40 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-        <!-- BOOTSTRAP CSS -->
-        <link href="/shared/vendor/css/bootstrap.css" type="text/css" rel="stylesheet"/>
+        <!-- CORE CSS -->
+        <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
         <!-- PAGE CSS -->
-        <link href="/admin/css/admin.css" type="text/css" rel="stylesheet"/>
+        <link rel="stylesheet" type="text/css" href="/admin/css/admin.css" />
 
     </head>
     <body>
 
-        <div id="admin_header_container" class="container-fluid"><!-- --></div>
+        <div id="admin-header-container"><!-- --></div>
 
-        <div class="container-fluid" id="admin_fluid_container">
+        <div id="admin-content-container">
             <div class="row-fluid">
-                <div class="span2" id="admin_lhnav_container" style="display: none;"><!-- --></div>
-                <div class="span10" id="admin_content">
+                <div id="admin-lhnav-container" class="span2 hide"><!-- --></div>
+                <div id="admin-content" class="span10">
                     <!-- Unauthorized access -->
-                    <div id="admin_unauthorized_container" style="display: none;">
+                    <div id="admin-unauthorized-container" class="hide">
                         <h3 class="text-error">You are not authorized to view this page.</h3>
                     </div>
                     <!-- Login -->
-                    <div id="admin_login_container" style="display: none;">
+                    <div id="admin-login-container" class="hide">
                         <h2>Sign in to the OAE Administration Panel</h2>
                         <div>
-                            <div id="admin_login" class="admin_login_container">
-                                <form id="admin_login_form" form method="POST" class="form-horizontal">
+                            <div id="admin-login" class="admin-login-container">
+                                <form id="admin-login-form" form method="POST" class="form-horizontal">
                                     <div class="control-group">
-                                        <label for="admin_login_form_name" class="control-label">Name</label>
+                                        <label for="admin-login-form-name" class="control-label">Name</label>
                                         <div class="controls">
-                                            <input type="text" id="admin_login_form_name" name="username" class="required"/>
-                                            <span id="admin_login_form_name_error" class="help-inline"></span>
+                                            <input type="text" id="admin-login-form-name" name="username" class="required"/>
                                         </div>
                                     </div>
                                     <div class="control-group">
-                                        <label for="admin_login_form_password" class="control-label">Password</label>
+                                        <label for="admin-login-form-password" class="control-label">Password</label>
                                         <div class="controls">
-                                            <input type="password" id="admin_login_form_password" name="password" class="required"/>
-                                            <span class="help-inline"></span>
+                                            <input type="password" id="admin-login-form-password" name="password" class="required"/>
                                         </div>
                                     </div>
                                     <div class="control-group">
@@ -53,22 +51,39 @@
                             </div>
                         </div>
                     </div>
-
-                    <div id="admin_views">
-                        <div id="admin_tenants_container" style="display: none;"><!-- --></div>
-                        <div id="admin_modules_container" style="display: none;"><!-- --></div>
+    
+                    <div id="admin-views">
+                        <div id="admin-tenants-container" class="hide"><!-- --></div>
+                        <div id="admin-modules-container" class="hide"><!-- --></div>
                     </div>
-
-                    <div id="admin_error_container"><!-- --></div>
-                    <div id="admin_warning_container"><!-- --></div>
-                    <div id="admin_success_container"><!-- --></div>
-                    <div id="admin_confirmation_container"><!-- --></div>
+    
+                    <div id="admin-error-container"><!-- --></div>
+                    <div id="admin-warning-container"><!-- --></div>
+                    <div id="admin-success-container"><!-- --></div>
+                    <div id="admin-confirmation-container"><!-- --></div>
                 </div>
             </div>
         </div>
-        <div id="admin_footer_container" class="container-fluid"><!-- --></div>
+        <div id="admin-footer-container"><!-- --></div>
 
-        <div id="admin_lhnav_template"><!--
+        <div id="admin-header-template"><!--
+            <div class="row-fluid">
+                <div class="span12" id="admin-header-content">
+                    {if !oae.data.me.anon}
+                        <div id="admin-header-user" class="pull-right">
+                            <button type="button" class="btn btn-inverse" id="admin-header-user-logout">Log out</button>
+                        </div>
+                    {/if}
+                    {if context.isGlobalAdminServer && !context.host}
+                        <h1>Global administration UI</h1>
+                    {else}
+                        <h1>${context.name}</h1>
+                    {/if}
+                </div>
+            </div>
+        --></div>
+
+        <div id="admin-lhnav-template"><!--
             <ul class="nav nav-list">
                 <li class="nav-header">Configuration</li>
                 <li id="configurationtenants">
@@ -86,53 +101,30 @@
             </ul>
         --></div>
 
-        <div id="admin_header_template" style="display: none;"><!--
+        <div id="admin-footer-template"><!--
             <div class="row-fluid">
-                <div class="span1"></div>
-                <div class="span10" id="admin_header_content">
-                    {if !oae.data.me.anon}
-                        <div id="admin_header_user">
-                            <span>Hi, ${oae.data.me.displayName}</span>
-                            <button type="button" class="btn btn-inverse" id="admin_header_user_logout">Log out</button>
-                        </div>
-                    {/if}
-                    {if context.isGlobalAdminServer && !context.host}
-                        <h1>Global administration UI</h1>
-                    {else}
-                        <h1>Tenant administration UI</h1>
-                    {/if}
-                </div>
-            </div>
-        --></div>
-
-        <div id="admin_footer_template" style="display: none;"><!--
-            <div class="row-fluid">
-                <div class="span1"></div>
-                <div class="span10" id="admin_footer_content">
-                    <div class="footer_column first"></div>
+                <div class="span12" id="admin-footer-content">
                     {if !oae.data.me.anon && context.isGlobalAdminServer}
-                        <div class="footer_column tenants">
-                            <ul>
-                                <li>
-                                    <a href="/" title="Global administration">Global administration</a>
-                                </li>
-                                {for tenant in tenants}
-                                    {if tenant.alias}
-                                        <li>
-                                            <a href="/tenant/${tenant.alias}" title="${tenant.name} administration">${tenant.name}</a>
-                                        </li>
-                                    {/if}
-                                {/for}
-                            </ul>
-                        </div>
+                        <ul class="inline">
+                            <li>
+                                <a href="/" title="Global administration">Global administration</a>
+                            </li>
+                            {for tenant in tenants}
+                                {if tenant.alias}
+                                    <li>
+                                        <a href="/tenant/${tenant.alias}" title="${tenant.name} administration">${tenant.name}</a>
+                                    </li>
+                                {/if}
+                            {/for}
+                        </ul>
                     {/if}
                 </div>
             </div>
         --></div>
 
-        <div id="admin_tenants_template"><!--
+        <div id="admin-tenants-template"><!--
             {var isMainGlobalAdmin = context.isGlobalAdminServer && !context.host}
-            <h2>Tenants<a href="#configurationtenants" class="anchor_section">#</a></h2>
+            <h2>Tenants</h2>
             {if _.keys(tenants).length > 0}
                 <table class="table table-striped">
                     <tr>
@@ -146,9 +138,9 @@
                         <th>
                             {if isMainGlobalAdmin}
                                 {if hasStoppedServer}
-                                    <button type="button" class="btn btn-success start_all_tenants">Start all</button>
+                                    <button type="button" class="btn btn-success start-all-tenants">Start all</button>
                                 {else}
-                                    <button type="button" class="btn btn-warning stop_all_tenants">Stop all</button>
+                                    <button type="button" class="btn btn-warning stop-all-tenants">Stop all</button>
                                 {/if}
                             {/if}
                         </th>
@@ -165,7 +157,7 @@
                                 {/if}
                                 <td>${tenant.alias}</td>
                                 {if oae.data.me.isGlobalAdmin}
-                                    <td class="jeditable_container"><div class="jeditable_field" data-alias="${tenant.alias}">${tenant.name}</div></td>
+                                    <td class="jeditable-container"><div class="jeditable-field" data-alias="${tenant.alias}">${tenant.name}</div></td>
                                 {else}
                                     <td>${tenant.name}</td>
                                 {/if}
@@ -180,20 +172,20 @@
                                 <td>
                                     {if true || oae.data.me.isGlobalAdmin}
                                         {if tenant.active}
-                                            <button type="button" class="btn btn-warning stop_tenant" data-alias="${tenant.alias}" data-name="${tenant.name}">Stop</button>
+                                            <button type="button" class="btn btn-warning stop-tenant" data-alias="${tenant.alias}" data-name="${tenant.name}">Stop</button>
                                         {else}
-                                            <button type="button" class="btn btn-success start_tenant" data-alias="${tenant.alias}" data-name="${tenant.name}">Start</button>
+                                            <button type="button" class="btn btn-success start-tenant" data-alias="${tenant.alias}" data-name="${tenant.name}">Start</button>
                                         {/if}
                                     {/if}
                                 </td>
                                 <td>
                                     {if oae.data.me.isGlobalAdmin}
-                                        <button type="button" class="btn btn-danger delete_tenant" data-alias="${tenant.alias}" data-name="${tenant.name}">Delete</button>
+                                        <button type="button" class="btn btn-danger delete-tenant" data-alias="${tenant.alias}" data-name="${tenant.name}">Delete</button>
                                     {/if}
                                 </td>
                                 <td>
                                     {if oae.data.me.isGlobalAdmin}
-                                        <button type="button" class="btn btn-primary login_tenant" data-alias="${tenant.alias}">Login</button>
+                                        <button type="button" class="btn btn-primary login-tenant" data-alias="${tenant.alias}">Login</button>
                                     {/if}
                                 </td>
                             </tr>
@@ -204,38 +196,35 @@
                 <p class="text-warning">There are no tenants.</p>
             {/if}
             {if isMainGlobalAdmin}
-                <div class="container-striped">
+                <div class="admin-container-striped">
                     <div>
-                        <button id="createtenant_toggle_button" type="button" class="btn">
+                        <button id="createtenant-toggle-button" type="button" class="btn">
                             <i class="icon-plus" style="margin-right:12px;"></i>
                             Create a new tenant
                         </button>
-                        <div class="createtenant_container" style="display: none;">
-                            <form method="POST" id="createtenant_form" class="form-horizontal">
+                        <div class="createtenant-container" style="display: none;">
+                            <form method="POST" id="createtenant-form" class="form-horizontal">
                                 <div class="control-group">
-                                    <label for="createtenant_alias" class="control-label">Alias:</label>
+                                    <label for="createtenant-alias" class="control-label">Alias:</label>
                                     <div class="controls">
-                                        <input type="text" name="alias" id="createtenant_alias" placeholder="Alias" class="required"/>
-                                        <span class="help-inline"></span>
+                                        <input type="text" name="alias" id="createtenant-alias" placeholder="Alias" class="required"/>
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label for="createtenant_name" class="control-label">Name:</label>
+                                    <label for="createtenant-name" class="control-label">Name:</label>
                                     <div class="controls">
-                                        <input type="text" name="name" id="createtenant_name" placeholder="Name" class="required"/>
-                                        <span class="help-inline"></span>
+                                        <input type="text" name="name" id="createtenant-name" placeholder="Name" class="required"/>
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label for="createtenant_host" class="control-label">Host:</label>
+                                    <label for="createtenant-host" class="control-label">Host:</label>
                                     <div class="controls">
-                                        <input type="text" name="host" id="createtenant_host" placeholder="Host" class="required"/>
-                                        <span class="help-inline"></span>
+                                        <input type="text" name="host" id="createtenant-host" placeholder="Host" class="required"/>
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <div class="controls">
-                                        <button type="submit" id="createtenant_submit_button" class="btn btn-primary">Create new tenant</button>
+                                        <button type="submit" id="createtenant-submit-button" class="btn btn-primary">Create new tenant</button>
                                     </div>
                                 </div>
                             </form>
@@ -245,17 +234,16 @@
             {/if}
         --></div>
 
-        <div id="admin_modules_template" style="display:none;"><!--
-            <h2>Modules<a href="#configurationmodules" class="anchor_section">#</a></h2>
-            <div class="container-striped">
+        <div id="admin-modules-template"><!--
+            <div class="admin-container-striped">
                 {for module in schema}
-                    <div class="module_configuration_container">
-                        <button type="button" title="Edit the ${module.title}" class="module_configuration_toggle_button btn">
+                    <div class="admin-module-configuration-container">
+                        <button type="button" title="Edit the ${module.title}" class="admin-module-configuration-toggle-button btn">
                             <i class="icon-pencil" style="margin-right:12px;"></i>
                             ${module.title}
                         </button>
-                        <div class="module_configuration_container" style="display:none;">
-                            <form class="form-horizontal module_configuration_form" data-module="${module_index}">
+                        <div class="admin-module-configuration-container" style="display:none;">
+                            <form class="form-horizontal admin-module-configuration-form" data-module="${module_index}">
                                 {for option in module}
                                     {if option && option_index !== "title"}
                                         <h4>${option.name} <span style="display:none;">(${option.description})</span></h4>
@@ -265,7 +253,7 @@
                                             {var configValue = configuration[module_index][option_index][element_index]}
                                             {if element.type === "boolean"}
                                                 <div class="control-group">
-                                                    <input type="checkbox" id="${configPath}" name="${configPath}" {if configValue}checked="checked"{/if} class="module_config_checkbox" {if !tenantCanOverride} disabled="disabled"{/if}/>
+                                                    <input type="checkbox" id="${configPath}" name="${configPath}" {if configValue}checked="checked"{/if} class="admin-module-config-checkbox" {if !tenantCanOverride} disabled="disabled"{/if}/>
                                                     <label for="${configPath}">${element.description} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
                                                 </div>
                                             {elseif element.type === "text"}
@@ -309,7 +297,7 @@
 
         <!-- UTIL TEMPLATES AND CONTAINERS -->
 
-        <div id="admin_error_template" style="display:none;"><!--
+        <div id="admin-error-template"><!--
             <div class="alert alert-block alert-error fade in">
                 <button data-dismiss="alert" class="close" type="button">×</button>
                 {if error.title}
@@ -319,7 +307,7 @@
             </div>
         --></div>
 
-        <div id="admin_warning_template" style="display:none;"><!--
+        <div id="admin-warning-template"><!--
             <div class="alert alert-block fade in">
                 <button data-dismiss="alert" class="close" type="button">×</button>
                 {if warning.title}
@@ -329,7 +317,7 @@
             </div>
         --></div>
 
-        <div id="admin_success_template" style="display:none;"><!--
+        <div id="admin-success-template"><!--
             <div class="alert alert-block fade in success">
                 <button data-dismiss="alert" class="close" type="button">×</button>
                 {if success.title}
@@ -339,11 +327,11 @@
             </div>
         --></div>
 
-        <div id="admin_confirmation_template" style="display:none;"><!--
-            <div class="modal" id="${modal.id}" tabindex="-1" role="dialog" aria-labelledby="${modal.id}_label" aria-hidden="true">
+        <div id="admin-confirmation-template"><!--
+            <div class="modal" id="${modal.id}" tabindex="-1" role="dialog" aria-labelledby="${modal.id}-label" aria-hidden="true">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h3 id="${modal.id}_label">${modal.title}</h3>
+                    <h3 id="${modal.id}-label">${modal.title}</h3>
                 </div>
                 <div class="modal-body">
                     <p>${modal.message}</p>
@@ -352,7 +340,7 @@
                     {if modal.cancel}
                         <button class="btn" data-dismiss="modal" aria-hidden="true">${modal.cancel}</button>
                     {/if}
-                    <button class="btn {if modal.confirmclass} ${modal.confirmclass}{else} btn-primary{/if}" id="${modal.id}_confirm"
+                    <button class="btn {if modal.confirmclass} ${modal.confirmclass}{else} btn-primary{/if}" id="${modal.id}-confirm"
                         {for attr in modal.confirmdata}
                             data-${attr_index}="${attr}"
                         {/for}
@@ -363,10 +351,10 @@
 
         <!-- Hidden form that will be submitted for logging a global admin onto a tenant.
              This is done through a hidden form as this will be a cross-domain request -->
-        <form id="admin_tenant_login_form" class="hide" method="post">
-            <input type="hidden" name="expires" id="admin_tenant_login_form_expires" />
-            <input type="hidden" name="signature" id="admin_tenant_login_form_signature" />
-            <input type="hidden" name="userId" id="admin_tenant_login_form_userid" />
+        <form id="admin-tenant-login-form" class="hide" method="post">
+            <input type="hidden" name="expires" id="admin-tenant-login-form-expires" />
+            <input type="hidden" name="signature" id="admin-tenant-login-form-signature" />
+            <input type="hidden" name="userId" id="admin-tenant-login-form-userid" />
         </form>
 
         <!-- DEPENDENCIES -->

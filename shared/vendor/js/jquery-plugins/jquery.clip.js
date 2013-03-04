@@ -12,27 +12,17 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-.library_widget #results_header {
-    height: 21px;
-    line-height: 20px;
-}
 
-.library_widget #results_header .oae-search-bar input {
-    width: 500px;
-    margin-left: 12px;
-    width: 400px;
-}
+define(['jquery'], function ($) {
 
-.library_widget .oae-trigger-sharecontent {
-    margin-top: 1px;
-}
+    // Add click event handler that toggles the visibility of the menu items of a clip
+    $(document).on('click', '.oae-clip-content', function(ev) {
+        var $clip = $(this);
+        // Only do this in admin mode, so we check if a toggle icon is available
+        if ($('i.icon-caret-down, i.icon-caret-up', $clip).length > 0) {
+            $('ul', $clip).toggle();
+            $clip.find('i.icon-caret-down, i.icon-caret-up').toggleClass('icon-caret-down icon-caret-up');
+        }
+    });
 
-.library_widget h1.lead {
-    margin-top: 0;
-}
-
-.library_widget .oae-trigger-sharecontent i {
-    color: #666 !important;
-    font-size: 20px !important;
-    text-decoration: none;
-}
+});

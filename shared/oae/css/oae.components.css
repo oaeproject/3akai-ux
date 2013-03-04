@@ -43,6 +43,28 @@ a.oae-plain-link:hover {
     width: 1px;
 }
 
+
+/***************
+ ** THREEDOTS **
+ **************/
+
+/**
+ * Style that can be applied to text elements to make sure that the text in a text element 
+ * doesn't use more than the space it has available. If the text is shorter than the 
+ * available space, this will leave the text unchanged. If the text is longer than the available
+ * space, it will be cut off at its maximum length and will be appended with `...`. In order for
+ * this to work, the text element will need to have a maximum width set.
+ *    e.g. <span class="oae-threedots">Some very very long text</span>
+ */
+
+.oae-threedots {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
 /************
  ** PANELS **
  ************/
@@ -60,4 +82,643 @@ a.oae-plain-link:hover {
     -webkit-border-radius: 5px;
        -moz-border-radius: 5px;
             border-radius: 5px;
+}
+
+
+/**********************
+ ** VISIBILITY ICONS **
+ **********************/
+
+/**
+ * These icons are used consistently to indicate the visibility setting for an entity
+ * in the system. The available visibility privacy options are `private`, `loggedin` and
+ * `public`.
+ *   e.g. <i class="icon-oae-private"></i>
+ *        <i class="icon-oae-loggedin"></i>
+ *        <i class="icon-oae-public"></i>
+ */
+
+.icon-oae-private:before,
+.icon-oae-loggedin:before,
+.icon-oae-public:before {
+    -webkit-border-radius: 500px;
+       -moz-border-radius: 500px;
+            border-radius: 500px;
+    color: #313131;
+    font-size: 15px;
+    width: 17px;
+    height: 16px;
+    padding-top: 1px;
+    text-align: center;
+}
+
+/* 
+ * NOTE: Some of these icons are slightly differently positioned relative
+ * to each other, which is why we need to play around with widths and paddings 
+ * to get them visually centered in the visibility area
+ */
+.icon-oae-private:before {
+    background-color: #FFBC78;
+    content: "\f023";
+}
+
+.icon-oae-loggedin:before {
+    background-color: #C4E6FF;
+    content: "\f041";
+    width: 16px;
+    padding-right: 1px;
+}
+
+.icon-oae-public:before {
+    background-color: #A6E0AB;
+    content: "\f0ac";
+    width: 18px;
+}
+
+
+/************************
+ ** VISIBILITY AVATARS **
+************************/
+
+/**
+ * A visibility avatar is a combination of a thumbnail picture/profile picture and
+ * a visibility icon, which will come back consistently through the UI. The available
+ * visibility icons are `icon-oae-private`, `icon-oae-loggedin` and `icon-oae-public`.
+ *   e.g. <div class="oae-visibility-avatar">
+ *          <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian"/>
+ *          <i class="icon-oae-public"></i>
+ *        </div>
+ */
+
+.oae-visibility-avatar img + i[class^="icon-"] {
+    position: absolute;
+    margin: 20px 0 0 -25px;
+}
+
+
+/***********
+ ** CLIPS **
+***********/
+
+/**
+ * Clips are the elements that are used for page (entity) titles and page actions.
+ * They are folded onto the top of a container, which is usually the main page content
+ * container. Each clip can have a set of actions associated to it, which will automatically
+ * show when opening the clip through the dropdown icon.
+ * 
+ * The HTML structure required for creating a clip is the following:
+ * 
+ *  <div class="oae-clip">
+ *      <div class="oae-clip-fold">
+ *          <div class="oae-clip-fold-inner"></div>
+ *          <div class="oae-clip-fold-outer"></div>
+ *      </div>
+ *      <div class="oae-clip-content">
+ *          <button>
+ *              <div>
+ *                  <img src="/url/to/picture" alt="John Doe"/>
+ *              </div>
+ *              <div>
+ *                  <h1>John Doe</h1>
+ *                  <i class="icon-caret-down"></i>
+ *                  <small>Job Title</small>
+ *              </div>
+ *          </button>
+ *          <div>
+ *              <ul>
+ *                  <li><button><i class="icon-user"></i>Action 1</button></li>
+ *                  <li><button><i class="icon-envelope"></i>Action 2</button></li>
+ *                  <li><button type="button"><i class="icon-wrench"></i>Action 3</button></li>
+ *              </ul>
+ *          </div>
+ *      </div>
+ *  </div>
+ *
+ * Notes:
+ * 
+ * - The fold on a clip can be on the left of the clip or on the right of the clip. By default, the
+ *   fold will be on the right. When a fold on the left is required, an `oae-clip-flipped` class should
+ *   be added to the .`oae-clip` element.
+ * - Clips are available in two different skinnable styles. By default, the primary style will be used. If
+ *   the secundary style is needed, this can be done by adding an 'oae-clip-secondary' class to the
+ *   `.oae-clip` element.
+ * - The avatar image in the clip can be given a visibility icon by turning the div containing the image
+ *   into an `.oae-visibility-avatar` container and following the structure outlined there.
+ * - The `icon-caret-down` element is optional. If it is not provided, the clip will be shown in view
+ *   only mode. If it is provided, the clip will be toggleable and the action menu will be shown when clicked.
+ * - The `small` tag is used to show some additional clip metadata and is optional
+ */
+
+/* Clip container */
+
+.oae-clip {
+    float: left;
+    margin: -15px 10px 10px;
+    position: relative;
+}
+
+/* Clip fold */
+
+.oae-clip .oae-clip-fold {
+    height: 6px;
+    float: right;
+    margin-right: -7px;
+    position: relative;
+    width: 7px;
+    z-index: 10;
+}
+
+.oae-clip.oae-clip-flipped .oae-clip-fold {
+    float: left;
+    margin-left: -9px;
+}
+
+.oae-clip .oae-clip-fold .oae-clip-fold-inner {
+    border-radius: 50px 50px 0 0;
+    float: left;
+    height: 6px;
+    margin-left: -1px;
+    position: absolute;
+    width: 9px;
+    z-index: 1;
+}
+.oae-clip.oae-clip-flipped .oae-clip-fold .oae-clip-fold-inner {
+    margin-left: 0;
+}
+
+.oae-clip .oae-clip-fold .oae-clip-fold-outer {
+    float: right;
+    height: 6px;
+    margin-left: -5px;
+    position: absolute;
+    width: 7px;
+    z-index: 0;
+}
+.oae-clip.oae-clip-flipped .oae-clip-fold .oae-clip-fold-outer {
+    margin-left: 4px;
+}
+
+/* Clip content */
+
+.oae-clip .oae-clip-content {
+    -webkit-border-radius: 6px 0 6px 6px;
+       -moz-border-radius: 6px 0 6px 6px;
+            border-radius: 6px 0 6px 6px;
+    -webkit-box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
+       -moz-box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
+}
+
+.oae-clip.oae-clip-flipped .oae-clip-content {
+    -webkit-border-radius: 0 6px 6px;
+       -moz-border-radius: 0 6px 6px;
+            border-radius: 0 6px 6px;
+}
+
+.oae-clip .oae-clip-content button {
+    background: none;
+    border: none;
+    font-weight: 600;
+    min-height: 30px;
+    padding: 10px 14px 14px;
+    text-align: left;
+}
+
+.oae-clip .oae-clip-content button div {
+    display: table-cell;
+}
+
+.oae-clip .oae-clip-content button div,
+.oae-clip .oae-clip-content button i,
+.oae-clip .oae-clip-content button h1 {
+    vertical-align: middle;
+}
+
+.oae-clip .oae-clip-content button img {
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.35);
+    float: left;
+    max-height: 35px;
+    width: 35px;
+    margin-right: 12px;
+}
+
+.oae-clip .oae-clip-content button i.icon-caret-down,
+.oae-clip .oae-clip-content button i.icon-caret-up {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.oae-clip .oae-clip-content button h1 {
+    display: inline-block;
+    font-size: 16px;
+    line-height: 1;
+    margin: 0;
+    font-weight: 600;
+}
+
+.oae-clip .oae-clip-content small {
+    clear: both;
+    display: block;
+    font-size: 12px;
+    font-weight: normal;
+    white-space: nowrap;
+}
+
+/* Clip actions */
+
+.oae-clip .oae-clip-content ul {
+    list-style: none;
+    margin: 0 10px;
+    display: none;
+}
+
+.oae-clip .oae-clip-content ul li {
+    display: inline;
+}
+
+.oae-clip .oae-clip-content ul li button {
+    -webkit-border-radius: 6px;
+       -moz-border-radius: 6px;
+            border-radius: 6px;
+    font-size: 11px;
+    min-width: 70px;
+    padding: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.oae-clip .oae-clip-content ul li button i {
+    display: block;
+    margin: 0 auto 3px;
+}
+
+
+/***********
+ ** LISTS **
+ ***********/
+
+/* list containers */
+ul.oae-list {
+    margin: 10px 0 0;
+    padding: 0;
+    clear: both;
+}
+ul.oae-list li.oae-list-item {
+    clear: both;
+    border: 1px solid #f5f5f5;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    list-style: none;
+    margin-bottom: 2px;
+}
+ul.oae-list.grid li.oae-list-item {
+    clear: none;
+    float: left;
+    height: 162px;
+    margin: 12px 7px 20px;
+    position: relative;
+    width: 162px;
+}
+ul.oae-list li.oae-list-item i,
+ul.oae-list li.oae-list-item i:hover {
+  color: #fff;
+  font-size: 100%;
+}
+ul.oae-list li.oae-list-item.active {
+    background-color: #999;
+}
+ul.oae-list li.oae-list-item .oae-list-description {
+    display: none;
+    margin-top: 1px;
+    color: #666;
+    font-style: italic;
+}
+ul.oae-list li.oae-list-item .oae-list-description,
+ul.oae-list li.oae-list-item.active .oae-list-description,
+ul.oae-list.expandedlist li.oae-list-item .oae-list-description {
+    display: block;
+    font-size: 11px;
+    line-height: 20px;
+    max-width: 200px;
+    text-transform: uppercase;
+}
+ul.oae-list li.oae-list-item.active .oae-list-description,
+ul.oae-list.expandedlist li.oae-list-item .oae-list-description {
+    max-width: 550px;
+}
+ul.oae-list li.oae-list-item .oae-list-item-left {
+    background-color: #fff;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    float: left;
+    overflow: auto;
+    width: 97.5%;
+    margin-top: 2px;
+    height: 34px;
+}
+ul.oae-list.expandedlist li.oae-list-item.active .oae-list-item-left,
+ul.oae-list li.oae-list-item.active .oae-list-item-left,
+ul.oae-list li.oae-list-item.active:hover .oae-list-item-left {
+    overflow: hidden;
+    height: 70px;
+    width: 52%;
+}
+ul.oae-list.expandedlist li.oae-list-item .oae-list-item-left {
+    height: 70px;
+    width: 97.5%;
+}
+ul.oae-list.grid li.oae-list-item:hover .oae-list-item-left,
+ul.oae-list.grid li.oae-list-item .oae-list-item-left {
+    border-radius: 3px 0 0 3px;
+    -moz-border-radius: 3px 0 0 3px;
+    -webkit-border-radius: 3px 0 0 3px;
+    height: 162px;
+    margin-top: 0;
+    overflow: hidden;
+}
+ul.oae-list.grid li.oae-list-item.active:hover .oae-list-item-left,
+ul.oae-list.grid li.oae-list-item.active .oae-list-item-left {
+    width: 12%;
+}
+ul.oae-list.grid li.oae-list-item .oae-list-item-left,
+ul.oae-list.grid li.oae-list-item:hover .oae-list-item-left {
+    width: 100%;
+}
+ul.oae-list li.oae-list-item .oae-list-item-left .oae-list-item-left-inner {
+    padding: 9px 17px 0 7px;
+}
+ul.oae-list.grid li.oae-list-item .oae-list-item-left .oae-list-item-left-inner {
+    display: none;
+}
+ul.oae-list li.oae-list-item.active .oae-list-item-left .oae-list-item-left-inner {
+    padding: 9px 7px 0;
+}
+
+ul.oae-list.expandedlist li.oae-list-item .oae-list-item-right,
+ul.oae-list li.oae-list-item .oae-list-item-right {
+    background: url("/ui/img/lists/list_grabber.png") no-repeat scroll 5px center #dededd;
+    border-radius: 0 3px 2px 0;
+    -moz-border-radius: 0 3px 2px 0;
+    -webkit-border-radius: 0 3px 2px 0;
+    cursor: pointer;
+    float: right;
+    min-height: 36px;
+    width: 2%;
+}
+ul.oae-list.grid li.oae-list-item .oae-list-item-right {
+    min-height: 162px;
+    position: relative;
+    width: 8%;
+    z-index: 100;
+}
+ul.oae-list li.oae-list-item:hover .oae-list-item-right {
+    background-color: #565656;
+}
+ul.oae-list.grid li.oae-list-item.active:hover .oae-list-item-right,
+ul.oae-list.grid li.oae-list-item.active .oae-list-item-right {
+    position: inherit;
+    width: 87%;
+}
+ul.oae-list.grid li.oae-list-item:hover .oae-list-item-right {
+    width: 8%;
+}
+ul.oae-list li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden {
+    display: inline;
+}
+ul.oae-list li.oae-list-item .oae-list-item-right .oae-list-item-right-hidden {
+    display: none;
+}
+ul.oae-list.grid .oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden {
+    display: none;
+}
+ul.oae-list.grid li.oae-list-item.active .oae-list-item-right {
+    background-color: transparent !important;
+    min-height: 162px;
+}
+ul.oae-list.expandedlist li.oae-list-item .oae-list-item-right,
+ul.oae-list li.oae-list-item.active .oae-list-item-right {
+    min-height: 74px;
+}
+ul.oae-list li.oae-list-item.active:hover .oae-list-item-right,
+ul.oae-list li.oae-list-item.active .oae-list-item-right {
+    background-color: #999;
+    width: 47.5%;
+}
+ul.oae-list.expandedlist li.oae-list-item .oae-trigger-sharecontent,
+ul.oae-list li.oae-list-item.active .oae-trigger-sharecontent {
+    margin-top: 20px;
+}
+ul.oae-list.grid li.oae-list-item.active .oae-trigger-sharecontent {
+    margin-top: 6px;
+}
+/* Bottom banner for grid view */
+ul.oae-list.grid li.oae-list-item .oae-list-item-banner {
+    bottom: 0;
+    color: #fff;
+    display: block !important;
+    font-weight: bold;
+    position: absolute;
+    width: 100%;
+}
+ul.oae-list.grid li.oae-list-item .oae-list-item-banner .oae-list-item-banner-description {
+    display: inline-block;
+    font-size: 10px;
+    text-transform: uppercase;
+    width: 120px;
+}
+ul.oae-list.grid li.oae-list-item .oae-list-item-banner span.oae-threedots {
+    display: inline-block;
+    font-style: italic;
+    font-weight: normal;
+    text-transform: uppercase;
+    width: 120px;
+}
+ul.oae-list.grid li.oae-list-item .oae-list-item-banner > div:first-child {
+    background-color: #000;
+    border-radius: 0 0 3px 3px;
+    -moz-border-radius: 0 0 3px 3px;
+    -webkit-border-radius: 0 0 3px 3px;
+    line-height: 1.2;
+    opacity: 0.85;
+    padding: 7px 14px 7px 7px;
+}
+ul.oae-list.grid li.oae-list-item .oae-list-item-banner > div:first-child a {
+    color: #fff;
+}
+ul.oae-list.grid li.oae-list-item .oae-list-item-banner > div:first-child + div {
+    margin-left: 7px;
+    margin-top: -22px;
+    position: relative;
+    z-index: 100;
+}
+
+/* profile pictures */
+ul.oae-list.grid li.oae-list-item .oae-list-item-left img.oae-list-item-profile-picture.grid {
+    height: 162px;
+    margin: 0;
+    max-width: none;
+    width: 100%;
+    display: inline;
+}
+ul.oae-list li.oae-list-item .oae-list-item-left img.oae-list-item-profile-picture {
+    display: none;
+    float: left;
+    height: 50px;
+    width: 50px;
+    margin: 0 12px;
+}
+ul.oae-list.expandedlist li.oae-list-item .oae-list-item-left img.oae-list-item-profile-picture,
+ul.oae-list li.oae-list-item.active .oae-list-item-left img.oae-list-item-profile-picture {
+    border: 1px solid #E3E2DB;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    display: block;
+}
+ul.oae-list.grid li.oae-list-item .oae-list-item-left img.oae-list-item-profile-picture {
+    border: none;
+}
+ul.oae-list li.oae-list-item .oae-list-item-left img.oae-list-item-profile-picture.grid {
+    display: none;
+}
+ul.oae-list li.oae-list-item .oae-list-item-left .oae-list-item-left-inner img.oae-list-item-small-picture {
+    display: block;
+    float: left;
+    margin: 0 12px 0 7px;
+}
+ul.oae-list li.oae-list-item .oae-list-item-left .oae-list-item-left-inner img.oae-list-item-small-picture + div {
+    margin-left: -23px;
+    margin-top: 8px;
+}
+ul.oae-list.expandedlist li.oae-list-item .oae-list-item-left .oae-list-item-left-inner img.oae-list-item-small-picture,
+ul.oae-list li.oae-list-item.active .oae-list-item-left .oae-list-item-left-inner img.oae-list-item-small-picture {
+    display: none;
+}
+ul.oae-list.expandedlist li.oae-list-item .oae-list-item-left .oae-list-item-left-inner img.oae-list-item-small-picture + div,
+ul.oae-list li.oae-list-item.active .oae-list-item-left .oae-list-item-left-inner img.oae-list-item-small-picture + div {
+    margin-left: -22px;
+    margin-top: 44px;
+}
+
+/* right hand side list item content */
+ul.oae-list.grid li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden.grid {
+    display: inline !important;
+}
+ul.oae-list.grid li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden.grid .oae-list-item-align-right,
+ul.oae-list.grid li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden.grid .oae-list-item-align-left{
+    font-size: 12px;
+    margin: 10px 0;
+}
+ul.oae-list li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden .oae-list-item-align-right,
+ul.oae-list li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden .oae-list-item-align-left {
+    margin-top: 10px;
+    float: left;
+}
+ul.oae-list li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden .oae-list-item-align-right p,
+ul.oae-list li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden .oae-list-item-align-left p {
+    text-align: right;
+    margin: 0 0 3px 5px;
+    color: #333;
+    width: 330px;
+}
+ul.oae-list li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden .oae-list-item-align-left p {
+    text-align: left;
+}
+ul.oae-list li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden .oae-list-item-align-right {
+    margin-left: 7px;
+}
+ul.oae-list.grid li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden p {
+    width: 130px;
+}
+
+/* list elements */
+ul.oae-list li.oae-list-item label {
+    display: block;
+    float: left;
+    font-size: 13px;
+    margin: 0 7px;
+}
+ul.oae-list li.oae-list-item.active label a,
+ul.oae-list.expandedlist li.oae-list-item label a {
+    max-width: 550px;
+}
+ul.oae-list li.oae-list-item label a {
+    display: inline-block;
+    line-height: 20px;
+    max-width: 400px;
+}
+ul.oae-list li.oae-list-item label a .oae-list-item-mimetype {
+    display: inline-block;
+    max-width: 190px;
+}
+ul.oae-list li.oae-list-item.active label a {
+    max-width: 250px;
+}
+ul.oae-list.expandedlist li.oae-list-item label,
+ul.oae-list li.oae-list-item.active label {
+    display: block;
+    float: none;
+    font-size: 16px;
+    margin: 0;
+    overflow: inherit;
+}
+ul.oae-list.grid li.oae-list-item .oae-list-item-checkbox.grid {
+    clear: both;
+    display: block !important;
+    float: left;
+    margin-top: 7px;
+}
+ul.oae-list li.oae-list-item.oae-list-item-dnd {
+    border: none;
+    display: none;
+}
+ul.oae-list li.oae-list-item.oae-list-item-dnd:first-child {
+    display: block;
+}
+ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-dnd-container {
+    border: 1px solid #F5F5F5;
+    height: 120px;
+}
+ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-dnd-container > div {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    border: 1px dashed #999;
+    height: 112px;
+    margin: 4px;
+}
+ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-dnd-container .oae-list-dnd-label {
+    color: #999;
+    font-size: 13px;
+    font-style: italic;
+    line-height: 1.3;
+    margin: 10px auto 0;
+    width: 100px;
+}
+ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-dnd-container .oae-trigger-addcontent,
+ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-newdocument {
+    display: block;
+    margin: 10px auto;
+}
+ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-dnd-container .oae-trigger-addcontent i,
+ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-newdocument i {
+    color: #333;
+    font-size: 18px;
+}
+
+
+/*******************
+ ** DRAG AND DROP **
+ ******************/
+
+/* TODO: Add documentation for this */
+
+.oae-dnd-upload.dragover {
+    opacity: 0.3;
+    transition: opacity 0.15s linear 0s;
 }
