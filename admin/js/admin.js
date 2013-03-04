@@ -710,7 +710,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                     });
                 } else {
                     // The user is not authorized to view the page
-                    document.location = '/401';
+                    document.location = '/accessdenied';
                 }
             });
         });
