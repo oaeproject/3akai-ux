@@ -681,7 +681,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * permission to see a certain page.
          */
         var accessdenied = function() {
-            document.location = '/401';
+            document.location = '/accessdenied';
         };
 
         /**
@@ -689,7 +689,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * be found.
          */
         var notfound = function() {
-            document.location = '/404';
+            document.location = '/notfound';
         };
 
         /**
@@ -697,7 +697,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * that is currently not available.
          */
         var unavailable = function() {
-            document.location = '/502';
+            document.location = '/unavailable';
         };
 
         /**
@@ -705,7 +705,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * that is currently undergoing maintenance.
          */
         var maintenance = function() {
-            document.location = '/503';
+            document.location = '/maintenance';
         };
 
         return {
