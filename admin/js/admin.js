@@ -686,14 +686,17 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
 
             // Determine for which tenant we want to see the admin UI
             getCurrentContext(function() {
-
-                // Render the header and the footer
-                initializeHeader();
-                initializeFooter();
     
                 if (oae.data.me.anon) {
+                    // Render the header and the footer
+                    initializeHeader();
+                    initializeFooter();
                     setUpLogin();
                 } else if (oae.data.me.isTenantAdmin || oae.data.me.isGlobalAdmin) {
+                    // Render the header and the footer
+                    initializeHeader();
+                    initializeFooter();
+
                     // Get the configuration and continue rendering the page
                     getConfiguration(function() {
                         // Initialize left hand navigation
@@ -707,7 +710,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                     });
                 } else {
                     // The user is not authorized to view the page
-                    $('#admin-unauthorized-container').show();
+                    document.location = '/401';
                 }
             });
         });

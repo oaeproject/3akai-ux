@@ -10,7 +10,6 @@
         <!-- CORE CSS -->
         <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
         <!-- PAGE CSS -->
-        <link rel="stylesheet" type="text/css" href="/ui/css/oae.index.css" />
         <link rel="stylesheet" type="text/css" href="/ui/css/oae.error.css" />
     </head>
     <body>
@@ -19,18 +18,18 @@
         <div data-widget="topnavigation"><!-- --></div>
 
         <!-- BODY -->
-        <div id="index-container" class="oae-main-content">
+        <div class="oae-branding-container oae-main-content">
             <div id="error-content">
-                <div class="row-fluid">
+                <div class="row-fluid oae-panel-primary">
                     <div class="span4 text-right">
-                        <h1>404 <br/> <span>__MSG__PAGE_NOT_FOUND__</span></h1>
+                        <h1>__MSG__404__ <br/> <span>__MSG__PAGE_NOT_FOUND__</span></h1>
                     </div>
                     <div class="span8">
-                        <div id="error-quote-container">
-                            <p id="error-quote">"I have not failed, I have just found 10,000 ways that don't work."</p>
-                            <a href="/search" class="btn btn-primary">__MSG__SEARCH__</a> <span>__MSG__FOR_DOCUMENTS_FILES_LINKS_AND_GROUPS__</span>
+                        <div id="error-quote-container" class="oae-quote-container oae-panel-tertiary">
+                            <p id="error-quote">"__MSG__QUOTE_NOT_FOUND__"</p>
+                            <a href="/search" class="btn btn-primary">__MSG__SEARCH__</a> <span>__MSG__SEARCH_FOR_DOCUMENTS_FILES_LINKS_AND_GROUPS__</span>
                         </div>
-                        <div>Albert Einstein</div>
+                        <div>__MSG__QUOTED_NOT_FOUND__</div>
                     </div>
                 </div>
             </div>

@@ -10,29 +10,24 @@
         <!-- CORE CSS -->
         <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
         <!-- PAGE CSS -->
-        <link rel="stylesheet" type="text/css" href="/ui/css/oae.index.css" />
         <link rel="stylesheet" type="text/css" href="/ui/css/oae.error.css" />
     </head>
-    <body>
+    <body style="display: block;">
         <!-- BODY -->
-        <div id="index-container" class="error-static oae-main-content">
+        <div class="oae-branding-container error-static oae-main-content">
             <div id="error-content">
-                <div class="row-fluid">
+                <div class="row-fluid oae-panel-primary">
                     <div class="span4 text-right">
-                        <h1>502 <br/> <span>Service unavailable</span></h1>
+                        <h1>503 <br/> <span>Down for maintenance</span></h1>
                     </div>
                     <div class="span8">
-                        <div id="error-quote-container">
-                            <p id="error-quote">"Education is a progressive discovery of our own ignorance."</p>
+                        <div id="error-quote-container" class="oae-quote-container oae-panel-tertiary">
+                            <p id="error-quote">"Tell me and I’ll forget; show me and I may remember; involve me and I’ll understand."</p>
                         </div>
-                        <div>Will Durant</div>
+                        <div>Chinese proverb</div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- DEPENDENCIES -->
-        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/require-jquery.js"></script>
-
     </body>
 </html>

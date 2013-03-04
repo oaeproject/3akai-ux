@@ -18,11 +18,12 @@
 }
 
 #error-content .row-fluid {
-    margin-top: 100px;
+    margin: 100px auto;
+    max-width: 900px;
+    padding: 50px 0;
 }
 
 #error-content h1 {
-    color: #FFF;
     font-size: 100px;
     font-weight: 200;
     margin-top: 15px;
@@ -34,29 +35,9 @@
 }
 
 #error-content #error-quote-container {
-    background-color: #FFF;
-    -webkit-box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
-       -moz-box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
-            box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
-    -webkit-border-radius: 4px;
-       -moz-border-radius: 4px;
-            border-radius: 4px;
-    color: #333;
     padding: 20px;
     position: relative;
     width: 460px;
-}
-
-#error-content #error-quote-container:after {
-    border-color: transparent #FFF;
-    border-style: solid;
-    border-width: 0 27px 27px 0;
-    bottom: -27px;
-    content: "";
-    display: block;
-    left: 40px;
-    position: absolute;
-    width: 0;
 }
 
 #error-content #error-quote-container #error-quote {
@@ -72,7 +53,5 @@
 }
 
 #error-content #error-quote-container + div {
-    color: #FFF;
     margin: 10px 0 0 80px;
-    text-shadow: 0px 1px 1px #000;
 }

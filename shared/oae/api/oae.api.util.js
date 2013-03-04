@@ -667,53 +667,53 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
      * All functionality related to redirecting users to error pages, etc.
      */
     var redirect = exports.redirect = function() {
-      
+
         /**
          * Redirect the currently logged in user to the landing/login page. This can be used when an anonymous user tries to access
          * a page that requires login.
          */
-        var redirectToLogin = function() {
+        var login = function() {
             document.location = '/';
         };  
-        
+
         /**
-         * Redirect the currently logged in user to the 403 page. This can be used when the currently logged user does not have
+         * Redirect the current user to the 401 page. This can be used when the current user does not have
          * permission to see a certain page.
          */
-        var redirectTo401 = function() {
-            document.location = '/401'
+        var accessdenied = function() {
+            document.location = '/401';
         };
-        
+
         /**
-         * Redirect the currently logged in user to the 404 page. This can be used when the user requests a page that cannot
+         * Redirect the current user to the 404 page. This can be used when the user requests a page that cannot
          * be found.
          */
-        var redirectTo404 = function() {
-            document.location = '/404'
+        var notfound = function() {
+            document.location = '/404';
         };
 
         /**
-         * Redirect the currently logged in user to the 404 page. This can be used when the user requests a page on a node
+         * Redirect the current user to the 502 page. This can be used when the user requests a page on a node
          * that is currently not available.
          */
-        var redirectTo502 = function() {
-            document.location = '/502'
+        var unavailable = function() {
+            document.location = '/502';
         };
 
         /**
-         * Redirect the currently logged in user to the 404 page. This can be used when the user requests a page that is
-         * currently not available.
+         * Redirect the current user to the 503 page. This can be used when the user requests a page on a node
+         * that is currently undergoing maintenance.
          */
-        var redirectTo503 = function() {
-            document.location = '/503'
+        var maintenance = function() {
+            document.location = '/503';
         };
 
         return {
-            'redirectToLogin': redirectToLogin,
-            'redirectTo401': redirectTo401,
-            'redirectTo404': redirectTo404,
-            'redirectTo502': redirectTo502,
-            'redirectTo503': redirectTo503
+            'login': login,
+            'accessdenied': accessdenied,
+            'notfound': notfound,
+            'unavailable': unavailable,
+            'maintenance': maintenance
         };
     };
     
