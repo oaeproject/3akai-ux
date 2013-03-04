@@ -91,6 +91,23 @@ body, button, input, select, textarea, a.oae-plain-link {
 }
 
 
+/*************************
+ ** MODAL DIALOG COLORS **
+ *************************/
+
+.modal, .dropdown-menu {
+    background: #FFF;
+    background: linear-gradient(to bottom, #FFF 0%, #F5F5F5 100%); 
+    background: -moz-linear-gradient(top, #FFF 0%, #F5F5F5 100%);
+    background: -webkit-linear-gradient(top, #FFF 0%, #F5F5F5 100%);
+    background: -ms-linear-gradient(top, #FFF 0%, #F5F5F5 100%); 
+}
+
+.modal-header h3, .modal-body h4 {
+    color: #777;
+}
+
+
 /******************
  ** PANEL COLORS **
  ******************/
