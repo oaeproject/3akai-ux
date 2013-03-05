@@ -417,9 +417,12 @@ ul.oae-list li.oae-list-item .oae-list-item-left {
     -webkit-border-radius: 3px;
     float: left;
     overflow: auto;
-    width: 97.5%;
-    margin-top: 2px;
+    width: 100%;
     height: 34px;
+}
+ul.oae-list li.oae-list-item .oae-list-item-left.alert {
+    margin: 0;
+    padding: 0;
 }
 ul.oae-list.expandedlist li.oae-list-item.active .oae-list-item-left,
 ul.oae-list li.oae-list-item.active .oae-list-item-left,
