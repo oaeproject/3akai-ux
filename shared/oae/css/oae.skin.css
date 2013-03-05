@@ -35,15 +35,14 @@ body {
 
 /* INDEX PAGE BACKGROUND */
 
-#index-container.oae-main-content {
+.oae-main-content.oae-branding-container {
     /* Color background */
     background-image: url('/ui/img/framework/index.png') rgb(37,169,223);
     background-image: url('/ui/img/framework/index.png'), -moz-linear-gradient(top, rgba(37,169,223,1) 0%, rgba(0,116,167,1) 100%);
-    background-image: url('/ui/img/framework/index.png'), -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(37,169,223,1)), color-stop(100%, rgba(0,116,167,1)));
     background-image: url('/ui/img/framework/index.png'), -webkit-linear-gradient(top, rgba(37,169,223,1) 0%, rgba(0,116,167,1) 100%);
     background-image: url('/ui/img/framework/index.png'), linear-gradient(to bottom, rgba(37,169,223,1) 0%, rgba(0,116,167,1) 100%);
     /* Image background */
-    /* background: url('http://ravian100.files.wordpress.com/2011/01/cambridge-university.jpg') no-repeat center center transparent; */
+    /* background-image: url('http://ravian100.files.wordpress.com/2011/01/cambridge-university.jpg'); */
 }
 
 
@@ -57,6 +56,33 @@ a, .btn-link {
 
 a:hover, .btn-link:hover {
     color: #005580;
+}
+
+
+/**************************
+ ** LEFT HAND NAVIGATION **
+ **************************/
+
+.nav > li > a,
+.nav > li i {
+    background-color: transparent;
+    color: #999;
+}
+
+.nav > li > a:hover,
+.nav > li > a:focus,
+.nav > li > a:hover i,
+.nav > li > a:focus i {
+    background-color: transparent;
+    color: #333;
+}
+
+.nav > li.active > a, 
+.nav > li.active > a:hover, 
+.nav > li.active > a:focus,
+.nav > li.active i {
+    background-color: transparent;
+    color: #333;
 }
 
 
@@ -79,6 +105,7 @@ a:hover, .btn-link:hover {
 .btn-link:hover [class^="icon-"], .btn-link:hover [class*=" icon-"] {
     color: #555;
 }
+
 
 /*****************
  ** TEXT COLORS **
@@ -119,6 +146,10 @@ body, button, input, select, textarea, a.oae-plain-link {
     background: transparent;
 }
 
+.oae-panel-primary, .oae-panel-primary:before, .oae-panel-primary:after {
+    border-color: transparent;
+}
+
 .oae-panel-primary h1, .oae-panel-primary h2, .oae-panel-primary h3, 
 .oae-panel-primary h4, .oae-panel-primary h5, .oae-panel-primary h6,
 .oae-panel-primary i, .oae-panel-primary i:hover {
@@ -132,6 +163,10 @@ body, button, input, select, textarea, a.oae-plain-link {
     background: transparent;
 }
 
+.oae-panel-secondary, .oae-panel-secondary:before, .oae-panel-secondary:after {
+    border-color: transparent;
+}
+
 .oae-panel-secondary h1, .oae-panel-secondary h2, .oae-panel-secondary h3, 
 .oae-panel-secondary h4, .oae-panel-secondary h5, .oae-panel-secondary h6,
 .oae-panel-secondary i, .oae-panel-secondary i:hover {
@@ -143,6 +178,10 @@ body, button, input, select, textarea, a.oae-plain-link {
 .oae-panel-tertiary {
     color: #FFF;
     background: rgba(255,255,255,0.3);
+}
+
+.oae-panel-tertiary, .oae-panel-tertiary:before, .oae-panel-tertiary:after {
+    border-color: rgba(255,255,255,0.3);
 }
 
 .oae-panel-tertiary h1, .oae-panel-tertiary h2, .oae-panel-tertiary h3, 
@@ -187,9 +226,9 @@ body, button, input, select, textarea, a.oae-plain-link {
 
 .oae-clip button:hover,
 .oae-clip button:focus,
-.oae-clip .oae-clip-content i:hover {
+.oae-clip button:hover i,
+.oae-clip button:focus i {
     color: #FFF;
-    border-color: 1px dotted #FFF;
 }
 
 .oae-clip ul li button:hover {
@@ -198,20 +237,20 @@ body, button, input, select, textarea, a.oae-plain-link {
 
 /* SECONDARY CLIP */
 
-.oae-clip.oae-clip-secondary .oae-clip-content {
-    background: -moz-linear-gradient(top,  #24A7DD 0%, #24A7DD 10%, #0175A9 100%);
-    background: -webkit-linear-gradient(top,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
-    background: -o-linear-gradient(top,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
-    background: -ms-linear-gradient(top,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
-    background: linear-gradient(to bottom,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
-}
-
 .oae-clip.oae-clip-secondary .oae-clip-fold .oae-clip-fold-inner {
     background-color: #0175A9;
 }
 .oae-clip.oae-clip-secondary .oae-clip-fold .oae-clip-fold-outer,
 .oae-clip.oae-clip-secondary .oae-clip-content {
     background-color: #24A7DD;
+}
+
+.oae-clip.oae-clip-secondary .oae-clip-content {
+    background: -moz-linear-gradient(top,  #24A7DD 0%, #24A7DD 10%, #0175A9 100%);
+    background: -webkit-linear-gradient(top,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
+    background: -o-linear-gradient(top,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
+    background: -ms-linear-gradient(top,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
+    background: linear-gradient(to bottom,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
 }
 
 .oae-clip.oae-clip-secondary .oae-clip-content button,
@@ -225,7 +264,8 @@ body, button, input, select, textarea, a.oae-plain-link {
 
 .oae-clip.oae-clip-secondary button:hover,
 .oae-clip.oae-clip-secondary button:focus,
-.oae-clip.oae-clip-secondary .oae-clip-content i:hover {
+.oae-clip.oae-clip-secondary button:hover i,
+.oae-clip.oae-clip-secondary button:focus i {
     color: #FFF;
 }
 

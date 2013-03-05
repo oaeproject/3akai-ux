@@ -13,21 +13,9 @@
  * permissions and limitations under the License.
  */
 
-.page-widget {
-    margin-top: 60px;
-}
+require(['jquery','oae.core'], function($, oae) {
 
-.page-widget .tab-content {
-    padding: 0 50px;
-}
+    // Set the page title
+    oae.api.util.setBrowserTitle('__MSG__WELCOME__');
 
-ul.nav-tabs,
-ul.nav-tabs li.active a {
-    border: none !important;
-}
-
-ul.nav-tabs li a {
-    line-height: 1;
-    margin-right: 30px !important;
-    white-space: nowrap;
-}
+});

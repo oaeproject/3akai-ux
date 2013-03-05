@@ -51,7 +51,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             }
         });
     };
-    
+
     /**
      * Generate a random ID. This ID generator does not guarantee global uniqueness.
      * The generated id will have the following format: `oae-<random number>-<random number>`
@@ -61,7 +61,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
     var generateId = exports.generateId = function() {
         return 'oae-' + Math.round(Math.random() * 10000000) + '-' + Math.round(Math.random() * 10000000);
     };
-    
+
     /**
      * Change the browser title for a particular page. The browser's title has the following structure
      * 
@@ -86,7 +86,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         title.splice(0, 0, '__MSG__TITLE_PREFIX__');
         document.title = require('oae.api.i18n').translate(title.join(' - '));
     };
-    
+
     ////////////////////////////////
     // TRIMPATH TEMPLATE RENDERER //
     ////////////////////////////////
@@ -103,7 +103,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             return security().safeURL(str);
         }
     }
-    
+
     /**
      * Functionality that allows you to create HTML Templates, using a JSON object. That template 
      * will then be rendered and all of the values from  the JSON object can be used to insert values 
@@ -389,7 +389,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             // Set up the form with the provided options in jquery.validate
             $form.validate(options);
         }; 
-        
+
         /**
          * Clear the validation on a form. This will remove all visible validation styles, as well as the aria roles.
          * 
@@ -435,7 +435,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
      * @param  {String}     description     The description to show in the progress indicator overlay
      */
     var progressIndicator = exports.progressIndicator = function(title, description) {
-        
+
         // We create the progress indicator and it to the document if it doesn't exist yet
         if (!progressIndicatorModal) {
             var progressIndicatorHTML = '<div id="oae_progressindicator" class="oae-dialog oae-dialog-container oae-hidden">';
@@ -448,7 +448,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
                 'zIndex': 50000,
             });
         }
-        
+
         /**
          * Show a progress indicator. This will show in a modal dialog and will take over the entire screen. Other screen elements
          * will not be accessible until the progress indicator has been hidden
@@ -460,7 +460,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             // Show the overlay
             progressIndicatorModal.open();
         };
-    
+
         /**
          * Hide the progress indicator, if it is showing. If it is not showing, nothing will happen
          */
@@ -473,7 +473,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             'hide': hide
         }    
     };
-    
+
     /**
      * Using MathJax behind the scenes, find all mathematical function (LaTeX) declarations and render them
      * appropriately. Mathemetical are defined by wrapping them in $$.
@@ -483,7 +483,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
      * @param  {Element|String}     [$element]        jQuery element or jQuery selector for that element in which we should look for Mathematical formulas and render them. If this is not provided, the body element will be used.
      */
     var renderMath = exports.renderMath = function($element) {};
-    
+
     /**
      * All functionality related to handling user input and making sure that it displays properly, without opening the door
      * to XSS attacks
@@ -504,7 +504,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
                 return $('<div/>').text(input).html();
             }
         };
-        
+
         /**
          * An extension to encodeURIComponent that does not encode non-ASCII UTF-8 characters. The javascript global  encodeURIComponent 
          * works on the ASCII character set, meaning it encodes all the reserved characters for URI components, and then all characters 
@@ -541,43 +541,61 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
      * All functionality related to redirecting users to error pages, etc.
      */
     var redirect = exports.redirect = function() {
-      
+
         /**
          * Redirect the currently logged in user to the landing/login page. This can be used when an anonymous user tries to access
          * a page that requires login.
          */
-        var redirectToLogin = function() {
+        var login = function() {
             document.location = '/';
         };  
-        
+
         /**
-         * Redirect the currently logged in user to the 403 page. This can be used when the currently logged user does not have
+         * Redirect the current user to the 401 page. This can be used when the current user does not have
          * permission to see a certain page.
          */
-        var redirectTo403 = function() {
-            document.location = '/403'
+        var accessdenied = function() {
+            document.location = '/accessdenied';
         };
-        
+
         /**
-         * Redirect the currently logged in user to the 404 page. This can be used when the user requests a page that cannot
-         * be found.
+         * Redirect the current user to the 404 page. This can be used when the user requests a page or entity
+         * that cannot be found.
          */
-        var redirectTo404 = function() {
-            document.location = '/404'
+        var notfound = function() {
+            document.location = '/notfound';
         };
-        
+
+        /**
+         * Redirect the current user to the 502 page. This can be used when the user requests a page on a tenant
+         * that is currently not available.
+         */
+        var unavailable = function() {
+            document.location = '/unavailable';
+        };
+
+        /**
+         * Redirect the current user to the 503 page. This can be used when the user requests a page on a tenant
+         * that is currently undergoing maintenance.
+         */
+        var maintenance = function() {
+            document.location = '/maintenance';
+        };
+
         return {
-            'redirectToLogin': redirectToLogin,
-            'redirectTo403': redirectTo403,
-            'redirectTo404': redirectTo404
+            'login': login,
+            'accessdenied': accessdenied,
+            'notfound': notfound,
+            'unavailable': unavailable,
+            'maintenance': maintenance
         };
     };
-    
+
     /**
      * All functionality related to dragging and dropping items
      */
     var dragAndDrop = exports.dragAndDrop = function() {
-        
+
         /**
          * Make all elements with the oae-draggable-container CSS class inside of the provided container draggable, using
          * jQuery UI behind the scenes.
@@ -586,7 +604,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * @param  {Object}             [options]         JSON object containing options to pass into jQuery UI, as defined on http://api.jqueryui.com/draggable/
          */
         exports.dragAndDrop.setupDraggable = function($container, options) {};
-        
+
         /**
          * Make all elements with the oae-droppable-container CSS class inside of the provided container droppable (accept draggable items), using
          * jQuery UI behind the scenes.
@@ -595,9 +613,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * @param  {Object}             [options]         JSON object containing options to pass into jQuery UI, as defined on http://api.jqueryui.com/droppable/
          */
         exports.dragAndDrop.setupDroppable = function($container, options) {};
-        
+
     };
-    
+
     /**
      * Function that can be called once a specific page has finished checking for access by the content user, to avoid flickering when
      * the user doesn't have access. This function will then show the page and set the page title.

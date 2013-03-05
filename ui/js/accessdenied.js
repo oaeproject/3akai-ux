@@ -13,4 +13,19 @@
  * permissions and limitations under the License.
  */
 
+require(['jquery','oae.core'], function($, oae) {
 
+    // Set the page title
+    oae.api.util.setBrowserTitle('__MSG__ACCESS_DENIED__');
+
+    if (oae.data.me.anon) {
+        // Show the sign in button if the user is not logged in
+        $('#error-signin').removeClass('hide');
+        // Trigger the sign in dropdown when the users clicks the sign in button
+        $(document).on('click', '#error-signin', function(ev) {
+            $('#topnavigation-signin').click();
+            return false;
+        });
+    }
+
+});

@@ -13,16 +13,9 @@
  * permissions and limitations under the License.
  */
 
-define(['jquery'], function ($) {
+require(['jquery','oae.core'], function($, oae) {
 
-    // Add click event handler that toggles the visibility of the menu items of a clip
-    $(document).on('click', '.oae-clip-content', function(ev) {
-        var $clip = $(this);
-        // Only do this in admin mode, so we check if a toggle icon is available
-        if ($('i.icon-caret-down, i.icon-caret-up', $clip).length > 0) {
-            $('ul', $clip).toggle();
-            $clip.find('i.icon-caret-down, i.icon-caret-up').toggleClass('icon-caret-down icon-caret-up');
-        }
-    });
+    // Set the page title
+    oae.api.util.setBrowserTitle('__MSG__PAGE_NOT_FOUND__');
 
 });

@@ -17,224 +17,89 @@ require(['jquery','oae.core'], function($, oae) {
 
     // Redirect the user back to the landing page if he is not logged in
     if (oae.data.me.anon) {
-        oae.api.util.redirect().redirectToLogin();
+        oae.api.util.redirect().login();
     }
 
     // Set the browser title
     oae.api.util.setBrowserTitle(oae.data.me.displayName);
 
-    // TODO: Replace this with more effective page configuration
-    var privdata = {
-        'structure0': {
-            'dashboard': {
-                '_order': 0,
-                '_ref': 'id94325454432',
-                '_title': oae.api.i18n.translate('__MSG__MY_DASHBOARD__'),
-                'main': {
-                    '_order': 0,
-                    '_ref': 'id94325454432',
-                    '_title': oae.api.i18n.translate('__MSG__MY_DASHBOARD__')
-                }
-            }
-        },
-        'id94325454432': {
-            'rows': [
+    // Structure that will be used to construct the left hand navigation
+    var lhNavigation = [
+        {
+            'id': 'dashboard',
+            'title': oae.api.i18n.translate('__MSG__MY_DASHBOARD__'),
+            'icon': 'icon-dashboard',
+            'layout': [
                 {
-                    'id': 'id453223',
-                    'columns': [
+                    'width': 'span8',
+                    'widgets': [
                         {
-                            'width': 1,
-                            'elements': [
-                                {
-                                    'id': 'id7646542',
-                                    'type': 'activity'
-                                }
-                            ]
+                            'id': 'activity',
+                            'settings': {
+                                'principalId': oae.data.me.id
+                            }
                         }
                     ]
                 }
-            ],
-            'id7646542': {
-                'principalId': oae.data.me.id
-            }
+            ]
+        },
+        {
+            'id': 'library',
+            'title': oae.api.i18n.translate('__MSG__MY_LIBRARY__'),
+            'icon': 'icon-briefcase',
+            'layout': [
+                {
+                    'width': 'span12',
+                    'widgets': [
+                        {
+                            'id': 'library',
+                            'settings': {
+                                'principalId': oae.data.me.id
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            'id': 'groups',
+            'title': oae.api.i18n.translate('__MSG__MY_GROUPS__'),
+            'icon': 'icon-group',
+            'layout': [
+                {
+                    'width': 'span12',
+                    'widgets': [
+                        {
+                            'id': 'memberships',
+                            'settings': {
+                                'principalId': oae.data.me.id
+                            }
+                        }
+                    ]
+                }
+            ]
         }
-    };
+    ];
 
-    // TODO: Replace this with more effective page configuration
-    var pubdata = {
-        'structure0': {
-            'profile': {
-                '_order': 0,
-                '_ref': 'id12940812409',
-                '_title': oae.api.i18n.translate('__MSG__MY_PROFILE__'),
-                'basic': {
-                    '_order': 0,
-                    '_ref': 'id12940812409',
-                    '_title': oae.api.i18n.translate('__MSG__PROFILE_BASIC_LABEL__')
-                },
-                'aboutme': {
-                    '_order': 0,
-                    '_ref': 'id209875202349',
-                    '_title': oae.api.i18n.translate('__MSG__PROFILE_ABOUTME_LABEL__')
-                },
-                'publiciations': {
-                    '_order': 0,
-                    '_ref': 'id018942094517',
-                    '_title': oae.api.i18n.translate('__MSG__PROFILE_PUBLICATIONS_LABEL__')
-                }
-            },
-            'library': {
-                '_order': 0,
-                '_ref': 'id7646345443',
-                '_title': oae.api.i18n.translate('__MSG__MY_LIBRARY__'),
-                'main': {
-                    '_order': 0,
-                    '_ref': 'id7646345443',
-                    '_title': oae.api.i18n.translate('__MSG__MY_LIBRARY__')
-                }
-            },
-            'memberships': {
-                '_order': 0,
-                '_ref': 'id934093203',
-                '_title': oae.api.i18n.translate('__MSG__MY_MEMBERSHIPS__'),
-                'main': {
-                    '_order': 0,
-                    '_ref': 'id934093203',
-                    '_title': oae.api.i18n.translate('__MSG__MY_MEMBERSHIPS__')
-                }
-            }
-        },
-        'id12940812409' : {
-            'rows': [
-                {
-                    'id': 'id87829108921',
-                    'columns': [
-                        {
-                            'width': 1,
-                            'elements': [
-                                {
-                                    'id': 'id130841987897',
-                                    'type': 'displayprofilesection'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ],
-            'id130841987897': {
-                'user': oae.data.me,
-                'sectionName': 'basic'
-            }
-        },
-        'id209875202349' : {
-            'rows': [
-                {
-                    'id': 'id28937529847',
-                    'columns': [
-                        {
-                            'width': 1,
-                            'elements': [
-                                {
-                                    'id': 'id2938402384',
-                                    'type': 'displayprofilesection'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ],
-            'id2938402384': {
-                'user': oae.data.me,
-                'sectionName': 'aboutme'
-            }
-        },
-        'id018942094517' : {
-            'rows': [
-                {
-                    'id': 'id9827598274983',
-                    'columns': [
-                        {
-                            'width': 1,
-                            'elements': [
-                                {
-                                    'id': 'id98237498237492834',
-                                    'type': 'displayprofilesection'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ],
-            'id98237498237492834': {
-                'user': oae.data.me,
-                'sectionName': 'publications'
-            }
-        },
-        'id7646345443': {
-            'rows': [
-                {
-                    'id': 'id60540540432',
-                    'columns': [
-                        {
-                            'width': 1,
-                            'elements': [
-                                {
-                                    'id': 'id6335742432',
-                                    'type': 'library'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ],
-            'id6335742432': {
-                'principalId': oae.data.me.id,
-                'canManage': true
-            }
-        },
-        'id934093203': {
-            'rows': [
-                {
-                    'id': 'id134235452',
-                    'columns': [
-                        {
-                            'width': 1,
-                            'elements': [
-                                {
-                                    'id': 'id56436534',
-                                    'type': 'memberships'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ],
-            'id56436534': {
-                'principalId': oae.data.me.id,
-                'canManage': true
-            }
-        }
+    /**
+     * Set up the left hand navigation with the me space page structure
+     */
+    var setUpNavigation = function() {
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavigation]);
+        $(window).on('oae.ready.lhnavigation', function() {
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavigation]);
+        });
     };
 
     /**
-     * Render the user's profile picture and name
+     * Render the user's clip, containing the profile picture, display name as well as the
+     * user's admin options
      */
-    var renderEntity = function() {
+    var setUpClip = function() {
         oae.api.util.renderTemplate($('#me-clip-template'), null, $('#me-clip-container'));
     };
 
-    /**
-     * Set up the left hand navigation with the provided structure
-     */
-    var setUpNavigation = function() {
-        $(window).on('lhnav.ready', function() {
-            $(window).trigger('lhnav.init', [pubdata, privdata, {}]);
-        });  
-    };
+    setUpClip();
+    setUpNavigation();
 
-    $(document).on('click', '.oae-entity-picture', function() {
-        $('body').trigger('init.changepic.sakai', {'type': 'user', 'data': oae.data.me});
-    });
-
-    renderEntity();
 });

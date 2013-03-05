@@ -19,32 +19,37 @@
 requirejs.config({
     baseUrl: '/shared/',
     paths: {
-        'globalize': 'vendor/js/l10n/globalize',
-
         // jQuery module is managed by require-jquery variation of require.js
         'jquery': 'empty:',
 
+        // Vendor paths
+        'bootstrap': 'vendor/js/bootstrap',
+        'globalize': 'vendor/js/l10n/globalize',
+        'jquery.autoSuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest.sakai-edited',
         'jquery.ba-bbq': 'vendor/js/jquery-plugins/jquery.ba-bbq',
         'jquery.ba-hashchange': 'vendor/js/jquery-plugins/jquery.ba-hashchange',
-        'jquery.clip': 'vendor/js/jquery-plugins/jquery.clip',
-        'jquery.list-options': 'vendor/js/jquery-plugins/jquery.list-options',
-        'jquery.contentchange': 'vendor/js/jquery-plugins/jquery.contentchange.sakai-edited',
-        'jquery.equal-height-columns': 'vendor/js/jquery-plugins/jquery.equal-height-columns',
         'jquery.fileSize': 'vendor/js/jquery-plugins/jquery.fileSize',
+        'jquery.fileupload': 'vendor/js/jquery-plugins/jquery.fileupload',
         'jquery.form': 'vendor/js/jquery-plugins/jquery.form',
-        'jquery.infinitescroll': 'vendor/js/jquery-plugins/jquery.infinitescroll-sakai',
+        'jquery.history': 'vendor/js/jquery-plugins/jquery.history',
+        'jquery.iframe-transport': 'vendor/js/jquery-plugins/jquery.iframe-transport',
+        'jquery.imgareaselect': 'vendor/js/jquery-plugins/imgareaselect/jquery.imgareaselect',
+        'jquery.jeditable': 'vendor/js/jquery-plugins/jquery.jeditable.sakai-edited',
         'jquery.properties-parser': 'vendor/js/jquery-plugins/jquery.properties-parser',
         'jquery.serializeObject': 'vendor/js/jquery-plugins/jquery.serializeObject',
-        'jquery.validate': 'vendor/js/jquery-plugins/jquery.validate',
-        'jquery.iframe-transport': 'vendor/js/jquery-plugins/jquery.iframe-transport',
         'jquery.timeago': 'vendor/js/jquery-plugins/jquery.timeago',
-        'jquery.fileupload': 'vendor/js/jquery-plugins/jquery.fileupload',
-        'jquery.dnd-upload': 'vendor/js/jquery-plugins/jquery.dnd-upload',
-        'jquery.autoSuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest.sakai-edited',
-        'jquery.jeditable': 'vendor/js/jquery-plugins/jquery.jeditable.sakai-edited',
+        'jquery.validate': 'vendor/js/jquery-plugins/jquery.validate',
         'jquery-ui': 'vendor/js/jquery-ui.custom',
+        'trimpath': 'vendor/js/trimpath',
         'underscore': 'vendor/js/underscore',
-        'bootstrap': 'vendor/js/bootstrap',
+
+        // OAE paths
+        'jquery.clip': 'oae/js/jquery-plugins/jquery.clip',
+        'jquery.dnd-upload': 'oae/js/jquery-plugins/jquery.dnd-upload',
+        'jquery.infinitescroll': 'oae/js/jquery-plugins/jquery.infinitescroll',
+        'jquery.list-options': 'oae/js/jquery-plugins/jquery.list-options',
+
+        // OAE API modules
         'oae.api': 'oae/api/oae.api',
         'oae.api.authentication': 'oae/api/oae.api.authentication',
         'oae.api.config': 'oae/api/oae.api.config',
@@ -57,8 +62,7 @@ requirejs.config({
         'oae.api.util': 'oae/api/oae.api.util',
         'oae.api.widget': 'oae/api/oae.api.widget',
         'oae.core': 'oae/api/oae.core',
-        'pluginBuilder': 'oae/api/pluginBuilder',
-        'trimpath': 'vendor/js/trimpath'
+        'pluginBuilder': 'oae/api/pluginBuilder'
     },
     priority: ['jquery', 'underscore']
 });
