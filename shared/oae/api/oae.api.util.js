@@ -225,132 +225,6 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         // Show the notification on the screen
         $.gritter.add(notification);
     };
-    
-    /**
-     * Register an element that should be hidden when a user clicks outside of it. This could for example be used for dropdowns, etc. Clicking
-     * the element itself or any of its children will not cause the element to be hidden
-     *
-     * @param {String|Element}  $elementToHide      jQuery element or jQuery selector for that element representing the element that should be hidden when clicking outside of it., jquery object, dom element, or array thereof containing the element to be hidden, clicking this element or its children won't cause it to hide
-     * @param {String|Element}  $ignoreElements     jQuery element or jQuery selector for that element representing the elements outside of the main element that should not cause a hide when clicked
-     * @param {Function}        callback            Standard callback function executed when the element has been hidden
-     */
-    var hideOnClickOut = exports.hideOnClickOut = function(elementToHide, ignoreElements, callback) {
-        $(document).on('click', function(e) {
-            var $clicked = $(e.target);
-            if (!$.isArray(elementToHide)) {
-                elementToHide = [elementToHide];
-            }
-            $.each(elementToHide, function(index, el) {
-                if (el instanceof $) {
-                    $el = el;
-                } else {
-                    $el = $(el);
-                }
-                if ($el.is(':visible') && ! ($.contains($el.get(0), $clicked.get(0)) || $clicked.is(ignoreElements) || $(ignoreElements).has($clicked.get(0)).length)) {
-                    if ($.isFunction(callback)) {
-                        callback();
-                    } else {
-                        $el.hide();
-                    }
-                }
-            });
-        });
-    };
-
-    /**
-     * All functionality related to setting up, showing and closing modal dialogs. This uses the jQuery jqModal plugin behind the scenes. By default,
-     * the dialog will be initialized as a modal dialog, unless `modal: false` is passed into the options object. When using jqModal as a modal
-     * dialog, keyboard accessibility will be automatically set up as well.
-     * 
-     * This is an example as to how a modal dialog can be initialized and used.
-     * 
-     * ```
-     * var modal = oae.api.util.modal($('#modal_dialog_id'), options);
-     * modal.open();
-     * modal.close();
-     * ```
-     * 
-     * @param  {Element|String}     $container       jQuery element representing the element that should become a modal dialog or jQuery selector for that element
-     * @param  {Object}             [options]        JSON object containing options to pass to the jqmodal plugin as defined on http://dev.iceburg.net/jquery/jqModal/
-     * @throws {Error}                               Error thrown when an invalid container element has been passed in
-     */
-    var modal = exports.modal = function($container, options) {
-        // Parameter validation
-        if (!$container) {
-            throw new Error('A valid modal dialog container should be provided');
-        }
-
-        //Default values
-        options = options || {};
-        options.modal = options.modal === false ? false : true;
-        options.overlay = options.modal ? 20 : 0;
-        options.toTop = options.modal ? true : false;
-
-        // Initialize the overlay
-        $container = $($container);
-        $container.jqm(options);
-
-        /**
-         * Open a jqModal dialog.
-         */
-        var open = function() {
-            if (options.modal) {
-                // If the overlay is a modal dialog, we position it at the current
-                // scroll location, and bind the escape button to close the overlay
-                $container.css('top', $(document).scrollTop() + 50 + 'px');
-                // Set keyboard accessibility on the modal dialog
-                setDialogKeyboardAccessibility();
-            }           
-
-            // Show the dialog
-            $container.jqmShow();
-            // Focus on the first heading in the dialog
-            $container.find(':header:visible:first').attr('tabindex', '0').focus();
-        };
-
-        /**
-         * Set up keyboard accessibility for modal dialogs. When the ESC button is pressed, the dialog will
-         * be closed and focus will be returned to the element that had focus before the modal dialog appeared.
-         * It will also make sure that a user can't tab outside of the modal dialog
-         */
-        var setDialogKeyboardAccessibility = function() {
-            // Cache the element that has keyboard focus
-            var $origFocus = $(':focus');
-            $container.off('keydown').on('keydown', function(ev) {
-                // We close the modal dialog when the escape button is pressed and return focus to the
-                // previously selected element
-                if ($container.is(':visible') && $container.has(':focus').length && ev.which === $.ui.keyCode.ESCAPE) {
-                    close();
-                    $origFocus.focus();
-                // If the tab button is pressed, we make sure that focus doesn't leave the modal dialog
-                } else if ($container.is(':visible') && ev.which === $.ui.keyCode.TAB) {
-                    var $tabbable = $(':tabbable', $container);
-                    var focusedIndex = $tabbable.index($(':focus'));
-                    // If we shift-tab from the first element, we move to the last tabbable element in the dialog
-                    if (ev.shiftKey && $tabbable.length && (focusedIndex === 0)) {
-                        $tabbable.last().focus();
-                        return false;
-                    // If we tab from the last element, we move to the first tabbable element in the dialog
-                    } else if (!ev.shiftKey && $tabbable.length && (focusedIndex === $tabbable.length - 1)) {
-                        $tabbable.first().focus();
-                        return false;
-                    }
-                }
-            });
-        };
-
-        /**
-         * Close a jqModal dialog.
-         */
-        var close = function() {
-            $container.jqmHide();
-        };
-
-        return {
-            'open': open,
-            'close': close
-        };
-    };
 
     /*!
      * All functionality related to validating forms
@@ -360,7 +234,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         /**
          * Initialize the validation utility functions by adding some custom validators
          * to jquery.validate
-         * 
+         *
          * @api private
          */
         var init = function() {
