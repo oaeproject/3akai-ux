@@ -40,7 +40,8 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     text-decoration: none;
 }
 
-/* TOP NAVIGATION */
+/* NAVIGATION BAR 
+ * @see http://twitter.github.com/bootstrap/components.html#navs */
 
 .navbar-search {
   display: inline;
@@ -51,7 +52,8 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
   width: 300px;
 }
 
-/* LEFT HAND NAVIGATION */
+/* NAVIGATION LIST
+ * @see http://twitter.github.com/bootstrap/components.html#navs */
 
 .nav-list > li > a {
     padding-top: 8px;
@@ -72,7 +74,8 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     font-size: 22px;
 }
 
-/* DROPDOWN */
+/* DROPDOWN
+ * @see http://twitter.github.com/bootstrap/components.html#dropdowns */
 
 .dropdown-menu {
     padding: 10px;
@@ -92,7 +95,8 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     margin-bottom: 10px;
 }
 
-/* FORMS */
+/* FORMS 
+ * http://twitter.github.com/bootstrap/base-css.html#forms */
 
 input.search-query,
 .navbar-search .search-query {
@@ -132,7 +136,8 @@ input.search-query,
   margin-top: 3px;
 }
 
-/* MODAL DIALOGS */
+/* MODAL DIALOGS
+ * @see http://twitter.github.com/bootstrap/javascript.html#modals */
 
 .modal {
     -webkit-border-radius: 4px;
@@ -166,7 +171,8 @@ input.search-query,
     box-shadow: none;
 }
 
-/* BADGES */
+/* BADGES 
+ * @see http://twitter.github.com/bootstrap/components.html#labels-badges */
 
 .badge {
     -webkit-border-radius: 3px;
