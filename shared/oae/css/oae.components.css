@@ -206,9 +206,9 @@ a.oae-plain-link:hover {
  *   into an `.oae-visibility-avatar` container and following the structure outlined there.
  * - The `icon-caret-down` element is optional. If it is not provided, the clip will be shown in view
  *   only mode. If it is provided, the clip will be toggleable and the action menu will be shown when clicked.
- * - The `small` tag is used to show some additional clip metadata and is optional
- * - When a clip should not be clickable, the class `oae-clip-viewonly` should be added to the button. This
- *   will hide any caret icons and will make the clip unclickable
+ * - The `small` tag is used to show some additional clip metadata and is optional.
+ * - When a clip should not be clickable (e.g. in non-manager mode of a page), the `disabled` attribute 
+ *   should be added to the button. This will hide any caret icons and will make the clip unclickable.
  */
 
 /* Clip container */
@@ -290,7 +290,7 @@ a.oae-plain-link:hover {
     text-align: left;
 }
 
-.oae-clip .oae-clip-content button.oae-clip-viewonly {
+.oae-clip .oae-clip-content button:disabled {
     cursor: default;
 }
 
@@ -320,8 +320,8 @@ a.oae-plain-link:hover {
     margin-left: 10px;
 }
 
-.oae-clip .oae-clip-content button.oae-clip-viewonly i.icon-caret-down,
-.oae-clip .oae-clip-content button.oae-clip-viewonly i.icon-caret-up {
+.oae-clip .oae-clip-content button:disabled i.icon-caret-down,
+.oae-clip .oae-clip-content button:disabled i.icon-caret-up {
     display: none;
 }
 

@@ -30,7 +30,7 @@
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button {if !isManager} class="oae-clip-viewonly" {/if}>
+                            <button {if !isManager} disabled {/if}>
                                 <div class="oae-visibility-avatar">
                                     {if picture.medium}
                                         <img src="${picture.medium}" alt="${displayName|safeUserInput}"/>
