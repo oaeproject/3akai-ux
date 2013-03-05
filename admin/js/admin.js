@@ -681,22 +681,25 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
      * Initializes the admin UI
      */
     var doInit = function() {
+        // Redirect to the 'Access denied' page if the user is logged in
+        // but not the tenant or global admin
+        if (!oae.data.me.anon && (!oae.data.me.isTenantAdmin && !oae.data.me.isGlobalAdmin)) {
+            return oae.api.util.redirect().accessdenied();
+        }
+
         // Fetch the list of available tenants
         getTenants(function() {
 
             // Determine for which tenant we want to see the admin UI
             getCurrentContext(function() {
+
+                // Render the header and the footer
+                initializeHeader();
+                initializeFooter();
     
                 if (oae.data.me.anon) {
-                    // Render the header and the footer
-                    initializeHeader();
-                    initializeFooter();
                     setUpLogin();
-                } else if (oae.data.me.isTenantAdmin || oae.data.me.isGlobalAdmin) {
-                    // Render the header and the footer
-                    initializeHeader();
-                    initializeFooter();
-
+                } else {
                     // Get the configuration and continue rendering the page
                     getConfiguration(function() {
                         // Initialize left hand navigation
@@ -708,9 +711,6 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                         // Show requested view
                         switchView();
                     });
-                } else {
-                    // The user is not authorized to view the page
-                    document.location = '/accessdenied';
                 }
             });
         });

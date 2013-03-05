@@ -25,7 +25,7 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
         'oae.api.l10n', 'oae.api.profile', 'oae.api.user', 'oae.api.util', 'oae.api.widget'],
 
     function(authenticationAPI, configAPI, contentAPI, groupAPI, i18nAPI, l10nAPI, profileAPI, userAPI, utilAPI, widgetAPI) {
-        
+
         /*!
          * Object containing all of the available OAE API modules and their functions, as well as some
          * cached data (e.g. me object) that will be passed in when a module adds `oae.api!` as a dependency.
@@ -45,7 +45,7 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
             },
             'data': {}
         };
-        
+
         /*!
          * Initialize OAE after all of the API files have loaded. This will first of all fetch the current user's me
          * feed. Then, the localization API and the internationalization API will be initialized with the locale information
@@ -53,14 +53,13 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
          * `oae.api!`
          */
         var initOAE = function(callback) {
-            var path = document.location.pathname
             // Get the me feed
             oae.api.user.getMe(function(err, meObj) {
                 if (err) {
                     if (err.code === 502) {
-                        utilAPI.redirect().unavailable();
+                        return utilAPI.redirect().unavailable();
                     } else if (err.code === 503) {
-                        utilAPI.redirect().maintenance();
+                        return utilAPI.redirect().maintenance();
                     }
                     throw new Error('Could not load the me feed. Make sure that the server is running and properly configured');
                 }

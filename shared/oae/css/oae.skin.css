@@ -43,7 +43,7 @@ body {
     background-image: url('/ui/img/framework/index.png'), -webkit-linear-gradient(top, rgba(37,169,223,1) 0%, rgba(0,116,167,1) 100%);
     background-image: url('/ui/img/framework/index.png'), linear-gradient(to bottom, rgba(37,169,223,1) 0%, rgba(0,116,167,1) 100%);
     /* Image background */
-    /* background: url('http://ravian100.files.wordpress.com/2011/01/cambridge-university.jpg') no-repeat center center transparent; */
+    /* background-image: url('http://ravian100.files.wordpress.com/2011/01/cambridge-university.jpg'); */
 }
 
 
@@ -119,6 +119,10 @@ body, button, input, select, textarea, a.oae-plain-link {
     background: transparent;
 }
 
+.oae-panel-primary, .oae-panel-primary:before, .oae-panel-primary:after {
+    border-color: transparent;
+}
+
 .oae-panel-primary h1, .oae-panel-primary h2, .oae-panel-primary h3, 
 .oae-panel-primary h4, .oae-panel-primary h5, .oae-panel-primary h6,
 .oae-panel-primary i, .oae-panel-primary i:hover {
@@ -130,6 +134,10 @@ body, button, input, select, textarea, a.oae-plain-link {
 .oae-panel-secondary {
     color: #FFF;
     background: transparent;
+}
+
+.oae-panel-secondary, .oae-panel-secondary:before, .oae-panel-secondary:after {
+    border-color: transparent;
 }
 
 .oae-panel-secondary h1, .oae-panel-secondary h2, .oae-panel-secondary h3, 
@@ -145,14 +153,14 @@ body, button, input, select, textarea, a.oae-plain-link {
     background: rgba(255,255,255,0.3);
 }
 
+.oae-panel-tertiary, .oae-panel-tertiary:before, .oae-panel-tertiary:after {
+    border-color: rgba(255,255,255,0.3);
+}
+
 .oae-panel-tertiary h1, .oae-panel-tertiary h2, .oae-panel-tertiary h3, 
 .oae-panel-tertiary h4, .oae-panel-tertiary h5, .oae-panel-tertiary h6,
 .oae-panel-tertiary i, .oae-panel-tertiary i:hover {
     color: #FFF;
-}
-
-.oae-panel-tertiary.oae-quote-container:after {
-    border-color: transparent #FFF;
 }
 
 
@@ -202,20 +210,20 @@ body, button, input, select, textarea, a.oae-plain-link {
 
 /* SECONDARY CLIP */
 
-.oae-clip.oae-clip-secondary .oae-clip-content {
-    background: -moz-linear-gradient(top,  #24A7DD 0%, #24A7DD 10%, #0175A9 100%);
-    background: -webkit-linear-gradient(top,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
-    background: -o-linear-gradient(top,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
-    background: -ms-linear-gradient(top,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
-    background: linear-gradient(to bottom,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
-}
-
 .oae-clip.oae-clip-secondary .oae-clip-fold .oae-clip-fold-inner {
     background-color: #0175A9;
 }
 .oae-clip.oae-clip-secondary .oae-clip-fold .oae-clip-fold-outer,
 .oae-clip.oae-clip-secondary .oae-clip-content {
     background-color: #24A7DD;
+}
+
+.oae-clip.oae-clip-secondary .oae-clip-content {
+    background: -moz-linear-gradient(top,  #24A7DD 0%, #24A7DD 10%, #0175A9 100%);
+    background: -webkit-linear-gradient(top,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
+    background: -o-linear-gradient(top,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
+    background: -ms-linear-gradient(top,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
+    background: linear-gradient(to bottom,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
 }
 
 .oae-clip.oae-clip-secondary .oae-clip-content button,

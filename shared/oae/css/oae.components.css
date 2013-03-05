@@ -84,18 +84,6 @@ a.oae-plain-link:hover {
             border-radius: 5px;
 }
 
-.oae-panel-tertiary.oae-quote-container:after {
-    border-style: solid;
-    border-width: 0 27px 27px 0;
-    bottom: -27px;
-    content: "";
-    display: block;
-    left: 40px;
-    opacity: 0.3;
-    position: absolute;
-    width: 0;
-}
-
 /**********************
  ** VISIBILITY ICONS **
  **********************/

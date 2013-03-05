@@ -55,3 +55,14 @@
 #error-content #error-quote-container + div {
     margin: 10px 0 0 80px;
 }
+
+#error-content #error-quote-container:after {
+    border-style: solid;
+    border-width: 0 27px 27px 0;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    bottom: -27px;
+    content: "";
+    left: 40px;
+    position: absolute;
+}
