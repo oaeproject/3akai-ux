@@ -15,12 +15,16 @@
 
 require(['jquery','oae.core'], function($, oae) {
 
-    // Redirect the user back to the landing page if he is not logged in
-    if (oae.data.me.anon) {
-        oae.api.util.redirect().login();
-    }
+    var addBinding = function() {
+        if (oae.data.me.anon) {
+            $('#error-login').removeClass('hide');
 
-    // Set the browser title
-    oae.api.util.setBrowserTitle('__MSG__CREATE_A_GROUP__');
+            $(document).on('click', '#error-signin', function(ev) {
+                $('#topnavigation-signin').dropdown('toggle');
+                ev.stopPropagation();
+            });
+        }
+    };
 
+    addBinding();
 });

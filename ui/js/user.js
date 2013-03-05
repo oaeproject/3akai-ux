@@ -18,7 +18,7 @@ require(['jquery', 'oae.core'], function($, oae) {
     //  Get the user id from the URL. The expected URL is /user/<userId>
     var userId = document.location.pathname.split('/').pop();
     if (!userId) {
-        oae.api.util.redirect().redirectToLogin();
+        oae.api.util.redirect().login();
     }
 
     // Redirect to /me if the requested user is the currently logged in user
@@ -37,9 +37,9 @@ require(['jquery', 'oae.core'], function($, oae) {
     var getUserProfile = function() {
         oae.api.user.getUser(userId, function(err, profile) {
             if (err && err.code === 404) {
-                oae.api.util.redirect().redirectTo404();
+                oae.api.util.redirect().notfound();
             } else if (err && err.code === 401) {
-                oae.api.util.redirect().redirectTo403();
+                oae.api.util.redirect().accessdenied();
             }
 
             userProfile = profile;

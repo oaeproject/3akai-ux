@@ -21,7 +21,7 @@ require(['jquery','oae.core'], function($, oae) {
     //  Get the content id from the URL. The expected URL is /content/<groupId>
     var contentId = document.location.pathname.split('/').pop();
     if (!contentId) {
-        oae.api.util.redirect().redirectToLogin();
+        oae.api.util.redirect().login();
     }
 
     // Variable used to cache the requested content profile
@@ -34,10 +34,12 @@ require(['jquery','oae.core'], function($, oae) {
      */
     var getContentProfile = function() {
         oae.api.content.getContent(contentId, function(err, profile) {
-            if (err && err.code === 404) {
-                oae.api.util.redirect().redirectTo404();
-            } else if (err && err.code === 401) {
-                oae.api.util.redirect().redirectTo403();
+            if (err) {
+                if (err.code === 401) {
+                    oae.api.util.redirect().notfound();
+                } else {
+                    oae.api.util.redirect().accessdenied();
+                }
             }
 
             contentProfile = profile;
