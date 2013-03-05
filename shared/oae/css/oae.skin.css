@@ -39,7 +39,6 @@ body {
     /* Color background */
     background-image: url('/ui/img/framework/index.png') rgb(37,169,223);
     background-image: url('/ui/img/framework/index.png'), -moz-linear-gradient(top, rgba(37,169,223,1) 0%, rgba(0,116,167,1) 100%);
-    background-image: url('/ui/img/framework/index.png'), -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(37,169,223,1)), color-stop(100%, rgba(0,116,167,1)));
     background-image: url('/ui/img/framework/index.png'), -webkit-linear-gradient(top, rgba(37,169,223,1) 0%, rgba(0,116,167,1) 100%);
     background-image: url('/ui/img/framework/index.png'), linear-gradient(to bottom, rgba(37,169,223,1) 0%, rgba(0,116,167,1) 100%);
     /* Image background */
@@ -57,6 +56,33 @@ a, .btn-link {
 
 a:hover, .btn-link:hover {
     color: #005580;
+}
+
+
+/**************************
+ ** LEFT HAND NAVIGATION **
+ **************************/
+
+.nav > li > a,
+.nav > li i {
+    background-color: transparent;
+    color: #999;
+}
+
+.nav > li > a:hover,
+.nav > li > a:focus,
+.nav > li > a:hover i,
+.nav > li > a:focus i {
+    background-color: transparent;
+    color: #333;
+}
+
+.nav > li.active > a, 
+.nav > li.active > a:hover, 
+.nav > li.active > a:focus,
+.nav > li.active i {
+    background-color: transparent;
+    color: #333;
 }
 
 
@@ -79,6 +105,7 @@ a:hover, .btn-link:hover {
 .btn-link:hover [class^="icon-"], .btn-link:hover [class*=" icon-"] {
     color: #555;
 }
+
 
 /*****************
  ** TEXT COLORS **
@@ -199,9 +226,9 @@ body, button, input, select, textarea, a.oae-plain-link {
 
 .oae-clip button:hover,
 .oae-clip button:focus,
-.oae-clip .oae-clip-content i:hover {
+.oae-clip button:hover i,
+.oae-clip button:focus i {
     color: #FFF;
-    border-color: 1px dotted #FFF;
 }
 
 .oae-clip ul li button:hover {
@@ -237,7 +264,8 @@ body, button, input, select, textarea, a.oae-plain-link {
 
 .oae-clip.oae-clip-secondary button:hover,
 .oae-clip.oae-clip-secondary button:focus,
-.oae-clip.oae-clip-secondary .oae-clip-content i:hover {
+.oae-clip.oae-clip-secondary button:hover i,
+.oae-clip.oae-clip-secondary button:focus i {
     color: #FFF;
 }
 

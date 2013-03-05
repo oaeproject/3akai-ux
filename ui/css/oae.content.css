@@ -13,14 +13,4 @@
  * permissions and limitations under the License.
  */
 
-/* Container for metadata, comments and related */
-#content_profile_bottom_container {
-    border-top: 5px solid #E2E2E2;
-    padding-top: 15px;
-    margin-right: 20px;
-    margin-left: 20px;
-}
 
-.content-entity-title {
-    margin-left: 60px !important;
-}

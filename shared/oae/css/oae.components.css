@@ -18,15 +18,6 @@
  ******************/
 
 /**
- * Style that can be used for links if we just want them to have the same color as the
- * text. These links will be underlined when hovering over them.
- *   e.g. <a href="http://www.google.co.uk" class="oae-plain-link">Google</a>
- */
-a.oae-plain-link:hover {
-    text-decoration: underline;
-}
-
-/**
  * Used for accessibility purposes as it allows to put text content
  * for items that might not have text content (e.g. icons) or create
  * additional clues for screenreader users
@@ -41,6 +32,15 @@ a.oae-plain-link:hover {
     padding: 0;
     position: absolute;
     width: 1px;
+}
+
+/**
+ * Style that can be used for links if we just want them to have the same color as the
+ * text. These links will be underlined when hovering over them.
+ *   e.g. <a href="http://www.google.co.uk" class="oae-plain-link">Google</a>
+ */
+a.oae-plain-link:hover {
+    text-decoration: underline;
 }
 
 
@@ -125,13 +125,13 @@ a.oae-plain-link:hover {
     background-color: #C4E6FF;
     content: "\f041";
     width: 16px;
-    padding-right: 1px;
+    padding-left: 1px;
 }
 
 .icon-oae-public:before {
     background-color: #A6E0AB;
     content: "\f0ac";
-    width: 18px;
+    padding-left: 1px;
 }
 
 
@@ -205,15 +205,21 @@ a.oae-plain-link:hover {
  *   into an `.oae-visibility-avatar` container and following the structure outlined there.
  * - The `icon-caret-down` element is optional. If it is not provided, the clip will be shown in view
  *   only mode. If it is provided, the clip will be toggleable and the action menu will be shown when clicked.
- * - The `small` tag is used to show some additional clip metadata and is optional
+ * - The `small` tag is used to show some additional clip metadata and is optional.
+ * - When a clip should not be clickable (e.g. in non-manager mode of a page), the `disabled` attribute 
+ *   should be added to the button. This will hide any caret icons and will make the clip unclickable.
  */
 
 /* Clip container */
 
 .oae-clip {
     float: left;
-    margin: -15px 10px 10px;
+    margin: -16px 10px 10px;
     position: relative;
+}
+
+.pull-right .oae-clip:last-child {
+    margin-right: 50px;
 }
 
 /* Clip fold */
@@ -279,8 +285,12 @@ a.oae-plain-link:hover {
     border: none;
     font-weight: 600;
     min-height: 30px;
-    padding: 10px 14px 14px;
+    padding: 14px 20px 14px 14px;
     text-align: left;
+}
+
+.oae-clip .oae-clip-content button:disabled {
+    cursor: default;
 }
 
 .oae-clip .oae-clip-content button div {
@@ -307,7 +317,11 @@ a.oae-plain-link:hover {
 .oae-clip .oae-clip-content button i.icon-caret-down,
 .oae-clip .oae-clip-content button i.icon-caret-up {
     margin-left: 10px;
-    margin-right: 10px;
+}
+
+.oae-clip .oae-clip-content button:disabled i.icon-caret-down,
+.oae-clip .oae-clip-content button:disabled i.icon-caret-up {
+    display: none;
 }
 
 .oae-clip .oae-clip-content button h1 {
@@ -316,6 +330,8 @@ a.oae-plain-link:hover {
     line-height: 1;
     margin: 0;
     font-weight: 600;
+    max-width: 500px;
+    word-wrap: break-word;
 }
 
 .oae-clip .oae-clip-content small {
