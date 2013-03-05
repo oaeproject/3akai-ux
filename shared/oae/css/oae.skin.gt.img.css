@@ -35,7 +35,7 @@ body {
 
 /* INDEX PAGE BACKGROUND */
 
-#index-container.oae-main-content {
+.oae-main-content.oae-branding-container {
     /* Color background */
     /* background-image: url('/ui/img/framework/index.png') rgb(238,178,17);
     background-image: url('/ui/img/framework/index.png'), -moz-linear-gradient(top, rgb(238,178,17) 0%, rgba(197,147,83,1) 100%);
@@ -133,4 +133,9 @@ body, button, input, select, textarea, a.oae-plain-link {
 .oae-panel-tertiary h4, .oae-panel-tertiary h5, .oae-panel-tertiary h6,
 .oae-panel-tertiary i, .oae-panel-tertiary i:hover {
     color: #333;
+}
+
+.oae-panel-tertiary.oae-quote-container:after {
+    border-color: transparent #cb9c18;
+    opacity: 1;
 }

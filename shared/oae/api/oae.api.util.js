@@ -541,35 +541,53 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
      * All functionality related to redirecting users to error pages, etc.
      */
     var redirect = exports.redirect = function() {
-      
+
         /**
          * Redirect the currently logged in user to the landing/login page. This can be used when an anonymous user tries to access
          * a page that requires login.
          */
-        var redirectToLogin = function() {
+        var login = function() {
             document.location = '/';
         };  
-        
+
         /**
-         * Redirect the currently logged in user to the 403 page. This can be used when the currently logged user does not have
+         * Redirect the current user to the 401 page. This can be used when the current user does not have
          * permission to see a certain page.
          */
-        var redirectTo403 = function() {
-            document.location = '/403'
+        var accessdenied = function() {
+            document.location = '/accessdenied';
         };
-        
+
         /**
-         * Redirect the currently logged in user to the 404 page. This can be used when the user requests a page that cannot
+         * Redirect the current user to the 404 page. This can be used when the user requests a page that cannot
          * be found.
          */
-        var redirectTo404 = function() {
-            document.location = '/404'
+        var notfound = function() {
+            document.location = '/notfound';
         };
-        
+
+        /**
+         * Redirect the current user to the 502 page. This can be used when the user requests a page on a node
+         * that is currently not available.
+         */
+        var unavailable = function() {
+            document.location = '/unavailable';
+        };
+
+        /**
+         * Redirect the current user to the 503 page. This can be used when the user requests a page on a node
+         * that is currently undergoing maintenance.
+         */
+        var maintenance = function() {
+            document.location = '/maintenance';
+        };
+
         return {
-            'redirectToLogin': redirectToLogin,
-            'redirectTo403': redirectTo403,
-            'redirectTo404': redirectTo404
+            'login': login,
+            'accessdenied': accessdenied,
+            'notfound': notfound,
+            'unavailable': unavailable,
+            'maintenance': maintenance
         };
     };
     

@@ -53,9 +53,15 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
          * `oae.api!`
          */
         var initOAE = function(callback) {
+            var path = document.location.pathname
             // Get the me feed
             oae.api.user.getMe(function(err, meObj) {
                 if (err) {
+                    if (err.code === 502) {
+                        utilAPI.redirect().unavailable();
+                    } else if (err.code === 503) {
+                        utilAPI.redirect().maintenance();
+                    }
                     throw new Error('Could not load the me feed. Make sure that the server is running and properly configured');
                 }
                 // Add the me object onto the oae data object
@@ -66,14 +72,14 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
                     if (err) {
                         throw new Error('Could not initialize the config API.');
                     }
-                    
+
                     // Initialize l10n
                     var userLocale = oae.data.me.locale ? oae.data.me.locale.locale : null;
                     oae.api.l10n.init(userLocale, function(err) {
                         if (err) {
                             throw new Error('Could not initialize the l10n API.');
                         }
-                        
+
                         // Initialize i18n
                         oae.api.i18n.init(userLocale, function(err) {
                             if (err) {
@@ -88,11 +94,11 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
                                     if (err) {
                                         throw new Error('Could not initialize the widgets API.');
                                     }
-    
+
                                     // The APIs have now fully initialized. All javascript that
                                     // depends on the initialized core APIs can now execute
                                     callback(oae);
-                                    
+
                                     // We now load the widgets in the core HTML
                                     oae.api.widget.loadWidgets(null, null, null, function() {
                                         // We can show the body as internationalization and
