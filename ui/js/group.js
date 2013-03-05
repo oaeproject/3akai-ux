@@ -18,7 +18,7 @@ require(['jquery', 'oae.core'], function($, oae) {
     //  Get the group id from the URL. The expected URL is /group/<groupId>
     var groupId = document.location.pathname.split('/')[2];
     if (!groupId) {
-        oae.api.util.redirect().redirectToLogin();
+        oae.api.util.redirect().login();
     }
 
     // Variable used to cache the requested user's profile
@@ -32,9 +32,9 @@ require(['jquery', 'oae.core'], function($, oae) {
     var getGroupProfile = function() {
         oae.api.group.getGroup(groupId, function(err, profile) {
             if (err && err.code === 404) {
-                oae.api.util.redirect().redirectTo404();
+                oae.api.util.redirect().notfound();
             } else if (err && err.code === 401) {
-                oae.api.util.redirect().redirectTo403();
+                oae.api.util.redirect().accessdenied();
             }
 
             groupProfile = profile;

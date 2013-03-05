@@ -15,12 +15,17 @@
 
 require(['jquery','oae.core'], function($, oae) {
 
-    // Redirect the user back to the landing page if he is not logged in
-    if (oae.data.me.anon) {
-        oae.api.util.redirect().login();
-    }
+    // Set the page title
+    oae.api.util.setBrowserTitle('__MSG__ACCESS_DENIED__');
 
-    // Set the browser title
-    oae.api.util.setBrowserTitle('__MSG__CREATE_A_GROUP__');
+    if (oae.data.me.anon) {
+        // Show the sign in button if the user is not logged in
+        $('#error-signin').removeClass('hide');
+        // Trigger the sign in dropdown when the users clicks the sign in button
+        $(document).on('click', '#error-signin', function(ev) {
+            $('#topnavigation-signin').click();
+            return false;
+        });
+    }
 
 });

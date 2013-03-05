@@ -209,6 +209,13 @@ input.search-query,
     opacity: 0.4;
 }
 
+/* BRANDED PAGE BACKGROUND */
+.oae-main-content.oae-branding-container {
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
 /* MAIN CONTENT DIV */
 
 .oae-main-content {

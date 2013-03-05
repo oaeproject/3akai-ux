@@ -17,7 +17,7 @@ require(['jquery','oae.core'], function($, oae) {
 
     // Redirect the user back to the landing page if he is not logged in
     if (oae.data.me.anon) {
-        oae.api.util.redirect().redirectToLogin();
+        oae.api.util.redirect().login();
     }
 
     // Set the browser title

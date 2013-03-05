@@ -15,12 +15,7 @@
 
 require(['jquery','oae.core'], function($, oae) {
 
-    // Redirect the user back to the landing page if he is not logged in
-    if (oae.data.me.anon) {
-        oae.api.util.redirect().login();
-    }
-
-    // Set the browser title
-    oae.api.util.setBrowserTitle('__MSG__CREATE_A_GROUP__');
+    // Set the page title
+    oae.api.util.setBrowserTitle('__MSG__PAGE_NOT_FOUND__');
 
 });
