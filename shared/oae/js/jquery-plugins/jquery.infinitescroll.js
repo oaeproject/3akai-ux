@@ -182,7 +182,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
             if (_.isFunction(render)) {
                 templateOutput = render(data.results);
             } else {
-                templateOutput = oaeUtil.renderTemplate(render, data);
+                templateOutput = oaeUtil.template().render(render, data);
             }
             $container.append(templateOutput);
 

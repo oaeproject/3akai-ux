@@ -96,7 +96,7 @@ require(['jquery','oae.core'], function($, oae) {
      * user's admin options
      */
     var setUpClip = function() {
-        oae.api.util.renderTemplate($('#me-clip-template'), null, $('#me-clip-container'));
+        oae.api.util.template().render($('#me-clip-template'), null, $('#me-clip-container'));
     };
 
     setUpClip();

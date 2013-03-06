@@ -50,7 +50,7 @@ require(['jquery', 'oae.core'], function($, oae) {
      * group's admin options
      */
     var setUpClip = function() {
-        oae.api.util.renderTemplate($('#group-clip-template'), groupProfile, $('#group-clip-container'));
+        oae.api.util.template().render($('#group-clip-template'), groupProfile, $('#group-clip-container'));
 
         // Only show the create and upload clips to managers
         if (groupProfile.isManager) {
