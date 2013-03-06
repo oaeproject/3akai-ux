@@ -98,7 +98,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
     // Variable that will be used to cache the OAE Trimpath macros for
     // common HTML structures across different pages. This is currently
     // only being used for rendering list view items
-    var globalMacros = {};
+    var globalMacros = [];
 
     /*
      * All functionality related to rendering client-side Trimpath templates
@@ -125,15 +125,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         var init = function(callback) {
             // Load the lists macros through the RequireJS Text plugin
             require(['text!/ui/macros/list.html'], function(listMacro) {
-                // Parse the macro template
-                var listMacroTemplate = TrimPath.parseTemplate(listMacro, 'oaeMacros');
-                // We process the template and pass in an empty oaeMacros object that will
-                // then be used inside of the macro file to add a reference to the different
-                // macros onto this object. After processing, we cache the references to the
-                // macros so they can be passed as data into other templates
-                var data = {'oaeMacros': {}};
-                listMacroTemplate.process(data);
-                globalMacros = data['oaeMacros'];
+                // Cache the macro
+                globalMacros.push(listMacro);
                 callback();
             });
         };
@@ -159,7 +152,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * 
          * There is also a globally available macro that can be used when rendering list view items:
          * 
-         *   `${oaeMacros.listItem(entityData, [thumbnailURL], [metadata], [pagingKey])}`
+         *   `${listItem(entityData, [thumbnailURL], [metadata], [pagingKey])}`
          * 
          * - `entityData` is an object representing a user, group or content item or a search result for a user, group
          *    or content item
@@ -183,7 +176,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             if (!$template) {
                 throw new Error('No valid template has been provided');
             }
-    
+
             // Add all of the OAE API functions onto the data object
             data = data || {};
             data['oae'] = require('oae.core');
@@ -191,9 +184,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             data['_'] = require('underscore');
             // Make jQuery available
             data['$'] = require('jquery');
-    
-            // Add the global macros for commonly used HTML structure onto the data object
-            data['oaeMacros'] = globalMacros;
+
             // Add the Trimpath modifiers onto the data object.
             data['_MODIFIERS'] = trimpathModifiers;
 
@@ -202,12 +193,15 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             if ($template.length === 0) {
                 throw new Error('The provided template could not be found');
             }
-    
+
             var templateId = $template.attr('id');
             if (!templateCache[templateId]) {
                 // We extract the content from the templates, which is wrapped in <!-- -->
                 var templateContent = $template[0].firstChild.data.toString();
-    
+                // Prepend the global macros to this template. This is done to make sure that
+                // the macros have access to all of the variables in scope of the template
+                templateContent = globalMacros.join('') + templateContent;
+
                 // Parse the template through TrimPath and add the 
                 // parsed template to the template cache
                 try {
@@ -216,7 +210,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
                     throw new Error('Parsing of template "' + templateId + '" failed: ' + err);
                 }
             }
-    
+
             // Render the template
             var renderedHTML = null;
             try {
@@ -224,7 +218,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             } catch (err) {
                 throw new Error('Rendering of template "' + templateId + '" failed: ' + err);
             }
-    
+
             // If an output element has been provided, we can just render the renderer HTML,
             // otherwise we pass it back to the call function
             if ($output) {

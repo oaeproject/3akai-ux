@@ -1,4 +1,55 @@
-{macro listItem()}
-    ITEM
+{macro listItem(entityData, thumbnailURL, metadata, pagingKey)}
+    <li {if pagingKey} data-key="${pagingKey}" {/if}>
+        <!-- THUMBNAIL VIEW -->
+        <div class="oae-thumbnail">
+            <div class="oae-avatar icon-oae-${entityData.resourceType}">
+                {if thumbnailURL}
+                    <img src="${thumbnailURL}" alt="${entityData.displayName|safeUserInput}" />
+                {/if}
+            </div>
+            <div>
+                <i class="icon-oae-${entityData.visibility} pull-left"></i>
+                <h3 class="oae-threedots"><a href="${entityData.profilePath}">${entityData.displayName|safeUserInput}</a></h3>
+                {if metadata}
+                    <small class="oae-threedots">${metadata|safeUserInput}</small>
+                {/if}
+            </div>
+        </div>
+
+        <!-- DETAILED LIST VIEW -->
+
+        <!-- LIST VIEW -->
+
+
+        <!-- <div class="oae-list-item-banner hide">
+            <div>
+                <i class="icon-oae-${entityData.visibility}"></i>
+                <a class="oae-threedots" href="${entityData.profilePath}">${entityData.displayName|safeUserInput}</a>
+                <span class="oae-list-item-banner-description oae-threedots">${metadata}</span>
+            </div>
+        </div>
+        <div class="oae-list-item-left">
+            <img src="${thumbnailURL}" alt="${entityData.displayName|safeUserInput}" class="oae-list-item-profile-picture grid"/>
+            {if !oae.data.me.anon}
+                <button type="button" class="btn btn-link pull-right oae-trigger-sharecontent" data-contentid="${entityData.id}" data-contentname="${entityData.displayName|safeUserInput}">
+                    <i class="icon-share"></i>
+                </button>
+            {/if}
+            <div class="oae-list-item-left-inner">
+                {if !oae.data.me.anon}
+                    <input type="checkbox" name="${entityData.id}_chk" id="${entityData.id}_chk" data-id="${entityData.id}" class="pull-left"/>
+                {/if}
+                <label for="${entityData.id}_chk" class="oae-threedots">
+                    <img src="${thumbnailURL}" alt="${entityData.displayName|safeUserInput}" class="oae-list-item-profile-picture"/>
+                    <img src="/ui/img/entities/content_icon.png" alt="${entityData.displayName|safeUserInput}" class="oae-list-item-small-picture"/>
+                    <i class="icon-oae-${entityData.visibility}"></i>
+                    <a class="oae-threedots" href="${entityData.profilePath}">${entityData.displayName|safeUserInput}</a>
+                </label>
+                <div class="oae-list-description oae-threedots">${metadata}</div>
+            </div>
+        </div>
+        {if !oae.data.me.anon}
+            <input type="checkbox" name="${entityData.id}_chk" id="${entityData.id}_chk" data-id="${entityData.id}" class="oae-list-item-checkbox grid hide"/>
+        {/if} -->
+    </li>
 {/macro}
-${oaeMacros.listItem = listItem|eat}
