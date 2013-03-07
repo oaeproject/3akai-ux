@@ -100,6 +100,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @throws {Error}                              Error thrown when no userId has been provided
      */
     var getUser = exports.getUser = function(userId, callback) {
+        console.log(userId);
         if (!userId) {
             throw new Error('A valid user id should be provided');
         }
