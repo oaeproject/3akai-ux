@@ -124,14 +124,29 @@ body, button, input, select, textarea, a.oae-plain-link {
 
 .modal, .dropdown-menu {
     background: #FFF;
-    background: linear-gradient(to bottom, #FFF 0%, #F5F5F5 100%); 
+    background: linear-gradient(to bottom, #FFF 0%, #F5F5F5 100%);
+    background: -o-linear-gradient(top, #FFF 0%, #F5F5F5 100%);
     background: -moz-linear-gradient(top, #FFF 0%, #F5F5F5 100%);
     background: -webkit-linear-gradient(top, #FFF 0%, #F5F5F5 100%);
-    background: -ms-linear-gradient(top, #FFF 0%, #F5F5F5 100%); 
+    background: -ms-linear-gradient(top, #FFF 0%, #F5F5F5 100%);
 }
 
 .modal-header h3, .modal-body h4 {
     color: #777;
+}
+
+
+/**********************
+ ** THUMBNAIL COLORS **
+ **********************/
+
+div.oae-thumbnail {
+    background: #F8F8F6;
+    background: linear-gradient(top, #F8F8F6 47%, #E3E2DB 74%);
+    background: -o-linear-gradient(top, #F8F8F6 47%, #E3E2DB 74%);
+    background: -moz-linear-gradient(top, #F8F8F6 47%, #E3E2DB 74%);
+    background: -webkit-linear-gradient(top, #F8F8F6 47%, #E3E2DB 74%);
+    background: -ms-linear-gradient(top, #F8F8F6 47%, #E3E2DB 74%);
 }
 
 
@@ -207,12 +222,11 @@ body, button, input, select, textarea, a.oae-plain-link {
 
 .oae-clip .oae-clip-content {
     background: #545454;
-    background: -moz-linear-gradient(top,  #545454 0%, #545454 10%, #000000 100%);
-    background: -webkit-linear-gradient(top,  #545454 0%,#545454 10%,#000000 100%);
-    background: -o-linear-gradient(top,  #545454 0%,#545454 10%,#000000 100%);
-    background: -ms-linear-gradient(top,  #545454 0%,#545454 10%,#000000 100%);
-    background: linear-gradient(to bottom,  #545454 0%,#545454 10%,#000000 100%);
-    z-index: 1000;
+    background: linear-gradient(to bottom, #545454 0%,#545454 10%,#000000 100%);
+    background: -o-linear-gradient(top, #545454 0%, #545454 10%, #000000 100%);
+    background: -moz-linear-gradient(top, #545454 0%, #545454 10%, #000000 100%);
+    background: -webkit-linear-gradient(top, #545454 0%, #545454 10%, #000000 100%);
+    background: -ms-linear-gradient(top, #545454 0%, #545454 10%, #000000 100%);
 }
 
 .oae-clip .oae-clip-content button,
@@ -246,11 +260,12 @@ body, button, input, select, textarea, a.oae-plain-link {
 }
 
 .oae-clip.oae-clip-secondary .oae-clip-content {
-    background: -moz-linear-gradient(top,  #24A7DD 0%, #24A7DD 10%, #0175A9 100%);
-    background: -webkit-linear-gradient(top,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
-    background: -o-linear-gradient(top,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
-    background: -ms-linear-gradient(top,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
-    background: linear-gradient(to bottom,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
+    background: #24A7DD;
+    background: linear-gradient(to bottom, #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
+    background: -o-linear-gradient(top, #24A7DD 0%, #24A7DD 10%, #0175A9 100%);
+    background: -moz-linear-gradient(top, #24A7DD 0%, #24A7DD 10%, #0175A9 100%);
+    background: -webkit-linear-gradient(top, #24A7DD 0%, #24A7DD 10%, #0175A9 100%);
+    background: -ms-linear-gradient(top, #24A7DD 0%, #24A7DD 10%, #0175A9 100%);
 }
 
 .oae-clip.oae-clip-secondary .oae-clip-content button,

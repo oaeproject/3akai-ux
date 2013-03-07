@@ -31,13 +31,17 @@
                         </div>
                         <div class="oae-clip-content">
                             <button {if !isManager} disabled {/if}>
-                                <div class="oae-visibility-avatar">
-                                    <img src="/ui/img/entities/content_icon_medium.png" alt="${displayName|safeUserInput}"/>
+                                <div class="oae-thumbnail icon-oae-content">
+                                    {if previews.thumbnailUrl}
+                                        <img src="${previews.thumbnailUrl}" alt="${displayName|safeUserInput}" />
+                                    {/if}
                                     <i class="icon-oae-${visibility}"></i>
                                 </div>
                                 <div>
-                                    <h1>${displayName|safeUserInput}</h1>
-                                    <i class="icon-caret-down"></i>
+                                    <div>
+                                        <h1>${displayName|safeUserInput}</h1>
+                                        <i class="icon-caret-down"></i>
+                                    </div>
                                 </div>
                             </button>
                             <div>

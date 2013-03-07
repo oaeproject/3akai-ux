@@ -31,17 +31,17 @@
                         </div>
                         <div class="oae-clip-content">
                             <button>
-                                <div>
+                                <div class="oae-thumbnail icon-oae-user">
                                     {if oae.data.me.picture.medium}
                                         <img src="${oae.data.me.picture.medium}" alt="${oae.data.me.displayName|safeUserInput}"/>
-                                    {else}
-                                        <img src="/ui/img/dummy/profile-pic-john.png" alt="${oae.data.me.displayName|safeUserInput}"/>
                                     {/if}
                                 </div>
                                 <div>
-                                    <h1>${oae.data.me.displayName|safeUserInput}</h1>
-                                    <i class="icon-caret-down"></i>
-                                    <small>${oae.data.me.department}</small>
+                                    <div>
+                                        <h1>${oae.data.me.displayName|safeUserInput}</h1>
+                                        <i class="icon-caret-down"></i>
+                                        <small>${oae.data.me.department}</small>
+                                    </div>
                                 </div>
                             </button>
                             <div>

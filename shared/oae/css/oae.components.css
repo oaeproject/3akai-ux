@@ -117,11 +117,6 @@ a.oae-plain-link:hover {
     text-align: center;
 }
 
-/* 
- * NOTE: Some of these icons are slightly differently positioned relative
- * to each other, which is why we need to play around with widths and paddings 
- * to get them visually centered in the visibility area
- */
 .icon-oae-private:before {
     background-color: #FFBC78;
     content: "\f023";
@@ -130,57 +125,92 @@ a.oae-plain-link:hover {
 .icon-oae-loggedin:before {
     background-color: #C4E6FF;
     content: "\f041";
-    width: 16px;
-    padding-left: 1px;
 }
 
 .icon-oae-public:before {
     background-color: #A6E0AB;
     content: "\f0ac";
-    padding-left: 1px;
 }
 
 
-/*************
- ** AVATARS **
-**************/
+/****************
+ ** THUMBNAILS **
+ ****************/
 
 /**
- * TODO: Update the documentation
- * A visibility avatar is a combination of a thumbnail picture/profile picture and
- * a visibility icon, which will come back consistently through the UI. The available
- * visibility icons are `icon-oae-private`, `icon-oae-loggedin` and `icon-oae-public`.
- *   e.g. <div class="oae-visibility-avatar">
+ * A thumbnail can be used to show a thumbnail picture/profile picture for an
+ * entity. It will also attempt to set a default thumbnail in case no actual
+ * image is available, and it allows for showing a visibility icon combined with
+ * the thumbnail. These thumbnails will adjust in size to the space they have
+ * been given by their container.
+ * 
+ *   e.g. <div class="oae-thumbnail icon-oae-user">
  *          <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian"/>
  *          <i class="icon-oae-public"></i>
  *        </div>
+ * 
+ * Notes:
+ * 
+ * - The actual thumbnail image is optional, and if no image is specified the
+ *   thumbnail will show a default entity thumbnail. In order to do this,
+ *   `icon-oae-user` should be added to the `oae-thumbnail` div for users,
+ *   `icon-oae-group` should be added to the `oae-thumbnail` div for groups and
+ *   `icon-oae-content` should be added to the `oae-thumbnail` div for content.
+ *   Even when an image is provided, the entity icon class can still be added as
+ *   it will be used when the image cannot be downloaded
+ * - An optional visibility icon can be added to the thumbnail as well and will
+ *   automatically be positioned correctly. The available visibility icons are 
+ *   `icon-oae-private`, `icon-oae-loggedin` and `icon-oae-public` (See Visibility
+ *   icons section)
  */
 
-.oae-visibility-avatar img + i[class^="icon-"] {
-    position: absolute;
-    margin: 20px 0 0 -25px;
+div.oae-thumbnail {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    display: inline-block;
+    position: relative;
 }
 
-.oae-avatar {
-    background-color: #eee;
-}
-
-.oae-avatar img {
+div.oae-thumbnail img {
     position: absolute;
     left: 0;
     top: 0;
+    min-width: 100%;
+    min-height: 100%;
 }
 
-.oae-avatar.icon-oae-content:before {
-    content: "";
+div.oae-thumbnail:before {
     font-size: 20px;
     padding-top: 50%;
-    margin-top: -10px;
+    margin-top: -11px;
 }
 
-.oae-avatar.icon-oae-content.oae-avatar-large:before {
+div.oae-thumbnail.oae-thumbnail-large:before {
     font-size: 50px;
     margin-top: -25px;
+}
+
+/* Default entity thumbnails */
+
+div.oae-thumbnail.icon-oae-content:before {
+    content: "";
+}
+
+div.oae-thumbnail.icon-oae-group:before {
+    content: "";
+}
+
+div.oae-thumbnail.icon-oae-user:before {
+    content: "";
+}
+
+/* Visibility icon positioning */
+
+div.oae-thumbnail i[class^="icon-"] {
+    position: absolute;
+    bottom: -7px;
+    right: -7px;
 }
 
 
@@ -203,13 +233,16 @@ a.oae-plain-link:hover {
  *      </div>
  *      <div class="oae-clip-content">
  *          <button>
- *              <div>
+ *              <div class="oae-thumbnail icon-oae-user">
  *                  <img src="/url/to/picture" alt="John Doe"/>
+ *                  <i class="icon-oae-public"></i>
  *              </div>
  *              <div>
- *                  <h1>John Doe</h1>
- *                  <i class="icon-caret-down"></i>
- *                  <small>Job Title</small>
+ *                  <div>
+ *                      <h1>John Doe</h1>
+ *                      <i class="icon-caret-down"></i>
+ *                      <small>Job Title</small>
+ *                  </div>
  *              </div>
  *          </button>
  *          <div>
@@ -230,8 +263,10 @@ a.oae-plain-link:hover {
  * - Clips are available in two different skinnable styles. By default, the primary style will be used. If
  *   the secundary style is needed, this can be done by adding an 'oae-clip-secondary' class to the
  *   `.oae-clip` element.
- * - The avatar image in the clip can be given a visibility icon by turning the div containing the image
- *   into an `.oae-visibility-avatar` container and following the structure outlined there.
+ * - A thumbnail image can be added to the clip by adding an `oae-thumbnail` div as the first element of the
+ *   main button. This can also show a default entity picture (in case no image is provided) as well as a
+ *   visibility icon (See the `Thumbnail` section for details on how to create a thumbnail).
+ *   The thumbnail image is optional and can be left out as well.
  * - The `icon-caret-down` element is optional. If it is not provided, the clip will be shown in view
  *   only mode. If it is provided, the clip will be toggleable and the action menu will be shown when clicked.
  * - The `small` tag is used to show some additional clip metadata and is optional.
@@ -313,47 +348,46 @@ a.oae-plain-link:hover {
     background: none;
     border: none;
     font-weight: 600;
-    min-height: 30px;
     padding: 14px 20px 14px 14px;
     text-align: left;
 }
 
-.oae-clip .oae-clip-content button:disabled {
+.oae-clip .oae-clip-content > button:disabled {
     cursor: default;
 }
 
-.oae-clip .oae-clip-content button div {
-    display: table-cell;
+.oae-clip .oae-clip-content > button > div {
+    float: left;
 }
 
-.oae-clip .oae-clip-content button div,
-.oae-clip .oae-clip-content button i,
-.oae-clip .oae-clip-content button h1 {
+.oae-clip .oae-clip-content > button > div:nth-child(2) > div {
+    display: table-cell;
+    height: 35px;
     vertical-align: middle;
 }
 
-.oae-clip .oae-clip-content button img {
+.oae-clip .oae-clip-content > button div.oae-thumbnail {
     -webkit-border-radius: 4px;
        -moz-border-radius: 4px;
             border-radius: 4px;
     box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.35);
-    float: left;
-    max-height: 35px;
+    height: 35px;
     width: 35px;
     margin-right: 12px;
 }
 
-.oae-clip .oae-clip-content button i.icon-caret-down,
-.oae-clip .oae-clip-content button i.icon-caret-up {
+.oae-clip .oae-clip-content > button i.icon-caret-down,
+.oae-clip .oae-clip-content > button i.icon-caret-up {
     margin-left: 10px;
+    float: right;
 }
 
-.oae-clip .oae-clip-content button:disabled i.icon-caret-down,
-.oae-clip .oae-clip-content button:disabled i.icon-caret-up {
+.oae-clip .oae-clip-content > button:disabled i.icon-caret-down,
+.oae-clip .oae-clip-content > button:disabled i.icon-caret-up {
     display: none;
 }
 
-.oae-clip .oae-clip-content button h1 {
+.oae-clip .oae-clip-content > button h1 {
     display: inline-block;
     font-size: 16px;
     line-height: 1;
@@ -367,6 +401,7 @@ a.oae-plain-link:hover {
     clear: both;
     display: block;
     font-size: 12px;
+    line-height: 1;
     font-weight: normal;
     white-space: nowrap;
 }
@@ -399,26 +434,44 @@ a.oae-plain-link:hover {
     margin: 0 auto 3px;
 }
 
+
+/***********
+ ** TILES ** 
+ ***********/
+
 /**
  * TODO
+ * <div class="oae-tile">
+            <div class="oae-thumbnail oae-thumbnail-large icon-oae-${entityData.resourceType}">
+                {if thumbnailURL}
+                    <img src="${thumbnailURL}" alt="${entityData.displayName|safeUserInput}" />
+                {/if}
+            </div>
+            <div>
+                <i class="icon-oae-${entityData.visibility} pull-left"></i>
+                <h3 class="oae-threedots"><a href="${entityData.profilePath}">${entityData.displayName|safeUserInput}</a></h3>
+                {if metadata}
+                    <small class="oae-threedots">${metadata|safeUserInput}</small>
+                {/if}
+            </div>
+        </div>
  */
 
-.oae-thumbnail {
+.oae-tile {
     border: 1px solid #ddd;
     overflow: hidden;
     position: relative;
 }
 
-.oae-thumbnail .oae-avatar {
-    width: 100%;
-    height: 100%;
+.oae-tile .oae-thumbnail:before {
+    margin-top: -30px;
 }
 
-.oae-thumbnail > img {
-    min-width: 100%;
+.oae-tile .oae-thumbnail.oae-thumbnail-large:before {
+    margin-top: -50px;
 }
 
-.oae-thumbnail > div:nth-child(2) {
+.oae-tile > div:nth-child(2) {
     position: absolute;
     bottom: 0px;
     background-color: rgba(0, 0, 0, 0.8);
@@ -429,7 +482,7 @@ a.oae-plain-link:hover {
     color: #FFFFFF;
 }
 
-.oae-thumbnail h3, .oae-thumbnail h3 a {
+.oae-tile h3, .oae-tile h3 a {
     font-size: 14px;
     color: #FFFFFF;
     font-weight: bold;
@@ -437,7 +490,7 @@ a.oae-plain-link:hover {
     margin: 0px;
 }
 
-.oae-thumbnail small {
+.oae-tile small {
     font-size: 11px;
     font-style: italic;
     font-weight: normal;
@@ -447,6 +500,10 @@ a.oae-plain-link:hover {
 /***********
  ** LISTS **
  ***********/
+
+/**
+ * TODO: Document lists
+ */
 
 /* Core list styles */
 
@@ -570,7 +627,7 @@ ul.oae-list li.oae-list-item.active .oae-list-item-left .oae-list-item-left-inne
     padding: 9px 7px 0;
 }
 
-ul.oae-list.expandedlist li.oae-list-item .oae-list-item-right,
+/* ul.oae-list.expandedlist li.oae-list-item .oae-list-item-right,
 ul.oae-list li.oae-list-item .oae-list-item-right {
     background: url("/ui/img/lists/list_grabber.png") no-repeat scroll 5px center #dededd;
     border-radius: 0 3px 2px 0;
@@ -580,7 +637,7 @@ ul.oae-list li.oae-list-item .oae-list-item-right {
     float: right;
     min-height: 36px;
     width: 2%;
-}
+} */
 /* ul.oae-list.grid li.oae-list-item .oae-list-item-right {
     min-height: 162px;
     position: relative;

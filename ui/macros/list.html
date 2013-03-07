@@ -1,8 +1,8 @@
 {macro listItem(entityData, thumbnailURL, metadata, pagingKey)}
     <li {if pagingKey} data-key="${pagingKey}" {/if}>
         <!-- THUMBNAIL VIEW -->
-        <div class="oae-thumbnail">
-            <div class="oae-avatar icon-oae-${entityData.resourceType}">
+        <div class="oae-tile">
+            <div class="oae-thumbnail oae-thumbnail-large icon-oae-${entityData.resourceType}">
                 {if thumbnailURL}
                     <img src="${thumbnailURL}" alt="${entityData.displayName|safeUserInput}" />
                 {/if}
