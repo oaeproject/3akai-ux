@@ -60,16 +60,13 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
             });
 
             // Test the core HTML files
-            var coreHTML = ['403',
-                            '404',
-                            '500',
-                            'category',
+            var coreHTML = ['errors/accessdenied',
+                            'errors/notfound',
                             'content',
                             'creategroup',
                             'group',
                             'index',
                             'me',
-                            'noscript',
                             'search',
                             'user'];
             $.each(coreHTML, function(ii, coreHTMLFile) {
