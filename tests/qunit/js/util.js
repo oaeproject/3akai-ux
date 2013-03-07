@@ -13,17 +13,21 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'qunitjs', 'oae.core'], function(exports, $, oae) {
+define(['exports', 'jquery', 'qunitjs'], function(exports, $) {
 
     var tests = [];
     var testResults = {};
     var currentTest = false;
 
+    /**
+     * Takes in a stringified bundle and transforms it JSON
+     * @param  {String}   Bundle that has been read and passed as a String
+     */
     var changeToJSON = function(input) {
         var json = {};
         var inputLine = input.split(/\n/);
         var i;
-        for (i in inputLine) {
+        $.each(inputLine, function(i, line) {
             // IE 8 i has indexof as well which breaks the page.
             if (inputLine.hasOwnProperty(i)) {
                 var keyValuePair = inputLine[i].split(/\=/);
@@ -31,9 +35,9 @@ define(['exports', 'jquery', 'qunitjs', 'oae.core'], function(exports, $, oae) {
                 var value = $.trim(keyValuePair.join('='));
                 json[key] = value;
             }
-        }
+        });
         return json;
-    }
+    };
 
 
     /**

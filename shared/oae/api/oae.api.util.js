@@ -460,6 +460,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         }
     };
 
+
     ////////////////////
     // MATH RENDERING //
     ////////////////////
