@@ -173,8 +173,14 @@ a.oae-plain-link:hover {
 
 .oae-avatar.icon-oae-content:before {
     content: "";
+    font-size: 20px;
+    padding-top: 50%;
+    margin-top: -10px;
+}
+
+.oae-avatar.icon-oae-content.oae-avatar-large:before {
     font-size: 50px;
-    padding-top: 20%;
+    margin-top: -25px;
 }
 
 
