@@ -1,35 +1,49 @@
 {macro listItem(entityData, thumbnailURL, metadata, pagingKey)}
     <li {if pagingKey} data-key="${pagingKey}" {/if}>
         <!-- THUMBNAIL VIEW -->
-        <div class="oae-tile">
-            <a href="${entityData.profilePath}" title="${entityData.displayName|safeUserInput}">
-                <div class="oae-thumbnail oae-thumbnail-large icon-oae-${entityData.resourceType}">
-                    {if thumbnailURL}
-                        <img src="${thumbnailURL}" alt="${entityData.displayName|safeUserInput}" />
+        <div class="oae-list-grid-item">
+            <div class="oae-tile">
+                <a href="${entityData.profilePath}" title="${entityData.displayName|safeUserInput}">
+                    <div class="oae-thumbnail oae-thumbnail-large icon-oae-${entityData.resourceType}">
+                        {if thumbnailURL}
+                            <img src="${thumbnailURL}" alt="${entityData.displayName|safeUserInput}" />
+                        {/if}
+                    </div>
+                </a>
+                <div>
+                    <i class="icon-oae-${entityData.visibility} pull-left"></i>
+                    <h3 class="oae-threedots"><a href="${entityData.profilePath}">${entityData.displayName|safeUserInput}</a></h3>
+                    {if metadata}
+                        <small class="oae-threedots">${metadata|safeUserInput}</small>
                     {/if}
                 </div>
-            </a>
-            <div>
-                <i class="icon-oae-${entityData.visibility} pull-left"></i>
-                <h3 class=""><a href="${entityData.profilePath}">${entityData.displayName|safeUserInput}</a></h3>
-                {if metadata}
-                    <small class="oae-threedots">${metadata|safeUserInput}</small>
-                {/if}
             </div>
+            {if !oae.data.me.anon}
+                <input type="checkbox" id="oae-list-grid-${entityData.id}" data-id="${entityData.id}" />
+                <label class="oae-aural-text" for="oae-list-grid-${entityData.id}">${entityData.displayName|safeUserInput}</label>
+            {/if}
         </div>
 
         <!-- DETAILED LIST VIEW -->
+        <div class="oae-list-details-item">
+            {if !oae.data.me.anon}
+                <input type="checkbox" class="pull-left" id="oae-list-details-${entityData.id}" data-id="${entityData.id}" />
+                <label class="oae-aural-text" for="oae-list-details-${entityData.id}">${entityData.displayName|safeUserInput}</label>
+            {/if}
+            <div>
+                <div class="oae-thumbnail icon-oae-${entityData.resourceType}">
+                    {if thumbnailURL}
+                        <img src="${thumbnailURL}" alt="${entityData.displayName|safeUserInput}" />
+                    {/if}
+                    <i class="icon-oae-${entityData.visibility}"></i>
+                </div>
+            </div>
+        </div>
 
         <!-- LIST VIEW -->
 
 
-        <!-- <div class="oae-list-item-banner hide">
-            <div>
-                <i class="icon-oae-${entityData.visibility}"></i>
-                <a class="oae-threedots" href="${entityData.profilePath}">${entityData.displayName|safeUserInput}</a>
-                <span class="oae-list-item-banner-description oae-threedots">${metadata}</span>
-            </div>
-        </div>
+        <!-- 
         <div class="oae-list-item-left">
             <img src="${thumbnailURL}" alt="${entityData.displayName|safeUserInput}" class="oae-list-item-profile-picture grid"/>
             {if !oae.data.me.anon}
