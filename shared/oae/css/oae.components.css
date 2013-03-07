@@ -157,11 +157,14 @@ a.oae-plain-link:hover {
  *   `icon-oae-group` should be added to the `oae-thumbnail` div for groups and
  *   `icon-oae-content` should be added to the `oae-thumbnail` div for content.
  *   Even when an image is provided, the entity icon class can still be added as
- *   it will be used when the image cannot be downloaded
+ *   it will be used when the image cannot be downloaded.
+ * - For large thumbnails (> 100px width/height), the `oae-thumbnail-large` class
+ *   should be added to the `oae-thumbnail` container. It will cause the default
+ *   thumbnail to be larger.
  * - An optional visibility icon can be added to the thumbnail as well and will
  *   automatically be positioned correctly. The available visibility icons are 
  *   `icon-oae-private`, `icon-oae-loggedin` and `icon-oae-public` (See Visibility
- *   icons section)
+ *   icons section).
  */
 
 div.oae-thumbnail {
@@ -440,28 +443,49 @@ div.oae-thumbnail i[class^="icon-"] {
  ***********/
 
 /**
- * TODO
- * <div class="oae-tile">
-            <div class="oae-thumbnail oae-thumbnail-large icon-oae-${entityData.resourceType}">
-                {if thumbnailURL}
-                    <img src="${thumbnailURL}" alt="${entityData.displayName|safeUserInput}" />
-                {/if}
-            </div>
-            <div>
-                <i class="icon-oae-${entityData.visibility} pull-left"></i>
-                <h3 class="oae-threedots"><a href="${entityData.profilePath}">${entityData.displayName|safeUserInput}</a></h3>
-                {if metadata}
-                    <small class="oae-threedots">${metadata|safeUserInput}</small>
-                {/if}
-            </div>
-        </div>
+ * A tile is a combination of a preview image and some entity metadata in a 
+ * pollaroid-like appearance. The preview image will take up the bulk of the
+ * space, with a bar at the bottom overlapping with the image that can show
+ * metadata. Tiles will adjust in size to the space they have been given by 
+ * their container.
+ * 
+ * The following HTML structure should be used to create a tile:
+ * 
+ *  <div class="oae-tile">
+ *      <a href="/user/u:cambridge:PPTBPgxSdf" title="John Librarian">
+ *          <div class="oae-thumbnail oae-thumbnail-large icon-oae-user">
+ *              <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian" />
+ *          </div>
+ *      </a>
+ *      <div>
+ *          <i class="icon-oae-public pull-left"></i>
+ *          <h3 class="oae-threedots">
+ *              <a href="/user/u:cambridge:PPTBPgxSdf">John Librarian</a>
+ *          </h3>
+ *          <small class="oae-threedots">Professor</small>
+ *      </div>
+ *  </div>
+ * 
+ * Notes:
+ * 
+ * - The `oae-thumbnail` element, containing the preview image, is a standard
+ *   `oae-thumbnail` element (See Thumbnail section for full overview).
+ * - The `oae-threedots` class should be added to metadata elements if you want
+ *   to make sure that `...` is shown when the metadata is longer than the available
+ *   space in the tile.
+ * - The actual content of the metadata div can be pretty much anything, although an
+ *   h3 should be used for the tile title.
+ * - The `small` element used to add some additional metadata is optional.
+ * - The visibility icon can be used as defined in the Visibility icon section, and
+ *   can be floated on the left or right.
  */
 
 .oae-tile {
-    border: 1px solid #ddd;
-    overflow: hidden;
     position: relative;
+    overflow: hidden;
 }
+
+/* Default thumbnail picture positioning */
 
 .oae-tile .oae-thumbnail:before {
     margin-top: -30px;
@@ -471,20 +495,19 @@ div.oae-thumbnail i[class^="icon-"] {
     margin-top: -50px;
 }
 
+/* Tile metadata */
+
 .oae-tile > div:nth-child(2) {
     position: absolute;
     bottom: 0px;
-    background-color: rgba(0, 0, 0, 0.8);
     right: 0px;
     left: 0px;
     border-radius: 0 0 3px 3px;
-    padding: 7px 14px 7px 7px;
-    color: #FFFFFF;
+    padding: 7px;
 }
 
 .oae-tile h3, .oae-tile h3 a {
     font-size: 14px;
-    color: #FFFFFF;
     font-weight: bold;
     line-height: 1.3;
     margin: 0px;
@@ -496,6 +519,7 @@ div.oae-thumbnail i[class^="icon-"] {
     font-weight: normal;
     text-transform: uppercase;
 }
+
 
 /***********
  ** LISTS **

@@ -2,14 +2,16 @@
     <li {if pagingKey} data-key="${pagingKey}" {/if}>
         <!-- THUMBNAIL VIEW -->
         <div class="oae-tile">
-            <div class="oae-thumbnail oae-thumbnail-large icon-oae-${entityData.resourceType}">
-                {if thumbnailURL}
-                    <img src="${thumbnailURL}" alt="${entityData.displayName|safeUserInput}" />
-                {/if}
-            </div>
+            <a href="${entityData.profilePath}" title="${entityData.displayName|safeUserInput}">
+                <div class="oae-thumbnail oae-thumbnail-large icon-oae-${entityData.resourceType}">
+                    {if thumbnailURL}
+                        <img src="${thumbnailURL}" alt="${entityData.displayName|safeUserInput}" />
+                    {/if}
+                </div>
+            </a>
             <div>
                 <i class="icon-oae-${entityData.visibility} pull-left"></i>
-                <h3 class="oae-threedots"><a href="${entityData.profilePath}">${entityData.displayName|safeUserInput}</a></h3>
+                <h3 class=""><a href="${entityData.profilePath}">${entityData.displayName|safeUserInput}</a></h3>
                 {if metadata}
                     <small class="oae-threedots">${metadata|safeUserInput}</small>
                 {/if}
