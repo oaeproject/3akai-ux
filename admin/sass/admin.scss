@@ -824,6 +824,20 @@ a {
           background-color: $grey_header !important;
         }
       }
+
+      .jeditable_field{
+        line-height: 60px;
+        padding-right: 20px;
+
+        form{
+          @include no-padding-and-margin;
+        }
+
+        input{
+          height: 30px !important;
+          line-height: 30px;
+        }
+      }
     }
   }
 

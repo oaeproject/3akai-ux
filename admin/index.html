@@ -207,7 +207,7 @@
                     <tr>
                         <th class="center fixed_100">status</th>
                         <th class="fixed_100">alias</th>
-                        <th class="fixed_100">name</th>
+                        <th class="fixed_125">name</th>
                         <th class="last">host</th>
                         <th class="dark center">
                         {if isMainGlobalAdmin}
@@ -233,9 +233,9 @@
                                 </td>
                                 <td class="fixed_100">${tenant.alias}</td>
                                 {if oae.data.me.isGlobalAdmin}
-                                    <td class="fixed_100" class="jeditable_container"><div class="jeditable_field" data-alias="${tenant.alias}">${tenant.name}</div></td>
+                                    <td class="fixed_125" class="jeditable_container"><div class="jeditable_field" data-alias="${tenant.alias}">${tenant.name}</div></td>
                                 {else}
-                                    <td class="fixed_100">${tenant.name}</td>
+                                    <td class="fixed_125">${tenant.name}</td>
                                 {/if}
                                 <td class="last"><a href="http://${tenant.host}" title="${tenant.name}" target="_blank">${tenant.host}</a></td>
                                 <td class="center fixed_150">
