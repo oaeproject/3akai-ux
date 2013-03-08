@@ -745,8 +745,56 @@ ul.oae-list li .oae-list-compact-item  {
  ** LIST OPTIONS **
  ******************/
 
-/*
- * TODO
+/**
+ * The list options can be shown at the top of a list, providing a title for the list, as well
+ * as possibly a list search form, list actions, view mode switching, etc.
+ * 
+ * Some example HTML for a list options view:
+ *
+ *  <div class="oae-list-options">
+ *      <div>
+ *          <button class="btn oae-list-options-toggle">
+ *              <h2>__MSG__LIBRARY__ <i class="icon-caret-down"></i></h2>
+ *          </button>
+ *          <div class="pull-right">
+ *              <form class="form-search" id="library_search_form">
+ *                  <input type="text" class="search-query" placeholder="__MSG__NARROW_BY_KEYWORD__">
+ *              </form>
+ *          </div>
+ *      </div>
+ *      <div class="oae-list-options-actions hide">
+ *          <input type="checkbox" class="oae-list-selectall" />
+ *          <label for="library_selectall" class="oae-aural-text">__MSG__SELECT_ALL__</label>
+ *          <button type="button" class="btn"><i class="icon-share pull-left"></i>__MSG__SHARE__</button>
+ *          <button type="button" class="btn"><i class="icon-remove pull-left"></i>__MSG__REMOVE__</button>
+ *          <div class="btn-group pull-right">
+ *              <button class="btn" data-type="oae-list-compact">
+ *                  <i class="icon-list"></i>
+ *                  <span class="oae-aural-text">__MSG__LIST_VIEW__</span>
+ *              </button>
+ *              <button class="btn" data-type="oae-list-details">
+ *                  <i class="icon-th-list"></i>
+ *                  <span class="oae-aural-text">__MSG__EXPANDED_LIST_VIEW__</span>
+ *              </button>
+ *              <button class="btn active" data-type="oae-list-grid">
+ *                  <i class="icon-th-large"></i>
+ *                  <span class="oae-aural-text">__MSG__GRID_VIEW__</span>
+ *              </button>
+ *          </div>
+ *      </div>
+ *  </div>
+ * 
+ * Notes:
+ * 
+ * - The `oae-list-options-toggle` item is used to show the title of the list, and will also be used to toggle
+ *   the actions bar. This will be enabled automatically by the system. If a list needs to be shown in view-only
+ *   mode, this element should be set to disabled, in which case the dropdown icon will disappear and the toggle
+ *   will no longer work.
+ * - The `oae-list-options-actions` div represents the action bar that will be toggled when the `oae-list-options-toggle`
+ *   element is clicked. This bar contains all of the action that can be done on the selected list items, and
+ *   can basically be anything.
+ * - An `oae-list-selectall` class can be applied to the element that should be used to select/deselect all list
+ *   items. This will be enabled automatically by the system.
  */
 
 .oae-list-options {
@@ -775,9 +823,20 @@ ul.oae-list li .oae-list-compact-item  {
     line-height: 1;
 }
 
+.oae-list-options .oae-list-options-toggle:disabled {
+    cursor: auto;
+}
+
+.oae-list-options .oae-list-options-toggle:disabled .icon-caret-down,
+.oae-list-options .oae-list-options-toggle:disabled .icon-caret-up {
+    display: none;
+}
+
 .oae-list-options form {
     margin-bottom: 0px;
 }
+
+/* Actions bar */
 
 .oae-list-options .oae-list-options-actions > input,
 .oae-list-options .oae-list-options-actions > button {

@@ -33,47 +33,15 @@ define(['jquery'], function (jQuery) {
             $('.oae-list input[type="checkbox"]').attr('checked', checked);
         });
 
-        ////////////////
-        // VIEW MODES //
-        ////////////////
-
         /**
-         * Switches the view mode of a list to list, expanded list or grid
-         * @param  {Object}    el    The DOM element that was clicked (either list, expanded list or grid button)
+         * Switch the view mode between grid view, details view and compact view
          */
-        var switchViewMode = function(el) {
-            $('.search-view-container > .btn:visible').removeClass('active');
-            $(el).addClass('active');
-        };
-
         $(document).on('click', '.oae-list-options .btn-group button', function() {
             $('.oae-list-options .btn-group button').removeClass('active');
             $(this).addClass('active');
             $('.oae-list:visible').removeClass('oae-list-grid oae-list-details oae-list-compact');
             $('.oae-list:visible').addClass($(this).attr('data-type'));
         });
-
-        //$(document).on('click', '.search_view_grid', function() {
-        //    switchViewMode(this);
-        //    $('.oae-list:visible').addClass('grid');
-        //    $('.oae-list:visible').removeClass('expandedlist');
-        //});
-
-        //$(document).on('click', '.search_view_expandedlist', function() {
-        //    switchViewMode(this);
-        //    $('.oae-list:visible').removeClass('grid');
-        //    $('.oae-list:visible').addClass('expandedlist');
-        //});
-
-        //$(document).on('click', '.search_view_list', function() {
-        //    switchViewMode(this);
-        //    $('.oae-list:visible').removeClass('expandedlist');
-        //    $('.oae-list:visible').removeClass('grid');
-        //});
-
-        //$(document).on('click', '.oae-list-item-right', function() {
-        //    $(this).parent().toggleClass('active');
-        //});
 
     })();
 });
