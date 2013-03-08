@@ -152,11 +152,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * 
          * There is also a globally available macro that can be used when rendering list view items:
          * 
-         *   `${listItem(entityData, [thumbnailURL], [metadata], [pagingKey])}`
+         *   `${listItem(entityData, [metadata], [pagingKey])}`
          * 
          * - `entityData` is an object representing a user, group or content item or a search result for a user, group
          *    or content item
-         * - `thumbnailURL` (optional) is the URL to the thumbnail/profile image for the user, group or content item
          * - `metadata` (optional) is a line of metadata information that should be displayed underneath the entity name
          * - `pagingKey` (optional) is the key that should be used for paging through the infinite scroll plugin
          * 
