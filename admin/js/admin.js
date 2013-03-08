@@ -26,9 +26,18 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
 
     /**
      * Toggles containers to show or hide
+     *
+     * @param  {Object}  e  The dispatched event
+     *s
      */
-    var toggleContainer = function() {
-        $(this).next().toggle(400);
+    var toggleContainer = function(e) {
+        var index = $(e.currentTarget).index();
+        var container = $('#admin_modules_container');
+        var module_container = $(container).children()[index + 1];
+        $('#configuration_buttons_container').hide();
+        $(container).find('.module_configuration_container').hide();
+        $(module_container).show();
+        clearConfigSearch();
     };
 
     /**
@@ -418,6 +427,8 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
      */
     var setUpLogin = function() {
         $('#admin_login_container').show();
+        $('#admin_lhnav_container').hide();
+        $('#admin_header_container').hide();
         adminUtil.setUpValidation($('#admin_login_form'), login);
     };
 
@@ -508,7 +519,6 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
     var reloadTenants = function() {
         getTenants(function() {
             initializeTenants();
-            initializeFooter();
         });
     };
 
@@ -580,6 +590,219 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
         });
     };
 
+
+    ////////////////////////
+    /////// TENANTS ////////
+    ////////////////////////
+
+    /**
+     * When the inputfield dispatches a keyup event, the entry is used to look for corresponding tenants
+     *
+     * @param  {Object}     e          the dispatched event
+     */
+
+    var searchTenants = function(e) {
+        var query = $(e.currentTarget).val().toString().toLowerCase();
+        var rows = $('#tblTenants').find('.tenant_row');
+        var no_results = $('.row_no_results');
+        var img_search = $('.img_search_tenants');
+        var img_clear = $('.clear_tenant_search');
+
+        no_results.hide();
+        if(query && query != "") {
+            img_search.css('opacity','1');
+            img_clear.fadeIn('fast');
+            rows.hide();
+
+            // Put results into array
+            var results = [];
+            for(var t=0; t<rows.length; t++) {
+                var id = $(rows[t]).attr('id').toString().toLowerCase();
+                if(id.indexOf(query) >= 0) results.push(rows[t]);
+            }
+
+            // Show results or empty message when no results
+            if(results.length) for(var i=0; i<results.length; i++) $(results[i]).show();
+            else no_results.show();
+        }else{
+            img_search.css('opacity','.5');
+            img_clear.fadeOut('fast');
+            rows.show();
+        }
+    };
+
+    /**
+     * Clears the inputfield of the tenant search
+     */
+
+    var clearTenantSearch = function() {
+        $('#txtSearchTenants').val("");
+        $('.img_search_tenants').css('opacity','.5');
+        $('.clear_tenant_search').fadeOut('fast');
+        $('#tblTenants').find('.tenant_row').show();
+        $('.row_no_results').hide();
+    };
+
+
+
+    ////////////////////////
+    //// CONFIGURATIONS ////
+    ////////////////////////
+
+    /**
+     * When the inputfield dispatches a keyup event, the entry is used to look for corresponding tenants
+     *
+     * @param  {Object}     e          the dispatched event
+     */
+
+    var searchConfiguration = function(e) {
+        var query = $(e.currentTarget).val().toString().toLowerCase();
+        var searchlist = $('#config_searchresults');
+        var buttons = $('.configuration_category_button');
+        var img_search = $('.img_search_config');
+        var img_clear = $('.clear_config_search');
+
+        if(query && query != ""){
+            img_search.css('opacity','1');
+            img_clear.fadeIn('fast');
+
+            // Find matching names from modules
+            var module_results = [];
+            for(var i=0; i<buttons.length; i++){
+                if($(buttons[i]).attr('data-name').toLowerCase().indexOf(query) >= 0){
+                    var obj = {};
+                    obj.type = "module";
+                    obj.title = $(buttons[i]).find('span.title').html();
+                    obj.parent = $(buttons[i]).attr('data-name');
+                    module_results.push(obj);
+                }
+            }
+
+            // Find matching content in modules
+            var content_results = [];
+            var keys = $('.module_configuration_container').find('h4');
+            $.each(keys, function(i){
+                var match_string = $(keys[i]).context.innerText.replace(/\(.*?\)/gi, '' );
+                if(match_string.toLowerCase().indexOf(query) >= 0){
+                    var obj = {};
+                    obj.type = "content";
+                    obj.title = match_string;
+                    obj.parent = $(keys[i]).attr('data-name');
+                    obj.target = $(keys[i]).attr('data-origin');
+                    content_results.push(obj);
+                }
+            });
+
+            // Show/hide UI-elements
+            //buttons.hide();
+            searchlist.html('').show();
+
+            // Fill and display the resultlist
+            if(module_results.length || content_results.length){
+
+                // Results from module names
+                if(module_results.length){
+                    for(var i=0; i<module_results.length; i++){
+                        searchlist.append('<li><a href="#" data-type="' + module_results[i].type + '" data-name="' + module_results[i].parent + '">'+ module_results[i].title +'</a></li>');
+                        $(module_results[i]).show();
+                    }
+                }
+
+                // Show spacer between results if necessary
+                if(module_results.length && content_results.length){
+                    searchlist.append('<li class="spacer"><span></span></li>');
+                }
+
+                // Results from module content
+                if(content_results.length){
+                    for(var i=0; i<content_results.length; i++){
+                        searchlist.append('<li><a href="#" data-type="' + content_results[i].type + '" data-name="' + content_results[i].parent + '" data-origin="' + content_results[i].target + '">' + content_results[i].title + '</a></li>');
+                    }
+                }
+
+            }else{
+                searchlist.append('<li class="no_results">no results</li>');
+            }
+        }else{
+            //buttons.show();
+            searchlist.hide();
+            img_clear.fadeOut('fast');
+            img_search.css('opacity','.5');
+        }
+    };
+
+    /**
+     * Shows the according container when clicking on the searchresultslist.
+     *
+     * @param e             the event
+     * @return {Boolean}    stops the natural event when clicking on 'a'
+     */
+
+    var showResultsFromResultsList = function(e) {
+        clearConfigSearch();
+        showModuleContainer($(e.currentTarget).attr('data-name'));
+        if($(e.currentTarget).attr('data-type') === "content"){
+            var origin = $(e.currentTarget).attr('data-origin');
+            var target = $('h4[data-origin="' + origin + '"]');
+            $(target).parent('div').addClass('highlight');
+            setTimeout(function(){$(target).parent('div').removeClass('highlight');},4000);
+        }
+        return false;
+    };
+
+    /**
+     *
+     * @param target     The container that needs to be displayed
+     */
+
+    var showModuleContainer = function(target){
+        clearConfigSearch();
+        $('#configuration_buttons_container').hide();
+        $('.module_configuration_container').hide();
+        var container = "#" + target + "_container";
+        $(container).show();
+    };
+
+    /**
+     * Clears the inputfield of the config search
+     */
+
+    var clearConfigSearch = function() {
+        $('#txtSearchConfigurations').val("");
+        $('.configuration_category_button').fadeIn('fast');
+        $('.img_search_config').css('opacity','.5');
+        $('.clear_config_search').fadeOut('fast');
+        $('#config_searchresults').hide();
+    };
+
+
+    /**
+     * Navigation within the configurationpanel
+     */
+
+    var showConfigurationButtons = function(e) {
+        switch($(e.currentTarget).attr('href')){
+            case '#configurationmodules':
+                $('#configuration_buttons_container').show();
+                $('#admin_modules_container').find('.module_configuration_container').hide();
+                break;
+        }
+        return false;
+    };
+
+    /**
+     * Triggers the "file" element in the hidden form
+     */
+
+    var triggerUploadSettings = function() {
+        $('#config_settings_upload_form_file').trigger('click', function(){
+
+            // TODO: Do something with the json.file :)
+
+        });
+    };
+
+
     ////////////////////////
     //// INITIALIZATION ////
     ////////////////////////
@@ -589,10 +812,10 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
      */
     var addBinding = function() {
         // Logout
-        $(document).on('click', '#admin_header_user_logout', logout);
+        $(document).on('click', '#admin_header_dropdown_logout', logout);
         // Toggles
         $(document).on('click', '#createtenant_toggle_button', toggleContainer);
-        $(document).on('click', '.module_configuration_toggle_button', toggleContainer);
+        $(document).on('click', '.configuration_category_button', toggleContainer);
         // Stop a tenant
         $(document).on('click', '.stop_tenant', stopTenantHandler);
         // Stop all tenants
@@ -607,6 +830,17 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
         $(document).on('click', '.login_tenant', loginOnTenantHandler);
         // Change config value
         $(document).on('submit', '.module_configuration_form', writeConfig);
+        // Search tenants
+        $(document).on('keyup', '#txtSearchTenants', searchTenants);
+        $(document).on('click', '.clear_tenant_search', clearTenantSearch);
+        // Upload settings
+        $(document).on('click', '#upload_settings_button', triggerUploadSettings);
+        // Search configuration
+        $(document).on('keyup', '#txtSearchConfigurations', searchConfiguration);
+        $(document).on('click', '.clear_config_search', clearConfigSearch);
+        $(document).on('click', '.searchresultslist a', showResultsFromResultsList);
+        // Configuration navigation
+        $(document).on('click', '.crumbs > a', showConfigurationButtons);
         // Left hand navigation switching
         $(window).hashchange(switchView);
     };
@@ -626,16 +860,6 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
     };
 
     /**
-     * Initializes the footer that shows links to other tenants.
-     */
-    var initializeFooter = function() {
-        oae.api.util.renderTemplate($('#admin_footer_template'), {
-            'context': currentContext,
-            'tenants': tenants
-        }, $('#admin_footer_container'));
-    };
-
-    /**
      * Initializes the list of modules and renders them in a view
      */
     var initializeModules = function() {
@@ -644,6 +868,8 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
             'configuration': configuration,
             'context': currentContext
         }, $('#admin_modules_container'));
+        $('#configuration_buttons_container').show();
+        $('.module_configuration_container').hide();
     };
 
     /**
@@ -673,8 +899,18 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
      * Initializes the left hand navigation
      */
     var initializeNavigation = function() {
-        oae.api.util.renderTemplate($('#admin_lhnav_template'), {'context': currentContext}, $('#admin_lhnav_container'));
-        $('#admin_lhnav_container').show();
+        var container = $('#admin_lhnav_container');
+        oae.api.util.renderTemplate($('#admin_lhnav_template'), {'context': currentContext}, container);
+        container.show();
+    };
+
+    /**
+     * Initializes the dropdown on top
+     */
+    var initializeDropDown = function() {
+        $('#admin_header_user').css('display','block').on('click', function() {
+            $('#admin_header_dropdown').find('.list_items').slideToggle('fast');
+        }).find('span').attr('unselectable','on');
     };
 
     /**
@@ -689,8 +925,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
 
                 // Render the header and the footer
                 initializeHeader();
-                initializeFooter();
-    
+
                 if (oae.data.me.anon) {
                     setUpLogin();
                 } else if (oae.data.me.isTenantAdmin || oae.data.me.isGlobalAdmin) {
@@ -698,6 +933,8 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
                     getConfiguration(function() {
                         // Initialize left hand navigation
                         initializeNavigation();
+                        // Initialize the dropdown menu
+                        initializeDropDown();
                         // Initialize configurable modules
                         initializeModules();
                         // Initialize the tenants table (only 1 tenant if not on global server)
