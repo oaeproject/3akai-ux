@@ -29,7 +29,6 @@ body {
 /* DEFAULT FONT AND TEXT COLOR */
 
 body, button, input, select, textarea {
-    color: #333;
     font-family: 'Open Sans', sans-serif; arial, helvetica, sans-serif;
     line-height: 1.5;
 }
@@ -235,33 +234,4 @@ input.search-query,
 
 .oae-main-content > div {
     clear: both;
-}
-
-
-/******************
- ** LIST OPTIONS **
- *****************/
-
-.oae-list-options > div:first-child > * {
-    margin-right: 7px;
-}
-
-.btn.oae-list-options-toggle {
-    color: #333;
-    font-size: 20px;
-    text-decoration: none;
-}
-
-.btn.oae-list-options-toggle i {
-    color: #333;
-}
-
-.oae-list-options button i[class^="icon-"],
-.oae-list-options button i[class*=" icon-"] {
-    font-size: 18px;
-}
-
-.oae-list-options .search-view-container .btn i {
-    color: #666;
-    font-size: 12px;
 }

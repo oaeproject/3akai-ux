@@ -31,7 +31,7 @@
                         </div>
                         <div class="oae-clip-content">
                             <button {if !isManager} disabled {/if}>
-                                <div class="oae-thumbnail icon-oae-content">
+                                <div class="oae-thumbnail icon-oae-${contentType}">
                                     {if previews.thumbnailUrl}
                                         <img src="${previews.thumbnailUrl}" alt="${displayName|safeUserInput}" />
                                     {/if}

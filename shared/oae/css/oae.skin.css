@@ -113,7 +113,8 @@ a:hover, .btn-link:hover {
 
 /* DEFAULT TEXT COLOR */
 
-body, button, input, select, textarea, a.oae-plain-link {
+body, button, input, select, textarea,
+button.btn, button:not(.btn-link) > i, a.oae-plain-link {
     color: #333;
 }
 

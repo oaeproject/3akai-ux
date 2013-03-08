@@ -702,7 +702,7 @@ div.oae-thumbnail i[class^="icon-"] {
 /* Core list styles */
 
 ul.oae-list {
-    margin: 10px 0 0;
+    margin: 25px 0 0;
     padding: 0;
     clear: both;
 }
@@ -724,7 +724,7 @@ ul.oae-list:not(.oae-list-compact) li .oae-list-compact-item {
 
 ul.oae-list.oae-list-grid li {
     float: left;
-    margin: 12px 7px;
+    margin: 0px 7px 24px;
 }
 
 ul.oae-list.oae-list-grid li .oae-thumbnail {
@@ -741,8 +741,56 @@ ul.oae-list li .oae-list-compact-item  {
 }
 
 
+/******************
+ ** LIST OPTIONS **
+ ******************/
 
+/*
+ * TODO
+ */
 
+.oae-list-options {
+    margin-left: 10px;
+}
+
+.oae-list-options > div {
+    line-height: 30px;
+    margin-bottom: 15px;
+    clear: both;
+}
+
+.oae-list-options .oae-list-options-toggle,
+.oae-list-options .oae-list-options-toggle:active {
+    background: none;
+    border: none;
+    padding: 0px;
+    -webkit-box-shadow: none;
+       -moz-box-shadow: none;
+            box-shadow: none;
+}
+
+.oae-list-options .oae-list-options-toggle h2 {
+    margin: 0;
+    font-size: 20px;
+    line-height: 1;
+}
+
+.oae-list-options form {
+    margin-bottom: 0px;
+}
+
+.oae-list-options .oae-list-options-actions > input,
+.oae-list-options .oae-list-options-actions > button {
+    margin-right: 7px;
+}
+
+.oae-list-options .oae-list-options-actions .btn i {
+    font-size: 18px;
+}
+
+.oae-list-options .oae-list-options-actions .btn-group .btn i {
+    font-size: 12px;
+}
 
 
 
