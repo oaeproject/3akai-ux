@@ -156,8 +156,12 @@ i.icon-oae-public:before {
  * - The actual thumbnail image is optional, and if no image is specified the
  *   thumbnail will show a default entity thumbnail. In order to do this,
  *   `icon-oae-user` should be added to the `oae-thumbnail` div for users,
- *   `icon-oae-group` should be added to the `oae-thumbnail` div for groups and
- *   `icon-oae-content` should be added to the `oae-thumbnail` div for content.
+ *   `icon-oae-group` should be added to the `oae-thumbnail` div for groups,
+ *   `icon-oae-discussion` should be added to the `oae-thumbnail` div for discussions,
+ *   `icon-oae-content` should be added to the `oae-thumbnail` div for generic content,
+ *   `icon-oae-file` should be added to the `oae-thumbnail` div for uploaded files,
+ *   `icon-oae-link` should be added to the `oae-thumbnail` div for links and
+ *   `icon-oae-document` should be added to the `oae-thumbnail` div for collaborative documents.
  *   Even when an image is provided, the entity icon class can still be added as
  *   it will be used when the image cannot be downloaded.
  * - For large thumbnails (> 100px width/height), the `oae-thumbnail-large` class
@@ -203,8 +207,20 @@ div.oae-thumbnail.oae-thumbnail-large:before {
 
 /* Default entity thumbnails */
 
-div.oae-thumbnail.icon-oae-content:before {
+div.oae-thumbnail.icon-oae-content:before, div.oae-thumbnail.icon-oae-file:before {
     content: "";
+}
+
+div.oae-thumbnail.icon-oae-link:before {
+    content: "";
+}
+
+div.oae-thumbnail.icon-oae-document:before {
+    content: "";
+}
+
+div.oae-thumbnail.icon-oae-discussion:before {
+    content: "";
 }
 
 div.oae-thumbnail.icon-oae-group:before {
