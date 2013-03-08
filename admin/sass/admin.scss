@@ -680,6 +680,31 @@ a {
           }
         }
 
+        /* Tenants view */
+        #admin_tenants_container{
+
+          .createtenant-container{
+            border: 1px solid $grey_borders;
+            background-color: $beige_dark;
+            padding: 20px;
+            margin: 0 0 40px 0;
+
+            form{
+              color: $grey_text_dark;
+              @include no-padding-and-margin;
+              @include set-text-shadow(1, 1, white);
+
+              .control-group:nth-last-child(-n+1) {
+                @include no-padding-and-margin;
+              }
+
+              label{
+                width: 200px;
+              }
+            }
+          }
+        }
+
         /* Configuration view */
         #admin_modules_container {
           min-width: 700px;

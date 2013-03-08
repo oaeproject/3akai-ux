@@ -14,6 +14,13 @@
 </head>
 <body>
 
+    <!-- [Start] modals -->
+    <div id="admin_error_container" class="modal_container"><!-- --></div>
+    <div id="admin_warning_container" class="modal_container"><!-- --></div>
+    <div id="admin_success_container" class="modal_container"><!-- --></div>
+    <div id="admin_confirmation_container" class="modal_container"><!-- --></div>
+    <!-- [End] modals -->
+
     <!-- [Start] container -->
     <div id="container">
 
@@ -86,13 +93,6 @@
                             <div id="admin_modules_container" style="display: none;"><!-- --></div>
                         </div>
                         <!-- [End] views -->
-
-                        <!-- [Start] modals -->
-                        <div id="admin_error_container" class="modal_container"><!-- --></div>
-                        <div id="admin_warning_container" class="modal_container"><!-- --></div>
-                        <div id="admin_success_container" class="modal_container"><!-- --></div>
-                        <div id="admin_confirmation_container" class="modal_container"><!-- --></div>
-                        <!-- [End] modals -->
 
                     </div>
                     <!-- [End] content-->
@@ -173,6 +173,35 @@
                 <h2>Tenants</h2>
             </div>
             <div class="page_wrapper">
+
+            <div class="createtenant-container" style="display: none;">
+                <form method="POST" id="createtenant-form" class="form-horizontal">
+                    <div class="control-group">
+                        <label for="createtenant-alias" class="control-label">Alias:</label>
+                        <div class="controls">
+                            <input type="text" name="alias" id="createtenant-alias" placeholder="Alias" class="required"/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label for="createtenant-name" class="control-label">Name:</label>
+                        <div class="controls">
+                            <input type="text" name="name" id="createtenant-name" placeholder="Name" class="required"/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label for="createtenant-host" class="control-label">Host:</label>
+                        <div class="controls">
+                            <input type="text" name="host" id="createtenant-host" placeholder="Host" class="required"/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <button type="submit" id="createtenant-submit-button" class="btn btn-primary blue">Create new tenant</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
             {if _.keys(tenants).length > 0}
                 <table id="tblTenants" class="table table-striped">
                     <tr>

@@ -95,6 +95,14 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
         };
     };
 
+    /**
+     * Toggles the view for adding a new tenant
+     */
+
+    var toggleAddTenantView = function(){
+        $('.createtenant-container').slideToggle();
+    };
+
     //////////////////////
     //// DATA STORING ////
     //////////////////////
@@ -814,7 +822,8 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
         // Logout
         $(document).on('click', '#admin_header_dropdown_logout', logout);
         // Toggles
-        $(document).on('click', '#createtenant_toggle_button', toggleContainer);
+        $(document).on('click', '#createtenant_toggle_button', toggleAddTenantView);
+        $(document).on('click', '#createtenant-submit-button', createTenant);
         $(document).on('click', '.configuration_category_button', toggleContainer);
         // Stop a tenant
         $(document).on('click', '.stop_tenant', stopTenantHandler);
