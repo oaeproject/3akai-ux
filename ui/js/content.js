@@ -21,7 +21,7 @@ require(['jquery','oae.core'], function($, oae) {
     //  Get the content id from the URL. The expected URL is /content/<groupId>
     var contentId = document.location.pathname.split('/').pop();
     if (!contentId) {
-        oae.api.util.redirect().redirectToLogin();
+        oae.api.util.redirect().login();
     }
 
     // Variable used to cache the requested content profile
@@ -34,10 +34,12 @@ require(['jquery','oae.core'], function($, oae) {
      */
     var getContentProfile = function() {
         oae.api.content.getContent(contentId, function(err, profile) {
-            if (err && err.code === 404) {
-                oae.api.util.redirect().redirectTo404();
-            } else if (err && err.code === 401) {
-                oae.api.util.redirect().redirectTo403();
+            if (err) {
+                if (err.code === 401) {
+                    oae.api.util.redirect().notfound();
+                } else {
+                    oae.api.util.redirect().accessdenied();
+                }
             }
 
             contentProfile = profile;
@@ -47,7 +49,7 @@ require(['jquery','oae.core'], function($, oae) {
             $(window).trigger('ready.content.oae');
 
             // Render the entity information
-            renderEntity();
+            setUpClip();
 
             // Insert the preview
             oae.api.widget.insertWidget('contentpreview', null, $('#content_preview_container'), null, contentProfile);
@@ -59,15 +61,11 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     /**
-     * Render the content's profile picture and name
+     * Render the content's clip, containing the thumbnail, display name as well as the
+     * content's admin options
      */
-    var renderEntity = function() {
-        oae.api.util.renderTemplate($('#oae_entity_template'), contentProfile, $('#oae_entity_container'));
-
-        // Share button.
-        $('#entity_content_permissions').on('click', function() {
-            $('body').trigger('init.contentpermissions.sakai', { 'content': contentProfile });
-        });
+    var setUpClip = function() {
+        oae.api.util.renderTemplate($('#content-clip-template'), contentProfile, $('#content-clip-container'));
     };
 
     getContentProfile();

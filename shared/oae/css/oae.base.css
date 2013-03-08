@@ -40,24 +40,32 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     text-decoration: none;
 }
 
-/* NAVIGATION */
+/* NAVIGATION BAR 
+ * @see http://twitter.github.com/bootstrap/components.html#navs */
 
 .navbar-search {
   display: inline;
   float: none;
 }
 
-.navbar-search .search-query {
-  font-family: inherit;
-  padding: 3px 5px;
-  width: 150px;
-  -webkit-border-radius: 3px;
-     -moz-border-radius: 3px;
-          border-radius: 3px;
-}
-
 .navbar-search .search-query:focus {
   width: 300px;
+}
+
+/* NAVIGATION LIST
+ * @see http://twitter.github.com/bootstrap/components.html#navs */
+
+.nav-list > li > a {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    margin-bottom: 4px;
+}
+
+.nav-list [class^="icon-"], .nav-list [class*=" icon-"] {
+    font-size: 1.5em;
+    margin-right: 10px;
+    position: relative;
+    top: 2px;
 }
 
 /* ICONS */
@@ -66,14 +74,11 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     font-size: 22px;
 }
 
-/* DROPDOWN */
+/* DROPDOWN
+ * @see http://twitter.github.com/bootstrap/components.html#dropdowns */
 
 .dropdown-menu {
     padding: 10px;
-    background: -moz-linear-gradient(top, #FFF 5%, #F5F5F5 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(5%,#FFF), color-stop(100%,#F5F5F5));
-    background: -webkit-linear-gradient(top, #FFF 5%,#F5F5F5 100%);
-    background: linear-gradient(to bottom, #FFF 5%,#F5F5F5 100%);
     -webkit-border-radius: 5px;
        -moz-border-radius: 5px;
             border-radius: 5px;
@@ -90,7 +95,17 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     margin-bottom: 10px;
 }
 
-/* FORMS */
+/* FORMS 
+ * http://twitter.github.com/bootstrap/base-css.html#forms */
+
+input.search-query,
+.navbar-search .search-query {
+  font-family: inherit;
+  padding: 3px 5px;
+  -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+}
 
 .control-group select,
 .control-group textarea,
@@ -112,7 +127,52 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     margin-bottom: 0px;
 }
 
-/* BADGES */
+.form-horizontal input + .help-block,
+.form-horizontal select + .help-block,
+.form-horizontal textarea + .help-block,
+.form-horizontal .uneditable-input + .help-block,
+.form-horizontal .input-prepend + .help-block,
+.form-horizontal .input-append + .help-block {
+  margin-top: 3px;
+}
+
+/* MODAL DIALOGS
+ * @see http://twitter.github.com/bootstrap/javascript.html#modals */
+
+.modal {
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+    border: none;
+    -webkit-box-shadow: 0px 0px 6px #000;
+       -moz-box-shadow: 0px 0px 6px #000;
+            box-shadow: 0px 0px 6px #000;
+}
+
+.modal-header  {
+    border-bottom: none; 
+    padding: 10px 20px;
+}
+
+.modal-header h3 {
+    font-size: 16px;
+    font-weight: 200;
+}
+
+.modal-body h4 {
+    font-size: 14px;
+    font-style: italic;
+    font-weight: 200;
+    margin-top: 0;
+}
+
+.modal-footer {
+    border-top: none;
+    box-shadow: none;
+}
+
+/* BADGES 
+ * @see http://twitter.github.com/bootstrap/components.html#labels-badges */
 
 .badge {
     -webkit-border-radius: 3px;
@@ -123,16 +183,11 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 }
 
 .label-important, .badge-important {
-    background: -moz-linear-gradient(top,  #A90329 0%, #8F0222 44%, #6D0019 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#A90329), color-stop(44%,#8F0222), color-stop(100%,#6D0019));
-    background: -webkit-linear-gradient(top,  #A90329 0%,#8F0222 44%,#6D0019 100%);
-    background: linear-gradient(to bottom,  #A90329 0%,#8F0222 44%,#6D0019 100%);
-}
-
-/* 3RD PARTY LOGIN */
-
-.btn-twitter {
-    color: #327695 !important;
+    background: #6D0019;
+    background: linear-gradient(to bottom, #A90329 0%, #8F0222 44%,#6D0019 100%);
+    background: -moz-linear-gradient(top, #A90329 0%, #8F0222 44%, #6D0019 100%);
+    background: -webkit-linear-gradient(top, #A90329 0%, #8F0222 44%, #6D0019 100%);
+    background: -ms-linear-gradient(top, #A90329 0%, #8F0222 44%, #6D0019 100%);
 }
 
 /*****************
@@ -154,6 +209,13 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     opacity: 0.4;
 }
 
+/* BRANDED PAGE BACKGROUND */
+.oae-main-content.oae-branding-container {
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
 /* MAIN CONTENT DIV */
 
 .oae-main-content {
@@ -168,6 +230,10 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
             box-shadow: 0 2px 4px #DBDBDB;
     padding: 10px;
     min-height: 400px;
+    clear: both;
+}
+
+.oae-main-content > div {
     clear: both;
 }
 

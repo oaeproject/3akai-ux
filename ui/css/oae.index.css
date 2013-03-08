@@ -13,12 +13,6 @@
  * permissions and limitations under the License.
  */
 
-#index-container.oae-main-content {
-    background-position: top center;
-    background-repeat: no-repeat;
-    background-size: 100%;
-}
-
 #index-content {
     font-weight: 200;
     margin: 0 auto;
