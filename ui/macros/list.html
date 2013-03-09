@@ -12,7 +12,9 @@
             <div class="oae-tile">
                 ${renderThumbnail(entityData, false, true)}
                 <div>
-                    <i class="icon-oae-${entityData.visibility} pull-left"></i>
+                    {if entityData.resourceType !== 'user'}
+                        <i class="icon-oae-${entityData.visibility} pull-left"></i>
+                    {/if}
                     ${renderMetadata(entityData, metadata)}
                 </div>
             </div>
@@ -64,7 +66,7 @@
             {if thumbnailUrl}
                 <img src="${thumbnailUrl}" alt="${entityData.displayName|safeUserInput}" />
             {/if}
-            {if addVisibilityIcon !== false}
+            {if addVisibilityIcon !== false && entityData.resourceType !== 'user'}
                 <i class="icon-oae-${entityData.visibility}"></i>
             {/if}
         </div>
