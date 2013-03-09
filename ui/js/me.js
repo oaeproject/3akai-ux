@@ -20,6 +20,9 @@ require(['jquery','oae.core'], function($, oae) {
         oae.api.util.redirect().login();
     }
 
+    // Variable used to cache the current page's base URL
+    var baseUrl = '/me';
+
     // Set the browser title
     oae.api.util.setBrowserTitle(oae.data.me.displayName);
 
@@ -85,9 +88,9 @@ require(['jquery','oae.core'], function($, oae) {
      * Set up the left hand navigation with the me space page structure
      */
     var setUpNavigation = function() {
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavigation]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavigation]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
         });
     };
 

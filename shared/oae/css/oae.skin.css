@@ -173,6 +173,15 @@ div.oae-thumbnail {
 }
 
 
+/**********************
+ ** LIST ITEM COLORS **
+ **********************/
+
+.oae-listitem {
+    border: 1px solid #F5F5F5;
+}
+
+
 /******************
  ** PANEL COLORS **
  ******************/

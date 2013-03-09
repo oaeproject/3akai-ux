@@ -129,6 +129,32 @@ div.oae-thumbnail {
 }
 
 
+/*****************
+ ** TILE COLORS **
+ *****************/
+
+.oae-tile {
+    border: 1px solid #DDD;
+}
+
+.oae-tile > div:nth-child(2) {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.oae-tile > div:nth-child(2), .oae-tile h3, .oae-tile h3 a {
+    color: #FFFFFF;
+}
+
+
+/**********************
+ ** LIST ITEM COLORS **
+ **********************/
+
+.oae-listitem {
+    border: 1px solid #F5F5F5;
+}
+
+
 /******************
  ** PANEL COLORS **
  ******************/
