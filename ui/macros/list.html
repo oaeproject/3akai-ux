@@ -55,6 +55,8 @@
         {var thumbnailUrl = entityData.thumbnailUrl}
     {elseif entityData.previews && entityData.previews.thumbnailUrl}
         {var thumbnailUrl = entityData.previews.thumbnailUrl}
+    {elseif entityData.picture && entityData.picture.medium}
+        {var thumbnailUrl = entityData.picture.medium}
     {/if}
 
     <a href="${entityData.profilePath}" title="${entityData.displayName|safeUserInput}">
