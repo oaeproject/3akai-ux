@@ -30,7 +30,7 @@ define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
         if (!$outputElement) {
             $outputElement = $('#admin-error-container');
         }
-        oae.api.util.renderTemplate($('#admin-error-template'), {'error': data}, $outputElement);
+        oae.api.util.template().render($('#admin-error-template'), {'error': data}, $outputElement);
     };
 
     /**
@@ -48,7 +48,7 @@ define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
         if (!$outputElement) {
             $outputElement = $('#admin-warning-container');
         }
-        oae.api.util.renderTemplate($('#admin-warning-template'), {'warning': data}, $outputElement);
+        oae.api.util.template().render($('#admin-warning-template'), {'warning': data}, $outputElement);
     };
 
     /**
@@ -67,7 +67,7 @@ define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
         if (!$outputElement) {
             $outputElement = $('#admin-success-container');
         }
-        oae.api.util.renderTemplate($('#admin-success-template'), {'success': data}, $outputElement);
+        oae.api.util.template().render($('#admin-success-template'), {'success': data}, $outputElement);
         if (!data.sticky) {
             setTimeout( function(){
                 $outputElement.fadeOut('slow', function() {
@@ -98,7 +98,7 @@ define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
      * @param {Object}  data    Data object used to render the modal dialog. All required elements are shown above in 'usage' and should be provided
      */
     exports.showConfirmationModal = function(data) {
-        oae.api.util.renderTemplate($('#admin-confirmation-template'), {'modal': data}, $('#admin-confirmation-container'));
+        oae.api.util.template().render($('#admin-confirmation-template'), {'modal': data}, $('#admin-confirmation-container'));
         $('#' + data.id).modal();
         $('#' + data.id + '-confirm', $('#' + data.id)).click(data.confirmed);
     };

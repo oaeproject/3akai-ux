@@ -22,7 +22,7 @@ require(['jquery', 'oae.core'], function($, oae) {
      * @param {String} module  The module name to render the documentation for
      */
     var renderModuleDocs = function(docs, module) {
-        oae.api.util.renderTemplate($('#doc_docs_template'), {
+        oae.api.util.template().render($('#doc_docs_template'), {
             'docs': docs,
             'module': module
         }, $('#doc_docs_container'));
@@ -46,7 +46,7 @@ require(['jquery', 'oae.core'], function($, oae) {
      * @param {String}      currentModule    The name of the module that is currently shown in the UI
      */
     var renderNavigation = function(modules, currentModule) {
-        oae.api.util.renderTemplate($('#doc_contents_template'), {
+        oae.api.util.template().render($('#doc_contents_template'), {
             'modules': modules,
             'moduleToLoad': currentModule
         }, $('#doc_contents_container'));
