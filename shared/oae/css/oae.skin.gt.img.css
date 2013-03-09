@@ -64,14 +64,19 @@ a:hover, .btn-link:hover {
  ** BUTTON COLORS **
  *******************/
 
-/* TODO */
+/* PRIMARY BUTTON */
+
+button.btn.btn-primary {
+    color: #FFF;
+}
 
 
 /************************
  ** ICON BUTTON COLORS **
  ************************/
 
-[class^="icon-"], [class*=" icon-"] {
+[class^="icon-"], [class*=" icon-"],
+.btn.btn-link [class^="icon-"], .btn.btn-link [class*=" icon-"] {
    color: #A9A9A9;
 }
 
@@ -87,7 +92,8 @@ a:hover, .btn-link:hover {
 
 /* DEFAULT TEXT COLOR */
 
-body, button, input, select, textarea, a.oae-plain-link {
+body, button, input, select, textarea,
+button.btn, button.btn > i, a.oae-plain-link {
     color: #333;
 }
 

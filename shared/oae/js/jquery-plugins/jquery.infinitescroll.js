@@ -17,7 +17,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
 (function($) {
 
     /**
-     * Sakai OAE plugin that will provide infinite scrolling for lists of items being displayed. This plugin will take care of retrieving the
+     * OAE plugin that will provide infinite scrolling for lists of items being displayed. This plugin will take care of retrieving the
      * list items and deciding when to retrieve the next set of results, as well as the actual appending to the list, showing loading
      * animations, etc.
      *
@@ -33,7 +33,6 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
      * @param  {Function}                          [options.emptyListProcessor]    Function that will be executed when the rendered list doesn't have any elements.
      * @param  {Function}                          [options.postProcessor]         Function used to transform the search results before rendering the template. This function will be called with a data parameter containing the retrieved data and should return the processed data
      * @param  {Function}                          [options.postRenderer]          Function executed after the rendered HTML has been appended to the rendered list. The full retrieved server response will be passed into this function.
-     * @param  {String}                            [options.loadingImage]          Path to the loading image that should be shown when a new set of list items is being loaded
      * @throws {Error}                                                             Error thrown when not all of the required parameters have been provided
      */
     $.fn.infiniteScroll = function(source, parameters, render, options) {
@@ -58,13 +57,15 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
         if (options.scrollContainer) {
             options.scrollContainer = $(options.scrollContainer);
         }
-        // Set default loading animation
-        options.loadingImage = '/ui/img/framework/Infinite_Scrolling_Loader_v01.gif';
+
+        // Container that will be used to show the loading animation.We add the 
+        // `text-center` class to make sure that the animation is centered. We also
+        // add `clear: both` to make sure that the animation is displayed underneath
+        // the actual list
+        var $loadingContainer = $('<div />').addClass('text-center hide').css('clear', 'both');
 
         // Set the container in which the results should be rendered
         var $container = options.scrollContainer ? options.scrollContainer : $(this);
-        // Container that will be used to show the loading animation
-        var $loadingContainer = $('<div />');
 
         // Gets filled up each time we request a list.
         var lastItem = null;
@@ -261,7 +262,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
         var showLoadingContainer = function() {
             $loadingContainer.show();
         };
-        
+
         /**
          * Hide the loading animation
          */
@@ -271,15 +272,18 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
 
         /**
          * Create a div underneath the infinite scroll list that shows a loading
-         * image provided by the container when a new set of results is being loaded
+         * animation when a new set of results is being loaded
          */
         var setUpLoadingImage = function() {
-            if (options.loadingImage) {
-                var $loader = $('<img />', {'src': options.loadingImage, 'alt': oaeI18n.translate('__MSG__LOADING__')}).addClass('oae-infinitescroll-loading');
-                $loadingContainer.append($loader);
-                hideLoadingContainer(false);
-                $loadingContainer.insertAfter($container);
-            }
+            // Create the loading animation element
+            var $loader = $('<i />').addClass('icon-spinner icon-spin');
+            // Create a text element that will be used for accessibility purposes
+            var $a11yHelper = $('<span />').text(oaeI18n.translate('__MSG__LOADING__')).addClass('oae-aural-text');
+            // Add the accessibility helper to the loading animation and add the loading
+            // animation to the loader container
+            $loader.append($a11yHelper);
+            $loadingContainer.append($loader);
+            $loadingContainer.insertAfter($container);
         };
 
         ////////////////////
