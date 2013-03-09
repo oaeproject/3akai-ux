@@ -411,7 +411,7 @@ div.oae-thumbnail i[class^="icon-"] {
     display: none;
 }
 
-.oae-clip .oae-clip-content > button h1 {
+.oae-clip .oae-clip-content h1 {
     display: inline-block;
     font-size: 16px;
     line-height: 1;
@@ -822,6 +822,11 @@ ul.oae-list li .oae-list-compact-item  {
     line-height: 1;
 }
 
+.oae-list-options .oae-list-options-toggle h2 .badge {
+    margin-left: 5px;
+    top: -4px;
+}
+
 .oae-list-options .oae-list-options-toggle:disabled {
     cursor: auto;
 }
@@ -837,6 +842,10 @@ ul.oae-list li .oae-list-compact-item  {
 
 /* Actions bar */
 
+.oae-list-options .btn-group .btn i {
+    font-size: 12px;
+}
+
 .oae-list-options .oae-list-options-actions > input,
 .oae-list-options .oae-list-options-actions > button {
     margin-right: 7px;
@@ -844,10 +853,6 @@ ul.oae-list li .oae-list-compact-item  {
 
 .oae-list-options .oae-list-options-actions .btn i {
     font-size: 18px;
-}
-
-.oae-list-options .oae-list-options-actions .btn-group .btn i {
-    font-size: 12px;
 }
 
 

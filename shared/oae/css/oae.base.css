@@ -67,6 +67,13 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     top: 2px;
 }
 
+.nav-list .nav-header {
+    text-transform: none;
+    font-weight: 700;
+    margin-bottom: 10px;
+    font-size: 12px;
+}
+
 /* ICONS */
 
 [class^="icon-"], [class*=" icon-"] {

@@ -9,165 +9,90 @@
         </noscript>
 
         <!-- CORE CSS -->
-        <link rel="stylesheet" type="text/css" href="/ui/css/oae.main.css" />
+        <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
         <!-- PAGE CSS -->
         <link rel="stylesheet" type="text/css" href="/ui/css/oae.search.css" />
 
     </head>
-    <body class="oae-centered oae-force-hidden">
+    <body>
 
         <!-- HEADER -->
-        <div class="oae-container-flex header oae-header">
-            <div class="oae-navigation-container">
-                <div data-widget="topnavigation"><!-- --></div>
-            </div>
-            <div class="oae-fix oae-centered fixed-container oae-fixed-container">
-                <div class="oae-container-shadow-left"><!-- --></div>
-                <div class="oae-container-shadow-right"><!-- --></div>
-                <div class="oae-page-header">
-                    <!-- SEARCH BAR -->
-                    <div class="oae-search" role="search" aria-label="__MSG__SEARCH_FOR__">
-                        <h1 class="oae-bold oae-force-left">__MSG__SEARCH__</h1>
-                        <form id="search_form" class="oae-search-bar">
-                            <input type="text" maxlength="255" id="search_query" title="__MSG__SEARCH_FOR__" class="oae-search-inputfield"/>
-                            <button type="submit" class="oae-button oae-overlay-button oae-search-button" title="__MSG__SUBMIT_SEARCH__">
-                                <span class="oae-search-button-icon"></span>
-                                <span class="oae-aural-text">__MSG__SUBMIT_SEARCH__</span>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div data-widget="topnavigation"><!-- --></div>
 
         <!-- BODY -->
-        <div class="oae-container-flex">
-            <div class="oae-fix oae-centered fixed-container oae-main-container oae-twocolumn">
-                <div class="oae-page-column-left">
-                    <div data-widget="lhnavigation"><!-- --></div>
-                </div>
-                <div class="oae-page-column-right">
-                    <div id="oae-page-main-content" class="oae-page-content-padding" role="main">
-                        <div data-widget="contentauthoring"><!-- --></div>
+        <div class="oae-main-content">
+
+            <!-- CLIPS -->
+            <div>
+                <div id="search-clip-container">
+                    <div class="oae-clip">
+                        <div class="oae-clip-fold">
+                            <div class="oae-clip-fold-inner"></div>
+                            <div class="oae-clip-fold-outer"></div>
+                        </div>
+                        <div class="oae-clip-content">
+                            <form id="search-form" class="form-search">
+                                <h1>__MSG__SEARCH_FOR__</h1>
+                                <label for="search-query" class="oae-aural-text">__MSG__SEARCH__</label>
+                                <input type="text" id="search-query" class="input-xxlarge search-query" title="__MSG__SEARCH_FOR_CONTENT_PEOPLE_GROUPS__" />
+                            </form>
+                        </div>
                     </div>
                 </div>
-                <div class="oae-bottom-spacer"></div>
+            </div>
+
+            <!-- CONTENT -->
+            <div id="search-content-container" class="row-fluid">
+                <div class="span2">
+                    <ul class="nav nav-list">
+                        <li class="nav-header">__MSG__REFINE_SEARCH_BY_TYPE__</li>
+                        <li>
+                            <label class="checkbox"><input type="checkbox" /> __MSG__PEOPLE__</label>
+                        </li>
+                        <li>
+                            <label class="checkbox"><input type="checkbox" /> __MSG__GROUPS__</label>
+                        </li>
+                        <li>
+                            <label class="checkbox"><input type="checkbox" /> __MSG__CONTENT__</label>
+                        </li>
+                    </ul>
+                </div>
+                <div id="search-list-container" class="span10">
+                    <div class="oae-list-options">
+                        <div>
+                            <button class="btn oae-list-options-toggle">
+                                <h2>__MSG__SEARCH_RESULTS__ <span id="search-total-results" class="badge"></span></h2>
+                            </button>
+                            <div class="btn-group pull-right">
+                                <button class="btn" data-type="oae-list-compact">
+                                    <i class="icon-list"></i>
+                                    <span class="oae-aural-text">__MSG__LIST_VIEW__</span>
+                                </button>
+                                <button class="btn" data-type="oae-list-details">
+                                    <i class="icon-th-list"></i>
+                                    <span class="oae-aural-text">__MSG__EXPANDED_LIST_VIEW__</span>
+                                </button>
+                                <button class="btn active" data-type="oae-list-grid">
+                                    <i class="icon-th-large"></i>
+                                    <span class="oae-aural-text">__MSG__GRID_VIEW__</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="oae-list oae-list-grid"></ul>
+
+                    <div id="search-template"><!--
+                        {for result in results}
+                            ${listItem(result)}
+                        {/for}
+                    --></div>
+
+                </div>
             </div>
         </div>
 
         <!-- FOOTER -->
         <div data-widget="footer"><!-- --></div>
-
-        <!-- TEMPLATE CONTAINING THE RESULTS -->
-        <div id="search_general_results_template"><!--
-            {for r in results}
-                <li class="oae-list-item" data-id=${r.id}>
-                    {if r.resourceType === 'user'}
-                        {var thumbnailUrl = r.thumbnailUrl || '/ui/img/entities/user_icon_large.png'}
-                        {var mediumThumbnailUrl = r.thumbnailUrl || '/ui/img/entities/user_icon_medium.png'}
-                        {var smallThumbnailUrl = '/ui/img/entities/user_icon.png'}
-                        <div class="oae-list-item-right">
-                            <div class="oae-list-item-right-hidden"></div>
-                            <div class="oae-list-item-right-hidden grid" style="display: none;"></div>
-                        </div>
-                        <div class="oae-list-item-banner" style="display: none;">
-                            <div>
-                                <a class="oae-threedots" href="${r.profilePath}" title="${r.displayName|safeUserInput}">${r.displayName|safeUserInput}</a>
-                            </div>
-                        </div>
-                        <div class="oae-list-item-left">
-                            <img src="${thumbnailUrl}" alt="${r.displayName|safeUserInput}" class="oae-list-item-profile-picture grid"/>
-                            <div class="oae-list-item-left-inner">
-                                {if !oae.data.me.anon}
-                                    <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" data-id="${r.id}" class="oae-force-left"/>
-                                {/if}
-                                <label for="${r.id}_chk" class="oae-threedots">
-                                    <img src="${mediumThumbnailUrl}" alt="${r.displayName|safeUserInput}" class="oae-list-item-profile-picture"/>
-                                    <img src="${smallThumbnailUrl}" alt="${r.displayName|safeUserInput}" class="oae-list-item-small-picture"/>
-                                    <a class="oae-threedots" href="${r.profilePath}" title="${r.displayName|safeUserInput}">${r.displayName|safeUserInput}</a>
-                                </label>
-                                <div class="oae-list-description">Cambridge University</div>
-                            </div>
-                        </div>
-
-                    {elseif r.resourceType === 'group'}
-                        {var thumbnailUrl = r.thumbnailUrl || '/ui/img/entities/group_icon_large.png'}
-                        {var mediumThumbnailUrl = r.thumbnailUrl || '/ui/img/entities/group_icon_medium.png'}
-                        {var smallThumbnailUrl = '/ui/img/entities/group_icon.png'}
-                        <div class="oae-list-item-right">
-                            <div class="oae-list-item-right-hidden"></div>
-                            <div class="oae-list-item-right-hidden grid" style="display: none;"></div>
-                        </div>
-                        <div class="oae-list-item-banner" style="display: none;">
-                            <div>
-                                <div class="oae-visibility-${r.visibility} oae-force-right"></div>
-                                <a class="oae-threedots" href="/group/${r.id}" title="${r.displayName|safeUserInput}">${r.displayName|safeUserInput}</a>
-                            </div>
-                        </div>
-                        <div class="oae-list-item-left">
-                            <img src="${thumbnailUrl}" alt="${r.displayName|safeUserInput}" class="oae-list-item-profile-picture grid"/>
-                            <div class="oae-list-item-left-inner">
-                                {if !oae.data.me.anon}
-                                    <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" data-id="${r.id}" class="oae-force-left"/>
-                                {/if}
-                                <label for="${r.id}_chk" class="oae-threedots">
-                                    <img src="${mediumThumbnailUrl}" alt="${r.displayName|safeUserInput}" class="oae-list-item-profile-picture"/>
-                                    <img src="${smallThumbnailUrl}" alt="${r.displayName|safeUserInput}" class="oae-list-item-small-picture"/>
-                                    <div class="oae-visibility-${r.visibility} oae-force-left"></div>
-                                    <a class="oae-threedots" href="${r.profilePath}" title="${r.displayName|safeUserInput}">${r.displayName|safeUserInput}</a>
-                                </label>
-                                <div class="oae-list-description">Cambridge University</div>
-                            </div>
-                        </div>
-
-                    {elseif r.resourceType === 'content'}
-                        {var thumbnailUrl = r.thumbnailUrl || '/ui/img/entities/content_icon_large.png'}
-                        {var mediumThumbnailUrl = r.thumbnailUrl || '/ui/img/entities/content_icon_medium.png'}
-                        {var smallThumbnailUrl = '/ui/img/entities/content_icon.png'}
-                        <div class="oae-list-item-right">
-                            <div class="oae-list-item-right-hidden">
-                                <div class="oae-list-item-align-right">
-                                </div>
-                            </div>
-                            <div class="oae-list-item-right-hidden grid" style="display: none;">
-                                <div class="oae-list-item-align-right">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="oae-list-item-banner oae-hidden">
-                            <div>
-                                <div class="oae-visibility-${r.visibility} oae-force-right"></div>
-                                <a class="oae-threedots" href="${r.profilePath}" title="${r.displayName|safeUserInput}">${r.displayName|safeUserInput}</a>
-                                <span class="oae-list-item-banner-description oae-threedots">__MSG__OTHER_DOCUMENT__</span>
-                            </div>
-                        </div>
-                        <div class="oae-list-item-left">
-                            <img src="${thumbnailUrl}" alt="${r.displayName|safeUserInput}" class="oae-list-item-profile-picture grid"/>
-                            {if !oae.data.me.anon}
-                                <button type="button" class="oae-button oae-link-button oae-force-right oae-share-button oae-trigger-sharecontent" data-contentid="${r.id}" data-contentname="${r.displayName|safeUserInput}"></button>
-                            {/if}
-                            <div class="oae-list-item-left-inner">
-                                {if !oae.data.me.anon}
-                                    <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" data-id="${r.id}" class="oae-force-left"/>
-                                {/if}
-                                <label for="${r.id}_chk" class="oae-threedots">
-                                    <img src="${mediumThumbnailUrl}" alt="${r.displayName|safeUserInput}" class="oae-list-item-profile-picture"/>
-                                    <img src="${smallThumbnailUrl}" alt="${r.displayName|safeUserInput}" class="oae-list-item-small-picture"/>
-                                    <div class="oae-visibility-${r.visibility} oae-force-left"></div>
-                                    <a class="oae-threedots" href="${r.profilePath}" title="${r.displayName|safeUserInput}">${r.displayName|safeUserInput}</a>
-                                </label>
-                                <div class="oae-list-description oae-threedots">__MSG__OTHER_DOCUMENT__</div>
-                            </div>
-                        </div>
-                    {/if}
-
-                    {if !oae.data.me.anon}
-                        <input type="checkbox" name="${r.id}_chk" id="${r.id}_chk" data-id="${r.id}" class="oae-list-item-checkbox grid" style="display: none;"/>
-                    {/if}
-                    <div class="oae-push"></div>
-                </li>
-            {/for}
-        --></div>
 
         <!-- DEPENDENCIES -->
         <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
