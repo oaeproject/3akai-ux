@@ -1,0 +1,267 @@
+/*!
+ * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ *     http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+/***********************
+ * CORE CSS OVERRIDES **
+ **********************/
+
+/* FULL-WIDTH LAYOUT */
+
+body {
+    margin-left: 2%;
+    margin-right: 2%;
+    min-width: 1100px;
+    display: none;
+}
+
+/* DEFAULT FONT AND TEXT COLOR */
+
+body, button, input, select, textarea {
+    color: #333;
+    font-family: 'Open Sans', sans-serif; arial, helvetica, sans-serif;
+    line-height: 1.5;
+}
+
+/* DEFAULT LINK STYLE */
+
+a:hover, .btn-link:hover, a:focus, .btn-link:focus {
+    text-decoration: none;
+}
+
+/* NAVIGATION BAR 
+ * @see http://twitter.github.com/bootstrap/components.html#navs */
+
+.navbar-search {
+  display: inline;
+  float: none;
+}
+
+.navbar-search .search-query:focus {
+  width: 300px;
+}
+
+/* NAVIGATION LIST
+ * @see http://twitter.github.com/bootstrap/components.html#navs */
+
+.nav-list > li > a {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    margin-bottom: 4px;
+}
+
+.nav-list [class^="icon-"], .nav-list [class*=" icon-"] {
+    font-size: 1.5em;
+    margin-right: 10px;
+    position: relative;
+    top: 2px;
+}
+
+/* ICONS */
+
+[class^="icon-"], [class*=" icon-"] {
+    font-size: 22px;
+}
+
+/* DROPDOWN
+ * @see http://twitter.github.com/bootstrap/components.html#dropdowns */
+
+.dropdown-menu {
+    padding: 10px;
+    -webkit-border-radius: 5px;
+       -moz-border-radius: 5px;
+            border-radius: 5px;
+    -webkit-box-shadow: 0 0 4px 0 #777;
+       -moz-box-shadow: 0 0 4px 0 #777;
+            box-shadow: 0 0 4px 0 #777;
+}
+
+.dropdown-menu, .dropdown-menu label, .dropdown-menu input, .dropdown-menu button, .dropdown-menu select, .dropdown-menu textarea {
+    font-size: 12px;
+}
+
+.dropdown-menu form {
+    margin-bottom: 10px;
+}
+
+/* FORMS 
+ * http://twitter.github.com/bootstrap/base-css.html#forms */
+
+input.search-query,
+.navbar-search .search-query {
+  font-family: inherit;
+  padding: 3px 5px;
+  -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+}
+
+.control-group select,
+.control-group textarea,
+.control-group input[type="text"],
+.control-group input[type="password"],
+.control-group input[type="datetime"],
+.control-group input[type="datetime-local"],
+.control-group input[type="date"],
+.control-group input[type="month"],
+.control-group input[type="time"],
+.control-group input[type="week"],
+.control-group input[type="number"],
+.control-group input[type="email"],
+.control-group input[type="url"],
+.control-group input[type="search"],
+.control-group input[type="tel"],
+.control-group input[type="color"],
+.control-group .uneditable-input {
+    margin-bottom: 0px;
+}
+
+.form-horizontal input + .help-block,
+.form-horizontal select + .help-block,
+.form-horizontal textarea + .help-block,
+.form-horizontal .uneditable-input + .help-block,
+.form-horizontal .input-prepend + .help-block,
+.form-horizontal .input-append + .help-block {
+  margin-top: 3px;
+}
+
+/* MODAL DIALOGS
+ * @see http://twitter.github.com/bootstrap/javascript.html#modals */
+
+.modal {
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+    border: none;
+    -webkit-box-shadow: 0px 0px 6px #000;
+       -moz-box-shadow: 0px 0px 6px #000;
+            box-shadow: 0px 0px 6px #000;
+}
+
+.modal-header  {
+    border-bottom: none; 
+    padding: 10px 20px;
+}
+
+.modal-header h3 {
+    font-size: 16px;
+    font-weight: 200;
+}
+
+.modal-body h4 {
+    font-size: 14px;
+    font-style: italic;
+    font-weight: 200;
+    margin-top: 0;
+}
+
+.modal-footer {
+    border-top: none;
+    box-shadow: none;
+}
+
+/* BADGES 
+ * @see http://twitter.github.com/bootstrap/components.html#labels-badges */
+
+.badge {
+    -webkit-border-radius: 3px;
+       -moz-border-radius: 3px;
+            border-radius: 3px;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+.label-important, .badge-important {
+    background: #6D0019;
+    background: linear-gradient(to bottom, #A90329 0%, #8F0222 44%,#6D0019 100%);
+    background: -moz-linear-gradient(top, #A90329 0%, #8F0222 44%, #6D0019 100%);
+    background: -webkit-linear-gradient(top, #A90329 0%, #8F0222 44%, #6D0019 100%);
+    background: -ms-linear-gradient(top, #A90329 0%, #8F0222 44%, #6D0019 100%);
+}
+
+/*****************
+ ** MAIN LAYOUT **
+ *****************/
+
+/* INSTITUTION LOGO */
+
+.oae-institutional-logo {
+    display: block;
+    width: 100%;
+    height: 60px;
+    margin-top: 5px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.oae-institutional-logo:hover {
+    opacity: 0.4;
+}
+
+/* BRANDED PAGE BACKGROUND */
+.oae-main-content.oae-branding-container {
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+/* MAIN CONTENT DIV */
+
+.oae-main-content {
+    background-color: #FFF;
+    border: 1px solid #DDD;
+    border-bottom: none;
+    -webkit-border-radius: 5px;
+       -moz-border-radius: 5px;
+            border-radius: 5px;
+    -webkit-box-shadow: 0 2px 4px #DBDBDB;
+       -moz-box-shadow: 0 2px 4px #DBDBDB;
+            box-shadow: 0 2px 4px #DBDBDB;
+    padding: 10px;
+    min-height: 400px;
+    clear: both;
+}
+
+.oae-main-content > div {
+    clear: both;
+}
+
+
+/******************
+ ** LIST OPTIONS **
+ *****************/
+
+.oae-list-options > div:first-child > * {
+    margin-right: 7px;
+}
+
+.btn.oae-list-options-toggle {
+    color: #333;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.btn.oae-list-options-toggle i {
+    color: #333;
+}
+
+.oae-list-options button i[class^="icon-"],
+.oae-list-options button i[class*=" icon-"] {
+    font-size: 18px;
+}
+
+.oae-list-options .search-view-container .btn i {
+    color: #666;
+    font-size: 12px;
+}
