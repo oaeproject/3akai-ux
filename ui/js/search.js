@@ -31,14 +31,21 @@ require(['jquery','oae.core'], function($, oae) {
             infinityScroll.kill();
         }
 
-        // Detect whether or not we need to do a search
+        // Get the current search query
         var query = $.bbq.getState('q');
         $('.search-query').val(query);
+
+        // Get the current type refinement
+        var types = $.bbq.getState('types').split(',') || [];
+        $.each(types, function(index, type) {
+            $('#search-refine-type input[type="checkbox"][data-type="' + type + '"]').attr('checked', 'checked');
+        });
 
         // Set up the infinite scroll for the list of search results
         infinityScroll = $('.oae-list').infiniteScroll('/api/search/general', {
             'limit': 12,
-            'q': query
+            'q': query,
+            'resourceTypes': types
         }, '#search-template', {
             'postRenderer': function(data) {
                 $('#search-total-results').text(data.total);
@@ -56,11 +63,27 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     /**
+     * Every time a new resource type refinement options has been checked or unchecked, we change
+     * the page URL to reflect the selected type refinements and kick off a new search
+     */
+    var refineByType = function() {
+        var types = [];
+        // Get all of the selected type checkboxes
+        $('#search-refine-type input[type="checkbox"]:checked').each(function(index, checkbox) {
+            types.push($(checkbox).attr('data-type'));
+        });
+        $.bbq.pushState({'types': types.join(',')});
+        renderSearch();
+    };
+
+    /**
      * Add the different event bindings
      */
     var addBinding = function() {
         // Set up search event
         $(document).on('submit', '#search-form', search);
+        // Listen to the change event on the type refinement checkboxes
+        $('#search-refine-type').on('change', 'input[type="checkbox"]', refineByType);
     };
 
     addBinding();
