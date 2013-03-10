@@ -36,7 +36,7 @@ require(['jquery','oae.core'], function($, oae) {
         $('.search-query').val(query);
 
         // Get the current type refinement
-        var types = ($.bbq.getState('types', '') || '').split(',');
+        var types = ($.bbq.getState('types') || '').split(',');
         $.each(types, function(index, type) {
             $('#search-refine-type input[type="checkbox"][data-type="' + type + '"]').attr('checked', 'checked');
         });
