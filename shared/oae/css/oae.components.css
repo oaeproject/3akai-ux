@@ -762,8 +762,8 @@ ul.oae-list li .oae-list-compact-item  {
  *          </div>
  *      </div>
  *      <div class="oae-list-options-actions hide">
- *          <input type="checkbox" class="oae-list-selectall" />
- *          <label for="library_selectall" class="oae-aural-text">__MSG__SELECT_ALL__</label>
+ *          <input type="checkbox" id="library-selectall" class="oae-list-selectall" />
+ *          <label for="library-selectall" class="oae-aural-text">__MSG__SELECT_ALL__</label>
  *          <button type="button" class="btn"><i class="icon-share pull-left"></i>__MSG__SHARE__</button>
  *          <button type="button" class="btn"><i class="icon-remove pull-left"></i>__MSG__REMOVE__</button>
  *          <div class="btn-group pull-right">
@@ -842,10 +842,6 @@ ul.oae-list li .oae-list-compact-item  {
 
 /* Actions bar */
 
-.oae-list-options .btn-group .btn i {
-    font-size: 12px;
-}
-
 .oae-list-options .oae-list-options-actions > input,
 .oae-list-options .oae-list-options-actions > button {
     margin-right: 7px;
@@ -853,6 +849,10 @@ ul.oae-list li .oae-list-compact-item  {
 
 .oae-list-options .oae-list-options-actions .btn i {
     font-size: 18px;
+}
+
+.oae-list-options .btn-group .btn i {
+    font-size: 12px;
 }
 
 
