@@ -146,7 +146,7 @@ a {
 }
 
 /* Modals */
-.modal_container{
+.modal-container{
   position: absolute;
   margin: 20px 30px;
   width: 95%;
@@ -154,7 +154,7 @@ a {
 }
 
 /* Login */
-#admin_login_container{
+#admin-login-container{
   position: absolute;
   z-index: 1000;
   width: 100%;
@@ -173,7 +173,7 @@ a {
     @include set-border-radius(3px);
     @include set-animate-all(1s);
 
-    .img_triangle_bottom{
+    .img-triangle-bottom{
       position: absolute;
       top: 161px;
       left: 30px;
@@ -189,7 +189,7 @@ a {
       @include set-text-shadow(-1, -1, $blue_dark);
     }
 
-    .admin_login_container{
+    .admin-login-container{
       height: 130px;
 
       form{
@@ -283,7 +283,7 @@ a {
                 border-left: 1px solid $grey_borders;
                 @include no-padding-and-margin;
 
-                .img_arrow_up.sprite{
+                .img-arrow-up.sprite{
                   margin-top: 3px;
                   margin-left: 10px;
                   @include set-rotation(90);
@@ -320,12 +320,12 @@ a {
   }
 
   /* Header */
-  #admin_header_container {
+  #admin-header-container {
     position: relative;
     z-index: 100;
   }
 
-  #admin_header_container > div {
+  #admin-header-container > div {
     height: 60px;
     background: rgb(61,61,61); /* Old browsers */
     background: -moz-linear-gradient(top,  rgba(61,61,61,1) 1%, rgba(51,51,51,1) 1%, rgba(51,51,51,1) 99%, rgba(0,0,0,1) 99%); /* FF3.6+ */
@@ -336,14 +336,14 @@ a {
     background: linear-gradient(to bottom,  rgba(61,61,61,1) 1%,rgba(51,51,51,1) 1%,rgba(51,51,51,1) 99%,rgba(0,0,0,1) 99%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3d3d3d', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
 
-    #admin_header_content {
+    #admin-header-content {
       position: relative;
       width: 100%;
       height: 100%;
       background: url('/shared/oae/img/logo_white.png') no-repeat 20px center;
 
       /* Dropdown */
-      #admin_header_dropdown {
+      #admin-header-dropdown {
         position: absolute;
         right: 40px;
         width: 180px;
@@ -358,7 +358,7 @@ a {
         }
 
         /* Label */
-        #admin_header_user {
+        #admin-header-user {
           height: 60px;
           line-height: 60px;
           background-color: $black;
@@ -370,7 +370,7 @@ a {
         }
 
         /* Items */
-        ul.list_items {
+        ul.list-items {
           display: none;
           color: white;
           width: 100%;
@@ -409,12 +409,12 @@ a {
   }
 
   /* Content */
-  #admin_fluid_container {
+  #admin-fluid-container {
     position: relative;
     z-index: 50;
   }
 
-  #admin_fluid_container > div {
+  #admin-fluid-container > div {
     height: 100%;
     background-color: #F0F4F0;
 
@@ -437,7 +437,7 @@ a {
     * NAVIGATION
     */
 
-    #admin_lhnav_container {
+    #admin-lhnav-container {
       display: table-cell;
       vertical-align: top;
       width: 159px;
@@ -532,29 +532,30 @@ a {
     * CONTENT
     */
 
-    #admin_content {
+    #admin-content {
       display: table-cell !important;
       vertical-align: top !important;
       @include no-padding-and-margin;
 
       /* View container */
-      #admin_views {
+      #admin-views {
 
         /* Views overall */
         > div {
 
-          .page_header {
+          .page-header {
             position: relative;
-            height: 57px;
+            height: 48px;
             min-width: 833px;
             padding-top: 3px;
             padding-right: 30px;
             @include set-vertical-gradient(2%, #FFFFFF, $beige_light);
+            @include no-margin;
             border-bottom: 1px solid $grey_borders;
             z-index: 300;
 
-            &.with_margin{
-              margin-bottom: 40px;
+            &.with-margin{
+              margin-bottom: 40px !important;
             }
 
             .crumbs{
@@ -567,7 +568,7 @@ a {
               }
             }
 
-            .img_triangle_bottom {
+            .img-triangle-bottom {
               display: block;
               position: absolute !important;
               top: 60px !important;
@@ -593,18 +594,18 @@ a {
                   width: 170px !important;
                 }
 
-                .img_search, .img_clear {
+                .img-search, .img-clear {
                   position: absolute;
                   top: 50%;
                 }
 
-                .img_search {
+                .img-search {
                   margin-top: -6px;
                   margin-left: 10px;
                   @include set-opacity(.5);
                 }
 
-                .img_clear {
+                .img-clear {
                   margin-top: -6px;
                   margin-left: 211px;
                   cursor: pointer;
@@ -665,12 +666,12 @@ a {
             }
           }
 
-          .page_wrapper {
+          .page-wrapper {
             height: 100%;
             padding: 0 30px;
 
             &.full{
-              padding: 40px 0;
+              padding: 40px 0 !important;
               background-color: $beige_light;
 
               > div{
@@ -681,7 +682,7 @@ a {
         }
 
         /* Tenants view */
-        #admin_tenants_container{
+        #admin-tenants-container{
 
           .createtenant-container{
             border: 1px solid $grey_borders;
@@ -706,10 +707,10 @@ a {
         }
 
         /* Configuration view */
-        #admin_modules_container {
+        #admin-modules-container {
           min-width: 700px;
 
-          .configuration_category_button {
+          .configuration-category-button {
             float: left;
             width: 100px;
             height: 100px;
@@ -800,14 +801,14 @@ a {
       }
     }
 
-    &.row_no_results {
+    &.row-no-results {
 
       td {
         padding-left: 40px !important;
       }
     }
 
-    &.tenant_row {
+    &.tenant-row {
 
       td:nth-last-child(-n+3) {
         border-right: 1px solid #ffffff;
@@ -825,7 +826,7 @@ a {
         }
       }
 
-      .jeditable_field{
+      .jeditable-field{
         line-height: 60px;
         padding-right: 20px;
 
@@ -961,7 +962,7 @@ a {
       }
     }
 
-    &.no_results{
+    &.no-results{
       padding: 4px 7px;
     }
 
@@ -980,35 +981,35 @@ a {
   }
 }
 
-.fixed_50 {
+.fixed-50 {
   @include set-fixed-width(50px);
 }
 
-.fixed_75 {
+.fixed-75 {
   @include set-fixed-width(75px);
 }
 
-.fixed_100 {
+.fixed-100 {
   @include set-fixed-width(100px);
 }
 
-.fixed_110 {
+.fixed-110 {
   @include set-fixed-width(110px);
 }
 
-.fixed_125 {
+.fixed-125 {
   @include set-fixed-width(125px);
 }
 
-.fixed_150 {
+.fixed-150 {
   @include set-fixed-width(150px);
 }
 
-.fixed_165 {
+.fixed-165 {
   @include set-fixed-width(165px);
 }
 
-.fixed_220 {
+.fixed-220 {
   @include set-fixed-width(220px);
 }
 
@@ -1024,7 +1025,7 @@ a {
   text-align: center !important;
 }
 
-.option_container{
+.option-container{
   padding: 15px 20px;
 }
 
@@ -1041,7 +1042,7 @@ a {
   padding: 0 0 10px 0;
 
   *{
-      float: left;
+    float: left;
   }
 
   .controls{

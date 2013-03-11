@@ -10,7 +10,7 @@
 
 */
 
-.sprite {display:inline-block; overflow:hidden; background-repeat: no-repeat;background-image:url(spritesheet.png);}
+.sprite {display:inline-block; overflow:hidden; background-repeat: no-repeat;background-image:url(../images/spritesheet.png);}
 
 .aaa {width:2px; height:2px; background-position: -122px -7px}
 .aab {width:3px; height:3px; background-position: -122px -2px}

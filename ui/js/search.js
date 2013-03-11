@@ -170,38 +170,8 @@ require(['jquery','oae.core'], function($, oae) {
         }
     };
 
-    var switchViewMode = function(el) {
-        $('.oae-search-listview-options > div:visible').removeClass('selected');
-        $(el).addClass('selected');
-    };
-
-    var setUpViewMode = function() {
-        $(document).on('click', '.search_view_grid', function() {
-            switchViewMode(this);
-            $('.oae-search-results .oae-list:visible').addClass('grid');
-            $('.oae-search-results .oae-list:visible').removeClass('expandedlist');
-        });
-
-        $(document).on('click', '.search_view_expandedlist', function() {
-            switchViewMode(this);
-            $('.oae-search-results .oae-list:visible').removeClass('grid');
-            $('.oae-search-results .oae-list:visible').addClass('expandedlist');
-        });
-
-        $(document).on('click', '.search_view_list', function() {
-            switchViewMode(this);
-            $('.oae-search-results .oae-list:visible').removeClass('expandedlist');
-            $('.oae-search-results .oae-list:visible').removeClass('grid');
-        });
-
-        $(document).on('click', '.oae-list-item-right', function() {
-            $(this).parent().toggleClass('active');
-        });
-    };
-
     setUpSearch();
     setUpNavigation();
     setUpSearchQuery();
-    setUpViewMode();
 
 });

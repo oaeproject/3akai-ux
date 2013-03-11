@@ -383,11 +383,12 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * them appropriately and giving all of the required aria roles for accessibility. This function is mostly just a wrapper around
          * jquery.validate, and supports all of the options supported by jquery.validate (see http://bassistance.de/jquery-plugins/jquery-plugin-validation/)
          * 
-         * In order for forms to have all of the Sakai OAE stylings, the form fields should be wrapped in a div which has the oae-form-field-wrapper class.
-         * All input fields should be accompanied by a label, mostly for accessibility purposes. These labels can either be next to the field, in which case
-         * they should have the `oae-input-label` class, or they can be above the field, in which case they should have the `oae-input-label-above` class.
+         * In order for forms to have the appropriate validation styles, each label and control should be wrapped in an element with a `control-group` class.
+         * The label should have a `control-label` class. All input fields should be accompanied by a label, mostly for accessibility purposes. 
+         * More information on creating forms (including horizontal forms) can be found at http://twitter.github.com/bootstrap/base-css.html#forms
          * 
-         * The validation messages will be automatically positioned, and will be based on the input element's offsetParent (http://api.jquery.com/offsetParent/)
+         * Validation messages will by default be displayed underneath the input field. If a custom position for the validation needs to provided,
+         * a placeholder element with the class `help` should be created inside of the `control-group` element.
          * 
          * Metadata can be added directly onto the HTML fields to tell jquery.validate which validation rules to use. These should be added as a class onto
          * the input field. The available ones are:
@@ -404,10 +405,13 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * 
          * ```
          * <form id='form_id' role='main'>
-         *      <div class='oae-form-field-wrapper'>
-         *          <label for='firstName' class='firstName oae-input-label'>__MSG__FIRSTNAME__</label>
+         *      <div class='control-group'>
+         *          <label for='firstName' class='control-label'>__MSG__FIRSTNAME__</label>
          *          <input type='text' maxlength='255' id='firstName' name='firstName' class='required' placeholder='Hiroyuki'/>
-         *          <label for='lastName' class='lastName oae-input-label'>__MSG__LASTNAME__</label>
+         *      </div>
+         *      <div class='control-group'>
+         *          <label for='lastName' class='control-label'>__MSG__LASTNAME__</label>
+         *          <span class="help"></span>
          *          <input type='text' maxlength='255' id='lastName' name='lastName' class='required' placeholder='Sakai'/>
          *      </div>
          * </div>
@@ -422,7 +426,6 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * 
          * @param  {Element|String}     $form                           jQuery form element or jQuery selector for that form which we want to validate
          * @param  {Object}             [options]                       JSON object containing options to pass to the to the jquery validate plugin, as defined on http://docs.jquery.com/Plugins/Validation/validate#options
-         * @param  {Boolean}            [options.insertAfterLabel]      Extension to the jquery validate options, allowing to specify whether or not the error message should be created after the input field label or before it. This will default to false.
          * @param  {Object}             [options.methods]               Extension to the jquery validate options, allowing to specify custom validators. The keys should be the validator identifiers. The value should be an object with a method key containing the validator function and a text key containing the validation message.
          */
         var validate = function($form, options) {
@@ -433,18 +436,6 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             $form = $($form);
 
             options = options || {};
-
-            // By default, we disable validation when a field is clicked, when a key is pressed
-            // and when a field loses focus
-            options.onclick = options.onclick === true ? true : false;
-            options.onkeyup = options.onkeyup === true ? true : false;
-            options.onfocusout = options.onfocusout === true ? true : false;
-
-            // We set the element that should be used to create the error message to be a span
-            options.errorElement = 'span';
-            // We set the error class that should be added to the error message and the form field.
-            // This is based on whether or not the error element will be inserted after or before the form field's label
-            options.errorClass = options.insertAfterLabel ? 'oae-error-after' : 'oae-error';
 
             // We need to first handle the invalid and submit callback inside of this function, in order to set/remove all of the necessary 
             // styles and aria attributes. Therefore, we cache these callback so they can be  called after those functions have finished
@@ -487,21 +478,38 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
                 }
             };
 
+            // Function that will be called when an invalid form field should be marked
+            // as invalid. In that case, we add an `error` class to the parent `control-group`
+            // element
+            options.highlight = function($element) {
+                $($element).parents('.control-group').addClass('error');
+            };
+
+            // Function that will be called when a form field should be marked no longer
+            // needs to be marked as invalid. In that case, we remove the `error` class from 
+            // the parent `control-group` element
+            options.unhighlight = function($element) {
+                $($element).parents('.control-group').removeClass('error');
+            };
+
             // We register the error placement handler. This will be called for each field that
             // fails validation and will be used to customize the placement of the validation messages
             options.errorPlacement = options.errorPlacement || function($error, $element) {
-                // We position the validation message so it has the same placement and width as the input field
-                $error.css({
-                    'width': $element.width(),
-                    'margin-left': $element.position().left
-                });
                 // Set the id on the validation message and set the aria-invalid and aria-describedby attributes
-                $error.attr('id', $element.attr('name') + '_error');
+                $error.attr('id', $element.attr('name') + '-error');
                 $element.attr('aria-invalid', 'true');
-                $element.attr('aria-describedby', $element.attr('name') + '_error');
-                // Get the label for the current form field
-                var $fieldLabel = $form.find('label[for="' + $element.attr('id') + '"]');
-                options.insertAfterLabel ? $error.insertAfter($fieldLabel) : $error.insertBefore($fieldLabel);
+                $element.attr('aria-describedby', $element.attr('name') + '-error');
+                // Set a class on the error message so it can be easily deleted again
+                $error.addClass('oae-error');
+                // Check if an error message placehold has been provided. If not, we default
+                // to a `help-block` display and insert it after the input field
+                var $helpPlaceholder = $('.help', $element.parents('.control-group'));
+                if ($helpPlaceholder.length === 0) {
+                    $error.addClass('help-block');
+                    $error.insertAfter($element)
+                } else {
+                    $helpPlaceholder.append($error);
+                }
             };
 
             // Set up the form with the provided options in jquery.validate
@@ -520,12 +528,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             }
             // Make sure the form is a jQuery element
             $form = $($form);
-            // The oae-error or oae-error-after class will be set on both the validation message and
-            // the form field that failed validation. When clearing validation, we remove the validation
-            // messages, and remove the error class from the input field
-            $form.find('span.oae-error, span.oae-error-after').remove();
-            $form.find('.oae-error').removeClass('oae-error');
-            $form.find('.oae-error-after').removeClass('oae-error-after');
+            // The Bootstrap `error` class will be set on the element that has the `control-group` class.
+            // When clearing validation, we remove this `error` class. We also remove the actual error
+            // messages from the dom
+            $form.find('.oae-error').remove();
+            $form.find('.error').removeClass('error');
             // When a field is invalid, the aria-invalid attribute on the field will be set to true, and
             // the aria-describedby attribute will be set to point to the validation message. When clearing
             // validation, we remove both of these

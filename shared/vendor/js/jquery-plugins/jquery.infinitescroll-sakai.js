@@ -59,7 +59,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
             options.scrollContainer = $(options.scrollContainer);
         }
         // Set default loading animation
-        options.loadingImage = '/ui/img/Infinite_Scrolling_Loader_v01.gif';
+        options.loadingImage = '/ui/img/framework/Infinite_Scrolling_Loader_v01.gif';
 
         // Set the container in which the results should be rendered
         var $container = options.scrollContainer ? options.scrollContainer : $(this);

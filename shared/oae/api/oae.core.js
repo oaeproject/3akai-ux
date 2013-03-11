@@ -46,19 +46,21 @@ define([
         /*!
          * Third-party dependencies.
          */
+        'bootstrap',
         'globalize',
-        'jqmodal',
         'jquery.ba-bbq',
         'jquery.ba-hashchange',
+        'jquery.clip',
+        'jquery.list-options',
         'jquery.contentchange',
         'jquery.equal-height-columns',
         'jquery.fileSize',
         'jquery.form',
-        'jquery.gritter',
         'jquery.infinitescroll',
         'jquery.properties-parser',
         'jquery.serializeObject',
         'jquery.timeago',
+        'jquery.dnd-upload',
         'jquery-ui',
         'jquery.validate',
         'underscore'
