@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstrap', 'jquery.jeditable'], function($, _, oae, adminUtil) {
+require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.jeditable'], function($, _, oae, adminUtil) {
 
     // Variable that will be used to keep track of current tenant
     var currentContext = null;
@@ -26,9 +26,18 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
 
     /**
      * Toggles containers to show or hide
+     *
+     * @param  {Object}  e  The dispatched event
+     *s
      */
-    var toggleContainer = function() {
-        $(this).next().toggle(400);
+    var toggleContainer = function(e) {
+        var index = $(e.currentTarget).index();
+        var container = $('#admin-modules-container');
+        var module_container = $(container).children()[index + 1];
+        $('#configuration-buttons-container').hide();
+        $(container).find('.module-configuration-container').hide();
+        $(module_container).show();
+        clearConfigSearch();
     };
 
     /**
@@ -36,7 +45,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
      * This initialization will also take care of the form submit to /api/tenant
      */
     var enableInlineEdit = function() {
-        $('.jeditable_field').editable(function(value) {
+        $('.jeditable-field').editable(function(value) {
             if (!value) {
                 adminUtil.showError({
                     'title': 'Invalid tenant name',
@@ -72,18 +81,26 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
     var switchView = function(hash) {
         hash = window.location.hash || '#configurationtenants';
         hash = hash.replace('#', '');
-        $('#admin_views > div').hide();
-        $('#admin_lhnav_container li').removeClass('active');
-        $('#admin_lhnav_container li#' + hash).addClass('active');
+        $('#admin-views > div').hide();
+        $('#admin-lhnav-container li').removeClass('active');
+        $('#admin-lhnav-container li#' + hash).addClass('active');
 
         switch (hash) {
             case 'configurationmodules':
-                $('#admin_views > #admin_modules_container').show();
+                $('#admin-views > #admin-modules-container').show();
                 break;
             default:
-                $('#admin_views > #admin_tenants_container').show();
+                $('#admin-views > #admin-tenants-container').show();
                 break;
         };
+    };
+
+    /**
+     * Toggles the view for adding a new tenant
+     */
+
+    var toggleAddTenantView = function(){
+        $('.createtenant-container').slideToggle();
     };
 
     //////////////////////
@@ -156,14 +173,14 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
             'url': '/api/tenant/create',
             'type': 'POST',
             'data': {
-                'alias': $('#createtenant_alias').val(),
-                'name': $('#createtenant_name').val(),
-                'host': $('#createtenant_host').val()
+                'alias': $('#createtenant-alias').val(),
+                'name': $('#createtenant-name').val(),
+                'host': $('#createtenant-host').val()
             },
             'success': function() {
                 adminUtil.showSuccess({
                     'title': 'Tenant created',
-                    'message': 'The new tenant "' + $('#createtenant_name').val() + '" has been successfully created.'
+                    'message': 'The new tenant "' + $('#createtenant-name').val() + '" has been successfully created.'
                 });
                 reloadTenants()
             },
@@ -248,7 +265,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
      */
     var startAllTenantsHandler = function() {
         adminUtil.showConfirmationModal({
-            'id': 'start_all_tenants_modal',
+            'id': 'start-all-tenants-modal',
             'title': 'Start all tenants',
             'message': 'Are you sure you want to start ALL tenants?',
             'cancel': 'Cancel',
@@ -257,7 +274,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
             'confirmed': function() {
                 startTenants(_.keys(tenants), function(err) {
                     // Hide the dialog when done
-                    $('#start_all_tenants_modal').modal('hide');
+                    $('#start-all-tenants-modal').modal('hide');
                     // Show a success or failure message
                     if (err) {
                         adminUtil.showError({
@@ -280,7 +297,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
      */
     var stopAllTenantsHandler = function() {
         adminUtil.showConfirmationModal({
-            'id': 'stop_all_tenants_modal',
+            'id': 'stop-all-tenants-modal',
             'title': 'Stop all tenants',
             'message': 'Are you sure you want to stop ALL tenants?',
             'cancel': 'Cancel',
@@ -289,7 +306,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
             'confirmed': function() {
                 stopTenants(_.keys(tenants), function(err) {
                     // Hide the dialog when done
-                    $('#stop_all_tenants_modal').modal('hide');
+                    $('#stop-all-tenants-modal').modal('hide');
                     // Show a success or failure message
                     if (err) {
                         adminUtil.showError({
@@ -314,7 +331,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
         var tenantName = $(this).attr('data-name');
         var tenantAlias = $(this).attr('data-alias');
         adminUtil.showConfirmationModal({
-            'id': 'deletetenant_modal',
+            'id': 'deletetenant-modal',
             'title': 'Delete tenant "' + tenantName + '"',
             'message': 'Are you sure you want to delete tenant "' + tenantName + '"?',
             'cancel': 'Cancel',
@@ -323,7 +340,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
             'confirmed': function() {
                 deleteTenants([tenantAlias], function(err) {
                     // Hide the dialog when done
-                    $('#deletetenant_modal').modal('hide');
+                    $('#deletetenant-modal').modal('hide');
                     // Show a success or failure message
                     if (err) {
                         adminUtil.showError({
@@ -348,7 +365,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
         var tenantName = $(this).attr('data-name');
         var tenantAlias = $(this).attr('data-alias');
         adminUtil.showConfirmationModal({
-            'id': 'stoptenant_modal',
+            'id': 'stoptenant-modal',
             'title': 'Stop tenant "' + tenantName + '"',
             'message': 'Are you sure you want to stop tenant "' + tenantName + '"?',
             'cancel': 'Cancel',
@@ -357,7 +374,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
             'confirmed': function() {
                 stopTenants([tenantAlias], function(err) {
                     // Hide the dialog when done
-                    $('#stoptenant_modal').modal('hide');
+                    $('#stoptenant-modal').modal('hide');
                     // Show a success or failure message
                     if (err) {
                         adminUtil.showError({
@@ -382,7 +399,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
         var tenantName = $(this).attr('data-name');
         var tenantAlias = $(this).attr('data-alias');
         adminUtil.showConfirmationModal({
-            'id': 'starttenant_modal',
+            'id': 'starttenant-modal',
             'title': 'start tenant "' + tenantName + '"',
             'message': 'Are you sure you want to start tenant "' + tenantName + '"?',
             'cancel': 'Cancel',
@@ -391,7 +408,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
             'confirmed': function() {
                 startTenants([tenantAlias], function(err) {
                     // Hide the dialog when done
-                    $('#starttenant_modal').modal('hide');
+                    $('#starttenant-modal').modal('hide');
                     // Show a success or failure message
                     if (err) {
                         adminUtil.showError({
@@ -417,15 +434,17 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
      * Show the login form and set up the login validation
      */
     var setUpLogin = function() {
-        $('#admin_login_container').show();
-        adminUtil.setUpValidation($('#admin_login_form'), login);
+        $('#admin-login-container').show();
+        $('#admin-lhnav-container').hide();
+        $('#admin-header-container').hide();
+        oae.api.util.validation().validate($('#admin-login-form'), {'submitHandler': login});
     };
 
     /**
      * Set up the log in handler
      */
     var login = function() {
-        oae.api.authentication.login($('#admin_login_form_name').val(), $('#admin_login_form_password').val(), function(err) {
+        oae.api.authentication.login($('#admin-login-form-name').val(), $('#admin-login-form-password').val(), function(err) {
             if (err) {
                 // Show the error message
                 adminUtil.showError({
@@ -464,11 +483,11 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
             } else {;
                 // Fill in our hidden form and submit it. This is done because we are
                 // dealing with a cross-domain request. The action should have the tenant URL.
-                var $form = $('#admin_tenant_login_form');
+                var $form = $('#admin-tenant-login-form');
                 $form.attr('action', '//' + token.host + '/api/auth/signed');
-                $('#admin_tenant_login_form_expires', $form).val(token.expires);
-                $('#admin_tenant_login_form_signature', $form).val(token.signature);
-                $('#admin_tenant_login_form_userid', $form).val(token.userId);
+                $('#admin-tenant-login-form-expires', $form).val(token.expires);
+                $('#admin-tenant-login-form-signature', $form).val(token.signature);
+                $('#admin-tenant-login-form-userid', $form).val(token.userId);
                 $form.submit();
             }
         });
@@ -508,7 +527,6 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
     var reloadTenants = function() {
         getTenants(function() {
             initializeTenants();
-            initializeFooter();
         });
     };
 
@@ -580,6 +598,219 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
         });
     };
 
+
+    ////////////////////////
+    /////// TENANTS ////////
+    ////////////////////////
+
+    /**
+     * When the inputfield dispatches a keyup event, the entry is used to look for corresponding tenants
+     *
+     * @param  {Object}     e          the dispatched event
+     */
+
+    var searchTenants = function(e) {
+        var query = $(e.currentTarget).val().toString().toLowerCase();
+        var rows = $('#tblTenants').find('.tenant-row');
+        var no_results = $('.row-no-results');
+        var img_search = $('.img-search-tenants');
+        var img_clear = $('.clear-tenant-search');
+
+        no_results.hide();
+        if(query && query != "") {
+            img_search.css('opacity','1');
+            img_clear.fadeIn('fast');
+            rows.hide();
+
+            // Put results into array
+            var results = [];
+            for(var t=0; t<rows.length; t++) {
+                var id = $(rows[t]).attr('id').toString().toLowerCase();
+                if(id.indexOf(query) >= 0) results.push(rows[t]);
+            }
+
+            // Show results or empty message when no results
+            if(results.length) for(var i=0; i<results.length; i++) $(results[i]).show();
+            else no_results.show();
+        }else{
+            img_search.css('opacity','.5');
+            img_clear.fadeOut('fast');
+            rows.show();
+        }
+    };
+
+    /**
+     * Clears the inputfield of the tenant search
+     */
+
+    var clearTenantSearch = function() {
+        $('#txtSearchTenants').val("");
+        $('.img-search-tenants').css('opacity','.5');
+        $('.clear-tenant-search').fadeOut('fast');
+        $('#tblTenants').find('.tenant-row').show();
+        $('.row-no-results').hide();
+    };
+
+
+
+    ////////////////////////
+    //// CONFIGURATIONS ////
+    ////////////////////////
+
+    /**
+     * When the inputfield dispatches a keyup event, the entry is used to look for corresponding tenants
+     *
+     * @param  {Object}     e          the dispatched event
+     */
+
+    var searchConfiguration = function(e) {
+        var query = $(e.currentTarget).val().toString().toLowerCase();
+        var searchlist = $('#config-searchresults');
+        var buttons = $('.configuration-category-button');
+        var img_search = $('.img-search-config');
+        var img_clear = $('.clear-config-search');
+
+        if(query && query != ""){
+            img_search.css('opacity','1');
+            img_clear.fadeIn('fast');
+
+            // Find matching names from modules
+            var module_results = [];
+            for(var i=0; i<buttons.length; i++){
+                if($(buttons[i]).attr('data-name').toLowerCase().indexOf(query) >= 0){
+                    var obj = {};
+                    obj.type = "module";
+                    obj.title = $(buttons[i]).find('span.title').html();
+                    obj.parent = $(buttons[i]).attr('data-name');
+                    module_results.push(obj);
+                }
+            }
+
+            // Find matching content in modules
+            var content_results = [];
+            var keys = $('.module-configuration-container').find('h4');
+            $.each(keys, function(i){
+                var match_string = $(keys[i]).context.innerText.replace(/\(.*?\)/gi, '' );
+                if(match_string.toLowerCase().indexOf(query) >= 0){
+                    var obj = {};
+                    obj.type = "content";
+                    obj.title = match_string;
+                    obj.parent = $(keys[i]).attr('data-name');
+                    obj.target = $(keys[i]).attr('data-origin');
+                    content_results.push(obj);
+                }
+            });
+
+            // Show/hide UI-elements
+            //buttons.hide();
+            searchlist.html('').show();
+
+            // Fill and display the resultlist
+            if(module_results.length || content_results.length){
+
+                // Results from module names
+                if(module_results.length){
+                    for(var i=0; i<module_results.length; i++){
+                        searchlist.append('<li><a href="#" data-type="' + module_results[i].type + '" data-name="' + module_results[i].parent + '">'+ module_results[i].title +'</a></li>');
+                        $(module_results[i]).show();
+                    }
+                }
+
+                // Show spacer between results if necessary
+                if(module_results.length && content_results.length){
+                    searchlist.append('<li class="spacer"><span></span></li>');
+                }
+
+                // Results from module content
+                if(content_results.length){
+                    for(var i=0; i<content_results.length; i++){
+                        searchlist.append('<li><a href="#" data-type="' + content_results[i].type + '" data-name="' + content_results[i].parent + '" data-origin="' + content_results[i].target + '">' + content_results[i].title + '</a></li>');
+                    }
+                }
+
+            }else{
+                searchlist.append('<li class="no-results">no results</li>');
+            }
+        }else{
+            //buttons.show();
+            searchlist.hide();
+            img_clear.fadeOut('fast');
+            img_search.css('opacity','.5');
+        }
+    };
+
+    /**
+     * Shows the according container when clicking on the searchresultslist.
+     *
+     * @param e             the event
+     * @return {Boolean}    stops the natural event when clicking on 'a'
+     */
+
+    var showResultsFromResultsList = function(e) {
+        clearConfigSearch();
+        showModuleContainer($(e.currentTarget).attr('data-name'));
+        if($(e.currentTarget).attr('data-type') === "content"){
+            var origin = $(e.currentTarget).attr('data-origin');
+            var target = $('h4[data-origin="' + origin + '"]');
+            $(target).parent('div').addClass('highlight');
+            setTimeout(function(){$(target).parent('div').removeClass('highlight');},4000);
+        }
+        return false;
+    };
+
+    /**
+     *
+     * @param target     The container that needs to be displayed
+     */
+
+    var showModuleContainer = function(target){
+        clearConfigSearch();
+        $('#configuration-buttons-container').hide();
+        $('.module-configuration-container').hide();
+        var container = "#" + target + "-container";
+        $(container).show();
+    };
+
+    /**
+     * Clears the inputfield of the config search
+     */
+
+    var clearConfigSearch = function() {
+        $('#txtSearchConfigurations').val("");
+        $('.configuration-category-button').fadeIn('fast');
+        $('.img-search-config').css('opacity','.5');
+        $('.clear-config-search').fadeOut('fast');
+        $('#config-searchresults').hide();
+    };
+
+
+    /**
+     * Navigation within the configurationpanel
+     */
+
+    var showConfigurationButtons = function(e) {
+        switch($(e.currentTarget).attr('href')){
+            case '#configurationmodules':
+                $('#configuration-buttons-container').show();
+                $('#admin-modules-container').find('.module-configuration-container').hide();
+                break;
+        }
+        return false;
+    };
+
+    /**
+     * Triggers the "file" element in the hidden form
+     */
+
+    var triggerUploadSettings = function() {
+        $('#config-settings-upload-form-file').trigger('click', function(){
+
+            // TODO: Do something with the json.file :)
+
+        });
+    };
+
+
     ////////////////////////
     //// INITIALIZATION ////
     ////////////////////////
@@ -589,24 +820,38 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
      */
     var addBinding = function() {
         // Logout
-        $(document).on('click', '#admin_header_user_logout', logout);
+        $(document).on('click', '#admin-header-dropdown-logout', logout);
         // Toggles
-        $(document).on('click', '#createtenant_toggle_button', toggleContainer);
-        $(document).on('click', '.module_configuration_toggle_button', toggleContainer);
+        $(document).on('click', '#createtenant-toggle-button', toggleAddTenantView);
+        $(document).on('click', '#createtenant-submit-button', createTenant);
+        $(document).on('click', '.configuration-category-button', toggleContainer);
         // Stop a tenant
-        $(document).on('click', '.stop_tenant', stopTenantHandler);
+        $(document).on('click', '.stop-tenant', stopTenantHandler);
         // Stop all tenants
-        $(document).on('click', '.stop_all_tenants', stopAllTenantsHandler);
+        $(document).on('click', '.stop-all-tenants', stopAllTenantsHandler);
         // Start a tenant
-        $(document).on('click', '.start_tenant', startTenantHandler);
+        $(document).on('click', '.start-tenant', startTenantHandler);
         // Start all tenants
-        $(document).on('click', '.start_all_tenants', startAllTenantsHandler);
+        $(document).on('click', '.start-all-tenants', startAllTenantsHandler);
         // Delete tenant
-        $(document).on('click', '.delete_tenant', deleteTenantHandler);
+        $(document).on('click', '.delete-tenant', deleteTenantHandler);
         // Log onto a tenant.
-        $(document).on('click', '.login_tenant', loginOnTenantHandler);
+        $(document).on('click', '.login-tenant', loginOnTenantHandler);
         // Change config value
-        $(document).on('submit', '.module_configuration_form', writeConfig);
+
+
+        $(document).on('submit', '.admin-module-configuration-form', writeConfig);
+        // Search tenants
+        $(document).on('keyup', '#txtSearchTenants', searchTenants);
+        $(document).on('click', '.clear-tenant-search', clearTenantSearch);
+        // Upload settings
+        $(document).on('click', '#upload-settings-button', triggerUploadSettings);
+        // Search configuration
+        $(document).on('keyup', '#txtSearchConfigurations', searchConfiguration);
+        $(document).on('click', '.clear-config-search', clearConfigSearch);
+        $(document).on('click', '.searchresultslist a', showResultsFromResultsList);
+        // Configuration navigation
+        $(document).on('click', '.crumbs > a', showConfigurationButtons);
         // Left hand navigation switching
         $(window).hashchange(switchView);
     };
@@ -615,7 +860,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
      * Initializes the header and set the document title
      */
     var initializeHeader = function() {
-        oae.api.util.renderTemplate($('#admin_header_template'), {'context': currentContext}, $('#admin_header_container'));
+        oae.api.util.renderTemplate($('#admin-header-template'), {'context': currentContext}, $('#admin-header-container'));
 
         // Set the page title
         if (currentContext.isGlobalAdminServer && !currentContext.host) {
@@ -625,25 +870,18 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
         }
     };
 
-    /**
-     * Initializes the footer that shows links to other tenants.
-     */
-    var initializeFooter = function() {
-        oae.api.util.renderTemplate($('#admin_footer_template'), {
-            'context': currentContext,
-            'tenants': tenants
-        }, $('#admin_footer_container'));
-    };
 
-    /**
+     /**
      * Initializes the list of modules and renders them in a view
      */
     var initializeModules = function() {
-        oae.api.util.renderTemplate($('#admin_modules_template'), {
+        oae.api.util.renderTemplate($('#admin-modules-template'), {
             'schema': configurationSchema,
             'configuration': configuration,
             'context': currentContext
-        }, $('#admin_modules_container'));
+        }, $('#admin-modules-container'));
+        $('#configuration-buttons-container').show();
+        $('.module-configuration-container').hide();
     };
 
     /**
@@ -659,22 +897,32 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
         var hasStoppedServer = _.find(tenants, function(tenant) { 
             return !tenant.active; 
         });
-        oae.api.util.renderTemplate($('#admin_tenants_template'), {
+        oae.api.util.renderTemplate($('#admin-tenants-template'), {
             'tenants': tenantsToRender,
             'hasStoppedServer': hasStoppedServer,
             'context': currentContext
-        }, $('#admin_tenants_container'));
+        }, $('#admin-tenants-container'));
         enableInlineEdit();
         // Set up the validation for the create tenant form
-        adminUtil.setUpValidation($('#createtenant_form'), createTenant);
+        oae.api.util.validation().validate($('#createtenant-form'), {'submitHandler': createTenant});
     };
 
     /**
      * Initializes the left hand navigation
      */
     var initializeNavigation = function() {
-        oae.api.util.renderTemplate($('#admin_lhnav_template'), {'context': currentContext}, $('#admin_lhnav_container'));
-        $('#admin_lhnav_container').show();
+        var container = $('#admin-lhnav-container');
+        oae.api.util.renderTemplate($('#admin-lhnav-template'), {'context': currentContext}, container);
+        container.show();
+    };
+
+    /**
+     * Initializes the dropdown on top
+     */
+    var initializeDropDown = function() {
+        $('#admin-header-user').css('display','block').on('click', function() {
+            $('#admin-header-dropdown').find('.list-items').slideToggle('fast');
+        }).find('span').attr('unselectable','on');
     };
 
     /**
@@ -689,8 +937,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
 
                 // Render the header and the footer
                 initializeHeader();
-                initializeFooter();
-    
+
                 if (oae.data.me.anon) {
                     setUpLogin();
                 } else if (oae.data.me.isTenantAdmin || oae.data.me.isGlobalAdmin) {
@@ -698,6 +945,8 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
                     getConfiguration(function() {
                         // Initialize left hand navigation
                         initializeNavigation();
+                        // Initialize the dropdown menu
+                        initializeDropDown();
                         // Initialize configurable modules
                         initializeModules();
                         // Initialize the tenants table (only 1 tenant if not on global server)
@@ -707,7 +956,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'bootstr
                     });
                 } else {
                     // The user is not authorized to view the page
-                    $('#admin_unauthorized_container').show();
+                    $('#admin-unauthorized-container').show();
                 }
             });
         });

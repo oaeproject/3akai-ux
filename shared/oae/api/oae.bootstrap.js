@@ -21,7 +21,6 @@ requirejs.config({
     paths: {
         'bootstrap': 'vendor/js/bootstrap',
         'globalize': 'vendor/js/l10n/globalize',
-        'jqmodal': 'vendor/js/jquery-plugins/jqmodal.sakai-edited',
 
         // jQuery module is managed by require-jquery variation of require.js
         'jquery': 'empty:',
@@ -30,19 +29,23 @@ requirejs.config({
         'jquery.autoSuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest.sakai-edited',
         'jquery.ba-bbq': 'vendor/js/jquery-plugins/jquery.ba-bbq',
         'jquery.ba-hashchange': 'vendor/js/jquery-plugins/jquery.ba-hashchange',
+        'jquery.clip': 'vendor/js/jquery-plugins/jquery.clip',
+        'jquery.list-options': 'vendor/js/jquery-plugins/jquery.list-options',
         'jquery.contentchange': 'vendor/js/jquery-plugins/jquery.contentchange.sakai-edited',
         'jquery.equal-height-columns': 'vendor/js/jquery-plugins/jquery.equal-height-columns',
         'jquery.fileSize': 'vendor/js/jquery-plugins/jquery.fileSize',
         'jquery.fileupload': 'vendor/js/jquery-plugins/jquery.fileupload',
         'jquery.form': 'vendor/js/jquery-plugins/jquery.form',
-        'jquery.gritter': 'vendor/js/jquery-plugins/jquery.gritter.sakai-edit',
-        'jquery.iframe-transport': 'vendor/js/jquery-plugins/jquery.iframe-transport',
-        'jquery.imgareaselect': 'vendor/js/jquery-plugins/imgareaselect/jquery.imgareaselect',
         'jquery.infinitescroll': 'vendor/js/jquery-plugins/jquery.infinitescroll-sakai',
         'jquery.jeditable': 'vendor/js/jquery-plugins/jquery.jeditable.sakai-edited',
         'jquery.properties-parser': 'vendor/js/jquery-plugins/jquery.properties-parser',
         'jquery.serializeObject': 'vendor/js/jquery-plugins/jquery.serializeObject',
         'jquery.timeago': 'vendor/js/jquery-plugins/jquery.timeago',
+
+        'jquery.fileupload': 'vendor/js/jquery-plugins/jquery.fileupload',
+        'jquery.dnd-upload': 'vendor/js/jquery-plugins/jquery.dnd-upload',
+        'jquery.autoSuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest.sakai-edited',
+        'jquery.jeditable': 'vendor/js/jquery-plugins/jquery.jeditable.sakai-edited',
         'jquery-ui': 'vendor/js/jquery-ui.custom',
         'jquery.validate': 'vendor/js/jquery-plugins/jquery.validate',
         

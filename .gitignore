@@ -1,4 +1,5 @@
 .DS_STORE
+.idea
 .project
 *.kpf
 *.swp

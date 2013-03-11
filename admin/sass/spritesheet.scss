@@ -1,0 +1,27 @@
+.sprite {
+  display: inline-block;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-image: url(../images/spritesheet.png);
+}
+
+
+/* Classes */
+.img-arrow-down {width:8px; height:7px; background-position: -116px -130px}
+.img-arrow-up {width:8px; height:7px; background-position: -106px -130px}
+.img-clear {width:13px; height:12px; background-position: -106px -104px}
+.img-download {width:16px; height:16px; background-position: -104px -2px}
+.img-icon-content {width:28px; height:33px; background-position: -75px -138px}
+.img-icon-groups {width:31px; height:33px; background-position: -2px -135px}
+.img-icon-login {width:14px; height:14px; background-position: -104px -68px}
+.img-icon-menu {width:12px; height:10px; background-position: -106px -118px}
+.img-icon-password {width:14px; height:14px; background-position: -104px -52px}
+.img-icon-settings {width:33px; height:33px; background-position: -40px -104px}
+.img-icon-tenants {width:36px; height:29px; background-position: -2px -104px}
+.img-icon-users {width:29px; height:32px; background-position: -75px -104px}
+.img-key {width:14px; height:8px; background-position: -104px -94px}
+.img-login-help-arrow {width:7px; height:8px; background-position: -105px -139px}
+.img-pattern {width:100px; height:100px; background-position: -2px -2px}
+.img-search {width:15px; height:12px; background-position: -104px -38px}
+.img-triangle-bottom {width:14px; height:8px; background-position: -104px -84px}
+.img-upload {width:15px; height:16px; background-position: -104px -20px}
