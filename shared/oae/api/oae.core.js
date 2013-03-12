@@ -60,8 +60,8 @@ define([
         'jquery.serializeObject',
         'jquery.timeago',
         'jquery.dnd-upload',
-        'jquery-ui',
         'jquery.validate',
+        'jquery-ui',
         'underscore'
     ],
 

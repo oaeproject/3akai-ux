@@ -31,13 +31,17 @@
                         </div>
                         <div class="oae-clip-content">
                             <button {if !isManager} disabled {/if}>
-                                <div class="oae-visibility-avatar">
-                                    <img src="/ui/img/entities/content_icon_medium.png" alt="${displayName|safeUserInput}"/>
+                                <div class="oae-thumbnail icon-oae-${contentType}">
+                                    {if previews.thumbnailUrl}
+                                        <img src="${previews.thumbnailUrl}" alt="${displayName|safeUserInput}" />
+                                    {/if}
                                     <i class="icon-oae-${visibility}"></i>
                                 </div>
                                 <div>
-                                    <h1>${displayName|safeUserInput}</h1>
-                                    <i class="icon-caret-down"></i>
+                                    <div>
+                                        <h1>${displayName|safeUserInput}</h1>
+                                        <i class="icon-caret-down"></i>
+                                    </div>
                                 </div>
                             </button>
                             <div>
@@ -94,7 +98,7 @@
         <div data-widget="footer"><!-- --></div>
 
         <!-- DEPENDENCIES -->
-        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/require-jquery.js"></script>
+        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
         <!-- PAGE JS -->
         <script>require(['/ui/js/content.js']);</script>
 

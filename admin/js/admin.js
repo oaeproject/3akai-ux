@@ -615,7 +615,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
      * Initializes the header and set the document title
      */
     var initializeHeader = function() {
-        oae.api.util.renderTemplate($('#admin-header-template'), {'context': currentContext}, $('#admin-header-container'));
+        oae.api.util.template().render($('#admin-header-template'), {'context': currentContext}, $('#admin-header-container'));
 
         // Set the page title
         if (currentContext.isGlobalAdminServer && !currentContext.host) {
@@ -629,7 +629,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
      * Initializes the footer that shows links to other tenants.
      */
     var initializeFooter = function() {
-        oae.api.util.renderTemplate($('#admin-footer-template'), {
+        oae.api.util.template().render($('#admin-footer-template'), {
             'context': currentContext,
             'tenants': tenants
         }, $('#admin-footer-container'));
@@ -639,7 +639,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
      * Initializes the list of modules and renders them in a view
      */
     var initializeModules = function() {
-        oae.api.util.renderTemplate($('#admin-modules-template'), {
+        oae.api.util.template().render($('#admin-modules-template'), {
             'schema': configurationSchema,
             'configuration': configuration,
             'context': currentContext
@@ -659,7 +659,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         var hasStoppedServer = _.find(tenants, function(tenant) { 
             return !tenant.active; 
         });
-        oae.api.util.renderTemplate($('#admin-tenants-template'), {
+        oae.api.util.template().render($('#admin-tenants-template'), {
             'tenants': tenantsToRender,
             'hasStoppedServer': hasStoppedServer,
             'context': currentContext
@@ -673,7 +673,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
      * Initializes the left hand navigation
      */
     var initializeNavigation = function() {
-        oae.api.util.renderTemplate($('#admin-lhnav-template'), {'context': currentContext}, $('#admin-lhnav-container'));
+        oae.api.util.template().render($('#admin-lhnav-template'), {'context': currentContext}, $('#admin-lhnav-container'));
         $('#admin-lhnav-container').show();
     };
 

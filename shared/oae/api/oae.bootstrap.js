@@ -39,7 +39,8 @@ requirejs.config({
         'jquery.serializeObject': 'vendor/js/jquery-plugins/jquery.serializeObject',
         'jquery.timeago': 'vendor/js/jquery-plugins/jquery.timeago',
         'jquery.validate': 'vendor/js/jquery-plugins/jquery.validate',
-        'jquery-ui': 'vendor/js/jquery-ui.custom',
+        'jquery-ui': 'vendor/js/jquery-ui/jquery-ui.custom',
+        'text': 'vendor/js/requirejs/require.text',
         'trimpath': 'vendor/js/trimpath',
         'underscore': 'vendor/js/underscore',
 
