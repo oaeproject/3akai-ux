@@ -120,7 +120,13 @@ button.btn.btn-primary {
 /* DEFAULT TEXT COLOR */
 
 body, button, input, select, textarea,
-button.btn, button.btn > i, a.oae-plain-link {
+button.btn, button.btn > i, a.oae-plain-link,
+h1 [class^="icon-"], h1 [class*=" icon-"], 
+h2 [class^="icon-"], h2 [class*=" icon-"],
+h3 [class^="icon-"], h3 [class*=" icon-"],
+h4 [class^="icon-"], h4 [class*=" icon-"],
+h5 [class^="icon-"], h5 [class*=" icon-"],
+h6 [class^="icon-"], h6 [class*=" icon-"] {
     color: #333;
 }
 
