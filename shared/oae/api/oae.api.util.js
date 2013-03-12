@@ -24,7 +24,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
     var init = exports.init = function(callback) {
         // Set up custom validators
         validation().init();
-        callback();
+        // Load the OAE TrimPath Template macros
+        template().init(callback);
     };
 
     /**
@@ -91,120 +92,158 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
     // TRIMPATH TEMPLATE RENDERER //
     ////////////////////////////////
 
-    // Variable that will cache all of the parsed Trimpath templates. This avoids the same
-    // template being parsed over and over again
+    // Variable that will cache all of the parsed Trimpath templates. 
+    // This avoids the same template being parsed over and over again
     var templateCache = [];
-    // Trimpath modifiers
-    var trimpathModifiers = {
-        'safeUserInput': function(str) {
-            return security().safeUserInput(str);
-        },
-        'safeURL': function(str) {
-            return security().safeURL(str);
-        }
-    }
+    // Variable that will be used to cache the OAE Trimpath macros for
+    // common HTML structures across different pages. This is currently
+    // only being used for rendering list view items
+    var globalMacros = [];
 
-    /**
-     * Functionality that allows you to create HTML Templates, using a JSON object. That template 
-     * will then be rendered and all of the values from  the JSON object can be used to insert values 
-     * into the rendered HTML. More information and examples can be found over here:
-     *
-     * http://code.google.com/p/trimpath/wiki/JavaScriptTemplates
-     *
-     * Template should be defined like this:
-     *  <div><!--
-     *   // Template here
-     *  --></div>
-     *
-     * NOTE: The OAE core APIs will automatically be passed into each template render, so they can be
-     * called inside of each template without having to explicitly pass it in. There are also two standard
-     * TrimPath modifiers that will be available:
-     * 
-     * - `${value|safeUserInput}`: Should be used for all user input rendered as text
-     * - `${value|safeURL}`: Should be used for all user input used as part of a URL
-     * 
-     * IMPORTANT: There should be no line breaks in between the div and the <!-- declarations,
-     * because that line break will be recognized as a node and the template won't show up, as
-     * it's expecting the comments tag as the first one.
-     *
-     * This is done because otherwise a template wouldn't validate in an HTML validator and
-     * to make sure that the template isn't visible in the page.
-     * 
-     * @param  {Element|String}     $template       jQuery element representing the HTML element that contains the template or jQuery selector for the template container.
-     * @param  {Object}             [data]          JSON object representing the values used for ifs, fors and value insertions.
-     * @param  {Element|String}     [$output]       jQuery element representing the HTML element in which the template output should be put, or jQuery selector for the output container.
-     * @param  {Boolean}            [sanitize]      Whether or not to sanitize the rendered HTML (in order to prevent XSS attacks). By default, sanitization will be done.
-     * @return {String}                             The rendered HTML
-     * @throws {Error}                              Error thrown when no template has been provided
+    /*
+     * All functionality related to rendering client-side Trimpath templates
      */
-    var renderTemplate = exports.renderTemplate = function($template, data, $output, sanitize) {
-        // Parameter validation
-        if (!$template) {
-            throw new Error('No valid template has been provided');
-        }
+    var template = exports.template = function() {
 
-        // Add all of the OAE API functions onto the data object
-        data = data || {};
-        data['oae'] = require('oae.core');
-        // Make underscore available
-        data['_'] = require('underscore');
-        // Ensure jQuery is available
-        data['$'] = require('jquery');
-
-        // Add the Trimpath modifiers onto the data object.
-        data['_MODIFIERS'] = trimpathModifiers;
-        
-        // Make sure that the provided template is a jQuery object
-        $template = $($template);
-        if ($template.length === 0) {
-            throw new Error('The provided template could not be found');
-        }
-
-        var templateId = $template.attr('id');
-        if (!templateCache[templateId]) {
-            // We extract the content from the templates, which is wrapped in <!-- -->
-            var templateContent = $template[0].firstChild.data.toString();
-
-            // Parse the template through TrimPath and add the 
-            // parsed template to the template cache
-            try {
-                templateCache[templateId] = TrimPath.parseTemplate(templateContent, templateId);
-            } catch (err) {
-                throw new Error('Parsing of template "' + templateId + '" failed: ' + err);
+        // Custom Trimpath modifiers
+        var trimpathModifiers = {
+            'safeUserInput': function(str) {
+                return security().safeUserInput(str);
+            },
+            'safeURL': function(str) {
+                return security().safeURL(str);
             }
         }
 
-        // Render the template
-        var renderedHTML = null;
-        try {
-            renderedHTML = templateCache[templateId].process(data, {'throwExceptions': true});
-        } catch (err) {
-            throw new Error('Rendering of template "' + templateId + '" failed: ' + err);
-        }
+        /**
+         * Initialize the template utility functions by fetching and caching 
+         * a global macro that can be used for rendering list view items. 
+         *
+         * @param  {Function}       callback        Standard callback function
+         * @api private
+         */
+        var init = function(callback) {
+            // Load the lists macros through the RequireJS Text plugin
+            require(['text!/ui/macros/list.html'], function(listMacro) {
+                // Cache the macro
+                globalMacros.push(listMacro);
+                callback();
+            });
+        };
 
-        // If an output element has been provided, we can just render the renderer HTML,
-        // otherwise we pass it back to the call function
-        if ($output) {
-            // Make sure that the provided output is a jQuery object
-            $output = $($output);
-            $output.html(renderedHTML);
+        /**
+         * Functionality that allows you to create HTML Templates, using a JSON object. That template 
+         * will then be rendered and all of the values from the JSON object can be used to insert values 
+         * into the rendered HTML. More information and examples can be found over here:
+         *
+         * http://code.google.com/p/trimpath/wiki/JavaScriptTemplates
+         *
+         * Template should be defined like this:
+         *  <div><!--
+         *   // Template here
+         *  --></div>
+         *
+         * NOTE: The OAE core APIs will automatically be passed into each template render, so they can be
+         * called inside of each template without having to explicitly pass it in. There are also two standard
+         * TrimPath modifiers that will be available:
+         * 
+         * - `${value|safeUserInput}`: Should be used for all user input rendered as text
+         * - `${value|safeURL}`: Should be used for all user input used as part of a URL
+         * 
+         * There is also a globally available macro that can be used when rendering list view items:
+         * 
+         *   `${listItem(entityData, [metadata], [pagingKey])}`
+         * 
+         * - `entityData` is an object representing a user, group or content item or a search result for a user, group
+         *    or content item
+         * - `metadata` (optional) is a line of metadata information that should be displayed underneath the entity name
+         * - `pagingKey` (optional) is the key that should be used for paging through the infinite scroll plugin
+         * 
+         * IMPORTANT: There should be no line breaks in between the div and the <!-- declarations,
+         * because that line break will be recognized as a node and the template won't show up, as
+         * it's expecting the comments tag as the first one. This is done because otherwise a template 
+         * wouldn't validate in an HTML validator and to make sure that the template isn't visible in the page.
+         * 
+         * @param  {Element|String}     $template       jQuery element representing the HTML element that contains the template or jQuery selector for the template container.
+         * @param  {Object}             [data]          JSON object representing the values used for ifs, fors and value insertions.
+         * @param  {Element|String}     [$output]       jQuery element representing the HTML element in which the template output should be put, or jQuery selector for the output container.
+         * @return {String}                             The rendered HTML
+         * @throws {Error}                              Error thrown when no template has been provided
+         */
+        var render = function($template, data, $output) {
+            // Parameter validation
+            if (!$template) {
+                throw new Error('No valid template has been provided');
+            }
 
-            // TODO: Initialize draggable
-            // TODO: Initialize droppable
+            // Add all of the OAE API functions onto the data object
+            data = data || {};
+            data['oae'] = require('oae.core');
+            // Make underscore available
+            data['_'] = require('underscore');
+            // Make jQuery available
+            data['$'] = require('jquery');
 
-        } else {
-            return renderedHTML;
+            // Add the Trimpath modifiers onto the data object.
+            data['_MODIFIERS'] = trimpathModifiers;
+
+            // Make sure that the provided template is a jQuery object
+            $template = $($template);
+            if ($template.length === 0) {
+                throw new Error('The provided template could not be found');
+            }
+
+            var templateId = $template.attr('id');
+            if (!templateCache[templateId]) {
+                // We extract the content from the templates, which is wrapped in <!-- -->
+                var templateContent = $template[0].firstChild.data.toString();
+                // Prepend the global macros to this template. This is done to make sure that
+                // the macros have access to all of the variables in scope of the template
+                templateContent = globalMacros.join('') + templateContent;
+
+                // Parse the template through TrimPath and add the 
+                // parsed template to the template cache
+                try {
+                    templateCache[templateId] = TrimPath.parseTemplate(templateContent, templateId);
+                } catch (err) {
+                    throw new Error('Parsing of template "' + templateId + '" failed: ' + err);
+                }
+            }
+
+            // Render the template
+            var renderedHTML = null;
+            try {
+                renderedHTML = templateCache[templateId].process(data, {'throwExceptions': true});
+            } catch (err) {
+                throw new Error('Rendering of template "' + templateId + '" failed: ' + err);
+            }
+
+            // If an output element has been provided, we can just render the renderer HTML,
+            // otherwise we pass it back to the call function
+            if ($output) {
+                // Make sure that the provided output is a jQuery object
+                $output = $($output);
+                $output.html(renderedHTML);
+            } else {
+                return renderedHTML;
+            }
+        };
+
+        return {
+            'init': init,
+            'render': render
         }
     };
 
     /**
      * Show a notification message (either information or error) on the screen
+     * TODO: Replace this with Bootstrap notification functionality
      * 
      * @param  {String}     [title]         The notification title
      * @param  {String}     text            The notification description that will be shown underneath the title
      * @param  {String}     [type]          The notification type. This can be either 'info' or 'error'. If the type is not provided, this will default to 'info'
      * @throws {Error}                      Error thrown when no title has been provided
-     */
+     *
     var showNotification = exports.showNotification = function(title, text, type) {
         if (!text) {
             throw new Error('A valid body should be provided');
@@ -224,7 +263,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
 
         // Show the notification on the screen
         $.gritter.add(notification);
-    };
+    }; */
 
     /*!
      * All functionality related to validating forms
@@ -421,58 +460,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         }
     };
 
-    ////////////////////////
-    // PROGRESS INDICATOR //
-    ////////////////////////
-
-    var progressIndicatorModal = null;
-
-    /**
-     * All functionality related to showing and hiding a processing animation, which can be shown when the UI needs to undertake
-     * an action that can take a while, like uploading files, etc.
-     * 
-     * @param  {String}     title           The title to show in the progress indicator overlay
-     * @param  {String}     description     The description to show in the progress indicator overlay
-     */
-    var progressIndicator = exports.progressIndicator = function(title, description) {
-
-        // We create the progress indicator and it to the document if it doesn't exist yet
-        if (!progressIndicatorModal) {
-            var progressIndicatorHTML = '<div id="oae_progressindicator" class="oae-dialog oae-dialog-container oae-hidden">';
-                progressIndicatorHTML += '<h1 id="oae_progressindicator_title" class="oae-dialog-header"></h1>';
-                progressIndicatorHTML += '<p id="oae_progressindicator_body"></p>';
-                progressIndicatorHTML += '<div class="oae-inset-shadow-container"><img src="/ui/img/progress_bar.gif"/></div></div>';
-            $('body').prepend($(progressIndicatorHTML));
-            progressIndicatorModal = modal($('#oae_progressindicator'), {
-                // Make sure the progress indicator is displayed above everything else
-                'zIndex': 50000,
-            });
-        }
-
-        /**
-         * Show a progress indicator. This will show in a modal dialog and will take over the entire screen. Other screen elements
-         * will not be accessible until the progress indicator has been hidden
-         */
-        var show = function() {
-            // Set the title and the description
-            $('#oae_progressindicator_title').text(title);
-            $('#oae_progressindicator_body').text(description);
-            // Show the overlay
-            progressIndicatorModal.open();
-        };
-
-        /**
-         * Hide the progress indicator, if it is showing. If it is not showing, nothing will happen
-         */
-        var hide = function() {
-            progressIndicatorModal.close();
-        };
-
-        return {
-            'show': show,
-            'hide': hide
-        }    
-    };
+    ////////////////////
+    // MATH RENDERING //
+    ////////////////////
 
     /**
      * Using MathJax behind the scenes, find all mathematical function (LaTeX) declarations and render them
@@ -483,6 +473,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
      * @param  {Element|String}     [$element]        jQuery element or jQuery selector for that element in which we should look for Mathematical formulas and render them. If this is not provided, the body element will be used.
      */
     var renderMath = exports.renderMath = function($element) {};
+
+    //////////////
+    // SECURITY //
+    //////////////
 
     /**
      * All functionality related to handling user input and making sure that it displays properly, without opening the door
@@ -536,7 +530,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         };
     
     };
-    
+
+    ///////////////
+    // REDIRECTS //
+    ///////////////
+
     /**
      * All functionality related to redirecting users to error pages, etc.
      */

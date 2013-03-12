@@ -23,6 +23,8 @@ require(['jquery', 'oae.core'], function($, oae) {
 
     // Variable used to cache the requested user's profile
     var groupProfile = null;
+    // Variable used to cache the group's base URL
+    var baseUrl = '/group/' + groupId;
 
     /**
      * Get the group's basic profile and set up the screen. If the groups
@@ -50,7 +52,7 @@ require(['jquery', 'oae.core'], function($, oae) {
      * group's admin options
      */
     var setUpClip = function() {
-        oae.api.util.renderTemplate($('#group-clip-template'), groupProfile, $('#group-clip-container'));
+        oae.api.util.template().render($('#group-clip-template'), groupProfile, $('#group-clip-container'));
 
         // Only show the create and upload clips to managers
         if (groupProfile.isManager) {
@@ -122,9 +124,9 @@ require(['jquery', 'oae.core'], function($, oae) {
                 ]
             }
         ];
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavigation]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavigation]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
         });
     };
 
