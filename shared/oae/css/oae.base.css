@@ -104,6 +104,11 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 /* FORMS 
  * http://twitter.github.com/bootstrap/base-css.html#forms */
 
+input[type="radio"],
+input[type="checkbox"] {
+    margin-top: 3px;
+}
+
 input.search-query,
 .navbar-search .search-query {
   font-family: inherit;
