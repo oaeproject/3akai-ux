@@ -1,0 +1,100 @@
+<!--
+ * Render a list item representing a user, group or piece of content
+ * 
+ * @param  {User|Group|Content}     entityData      Object representing a user, group or content item or a search result for a user, group or content item
+ * @param  {String}                 [metadata]      Line of metadata information that should be displayed underneath the entity name
+ * @param  {String}                 [pagingKey]     The key that should be used for paging through the infinite scroll plugin
+-->
+{macro listItem(entityData, metadata, pagingKey)}
+    <li {if pagingKey} data-key="${pagingKey}" {/if}>
+        <!-- THUMBNAIL VIEW -->
+        <div class="oae-list-grid-item">
+            <div class="oae-tile">
+                ${renderThumbnail(entityData, false, true)}
+                <div>
+                    {if entityData.resourceType !== 'user'}
+                        <i class="icon-oae-${entityData.visibility} pull-left"></i>
+                    {/if}
+                    ${renderMetadata(entityData, metadata)}
+                </div>
+            </div>
+            ${renderCheckbox(entityData, 'grid')}
+        </div>
+
+        <!-- DETAILED LIST VIEW -->
+        <div class="oae-list-details-item">
+            <div class="oae-listitem">
+                ${renderCheckbox(entityData, 'details')}
+                ${renderThumbnail(entityData)}
+                <div>
+                    ${renderMetadata(entityData, metadata)}
+                </div>
+            </div>
+        </div>
+
+        <!-- COMPACT LIST VIEW -->
+        <div class="oae-list-compact-item">
+            <div class="oae-listitem oae-listitem-compact">
+                ${renderCheckbox(entityData, 'compact')}
+                ${renderThumbnail(entityData)}
+                <div>
+                    ${renderMetadata(entityData, metadata)}
+                </div>
+            </div>
+        </div>
+    </li>
+{/macro}
+
+<!--
+ * Render an entity thumbnail picture
+ * 
+ * @param  {User|Group|Content}     entityData              Object representing a user, group or content item or a search result for a user, group or content item
+ * @param  {Boolean}                [addVisibilityIcon]     Whether or not the visibility icon should be shown. By default, the visibility icon will be shown.
+ * @param  {Boolean}                [large]                 Whether or not a large default thumbnail icon should used. By default, a small icon will be used.
+-->
+{macro renderThumbnail(entityData, addVisibilityIcon, large)}
+    {if entityData.thumbnailUrl}
+        {var thumbnailUrl = entityData.thumbnailUrl}
+    {elseif entityData.previews && entityData.previews.thumbnailUrl}
+        {var thumbnailUrl = entityData.previews.thumbnailUrl}
+    {elseif entityData.picture && entityData.picture.medium}
+        {var thumbnailUrl = entityData.picture.medium}
+    {/if}
+
+    <a href="${entityData.profilePath}" title="${entityData.displayName|safeUserInput}">
+        <div class="oae-thumbnail {if large} oae-thumbnail-large {/if} icon-oae-${entityData.contentType || entityData.resourceSubType} icon-oae-${entityData.resourceType}">
+            {if thumbnailUrl}
+                <img src="${thumbnailUrl}" alt="${entityData.displayName|safeUserInput}" />
+            {/if}
+            {if addVisibilityIcon !== false && entityData.resourceType !== 'user'}
+                <i class="icon-oae-${entityData.visibility}"></i>
+            {/if}
+        </div>
+    </a>
+{/macro}
+
+<!--
+ * Render the entity title and some additional metadata
+ * 
+ * @param  {User|Group|Content}     entityData      Object representing a user, group or content item or a search result for a user, group or content item
+ * @param  {String}                 [metadata]      Line of metadata information that should be displayed underneath the entity name
+-->
+{macro renderMetadata(entityData, metadata)}
+    <h3 class="oae-threedots"><a href="${entityData.profilePath}">${entityData.displayName|safeUserInput}</a></h3>
+    {if metadata}
+        <small class="oae-threedots">${metadata|safeUserInput}</small>
+    {/if}
+{/macro}
+
+<!--
+ * Render a list item representing a user, group or piece of content
+ * 
+ * @param  {User|Group|Content}     entityData      Object representing a user, group or content item or a search result for a user, group or content item
+ * @param  {String}                 type            Which type of view the checkbox is for. This can be `grid`, `details` or `compact`
+-->
+{macro renderCheckbox(entityData, type)}
+    {if !oae.data.me.anon}
+        <input type="checkbox" class="pull-left" id="oae-list-${type}-${entityData.id}" data-id="${entityData.id}" />
+        <label class="oae-aural-text" for="oae-list-${type}-${entityData.id}">${entityData.displayName|safeUserInput}</label>
+    {/if}
+{/macro}
