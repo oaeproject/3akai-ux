@@ -95,7 +95,9 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
          * of the end of the page or the end of the scroll container. If it is, we load the next set of results.
          */
         var checkLoadNext = function() {
-            if (!isDoingSearch) {
+            // We only check if a new set of results should be loaded if a search
+            // is not in progress and if the container has not been killed
+            if (!isDoingSearch && $container) {
                 // In case we use the body
                 var threshold = 500;
                 var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - $(window).scrollTop();
@@ -255,6 +257,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
          */
         var kill = function() {
             $container.html('');
+            $loadingContainer.remove();
             isDoingSearch = true;
             $container = null;
         };
