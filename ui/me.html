@@ -32,10 +32,10 @@
                 <div class="oae-page-column-left">
                     <div id="oae_entity_container" class="oae-entity-container"><!-- --></div>
                     <div id="oae_entity_template"><!--
-                        <button class="oae-entity-picture">
+                        <button class="oae-entity-picture" title="__MSG__PROFILE_PICTURE_OPTIONS__">
                             <span class="oae-entity-picture-image">
                                 {var pic = oae.data.me.picture.medium || "/ui/img/entities/user_icon_medium.png"}
-                                <img src="${pic}"/>
+                                <img src="${pic}" alt="__MSG__PROFILE_PICTURE__"/>
                             </span>
                             <span class="oae-aural-text">__MSG__PROFILE_PICTURE_OPTIONS_FOR__ ${oae.data.me.displayName|safeUserInput}</span> 
                         </button>
