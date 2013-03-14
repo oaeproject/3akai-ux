@@ -107,17 +107,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
 
         // Custom Trimpath modifiers, used for security related escaping purposes
         var trimpathModifiers = {
-            'encodeForCSS': function(str) {
-                return security().encodeForCSS(str);
-            },
             'encodeForHTML': function(str) {
                 return security().encodeForHTML(str);
             },
             'encodeForHTMLAttribute': function(str) {
                 return security().encodeForHTMLAttribute(str);
-            },
-            'encodeForJavascript': function(str) {
-                return security().encodeForJavascript(str);
             },
             'encodeForURL': function(str) {
                 return security().encodeForURL(str);
