@@ -165,12 +165,12 @@ div.oae-thumbnail {
     border: 1px solid #DDD;
 }
 
-.oae-tile > div:nth-child(2) {
+.oae-tile > div:last-child {
     background-color: rgba(0, 0, 0, 0.8);
 }
 
-.oae-tile > div:nth-child(2), .oae-tile h3, .oae-tile h3 a {
-    color: #FFFFFF;
+.oae-tile > div:last-child, .oae-tile h3, .oae-tile h3 a {
+    color: #FFF;
 }
 
 
