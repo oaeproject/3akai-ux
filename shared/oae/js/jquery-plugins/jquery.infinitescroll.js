@@ -95,7 +95,9 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
          * of the end of the page or the end of the scroll container. If it is, we load the next set of results.
          */
         var checkLoadNext = function() {
-            if (!isDoingSearch) {
+            // We only check if a new set of results should be loaded if a search
+            // is not in progress and if the container has not been killed
+            if (!isDoingSearch && $container) {
                 // In case we use the body
                 var threshold = 500;
                 var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - $(window).scrollTop();
@@ -166,46 +168,53 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
             // Determine if we should attempt to load a next page
             var canFetchMore = (data.results.length === parameters.limit);
 
-            // Filter out items that are already in the list
-            var filteredresults = [];
-            $.each(data.results, function(i, result) {
-                // Determine whether this item is already in the list
-                // by looking for an element with the same id
-                if (!$('*[data-id="' + result.id + '"]', $container).length) {
-                    filteredresults.push(result);
+            // Check if the infinite scroll instance still exists. It's possible that
+            // the instance was killed in between the time that a request was fired and
+            // the response was received. If that's the cause, there's nothing else we
+            // need to do
+            if ($container) {
+
+                // Filter out items that are already in the list
+                var filteredresults = [];
+                $.each(data.results, function(i, result) {
+                    // Determine whether this item is already in the list
+                    // by looking for an element with the same id
+                    if (!$('*[data-id="' + result.id + '"]', $container).length) {
+                        filteredresults.push(result);
+                    }
+                });
+                data.results = filteredresults;
+    
+                // Render the template and put it in the container
+                hideLoadingContainer();
+                var templateOutput = '';
+                if (_.isFunction(render)) {
+                    templateOutput = render(data.results);
+                } else {
+                    templateOutput = oaeUtil.template().render(render, data);
                 }
-            });
-            data.results = filteredresults;
-
-            // Render the template and put it in the container
-            hideLoadingContainer();
-            var templateOutput = '';
-            if (_.isFunction(render)) {
-                templateOutput = render(data.results);
-            } else {
-                templateOutput = oaeUtil.template().render(render, data);
-            }
-            $container.append(templateOutput);
-
-            // Call the post renderer if it has been provided
-            if (options.postRenderer) {
-                options.postRenderer(data);
-            }
-
-            // If there are more results and we're still close to the bottom of the page,
-            // check if we should do another one. However, we pause for a second, as to
-            // not to send too many requests at once
-            if (canFetchMore) {
-                setTimeout(function() {
-                    isDoingSearch = false;
-                    checkLoadNext();
-                }, 1000);
-            } else {
-                // Don't do any more searches when scrolling
-                isDoingSearch = true;
-                if ($('li:visible', $container).length === 0) {
-                    if (options.emptyListProcessor) {
-                        options.emptyListProcessor();
+                $container.append(templateOutput);
+    
+                // Call the post renderer if it has been provided
+                if (options.postRenderer) {
+                    options.postRenderer(data);
+                }
+    
+                // If there are more results and we're still close to the bottom of the page,
+                // check if we should do another one. However, we pause for a second, as to
+                // not to send too many requests at once
+                if (canFetchMore) {
+                    setTimeout(function() {
+                        isDoingSearch = false;
+                        checkLoadNext();
+                    }, 1000);
+                } else {
+                    // Don't do any more searches when scrolling
+                    isDoingSearch = true;
+                    if ($('li:visible', $container).length === 0) {
+                        if (options.emptyListProcessor) {
+                            options.emptyListProcessor();
+                        }
                     }
                 }
             }
@@ -248,6 +257,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
          */
         var kill = function() {
             $container.html('');
+            $loadingContainer.remove();
             isDoingSearch = true;
             $container = null;
         };
