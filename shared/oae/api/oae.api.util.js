@@ -620,7 +620,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             if (!input) {
                 return '';
             } else {
-                return $('<div/>').text(input).html();
+                return $('<div/>').text(input).html().replace('"', '&quot;').replace('\'', '&apos;');
             }
         };
         
