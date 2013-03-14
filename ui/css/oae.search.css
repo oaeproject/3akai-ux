@@ -13,14 +13,27 @@
  * permissions and limitations under the License.
  */
 
-/* Search bar */
-.oae-search h1 {
-    font-size: 18px;
-    margin-left: 25px;
-    margin-top: 15px;
+/* Search clip overrides */
+
+#search-clip-container .oae-clip-content {
+    padding: 20px 15px;
 }
-.oae-search .oae-search-bar {
-    margin-left: 205px;
-    position: relative;
-    top: 15px;
+
+#search-clip-container .oae-clip-content #search-form {
+    margin-bottom: 0px;
+}
+
+#search-clip-container .oae-clip-content .search-query {
+    margin-left: 30px;
+    margin-right: 50px;
+}
+
+/* Search container */
+
+#search-content-container {
+    padding: 10px;
+}
+
+#search-content-container #search-list-container {
+    padding: 5px 100px 50px 0px;
 }

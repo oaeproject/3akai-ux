@@ -39,7 +39,7 @@
     line-height: 2;
 }
 
-#index-container .index-search-container input#index-search-input {
+#index-container .index-search-container input#index-search-query {
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
             box-sizing: border-box;
