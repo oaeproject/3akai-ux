@@ -59,6 +59,34 @@ a:hover, .btn-link:hover {
 }
 
 
+/**************************
+ ** LEFT HAND NAVIGATION **
+ **************************/
+
+.nav > li > a,
+.nav > li i,
+.nav > li.nav-header {
+    background-color: transparent;
+    color: #999;
+}
+
+.nav > li > a:hover,
+.nav > li > a:focus,
+.nav > li > a:hover i,
+.nav > li > a:focus i {
+    background-color: transparent;
+    color: #333;
+}
+
+.nav > li.active > a, 
+.nav > li.active > a:hover, 
+.nav > li.active > a:focus,
+.nav > li.active i {
+    background-color: transparent;
+    color: #333;
+}
+
+
 /*******************
  ** BUTTON COLORS **
  *******************/
@@ -234,6 +262,7 @@ div.oae-thumbnail {
     background: -ms-linear-gradient(top, #545454 0%, #545454 10%, #000000 100%);
 }
 
+.oae-clip .oae-clip-content,
 .oae-clip .oae-clip-content button,
 .oae-clip .oae-clip-content i {
     color: #DBDBDB;
@@ -273,6 +302,7 @@ div.oae-thumbnail {
     background: -ms-linear-gradient(top, #24A7DD 0%, #24A7DD 10%, #0175A9 100%);
 }
 
+.oae-clip.oae-clip-secondary .oae-clip-content,
 .oae-clip.oae-clip-secondary .oae-clip-content button,
 .oae-clip.oae-clip-secondary .oae-clip-content i {
     color: #F5F5F5;

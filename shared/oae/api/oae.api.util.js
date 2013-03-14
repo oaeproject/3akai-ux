@@ -152,12 +152,13 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * 
          * There is also a globally available macro that can be used when rendering list view items:
          * 
-         *   `${listItem(entityData, [metadata], [pagingKey])}`
+         *   `${listItem(entityData, [pagingKey], [metadata], [showCheckbox])}`
          * 
          * - `entityData` is an object representing a user, group or content item or a search result for a user, group
          *    or content item
          * - `metadata` (optional) is a line of metadata information that should be displayed underneath the entity name
          * - `pagingKey` (optional) is the key that should be used for paging through the infinite scroll plugin
+         * - `showCheckbox` (optional) will determine whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
          * 
          * IMPORTANT: There should be no line breaks in between the div and the <!-- declarations,
          * because that line break will be recognized as a node and the template won't show up, as

@@ -18,160 +18,75 @@ require(['jquery','oae.core'], function($, oae) {
     // Set the browser title
     oae.api.util.setBrowserTitle(oae.api.i18n.translate('__MSG__SEARCH__'));
 
-    // TODO: Replace this with more effective page configuration
-    var pubdata = {
-        'structure0': {
-            'all': {
-                '_order': 0,
-                '_ref': 'id9574379429432',
-                '_title': oae.api.i18n.translate('__MSG__ALL_TYPES__'),
-                'main': {
-                    '_order': 0,
-                    '_ref': 'id9574379429432',
-                    '_title': oae.api.i18n.translate('__MSG__ALL_TYPES__')
-                }
-            },
-            'content': {
-                '_order': 1,
-                '_ref': 'id6573920372',
-                '_title': oae.api.i18n.translate('__MSG__CONTENT__'),
-                'main': {
-                    '_order': 0,
-                    '_ref': 'id6573920372',
-                    '_title': oae.api.i18n.translate('__MSG__CONTENT__')
-                }
-            },
-            'people': {
-                '_order': 2,
-                '_ref': 'id49294509202',
-                '_title': oae.api.i18n.translate('__MSG__PEOPLE__'),
-                'main': {
-                    '_order': 0,
-                    '_ref': 'id49294509202',
-                    '_title': oae.api.i18n.translate('__MSG__PEOPLE__')
-                }
-            },
-            'groups': {
-                '_order': 3,
-                '_ref': 'id7645524364',
-                '_title': oae.api.i18n.translate('__MSG__GROUPS__'),
-                'main': {
-                    '_order': 0,
-                    '_ref': 'id7645524364',
-                    '_title': oae.api.i18n.translate('__MSG__GROUPS__')
-                }
+    // Variable that will be used to keep track of the current
+    // infinite scroll instance
+    var infinityScroll = false;
+
+    /**
+     * Initialize a new infinite scroll container that lists the search results.
+     */
+    var renderSearch = function() {
+        // Disable the previous infinite scroll
+        if (infinityScroll) {
+            infinityScroll.kill();
+        }
+
+        // Get the current search query
+        var query = $.bbq.getState('q');
+        $('.search-query').val(query);
+
+        // Get the current type refinement
+        var types = ($.bbq.getState('types') || '').split(',');
+        $.each(types, function(index, type) {
+            $('#search-refine-type input[type="checkbox"][data-type="' + type + '"]').attr('checked', 'checked');
+        });
+
+        // Set up the infinite scroll for the list of search results
+        infinityScroll = $('.oae-list').infiniteScroll('/api/search/general', {
+            'limit': 12,
+            'q': query,
+            'resourceTypes': types
+        }, '#search-template', {
+            'postRenderer': function(data) {
+                $('#search-total-results').text(data.total);
             }
-        },
-        'id9574379429432': {
-            'rows': [
-                {
-                    'id': 'id4382631',
-                    'columns': [
-                        {
-                            'width': 1,
-                            'elements': [
-                                {
-                                    'id': 'id8403845',
-                                    'type': 'searchall'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        'id6573920372': {
-            'rows': [
-                {
-                    'id': 'id1813095',
-                    'columns': [
-                        {
-                            'width': 1,
-                            'elements': [
-                                {
-                                    'id': 'id9436392',
-                                    'type': 'searchcontent'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        'id49294509202': {
-            'rows': [
-                {
-                    'id': 'id152530',
-                    'columns': [
-                        {
-                            'width': 1,
-                            'elements': [
-                                {
-                                    'id': 'id1187051',
-                                    'type': 'searchpeople'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        'id7645524364': {
-            'rows': [
-                {
-                    'id': 'id65342243',
-                    'columns': [
-                        {
-                            'width': 1,
-                            'elements': [
-                                {
-                                    'id': 'id0129412',
-                                    'type': 'searchgroups'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }
-    };
-
-    /**
-     * Set up the search form. Every time the search form is submitted,
-     * the querystring will be adjusted and picked up by the search widgets
-     */
-    var setUpSearch = function() {
-        $('#search_form').submit(function() {;
-            $.bbq.pushState({'q': $('#search_query').val()}, 0);
-            return false;
-        });
-
-        $(window).on('hashchange', function(ev) {
-            $('#search_query').val($.bbq.getState('q'))
         });
     };
 
     /**
-     * Set up the left hand navigation with the provided structure
+     * Initiate a search with the search query entered by the user.
      */
-    var setUpNavigation = function() {
-        $(window).on('lhnav.ready', function() {
-            $(window).trigger('lhnav.init', [pubdata, {}, {}]);
-        });  
+    var search = function() {
+        $.bbq.pushState({'q': $('.search-query', $(this)).val()});
+        renderSearch();
+        return false;
     };
 
     /**
-     * Take the search string from the query string and add it to the search box,
-     * in case the page was loaded with a query already in the URL
+     * Every time a new resource type refinement options has been checked or unchecked, we change
+     * the page URL to reflect the selected type refinements and kick off a new search
      */
-    var setUpSearchQuery = function() {
-        if ($.bbq.getState('q')) {
-            $('#search_query').val($.bbq.getState('q'));
-        }
+    var refineByType = function() {
+        var types = [];
+        // Get all of the selected type checkboxes
+        $('#search-refine-type input[type="checkbox"]:checked').each(function(index, checkbox) {
+            types.push($(checkbox).attr('data-type'));
+        });
+        $.bbq.pushState({'types': types.join(',')});
+        renderSearch();
     };
 
-    setUpSearch();
-    setUpNavigation();
-    setUpSearchQuery();
+    /**
+     * Add the different event bindings
+     */
+    var addBinding = function() {
+        // Set up search event
+        $(document).on('submit', '#search-form', search);
+        // Listen to the change event on the type refinement checkboxes
+        $('#search-refine-type').on('change', 'input[type="checkbox"]', refineByType);
+    };
+
+    addBinding();
+    renderSearch();
 
 });
