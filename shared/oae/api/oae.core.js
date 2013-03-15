@@ -50,6 +50,7 @@ define([
         'globalize',
         'jquery.ba-bbq',
         'jquery.ba-hashchange',
+        'jquery.carouFredSel',
         'jquery.contentchange',
         'jquery.clip',
         'jquery.list-options',

@@ -60,6 +60,10 @@ require(['jquery','oae.core'], function($, oae) {
         });
     };
 
+    $(document).on('oae-trigger-requestcontext', function() {
+        $(document).trigger('oae-trigger-receivecontext', contentProfile);
+    });
+
     /**
      * Render the content's clip, containing the thumbnail, display name as well as the
      * content's admin options
