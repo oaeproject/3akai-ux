@@ -15,134 +15,289 @@
 
 require(['jquery', 'oae.core'], function($, oae) {
 
-    /**
-     * Renders the documentation for a specific module
-     * 
-     * @param {Object} docs    The documentation object as returned from the server
-     * @param {String} module  The module name to render the documentation for
-     */
-    var renderModuleDocs = function(docs, module) {
-        oae.api.util.renderTemplate($('#doc_docs_template'), {
-            'docs': docs,
-            'module': module
-        }, $('#doc_docs_container'));
+  /**
+   * Renders the documentation for a specific module
+   * 
+   * @param {Object} docs    The documentation object as returned from the server
+   * @param {String} module  The module name to render the documentation for
+   */
+  var renderModuleDocs = function (docs, module) {
+    oae.api.util.renderTemplate($('#doc_docs_template'), {
+      'docs': docs,
+      'module': module
+    }, $('#doc_docs_container'));
 
-        // Scroll to the appropriate place on the page. This will be the top of the page most of the time, unless
-        // a direct link to a function has been clicked (e.g. http://cambridge.oae.com/docs#oae-authentication.api.removeStrategies)
-        // In this case, we scroll to the function's documentation
-        var offset = 0;
-        var hash = window.location.hash.replace('#', '');
-        if (hash && hash !== module){
-            var $anchor = $('a[name="#' + hash + '"]');
-            offset = $anchor.offset().top;
+    // Scroll to the appropriate place on the page. This will be the top of the page most of the time, unless
+    // a direct link to a function has been clicked (e.g. http://cambridge.oae.com/docs#oae-authentication.api.removeStrategies)
+    // In this case, we scroll to the function's documentation
+    var offset = 0;
+    var hash = window.location.hash.replace('#', '');
+    module = module.replace('#','');
+    if (hash && hash !== module) {
+      var $anchor = $('a[name="#' + hash + '"]');
+      offset = $anchor.offset().top;
+    }
+    window.scrollTo(0, offset);
+  };
+
+  var renderUIDocs = function (docs, module) {
+    oae.api.util.renderTemplate($('#doc_ui_docs_template'), {
+      'docs': docs,
+      'module': module
+    }, $('#doc_docs_container'));
+
+    // Scroll to the appropriate place on the page. This will be the top of the page most of the time, unless
+    // a direct link to a function has been clicked (e.g. http://cambridge.oae.com/docs#oae-authentication.api.removeStrategies)
+    // In this case, we scroll to the function's documentation
+    var offset = 0;
+    var hash = window.location.hash.replace('#', '');
+    module = module.replace('#','');
+    if (hash && hash !== module) {
+      var $anchor = $('a[name="#' + hash + '"]');
+      offset = $anchor.offset().top;
+    }
+    window.scrollTo(0, offset);
+  };
+
+  /**
+   * Renders the navigation for the available modules
+   * 
+   * @param {String[]}    modules          An Array of module names
+   * @param {String}      currentModule    The name of the module that is currently shown in the UI
+   */
+  var renderNavigation = function (modules, currentModule, isUI) {
+
+    //console.log(modules,currentModule);
+    if(isUI) {
+      oae.api.util.renderTemplate($('#doc_ui_contents_template'), {
+        'modules': modules,
+        'moduleToLoad': currentModule,
+        'type': "frontend" },
+      $('#doc_ui_contents_container'));
+    } else {
+      oae.api.util.renderTemplate($('#doc_contents_template'), {
+        'modules': modules,
+        'moduleToLoad': currentModule,
+        'type': "backend"},
+      $('#doc_contents_container'));
+    }
+    addBinding();
+  };
+
+  /**
+   * Gets the documentation for a specific module and passes it in a callback
+   * 
+   * @param {String}    module            The name of the module to get the documentation for
+   * @param {Function}  callback          Function executed after the documentation for the module has been retrieved
+   * @param {Object}    callback.docs     Retrieved documentation for the specified module. This will be null when the documentation could not be retrieved
+   */
+  var getModuleDocs = function (module, callback) {
+    if(module.substring(0, 7) === 'backend') {
+      module = module.slice(8);
+    }
+    console.log(module);
+    $.ajax({
+      url: '/api/doc/module/' + module,
+      success: function (docs) {
+        callback(docs);
+      }, error: function (err) {
+        callback(null);
+      }
+    });
+  };
+
+  var getUIDocs = function (ui, callback) {
+    if(ui.substring(0, 8) === 'frontend') {
+      ui = ui.slice(9);
+    }
+    console.log(ui);
+    if(ui !== null)
+    {
+      $.ajax({
+        url: '/api/doc/element/' + ui,
+        success: function(docs) {
+          callback(docs);
+        }, error: function(err) {
+          callback(null);
         }
-        window.scrollTo(0, offset);
-    };
+      });  
+    } 
+  };
 
-    /**
-     * Renders the navigation for the available modules
-     * 
-     * @param {String[]}    modules          An Array of module names
-     * @param {String}      currentModule    The name of the module that is currently shown in the UI
-     */
-    var renderNavigation = function(modules, currentModule) {
-        oae.api.util.renderTemplate($('#doc_contents_template'), {
-            'modules': modules,
-            'moduleToLoad': currentModule
-        }, $('#doc_contents_container'));
-    };
+  /**
+   * Gets the available OAE modules and passes them in a callback
+   * 
+   * @param {Function}    callback            Function executed after the list of modules has been retrieved
+   * @param {String[]}    callback.modules    List of all of the available OAE modules
+   */
+  var getAvailableModules = function (callback) {
+    $.ajax({
+      url: '/api/doc/modules',
+      success: callback
+    });
+  };
 
-    /**
-     * Gets the documentation for a specific module and passes it in a callback
-     * 
-     * @param {String}    module            The name of the module to get the documentation for
-     * @param {Function}  callback          Function executed after the documentation for the module has been retrieved
-     * @param {Object}    callback.docs     Retrieved documentation for the specified module. This will be null when the documentation could not be retrieved
-     */
-    var getModuleDocs = function(module, callback) {
-        $.ajax({
-            url: '/api/doc/module/' + module,
-            success: function(docs) {
-                callback(docs);
-            }, error: function(err) {
-                callback(null);
-            }
+  /**
+   * Gets and returns the currently selected module by retrieving the hash from the URL
+   * 
+   * @return {String}         The currently selected module
+   */
+  var getSelectedElement = function () {
+    var elementToLoad = window.location.hash.replace('/', '');
+    // As it is possible to reference a specific function in an API directly 
+    // (e.g. http://cambridge.oae.com/docs#oae-authentication.api.removeStrategies),
+    // we strip it out to just get the current module
+    //elementToLoad = elementToLoad.split('.')[0];
+    //console.log(elementToLoad);
+    return elementToLoad;
+  };
+
+  /**
+   * Sets the title of the document to `Sakai OAE - API Reference - title`
+   * 
+   * @param {String}  title   The title to be added to the document title
+   */
+  var setDocumentTitle = function (title) {
+    oae.api.util.setBrowserTitle(['API Reference', title]);
+  };
+
+  /**
+   * Adds binding to various elements and events in the UI
+   */
+  var addBinding = function () {
+    /*$(window).hashchange(function () {
+      var elementToLoad = getSelectedElement();
+      setDocumentTitle(elementToLoad);
+      $('.bs-docs-sidenav li').removeClass('active');
+      $('#' + elementToLoad.replace('/','')).addClass('active'); 
+      //console.log("Element to load: "+elementToLoad);
+
+      if(elementToLoad.substring(0, 7) === 'backend') {
+        getModuleDocs(elementToLoad.slice(8), function(docs) {
+          console.log(docs);
+          renderModuleDocs(docs, elementToLoad.slice(8));
+        }); 
+      }
+      if(elementToLoad.substring(0, 8) === 'frontend') {
+        getUIDocs(elementToLoad.slice(9), function(docs) {
+          console.log(docs);
+          renderUIDocs(docs, elementToLoad.slice(9));
         });
-    };
+      }
+    });*/
 
-    /**
-     * Gets the available OAE modules and passes them in a callback
-     * 
-     * @param {Function}    callback            Function executed after the list of modules has been retrieved
-     * @param {String[]}    callback.modules    List of all of the available OAE modules
-     */
-    var getAvailableModules = function(callback) {
-        $.ajax({
-            url: '/api/doc/modules',
-            success: callback
-        });
-    };
+    // Bind the click event
+    $('.bs-docs-sidenav li').on('click', function (event) {
+      event.preventDefault();
+      $('.bs-docs-sidenav li').removeClass('active');
+      $(this).addClass('active'); 
 
-    /**
-     * Gets and returns the currently selected module by retrieving the hash from the URL
-     * 
-     * @return {String}         The currently selected module
-     */
-    var getSelectedModule = function() {
-        var moduleToLoad = window.location.hash.replace('#', '');
-        // As it is possible to reference a specific function in an API directly 
-        // (e.g. http://cambridge.oae.com/docs#oae-authentication.api.removeStrategies),
-        // we strip it out to just get the current module
-        moduleToLoad = moduleToLoad.split('.')[0];
-        return moduleToLoad;
-    };
+      var  currentSelectedItem = $('a', $(this)).attr('href');
 
-    /**
-     * Sets the title of the document to `Sakai OAE - API Reference - title`
-     * 
-     * @param {String}  title   The title to be added to the document title
-     */
-    var setDocumentTitle = function(title) {
-        oae.api.util.setBrowserTitle(['API Reference', title]);
-    };
+      history.pushState(null, null, currentSelectedItem);
+    //console.log(currentSelectedItem);
+    if( currentSelectedItem.indexOf("backend") > 0) {
+      //console.log("backend "+currentSelectedItem.substr(14));
+      currentSelectedItem = currentSelectedItem.substr(14);
+      setDocumentTitle(currentSelectedItem);
+      getModuleDocs(currentSelectedItem, function(docs) {
+          //console.log(docs);
+          renderModuleDocs(docs, currentSelectedItem);
+      }); 
+    }
+    if( currentSelectedItem.indexOf("frontend") > 0) {
+      //console.log("frontend "+currentSelectedItem.substr(15));
+      currentSelectedItem = currentSelectedItem.substr(15);
+      setDocumentTitle("oae.api."+currentSelectedItem);
+      getUIDocs(currentSelectedItem, function(docs) {
+          //console.log(docs);
+          renderUIDocs(docs, currentSelectedItem);
+      });
+    }
 
-    /**
-     * Adds binding to various elements and events in the UI
-     */
-    var addBinding = function() {
-        $(window).hashchange(function() {
-            var moduleToLoad = getSelectedModule();
-            setDocumentTitle(moduleToLoad);
-            getModuleDocs(moduleToLoad, function(docs) {
-                $('.bs-docs-sidenav li').removeClass('active');
-                $('#' + moduleToLoad).addClass('active');
-                renderModuleDocs(docs, moduleToLoad);
-            });
-        });
-    };
+    //console.log(currentSelectedItem);
+      // Only push state when a link other than the active one has been clicked
+       //if (!$(this).hasClass('active')) {
+            // Get the selected page
+            //var selectedPage = getPage($(this).attr('data-id'));
+            //console.log(selectedPage);
+            // Push the state and render the selected page
+            
+            //renderPage(selectedPage.id);
+        //}
+        //return false;
+    });
+  };
 
-    /**
-     * Initializes the API Docs UI
-     */
-    var doInit = function() {
-        addBinding();
-        // Load the list of the available modules
-        getAvailableModules(function(modules) {
-            modules.sort();
+  var getUIAPIElements = function (callback) {
+    $.ajax({
+      url: '/api/doc/element',
+      success: callback
+    });
+  };
 
-            // Get the currently selected module. If there is no selected module,
-            // we select the first one in the list
-            var moduleToLoad = getSelectedModule() || modules[0];
+  var getName = function (filename) {
+    var extension = getFileExtension(filename);
+    if( extension === "js" || extension === "Js" || extension === "JS") {
+      filename = filename.slice(0,-3);
+      return filename;
+    } else {
+      console.log("fail getName");
+    }
+    return null;
+  };
 
-            // Render the docs for the current module
-            setDocumentTitle(moduleToLoad);
-            renderNavigation(modules, moduleToLoad);
-            getModuleDocs(moduleToLoad, function(docs) {
-                renderModuleDocs(docs, moduleToLoad);
-            });
-        });
-    };
+  var getFileExtension = function (filename) {
+    var ext = /^.+\.([^.]+)$/.exec(filename);
+    return ext == null ? "" : ext[1];
+  }
 
-    doInit();
+  /**
+   * Initializes the API Docs UI
+   */
+  var doInit = function () {
+    var currentElementToLoad = getSelectedElement() || null;
+    var currentType = "hilary";
 
+    if(currentElementToLoad !== null){
+      console.log(currentElementToLoad);
+      switch (currentElementToLoad.substring(0, 7)) {
+        case 'backend': currentType  = "hilary"; break;
+        case 'fronten': currentType = "3akai"; break;
+        default: currentType = "hilary"; break;
+      }
+    }
+    
+    getUIAPIElements(function (elements) {
+      console.log(elements)
+      elements.sort();
+      // Render the docs for the current module
+      renderNavigation(elements, currentElementToLoad,true);
+    });
+      if(currentType === "3akai") {
+        getUIDocs(currentElementToLoad, function (docs) {
+          renderUIDocs(docs, currentElementToLoad);
+        });  
+      }
+    
+    // Load the list of the available modules
+    getAvailableModules(function (modules) {
+      console.log(modules);
+      modules.sort();
+      // Get the currently selected module. If there is no selected module,
+      // we select the first one in the list
+      currentElementToLoad = getSelectedElement() || modules[0];
+      console.log("currentElementToLoad: " + currentElementToLoad + " currentType: " + currentType);
+      // Render the docs for the current module
+      setDocumentTitle(currentElementToLoad);
+      renderNavigation(modules, currentElementToLoad,false);
+      
+      if(currentType === "hilary") {
+        getModuleDocs(currentElementToLoad, function (docs) {
+            renderModuleDocs(docs, currentElementToLoad);
+        });  
+      }
+    });
+  };
+doInit();
 });
