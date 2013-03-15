@@ -26,6 +26,7 @@ requirejs.config({
         'bootstrap': 'vendor/js/bootstrap',
         'globalize': 'vendor/js/l10n/globalize',
         'jquery.autoSuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest.oae-edited',
+        'jquery.carouFredSel': 'vendor/js/jquery-plugins/jquery.carouFredSel-6.2.0',
         'jquery.encoder': 'vendor/js/jquery-plugins/jquery.encoder',
         'jquery.fileSize': 'vendor/js/jquery-plugins/jquery.fileSize',
         'jquery.fileupload': 'vendor/js/jquery-plugins/jquery.fileupload',
