@@ -39,6 +39,14 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     text-decoration: none;
 }
 
+/* DEFAULT INPUT STYLE */
+
+textarea {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+}
+
 /* NAVIGATION BAR 
  * @see http://twitter.github.com/bootstrap/components.html#navs */
 
@@ -78,6 +86,7 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
  * @see http://twitter.github.com/bootstrap/components.html#media */
 
 .media, .media .media {
+    font-size: 12px;
     margin-top: 25px;
 }
 
