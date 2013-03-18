@@ -127,15 +127,21 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             data.push({'name': 'viewers', 'value': viewer});
         });
 
-        $($fileUploadField).fileupload('send', {
+        var jqXHR = $($fileUploadField).fileupload('send', {
             'files': [file],
             'formData': data,
             'success': function(data) {
+                $($fileUploadField).off('oae.upload.abort');
                 callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
             }
+        });
+
+        $($fileUploadField).on('oae.upload.abort', function() {
+            $($fileUploadField).off('oae.upload.abort');
+            jqXHR.abort();
         });
     };
     

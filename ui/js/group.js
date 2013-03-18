@@ -46,7 +46,11 @@ require(['jquery', 'oae.core'], function($, oae) {
             oae.api.util.setBrowserTitle(groupProfile.displayName);
         });
     };
-    
+
+    $(document).on('oae-trigger-requestcontext', function() {
+        $(document).trigger('oae-trigger-receivecontext', groupProfile);
+    });
+
     /**
      * Render the group's clip, containing the profile picture, display name as well as the
      * group's admin options
