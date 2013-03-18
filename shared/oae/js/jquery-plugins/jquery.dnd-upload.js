@@ -13,34 +13,47 @@
  * permissions and limitations under the License.
  */
 
-define(['jquery', 'oae.api.content', 'jquery.fileupload'], function (jQuery) {
+define(['jquery', 'oae.api.content', 'jquery.fileupload', 'jquery.contentchange'], function (jQuery) {
     (function() {
-        // TODO: Disabling this as this shouldn't upload straight away. Instead,
-        // it should invoke the file upload widget (https://github.com/sakaiproject/3akai-ux/issues/2621)
-        //$('html').contentChange(function(){
-        //    // Initialize drag and drop from desktop
-        //    $('.oae-dnd-upload').fileupload({
-        //        url: '/api/content/create',
-        //        dropZone: $('.oae-dnd-upload'),
-        //        submit: function (ev, data) {
-        //            var $this = $(this);
-        //            data.formData = {
-        //                'contentType': 'file',
-        //                'displayName': data.files[0].name,
-        //                'file': data.files[0]
-        //            }
-        //            $this.fileupload('send', data);
-        //            return false;
-        //        } 
-        //    });
-        //});
+        $('html').contentChange(function(){
+            var $dropZone = $('.oae-dnd-upload');
+            if (!$dropZone.hasClass('initialized')) {
+                $('.oae-dnd-upload').on('drop', function(ev, data) {
+                    if(ev.originalEvent.dataTransfer){
+                        if(ev.originalEvent.dataTransfer.files.length) {
+                            ev.preventDefault();
+                            ev.stopPropagation();
 
-        $(document).on('dragover', '.oae-dnd-upload', function(ev) {
-            $('.oae-dnd-upload').addClass('dragover');
-        });
+                            // Parse the data into a format the upload widget understands
+                            var selectedFiles = {
+                                'files': []
+                            };
+                            $.each(ev.originalEvent.dataTransfer.files, function(index, file) {
+                                if (file.name) {
+                                    selectedFiles.files.push(file);
+                                }
+                            });
 
-        $(document).on('dragleave drop', '.oae-dnd-upload', function(ev) {
-            $('.oae-dnd-upload').removeClass('dragover');
+                            // Trigger an event that sends the dropped data along
+                            $(document).trigger('oae-trigger-dnd', {
+                                'data': selectedFiles
+                            });
+                        }
+                    }
+                });
+
+                $dropZone.on('dragover', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                });
+
+                $dropZone.on('dragenter', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                });
+
+                $dropZone.addClass('initialized');
+            }
         });
     })();
 });

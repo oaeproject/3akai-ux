@@ -36,3 +36,5 @@
    page because of the topnavigation */
 @import url('/shared/vendor/css/auth-buttons.css');
 
+/* Import the JQuery AutoSuggest plugin CSS */
+@import url('/shared/vendor/css/jquery.autoSuggest.css');
