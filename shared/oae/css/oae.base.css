@@ -20,8 +20,8 @@
 /* FULL-WIDTH LAYOUT */
 
 body {
-    margin-left: 2%;
-    margin-right: 2%;
+    margin-left: 30px;
+    margin-right: 30px;
     min-width: 1100px;
     display: none;
 }
@@ -29,7 +29,6 @@ body {
 /* DEFAULT FONT AND TEXT COLOR */
 
 body, button, input, select, textarea {
-    color: #333;
     font-family: 'Open Sans', sans-serif; arial, helvetica, sans-serif;
     line-height: 1.5;
 }
@@ -68,6 +67,13 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     top: 2px;
 }
 
+.nav-list .nav-header {
+    text-transform: none;
+    font-weight: 700;
+    margin-bottom: 10px;
+    font-size: 12px;
+}
+
 /* ICONS */
 
 [class^="icon-"], [class*=" icon-"] {
@@ -97,6 +103,11 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 
 /* FORMS 
  * http://twitter.github.com/bootstrap/base-css.html#forms */
+
+input[type="radio"],
+input[type="checkbox"] {
+    margin-top: 3px;
+}
 
 input.search-query,
 .navbar-search .search-query {
@@ -235,33 +246,4 @@ input.search-query,
 
 .oae-main-content > div {
     clear: both;
-}
-
-
-/******************
- ** LIST OPTIONS **
- *****************/
-
-.oae-list-options > div:first-child > * {
-    margin-right: 7px;
-}
-
-.btn.oae-list-options-toggle {
-    color: #333;
-    font-size: 20px;
-    text-decoration: none;
-}
-
-.btn.oae-list-options-toggle i {
-    color: #333;
-}
-
-.oae-list-options button i[class^="icon-"],
-.oae-list-options button i[class*=" icon-"] {
-    font-size: 18px;
-}
-
-.oae-list-options .search-view-container .btn i {
-    color: #666;
-    font-size: 12px;
 }

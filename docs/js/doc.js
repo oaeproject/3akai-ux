@@ -90,7 +90,6 @@ require(['jquery', 'oae.core'], function($, oae) {
     }
     addBinding();
   };
-
   /**
    * Gets the documentation for a specific module and passes it in a callback
    * 
@@ -179,7 +178,6 @@ require(['jquery', 'oae.core'], function($, oae) {
    * Adds binding to various elements and events in the UI
    */
   var addBinding = function () {
-
     // Bind the click event
     $('.bs-docs-sidenav li').on('click', function (event) {
       event.preventDefault();

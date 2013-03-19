@@ -17,7 +17,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
 (function($) {
 
     /**
-     * Sakai OAE plugin that will provide infinite scrolling for lists of items being displayed. This plugin will take care of retrieving the
+     * OAE plugin that will provide infinite scrolling for lists of items being displayed. This plugin will take care of retrieving the
      * list items and deciding when to retrieve the next set of results, as well as the actual appending to the list, showing loading
      * animations, etc.
      *
@@ -33,7 +33,6 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
      * @param  {Function}                          [options.emptyListProcessor]    Function that will be executed when the rendered list doesn't have any elements.
      * @param  {Function}                          [options.postProcessor]         Function used to transform the search results before rendering the template. This function will be called with a data parameter containing the retrieved data and should return the processed data
      * @param  {Function}                          [options.postRenderer]          Function executed after the rendered HTML has been appended to the rendered list. The full retrieved server response will be passed into this function.
-     * @param  {String}                            [options.loadingImage]          Path to the loading image that should be shown when a new set of list items is being loaded
      * @throws {Error}                                                             Error thrown when not all of the required parameters have been provided
      */
     $.fn.infiniteScroll = function(source, parameters, render, options) {
@@ -58,13 +57,15 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
         if (options.scrollContainer) {
             options.scrollContainer = $(options.scrollContainer);
         }
-        // Set default loading animation
-        options.loadingImage = '/ui/img/framework/Infinite_Scrolling_Loader_v01.gif';
+
+        // Container that will be used to show the loading animation.We add the 
+        // `text-center` class to make sure that the animation is centered. We also
+        // add `clear: both` to make sure that the animation is displayed underneath
+        // the actual list
+        var $loadingContainer = $('<div />').addClass('text-center hide').css('clear', 'both');
 
         // Set the container in which the results should be rendered
         var $container = options.scrollContainer ? options.scrollContainer : $(this);
-        // Container that will be used to show the loading animation
-        var $loadingContainer = $('<div />');
 
         // Gets filled up each time we request a list.
         var lastItem = null;
@@ -94,7 +95,9 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
          * of the end of the page or the end of the scroll container. If it is, we load the next set of results.
          */
         var checkLoadNext = function() {
-            if (!isDoingSearch) {
+            // We only check if a new set of results should be loaded if a search
+            // is not in progress and if the container has not been killed
+            if (!isDoingSearch && $container) {
                 // In case we use the body
                 var threshold = 500;
                 var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - $(window).scrollTop();
@@ -123,7 +126,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
             // Get the key of the latest
             var $lastElement = $('li', $container).filter(':visible').filter(':last');
             if ($lastElement.length !== 0) {
-                parameters.start = $lastElement.attr('data-key') ? $lastElement.attr('data-key') : $lastElement.index();
+                parameters.start = $lastElement.attr('data-key') ? $lastElement.attr('data-key') : ($lastElement.index() + 1);
             }
 
             // Get the data from the server
@@ -165,46 +168,53 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
             // Determine if we should attempt to load a next page
             var canFetchMore = (data.results.length === parameters.limit);
 
-            // Filter out items that are already in the list
-            var filteredresults = [];
-            $.each(data.results, function(i, result) {
-                // Determine whether this item is already in the list
-                // by looking for an element with the same id
-                if (!$('*[data-id="' + result.id + '"]', $container).length) {
-                    filteredresults.push(result);
+            // Check if the infinite scroll instance still exists. It's possible that
+            // the instance was killed in between the time that a request was fired and
+            // the response was received. If that's the cause, there's nothing else we
+            // need to do
+            if ($container) {
+
+                // Filter out items that are already in the list
+                var filteredresults = [];
+                $.each(data.results, function(i, result) {
+                    // Determine whether this item is already in the list
+                    // by looking for an element with the same id
+                    if (!$('*[data-id="' + result.id + '"]', $container).length) {
+                        filteredresults.push(result);
+                    }
+                });
+                data.results = filteredresults;
+    
+                // Render the template and put it in the container
+                hideLoadingContainer();
+                var templateOutput = '';
+                if (_.isFunction(render)) {
+                    templateOutput = render(data.results);
+                } else {
+                    templateOutput = oaeUtil.template().render(render, data);
                 }
-            });
-            data.results = filteredresults;
-
-            // Render the template and put it in the container
-            hideLoadingContainer();
-            var templateOutput = '';
-            if (_.isFunction(render)) {
-                templateOutput = render(data.results);
-            } else {
-                templateOutput = oaeUtil.renderTemplate(render, data);
-            }
-            $container.append(templateOutput);
-
-            // Call the post renderer if it has been provided
-            if (options.postRenderer) {
-                options.postRenderer(data);
-            }
-
-            // If there are more results and we're still close to the bottom of the page,
-            // check if we should do another one. However, we pause for a second, as to
-            // not to send too many requests at once
-            if (canFetchMore) {
-                setTimeout(function() {
-                    isDoingSearch = false;
-                    checkLoadNext();
-                }, 1000);
-            } else {
-                // Don't do any more searches when scrolling
-                isDoingSearch = true;
-                if ($('li:visible', $container).length === 0) {
-                    if (options.emptyListProcessor) {
-                        options.emptyListProcessor();
+                $container.append(templateOutput);
+    
+                // Call the post renderer if it has been provided
+                if (options.postRenderer) {
+                    options.postRenderer(data);
+                }
+    
+                // If there are more results and we're still close to the bottom of the page,
+                // check if we should do another one. However, we pause for a second, as to
+                // not to send too many requests at once
+                if (canFetchMore) {
+                    setTimeout(function() {
+                        isDoingSearch = false;
+                        checkLoadNext();
+                    }, 1000);
+                } else {
+                    // Don't do any more searches when scrolling
+                    isDoingSearch = true;
+                    if ($('li:visible', $container).length === 0) {
+                        if (options.emptyListProcessor) {
+                            options.emptyListProcessor();
+                        }
                     }
                 }
             }
@@ -247,6 +257,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
          */
         var kill = function() {
             $container.html('');
+            $loadingContainer.remove();
             isDoingSearch = true;
             $container = null;
         };
@@ -261,7 +272,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
         var showLoadingContainer = function() {
             $loadingContainer.show();
         };
-        
+
         /**
          * Hide the loading animation
          */
@@ -271,15 +282,18 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
 
         /**
          * Create a div underneath the infinite scroll list that shows a loading
-         * image provided by the container when a new set of results is being loaded
+         * animation when a new set of results is being loaded
          */
         var setUpLoadingImage = function() {
-            if (options.loadingImage) {
-                var $loader = $('<img />', {'src': options.loadingImage, 'alt': oaeI18n.translate('__MSG__LOADING__')}).addClass('oae-infinitescroll-loading');
-                $loadingContainer.append($loader);
-                hideLoadingContainer(false);
-                $loadingContainer.insertAfter($container);
-            }
+            // Create the loading animation element
+            var $loader = $('<i />').addClass('icon-spinner icon-spin');
+            // Create a text element that will be used for accessibility purposes
+            var $a11yHelper = $('<span />').text(oaeI18n.translate('__MSG__LOADING__')).addClass('oae-aural-text');
+            // Add the accessibility helper to the loading animation and add the loading
+            // animation to the loader container
+            $loader.append($a11yHelper);
+            $loadingContainer.append($loader);
+            $loadingContainer.insertAfter($container);
         };
 
         ////////////////////

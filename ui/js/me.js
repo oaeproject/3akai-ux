@@ -20,6 +20,9 @@ require(['jquery','oae.core'], function($, oae) {
         oae.api.util.redirect().login();
     }
 
+    // Variable used to cache the current page's base URL
+    var baseUrl = '/me';
+
     // Set the browser title
     oae.api.util.setBrowserTitle(oae.data.me.displayName);
 
@@ -85,9 +88,9 @@ require(['jquery','oae.core'], function($, oae) {
      * Set up the left hand navigation with the me space page structure
      */
     var setUpNavigation = function() {
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavigation]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavigation]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
         });
     };
 
@@ -96,8 +99,12 @@ require(['jquery','oae.core'], function($, oae) {
      * user's admin options
      */
     var setUpClip = function() {
-        oae.api.util.renderTemplate($('#me-clip-template'), null, $('#me-clip-container'));
+        oae.api.util.template().render($('#me-clip-template'), null, $('#me-clip-container'));
     };
+
+    $(document).on('oae-trigger-requestcontext', function() {
+        $(document).trigger('oae-trigger-receivecontext');
+    });
 
     setUpClip();
     setUpNavigation();

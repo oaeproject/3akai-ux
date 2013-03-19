@@ -57,7 +57,7 @@ require(['jquery', 'oae.core'], function($, oae) {
      */
     var renderEntity = function() {
         // TODO: Unwrap the data from the user variable when the profile pictures are no longer top-level props
-        oae.api.util.renderTemplate($('#oae_entity_template'), {'user': userProfile}, $('#oae_entity_container'));
+        oae.api.util.template().render($('#oae_entity_template'), {'user': userProfile}, $('#oae_entity_container'));
     };
 
     /**
