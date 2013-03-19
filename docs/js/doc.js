@@ -14,54 +14,91 @@
  */
 
 require(['jquery', 'oae.core'], function($, oae) {
-
+    
     /**
      * Renders the documentation for a specific module
      * 
-     * @param {Object} docs    The documentation object as returned from the server
-     * @param {String} module  The module name to render the documentation for
+     * @param {String} type     The type of module to render the documentation for
+     * @param {Object} docs     The documentation object as returned from the server
+     * @param {String} moduleId The id to render the documentation for
+     * @param {String} item     The item to scroll down the page to that item
      */
-    var renderModuleDocs = function(docs, module) {
-        oae.api.util.template().render($('#doc_docs_template'), {
-            'docs': docs,
-            'module': module
-        }, $('#doc_docs_container'));
-
-        // Scroll to the appropriate place on the page. This will be the top of the page most of the time, unless
-        // a direct link to a function has been clicked (e.g. http://cambridge.oae.com/docs#oae-authentication.api.removeStrategies)
-        // In this case, we scroll to the function's documentation
-        var offset = 0;
-        var hash = window.location.hash.replace('#', '');
-        if (hash && hash !== module){
-            var $anchor = $('a[name="#' + hash + '"]');
-            offset = $anchor.offset().top;
+    var renderDocumentation = function(type, docs, moduleId, item) {
+        if (type === 'frontend') {
+            oae.api.util.template().render($('#doc-ui-docs-template'), {
+                'docs': docs,
+                'module': moduleId
+            }, $('#doc-docs-container'));
+        } else if (type === 'backend') {
+            oae.api.util.template().render($('#doc-docs-template'), {
+                'docs': docs,
+                'module': moduleId
+            }, $('#doc-docs-container'));
         }
-        window.scrollTo(0, offset);
+        
+        // Scroll to the module on the page
+        if (item !== null) {
+            scrollToSelectedItem(item);
+        }
+
+        // Add on click listener for anchors in h4
+        addClickEventDocumentation();
+    };
+
+    /**
+     * Add onclick event to each anchor in a h4 element on the documentation page
+     * When an anchor is clicked the url will be changed and the position of the page
+     * will be set to the position of the element or module.
+     */
+    var addClickEventDocumentation = function() {
+        $('h4 a').each(function() {
+            var name = $(this).attr('name').replace('#', '');
+            $(this).attr('href',name);
+            $(this).on('click', function(ev) {
+                ev.preventDefault();
+                var currentSelectedItem = $(this).attr('href');
+                history.pushState(null, null, currentSelectedItem);
+                scrollToSelectedItem(currentSelectedItem);
+            });
+        });
     };
 
     /**
      * Renders the navigation for the available modules
      * 
-     * @param {String[]}    modules          An Array of module names
+     * @param {String}      type             The type of the module to render the documentation for
+     * @param {String[]}    modules          An Array of modules
      * @param {String}      currentModule    The name of the module that is currently shown in the UI
      */
-    var renderNavigation = function(modules, currentModule) {
-        oae.api.util.template().render($('#doc_contents_template'), {
-            'modules': modules,
-            'moduleToLoad': currentModule
-        }, $('#doc_contents_container'));
+    var renderNavigation = function(type, modules, currentModule) {
+        if (type === 'frontend') {
+            oae.api.util.template().render($('#doc-ui-contents-template'), {
+                'modules': modules,
+                'moduleToLoad': currentModule,
+                'type': 'frontend' 
+            },
+            $('#doc-ui-contents-container'));
+        } else if (type === 'backend') {
+            oae.api.util.template().render($('#doc-contents-template'), {
+                'modules': modules,
+                'moduleToLoad': currentModule,
+                'type': 'backend'
+            },
+            $('#doc-contents-container'));
+        }
     };
 
     /**
      * Gets the documentation for a specific module and passes it in a callback
      * 
-     * @param {String}    module            The name of the module to get the documentation for
+     * @param {String}    type              The type of the module to get the documentation for
+     * @param {String}    moduleId          The module to get the documentation for
      * @param {Function}  callback          Function executed after the documentation for the module has been retrieved
      * @param {Object}    callback.docs     Retrieved documentation for the specified module. This will be null when the documentation could not be retrieved
      */
-    var getModuleDocs = function(module, callback) {
+    var getDocumentation = function(type, moduleId, callback) {
         $.ajax({
-            url: '/api/doc/module/' + module,
+            url: '/api/doc/' + type + '/' + moduleId,
             success: function(docs) {
                 callback(docs);
             }, error: function(err) {
@@ -71,14 +108,15 @@ require(['jquery', 'oae.core'], function($, oae) {
     };
 
     /**
-     * Gets the available OAE modules and passes them in a callback
+     * Gets the available modules depending on the selected type
      * 
+     * @param {String}      type                The type of modules to be loaded
      * @param {Function}    callback            Function executed after the list of modules has been retrieved
-     * @param {String[]}    callback.modules    List of all of the available OAE modules
+     * @param {String[]}    callback.modules    List of all of the available modules
      */
-    var getAvailableModules = function(callback) {
+    var getAvailableModulesForType = function(type, callback) {
         $.ajax({
-            url: '/api/doc/modules',
+            url: '/api/doc/' + type,
             success: callback
         });
     };
@@ -88,13 +126,8 @@ require(['jquery', 'oae.core'], function($, oae) {
      * 
      * @return {String}         The currently selected module
      */
-    var getSelectedModule = function() {
-        var moduleToLoad = window.location.hash.replace('#', '');
-        // As it is possible to reference a specific function in an API directly 
-        // (e.g. http://cambridge.oae.com/docs#oae-authentication.api.removeStrategies),
-        // we strip it out to just get the current module
-        moduleToLoad = moduleToLoad.split('.')[0];
-        return moduleToLoad;
+    var getSelectedElement = function() {
+        return window.location.hash.replace('/', '');
     };
 
     /**
@@ -107,38 +140,115 @@ require(['jquery', 'oae.core'], function($, oae) {
     };
 
     /**
+     * Get and renders the documentation for a specific module
+     * 
+     * @param {String} type     The type of module to render the documentation for
+     * @param {String} moduleId The id to render the documentation for
+     * @param {String} item     The item to scroll down the page to that item
+     */
+    var getAndRenderDocumentation = function(type, moduleId, item) {
+        getDocumentation(type, moduleId, function(docs) {
+            renderDocumentation(type, docs, moduleId, item);
+        });    
+    }
+
+    /**
      * Adds binding to various elements and events in the UI
      */
     var addBinding = function() {
-        $(window).hashchange(function() {
-            var moduleToLoad = getSelectedModule();
-            setDocumentTitle(moduleToLoad);
-            getModuleDocs(moduleToLoad, function(docs) {
-                $('.bs-docs-sidenav li').removeClass('active');
-                $('#' + moduleToLoad).addClass('active');
-                renderModuleDocs(docs, moduleToLoad);
-            });
+        // Bind the click event
+        $('.bs-docs-sidenav li').on('click', function(ev) {
+            ev.preventDefault();
+            $('.bs-docs-sidenav li').removeClass('active');
+            $(this).addClass('active'); 
+            window.scrollTo(0, 0);
+            var selectedLinkToShow = $('a', $(this)).attr('href');
+            history.pushState(null, null, selectedLinkToShow);
+            var moduleId = null;
+            // If the current selected item contains backend
+            if (selectedLinkToShow.indexOf('backend') > 0) {
+                //Subtract the link to get the name of the module, in this case /docs/backend/
+                moduleId = selectedLinkToShow.substr(14);
+                setDocumentTitle(moduleId);
+                getAndRenderDocumentation('backend', moduleId);
+            } else {
+                //Subtract the link to get the name of the module, in this case /docs/frontend/
+                moduleId = selectedLinkToShow.substr(15);
+                setDocumentTitle('oae.api.' + moduleId);
+                getAndRenderDocumentation('frontend', moduleId);
+            }
         });
     };
 
     /**
+     * Scroll the page to the element that has a name-attribute equal to item, if the item is empty the value of the scroll is 0
+     *
+     * @param {String}  item   The name of the element
+     */
+    var scrollToSelectedItem = function(item) {
+        var offset = 0;
+        if (item) {
+            $anchor = $('a[name="' + item + '"]');
+            if ($anchor.offset() !== undefined) {
+                offset = $anchor.offset().top;
+            }
+        }
+        window.scrollTo(0, offset);
+    };
+
+    /**
+     * Load the documentation for a module and update the navigation 
+     *
+     * @param {String}      type        The type of the module
+     * @param {String}      item        The id of the module
+     * @param {String[]}    modules     List of all available modules
+     */
+    var loadDocumentation = function(type, item, modules) {
+        // Get the moduleId from the item, it's the first part before a . 
+        var moduleId = item.substr(0, item.indexOf('.'));
+        // If the moduleId is empty load the first module from the modules array
+        if (moduleId.length === 0) {
+            moduleId = modules[0];
+        }
+        // Set the li active -> twitter bootstrap
+        $('#'+ type + '-' + moduleId).addClass('active');
+        // Get and render the documentation
+        getAndRenderDocumentation(type, moduleId, item);
+    };
+    
+    /**
      * Initializes the API Docs UI
      */
     var doInit = function() {
-        addBinding();
-        // Load the list of the available modules
-        getAvailableModules(function(modules) {
-            modules.sort();
+        // Remove all slashes from the pathname to get the name of the module
+        var pathname = window.location.pathname.replace(/\//g,'');
 
-            // Get the currently selected module. If there is no selected module,
-            // we select the first one in the list
-            var moduleToLoad = getSelectedModule() || modules[0];
-
-            // Render the docs for the current module
-            setDocumentTitle(moduleToLoad);
-            renderNavigation(modules, moduleToLoad);
-            getModuleDocs(moduleToLoad, function(docs) {
-                renderModuleDocs(docs, moduleToLoad);
+        // Get all the frontend modules
+        getAvailableModulesForType('frontend', function(modulesFrontend) {
+            modulesFrontend.sort();
+            // Render the frontend navigation without a specific module
+            renderNavigation('frontend', modulesFrontend, null);
+            // Get all the backend modules
+            getAvailableModulesForType('backend', function(modulesBackend) {
+                modulesBackend.sort();
+                // Render the backend navigation without a specific module
+                renderNavigation('backend', modulesBackend, null);
+                // Add binding for the navigation
+                addBinding();
+                // Remove docs from the path
+                pathname = pathname.slice(4);
+                // Check the pathname
+                if (pathname.indexOf('frontend') > -1) {
+                    // Remove frontend from path
+                    var item = pathname.slice(8);
+                    setDocumentTitle('oae.api.' + item);
+                    loadDocumentation('frontend', item, modulesFrontend);
+                } else {
+                    // Remove backend from path
+                    var item = pathname.slice(7);
+                    setDocumentTitle(item);
+                    loadDocumentation('backend', item, modulesBackend);
+                }
             });
         });
     };

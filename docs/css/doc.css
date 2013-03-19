@@ -27,42 +27,42 @@ body {
 .hidden {
     visibility: hidden;
 }
-#doc_container {
+#doc-container {
     min-height: 100%;
     position: relative;
 }
-#doc_header_container {
+#doc-header-container {
     background-color: #FFF;
     height: 70px;
     margin: 0 auto;
     width: 100%;
 }
-#doc_header_container #doc_header_content {
+#doc-header-container #doc-header-content {
     background: url('/shared/oae/img/oae-logo.png') no-repeat left center transparent;
     height: 70px;
     margin: 0 auto;
     width: 1150px;
 }
-#doc_header_container #doc_header_user {
+#doc-header-container #doc-header-user {
     float: right;
     margin: 20px;
 }
-#doc_header_container h1 {
+#doc-header-container h1 {
     font-size: 22px;
     font-weight: normal;
     margin: 0;
     padding: 15px 0 0 150px;
 }
-#doc_content {
+#doc-content {
     margin: 0 auto;
     padding-bottom: 120px;
     width: 1150px;
 }
-#doc_docs_container {
+#doc-docs-container {
     float: right;
     width: 880px;
 }
-#doc_footer {
+#doc-footer {
     background: #3b3b3b; /* Old browsers */
     background: -moz-linear-gradient(top, #3b3b3b 0%, #333333 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3b3b3b), color-stop(100%,#333333)); /* Chrome,Safari4+ */
@@ -100,12 +100,12 @@ h4 {
     line-height: 27px;
     margin: 7px 0 12px;
 }
-.anchor_section {
+.anchor-section {
     color: #9A9A9A;
     float: right;
     text-decoration: none;
 }
-.doc_func_description {
+.doc-func-description {
     display: block;
     padding-left: 7px;
 }
@@ -120,7 +120,7 @@ td form {
     margin: 0;
 }
 
-td.jeditable_container:hover {
+td.jeditable-container:hover {
     cursor: pointer;
     color: #666;
     background: #3b3b3b; /* Old browsers */
