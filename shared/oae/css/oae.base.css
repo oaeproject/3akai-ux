@@ -41,10 +41,11 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 
 /* DEFAULT INPUT STYLE */
 
-textarea {
+textarea, input {
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
             box-sizing: border-box;
+    min-height: 30px;
 }
 
 /* NAVIGATION BAR 
