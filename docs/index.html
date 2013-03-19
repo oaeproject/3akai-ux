@@ -110,12 +110,11 @@
                 <p>There is no documentation available for this module.</p>
             {else}
                 {for doc in docs}
-                    <h3>${doc_index}</h3>
                     {for func in doc}
                         {if !func.ignore}
                             <div class="bs-docs-{if func.isPrivate}private{else}public{/if}">
                                 {if func.ctx}
-                                    <h4><a name="${module}.${doc_index.substr(0, doc_index.length - 3)}.${func.ctx.name}">${func.ctx.name}</a></h4>
+                                    <h4><a name="${module}.${func.ctx.name}">${func.ctx.name}</a></h4>
                                     <p><small>
                                         {if func.ctx.value}
                                             ${func.ctx.value}
@@ -158,9 +157,8 @@
             {/if}
         --></div>
 
-        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/require-jquery.js"></script>
+        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
         <script>require(["/docs/js/doc.js"]);</script>
-
         
     </body>
 </html>
