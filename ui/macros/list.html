@@ -63,7 +63,7 @@
     {/if}
 
     <a href="${entityData.profilePath}" title="${entityData.displayName|safeUserInput}">
-        <div class="oae-thumbnail {if large} oae-thumbnail-large {/if} icon-oae-${entityData.contentType || entityData.resourceSubType} icon-oae-${entityData.resourceType}">
+        <div class="oae-thumbnail {if large} oae-thumbnail-large {/if} icon-oae-${entityData.resourceSubType} icon-oae-${entityData.resourceType}">
             {if thumbnailUrl}
                 <img src="${thumbnailUrl}" alt="${entityData.displayName|safeUserInput}" />
             {/if}
