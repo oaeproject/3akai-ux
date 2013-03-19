@@ -39,6 +39,15 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     text-decoration: none;
 }
 
+/* DEFAULT INPUT STYLE */
+
+textarea, input {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    min-height: 30px;
+}
+
 /* NAVIGATION BAR 
  * @see http://twitter.github.com/bootstrap/components.html#navs */
 
@@ -72,6 +81,19 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     font-weight: 700;
     margin-bottom: 10px;
     font-size: 12px;
+}
+
+/* MEDIA OBJECTS
+ * @see http://twitter.github.com/bootstrap/components.html#media */
+
+.media, .media .media {
+    font-size: 12px;
+    margin-top: 25px;
+}
+
+.media .media-body h4.media-heading {
+    font-size: 12px;
+    font-weight: normal;
 }
 
 /* ICONS */
