@@ -161,7 +161,7 @@ i.icon-oae-public:before {
  *   `icon-oae-content` should be added to the `oae-thumbnail` div for generic content,
  *   `icon-oae-file` should be added to the `oae-thumbnail` div for uploaded files,
  *   `icon-oae-link` should be added to the `oae-thumbnail` div for links and
- *   `icon-oae-document` should be added to the `oae-thumbnail` div for collaborative documents.
+ *   `icon-oae-collabdoc` should be added to the `oae-thumbnail` div for collaborative documents.
  *   Even when an image is provided, the entity icon class can still be added as
  *   it will be used when the image cannot be downloaded.
  * - For large thumbnails (> 100px width/height), the `oae-thumbnail-large` class
@@ -215,7 +215,7 @@ div.oae-thumbnail.icon-oae-link:before {
     content: "\f0c1";
 }
 
-div.oae-thumbnail.icon-oae-document:before {
+div.oae-thumbnail.icon-oae-collabdoc:before {
     content: "\f044";
 }
 
