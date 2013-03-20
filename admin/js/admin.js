@@ -37,6 +37,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
      */
     var enableInlineEdit = function() {
         $('.jeditable-field').editable(function(value) {
+            value = $.trim(value);
             if (!value) {
                 adminUtil.showError({
                     'title': 'Invalid tenant name',
@@ -156,9 +157,9 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
             'url': '/api/tenant/create',
             'type': 'POST',
             'data': {
-                'alias': $('#createtenant-alias').val(),
-                'name': $('#createtenant-name').val(),
-                'host': $('#createtenant-host').val()
+                'alias': $.trim($('#createtenant-alias').val()),
+                'name': $.trim($('#createtenant-name').val()),
+                'host': $.trim($('#createtenant-host').val())
             },
             'success': function() {
                 adminUtil.showSuccess({
