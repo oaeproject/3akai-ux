@@ -39,15 +39,6 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     text-decoration: none;
 }
 
-/* DEFAULT INPUT STYLE */
-
-textarea, input {
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
-    min-height: 30px;
-}
-
 /* NAVIGATION BAR 
  * @see http://twitter.github.com/bootstrap/components.html#navs */
 
@@ -87,12 +78,12 @@ textarea, input {
  * @see http://twitter.github.com/bootstrap/components.html#media */
 
 .media, .media .media {
-    font-size: 12px;
+    font-size: 13px;
     margin-top: 25px;
 }
 
 .media .media-body h4.media-heading {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: normal;
 }
 
@@ -125,6 +116,14 @@ textarea, input {
 
 /* FORMS 
  * http://twitter.github.com/bootstrap/base-css.html#forms */
+
+textarea,
+input[type="text"] {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    min-height: 30px;
+}
 
 input[type="radio"],
 input[type="checkbox"] {
