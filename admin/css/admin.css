@@ -130,7 +130,8 @@ td form {
 
 /* Module configuration */
 
-.admin-module-configuration-container input[type="checkbox"] {
+.admin-module-configuration-container input[type="checkbox"],
+.admin-module-configuration-container .admin-module-configuration-toggle-button i {
     float:left;
     margin-right:12px;
 }
