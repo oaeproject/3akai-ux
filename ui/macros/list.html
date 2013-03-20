@@ -47,13 +47,21 @@
 {/macro}
 
 <!--
- * Render an entity thumbnail picture
+ * Render an entity thumbnail.
  * 
- * @param  {User|Group|Content}     entityData              Object representing a user, group or content item or a search result for a user, group or content item
- * @param  {Boolean}                [addVisibilityIcon]     Whether or not the visibility icon should be shown. By default, the visibility icon will be shown.
- * @param  {Boolean}                [large]                 Whether or not a large default thumbnail icon should used. By default, a small icon will be used.
+ * @param  {User|Group|Content|String}  entityData              Object representing a user, group or content item or a search result for a user, group or content item. Alternatively, a string representing the resourceType or resourceSubType (i.e., 'user', 'group', 'content', 'file', 'link', 'collabdoc') can be passed in for an empty/anonymous entity thumbnail
+ * @param  {Boolean}                    [addVisibilityIcon]     Whether or not the visibility icon should be shown. By default, the visibility icon will be shown. However, users will not never show a visibility icon.
+ * @param  {Boolean}                    [large]                 Whether or not a large default thumbnail icon should used. By default, a small icon will be used.
 -->
 {macro renderThumbnail(entityData, addVisibilityIcon, large)}
+    {eval}
+        if (_.isString(entityData)) {
+            entityData = {
+                'resourceType': entityData
+            }
+        }
+    {/eval}
+
     {if entityData.thumbnailUrl}
         {var thumbnailUrl = entityData.thumbnailUrl}
     {elseif entityData.previews && entityData.previews.thumbnailUrl}
@@ -62,16 +70,16 @@
         {var thumbnailUrl = entityData.picture.medium}
     {/if}
 
-    <a href="${entityData.profilePath}" title="${entityData.displayName|safeUserInput}">
-        <div class="oae-thumbnail {if large} oae-thumbnail-large {/if} icon-oae-${entityData.resourceSubType} icon-oae-${entityData.resourceType}">
-            {if thumbnailUrl}
-                <img src="${thumbnailUrl}" alt="${entityData.displayName|safeUserInput}" />
-            {/if}
-            {if addVisibilityIcon !== false && entityData.resourceType !== 'user'}
-                <i class="icon-oae-${entityData.visibility}"></i>
-            {/if}
-        </div>
-    </a>
+    <div class="oae-thumbnail {if large} oae-thumbnail-large {/if} icon-oae-${entityData.resourceSubType} icon-oae-${entityData.resourceType}">
+        {if entityData.profilePath}<a href="${entityData.profilePath}" title="${entityData.displayName|safeUserInput}">{/if}
+        {if thumbnailUrl}
+            <img src="${thumbnailUrl}" alt="${entityData.displayName|safeUserInput}" />
+        {/if}
+        {if addVisibilityIcon !== false && entityData.resourceType !== 'user'}
+            <i class="icon-oae-${entityData.visibility}"></i>
+        {/if}
+        {if entityData.profilePath}</a>{/if}
+    </div>
 {/macro}
 
 <!--
