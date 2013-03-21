@@ -504,6 +504,7 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-tile {
     position: relative;
     overflow: hidden;
+    border: 1px solid;
 }
 /* Default thumbnail picture positioning */
 
@@ -598,6 +599,7 @@ div.oae-thumbnail i[class^="icon-"] {
     padding: 10px;
     margin-bottom: 2px;
     height: 50px;
+    border: 1px solid;
 }
 
 .oae-listitem.oae-listitem-compact {
@@ -808,7 +810,9 @@ ul.oae-list li .oae-list-compact-item  {
 }
 
 .oae-list-options .oae-list-options-toggle,
-.oae-list-options .oae-list-options-toggle:active {
+.oae-list-options .btn.oae-list-options-toggle,
+.oae-list-options .btn.oae-list-options-toggle:hover,
+.oae-list-options .btn.oae-list-options-toggle:active {
     background: none;
     border: none;
     padding: 0px;

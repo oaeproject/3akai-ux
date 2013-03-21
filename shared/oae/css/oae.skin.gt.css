@@ -47,6 +47,24 @@ body {
 
 
 /*****************
+ ** TEXT COLORS **
+ *****************/
+
+/* DEFAULT TEXT COLOR */
+
+body, button, input, select, textarea,
+.btn > i, a.oae-plain-link,
+h1 [class^="icon-"], h1 [class*=" icon-"], 
+h2 [class^="icon-"], h2 [class*=" icon-"],
+h3 [class^="icon-"], h3 [class*=" icon-"],
+h4 [class^="icon-"], h4 [class*=" icon-"],
+h5 [class^="icon-"], h5 [class*=" icon-"],
+h6 [class^="icon-"], h6 [class*=" icon-"] {
+    color: #333;
+}
+
+
+/*****************
  ** LINK COLORS **
  *****************/
 
@@ -56,6 +74,158 @@ a, .btn-link {
 
 a:hover, .btn-link:hover {
     color: #005580;
+}
+
+
+/*******************
+ ** BUTTON COLORS **
+ *******************/
+
+/* DEFAULT BUTTON */
+
+.btn:not(.btn-link) {
+    color: #333333;
+    background-color: #E6E6E6;
+    background-image: linear-gradient(to bottom, #FFF, #E6E6E6);
+    background-image: -moz-linear-gradient(top, #FFF, #E6E6E6);
+    background-image: -webkit-linear-gradient(top, #FFF, #E6E6E6);
+    background-image: -o-linear-gradient(top, #FFF, #E6E6E6);
+    border-color: #CCC;
+}
+
+.btn:not(.btn-link):hover,
+.btn:not(.btn-link):focus,
+.btn:not(.btn-link):active,
+.btn:not(.btn-link).active,
+.btn:not(.btn-link).disabled,
+.btn:not(.btn-link)[disabled] {
+  color: #333333;
+  background-color: #E6E6E6;
+}
+
+/* PRIMARY BUTTON */
+
+.btn.btn-primary {
+    background-color: #006DCC;
+    color: #FFF;
+    background-image: linear-gradient(to bottom, #0088CC, #0044CC);
+    background-image: -moz-linear-gradient(top, #0088CC, #0044CC);
+    background-image: -webkit-linear-gradient(top, #0088CC, #0044CC);
+    background-image: -o-linear-gradient(top, #0088CC, #0044CC);
+    border-color: #0044CC;
+}
+
+.btn.btn-primary:hover,
+.btn.btn-primary:focus,
+.btn.btn-primary:active,
+.btn.btn-primary.active,
+.btn.btn-primary.disabled,
+.btn.btn-primary[disabled] {
+  color: #FFF;
+  background-color: #0044CC;
+}
+
+/* SUCCESS BUTTON */
+
+.btn.btn-success {
+  color: #FFF;
+  background-color: #5BB75B;
+  background-image: linear-gradient(to bottom, #62C462, #51A351);
+  background-image: -moz-linear-gradient(top, #62C462, #51A351);
+  background-image: -webkit-linear-gradient(top, #62C462, #51A351);
+  background-image: -o-linear-gradient(top, #62C462, #51A351);
+  border-color: #51A351;
+}
+
+.btn.btn-success:hover,
+.btn.btn-success:focus,
+.btn.btn-success:active,
+.btn.btn-success.active,
+.btn.btn-success.disabled,
+.btn.btn-success[disabled] {
+  color: #FFF;
+  background-color: #51A351;
+}
+
+/* WARNING BUTTON */
+
+.btn.btn-warning {
+  color: #FFF;
+  background-color: #FAA732;
+  background-image: linear-gradient(to bottom, #FBB450, #F89406);
+  background-image: -moz-linear-gradient(top, #FBB450, #F89406);
+  background-image: -webkit-linear-gradient(top, #FBB450, #F89406);
+  background-image: -o-linear-gradient(top, #FBB450, #F89406);
+  border-color: #F89406;
+}
+
+.btn.btn-warning:hover,
+.btn.btn-warning:focus,
+.btn.btn-warning:active,
+.btn.btn-warning.active,
+.btn.btn-warning.disabled,
+.btn.btn-warning[disabled] {
+  color: #FFF;
+  background-color: #F89406;
+}
+
+/* DANGER BUTTON */
+
+.btn.btn-danger {
+  color: #FFF;
+  background-color: #DA4f49;
+  background-image: linear-gradient(to bottom, #EE5F5B, #BD362F);
+  background-image: -moz-linear-gradient(top, #EE5F5B, #BD362F);
+  background-image: -webkit-linear-gradient(top, #EE5F5B, #BD362F);
+  background-image: -o-linear-gradient(top, #EE5F5B, #BD362F);
+  border-color: #BD362F;
+}
+
+.btn.btn-danger:hover,
+.btn.btn-danger:focus,
+.btn.btn-danger:active,
+.btn.btn-danger.active,
+.btn.btn-danger.disabled,
+.btn.btn-danger[disabled] {
+  color: #FFF;
+  background-color: #BD362F;
+}
+
+/* INVERSE BUTTON */
+
+.btn.btn-inverse {
+  color: #FFF;
+  background-color: #363636;
+  background-image: linear-gradient(to bottom, #444444, #222222);
+  background-image: -moz-linear-gradient(top, #444444, #222222);
+  background-image: -webkit-linear-gradient(top, #444444, #222222);
+  background-image: -o-linear-gradient(top, #444444, #222222);
+  border-color: #222222;
+}
+
+.btn.btn-inverse:hover,
+.btn.btn-inverse:focus,
+.btn.btn-inverse:active,
+.btn.btn-inverse.active,
+.btn.btn-inverse.disabled,
+.btn.btn-inverse[disabled] {
+  color: #FFF;
+  background-color: #222222;
+}
+
+
+/************************
+ ** ICON BUTTON COLORS **
+ ************************/
+
+[class^="icon-"], [class*=" icon-"],
+.btn.btn-link [class^="icon-"], .btn.btn-link [class*=" icon-"] {
+   color: #A9A9A9;
+}
+
+[class^="icon-"]:hover, [class*=" icon-"]:hover,
+.btn-link:hover [class^="icon-"], .btn-link:hover [class*=" icon-"] {
+    color: #555;
 }
 
 
@@ -83,44 +253,6 @@ a:hover, .btn-link:hover {
 .nav > li.active > a:focus,
 .nav > li.active i {
     background-color: transparent;
-    color: #333;
-}
-
-
-/*******************
- ** BUTTON COLORS **
- *******************/
-
-/* PRIMARY BUTTON */
-
-button.btn.btn-primary {
-    color: #FFF;
-}
-
-
-/************************
- ** ICON BUTTON COLORS **
- ************************/
-
-[class^="icon-"], [class*=" icon-"],
-.btn.btn-link [class^="icon-"], .btn.btn-link [class*=" icon-"] {
-   color: #A9A9A9;
-}
-
-[class^="icon-"]:hover, [class*=" icon-"]:hover,
-.btn-link:hover [class^="icon-"], .btn-link:hover [class*=" icon-"] {
-    color: #555;
-}
-
-
-/*****************
- ** TEXT COLORS **
- *****************/
-
-/* DEFAULT TEXT COLOR */
-
-body, button, input, select, textarea,
-button.btn, button.btn > i, a.oae-plain-link {
     color: #333;
 }
 
@@ -162,7 +294,7 @@ div.oae-thumbnail {
  *****************/
 
 .oae-tile {
-    border: 1px solid #DDD;
+    border-color: #DDD;
 }
 
 .oae-tile > div:nth-child(2) {
@@ -170,7 +302,7 @@ div.oae-thumbnail {
 }
 
 .oae-tile > div:nth-child(2), .oae-tile h3, .oae-tile h3 a {
-    color: #FFFFFF;
+    color: #FFF;
 }
 
 
@@ -179,7 +311,7 @@ div.oae-thumbnail {
  **********************/
 
 .oae-listitem {
-    border: 1px solid #F5F5F5;
+    border-color: #F5F5F5;
 }
 
 
@@ -274,9 +406,9 @@ div.oae-thumbnail {
 
 .oae-clip button:hover,
 .oae-clip button:focus,
-.oae-clip .oae-clip-content i:hover {
+.oae-clip button:hover i,
+.oae-clip button:focus i {
     color: #FFF;
-    border-color: 1px dotted #FFF;
 }
 
 .oae-clip ul li button:hover {
@@ -314,7 +446,8 @@ div.oae-thumbnail {
 
 .oae-clip.oae-clip-secondary button:hover,
 .oae-clip.oae-clip-secondary button:focus,
-.oae-clip.oae-clip-secondary .oae-clip-content i:hover {
+.oae-clip.oae-clip-secondary button:hover i,
+.oae-clip.oae-clip-secondary button:focus i {
     color: #FFF;
 }
 
