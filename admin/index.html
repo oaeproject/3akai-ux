@@ -81,9 +81,9 @@
 
         <div id="admin-lhnav-template"><!--
             <ul class="nav nav-list">
-                <li class="nav-header">Configuration</li>
                 <li id="configurationtenants">
                     <a title="Tenant configuration" href="#configurationtenants">
+                        <i class="icon-dashboard"></i>
                         {if context.isGlobalAdminServer && !context.host}
                             Tenants
                         {else}
@@ -92,7 +92,9 @@
                     </a>
                 </li>
                 <li id="configurationmodules">
-                    <a title="Module configuration" href="#configurationmodules">Modules</a>
+                    <a title="Module configuration" href="#configurationmodules">
+                        <i class="icon-cogs"></i> Modules
+                    </a>
                 </li>
             </ul>
         --></div>
