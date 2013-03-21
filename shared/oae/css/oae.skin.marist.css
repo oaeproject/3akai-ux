@@ -29,21 +29,18 @@ body {
 /* INSTITUTIONAL LOGO */
 
 .oae-institutional-logo {
-    background-image: url('/shared/oae/img/marist_logo.png'); /* !!!! */
-    /*background-size: auto 50%;*/
+    background-image: url('/shared/oae/img/marist_logo.png');
 }
 
 /* INDEX PAGE BACKGROUND */
 
 .oae-main-content.oae-branding-container {
     /* Color background */
-    /*url('/ui/img/framework/index.png')*/
     background-image: url('/shared/oae/img/marist_bg.png') rgb(176,27,26);
     background-image: url('/shared/oae/img/marist_bg.png'), -moz-linear-gradient(top, rgba(110,19,16,1) 0%, rgba(176,27,26,1) 100%);
     background-image: url('/shared/oae/img/marist_bg.png'), -webkit-linear-gradient(top, rgb(110, 19, 16) 0%, rgba(176,27,26,1) 100%);
     background-image: url('/shared/oae/img/marist_bg.png'), linear-gradient(to bottom, rgba(110,19,16,1) 0%, rgba(176,27,26,1) 100%);
     /* Image background */
-    /*background-image: url('http://ravian100.files.wordpress.com/2011/01/cambridge-university.jpg');*/
 }
 
 /* Main container */

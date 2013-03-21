@@ -380,11 +380,19 @@ div.oae-thumbnail i[class^="icon-"] {
     text-align: left;
 }
 
+.oae-clip .oae-clip-content > button {
+    width: 100%;
+}
+
 .oae-clip .oae-clip-content > button:disabled {
     cursor: default;
 }
 
-.oae-clip .oae-clip-content > button > div {
+.oae-clip .oae-clip-content > button.float-right > div {
+    float: right;
+}
+
+.oae-clip .oae-clip-content > button.float-left > div {
     float: left;
 }
 
@@ -403,7 +411,7 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-clip .oae-clip-content > button i.icon-caret-down,
 .oae-clip .oae-clip-content > button i.icon-caret-up {
     margin-left: 10px;
-    float: right;
+    margin-top: 2px;
 }
 
 .oae-clip .oae-clip-content > button:disabled i.icon-caret-down,
@@ -704,8 +712,8 @@ div.oae-thumbnail i[class^="icon-"] {
 /* Core list styles */
 
 ul.oae-list {
-    margin: 25px 0 0;
-    padding: 0;
+    margin: 0;
+    padding: 25px 0 0 0;
     clear: both;
 }
 
