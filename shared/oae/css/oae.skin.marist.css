@@ -43,31 +43,6 @@ body {
     /* Image background */
 }
 
-/* Main container */
-.oae-main-content{
-    border: none;
-    box-shadow: none;
-    -o-box-shadow: none;
-    -ms-box-shadow: none;
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-}
-
-/* Navigation */
-.oae-main-content .row-fluid .span2{
-    /*background-color: yellow;*/
-}
-
-/* Content */
-.oae-main-content .row-fluid #lhnavigation-page{
-    padding: 0;
-    margin: 0;
-}
-
-.oae-main-content .row-fluid #lhnavigation-page .row-fluid{
-
-}
-
 /*****************
  ** TEXT COLORS **
  *****************/

@@ -380,20 +380,12 @@ div.oae-thumbnail i[class^="icon-"] {
     text-align: left;
 }
 
-.oae-clip .oae-clip-content > button {
-    width: 100%;
-}
-
 .oae-clip .oae-clip-content > button:disabled {
     cursor: default;
 }
 
-.oae-clip .oae-clip-content > button.float-right > div {
-    float: right;
-}
-
-.oae-clip .oae-clip-content > button.float-left > div {
-    float: left;
+.oae-clip .oae-clip-content > button > div {
+    float: left
 }
 
 .oae-clip .oae-clip-content > button > div:nth-child(2) > div {
@@ -410,8 +402,9 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-clip .oae-clip-content > button i.icon-caret-down,
 .oae-clip .oae-clip-content > button i.icon-caret-up {
-    margin-left: 10px;
-    margin-top: 2px;
+    margin-left: 5px;
+    position: relative;
+    top: 2px;
 }
 
 .oae-clip .oae-clip-content > button:disabled i.icon-caret-down,
@@ -713,7 +706,7 @@ div.oae-thumbnail i[class^="icon-"] {
 
 ul.oae-list {
     margin: 0;
-    padding: 25px 0 0 0;
+    padding: 10px 0 0 0;
     clear: both;
 }
 
@@ -823,7 +816,7 @@ ul.oae-list li .oae-list-compact-item  {
 .oae-list-options .btn.oae-list-options-toggle:active {
     background: none;
     border: none;
-    padding: 0px;
+    padding: 1px 0px;
     -webkit-box-shadow: none;
        -moz-box-shadow: none;
             box-shadow: none;
