@@ -63,6 +63,7 @@ define([
         'jquery.dnd-upload',
         'jquery.validate',
         'jquery-ui',
+        'jquery-mobile',
         'underscore'
     ],
 
