@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'underscore', 'oae.core', '/mobile/js/mobile.util.js', 'order!jquery-mobile'], function($, _, oae, adminUtil) {
+require(['jquery', 'underscore', 'oae.core', '/mobile/js/mobile.util.js', 'jquery-mobile'], function($, _, oae, adminUtil) {
 
     /**
      * Initializes the mobile UI
