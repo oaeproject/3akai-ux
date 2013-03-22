@@ -4,8 +4,8 @@
   "version": "1.5.0",
   "homepage": "https://github.com/sakaiproject/3akai-ux",
   "author": {
-     "name": "The Sakai Foundation",
-     "email": "oae-dev@collab.sakaiproject.org"
+    "name": "The Sakai Foundation",
+    "email": "oae-dev@collab.sakaiproject.org"
   },
   "repository": {
     "type": "git",
@@ -15,10 +15,10 @@
     "url": "https://github.com/sakaiproject/3akai-ux/issues"
   },
   "licenses": [
-     {
-       "type": "ECLv2",
-       "url": "http://opensource.org/licenses/ecl2.php"
-     }
+    {
+      "type": "ECLv2",
+      "url": "http://opensource.org/licenses/ecl2.php"
+    }
   ],
   "dependencies": {
     "oae-core": ""
@@ -30,7 +30,8 @@
     "grunt-git-describe": "git://github.com/mikaelkaron/grunt-git-describe.git#master",
     "grunt-imagine": "git://github.com/amcdaniel2/grunt-imagine.git#master",
     "grunt-ver": "git://github.com/sakaiproject/grunt-ver.git#v0.2.3-hilary-0.1",
-    "shelljs": "latest"
+    "shelljs": "latest",
+    "properties": "~0.3.3"
   },
   "bundleDependencies": [
     "oae-core"
