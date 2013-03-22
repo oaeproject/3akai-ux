@@ -2,6 +2,7 @@ module.exports = function(grunt) {
 
     var shell = require('shelljs');
     var vm = require('vm');
+    var properties = require('properties');
 
     // Project configuration.
     grunt.initConfig({
@@ -207,6 +208,87 @@ module.exports = function(grunt) {
         grunt.file.write(bootstrapPath, bootstrap);
         grunt.log.writeln('Boots strapped'.green);
     });
+
+    // find out some warnings and errors in widgets' i18n properties
+    grunt.registerTask('i18n', 'widget i18n clean', function() {
+        var oaeModules = grunt.file.expand({filter: 'isDirectory'}, 'node_modules/oae-*/*/');
+        // path is sometimes absolute, and sometimes relative
+        var getPath = function(path, relative) {
+            return (path[0] === '/' ? __dirname : relative) + path;
+        };
+
+        oaeModules.forEach(function(module) {
+            grunt.log.writeln(module.green.underline);
+
+            var manifest = grunt.file.readJSON(module + 'manifest.json')
+              , html = grunt.file.read(getPath(manifest.url || manifest.src, module))
+              , scriptPaths = html.match(/[^"']+\.js/g) || []
+              , list = html.match(/__MSG__((?!__).)*__/gm);
+
+            scriptPaths.forEach(function(file) {
+                file = getPath(file.trim(), module);
+                if(grunt.file.exists(file)) {
+                    var script = grunt.file.read(file);
+                    var msgKeys = script.match(/__MSG__((?!__).)*__/gm);
+                    if (msgKeys) {
+                        list = list.concat(msgKeys);
+                    }
+                    // 1. warning for `i18n.getValueForKey`
+                    if(script.match('getValueForKey')) {
+                        grunt.log.write(('`' + file + '`: ').red);
+                        grunt.log.writeln('Find `i18n.getValueForKey`, please use `i18n.translate` instead.'.red);
+                    }
+                }
+            })
+
+            if ('i18n' in manifest) {
+                // 2. find out i18n properties which is existed but not in manifest (log)
+                (grunt.file.expand(module + 'bundles/*.properties') || []).forEach(function(path){
+                    var locale = path.match(/([^\/]+)\.properties/);
+                    if (!(locale[1] in manifest.i18n)) {
+                        grunt.log.writeln(('`' + locale[0] + '` exists, but is not defined in `manifest.json`.').yellow);
+                    }
+                })
+
+                for(var locale in manifest.i18n) {
+                    var item = manifest.i18n[locale]
+                      , i18nFile = getPath(item['bundle'], module);
+
+                    // 3. find out inexistent i18n properties (log)
+                    if (!grunt.file.exists(i18nFile)) {
+                        grunt.log.writeln(('`' + item['bundle'] + '` doesn\'t exist.').red);
+                        continue;
+                    }
+
+                    // 4. find out prop keys which is undefined in html or js files (log)
+                    // 5. find out keys which is unset in i18n properties (no log)
+                    var propstr = grunt.file.read(i18nFile).replace(/\:/g, '\\:')
+                      , props = properties.parse(propstr)
+                      , unsets = [];
+
+                    list.forEach(function(msg) {
+                        msg = msg.match(/__MSG__(.+)__/)[1];
+                        if(msg in props) {
+                            delete props[msg];
+                            return props[msg];
+                        } else {
+                            unsets.push(msg);
+                            return msg;
+                        }
+                    });
+
+                    var undefinedProps = Object.keys(props);
+                    if(undefinedProps.length) {
+                        grunt.log.writeln(('keys which is in `' + locale
+                                + '.properties` but not defined in .html or .js: ').yellow);
+                        grunt.log.writeln('- ' + undefinedProps.join('\n- '));
+                    }
+                }
+            }
+        })
+        grunt.log.writeln('\ni18n task done.'.underline);
+        grunt.log.writeln('Please fix warnings for `i18n.getValueForKey` first.'.yellow);
+    })
 
     // Override the test task with the qunit task
     grunt.registerTask('test', ['qunit']);
