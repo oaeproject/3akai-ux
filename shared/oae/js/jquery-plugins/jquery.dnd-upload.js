@@ -15,6 +15,7 @@
 
 define(['jquery', 'oae.api.content', 'jquery.fileupload', 'jquery.contentchange'], function (jQuery) {
     (function() {
+        /*
         $('html').contentChange(function(){
             var $dropZone = $('.oae-dnd-upload');
             if (!$dropZone.hasClass('initialized')) {
@@ -55,5 +56,6 @@ define(['jquery', 'oae.api.content', 'jquery.fileupload', 'jquery.contentchange'
                 $dropZone.addClass('initialized');
             }
         });
+        */
     })();
 });
