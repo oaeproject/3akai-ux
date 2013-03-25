@@ -13,17 +13,41 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'underscore', 'oae.core', '/mobile/js/mobile.util.js', 'jquery-mobile'], function($, _, oae, adminUtil) {
 
-    /**
-     * Initializes the mobile UI
-     */
-    var doInit = function() {
+require(['jquery', 'underscore', 'oae.core', '/mobile/js/mobile.util.js'], function($, _, oae, mobileUtil) {
 
-        console.log('[mobile.js] doInit');
+    require(['jquery-mobile'], function(){
 
-    };
+        /**
+         * Init the side menu
+         */
+        var initMenu = function() {
 
-    doInit();
+            $( document ).on( "swiperight", "#main-container", function( e ) {
+                if ( $.mobile.activePage.jqmData( "panel" ) !== "open" ) {
+                    if ( e.type === "swiperight" ) {
+
+                        // Adding a class with css animations in stead of
+                        // using the .panel('open') => not working with require-jquery
+
+                        $("#left-panel").addClass('panel-open').removeClass('ui-panel-closed');
+                        //$("#left-panel").panel('open');
+                    }
+                }
+            });
+
+        };
+
+        /**
+         * Initializes the mobile UI
+         */
+        var doInit = function() {
+            // Initialize the side menu
+            initMenu();
+        };
+
+        doInit();
+
+    });
 
 });

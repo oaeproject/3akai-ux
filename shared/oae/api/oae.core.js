@@ -62,8 +62,8 @@ define([
         'jquery.timeago',
         'jquery.dnd-upload',
         'jquery.validate',
-        'jquery-ui',
         'jquery-mobile',
+        'jquery-ui',
         'underscore'
     ],
 

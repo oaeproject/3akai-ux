@@ -1,0 +1,33 @@
+/* Swipe works with mouse as well but often causes text selection. */
+#main-container * {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+/* Arrow only buttons in the header. */
+#main-container .ui-header .ui-btn {
+    background: none;
+    border: none;
+    top: 9px;
+}
+#main-container .ui-header .ui-btn-inner {
+    border: none;
+}
+/* Content styling. */
+dl { font-family: "Times New Roman", Times, serif; padding: 1em; }
+dt { font-size: 2em; font-weight: bold; }
+dt span { font-size: .5em; color: #777; margin-left: .5em; }
+dd { font-size: 1.25em; margin: 1em 0 0; padding-bottom: 1em; border-bottom: 1px solid #eee; }
+.back-btn { float: right; margin: 0 2em 1em 0; }
+
+.panel-open{
+    position: absolute;
+    left: 0 !important;
+    margin-left: 0 !important;
+}
+
+.panel-close{
+
+}
