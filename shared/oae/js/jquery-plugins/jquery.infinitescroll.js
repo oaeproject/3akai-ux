@@ -124,7 +124,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
             isDoingSearch = true;
             showLoadingContainer();
             // Get the key of the latest
-            var $lastElement = $('li', $container).filter(':visible').filter(':last');
+            var $lastElement = $container.children('li').filter(':visible').filter(':last');
             if ($lastElement.length !== 0) {
                 parameters.start = $lastElement.attr('data-key') ? $lastElement.attr('data-key') : ($lastElement.index() + 1);
             }
