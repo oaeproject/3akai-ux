@@ -21,31 +21,22 @@ require(['jquery', 'oae.core'], function($, oae) {
    * @param {String} module  The module name to render the documentation for
    * @param {String} id      The id to scroll to that id on the page
    */
-  var renderModuleDocs = function (docs, module, id) {
-    oae.api.util.template().render($('#doc_docs_template'), {
-      'docs': docs,
-      'module': module
-    }, $('#doc_docs_container'));
+
+  var renderDocumentation = function (type, documents, name, id) {
+    if(type === "frontend") {
+      oae.api.util.template().render($('#doc_ui_docs_template'), {
+        'docs': documents,
+        'module': name
+      }, $('#doc_docs_container'));
+    } else if (type = "backend") {
+      oae.api.util.template().render($('#doc_docs_template'), {
+        'docs': documents,
+        'module': name
+      }, $('#doc_docs_container'));
+    }
+    
     // Scroll to the module on the page
-    if(id !== null && docs !== id)
-      checkSelectedId(id);
-    // Add on click listener for anchors in h4
-    addEvent();
-  };
-  /**
-   * Renders the documentation for a specific element
-   * 
-   * @param {Object} docs    The documentation object as returned from the server
-   * @param {String} element The element name to render the documentation for
-   * @param {String} id      The id to scroll to that id on the page
-   */
-  var renderUIDocs = function (docs, element, id) {
-    oae.api.util.template().render($('#doc_ui_docs_template'), {
-      'docs': docs,
-      'module': element
-    }, $('#doc_docs_container'));
-    // Scroll to the element on the page
-    if(id !== null && docs !== id)
+    if(id !== null && documents !== id)
       checkSelectedId(id);
     // Add on click listener for anchors in h4
     addEvent();
@@ -74,14 +65,14 @@ require(['jquery', 'oae.core'], function($, oae) {
    * @param {String[]}    modules          An Array of module names
    * @param {String}      currentModule    The name of the module that is currently shown in the UI
    */
-  var renderNavigation = function (modules, currentModule, isUI) {
-    if(isUI) {
+  var renderNavigation = function (type, modules, currentModule) {
+    if(type === "frontend") {
       oae.api.util.template().render($('#doc_ui_contents_template'), {
         'modules': modules,
         'moduleToLoad': currentModule,
         'type': "frontend" },
       $('#doc_ui_contents_container'));
-    } else {
+    } else if( type === "backend") {
       oae.api.util.template().render($('#doc_contents_template'), {
         'modules': modules,
         'moduleToLoad': currentModule,
@@ -90,71 +81,34 @@ require(['jquery', 'oae.core'], function($, oae) {
     }
     addBinding();
   };
-
   /**
    * Gets the documentation for a specific module and passes it in a callback
    * 
-   * @param {String}    module            The name of the module to get the documentation for
+   * @param {String}    type              The type of the module to get the documentation for
+   * @param {String}    name              The name of the module to get the documentation for
    * @param {Function}  callback          Function executed after the documentation for the module has been retrieved
    * @param {Object}    callback.docs     Retrieved documentation for the specified module. This will be null when the documentation could not be retrieved
    */
-  var getModuleDocs = function (module, callback) {
-    if(module.substring(0, 7) === 'backend') {
-      module = module.slice(8);
-    }
+  var getDocumentation = function (type, name, callback) {
     $.ajax({
-      url: '/api/doc/module/' + module,
+      url: '/api/doc/' + type + '/' + name,
       success: function (docs) {
         callback(docs);
       }, error: function (err) {
         callback(null);
       }
     });
-  };
+  }
   /**
-   * Gets the documentation for a specific element and passes it in a callback
+   * Gets the available modules depending on the selected type
    * 
-   * @param {String}    element           The name of the element to get the documentation for
-   * @param {Function}  callback          Function executed after the documentation for the element has been retrieved
-   * @param {Object}    callback.docs     Retrieved documentation for the specified element. This will be null when the documentation could not be retrieved
-   */
-  var getUIDocs = function (element, callback) {
-    if(element.substring(0, 8) === 'frontend') {
-      element = element.slice(9);
-    }
-    if(element !== null)
-    {
-      $.ajax({
-        url: '/api/doc/element/' + element,
-        success: function(docs) {
-          callback(docs);
-        }, error: function(err) {
-          callback(null);
-        }
-      });  
-    } 
-  };
-  /**
-   * Gets the available OAE modules and passes them in a callback
-   * 
+   * @param {String}      type                Type to select what kind of modules mus be loaded
    * @param {Function}    callback            Function executed after the list of modules has been retrieved
-   * @param {String[]}    callback.modules    List of all of the available OAE modules
+   * @param {String[]}    callback.modules    List of all of the available modules
    */
-  var getAvailableModules = function (callback) {
+  var getNamesOfType = function (type, callback) {
     $.ajax({
-      url: '/api/doc/modules',
-      success: callback
-    });
-  };
-  /**
-   * Gets the available UI API Elements and passes them in a callback
-   * 
-   * @param {Function}    callback            Function executed after the list of elements has been retrieved
-   * @param {String[]}    callback.elements    List of all of the available UI API Elements
-   */
-  var getAvailableElements = function (callback) {
-    $.ajax({
-      url: '/api/doc/elements',
+      url: '/api/doc/' + type,
       success: callback
     });
   };
@@ -192,16 +146,16 @@ require(['jquery', 'oae.core'], function($, oae) {
       if(currentSelectedItem.indexOf("backend") > 0) {
         currentSelectedItem = currentSelectedItem.substr(14);
         setDocumentTitle(currentSelectedItem);
-        getModuleDocs(currentSelectedItem, function(docs) {
-          renderModuleDocs(docs, currentSelectedItem, null);
+        getDocumentation("backend", currentSelectedItem, function(docs) {
+          renderDocumentation("backend", docs, currentSelectedItem, null);
         }); 
       }
       // If the current selected item contains frontend
       if(currentSelectedItem.indexOf("frontend") > 0) {
         currentSelectedItem = currentSelectedItem.substr(15);
         setDocumentTitle("oae.api."+currentSelectedItem);
-        getUIDocs(currentSelectedItem, function(docs) {
-          renderUIDocs(docs, currentSelectedItem, null);
+        getDocumentation("frontend", currentSelectedItem, function(docs) {
+          renderDocumentation("frontend", docs, currentSelectedItem, null);
         });
       }
     });
@@ -255,24 +209,22 @@ require(['jquery', 'oae.core'], function($, oae) {
     // Remove / from the pathname
     var pathname = window.location.pathname.split('/').join('');
     var currentElementToLoad = null;
-    var _elements = null;
-    var _modules = null;
+    var _elements =[];
+    var _modules = [];
     var elementId = null;
     var moduleId = null;
 
     // Get all the elements
-    getAvailableElements(function (elements) {
-      _elements = elements;
-      _elements.sort();
-      
+    getNamesOfType("frontend", function (elements) {
+      _elements = elements.sort();
+
       // Render the docs for the current module
-      renderNavigation(_elements, currentElementToLoad,true);
+      renderNavigation("frontend", _elements, currentElementToLoad);
 
-      getAvailableModules(function (modules) {
+      getNamesOfType("backend", function (modules) {
         _modules = modules.sort();
-
         // Render the docs for the current module
-        renderNavigation(_modules, currentElementToLoad,false);
+        renderNavigation("backend", _modules, currentElementToLoad);
 
         // Remove docs from the path
         pathname = pathname.slice(4);
@@ -299,8 +251,8 @@ require(['jquery', 'oae.core'], function($, oae) {
               // Set the document title to 
               setDocumentTitle("oae.api."+currentElementToLoad);
               // Load the documentation
-              getUIDocs(currentElementToLoad, function (docs) {
-                renderUIDocs(docs, currentElementToLoad, elementId);
+              getDocumentation("frontend", currentElementToLoad, function (docs) {
+                renderDocumentation("frontend", docs, currentElementToLoad, elementId);
               });
             }
             // If the pathname starts with backend
@@ -320,24 +272,24 @@ require(['jquery', 'oae.core'], function($, oae) {
               // Set the document title to
               setDocumentTitle(currentElementToLoad);
               // Load the documentation
-              getModuleDocs(currentElementToLoad, function (docs) {
-                renderModuleDocs(docs, currentElementToLoad, moduleId);
+              getDocumentation("backend", currentElementToLoad, function (docs) {
+                renderDocumentation("backend", docs, currentElementToLoad, moduleId);
               });
             }
           } else {
             // If the path doesn't start with frontend or backend load the first module
             currentElementToLoad = _modules[0];
             $("#backend"+currentElementToLoad).addClass('active');
-            getModuleDocs(currentElementToLoad, function (docs) {
-              renderModuleDocs(docs, currentElementToLoad, moduleId);
+            getDocumentation("backend", currentElementToLoad, function (docs) {
+              renderDocumentation("backend", docs, currentElementToLoad, moduleId);
             });  
           }
         } else {
           // If the path is empty with frontend or backend load the first module
           currentElementToLoad = _modules[0];
           $("#backend"+currentElementToLoad).addClass('active');
-          getModuleDocs(currentElementToLoad, function (docs) {
-            renderModuleDocs(docs, currentElementToLoad, moduleId);
+          getDocumentation("backend", currentElementToLoad, function (docs) {
+            renderDocumentation("backend", docs, currentElementToLoad, moduleId);
           });  
         }
       });
