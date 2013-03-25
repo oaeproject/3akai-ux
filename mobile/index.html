@@ -63,8 +63,6 @@
     $( document ).on( "pageinit", "#main-container", function() {
         console.log('page init');
 
-        $( "#left-panel" ).panel( "open" );
-
         $( document ).on( "swiperight", "#main-container", function( e ) {
             if ( $.mobile.activePage.jqmData( "panel" ) !== "open" ) {
                 if ( e.type === "swiperight" ) {
