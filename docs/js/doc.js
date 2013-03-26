@@ -17,8 +17,9 @@ require(['jquery', 'oae.core'], function($, oae) {
   /**
    * Renders the documentation for a specific module
    * 
+   * @param {String} type    The type of module to render the documentation for
    * @param {Object} docs    The documentation object as returned from the server
-   * @param {String} module  The module name to render the documentation for
+   * @param {String} name    The module name to render the documentation for
    * @param {String} id      The id to scroll to that id on the page
    */
 
@@ -37,7 +38,7 @@ require(['jquery', 'oae.core'], function($, oae) {
     
     // Scroll to the module on the page
     if(id !== null && documents !== id)
-      checkSelectedId(id);
+      scrollToSelectedId(id);
     // Add on click listener for anchors in h4
     addEvent();
   };
@@ -55,13 +56,14 @@ require(['jquery', 'oae.core'], function($, oae) {
         event.preventDefault();
         var  currentSelectedItem = $(this).attr('href');
         history.pushState(null, null, currentSelectedItem);
-        checkSelectedId(currentSelectedItem);
+        scrollToSelectedId(currentSelectedItem);
       });
     });
   }
   /**
    * Renders the navigation for the available modules
    * 
+   * @param {String}      type             The type of the module to render the documentation for
    * @param {String[]}    modules          An Array of module names
    * @param {String}      currentModule    The name of the module that is currently shown in the UI
    */
@@ -161,33 +163,10 @@ require(['jquery', 'oae.core'], function($, oae) {
     });
   };
   /**
-   * Function that returns null of the filename is not a js extension
-   * if the file has a js exxtension the filename will be returned
-   *
-   * @return {String}         The extension of the filename
-   */
-  var getName = function (filename) {
-    var extension = getFileExtension(filename);
-    if( extension === "js" || extension === "Js" || extension === "JS") {
-      filename = filename.slice(0,-3);
-      return filename;
-    }
-    return null;
-  };
-  /**
-   * Function to get the extension of the filename
-   *
-   * @return {String}         The extension of the filename
-   */
-  var getFileExtension = function (filename) {
-    var ext = /^.+\.([^.]+)$/.exec(filename);
-    return ext == null ? "" : ext[1];
-  }
-  /**
    * Scroll the page to the id, if the id is empty
    * the value of the scroll is 0
    */
-  var checkSelectedId = function (id) {
+  var scrollToSelectedId = function (id) {
     var offset = 0;
     if (id.length > 0) {
       var $anchor = $('a[name="#' + id + '"]');
@@ -283,6 +262,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             getDocumentation("backend", currentElementToLoad, function (docs) {
               renderDocumentation("backend", docs, currentElementToLoad, moduleId);
             });  
+            history.pushState(null, null, "/docs/backend/"+currentElementToLoad); 
           }
         } else {
           // If the path is empty with frontend or backend load the first module
@@ -290,7 +270,8 @@ require(['jquery', 'oae.core'], function($, oae) {
           $("#backend"+currentElementToLoad).addClass('active');
           getDocumentation("backend", currentElementToLoad, function (docs) {
             renderDocumentation("backend", docs, currentElementToLoad, moduleId);
-          });  
+          }); 
+          history.pushState(null, null, "/docs/backend/"+currentElementToLoad); 
         }
       });
     }); 
