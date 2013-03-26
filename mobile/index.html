@@ -3,76 +3,26 @@
 <head>
 
     <title>Sakai OAE - Mobile</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
 
     <!-- CORE CSS -->
-    <!--<link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />-->
-    <!--<link rel="stylesheet" type="text/css" href="/shared/vendor/css/jquery.mobile-1.3.0.css" />-->
+    <link rel="stylesheet" type="text/css" href="mobile/css/moobile.css" />
+    <link rel="stylesheet" type="text/css" href="mobile/css/moobile.ios.css" />
 
     <!-- PAGE CSS -->
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.css" />
     <link rel="stylesheet" type="text/css" href="mobile/css/mobile.css" />
 
 </head>
 <body>
 
-<div data-role="page" id="main-container" data-theme="d" data-url="main-container">
-
-    <!-- header-->
-    <div data-role="header" data-theme="b">
-        <h1>University of Cambridge</h1>
-        <a href="#left-panel" data-theme="d" data-icon="bars" data-iconpos="notext" data-shadow="false" data-iconshadow="false" class="ui-icon-bars">Open menu</a>
-    </div>
-    <!-- /header -->
-
-    <!-- content -->
-    <div data-role="content">
-        <p>Content</p>
-    </div>
-    <!-- /content -->
-
-    <!-- left panel-->
-    <div data-role="panel" id="left-panel" data-theme="b">
-        <ul>
-            <li>Administrator
-                <ul>
-                    <li>Sign out</li>
-                    <li><a href="#" data-rel="close" data-role="button" data-mini="true" data-inline="true" data-icon="delete" data-iconpos="right">Close</a></li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-    <!-- /left panel -->
-
-</div>
-
 <!-- DEPENDENCIES -->
-
-<!-- WITH REQUIRE -->
 <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
 <script>require(['/mobile/js/mobile.js']);</script>
-<!-- -->
-
-<!-- WITHOUT REQUIRE
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.js"></script>
-<script type="text/javascript">
-
-    $( document ).on( "pageinit", "#main-container", function() {
-        console.log('page init');
-
-        $( document ).on( "swiperight", "#main-container", function( e ) {
-            if ( $.mobile.activePage.jqmData( "panel" ) !== "open" ) {
-                if ( e.type === "swiperight" ) {
-                    $( "#left-panel" ).panel( "open" );
-                }
-            }
-        });
-    });
-</script>
--->
 
 </body>
 </html>

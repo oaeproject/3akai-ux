@@ -62,10 +62,16 @@ define([
         'jquery.timeago',
         'jquery.dnd-upload',
         'jquery.validate',
-        'jquery-mobile',
         'jquery-ui',
-        'underscore'
-    ],
+        'underscore',
+
+        /*
+         * Mobile dependencies
+         */
+        'mootools-core',
+        'mootools-more',
+        'moobile'
+],
 
     function(oae, $) {
 

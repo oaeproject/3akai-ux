@@ -40,11 +40,15 @@ requirejs.config({
         'jquery.serializeObject': 'vendor/js/jquery-plugins/jquery.serializeObject',
         'jquery.timeago': 'vendor/js/jquery-plugins/jquery.timeago',
         'jquery.validate': 'vendor/js/jquery-plugins/jquery.validate',
-        'jquery-mobile': 'vendor/js/jquery-mobile/jquery.mobile',
         'jquery-ui': 'vendor/js/jquery-ui/jquery-ui.custom',
         'text': 'vendor/js/requirejs/require.text',
         'trimpath': 'vendor/js/trimpath',
         'underscore': 'vendor/js/underscore',
+
+        // Mobile vendor
+        'mootools-core': 'vendor/js/mootools/mootools-core',
+        'mootools-more': 'vendor/js/mootools/mootools-more',
+        'moobile': 'vendor/js/mootools/moobile',
 
         // OAE paths
         'jquery.clip': 'oae/js/jquery-plugins/jquery.clip',
@@ -67,7 +71,15 @@ requirejs.config({
         'oae.core': 'oae/api/oae.core',
         'pluginBuilder': 'oae/api/pluginBuilder'
     },
-    priority: ['jquery', 'underscore']
+    shim: {
+        'mootools-more': {
+            deps: ['mootools-core']
+        },
+        'moobile': {
+            deps: ['mootools-core', 'mootools-more']
+        }
+    },
+    priority: ['jquery', 'underscore', 'moobile']
 });
 
 /*!

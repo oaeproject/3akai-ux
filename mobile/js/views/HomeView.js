@@ -15,4 +15,24 @@
 
 define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
 
+    return new Class({
+
+        Extends: Moobile.ViewController,
+
+        // Methods
+        loadView: function() {
+            console.log('[homeViewController] loadView');
+            this.view = Moobile.View.at('/mobile/templates/views/home-view.html');
+        },
+
+        viewDidLoad: function() {
+            console.log('[homeViewController] viewDidLoad');
+            this.parent();
+        },
+
+        destroy: function() {
+            console.log('[homeViewController] destroy');
+            this.parent();
+        }
+    });
 });

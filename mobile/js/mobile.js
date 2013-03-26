@@ -13,29 +13,89 @@
  * permissions and limitations under the License.
  */
 
+require.config({
+    paths: {
+        loginViewController:    '/mobile/js/controllers/loginViewController',
+        homeViewController:     '/mobile/js/controllers/homeViewController'
+    }
+});
 
-require(['jquery', 'underscore', 'oae.core', '/mobile/js/mobile.util.js'], function($, _, oae, mobileUtil) {
-
-    require(['jquery-mobile'], function(){
+require(['jquery', 'underscore', 'oae.core', '/mobile/js/mobile.util.js'],function($, _, oae, mobileUtil) {
 
         /**
-         * Init the side menu
+         * Init the view controller
          */
-        var initMenu = function() {
+        var initMoobile = function() {
 
-            $( document ).on( "swiperight", "#main-container", function( e ) {
-                if ( $.mobile.activePage.jqmData( "panel" ) !== "open" ) {
-                    if ( e.type === "swiperight" ) {
+            // Properties
+            var windowcontroller = new Moobile.WindowController;
+            var viewStack = new Moobile.ViewControllerStack;
 
-                        // Adding a class with css animations in stead of
-                        // using the .panel('open') => not working with require-jquery
+            console.log(windowcontroller);
 
-                        $("#left-panel").addClass('panel-open').removeClass('ui-panel-closed');
-                        //$("#left-panel").panel('open');
-                    }
+            /**
+             * Login
+             */
+            var LoginViewController = new Class({
+
+                Extends: Moobile.ViewController,
+
+                // Properties
+                loginButton: null,
+
+                // Methods
+                loadView: function() {
+                    console.log('[LoginViewController] loadView');
+                    this.view = Moobile.View.at('/mobile/templates/views/login-view.html');
+                },
+
+                viewDidLoad: function() {
+                    console.log('[loginViewController] viewDidLoad');
+                    this.parent();
+                    this.loginButton = this.view.getChildComponent('login-button');
+                    this.loginButton.addEvent('tap', this.bound('onLoginButtonTap'));
+                },
+
+                destroy: function() {
+                    console.log('[loginViewController] destroy');
+                    this.loginButton.removeEvent('tap', this.bound('onLoginButtonTap'));
+                    this.loginButton = this.view.getChildComponent('login-button');
+                    this.parent();
+                },
+
+                onLoginButtonTap: function(e, sender) {
+                    console.log("onLoginButtonTap");
+                    viewStack.pushViewController(new HomeViewController, new Moobile.ViewTransition.Slide);
                 }
             });
 
+            /**
+             * Home
+             */
+            var HomeViewController = new Class({
+
+                Extends: Moobile.ViewController,
+
+                // Methods
+                loadView: function() {
+                    console.log('[HomeViewController] loadView');
+                    this.view = Moobile.View.at('/mobile/templates/views/home-view.html');
+                },
+
+                viewDidLoad: function() {
+                    console.log('[HomeViewController] viewDidLoad');
+                },
+
+                destroy: function() {
+                    console.log('[HomeViewController] destroy');
+                }
+            });
+
+            // Add the loginview to the viewstack
+            viewStack.pushViewController(new LoginViewController);
+
+            // Set the viewstack as the root view controller
+            windowcontroller.setRootViewController(viewStack);
         };
 
         /**
@@ -43,11 +103,9 @@ require(['jquery', 'underscore', 'oae.core', '/mobile/js/mobile.util.js'], funct
          */
         var doInit = function() {
             // Initialize the side menu
-            initMenu();
+            initMoobile();
         };
 
         doInit();
-
-    });
-
-});
+    }
+);

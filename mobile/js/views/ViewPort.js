@@ -15,4 +15,9 @@
 
 define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
 
+    return new Class({
+
+        Extends: Moobile.ViewControllerStack
+
+    });
 });
