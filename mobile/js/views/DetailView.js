@@ -18,43 +18,38 @@ define([
     'jquery',
     'oae.core',
     '/mobile/js/mobile.util.js',
-    './userController'
+    './viewController'
     ],
-    function(exports, $, oae, mobileUtil, userController) {
+    function(exports, $, oae, mobileUtil, viewController) {
 
         return new Class({
 
             Extends: Moobile.ViewController,
 
             // Properties
-            loginButton: null,
+            menuButton: null,
 
             // Methods
             loadView: function() {
-                this.view = Moobile.View.at('/mobile/templates/views/login-view.html');
+                console.log('[DetailView] loadView');
+                this.view = Moobile.View.at('/mobile/templates/views/detail-view.html');
             },
 
             viewDidLoad: function() {
+                console.log('[DetailView] viewDidLoad');
                 this.parent();
-
-                console.log('[LoginView] viewDidLoad');
-                console.log(oae.data.me);
-
-                this.loginButton = this.view.getChildComponent('login-button');
-                this.loginButton.addEvent('tap', this.bound('onLoginButtonTap'));
+                this.menuButton = this.view.getChildComponent('top-bar').getChildComponent('bar-item').getChildComponent('menu-button');
+                this.menuButton.addEvent('tap', this.bound('onMenuButtonTap'));
             },
 
             destroy: function() {
-                this.loginButton.removeEvent('tap', this.bound('onLoginButtonTap'));
-                this.loginButton = this.view.getChildComponent('login-button');
+                this.menuButton.removeEvent('tap', this.bound('onMenuButtonTap'));
+                this.menuButton = this.view.getChildComponent('top-bar').getChildComponent('bar-item').getChildComponent('menu-button');
                 this.parent();
             },
 
-            onLoginButtonTap: function(e, sender) {
-                var obj = {};
-                obj.username = "Coenego";
-                obj.password = "yooloo";
-                userController.login(obj);
+            onMenuButtonTap: function(e, sender) {
+                viewController.popView();
             }
         });
     }

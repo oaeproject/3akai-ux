@@ -13,26 +13,68 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
+define([
+    'exports',
+    'jquery',
+    'oae.core',
+    '/mobile/js/mobile.util.js',
+    './userController',
+    './viewController'
+    ],
+    function(exports, $, oae, mobileUtil, userController, viewController) {
 
-    return new Class({
+        return new Class({
 
-        Extends: Moobile.ViewController,
+            Extends: Moobile.ViewController,
 
-        // Methods
-        loadView: function() {
-            console.log('[homeViewController] loadView');
-            this.view = Moobile.View.at('/mobile/templates/views/home-view.html');
-        },
+            // Properties
+            menuButton: null,
+            detailButton: null,
 
-        viewDidLoad: function() {
-            console.log('[homeViewController] viewDidLoad');
-            this.parent();
-        },
+            // Methods
+            loadView: function() {
+                this.view = Moobile.View.at('/mobile/templates/views/home-view.html');
+            },
 
-        destroy: function() {
-            console.log('[homeViewController] destroy');
-            this.parent();
-        }
-    });
-});
+            viewDidLoad: function() {
+
+
+                console.log('[HomeView] viewDidLoad');
+                console.log(oae.data);
+                console.log(oae.api.content);
+
+
+                this.parent();
+
+                this.initComponents();
+            },
+
+            initComponents: function() {
+
+                this.menuButton = this.view.getChildComponent('top-bar').getChildComponent('bar-item').getChildComponent('menu-button');
+                this.menuButton.addEvent('tap', this.bound('onMenuButtonTap'));
+
+                this.detailButton = this.view.getChildComponent('detail-button');
+                this.detailButton.addEvent('tap', this.bound('onDetailButtonTap'));
+
+                this.view.getChildComponent('top-bar').getChildComponent('bar-item').setTitle(oae.data.me.tenant);
+            },
+
+            destroy: function() {
+                this.menuButton.removeEvent('tap', this.bound('onMenuButtonTap'));
+                this.menuButton = this.view.getChildComponent('top-bar').getChildComponent('bar-item').getChildComponent('menu-button');
+                this.detailButton.removeEvent('tap', this.bound('onDetailButtonTap'));
+                this.detailButton = this.view.getChildComponent('detail-button');
+                this.parent();
+            },
+
+            onMenuButtonTap: function(e, sender) {
+                userController.logout();
+            },
+
+            onDetailButtonTap: function(e, sender) {
+                viewController.changeView({'target': 'detail', 'transition': new Moobile.ViewTransition.Slide});
+            }
+        });
+    }
+);

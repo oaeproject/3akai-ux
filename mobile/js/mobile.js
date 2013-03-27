@@ -15,87 +15,86 @@
 
 require.config({
     paths: {
-        loginViewController:    '/mobile/js/controllers/loginViewController',
-        homeViewController:     '/mobile/js/controllers/homeViewController'
+        viewController:         '/mobile/js/controllers/ViewController',
+        userController:         '/mobile/js/controllers/UserController',
+        loginViewController:    '/mobile/js/views/LoginView',
+        homeViewController:     '/mobile/js/views/HomeView',
+        detailViewController:   '/mobile/js/views/DetailView'
     }
 });
 
-require(['jquery', 'underscore', 'oae.core', '/mobile/js/mobile.util.js'],function($, _, oae, mobileUtil) {
+require(
+    [
+        'jquery','underscore','oae.core',
+        '/mobile/js/mobile.util.js',
+        'viewController',
+        'userController',
+        'loginViewController',
+        'homeViewController',
+        'detailViewController'
+    ],
+    function($, _, oae, mobileUtil, viewController, userController, loginViewController, homeViewController, detailViewController) {
+
+        // Properties
+        var viewPort = {},
+            activeView = {};
 
         /**
          * Init the view controller
          */
-        var initMoobile = function() {
+        var initFrontcontroller = function() {
 
-            // Properties
+            // Set windowcontroller and viewstack
             var windowcontroller = new Moobile.WindowController;
-            var viewStack = new Moobile.ViewControllerStack;
+            viewPort = new Moobile.ViewControllerStack;
 
-            console.log(windowcontroller);
+            // Listen to mainController
+            viewController.addEvent('VIEWCHANGED', switchView);
+            viewController.addEvent('VIEWPOPPED', popView);
 
-            /**
-             * Login
-             */
-            var LoginViewController = new Class({
-
-                Extends: Moobile.ViewController,
-
-                // Properties
-                loginButton: null,
-
-                // Methods
-                loadView: function() {
-                    console.log('[LoginViewController] loadView');
-                    this.view = Moobile.View.at('/mobile/templates/views/login-view.html');
-                },
-
-                viewDidLoad: function() {
-                    console.log('[loginViewController] viewDidLoad');
-                    this.parent();
-                    this.loginButton = this.view.getChildComponent('login-button');
-                    this.loginButton.addEvent('tap', this.bound('onLoginButtonTap'));
-                },
-
-                destroy: function() {
-                    console.log('[loginViewController] destroy');
-                    this.loginButton.removeEvent('tap', this.bound('onLoginButtonTap'));
-                    this.loginButton = this.view.getChildComponent('login-button');
-                    this.parent();
-                },
-
-                onLoginButtonTap: function(e, sender) {
-                    console.log("onLoginButtonTap");
-                    viewStack.pushViewController(new HomeViewController, new Moobile.ViewTransition.Slide);
-                }
-            });
-
-            /**
-             * Home
-             */
-            var HomeViewController = new Class({
-
-                Extends: Moobile.ViewController,
-
-                // Methods
-                loadView: function() {
-                    console.log('[HomeViewController] loadView');
-                    this.view = Moobile.View.at('/mobile/templates/views/home-view.html');
-                },
-
-                viewDidLoad: function() {
-                    console.log('[HomeViewController] viewDidLoad');
-                },
-
-                destroy: function() {
-                    console.log('[HomeViewController] destroy');
-                }
-            });
-
-            // Add the loginview to the viewstack
-            viewStack.pushViewController(new LoginViewController);
+            // Set the first view (according whether the user is logged in or not)
+            activeView = (oae.data.me.anon)
+                ? new loginViewController
+                : new homeViewController;
+            viewPort.pushViewController(activeView);
 
             // Set the viewstack as the root view controller
-            windowcontroller.setRootViewController(viewStack);
+            windowcontroller.setRootViewController(viewPort);
+        };
+
+        /**
+         * Handles the dispatched event from a page
+         *
+         * @param data              The parameters
+         * @param data.target       The panel that needs to be shown
+         * @param data.transition   The transition between the views
+         * @param sender            The dispatcher
+         */
+        var switchView = function(data, sender) {
+            if(data && data != null){
+                var newView = {};
+                if(data.target != null){
+                    switch(data.target){
+                        case 'login':
+                            newView = new loginViewController;
+                            break;
+                        case 'home':
+                            newView = new homeViewController;
+                            break;
+                        case 'detail':
+                            newView = new detailViewController;
+                            break;
+                    }
+                    viewPort.pushViewController(newView, data.transition);
+                }
+            }
+        };
+
+        /**
+         * Pops the previous view from the stack
+         */
+        var popView = function() {
+            viewPort.popViewController();
         };
 
         /**
@@ -103,7 +102,7 @@ require(['jquery', 'underscore', 'oae.core', '/mobile/js/mobile.util.js'],functi
          */
         var doInit = function() {
             // Initialize the side menu
-            initMoobile();
+            initFrontcontroller();
         };
 
         doInit();
