@@ -38,25 +38,19 @@ define([
 
             viewDidLoad: function() {
 
-
                 console.log('[HomeView] viewDidLoad');
                 console.log(oae.data);
-                console.log(oae.api.content);
-
+                console.log(oae.data.me.id);
 
                 this.parent();
-
                 this.initComponents();
             },
 
             initComponents: function() {
-
                 this.menuButton = this.view.getChildComponent('top-bar').getChildComponent('bar-item').getChildComponent('menu-button');
                 this.menuButton.addEvent('tap', this.bound('onMenuButtonTap'));
-
                 this.detailButton = this.view.getChildComponent('detail-button');
                 this.detailButton.addEvent('tap', this.bound('onDetailButtonTap'));
-
                 this.view.getChildComponent('top-bar').getChildComponent('bar-item').setTitle(oae.data.me.tenant);
             },
 

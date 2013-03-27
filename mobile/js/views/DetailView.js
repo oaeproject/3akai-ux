@@ -38,6 +38,10 @@ define([
             viewDidLoad: function() {
                 console.log('[DetailView] viewDidLoad');
                 this.parent();
+                this.initComponents();
+            },
+
+            initComponents: function() {
                 this.menuButton = this.view.getChildComponent('top-bar').getChildComponent('bar-item').getChildComponent('menu-button');
                 this.menuButton.addEvent('tap', this.bound('onMenuButtonTap'));
             },

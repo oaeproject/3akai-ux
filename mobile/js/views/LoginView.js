@@ -35,11 +35,14 @@ define([
             },
 
             viewDidLoad: function() {
-                this.parent();
-
                 console.log('[LoginView] viewDidLoad');
                 console.log(oae.data.me);
 
+                this.parent();
+                this.initComponents();
+            },
+
+            initComponents: function() {
                 this.loginButton = this.view.getChildComponent('login-button');
                 this.loginButton.addEvent('tap', this.bound('onLoginButtonTap'));
             },
