@@ -1,5 +1,6 @@
 .DS_STORE
 .project
+.idea
 *.kpf
 *.swp
 Thumbs.db

@@ -27,7 +27,7 @@
     "grunt": "latest",
     "grunt-clean": "latest",
     "grunt-contrib-requirejs": "latest",
-    "grunt-git-describe": "git://github.com/mikaelkaron/grunt-git-describe.git#master",
+    "grunt-git-describe": "latest",
     "grunt-imagine": "latest",
     "grunt-ver": "git://github.com/sakaiproject/grunt-ver.git#v0.1.4-hilary-0.1",
     "shelljs": "latest"
