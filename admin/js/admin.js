@@ -74,6 +74,9 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
             case 'configurationmodules':
                 $('#admin-views > #admin-modules-container').show();
                 break;
+            case 'configurationskinning':
+                $('#admin-views > #admin-skinning-container').show();
+                break;
             default:
                 $('#admin-views > #admin-tenants-container').show();
                 break;
@@ -443,6 +446,37 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         });
     };
 
+    //////////////
+    // SKINNING //
+    //////////////
+
+    var initializeSkinning = function() {
+        console.log(currentContext);
+        if (currentContext.host) {
+            $.ajax({
+                'url': '/api/ui/skin/variables',
+                'data': {
+                    'tenant': currentContext.alias
+                },
+                'success': function(data) {
+                    console.log(data);
+                    oae.api.util.template().render($('#admin-skinning-template'), data, $('#admin-skinning-container'));
+                    //
+                    // Create custom elements per type; e.g colorpicker...
+                    //var propertyNames = $('.property-name');
+                    //$.each(propertyNames, function(i){
+                    //    var splitted = $(propertyNames[i]).find('span').html().split('-');
+                    //    var type = splitted.pop(splitted.length-1);
+                    //    var target = $(propertyNames[i]).parent().find('.property-values');
+                    //    var identifier = $(propertyNames[i]).find('span').html() + '-component';
+                    //    var defaultValue = $(propertyNames[i]).parent().find('.property-values').find('.value').html();
+                    //    createCustomComponentByType(target, type, identifier, defaultValue);
+                    //});
+                }
+            });
+        }
+    };
+
     ///////////////////////
     //// DATA FETCHING ////
     ///////////////////////
@@ -654,6 +688,8 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                         initializeModules();
                         // Initialize the tenants table (only 1 tenant if not on global server)
                         initializeTenants();
+                        // Initialize the skinning UI
+                        initializeSkinning();
                         // Show requested view
                         switchView();
                     });

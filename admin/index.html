@@ -301,6 +301,28 @@
             </div>
         --></div>
 
+        <div id="admin-skinning-template"><!--
+            <h2>Skinning values</h2>
+            <form class="form-horizontal">
+            {for skinningGroup in results}
+                <h3>${skinningGroup.name}</h3>
+                <table class="table table-striped">
+                    {for variable in skinningGroup.variables}
+                        <tr>
+                            <td>
+                                <div class="control-group">
+                                    <label class="control-label" for="inputEmail">${variable.description}</label>
+                                    <div class="controls">
+                                        <input type="text" id="inputEmail" value="${variable.defaultValue}" />
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {/for}
+                </table>
+            {/for}
+        --></div>
+
         <!-- UTIL TEMPLATE -->
 
         <div id="admin-confirmation-template"><!--
