@@ -1,0 +1,309 @@
+/*!
+ * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ *     http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+
+/*****************
+ ** LESS MIXINS **
+ *****************/
+
+.background-image-with-gradient(@image: '/ui/img/framework/index.png', @gradient1: rgba(37,169,223,1), @gradient2: rgba(0,116,167,1)) {
+    background-image: url(@image) @gradient1;
+    background-image: url(@image), -moz-linear-gradient(top, @gradient1 0%, @gradient2 100%);
+    background-image: url(@image), -webkit-linear-gradient(top, @gradient1 0%, @gradient2 100%);
+    background-image: url(@image), linear-gradient(to bottom, @gradient1 0%, @gradient2 100%);
+}
+
+
+
+/***************************
+ ** Page background color **
+ ***************************/
+
+/* The background color for the body */
+@body-background-color: #ECEAE5;
+
+body {
+   background-color: @body-background-color;
+}
+
+
+/**************
+ ** Branding **
+ **************/
+
+
+/* The background image for the institution */
+@oae-institutional-logo-background-image-url: '/shared/oae/img/oae-logo.png';
+/* The background image for the branding container */
+@oae-branding-container-background-image-url: '/ui/img/framework/index.png';
+/* The first gradient color for the branding container */
+@oae-branding-container-background-image-gradient1-color: rgb(37,169,223);
+/* The second gradient color for the branding container */
+@oae-branding-container-background-image-gradient2-color: rgba(0,116,167,1);
+
+
+/* INSTITUTIONAL LOGO */
+
+.oae-institutional-logo {
+    background-image: url(@oae-institutional-logo-background-image-url);
+    background-size: auto 34.5px;
+}
+
+/* INDEX PAGE BACKGROUND */
+
+.oae-main-content.oae-branding-container {
+    /* Color background */
+    .background-image-with-gradient(@oae-branding-container-background-image-url, @oae-branding-container-background-image-gradient1-color, @oae-branding-container-background-image-gradient2-color);
+
+    /* Image background */
+    /* background-image: url('http://ravian100.files.wordpress.com/2011/01/cambridge-university.jpg'); */
+}
+
+
+/*****************
+ ** LINK COLORS **
+ *****************/
+
+/* The color for link buttons */
+@btn-link-color: #0088CC;
+/* The hover color for link buttons */
+@btn-link-hover-color: #005580;
+
+a, .btn-link {
+   color: @btn-link-color;
+}
+
+a:hover, .btn-link:hover {
+    color: @btn-link-hover-color;
+}
+
+
+/**************************
+ ** LEFT HAND NAVIGATION **
+ **************************/
+
+/* The color for list items */
+@nav-li-color: #999;
+
+
+.nav > li > a,
+.nav > li i {
+    background-color: transparent;
+    color: @nav-li-color;
+}
+
+.nav > li > a:hover,
+.nav > li > a:focus,
+.nav > li > a:hover i,
+.nav > li > a:focus i {
+    background-color: transparent;
+    color: #333;
+}
+
+.nav > li.active > a, 
+.nav > li.active > a:hover, 
+.nav > li.active > a:focus,
+.nav > li.active i {
+    background-color: transparent;
+    color: #333;
+}
+
+
+/*******************
+ ** BUTTON COLORS **
+ *******************/
+
+/* TODO */
+
+
+/************************
+ ** ICON BUTTON COLORS **
+ ************************/
+
+[class^="icon-"], [class*=" icon-"] {
+   color: #A9A9A9;
+}
+
+[class^="icon-"]:hover, [class*=" icon-"]:hover,
+.btn-link:hover [class^="icon-"], .btn-link:hover [class*=" icon-"] {
+    color: #555;
+}
+
+
+/*****************
+ ** TEXT COLORS **
+ *****************/
+
+/* DEFAULT TEXT COLOR */
+
+body, button, input, select, textarea, a.oae-plain-link {
+    color: #333;
+}
+
+
+/*************************
+ ** MODAL DIALOG COLORS **
+ *************************/
+
+.modal, .dropdown-menu {
+    background: #FFF;
+    background: linear-gradient(to bottom, #FFF 0%, #F5F5F5 100%); 
+    background: -moz-linear-gradient(top, #FFF 0%, #F5F5F5 100%);
+    background: -webkit-linear-gradient(top, #FFF 0%, #F5F5F5 100%);
+    background: -ms-linear-gradient(top, #FFF 0%, #F5F5F5 100%); 
+}
+
+.modal-header h3, .modal-body h4 {
+    color: #777;
+}
+
+
+/******************
+ ** PANEL COLORS **
+ ******************/
+
+/* PRIMARY PANEL */
+
+.oae-panel-primary {
+    color: #FFF;
+    background: transparent;
+}
+
+.oae-panel-primary, .oae-panel-primary:before, .oae-panel-primary:after {
+    border-color: transparent;
+}
+
+.oae-panel-primary h1, .oae-panel-primary h2, .oae-panel-primary h3, 
+.oae-panel-primary h4, .oae-panel-primary h5, .oae-panel-primary h6,
+.oae-panel-primary i, .oae-panel-primary i:hover {
+    color: #FFF;
+}
+
+/* SECONDARY PANEL */
+
+.oae-panel-secondary {
+    color: #FFF;
+    background: transparent;
+}
+
+.oae-panel-secondary, .oae-panel-secondary:before, .oae-panel-secondary:after {
+    border-color: transparent;
+}
+
+.oae-panel-secondary h1, .oae-panel-secondary h2, .oae-panel-secondary h3, 
+.oae-panel-secondary h4, .oae-panel-secondary h5, .oae-panel-secondary h6,
+.oae-panel-secondary i, .oae-panel-secondary i:hover {
+    color: #FFF;
+}
+
+/* TERTIARY PANEL */
+
+.oae-panel-tertiary {
+    color: #FFF;
+    background: rgba(255,255,255,0.3);
+}
+
+.oae-panel-tertiary, .oae-panel-tertiary:before, .oae-panel-tertiary:after {
+    border-color: rgba(255,255,255,0.3);
+}
+
+.oae-panel-tertiary h1, .oae-panel-tertiary h2, .oae-panel-tertiary h3, 
+.oae-panel-tertiary h4, .oae-panel-tertiary h5, .oae-panel-tertiary h6,
+.oae-panel-tertiary i, .oae-panel-tertiary i:hover {
+    color: #FFF;
+}
+
+
+/*****************
+ ** CLIP COLORS **
+ *****************/
+
+/* PRIMARY CLIP */
+
+.oae-clip .oae-clip-fold .oae-clip-fold-inner {
+    background-color: #000;
+}
+
+.oae-clip .oae-clip-fold .oae-clip-fold-outer {
+    background-color: #545454;
+}
+
+.oae-clip .oae-clip-content {
+    background: #545454;
+    background: -moz-linear-gradient(top,  #545454 0%, #545454 10%, #000000 100%);
+    background: -webkit-linear-gradient(top,  #545454 0%,#545454 10%,#000000 100%);
+    background: -o-linear-gradient(top,  #545454 0%,#545454 10%,#000000 100%);
+    background: -ms-linear-gradient(top,  #545454 0%,#545454 10%,#000000 100%);
+    background: linear-gradient(to bottom,  #545454 0%,#545454 10%,#000000 100%);
+    z-index: 1000;
+}
+
+.oae-clip .oae-clip-content button,
+.oae-clip .oae-clip-content i {
+    color: #DBDBDB;
+}
+
+.oae-clip button small {
+    color: #999;
+}
+
+.oae-clip button:hover,
+.oae-clip button:focus,
+.oae-clip button:hover i,
+.oae-clip button:focus i {
+    color: #FFF;
+}
+
+.oae-clip ul li button:hover {
+    background-color: #000;
+}
+
+/* SECONDARY CLIP */
+
+.oae-clip.oae-clip-secondary .oae-clip-fold .oae-clip-fold-inner {
+    background-color: #0175A9;
+}
+.oae-clip.oae-clip-secondary .oae-clip-fold .oae-clip-fold-outer,
+.oae-clip.oae-clip-secondary .oae-clip-content {
+    background-color: #24A7DD;
+}
+
+.oae-clip.oae-clip-secondary .oae-clip-content {
+    background: -moz-linear-gradient(top,  #24A7DD 0%, #24A7DD 10%, #0175A9 100%);
+    background: -webkit-linear-gradient(top,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
+    background: -o-linear-gradient(top,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
+    background: -ms-linear-gradient(top,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
+    background: linear-gradient(to bottom,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
+}
+
+.oae-clip.oae-clip-secondary .oae-clip-content button,
+.oae-clip.oae-clip-secondary .oae-clip-content i {
+    color: #F5F5F5;
+}
+
+.oae-clip.oae-clip-secondary button small {
+    color: #DBDBDB;
+}
+
+.oae-clip.oae-clip-secondary button:hover,
+.oae-clip.oae-clip-secondary button:focus,
+.oae-clip.oae-clip-secondary button:hover i,
+.oae-clip.oae-clip-secondary button:focus i {
+    color: #FFF;
+}
+
+.oae-clip.oae-clip-secondary ul li button:hover {
+    background-color: #2096C6;
+}
