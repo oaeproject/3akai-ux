@@ -36,6 +36,7 @@ requirejs.config({
         'jquery.iframe-transport': 'vendor/js/jquery-plugins/jquery.iframe-transport',
         'jquery.imgareaselect': 'vendor/js/jquery-plugins/imgareaselect/jquery.imgareaselect',
         'jquery.jeditable': 'vendor/js/jquery-plugins/jquery.jeditable.sakai-edited',
+        'jquery.notify': 'vendor/js/jquery-plugins/jquery.bootstrap.notify',
         'jquery.properties-parser': 'vendor/js/jquery-plugins/jquery.properties-parser',
         'jquery.serializeObject': 'vendor/js/jquery-plugins/jquery.serializeObject',
         'jquery.timeago': 'vendor/js/jquery-plugins/jquery.timeago',

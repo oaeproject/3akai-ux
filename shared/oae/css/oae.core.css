@@ -35,6 +35,7 @@
 /* Import the Google, Facebook and Twitter login, as this will be needed on every
    page because of the topnavigation */
 @import url('/shared/vendor/css/auth-buttons.css');
-
 /* Import the JQuery AutoSuggest plugin CSS */
 @import url('/shared/vendor/css/jquery.autoSuggest.css');
+/* Import the JQuery Bootstrap Notify plugin CSS */
+@import url('/shared/vendor/css/jquery.bootstrap.notify.css');
