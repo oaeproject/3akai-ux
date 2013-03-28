@@ -51,6 +51,7 @@
                     <div id="admin-views">
                         <div id="admin-tenants-container" class="hide"><!-- --></div>
                         <div id="admin-modules-container" class="hide"><!-- --></div>
+                        <div id="admin-skinning-container" class="hide"><!-- --></div>
                     </div>
     
                     <div id="admin-error-container"><!-- --></div>
@@ -94,6 +95,13 @@
                 <li id="configurationmodules">
                     <a title="Module configuration" href="#configurationmodules">Modules</a>
                 </li>
+                {if context.host}
+                    <li id="configurationskinning">
+                        <a title="Skinning configuration" href="#configurationskinning">
+                            <i class="icon-tint"></i> Skinning
+                        </a>
+                    </li>
+                {/if}
             </ul>
         --></div>
 
