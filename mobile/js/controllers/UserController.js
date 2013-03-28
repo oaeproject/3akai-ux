@@ -19,13 +19,13 @@ define(
         '/mobile/js/mobile.util.js',
         './viewController'
     ],
-    function(oae, mobileUtil, viewController){
+    function(oae, mobileUtil, viewController) {
 
         // Properties
         var instance = null;
 
         // Constructor
-        function UserController(){
+        function UserController() {
             if(instance !== null) throw new Error("Cannot instantiate more than one UserController.");
             instance = this;
         }
@@ -38,14 +38,15 @@ define(
          * @param obj.password      The password
          */
         UserController.prototype.login = function(obj) {
-            oae.api.authentication.login(obj.username,obj.password, function(err){
-                if(err){
+            oae.api.authentication.login(obj.username, obj.password, function(err) {
+                if(err) {
                     console.log('[UserController] login -> fail');
                     console.log(err);
                 }else{
                     console.log('[UserController] login -> success');
-                    console.log(oae.data.me);
                     viewController.changeView({'target': 'home', 'transition': new Moobile.ViewTransition.None});
+
+                    //oae.init(function(e) {console.log(e) });
                 }
             });
         };
@@ -54,14 +55,15 @@ define(
          *  Logout with the api
          */
         UserController.prototype.logout = function() {
-            oae.api.authentication.logout(function(err){
-                if(err){
+            oae.api.authentication.logout(function(err) {
+                if(err) {
                     console.log('[UserController] logout -> fail');
                     console.log(err)
                 }else{
                     console.log('[UserController] logout -> success');
                     viewController.changeView({'target': 'login', 'transition': new Moobile.ViewTransition.None});
-                    console.log(oae.data.me);
+
+                    //oae.init(function(e) {console.log(e) });
                 }
             });
         };

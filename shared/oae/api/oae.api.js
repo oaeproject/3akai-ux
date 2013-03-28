@@ -52,7 +52,7 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
          * that has been found in the me feed. After that, the full `oae` object will be returned to the module that has required
          * `oae.api!`
          */
-        var initOAE = function(callback) {
+        var initOAE = oae.init = function(callback) {
             // Get the me feed
             oae.api.user.getMe(function(err, meObj) {
                 if (err) {

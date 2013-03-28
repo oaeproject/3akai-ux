@@ -81,6 +81,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     var getMe = exports.getMe = function(callback) {
         $.ajax({
             'url': '/api/me',
+            'cache': false,
             'success': function(data) {
                 callback(null, data);
             },

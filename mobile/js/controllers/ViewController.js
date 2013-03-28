@@ -18,13 +18,13 @@ define(
         'oae.core',
         '/mobile/js/mobile.util.js'
     ],
-    function(oae, mobileUtil){
+    function(oae, mobileUtil) {
 
         // Properties
         var instance = null;
 
         // Constructor
-        function ViewController(){
+        function ViewController() {
             if(instance !== null) throw new Error("Cannot instantiate more than one ViewController.");
             instance = this;
         }
@@ -33,11 +33,13 @@ define(
         ViewController = new Class({
             Extends: Moobile.EventFirer,
 
-            changeView: function(event){
+            changeView: function(event) {
+                console.log('[ViewController] changeView');
                 this.fireEvent('VIEWCHANGED', {'target': event.target, 'transition': event.transition});
             },
 
-            popView: function(){
+            popView: function() {
+                console.log('[ViewController] popView');
                 this.fireEvent('VIEWPOPPED');
             }
         });

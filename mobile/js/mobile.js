@@ -71,6 +71,9 @@ require(
          * @param sender            The dispatcher
          */
         var switchView = function(data, sender) {
+
+            console.log('[mobile] switchView');
+
             if(data && data != null){
                 var newView = {};
                 if(data.target != null){

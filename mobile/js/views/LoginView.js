@@ -35,8 +35,10 @@ define([
             },
 
             viewDidLoad: function() {
+
                 console.log('[LoginView] viewDidLoad');
                 console.log(oae.data.me);
+                console.log('- - - - - - - - - - - - - - - - - - - - - - - - - - -');
 
                 this.parent();
                 this.initComponents();
@@ -44,6 +46,7 @@ define([
 
             initComponents: function() {
                 this.loginButton = this.view.getChildComponent('login-button');
+                this.loginButton.setText(oae.api.i18n.translate('__MSG__LOGIN__'));
                 this.loginButton.addEvent('tap', this.bound('onLoginButtonTap'));
             },
 

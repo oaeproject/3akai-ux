@@ -39,8 +39,8 @@ define([
             viewDidLoad: function() {
 
                 console.log('[HomeView] viewDidLoad');
-                console.log(oae.data);
-                console.log(oae.data.me.id);
+                console.log(oae.data.me);
+                console.log('- - - - - - - - - - - - - - - - - - - - - - - - - - -');
 
                 this.parent();
                 this.initComponents();
