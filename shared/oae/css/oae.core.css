@@ -28,9 +28,11 @@
    combined with basic bootstrap, should make it easy to quickly put new widgets together */
 @import url('/shared/oae/css/oae.components.css');
 
-/* Import the OAE Skin. This is the file that will define common colors, like the
-   background colors, component colors, etc. */
-@import url('/shared/oae/css/oae.skin.css');
+/* Import the OAE Skin. This is a Hilary endpoint that returns a CSS file that defines 
+   common colors, like the background colors, component colors, etc. The values can be
+   configured through the Admin UI, and are based on the /shared/oae/css/oae.skin.less
+   LESS template. */
+@import url('/api/ui/skin');
 
 /* Import the Google, Facebook and Twitter login, as this will be needed on every
    page because of the topnavigation */

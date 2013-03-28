@@ -11,6 +11,9 @@
         <!-- PAGE CSS -->
         <link rel="stylesheet" type="text/css" href="/admin/css/admin.css" />
 
+        <!-- JQUERY SPECTRUM CSS -->
+        <link rel="stylesheet" type="text/css" href="/shared/vendor/css/jquery.spectrum.css" />
+
     </head>
     <body>
 
@@ -302,25 +305,25 @@
         --></div>
 
         <div id="admin-skinning-template"><!--
-            <h2>Skinning values</h2>
-            <form class="form-horizontal">
-            {for skinningGroup in results}
-                <h3>${skinningGroup.name}</h3>
-                <table class="table table-striped">
-                    {for variable in skinningGroup.variables}
-                        <tr>
-                            <td>
-                                <div class="control-group">
-                                    <label class="control-label" for="inputEmail">${variable.description}</label>
-                                    <div class="controls">
-                                        <input type="text" id="inputEmail" value="${variable.defaultValue}" />
-                                    </div>
+            <h2>Skin values</h2>
+            <form id="admin-skinning-form" class="form-horizontal">
+                {for skinningGroup in results}
+                    <h3>${skinningGroup.name}</h3>
+                    <div class="admin-container-striped">
+                        {for variable in skinningGroup.variables}
+                            <div class="control-group">
+                                <label class="control-label" for="inputEmail">${variable.description}</label>
+                                <div class="controls">
+                                    <input type="text" name="${variable.name}" class="input-xlarge" value="${variable.value}" data-type="${variable.type}" data-defaultvalue="${variable.defaultValue}" />
                                 </div>
-                            </td>
-                        </tr>
-                    {/for}
-                </table>
-            {/for}
+                            </div>
+                        {/for}
+                    </div>
+                {/for}
+                <div id="admin-skinning-actions">
+                    <button type="submit" class="btn btn-primary">Save skin</button>
+                </div>
+            </form>
         --></div>
 
         <!-- UTIL TEMPLATE -->

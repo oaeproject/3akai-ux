@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.jeditable'], function($, _, oae, adminUtil) {
+require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.jeditable', 'jquery.spectrum'], function($, _, oae, adminUtil) {
 
     // Variable that will be used to keep track of current tenant
     var currentContext = null;
@@ -450,8 +450,12 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
     // SKINNING //
     //////////////
 
+    /**
+     * Initialize the list of available skinning variables and their values
+     */
     var initializeSkinning = function() {
-        console.log(currentContext);
+        // Only show the skinning variables when we are looking at a specific tenant.
+        // It is currently not possible or desired to change skin values from the global admin UI.
         if (currentContext.host) {
             $.ajax({
                 'url': '/api/ui/skin/variables',
@@ -459,22 +463,65 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                     'tenant': currentContext.alias
                 },
                 'success': function(data) {
-                    console.log(data);
+                    // The stored skin values for the current tenant can be found in the configuration
+                    // object. This will be stored as a stringified JSON object, so we need to parse this first.
+                    var configuredSkin = {};
+                    if (configuration['oae-ui'].skin.variables) {
+                        configuredSkin = JSON.parse(configuration['oae-ui'].skin.variables);
+                    }
+
+                    // For all of the values in the available skin variables, we check if the current tenant
+                    // has a stored value that overrides the default value. If the tenant doesn't have a value
+                    // for a variable, the default value will be used
+                    $.each(data.results, function(configGroupIndex, configGroup) {
+                        $.each(configGroup.variables, function(variableIndex, variable) {
+                            variable.value = configuredSkin[variable.name] || variable.defaultValue;
+                        });
+                    });
+
+                    // Render the template that lists all of the configuration groups, their variables and their values
                     oae.api.util.template().render($('#admin-skinning-template'), data, $('#admin-skinning-container'));
-                    //
-                    // Create custom elements per type; e.g colorpicker...
-                    //var propertyNames = $('.property-name');
-                    //$.each(propertyNames, function(i){
-                    //    var splitted = $(propertyNames[i]).find('span').html().split('-');
-                    //    var type = splitted.pop(splitted.length-1);
-                    //    var target = $(propertyNames[i]).parent().find('.property-values');
-                    //    var identifier = $(propertyNames[i]).find('span').html() + '-component';
-                    //    var defaultValue = $(propertyNames[i]).parent().find('.property-values').find('.value').html();
-                    //    createCustomComponentByType(target, type, identifier, defaultValue);
-                    //});
+
+                    // Initialize the jQuery.spectrum color pickers
+                    $('[data-type="color"]').spectrum({
+                        'showButtons': false,
+                        'showInitial': true,
+                        'showAlpha': true,
+                        'showInput': true
+                    });
                 }
             });
         }
+    };
+
+    /**
+     * TODO
+     */
+    var saveSkin = function() {
+        // TODO
+        var values = $('#admin-skinning-form').serializeObject();
+        var data = {
+            'oae-ui/skin/variables': JSON.stringify(values)
+        }
+
+        // TODO
+        var url = '/api/config';
+        if (currentContext.isGlobalAdminServer) {
+            url += '/' + currentContext.alias;
+        }
+
+        // TODO
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: data,
+            success: function() {
+                oae.api.util.showNotification('Skin saved', 'The skin has been successfully saved.');
+            }, error: function() {
+                oae.api.util.showNotification('Skin not saved', 'The skin could not be saved successfully.', 'error');
+            }
+        });
+        return false;
     };
 
     ///////////////////////
@@ -587,6 +634,8 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         $(document).on('click', '.login-tenant', loginOnTenantHandler);
         // Change config value
         $(document).on('submit', '.admin-module-configuration-form', writeConfig);
+        // Change skin
+        $(document).on('submit', '#admin-skinning-form', saveSkin);
         // Left hand navigation switching
         $(window).hashchange(switchView);
     };
