@@ -13,47 +13,39 @@
  * permissions and limitations under the License.
  */
 
-define(['jquery', 'oae.api.content', 'jquery.fileupload', 'jquery.contentchange'], function (jQuery) {
+define(['jquery', 'oae.api.content', 'jquery.contentchange'], function (jQuery) {
     (function() {
-        $('html').contentChange(function(){
-            var $dropZone = $('.oae-dnd-upload');
-            if (!$dropZone.hasClass('initialized')) {
-                $('.oae-dnd-upload').on('drop', function(ev, data) {
-                    if(ev.originalEvent.dataTransfer){
-                        if(ev.originalEvent.dataTransfer.files.length) {
-                            ev.preventDefault();
-                            ev.stopPropagation();
+        $(document).on('drop', '.oae-dnd-upload', function(ev, data) {
+            if (ev.originalEvent.dataTransfer && ev.originalEvent.dataTransfer.files.length) {
+                ev.preventDefault();
+                ev.stopPropagation();
 
-                            // Parse the data into a format the upload widget understands
-                            var selectedFiles = {
-                                'files': []
-                            };
-                            $.each(ev.originalEvent.dataTransfer.files, function(index, file) {
-                                if (file.name) {
-                                    selectedFiles.files.push(file);
-                                }
-                            });
+                // Parse the data into a format the upload widget understands
+                var selectedFiles = {
+                    'files': []
+                };
 
-                            // Trigger an event that sends the dropped data along
-                            $(document).trigger('oae-trigger-dnd', {
-                                'data': selectedFiles
-                            });
-                        }
+                // Filter out folders and files without a name
+                $.each(ev.originalEvent.dataTransfer.files, function(index, file) {
+                    if (file.size > 0 && file.name) {
+                        selectedFiles.files.push(file);
                     }
                 });
 
-                $dropZone.on('dragover', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                });
-
-                $dropZone.on('dragenter', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                });
-
-                $dropZone.addClass('initialized');
+                // Trigger an event that sends the dropped data along if
+                // valid files have been dropped
+                if (selectedFiles.files.length) {
+                    $(document).trigger('oae-trigger-upload', {
+                        'data': selectedFiles
+                    });
+                }
             }
+        });
+
+        $(document).on('dragover', '.oae-dnd-upload', function(ev) {
+            ev.originalEvent.dataTransfer.dropEffect = 'copy';
+            ev.preventDefault();
+            ev.stopPropagation();
         });
     })();
 });

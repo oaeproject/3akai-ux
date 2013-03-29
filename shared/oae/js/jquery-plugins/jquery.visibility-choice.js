@@ -13,43 +13,17 @@
  * permissions and limitations under the License.
  */
 
-#register-container {
-    width: 900px;
-    margin-left: -450px;
-}
+/**
+ * jQuery plugin that will detect the clips that are present on the page, and 
+ * will take care of making them active where necessary. This includes showing
+ * and hiding the admin options and toggling the caret icons
+ */
 
-#register-username-container {
-    position: relative;
-}
-
-#register-username-available {
-    position: absolute;
-    top: 5px;
-    left: 220px;
-    font-size: 18px;
-}
-
-#register-username-available.icon-remove {
-    color: #8F0222;
-}
-
-#register-captcha {
-    position: relative;
-    min-height: 30px;
-    margin-top: 10px;
-}
-
-#register-captcha-error {
-    margin-top: 3px;
-}
-
-#register-create-account {
-    position: absolute;
-    right: 0px;
-    bottom: 0px;
-}
-
-/* Recaptcha overrides */
-.recaptchatable {
-    background-color: #FFF;
-}
+define(['jquery'], function (jQuery) {
+    (function($) {
+        // Catches a change in the oae-visibility-choice radio button group and sends out an event
+        $(document).on('change', '.oae-visibility-choice input[type="radio"]', function() {
+            $(document).trigger('oae-visibility-changed', {'radio': this});
+        });
+    })(jQuery);
+});

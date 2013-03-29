@@ -51,6 +51,7 @@ requirejs.config({
         'jquery.dnd-upload': 'oae/js/jquery-plugins/jquery.dnd-upload',
         'jquery.infinitescroll': 'oae/js/jquery-plugins/jquery.infinitescroll',
         'jquery.list-options': 'oae/js/jquery-plugins/jquery.list-options',
+        'jquery.visibility-choice': 'oae/js/jquery-plugins/jquery.visibility-choice',
 
         // OAE API modules
         'oae.api': 'oae/api/oae.api',

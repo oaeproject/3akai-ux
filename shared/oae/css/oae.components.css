@@ -135,6 +135,133 @@ i.icon-oae-public:before {
 }
 
 
+/************************
+ ** VISIBILITY TOGGLES **
+ ************************/
+
+/**
+ * A Large group of toggle buttons for visibility settings.
+ * When an `oae-visibility-choice input` field changes value the 
+ * `oae-visibility-changed` event is sent out with data: `{'radio': $(input)}`
+ *
+ * e.g. <div class="oae-visibility-choice-container row-fluid">
+ *          <label for="oae-visibility-private" class="span4 text-center">
+ *              <div class="oae-visibility-choice large well pull-left text-center checked">
+ *                  <i class="icon-ok hide"></i>
+ *                  <input type="radio" id="oae-visibility-private" value="private" name="oae-visibility-group" class="pull-left" checked="checked"/>
+ *                  <span class="oae-aural-text">__MSG__PRIVATE__</span>
+ *                  <i class="icon-oae-private text-center"></i>
+ *                  <span>__MSG__PRIVATE__</span>
+ *              </div>
+ *              <small>__MSG__PRIVATE_DESCRIPTION__</small>
+ *          </label>
+ *          <label for="oae-visibility-loggedin" class="span4 text-center">
+ *              <div class="oae-visibility-choice large well pull-left text-center">
+ *                  <i class="icon-ok hide"></i>
+ *                  <input type="radio" id="oae-visibility-loggedin" value="loggedin" name="oae-visibility-group" class="pull-left"/>
+ *                  <span class="oae-aural-text">__MSG__DISCOVERABLE_BY_EVERYONE_IN_TENANT__</span>
+ *                  <i class="icon-oae-loggedin text-center"></i>
+ *                  <span>__MSG__DISCOVERABLE_BY_EVERYONE_IN_TENANT__</span>
+ *              </div>
+ *              <small>__MSG__LOGGEDIN_DESCRIPTION__</small>
+ *          </label>
+ *          <label for="oae-visibility-public" class="span4 text-center">
+ *              <div class="oae-visibility-choice large well pull-left text-center">
+ *                  <i class="icon-ok hide"></i>
+ *                  <input type="radio" id="oae-visibility-public" value="public" name="oae-visibility-group" class="pull-left"/>
+ *                  <span class="oae-aural-text">__MSG__PUBLIC_ANYONE__</span>
+ *                  <i class="icon-oae-public text-center"></i>
+ *                  <span>__MSG__PUBLIC_ANYONE__</span>
+ *              </div>
+ *              <small>__MSG__PUBLIC_DESCRIPTION__</small>
+ *          </label>
+ *      </div>
+ **/
+
+.oae-visibility-choice-container .oae-visibility-choice.well.large {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    background-color: #FFF;
+    height: 150px;
+    margin-right: 10px;
+    width: 100%;
+}
+
+.oae-visibility-choice-container label:last-child .oae-visibility-choice.well.large {
+    margin-right: 0;
+}
+
+.oae-visibility-choice-container label .oae-visibility-choice.well.large.checked {
+    background-color: #DBEDFE;
+    border: 8px solid #9EB7E6;
+}
+
+.oae-visibility-choice-container .oae-visibility-choice.well.large input {
+    position: absolute;
+    visibility: hidden;
+}
+
+.oae-visibility-choice-container .oae-visibility-choice.well.large span {
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 7px;
+}
+
+.oae-visibility-choice-container .oae-visibility-choice.well.large.checked {
+    padding-top: 12px;
+}
+
+.oae-visibility-choice-container .oae-visibility-choice.well.large i {
+    margin: 0;
+}
+.oae-visibility-choice-container .oae-visibility-choice.well.large i:before {
+    font-size: 50px;
+    height: 55px;
+    padding-top: 5px;
+    width: 60px;
+}
+
+.oae-visibility-choice-container .oae-visibility-choice.well.large i:first-child {
+    display: none;
+}
+
+.oae-visibility-choice-container .oae-visibility-choice.well.large.checked i:first-child {
+    background-color: #9EB7E6;
+    -webkit-border-radius: 100px;
+       -moz-border-radius: 100px;
+            border-radius: 100px;
+    bottom: 28%;
+    display: inline-block;
+    margin-left: 12px;
+    position: absolute;
+}
+
+.oae-visibility-choice-container .oae-visibility-choice.well.large.checked i:first-child:before {
+    color: #FFF;
+    font-size: 24px;
+    height: 30px;
+    width: 35px;
+}
+
+
+/************************
+ ** SUCCESS/FAIL ICONS **
+ ************************/
+
+/* These icons are used in situations where checks for success/failure are done */
+
+.icon-ok,
+.icon-ok:hover {
+    color: #468847 !important;
+}
+
+.icon-warning-sign,
+.icon-warning-sign:hover {
+    color: #DD2222 !important;
+}
+
 /****************
  ** THUMBNAILS **
  ****************/
@@ -525,6 +652,7 @@ div.oae-thumbnail i[class^="icon-"] {
     overflow: hidden;
     border: 1px solid;
 }
+
 /* Default thumbnail picture positioning */
 
 .oae-tile .oae-thumbnail {

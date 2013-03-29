@@ -53,6 +53,7 @@ define([
         'jquery.contentchange',
         'jquery.clip',
         'jquery.list-options',
+        'jquery.visibility-choice',
         'jquery.fileSize',
         'jquery.form',
         'jquery.history',

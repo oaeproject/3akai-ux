@@ -47,8 +47,8 @@ require(['jquery', 'oae.core'], function($, oae) {
         });
     };
 
-    $(document).on('oae-trigger-requestcontext', function() {
-        $(document).trigger('oae-trigger-receivecontext', groupProfile);
+    $(document).on('oae.context.get', function() {
+        $(document).trigger('oae.context.send', groupProfile);
     });
 
     /**

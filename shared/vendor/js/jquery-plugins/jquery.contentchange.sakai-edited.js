@@ -20,7 +20,7 @@
 * @author Sebastián Grignoli
 * http://stackoverflow.com/questions/3233991/jquery-watch-div
 */
-require(['jquery'], function (jQuery) {
+define(['jquery'], function (jQuery) {
     jQuery.fn.contentChange = function(callback){
       var elms = jQuery(this);
       elms.each(
