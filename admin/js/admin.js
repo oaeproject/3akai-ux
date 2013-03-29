@@ -486,9 +486,10 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
 
                     // Initialize the jQuery.spectrum color pickers
                     $('[data-type="color"]').spectrum({
+                        'preferredFormat': 'rgb',
+                        'showAlpha': true,
                         'showButtons': false,
                         'showInitial': true,
-                        'showAlpha': true,
                         'showInput': true
                     });
                 }

@@ -13,7 +13,7 @@ Sample skins:
 - Georgia Tech (alternative):
 
 @institutional-logo-url: 'http://sampeck.co.uk/files/oae/gtoae-logo.png'
-@branding-image-url: http://api.ning.com/files/ZVGcNjqMgOwGrh8d6LyUisW7VDq2lfZhSJSYp*cFs6VLJY3Ao2soLWun*0mSy9DFOjqiJiJuTvvte1n2w4Px3nZqCpg8y8Ba/CampusoftheweekGT102111.jpg
+@branding-image-url: 'http://api.ning.com/files/ZVGcNjqMgOwGrh8d6LyUisW7VDq2lfZhSJSYp*cFs6VLJY3Ao2soLWun*0mSy9DFOjqiJiJuTvvte1n2w4Px3nZqCpg8y8Ba/CampusoftheweekGT102111.jpg'
 @branding-gradient1-color: transparent
 @branding-gradient2-color: transparent
 @link-color: #003049
@@ -29,8 +29,8 @@ Sample skins:
 
 - Marist College
 
-@institutional-logo-url: /shared/oae/img/marist_logo.png
-@branding-image-url:/shared/oae/img/marist_logo.png
+@institutional-logo-url: '/shared/oae/img/marist_logo.png'
+@branding-image-url: '/shared/oae/img/marist_logo.png'
 @branding-gradient1-color: rgba(110,19,16,1)
 @branding-gradient2-color: rgba(176,27,26,1)
 @link-color: #6E1310
