@@ -483,18 +483,20 @@ div.oae-thumbnail {
 
 /* Primary panel text color */
 @panel-primary-text-color: #FFF;
+/* Primary panel title color */
+@panel-primary-title-color: #FFF;
 /* Primary panel background color */
 @panel-primary-background-color: transparent;
 
-.oae-panel-primary,
+.oae-panel-primary {
+    color: @panel-primary-text-color;
+    background: @panel-primary-background-color;
+}
+
 .oae-panel-primary h1, .oae-panel-primary h2, .oae-panel-primary h3, 
 .oae-panel-primary h4, .oae-panel-primary h5, .oae-panel-primary h6,
 .oae-panel-primary i, .oae-panel-primary i:hover {
-    color: @panel-primary-text-color;
-}
-
-.oae-panel-primary {
-    background: @panel-primary-background-color;
+    color: @panel-primary-title-color;
 }
 
 
@@ -502,18 +504,20 @@ div.oae-thumbnail {
 
 /* Secondary panel text color */
 @panel-secondary-text-color: #FFF;
+/* Secondary panel title color */
+@panel-secondary-title-color: #FFF;
 /* Secondary panel background color */
 @panel-secondary-background-color: transparent;
 
-.oae-panel-secondary,
+.oae-panel-secondary {
+    color: @panel-secondary-text-color;
+    background: @panel-secondary-background-color;
+}
+
 .oae-panel-secondary h1, .oae-panel-secondary h2, .oae-panel-secondary h3, 
 .oae-panel-secondary h4, .oae-panel-secondary h5, .oae-panel-secondary h6,
 .oae-panel-secondary i, .oae-panel-secondary i:hover {
-    color: @panel-secondary-text-color;
-}
-
-.oae-panel-secondary {
-    background: @panel-secondary-background-color;
+    color: @panel-secondary-title-color;
 }
 
 
@@ -521,18 +525,20 @@ div.oae-thumbnail {
 
 /* Tertiary panel text color */
 @panel-tertiary-text-color: #FFF;
+/* Tertiary panel title color */
+@panel-tertiary-title-color: #FFF;
 /* Tertiary panel background color */
 @panel-tertiary-background-color: rgba(255,255,255,0.3);
 
-.oae-panel-tertiary,
+.oae-panel-tertiary {
+    color: @panel-tertiary-text-color;
+    background: @panel-tertiary-background-color;
+}
+
 .oae-panel-tertiary h1, .oae-panel-tertiary h2, .oae-panel-tertiary h3, 
 .oae-panel-tertiary h4, .oae-panel-tertiary h5, .oae-panel-tertiary h6,
 .oae-panel-tertiary i, .oae-panel-tertiary i:hover {
-    color: @panel-tertiary-text-color;
-}
-
-.oae-panel-tertiary {
-    background: @panel-tertiary-background-color;
+    color: @panel-tertiary-title-color;
 }
 
 
@@ -545,7 +551,7 @@ div.oae-thumbnail {
 /* Primary clip text color */
 @clip-primary-title-color: #DBDBDB;
 /* Primary clip text hover color */
-@clip-primary-actions-hover-color: #FFF;
+@clip-primary-hover-color: #FFF;
 /* Primary clip description color */
 @clip-primary-description-color: #999;
 /* Primary clip background gradient primary color */
@@ -579,7 +585,7 @@ div.oae-thumbnail {
 .oae-clip button:focus,
 .oae-clip button:hover i,
 .oae-clip button:focus i {
-    color: @clip-primary-actions-hover-color;
+    color: @clip-primary-hover-color;
 }
 
 .oae-clip ul li button:hover {
@@ -592,7 +598,7 @@ div.oae-thumbnail {
 /* Secondary clip text color */
 @clip-secondary-title-color: #F5F5F5;
 /* Secondary clip text hover color */
-@clip-secondary-actions-hover-color: #FFF;
+@clip-secondary-hover-color: #FFF;
 /* Secondary clip description color */
 @clip-secondary-description-color: #DBDBDB;
 /* Secondary clip background gradient primary color */
@@ -626,7 +632,7 @@ div.oae-thumbnail {
 .oae-clip.oae-clip-secondary button:focus,
 .oae-clip.oae-clip-secondary button:hover i,
 .oae-clip.oae-clip-secondary button:focus i {
-    color: @clip-secondary-actions-hover-color;
+    color: @clip-secondary-hover-color;
 }
 
 .oae-clip.oae-clip-secondary ul li button:hover {
