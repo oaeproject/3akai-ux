@@ -135,7 +135,13 @@ td form {
 /* Skinning configuration */
 
 #admin-skinning-container h3 {
-    font-size: 15px;
+    font-size: 16px;
+}
+
+#admin-skinning-container h4 {
+    font-size: 14px;
+    margin-left: 20px;
+    margin-top: 20px;
 }
 
 #admin-skinning-container .control-group {

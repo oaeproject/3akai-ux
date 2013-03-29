@@ -25,19 +25,28 @@
     background-image: url(@image), linear-gradient(to bottom, @gradient1 0%, @gradient2 100%);
 }
 
-.background-gradient(@gradient1, @gradient2) {
+.background-gradient-two(@gradient1, @gradient2, @gradient1start:0%, @gradient2start:100%) {
     background: @gradient1;
-    background-image: linear-gradient(to bottom, @gradient1 0%, @gradient2 100%);
-    background-image: -o-linear-gradient(top, @gradient1 0%, @gradient2 100%);
-    background-image: -moz-linear-gradient(top, @gradient1 0%, @gradient2 100%);
-    background-image: -webkit-linear-gradient(top, @gradient1 0%, @gradient2 100%);
-    background-image: -ms-linear-gradient(top, @gradient1 0%, @gradient2 100%);
+    background-image: linear-gradient(to bottom, @gradient1 @gradient1start, @gradient2 @gradient2start);
+    background-image: -o-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start);
+    background-image: -moz-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start);
+    background-image: -webkit-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start);
+    background-image: -ms-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start);
+}
+
+.background-gradient-three(@gradient1, @gradient2, @gradient3, @gradient1start:0%, @gradient2start:50%, @gradient3start:100%) {
+    background: @gradient1;
+    background-image: linear-gradient(to bottom, @gradient1 @gradient1start, @gradient2 @gradient2start, @gradient3 @gradient3start);
+    background-image: -o-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start, @gradient3 @gradient3start);
+    background-image: -moz-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start, @gradient3 @gradient3start);
+    background-image: -webkit-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start, @gradient3 @gradient3start);
+    background-image: -ms-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start, @gradient3 @gradient3start);
 }
 
 
-/**************
- ** Branding **
- **************/
+/************************
+ ** @section  Branding **
+ ************************/
 
 /* Body background color */
 @body-background-color: #ECEAE5;
@@ -51,8 +60,7 @@ body {
 @institutional-logo-url: '/shared/oae/img/oae-logo.png';
 
 .oae-institutional-logo {
-    background-image: @institutional-logo-url;
-    background-size: auto 34.5px;
+    background-image: url(@institutional-logo-url);
 }
 
 
@@ -68,9 +76,9 @@ body {
 }
 
 
-/*****************
- ** Text colors **
- *****************/
+/***************************
+ ** @section  Text colors **
+ ***************************/
 
 /* Plain text color */
 @text-color: #333;
@@ -87,10 +95,12 @@ h6 [class^="icon-"], h6 [class*=" icon-"] {
 }
 
 
+/* @subsection  Link colors */
+
 /* Link color */
-@link-color:#0088CC;
+@link-color: #0088CC;
 /* Link hover color */
-@link-hover-color:#005580;
+@link-hover-color: #005580;
 
 a, .btn-link {
    color: @link-color;
@@ -101,9 +111,11 @@ a:hover, .btn-link:hover {
 }
 
 
-/*******************
- ** Button colors **
- *******************/
+/***********************
+ ** @section  Buttons **
+ ***********************/
+
+/* @subsection  Default button */
 
 /* Default button text color */
 @button-default-text-color: #333333;
@@ -117,7 +129,7 @@ a:hover, .btn-link:hover {
 .btn:not(.btn-link) {
     color: @button-default-text-color;
     border-color: @button-default-border-color;
-    .background-gradient(@button-default-gradient1-color, @button-default-gradient2-color);
+    .background-gradient-two(@button-default-gradient1-color, @button-default-gradient2-color);
 }
 
 .btn:not(.btn-link):hover,
@@ -131,6 +143,8 @@ a:hover, .btn-link:hover {
 }
 
 
+/* @subsection  Primary button */
+
 /* Primary button text color */
 @button-primary-text-color: #FFF;
 /* Primary button border */
@@ -143,7 +157,7 @@ a:hover, .btn-link:hover {
 .btn.btn-primary {
     color: @button-primary-text-color;
     border-color: @button-primary-border-color;
-    .background-gradient(@button-primary-gradient1-color, @button-primary-gradient2-color);
+    .background-gradient-two(@button-primary-gradient1-color, @button-primary-gradient2-color);
 }
 
 .btn.btn-primary:hover,
@@ -157,6 +171,8 @@ a:hover, .btn-link:hover {
 }
 
 
+/* @subsection  Success button */
+
 /* Success button text color */
 @button-success-text-color: #FFF;
 /* Success button border */
@@ -169,7 +185,7 @@ a:hover, .btn-link:hover {
 .btn.btn-success {
     color: @button-success-text-color;
     border-color: @button-success-border-color;
-    .background-gradient(@button-success-gradient1-color, @button-success-gradient2-color);
+    .background-gradient-two(@button-success-gradient1-color, @button-success-gradient2-color);
 }
 
 .btn.btn-success:hover,
@@ -183,6 +199,8 @@ a:hover, .btn-link:hover {
 }
 
 
+/* @subsection  Warning button */
+
 /* Warning button text color */
 @button-warning-text-color: #FFF;
 /* Warning button border */
@@ -195,7 +213,7 @@ a:hover, .btn-link:hover {
 .btn.btn-warning {
     color: @button-warning-text-color;
     border-color: @button-warning-border-color;
-    .background-gradient(@button-warning-gradient1-color, @button-warning-gradient2-color);
+    .background-gradient-two(@button-warning-gradient1-color, @button-warning-gradient2-color);
 }
 
 .btn.btn-warning:hover,
@@ -209,6 +227,8 @@ a:hover, .btn-link:hover {
 }
 
 
+/* @subsection  Danger button */
+
 /* Danger button text color */
 @button-danger-text-color: #FFF;
 /* Danger button border */
@@ -221,7 +241,7 @@ a:hover, .btn-link:hover {
 .btn.btn-danger {
     color: @button-danger-text-color;
     border-color: @button-danger-border-color;
-    .background-gradient(@button-danger-gradient1-color, @button-danger-gradient2-color);
+    .background-gradient-two(@button-danger-gradient1-color, @button-danger-gradient2-color);
 }
 
 .btn.btn-danger:hover,
@@ -235,6 +255,8 @@ a:hover, .btn-link:hover {
 }
 
 
+/* @subsection  Inverse button */
+
 /* Inverse button text color */
 @button-inverse-text-color: #FFF;
 /* Inverse button border */
@@ -247,7 +269,7 @@ a:hover, .btn-link:hover {
 .btn.btn-inverse {
     color: @button-inverse-text-color;
     border-color: @button-inverse-border-color;
-    .background-gradient(@button-inverse-gradient1-color, @button-inverse-gradient2-color);
+    .background-gradient-two(@button-inverse-gradient1-color, @button-inverse-gradient2-color);
 }
 
 .btn.btn-inverse:hover,
@@ -261,575 +283,352 @@ a:hover, .btn-link:hover {
 }
 
 
-/************************
- ** ICON BUTTON COLORS **
- ************************/
+/* @subsection  Icon button */
+
+/* Icon button color */
+@button-icon-color: #A9A9A9;
+/* Icon button hover color */
+@button-icon-hover-color: #555;
 
 [class^="icon-"], [class*=" icon-"],
 .btn.btn-link [class^="icon-"], .btn.btn-link [class*=" icon-"] {
-   color: #A9A9A9;
+   color: @button-icon-color;
 }
 
 [class^="icon-"]:hover, [class*=" icon-"]:hover,
 .btn-link:hover [class^="icon-"], .btn-link:hover [class*=" icon-"] {
-    color: #555;
+    color: @button-icon-hover-color;
 }
 
 
-/**************************
- ** LEFT HAND NAVIGATION **
- **************************/
+/*******************************************************
+ ** @section  Modal dialogs, dropdowns and clickovers **
+ *******************************************************/
+
+/* Background gradient primary color */
+@modal-gradient1-color: #FFF;
+/* Background gradient secondary color */
+@modal-gradient2-color: #F5F5F5;
+/* Modal dialog title color */
+@modal-title-color: #777;
+
+.modal, .dropdown-menu {
+    .background-gradient-two(@modal-gradient1-color, @modal-gradient2-color);
+}
+
+.modal-header h3, .modal-body h4 {
+    color: @modal-title-color;
+}
+
+
+/*****************************
+ ** @section  Notifications **
+ *****************************/
+
+/* @subsection  Success notification */
+
+/* Success notification text color */
+@notification-success-text-color: #468847;
+/* Success notification border color */
+@notification-success-border-color: #D6E9C6;
+/* Success notification background color */
+@notification-success-background-color: #DFF0D8;
+
+.alert-success, .alert-success h4 {
+    color: @notification-success-text-color;
+}
+
+.alert-success {
+    border-color: @notification-success-border-color;
+    background-color: @notification-success-background-color;
+}
+
+
+/* @subsection  Error notification */
+
+/* Error notification text color */
+@notification-error-text-color: #B94A48;
+/* Error notification border color */
+@notification-error-border-color: #EED3D7;
+/* Error notification background color */
+@notification-error-background-color: #F2DEDE;
+
+.alert-danger, .alert-danger h4,
+.alert-error, .alert-error h4 {
+    color: @notification-error-text-color;
+}
+
+.alert-danger,
+.alert-error {
+    border-color: @notification-error-border-color;
+    background-color: @notification-error-background-color;
+}
+
+
+/* @subsection  Info notification */
+
+/* Info notification text color */
+@notification-info-text-color: #3A87AD;
+/* Info notification border color */
+@notification-info-border-color: #BCE8F1;
+/* Info notification background color */
+@notification-info-background-color: #D9EDF7;
+
+.alert-info, .alert-info h4 {
+    color: @notification-info-text-color;
+}
+
+.alert-info {
+    border-color: @notification-info-border-color;
+    background-color: @notification-info-background-color;
+}
+
+
+/************************************
+ ** @section  Left hand navigation **
+ ************************************/
+
+/* Left hand navigation item text color */
+@lhnav-item-text-color: #999;
+/* Left hand navigation item hover text color */
+@lhnav-item-text-hover-color: #333;
+/* Left hand navigation item selected text color */
+@lhnav-item-text-selected-color: #333;
+/* Left hand navigation item background color */
+@lhnav-item-background-color: transparent;
+/* Left hand navigation item hover background color */
+@lhnav-item-background-hover-color: transparent;
+/* Left hand navigation item selected background color */
+@lhnav-item-background-selected-color: transparent;
 
 .nav > li > a,
 .nav > li i,
 .nav > li.nav-header {
-    background-color: transparent;
-    color: #999;
+    color: @lhnav-item-text-color;
+    background-color: @lhnav-item-background-color;
 }
 
 .nav > li > a:hover,
 .nav > li > a:focus,
 .nav > li > a:hover i,
 .nav > li > a:focus i {
-    background-color: transparent;
-    color: #333;
+    color: @lhnav-item-text-hover-color;
+    background-color: @lhnav-item-background-hover-color;
 }
 
 .nav > li.active > a, 
 .nav > li.active > a:hover, 
 .nav > li.active > a:focus,
 .nav > li.active i {
-    background-color: transparent;
-    color: #333;
+    color: @lhnav-item-text-selected-color;
+    background-color: @lhnav-item-background-selected-color;
 }
 
 
-/*************************
- ** MODAL DIALOG COLORS **
- *************************/
+/**************************
+ ** @section  Thumbnails **
+ **************************/
 
-.modal, .dropdown-menu {
-    background: #FFF;
-    background: linear-gradient(to bottom, #FFF 0%, #F5F5F5 100%);
-    background: -o-linear-gradient(top, #FFF 0%, #F5F5F5 100%);
-    background: -moz-linear-gradient(top, #FFF 0%, #F5F5F5 100%);
-    background: -webkit-linear-gradient(top, #FFF 0%, #F5F5F5 100%);
-    background: -ms-linear-gradient(top, #FFF 0%, #F5F5F5 100%);
-}
-
-.modal-header h3, .modal-body h4 {
-    color: #777;
-}
-
-
-/*************************
- ** NOTIFICATION COLORS **
- *************************/
-
-/* SUCCESS NOTIFICATION */
-
-.alert-success, .alert-success h4 {
-  color: #468847;
-}
-
-.alert-success {
-  background-color: #DFF0D8;
-  border-color: #D6E9C6;
-}
-
-/* ERROR NOTIFICATION */
-
-.alert-danger, .alert-danger h4,
-.alert-error, .alert-error h4 {
-  color: #B94A48;
-}
-
-.alert-danger,
-.alert-error {
-  background-color: #F2DEDE;
-  border-color: #EED3D7;
-}
-
-/* INFO NOTIFICATION */
-
-.alert-info, .alert-info h4 {
-  color: #3A87AD;
-}
-
-.alert-info {
-  background-color: #D9EDF7;
-  border-color: #BCE8F1;
-}
-
-
-/**********************
- ** THUMBNAIL COLORS **
- **********************/
+/* Thumbnail background gradient primary color */
+@thumbnail-gradient1-color: #F8F8F6;
+/* Thumbnail background gradient secondary color */
+@thumbnail-gradient2-color: #E3E2DB;
 
 div.oae-thumbnail {
-    background: #F8F8F6;
-    background: linear-gradient(top, #F8F8F6 47%, #E3E2DB 74%);
-    background: -o-linear-gradient(top, #F8F8F6 47%, #E3E2DB 74%);
-    background: -moz-linear-gradient(top, #F8F8F6 47%, #E3E2DB 74%);
-    background: -webkit-linear-gradient(top, #F8F8F6 47%, #E3E2DB 74%);
-    background: -ms-linear-gradient(top, #F8F8F6 47%, #E3E2DB 74%);
+    .background-gradient-two(@thumbnail-gradient1-color, @thumbnail-gradient2-color, 47%, 74%);
 }
 
 
-/*****************
- ** TILE COLORS **
- *****************/
+/*********************
+ ** @section  Tiles **
+ *********************/
+
+/* Tile border color */
+@tile-border-color: #DDD;
+/* Tile banner text color */
+@tile-text-color: #FFF;
+/* Tile banner background color */
+@tile-background-color: rgba(0, 0, 0, 0.8);
 
 .oae-tile {
-    border-color: #DDD;
+    border-color: @tile-border-color;
 }
 
 .oae-tile > div:nth-child(2) {
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: @tile-background-color;
 }
 
 .oae-tile > div:nth-child(2), .oae-tile h3, .oae-tile h3 a {
-    color: #FFF;
+    color: @tile-text-color;
+}
+
+
+/**************************
+ ** @section  List items **
+ **************************/
+
+/* List item border color */
+@listitem-border-color: #F5F5F5;
+
+.oae-listitem {
+    border-color: @listitem-border-color;
 }
 
 
 /**********************
- ** LIST ITEM COLORS **
+ ** @section  Panels **
  **********************/
 
-.oae-listitem {
-    border-color: #F5F5F5;
-}
+/* @subsection  Primary panel */
 
+/* Primary panel text color */
+@panel-primary-text-color: #FFF;
+/* Primary panel background color */
+@panel-primary-background-color: transparent;
 
-/******************
- ** PANEL COLORS **
- ******************/
-
-/* PRIMARY PANEL */
-
-.oae-panel-primary {
-    color: #FFF;
-    background: transparent;
-}
-
-.oae-panel-primary, .oae-panel-primary:before, .oae-panel-primary:after {
-    border-color: transparent;
-}
-
+.oae-panel-primary,
 .oae-panel-primary h1, .oae-panel-primary h2, .oae-panel-primary h3, 
 .oae-panel-primary h4, .oae-panel-primary h5, .oae-panel-primary h6,
 .oae-panel-primary i, .oae-panel-primary i:hover {
-    color: #FFF;
+    color: @panel-primary-text-color;
 }
 
-/* SECONDARY PANEL */
-
-.oae-panel-secondary {
-    color: #FFF;
-    background: transparent;
+.oae-panel-primary {
+    background: @panel-primary-background-color;
 }
 
-.oae-panel-secondary, .oae-panel-secondary:before, .oae-panel-secondary:after {
-    border-color: transparent;
-}
 
+/* @subsection  Secondary pannel */
+
+/* Secondary panel text color */
+@panel-secondary-text-color: #FFF;
+/* Secondary panel background color */
+@panel-secondary-background-color: transparent;
+
+.oae-panel-secondary,
 .oae-panel-secondary h1, .oae-panel-secondary h2, .oae-panel-secondary h3, 
 .oae-panel-secondary h4, .oae-panel-secondary h5, .oae-panel-secondary h6,
 .oae-panel-secondary i, .oae-panel-secondary i:hover {
-    color: #FFF;
+    color: @panel-secondary-text-color;
 }
 
-/* TERTIARY PANEL */
-
-.oae-panel-tertiary {
-    color: #FFF;
-    background: rgba(255,255,255,0.3);
+.oae-panel-secondary {
+    background: @panel-secondary-background-color;
 }
 
-.oae-panel-tertiary, .oae-panel-tertiary:before, .oae-panel-tertiary:after {
-    border-color: rgba(255,255,255,0.3);
-}
 
+/* @subsection  Tertiary panel */
+
+/* Tertiary panel text color */
+@panel-tertiary-text-color: #FFF;
+/* Tertiary panel background color */
+@panel-tertiary-background-color: rgba(255,255,255,0.3);
+
+.oae-panel-tertiary,
 .oae-panel-tertiary h1, .oae-panel-tertiary h2, .oae-panel-tertiary h3, 
 .oae-panel-tertiary h4, .oae-panel-tertiary h5, .oae-panel-tertiary h6,
 .oae-panel-tertiary i, .oae-panel-tertiary i:hover {
-    color: #FFF;
+    color: @panel-tertiary-text-color;
+}
+
+.oae-panel-tertiary {
+    background: @panel-tertiary-background-color;
 }
 
 
-/*****************
- ** CLIP COLORS **
- *****************/
+/*********************
+ ** @section  Clips **
+ *********************/
 
-/* PRIMARY CLIP */
+/* @subsection  Primary clip */
 
-.oae-clip .oae-clip-fold .oae-clip-fold-inner {
-    background-color: #000;
-}
+/* Primary clip text color */
+@clip-primary-title-color: #DBDBDB;
+/* Primary clip text hover color */
+@clip-primary-actions-hover-color: #FFF;
+/* Primary clip description color */
+@clip-primary-description-color: #999;
+/* Primary clip background gradient primary color */
+@clip-primary-gradient1-color: #545454;
+/* Primary clip background gradient secondary color */
+@clip-primary-gradient2-color: #000;
 
 .oae-clip .oae-clip-fold .oae-clip-fold-outer {
-    background-color: #545454;
+    background-color: @clip-primary-gradient1-color;
+}
+
+.oae-clip .oae-clip-fold .oae-clip-fold-inner {
+    background-color: @clip-primary-gradient2-color;
 }
 
 .oae-clip .oae-clip-content {
-    background: #545454;
-    background: linear-gradient(to bottom, #545454 0%,#545454 10%,#000000 100%);
-    background: -o-linear-gradient(top, #545454 0%, #545454 10%, #000000 100%);
-    background: -moz-linear-gradient(top, #545454 0%, #545454 10%, #000000 100%);
-    background: -webkit-linear-gradient(top, #545454 0%, #545454 10%, #000000 100%);
-    background: -ms-linear-gradient(top, #545454 0%, #545454 10%, #000000 100%);
+    .background-gradient-three(@clip-primary-gradient1-color, @clip-primary-gradient1-color, @clip-primary-gradient2-color, 0%, 10%, 100%);
 }
 
 .oae-clip .oae-clip-content,
 .oae-clip .oae-clip-content button,
 .oae-clip .oae-clip-content i {
-    color: #DBDBDB;
+    color: @clip-primary-title-color;
 }
 
 .oae-clip button small {
-    color: #999;
+    color: @clip-primary-description-color;
 }
 
 .oae-clip button:hover,
 .oae-clip button:focus,
 .oae-clip button:hover i,
 .oae-clip button:focus i {
-    color: #FFF;
+    color: @clip-primary-actions-hover-color;
 }
 
 .oae-clip ul li button:hover {
-    background-color: #000;
+    background-color: @clip-primary-gradient2-color;
 }
 
-/* SECONDARY CLIP */
+
+/* @subsection  Secondary clip */
+
+/* Secondary clip text color */
+@clip-secondary-title-color: #F5F5F5;
+/* Secondary clip text hover color */
+@clip-secondary-actions-hover-color: #FFF;
+/* Secondary clip description color */
+@clip-secondary-description-color: #DBDBDB;
+/* Secondary clip background gradient primary color */
+@clip-secondary-gradient1-color: #24A7DD;
+/* Secondary clip background gradient secondary color */
+@clip-secondary-gradient2-color: #0175A9;
+
+.oae-clip.oae-clip-secondary .oae-clip-fold .oae-clip-fold-outer {
+    background-color: @clip-secondary-gradient1-color;
+}
 
 .oae-clip.oae-clip-secondary .oae-clip-fold .oae-clip-fold-inner {
-    background-color: #0175A9;
-}
-.oae-clip.oae-clip-secondary .oae-clip-fold .oae-clip-fold-outer,
-.oae-clip.oae-clip-secondary .oae-clip-content {
-    background-color: #24A7DD;
+    background-color: @clip-secondary-gradient2-color;
 }
 
 .oae-clip.oae-clip-secondary .oae-clip-content {
-    background: #24A7DD;
-    background: linear-gradient(to bottom, #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
-    background: -o-linear-gradient(top, #24A7DD 0%, #24A7DD 10%, #0175A9 100%);
-    background: -moz-linear-gradient(top, #24A7DD 0%, #24A7DD 10%, #0175A9 100%);
-    background: -webkit-linear-gradient(top, #24A7DD 0%, #24A7DD 10%, #0175A9 100%);
-    background: -ms-linear-gradient(top, #24A7DD 0%, #24A7DD 10%, #0175A9 100%);
+    .background-gradient-three(@clip-secondary-gradient1-color, @clip-secondary-gradient1-color, @clip-secondary-gradient2-color, 0%, 10%, 100%);
 }
 
 .oae-clip.oae-clip-secondary .oae-clip-content,
 .oae-clip.oae-clip-secondary .oae-clip-content button,
 .oae-clip.oae-clip-secondary .oae-clip-content i {
-    color: #F5F5F5;
+    color: @clip-secondary-title-color;
 }
 
 .oae-clip.oae-clip-secondary button small {
-    color: #DBDBDB;
+    color: @clip-secondary-description-color;
 }
 
 .oae-clip.oae-clip-secondary button:hover,
 .oae-clip.oae-clip-secondary button:focus,
 .oae-clip.oae-clip-secondary button:hover i,
 .oae-clip.oae-clip-secondary button:focus i {
-    color: #FFF;
+    color: @clip-secondary-actions-hover-color;
 }
 
 .oae-clip.oae-clip-secondary ul li button:hover {
-    background-color: #2096C6;
+    background-color: @clip-secondary-gradient2-color;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-/***************************
- ** Page background color **
- ***************************
-
-/* The background color for the body *
-@body-background-color: #ECEAE5;
-
-body {
-   background-color: @body-background-color;
-}
-
-
-/**************
- ** Branding **
- **************
-
-
-/* The background image for the institution *
-@oae-institutional-logo-background-image-url: '/shared/oae/img/oae-logo.png';
-/* The background image for the branding container *
-@oae-branding-container-background-image-url: '/ui/img/framework/index.png';
-/* The first gradient color for the branding container *
-@oae-branding-container-background-image-gradient1-color: rgb(37,169,223);
-/* The second gradient color for the branding container *
-@oae-branding-container-background-image-gradient2-color: rgba(0,116,167,1);
-
-
-/* INSTITUTIONAL LOGO *
-
-.oae-institutional-logo {
-    background-image: url(@oae-institutional-logo-background-image-url);
-    background-size: auto 34.5px;
-}
-
-/* INDEX PAGE BACKGROUND *
-
-.oae-main-content.oae-branding-container {
-    /* Color background *
-    .background-image-with-gradient(@oae-branding-container-background-image-url, @oae-branding-container-background-image-gradient1-color, @oae-branding-container-background-image-gradient2-color);
-
-    /* Image background *
-    /* background-image: url('http://ravian100.files.wordpress.com/2011/01/cambridge-university.jpg'); *
-}
-
-
-/*****************
- ** LINK COLORS **
- *****************
-
-/* The color for link buttons *
-@btn-link-color: #0088CC;
-/* The hover color for link buttons *
-@btn-link-hover-color: #005580;
-
-a, .btn-link {
-   color: @btn-link-color;
-}
-
-a:hover, .btn-link:hover {
-    color: @btn-link-hover-color;
-}
-
-
-/**************************
- ** LEFT HAND NAVIGATION **
- **************************
-
-/* The color for list items *
-@nav-li-color: #999;
-
-
-.nav > li > a,
-.nav > li i {
-    background-color: transparent;
-    color: @nav-li-color;
-}
-
-.nav > li > a:hover,
-.nav > li > a:focus,
-.nav > li > a:hover i,
-.nav > li > a:focus i {
-    background-color: transparent;
-    color: #333;
-}
-
-.nav > li.active > a, 
-.nav > li.active > a:hover, 
-.nav > li.active > a:focus,
-.nav > li.active i {
-    background-color: transparent;
-    color: #333;
-}
-
-
-/*******************
- ** BUTTON COLORS **
- *******************
-
-/* TODO *
-
-
-/************************
- ** ICON BUTTON COLORS **
- ************************
-
-[class^="icon-"], [class*=" icon-"] {
-   color: #A9A9A9;
-}
-
-[class^="icon-"]:hover, [class*=" icon-"]:hover,
-.btn-link:hover [class^="icon-"], .btn-link:hover [class*=" icon-"] {
-    color: #555;
-}
-
-
-/*****************
- ** TEXT COLORS **
- *****************
-
-/* DEFAULT TEXT COLOR *
-
-body, button, input, select, textarea, a.oae-plain-link {
-    color: #333;
-}
-
-
-/*************************
- ** MODAL DIALOG COLORS **
- *************************
-
-.modal, .dropdown-menu {
-    background: #FFF;
-    background: linear-gradient(to bottom, #FFF 0%, #F5F5F5 100%); 
-    background: -moz-linear-gradient(top, #FFF 0%, #F5F5F5 100%);
-    background: -webkit-linear-gradient(top, #FFF 0%, #F5F5F5 100%);
-    background: -ms-linear-gradient(top, #FFF 0%, #F5F5F5 100%); 
-}
-
-.modal-header h3, .modal-body h4 {
-    color: #777;
-}
-
-
-/******************
- ** PANEL COLORS **
- ******************
-
-/* PRIMARY PANEL *
-
-.oae-panel-primary {
-    color: #FFF;
-    background: transparent;
-}
-
-.oae-panel-primary, .oae-panel-primary:before, .oae-panel-primary:after {
-    border-color: transparent;
-}
-
-.oae-panel-primary h1, .oae-panel-primary h2, .oae-panel-primary h3, 
-.oae-panel-primary h4, .oae-panel-primary h5, .oae-panel-primary h6,
-.oae-panel-primary i, .oae-panel-primary i:hover {
-    color: #FFF;
-}
-
-/* SECONDARY PANEL *
-
-.oae-panel-secondary {
-    color: #FFF;
-    background: transparent;
-}
-
-.oae-panel-secondary, .oae-panel-secondary:before, .oae-panel-secondary:after {
-    border-color: transparent;
-}
-
-.oae-panel-secondary h1, .oae-panel-secondary h2, .oae-panel-secondary h3, 
-.oae-panel-secondary h4, .oae-panel-secondary h5, .oae-panel-secondary h6,
-.oae-panel-secondary i, .oae-panel-secondary i:hover {
-    color: #FFF;
-}
-
-/* TERTIARY PANEL *
-
-.oae-panel-tertiary {
-    color: #FFF;
-    background: rgba(255,255,255,0.3);
-}
-
-.oae-panel-tertiary, .oae-panel-tertiary:before, .oae-panel-tertiary:after {
-    border-color: rgba(255,255,255,0.3);
-}
-
-.oae-panel-tertiary h1, .oae-panel-tertiary h2, .oae-panel-tertiary h3, 
-.oae-panel-tertiary h4, .oae-panel-tertiary h5, .oae-panel-tertiary h6,
-.oae-panel-tertiary i, .oae-panel-tertiary i:hover {
-    color: #FFF;
-}
-
-
-/*****************
- ** CLIP COLORS **
- *****************
-
-/* PRIMARY CLIP *
-
-.oae-clip .oae-clip-fold .oae-clip-fold-inner {
-    background-color: #000;
-}
-
-.oae-clip .oae-clip-fold .oae-clip-fold-outer {
-    background-color: #545454;
-}
-
-.oae-clip .oae-clip-content {
-    background: #545454;
-    background: -moz-linear-gradient(top,  #545454 0%, #545454 10%, #000000 100%);
-    background: -webkit-linear-gradient(top,  #545454 0%,#545454 10%,#000000 100%);
-    background: -o-linear-gradient(top,  #545454 0%,#545454 10%,#000000 100%);
-    background: -ms-linear-gradient(top,  #545454 0%,#545454 10%,#000000 100%);
-    background: linear-gradient(to bottom,  #545454 0%,#545454 10%,#000000 100%);
-    z-index: 1000;
-}
-
-.oae-clip .oae-clip-content button,
-.oae-clip .oae-clip-content i {
-    color: #DBDBDB;
-}
-
-.oae-clip button small {
-    color: #999;
-}
-
-.oae-clip button:hover,
-.oae-clip button:focus,
-.oae-clip button:hover i,
-.oae-clip button:focus i {
-    color: #FFF;
-}
-
-.oae-clip ul li button:hover {
-    background-color: #000;
-}
-
-/* SECONDARY CLIP *
-
-.oae-clip.oae-clip-secondary .oae-clip-fold .oae-clip-fold-inner {
-    background-color: #0175A9;
-}
-.oae-clip.oae-clip-secondary .oae-clip-fold .oae-clip-fold-outer,
-.oae-clip.oae-clip-secondary .oae-clip-content {
-    background-color: #24A7DD;
-}
-
-.oae-clip.oae-clip-secondary .oae-clip-content {
-    background: -moz-linear-gradient(top,  #24A7DD 0%, #24A7DD 10%, #0175A9 100%);
-    background: -webkit-linear-gradient(top,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
-    background: -o-linear-gradient(top,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
-    background: -ms-linear-gradient(top,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
-    background: linear-gradient(to bottom,  #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
-}
-
-.oae-clip.oae-clip-secondary .oae-clip-content button,
-.oae-clip.oae-clip-secondary .oae-clip-content i {
-    color: #F5F5F5;
-}
-
-.oae-clip.oae-clip-secondary button small {
-    color: #DBDBDB;
-}
-
-.oae-clip.oae-clip-secondary button:hover,
-.oae-clip.oae-clip-secondary button:focus,
-.oae-clip.oae-clip-secondary button:hover i,
-.oae-clip.oae-clip-secondary button:focus i {
-    color: #FFF;
-}
-
-.oae-clip.oae-clip-secondary ul li button:hover {
-    background-color: #2096C6;
-} */

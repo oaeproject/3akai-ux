@@ -473,13 +473,15 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                     // For all of the values in the available skin variables, we check if the current tenant
                     // has a stored value that overrides the default value. If the tenant doesn't have a value
                     // for a variable, the default value will be used
-                    $.each(data.results, function(configGroupIndex, configGroup) {
-                        $.each(configGroup.variables, function(variableIndex, variable) {
-                            variable.value = configuredSkin[variable.name] || variable.defaultValue;
+                    $.each(data.results, function(configSectionIndex, configSection) {
+                        $.each(configSection.subsections, function(configSubsectionIndex, configSubsection) {
+                            $.each(configSubsection.variables, function(variableIndex, variable) {
+                                variable.value = configuredSkin[variable.name] || variable.defaultValue;
+                            });
                         });
                     });
 
-                    // Render the template that lists all of the configuration groups, their variables and their values
+                    // Render the template that lists all of the configuration sections and subsections, their variables and their values
                     oae.api.util.template().render($('#admin-skinning-template'), data, $('#admin-skinning-container'));
 
                     // Initialize the jQuery.spectrum color pickers
