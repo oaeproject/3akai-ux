@@ -575,6 +575,10 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
             'success': function(data) {
                 configurationSchema = data;
 
+                // Remove the OAE UI module from the schema to avoid it being rendered
+                // as a module, because skinning will be handled in a separate page.
+                delete configurationSchema['oae-ui'];
+
                 // Get the tenant configuration values
                 var url = '/api/config';
                 if (currentContext.isGlobalAdminServer && currentContext.alias) {
