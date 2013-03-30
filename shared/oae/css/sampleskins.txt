@@ -29,8 +29,8 @@ Sample skins:
 
 - Marist College
 
-@institutional-logo-url: '/shared/oae/img/marist_logo.png'
-@branding-image-url: '/shared/oae/img/marist_logo.png'
+@institutional-logo-url: 'http://sampeck.co.uk/files/marist_logo.png'
+@branding-image-url: 'http://sampeck.co.uk/files/marist_bg.png'
 @branding-gradient1-color: rgba(110,19,16,1)
 @branding-gradient2-color: rgba(176,27,26,1)
 @link-color: #6E1310

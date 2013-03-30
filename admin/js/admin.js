@@ -498,22 +498,25 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
     };
 
     /**
-     * TODO
+     * Save the new skin values. The back-end requires us to send all of
+     * the skin variables at once in a stringified JSON object.
      */
     var saveSkin = function() {
-        // TODO
+        // Serializing the form gives us all of the current values,
+        // including the latest selected colors
         var values = $('#admin-skinning-form').serializeObject();
         var data = {
             'oae-ui/skin/variables': JSON.stringify(values)
         }
 
-        // TODO
+        // When we are on the tenant server itself, we don't have
+        // to append the tenant alias to the endpoint
         var url = '/api/config';
         if (currentContext.isGlobalAdminServer) {
             url += '/' + currentContext.alias;
         }
 
-        // TODO
+        // Save the skin values
         $.ajax({
             url: url,
             type: 'POST',
@@ -525,6 +528,24 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
             }
         });
         return false;
+    };
+
+    /**
+     * Revert a skin value back to its original value as defined in the
+     * base less file. Therefore, this will not necessarily revert the 
+     * value back to its previous value.
+     */
+    var revertSkinValue = function() {
+        var $input = $('input', $(this).parent());
+        // The original value is stored in a data attribute on the input field
+        var defaultValue = $input.attr('data-defaultvalue');
+        // If the variable is a color, we use the set method
+        // provided by jQuery spectrum
+        if ($input.attr('data-type') === 'color') {
+            $input.spectrum('set', defaultValue);
+        } else {
+            $input.val(defaultValue);
+        }
     };
 
     ///////////////////////
@@ -637,6 +658,8 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         $(document).on('click', '.login-tenant', loginOnTenantHandler);
         // Change config value
         $(document).on('submit', '.admin-module-configuration-form', writeConfig);
+        // Revert skin value
+        $(document).on('click', '.admin-skinning-revert', revertSkinValue);
         // Change skin
         $(document).on('submit', '#admin-skinning-form', saveSkin);
         // Left hand navigation switching
