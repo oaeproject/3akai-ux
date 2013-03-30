@@ -15,9 +15,14 @@
 define(['jquery'], function($) {
 
     /**
-     * Function that passes true/false to a provided callback based on whether the me page is available.
+     * Function that passes true/false to a provided callback function
+     * based on whether the me page is available.
+     *
+     * Currently it does a direct call to '/api/me' instead of using the
+     * oae.api.user getMe function because requiring 'oae.core' results in an
+     * infinite loop of redirects.
      */
-    var checkMePageAvailable = function(callback) {
+    var doCheckMePageAvailability = function(callback) {
         $.ajax({
             url: '/api/me',
             'success': function() {
@@ -29,7 +34,7 @@ define(['jquery'], function($) {
         });
     };
 
-    checkMePageAvailable(function(available) {
+    doCheckMePageAvailability(function(available) {
         if (available === true) {
             window.location = '/me';
         }
