@@ -12,9 +12,12 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 define(['jquery'], function($) {
+
     /**
-     * Function that checks whether the server is available, if so, it redirects
+     * Function that checks whether the server is available by checking a
+     * valid response from the me feed. If it is responding, it redirects
      * to the me page.
      *
      * Currently it does a direct call to '/api/me' instead of using the
@@ -31,5 +34,7 @@ define(['jquery'], function($) {
     };
 
     checkServerAvailable();
+    // Re-check every minute to see if the server has come back online
     setInterval(checkServerAvailable, 60000);
+
 });
