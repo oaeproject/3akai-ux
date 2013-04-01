@@ -248,7 +248,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
      * @param  {String}     [type]        The notification type. The supported types are `success`, `error` and `info`, as defined in http://twitter.github.com/bootstrap/components.html#alerts. By default, the `success` type will be used.
      * @throws {Error}                    Error thrown when no message has been provided
      */
-    var showNotification = exports.showNotification = function(title, message, type) {
+    var notification = exports.notification = function(title, message, type) {
         if (!message) {
             throw new Error('A valid notification message should be provided');
         }
