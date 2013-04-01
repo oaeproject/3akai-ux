@@ -13,7 +13,6 @@
  * permissions and limitations under the License.
  */
 define(['jquery'], function($) {
-
     /**
      * Function that passes true/false to a provided callback function
      * based on whether the me page is available.
@@ -22,21 +21,15 @@ define(['jquery'], function($) {
      * oae.api.user getMe function because requiring 'oae.core' results in an
      * infinite loop of redirects.
      */
-    var doCheckMePageAvailability = function(callback) {
+    var checkServerAvailable = function () {
         $.ajax({
-            url: '/api/me',
+            'url': '/api/me',
             'success': function() {
-                callback(true);
-            },
-            'error': function() {
-                callback(false);
+                document.location = '/me';
             }
         });
     };
 
-    doCheckMePageAvailability(function(available) {
-        if (available === true) {
-            window.location = '/me';
-        }
-    });
+    checkServerAvailable();
+    setInterval(checkServerAvailable, 60000);
 });
