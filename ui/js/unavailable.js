@@ -14,8 +14,8 @@
  */
 define(['jquery'], function($) {
     /**
-     * Function that passes true/false to a provided callback function
-     * based on whether the me page is available.
+     * Function that checks whether the server is available, if so, it redirects
+     * to the me page.
      *
      * Currently it does a direct call to '/api/me' instead of using the
      * oae.api.user getMe function because requiring 'oae.core' results in an
