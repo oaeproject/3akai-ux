@@ -1,12 +1,20 @@
 <div class="home-view">
 
     <!-- Top bar -->
-	<div data-role="navigation-bar">
-        <div data-role="title">Login</div>
+	<div data-role="navigation-bar" data-name="top-bar">
+        <div data-role="item" class="navigation-bar-item" data-name="bar-item">
+            <div data-role="title">tenantname</div>
+        </div>
 	</div>
 
     <!-- Content -->
 	<div data-role="content">
+        <div data-role="text" data-name="username-field">
+            <input type="text" placeholder="username" />
+        </div>
+        <div data-role="text" data-name="password-field">
+            <input type="password" placeholder="password" />
+        </div>
         <div data-role="button" data-name="login-button">LOGIN</div>
     </div>
 

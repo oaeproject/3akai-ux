@@ -19,7 +19,7 @@ define([
     'oae.core',
     '/mobile/js/mobile.util.js',
     './userController'
-    ],
+],
     function(exports, $, oae, mobileUtil, userController) {
 
         return new Class({
@@ -28,6 +28,9 @@ define([
 
             // Properties
             loginButton: null,
+            usernameField: null,
+            passwordField: null,
+            activityIndicator: null,
 
             // Methods
             loadView: function() {
@@ -45,9 +48,13 @@ define([
             },
 
             initComponents: function() {
+                activityIndicator = new Moobile.ActivityIndicator();
+                this.usernameField = this.view.getChildComponent('username-field');
+                this.passwordField = this.view.getChildComponent('password-field');
                 this.loginButton = this.view.getChildComponent('login-button');
-                this.loginButton.setText(oae.api.i18n.translate('__MSG__LOGIN__'));
+                this.loginButton.setLabel(oae.api.i18n.translate('__MSG__LOGIN__'));
                 this.loginButton.addEvent('tap', this.bound('onLoginButtonTap'));
+                this.view.getChildComponent('top-bar').getChildComponent('bar-item').setTitle(oae.api.i18n.translate('__MSG__LOGIN__'));
             },
 
             destroy: function() {
@@ -57,10 +64,27 @@ define([
             },
 
             onLoginButtonTap: function(e, sender) {
-                var obj = {};
-                obj.username = "Coenego";
-                obj.password = "yooloo";
-                userController.login(obj);
+                var me = this;
+                var username = $(this.usernameField.element).find('input').val();
+                var password = $(this.passwordField.element).find('input').val();
+                if(username && password){
+                    me.view.addChildComponent(activityIndicator);
+                    activityIndicator.start();
+                    var obj = {};
+                    obj.username = username;
+                    obj.password = password;
+                    userController.login(obj, function(err) {
+                        me.view.removeChildComponent(activityIndicator);
+                        activityIndicator.stop();
+                        if(!err){
+                            console.log('[LoginView] login success');
+                        }else{
+                            console.log('[LoginView] login failed');
+                        }
+                    });
+                }else{
+                    console.log('[LoginView] no username and/or password');
+                }
             }
         });
     }

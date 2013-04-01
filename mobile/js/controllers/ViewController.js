@@ -15,10 +15,12 @@
 
 define(
     [
+        'jquery',
+        'underscore',
         'oae.core',
         '/mobile/js/mobile.util.js'
     ],
-    function(oae, mobileUtil) {
+    function($, _, oae, mobileUtil) {
 
         // Properties
         var instance = null;

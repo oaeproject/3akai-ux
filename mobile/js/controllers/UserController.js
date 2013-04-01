@@ -37,16 +37,16 @@ define(
          * @param obj.username      The username
          * @param obj.password      The password
          */
-        UserController.prototype.login = function(obj) {
+        UserController.prototype.login = function(obj, callback) {
             oae.api.authentication.login(obj.username, obj.password, function(err) {
                 if(err) {
                     console.log('[UserController] login -> fail');
                     console.log(err);
+                    callback(err);
                 }else{
                     console.log('[UserController] login -> success');
                     viewController.changeView({'target': 'home', 'transition': new Moobile.ViewTransition.None});
-
-                    //oae.init(function(e) {console.log(e) });
+                    callback();
                 }
             });
         };
@@ -62,8 +62,6 @@ define(
                 }else{
                     console.log('[UserController] logout -> success');
                     viewController.changeView({'target': 'login', 'transition': new Moobile.ViewTransition.None});
-
-                    //oae.init(function(e) {console.log(e) });
                 }
             });
         };
