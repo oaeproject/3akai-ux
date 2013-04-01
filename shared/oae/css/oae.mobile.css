@@ -13,20 +13,13 @@
  * permissions and limitations under the License.
  */
 
-#lhnavigation-container {
-    padding: 5px 10px;
-}
-
-#lhnavigation-page {
-    padding: 5px 100px 50px 0px;
-}
-
 /* iPads and iPhones (portrait and landscape) */
 @media only screen and (max-device-width : 1024px) {
-    #lhnavigation-container.row-fluid .span2 {
-        width: 23.4043%;
+    body {
+        min-width: 920px;
     }
-    #lhnavigation-container.row-fluid .span10 {
-        width: 74.4681%;
+
+    .navbar-search .search-query:focus {
+        width: 250px;
     }
 }

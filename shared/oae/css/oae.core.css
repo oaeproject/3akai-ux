@@ -32,6 +32,9 @@
    background colors, component colors, etc. */
 @import url('/shared/oae/css/oae.skin.css');
 
+/* Import the media query file for mobile */
+@import url('/shared/oae/css/oae.mobile.css');
+
 /* Import the Google, Facebook and Twitter login, as this will be needed on every
    page because of the topnavigation */
 @import url('/shared/vendor/css/auth-buttons.css');

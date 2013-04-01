@@ -22,7 +22,7 @@
 body {
     margin-left: 30px;
     margin-right: 30px;
-    min-width: 900px;
+    min-width: 1100px;
     display: none;
 }
 
@@ -43,12 +43,12 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
  * @see http://twitter.github.com/bootstrap/components.html#navs */
 
 .navbar-search {
-  display: inline;
-  float: none;
+    display: inline;
+    float: none;
 }
 
 .navbar-search .search-query:focus {
-  width: 300px;
+    width: 300px;
 }
 
 /* NAVIGATION LIST
