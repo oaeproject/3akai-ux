@@ -3,7 +3,6 @@
 * Includes: jquery.ui.core.js, jquery.ui.widget.js, jquery.ui.mouse.js, jquery.ui.draggable.js, jquery.ui.droppable.js, jquery.ui.resizable.js, jquery.ui.sortable.js
 * Copyright (c) 2012 jQuery Foundation and other contributors Licensed MIT */
 
-define(['jquery'], function (jQuery) {
 (function( $, undefined ) {
 
 var uuid = 0,
@@ -3990,4 +3989,3 @@ $.widget("ui.sortable", $.ui.mouse, {
 });
 
 })(jQuery);
-});
