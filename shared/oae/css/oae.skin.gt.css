@@ -297,11 +297,11 @@ div.oae-thumbnail {
     border-color: #DDD;
 }
 
-.oae-tile > div:nth-child(2) {
+.oae-tile > div:last-child {
     background-color: rgba(0, 0, 0, 0.8);
 }
 
-.oae-tile > div:nth-child(2), .oae-tile h3, .oae-tile h3 a {
+.oae-tile > div:last-child, .oae-tile h3, .oae-tile h3 a {
     color: #FFF;
 }
 
