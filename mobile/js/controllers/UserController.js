@@ -36,6 +36,7 @@ define(
          * @param obj               The object containing the login values
          * @param obj.username      The username
          * @param obj.password      The password
+         * @param callback          Callback function
          */
         UserController.prototype.login = function(obj, callback) {
             oae.api.authentication.login(obj.username, obj.password, function(err) {

@@ -1,6 +1,54 @@
-/* Home View
------------------------------------------------------------------------------*/
 
-.view.home-view .home-view-content {
-    padding: 12px;
+html, body{
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+/* Containing elements */
+
+#viewport {
+    overflow: hidden;
+    position: absolute;
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+#views {
+    margin: 0; padding: 0;
+    width: 100%;
+}
+
+#views li {
+    margin: 0; padding: 0;
+    display: block;
+    height: 100%;
+    width: 100%;
+    float: left;
+}
+
+#views #view1 { background-color: red; }
+#views #view2 { background-color: blue; }
+#views #view3 { background-color: green; }
+#views #view4 { background-color: yellow; }
+
+#menu {
+    position: absolute;
+    left: 100px;
+    top: 200px;
+}
+
+#menu li {
+    display: inline;
+}
+
+/* Classes */
+
+.transitionAll {
+    -webkit-transition: all 300ms ease-in-out;
 }

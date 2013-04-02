@@ -11,14 +11,28 @@
     <meta name="format-detection" content="telephone=no" />
 
     <!-- CORE CSS -->
-    <link rel="stylesheet" type="text/css" href="mobile/css/moobile.css" />
-    <link rel="stylesheet" type="text/css" href="mobile/css/moobile.ios.css" />
 
     <!-- PAGE CSS -->
     <link rel="stylesheet" type="text/css" href="mobile/css/mobile.css" />
 
 </head>
 <body>
+
+<div id="viewport">
+    <ul id="views">
+        <li id="view1">View 1</li>
+        <li id="view2">View 2</li>
+        <li id="view3">View 3</li>
+        <li id="view4">View 4</li>
+    </ul>
+</div>
+
+<ul id="menu">
+    <li><a href="#" rel="view1">view 1</a></li>
+    <li><a href="#" rel="view2">view 2</a></li>
+    <li><a href="#" rel="view3">view 3</a></li>
+    <li><a href="#" rel="view4">view 4</a></li>
+</ul>
 
 <!-- DEPENDENCIES -->
 <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>

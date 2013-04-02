@@ -32,19 +32,13 @@ define(
         }
 
         // Methods
-        ViewController = new Class({
-            Extends: Moobile.EventFirer,
+        ViewController.prototype.changeView = function() {
+            console.log('[ViewController] changeView');
+        };
 
-            changeView: function(event) {
-                console.log('[ViewController] changeView');
-                this.fireEvent('VIEWCHANGED', {'target': event.target, 'transition': event.transition});
-            },
-
-            popView: function() {
-                console.log('[ViewController] popView');
-                this.fireEvent('VIEWPOPPED');
-            }
-        });
+        ViewController.prototype.popView = function() {
+            console.log('[ViewController] popView');
+        };
 
         // Singleton
         if(!instance) instance = new ViewController();
