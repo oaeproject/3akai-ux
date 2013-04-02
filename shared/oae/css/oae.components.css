@@ -525,7 +525,7 @@ div.oae-thumbnail i[class^="icon-"] {
 
 /* Tile metadata */
 
-.oae-tile > div:nth-child(2) {
+.oae-tile > div:last-child {
     position: absolute;
     bottom: 0px;
     right: 0px;
