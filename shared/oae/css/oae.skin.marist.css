@@ -18,7 +18,7 @@
  ***************************/
 
 body {
-   background-color: #ECEAE5;
+    background-color: #ECEAE5;
 }
 
 
@@ -29,22 +29,19 @@ body {
 /* INSTITUTIONAL LOGO */
 
 .oae-institutional-logo {
-    background-image: url('/shared/oae/img/oae-logo.png');
-    background-size: auto 34.5px;
+    background-image: url('/shared/oae/img/marist_logo.png');
 }
 
 /* INDEX PAGE BACKGROUND */
 
 .oae-main-content.oae-branding-container {
     /* Color background */
-    background-image: url('/ui/img/framework/index.png') rgb(37,169,223);
-    background-image: url('/ui/img/framework/index.png'), -moz-linear-gradient(top, rgba(37,169,223,1) 0%, rgba(0,116,167,1) 100%);
-    background-image: url('/ui/img/framework/index.png'), -webkit-linear-gradient(top, rgba(37,169,223,1) 0%, rgba(0,116,167,1) 100%);
-    background-image: url('/ui/img/framework/index.png'), linear-gradient(to bottom, rgba(37,169,223,1) 0%, rgba(0,116,167,1) 100%);
+    background-image: url('/shared/oae/img/marist_bg.png') rgb(176,27,26);
+    background-image: url('/shared/oae/img/marist_bg.png'), -moz-linear-gradient(top, rgba(110,19,16,1) 0%, rgba(176,27,26,1) 100%);
+    background-image: url('/shared/oae/img/marist_bg.png'), -webkit-linear-gradient(top, rgb(110, 19, 16) 0%, rgba(176,27,26,1) 100%);
+    background-image: url('/shared/oae/img/marist_bg.png'), linear-gradient(to bottom, rgba(110,19,16,1) 0%, rgba(176,27,26,1) 100%);
     /* Image background */
-    /* background-image: url('http://ravian100.files.wordpress.com/2011/01/cambridge-university.jpg'); */
 }
-
 
 /*****************
  ** TEXT COLORS **
@@ -69,11 +66,11 @@ h6 [class^="icon-"], h6 [class*=" icon-"] {
  *****************/
 
 a, .btn-link {
-   color: #0088CC;
+   color: #6E1310;
 }
 
 a:hover, .btn-link:hover {
-    color: #005580;
+    color: #B01B1A;
 }
 
 
@@ -106,13 +103,13 @@ a:hover, .btn-link:hover {
 /* PRIMARY BUTTON */
 
 .btn.btn-primary {
-    background-color: #006DCC;
+    background-color: #B01B1A;
     color: #FFF;
-    background-image: linear-gradient(to bottom, #0088CC, #0044CC);
-    background-image: -moz-linear-gradient(top, #0088CC, #0044CC);
-    background-image: -webkit-linear-gradient(top, #0088CC, #0044CC);
-    background-image: -o-linear-gradient(top, #0088CC, #0044CC);
-    border-color: #0044CC;
+    background-image: linear-gradient(to bottom, #B01B1A, #6E1310);
+    background-image: -moz-linear-gradient(top, #B01B1A, #6E1310);
+    background-image: -webkit-linear-gradient(top, #B01B1A, #6E1310);
+    background-image: -o-linear-gradient(top, #B01B1A, #6E1310);
+    border-color: #6E1310;
 }
 
 .btn.btn-primary:hover,
@@ -122,7 +119,7 @@ a:hover, .btn-link:hover {
 .btn.btn-primary.disabled,
 .btn.btn-primary[disabled] {
   color: #FFF;
-  background-color: #0044CC;
+  background-color: #6E1310;
 }
 
 /* SUCCESS BUTTON */
@@ -297,7 +294,7 @@ div.oae-thumbnail {
     border-color: #DDD;
 }
 
-.oae-tile > div:last-child {
+.oae-tile > div:nth-child(2) {
     background-color: rgba(0, 0, 0, 0.8);
 }
 
@@ -370,7 +367,6 @@ div.oae-thumbnail {
     color: #FFF;
 }
 
-
 /*****************
  ** CLIP COLORS **
  *****************/
@@ -418,20 +414,20 @@ div.oae-thumbnail {
 /* SECONDARY CLIP */
 
 .oae-clip.oae-clip-secondary .oae-clip-fold .oae-clip-fold-inner {
-    background-color: #0175A9;
+    background-color: #6E1310;
 }
 .oae-clip.oae-clip-secondary .oae-clip-fold .oae-clip-fold-outer,
 .oae-clip.oae-clip-secondary .oae-clip-content {
-    background-color: #24A7DD;
+    background-color: #B01B1A;
 }
 
 .oae-clip.oae-clip-secondary .oae-clip-content {
-    background: #24A7DD;
-    background: linear-gradient(to bottom, #24A7DD 0%,#24A7DD 10%,#0175A9 100%);
-    background: -o-linear-gradient(top, #24A7DD 0%, #24A7DD 10%, #0175A9 100%);
-    background: -moz-linear-gradient(top, #24A7DD 0%, #24A7DD 10%, #0175A9 100%);
-    background: -webkit-linear-gradient(top, #24A7DD 0%, #24A7DD 10%, #0175A9 100%);
-    background: -ms-linear-gradient(top, #24A7DD 0%, #24A7DD 10%, #0175A9 100%);
+    background: #B01B1A;
+    background: linear-gradient(to bottom, #B01B1A 0%,#B01B1A 10%,#6E1310 100%);
+    background: -o-linear-gradient(top, #B01B1A 0%, #B01B1A 10%, #6E1310 100%);
+    background: -moz-linear-gradient(top, #B01B1A 0%, #B01B1A 10%, #6E1310 100%);
+    background: -webkit-linear-gradient(top, #B01B1A 0%, #B01B1A 10%, #6E1310 100%);
+    background: -ms-linear-gradient(top, #B01B1A 0%, #B01B1A 10%, #6E1310 100%);
 }
 
 .oae-clip.oae-clip-secondary .oae-clip-content,
@@ -452,5 +448,5 @@ div.oae-thumbnail {
 }
 
 .oae-clip.oae-clip-secondary ul li button:hover {
-    background-color: #2096C6;
+    background-color: #B01B1A;
 }
