@@ -29,22 +29,16 @@ define([
 
             // Properties
             menuButton: null,
-            detailButton: null,
+            //detailButton: null,
             activityIndicator: null,
 
             // Methods
             loadView: function() {
-
-                //var template = oae.data.me.anon ? '#topnavigation-left-anonymous-template' : '#topnavigation-left-loggedin-template';
-                //this.view = oae.api.util.template().render(template, null, $('#topnavigation-left'));
-
-
                 this.view = Moobile.View.at('/mobile/templates/views/home-view.html');
             },
 
             viewDidLoad: function() {
-                //console.log('[HomeView] viewDidLoad');
-                //console.log(oae.data.me);
+                console.log('[HomeView] viewDidLoad');
                 this.parent();
                 this.initComponents();
             },
@@ -52,21 +46,21 @@ define([
             initComponents: function() {
                 activityIndicator = new Moobile.ActivityIndicator();
 
-                this.menuButton = this.view.getChildComponent('top-bar').getChildComponent('bar-item').getChildComponent('menu-button');
-                this.menuButton.addEvent('tap', this.bound('onMenuButtonTap'));
+                //this.menuButton = this.view.getChildComponent('top-bar').getChildComponent('bar-item').getChildComponent('menu-button');
+                //this.menuButton.addEvent('tap', this.bound('onMenuButtonTap'));
 
-                this.detailButton = this.view.getChildComponent('detail-button');
-                this.detailButton.addEvent('tap', this.bound('onDetailButtonTap'));
+                //this.detailButton = this.view.getChildComponent('detail-button');
+                //this.detailButton.addEvent('tap', this.bound('onDetailButtonTap'));
 
-                this.view.getChildComponent('top-bar').getChildComponent('bar-item').setTitle(oae.data.me.tenant);
+                //this.view.getChildComponent('top-bar').getChildComponent('bar-item').setTitle(oae.data.me.tenant);
             },
 
             destroy: function() {
-                this.menuButton.removeEvent('tap', this.bound('onMenuButtonTap'));
-                this.menuButton = this.view.getChildComponent('top-bar').getChildComponent('bar-item').getChildComponent('menu-button');
+                //this.menuButton.removeEvent('tap', this.bound('onMenuButtonTap'));
+                //this.menuButton = this.view.getChildComponent('top-bar').getChildComponent('bar-item').getChildComponent('menu-button');
 
-                this.detailButton.removeEvent('tap', this.bound('onDetailButtonTap'));
-                this.detailButton = this.view.getChildComponent('detail-button');
+                //this.detailButton.removeEvent('tap', this.bound('onDetailButtonTap'));
+                //this.detailButton = this.view.getChildComponent('detail-button');
 
                 this.parent();
             },
