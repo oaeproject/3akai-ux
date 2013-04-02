@@ -77,10 +77,10 @@
         {var profilePath = entityData['oae:profilePath']}
     {/if}
 
-    {if entityData.contentType}
-        {var contentType = entityData.contentType}
+    {if entityData.resourceType}
+        {var resourceType = entityData.resourceType}
     {elseif entityData.objectType}
-        {var contentType = entityData.objectType}
+        {var resourceType = entityData.objectType}
     {/if}
 
     {if entityData.visibility}
@@ -90,11 +90,11 @@
     {/if}
 
     <a href="${profilePath}" title="${entityData.displayName|safeUserInput}">
-        <div class="oae-thumbnail {if large} oae-thumbnail-large {/if} icon-oae-${entityData.resourceSubType} icon-oae-${contentType}">
+        <div class="oae-thumbnail {if large} oae-thumbnail-large {/if} icon-oae-${entityData.resourceSubType} icon-oae-${resourceType}">
             {if thumbnailUrl}
                 <img src="${thumbnailUrl}" alt="${entityData.displayName|safeUserInput}" />
             {/if}
-            {if addVisibilityIcon !== false && entityData.resourceType !== 'user'}
+            {if addVisibilityIcon !== false && resourceType !== 'user'}
                 <i class="icon-oae-${visibility}"></i>
             {/if}
         </div>
