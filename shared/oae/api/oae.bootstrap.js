@@ -68,8 +68,8 @@ requirejs.config({
     },
     shim: {
         /** 
-         * Defining an extra dependancy for jquery.fileupload, otherwise it
-         * sometimes errors on the $.widget function being undefined
+         * Defining an extra dependency for jquery.fileupload, otherwise it
+         * sometimes errors on the $.widget function being undefined.
          */
         'jquery.fileupload': ['jquery-ui']
     },
