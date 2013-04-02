@@ -115,6 +115,9 @@ module.exports = function(grunt) {
                  ],
             ie8: false,
             base: __dirname
+        },
+        'git-describe': {
+            'oae': {}
         }
     });
 
@@ -127,7 +130,7 @@ module.exports = function(grunt) {
 
     // Task to write the version to a file
     grunt.registerTask('writeVersion', function() {
-        this.requires('describe');
+        this.requires('git-describe');
         var json = grunt.template.process('{"sakai:ux-version":"<%= meta.version %>"}');
         grunt.file.write('target/optimized/ui/version.json', json);
     });
@@ -212,5 +215,5 @@ module.exports = function(grunt) {
     grunt.registerTask('test', ['qunit']);
 
     // Default task.
-    grunt.registerTask('default', ['clean', 'describe', 'requirejs', 'inlineImg', 'hashFiles', 'writeVersion', 'configNginx']);
+    grunt.registerTask('default', ['clean', 'git-describe', 'requirejs', 'inlineImg', 'hashFiles', 'writeVersion', 'configNginx']);
 };
