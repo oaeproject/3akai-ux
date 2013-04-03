@@ -38,10 +38,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
     var enableInlineEdit = function() {
         $('.jeditable-field').editable(function(value) {
             if (!value) {
-                adminUtil.showError({
-                    'title': 'Invalid tenant name',
-                    'message': 'Please enter a tenant name.'
-                });
+                oae.api.util.notification('Invalid tenant name', 'Please enter a tenant name.', 'error');
                 return this.revert;
             } else {
                 $.ajax({
@@ -52,10 +49,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                         'name': value
                     },
                     'success': function() {
-                        adminUtil.showSuccess({
-                            'title': 'Tenant name updated',
-                            'message': 'The tenant name has been successfully updated.'
-                        });
+                        oae.api.util.notification('Tenant name updated', 'The tenant name has been successfully updated.');
                     }
                 });
                 return value;
@@ -130,15 +124,9 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                 type: 'POST',
                 data: data,
                 success: function() {
-                    adminUtil.showSuccess({
-                        'title': 'Configuration saved',
-                        'message': 'The configuration was successfully saved.'
-                    });
+                    oae.api.util.notification('Configuration saved', 'The configuration was successfully saved.');
                 }, error: function() {
-                    adminUtil.showError({
-                        'title': 'Configuration not saved',
-                        'message': 'The configuration could not be saved successfully.'
-                    });
+                    oae.api.util.notification('Configuration not saved', 'The configuration could not be saved successfully.', 'error');
                 }
             });
         }
@@ -161,17 +149,11 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                 'host': $('#createtenant-host').val()
             },
             'success': function() {
-                adminUtil.showSuccess({
-                    'title': 'Tenant created',
-                    'message': 'The new tenant "' + $('#createtenant-name').val() + '" has been successfully created.'
-                });
+                oae.api.util.notification('Tenant created', 'The new tenant "' + $('#createtenant-name').val() + '" has been successfully created.');
                 reloadTenants()
             },
             'error': function(jqXHR, textStatus) {
-                adminUtil.showError({
-                    'title': 'Tenant could not be created',
-                    'message': jqXHR.responseText
-                });
+                oae.api.util.notification('Tenant could not be created', jqXHR.responseText, 'error');
             }
         });
         return false;
@@ -260,15 +242,9 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                     $('#start-all-tenants-modal').modal('hide');
                     // Show a success or failure message
                     if (err) {
-                        adminUtil.showError({
-                            'title': 'Tenants not started',
-                            'message': 'Not all tenants could be started.'
-                        });
+                        oae.api.util.notification('Tenants not started', 'Not all tenants could be started.', 'error');
                     } else {
-                        adminUtil.showSuccess({
-                            'title': 'Tenants started',
-                            'message': 'All tenants where successfully started.'
-                        });
+                        oae.api.util.notification('Tenants started', 'All tenants where successfully started.');
                     }
                 });
             }
@@ -292,15 +268,9 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                     $('#stop-all-tenants-modal').modal('hide');
                     // Show a success or failure message
                     if (err) {
-                        adminUtil.showError({
-                            'title': 'Tenants not stopped',
-                            'message': 'Not all tenants could be stopped.'
-                        });
+                        oae.api.util.notification('Tenants not stopped', 'Not all tenants could be stopped.', 'error');
                     } else {
-                        adminUtil.showSuccess({
-                            'title': 'Tenants stopped',
-                            'message': 'All tenants where successfully stopped.'
-                        });
+                        oae.api.util.notification('Tenants stopped', 'All tenants where successfully stopped.');
                     }
                 });
             }
@@ -326,15 +296,9 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                     $('#deletetenant-modal').modal('hide');
                     // Show a success or failure message
                     if (err) {
-                        adminUtil.showError({
-                            'title': 'Tenant not deleted',
-                            'message': 'The tenant could not be deleted.'
-                        });
+                        oae.api.util.notification('Tenant not deleted', 'The tenant could not be deleted.', 'error');
                     } else {
-                        adminUtil.showSuccess({
-                            'title': 'Tenant deleted',
-                            'message': 'Tenant ' + tenantName + ' was successfully deleted.'
-                        });
+                        oae.api.util.notification('Tenant deleted', 'Tenant ' + tenantName + ' was successfully deleted.');
                     }
                 });
             }
@@ -360,15 +324,9 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                     $('#stoptenant-modal').modal('hide');
                     // Show a success or failure message
                     if (err) {
-                        adminUtil.showError({
-                            'title': 'Tenant not stopped',
-                            'message': 'The tenant could not be stopped.'
-                        });
+                        oae.api.util.notification('Tenant not stopped', 'The tenant could not be stopped.', 'error');
                     } else {
-                        adminUtil.showSuccess({
-                            'title': 'Tenant stopped',
-                            'message': 'Tenant ' + tenantName + ' was successfully stopped.'
-                        });
+                        oae.api.util.notification('Tenant stopped', 'Tenant ' + tenantName + ' was successfully stopped.');
                     }
                 });
             }
@@ -394,15 +352,9 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                     $('#starttenant-modal').modal('hide');
                     // Show a success or failure message
                     if (err) {
-                        adminUtil.showError({
-                            'title': 'Tenant not started',
-                            'message': 'The tenant could not be started.'
-                        });
+                        oae.api.util.notification('Tenant not started', 'The tenant could not be started.', 'error');
                     } else {
-                        adminUtil.showSuccess({
-                            'title': 'Tenant started',
-                            'message': 'Tenant ' + tenantName + ' was successfully started.'
-                        });
+                        oae.api.util.notification('Tenant started', 'Tenant ' + tenantName + ' was successfully started.');
                     }
                 });
             }
@@ -428,10 +380,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         oae.api.authentication.login($('#admin-login-form-name').val(), $('#admin-login-form-password').val(), function(err) {
             if (err) {
                 // Show the error message
-                adminUtil.showError({
-                    'title': 'Login failed',
-                    'message': 'Invalid username or password.'
-                });
+                oae.api.util.notification('Login failed', 'Invalid username or password.', 'error');
             } else {
                 document.location.reload(true);
             }
@@ -457,11 +406,8 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         var tenantAlias = $(this).attr('data-alias');
         getToken(tenantAlias, function(err, token) {
             if (err) {
-                adminUtil.showError({
-                    'title': 'Token error',
-                    'message': 'Could not retrieve a token to log onto the tenant.'
-                });
-            } else {;
+                oae.api.util.notification('Token error', 'Could not retrieve a token to log onto the tenant.', 'error');
+            } else {
                 // Fill in our hidden form and submit it. This is done because we are
                 // dealing with a cross-domain request. The action should have the tenant URL.
                 var $form = $('#admin-tenant-login-form');
