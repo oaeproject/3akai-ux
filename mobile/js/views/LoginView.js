@@ -13,79 +13,61 @@
  * permissions and limitations under the License.
  */
 
-define([
-    'exports',
-    'jquery',
-    'oae.core',
-    '/mobile/js/mobile.util.js',
-    './userController'
-],
-    function(exports, $, oae, mobileUtil, userController) {
+define(
+    [
+        'jquery','underscore','oae.core',
+        '/mobile/js/constants/constants.js'
+    ],
+    function($, _, oae, constants) {
 
-        return new Class({
+        // Properties
 
-            Extends: Moobile.ViewController,
+        // Constructor
+        function LoginView() {
+            this.initialize();
+        }
 
-            // Properties
-            loginButton: null,
-            usernameField: null,
-            passwordField: null,
-            activityIndicator: null,
+        // Public methods
+        LoginView.prototype.initialize = function() {
+            oae.api.util.template().render($('#login-view-template'), null, $('#view-container'));
+            addBinding();
+        };
 
-            // Methods
-            loadView: function() {
-                this.view = Moobile.View.at('/mobile/templates/views/login-view.html');
-            },
+        LoginView.prototype.destroy = function() {
+            console.log('[LoginView] destroy');
+            deleteBinding();
+        };
 
-            viewDidLoad: function() {
+        // Private methods
+        var addBinding = function() {
+            $('#btnLogin').bind('click', onLoginClick);
+        };
 
-                console.log('[LoginView] viewDidLoad');
-                console.log(oae.data.me);
-                console.log('- - - - - - - - - - - - - - - - - - - - - - - - - - -');
+        var deleteBinding = function() {
+            $('#btnLogin').unbind('click', onLoginClick);
+        };
 
-                this.parent();
-                this.initComponents();
-            },
+        var onLoginClick = function(event) {
+            var username = $('#txtUsername').val();
+            var password = $('#txtPassword').val();
+            if(username && password){
+                $(document).trigger(
+                    constants.user.loginattempt,
+                    {
+                        username: username,
+                        password: password,
+                        callback: function(err){
 
-            initComponents: function() {
-                activityIndicator = new Moobile.ActivityIndicator();
-                this.usernameField = this.view.getChildComponent('username-field');
-                this.passwordField = this.view.getChildComponent('password-field');
-                this.loginButton = this.view.getChildComponent('login-button');
-                this.loginButton.setLabel(oae.api.i18n.translate('__MSG__LOGIN__'));
-                this.loginButton.addEvent('tap', this.bound('onLoginButtonTap'));
-                this.view.getChildComponent('top-bar').getChildComponent('bar-item').setTitle(oae.api.i18n.translate('__MSG__LOGIN__'));
-            },
+                            // TODO: do something if error occurs (e.g. warning)
 
-            destroy: function() {
-                this.loginButton.removeEvent('tap', this.bound('onLoginButtonTap'));
-                this.loginButton = this.view.getChildComponent('login-button');
-                this.parent();
-            },
-
-            onLoginButtonTap: function(e, sender) {
-                var me = this;
-                var username = $(this.usernameField.element).find('input').val();
-                var password = $(this.passwordField.element).find('input').val();
-                if(username && password){
-                    me.view.addChildComponent(activityIndicator);
-                    activityIndicator.start();
-                    var obj = {};
-                    obj.username = username;
-                    obj.password = password;
-                    userController.login(obj, function(err) {
-                        me.view.removeChildComponent(activityIndicator);
-                        activityIndicator.stop();
-                        if(!err){
-                            console.log('[LoginView] login success');
-                        }else{
-                            console.log('[LoginView] login failed');
                         }
-                    });
-                }else{
-                    console.log('[LoginView] no username and/or password');
-                }
+                    }
+                );
+            }else{
+                console.log('[LoginView] username and/or password are empty');
             }
-        });
+        };
+
+        return LoginView;
     }
 );

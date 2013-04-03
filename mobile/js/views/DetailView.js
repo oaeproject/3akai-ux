@@ -13,48 +13,39 @@
  * permissions and limitations under the License.
  */
 
-define([
-    'exports',
-    'jquery',
-    'oae.core',
-    '/mobile/js/mobile.util.js',
-    './viewController'
+define(
+    [
+        'jquery','underscore','oae.core',
+        '/mobile/js/constants/constants.js'
     ],
-    function(exports, $, oae, mobileUtil, viewController) {
+    function($, _, oae, constants) {
 
-        return new Class({
+        // Properties
 
-            Extends: Moobile.ViewController,
+        // Constructor
+        function DetailView() {
+            this.initialize();
+        }
 
-            // Properties
-            menuButton: null,
+        // Public methods
+        DetailView.prototype.initialize = function() {
+            oae.api.util.template().render($('#detail-view-template'), null, $('#view-container'));
+            addBinding();
+        };
 
-            // Methods
-            loadView: function() {
-                console.log('[DetailView] loadView');
-                this.view = Moobile.View.at('/mobile/templates/views/detail-view.html');
-            },
+        DetailView.prototype.destroy = function() {
+            deleteBinding();
+        };
 
-            viewDidLoad: function() {
-                console.log('[DetailView] viewDidLoad');
-                this.parent();
-                this.initComponents();
-            },
+        // Private methods
+        var addBinding = function() {
+            console.log('[DetailView] addBinding');
+        };
 
-            initComponents: function() {
-                this.menuButton = this.view.getChildComponent('top-bar').getChildComponent('bar-item').getChildComponent('menu-button');
-                this.menuButton.addEvent('tap', this.bound('onMenuButtonTap'));
-            },
+        var deleteBinding = function() {
+            console.log('[DetailView] deleteBinding');
+        };
 
-            destroy: function() {
-                this.menuButton.removeEvent('tap', this.bound('onMenuButtonTap'));
-                this.menuButton = this.view.getChildComponent('top-bar').getChildComponent('bar-item').getChildComponent('menu-button');
-                this.parent();
-            },
-
-            onMenuButtonTap: function(e, sender) {
-                viewController.popView();
-            }
-        });
+        return DetailView;
     }
 );

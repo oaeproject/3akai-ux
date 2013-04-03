@@ -15,15 +15,21 @@
 
 define(
     [
-        'jquery',
-        'underscore',
-        'oae.core',
-        '/mobile/js/mobile.util.js'
+        'jquery','underscore','oae.core',
+        '/mobile/js/constants/constants.js',
+        '/mobile/js/mobile.util.js',
+        '/mobile/js/views/LoginView.js',
+        '/mobile/js/views/HomeView.js',
+        '/mobile/js/views/DetailView.js'
     ],
-    function($, _, oae, mobileUtil) {
+    function($, _, oae, constants, mobileUtil, LoginView, HomeView, DetailView) {
 
         // Properties
         var instance = null;
+
+        var views = [];
+        var activeView = null;
+        var oldView = null;
 
         // Constructor
         function ViewController() {
@@ -31,13 +37,57 @@ define(
             instance = this;
         }
 
-        // Methods
-        ViewController.prototype.changeView = function() {
-            console.log('[ViewController] changeView');
+        /**
+         * Initialize ViewController
+         */
+        ViewController.prototype.initialize = function() {
+            instance.changeView(oae.data.me.anon ? constants.views.login : constants.views.home);
+            addBinding();
         };
 
-        ViewController.prototype.popView = function() {
-            console.log('[ViewController] popView');
+        /**
+         * Push a new view into the stack
+         * @param {String} view          The new view that will be pushed into the stack
+         */
+        ViewController.prototype.changeView = function(view) {
+            if(activeView){
+                oldView = activeView;
+                oldView.destroy();
+            }
+            switch(view){
+                case constants.views.login:
+                    activeView = new LoginView();
+                    break;
+                case constants.views.home:
+                    activeView = new HomeView();
+                    break;
+                case constants.views.detail:
+                    activeView = new DetailView();
+                    break;
+            }
+        };
+
+        /**
+         * Pop the current view from the stack
+         * @param {String} view         The view that needs to be popped from the stack
+         */
+        ViewController.prototype.popView = function(view) {
+            console.log('[ViewController] popView: ' + view);
+            $(document).trigger(constants.events.viewpopped, [view]);
+        };
+
+        // Private methods
+        var addBinding = function() {
+            $(document).on(constants.user.loginsuccess, onLoginSuccess);
+            $(document).on(constants.user.logoutsuccess, onLogoutSuccess);
+        };
+
+        var onLoginSuccess = function() {
+            instance.changeView(constants.views.home);
+        };
+
+        var onLogoutSuccess = function() {
+            instance.changeView(constants.views.login);
         };
 
         // Singleton

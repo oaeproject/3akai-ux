@@ -9,46 +9,51 @@ body {
     margin: 0;
 }
 
-/* Containing elements */
-
 #viewport {
+    position: absolute;
     overflow: hidden;
+}
+
+.view{
     position: absolute;
+    overflow: hidden;
+}
+
+.stretch{
     display: block;
-    height: 100%;
-    width: 100%;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    top: 0;
 }
 
-#views {
-    margin: 0; padding: 0;
-    width: 100%;
+.scroll{
+    overflow: scroll;
 }
 
-#views li {
-    margin: 0; padding: 0;
-    display: block;
-    height: 100%;
-    width: 100%;
-    float: left;
+#menu{
+    text-align: center;
 }
 
-#views #view1 { background-color: red; }
-#views #view2 { background-color: blue; }
-#views #view3 { background-color: green; }
-#views #view4 { background-color: yellow; }
-
-#menu {
-    position: absolute;
-    left: 100px;
-    top: 200px;
+/* Login */
+#login-view{
+    background-color: #999999;
 }
 
-#menu li {
-    display: inline;
+/* Home */
+#home-view{
+    background-color: #555555;
+}
+
+/* Detail */
+#detail-view{
+    background-color: #333333;
 }
 
 /* Classes */
-
-.transitionAll {
-    -webkit-transition: all 300ms ease-in-out;
+.clear{
+    clear: both;
+    height: 1px;
+    line-height: 1px;
+    overflow: hidden;
 }

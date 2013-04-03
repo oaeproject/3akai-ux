@@ -13,76 +13,55 @@
  * permissions and limitations under the License.
  */
 
-define([
-    'exports',
-    'jquery',
-    'oae.core',
-    '/mobile/js/mobile.util.js',
-    './userController',
-    './viewController'
+define(
+    [
+        'jquery','underscore','oae.core',
+        '/mobile/js/constants/constants.js'
     ],
-    function(exports, $, oae, mobileUtil, userController, viewController) {
+    function($, _, oae, constants) {
 
-        return new Class({
+        // Properties
 
-            Extends: Moobile.ViewController,
+        // Constructor
+        function HomeView() {
+            this.initialize();
+        }
 
-            // Properties
-            menuButton: null,
-            //detailButton: null,
-            activityIndicator: null,
+        // Public methods
+        HomeView.prototype.initialize = function() {
+            oae.api.util.template().render($('#home-view-template'), null, $('#view-container'));
+            addBinding();
+        };
 
-            // Methods
-            loadView: function() {
-                this.view = Moobile.View.at('/mobile/templates/views/home-view.html');
-            },
+        HomeView.prototype.destroy = function() {
+            console.log('[HomeView] destroy');
+            deleteBinding();
+        };
 
-            viewDidLoad: function() {
-                console.log('[HomeView] viewDidLoad');
-                this.parent();
-                this.initComponents();
-            },
+        // Private methods
+        var addBinding = function() {
+            console.log('[HomeView] addBinding');
+            $('#btnLogout').bind('click', onLogoutClick);
+        };
 
-            initComponents: function() {
-                activityIndicator = new Moobile.ActivityIndicator();
+        var deleteBinding = function() {
+            console.log('[HomeView] deleteBinding');
+            $('#btnLogout').unbind('click', onLogoutClick);
+        };
 
-                //this.menuButton = this.view.getChildComponent('top-bar').getChildComponent('bar-item').getChildComponent('menu-button');
-                //this.menuButton.addEvent('tap', this.bound('onMenuButtonTap'));
+        var onLogoutClick = function(event) {
+            $(document).trigger(
+                constants.user.logoutattempt,
+                {
+                    callback: function(err){
 
-                //this.detailButton = this.view.getChildComponent('detail-button');
-                //this.detailButton.addEvent('tap', this.bound('onDetailButtonTap'));
+                        // TODO: do something if error occurs (e.g. warning)
 
-                //this.view.getChildComponent('top-bar').getChildComponent('bar-item').setTitle(oae.data.me.tenant);
-            },
-
-            destroy: function() {
-                //this.menuButton.removeEvent('tap', this.bound('onMenuButtonTap'));
-                //this.menuButton = this.view.getChildComponent('top-bar').getChildComponent('bar-item').getChildComponent('menu-button');
-
-                //this.detailButton.removeEvent('tap', this.bound('onDetailButtonTap'));
-                //this.detailButton = this.view.getChildComponent('detail-button');
-
-                this.parent();
-            },
-
-            onMenuButtonTap: function(e, sender) {
-                var me = this;
-                me.view.addChildComponent(activityIndicator);
-                activityIndicator.start();
-                userController.logout(function(err){
-                    me.view.removeChildComponent(activityIndicator);
-                    activityIndicator.stop();
-                    if(!err){
-                        console.log('[HomeView] log out fail');
-                    }else{
-                        console.log('[HomeView] log out success');
                     }
-                });
-            },
+                }
+            );
+        };
 
-            onDetailButtonTap: function(e, sender) {
-                viewController.changeView({'target': 'detail', 'transition': new Moobile.ViewTransition.Slide});
-            }
-        });
+        return HomeView;
     }
 );

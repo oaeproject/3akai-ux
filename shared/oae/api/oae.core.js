@@ -48,6 +48,7 @@ define([
          */
         'bootstrap',
         'globalize',
+        'jquery.address',
         'jquery.ba-bbq',
         'jquery.ba-hashchange',
         'jquery.contentchange',
@@ -63,14 +64,7 @@ define([
         'jquery.dnd-upload',
         'jquery.validate',
         'jquery-ui',
-        'underscore',
-
-        /*
-         * Mobile dependencies
-         */
-        'mootools-core',
-        'mootools-more',
-        'moobile'
+        'underscore'
 ],
 
     function(oae, $) {

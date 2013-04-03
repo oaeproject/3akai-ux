@@ -13,26 +13,47 @@
     <!-- CORE CSS -->
 
     <!-- PAGE CSS -->
-    <link rel="stylesheet" type="text/css" href="mobile/css/mobile.css" />
+    <link rel="stylesheet" type="text/css" href="/mobile/css/mobile.css" />
 
 </head>
 <body>
 
-<div id="viewport">
-    <ul id="views">
-        <li id="view1">View 1</li>
-        <li id="view2">View 2</li>
-        <li id="view3">View 3</li>
-        <li id="view4">View 4</li>
-    </ul>
+<!-- [Start] viewport -->
+<div id="viewport" class="stretch">
+    <div id="view-container" class="view stretch"><!-- --></div>
 </div>
+<!-- [End] viewport -->
 
-<ul id="menu">
-    <li><a href="#" rel="view1">view 1</a></li>
-    <li><a href="#" rel="view2">view 2</a></li>
-    <li><a href="#" rel="view3">view 3</a></li>
-    <li><a href="#" rel="view4">view 4</a></li>
-</ul>
+<!-- Templates -->
+<div id="login-view-template"><!--
+        <div id="login-view" class="view stretch">
+            <div class="content">
+                <label for="txtUsername"></label><input id="txtUsername" type="text" placeholder="__MSG__USERNAME__"/><br class="clear"/>
+                <label for="txtPassword"></label><input id="txtPassword" type="password" placeholder="__MSG__PASSWORD__"/><br class="clear"/>
+                <button id="btnLogin">__MSG__LOGIN__</button><br class="clear"/>
+            </div>
+        </div>
+    --></div>
+
+<div id="home-view-template"><!--
+        <div id="home-view" class="view stretch">
+            <div class="menu">
+                <button id="btnLogout">__MSG__SIGN_OUT__</button>
+            </div>
+            <div class="content">
+                <div data-widget="empty"></div>
+            </div>
+        </div>
+    --></div>
+
+<div id="detail-view-template"><!--
+    <div id="detail-view" class="view stretch">
+        <div class="menu">menu</div>
+        <div class="content">
+            <p>Detail</p>
+        </div>
+    </div>
+    --></div>
 
 <!-- DEPENDENCIES -->
 <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>

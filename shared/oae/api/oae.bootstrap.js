@@ -25,6 +25,7 @@ requirejs.config({
         // Vendor paths
         'bootstrap': 'vendor/js/bootstrap',
         'globalize': 'vendor/js/l10n/globalize',
+        'jquery.address': 'vendor/js/jquery-plugins/jquery.address',
         'jquery.autoSuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest.sakai-edited',
         'jquery.ba-bbq': 'vendor/js/jquery-plugins/jquery.ba-bbq',
         'jquery.ba-hashchange': 'vendor/js/jquery-plugins/jquery.ba-hashchange',
@@ -44,11 +45,6 @@ requirejs.config({
         'text': 'vendor/js/requirejs/require.text',
         'trimpath': 'vendor/js/trimpath',
         'underscore': 'vendor/js/underscore',
-
-        // Mobile vendor
-        'mootools-core': 'vendor/js/mootools/mootools-core',
-        'mootools-more': 'vendor/js/mootools/mootools-more',
-        'moobile': 'vendor/js/mootools/moobile',
 
         // OAE paths
         'jquery.clip': 'oae/js/jquery-plugins/jquery.clip',
@@ -71,15 +67,7 @@ requirejs.config({
         'oae.core': 'oae/api/oae.core',
         'pluginBuilder': 'oae/api/pluginBuilder'
     },
-    shim: {
-        'mootools-more': {
-            deps: ['mootools-core']
-        },
-        'moobile': {
-            deps: ['mootools-core', 'mootools-more']
-        }
-    },
-    priority: ['jquery', 'underscore', 'moobile']
+    priority: ['jquery', 'underscore']
 });
 
 /*!

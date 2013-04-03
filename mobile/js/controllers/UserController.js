@@ -16,10 +16,11 @@
 define(
     [
         'oae.core',
+        '/mobile/js/constants/constants.js',
         '/mobile/js/mobile.util.js',
         './viewController'
     ],
-    function(oae, mobileUtil, viewController) {
+    function(oae, constants, mobileUtil, viewController) {
 
         // Properties
         var instance = null;
@@ -31,40 +32,62 @@ define(
         }
 
         /**
-         * Login via with the api
-         *
-         * @param obj               The object containing the login values
-         * @param obj.username      The username
-         * @param obj.password      The password
-         * @param callback          Callback function
+         * Initialize UserController
          */
-        UserController.prototype.login = function(obj, callback) {
+        UserController.prototype.initialize = function() {
+            addBinding();
+        };
+
+        /**
+         * Login
+         *
+         * @param {Event}       e                   The dispatched event
+         * @param {Object}      obj                 The object containing the login values
+         * @param {String}      obj.username        The username
+         * @param {String}      obj.password        The password
+         * @param {Function}    obj.callback        The callback function
+         */
+        var login = function(e, obj) {
+            $(document).trigger(constants.events.activitystart);
             oae.api.authentication.login(obj.username, obj.password, function(err) {
+                $(document).trigger(constants.events.activityend);
                 if(err) {
-                    console.log('[UserController] login -> fail');
-                    console.log(err);
-                    callback(err);
+                    obj.callback(err);
                 }else{
-                    console.log('[UserController] login -> success');
-                    viewController.changeView({'target': 'home', 'transition': new Moobile.ViewTransition.None});
-                    callback();
+                    obj.callback();
+                    oae.init(function(e){
+                        $(document).trigger(constants.user.loginsuccess);
+                    });
                 }
             });
         };
 
         /**
-         *  Logout with the api
+         * Logout
+         *
+         * @param {Event}       e                   The dispatched event
+         * @param {Object}      obj                 The parameters
+         * @param {Function}    obj.callback        The callback function
          */
-        UserController.prototype.logout = function() {
+        var logout = function(e, obj) {
+            $(document).trigger(constants.events.activitystart);
             oae.api.authentication.logout(function(err) {
+                $(document).trigger(constants.events.activityend);
                 if(err) {
-                    console.log('[UserController] logout -> fail');
-                    console.log(err)
+                    obj.callback(err);
                 }else{
-                    console.log('[UserController] logout -> success');
-                    viewController.changeView({'target': 'login', 'transition': new Moobile.ViewTransition.None});
+                    obj.callback();
+                    oae.init(function(e){
+                        $(document).trigger(constants.user.logoutsuccess);
+                    });
                 }
             });
+        };
+
+        // Private methods
+        var addBinding = function() {
+            $(document).on(constants.user.loginattempt, login);
+            $(document).on(constants.user.logoutattempt, logout);
         };
 
         // Singleton
