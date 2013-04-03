@@ -275,6 +275,46 @@ a:hover, .btn-link:hover {
 }
 
 
+/*************************
+ ** NOTIFICATION COLORS **
+ *************************/
+
+/* SUCCESS NOTIFICATION */
+
+.alert-success, .alert-success h4 {
+  color: #468847;
+}
+
+.alert-success {
+  background-color: #DFF0D8;
+  border-color: #D6E9C6;
+}
+
+/* ERROR NOTIFICATION */
+
+.alert-danger, .alert-danger h4,
+.alert-error, .alert-error h4 {
+  color: #B94A48;
+}
+
+.alert-danger,
+.alert-error {
+  background-color: #F2DEDE;
+  border-color: #EED3D7;
+}
+
+/* INFO NOTIFICATION */
+
+.alert-info, .alert-info h4 {
+  color: #3A87AD;
+}
+
+.alert-info {
+  background-color: #D9EDF7;
+  border-color: #BCE8F1;
+}
+
+
 /**********************
  ** THUMBNAIL COLORS **
  **********************/

@@ -204,6 +204,13 @@ input.search-query,
     box-shadow: none;
 }
 
+/* NOTIFICATIONS
+ * @see http://twitter.github.com/bootstrap/components.html#alerts */
+
+.alert h4 {
+    margin-bottom: 5px;
+}
+
 /* BADGES 
  * @see http://twitter.github.com/bootstrap/components.html#labels-badges */
 
