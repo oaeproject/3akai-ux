@@ -150,8 +150,22 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * - `${value|safeUserInput}`: Should be used for all user input rendered as text
          * - `${value|safeURL}`: Should be used for all user input used as part of a URL
          * 
-         * There is also a globally available macro that can be used when rendering list view items:
-         * 
+         * There are also 2 globally available macros that can be used inside of all TrimPath templates:
+         *
+         * 1) Thumbnail
+         *
+         *   `${renderThumbnail(entityData, [addVisibilityIcon], [large])}`
+         *
+         * - `entityData` is an object representing a user, group or content item or a search result for a user, group
+         *    or content item. Alternatively, a string representing the resourceType or resourceSubType 
+         *    (i.e., 'user', 'group', 'content', 'file', 'link', 'collabdoc') can be passed in for an empty/anonymous 
+         *    entity thumbnail.
+         * - `addVisibilityIcon` (optional) will determine whether or not the visibility icon should be shown. By default, 
+         *    the visibility icon will be shown. However, users will not never show a visibility icon.
+         * - `large` (optional) determines whether or not a large default thumbnail icon should used. By default, a small icon will be used.
+         *
+         * 2) List item
+         *
          *   `${listItem(entityData, [pagingKey], [metadata], [showCheckbox])}`
          * 
          * - `entityData` is an object representing a user, group or content item or a search result for a user, group
@@ -159,7 +173,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * - `metadata` (optional) is a line of metadata information that should be displayed underneath the entity name
          * - `pagingKey` (optional) is the key that should be used for paging through the infinite scroll plugin
          * - `showCheckbox` (optional) will determine whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
-         * 
+         *
+         *
          * IMPORTANT: There should be no line breaks in between the div and the <!-- declarations,
          * because that line break will be recognized as a node and the template won't show up, as
          * it's expecting the comments tag as the first one. This is done because otherwise a template 
