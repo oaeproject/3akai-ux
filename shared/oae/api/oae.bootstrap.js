@@ -28,7 +28,6 @@ requirejs.config({
         'jquery.autoSuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest.sakai-edited',
         'jquery.ba-bbq': 'vendor/js/jquery-plugins/jquery.ba-bbq',
         'jquery.ba-hashchange': 'vendor/js/jquery-plugins/jquery.ba-hashchange',
-        'jquery.contentchange': 'vendor/js/jquery-plugins/jquery.contentchange.sakai-edited',
         'jquery.fileSize': 'vendor/js/jquery-plugins/jquery.fileSize',
         'jquery.fileupload': 'vendor/js/jquery-plugins/jquery.fileupload',
         'jquery.form': 'vendor/js/jquery-plugins/jquery.form',
@@ -51,7 +50,6 @@ requirejs.config({
         'jquery.dnd-upload': 'oae/js/jquery-plugins/jquery.dnd-upload',
         'jquery.infinitescroll': 'oae/js/jquery-plugins/jquery.infinitescroll',
         'jquery.list-options': 'oae/js/jquery-plugins/jquery.list-options',
-        'jquery.visibility-choice': 'oae/js/jquery-plugins/jquery.visibility-choice',
 
         // OAE API modules
         'oae.api': 'oae/api/oae.api',

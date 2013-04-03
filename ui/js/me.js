@@ -105,6 +105,7 @@ require(['jquery','oae.core'], function($, oae) {
     $(document).on('oae.context.get', function() {
         $(document).trigger('oae.context.send');
     });
+    $(document).trigger('oae.context.send');
 
     setUpClip();
     setUpNavigation();

@@ -494,3 +494,25 @@ div.oae-thumbnail {
 .oae-clip.oae-clip-secondary ul li button:hover {
     background-color: #2096C6;
 }
+
+
+/************************
+ ** VISIBILITY TOGGLES **
+ ************************/
+
+.oae-visibility-choice-container .oae-visibility-choice {
+    background-color: #FFF;
+}
+
+.oae-visibility-choice-container label .oae-visibility-choice.checked {
+    background-color: #DBEDFE;
+    border: 8px solid #9EB7E6;
+}
+
+.oae-visibility-choice-container .oae-visibility-choice.checked i:first-child {
+    background-color: #9EB7E6;
+}
+
+.oae-visibility-choice-container .oae-visibility-choice.checked i:first-child:before {
+    color: #FFF;
+}

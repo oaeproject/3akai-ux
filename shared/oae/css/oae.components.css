@@ -95,6 +95,11 @@ a.oae-plain-link:hover {
  *   e.g. <i class="icon-oae-private"></i>
  *        <i class="icon-oae-loggedin"></i>
  *        <i class="icon-oae-public"></i>
+ *
+ * Large icons can be rendered by adding the `large` class to the icon.
+ *   e.g. <i class="icon-oae-private large"></i>
+ *        <i class="icon-oae-loggedin large"></i>
+ *        <i class="icon-oae-public large"></i>
  */
 
 i.icon-oae-private,
@@ -134,6 +139,17 @@ i.icon-oae-public:before {
     content: "\f0ac";
 }
 
+/* Larger visibility icons */
+
+i.icon-oae-private.large:before,
+i.icon-oae-loggedin.large:before,
+i.icon-oae-public.large:before {
+    font-size: 50px;
+    height: 55px;
+    padding-top: 5px;
+    width: 60px;
+}
+
 
 /************************
  ** VISIBILITY TOGGLES **
@@ -146,102 +162,82 @@ i.icon-oae-public:before {
  *
  * e.g. <div class="oae-visibility-choice-container row-fluid">
  *          <label for="oae-visibility-private" class="span4 text-center">
- *              <div class="oae-visibility-choice large well pull-left text-center checked">
+ *              <div class="oae-visibility-choice well pull-left text-center checked">
  *                  <i class="icon-ok hide"></i>
  *                  <input type="radio" id="oae-visibility-private" value="private" name="oae-visibility-group" class="pull-left" checked="checked"/>
- *                  <span class="oae-aural-text">__MSG__PRIVATE__</span>
- *                  <i class="icon-oae-private text-center"></i>
+ *                  <i class="icon-oae-private large text-center"></i>
  *                  <span>__MSG__PRIVATE__</span>
  *              </div>
  *              <small>__MSG__PRIVATE_DESCRIPTION__</small>
  *          </label>
  *          <label for="oae-visibility-loggedin" class="span4 text-center">
- *              <div class="oae-visibility-choice large well pull-left text-center">
+ *              <div class="oae-visibility-choice well pull-left text-center">
  *                  <i class="icon-ok hide"></i>
  *                  <input type="radio" id="oae-visibility-loggedin" value="loggedin" name="oae-visibility-group" class="pull-left"/>
- *                  <span class="oae-aural-text">__MSG__DISCOVERABLE_BY_EVERYONE_IN_TENANT__</span>
- *                  <i class="icon-oae-loggedin text-center"></i>
+ *                  <i class="icon-oae-loggedin large text-center"></i>
  *                  <span>__MSG__DISCOVERABLE_BY_EVERYONE_IN_TENANT__</span>
  *              </div>
  *              <small>__MSG__LOGGEDIN_DESCRIPTION__</small>
  *          </label>
  *          <label for="oae-visibility-public" class="span4 text-center">
- *              <div class="oae-visibility-choice large well pull-left text-center">
+ *              <div class="oae-visibility-choice well pull-left text-center">
  *                  <i class="icon-ok hide"></i>
  *                  <input type="radio" id="oae-visibility-public" value="public" name="oae-visibility-group" class="pull-left"/>
- *                  <span class="oae-aural-text">__MSG__PUBLIC_ANYONE__</span>
- *                  <i class="icon-oae-public text-center"></i>
- *                  <span>__MSG__PUBLIC_ANYONE__</span>
+ *                  <i class="icon-oae-public large text-center"></i>
+ *                  <span>__MSG__PUBLIC__</span>
  *              </div>
  *              <small>__MSG__PUBLIC_DESCRIPTION__</small>
  *          </label>
  *      </div>
  **/
 
-.oae-visibility-choice-container .oae-visibility-choice.well.large {
+.oae-visibility-choice-container .oae-visibility-choice {
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
             box-sizing: border-box;
-    background-color: #FFF;
-    height: 150px;
-    margin-right: 10px;
+    height: 170px;
+    margin: 0 10px 15px 0;
     width: 100%;
 }
 
-.oae-visibility-choice-container label:last-child .oae-visibility-choice.well.large {
+.oae-visibility-choice-container label:last-child .oae-visibility-choice {
     margin-right: 0;
 }
 
-.oae-visibility-choice-container label .oae-visibility-choice.well.large.checked {
-    background-color: #DBEDFE;
-    border: 8px solid #9EB7E6;
-}
-
-.oae-visibility-choice-container .oae-visibility-choice.well.large input {
+.oae-visibility-choice-container .oae-visibility-choice input {
     position: absolute;
-    visibility: hidden;
+    z-index: -1;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice.well.large span {
+.oae-visibility-choice-container .oae-visibility-choice span {
     display: block;
     font-size: 13px;
     font-weight: bold;
     margin-top: 7px;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice.well.large.checked {
+.oae-visibility-choice-container .oae-visibility-choice.checked {
     padding-top: 12px;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice.well.large i {
-    margin: 0;
-}
-.oae-visibility-choice-container .oae-visibility-choice.well.large i:before {
-    font-size: 50px;
-    height: 55px;
-    padding-top: 5px;
-    width: 60px;
-}
-
-.oae-visibility-choice-container .oae-visibility-choice.well.large i:first-child {
+.oae-visibility-choice-container .oae-visibility-choice i:first-child {
     display: none;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice.well.large.checked i:first-child {
-    background-color: #9EB7E6;
+.oae-visibility-choice-container .oae-visibility-choice.checked i:first-child {
     -webkit-border-radius: 100px;
        -moz-border-radius: 100px;
             border-radius: 100px;
-    bottom: 28%;
+    bottom: 24%;
     display: inline-block;
     margin-left: 12px;
     position: absolute;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice.well.large.checked i:first-child:before {
-    color: #FFF;
+.oae-visibility-choice-container .oae-visibility-choice.checked i:first-child:before {
     font-size: 24px;
     height: 30px;
+    padding-top: 5px;
     width: 35px;
 }
 
@@ -252,14 +248,19 @@ i.icon-oae-public:before {
 
 /* These icons are used in situations where checks for success/failure are done */
 
-.icon-ok,
-.icon-ok:hover {
-    color: #468847 !important;
+
+[class^="icon-"].icon-ok,
+[class*=" icon-"].icon-ok,
+[class^="icon-"].icon-ok:hover,
+[class*=" icon-"].icon-ok:hover {
+    color: #468847;
 }
 
-.icon-warning-sign,
-.icon-warning-sign:hover {
-    color: #DD2222 !important;
+[class^="icon-"].icon-warning-sign,
+[class*=" icon-"].icon-warning-sign,
+[class^="icon-"].icon-warning-sign:hover,
+[class*=" icon-"].icon-warning-sign:hover {
+    color: #DD2222;
 }
 
 /****************
@@ -781,7 +782,7 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-listitem.oae-listitem-compact > div:not(.oae-thumbnail) {
     height: 25px;
-    width: 600px;
+    width: auto;
 }
 
 .oae-listitem h3 {
@@ -1047,15 +1048,3 @@ ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-newdocument i {
     color: #333;
     font-size: 18px; 
 }*/
-
-
-/*******************
- ** DRAG AND DROP **
- ******************/
-
-/* TODO: Add documentation for this */
-
-.oae-dnd-upload.dragover {
-    opacity: 0.3;
-    transition: opacity 0.15s linear 0s;
-}

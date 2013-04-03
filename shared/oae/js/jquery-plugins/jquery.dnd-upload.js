@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['jquery', 'oae.api.content', 'jquery.contentchange'], function (jQuery) {
+define(['jquery', 'oae.api.content'], function (jQuery) {
     (function() {
         $(document).on('drop', '.oae-dnd-upload', function(ev, data) {
             if (ev.originalEvent.dataTransfer && ev.originalEvent.dataTransfer.files.length) {
@@ -33,9 +33,9 @@ define(['jquery', 'oae.api.content', 'jquery.contentchange'], function (jQuery) 
                 });
 
                 // Trigger an event that sends the dropped data along if
-                // valid files have been dropped
+                // valid files have been dropped for the upload widget to pick them up
                 if (selectedFiles.files.length) {
-                    $(document).trigger('oae-trigger-upload', {
+                    $(document).trigger('oae.trigger.upload', {
                         'data': selectedFiles
                     });
                 }
@@ -43,6 +43,7 @@ define(['jquery', 'oae.api.content', 'jquery.contentchange'], function (jQuery) 
         });
 
         $(document).on('dragover', '.oae-dnd-upload', function(ev) {
+            // Add the copy icon to the mouse when dragging over the drop area
             ev.originalEvent.dataTransfer.dropEffect = 'copy';
             ev.preventDefault();
             ev.stopPropagation();
