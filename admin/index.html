@@ -176,16 +176,14 @@
                                         {/if}
                                     {/if}
                                 </td>
-                                <td>
-                                    {if oae.data.me.isGlobalAdmin}
+                                {if oae.data.me.isGlobalAdmin}
+                                    <td>
                                         <button type="button" class="btn btn-danger delete-tenant" data-alias="${tenant.alias}" data-name="${tenant.name}">Delete</button>
-                                    {/if}
-                                </td>
-                                <td>
-                                    {if oae.data.me.isGlobalAdmin}
+                                    </td>
+                                    <td>
                                         <button type="button" class="btn btn-primary login-tenant" data-alias="${tenant.alias}">Login</button>
-                                    {/if}
-                                </td>
+                                    </td>
+                                {/if}
                             </tr>
                         {/if}
                     {/for}
