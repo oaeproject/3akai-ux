@@ -316,9 +316,9 @@
                         <div class="admin-container-striped">
                             {for variable in subsection.variables}
                                 <div class="control-group">
-                                    <label class="control-label" for="skinning_${variable.name}">${variable.description}</label>
+                                    <label class="control-label" for="admin-skinning-${variable.name}">${variable.description}</label>
                                     <div class="controls">
-                                        <input type="text" id="skinning_${variable.name}" name="${variable.name}" class="input-xlarge" value="${variable.value}" data-type="${variable.type}" data-defaultvalue="${variable.defaultValue}" />
+                                        <input type="text" id="admin-skinning-${variable.name}" name="${variable.name}" class="input-xlarge" value="${variable.value}" data-type="${variable.type}" data-defaultvalue="${variable.defaultValue}" />
                                         <button type="button" class="btn btn-link pull-right admin-skinning-revert" title="Revert to original value">
                                             <i class="icon-undo"><span class="oae-aural-text">Revert to original value</span></i>
                                         </button>
