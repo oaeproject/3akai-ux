@@ -19,6 +19,7 @@ define(['exports'], function(exports) {
         events: {
             activitystart   : 'oae-mobile-activity-start',
             activityend     : 'oae-mobile-activity-end',
+            templatesready  : 'oae-mobile-templates-ready',
             viewchanged     : 'oae-mobile-view-changed',
             viewpopped      : 'oae-mobile-view-popped'
         },

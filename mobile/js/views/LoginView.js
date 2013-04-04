@@ -16,21 +16,25 @@
 define(
     [
         'jquery','underscore','oae.core',
-        '/mobile/js/constants/constants.js'
+        '/mobile/js/constants/constants.js',
+        '/mobile/js/mobile.util.js'
     ],
-    function($, _, oae, constants) {
+    function($, _, oae, constants, mobileUtil) {
 
         // Properties
+        var template = '/mobile/templates/views/login-view.html';
+        var templateId = '#login-view-template';
 
         // Constructor
         function LoginView() {
+            console.log('[LoginView] constructor');
             this.initialize();
         }
 
         // Public methods
         LoginView.prototype.initialize = function() {
-            oae.api.util.template().render($('#login-view-template'), null, $('#view-container'));
-            addBinding();
+            console.log('[LoginView] initialize');
+            //renderTemplate();
         };
 
         LoginView.prototype.destroy = function() {
@@ -39,15 +43,28 @@ define(
         };
 
         // Private methods
+        var renderTemplate = function() {
+            console.log('[LoginView] render template');
+            mobileUtil.renderPageTemplate(template, function(err){
+                if(!err){
+                    oae.api.util.template().render(templateId, null, $('#viewport'));
+                    addBinding();
+                }
+            });
+        };
+
         var addBinding = function() {
+            console.log('[LoginView] addBinding');
             $('#btnLogin').bind('click', onLoginClick);
         };
 
         var deleteBinding = function() {
+            console.log('[LoginView] deleteBinding');
             $('#btnLogin').unbind('click', onLoginClick);
         };
 
         var onLoginClick = function(event) {
+            console.log('[LoginView] onLoginClick');
             var username = $('#txtUsername').val();
             var password = $('#txtPassword').val();
             if(username && password){
@@ -57,9 +74,7 @@ define(
                         username: username,
                         password: password,
                         callback: function(err){
-
                             // TODO: do something if error occurs (e.g. warning)
-
                         }
                     }
                 );

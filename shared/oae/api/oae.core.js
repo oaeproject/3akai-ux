@@ -48,6 +48,7 @@ define([
          */
         'bootstrap',
         'globalize',
+        'helper',
         'jquery.address',
         'jquery.ba-bbq',
         'jquery.ba-hashchange',

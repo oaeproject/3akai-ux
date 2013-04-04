@@ -13,6 +13,41 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
+define(
+    [
+        'exports', 'jquery', 'oae.core',
+        '/mobile/js/constants/constants.js'
+    ]
+    , function(exports, $, oae, constants) {
 
-});
+
+        /**
+         *
+         * @param {}    key         The name of the view
+         * @param {}    obj         The view object
+         * @param {}    index       The index of the view
+         * @param {}    total       The amount of views that need to be rendered
+         * @param {}    callback    Callback function
+         */
+        exports.renderPageTemplate = function(key, obj, index, total, callback) {
+            $.ajax({
+                url: obj.template,
+                type: 'GET',
+                success: function(data) {
+                    var template = document.createElement('div');
+                    template.innerHTML = oae.api.i18n.translate(data);
+                    obj.name = key;
+                    obj.el = template;
+                    callback(null, obj);
+                    if(index === total){
+                        $(document).trigger(constants.events.templatesready);
+                    }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    callback(textStatus, null);
+                }
+            });
+        };
+
+    }
+);

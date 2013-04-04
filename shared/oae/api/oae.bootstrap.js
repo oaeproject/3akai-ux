@@ -25,6 +25,7 @@ requirejs.config({
         // Vendor paths
         'bootstrap': 'vendor/js/bootstrap',
         'globalize': 'vendor/js/l10n/globalize',
+        'helper': 'vendor/js/helper',
         'jquery.address': 'vendor/js/jquery-plugins/jquery.address',
         'jquery.autoSuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest.sakai-edited',
         'jquery.ba-bbq': 'vendor/js/jquery-plugins/jquery.ba-bbq',

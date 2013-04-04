@@ -27,7 +27,9 @@ define(
         // Properties
         var instance = null;
 
-        var views = [];
+        var $helper =  $('#oae-mobile-template-helper');
+
+        var templates = null;
         var activeView = null;
         var oldView = null;
 
@@ -40,9 +42,11 @@ define(
         /**
          * Initialize ViewController
          */
-        ViewController.prototype.initialize = function() {
-            instance.changeView(oae.data.me.anon ? constants.views.login : constants.views.home);
+        ViewController.prototype.initialize = function(_views) {
+            // Listen to events from controllers
             addBinding();
+            // Render all templates
+            renderAllTemplates(_views);
         };
 
         /**
@@ -50,6 +54,7 @@ define(
          * @param {String} view          The new view that will be pushed into the stack
          */
         ViewController.prototype.changeView = function(view) {
+            console.log('[ViewController] changeView: ' + view);
             if(activeView){
                 oldView = activeView;
                 oldView.destroy();
@@ -77,9 +82,56 @@ define(
         };
 
         // Private methods
+
+        /**
+         * Listen to events dispatched from controllers
+         */
         var addBinding = function() {
             $(document).on(constants.user.loginsuccess, onLoginSuccess);
             $(document).on(constants.user.logoutsuccess, onLogoutSuccess);
+            $(document).on(constants.events.templatesready, onTemplatesReady);
+        };
+
+        /**
+         * Renders all the templates and caches them
+         */
+        var renderAllTemplates = function(_views) {
+            console.log('[ViewController] renderAllTemplates');
+            templates = {};
+            _.each(_views, function(view){
+                for(var key in view){
+                    var total = _views.length;
+                    var index = _views.indexOf(view) + 1;
+                    mobileUtil.renderPageTemplate(key, view[key], index, total, function(err, obj){
+                        templates[obj.name] = {
+                            'template': obj.template,
+                            'templateId': obj.templateId,
+                            'el': obj.el
+                        };
+                    });
+                }
+            });
+        };
+
+        /**
+         * Called when all templates are rendered
+         * Add templates to the helper element and initialize startup view
+         */
+        var onTemplatesReady = function() {
+            console.log('[ViewController] onTemplatesReady');
+            for(var template in templates){
+                $helper.append(templates[template]['el']);
+            }
+            setStartupView();
+        };
+
+        /**
+         * Set startup view, depends if user is logged in or not
+         */
+        var setStartupView = function() {
+            console.log('[ViewController] setStartupView');
+            var newView = oae.data.me.anon ? constants.views.login : constants.views.home;
+            instance.changeView(newView);
         };
 
         var onLoginSuccess = function() {
