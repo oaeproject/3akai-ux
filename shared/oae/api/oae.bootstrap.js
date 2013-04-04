@@ -38,6 +38,7 @@ requirejs.config({
         'jquery.notify': 'vendor/js/jquery-plugins/jquery.bootstrap.notify',
         'jquery.properties-parser': 'vendor/js/jquery-plugins/jquery.properties-parser',
         'jquery.serializeObject': 'vendor/js/jquery-plugins/jquery.serializeObject',
+        'jquery.spectrum': 'vendor/js/jquery-plugins/jquery.spectrum',
         'jquery.timeago': 'vendor/js/jquery-plugins/jquery.timeago',
         'jquery.validate': 'vendor/js/jquery-plugins/jquery.validate',
         'jquery-ui': 'vendor/js/jquery-ui/jquery-ui.custom',

@@ -1,0 +1,42 @@
+Sample skins:
+
+- Georgia Tech:
+
+@institutional-logo-url: 'http://sampeck.co.uk/files/oae/gtoae-logo.png'
+@branding-gradient1-color: rgb(238,178,17)
+@branding-gradient2-color: rgba(197,147,83,1)
+@link-color: #003049
+@panel-primary-text-color: #333;
+@panel-secondary-text-color: #333;
+@panel-tertiary-text-color: #333;
+
+- Georgia Tech (alternative):
+
+@institutional-logo-url: 'http://sampeck.co.uk/files/oae/gtoae-logo.png'
+@branding-image-url: 'http://api.ning.com/files/ZVGcNjqMgOwGrh8d6LyUisW7VDq2lfZhSJSYp*cFs6VLJY3Ao2soLWun*0mSy9DFOjqiJiJuTvvte1n2w4Px3nZqCpg8y8Ba/CampusoftheweekGT102111.jpg'
+@branding-gradient1-color: transparent
+@branding-gradient2-color: transparent
+@link-color: #003049
+@panel-primary-text-color: #FFF
+@panel-primary-title-color: #EEB211
+@panel-primary-background-color: rgba(0, 37, 76, 0.95)
+@panel-secondary-text-color: #333
+@panel-secondary-title-color: #333
+@panel-secondary-background-color: rgba(238, 178, 17, 0.85)
+@panel-tertiary-text-color: #333
+@panel-tertiary-title-color: #333
+@panel-tertiary-background-color: rgba(238, 178, 17, 0.85)
+
+- Marist College
+
+@institutional-logo-url: 'http://sampeck.co.uk/files/marist_logo.png'
+@branding-image-url: 'http://sampeck.co.uk/files/marist_bg.png'
+@branding-gradient1-color: rgba(110,19,16,1)
+@branding-gradient2-color: rgba(176,27,26,1)
+@link-color: #6E1310
+@link-hover-color: #B01B1A
+@button-primary-border-color: #6E1310
+@button-primary-gradient1-color: #B01B1A
+@button-primary-gradient2-color: #6E1310
+@clip-secondary-gradient1-color: #B01B1A
+@clip-secondary-gradient2-color: #6E1310

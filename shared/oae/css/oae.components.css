@@ -217,6 +217,7 @@ i.icon-oae-public.large:before {
 }
 
 .oae-visibility-choice-container .oae-visibility-choice.checked {
+    border: 8px solid;
     padding-top: 12px;
 }
 
