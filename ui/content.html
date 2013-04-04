@@ -30,16 +30,11 @@
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button {if !isManager} disabled {/if}>
-                                <div class="oae-thumbnail icon-oae-${resourceSubType}">
-                                    {if previews.thumbnailUrl}
-                                        <img src="${previews.thumbnailUrl}" alt="${displayName|safeUserInput}" />
-                                    {/if}
-                                    <i class="icon-oae-${visibility}"></i>
-                                </div>
+                            <button {if !content.isManager} disabled {/if}>
+                                ${renderThumbnail(content)}
                                 <div>
                                     <div>
-                                        <h1>${displayName|safeUserInput}</h1>
+                                        <h1>${content.displayName|safeUserInput}</h1>
                                         <i class="icon-caret-down"></i>
                                     </div>
                                 </div>

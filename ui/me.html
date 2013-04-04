@@ -31,12 +31,7 @@
                         </div>
                         <div class="oae-clip-content">
                             <button>
-                                <div class="oae-thumbnail icon-oae-user">
-                                    {if oae.data.me.picture.medium}
-                                        <img src="${oae.data.me.picture.medium}" alt="${oae.data.me.displayName|safeUserInput}"/>
-                                    {/if}
-                                    <i class="icon-oae-public"></i>
-                                </div>
+                                ${renderThumbnail(oae.data.me)}
                                 <div>
                                     <div>
                                         <h1>${oae.data.me.displayName|safeUserInput}</h1>
