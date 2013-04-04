@@ -156,8 +156,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          *
          *   `${renderThumbnail(entityData, [addVisibilityIcon], [large])}`
          *
-         * - `entityData` is an object representing a user, group or content item or a search result for a user, group
-         *    or content item. Alternatively, a string representing the resourceType or resourceSubType 
+         * - `entityData` is a standard object representing a user, group or content item or a search result for a user, group
+         *    or content item as returned by Hilary. Alternatively, a string representing the resourceType or resourceSubType 
          *    (i.e., 'user', 'group', 'content', 'file', 'link', 'collabdoc') can be passed in for an empty/anonymous 
          *    entity thumbnail.
          * - `addVisibilityIcon` (optional) will determine whether or not the visibility icon should be shown. By default, 
