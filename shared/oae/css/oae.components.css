@@ -145,14 +145,29 @@ i.icon-oae-public:before {
  * image is available, and it allows for showing a visibility icon combined with
  * the thumbnail. These thumbnails will adjust in size to the space they have
  * been given by their container.
- * 
+ *
  *   e.g. <div class="oae-thumbnail icon-oae-user">
- *          <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian"/>
- *          <i class="icon-oae-public"></i>
+ *            <a href="${entityData.profilePath}" title="${entityData.displayName|safeUserInput}">
+ *                <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian"/>
+ *                <i class="icon-oae-public"></i>
+ *            </a>
  *        </div>
- * 
+ *
+ * Next to using the HTML structure, there is also a Trimpath macro that can be used
+ * instead from all Trimpath templates:
+ *
+ *   `${renderThumbnail(entityData, [addVisibilityIcon], [large])}`
+ *
+ * - `entityData` is an object representing a user, group or content item or a search result for a user, group
+ *    or content item. Alternatively, a string representing the resourceType or resourceSubType 
+ *    (i.e., 'user', 'group', 'content', 'file', 'link', 'collabdoc') can be passed in for an empty/anonymous 
+ *    entity thumbnail.
+ * - `addVisibilityIcon` (optional) will determine whether or not the visibility icon should be shown. By default, 
+ *    the visibility icon will be shown. However, users will not never show a visibility icon.
+ * - `large` (optional) determines whether or not a large default thumbnail icon should used. By default, a small icon will be used.
+ *
  * Notes:
- * 
+ *
  * - The actual thumbnail image is optional, and if no image is specified the
  *   thumbnail will show a default entity thumbnail. In order to do this,
  *   `icon-oae-user` should be added to the `oae-thumbnail` div for users,
@@ -171,6 +186,8 @@ i.icon-oae-public:before {
  *   automatically be positioned correctly. The available visibility icons are 
  *   `icon-oae-private`, `icon-oae-loggedin` and `icon-oae-public` (See Visibility
  *   icons section).
+ * - The link inside of the thumbnail can be used to link to the entity's profile page.
+ *   This link is optional and can be left out.
  */
 
 div.oae-thumbnail {
@@ -185,6 +202,7 @@ div.oae-thumbnail {
     box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.35);
 }
 
+div.oae-thumbnail a,
 div.oae-thumbnail img {
     position: absolute;
     left: 0;
@@ -385,7 +403,7 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .oae-clip .oae-clip-content > button > div {
-    float: left;
+    float: left
 }
 
 .oae-clip .oae-clip-content > button > div:nth-child(2) > div {
@@ -402,8 +420,9 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-clip .oae-clip-content > button i.icon-caret-down,
 .oae-clip .oae-clip-content > button i.icon-caret-up {
-    margin-left: 10px;
-    float: right;
+    margin-left: 5px;
+    position: relative;
+    top: 2px;
 }
 
 .oae-clip .oae-clip-content > button:disabled i.icon-caret-down,
@@ -504,6 +523,7 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-tile {
     position: relative;
     overflow: hidden;
+    border: 1px solid;
 }
 /* Default thumbnail picture positioning */
 
@@ -523,7 +543,7 @@ div.oae-thumbnail i[class^="icon-"] {
 
 /* Tile metadata */
 
-.oae-tile > div:nth-child(2) {
+.oae-tile > div:last-child {
     position: absolute;
     bottom: 0px;
     right: 0px;
@@ -598,6 +618,7 @@ div.oae-thumbnail i[class^="icon-"] {
     padding: 10px;
     margin-bottom: 2px;
     height: 50px;
+    border: 1px solid;
 }
 
 .oae-listitem.oae-listitem-compact {
@@ -702,8 +723,8 @@ div.oae-thumbnail i[class^="icon-"] {
 /* Core list styles */
 
 ul.oae-list {
-    margin: 25px 0 0;
-    padding: 0;
+    margin: 0;
+    padding: 10px 0 0 0;
     clear: both;
 }
 
@@ -808,10 +829,12 @@ ul.oae-list li .oae-list-compact-item  {
 }
 
 .oae-list-options .oae-list-options-toggle,
-.oae-list-options .oae-list-options-toggle:active {
+.oae-list-options .btn.oae-list-options-toggle,
+.oae-list-options .btn.oae-list-options-toggle:hover,
+.oae-list-options .btn.oae-list-options-toggle:active {
     background: none;
     border: none;
-    padding: 0px;
+    padding: 1px 0px;
     -webkit-box-shadow: none;
        -moz-box-shadow: none;
             box-shadow: none;

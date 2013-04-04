@@ -86,12 +86,8 @@ module.exports = function(grunt) {
                             'target/optimized/ui/**/*.js',
                             'target/optimized/ui/**/*.css',
                             'target/optimized/admin/**/*.js',
-                            'target/optimized/admin/**/*.css'
-                        ],
-
-                        // Exclude these files from being renamed/hashed
-                        excludeFiles: [
-                            'target/optimized/shared/vendor/js/l10n/cultures.*/**'
+                            'target/optimized/admin/**/*.css',
+                            '!target/optimized/shared/vendor/js/l10n/cultures.*/**'
                         ],
 
                         // Look for and replace references to the above (non-excluded) files and folders in these files
@@ -119,11 +115,14 @@ module.exports = function(grunt) {
                  ],
             ie8: false,
             base: __dirname
+        },
+        'git-describe': {
+            'oae': {}
         }
     });
 
     // Load tasks from npm modules
-    grunt.loadNpmTasks('grunt-clean');
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-git-describe');
     grunt.loadNpmTasks('grunt-ver');
     grunt.loadNpmTasks('grunt-imagine');
@@ -131,7 +130,7 @@ module.exports = function(grunt) {
 
     // Task to write the version to a file
     grunt.registerTask('writeVersion', function() {
-        this.requires('describe');
+        this.requires('git-describe');
         var json = grunt.template.process('{"sakai:ux-version":"<%= meta.version %>"}');
         grunt.file.write('target/optimized/ui/version.json', json);
     });
@@ -158,7 +157,7 @@ module.exports = function(grunt) {
         this.requires('inlineImg');
 
         // Add the modules as phases to ver:oae
-        var oaeModules = grunt.file.expandDirs('target/optimized/node_modules/oae-*/*');
+        var oaeModules = grunt.file.expand({filter:'isDirectory'}, 'target/optimized/node_modules/oae-*/*');
         oaeModules.forEach(function(module) {
             grunt.log.writeln(module);
             var conf = {
@@ -213,8 +212,8 @@ module.exports = function(grunt) {
     });
 
     // Override the test task with the qunit task
-    grunt.registerTask('test', 'qunit');
+    grunt.registerTask('test', ['qunit']);
 
     // Default task.
-    grunt.registerTask('default', 'clean describe requirejs inlineImg hashFiles writeVersion configNginx');
+    grunt.registerTask('default', ['clean', 'git-describe', 'requirejs', 'inlineImg', 'hashFiles', 'writeVersion', 'configNginx']);
 };

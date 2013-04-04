@@ -57,6 +57,7 @@ define([
         'jquery.form',
         'jquery.history',
         'jquery.infinitescroll',
+        'jquery.notify',
         'jquery.properties-parser',
         'jquery.serializeObject',
         'jquery.timeago',
