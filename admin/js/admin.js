@@ -456,7 +456,9 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
      */
     var initializeSkinning = function() {
         // Only show the skinning variables when we are looking at a specific tenant.
-        // It is currently not possible or desired to change skin values from the global admin UI.
+        // It is currently not desired to change skin values for the global tenant, as the
+        // values wouldn't flow through to the tenants appropriately if both of them have
+        // skinning values stored.
         if (currentContext.host) {
             $.ajax({
                 'url': '/api/ui/skin/variables',
@@ -523,9 +525,9 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
             type: 'POST',
             data: data,
             success: function() {
-                oae.api.util.showNotification('Skin saved', 'The skin has been successfully saved.');
+                oae.api.util.notification('Skin saved', 'The skin has been successfully saved.');
             }, error: function() {
-                oae.api.util.showNotification('Skin not saved', 'The skin could not be saved successfully.', 'error');
+                oae.api.util.notification('Skin not saved', 'The skin could not be saved successfully.', 'error');
             }
         });
         return false;
@@ -540,8 +542,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         var $input = $('input', $(this).parent());
         // The original value is stored in a data attribute on the input field
         var defaultValue = $input.attr('data-defaultvalue');
-        // If the variable is a color, we use the set method
-        // provided by jQuery spectrum
+        // If the variable is a color, we use the set method provided by jQuery spectrum
         if ($input.attr('data-type') === 'color') {
             $input.spectrum('set', defaultValue);
         } else {
@@ -764,10 +765,10 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                     getConfiguration(function() {
                         // Initialize left hand navigation
                         initializeNavigation();
-                        // Initialize configurable modules
-                        initializeModules();
                         // Initialize the tenants table (only 1 tenant if not on global server)
                         initializeTenants();
+                        // Initialize configurable modules
+                        initializeModules();
                         // Initialize the skinning UI
                         initializeSkinning();
                         // Show requested view
