@@ -22,7 +22,6 @@ define(
     function($, _, oae, constants, mobileUtil) {
 
         // Properties
-        var template = '/mobile/templates/views/home-view.html';
         var templateId = '#home-view-template';
 
         // Constructor
@@ -44,13 +43,9 @@ define(
 
         // Private methods
         var renderTemplate = function() {
-            console.log('[HomeView] render template');
-            mobileUtil.renderPageTemplate(template, function(err){
-                if(!err){
-                    oae.api.util.template().render(templateId, null, $('#viewport'));
-                    addBinding();
-                }
-            });
+            console.log('[HomeView] renderTemplate');
+            oae.api.util.template().render(templateId, null, $('#viewport'));
+            addBinding();
         };
 
         var addBinding = function() {

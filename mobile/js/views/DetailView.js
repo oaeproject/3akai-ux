@@ -22,7 +22,6 @@ define(
     function($, _, oae, constants, mobileUtil) {
 
         // Properties
-        var template = '/mobile/templates/views/detail-view.html';
         var templateId = '#detail-view-template';
 
         // Constructor
@@ -45,12 +44,8 @@ define(
         // Private methods
         var renderTemplate = function() {
             console.log('[DetailView] render template');
-            mobileUtil.renderPageTemplate(template, function(err){
-                if(!err){
-                    oae.api.util.template().render(templateId, null, $('#viewport'));
-                    addBinding();
-                }
-            });
+            oae.api.util.template().render(templateId, null, $('#viewport'));
+            addBinding();
         };
 
         var addBinding = function() {

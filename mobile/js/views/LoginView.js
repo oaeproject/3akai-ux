@@ -22,7 +22,6 @@ define(
     function($, _, oae, constants, mobileUtil) {
 
         // Properties
-        var template = '/mobile/templates/views/login-view.html';
         var templateId = '#login-view-template';
 
         // Constructor
@@ -34,7 +33,7 @@ define(
         // Public methods
         LoginView.prototype.initialize = function() {
             console.log('[LoginView] initialize');
-            //renderTemplate();
+            renderTemplate();
         };
 
         LoginView.prototype.destroy = function() {
@@ -44,13 +43,9 @@ define(
 
         // Private methods
         var renderTemplate = function() {
-            console.log('[LoginView] render template');
-            mobileUtil.renderPageTemplate(template, function(err){
-                if(!err){
-                    oae.api.util.template().render(templateId, null, $('#viewport'));
-                    addBinding();
-                }
-            });
+            console.log('[LoginView] renderTemplate');
+            oae.api.util.template().render(templateId, null, $('#viewport'));
+            addBinding();
         };
 
         var addBinding = function() {
@@ -64,7 +59,6 @@ define(
         };
 
         var onLoginClick = function(event) {
-            console.log('[LoginView] onLoginClick');
             var username = $('#txtUsername').val();
             var password = $('#txtPassword').val();
             if(username && password){

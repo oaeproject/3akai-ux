@@ -56,7 +56,6 @@ define(
                 }else{
                     obj.callback();
                     oae.init(function(e){
-                        console.log(e);
                         $(document).trigger(constants.user.loginsuccess);
                     });
                 }
@@ -79,7 +78,6 @@ define(
                 }else{
                     obj.callback();
                     oae.init(function(e){
-                        console.log(e);
                         $(document).trigger(constants.user.logoutsuccess);
                     });
                 }

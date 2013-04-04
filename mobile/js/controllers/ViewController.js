@@ -54,7 +54,6 @@ define(
          * @param {String} view          The new view that will be pushed into the stack
          */
         ViewController.prototype.changeView = function(view) {
-            console.log('[ViewController] changeView: ' + view);
             if(activeView){
                 oldView = activeView;
                 oldView.destroy();
@@ -87,16 +86,15 @@ define(
          * Listen to events dispatched from controllers
          */
         var addBinding = function() {
+            $(document).on(constants.events.templatesready, onTemplatesReady);
             $(document).on(constants.user.loginsuccess, onLoginSuccess);
             $(document).on(constants.user.logoutsuccess, onLogoutSuccess);
-            $(document).on(constants.events.templatesready, onTemplatesReady);
         };
 
         /**
          * Renders all the templates and caches them
          */
         var renderAllTemplates = function(_views) {
-            console.log('[ViewController] renderAllTemplates');
             templates = {};
             _.each(_views, function(view){
                 for(var key in view){
@@ -118,7 +116,6 @@ define(
          * Add templates to the helper element and initialize startup view
          */
         var onTemplatesReady = function() {
-            console.log('[ViewController] onTemplatesReady');
             for(var template in templates){
                 $helper.append(templates[template]['el']);
             }
@@ -129,7 +126,6 @@ define(
          * Set startup view, depends if user is logged in or not
          */
         var setStartupView = function() {
-            console.log('[ViewController] setStartupView');
             var newView = oae.data.me.anon ? constants.views.login : constants.views.home;
             instance.changeView(newView);
         };
