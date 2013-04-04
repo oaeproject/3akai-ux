@@ -92,14 +92,18 @@ a.oae-plain-link:hover {
  * These icons are used consistently to indicate the visibility setting for an entity
  * in the system. The available visibility privacy options are `private`, `loggedin` and
  * `public`.
- *   e.g. <i class="icon-oae-private"></i>
- *        <i class="icon-oae-loggedin"></i>
- *        <i class="icon-oae-public"></i>
+ *   e.g. <i class="icon-oae-private"><span class="oae-aural-text">__MSG__PRIVATE__</span></i>
+ *        <i class="icon-oae-loggedin"><span class="oae-aural-text">__MSG__LOGGED_IN__</span></i>
+ *        <i class="icon-oae-public"><span class="oae-aural-text">__MSG__PUBLIC__</span></i>
  *
  * Large icons can be rendered by adding the `large` class to the icon.
- *   e.g. <i class="icon-oae-private large"></i>
- *        <i class="icon-oae-loggedin large"></i>
- *        <i class="icon-oae-public large"></i>
+ *   e.g. <i class="icon-oae-private large"><span class="oae-aural-text">__MSG__PRIVATE__</span></i>
+ *        <i class="icon-oae-loggedin large"><span class="oae-aural-text">__MSG__LOGGED_IN__</span></i>
+ *        <i class="icon-oae-public large"><span class="oae-aural-text">__MSG__PUBLIC__</span></i>
+ *
+ * Note:
+ *
+ * - The `oae-aural-text` span is added in for accessibility purposes, but can be left out when necessary.
  */
 
 i.icon-oae-private,
@@ -287,8 +291,8 @@ i.icon-oae-public.large:before {
  *
  *   `${renderThumbnail(entityData, [addVisibilityIcon], [large])}`
  *
- * - `entityData` is an object representing a user, group or content item or a search result for a user, group
- *    or content item. Alternatively, a string representing the resourceType or resourceSubType 
+ * - `entityData` is a standard object representing a user, group or content item or a search result for a user, group
+ *    or content item as returned by Hilary. Alternatively, a string representing the resourceType or resourceSubType 
  *    (i.e., 'user', 'group', 'content', 'file', 'link', 'collabdoc') can be passed in for an empty/anonymous 
  *    entity thumbnail.
  * - `addVisibilityIcon` (optional) will determine whether or not the visibility icon should be shown. By default, 
