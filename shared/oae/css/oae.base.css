@@ -252,6 +252,7 @@ input.search-query,
     margin-top: 5px;
     background-position: center;
     background-repeat: no-repeat;
+    background-size: auto 34.5px;
 }
 
 .oae-institutional-logo:hover {

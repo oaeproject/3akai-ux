@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.jeditable'], function($, _, oae, adminUtil) {
+require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.jeditable', 'jquery.spectrum'], function($, _, oae, adminUtil) {
 
     // Variable that will be used to keep track of current tenant
     var currentContext = null;
@@ -74,6 +74,9 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         switch (hash) {
             case 'configurationmodules':
                 $('#admin-views > #admin-modules-container').show();
+                break;
+            case 'configurationskinning':
+                $('#admin-views > #admin-skinning-container').show();
                 break;
             default:
                 $('#admin-views > #admin-tenants-container').show();
@@ -444,6 +447,109 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         });
     };
 
+    //////////////
+    // SKINNING //
+    //////////////
+
+    /**
+     * Initialize the list of available skinning variables and their values
+     */
+    var initializeSkinning = function() {
+        // Only show the skinning variables when we are looking at a specific tenant.
+        // It is currently not desired to change skin values for the global tenant, as the
+        // values wouldn't flow through to the tenants appropriately if both of them have
+        // skinning values stored.
+        if (currentContext.host) {
+            $.ajax({
+                'url': '/api/ui/skin/variables',
+                'data': {
+                    'tenant': currentContext.alias
+                },
+                'success': function(data) {
+                    // The stored skin values for the current tenant can be found in the configuration
+                    // object. This will be stored as a stringified JSON object, so we need to parse this first.
+                    var configuredSkin = {};
+                    if (configuration['oae-ui'].skin.variables) {
+                        configuredSkin = JSON.parse(configuration['oae-ui'].skin.variables);
+                    }
+
+                    // For all of the values in the available skin variables, we check if the current tenant
+                    // has a stored value that overrides the default value. If the tenant doesn't have a value
+                    // for a variable, the default value will be used
+                    $.each(data.results, function(configSectionIndex, configSection) {
+                        $.each(configSection.subsections, function(configSubsectionIndex, configSubsection) {
+                            $.each(configSubsection.variables, function(variableIndex, variable) {
+                                variable.value = configuredSkin[variable.name] || variable.defaultValue;
+                            });
+                        });
+                    });
+
+                    // Render the template that lists all of the configuration sections and subsections, their variables and their values
+                    oae.api.util.template().render($('#admin-skinning-template'), data, $('#admin-skinning-container'));
+
+                    // Initialize the jQuery.spectrum color pickers
+                    $('[data-type="color"]').spectrum({
+                        'preferredFormat': 'rgb',
+                        'showAlpha': true,
+                        'showButtons': false,
+                        'showInitial': true,
+                        'showInput': true
+                    });
+                }
+            });
+        }
+    };
+
+    /**
+     * Save the new skin values. The back-end requires us to send all of
+     * the skin variables at once in a stringified JSON object.
+     */
+    var saveSkin = function() {
+        // Serializing the form gives us all of the current values,
+        // including the latest selected colors
+        var values = $('#admin-skinning-form').serializeObject();
+        var data = {
+            'oae-ui/skin/variables': JSON.stringify(values)
+        }
+
+        // When we are on the tenant server itself, we don't have
+        // to append the tenant alias to the endpoint
+        var url = '/api/config';
+        if (currentContext.isGlobalAdminServer) {
+            url += '/' + currentContext.alias;
+        }
+
+        // Save the skin values
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: data,
+            success: function() {
+                oae.api.util.notification('Skin saved', 'The skin has been successfully saved.');
+            }, error: function() {
+                oae.api.util.notification('Skin not saved', 'The skin could not be saved successfully.', 'error');
+            }
+        });
+        return false;
+    };
+
+    /**
+     * Revert a skin value back to its original value as defined in the
+     * base less file. Therefore, this will not necessarily revert the 
+     * value back to its previous value.
+     */
+    var revertSkinValue = function() {
+        var $input = $('input', $(this).parent());
+        // The original value is stored in a data attribute on the input field
+        var defaultValue = $input.attr('data-defaultvalue');
+        // If the variable is a color, we use the set method provided by jQuery spectrum
+        if ($input.attr('data-type') === 'color') {
+            $input.spectrum('set', defaultValue);
+        } else {
+            $input.val(defaultValue);
+        }
+    };
+
     ///////////////////////
     //// DATA FETCHING ////
     ///////////////////////
@@ -470,6 +576,10 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
             'url': '/api/config/schema',
             'success': function(data) {
                 configurationSchema = data;
+
+                // Remove the OAE UI module from the schema to avoid it being rendered
+                // as a module, because skinning will be handled in a separate page.
+                delete configurationSchema['oae-ui'];
 
                 // Get the tenant configuration values
                 var url = '/api/config';
@@ -554,6 +664,10 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         $(document).on('click', '.login-tenant', loginOnTenantHandler);
         // Change config value
         $(document).on('submit', '.admin-module-configuration-form', writeConfig);
+        // Revert skin value
+        $(document).on('click', '.admin-skinning-revert', revertSkinValue);
+        // Change skin
+        $(document).on('submit', '#admin-skinning-form', saveSkin);
         // Left hand navigation switching
         $(window).hashchange(switchView);
     };
@@ -651,10 +765,12 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                     getConfiguration(function() {
                         // Initialize left hand navigation
                         initializeNavigation();
-                        // Initialize configurable modules
-                        initializeModules();
                         // Initialize the tenants table (only 1 tenant if not on global server)
                         initializeTenants();
+                        // Initialize configurable modules
+                        initializeModules();
+                        // Initialize the skinning UI
+                        initializeSkinning();
                         // Show requested view
                         switchView();
                     });
