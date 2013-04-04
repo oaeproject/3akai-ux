@@ -47,9 +47,10 @@ require(['jquery', 'oae.core'], function($, oae) {
         });
     };
 
-    $(document).on('oae-trigger-requestcontext', function() {
-        $(document).trigger('oae-trigger-receivecontext', groupProfile);
+    $(document).on('oae.context.get', function() {
+        $(document).trigger('oae.context.send', groupProfile);
     });
+    $(document).trigger('oae.context.send', groupProfile);
 
     /**
      * Render the group's clip, containing the profile picture, display name as well as the

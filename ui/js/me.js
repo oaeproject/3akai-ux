@@ -102,9 +102,10 @@ require(['jquery','oae.core'], function($, oae) {
         oae.api.util.template().render($('#me-clip-template'), null, $('#me-clip-container'));
     };
 
-    $(document).on('oae-trigger-requestcontext', function() {
-        $(document).trigger('oae-trigger-receivecontext');
+    $(document).on('oae.context.get', function() {
+        $(document).trigger('oae.context.send');
     });
+    $(document).trigger('oae.context.send');
 
     setUpClip();
     setUpNavigation();
