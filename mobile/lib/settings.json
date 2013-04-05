@@ -1,5 +1,5 @@
 {
-    "views": [
+    "templates": [
         {
             "loginView": {
                 "templateId"    : "#login-view-template",
@@ -17,14 +17,18 @@
                 "templateId"    : "#detail-view-template",
                 "template"      : "/mobile/templates/views/detail-view.html"
             }
+        },
+        {
+            "menu": {
+                "templateId"    : "#menu-template",
+                "template"      : "/mobile/templates/components/menu.html"
+            }
         }
     ],
     "menu": {
-        "templateId"            : "#menu-template",
-        "template"              : "/mobile/templates/components/menu.html",
         "items": [
             {
-                "label"         : "logout"
+                "label"         : "__MSG__LOGOUT__"
             }
         ]
     }

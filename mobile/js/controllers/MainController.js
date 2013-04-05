@@ -1,17 +1,23 @@
 define(
     [
-        'jquery','oae.core',
+        'exports',
+        'jquery','underscore','oae.core',
         '/mobile/js/constants/constants.js',
         '/mobile/js/mobile.util.js',
         '/mobile/js/views/components/Menu.js'
     ],
-    function($, oae, constants, mobileUtil, Menu){
+    function(exports, $, underscore, oae, constants, mobileUtil, Menu){
 
         // Properties
         var instance = null;
+
+        var _templates = null;
+        var _views = null;
+        var _menu = null;
+
         var _settings = null;
 
-        var _menu = null;
+        var $helper =  $('#oae-mobile-template-helper');
 
         /////////////////////
         //// Constructor ////
@@ -67,6 +73,7 @@ define(
          * Listen te events from controllers
          */
         var addBinding = function() {
+            $(document).on(constants.events.activities.templatesready, onTemplatesReady);
             $(document).on(constants.events.activities.activitystart, showIndicator);
             $(document).on(constants.events.activities.activityend, hideIndicator);
         };
@@ -81,14 +88,54 @@ define(
                 success: function(data){
                     if(data && data != null){
                         _settings = data;
-                        initControllers();
-                        initMenu();
+                        initViews();
+                        renderAllTemplates();
                     }
                 },
                 error: function(e){
                     console.log(e);
                 }
             });
+        };
+
+        /**
+         * Initialize and render the view templates
+         */
+        var initViews = function() {
+            _views = [];
+            _.each(_settings['templates'], function(view){
+                _views.push(view);
+            });
+        };
+
+        /**
+         * Renders all the templates and caches them
+         */
+        var renderAllTemplates = function() {
+            _templates = {};
+            _.each(_views, function(view){
+                for(var key in view){
+                    var total = _views.length;
+                    var index = _views.indexOf(view) + 1;
+                    mobileUtil.renderTemplate(key, view[key], index, total, function(err, obj){
+                        _templates[obj.name] = {
+                            'template': obj.template,
+                            'templateId': obj.templateId,
+                            'el': obj.el
+                        };
+                    });
+                }
+            });
+        };
+
+        /**
+         * Called when all templates are rendered
+         * Add templates to the helper element and initialize startup view
+         */
+        var onTemplatesReady = function() {
+            for(var template in _templates) $helper.append(_templates[template]['el']);
+            initControllers();
+            initMenu();
         };
 
         /**
@@ -110,21 +157,21 @@ define(
         /**
          * Initialize the menu
          */
-        var initMenu = function() {
+        var initMenu = exports.initMenu = function() {
             _menu = new Menu(MainController.getInstance());
         };
 
         /**
          * Show the activity indicator
          */
-        var showIndicator = function() {
+        var showIndicator = exports.showIndicator = function() {
             console.log('[Mobile] showIndicator');
         };
 
         /**
          * Hide the activity indicator
          */
-        var hideIndicator = function() {
+        var hideIndicator = exports.hideIndicator = function() {
             console.log('[Mobile] hideIndicator');
         };
 

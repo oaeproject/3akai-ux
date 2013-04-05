@@ -15,10 +15,6 @@ define(
 
         var mainController = null;
 
-        var $helper =  $('#oae-mobile-template-helper');
-
-        var _views = null;
-        var _templates = null;
         var _activeView = null;
         var _oldView = null;
 
@@ -42,14 +38,13 @@ define(
              * Initialize ViewController
              */
             initialize: function(_mainController) {
+                console.log('[ViewController] initialize');
                 // Listen to events from controllers
                 addBinding();
                 // Store instance of the maincontroller
                 mainController = _mainController;
-                // Init views
-                initViews();
-                // Render all templates
-                renderAllTemplates();
+                // Set startup view
+                setStartupView();
             },
 
             /**
@@ -57,6 +52,11 @@ define(
              * @param {String} view          The new view that will be pushed into the stack
              */
             changeView: function(view) {
+
+                console.log('[ViewController] changeView');
+
+                /*
+
                 if(_activeView){
                     _oldView = _activeView;
                     _oldView.destroy();
@@ -72,6 +72,8 @@ define(
                         _activeView = new DetailView(_views[2]['detailView']['templateId']);
                         break;
                 }
+
+                */
             }
         };
 
@@ -91,51 +93,11 @@ define(
         /////////////////////
 
         /**
-         * Initialize and render the view templates
-         */
-        var initViews = function() {
-            _views = [];
-            _.each(mainController.getSettings()['views'], function(view){
-                _views.push(view);
-            });
-        };
-
-        /**
          * Listen to events dispatched from controllers
          */
         var addBinding = function() {
-            $(document).on(constants.events.activities.templatesready, onTemplatesReady);
             $(document).on(constants.events.user.loginsuccess, onLoginSuccess);
             $(document).on(constants.events.user.logoutsuccess, onLogoutSuccess);
-        };
-
-        /**
-         * Renders all the templates and caches them
-         */
-        var renderAllTemplates = function() {
-            _templates = {};
-            _.each(_views, function(view){
-                for(var key in view){
-                    var total = _views.length;
-                    var index = _views.indexOf(view) + 1;
-                    mobileUtil.renderPageTemplate(key, view[key], index, total, function(err, obj){
-                        _templates[obj.name] = {
-                            'template': obj.template,
-                            'templateId': obj.templateId,
-                            'el': obj.el
-                        };
-                    });
-                }
-            });
-        };
-
-        /**
-         * Called when all templates are rendered
-         * Add templates to the helper element and initialize startup view
-         */
-        var onTemplatesReady = function() {
-            for(var template in _templates) $helper.append(_templates[template]['el']);
-            setStartupView();
         };
 
         /**

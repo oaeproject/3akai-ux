@@ -29,7 +29,7 @@ define(
          * @param {}    total       The amount of views that need to be rendered
          * @param {}    callback    Callback function
          */
-        exports.renderPageTemplate = function(key, obj, index, total, callback) {
+        exports.renderTemplate = function(key, obj, index, total, callback) {
             $.ajax({
                 url: obj.template,
                 type: 'GET',

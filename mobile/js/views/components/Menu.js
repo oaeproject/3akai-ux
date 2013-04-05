@@ -40,11 +40,15 @@ define(
 
         Menu.prototype.initialize = function() {
             _settings = mainController.getSettings()['menu'];
-            renderTemplate();
+
+            console.log('[Menu]');
+            console.log(_settings);
+
+            //renderTemplate();
         };
 
         Menu.prototype.destroy = function() {
-            console.log('[Menu] destroy');
+            _settings = null;
             deleteBinding();
         };
 
@@ -54,7 +58,7 @@ define(
 
         var renderTemplate = function() {
             console.log('[Menu] render template');
-            console.log(_settings);
+            //oae.api.util.template().render(_settings['templateId'], null, $('#viewport'));
             addBinding();
         };
 
