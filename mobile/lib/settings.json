@@ -2,27 +2,29 @@
     "views": [
         {
             "loginView": {
-                "templateId"  : "#login-view-template",
-                "template"    : "/mobile/templates/views/login-view.html"
+                "templateId"    : "#login-view-template",
+                "template"      : "/mobile/templates/views/login-view.html"
             }
         },
         {
             "homeView": {
-                "templateId"  : "#home-view-template",
-                "template"    : "/mobile/templates/views/home-view.html"
+                "templateId"    : "#home-view-template",
+                "template"      : "/mobile/templates/views/home-view.html"
             }
         },
         {
             "detailView": {
-                "templateId"  : "#detail-view-template",
-                "template"    : "/mobile/templates/views/detail-view.html"
+                "templateId"    : "#detail-view-template",
+                "template"      : "/mobile/templates/views/detail-view.html"
             }
         }
     ],
     "menu": {
+        "templateId"            : "#menu-template",
+        "template"              : "/mobile/templates/components/menu.html",
         "items": [
             {
-                "label"     : "logout"
+                "label"         : "logout"
             }
         ]
     }

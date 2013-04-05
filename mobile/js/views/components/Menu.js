@@ -23,6 +23,8 @@ define(
         // Properties
         var mainController = null;
 
+        var _settings = null;
+
         /////////////////////
         //// Constructor ////
         /////////////////////
@@ -37,8 +39,7 @@ define(
         ////////////////////
 
         Menu.prototype.initialize = function() {
-            console.log('[Menu] initialize');
-            console.log(mainController.getSettings()['menu']);
+            _settings = mainController.getSettings()['menu'];
             renderTemplate();
         };
 
@@ -53,6 +54,7 @@ define(
 
         var renderTemplate = function() {
             console.log('[Menu] render template');
+            console.log(_settings);
             addBinding();
         };
 
