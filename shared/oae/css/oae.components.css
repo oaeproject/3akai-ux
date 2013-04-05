@@ -143,7 +143,7 @@ i.icon-oae-public:before {
     content: "\f0ac";
 }
 
-/* Larger visibility icons */
+/* Large visibility icons */
 
 i.icon-oae-private.large:before,
 i.icon-oae-loggedin.large:before,
@@ -167,29 +167,29 @@ i.icon-oae-public.large:before {
  * e.g. <div class="oae-visibility-choice-container row-fluid">
  *          <label for="oae-visibility-private" class="span4 text-center">
  *              <div class="oae-visibility-choice well pull-left text-center checked">
- *                  <i class="icon-ok hide"></i>
  *                  <input type="radio" id="oae-visibility-private" value="private" name="oae-visibility-group" class="pull-left" checked="checked"/>
  *                  <i class="icon-oae-private large text-center"></i>
  *                  <span>__MSG__PRIVATE__</span>
  *              </div>
+ *              <i class="icon-ok hide"></i>
  *              <small>__MSG__PRIVATE_DESCRIPTION__</small>
  *          </label>
  *          <label for="oae-visibility-loggedin" class="span4 text-center">
  *              <div class="oae-visibility-choice well pull-left text-center">
- *                  <i class="icon-ok hide"></i>
  *                  <input type="radio" id="oae-visibility-loggedin" value="loggedin" name="oae-visibility-group" class="pull-left"/>
  *                  <i class="icon-oae-loggedin large text-center"></i>
  *                  <span>__MSG__DISCOVERABLE_BY_EVERYONE_IN_TENANT__</span>
  *              </div>
+ *              <i class="icon-ok hide"></i>
  *              <small>__MSG__LOGGEDIN_DESCRIPTION__</small>
  *          </label>
  *          <label for="oae-visibility-public" class="span4 text-center">
  *              <div class="oae-visibility-choice well pull-left text-center">
- *                  <i class="icon-ok hide"></i>
  *                  <input type="radio" id="oae-visibility-public" value="public" name="oae-visibility-group" class="pull-left"/>
  *                  <i class="icon-oae-public large text-center"></i>
  *                  <span>__MSG__PUBLIC__</span>
  *              </div>
+ *              <i class="icon-ok hide"></i>
  *              <small>__MSG__PUBLIC_DESCRIPTION__</small>
  *          </label>
  *      </div>
@@ -199,8 +199,8 @@ i.icon-oae-public.large:before {
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
             box-sizing: border-box;
-    height: 170px;
-    margin: 0 10px 15px 0;
+    height: 150px;
+    margin: 0 10px 20px 0;
     width: 100%;
 }
 
@@ -210,7 +210,7 @@ i.icon-oae-public.large:before {
 
 .oae-visibility-choice-container .oae-visibility-choice input {
     position: absolute;
-    z-index: -1;
+    z-index: -1; /* Adding a z-index of -1 hides the element from the view but still allows for focus of the element */
 }
 
 .oae-visibility-choice-container .oae-visibility-choice span {
@@ -225,21 +225,21 @@ i.icon-oae-public.large:before {
     padding-top: 12px;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice i:first-child {
+.oae-visibility-choice-container .oae-visibility-choice + i {
     display: none;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice.checked i:first-child {
+.oae-visibility-choice-container .oae-visibility-choice.checked + i {
     -webkit-border-radius: 100px;
        -moz-border-radius: 100px;
             border-radius: 100px;
-    bottom: 24%;
-    display: inline-block;
-    margin-left: 12px;
+    bottom: 26.5%;
+    display: block;
+    margin-left: 65px;
     position: absolute;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice.checked i:first-child:before {
+.oae-visibility-choice-container .oae-visibility-choice.checked + i:before {
     font-size: 24px;
     height: 30px;
     padding-top: 5px;
