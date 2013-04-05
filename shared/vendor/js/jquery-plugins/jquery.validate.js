@@ -11,8 +11,6 @@
  *   http://www.gnu.org/licenses/gpl.html
  */
 
-define(['jquery'], function (jQuery) {
-
 (function($) {
 
 $.extend($.fn, {
@@ -1215,5 +1213,3 @@ $.format = $.validator.format;
         }
     });
 }(jQuery));
-
-});

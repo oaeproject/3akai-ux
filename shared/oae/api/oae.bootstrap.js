@@ -67,6 +67,13 @@ requirejs.config({
         'oae.core': 'oae/api/oae.core',
         'pluginBuilder': 'oae/api/pluginBuilder'
     },
+    shim: {
+        /** 
+         * Defining an extra dependency for jquery.fileupload, otherwise it
+         * sometimes errors on the $.widget function being undefined.
+         */
+        'jquery.fileupload': ['jquery-ui']
+    },
     priority: ['jquery', 'underscore']
 });
 
