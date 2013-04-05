@@ -47,7 +47,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                     'type': 'POST',
                     'data': {
                         'alias': $(this).attr('data-alias'),
-                        'name': value
+                        'displayName': value
                     },
                     'success': function() {
                         oae.api.util.notification('Tenant name updated', 'The tenant name has been successfully updated.');
@@ -149,11 +149,11 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
             'type': 'POST',
             'data': {
                 'alias': $.trim($('#createtenant-alias').val()),
-                'name': $.trim($('#createtenant-name').val()),
+                'displayName': $.trim($('#createtenant-displayName').val()),
                 'host': $.trim($('#createtenant-host').val())
             },
             'success': function() {
-                oae.api.util.notification('Tenant created', 'The new tenant "' + $('#createtenant-name').val() + '" has been successfully created.');
+                oae.api.util.notification('Tenant created', 'The new tenant "' + $('#createtenant-displayName').val() + '" has been successfully created.');
                 reloadTenants()
             },
             'error': function(jqXHR, textStatus) {
@@ -285,14 +285,14 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
      * Deletes a single tenant and shows a confirmation message
      */
     var deleteTenantHandler = function() {
-        var tenantName = $(this).attr('data-name');
+        var tenantDisplayName = $(this).attr('data-displayName');
         var tenantAlias = $(this).attr('data-alias');
         adminUtil.showConfirmationModal({
             'id': 'deletetenant-modal',
-            'title': 'Delete tenant "' + tenantName + '"',
-            'message': 'Are you sure you want to delete tenant "' + tenantName + '"?',
+            'title': 'Delete tenant "' + tenantDisplayName + '"',
+            'message': 'Are you sure you want to delete tenant "' + tenantDisplayName + '"?',
             'cancel': 'Cancel',
-            'confirm': 'Yes, delete "' + tenantName + '"',
+            'confirm': 'Yes, delete "' + tenantDisplayName + '"',
             'confirmclass': 'btn-danger',
             'confirmed': function() {
                 deleteTenants([tenantAlias], function(err) {
@@ -302,7 +302,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                     if (err) {
                         oae.api.util.notification('Tenant not deleted', 'The tenant could not be deleted.', 'error');
                     } else {
-                        oae.api.util.notification('Tenant deleted', 'Tenant ' + tenantName + ' was successfully deleted.');
+                        oae.api.util.notification('Tenant deleted', 'Tenant ' + tenantDisplayName + ' was successfully deleted.');
                     }
                 });
             }
@@ -313,14 +313,14 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
      * Stops a single tenant and shows a confirmation message
      */
     var stopTenantHandler = function() {
-        var tenantName = $(this).attr('data-name');
+        var tenantDisplayName = $(this).attr('data-displayName');
         var tenantAlias = $(this).attr('data-alias');
         adminUtil.showConfirmationModal({
             'id': 'stoptenant-modal',
-            'title': 'Stop tenant "' + tenantName + '"',
-            'message': 'Are you sure you want to stop tenant "' + tenantName + '"?',
+            'title': 'Stop tenant "' + tenantDisplayName + '"',
+            'message': 'Are you sure you want to stop tenant "' + tenantDisplayName + '"?',
             'cancel': 'Cancel',
-            'confirm': 'Yes, stop "' + tenantName + '"',
+            'confirm': 'Yes, stop "' + tenantDisplayName + '"',
             'confirmclass': 'btn-warning',
             'confirmed': function() {
                 stopTenants([tenantAlias], function(err) {
@@ -330,7 +330,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                     if (err) {
                         oae.api.util.notification('Tenant not stopped', 'The tenant could not be stopped.', 'error');
                     } else {
-                        oae.api.util.notification('Tenant stopped', 'Tenant ' + tenantName + ' was successfully stopped.');
+                        oae.api.util.notification('Tenant stopped', 'Tenant ' + tenantDisplayName + ' was successfully stopped.');
                     }
                 });
             }
@@ -341,14 +341,14 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
      * Starts a single tenant and shows a confirmation message
      */
     var startTenantHandler = function() {
-        var tenantName = $(this).attr('data-name');
+        var tenantDisplayName = $(this).attr('data-displayName');
         var tenantAlias = $(this).attr('data-alias');
         adminUtil.showConfirmationModal({
             'id': 'starttenant-modal',
-            'title': 'start tenant "' + tenantName + '"',
-            'message': 'Are you sure you want to start tenant "' + tenantName + '"?',
+            'title': 'start tenant "' + tenantDisplayName + '"',
+            'message': 'Are you sure you want to start tenant "' + tenantDisplayName + '"?',
             'cancel': 'Cancel',
-            'confirm': 'Yes, start ' + tenantName,
+            'confirm': 'Yes, start ' + tenantDisplayName,
             'confirmclass': 'btn-success',
             'confirmed': function() {
                 startTenants([tenantAlias], function(err) {
@@ -358,7 +358,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                     if (err) {
                         oae.api.util.notification('Tenant not started', 'The tenant could not be started.', 'error');
                     } else {
-                        oae.api.util.notification('Tenant started', 'Tenant ' + tenantName + ' was successfully started.');
+                        oae.api.util.notification('Tenant started', 'Tenant ' + tenantDisplayName + ' was successfully started.');
                     }
                 });
             }
@@ -381,7 +381,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
      * Set up the log in handler
      */
     var login = function() {
-        oae.api.authentication.login($('#admin-login-form-name').val(), $('#admin-login-form-password').val(), function(err) {
+        oae.api.authentication.login($('#admin-login-form-username').val(), $('#admin-login-form-password').val(), function(err) {
             if (err) {
                 // Show the error message
                 oae.api.util.notification('Login failed', 'Invalid username or password.', 'error');
