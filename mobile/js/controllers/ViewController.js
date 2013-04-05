@@ -28,7 +28,6 @@ define(
         /////////////////////
 
         function ViewController(mainController){
-            console.log('[ViewController] constructor');
             if(instance !== null){
                 throw new Error("Cannot instantiate more than one ViewController, use ViewController.getInstance()");
             }
@@ -44,7 +43,6 @@ define(
              * Initialize ViewController
              */
             initialize: function(_mainController) {
-                console.log('[ViewController] initialize');
                 // Listen to events from controllers
                 addBinding();
                 // Store instance of the maincontroller
@@ -107,9 +105,9 @@ define(
          * Listen to events dispatched from controllers
          */
         var addBinding = function() {
-            $(document).on(constants.events.templatesready, onTemplatesReady);
-            $(document).on(constants.user.loginsuccess, onLoginSuccess);
-            $(document).on(constants.user.logoutsuccess, onLogoutSuccess);
+            $(document).on(constants.events.activities.templatesready, onTemplatesReady);
+            $(document).on(constants.events.user.loginsuccess, onLoginSuccess);
+            $(document).on(constants.events.user.logoutsuccess, onLogoutSuccess);
         };
 
         /**

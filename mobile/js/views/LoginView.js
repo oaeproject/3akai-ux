@@ -59,7 +59,7 @@ define(
             var password = $('#txtPassword').val();
             if(username && password){
                 $(document).trigger(
-                    constants.user.loginattempt,
+                    constants.events.user.loginattempt,
                     {
                         username: username,
                         password: password,

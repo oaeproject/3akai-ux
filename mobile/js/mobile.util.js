@@ -40,7 +40,7 @@ define(
                     obj.el = template;
                     callback(null, obj);
                     if(index === total){
-                        $(document).trigger(constants.events.templatesready);
+                        $(document).trigger(constants.events.activities.templatesready);
                     }
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {

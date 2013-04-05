@@ -57,7 +57,7 @@ define(
 
         var onLogoutClick = function(event) {
             $(document).trigger(
-                constants.user.logoutattempt,
+                constants.events.user.logoutattempt,
                 {
                     callback: function(err){
                         if(err){

@@ -17,28 +17,30 @@ define(['exports'], function(exports) {
 
     return {
         paths: {
-            settings        : 'mobile/lib/settings.json'
-        },
-        events: {
-            activitystart   : 'oae-mobile-activity-start',
-            activityend     : 'oae-mobile-activity-end',
-            templatesready  : 'oae-mobile-templates-ready',
-            viewchanged     : 'oae-mobile-view-changed',
-            viewpopped      : 'oae-mobile-view-popped'
-        },
-        user: {
-            loginattempt    : 'oae-mobile-user-login-attempt',
-            logoutattempt   : 'oae-mobile-user-logout-attempt',
-            loginsuccess    : 'oae-mobile-user-login-success',
-            logoutsuccess   : 'oae-mobile-user-logout-success'
+            settings            : 'mobile/lib/settings.json'
         },
         views: {
-            login           : 'oae-mobile-login-view',
-            home            : 'oae-mobile-home-view',
-            detail          : 'oae-mobile-detail-view'
+            login               : 'oae-mobile-login-view',
+            home                : 'oae-mobile-home-view',
+            detail              : 'oae-mobile-detail-view'
         },
-        data: {
-            getsettings     : 'oae-mobile-get-settings'
+        events: {
+            activities: {
+                activitystart   : 'oae-mobile-activity-start',
+                activityend     : 'oae-mobile-activity-end',
+                templatesready  : 'oae-mobile-templates-ready',
+                viewchanged     : 'oae-mobile-view-changed',
+                viewpopped      : 'oae-mobile-view-popped'
+            },
+            user: {
+                loginattempt    : 'oae-mobile-user-login-attempt',
+                logoutattempt   : 'oae-mobile-user-logout-attempt',
+                loginsuccess    : 'oae-mobile-user-login-success',
+                logoutsuccess   : 'oae-mobile-user-logout-success'
+            },
+            data: {
+                getsettings     : 'oae-mobile-get-settings'
+            }
         }
     };
 

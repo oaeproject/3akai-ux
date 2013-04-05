@@ -29,33 +29,9 @@ require(
     function($, _, oae, constants, mobileUtil, mainController) {
 
         /**
-         * Show the activity indicator
+         * Initializes the main controller
          */
-        var showIndicator = function() {
-            console.log('[mobile] showIndicator');
-        };
-
-        /**
-         * Hide the activity indicator
-         */
-        var hideIndicator = function() {
-            console.log('[mobile] hideIndicator');
-        };
-
-        /**
-         * Bind events to document or elements
-         */
-        var initEventListeners = function() {
-            $(document).on(constants.events.activitystart, showIndicator);
-            $(document).on(constants.events.activityend, hideIndicator);
-        };
-
-        /**
-         * Initializes all the controllers
-         */
-        var initController = function() {
-
-            console.log(mainController);
+        var initMainController = function() {
             mainController.initialize();
         };
 
@@ -63,10 +39,7 @@ require(
          * Initialize
          */
         var doInit = function() {
-            // Initialize binding
-            initEventListeners();
-            // Initialize MainController
-            initController();
+            initMainController();
         };
 
         doInit();

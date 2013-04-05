@@ -15,7 +15,6 @@ define(
         /////////////////////
 
         function MainController(){
-            console.log('[MainController] constructor');
             if(instance !== null){
                 throw new Error("Cannot instantiate more than one MainController, use MainController.getInstance()");
             }
@@ -31,7 +30,6 @@ define(
              * Initialize MainController
              */
             initialize: function() {
-                console.log('[MainController] initialize');
                 // Listen to events from controllers
                 addBinding();
                 // Load settings from JSON file
@@ -43,7 +41,6 @@ define(
              * @return {Object} object      Returns the settings as an object
              */
             getSettings: function() {
-                console.log('[MainController] getSettings');
                 return settings;
             }
         };
@@ -67,14 +64,14 @@ define(
          * Listen te events from controllers
          */
         var addBinding = function() {
-            console.log('[MainController] addBinding');
+            $(document).on(constants.events.activities.activitystart, showIndicator);
+            $(document).on(constants.events.activities.activityend, hideIndicator);
         };
 
         /**
          * Load settings from JSON file
          */
         var loadSettings = function() {
-            console.log('[MainController] loadSettings');
             $.ajax({
                 dataType: 'json',
                 url: constants.paths.settings,
@@ -91,7 +88,6 @@ define(
             });
         };
 
-
         /**
          * Init the other controllers and pass an instance of the MainController
          */
@@ -106,6 +102,20 @@ define(
                     viewController.initialize(MainController.getInstance());
                 }
             );
+        };
+
+        /**
+         * Show the activity indicator
+         */
+        var showIndicator = function() {
+            console.log('[mobile] showIndicator');
+        };
+
+        /**
+         * Hide the activity indicator
+         */
+        var hideIndicator = function() {
+            console.log('[mobile] hideIndicator');
         };
 
         // Singleton

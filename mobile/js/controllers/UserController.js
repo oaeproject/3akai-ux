@@ -16,7 +16,6 @@ define(
         /////////////////////
 
         function UserController(){
-            console.log('[UserController] constructor');
             if(instance !== null){
                 throw new Error("Cannot instantiate more than one UserController, use UserController.getInstance()");
             }
@@ -64,19 +63,16 @@ define(
          * @param {Function}    obj.callback        The callback function
          */
         var login = function(e, obj) {
-
-            console.log('[UserController] login');
-
-            $(document).trigger(constants.events.activitystart);
+            $(document).trigger(constants.events.activities.activitystart);
             oae.api.authentication.login(obj.username, obj.password, function(err) {
-                $(document).trigger(constants.events.activityend);
+                $(document).trigger(constants.events.activities.activityend);
                 if(err) {
                     obj.callback(err);
                 }else{
                     try{
                         oae.init(function(e){
                             try{
-                                $(document).trigger(constants.user.loginsuccess);
+                                $(document).trigger(constants.events.user.loginsuccess);
                             }catch(e){
                                 console.log('[UserController] Firing event after oae.init failed');
                             }
@@ -96,19 +92,16 @@ define(
          * @param {Function}    obj.callback        The callback function
          */
         var logout = function(e, obj) {
-
-            console.log('[UserController] logout');
-
-            $(document).trigger(constants.events.activitystart);
+            $(document).trigger(constants.events.activities.activitystart);
             oae.api.authentication.logout(function(err) {
-                $(document).trigger(constants.events.activityend);
+                $(document).trigger(constants.events.activities.activityend);
                 if(err) {
                     obj.callback(err);
                 }else{
                     try{
                         oae.init(function(e){
                             try{
-                                $(document).trigger(constants.user.logoutsuccess);
+                                $(document).trigger(constants.events.user.logoutsuccess);
                             }catch(e){
                                 console.log('[UserController] Firing event after oae.init failed');
                             }
@@ -122,9 +115,8 @@ define(
 
         // Private methods
         var addBinding = function() {
-            console.log('[UserController] addBinding');
-            $(document).on(constants.user.loginattempt, login);
-            $(document).on(constants.user.logoutattempt, logout);
+            $(document).on(constants.events.user.loginattempt, login);
+            $(document).on(constants.events.user.logoutattempt, logout);
         };
 
         // Singleton
