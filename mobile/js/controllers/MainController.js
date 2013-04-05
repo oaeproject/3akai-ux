@@ -1,14 +1,17 @@
 define(
     [
-        'oae.core',
+        'jquery','oae.core',
         '/mobile/js/constants/constants.js',
-        '/mobile/js/mobile.util.js'
+        '/mobile/js/mobile.util.js',
+        '/mobile/js/views/components/Menu.js'
     ],
-    function(oae, constants, mobileUtil){
+    function($, oae, constants, mobileUtil, Menu){
 
         // Properties
         var instance = null;
-        var settings = null;
+        var _settings = null;
+
+        var _menu = null;
 
         /////////////////////
         //// Constructor ////
@@ -41,7 +44,7 @@ define(
              * @return {Object} object      Returns the settings as an object
              */
             getSettings: function() {
-                return settings;
+                return _settings;
             }
         };
 
@@ -77,12 +80,12 @@ define(
                 url: constants.paths.settings,
                 success: function(data){
                     if(data && data != null){
-                        settings = data;
+                        _settings = data;
                         initControllers();
+                        initMenu();
                     }
                 },
                 error: function(e){
-                    console.log('[MainController] loadSettings => error');
                     console.log(e);
                 }
             });
@@ -105,17 +108,24 @@ define(
         };
 
         /**
+         * Initialize the menu
+         */
+        var initMenu = function() {
+            _menu = new Menu(MainController.getInstance());
+        };
+
+        /**
          * Show the activity indicator
          */
         var showIndicator = function() {
-            console.log('[mobile] showIndicator');
+            console.log('[Mobile] showIndicator');
         };
 
         /**
          * Hide the activity indicator
          */
         var hideIndicator = function() {
-            console.log('[mobile] hideIndicator');
+            console.log('[Mobile] hideIndicator');
         };
 
         // Singleton

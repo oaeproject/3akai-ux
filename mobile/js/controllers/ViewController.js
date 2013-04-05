@@ -4,10 +4,9 @@ define(
         'oae.core',
         '/mobile/js/constants/constants.js',
         '/mobile/js/mobile.util.js',
-        '/mobile/js/views/LoginView.js',
-        '/mobile/js/views/HomeView.js',
-        '/mobile/js/views/DetailView.js'
-
+        '/mobile/js/views/views/LoginView.js',
+        '/mobile/js/views/views/HomeView.js',
+        '/mobile/js/views/views/DetailView.js'
     ],
     function(exports, oae, constants, mobileUtil, LoginView, HomeView, DetailView){
 
@@ -27,9 +26,9 @@ define(
         //// Constructor ////
         /////////////////////
 
-        function ViewController(mainController){
+        function ViewController(){
             if(instance !== null){
-                throw new Error("Cannot instantiate more than one ViewController, use ViewController.getInstance()");
+                throw new Error("Cannot instantiate more than one ViewController");
             }
         }
 

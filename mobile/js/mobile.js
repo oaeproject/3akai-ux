@@ -15,18 +15,11 @@
 
 require.config({
     paths: {
-        mainController      : '/mobile/js/controllers/MainController'
+        mainController: '/mobile/js/controllers/MainController'
     }
 });
 
-require(
-    [
-        'jquery','underscore','oae.core',
-        '/mobile/js/constants/constants.js',
-        '/mobile/js/mobile.util.js',
-        'mainController'
-    ],
-    function($, _, oae, constants, mobileUtil, mainController) {
+require(['mainController'], function(mainController) {
 
         /**
          * Initializes the main controller

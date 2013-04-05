@@ -18,5 +18,12 @@
                 "template"    : "/mobile/templates/views/detail-view.html"
             }
         }
-    ]
+    ],
+    "menu": {
+        "items": [
+            {
+                "label"     : "logout"
+            }
+        ]
+    }
 }
