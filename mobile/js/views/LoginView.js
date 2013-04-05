@@ -22,39 +22,35 @@ define(
     function($, _, oae, constants, mobileUtil) {
 
         // Properties
-        var templateId = '#login-view-template';
+        var _templateId = null;
 
         // Constructor
-        function LoginView() {
-            console.log('[LoginView] constructor');
+        function LoginView(templateId) {
+            _templateId = templateId;
             this.initialize();
         }
 
         // Public methods
         LoginView.prototype.initialize = function() {
-            console.log('[LoginView] initialize');
             renderTemplate();
         };
 
         LoginView.prototype.destroy = function() {
-            console.log('[LoginView] destroy');
+            _templateId = null;
             deleteBinding();
         };
 
         // Private methods
         var renderTemplate = function() {
-            console.log('[LoginView] renderTemplate');
-            oae.api.util.template().render(templateId, null, $('#viewport'));
+            oae.api.util.template().render(_templateId, null, $('#viewport'));
             addBinding();
         };
 
         var addBinding = function() {
-            console.log('[LoginView] addBinding');
             $('#btnLogin').bind('click', onLoginClick);
         };
 
         var deleteBinding = function() {
-            console.log('[LoginView] deleteBinding');
             $('#btnLogin').unbind('click', onLoginClick);
         };
 
@@ -68,7 +64,9 @@ define(
                         username: username,
                         password: password,
                         callback: function(err){
-                            // TODO: do something if error occurs (e.g. warning)
+                            if(err){
+                                // TODO: do something if error occurs (e.g. warning)
+                            }
                         }
                     }
                 );

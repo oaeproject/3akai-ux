@@ -17,7 +17,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
 
     /**
      * Initialize all utility functionality.
-     * 
+     *
      * @param  {Function}   callback            Standard callback function
      * @api private
      */
@@ -30,7 +30,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
 
     /**
      * Request a number of static files at once through a static batch request
-     * 
+     *
      * @param  {String[]}       paths               Array of paths that should be retrieved
      * @param  {Function}       callback            Standard callback function
      * @param  {Object}         callback.err        Error object containing error code and message
@@ -56,7 +56,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
     /**
      * Generate a random ID. This ID generator does not guarantee global uniqueness.
      * The generated id will have the following format: `oae-<random number>-<random number>`
-     * 
+     *
      * @return {String}         Generated random ID
      */
     var generateId = exports.generateId = function() {
@@ -65,11 +65,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
 
     /**
      * Change the browser title for a particular page. The browser's title has the following structure
-     * 
+     *
      * Sakai OAE - Sakai Doc 1 [- Page 1]
-     * 
+     *
      * Where the first part will be fixed.
-     * 
+     *
      * @param  {String|String[]}     title       The new page title or an array of strings representing the fragments of the page title
      * @throws {Error}                           Error thrown when no page title has been provided
      */
@@ -113,11 +113,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             'safeURL': function(str) {
                 return security().safeURL(str);
             }
-        }
+        };
 
         /**
-         * Initialize the template utility functions by fetching and caching 
-         * a global macro that can be used for rendering list view items. 
+         * Initialize the template utility functions by fetching and caching
+         * a global macro that can be used for rendering list view items.
          *
          * @param  {Function}       callback        Standard callback function
          * @api private
@@ -132,8 +132,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         };
 
         /**
-         * Functionality that allows you to create HTML Templates, using a JSON object. That template 
-         * will then be rendered and all of the values from the JSON object can be used to insert values 
+         * Functionality that allows you to create HTML Templates, using a JSON object. That template
+         * will then be rendered and all of the values from the JSON object can be used to insert values
          * into the rendered HTML. More information and examples can be found over here:
          *
          * http://code.google.com/p/trimpath/wiki/JavaScriptTemplates
@@ -146,25 +146,25 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * NOTE: The OAE core APIs will automatically be passed into each template render, so they can be
          * called inside of each template without having to explicitly pass it in. There are also two standard
          * TrimPath modifiers that will be available:
-         * 
+         *
          * - `${value|safeUserInput}`: Should be used for all user input rendered as text
          * - `${value|safeURL}`: Should be used for all user input used as part of a URL
-         * 
+         *
          * There is also a globally available macro that can be used when rendering list view items:
-         * 
+         *
          *   `${listItem(entityData, [pagingKey], [metadata], [showCheckbox])}`
-         * 
+         *
          * - `entityData` is an object representing a user, group or content item or a search result for a user, group
          *    or content item
          * - `metadata` (optional) is a line of metadata information that should be displayed underneath the entity name
          * - `pagingKey` (optional) is the key that should be used for paging through the infinite scroll plugin
          * - `showCheckbox` (optional) will determine whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
-         * 
+         *
          * IMPORTANT: There should be no line breaks in between the div and the <!-- declarations,
          * because that line break will be recognized as a node and the template won't show up, as
-         * it's expecting the comments tag as the first one. This is done because otherwise a template 
+         * it's expecting the comments tag as the first one. This is done because otherwise a template
          * wouldn't validate in an HTML validator and to make sure that the template isn't visible in the page.
-         * 
+         *
          * @param  {Element|String}     $template       jQuery element representing the HTML element that contains the template or jQuery selector for the template container.
          * @param  {Object}             [data]          JSON object representing the values used for ifs, fors and value insertions.
          * @param  {Element|String}     [$output]       jQuery element representing the HTML element in which the template output should be put, or jQuery selector for the output container.
@@ -239,13 +239,13 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
     /**
      * Show a notification message (either information or error) on the screen
      * TODO: Replace this with Bootstrap notification functionality
-     * 
+     *
      * @param  {String}     [title]         The notification title
      * @param  {String}     text            The notification description that will be shown underneath the title
      * @param  {String}     [type]          The notification type. This can be either 'info' or 'error'. If the type is not provided, this will default to 'info'
      * @throws {Error}                      Error thrown when no title has been provided
      *
-    var showNotification = exports.showNotification = function(title, text, type) {
+     var showNotification = exports.showNotification = function(title, text, type) {
         if (!text) {
             throw new Error('A valid body should be provided');
         }
@@ -296,17 +296,17 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * Validate a form using the jquery.validate plugin. This will automatically style the error messages, as well as positioning
          * them appropriately and giving all of the required aria roles for accessibility. This function is mostly just a wrapper around
          * jquery.validate, and supports all of the options supported by jquery.validate (see http://bassistance.de/jquery-plugins/jquery-plugin-validation/)
-         * 
+         *
          * In order for forms to have the appropriate validation styles, each label and control should be wrapped in an element with a `control-group` class.
-         * The label should have a `control-label` class. All input fields should be accompanied by a label, mostly for accessibility purposes. 
+         * The label should have a `control-label` class. All input fields should be accompanied by a label, mostly for accessibility purposes.
          * More information on creating forms (including horizontal forms) can be found at http://twitter.github.com/bootstrap/base-css.html#forms
-         * 
+         *
          * Validation messages will by default be displayed underneath the input field. If a custom position for the validation needs to provided,
          * a placeholder element with the class `help` should be created inside of the `control-group` element.
-         * 
+         *
          * Metadata can be added directly onto the HTML fields to tell jquery.validate which validation rules to use. These should be added as a class onto
          * the input field. The available ones are:
-         * 
+         *
          * - `required`: Makes the element always required.
          * - `email`: Makes the element require a valid email.
          * - `number`: Makes the element require a decimal number.
@@ -314,9 +314,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * - `date`: Makes the element require a date.
          * - `dateISO`: Makes the element require a ISO date.
          * - `creditcard`: Makes the element require a creditcard number.
-         * 
+         *
          * Example:
-         * 
+         *
          * ```
          * <form id='form_id' role='main'>
          *      <div class='control-group'>
@@ -330,14 +330,14 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          *      </div>
          * </div>
          * ```
-         * 
+         *
          * All other validation configuration should be passed into the options object when calling `oae.api.util.validation().validate($form, options)`.
-         * 
+         *
          * Sakai OAE defines to additional validation methods:
-         * 
+         *
          * - `nospaces`: Makes the element require no spaces.
          * - `prependhttp`: Prepends http:// to a URL field if no protocal has been specified.
-         * 
+         *
          * @param  {Element|String}     $form                           jQuery form element or jQuery selector for that form which we want to validate
          * @param  {Object}             [options]                       JSON object containing options to pass to the to the jquery validate plugin, as defined on http://docs.jquery.com/Plugins/Validation/validate#options
          * @param  {Object}             [options.methods]               Extension to the jquery validate options, allowing to specify custom validators. The keys should be the validator identifiers. The value should be an object with a method key containing the validator function and a text key containing the validation message.
@@ -428,11 +428,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
 
             // Set up the form with the provided options in jquery.validate
             $form.validate(options);
-        }; 
+        };
 
         /**
          * Clear the validation on a form. This will remove all visible validation styles, as well as the aria roles.
-         * 
+         *
          * @param  {Element|String}     $form       jQuery form element or jQuery selector for that form for which we want to clear the validation
          * @throws {Error}                          Error thrown when no form has been provided
          */
@@ -468,9 +468,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
     /**
      * Using MathJax behind the scenes, find all mathematical function (LaTeX) declarations and render them
      * appropriately. Mathemetical are defined by wrapping them in $$.
-     * 
+     *
      * Example: $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
-     * 
+     *
      * @param  {Element|String}     [$element]        jQuery element or jQuery selector for that element in which we should look for Mathematical formulas and render them. If this is not provided, the body element will be used.
      */
     var renderMath = exports.renderMath = function($element) {};
@@ -488,7 +488,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         /**
          * Sanitizes user input to prevent XSS attacks. All user-generated content should be run through
          * this function before putting it into the DOM
-         * 
+         *
          * @param  {String}     [input]     The user input string that should be sanitized. If this is not provided, an empty string will be returned.
          * @return {String}                 The sanitized user input
          */
@@ -501,11 +501,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         };
 
         /**
-         * An extension to encodeURIComponent that does not encode non-ASCII UTF-8 characters. The javascript global  encodeURIComponent 
-         * works on the ASCII character set, meaning it encodes all the reserved characters for URI components, and then all characters 
-         * above Char Code 127. This uses the regular encodeURIComponent function for ASCII characters, and passes through all higher 
+         * An extension to encodeURIComponent that does not encode non-ASCII UTF-8 characters. The javascript global  encodeURIComponent
+         * works on the ASCII character set, meaning it encodes all the reserved characters for URI components, and then all characters
+         * above Char Code 127. This uses the regular encodeURIComponent function for ASCII characters, and passes through all higher
          * char codes. All of this is needed to make sure that UTF-8 elements in URLs are properly shown instead of decoded
-         * 
+         *
          * @param  {String}     input       URL or part of URL to be encoded.
          * @return {String}                 The encoded URL or URL part
          */
@@ -529,7 +529,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             'safeUserInput': safeUserInput,
             'safeURL': safeURL
         };
-    
+
     };
 
     ///////////////
@@ -547,7 +547,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          */
         var login = function() {
             document.location = '/';
-        };  
+        };
 
         /**
          * Redirect the current user to the 401 page. This can be used when the current user does not have
@@ -598,7 +598,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         /**
          * Make all elements with the oae-draggable-container CSS class inside of the provided container draggable, using
          * jQuery UI behind the scenes.
-         * 
+         *
          * @param  {Element|String}     [$container]      jQuery element or jQuery selector for the element which will be used as the container to locate draggable items. If this is not provided, the body element will be used.
          * @param  {Object}             [options]         JSON object containing options to pass into jQuery UI, as defined on http://api.jqueryui.com/draggable/
          */
@@ -607,7 +607,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         /**
          * Make all elements with the oae-droppable-container CSS class inside of the provided container droppable (accept draggable items), using
          * jQuery UI behind the scenes.
-         * 
+         *
          * @param  {Element|String}     [$container]      jQuery element or jQuery selector for the element which will be used as the container to locate draggable items. If this is not provided, the body element will be used.
          * @param  {Object}             [options]         JSON object containing options to pass into jQuery UI, as defined on http://api.jqueryui.com/droppable/
          */

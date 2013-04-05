@@ -22,7 +22,7 @@ define(
     function($, _, oae, constants, mobileUtil) {
 
         // Properties
-        var templateId = '#detail-view-template';
+        var _templateId = null;
 
         // Constructor
         function DetailView() {
@@ -31,20 +31,22 @@ define(
         }
 
         // Public methods
-        DetailView.prototype.initialize = function() {
+        DetailView.prototype.initialize = function(templateId) {
             console.log('[DetailView] initialize');
+            _templateId = templateId;
             renderTemplate();
         };
 
         DetailView.prototype.destroy = function() {
             console.log('[DetailView] destroy');
+            _templateId = null;
             deleteBinding();
         };
 
         // Private methods
         var renderTemplate = function() {
             console.log('[DetailView] render template');
-            oae.api.util.template().render(templateId, null, $('#viewport'));
+            oae.api.util.template().render(_templateId, null, $('#viewport'));
             addBinding();
         };
 

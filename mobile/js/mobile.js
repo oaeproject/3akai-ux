@@ -30,9 +30,6 @@ require(
     ],
     function($, _, oae, constants, mobileUtil, viewController, userController) {
 
-        // Properties
-        var views = null;
-
         /**
          * Show the activity indicator
          */
@@ -48,33 +45,6 @@ require(
         };
 
         /**
-         * Initialize and render the view templates
-         */
-        var initViews = function() {
-
-            views = [
-                {
-                    'loginView': {
-                        templateId  : '#login-view-template',
-                        template    : '/mobile/templates/views/login-view.html'
-                    }
-                },
-                {
-                    'homeView': {
-                        templateId  : '#home-view-template',
-                        template    : '/mobile/templates/views/home-view.html'
-                    }
-                },
-                {
-                    'detailView': {
-                        templateId  : '#detail-view-template',
-                        template    : '/mobile/templates/views/detail-view.html'
-                    }
-                }
-            ];
-        };
-
-        /**
          * Bind events to document or elements
          */
         var initEventListeners = function() {
@@ -87,18 +57,16 @@ require(
          */
         var initControllers = function() {
             userController.initialize();
-            viewController.initialize(views);
+            viewController.initialize();
         };
 
         /**
-         * Initializes the mobile UI
+         * Initialize
          */
         var doInit = function() {
-            // Init views
-            initViews();
-            // Init binding
+            // Initialize binding
             initEventListeners();
-            // Init controllers
+            // Initializ controllers
             initControllers();
         };
 

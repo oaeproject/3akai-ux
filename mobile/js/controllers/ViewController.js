@@ -29,9 +29,10 @@ define(
 
         var $helper =  $('#oae-mobile-template-helper');
 
-        var templates = null;
-        var activeView = null;
-        var oldView = null;
+        var _views = null;
+        var _templates = null;
+        var _activeView = null;
+        var _oldView = null;
 
         // Constructor
         function ViewController() {
@@ -42,11 +43,13 @@ define(
         /**
          * Initialize ViewController
          */
-        ViewController.prototype.initialize = function(_views) {
+        ViewController.prototype.initialize = function() {
             // Listen to events from controllers
             addBinding();
+            // Init views
+            initViews();
             // Render all templates
-            renderAllTemplates(_views);
+            renderAllTemplates();
         };
 
         /**
@@ -54,19 +57,19 @@ define(
          * @param {String} view          The new view that will be pushed into the stack
          */
         ViewController.prototype.changeView = function(view) {
-            if(activeView){
-                oldView = activeView;
-                oldView.destroy();
+            if(_activeView){
+                _oldView = _activeView;
+                _oldView.destroy();
             }
             switch(view){
                 case constants.views.login:
-                    activeView = new LoginView();
+                    _activeView = new LoginView(_views[0]['loginView']['templateId']);
                     break;
                 case constants.views.home:
-                    activeView = new HomeView();
+                    _activeView = new HomeView(_views[1]['homeView']['templateId']);
                     break;
                 case constants.views.detail:
-                    activeView = new DetailView();
+                    _activeView = new DetailView(_views[2]['detailView']['templateId']);
                     break;
             }
         };
@@ -76,11 +79,36 @@ define(
          * @param {String} view         The view that needs to be popped from the stack
          */
         ViewController.prototype.popView = function(view) {
-            console.log('[ViewController] popView: ' + view);
             $(document).trigger(constants.events.viewpopped, [view]);
         };
 
         // Private methods
+
+        /**
+         * Initialize and render the view templates
+         */
+        var initViews = function() {
+            _views = [
+                {
+                    'loginView': {
+                        templateId  : '#login-view-template',
+                        template    : '/mobile/templates/views/login-view.html'
+                    }
+                },
+                {
+                    'homeView': {
+                        templateId  : '#home-view-template',
+                        template    : '/mobile/templates/views/home-view.html'
+                    }
+                },
+                {
+                    'detailView': {
+                        templateId  : '#detail-view-template',
+                        template    : '/mobile/templates/views/detail-view.html'
+                    }
+                }
+            ];
+        };
 
         /**
          * Listen to events dispatched from controllers
@@ -94,14 +122,14 @@ define(
         /**
          * Renders all the templates and caches them
          */
-        var renderAllTemplates = function(_views) {
-            templates = {};
+        var renderAllTemplates = function() {
+            _templates = {};
             _.each(_views, function(view){
                 for(var key in view){
                     var total = _views.length;
                     var index = _views.indexOf(view) + 1;
                     mobileUtil.renderPageTemplate(key, view[key], index, total, function(err, obj){
-                        templates[obj.name] = {
+                        _templates[obj.name] = {
                             'template': obj.template,
                             'templateId': obj.templateId,
                             'el': obj.el
@@ -116,9 +144,7 @@ define(
          * Add templates to the helper element and initialize startup view
          */
         var onTemplatesReady = function() {
-            for(var template in templates){
-                $helper.append(templates[template]['el']);
-            }
+            for(var template in _templates) $helper.append(_templates[template]['el']);
             setStartupView();
         };
 

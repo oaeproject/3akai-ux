@@ -22,39 +22,36 @@ define(
     function($, _, oae, constants, mobileUtil) {
 
         // Properties
-        var templateId = '#home-view-template';
+        var _templateId = null;
 
         // Constructor
-        function HomeView() {
-            console.log('[HomeView] constructor');
+        function HomeView(templateId) {
+            _templateId = templateId;
             this.initialize();
         }
 
         // Public methods
         HomeView.prototype.initialize = function() {
-            console.log('[HomeView] initialize');
             renderTemplate();
         };
 
         HomeView.prototype.destroy = function() {
-            console.log('[HomeView] destroy');
+            _templateId = null;
             deleteBinding();
         };
 
         // Private methods
         var renderTemplate = function() {
-            console.log('[HomeView] renderTemplate');
-            oae.api.util.template().render(templateId, null, $('#viewport'));
+            oae.api.util.template().render(_templateId, null, $('#viewport'));
+            oae.api.widget.insertWidget('mobileactivity', null, $('#mobile-activity-widget-container'));
             addBinding();
         };
 
         var addBinding = function() {
-            console.log('[HomeView] addBinding');
             $('#btnLogout').bind('click', onLogoutClick);
         };
 
         var deleteBinding = function() {
-            console.log('[HomeView] deleteBinding');
             $('#btnLogout').unbind('click', onLogoutClick);
         };
 
@@ -63,7 +60,9 @@ define(
                 constants.user.logoutattempt,
                 {
                     callback: function(err){
-                        // TODO: do something if error occurs (e.g. warning)
+                        if(err){
+                            // TODO: do something if error occurs (e.g. warning)
+                        }
                     }
                 }
             );

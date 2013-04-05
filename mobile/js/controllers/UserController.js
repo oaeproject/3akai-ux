@@ -54,10 +54,17 @@ define(
                 if(err) {
                     obj.callback(err);
                 }else{
-                    obj.callback();
-                    oae.init(function(e){
-                        $(document).trigger(constants.user.loginsuccess);
-                    });
+                    try{
+                        oae.init(function(e){
+                            try{
+                                $(document).trigger(constants.user.loginsuccess);
+                            }catch(e){
+                                console.log('[UserController] Firing event after oae.init failed');
+                            }
+                        });
+                    }catch(e){
+                        console.log('[UserController] Executing oae.init failed after login');
+                    }
                 }
             });
         };
@@ -76,10 +83,17 @@ define(
                 if(err) {
                     obj.callback(err);
                 }else{
-                    obj.callback();
-                    oae.init(function(e){
-                        $(document).trigger(constants.user.logoutsuccess);
-                    });
+                    try{
+                        oae.init(function(e){
+                            try{
+                                $(document).trigger(constants.user.logoutsuccess);
+                            }catch(e){
+                                console.log('[UserController] Firing event after oae.init failed');
+                            }
+                        });
+                    }catch(e){
+                        console.log('[UserController] Executing oae.init failed after logout');
+                    }
                 }
             });
         };
