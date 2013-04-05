@@ -22,49 +22,39 @@ define(
     function($, _, oae, constants, mobileUtil) {
 
         // Properties
-        var template = '/mobile/templates/views/login-view.html';
-        var templateId = '#login-view-template';
+        var _templateId = null;
 
         // Constructor
-        function LoginView() {
-            console.log('[LoginView] constructor');
+        function LoginView(templateId) {
+            _templateId = templateId;
             this.initialize();
         }
 
         // Public methods
         LoginView.prototype.initialize = function() {
-            console.log('[LoginView] initialize');
             renderTemplate();
         };
 
         LoginView.prototype.destroy = function() {
-            console.log('[LoginView] destroy');
+            _templateId = null;
             deleteBinding();
         };
 
         // Private methods
         var renderTemplate = function() {
-            console.log('[LoginView] render template');
-            mobileUtil.renderPageTemplate(template, function(err){
-                if(!err){
-                    oae.api.util.template().render(templateId, null, $('#viewport'));
-                    addBinding();
-                }
-            });
+            oae.api.util.template().render(_templateId, null, $('#viewport'));
+            addBinding();
         };
 
         var addBinding = function() {
-            console.log('[LoginView] addBinding');
             $('#btnLogin').bind('click', onLoginClick);
         };
 
         var deleteBinding = function() {
-            console.log('[LoginView] deleteBinding');
             $('#btnLogin').unbind('click', onLoginClick);
         };
 
         var onLoginClick = function(event) {
-            console.log('[LoginView] onLoginClick');
             var username = $('#txtUsername').val();
             var password = $('#txtPassword').val();
             if(username && password){
@@ -74,7 +64,9 @@ define(
                         username: username,
                         password: password,
                         callback: function(err){
-                            // TODO: do something if error occurs (e.g. warning)
+                            if(err){
+                                // TODO: do something if error occurs (e.g. warning)
+                            }
                         }
                     }
                 );

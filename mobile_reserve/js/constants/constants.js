@@ -16,9 +16,13 @@
 define(['exports'], function(exports) {
 
     return {
+        paths: {
+            settings        : 'mobile/lib/settings.json'
+        },
         events: {
             activitystart   : 'oae-mobile-activity-start',
             activityend     : 'oae-mobile-activity-end',
+            templatesready  : 'oae-mobile-templates-ready',
             viewchanged     : 'oae-mobile-view-changed',
             viewpopped      : 'oae-mobile-view-popped'
         },

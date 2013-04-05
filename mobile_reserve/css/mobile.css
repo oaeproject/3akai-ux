@@ -19,7 +19,7 @@ body {
 /* line 17, ../sass/mobile.scss */
 .view {
   position: absolute;
-  overflow: hidden;
+  overflow: auto;
 }
 
 /* line 22, ../sass/mobile.scss */
@@ -44,19 +44,19 @@ body {
 /* Login */
 /* line 39, ../sass/mobile.scss */
 #login-view {
-  background-color: #999999;
+  background-color: #EEEEEE;
 }
 
 /* Home */
 /* line 44, ../sass/mobile.scss */
 #home-view {
-  background-color: #555555;
+  background-color: #EEEEEE;
 }
 
 /* Detail */
 /* line 49, ../sass/mobile.scss */
 #detail-view {
-  background-color: #333333;
+  background-color: #EEEEEE;
 }
 
 /* Classes */

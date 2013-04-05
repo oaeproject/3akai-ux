@@ -1,42 +1,58 @@
-/*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
- *
- *     http://www.osedu.org/licenses/ECL-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
- * permissions and limitations under the License.
- */
-
 define(
     [
         'oae.core',
         '/mobile/js/constants/constants.js',
-        '/mobile/js/mobile.util.js',
-        './viewController'
+        '/mobile/js/mobile.util.js'
     ],
-    function(oae, constants, mobileUtil, viewController) {
+    function(oae, constants, mobileUtil){
 
         // Properties
         var instance = null;
 
-        // Constructor
-        function UserController() {
-            if(instance !== null) throw new Error("Cannot instantiate more than one UserController.");
-            instance = this;
+        var mainController = null;
+
+        /////////////////////
+        //// Constructor ////
+        /////////////////////
+
+        function UserController(){
+            console.log('[UserController] constructor');
+            if(instance !== null){
+                throw new Error("Cannot instantiate more than one UserController, use UserController.getInstance()");
+            }
         }
 
-        /**
-         * Initialize UserController
-         */
-        UserController.prototype.initialize = function() {
-            addBinding();
+        ////////////////////
+        // Public methods //
+        ////////////////////
+
+        UserController.prototype = {
+
+            /**
+             * Initialize UserController
+             */
+            initialize: function(_mainController) {
+                // Bind events
+                addBinding();
+                // Store an instance of MainController
+                mainController = _mainController;
+            }
         };
+
+        /**
+         * Returns an instance of the MainController
+         * @return Class {*}        Returns an instance of the MainController
+         */
+        UserController.getInstance = function(){
+            if(instance === null){
+                instance = new UserController();
+            }
+            return instance;
+        };
+
+        /////////////////////
+        // Private methods //
+        /////////////////////
 
         /**
          * Login
@@ -48,6 +64,9 @@ define(
          * @param {Function}    obj.callback        The callback function
          */
         var login = function(e, obj) {
+
+            console.log('[UserController] login');
+
             $(document).trigger(constants.events.activitystart);
             oae.api.authentication.login(obj.username, obj.password, function(err) {
                 $(document).trigger(constants.events.activityend);
@@ -77,6 +96,9 @@ define(
          * @param {Function}    obj.callback        The callback function
          */
         var logout = function(e, obj) {
+
+            console.log('[UserController] logout');
+
             $(document).trigger(constants.events.activitystart);
             oae.api.authentication.logout(function(err) {
                 $(document).trigger(constants.events.activityend);
@@ -100,12 +122,12 @@ define(
 
         // Private methods
         var addBinding = function() {
+            console.log('[UserController] addBinding');
             $(document).on(constants.user.loginattempt, login);
             $(document).on(constants.user.logoutattempt, logout);
         };
 
         // Singleton
-        if(!instance) instance = new UserController();
-        return instance;
+        return UserController.getInstance();
     }
 );

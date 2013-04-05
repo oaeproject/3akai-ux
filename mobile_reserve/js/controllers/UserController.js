@@ -17,10 +17,9 @@ define(
     [
         'oae.core',
         '/mobile/js/constants/constants.js',
-        '/mobile/js/mobile.util.js',
-        './viewController'
+        '/mobile/js/mobile.util.js'
     ],
-    function(oae, constants, mobileUtil, viewController) {
+    function(oae, constants, mobileUtil) {
 
         // Properties
         var instance = null;
@@ -31,12 +30,20 @@ define(
             instance = this;
         }
 
+        ////////////////////
+        // Public methods //
+        ////////////////////
+
         /**
          * Initialize UserController
          */
         UserController.prototype.initialize = function() {
             addBinding();
         };
+
+        /////////////////////
+        // Private methods //
+        /////////////////////
 
         /**
          * Login
@@ -54,11 +61,17 @@ define(
                 if(err) {
                     obj.callback(err);
                 }else{
-                    obj.callback();
-                    oae.init(function(e){
-                        console.log(e);
-                        $(document).trigger(constants.user.loginsuccess);
-                    });
+                    try{
+                        oae.init(function(e){
+                            try{
+                                $(document).trigger(constants.user.loginsuccess);
+                            }catch(e){
+                                console.log('[UserController] Firing event after oae.init failed');
+                            }
+                        });
+                    }catch(e){
+                        console.log('[UserController] Executing oae.init failed after login');
+                    }
                 }
             });
         };
@@ -77,11 +90,17 @@ define(
                 if(err) {
                     obj.callback(err);
                 }else{
-                    obj.callback();
-                    oae.init(function(e){
-                        console.log(e);
-                        $(document).trigger(constants.user.logoutsuccess);
-                    });
+                    try{
+                        oae.init(function(e){
+                            try{
+                                $(document).trigger(constants.user.logoutsuccess);
+                            }catch(e){
+                                console.log('[UserController] Firing event after oae.init failed');
+                            }
+                        });
+                    }catch(e){
+                        console.log('[UserController] Executing oae.init failed after logout');
+                    }
                 }
             });
         };

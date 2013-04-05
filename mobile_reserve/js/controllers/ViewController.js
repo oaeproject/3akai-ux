@@ -18,49 +18,52 @@ define(
         'jquery','underscore','oae.core',
         '/mobile/js/constants/constants.js',
         '/mobile/js/mobile.util.js',
+
         '/mobile/js/views/LoginView.js',
         '/mobile/js/views/HomeView.js',
-        '/mobile/js/views/DetailView.js'
+        '/mobile/js/views/DetailView.js',
+
+        './MainController.js'
     ],
-    function($, _, oae, constants, mobileUtil, LoginView, HomeView, DetailView) {
+    function($, _, oae, constants, mobileUtil, LoginView, HomeView, DetailView, mainController) {
 
         // Properties
         var instance = null;
 
         var $helper =  $('#oae-mobile-template-helper');
-        var templates = [];
-        var activeView = null;
-        var oldView = null;
+
+        var _views = null;
+        var _templates = null;
+        var _activeView = null;
+        var _oldView = null;
 
         // Constructor
         function ViewController() {
-            if(instance !== null) throw new Error("Cannot instantiate more than one ViewController.");
+            console.log('[ViewController] constructor');
+            if(instance !== null){
+                console.log('[ViewController] bestaat al');
+                throw new Error("Cannot instantiate more than one ViewController.");
+            }
             instance = this;
         }
+
+        ////////////////////
+        // Public methods //
+        ////////////////////
 
         /**
          * Initialize ViewController
          */
-        ViewController.prototype.initialize = function(views) {
-            console.log('[ViewController] initialize');
+        ViewController.prototype.initialize = function(settings) {
 
-            // Loop the views
-            for(var key in views) {
-                var obj = views[key];
-
-                mobileUtil.renderPageTemplate(obj.template);
-
-
-            }
-
-
+            console.log(settings);
 
             // Listen to events from controllers
             addBinding();
-
-            // Check if user is already logged in
-            var newView = oae.data.me.anon ? constants.views.login : constants.views.home;
-            instance.changeView(newView);
+            // Init views
+            initViews();
+            // Render all templates
+            renderAllTemplates();
         };
 
         /**
@@ -68,19 +71,19 @@ define(
          * @param {String} view          The new view that will be pushed into the stack
          */
         ViewController.prototype.changeView = function(view) {
-            if(activeView){
-                oldView = activeView;
-                oldView.destroy();
+            if(_activeView){
+                _oldView = _activeView;
+                _oldView.destroy();
             }
             switch(view){
                 case constants.views.login:
-                    activeView = new LoginView();
+                    _activeView = new LoginView(_views[0]['loginView']['templateId']);
                     break;
                 case constants.views.home:
-                    activeView = new HomeView();
+                    _activeView = new HomeView(_views[1]['homeView']['templateId']);
                     break;
                 case constants.views.detail:
-                    activeView = new DetailView();
+                    _activeView = new DetailView(_views[2]['detailView']['templateId']);
                     break;
             }
         };
@@ -90,14 +93,83 @@ define(
          * @param {String} view         The view that needs to be popped from the stack
          */
         ViewController.prototype.popView = function(view) {
-            console.log('[ViewController] popView: ' + view);
             $(document).trigger(constants.events.viewpopped, [view]);
         };
 
-        // Private methods
+        /////////////////////
+        // Private methods //
+        /////////////////////
+
+        /**
+         * Initialize and render the view templates
+         */
+        var initViews = function() {
+            _views = [
+                {
+                    'loginView': {
+                        templateId  : '#login-view-template',
+                        template    : '/mobile/templates/views/login-view.html'
+                    }
+                },
+                {
+                    'homeView': {
+                        templateId  : '#home-view-template',
+                        template    : '/mobile/templates/views/home-view.html'
+                    }
+                },
+                {
+                    'detailView': {
+                        templateId  : '#detail-view-template',
+                        template    : '/mobile/templates/views/detail-view.html'
+                    }
+                }
+            ];
+        };
+
+        /**
+         * Listen to events dispatched from controllers
+         */
         var addBinding = function() {
+            $(document).on(constants.events.templatesready, onTemplatesReady);
             $(document).on(constants.user.loginsuccess, onLoginSuccess);
             $(document).on(constants.user.logoutsuccess, onLogoutSuccess);
+        };
+
+        /**
+         * Renders all the templates and caches them
+         */
+        var renderAllTemplates = function() {
+            _templates = {};
+            _.each(_views, function(view){
+                for(var key in view){
+                    var total = _views.length;
+                    var index = _views.indexOf(view) + 1;
+                    mobileUtil.renderPageTemplate(key, view[key], index, total, function(err, obj){
+                        _templates[obj.name] = {
+                            'template': obj.template,
+                            'templateId': obj.templateId,
+                            'el': obj.el
+                        };
+                    });
+                }
+            });
+        };
+
+        /**
+         * Called when all templates are rendered
+         * Add templates to the helper element and initialize startup view
+         */
+        var onTemplatesReady = function() {
+            for(var template in _templates) $helper.append(_templates[template]['el']);
+            setStartupView();
+        };
+
+        /**
+         * Set startup view, depends if user is logged in or not
+         */
+        var setStartupView = function() {
+            var newView = oae.data.me.anon ? constants.views.login : constants.views.home;
+            instance.changeView(newView);
         };
 
         var onLoginSuccess = function() {

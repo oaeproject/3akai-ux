@@ -36,6 +36,9 @@ define(['exports'], function(exports) {
             login           : 'oae-mobile-login-view',
             home            : 'oae-mobile-home-view',
             detail          : 'oae-mobile-detail-view'
+        },
+        data: {
+            getsettings     : 'oae-mobile-get-settings'
         }
     };
 

@@ -1,33 +1,20 @@
-/*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
- *
- *     http://www.osedu.org/licenses/ECL-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
- * permissions and limitations under the License.
- */
-
 define(
     [
-        'jquery','underscore','oae.core',
+        'exports',
+        'oae.core',
         '/mobile/js/constants/constants.js',
         '/mobile/js/mobile.util.js',
-        './mainController',
-
         '/mobile/js/views/LoginView.js',
         '/mobile/js/views/HomeView.js',
         '/mobile/js/views/DetailView.js'
+
     ],
-    function($, _, oae, constants, mobileUtil, mainController, LoginView, HomeView, DetailView) {
+    function(exports, oae, constants, mobileUtil, LoginView, HomeView, DetailView){
 
         // Properties
         var instance = null;
+
+        var mainController = null;
 
         var $helper =  $('#oae-mobile-template-helper');
 
@@ -36,80 +23,84 @@ define(
         var _activeView = null;
         var _oldView = null;
 
-        // Constructor
-        function ViewController() {
-            if(instance !== null) throw new Error("Cannot instantiate more than one ViewController.");
-            instance = this;
+        /////////////////////
+        //// Constructor ////
+        /////////////////////
+
+        function ViewController(mainController){
+            console.log('[ViewController] constructor');
+            if(instance !== null){
+                throw new Error("Cannot instantiate more than one ViewController, use ViewController.getInstance()");
+            }
         }
 
-        /**
-         * Initialize ViewController
-         */
-        ViewController.prototype.initialize = function() {
-            // Listen to events from controllers
-            addBinding();
-            // Init views
-            initViews();
-            // Render all templates
-            renderAllTemplates();
-        };
+        ////////////////////
+        // Public methods //
+        ////////////////////
 
-        /**
-         * Push a new view into the stack
-         * @param {String} view          The new view that will be pushed into the stack
-         */
-        ViewController.prototype.changeView = function(view) {
-            if(_activeView){
-                _oldView = _activeView;
-                _oldView.destroy();
+        ViewController.prototype = {
+
+            /**
+             * Initialize ViewController
+             */
+            initialize: function(_mainController) {
+                console.log('[ViewController] initialize');
+                // Listen to events from controllers
+                addBinding();
+                // Store instance of the maincontroller
+                mainController = _mainController;
+                // Init views
+                initViews();
+                // Render all templates
+                renderAllTemplates();
+            },
+
+            /**
+             * Push a new view into the stack
+             * @param {String} view          The new view that will be pushed into the stack
+             */
+            changeView: function(view) {
+                if(_activeView){
+                    _oldView = _activeView;
+                    _oldView.destroy();
+                }
+                switch(view){
+                    case constants.views.login:
+                        _activeView = new LoginView(_views[0]['loginView']['templateId']);
+                        break;
+                    case constants.views.home:
+                        _activeView = new HomeView(_views[1]['homeView']['templateId']);
+                        break;
+                    case constants.views.detail:
+                        _activeView = new DetailView(_views[2]['detailView']['templateId']);
+                        break;
+                }
             }
-            switch(view){
-                case constants.views.login:
-                    _activeView = new LoginView(_views[0]['loginView']['templateId']);
-                    break;
-                case constants.views.home:
-                    _activeView = new HomeView(_views[1]['homeView']['templateId']);
-                    break;
-                case constants.views.detail:
-                    _activeView = new DetailView(_views[2]['detailView']['templateId']);
-                    break;
-            }
         };
 
         /**
-         * Pop the current view from the stack
-         * @param {String} view         The view that needs to be popped from the stack
+         * Returns an instance of the MainController
+         * @return Class {*}        Returns an instance of the MainController
          */
-        ViewController.prototype.popView = function(view) {
-            $(document).trigger(constants.events.viewpopped, [view]);
+        ViewController.getInstance = function(){
+            if(instance === null){
+                instance = new ViewController();
+            }
+            return instance;
         };
 
-        // Private methods
+        /////////////////////
+        // Private methods //
+        /////////////////////
 
         /**
          * Initialize and render the view templates
          */
         var initViews = function() {
-            _views = [
-                {
-                    'loginView': {
-                        templateId  : '#login-view-template',
-                        template    : '/mobile/templates/views/login-view.html'
-                    }
-                },
-                {
-                    'homeView': {
-                        templateId  : '#home-view-template',
-                        template    : '/mobile/templates/views/home-view.html'
-                    }
-                },
-                {
-                    'detailView': {
-                        templateId  : '#detail-view-template',
-                        template    : '/mobile/templates/views/detail-view.html'
-                    }
-                }
-            ];
+            _views = [];
+            _.each(mainController.getSettings()['views'], function(view){
+                _views.push(view);
+            });
         };
 
         /**
@@ -125,9 +116,6 @@ define(
          * Renders all the templates and caches them
          */
         var renderAllTemplates = function() {
-
-            console.log(_views);
-
             _templates = {};
             _.each(_views, function(view){
                 for(var key in view){
@@ -170,7 +158,6 @@ define(
         };
 
         // Singleton
-        if(!instance) instance = new ViewController();
-        return instance;
+        return ViewController.getInstance();
     }
 );

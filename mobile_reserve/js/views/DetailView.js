@@ -22,8 +22,7 @@ define(
     function($, _, oae, constants, mobileUtil) {
 
         // Properties
-        var template = '/mobile/templates/views/detail-view.html';
-        var templateId = '#detail-view-template';
+        var _templateId = null;
 
         // Constructor
         function DetailView() {
@@ -32,25 +31,23 @@ define(
         }
 
         // Public methods
-        DetailView.prototype.initialize = function() {
+        DetailView.prototype.initialize = function(templateId) {
             console.log('[DetailView] initialize');
+            _templateId = templateId;
             renderTemplate();
         };
 
         DetailView.prototype.destroy = function() {
             console.log('[DetailView] destroy');
+            _templateId = null;
             deleteBinding();
         };
 
         // Private methods
         var renderTemplate = function() {
             console.log('[DetailView] render template');
-            mobileUtil.renderPageTemplate(template, function(err){
-                if(!err){
-                    oae.api.util.template().render(templateId, null, $('#viewport'));
-                    addBinding();
-                }
-            });
+            oae.api.util.template().render(_templateId, null, $('#viewport'));
+            addBinding();
         };
 
         var addBinding = function() {
