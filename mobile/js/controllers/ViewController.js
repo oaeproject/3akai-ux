@@ -18,11 +18,13 @@ define(
         'jquery','underscore','oae.core',
         '/mobile/js/constants/constants.js',
         '/mobile/js/mobile.util.js',
+        './mainController',
+
         '/mobile/js/views/LoginView.js',
         '/mobile/js/views/HomeView.js',
         '/mobile/js/views/DetailView.js'
     ],
-    function($, _, oae, constants, mobileUtil, LoginView, HomeView, DetailView) {
+    function($, _, oae, constants, mobileUtil, mainController, LoginView, HomeView, DetailView) {
 
         // Properties
         var instance = null;
@@ -123,6 +125,9 @@ define(
          * Renders all the templates and caches them
          */
         var renderAllTemplates = function() {
+
+            console.log(_views);
+
             _templates = {};
             _.each(_views, function(view){
                 for(var key in view){

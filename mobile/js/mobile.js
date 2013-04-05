@@ -15,6 +15,7 @@
 
 require.config({
     paths: {
+        mainController      : '/mobile/js/controllers/MainController',
         viewController      : '/mobile/js/controllers/ViewController',
         userController      : '/mobile/js/controllers/UserController'
     }
@@ -25,10 +26,14 @@ require(
         'jquery','underscore','oae.core',
         '/mobile/js/constants/constants.js',
         '/mobile/js/mobile.util.js',
+        'mainController',
         'viewController',
         'userController'
     ],
-    function($, _, oae, constants, mobileUtil, viewController, userController) {
+    function($, _, oae, constants, mobileUtil, mainController, viewController, userController) {
+
+        // Properties
+        var settings = "";
 
         /**
          * Show the activity indicator
@@ -56,8 +61,9 @@ require(
          * Initializes all the controllers
          */
         var initControllers = function() {
-            userController.initialize();
-            viewController.initialize();
+            mainController.initialize();
+            //userController.initialize();
+            //viewController.initialize();
         };
 
         /**
