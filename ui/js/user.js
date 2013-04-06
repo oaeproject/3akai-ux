@@ -16,14 +16,14 @@
 require(['jquery', 'oae.core'], function($, oae) {
 
     //  Get the user id from the URL. The expected URL is /user/<userId>
-    var userId = document.location.pathname.split('/').pop();
+    var userId = window.location.pathname.split('/').pop();
     if (!userId) {
         oae.api.util.redirect().login();
     }
 
     // Redirect to /me if the requested user is the currently logged in user
     if (userId === oae.data.me.id) {
-        document.location = '/me';
+        window.location = '/me';
     }
 
     // Variable used to cache the requested user's profile

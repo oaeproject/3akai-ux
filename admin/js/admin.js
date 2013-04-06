@@ -386,7 +386,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                 // Show the error message
                 oae.api.util.notification('Login failed', 'Invalid username or password.', 'error');
             } else {
-                document.location.reload(true);
+                window.location.reload(true);
             }
         });
         return false;
@@ -397,7 +397,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
      */
     var logout = function() {
         oae.api.authentication.logout(function() {
-            document.location.reload(true);
+            window.location.reload(true);
         });
     };
 

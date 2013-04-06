@@ -24,7 +24,7 @@ require(['jquery','oae.core'], function($, oae) {
      */
     var setUpSearch = function() {
         $(document).on('submit', '#index-search-form', function() {
-            document.location = '/search#q=' + $('#index-search-query', $(this)).val();
+            window.location = '/search#q=' + $('#index-search-query', $(this)).val();
             return false;
         });
     };

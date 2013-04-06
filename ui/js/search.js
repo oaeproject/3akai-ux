@@ -45,7 +45,8 @@ require(['jquery','oae.core'], function($, oae) {
         infinityScroll = $('.oae-list').infiniteScroll('/api/search/general', {
             'limit': 12,
             'q': query,
-            'resourceTypes': types
+            'resourceTypes': types,
+            'includeExternal': true
         }, '#search-template', {
             'postRenderer': function(data) {
                 $('#search-total-results').text(data.total);
