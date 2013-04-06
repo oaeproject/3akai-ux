@@ -46,6 +46,10 @@
     height: 37px;
     margin-right: 7px;
     width: 620px;
+    border-color: transparent;
+    -webkit-box-shadow: none;
+       -moz-box-shadow: none;
+            box-shadow: none;
 }
 
 #index-container .index-search-container .control-label {
@@ -58,7 +62,7 @@
 }
 
 #index-container #index-video-container {
-    background: url('/ui/img/index-video-bg.png') no-repeat center 90px #FFF;
+    background: url('/ui/img/index-video-bg.png') no-repeat center 0px #FFF;
     -webkit-border-radius: 3px;
        -moz-border-radius: 3px;
             border-radius: 3px;
@@ -69,19 +73,12 @@
     width: 515px;
 }
 
-#index-container #index-video-container p {
-    font-size: 18px;
-    font-weight: normal;
-    margin: 15px auto 0;
-    width: 350px;
-}
-
 #index-container #index-video-container #index-video-launch {
     background: transparent;
     border: none;
     display: block;
     font-size: 70px;
-    margin: 25px auto;
+    margin: 110px auto;
 }
 
 #index-container #index-video-container #index-video-launch {

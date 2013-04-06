@@ -26,11 +26,15 @@ body {
     display: none;
 }
 
-/* DEFAULT FONT AND TEXT COLOR */
+/* DEFAULT FONT AND TEXT STYLE */
 
 body, button, input, select, textarea {
     font-family: 'Open Sans', sans-serif; arial, helvetica, sans-serif;
     line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
 }
 
 /* DEFAULT LINK STYLE */
@@ -69,7 +73,7 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 
 .nav-list .nav-header {
     text-transform: none;
-    font-weight: 700;
+    font-weight: 600;
     margin-bottom: 10px;
     font-size: 12px;
 }
@@ -102,6 +106,7 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 
 .dropdown-menu {
     padding: 10px;
+    border: none;
     -webkit-border-radius: 5px;
        -moz-border-radius: 5px;
             border-radius: 5px;
@@ -224,6 +229,7 @@ input.search-query,
  * @see http://twitter.github.com/bootstrap/components.html#labels-badges */
 
 .badge {
+    font-weight: 600;
     -webkit-border-radius: 3px;
        -moz-border-radius: 3px;
             border-radius: 3px;
@@ -270,8 +276,6 @@ input.search-query,
 
 .oae-main-content {
     background-color: #FFF;
-    border: 1px solid #DDD;
-    border-bottom: none;
     -webkit-border-radius: 5px;
        -moz-border-radius: 5px;
             border-radius: 5px;
@@ -279,7 +283,7 @@ input.search-query,
        -moz-box-shadow: 0 2px 4px #DBDBDB;
             box-shadow: 0 2px 4px #DBDBDB;
     padding: 10px;
-    min-height: 400px;
+    min-height: 450px;
     clear: both;
 }
 
