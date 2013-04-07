@@ -46,13 +46,18 @@ require(['jquery', 'oae.core'], function($, oae) {
             oae.api.util.setBrowserTitle(groupProfile.displayName);
         });
     };
-    
+
+    $(document).on('oae.context.get', function() {
+        $(document).trigger('oae.context.send', groupProfile);
+    });
+    $(document).trigger('oae.context.send', groupProfile);
+
     /**
      * Render the group's clip, containing the profile picture, display name as well as the
      * group's admin options
      */
     var setUpClip = function() {
-        oae.api.util.template().render($('#group-clip-template'), groupProfile, $('#group-clip-container'));
+        oae.api.util.template().render($('#group-clip-template'), {'group': groupProfile}, $('#group-clip-container'));
 
         // Only show the create and upload clips to managers
         if (groupProfile.isManager) {

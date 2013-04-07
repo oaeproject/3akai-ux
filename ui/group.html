@@ -30,16 +30,11 @@
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button {if !isManager} disabled {/if}>
-                                <div class="oae-thumbnail icon-oae-group">
-                                    {if picture.medium}
-                                        <img src="${picture.medium}" alt="${displayName|safeUserInput}"/>
-                                    {/if}
-                                    <i class="icon-oae-${visibility}"></i>
-                                </div>
+                            <button {if !group.isManager} disabled {/if}>
+                                ${renderThumbnail(group)}
                                 <div>
                                     <div>
-                                        <h1>${displayName|safeUserInput}</h1>
+                                        <h1>${group.displayName|safeUserInput}</h1>
                                         <i class="icon-caret-down"></i>
                                         <small>__MSG__GROUP__</small>
                                     </div>
@@ -58,13 +53,13 @@
                 --></div>
 
                 <div id="group-actions" class="pull-right hide">
-                    <div class="oae-clip oae-clip-flipped">
+                    <div class="oae-clip oae-clip-flipped oae-dnd-upload">
                         <div class="oae-clip-fold">
                             <div class="oae-clip-fold-inner"></div>
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button>
+                            <button class="oae-trigger-upload">
                                 <div>
                                     <i class="icon-cloud-upload pull-left"></i>
                                     <h1>__MSG__UPLOAD__</h1>
@@ -88,7 +83,7 @@
                             </button>
                             <div>
                                 <ul>
-                                    <li><button><i class="icon-link"></i>__MSG__LINK__</button></li>
+                                    <li><button class="oae-trigger-createlink"><i class="icon-link"></i>__MSG__LINK__</button></li>
                                     <li><button><i class="icon-edit"></i>__MSG__DOCUMENT__</button></li>
                                     <li><button><i class="icon-comments"></i>__MSG__DISCUSSION__</button></li>
                                 </ul>

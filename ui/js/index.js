@@ -18,4 +18,17 @@ require(['jquery','oae.core'], function($, oae) {
     // Set the page title
     oae.api.util.setBrowserTitle('__MSG__WELCOME__');
 
+    /**
+     * Set up the main search form. When the form is submitted, the user will be
+     * redirected to the search page using the entered search query
+     */
+    var setUpSearch = function() {
+        $(document).on('submit', '#index-search-form', function() {
+            document.location = '/search#q=' + $('#index-search-query', $(this)).val();
+            return false;
+        });
+    };
+
+    setUpSearch();
+
 });

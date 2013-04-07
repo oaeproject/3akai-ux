@@ -153,15 +153,31 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * - `${value|safeUserInput}`: Should be used for all user input rendered as text
          * - `${value|safeURL}`: Should be used for all user input used as part of a URL
          * 
-         * There is also a globally available macro that can be used when rendering list view items:
-         * 
-         *   `${listItem(entityData, [metadata], [pagingKey])}`
+         * There are also 2 globally available macros that can be used inside of all TrimPath templates:
+         *
+         * 1) Thumbnail
+         *
+         *   `${renderThumbnail(entityData, [addVisibilityIcon], [large])}`
+         *
+         * - `entityData` is a standard object representing a user, group or content item or a search result for a user, group
+         *    or content item as returned by Hilary. Alternatively, a string representing the resourceType or resourceSubType 
+         *    (i.e., 'user', 'group', 'content', 'file', 'link', 'collabdoc') can be passed in for an empty/anonymous 
+         *    entity thumbnail.
+         * - `addVisibilityIcon` (optional) will determine whether or not the visibility icon should be shown. By default, 
+         *    the visibility icon will be shown. However, users will not never show a visibility icon.
+         * - `large` (optional) determines whether or not a large default thumbnail icon should used. By default, a small icon will be used.
+         *
+         * 2) List item
+         *
+         *   `${listItem(entityData, [pagingKey], [metadata], [showCheckbox])}`
          * 
          * - `entityData` is an object representing a user, group or content item or a search result for a user, group
          *    or content item
          * - `metadata` (optional) is a line of metadata information that should be displayed underneath the entity name
          * - `pagingKey` (optional) is the key that should be used for paging through the infinite scroll plugin
-         * 
+         * - `showCheckbox` (optional) will determine whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
+         *
+         *
          * IMPORTANT: There should be no line breaks in between the div and the <!-- declarations,
          * because that line break will be recognized as a node and the template won't show up, as
          * it's expecting the comments tag as the first one. This is done because otherwise a template 
@@ -239,34 +255,44 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
     };
 
     /**
-     * Show a notification message (either information or error) on the screen
-     * TODO: Replace this with Bootstrap notification functionality
-     * 
-     * @param  {String}     [title]         The notification title
-     * @param  {String}     text            The notification description that will be shown underneath the title
-     * @param  {String}     [type]          The notification type. This can be either 'info' or 'error'. If the type is not provided, this will default to 'info'
-     * @throws {Error}                      Error thrown when no title has been provided
+     * Show a Growl-like notification message. A notification can have a title and a message, and will also have
+     * a close button for closing the notification. Notifications can be used as a confirmation message, error message, etc.
      *
-    var showNotification = exports.showNotification = function(title, text, type) {
-        if (!text) {
-            throw new Error('A valid body should be provided');
+     * This function is mostly just a wrapper around jQuery.bootstrap.notify.js and supports all of the options documented
+     * at http://nijikokun.github.com/bootstrap-notify/.
+     * 
+     * @param  {String}     [title]       The notification title.
+     * @param  {String}     message       The notification message that will be shown underneath the title.
+     * @param  {String}     [type]        The notification type. The supported types are `success`, `error` and `info`, as defined in http://twitter.github.com/bootstrap/components.html#alerts. By default, the `success` type will be used.
+     * @throws {Error}                    Error thrown when no message has been provided
+     */
+    var notification = exports.notification = function(title, message, type) {
+        if (!message) {
+            throw new Error('A valid notification message should be provided');
         }
 
-        var notification = {
-            'title': title,
-            'text': text,
-            'image': '/ui/img/notifications_info_icon.png',
-            'time': 5000
-        }
-        // Set a different icon and longer timeout for error notifications 
-        if (type === 'error') {
-            notification['image'] = '/ui/img/notifications_exclamation_icon.png';
-            notification['time'] = 10000;
+        // Check if the notifications container has already been created.
+        // If the container has not been created yet, we create it and add
+        // it to the DOM.
+        var $notificationContainer = $('#oae-notification-container');
+        if ($notificationContainer.length === 0) {
+            $notificationContainer = $('<div>').attr('id', 'oae-notification-container').addClass('notifications top-center');
+            $('body').append($notificationContainer);
         }
 
-        // Show the notification on the screen
-        $.gritter.add(notification);
-    }; */
+        // We make sure the notification message is protected against XSS attacks
+        message = security().safeUserInput(message);
+        // If a title has been provided, we wrap it in an h4 and prepend it to the message
+        if (title) {
+            message = '<h4>' + security().safeUserInput(title) + '</h4>' + message;
+        }
+
+        // Show the actual notification
+        $notificationContainer.notify({
+            'type': type,
+            'message': {'html': message}
+        }).show();
+    };
 
     /*!
      * All functionality related to validating forms

@@ -67,10 +67,34 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     top: 2px;
 }
 
+.nav-list .nav-header {
+    text-transform: none;
+    font-weight: 700;
+    margin-bottom: 10px;
+    font-size: 12px;
+}
+
+/* MEDIA OBJECTS
+ * @see http://twitter.github.com/bootstrap/components.html#media */
+
+.media, .media .media {
+    font-size: 13px;
+    margin-top: 25px;
+}
+
+.media .media-body h4.media-heading {
+    font-size: 13px;
+    font-weight: normal;
+}
+
 /* ICONS */
 
 [class^="icon-"], [class*=" icon-"] {
     font-size: 22px;
+}
+
+.hide[class^="icon-"], .hide[class*=" icon-"] {
+    display: none;
 }
 
 /* DROPDOWN
@@ -96,6 +120,20 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 
 /* FORMS 
  * http://twitter.github.com/bootstrap/base-css.html#forms */
+
+textarea,
+input[type="text"],
+input[type="password"] {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    min-height: 30px;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+    margin-top: 3px;
+}
 
 input.search-query,
 .navbar-search .search-query {
@@ -158,6 +196,10 @@ input.search-query,
     font-weight: 200;
 }
 
+.modal-body {
+    padding: 5px 25px 10px;
+}
+
 .modal-body h4 {
     font-size: 14px;
     font-style: italic;
@@ -166,8 +208,16 @@ input.search-query,
 }
 
 .modal-footer {
+    background-color: transparent;
     border-top: none;
     box-shadow: none;
+}
+
+/* NOTIFICATIONS
+ * @see http://twitter.github.com/bootstrap/components.html#alerts */
+
+.alert h4 {
+    margin-bottom: 5px;
 }
 
 /* BADGES 
@@ -202,6 +252,7 @@ input.search-query,
     margin-top: 5px;
     background-position: center;
     background-repeat: no-repeat;
+    background-size: auto 34.5px;
 }
 
 .oae-institutional-logo:hover {
