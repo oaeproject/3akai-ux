@@ -121,7 +121,7 @@
                             {for tenant in tenants}
                                 {if tenant.alias}
                                     <li>
-                                        <a href="/tenant/${tenant.alias}" title="${tenant.displayName} administration">${tenant.displayName}</a>
+                                        <a href="/tenant/${tenant.alias}" title="${tenant.displayName|safeUserInput} administration">${tenant.displayName|safeUserInput}</a>
                                     </li>
                                 {/if}
                             {/for}
@@ -162,15 +162,15 @@
                         {if tenant.alias}
                             <tr>
                                 {if isMainGlobalAdmin}
-                                    <td><a href="/tenant/${tenant.alias}" title="Edit ${tenant.displayName}"><i class="icon-pencil"></i></a></td>
+                                    <td><a href="/tenant/${tenant.alias}" title="Edit ${tenant.displayName|safeUserInput}"><i class="icon-pencil"></i></a></td>
                                 {/if}
                                 <td>${tenant.alias}</td>
                                 {if oae.data.me.isGlobalAdmin}
-                                    <td class="jeditable-container"><div class="jeditable-field" data-alias="${tenant.alias}">${tenant.displayName}</div></td>
+                                    <td class="jeditable-container"><div class="jeditable-field" data-alias="${tenant.alias}">${tenant.displayName|safeUserInput}</div></td>
                                 {else}
-                                    <td>${tenant.displayName}</td>
+                                    <td>${tenant.displayName|safeUserInput}</td>
                                 {/if}
-                                <td><a href="http://${tenant.host}" title="${tenant.displayName}" target="_blank">${tenant.host}</a></td>
+                                <td><a href="http://${tenant.host}" title="${tenant.displayName|safeUserInput}" target="_blank">${tenant.host}</a></td>
                                 <td>
                                     {if tenant.active}
                                         <span class="text-success">Running</span>
@@ -181,15 +181,15 @@
                                 <td>
                                     {if true || oae.data.me.isGlobalAdmin}
                                         {if tenant.active}
-                                            <button type="button" class="btn btn-warning stop-tenant" data-alias="${tenant.alias}" data-displayName="${tenant.displayName}">Stop</button>
+                                            <button type="button" class="btn btn-warning stop-tenant" data-alias="${tenant.alias}" data-displayName="${tenant.displayName|safeUserInput}">Stop</button>
                                         {else}
-                                            <button type="button" class="btn btn-success start-tenant" data-alias="${tenant.alias}" data-displayName="${tenant.displayName}">Start</button>
+                                            <button type="button" class="btn btn-success start-tenant" data-alias="${tenant.alias}" data-displayName="${tenant.displayName|safeUserInput}">Start</button>
                                         {/if}
                                     {/if}
                                 </td>
                                 {if oae.data.me.isGlobalAdmin}
                                     <td>
-                                        <button type="button" class="btn btn-danger delete-tenant" data-alias="${tenant.alias}" data-displayName="${tenant.displayName}">Delete</button>
+                                        <button type="button" class="btn btn-danger delete-tenant" data-alias="${tenant.alias}" data-displayName="${tenant.displayName|safeUserInput}">Delete</button>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-primary login-tenant" data-alias="${tenant.alias}">Login</button>
