@@ -332,7 +332,9 @@ div.oae-thumbnail {
     -webkit-border-radius: 4px;
        -moz-border-radius: 4px;
             border-radius: 4px;
-    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.35);
+    -webkit-box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.35);
+       -moz-box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.35);
 }
 
 div.oae-thumbnail a,
@@ -678,6 +680,9 @@ div.oae-thumbnail i[class^="icon-"] {
     position: relative;
     overflow: hidden;
     border: 1px solid;
+    -webkit-border-radius: 3px;
+       -moz-border-radius: 3px;
+            border-radius: 3px;
 }
 
 /* Default thumbnail picture positioning */
@@ -703,9 +708,6 @@ div.oae-thumbnail i[class^="icon-"] {
     bottom: 0px;
     right: 0px;
     left: 0px;
-    -webkit-border-radius: 0 0 3px 3px;
-       -moz-border-radius: 0 0 3px 3px;
-            border-radius: 0 0 3px 3px;
     padding: 7px;
 }
 
@@ -769,11 +771,21 @@ div.oae-thumbnail i[class^="icon-"] {
  *   `oae-thumbnail` element (See Thumbnail section for full overview).
  */
 
+.oae-tile,
+.oae-listitem {
+    -webkit-box-shadow: 0 0 2px 0 rgba(219, 219, 219, 0.8);
+       -moz-box-shadow: 0 0 2px 0 rgba(219, 219, 219, 0.8);
+            box-shadow: 0 0 2px 0 rgba(219, 219, 219, 0.8);
+}
+
 .oae-listitem {
     padding: 10px;
-    margin-bottom: 2px;
+    margin-bottom: 10px;
     height: 50px;
     border: 1px solid;
+    -webkit-border-radius: 3px;
+       -moz-border-radius: 3px;
+            border-radius: 3px;
 }
 
 .oae-listitem.oae-listitem-compact {
@@ -879,7 +891,7 @@ div.oae-thumbnail i[class^="icon-"] {
 
 ul.oae-list {
     margin: 0;
-    padding: 10px 0 0 0;
+    padding: 0;
     clear: both;
 }
 
@@ -900,7 +912,7 @@ ul.oae-list:not(.oae-list-compact) li .oae-list-compact-item {
 
 ul.oae-list.oae-list-grid li {
     float: left;
-    margin: 0px 7px 24px;
+    margin: 0px 14px 24px 0px;
 }
 
 ul.oae-list.oae-list-grid li .oae-thumbnail {
@@ -974,7 +986,9 @@ ul.oae-list li .oae-list-compact-item  {
  */
 
 .oae-list-options {
-    margin-left: 10px;
+    border-bottom: 1px solid #EEE;
+    margin-bottom: 25px;
+    padding-bottom: 5px;
 }
 
 .oae-list-options > div {

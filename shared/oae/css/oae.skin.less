@@ -472,16 +472,10 @@ div.oae-thumbnail {
  ** @section  Tiles **
  *********************/
 
-/* Tile border color */
-@tile-border-color: #DDD;
 /* Tile banner text color */
 @tile-text-color: #FFF;
 /* Tile banner background color */
 @tile-background-color: rgba(0, 0, 0, 0.8);
-
-.oae-tile {
-    border-color: @tile-border-color;
-}
 
 .oae-tile > div:last-child {
     background-color: @tile-background-color;
@@ -497,8 +491,9 @@ div.oae-thumbnail {
  **************************/
 
 /* List item border color */
-@listitem-border-color: #F5F5F5;
+@listitem-border-color: #EEEDEB;
 
+.oae-tile,
 .oae-listitem {
     border-color: @listitem-border-color;
 }
