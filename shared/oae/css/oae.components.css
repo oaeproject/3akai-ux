@@ -386,8 +386,8 @@ div.oae-thumbnail.icon-oae-user:before {
 
 div.oae-thumbnail i[class^="icon-"] {
     position: absolute;
-    bottom: -4px;
-    right: -7px;
+    bottom: -8px;
+    right: -8px;
 }
 
 
