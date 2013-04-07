@@ -175,7 +175,7 @@ input.search-query,
 .form-horizontal .uneditable-input + .help-block,
 .form-horizontal .input-prepend + .help-block,
 .form-horizontal .input-append + .help-block {
-  margin-top: 3px;
+    margin-top: 3px;
 }
 
 /* MODAL DIALOGS

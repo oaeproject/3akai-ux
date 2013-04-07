@@ -403,37 +403,44 @@ div.oae-thumbnail i[class^="icon-"] {
  * 
  * The HTML structure required for creating a clip is the following:
  * 
- *  <div class="oae-clip">
- *      <div class="oae-clip-fold">
- *          <div class="oae-clip-fold-inner"></div>
- *          <div class="oae-clip-fold-outer"></div>
- *      </div>
- *      <div class="oae-clip-content">
- *          <button>
- *              <div class="oae-thumbnail icon-oae-user">
- *                  <img src="/url/to/picture" alt="John Doe"/>
- *                  <i class="icon-oae-public"></i>
+ *  <div class="oae-clip-container">
+ *      <div class="oae-clip-container-left">
+ *          <div class="oae-clip">
+ *              <div class="oae-clip-fold">
+ *                  <div class="oae-clip-fold-inner"></div>
+ *                  <div class="oae-clip-fold-outer"></div>
  *              </div>
- *              <div>
+ *              <div class="oae-clip-content">
+ *                  <button>
+ *                      <div class="oae-thumbnail icon-oae-user">
+ *                          <img src="/url/to/picture" alt="John Doe"/>
+ *                          <i class="icon-oae-public"></i>
+ *                      </div>
+ *                      <div>
+ *                          <div>
+ *                              <h1>John Doe</h1>
+ *                              <i class="icon-caret-down"></i>
+ *                              <small>Job Title</small>
+ *                          </div>
+ *                      </div>
+ *                  </button>
  *                  <div>
- *                      <h1>John Doe</h1>
- *                      <i class="icon-caret-down"></i>
- *                      <small>Job Title</small>
+ *                      <ul>
+ *                          <li><button><i class="icon-user"></i>Action 1</button></li>
+ *                          <li><button><i class="icon-envelope"></i>Action 2</button></li>
+ *                          <li><button type="button"><i class="icon-wrench"></i>Action 3</button></li>
+ *                      </ul>
  *                  </div>
  *              </div>
- *          </button>
- *          <div>
- *              <ul>
- *                  <li><button><i class="icon-user"></i>Action 1</button></li>
- *                  <li><button><i class="icon-envelope"></i>Action 2</button></li>
- *                  <li><button type="button"><i class="icon-wrench"></i>Action 3</button></li>
- *              </ul>
  *          </div>
  *      </div>
  *  </div>
  *
  * Notes:
  * 
+ * - A clip needs to be inside of an `oae-clip-container` div. Inside of this container, you can specify the
+ *   clips that should go on the left by adding them to a `oae-clip-container-left` div. You can specify the
+ *   clips that should go on the right by adding them to a `oae-clip-container-right div inside of this container.
  * - The fold on a clip can be on the left of the clip or on the right of the clip. By default, the
  *   fold will be on the right. When a fold on the left is required, an `oae-clip-flipped` class should
  *   be added to the .`oae-clip` element.
@@ -453,15 +460,29 @@ div.oae-thumbnail i[class^="icon-"] {
 
 /* Clip container */
 
+.oae-clip-container {
+    position: relative;
+    margin-bottom: 55px;
+}
+
+.oae-clip-container .oae-clip-container-left,
+.oae-clip-container .oae-clip-container-right {
+    position: absolute;
+}
+
+.oae-clip-container .oae-clip-container-right {
+    margin-right: 55px;
+    right: 0px;
+}
+
 .oae-clip {
     float: left;
     margin: -16px 10px 10px;
     position: relative;
+    z-index: 100;
 }
 
-.pull-right .oae-clip:last-child {
-    margin-right: 50px;
-}
+
 
 /* Clip fold */
 
