@@ -62,6 +62,7 @@
 }
 
 #index-container #index-video-container {
+    position: relative;
     background: url('/ui/img/index-video-bg.png') no-repeat center 0px #FFF;
     -webkit-border-radius: 3px;
        -moz-border-radius: 3px;
@@ -74,15 +75,15 @@
 }
 
 #index-container #index-video-container #index-video-launch {
-    background: transparent;
-    border: none;
-    display: block;
-    font-size: 70px;
-    margin: 110px auto;
+    position: absolute;
+    opacity: 0.8;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
-#index-container #index-video-container #index-video-launch {
-    opacity: 0.8;
+#index-container #index-video-container #index-video-launch i {
+    font-size: 70px;
 }
 
 #index-container #index-slogan {
