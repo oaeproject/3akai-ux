@@ -794,6 +794,11 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-listitem input[type="checkbox"].pull-left {
     margin-right: 10px;
+    margin-top: 20px;
+}
+
+.oae-listitem.oae-listitem-compact input[type="checkbox"].pull-left {
+    margin-top: 6px;
 }
 
 /* List item thumbnail */
@@ -987,8 +992,7 @@ ul.oae-list li .oae-list-compact-item  {
 
 .oae-list-options {
     border-bottom: 1px solid #EEE;
-    margin-bottom: 25px;
-    padding-bottom: 5px;
+    margin-bottom: 20px;
 }
 
 .oae-list-options > div {
