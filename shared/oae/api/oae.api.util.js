@@ -105,15 +105,18 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
      */
     var template = exports.template = function() {
 
-        // Custom Trimpath modifiers
+        // Custom Trimpath modifiers, used for security related escaping purposes
         var trimpathModifiers = {
-            'safeUserInput': function(str) {
-                return security().safeUserInput(str);
+            'encodeForHTML': function(str) {
+                return security().encodeForHTML(str);
             },
-            'safeURL': function(str) {
-                return security().safeURL(str);
+            'encodeForHTMLAttribute': function(str) {
+                return security().encodeForHTMLAttribute(str);
+            },
+            'encodeForURL': function(str) {
+                return security().encodeForURL(str);
             }
-        }
+        };
 
         /**
          * Initialize the template utility functions by fetching and caching 
@@ -147,8 +150,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * called inside of each template without having to explicitly pass it in. There are also two standard
          * TrimPath modifiers that will be available:
          * 
-         * - `${value|safeUserInput}`: Should be used for all user input rendered as text
-         * - `${value|safeURL}`: Should be used for all user input used as part of a URL
+         * - `${value|encodeForHTML}`: Should be used for all user input rendered as text
+         * - `${value|encodeForURL}`: Should be used for all user input used as part of a URL
          * 
          * There are also 2 globally available macros that can be used inside of all TrimPath templates:
          *
@@ -278,10 +281,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         }
 
         // We make sure the notification message is protected against XSS attacks
-        message = security().safeUserInput(message);
+        message = security().encodeForHTML(message);
         // If a title has been provided, we wrap it in an h4 and prepend it to the message
         if (title) {
-            message = '<h4>' + security().safeUserInput(title) + '</h4>' + message;
+            message = '<h4>' + security().encodeForHTML(title) + '</h4>' + message;
         }
 
         // Show the actual notification
@@ -506,55 +509,68 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
 
     /**
      * All functionality related to handling user input and making sure that it displays properly, without opening the door
-     * to XSS attacks
+     * to XSS attacks. This is a wrapper around the jquery.encode.js library that was developed by OWASP. Documentation on
+     * the usage of this plugin can be found at https://github.com/chrisisbeef/jquery-encoder.
+     * 
+     * All of the different security functions are also available as TrimPath Template modifiers that can be used in the
+     * following manner: `${variable|<securityModifier>}`
      */
     var security = exports.security = function() {
 
         /**
-         * Sanitizes user input to prevent XSS attacks. All user-generated content should be run through
-         * this function before putting it into the DOM
+         * Sanitizes user input in a manner that makes it safe for the input to be placed
+         * inside of an HTML tag.
          * 
-         * @param  {String}     [input]     The user input string that should be sanitized. If this is not provided, an empty string will be returned.
-         * @return {String}                 The sanitized user input
+         * @param  {String}     [input]         The user input string that should be sanitized. If this is not provided, an empty string will be returned.
+         * @return {String}                     The sanitized user input, ready to be put inside of an HTML tag.
          */
-        var safeUserInput = function(input) {
+        var encodeForHTML = function(input) {
             if (!input) {
                 return '';
             } else {
-                return $('<div/>').text(input).html();
+                return $.encoder.encodeForHTML(input);
             }
         };
 
         /**
-         * An extension to encodeURIComponent that does not encode non-ASCII UTF-8 characters. The javascript global  encodeURIComponent 
-         * works on the ASCII character set, meaning it encodes all the reserved characters for URI components, and then all characters 
-         * above Char Code 127. This uses the regular encodeURIComponent function for ASCII characters, and passes through all higher 
-         * char codes. All of this is needed to make sure that UTF-8 elements in URLs are properly shown instead of decoded
+         * Sanitizes user input in a manner that it makes safe for the input to be placed
+         * inside of an HTML attribute.
          * 
-         * @param  {String}     input       URL or part of URL to be encoded.
-         * @return {String}                 The encoded URL or URL part
+         * @param  {String}     [input]         The user input string that should be sanitized. If this is not provided, an empty string will be returned.
+         * @param  {String}     [attribute]     The name of the HTML attribute to encode for.
+         * @return {String}                     The sanitized user input, ready to be put inside of an HTML attribute.
          */
-        var safeURL = function(input) {
+        var encodeForHTMLAttribute = function(input, attribute) {
             if (!input) {
                 return '';
             } else {
-                var safeURL = '';
-                for (var i = 0; i < input.length; i++) {
-                    if (input.charCodeAt(i) < 127) {
-                        safeURL += encodeURIComponent(input[i]);
-                    } else {
-                        safeURL += input[i];
-                    }
-                }
-                return safeURL;
+                // If no attribute name is provided, we provide a dummy attribute
+                // name as this is required by the jQuery plugin
+                attribute = attribute || 'tmp';
+                return $.encoder.encodeForHTMLAttribute(attribute, input, true);
+            }
+        };
+
+        /**
+         * Sanitizes user input in a manner that it makes safe for the input to be used
+         * as a URL fragment
+         * 
+         * @param  {String}     [input]         The user input string that should be sanitized. If this is not provided, an empty string will be returned.
+         * @return {String}                     The sanitized user input, ready to be used as a URL fragment.
+         */
+        var encodeForURL = function(input) {
+            if (!input) {
+                return '';
+            } else {
+                return $.encoder.encodeForURL(input);
             }
         };
 
         return {
-            'safeUserInput': safeUserInput,
-            'safeURL': safeURL
+            'encodeForHTML': encodeForHTML,
+            'encodeForHTMLAttribute': encodeForHTMLAttribute,
+            'encodeForURL': encodeForURL
         };
-    
     };
 
     ///////////////

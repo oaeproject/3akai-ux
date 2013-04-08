@@ -103,9 +103,9 @@
     {/if}
 
     <div class="oae-thumbnail {if large} oae-thumbnail-large {/if} icon-oae-${entityData.resourceSubType} icon-oae-${resourceType}">
-        {if profilePath}<a href="${profilePath}" title="${entityData.displayName|safeUserInput}">{/if}
+        {if profilePath}<a href="${profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}">{/if}
         {if thumbnailUrl}
-            <img src="${thumbnailUrl}" alt="${entityData.displayName|safeUserInput}" />
+            <img src="${thumbnailUrl}" alt="${entityData.displayName|encodeForHTMLAttribute}" />
         {/if}
         {if addVisibilityIcon !== false && resourceType !== 'user'}
             <i class="icon-oae-${visibility}"></i>
@@ -133,9 +133,9 @@
         {/if}
     {/if}
 
-    <h3 class="oae-threedots"><a href="${entityData.profilePath}" title="${entityData.displayName|safeUserInput}">${entityData.displayName|safeUserInput}</a></h3>
+    <h3 class="oae-threedots"><a href="${entityData.profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}">${entityData.displayName|encodeForHTML}</a></h3>
     {if metadata}
-        <small class="oae-threedots">${metadata|safeUserInput}</small>
+        <small class="oae-threedots">${metadata|encodeForHTML}</small>
     {/if}
 {/macro}
 
@@ -149,6 +149,6 @@
 {macro renderCheckbox(entityData, type, showCheckbox)}
     {if !oae.data.me.anon && showCheckbox !== false}
         <input type="checkbox" class="pull-left" id="oae-list-${type}-${entityData.id}" data-id="${entityData.id}" />
-        <label class="oae-aural-text" for="oae-list-${type}-${entityData.id}">${entityData.displayName|safeUserInput}</label>
+        <label class="oae-aural-text" for="oae-list-${type}-${entityData.id}">${entityData.displayName|encodeForHTML}</label>
     {/if}
 {/macro}
