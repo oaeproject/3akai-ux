@@ -51,7 +51,6 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     width: 250px;
 }
 
-
 /* NAVIGATION LIST
  * @see http://twitter.github.com/bootstrap/components.html#navs */
 
@@ -253,7 +252,7 @@ input.search-query,
     margin-top: 5px;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: auto 34.5px;
+    background-size: contain;
 }
 
 .oae-institutional-logo:hover {
