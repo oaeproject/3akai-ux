@@ -64,7 +64,7 @@
 
 #index-container #index-video-container {
     position: relative;
-    background: url('/ui/img/index-video-bg.png') no-repeat center 0px #FFF;
+    background: url('/ui/img/index-video-bg.png') no-repeat center 0px #ECEAE5;
     -webkit-border-radius: 3px;
        -moz-border-radius: 3px;
             border-radius: 3px;
