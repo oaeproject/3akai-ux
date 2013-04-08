@@ -546,7 +546,8 @@ div.oae-thumbnail i[class^="icon-"] {
             border-radius: 0 6px 6px;
 }
 
-.oae-clip .oae-clip-content button {
+.oae-clip .oae-clip-content > button,
+.oae-clip .oae-clip-content ul li button {
     background: none;
     border: none;
     font-weight: 600;
