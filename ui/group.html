@@ -34,7 +34,7 @@
                                 ${renderThumbnail(group)}
                                 <div>
                                     <div>
-                                        <h1>${group.displayName|safeUserInput}</h1>
+                                        <h1>${group.displayName|encodeForHTML}</h1>
                                         <i class="icon-caret-down"></i>
                                         <small>__MSG__GROUP__</small>
                                     </div>

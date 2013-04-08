@@ -43,6 +43,14 @@ define([
         'oae.api.util',
         'oae.api.widget',
 
+        /**
+         * OAE jQuery plugins
+         */
+        'jquery.clip',
+        'jquery.dnd-upload',
+        'jquery.infinitescroll',
+        'jquery.list-options',
+
         /*!
          * Third-party dependencies.
          */
@@ -50,8 +58,7 @@ define([
         'globalize',
         'jquery.ba-bbq',
         'jquery.ba-hashchange',
-        'jquery.clip',
-        'jquery.list-options',
+        'jquery.encoder',
         'jquery.fileSize',
         'jquery.form',
         'jquery.history',
@@ -60,7 +67,6 @@ define([
         'jquery.properties-parser',
         'jquery.serializeObject',
         'jquery.timeago',
-        'jquery.dnd-upload',
         'jquery.validate',
         'jquery-ui',
         'underscore'

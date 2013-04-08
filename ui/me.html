@@ -34,7 +34,7 @@
                                 ${renderThumbnail(oae.data.me)}
                                 <div>
                                     <div>
-                                        <h1>${oae.data.me.displayName|safeUserInput}</h1>
+                                        <h1>${oae.data.me.displayName|encodeForHTML}</h1>
                                         <i class="icon-caret-down"></i>
                                         <small>${oae.data.me.department}</small>
                                     </div>
