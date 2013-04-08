@@ -22,7 +22,7 @@
 body {
     margin-left: 30px;
     margin-right: 30px;
-    min-width: 1100px;
+    min-width: 920px;
     display: none;
 }
 
@@ -50,6 +50,13 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 .navbar-search .search-query:focus {
     width: 300px;
 }
+
+@media screen and (max-width: 1200px) {
+    .navbar-search .search-query:focus {
+        width: 250px;
+    }
+}
+
 
 /* NAVIGATION LIST
  * @see http://twitter.github.com/bootstrap/components.html#navs */
