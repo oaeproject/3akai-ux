@@ -92,66 +92,302 @@ a.oae-plain-link:hover {
  * These icons are used consistently to indicate the visibility setting for an entity
  * in the system. The available visibility privacy options are `private`, `loggedin` and
  * `public`.
- *   e.g. <i class="icon-oae-private"></i>
- *        <i class="icon-oae-loggedin"></i>
- *        <i class="icon-oae-public"></i>
+ *   e.g. <i class="icon-oae-private"><span class="oae-aural-text">__MSG__PRIVATE__</span></i>
+ *        <i class="icon-oae-loggedin"><span class="oae-aural-text">__MSG__LOGGED_IN__</span></i>
+ *        <i class="icon-oae-public"><span class="oae-aural-text">__MSG__PUBLIC__</span></i>
+ *
+ * Large icons can be rendered by adding the `large` class to the icon.
+ *   e.g. <i class="icon-oae-private large"><span class="oae-aural-text">__MSG__PRIVATE__</span></i>
+ *        <i class="icon-oae-loggedin large"><span class="oae-aural-text">__MSG__LOGGED_IN__</span></i>
+ *        <i class="icon-oae-public large"><span class="oae-aural-text">__MSG__PUBLIC__</span></i>
+ *
+ * Note:
+ *
+ * - The `oae-aural-text` span is added in for accessibility purposes, but can be left out when necessary.
  */
 
-.icon-oae-private:before,
-.icon-oae-loggedin:before,
-.icon-oae-public:before {
+i.icon-oae-private,
+i.icon-oae-loggedin,
+i.icon-oae-public {
+    font-size: 100%;
+    width: 18px;
+    height: 18px;
+}
+
+i.icon-oae-private:before,
+i.icon-oae-loggedin:before,
+i.icon-oae-public:before {
     -webkit-border-radius: 500px;
        -moz-border-radius: 500px;
             border-radius: 500px;
     color: #313131;
     font-size: 15px;
-    width: 17px;
+    width: 18px;
     height: 16px;
     padding-top: 1px;
     text-align: center;
 }
 
-/* 
- * NOTE: Some of these icons are slightly differently positioned relative
- * to each other, which is why we need to play around with widths and paddings 
- * to get them visually centered in the visibility area
- */
-.icon-oae-private:before {
+i.icon-oae-private:before {
     background-color: #FFBC78;
     content: "\f023";
 }
 
-.icon-oae-loggedin:before {
+i.icon-oae-loggedin:before {
     background-color: #C4E6FF;
     content: "\f041";
-    width: 16px;
-    padding-left: 1px;
 }
 
-.icon-oae-public:before {
+i.icon-oae-public:before {
     background-color: #A6E0AB;
     content: "\f0ac";
-    padding-left: 1px;
+}
+
+/* Larger visibility icons */
+
+i.icon-oae-private.large:before,
+i.icon-oae-loggedin.large:before,
+i.icon-oae-public.large:before {
+    font-size: 50px;
+    height: 55px;
+    padding-top: 5px;
+    width: 60px;
 }
 
 
 /************************
- ** VISIBILITY AVATARS **
-************************/
+ ** VISIBILITY TOGGLES **
+ ************************/
 
 /**
- * A visibility avatar is a combination of a thumbnail picture/profile picture and
- * a visibility icon, which will come back consistently through the UI. The available
- * visibility icons are `icon-oae-private`, `icon-oae-loggedin` and `icon-oae-public`.
- *   e.g. <div class="oae-visibility-avatar">
- *          <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian"/>
- *          <i class="icon-oae-public"></i>
+ * A Large group of toggle buttons for visibility settings.
+ * When an `oae-visibility-choice input` field changes value the 
+ * `oae-visibility-changed` event is sent out with data: `{'radio': $(input)}`
+ *
+ * e.g. <div class="oae-visibility-choice-container row-fluid">
+ *          <label for="oae-visibility-private" class="span4 text-center">
+ *              <div class="oae-visibility-choice well pull-left text-center checked">
+ *                  <i class="icon-ok hide"></i>
+ *                  <input type="radio" id="oae-visibility-private" value="private" name="oae-visibility-group" class="pull-left" checked="checked"/>
+ *                  <i class="icon-oae-private large text-center"></i>
+ *                  <span>__MSG__PRIVATE__</span>
+ *              </div>
+ *              <small>__MSG__PRIVATE_DESCRIPTION__</small>
+ *          </label>
+ *          <label for="oae-visibility-loggedin" class="span4 text-center">
+ *              <div class="oae-visibility-choice well pull-left text-center">
+ *                  <i class="icon-ok hide"></i>
+ *                  <input type="radio" id="oae-visibility-loggedin" value="loggedin" name="oae-visibility-group" class="pull-left"/>
+ *                  <i class="icon-oae-loggedin large text-center"></i>
+ *                  <span>__MSG__DISCOVERABLE_BY_EVERYONE_IN_TENANT__</span>
+ *              </div>
+ *              <small>__MSG__LOGGEDIN_DESCRIPTION__</small>
+ *          </label>
+ *          <label for="oae-visibility-public" class="span4 text-center">
+ *              <div class="oae-visibility-choice well pull-left text-center">
+ *                  <i class="icon-ok hide"></i>
+ *                  <input type="radio" id="oae-visibility-public" value="public" name="oae-visibility-group" class="pull-left"/>
+ *                  <i class="icon-oae-public large text-center"></i>
+ *                  <span>__MSG__PUBLIC__</span>
+ *              </div>
+ *              <small>__MSG__PUBLIC_DESCRIPTION__</small>
+ *          </label>
+ *      </div>
+ **/
+
+.oae-visibility-choice-container .oae-visibility-choice {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    height: 170px;
+    margin: 0 10px 15px 0;
+    width: 100%;
+}
+
+.oae-visibility-choice-container label:last-child .oae-visibility-choice {
+    margin-right: 0;
+}
+
+.oae-visibility-choice-container .oae-visibility-choice input {
+    position: absolute;
+    z-index: -1;
+}
+
+.oae-visibility-choice-container .oae-visibility-choice span {
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 7px;
+}
+
+.oae-visibility-choice-container .oae-visibility-choice.checked {
+    border: 8px solid;
+    padding-top: 12px;
+}
+
+.oae-visibility-choice-container .oae-visibility-choice i:first-child {
+    display: none;
+}
+
+.oae-visibility-choice-container .oae-visibility-choice.checked i:first-child {
+    -webkit-border-radius: 100px;
+       -moz-border-radius: 100px;
+            border-radius: 100px;
+    bottom: 24%;
+    display: inline-block;
+    margin-left: 12px;
+    position: absolute;
+}
+
+.oae-visibility-choice-container .oae-visibility-choice.checked i:first-child:before {
+    font-size: 24px;
+    height: 30px;
+    padding-top: 5px;
+    width: 35px;
+}
+
+
+/************************
+ ** SUCCESS/FAIL ICONS **
+ ************************/
+
+/* These icons are used in situations where checks for success/failure are done */
+
+
+[class^="icon-"].icon-ok,
+[class*=" icon-"].icon-ok,
+[class^="icon-"].icon-ok:hover,
+[class*=" icon-"].icon-ok:hover {
+    color: #468847;
+}
+
+[class^="icon-"].icon-warning-sign,
+[class*=" icon-"].icon-warning-sign,
+[class^="icon-"].icon-warning-sign:hover,
+[class*=" icon-"].icon-warning-sign:hover {
+    color: #DD2222;
+}
+
+/****************
+ ** THUMBNAILS **
+ ****************/
+
+/**
+ * A thumbnail can be used to show a thumbnail picture/profile picture for an
+ * entity. It will also attempt to set a default thumbnail in case no actual
+ * image is available, and it allows for showing a visibility icon combined with
+ * the thumbnail. These thumbnails will adjust in size to the space they have
+ * been given by their container.
+ *
+ *   e.g. <div class="oae-thumbnail icon-oae-user">
+ *            <a href="${entityData.profilePath}" title="${entityData.displayName|safeUserInput}">
+ *                <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian"/>
+ *                <i class="icon-oae-public"></i>
+ *            </a>
  *        </div>
+ *
+ * Next to using the HTML structure, there is also a Trimpath macro that can be used
+ * instead from all Trimpath templates:
+ *
+ *   `${renderThumbnail(entityData, [addVisibilityIcon], [large])}`
+ *
+ * - `entityData` is a standard object representing a user, group or content item or a search result for a user, group
+ *    or content item as returned by Hilary. Alternatively, a string representing the resourceType or resourceSubType 
+ *    (i.e., 'user', 'group', 'content', 'file', 'link', 'collabdoc') can be passed in for an empty/anonymous 
+ *    entity thumbnail.
+ * - `addVisibilityIcon` (optional) will determine whether or not the visibility icon should be shown. By default, 
+ *    the visibility icon will be shown. However, users will not never show a visibility icon.
+ * - `large` (optional) determines whether or not a large default thumbnail icon should used. By default, a small icon will be used.
+ *
+ * Notes:
+ *
+ * - The actual thumbnail image is optional, and if no image is specified the
+ *   thumbnail will show a default entity thumbnail. In order to do this,
+ *   `icon-oae-user` should be added to the `oae-thumbnail` div for users,
+ *   `icon-oae-group` should be added to the `oae-thumbnail` div for groups,
+ *   `icon-oae-discussion` should be added to the `oae-thumbnail` div for discussions,
+ *   `icon-oae-content` should be added to the `oae-thumbnail` div for generic content,
+ *   `icon-oae-file` should be added to the `oae-thumbnail` div for uploaded files,
+ *   `icon-oae-link` should be added to the `oae-thumbnail` div for links and
+ *   `icon-oae-collabdoc` should be added to the `oae-thumbnail` div for collaborative documents.
+ *   Even when an image is provided, the entity icon class can still be added as
+ *   it will be used when the image cannot be downloaded.
+ * - For large thumbnails (> 100px width/height), the `oae-thumbnail-large` class
+ *   should be added to the `oae-thumbnail` container. It will cause the default
+ *   thumbnail to be larger.
+ * - An optional visibility icon can be added to the thumbnail as well and will
+ *   automatically be positioned correctly. The available visibility icons are 
+ *   `icon-oae-private`, `icon-oae-loggedin` and `icon-oae-public` (See Visibility
+ *   icons section).
+ * - The link inside of the thumbnail can be used to link to the entity's profile page.
+ *   This link is optional and can be left out.
  */
 
-.oae-visibility-avatar img + i[class^="icon-"] {
+div.oae-thumbnail {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    display: inline-block;
+    position: relative;
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.35);
+}
+
+div.oae-thumbnail a,
+div.oae-thumbnail img {
     position: absolute;
-    margin: 20px 0 0 -25px;
+    left: 0;
+    top: 0;
+    min-width: 100%;
+    height: 100%;
+    font-size: 12px;
+}
+
+div.oae-thumbnail:before {
+    font-size: 20px;
+    padding-top: 50%;
+    margin-top: -11px;
+}
+
+div.oae-thumbnail.oae-thumbnail-large:before {
+    font-size: 50px;
+    margin-top: -25px;
+}
+
+/* Default entity thumbnails */
+
+div.oae-thumbnail.icon-oae-content:before, div.oae-thumbnail.icon-oae-file:before {
+    content: "\f016";
+}
+
+div.oae-thumbnail.icon-oae-link:before {
+    content: "\f0c1";
+}
+
+div.oae-thumbnail.icon-oae-collabdoc:before {
+    content: "\f044";
+}
+
+div.oae-thumbnail.icon-oae-discussion:before {
+    content: "\f086";
+}
+
+div.oae-thumbnail.icon-oae-group:before {
+    content: "\f0c0";
+}
+
+div.oae-thumbnail.icon-oae-user:before {
+    content: "\f007";
+}
+
+/* Visibility icon positioning */
+
+div.oae-thumbnail i[class^="icon-"] {
+    position: absolute;
+    bottom: -4px;
+    right: -7px;
 }
 
 
@@ -174,13 +410,16 @@ a.oae-plain-link:hover {
  *      </div>
  *      <div class="oae-clip-content">
  *          <button>
- *              <div>
+ *              <div class="oae-thumbnail icon-oae-user">
  *                  <img src="/url/to/picture" alt="John Doe"/>
+ *                  <i class="icon-oae-public"></i>
  *              </div>
  *              <div>
- *                  <h1>John Doe</h1>
- *                  <i class="icon-caret-down"></i>
- *                  <small>Job Title</small>
+ *                  <div>
+ *                      <h1>John Doe</h1>
+ *                      <i class="icon-caret-down"></i>
+ *                      <small>Job Title</small>
+ *                  </div>
  *              </div>
  *          </button>
  *          <div>
@@ -201,8 +440,10 @@ a.oae-plain-link:hover {
  * - Clips are available in two different skinnable styles. By default, the primary style will be used. If
  *   the secundary style is needed, this can be done by adding an 'oae-clip-secondary' class to the
  *   `.oae-clip` element.
- * - The avatar image in the clip can be given a visibility icon by turning the div containing the image
- *   into an `.oae-visibility-avatar` container and following the structure outlined there.
+ * - A thumbnail image can be added to the clip by adding an `oae-thumbnail` div as the first element of the
+ *   main button. This can also show a default entity picture (in case no image is provided) as well as a
+ *   visibility icon (See the `Thumbnail` section for details on how to create a thumbnail).
+ *   The thumbnail image is optional and can be left out as well.
  * - The `icon-caret-down` element is optional. If it is not provided, the clip will be shown in view
  *   only mode. If it is provided, the clip will be toggleable and the action menu will be shown when clicked.
  * - The `small` tag is used to show some additional clip metadata and is optional.
@@ -239,7 +480,9 @@ a.oae-plain-link:hover {
 }
 
 .oae-clip .oae-clip-fold .oae-clip-fold-inner {
-    border-radius: 50px 50px 0 0;
+    -webkit-border-radius: 50px 50px 0 0;
+       -moz-border-radius: 50px 50px 0 0;
+            border-radius: 50px 50px 0 0;
     float: left;
     height: 6px;
     margin-left: -1px;
@@ -284,47 +527,43 @@ a.oae-plain-link:hover {
     background: none;
     border: none;
     font-weight: 600;
-    min-height: 30px;
     padding: 14px 20px 14px 14px;
     text-align: left;
 }
 
-.oae-clip .oae-clip-content button:disabled {
+.oae-clip .oae-clip-content > button:disabled {
     cursor: default;
 }
 
-.oae-clip .oae-clip-content button div {
-    display: table-cell;
+.oae-clip .oae-clip-content > button > div {
+    float: left
 }
 
-.oae-clip .oae-clip-content button div,
-.oae-clip .oae-clip-content button i,
-.oae-clip .oae-clip-content button h1 {
+.oae-clip .oae-clip-content > button > div:nth-child(2) > div {
+    display: table-cell;
+    height: 35px;
     vertical-align: middle;
 }
 
-.oae-clip .oae-clip-content button img {
-    -webkit-border-radius: 4px;
-       -moz-border-radius: 4px;
-            border-radius: 4px;
-    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.35);
-    float: left;
-    max-height: 35px;
+.oae-clip .oae-clip-content > button div.oae-thumbnail {
+    height: 35px;
     width: 35px;
     margin-right: 12px;
 }
 
-.oae-clip .oae-clip-content button i.icon-caret-down,
-.oae-clip .oae-clip-content button i.icon-caret-up {
-    margin-left: 10px;
+.oae-clip .oae-clip-content > button i.icon-caret-down,
+.oae-clip .oae-clip-content > button i.icon-caret-up {
+    margin-left: 5px;
+    position: relative;
+    top: 2px;
 }
 
-.oae-clip .oae-clip-content button:disabled i.icon-caret-down,
-.oae-clip .oae-clip-content button:disabled i.icon-caret-up {
+.oae-clip .oae-clip-content > button:disabled i.icon-caret-down,
+.oae-clip .oae-clip-content > button:disabled i.icon-caret-up {
     display: none;
 }
 
-.oae-clip .oae-clip-content button h1 {
+.oae-clip .oae-clip-content h1 {
     display: inline-block;
     font-size: 16px;
     line-height: 1;
@@ -338,6 +577,7 @@ a.oae-plain-link:hover {
     clear: both;
     display: block;
     font-size: 12px;
+    line-height: 1;
     font-weight: normal;
     white-space: nowrap;
 }
@@ -372,323 +612,411 @@ a.oae-plain-link:hover {
 
 
 /***********
- ** LISTS **
+ ** TILES ** 
  ***********/
 
-/* list containers */
-ul.oae-list {
-    margin: 10px 0 0;
-    padding: 0;
-    clear: both;
-}
-ul.oae-list li.oae-list-item {
-    clear: both;
-    border: 1px solid #f5f5f5;
-    border-radius: 3px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    list-style: none;
-    margin-bottom: 2px;
-}
-ul.oae-list.grid li.oae-list-item {
-    clear: none;
-    float: left;
-    height: 162px;
-    margin: 12px 7px 20px;
+/**
+ * A tile is a combination of a preview image and some entity metadata in a 
+ * polaroid-like appearance. The preview image will take up the bulk of the
+ * space, with a bar at the bottom overlapping with the image that can show
+ * metadata. Tiles will adjust in size to the space they have been given by 
+ * their container.
+ * 
+ * The following HTML structure should be used to create a tile:
+ * 
+ *  <div class="oae-tile">
+ *      <a href="/user/u:cambridge:PPTBPgxSdf" title="John Librarian">
+ *          <div class="oae-thumbnail oae-thumbnail-large icon-oae-user">
+ *              <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian" />
+ *          </div>
+ *      </a>
+ *      <div>
+ *          <i class="icon-oae-public pull-left"></i>
+ *          <h3 class="oae-threedots">
+ *              <a href="/user/u:cambridge:PPTBPgxSdf">John Librarian</a>
+ *          </h3>
+ *          <small class="oae-threedots">Professor</small>
+ *      </div>
+ *  </div>
+ * 
+ * Notes:
+ * 
+ * - The `oae-thumbnail` element, containing the preview image, is a standard
+ *   `oae-thumbnail` element (See Thumbnail section for full overview).
+ * - The `oae-threedots` class should be added to metadata elements if you want
+ *   to make sure that `...` is shown when the metadata is longer than the available
+ *   space in the tile.
+ * - The actual content of the metadata div can be pretty much anything, although an
+ *   h3 should be used for the tile title.
+ * - The `small` element used to add some additional metadata is optional.
+ * - The visibility icon can be used as defined in the Visibility icon section, and
+ *   can be floated on the left or right.
+ */
+
+.oae-tile {
     position: relative;
-    width: 162px;
-}
-ul.oae-list li.oae-list-item i,
-ul.oae-list li.oae-list-item i:hover {
-  color: #fff;
-  font-size: 100%;
-}
-ul.oae-list li.oae-list-item.active {
-    background-color: #999;
-}
-ul.oae-list li.oae-list-item .oae-list-description {
-    display: none;
-    margin-top: 1px;
-    color: #666;
-    font-style: italic;
-}
-ul.oae-list li.oae-list-item .oae-list-description,
-ul.oae-list li.oae-list-item.active .oae-list-description,
-ul.oae-list.expandedlist li.oae-list-item .oae-list-description {
-    display: block;
-    font-size: 11px;
-    line-height: 20px;
-    max-width: 200px;
-    text-transform: uppercase;
-}
-ul.oae-list li.oae-list-item.active .oae-list-description,
-ul.oae-list.expandedlist li.oae-list-item .oae-list-description {
-    max-width: 550px;
-}
-ul.oae-list li.oae-list-item .oae-list-item-left {
-    background-color: #fff;
-    border-radius: 3px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    float: left;
-    overflow: auto;
-    width: 97.5%;
-    margin-top: 2px;
-    height: 34px;
-}
-ul.oae-list.expandedlist li.oae-list-item.active .oae-list-item-left,
-ul.oae-list li.oae-list-item.active .oae-list-item-left,
-ul.oae-list li.oae-list-item.active:hover .oae-list-item-left {
     overflow: hidden;
-    height: 70px;
-    width: 52%;
-}
-ul.oae-list.expandedlist li.oae-list-item .oae-list-item-left {
-    height: 70px;
-    width: 97.5%;
-}
-ul.oae-list.grid li.oae-list-item:hover .oae-list-item-left,
-ul.oae-list.grid li.oae-list-item .oae-list-item-left {
-    border-radius: 3px 0 0 3px;
-    -moz-border-radius: 3px 0 0 3px;
-    -webkit-border-radius: 3px 0 0 3px;
-    height: 162px;
-    margin-top: 0;
-    overflow: hidden;
-}
-ul.oae-list.grid li.oae-list-item.active:hover .oae-list-item-left,
-ul.oae-list.grid li.oae-list-item.active .oae-list-item-left {
-    width: 12%;
-}
-ul.oae-list.grid li.oae-list-item .oae-list-item-left,
-ul.oae-list.grid li.oae-list-item:hover .oae-list-item-left {
-    width: 100%;
-}
-ul.oae-list li.oae-list-item .oae-list-item-left .oae-list-item-left-inner {
-    padding: 9px 17px 0 7px;
-}
-ul.oae-list.grid li.oae-list-item .oae-list-item-left .oae-list-item-left-inner {
-    display: none;
-}
-ul.oae-list li.oae-list-item.active .oae-list-item-left .oae-list-item-left-inner {
-    padding: 9px 7px 0;
+    border: 1px solid;
 }
 
-ul.oae-list.expandedlist li.oae-list-item .oae-list-item-right,
-ul.oae-list li.oae-list-item .oae-list-item-right {
-    background: url("/ui/img/lists/list_grabber.png") no-repeat scroll 5px center #dededd;
-    border-radius: 0 3px 2px 0;
-    -moz-border-radius: 0 3px 2px 0;
-    -webkit-border-radius: 0 3px 2px 0;
-    cursor: pointer;
-    float: right;
-    min-height: 36px;
-    width: 2%;
+/* Default thumbnail picture positioning */
+
+.oae-tile .oae-thumbnail {
+    -webkit-border-radius: 0px;
+       -moz-border-radius: 0px;
+            border-radius: 0px;
 }
-ul.oae-list.grid li.oae-list-item .oae-list-item-right {
-    min-height: 162px;
-    position: relative;
-    width: 8%;
-    z-index: 100;
+
+.oae-tile .oae-thumbnail:before {
+    margin-top: -30px;
 }
-ul.oae-list li.oae-list-item:hover .oae-list-item-right {
-    background-color: #565656;
+
+.oae-tile .oae-thumbnail.oae-thumbnail-large:before {
+    margin-top: -50px;
 }
-ul.oae-list.grid li.oae-list-item.active:hover .oae-list-item-right,
-ul.oae-list.grid li.oae-list-item.active .oae-list-item-right {
-    position: inherit;
-    width: 87%;
-}
-ul.oae-list.grid li.oae-list-item:hover .oae-list-item-right {
-    width: 8%;
-}
-ul.oae-list li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden {
-    display: inline;
-}
-ul.oae-list li.oae-list-item .oae-list-item-right .oae-list-item-right-hidden {
-    display: none;
-}
-ul.oae-list.grid .oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden {
-    display: none;
-}
-ul.oae-list.grid li.oae-list-item.active .oae-list-item-right {
-    background-color: transparent !important;
-    min-height: 162px;
-}
-ul.oae-list.expandedlist li.oae-list-item .oae-list-item-right,
-ul.oae-list li.oae-list-item.active .oae-list-item-right {
-    min-height: 74px;
-}
-ul.oae-list li.oae-list-item.active:hover .oae-list-item-right,
-ul.oae-list li.oae-list-item.active .oae-list-item-right {
-    background-color: #999;
-    width: 47.5%;
-}
-ul.oae-list.expandedlist li.oae-list-item .oae-trigger-sharecontent,
-ul.oae-list li.oae-list-item.active .oae-trigger-sharecontent {
-    margin-top: 20px;
-}
-ul.oae-list.grid li.oae-list-item.active .oae-trigger-sharecontent {
-    margin-top: 6px;
-}
-/* Bottom banner for grid view */
-ul.oae-list.grid li.oae-list-item .oae-list-item-banner {
-    bottom: 0;
-    color: #fff;
-    display: block !important;
-    font-weight: bold;
+
+/* Tile metadata */
+
+.oae-tile > div:last-child {
     position: absolute;
-    width: 100%;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    -webkit-border-radius: 0 0 3px 3px;
+       -moz-border-radius: 0 0 3px 3px;
+            border-radius: 0 0 3px 3px;
+    padding: 7px;
 }
-ul.oae-list.grid li.oae-list-item .oae-list-item-banner .oae-list-item-banner-description {
-    display: inline-block;
-    font-size: 10px;
-    text-transform: uppercase;
-    width: 120px;
+
+.oae-tile h3,
+.oae-tile h3 a {
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1.3;
+    margin: 0px;
 }
-ul.oae-list.grid li.oae-list-item .oae-list-item-banner span.oae-threedots {
-    display: inline-block;
+
+.oae-tile small {
+    font-size: 11px;
     font-style: italic;
     font-weight: normal;
     text-transform: uppercase;
-    width: 120px;
-}
-ul.oae-list.grid li.oae-list-item .oae-list-item-banner > div:first-child {
-    background-color: #000;
-    border-radius: 0 0 3px 3px;
-    -moz-border-radius: 0 0 3px 3px;
-    -webkit-border-radius: 0 0 3px 3px;
-    line-height: 1.2;
-    opacity: 0.85;
-    padding: 7px 14px 7px 7px;
-}
-ul.oae-list.grid li.oae-list-item .oae-list-item-banner > div:first-child a {
-    color: #fff;
-}
-ul.oae-list.grid li.oae-list-item .oae-list-item-banner > div:first-child + div {
-    margin-left: 7px;
-    margin-top: -22px;
-    position: relative;
-    z-index: 100;
 }
 
-/* profile pictures */
-ul.oae-list.grid li.oae-list-item .oae-list-item-left img.oae-list-item-profile-picture.grid {
-    height: 162px;
-    margin: 0;
-    max-width: none;
-    width: 100%;
-    display: inline;
+
+/****************
+ ** LIST ITEMS **
+ ****************/
+
+/*
+ * A list item is a way of displaying an entity and is a combination of a preview image, 
+ * some entity metadata, a checkbox and actions that can be taken on the entity. A list
+ * item can be used as part of a larger list, but can also be used outside of a list to 
+ * present a single entity. List items will adjust in size to the space they have been 
+ * given by their container.
+ * 
+ * The following HTML structure should be used to create a list item:
+ * 
+ *  <div class="oae-listitem oae-listitem-compact">
+ *      <input type="checkbox" class="pull-left" id="oae-list-details-u:cambridge:PPTBPgxSdf" data-id="u:cambridge:PPTBPgxSdf" />
+ *      <label class="oae-aural-text" for="oae-list-details-u:cambridge:PPTBPgxSdf">John Librarian</label>
+ *      <div class="oae-thumbnail icon-oae-user pull-left">
+ *          <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian" />
+ *          <i class="icon-oae-private"></i>
+ *      </div>
+ *      <div>
+ *          <h3 class="oae-threedots"><a href="/user/u:cambridge:PPTBPgxSdf">John Librarian</a></h3>
+ *          <small class="oae-threedots">Professor</small>
+ *      </div>
+ *      <div class="oae-listitem-actions">
+ *          <button class="btn btn-link" title="Share"><i class="icon-share"></i></button>
+ *      </div>
+ *  </div>
+ * 
+ * Notes:
+ * 
+ * - A list item is available in an expanded size and a compact size. By default, the larger expanded 
+ *   view will be used. In order to use the smaller compact view, the class `oae-listitem-compact` 
+ *   should be added to the `oae-listitem` element.
+ * - A checkbox can be added to the list item for management purposes. This checkbox should have an
+ *   accompanying `oae-aural-text` label for accessibility purposes.
+ * - An action bar can be added to the list item by adding an `oae-listitem-actions` div to the list
+ *   item. This action bar can contain one or multiple action buttons.
+ * - The `oae-thumbnail`, `oae-listitem-actions` and checkbox are all optional.
+ * - The `small` element used to add some additional metadata is optional as well.
+ * - The `oae-thumbnail` element, containing the preview image, is a standard
+ *   `oae-thumbnail` element (See Thumbnail section for full overview).
+ */
+
+.oae-listitem {
+    padding: 10px;
+    margin-bottom: 2px;
+    height: 50px;
+    border: 1px solid;
 }
-ul.oae-list li.oae-list-item .oae-list-item-left img.oae-list-item-profile-picture {
-    display: none;
+
+.oae-listitem.oae-listitem-compact {
+    height: 25px;
+}
+
+.oae-listitem input[type="checkbox"].pull-left {
+    margin-right: 10px;
+}
+
+/* List item thumbnail */
+
+.oae-listitem .oae-thumbnail {
     float: left;
     height: 50px;
     width: 50px;
-    margin: 0 12px;
-}
-ul.oae-list.expandedlist li.oae-list-item .oae-list-item-left img.oae-list-item-profile-picture,
-ul.oae-list li.oae-list-item.active .oae-list-item-left img.oae-list-item-profile-picture {
-    border: 1px solid #E3E2DB;
-    border-radius: 3px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    display: block;
-}
-ul.oae-list.grid li.oae-list-item .oae-list-item-left img.oae-list-item-profile-picture {
-    border: none;
-}
-ul.oae-list li.oae-list-item .oae-list-item-left img.oae-list-item-profile-picture.grid {
-    display: none;
-}
-ul.oae-list li.oae-list-item .oae-list-item-left .oae-list-item-left-inner img.oae-list-item-small-picture {
-    display: block;
-    float: left;
-    margin: 0 12px 0 7px;
-}
-ul.oae-list li.oae-list-item .oae-list-item-left .oae-list-item-left-inner img.oae-list-item-small-picture + div {
-    margin-left: -23px;
-    margin-top: 8px;
-}
-ul.oae-list.expandedlist li.oae-list-item .oae-list-item-left .oae-list-item-left-inner img.oae-list-item-small-picture,
-ul.oae-list li.oae-list-item.active .oae-list-item-left .oae-list-item-left-inner img.oae-list-item-small-picture {
-    display: none;
-}
-ul.oae-list.expandedlist li.oae-list-item .oae-list-item-left .oae-list-item-left-inner img.oae-list-item-small-picture + div,
-ul.oae-list li.oae-list-item.active .oae-list-item-left .oae-list-item-left-inner img.oae-list-item-small-picture + div {
-    margin-left: -22px;
-    margin-top: 44px;
+    margin-right: 15px;
 }
 
-/* right hand side list item content */
-ul.oae-list.grid li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden.grid {
-    display: inline !important;
-}
-ul.oae-list.grid li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden.grid .oae-list-item-align-right,
-ul.oae-list.grid li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden.grid .oae-list-item-align-left{
-    font-size: 12px;
-    margin: 10px 0;
-}
-ul.oae-list li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden .oae-list-item-align-right,
-ul.oae-list li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden .oae-list-item-align-left {
-    margin-top: 10px;
-    float: left;
-}
-ul.oae-list li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden .oae-list-item-align-right p,
-ul.oae-list li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden .oae-list-item-align-left p {
-    text-align: right;
-    margin: 0 0 3px 5px;
-    color: #333;
-    width: 330px;
-}
-ul.oae-list li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden .oae-list-item-align-left p {
-    text-align: left;
-}
-ul.oae-list li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden .oae-list-item-align-right {
-    margin-left: 7px;
-}
-ul.oae-list.grid li.oae-list-item.active .oae-list-item-right .oae-list-item-right-hidden p {
-    width: 130px;
+.oae-listitem.oae-listitem-compact .oae-thumbnail {
+    height: 25px;
+    width: 25px;
 }
 
-/* list elements */
-ul.oae-list li.oae-list-item label {
-    display: block;
-    float: left;
-    font-size: 13px;
-    margin: 0 7px;
+/* List item metadata */
+
+.oae-listitem > div:not(.oae-thumbnail) {
+    display: table-cell;
+    vertical-align: middle;
+    height: 50px;
 }
-ul.oae-list li.oae-list-item.active label a,
-ul.oae-list.expandedlist li.oae-list-item label a {
-    max-width: 550px;
+
+.oae-listitem.oae-listitem-compact > div:not(.oae-thumbnail) {
+    height: 25px;
+    width: auto;
 }
-ul.oae-list li.oae-list-item label a {
+
+.oae-listitem h3 {
     display: inline-block;
-    line-height: 20px;
-    max-width: 400px;
-}
-ul.oae-list li.oae-list-item label a .oae-list-item-mimetype {
-    display: inline-block;
-    max-width: 190px;
-}
-ul.oae-list li.oae-list-item.active label a {
-    max-width: 250px;
-}
-ul.oae-list.expandedlist li.oae-list-item label,
-ul.oae-list li.oae-list-item.active label {
-    display: block;
-    float: none;
     font-size: 16px;
+    font-weight: 500;
+    line-height: 1.4;
     margin: 0;
-    overflow: inherit;
+    max-width: 450px;
 }
-ul.oae-list.grid li.oae-list-item .oae-list-item-checkbox.grid {
+
+.oae-listitem small {
+    line-height: 1;
+    font-size: 11px;
+    font-style: italic;
+    text-transform: uppercase;
+}
+
+.oae-listitem.oae-listitem-compact small {
+    display: inline-block;
+    line-height: 1.6;
+    margin-left: 20px;
+}
+
+/* List item actions */
+
+.oae-listitem .oae-listitem-actions {
+    width: 100%;
+    text-align: right;
+}
+
+.oae-listitem .oae-listitem-actions i {
+    font-size: 18px;
+}
+
+
+/***********
+ ** LISTS **
+ ***********/
+
+/**
+ * Lists are used as the core component for multiple widgets (library, membership, participants,
+ * search, etc.) and present a list of entities that can be viewed in 3 separate view modes (grid,
+ * details and compact). 
+ * 
+ * The HTML for a list item has been abstracted into a globally available TrimPath template that 
+ * can be used when rendering list view items:
+ * 
+ *   `${listItem(entityData, [pagingKey], [metadata], [showCheckbox])}`
+ * 
+ * - `entityData` is an object representing a user, group or content item or a search result for a user, group
+ *    or content item
+ * - `pagingKey` (optional) is the key that should be used for paging through the infinite scroll plugin
+ * - `metadata` (optional) is a line of metadata information that should be displayed underneath the entity name
+ * - `showCheckbox` (optional) will determine whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
+ * 
+ * The output from this macro represents a single list (li) item, and should be wrapped in a list container (ul)
+ * element with an `oae-list` class. In order to show the grid view, an `oae-list-grid` class should be added to
+ * the list, in order to show the details view, an `oae-list-details` class should be added to the list and in order
+ * to show the compact view, an `oae-list-compact` class should be added to the list:
+ * 
+ *  e.g. <ul class="oae-list oae-list-grid">
+ *          <Generated list items>
+ *       </ul>
+ */
+
+/* Core list styles */
+
+ul.oae-list {
+    margin: 0;
+    padding: 10px 0 0 0;
     clear: both;
-    display: block !important;
-    float: left;
-    margin-top: 7px;
 }
-ul.oae-list li.oae-list-item.oae-list-item-dnd {
+
+ul.oae-list li {
+    list-style: none;
+    -webkit-border-radius: 3px;
+       -moz-border-radius: 3px;
+            border-radius: 3px;
+}
+
+ul.oae-list:not(.oae-list-grid) li .oae-list-grid-item,
+ul.oae-list:not(.oae-list-details) li .oae-list-details-item,
+ul.oae-list:not(.oae-list-compact) li .oae-list-compact-item {
+    display: none;
+}
+
+/* Grid view */
+
+ul.oae-list.oae-list-grid li {
+    float: left;
+    margin: 0px 7px 24px;
+}
+
+ul.oae-list.oae-list-grid li .oae-thumbnail {
+    height: 162px;
+    width: 162px;
+}
+
+/* Details and compact view */
+
+ul.oae-list li .oae-list-details-item,
+ul.oae-list li .oae-list-compact-item  {
+    display: table;
+    width: 100%;
+}
+
+
+/******************
+ ** LIST OPTIONS **
+ ******************/
+
+/**
+ * The list options can be shown at the top of a list, providing a title for the list, as well
+ * as possibly a list search form, list actions, view mode switching, etc.
+ * 
+ * Some example HTML for a list options view:
+ *
+ *  <div class="oae-list-options">
+ *      <div>
+ *          <button class="btn oae-list-options-toggle">
+ *              <h2>__MSG__LIBRARY__ <i class="icon-caret-down"></i></h2>
+ *          </button>
+ *          <div class="pull-right">
+ *              <form class="form-search" id="library_search_form">
+ *                  <input type="text" class="search-query" placeholder="__MSG__NARROW_BY_KEYWORD__">
+ *              </form>
+ *          </div>
+ *      </div>
+ *      <div class="oae-list-options-actions hide">
+ *          <input type="checkbox" id="library-selectall" class="oae-list-selectall" />
+ *          <label for="library-selectall" class="oae-aural-text">__MSG__SELECT_ALL__</label>
+ *          <button type="button" class="btn"><i class="icon-share pull-left"></i>__MSG__SHARE__</button>
+ *          <button type="button" class="btn"><i class="icon-remove pull-left"></i>__MSG__REMOVE__</button>
+ *          <div class="btn-group pull-right">
+ *              <button class="btn" data-type="oae-list-compact">
+ *                  <i class="icon-list"></i>
+ *                  <span class="oae-aural-text">__MSG__LIST_VIEW__</span>
+ *              </button>
+ *              <button class="btn" data-type="oae-list-details">
+ *                  <i class="icon-th-list"></i>
+ *                  <span class="oae-aural-text">__MSG__EXPANDED_LIST_VIEW__</span>
+ *              </button>
+ *              <button class="btn active" data-type="oae-list-grid">
+ *                  <i class="icon-th-large"></i>
+ *                  <span class="oae-aural-text">__MSG__GRID_VIEW__</span>
+ *              </button>
+ *          </div>
+ *      </div>
+ *  </div>
+ * 
+ * Notes:
+ * 
+ * - The `oae-list-options-toggle` item is used to show the title of the list, and will also be used to toggle
+ *   the actions bar. This will be enabled automatically by the system. If a list needs to be shown in view-only
+ *   mode, this element should be set to disabled, in which case the dropdown icon will disappear and the toggle
+ *   will no longer work.
+ * - The `oae-list-options-actions` div represents the action bar that will be toggled when the `oae-list-options-toggle`
+ *   element is clicked. This bar contains all of the action that can be done on the selected list items, and
+ *   can basically be anything.
+ * - An `oae-list-selectall` class can be applied to the element that should be used to select/deselect all list
+ *   items. This will be enabled automatically by the system.
+ */
+
+.oae-list-options {
+    margin-left: 10px;
+}
+
+.oae-list-options > div {
+    line-height: 30px;
+    margin-bottom: 15px;
+    clear: both;
+}
+
+.oae-list-options .oae-list-options-toggle,
+.oae-list-options .btn.oae-list-options-toggle,
+.oae-list-options .btn.oae-list-options-toggle:hover,
+.oae-list-options .btn.oae-list-options-toggle:active {
+    background: none;
+    border: none;
+    padding: 1px 0px;
+    -webkit-box-shadow: none;
+       -moz-box-shadow: none;
+            box-shadow: none;
+}
+
+.oae-list-options .oae-list-options-toggle h2 {
+    margin: 0;
+    font-size: 20px;
+    line-height: 1;
+}
+
+.oae-list-options .oae-list-options-toggle h2 .badge {
+    margin-left: 5px;
+    top: -4px;
+}
+
+.oae-list-options .oae-list-options-toggle:disabled {
+    cursor: auto;
+}
+
+.oae-list-options .oae-list-options-toggle:disabled .icon-caret-down,
+.oae-list-options .oae-list-options-toggle:disabled .icon-caret-up {
+    display: none;
+}
+
+.oae-list-options form {
+    margin-bottom: 0px;
+}
+
+/* Actions bar */
+
+.oae-list-options .oae-list-options-actions > input,
+.oae-list-options .oae-list-options-actions > button {
+    margin-right: 7px;
+}
+
+.oae-list-options .oae-list-options-actions .btn i {
+    font-size: 18px;
+}
+
+.oae-list-options .btn-group .btn i {
+    font-size: 12px;
+}
+
+
+
+
+/*ul.oae-list li.oae-list-item.oae-list-item-dnd {
     border: none;
     display: none;
 }
@@ -723,17 +1051,5 @@ ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-newdocument {
 ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-dnd-container .oae-trigger-addcontent i,
 ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-newdocument i {
     color: #333;
-    font-size: 18px;
-}
-
-
-/*******************
- ** DRAG AND DROP **
- ******************/
-
-/* TODO: Add documentation for this */
-
-.oae-dnd-upload.dragover {
-    opacity: 0.3;
-    transition: opacity 0.15s linear 0s;
-}
+    font-size: 18px; 
+}*/

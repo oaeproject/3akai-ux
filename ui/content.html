@@ -30,14 +30,13 @@
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button {if !isManager} disabled {/if}>
-                                <div class="oae-visibility-avatar">
-                                    <img src="/ui/img/entities/content_icon_medium.png" alt="${displayName|safeUserInput}"/>
-                                    <i class="icon-oae-${visibility}"></i>
-                                </div>
+                            <button {if !content.isManager} disabled {/if}>
+                                ${renderThumbnail(content)}
                                 <div>
-                                    <h1>${displayName|safeUserInput}</h1>
-                                    <i class="icon-caret-down"></i>
+                                    <div>
+                                        <h1>${content.displayName|safeUserInput}</h1>
+                                        <i class="icon-caret-down"></i>
+                                    </div>
                                 </div>
                             </button>
                             <div>
@@ -75,7 +74,7 @@
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button>
+                            <button class="contentcomments-focus-new-comment">
                                 <div>
                                     <i class="icon-comments pull-left"></i>
                                     <h1>__MSG__COMMENT__</h1>
@@ -94,7 +93,7 @@
         <div data-widget="footer"><!-- --></div>
 
         <!-- DEPENDENCIES -->
-        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/require-jquery.js"></script>
+        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
         <!-- PAGE JS -->
         <script>require(['/ui/js/content.js']);</script>
 

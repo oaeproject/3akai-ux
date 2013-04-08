@@ -23,7 +23,6 @@
  */
 
 // Note: This version of the code is from Chris's repo at https://github.com/croby/jquery-autosuggest
-define([ 'jquery' ], function(jQuery) {
 (function( $ ) {
     var methods = {
 
@@ -530,5 +529,3 @@ define([ 'jquery' ], function(jQuery) {
         }
     };
 })(jQuery);
-
-});

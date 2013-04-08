@@ -11,6 +11,9 @@
         <!-- PAGE CSS -->
         <link rel="stylesheet" type="text/css" href="/admin/css/admin.css" />
 
+        <!-- JQUERY SPECTRUM CSS -->
+        <link rel="stylesheet" type="text/css" href="/shared/vendor/css/jquery.spectrum.css" />
+
     </head>
     <body>
 
@@ -51,6 +54,7 @@
                     <div id="admin-views">
                         <div id="admin-tenants-container" class="hide"><!-- --></div>
                         <div id="admin-modules-container" class="hide"><!-- --></div>
+                        <div id="admin-skinning-container" class="hide"><!-- --></div>
                     </div>
     
                     <div id="admin-error-container"><!-- --></div>
@@ -81,9 +85,9 @@
 
         <div id="admin-lhnav-template"><!--
             <ul class="nav nav-list">
-                <li class="nav-header">Configuration</li>
                 <li id="configurationtenants">
                     <a title="Tenant configuration" href="#configurationtenants">
+                        <i class="icon-dashboard"></i>
                         {if context.isGlobalAdminServer && !context.host}
                             Tenants
                         {else}
@@ -92,8 +96,17 @@
                     </a>
                 </li>
                 <li id="configurationmodules">
-                    <a title="Module configuration" href="#configurationmodules">Modules</a>
+                    <a title="Module configuration" href="#configurationmodules">
+                        <i class="icon-cogs"></i> Modules
+                    </a>
                 </li>
+                {if context.host}
+                    <li id="configurationskinning">
+                        <a title="Skinning configuration" href="#configurationskinning">
+                            <i class="icon-tint"></i> Skinning
+                        </a>
+                    </li>
+                {/if}
             </ul>
         --></div>
 
@@ -174,16 +187,14 @@
                                         {/if}
                                     {/if}
                                 </td>
-                                <td>
-                                    {if oae.data.me.isGlobalAdmin}
+                                {if oae.data.me.isGlobalAdmin}
+                                    <td>
                                         <button type="button" class="btn btn-danger delete-tenant" data-alias="${tenant.alias}" data-name="${tenant.name}">Delete</button>
-                                    {/if}
-                                </td>
-                                <td>
-                                    {if oae.data.me.isGlobalAdmin}
+                                    </td>
+                                    <td>
                                         <button type="button" class="btn btn-primary login-tenant" data-alias="${tenant.alias}">Login</button>
-                                    {/if}
-                                </td>
+                                    </td>
+                                {/if}
                             </tr>
                         {/if}
                     {/for}
@@ -195,7 +206,7 @@
                 <div class="admin-container-striped">
                     <div>
                         <button id="createtenant-toggle-button" type="button" class="btn">
-                            <i class="icon-plus" style="margin-right:12px;"></i>
+                            <i class="icon-plus pull-left" style="margin-right:12px;"></i>
                             Create a new tenant
                         </button>
                         <div class="createtenant-container" style="display: none;">
@@ -235,7 +246,7 @@
                 {for module in schema}
                     <div class="admin-module-configuration-container">
                         <button type="button" title="Edit the ${module.title}" class="admin-module-configuration-toggle-button btn">
-                            <i class="icon-pencil" style="margin-right:12px;"></i>
+                            <i class="icon-pencil"></i>
                             ${module.title}
                         </button>
                         <div class="admin-module-configuration-container" style="display:none;">
@@ -291,37 +302,39 @@
             </div>
         --></div>
 
-        <!-- UTIL TEMPLATES AND CONTAINERS -->
-
-        <div id="admin-error-template"><!--
-            <div class="alert alert-block alert-error fade in">
-                <button data-dismiss="alert" class="close" type="button">×</button>
-                {if error.title}
-                    <h4 class="alert-heading">${error.title}</h4>
-                {/if}
-                <p>${error.message}</p>
-            </div>
+        <div id="admin-skinning-template"><!--
+            <h2>Skin values</h2>
+            <form id="admin-skinning-form" class="form-horizontal">
+                {for skinningGroup in results}
+                    <h3>${skinningGroup.name}</h3>
+                    {for subsection in skinningGroup.subsections}
+                        {if subsection.name !== 'main'}
+                            <div>
+                                <h4>${subsection.name}</h4>
+                            </div>
+                        {/if}
+                        <div class="admin-container-striped">
+                            {for variable in subsection.variables}
+                                <div class="control-group">
+                                    <label class="control-label" for="admin-skinning-${variable.name}">${variable.description}</label>
+                                    <div class="controls">
+                                        <input type="text" id="admin-skinning-${variable.name}" name="${variable.name}" class="input-xlarge" value="${variable.value}" data-type="${variable.type}" data-defaultvalue="${variable.defaultValue}" />
+                                        <button type="button" class="btn btn-link pull-right admin-skinning-revert" title="Revert to original value">
+                                            <i class="icon-undo"><span class="oae-aural-text">Revert to original value</span></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            {/for}
+                        </div>
+                    {/for}
+                {/for}
+                <div id="admin-skinning-actions">
+                    <button type="submit" class="btn btn-primary">Save skin</button>
+                </div>
+            </form>
         --></div>
 
-        <div id="admin-warning-template"><!--
-            <div class="alert alert-block fade in">
-                <button data-dismiss="alert" class="close" type="button">×</button>
-                {if warning.title}
-                    <h4 class="alert-heading">${warning.title}</h4>
-                {/if}
-                <p>${warning.message}</p>
-            </div>
-        --></div>
-
-        <div id="admin-success-template"><!--
-            <div class="alert alert-block fade in success">
-                <button data-dismiss="alert" class="close" type="button">×</button>
-                {if success.title}
-                    <h4 class="alert-heading">${success.title}</h4>
-                {/if}
-                <p>${success.message}</p>
-            </div>
-        --></div>
+        <!-- UTIL TEMPLATE -->
 
         <div id="admin-confirmation-template"><!--
             <div class="modal" id="${modal.id}" tabindex="-1" role="dialog" aria-labelledby="${modal.id}-label" aria-hidden="true">
@@ -354,7 +367,7 @@
         </form>
 
         <!-- DEPENDENCIES -->
-        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/require-jquery.js"></script>
+        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
         <script>require(['/admin/js/admin.js']);</script>
         
     </body>
