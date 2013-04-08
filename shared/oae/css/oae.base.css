@@ -48,13 +48,7 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 }
 
 .navbar-search .search-query:focus {
-    width: 300px;
-}
-
-@media screen and (max-width: 1200px) {
-    .navbar-search .search-query:focus {
-        width: 250px;
-    }
+    width: 250px;
 }
 
 

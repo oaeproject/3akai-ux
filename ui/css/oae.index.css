@@ -25,6 +25,10 @@
     font-weight: 200;
 }
 
+#index-container {
+    padding: 10px 20px;
+}
+
 #index-container .index-search-container {
     margin: 25px auto 50px;
     padding: 3% 0;
