@@ -34,7 +34,7 @@
                                 ${renderThumbnail(content)}
                                 <div>
                                     <div>
-                                        <h1>${content.displayName|safeUserInput}</h1>
+                                        <h1>${content.displayName|encodeForHTML}</h1>
                                         <i class="icon-caret-down"></i>
                                     </div>
                                 </div>

@@ -150,8 +150,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * called inside of each template without having to explicitly pass it in. There are also two standard
          * TrimPath modifiers that will be available:
          * 
-         * - `${value|safeUserInput}`: Should be used for all user input rendered as text
-         * - `${value|safeURL}`: Should be used for all user input used as part of a URL
+         * - `${value|encodeForHTML}`: Should be used for all user input rendered as text
+         * - `${value|encodeForURL}`: Should be used for all user input used as part of a URL
          * 
          * There are also 2 globally available macros that can be used inside of all TrimPath templates:
          *
@@ -281,10 +281,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         }
 
         // We make sure the notification message is protected against XSS attacks
-        message = security().safeUserInput(message);
+        message = security().encodeForHTML(message);
         // If a title has been provided, we wrap it in an h4 and prepend it to the message
         if (title) {
-            message = '<h4>' + security().safeUserInput(title) + '</h4>' + message;
+            message = '<h4>' + security().encodeForHTML(title) + '</h4>' + message;
         }
 
         // Show the actual notification
