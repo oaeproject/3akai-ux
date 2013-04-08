@@ -11,13 +11,10 @@ define(
         // Properties
         var instance = null;
 
-        var _templates = null;
-        var _views = null;
-        var _menu = null;
-
         var _settings = null;
 
-        var $helper =  $('#oae-mobile-template-helper');
+        var _menu = null;
+        var _menuActive = 0;
 
         /////////////////////
         //// Constructor ////
@@ -59,9 +56,7 @@ define(
          * @return Class {*}        Returns an instance of the MainController
          */
         MainController.getInstance = function(){
-            if(instance === null){
-                instance = new MainController();
-            }
+            if(instance === null) instance = new MainController();
             return instance;
         };
 
@@ -73,9 +68,11 @@ define(
          * Listen te events from controllers
          */
         var addBinding = function() {
-            $(document).on(constants.events.activities.templatesready, onTemplatesReady);
-            $(document).on(constants.events.activities.activitystart, showIndicator);
+            $(document).on(constants.events.activities.togglemenu, onMenuToggle);
+            $(document).on(constants.events.user.loginsuccess, onUserLoginLogout);
+            $(document).on(constants.events.user.logoutsuccess, onUserLoginLogout);
             $(document).on(constants.events.activities.activityend, hideIndicator);
+            $(document).on(constants.events.activities.activitystart, showIndicator);
         };
 
         /**
@@ -88,8 +85,7 @@ define(
                 success: function(data){
                     if(data && data != null){
                         _settings = data;
-                        initViews();
-                        renderAllTemplates();
+                        initChildren();
                     }
                 },
                 error: function(e){
@@ -99,41 +95,9 @@ define(
         };
 
         /**
-         * Initialize and render the view templates
+         * Initializes the (view)controllers
          */
-        var initViews = function() {
-            _views = [];
-            _.each(_settings['templates'], function(view){
-                _views.push(view);
-            });
-        };
-
-        /**
-         * Renders all the templates and caches them
-         */
-        var renderAllTemplates = function() {
-            _templates = {};
-            _.each(_views, function(view){
-                for(var key in view){
-                    var total = _views.length;
-                    var index = _views.indexOf(view) + 1;
-                    mobileUtil.renderTemplate(key, view[key], index, total, function(err, obj){
-                        _templates[obj.name] = {
-                            'template': obj.template,
-                            'templateId': obj.templateId,
-                            'el': obj.el
-                        };
-                    });
-                }
-            });
-        };
-
-        /**
-         * Called when all templates are rendered
-         * Add templates to the helper element and initialize startup view
-         */
-        var onTemplatesReady = function() {
-            for(var template in _templates) $helper.append(_templates[template]['el']);
+        var initChildren = function() {
             initControllers();
             initMenu();
         };
@@ -159,6 +123,34 @@ define(
          */
         var initMenu = exports.initMenu = function() {
             _menu = new Menu(MainController.getInstance());
+        };
+
+        /**
+         * Toggles the menu
+         */
+        var onMenuToggle = function() {
+
+            // TODO: REPLACE THIS TEMPORARY SOLUTION
+
+            console.log('[ViewController] onMenuToggle');
+            _menuActive = !_menuActive;
+            var $viewport = '#oae-mobile-viewport';
+            if(_menuActive){
+                $($viewport).css('left','90%');
+            }else{
+                $($viewport).css('left',0);
+            }
+        };
+
+        /**
+         * When user logs in or out
+         */
+        var onUserLoginLogout = function() {
+            //if(!oae.data.me.anon){
+                //console.log('[MainController] onUserLoginLogout');
+            //}else{
+                //console.log('[MainController] onUserLoginLogout');
+            //}
         };
 
         /**

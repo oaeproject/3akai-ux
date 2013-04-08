@@ -43,9 +43,7 @@ define(
          * @return Class {*}        Returns an instance of the MainController
          */
         UserController.getInstance = function(){
-            if(instance === null){
-                instance = new UserController();
-            }
+            if(instance === null) instance = new UserController();
             return instance;
         };
 

@@ -11,7 +11,7 @@ body {
 }
 
 /* line 12, ../sass/mobile.scss */
-#viewport {
+#oae-mobile-viewport {
   position: absolute;
   overflow: hidden;
 }

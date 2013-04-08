@@ -15,15 +15,23 @@
 
 define(
     [
-        'oae.core',
-        '/mobile/js/constants/constants.js'
+        'jquery','underscore','oae.core',
+        '/mobile/js/constants/constants.js',
+        '/mobile/js/mobile.util.js'
     ],
-    function(oae, constants) {
+    function($, _, oae, constants, mobileUtil) {
 
         // Properties
         var mainController = null;
 
-        var _settings = null;
+        var _settings = Menu.prototype.settings = {
+            name: "menu",
+            items: [],
+            template: {
+                'templateID':   "#menu-template",
+                'templateURL':  "/mobile/templates/components/menu.html"
+            }
+        };
 
         /////////////////////
         //// Constructor ////
@@ -39,17 +47,15 @@ define(
         ////////////////////
 
         Menu.prototype.initialize = function() {
-            _settings = mainController.getSettings()['menu'];
-
-            console.log('[Menu]');
-            console.log(_settings);
-
-            //renderTemplate();
+            console.log('[Menu] initialize');
+            _settings.items = mainController.getSettings()['menu'].items;
+            renderTemplate();
         };
 
         Menu.prototype.destroy = function() {
-            _settings = null;
+            console.log('[Menu] destroy');
             deleteBinding();
+            destroyTemplate();
         };
 
         /////////////////////
@@ -58,16 +64,30 @@ define(
 
         var renderTemplate = function() {
             console.log('[Menu] render template');
-            //oae.api.util.template().render(_settings['templateId'], null, $('#viewport'));
-            addBinding();
+            var id = _settings.template.templateID;
+            var url = _settings.template.templateURL;
+            var target = $('#oae-mobile-menu-container');
+            mobileUtil.renderComponent(id, url, target, _settings, function(err){
+                if(!err) addBinding();
+            });
+        };
+
+        var destroyTemplate = function() {
+            console.log('[Menu] destroy template');
         };
 
         var addBinding = function() {
             console.log('[Menu] addBinding');
+            $('#oae-mobile-menu').find('li').bind('click', onItemClickHandler);
         };
 
         var deleteBinding = function() {
             console.log('[Menu] deleteBinding');
+            $('#oae-mobile-menu').find('li').unbind('click', onItemClickHandler);
+        };
+
+        var onItemClickHandler = function(e) {
+            console.log('[Menu] onItemClickHandler');
         };
 
         return Menu;

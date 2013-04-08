@@ -1,7 +1,7 @@
 <div id="menu-template"><!--
-    <ul>
+    <ul id="oae-mobile-menu">
         {for item in items}
-        <li>test</li>
+        <li data-action="${item.action}"><span>${item.label}</span></li>
         {/for}
     </ul>
 --></div>

@@ -30,7 +30,8 @@ define(['exports'], function(exports) {
                 activityend     : 'oae-mobile-activity-end',
                 templatesready  : 'oae-mobile-templates-ready',
                 viewchanged     : 'oae-mobile-view-changed',
-                viewpopped      : 'oae-mobile-view-popped'
+                viewpopped      : 'oae-mobile-view-popped',
+                togglemenu      : 'oae-mobile-menu-toggle'
             },
             user: {
                 loginattempt    : 'oae-mobile-user-login-attempt',
@@ -41,6 +42,9 @@ define(['exports'], function(exports) {
             data: {
                 getsettings     : 'oae-mobile-get-settings'
             }
+        },
+        components: {
+            templatehelper      : '#oae-mobile-template-helper'
         }
     };
 

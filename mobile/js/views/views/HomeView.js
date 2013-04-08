@@ -22,16 +22,20 @@ define(
     function($, _, oae, constants, mobileUtil) {
 
         // Properties
-        var _templateId = null;
+        var _settings = HomeView.prototype.settings = {
+            name: "homeView",
+            template: {
+                'templateID': "#home-view-template",
+                'templateURL': "/mobile/templates/views/home-view.html"
+            }
+        };
 
         // Constructor
-        function HomeView(templateId) {
-            _templateId = templateId;
-            this.initialize();
-        }
+        function HomeView() {}
 
         // Public methods
         HomeView.prototype.initialize = function() {
+            console.log('[HomeView] initialize');
             renderTemplate();
         };
 
@@ -42,19 +46,25 @@ define(
 
         // Private methods
         var renderTemplate = function() {
-            oae.api.util.template().render(_templateId, null, $('#viewport'));
+            console.log('[HomeView] renderTemplate');
+            oae.api.util.template().render(_settings.template.templateID, null, $('#oae-mobile-viewport'));
             oae.api.widget.insertWidget('mobileactivity', null, $('#mobile-activity-widget-container'));
             addBinding();
         };
 
         var addBinding = function() {
-            $('#btnLogout').bind('click', onLogoutClick);
+            $('#btnMenu').bind('click', onToggleMenuClick);
         };
 
         var deleteBinding = function() {
-            $('#btnLogout').unbind('click', onLogoutClick);
+            $('#btnMenu').unbind('click', onToggleMenuClick);
         };
 
+        var onToggleMenuClick = function() {
+            $(document).trigger(constants.events.activities.togglemenu);
+        };
+
+        /*
         var onLogoutClick = function(event) {
             $(document).trigger(
                 constants.events.user.logoutattempt,
@@ -67,6 +77,7 @@ define(
                 }
             );
         };
+        */
 
         return HomeView;
     }

@@ -1,34 +1,9 @@
 {
-    "templates": [
-        {
-            "loginView": {
-                "templateId"    : "#login-view-template",
-                "template"      : "/mobile/templates/views/login-view.html"
-            }
-        },
-        {
-            "homeView": {
-                "templateId"    : "#home-view-template",
-                "template"      : "/mobile/templates/views/home-view.html"
-            }
-        },
-        {
-            "detailView": {
-                "templateId"    : "#detail-view-template",
-                "template"      : "/mobile/templates/views/detail-view.html"
-            }
-        },
-        {
-            "menu": {
-                "templateId"    : "#menu-template",
-                "template"      : "/mobile/templates/components/menu.html"
-            }
-        }
-    ],
     "menu": {
         "items": [
             {
-                "label"         : "__MSG__LOGOUT__"
+                "label"         : "__MSG__SIGN_OUT__",
+                "action"          : "signout"
             }
         ]
     }

@@ -15,6 +15,9 @@ define(
 
         var mainController = null;
 
+        var _templates = null;
+
+        var _views = null;
         var _activeView = null;
         var _oldView = null;
 
@@ -38,13 +41,22 @@ define(
              * Initialize ViewController
              */
             initialize: function(_mainController) {
-                console.log('[ViewController] initialize');
+
                 // Listen to events from controllers
                 addBinding();
+
                 // Store instance of the maincontroller
                 mainController = _mainController;
-                // Set startup view
-                setStartupView();
+
+                // Put all the views into an array
+                _views = [
+                    new LoginView(),
+                    new HomeView(),
+                    new DetailView()
+                ];
+
+                // Render all templates
+                renderAllTemplates();
             },
 
             /**
@@ -52,28 +64,23 @@ define(
              * @param {String} view          The new view that will be pushed into the stack
              */
             changeView: function(view) {
-
-                console.log('[ViewController] changeView');
-
-                /*
-
                 if(_activeView){
                     _oldView = _activeView;
                     _oldView.destroy();
                 }
+
                 switch(view){
                     case constants.views.login:
-                        _activeView = new LoginView(_views[0]['loginView']['templateId']);
+                        _activeView = getView(LoginView);
                         break;
                     case constants.views.home:
-                        _activeView = new HomeView(_views[1]['homeView']['templateId']);
+                        _activeView = getView(HomeView);
                         break;
                     case constants.views.detail:
-                        _activeView = new DetailView(_views[2]['detailView']['templateId']);
+                        _activeView = getView(DetailView);
                         break;
                 }
-
-                */
+                _activeView.initialize();
             }
         };
 
@@ -82,9 +89,7 @@ define(
          * @return Class {*}        Returns an instance of the MainController
          */
         ViewController.getInstance = function(){
-            if(instance === null){
-                instance = new ViewController();
-            }
+            if(instance === null) instance = new ViewController();
             return instance;
         };
 
@@ -93,9 +98,50 @@ define(
         /////////////////////
 
         /**
+         *  Gets the requested class from the array
+         * @param   {Class}     req             The requested class
+         * @return  {Class}     retclass        The returned view class
+         */
+        var getView = function(req) {
+            var result = null;
+            _.each(_views, function(view){ if(view.constructor == req) result = view });
+            return result;
+        };
+
+        /**
+         * Renders all the templates and caches them
+         */
+        var renderAllTemplates = function() {
+            _templates = {};
+            _.each(_views, function(view){
+                var name = view.settings.name;
+                var index = _views.indexOf(view);
+                var total = _views.length - 1;
+                mobileUtil.renderViewTemplate(name, view, index, total, function(err, template){
+                    _templates[template.name] = {
+                        templateID: template.templateID,
+                        template: template.el
+                    };
+                });
+            });
+        };
+
+        /**
+         * Called when all templates are rendered
+         * Add templates to the helper element and initialize startup view
+         */
+        var onTemplatesReady = function() {
+            for(var template in _templates){
+                $(constants.components.templatehelper).append(_templates[template]['template']);
+            }
+            setStartupView();
+        };
+
+        /**
          * Listen to events dispatched from controllers
          */
         var addBinding = function() {
+            $(document).on(constants.events.activities.templatesready, onTemplatesReady);
             $(document).on(constants.events.user.loginsuccess, onLoginSuccess);
             $(document).on(constants.events.user.logoutsuccess, onLogoutSuccess);
         };

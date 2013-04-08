@@ -22,18 +22,20 @@ define(
     function($, _, oae, constants, mobileUtil) {
 
         // Properties
-        var _templateId = null;
+        var _settings = DetailView.prototype.settings = {
+            name: "detailView",
+            template: {
+                'templateID': "#detail-view-template",
+                'templateURL': "/mobile/templates/views/detail-view.html"
+            }
+        };
 
         // Constructor
-        function DetailView() {
-            console.log('[DetailView] constructor');
-            this.initialize();
-        }
+        function DetailView() {}
 
         // Public methods
-        DetailView.prototype.initialize = function(templateId) {
+        DetailView.prototype.initialize = function() {
             console.log('[DetailView] initialize');
-            _templateId = templateId;
             renderTemplate();
         };
 
@@ -46,7 +48,7 @@ define(
         // Private methods
         var renderTemplate = function() {
             console.log('[DetailView] render template');
-            oae.api.util.template().render(_templateId, null, $('#viewport'));
+            oae.api.util.template().render(_settings.template.templateID, null, $('#oae-mobile-viewport'));
             addBinding();
         };
 

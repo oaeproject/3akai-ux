@@ -22,16 +22,20 @@ define(
     function($, _, oae, constants, mobileUtil) {
 
         // Properties
-        var _templateId = null;
+        var _settings = LoginView.prototype.settings = {
+            name: "loginView",
+            template: {
+                'templateID': "#login-view-template",
+                'templateURL': "/mobile/templates/views/login-view.html"
+            }
+        };
 
         // Constructor
-        function LoginView(templateId) {
-            _templateId = templateId;
-            this.initialize();
-        }
+        function LoginView() {}
 
         // Public methods
         LoginView.prototype.initialize = function() {
+            console.log('[LoginView] initialize');
             renderTemplate();
         };
 
@@ -42,7 +46,8 @@ define(
 
         // Private methods
         var renderTemplate = function() {
-            oae.api.util.template().render(_templateId, null, $('#viewport'));
+            console.log('[LoginView] renderTemplate');
+            oae.api.util.template().render(_settings.template.templateID, null, $('#oae-mobile-viewport'));
             addBinding();
         };
 
