@@ -1005,7 +1005,8 @@ ul.oae-list li .oae-list-compact-item  {
 .oae-list-options .oae-list-options-toggle,
 .oae-list-options .btn.oae-list-options-toggle,
 .oae-list-options .btn.oae-list-options-toggle:hover,
-.oae-list-options .btn.oae-list-options-toggle:active {
+.oae-list-options .btn.oae-list-options-toggle:active,
+.oae-list-options .btn.oae-list-options-toggle:focus {
     background: none;
     border: none;
     padding: 1px 0px;
