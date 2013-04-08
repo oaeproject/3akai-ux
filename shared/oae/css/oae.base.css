@@ -93,6 +93,10 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     font-size: 22px;
 }
 
+.hide[class^="icon-"], .hide[class*=" icon-"] {
+    display: none;
+}
+
 /* DROPDOWN
  * @see http://twitter.github.com/bootstrap/components.html#dropdowns */
 
@@ -192,6 +196,10 @@ input.search-query,
     font-weight: 200;
 }
 
+.modal-body {
+    padding: 5px 25px 10px;
+}
+
 .modal-body h4 {
     font-size: 14px;
     font-style: italic;
@@ -200,8 +208,16 @@ input.search-query,
 }
 
 .modal-footer {
+    background-color: transparent;
     border-top: none;
     box-shadow: none;
+}
+
+/* NOTIFICATIONS
+ * @see http://twitter.github.com/bootstrap/components.html#alerts */
+
+.alert h4 {
+    margin-bottom: 5px;
 }
 
 /* BADGES 
@@ -236,6 +252,7 @@ input.search-query,
     margin-top: 5px;
     background-position: center;
     background-repeat: no-repeat;
+    background-size: auto 34.5px;
 }
 
 .oae-institutional-logo:hover {

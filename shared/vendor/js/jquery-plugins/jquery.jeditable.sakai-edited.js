@@ -62,7 +62,6 @@
   *             
   */
 
-define(['jquery'], function (jQuery) {
 (function($) {
 
     $.fn.editable = function(target, options) {
@@ -547,4 +546,3 @@ define(['jquery'], function (jQuery) {
     };
 
 })(jQuery);
-});
