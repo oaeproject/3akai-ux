@@ -1,16 +1,16 @@
-/* line 13, ../../../../sass/shared/oae/partials/views.scss */
+/* line 14, ../../../../sass/shared/oae/partials/views.scss */
 #oae-mobile-viewport {
   position: absolute;
   overflow: hidden;
 }
 
-/* line 18, ../../../../sass/shared/oae/partials/views.scss */
+/* line 19, ../../../../sass/shared/oae/partials/views.scss */
 .view {
   position: absolute;
   overflow: hidden;
 }
 
-/* line 23, ../../../../sass/shared/oae/partials/views.scss */
+/* line 24, ../../../../sass/shared/oae/partials/views.scss */
 .stretch {
   display: block;
   bottom: 0;
@@ -19,30 +19,30 @@
   top: 0;
 }
 
-/* line 31, ../../../../sass/shared/oae/partials/views.scss */
+/* line 32, ../../../../sass/shared/oae/partials/views.scss */
 .scroll {
   overflow: scroll;
 }
 
-/* line 35, ../../../../sass/shared/oae/partials/views.scss */
+/* line 36, ../../../../sass/shared/oae/partials/views.scss */
 #menu {
   text-align: center;
 }
 
 /* Login */
-/* line 40, ../../../../sass/shared/oae/partials/views.scss */
+/* line 41, ../../../../sass/shared/oae/partials/views.scss */
 #login-view {
   background-color: #999999;
 }
 
 /* Home */
-/* line 45, ../../../../sass/shared/oae/partials/views.scss */
+/* line 46, ../../../../sass/shared/oae/partials/views.scss */
 #home-view {
   background-color: #555555;
 }
 
 /* Detail */
-/* line 50, ../../../../sass/shared/oae/partials/views.scss */
+/* line 51, ../../../../sass/shared/oae/partials/views.scss */
 #detail-view {
   background-color: #333333;
 }
