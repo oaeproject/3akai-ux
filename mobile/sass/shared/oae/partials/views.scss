@@ -1,0 +1,52 @@
+
+/////////////////
+///// SHARED ////
+/////////////////
+
+@import "../dependencies/colors";
+@import "../dependencies/mixins";
+
+/////////////////
+/// SELECTORS ///
+/////////////////
+
+#oae-mobile-viewport {
+  position: absolute;
+  overflow: hidden;
+}
+
+.view{
+  position: absolute;
+  overflow: hidden;
+}
+
+.stretch{
+  display: block;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  top: 0;
+}
+
+.scroll{
+  overflow: scroll;
+}
+
+#menu{
+  text-align: center;
+}
+
+/* Login */
+#login-view{
+  background-color: #999999;
+}
+
+/* Home */
+#home-view{
+  background-color: #555555;
+}
+
+/* Detail */
+#detail-view{
+  background-color: #333333;
+}

@@ -1,57 +1,35 @@
 
-html, body{
-  height: 100%;
-  width: 100%;
-}
+//////////////////
+/// NORMALIZE ////
+//////////////////
 
-body {
-  padding: 0;
-  margin: 0;
-}
+@import "shared/vendor/normalize";
 
-#oae-mobile-viewport {
-  position: absolute;
-  overflow: hidden;
-}
+//////////////////
+// DEPENDENCIES //
+//////////////////
 
-.view{
-  position: absolute;
-  overflow: hidden;
-}
+@import "shared/oae/dependencies/colors";
+@import "shared/oae/dependencies/mixins";
 
-.stretch{
-  display: block;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  top: 0;
-}
+//////////////////
+////// DOM ///////
+//////////////////
 
-.scroll{
-  overflow: scroll;
-}
+@import "shared/oae/global";
 
-#menu{
-  text-align: center;
-}
+//////////////////
+//// PARTIALS ////
+//////////////////
 
-/* Login */
-#login-view{
-  background-color: #999999;
-}
+@import "shared/oae/partials/menu";
+@import "shared/oae/partials/views";
 
-/* Home */
-#home-view{
-  background-color: #555555;
-}
+//////////////////
+////// EXTRA /////
+//////////////////
 
-/* Detail */
-#detail-view{
-  background-color: #333333;
-}
-
-/* Extra */
-#activity-indicator{
+#activity-indicator {
   position: absolute;
   display: none;
   z-index: 1000;
@@ -64,7 +42,7 @@ body {
   background-color: #111111;
   opacity: .75;
 
-  p{
+  p {
     position: absolute;
     display: block;
     top: 50%;
@@ -80,7 +58,7 @@ body {
 }
 
 /* Classes */
-.clear{
+.clear {
   clear: both;
   height: 1px;
   line-height: 1px;
