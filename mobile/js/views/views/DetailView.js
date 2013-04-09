@@ -49,7 +49,12 @@ define(
         var renderTemplate = function() {
             console.log('[DetailView] render template');
             oae.api.util.template().render(_settings.template.templateID, null, $('#oae-mobile-viewport'));
+            setTitle('Detailview');
             addBinding();
+        };
+
+        var setTitle = function(title){
+            $('.oae-mobile-view-title').html(title);
         };
 
         var addBinding = function() {

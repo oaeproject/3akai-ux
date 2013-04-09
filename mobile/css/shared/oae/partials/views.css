@@ -77,8 +77,8 @@
   width: 100%;
   height: 38px;
   z-index: 500;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: 8px;
+  padding-right: 8px;
   padding-top: 5px;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
@@ -162,11 +162,11 @@
 }
 /* line 102, ../../../../sass/shared/oae/partials/views.scss */
 .view .oae-mobile-button-left {
-  left: 15px;
+  left: 8px;
 }
 /* line 106, ../../../../sass/shared/oae/partials/views.scss */
 .view .oae-mobile-button-right {
-  right: 15px;
+  right: 8px;
 }
 /* line 111, ../../../../sass/shared/oae/partials/views.scss */
 .view .content {
@@ -179,22 +179,23 @@
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   background-color: #e3e2e0;
+  border-left: 1px solid #eeedeb;
 }
-/* line 122, ../../../../sass/shared/oae/partials/views.scss */
+/* line 123, ../../../../sass/shared/oae/partials/views.scss */
 .view .content.full {
   border-radius: none;
 }
-/* line 126, ../../../../sass/shared/oae/partials/views.scss */
+/* line 127, ../../../../sass/shared/oae/partials/views.scss */
 .view .content .wrapper {
-  padding-top: 45px;
+  padding-top: 29px;
 }
-/* line 130, ../../../../sass/shared/oae/partials/views.scss */
+/* line 131, ../../../../sass/shared/oae/partials/views.scss */
 .view .content .centered {
   position: absolute;
   top: 50%;
 }
 
-/* line 137, ../../../../sass/shared/oae/partials/views.scss */
+/* line 138, ../../../../sass/shared/oae/partials/views.scss */
 .stretch {
   display: block;
   bottom: 0;
@@ -203,7 +204,7 @@
   top: 0;
 }
 
-/* line 142, ../../../../sass/shared/oae/partials/views.scss */
+/* line 143, ../../../../sass/shared/oae/partials/views.scss */
 .scroll {
   overflow: scroll;
 }
@@ -320,6 +321,21 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+/* line 31, ../../../../sass/shared/oae/partials/views/home.scss */
+#home-view #mobileactivity-container {
+  background-color: red;
+}
+/* line 35, ../../../../sass/shared/oae/partials/views/home.scss */
+#home-view #mobileactivity-container ul {
+  padding: 0;
+  margin: 0;
+}
+/* line 38, ../../../../sass/shared/oae/partials/views/home.scss */
+#home-view #mobileactivity-container ul li {
+  display: block;
+  list-style-type: none;
+}
+
 /*
  * Copyright 2012 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may

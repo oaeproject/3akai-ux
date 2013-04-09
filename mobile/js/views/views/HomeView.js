@@ -47,7 +47,16 @@ define(
         var renderTemplate = function() {
             oae.api.util.template().render(_settings.template.templateID, null, $('#oae-mobile-viewport'));
             oae.api.widget.insertWidget('mobileactivity', null, $('#mobile-activity-widget-container'));
+            setTitle(oae.data.me.tenant);
             addBinding();
+        };
+
+        /**
+         * Set page title {String} title        The title of the page
+         * @param title
+         */
+        var setTitle = function(title){
+            $('.oae-mobile-view-title').html(title);
         };
 
         var addBinding = function() {

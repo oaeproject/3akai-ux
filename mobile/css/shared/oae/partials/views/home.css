@@ -54,3 +54,17 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+/* line 31, ../../../../../sass/shared/oae/partials/views/home.scss */
+#home-view #mobileactivity-container {
+  background-color: red;
+}
+/* line 35, ../../../../../sass/shared/oae/partials/views/home.scss */
+#home-view #mobileactivity-container ul {
+  padding: 0;
+  margin: 0;
+}
+/* line 38, ../../../../../sass/shared/oae/partials/views/home.scss */
+#home-view #mobileactivity-container ul li {
+  display: block;
+  list-style-type: none;
+}

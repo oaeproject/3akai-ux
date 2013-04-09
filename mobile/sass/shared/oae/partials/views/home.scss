@@ -27,4 +27,18 @@
 
 #home-view{
 
+  // Widget container
+  #mobileactivity-container{
+    background-color: red;
+
+    // The list
+    ul{
+      @include killPaddingAndMargin;
+
+      li{
+        display: block;
+        list-style-type: none;
+      }
+    }
+  }
 }
