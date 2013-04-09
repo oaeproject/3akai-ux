@@ -13,23 +13,3 @@
  * permissions and limitations under the License.
  */
 
-@mixin setStretch {
-  bottom: 0;
-  right: 0;
-  left: 0;
-  top: 0;
-}
-
-@mixin noPadding{
-  padding: 0;
-}
-
-@mixin noMargin{
-  margin: 0;
-}
-
-@mixin killPaddingAndMargin{
-  @include noPadding;
-  @include noMargin;
-}
-

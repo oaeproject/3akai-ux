@@ -2,6 +2,14 @@
     "menu": {
         "items": [
             {
+                "label"     : "example_01",
+                "action"    : "none"
+            },
+            {
+                "label"     : "example_02",
+                "action"    : "none"
+            },
+            {
                 "label"     : "__MSG__SIGN_OUT__",
                 "action"    : "signout"
             }

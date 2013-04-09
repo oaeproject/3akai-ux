@@ -54,3 +54,67 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+/* line 31, ../../../../sass/shared/oae/partials/menu.scss */
+#oae-mobile-menu-container,
+#mobile-navigation-widget-container,
+#mobile-navigation-widget-container > div,
+#oae-mobile-menu {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  top: 0;
+}
+
+/* line 36, ../../../../sass/shared/oae/partials/menu.scss */
+#oae-mobile-menu-container {
+  background-color: black;
+}
+
+/* line 48, ../../../../sass/shared/oae/partials/menu.scss */
+#oae-mobile-menu {
+  background-color: #333333;
+  padding: 0;
+  margin: 0;
+}
+/* line 52, ../../../../sass/shared/oae/partials/menu.scss */
+#oae-mobile-menu li {
+  height: 44px;
+  line-height: 44px;
+}
+/* line 56, ../../../../sass/shared/oae/partials/menu.scss */
+#oae-mobile-menu li span {
+  color: #aaaaaa;
+  padding-left: 15px;
+}
+/* line 62, ../../../../sass/shared/oae/partials/menu.scss */
+#oae-mobile-menu li.header {
+  border-top-left-radius: 5px;
+  border-top: 2px solid #555555;
+  border-bottom: 1px solid black;
+  background-color: #222222;
+}
+/* line 69, ../../../../sass/shared/oae/partials/menu.scss */
+#oae-mobile-menu li.item {
+  cursor: pointer;
+  border-top: 1px solid #444444;
+  border-bottom: 1px solid #222222;
+}
+/* line 74, ../../../../sass/shared/oae/partials/menu.scss */
+#oae-mobile-menu li.item:hover {
+  background-color: #393939;
+}
+/* line 78, ../../../../sass/shared/oae/partials/menu.scss */
+#oae-mobile-menu li.item span {
+  display: block;
+  padding-left: 42px;
+  text-transform: lowercase;
+}
+/* line 85, ../../../../sass/shared/oae/partials/menu.scss */
+#oae-mobile-menu li.item:last-child {
+  border-bottom: 2px solid #444444;
+}
+/* line 88, ../../../../sass/shared/oae/partials/menu.scss */
+#oae-mobile-menu li.item:last-child span {
+  border-bottom: 1px solid #222222;
+}
