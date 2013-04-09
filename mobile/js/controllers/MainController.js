@@ -73,6 +73,7 @@ define(
                 success: function(data){
                     if(data && data != null){
                         _settings = data;
+                        hideIndicator();
                         initControllers();
                     }
                 },
@@ -171,14 +172,14 @@ define(
          * Show the activity indicator
          */
         var showIndicator = exports.showIndicator = function() {
-            console.log('[Mobile] showIndicator');
+            $('#oae-mobile-activity-indicator').animate({'opacity': 1}).show();
         };
 
         /**
          * Hide the activity indicator
          */
         var hideIndicator = exports.hideIndicator = function() {
-            console.log('[Mobile] hideIndicator');
+            $('#oae-mobile-activity-indicator').delay(150).animate({'opacity': 0}).hide();
         };
 
         ////////////////////////

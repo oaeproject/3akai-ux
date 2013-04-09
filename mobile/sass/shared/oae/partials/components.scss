@@ -25,16 +25,14 @@
 /// SELECTORS ///
 /////////////////
 
-#activity-indicator {
+#oae-mobile-activity-indicator {
   position: absolute;
-  display: none;
-  z-index: 1000;
+  display: block;
+  z-index: 10000;
   bottom: 0;
   right: 0;
   left: 0;
   top: 0;
-  width: 100%;
-  height: 100%;
   background-color: #111111;
   opacity: .75;
 

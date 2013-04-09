@@ -68,13 +68,14 @@ define(
                         password: password,
                         callback: function(err){
                             if(err){
-                                // TODO: do something if error occurs (e.g. warning)
+
                             }
                         }
                     }
                 );
             }else{
-                console.log('[LoginView] username and/or password are empty');
+                var message = oae.api.i18n.translate('__MSG__PLEASE_ENTER_YOUR_PASSWORD_AND_USERNAME__');
+                window.alert(message);
             }
         };
 

@@ -265,6 +265,92 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+/* line 30, ../../../../sass/shared/oae/partials/views/login.scss */
+#login-view .centered {
+  left: 15px;
+  right: 15px;
+  height: 145px;
+  margin-top: -72px;
+  text-align: center;
+}
+/* line 38, ../../../../sass/shared/oae/partials/views/login.scss */
+#login-view input, #login-view button {
+  border: none;
+  width: 100%;
+  height: 100%;
+  line-height: 100%;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+}
+/* line 46, ../../../../sass/shared/oae/partials/views/login.scss */
+#login-view .inputcontainer, #login-view .buttoncontainer {
+  overflow: hidden;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+/* line 51, ../../../../sass/shared/oae/partials/views/login.scss */
+#login-view .inputcontainer {
+  height: 40px;
+  margin-bottom: 10px;
+  background-color: #FFFFFF;
+  border: 1px solid #cccccc;
+}
+/* line 57, ../../../../sass/shared/oae/partials/views/login.scss */
+#login-view .inputcontainer input {
+  color: #777777;
+  background: none;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-shadow: inset 0px 0px 2px 2px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: inset 0px 0px 2px 2px rgba(0, 0, 0, 0.1);
+}
+/* line 67, ../../../../sass/shared/oae/partials/views/login.scss */
+#login-view .buttoncontainer {
+  height: 37px;
+  padding: 3px;
+  background-color: #CCCCCC;
+  box-shadow: inset 0px 0px 3px 3px rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: inset 0px 0px 3px 3px rgba(0, 0, 0, 0.15);
+}
+/* line 74, ../../../../sass/shared/oae/partials/views/login.scss */
+#login-view .buttoncontainer button {
+  color: #FFFFFF;
+  text-transform: lowercase;
+  padding: 0;
+  margin: 0;
+  background: #1b8cc7;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #1b8cc7 0%, #1b8cc7 50%, #0d85c4 50%, #0d85c4 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #1b8cc7), color-stop(50%, #1b8cc7), color-stop(50%, #0d85c4), color-stop(100%, #0d85c4));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #1b8cc7 0%, #1b8cc7 50%, #0d85c4 50%, #0d85c4 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #1b8cc7 0%, #1b8cc7 50%, #0d85c4 50%, #0d85c4 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #1b8cc7 0%, #1b8cc7 50%, #0d85c4 50%, #0d85c4 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #1b8cc7 0%, #1b8cc7 50%, #0d85c4 50%, #0d85c4 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$color1', endColorstr='$color2',GradientType=0 );
+  /* IE6-9 */
+}
+/* line 80, ../../../../sass/shared/oae/partials/views/login.scss */
+#login-view .buttoncontainer button span {
+  display: block;
+  height: 35px;
+  line-height: 37px;
+  vertical-align: middle;
+  border-top: 1px solid #70bee6;
+  border-bottom: 1px solid #0a5176;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  top: 0;
+}
+
 /*
  * Copyright 2012 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may

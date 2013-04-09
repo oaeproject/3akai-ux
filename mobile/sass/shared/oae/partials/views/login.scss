@@ -27,4 +27,66 @@
 
 #login-view{
 
+  .centered{
+    left: 15px;
+    right: 15px;
+    height: 145px;
+    margin-top: -72px;
+    text-align: center;
+  }
+
+  input, button{
+    border: none;
+    width: 100%;
+    height: 100%;
+    line-height: 100%;
+    @include setBorderRadius(8px);
+  }
+
+  .inputcontainer, .buttoncontainer{
+    overflow: hidden;
+    @include setBorderRadius(10px);
+  }
+
+  .inputcontainer{
+    height: 40px;
+    margin-bottom: 10px;
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCCC;
+
+    input{
+      color: #777777;
+      background: none;
+      padding-left: 20px;
+      padding-right: 20px;
+      box-shadow: inset 0px 0px 2px 2px rgba(00, 00, 00, .1);
+      -webkit-box-shadow: inset 0px 0px 2px 2px rgba(00, 00, 00, .1);
+    }
+  }
+
+  .buttoncontainer{
+    height: 37px;
+    padding: 3px;
+    background-color: #CCCCCC;
+    box-shadow: inset 0px 0px 3px 3px rgba(00, 00, 00, .15);
+    -webkit-box-shadow: inset 0px 0px 3px 3px rgba(00, 00, 00, .15);
+
+    button{
+      color: #FFFFFF;
+      text-transform: lowercase;
+      @include killPaddingAndMargin;
+      @include setGradient(#1B8CC7, #0D85C4);
+
+      span{
+        display: block;
+        height: 35px;
+        line-height: 37px;
+        vertical-align: middle;
+        border-top: 1px solid #70BEE6;
+        border-bottom: 1px solid #0A5176;
+        @include setBorderRadius(8px);
+        @include setStretch;
+      }
+    }
+  }
 }
