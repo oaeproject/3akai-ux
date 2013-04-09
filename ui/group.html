@@ -30,16 +30,11 @@
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button {if !isManager} disabled {/if}>
-                                <div class="oae-thumbnail icon-oae-group">
-                                    {if picture.medium}
-                                        <img src="${picture.medium}" alt="${displayName|safeUserInput}"/>
-                                    {/if}
-                                    <i class="icon-oae-${visibility}"></i>
-                                </div>
+                            <button {if !group.isManager} disabled {/if}>
+                                ${renderThumbnail(group)}
                                 <div>
                                     <div>
-                                        <h1>${displayName|safeUserInput}</h1>
+                                        <h1>${group.displayName|encodeForHTML}</h1>
                                         <i class="icon-caret-down"></i>
                                         <small>__MSG__GROUP__</small>
                                     </div>
@@ -50,7 +45,6 @@
                                     <li><button><i class="icon-camera"></i>__MSG__CHANGE_PICTURE__</button></li>
                                     <li><button><i class="icon-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
                                     <li><button><i class="icon-user"></i>__MSG__EDIT_MEMBERS__</button></li>
-                                    <li><button><i class="icon-trash"></i>__MSG__DELETE__</button></li>
                                 </ul>
                             </div>
                         </div>

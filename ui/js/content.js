@@ -69,7 +69,7 @@ require(['jquery','oae.core'], function($, oae) {
      * content's admin options
      */
     var setUpClip = function() {
-        oae.api.util.template().render($('#content-clip-template'), contentProfile, $('#content-clip-container'));
+        oae.api.util.template().render($('#content-clip-template'), {'content': contentProfile}, $('#content-clip-container'));
     };
 
     getContentProfile();

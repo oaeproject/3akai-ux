@@ -16,69 +16,6 @@
 define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
 
     /**
-     * Shows an error to the user
-     * usage:
-     * showError({
-     *     'title': 'Operation failed',
-     *     'message' (required): 'The tenant could not be deleted.'
-     * });
-     * 
-     * @param {Object}   data               Data object used to render the warning. Missing optional elements will not be rendered. All available elements are shown above in 'usage'
-     * @param {Element}  [$outputElement]   jQuery element to render the error in. By default the container renders on top of the page in absolute position.
-     */
-    exports.showError = function(data, $outputElement) {
-        if (!$outputElement) {
-            $outputElement = $('#admin-error-container');
-        }
-        oae.api.util.template().render($('#admin-error-template'), {'error': data}, $outputElement);
-    };
-
-    /**
-     * Shows a warning to the user
-     * usage:
-     * showWarning({
-     *     'title': 'Are you sure?',
-     *     'message' (required): 'Are you sure you want to delete this tenant?'
-     * });
-     * 
-     * @param {Object}   data               Data object used to render the warning. Missing optional elements will not be rendered. All available elements are shown above in 'usage'
-     * @param {Element}  [$outputElement]   jQuery element to render the warning in. By default the container renders on top of the page in absolute position.
-     */
-    exports.showWarning = function(data, $outputElement) {
-        if (!$outputElement) {
-            $outputElement = $('#admin-warning-container');
-        }
-        oae.api.util.template().render($('#admin-warning-template'), {'warning': data}, $outputElement);
-    };
-
-    /**
-     * Shows a success message to the user
-     * usage:
-     * showSuccess({
-     *     'title': 'Tenant deleted.',
-     *     'message' (required): 'The tenant was successfully deleted',
-     *     'sticky': true
-     * });
-     * 
-     * @param {Object}   data               Data object used to render the success message. Missing optional elements will not be rendered. All available elements are shown above in 'usage'
-     * @param {Element}  [$outputElement]   jQuery element to render the success message in. By default the container renders on top of the page in absolute position.
-     */
-    exports.showSuccess = function(data, $outputElement) {
-        if (!$outputElement) {
-            $outputElement = $('#admin-success-container');
-        }
-        oae.api.util.template().render($('#admin-success-template'), {'success': data}, $outputElement);
-        if (!data.sticky) {
-            setTimeout( function(){
-                $outputElement.fadeOut('slow', function() {
-                    $outputElement.html('');
-                    $outputElement.show();
-                });
-            }, 2500);
-        }
-    };
-
-    /**
      * Shows a confirmation dialog to the user using predefined data
      * usage
      * showConfirmationModal({

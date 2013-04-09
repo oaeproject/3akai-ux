@@ -62,7 +62,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         }
 
         var data = {
-            'contentType': 'link',
+            'resourceSubType': 'link',
             'displayName': displayName,
             'description': description,
             'visibility': visibility,
@@ -111,7 +111,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         // jQuery.fileupload requires sending the other form data as a .serializeArray object
         // http://api.jquery.com/serializeArray/
         var data = [
-            {'name': 'contentType', 'value': 'file'},
+            {'name': 'resourceSubType', 'value': 'file'},
             {'name': 'displayName', 'value': displayName},
             {'name': 'description', 'value': description},
             {'name': 'visibility', 'value': visibility}
@@ -127,26 +127,20 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             data.push({'name': 'viewers', 'value': viewer});
         });
 
-        var jqXHR = $($fileUploadField).fileupload('send', {
+        $($fileUploadField).fileupload('send', {
             'files': [file],
             'formData': data,
             'success': function(data) {
-                $($fileUploadField).off('oae.upload.abort');
                 callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
             }
         });
-
-        $($fileUploadField).on('oae.upload.abort', function() {
-            $($fileUploadField).off('oae.upload.abort');
-            jqXHR.abort();
-        });
     };
     
     /**
-     * Create a new Sakai Doc.
+     * Create a new collaborative document.
      * 
      * @param  {String}       displayName         Display title for the created content item
      * @param  {String}       [description]       The content item's description
@@ -158,13 +152,13 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Content}      [callback.content]  Content object representing the created content
      * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */
-    var createSakaiDoc = exports.createSakaiDoc = function(displayName, description, visibility, managers, viewers, callback) {
+    var createCollabDoc = exports.createCollabDoc = function(displayName, description, visibility, managers, viewers, callback) {
         if (!displayName) {
             throw new Error('A valid document name should be provided');
         }
 
         var data = {
-            'contentType': 'sakaidoc',
+            'resourceSubType': 'collabdoc',
             'displayName': displayName,
             'description': description,
             'visibility': visibility,
