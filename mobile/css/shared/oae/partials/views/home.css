@@ -54,15 +54,7 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-/* line 28, ../../../sass/shared/oae/global.scss */
-html, body {
-  height: 100%;
-  width: 100%;
-}
-
-/* line 33, ../../../sass/shared/oae/global.scss */
-body {
-  padding: 0;
-  margin: 0;
-  background-color: #333333;
+/* line 28, ../../../../../sass/shared/oae/partials/views/home.scss */
+#home-view {
+  background-color: #555555;
 }

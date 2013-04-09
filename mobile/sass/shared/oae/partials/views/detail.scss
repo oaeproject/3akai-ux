@@ -13,5 +13,18 @@
  * permissions and limitations under the License.
  */
 
-$grey-darkest:  #222222;
-$grey-dark:     #333333;
+/////////////////
+///// SHARED ////
+/////////////////
+
+@import "../../dependencies/animations";
+@import "../../dependencies/colors";
+@import "../../dependencies/mixins";
+
+/////////////////
+/// SELECTORS ///
+/////////////////
+
+#detail-view{
+  background-color: #333333;
+}

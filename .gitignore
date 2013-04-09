@@ -11,3 +11,4 @@ node_modules/*
 nginx.*
 !nginx.conf
 mobile_reserve/
+sass/.sass-cache/*
