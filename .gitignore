@@ -12,3 +12,4 @@ nginx.*
 !nginx.conf
 mobile_reserve/
 sass/.sass-cache/*
+sass/.sass-cache
