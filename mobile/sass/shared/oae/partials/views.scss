@@ -33,22 +33,37 @@
 .view{
   position: absolute;
   overflow: hidden;
+
+  .menu{
+    display: block;
+    height: 44px;
+    line-height: 44px;
+    background-color: #0572ab;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-top: 2px solid #2b87b8;
+    border-bottom: 1px solid #006397;
+    z-index: 500;
+  }
+
+  .content{
+    position: absolute;
+    bottom: 0;
+    top: 47px;
+    right: 0;
+    left: 0;
+    background-color: $beige-background;
+    z-index: 250;
+  }
 }
 
 .stretch{
   display: block;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  top: 0;
+  @include setStretch;
 }
 
 .scroll{
   overflow: scroll;
-}
-
-#menu{
-  text-align: center;
 }
 
 /////////////////

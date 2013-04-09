@@ -526,7 +526,7 @@ html, body {
 body {
   padding: 0;
   margin: 0;
-  background-color: #333333;
+  background-color: black;
 }
 
 /*
@@ -717,8 +717,30 @@ body {
   position: absolute;
   overflow: hidden;
 }
+/* line 37, ../sass/shared/oae/partials/views.scss */
+.view .menu {
+  display: block;
+  height: 44px;
+  line-height: 44px;
+  background-color: #0572ab;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-top: 2px solid #2b87b8;
+  border-bottom: 1px solid #006397;
+  z-index: 500;
+}
+/* line 49, ../sass/shared/oae/partials/views.scss */
+.view .content {
+  position: absolute;
+  bottom: 0;
+  top: 47px;
+  right: 0;
+  left: 0;
+  background-color: #e3e2e0;
+  z-index: 250;
+}
 
-/* line 38, ../sass/shared/oae/partials/views.scss */
+/* line 60, ../sass/shared/oae/partials/views.scss */
 .stretch {
   display: block;
   bottom: 0;
@@ -727,16 +749,11 @@ body {
   top: 0;
 }
 
-/* line 46, ../sass/shared/oae/partials/views.scss */
+/* line 65, ../sass/shared/oae/partials/views.scss */
 .scroll {
   overflow: scroll;
 }
 
-/* line 50, ../sass/shared/oae/partials/views.scss */
-#menu {
-  text-align: center;
-}
-
 /*
  * Copyright 2012 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
@@ -793,11 +810,6 @@ body {
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-/* line 28, ../sass/shared/oae/partials/views/login.scss */
-#login-view {
-  background-color: #999999;
-}
-
 /*
  * Copyright 2012 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
@@ -854,11 +866,6 @@ body {
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-/* line 28, ../sass/shared/oae/partials/views/home.scss */
-#home-view {
-  background-color: #555555;
-}
-
 /*
  * Copyright 2012 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
@@ -915,11 +922,6 @@ body {
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-/* line 28, ../sass/shared/oae/partials/views/detail.scss */
-#detail-view {
-  background-color: #333333;
-}
-
 /*
  * Copyright 2012 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
