@@ -524,8 +524,9 @@ html, body {
 
 /* line 33, ../sass/shared/oae/global.scss */
 body {
-  padding: 0;
   margin: 0;
+  padding: 0;
+  overflow: hidden;
   background-color: black;
 }
 
@@ -621,7 +622,7 @@ body {
 /* line 62, ../sass/shared/oae/partials/menu.scss */
 #oae-mobile-menu li.header {
   border-top-left-radius: 5px;
-  border-top: 2px solid #555555;
+  border-top: Spx solid #555555;
   border-bottom: 1px solid black;
   background-color: #222222;
 }
@@ -708,39 +709,145 @@ body {
  */
 /* line 28, ../sass/shared/oae/partials/views.scss */
 #oae-mobile-viewport {
-  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: table;
   overflow: hidden;
-}
-
-/* line 33, ../sass/shared/oae/partials/views.scss */
-.view {
   position: absolute;
-  overflow: hidden;
-}
-/* line 37, ../sass/shared/oae/partials/views.scss */
-.view .menu {
-  display: block;
-  height: 44px;
-  line-height: 44px;
-  background-color: #0572ab;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  border-top: 2px solid #2b87b8;
-  border-bottom: 1px solid #006397;
-  z-index: 500;
-}
-/* line 49, ../sass/shared/oae/partials/views.scss */
-.view .content {
-  position: absolute;
-  bottom: 0;
-  top: 47px;
-  right: 0;
-  left: 0;
-  background-color: #e3e2e0;
-  z-index: 250;
 }
 
-/* line 60, ../sass/shared/oae/partials/views.scss */
+/* line 38, ../sass/shared/oae/partials/views.scss */
+.view {
+  overflow: hidden;
+  position: absolute;
+}
+/* line 43, ../sass/shared/oae/partials/views.scss */
+.view .oae-mobile-view-topbar {
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 38px;
+  z-index: 500;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-top: 1px solid #2b87b8;
+  border-bottom: 1px solid #006397;
+  background: #157ab0;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #157ab0 0%, #157ab0 50%, #0672ab 50%, #0672ab 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #157ab0), color-stop(50%, #157ab0), color-stop(50%, #0672ab), color-stop(100%, #0672ab));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #157ab0 0%, #157ab0 50%, #0672ab 50%, #0672ab 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #157ab0 0%, #157ab0 50%, #0672ab 50%, #0672ab 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #157ab0 0%, #157ab0 50%, #0672ab 50%, #0672ab 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #157ab0 0%, #157ab0 50%, #0672ab 50%, #0672ab 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$color1', endColorstr='$color2',GradientType=0 );
+  /* IE6-9 */
+}
+/* line 58, ../sass/shared/oae/partials/views.scss */
+.view .oae-mobile-view-topbar button, .view .oae-mobile-view-topbar button span {
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+/* line 64, ../sass/shared/oae/partials/views.scss */
+.view .oae-mobile-view-title {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 38px;
+  line-height: 38px;
+  color: #EEEEEE;
+  text-align: center;
+  text-shadow: 1px 1px 1px #1b8cc7;
+  filter: dropshadow(color=#1b8cc7, offx=1, offy=1);
+}
+/* line 77, ../sass/shared/oae/partials/views.scss */
+.view .oae-mobile-button {
+  width: 44px;
+  height: 32px;
+  border: none;
+  overflow: hidden;
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  box-shadow: 0px 0px 1px 1px rgba(6, 91, 136, 0.1);
+  -webkit-box-shadow: 0px 0px 1px 1px rgba(6, 91, 136, 0.1);
+  background: #1b8cc7;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #1b8cc7 0%, #1b8cc7 50%, #0d85c4 50%, #0d85c4 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #1b8cc7), color-stop(50%, #1b8cc7), color-stop(50%, #0d85c4), color-stop(100%, #0d85c4));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #1b8cc7 0%, #1b8cc7 50%, #0d85c4 50%, #0d85c4 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #1b8cc7 0%, #1b8cc7 50%, #0d85c4 50%, #0d85c4 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #1b8cc7 0%, #1b8cc7 50%, #0d85c4 50%, #0d85c4 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #1b8cc7 0%, #1b8cc7 50%, #0d85c4 50%, #0d85c4 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$color1', endColorstr='$color2',GradientType=0 );
+  /* IE6-9 */
+}
+/* line 87, ../sass/shared/oae/partials/views.scss */
+.view .oae-mobile-button:hover {
+  opacity: .5;
+}
+/* line 91, ../sass/shared/oae/partials/views.scss */
+.view .oae-mobile-button span {
+  width: 100%;
+  height: 30px;
+  display: block;
+  border-left: none;
+  border-right: none;
+  border-top: 1px solid #2e93c8;
+  border-bottom: 1px solid rgba(0, 99, 151, 0.9);
+}
+/* line 102, ../sass/shared/oae/partials/views.scss */
+.view .oae-mobile-button-left {
+  left: 15px;
+}
+/* line 106, ../sass/shared/oae/partials/views.scss */
+.view .oae-mobile-button-right {
+  right: 15px;
+}
+/* line 111, ../sass/shared/oae/partials/views.scss */
+.view .content {
+  position: absolute;
+  z-index: 250;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  top: 0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  background-color: #e3e2e0;
+}
+/* line 122, ../sass/shared/oae/partials/views.scss */
+.view .content.full {
+  border-radius: none;
+}
+/* line 126, ../sass/shared/oae/partials/views.scss */
+.view .content .wrapper {
+  padding-top: 45px;
+}
+/* line 130, ../sass/shared/oae/partials/views.scss */
+.view .content .centered {
+  position: absolute;
+  top: 50%;
+}
+
+/* line 137, ../sass/shared/oae/partials/views.scss */
 .stretch {
   display: block;
   bottom: 0;
@@ -749,7 +856,7 @@ body {
   top: 0;
 }
 
-/* line 65, ../sass/shared/oae/partials/views.scss */
+/* line 142, ../sass/shared/oae/partials/views.scss */
 .scroll {
   overflow: scroll;
 }
@@ -1009,6 +1116,11 @@ body {
 
 /* Classes */
 /* line 51, ../sass/mobile.scss */
+#oae-mobile-template-helper {
+  display: none;
+}
+
+/* line 55, ../sass/mobile.scss */
 .clear {
   clear: both;
   height: 1px;

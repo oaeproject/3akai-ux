@@ -26,34 +26,111 @@
 /////////////////
 
 #oae-mobile-viewport {
-  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: table;
   overflow: hidden;
+  position: absolute;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
 .view{
-  position: absolute;
   overflow: hidden;
+  position: absolute;
 
-  .menu{
+  // Topbar
+  .oae-mobile-view-topbar{
+    position: absolute;
     display: block;
-    height: 44px;
-    line-height: 44px;
-    background-color: #0572ab;
+    width: 100%;
+    height: 38px;
+    z-index: 500;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    border-top: 2px solid #2b87b8;
+    border-top: 1px solid #2b87b8;
     border-bottom: 1px solid #006397;
-    z-index: 500;
+    @include setGradient($blue-light, $blue-darker);
+
+    button, button span{
+      @include setBorderRadius(5px);
+    }
   }
 
+  // View topbar title
+  .oae-mobile-view-title{
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 38px;
+    line-height: 38px;
+    color: #EEEEEE;
+    text-align: center;
+    text-shadow: 1px 1px 1px #1b8cc7;
+    filter: dropshadow(color=#1b8cc7, offx=1, offy=1);
+  }
+
+  // View topbar button
+  .oae-mobile-button{
+    width: 44px;
+    height: 32px;
+    border: none;
+    overflow: hidden;
+    position: absolute;
+    @include killPaddingAndMargin;
+    @include setBoxShadow(6, 91, 136, .1);
+    @include setGradient(#1B8CC7, #0D85C4);
+
+    &:hover{
+      opacity: .5;
+    }
+
+    span{
+      width: 100%;
+      height: 30px;
+      display: block;
+      border-left: none;
+      border-right: none;
+      border-top: 1px solid #2E93C8;
+      border-bottom: 1px solid rgba(0, 99, 151, .9);
+    }
+  }
+
+  .oae-mobile-button-left{
+    left: 15px;
+  }
+
+  .oae-mobile-button-right{
+    right: 15px;
+  }
+
+  // View content
   .content{
     position: absolute;
+    z-index: 250;
     bottom: 0;
-    top: 47px;
     right: 0;
     left: 0;
+    top: 0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
     background-color: $beige-background;
-    z-index: 250;
+
+    &.full{
+      border-radius: none;
+    }
+
+    .wrapper{
+      padding-top: 45px;
+    }
+
+    .centered{
+      position: absolute;
+      top: 50%;
+    }
   }
 }
 

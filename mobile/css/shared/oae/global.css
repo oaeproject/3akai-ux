@@ -62,7 +62,8 @@ html, body {
 
 /* line 33, ../../../sass/shared/oae/global.scss */
 body {
-  padding: 0;
   margin: 0;
+  padding: 0;
+  overflow: hidden;
   background-color: black;
 }

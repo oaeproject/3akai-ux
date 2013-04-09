@@ -126,7 +126,7 @@ define(
         var showHideMenu = function(active) {
             if(active != null) _menu.setActive(active);
             var val = (_menu.getActive()) ? '261px' : '0';
-            $('#oae-mobile-viewport').css('left', val);
+            $('#oae-mobile-viewport').css('margin-left', val);
         };
 
         /**
