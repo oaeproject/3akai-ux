@@ -24,8 +24,8 @@ define(
          * Renders a view template
          * @param {String}      key             The name of the view
          * @param {Object}      view            The view object
-         * @param {Integer}     index           The index of the view
-         * @param {Integer}     total           The amount of views that need to be rendered
+         * @param {Number}      index           The index of the view
+         * @param {Number}      total           The amount of views that need to be rendered
          * @param {Function}    callback        Callback function
          */
         exports.renderTemplate = function(key, view, index, total, callback) {

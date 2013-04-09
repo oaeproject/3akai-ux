@@ -119,6 +119,10 @@ define(
             showHideMenu();
         };
 
+        /**
+         * Shows or hides the menu
+         * @param {Boolean} active              True/false
+         */
         var showHideMenu = function(active) {
             if(active != null) _menu.setActive(active);
             var val = (_menu.getActive()) ? '150px' : '0';
@@ -127,8 +131,8 @@ define(
 
         /**
          * When a menu items gets clicked
-         * @param e
-         * @param action
+         * @param {Event}   e                   The dispatched event
+         * @param {String}  action              The action that needs to be executed
          */
         var onMenuItemClicked = function(e, action) {
             switch(action){
@@ -142,10 +146,18 @@ define(
         ///////// USER /////////
         ////////////////////////
 
+        /**
+         * After user logs in successfully
+         * Re-initialize the menu
+         */
         var onUserLogin = function() {
             onInitMenu();
         };
 
+        /**
+         * After user logs out successfully
+         * Re-initialize and hide the menu
+         */
         var onUserLogout = function() {
             showHideMenu(false);
             onInitMenu();

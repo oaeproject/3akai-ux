@@ -16,10 +16,9 @@
 define(
     [
         'jquery','underscore','oae.core',
-        '/mobile/js/constants/constants.js',
-        '/mobile/js/mobile.util.js'
+        '/mobile/js/constants/constants.js'
     ],
-    function($, _, oae, constants, mobileUtil) {
+    function($, _, oae, constants) {
 
         // Properties
         var mainController = null;
@@ -46,19 +45,23 @@ define(
         // Public methods //
         ////////////////////
 
+        // Initialize Menu
         Menu.prototype.initialize = function() {
             _settings.items = mainController.getSettings()['menu'].items;
             renderTemplate();
         };
 
+        // Destroy Menu
         Menu.prototype.destroy = function() {
             destroyBinding();
         };
 
+        // Getter for _active
         Menu.prototype.getActive = function() {
             return _active;
         };
 
+        // Setter for _active
         Menu.prototype.setActive = function(val) {
             _active = val;
         };
@@ -67,6 +70,7 @@ define(
         // Private methods //
         /////////////////////
 
+        // Renders the template + inserts navigation widget
         var renderTemplate = function() {
             oae.api.util.template().render(_settings.template.templateID, null, $('#oae-mobile-menu-container'));
             oae.api.widget.insertWidget('mobilenavigation', null, $('#mobile-navigation-widget-container'), null, _settings, function(){
@@ -74,14 +78,17 @@ define(
             });
         };
 
+        // Add binding
         var addBinding = function() {
             $('#oae-mobile-menu').find('li').bind('click', onItemClickHandler);
         };
 
+        // Destroy binding
         var destroyBinding = function() {
             $('#oae-mobile-menu').find('li').unbind('click', onItemClickHandler);
         };
 
+        // When menu item gets clicked
         var onItemClickHandler = function(e) {
             var action = $(e.currentTarget).attr('data-action');
             $(document).trigger(constants.events.activities.menuclicked, action);
