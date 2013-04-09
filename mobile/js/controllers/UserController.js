@@ -69,11 +69,7 @@ define(
                 }else{
                     try{
                         oae.init(function(e){
-                            try{
-                                $(document).trigger(constants.events.user.loginsuccess);
-                            }catch(e){
-                                console.log('[UserController] Firing event after oae.init failed');
-                            }
+                            $(document).trigger(constants.events.user.loginsuccess);
                         });
                     }catch(e){
                         console.log('[UserController] Executing oae.init failed after login');
@@ -98,11 +94,7 @@ define(
                 }else{
                     try{
                         oae.init(function(e){
-                            try{
-                                $(document).trigger(constants.events.user.logoutsuccess);
-                            }catch(e){
-                                console.log('[UserController] Firing event after oae.init failed');
-                            }
+                            $(document).trigger(constants.events.user.logoutsuccess);
                         });
                     }catch(e){
                         console.log('[UserController] Executing oae.init failed after logout');

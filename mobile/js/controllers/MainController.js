@@ -14,7 +14,6 @@ define(
         var _settings = null;
 
         var _menu = null;
-        var _menuActive = 0;
 
         /////////////////////
         //// Constructor ////
@@ -65,17 +64,6 @@ define(
         /////////////////////
 
         /**
-         * Listen te events from controllers
-         */
-        var addBinding = function() {
-            $(document).on(constants.events.activities.togglemenu, onMenuToggle);
-            $(document).on(constants.events.user.loginsuccess, onUserLoginLogout);
-            $(document).on(constants.events.user.logoutsuccess, onUserLoginLogout);
-            $(document).on(constants.events.activities.activityend, hideIndicator);
-            $(document).on(constants.events.activities.activitystart, showIndicator);
-        };
-
-        /**
          * Load settings from JSON file
          */
         var loadSettings = function() {
@@ -85,21 +73,13 @@ define(
                 success: function(data){
                     if(data && data != null){
                         _settings = data;
-                        initChildren();
+                        initControllers();
                     }
                 },
                 error: function(e){
                     console.log(e);
                 }
             });
-        };
-
-        /**
-         * Initializes the (view)controllers
-         */
-        var initChildren = function() {
-            initControllers();
-            initMenu();
         };
 
         /**
@@ -118,40 +98,62 @@ define(
             );
         };
 
+        ////////////////////////
+        ///////// MENU /////////
+        ////////////////////////
+
         /**
          * Initialize the menu
          */
-        var initMenu = exports.initMenu = function() {
+        var onInitMenu = function() {
+            if(_menu) _menu = null;
             _menu = new Menu(MainController.getInstance());
+            _menu.initialize();
         };
 
         /**
-         * Toggles the menu
+         * Toggles the menu visibility
          */
         var onMenuToggle = function() {
+            _menu.setActive(!_menu.getActive());
+            showHideMenu();
+        };
 
-            // TODO: REPLACE THIS TEMPORARY SOLUTION
+        var showHideMenu = function(active) {
+            if(active != null) _menu.setActive(active);
+            var val = (_menu.getActive()) ? '150px' : '0';
+            $('#oae-mobile-viewport').css('left', val);
+        };
 
-            console.log('[ViewController] onMenuToggle');
-            _menuActive = !_menuActive;
-            var $viewport = '#oae-mobile-viewport';
-            if(_menuActive){
-                $($viewport).css('left','90%');
-            }else{
-                $($viewport).css('left',0);
+        /**
+         * When a menu items gets clicked
+         * @param e
+         * @param action
+         */
+        var onMenuItemClicked = function(e, action) {
+            switch(action){
+                case "signout":
+                    $(document).trigger(constants.events.user.logoutattempt);
+                    break;
             }
         };
 
-        /**
-         * When user logs in or out
-         */
-        var onUserLoginLogout = function() {
-            //if(!oae.data.me.anon){
-                //console.log('[MainController] onUserLoginLogout');
-            //}else{
-                //console.log('[MainController] onUserLoginLogout');
-            //}
+        ////////////////////////
+        ///////// USER /////////
+        ////////////////////////
+
+        var onUserLogin = function() {
+            onInitMenu();
         };
+
+        var onUserLogout = function() {
+            showHideMenu(false);
+            onInitMenu();
+        };
+
+        ////////////////////////
+        // ACTIVITY INDICATOR //
+        ////////////////////////
 
         /**
          * Show the activity indicator
@@ -165,6 +167,23 @@ define(
          */
         var hideIndicator = exports.hideIndicator = function() {
             console.log('[Mobile] hideIndicator');
+        };
+
+        ////////////////////////
+        /////// BINDING ////////
+        ////////////////////////
+
+        /**
+         * Listen te events from controllers
+         */
+        var addBinding = function() {
+            $(document).on(constants.events.activities.activityend, hideIndicator);
+            $(document).on(constants.events.activities.activitystart, showIndicator);
+            $(document).on(constants.events.activities.initmenu, onInitMenu);
+            $(document).on(constants.events.activities.menuclicked, onMenuItemClicked);
+            $(document).on(constants.events.activities.menutoggle, onMenuToggle);
+            $(document).on(constants.events.user.loginsuccess, onUserLogin);
+            $(document).on(constants.events.user.logoutsuccess, onUserLogout);
         };
 
         // Singleton

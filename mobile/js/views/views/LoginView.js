@@ -35,7 +35,6 @@ define(
 
         // Public methods
         LoginView.prototype.initialize = function() {
-            console.log('[LoginView] initialize');
             renderTemplate();
         };
 
@@ -46,7 +45,6 @@ define(
 
         // Private methods
         var renderTemplate = function() {
-            console.log('[LoginView] renderTemplate');
             oae.api.util.template().render(_settings.template.templateID, null, $('#oae-mobile-viewport'));
             addBinding();
         };

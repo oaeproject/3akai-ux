@@ -2,8 +2,8 @@
     "menu": {
         "items": [
             {
-                "label"         : "__MSG__SIGN_OUT__",
-                "action"          : "signout"
+                "label"     : "__MSG__SIGN_OUT__",
+                "action"    : "signout"
             }
         ]
     }

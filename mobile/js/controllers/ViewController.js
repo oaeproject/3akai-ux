@@ -4,11 +4,12 @@ define(
         'oae.core',
         '/mobile/js/constants/constants.js',
         '/mobile/js/mobile.util.js',
+        '/mobile/js/views/components/Menu.js',
         '/mobile/js/views/views/LoginView.js',
         '/mobile/js/views/views/HomeView.js',
         '/mobile/js/views/views/DetailView.js'
     ],
-    function(exports, oae, constants, mobileUtil, LoginView, HomeView, DetailView){
+    function(exports, oae, constants, mobileUtil, Menu, LoginView, HomeView, DetailView){
 
         // Properties
         var instance = null;
@@ -50,6 +51,7 @@ define(
 
                 // Put all the views into an array
                 _views = [
+                    new Menu(),
                     new LoginView(),
                     new HomeView(),
                     new DetailView()
@@ -117,7 +119,7 @@ define(
                 var name = view.settings.name;
                 var index = _views.indexOf(view);
                 var total = _views.length - 1;
-                mobileUtil.renderViewTemplate(name, view, index, total, function(err, template){
+                mobileUtil.renderTemplate(name, view, index, total, function(err, template){
                     _templates[template.name] = {
                         templateID: template.templateID,
                         template: template.el
@@ -134,8 +136,10 @@ define(
             for(var template in _templates){
                 $(constants.components.templatehelper).append(_templates[template]['template']);
             }
+            $(document).trigger(constants.events.activities.initmenu);
             setStartupView();
         };
+
 
         /**
          * Listen to events dispatched from controllers

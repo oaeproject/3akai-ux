@@ -24,6 +24,7 @@ define(
         // Properties
         var mainController = null;
 
+        var _active = false;
         var _settings = Menu.prototype.settings = {
             name: "menu",
             items: [],
@@ -39,7 +40,6 @@ define(
 
         function Menu(_mainController) {
             mainController = _mainController;
-            this.initialize();
         }
 
         ////////////////////
@@ -47,15 +47,20 @@ define(
         ////////////////////
 
         Menu.prototype.initialize = function() {
-            console.log('[Menu] initialize');
             _settings.items = mainController.getSettings()['menu'].items;
             renderTemplate();
         };
 
         Menu.prototype.destroy = function() {
-            console.log('[Menu] destroy');
-            deleteBinding();
-            destroyTemplate();
+            destroyBinding();
+        };
+
+        Menu.prototype.getActive = function() {
+            return _active;
+        };
+
+        Menu.prototype.setActive = function(val) {
+            _active = val;
         };
 
         /////////////////////
@@ -63,31 +68,23 @@ define(
         /////////////////////
 
         var renderTemplate = function() {
-            console.log('[Menu] render template');
-            var id = _settings.template.templateID;
-            var url = _settings.template.templateURL;
-            var target = $('#oae-mobile-menu-container');
-            mobileUtil.renderComponent(id, url, target, _settings, function(err){
-                if(!err) addBinding();
+            oae.api.util.template().render(_settings.template.templateID, null, $('#oae-mobile-menu-container'));
+            oae.api.widget.insertWidget('mobilenavigation', null, $('#mobile-navigation-widget-container'), null, _settings, function(){
+                addBinding();
             });
         };
 
-        var destroyTemplate = function() {
-            console.log('[Menu] destroy template');
-        };
-
         var addBinding = function() {
-            console.log('[Menu] addBinding');
             $('#oae-mobile-menu').find('li').bind('click', onItemClickHandler);
         };
 
-        var deleteBinding = function() {
-            console.log('[Menu] deleteBinding');
+        var destroyBinding = function() {
             $('#oae-mobile-menu').find('li').unbind('click', onItemClickHandler);
         };
 
         var onItemClickHandler = function(e) {
-            console.log('[Menu] onItemClickHandler');
+            var action = $(e.currentTarget).attr('data-action');
+            $(document).trigger(constants.events.activities.menuclicked, action);
         };
 
         return Menu;

@@ -35,7 +35,6 @@ define(
 
         // Public methods
         HomeView.prototype.initialize = function() {
-            console.log('[HomeView] initialize');
             renderTemplate();
         };
 
@@ -46,7 +45,6 @@ define(
 
         // Private methods
         var renderTemplate = function() {
-            console.log('[HomeView] renderTemplate');
             oae.api.util.template().render(_settings.template.templateID, null, $('#oae-mobile-viewport'));
             oae.api.widget.insertWidget('mobileactivity', null, $('#mobile-activity-widget-container'));
             addBinding();
@@ -61,23 +59,8 @@ define(
         };
 
         var onToggleMenuClick = function() {
-            $(document).trigger(constants.events.activities.togglemenu);
+            $(document).trigger(constants.events.activities.menutoggle);
         };
-
-        /*
-        var onLogoutClick = function(event) {
-            $(document).trigger(
-                constants.events.user.logoutattempt,
-                {
-                    callback: function(err){
-                        if(err){
-                            // TODO: do something if error occurs (e.g. warning)
-                        }
-                    }
-                }
-            );
-        };
-        */
 
         return HomeView;
     }

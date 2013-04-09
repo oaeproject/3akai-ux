@@ -28,7 +28,7 @@ define(
          * @param {Integer}     total           The amount of views that need to be rendered
          * @param {Function}    callback        Callback function
          */
-        exports.renderViewTemplate = function(key, view, index, total, callback) {
+        exports.renderTemplate = function(key, view, index, total, callback) {
             $.ajax({
                 url: view.settings.template.templateURL,
                 type: 'GET',
@@ -49,30 +49,5 @@ define(
                 }
             });
         };
-
-        /**
-         * Renders a component
-         * @param {Integer}     id              The id of the template
-         * @param {String}      url             The url of the page template
-         * @param {Object}      target          The target where the template will be appended
-         * @param {Object}      data            The data used for the content
-         * @param {Function}    callback        Callback function
-         */
-        exports.renderComponent = function(id, url, target, data, callback) {
-            $.ajax({
-                url: url,
-                type: 'GET',
-                success: function(response) {
-                    var template = document.createElement('div');
-                    template.innerHTML = oae.api.i18n.translate(response);
-                    $(constants.components.templatehelper).append(template);
-                    oae.api.util.template().render(id, data, target);
-                    callback(null);
-                },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    callback(textStatus);
-                }
-            });
-        }
     }
 );

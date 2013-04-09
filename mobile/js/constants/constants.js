@@ -31,7 +31,9 @@ define(['exports'], function(exports) {
                 templatesready  : 'oae-mobile-templates-ready',
                 viewchanged     : 'oae-mobile-view-changed',
                 viewpopped      : 'oae-mobile-view-popped',
-                togglemenu      : 'oae-mobile-menu-toggle'
+                initmenu        : 'oae-mobile-init-menu',
+                menutoggle      : 'oae-mobile-menu-toggle',
+                menuclicked     : 'oae-mobile-menu-clicked'
             },
             user: {
                 loginattempt    : 'oae-mobile-user-login-attempt',
