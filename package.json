@@ -30,7 +30,8 @@
     "grunt-git-describe": "latest",
     "grunt-imagine": "git://github.com/amcdaniel2/grunt-imagine.git#master",
     "grunt-ver": "git://github.com/sakaiproject/grunt-ver.git#v0.2.3-hilary-0.1",
-    "shelljs": "latest"
+    "shelljs": "latest",
+    "underscore": "latest"
   },
   "bundleDependencies": [
     "oae-core"
