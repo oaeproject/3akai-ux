@@ -280,7 +280,7 @@ i.icon-oae-public.large:before {
  * been given by their container.
  *
  *   e.g. <div class="oae-thumbnail icon-oae-user">
- *            <a href="${entityData.profilePath}" title="${entityData.displayName|safeUserInput}">
+ *            <a href="${entityData.profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}">
  *                <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian"/>
  *                <i class="icon-oae-public"></i>
  *            </a>
