@@ -93,10 +93,6 @@
     @include setBoxShadow(6, 91, 136, .1);
     @include setGradient(#1B8CC7, #0D85C4);
 
-    &:hover{
-      opacity: .5;
-    }
-
     span{
       width: 100%;
       height: 30px;
@@ -114,6 +110,10 @@
 
   .oae-mobile-button-right{
     right: 8px;
+  }
+
+  .oae-mobile-topbar-logo{
+
   }
 
   // View content
@@ -151,6 +151,14 @@
 
 .scroll{
   overflow: scroll;
+}
+
+/////////////////
+///// RETINA ////
+/////////////////
+
+.oae-mobile-topbar-logo{
+
 }
 
 /////////////////

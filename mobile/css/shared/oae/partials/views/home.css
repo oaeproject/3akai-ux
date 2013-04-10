@@ -68,3 +68,10 @@
   display: block;
   list-style-type: none;
 }
+
+/* line 47, ../../../../../sass/shared/oae/partials/views/home.scss */
+#btnMenu span {
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url("../img/interface/btnmenu.png");
+}

@@ -42,3 +42,21 @@
     }
   }
 }
+
+#btnMenu{
+  span{
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url('../img/interface/btnmenu.png');
+  }
+}
+
+/////////////////
+///// RETINA ////
+/////////////////
+
+#btnMenu{
+  span{
+    //background-image: url('../img/interface/btnmenu@2x.png');
+  }
+}
