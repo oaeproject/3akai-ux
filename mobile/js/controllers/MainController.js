@@ -4,9 +4,11 @@ define(
         'jquery','underscore','oae.core',
         '/mobile/js/constants/constants.js',
         '/mobile/js/mobile.util.js',
+        '/mobile/js/controllers/UserController.js',
+        '/mobile/js/controllers/ViewController.js',
         '/mobile/js/views/components/Menu.js'
     ],
-    function(exports, $, underscore, oae, constants, mobileUtil, Menu){
+    function(exports, $, underscore, oae, constants, mobileUtil, userController, viewController, Menu){
 
         // Properties
         var instance = null;
@@ -87,16 +89,8 @@ define(
          * Init the other controllers and pass an instance of the MainController
          */
         var initControllers = function() {
-            require(
-                [
-                    "/mobile/js/controllers/UserController.js",
-                    "/mobile/js/controllers/ViewController.js"
-                ],
-                function(userController, viewController) {
-                    userController.initialize(MainController.getInstance());
-                    viewController.initialize(MainController.getInstance());
-                }
-            );
+            userController.initialize(MainController.getInstance());
+            viewController.initialize(MainController.getInstance());
         };
 
         ////////////////////////
@@ -172,7 +166,6 @@ define(
          * Show the activity indicator
          */
         var showIndicator = exports.showIndicator = function() {
-            console.log('[MainController] showIndicator');
             $('#oae-mobile-activity-indicator').animate({'opacity':1}, 250).show();
         };
 
@@ -180,7 +173,6 @@ define(
          * Hide the activity indicator
          */
         var hideIndicator = exports.hideIndicator = function() {
-            console.log('[MainController] hideIndicator');
             $('#oae-mobile-activity-indicator').animate({'opacity': 0}, 250, null, function(){
                 $('#oae-mobile-activity-indicator').hide();
             });
