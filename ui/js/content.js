@@ -36,9 +36,11 @@ require(['jquery','oae.core'], function($, oae) {
         oae.api.content.getContent(contentId, function(err, profile) {
             if (err) {
                 if (err.code === 401) {
-                    oae.api.util.redirect().notfound();
-                } else {
                     oae.api.util.redirect().accessdenied();
+                    return;
+                } else {
+                    oae.api.util.redirect().notfound();
+                    return;
                 }
             }
 
@@ -69,9 +71,11 @@ require(['jquery','oae.core'], function($, oae) {
         oae.api.content.getContent(contentId, function(err, profile) {
             if (err) {
                 if (err.code === 401) {
-                    oae.api.util.redirect().notfound();
-                } else {
                     oae.api.util.redirect().accessdenied();
+                    return;
+                } else {
+                    oae.api.util.redirect().notfound();
+                    return;
                 }
             }
 
