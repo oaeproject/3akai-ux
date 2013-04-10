@@ -57,7 +57,8 @@ require(['jquery','oae.core'], function($, oae) {
      * Initiate a search with the search query entered by the user.
      */
     var search = function() {
-        $.bbq.pushState({'q': $('.search-query', $(this)).val()});
+        // Filter out slashes before pushing the state
+        $.bbq.pushState({'q': $.trim($('.search-query', $(this)).val()).replace(/\//g, '')});
         renderSearch();
         return false;
     };
