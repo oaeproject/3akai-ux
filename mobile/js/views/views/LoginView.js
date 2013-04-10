@@ -50,14 +50,14 @@ define(
         };
 
         var addBinding = function() {
-            $('#btnLogin').bind('click', onLoginClick);
+            $('#btnLogin').bind('click', doLogin);
         };
 
         var deleteBinding = function() {
-            $('#btnLogin').unbind('click', onLoginClick);
+            $('#btnLogin').unbind('click', doLogin);
         };
 
-        var onLoginClick = function(event) {
+        var doLogin = function(event) {
             var username = $('#txtUsername').val();
             var password = $('#txtPassword').val();
             if(username && password){
@@ -84,6 +84,7 @@ define(
                 var message = oae.api.i18n.translate('__MSG__PLEASE_ENTER_YOUR_PASSWORD_AND_USERNAME__');
                 window.alert(message);
             }
+            return false;
         };
 
         return LoginView;

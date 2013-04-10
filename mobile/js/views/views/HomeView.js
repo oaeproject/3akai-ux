@@ -61,10 +61,12 @@ define(
 
         var addBinding = function() {
             $('#btnMenu').bind('click', onToggleMenuClick);
+            $('#home-view').touchSwipe(onToggleMenuClick);
         };
 
         var deleteBinding = function() {
             $('#btnMenu').unbind('click', onToggleMenuClick);
+            $('#home-view').unbindSwipe(onToggleMenuClick);
         };
 
         var onToggleMenuClick = function() {
