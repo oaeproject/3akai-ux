@@ -13,14 +13,19 @@
  * permissions and limitations under the License.
  */
 
-#creategroup-modal #creategroup-name {
-    width: 100%;
-}
+define(['jquery'], function (jQuery) {
+    (function() {
 
-#creategroup-modal .modal-body h4 {
-    margin-top: 7px;
-}
+        /**
+         * Catch the keypress event for `enter` when an editable field has focus
+         */
+        $(document).on('focus', '.jeditable-field', function(ev) {
+            $(this).keypress(function(ev) {
+                if (ev.which == 13){
+                    $(this).trigger('click.editable');
+                }
+            });
+        });
 
-#creategroup-modal .modal-body #creategroup-visibility-container h4 {
-    margin-top: 12px;
-}
+    })();
+});
