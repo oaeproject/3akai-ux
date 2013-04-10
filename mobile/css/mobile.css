@@ -630,22 +630,24 @@ body {
   cursor: pointer;
   border-top: 1px solid #444444;
   border-bottom: 1px solid #222222;
+  background-repeat: no-repeat;
+  background-position: 16px center;
 }
-/* line 74, ../sass/shared/oae/partials/menu.scss */
+/* line 76, ../sass/shared/oae/partials/menu.scss */
 #oae-mobile-menu li.item:hover {
   background-color: #393939;
 }
-/* line 78, ../sass/shared/oae/partials/menu.scss */
-#oae-mobile-menu li.item span {
+/* line 80, ../sass/shared/oae/partials/menu.scss */
+#oae-mobile-menu li.item .label {
   display: block;
   padding-left: 42px;
   text-transform: lowercase;
 }
-/* line 85, ../sass/shared/oae/partials/menu.scss */
+/* line 87, ../sass/shared/oae/partials/menu.scss */
 #oae-mobile-menu li.item:last-child {
   border-bottom: 2px solid #444444;
 }
-/* line 88, ../sass/shared/oae/partials/menu.scss */
+/* line 90, ../sass/shared/oae/partials/menu.scss */
 #oae-mobile-menu li.item:last-child span {
   border-bottom: 1px solid #222222;
 }

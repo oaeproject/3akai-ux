@@ -70,12 +70,14 @@
     cursor: pointer;
     border-top: 1px solid $grey-med;
     border-bottom: 1px solid $grey-darkest;
+    background-repeat: no-repeat;
+    background-position: 16px center;
 
     &:hover{
       background-color: #393939;
     }
 
-    span{
+    .label{
       display: block;
       padding-left: 42px;
       text-transform: lowercase;
