@@ -1,4 +1,0 @@
-{
-  'sling:match': '^[^/]+/[^/]+/create(\.html)?',
-  'sling:internalRedirect': '/dev/createnew.html'
-}
