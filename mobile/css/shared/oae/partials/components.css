@@ -54,29 +54,42 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-/* line 28, ../../../../sass/shared/oae/partials/components.scss */
-#oae-mobile-activity-indicator {
-  position: absolute;
+/* line 30, ../../../../sass/shared/oae/partials/components.scss */
+#oae-mobile-activity-indicator,
+#oae-mobile-activity-indicator .bg,
+#oae-mobile-activity-indicator .spinner {
   display: block;
-  z-index: 10000;
+  position: absolute;
+}
+
+/* line 36, ../../../../sass/shared/oae/partials/components.scss */
+#oae-mobile-activity-indicator,
+#oae-mobile-activity-indicator .bg {
   bottom: 0;
   right: 0;
   left: 0;
   top: 0;
-  background-color: #111111;
-  opacity: .75;
 }
-/* line 39, ../../../../sass/shared/oae/partials/components.scss */
-#oae-mobile-activity-indicator p {
-  position: absolute;
-  display: block;
+
+/* line 40, ../../../../sass/shared/oae/partials/components.scss */
+#oae-mobile-activity-indicator {
+  z-index: 10000;
+}
+/* line 43, ../../../../sass/shared/oae/partials/components.scss */
+#oae-mobile-activity-indicator .bg {
+  background-color: #111111;
+  opacity: .5;
+}
+/* line 48, ../../../../sass/shared/oae/partials/components.scss */
+#oae-mobile-activity-indicator .spinner {
   top: 50%;
   left: 50%;
-  width: 150px;
+  width: 50px;
   height: 50px;
   line-height: 50px;
   color: white;
-  margin-left: -75px;
+  margin-left: -25px;
   margin-top: -25px;
   text-align: center;
+  background-color: red;
 }

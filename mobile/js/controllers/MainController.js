@@ -172,14 +172,18 @@ define(
          * Show the activity indicator
          */
         var showIndicator = exports.showIndicator = function() {
-            $('#oae-mobile-activity-indicator').animate({'opacity': 1}).show();
+            console.log('[MainController] showIndicator');
+            $('#oae-mobile-activity-indicator').animate({'opacity':1}).show();
         };
 
         /**
          * Hide the activity indicator
          */
         var hideIndicator = exports.hideIndicator = function() {
-            $('#oae-mobile-activity-indicator').delay(150).animate({'opacity': 0}).hide();
+            console.log('[MainController] hideIndicator');
+            $('#oae-mobile-activity-indicator').animate({'opacity': 0}, null, null, function(){
+                $('#oae-mobile-activity-indicator').hide();
+            });
         };
 
         ////////////////////////

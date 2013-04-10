@@ -25,28 +25,37 @@
 /// SELECTORS ///
 /////////////////
 
-#oae-mobile-activity-indicator {
-  position: absolute;
+#oae-mobile-activity-indicator,
+#oae-mobile-activity-indicator .bg,
+#oae-mobile-activity-indicator .spinner{
   display: block;
-  z-index: 10000;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  top: 0;
-  background-color: #111111;
-  opacity: .75;
+  position: absolute;
+}
 
-  p {
-    position: absolute;
-    display: block;
+#oae-mobile-activity-indicator,
+#oae-mobile-activity-indicator .bg{
+  @include setStretch;
+}
+
+#oae-mobile-activity-indicator {
+  z-index: 10000;
+
+  .bg{
+    background-color: #111111;
+    opacity: .5;
+  }
+
+  .spinner{
     top: 50%;
     left: 50%;
-    width: 150px;
+    width: 50px;
     height: 50px;
     line-height: 50px;
     color: white;
-    margin-left: -75px;
+    margin-left: -25px;
     margin-top: -25px;
     text-align: center;
+    background-color: red;
   }
 }
+

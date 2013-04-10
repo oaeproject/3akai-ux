@@ -63,16 +63,20 @@ define(
         var login = function(e, obj) {
             $(document).trigger(constants.events.activities.activitystart);
             oae.api.authentication.login(obj.username, obj.password, function(err) {
-                $(document).trigger(constants.events.activities.activityend);
                 if(err) {
+                    $(document).trigger(constants.events.activities.activityend);
                     obj.callback(err);
                 }else{
                     try{
-                        oae.init(function(e){
-                            $(document).trigger(constants.events.user.loginsuccess);
-                        });
+                        setTimeout(function(){
+                            oae.init(function(e){
+                                $(document).trigger(constants.events.activities.activityend);
+                                $(document).trigger(constants.events.user.loginsuccess);
+                            });
+                        }, 500);
                     }catch(e){
                         console.log('[UserController] Executing oae.init failed after login');
+                        $(document).trigger(constants.events.activities.activityend);
                     }
                 }
             });
@@ -88,16 +92,20 @@ define(
         var logout = function(e, obj) {
             $(document).trigger(constants.events.activities.activitystart);
             oae.api.authentication.logout(function(err) {
-                $(document).trigger(constants.events.activities.activityend);
                 if(err) {
                     obj.callback(err);
+                    $(document).trigger(constants.events.activities.activityend);
                 }else{
                     try{
-                        oae.init(function(e){
-                            $(document).trigger(constants.events.user.logoutsuccess);
-                        });
+                        setTimeout(function(){
+                            oae.init(function(e){
+                                $(document).trigger(constants.events.activities.activityend);
+                                $(document).trigger(constants.events.user.logoutsuccess);
+                            });
+                        }, 500);
                     }catch(e){
                         console.log('[UserController] Executing oae.init failed after logout');
+                        $(document).trigger(constants.events.activities.activityend);
                     }
                 }
             });
