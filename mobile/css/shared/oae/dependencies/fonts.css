@@ -12,3 +12,10 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+@font-face {
+  font-family: 'FuturaStd-Medium';
+  src: url("../fonts/futurastdmedium/futurastdmedium.eot");
+  src: url("../fonts/futurastdmedium/futurastdmedium.eot?#iefix") format("embedded-opentype"), url("../fonts/futurastdmedium/futurastdmedium.woff") format("woff"), url("../fonts/futurastdmedium/futurastdmedium.ttf") format("truetype"), url("../fonts/futurastdmedium/futurastdmedium.svg#futurastdmedium") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
