@@ -36,10 +36,9 @@
   }
 
   input, button{
-    border: none;
     width: 100%;
     height: 100%;
-    line-height: 100%;
+    border: none;
     @include setBorderRadius(8px);
   }
 
@@ -56,11 +55,12 @@
 
     input{
       color: #777777;
-      background: none;
+      padding-top: 1px;
       padding-left: 20px;
       padding-right: 20px;
       box-shadow: inset 0px 0px 2px 2px rgba(00, 00, 00, .1);
       -webkit-box-shadow: inset 0px 0px 2px 2px rgba(00, 00, 00, .1);
+      -webkit-appearance: none;
     }
   }
 
