@@ -737,9 +737,10 @@ body {
   position: absolute;
   display: block;
   width: 100%;
-  height: 38px;
+  height: 33px;
   z-index: 500;
   padding-top: 5px;
+  padding-bottom: 5px;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   border-top: 1px solid #2b87b8;
@@ -761,12 +762,12 @@ body {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$color1', endColorstr='$color2',GradientType=0 );
   /* IE6-9 */
 }
-/* line 64, ../sass/shared/oae/partials/views.scss */
+/* line 65, ../sass/shared/oae/partials/views.scss */
 .view .oae-mobile-view-topbar button, .view .oae-mobile-view-topbar button span {
   -webkit-border-radius: 5px;
   border-radius: 5px;
 }
-/* line 70, ../sass/shared/oae/partials/views.scss */
+/* line 71, ../sass/shared/oae/partials/views.scss */
 .view .oae-mobile-view-title {
   display: block;
   position: absolute;
@@ -779,7 +780,7 @@ body {
   text-shadow: 1px 1px 1px #1b8cc7;
   filter: dropshadow(color=#1b8cc7, offx=1, offy=1);
 }
-/* line 84, ../sass/shared/oae/partials/views.scss */
+/* line 85, ../sass/shared/oae/partials/views.scss */
 .view .oae-mobile-button {
   width: 44px;
   height: 32px;
@@ -807,7 +808,7 @@ body {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$color1', endColorstr='$color2',GradientType=0 );
   /* IE6-9 */
 }
-/* line 94, ../sass/shared/oae/partials/views.scss */
+/* line 95, ../sass/shared/oae/partials/views.scss */
 .view .oae-mobile-button span {
   width: 100%;
   height: 30px;
@@ -817,15 +818,25 @@ body {
   border-top: 1px solid #2e93c8;
   border-bottom: 1px solid rgba(0, 99, 151, 0.9);
 }
-/* line 105, ../sass/shared/oae/partials/views.scss */
+/* line 106, ../sass/shared/oae/partials/views.scss */
 .view .oae-mobile-button-left {
   left: 8px;
 }
-/* line 109, ../sass/shared/oae/partials/views.scss */
+/* line 110, ../sass/shared/oae/partials/views.scss */
 .view .oae-mobile-button-right {
   right: 8px;
 }
-/* line 118, ../sass/shared/oae/partials/views.scss */
+/* line 114, ../sass/shared/oae/partials/views.scss */
+.view .oae-mobile-topbar-logo {
+  width: 33px;
+  height: 32px;
+  float: right;
+  margin-right: 8px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url("../img/interface/logosmall.png");
+}
+/* line 125, ../sass/shared/oae/partials/views.scss */
 .view .content {
   z-index: 250;
   overflow: hidden;
@@ -839,7 +850,7 @@ body {
   left: 0;
   top: 0;
 }
-/* line 128, ../sass/shared/oae/partials/views.scss */
+/* line 135, ../sass/shared/oae/partials/views.scss */
 .view .content .wrapper {
   position: absolute;
   top: 45px;
@@ -851,13 +862,13 @@ body {
   padding-right: 8px;
   overflow: scroll !important;
 }
-/* line 144, ../sass/shared/oae/partials/views.scss */
+/* line 151, ../sass/shared/oae/partials/views.scss */
 .view .content .centered {
   position: absolute;
   top: 50%;
 }
 
-/* line 151, ../sass/shared/oae/partials/views.scss */
+/* line 158, ../sass/shared/oae/partials/views.scss */
 .stretch {
   display: block;
   bottom: 0;
@@ -866,9 +877,15 @@ body {
   top: 0;
 }
 
-/* line 156, ../sass/shared/oae/partials/views.scss */
+/* line 163, ../sass/shared/oae/partials/views.scss */
 .scroll {
   overflow: scroll;
+}
+
+/* line 167, ../sass/shared/oae/partials/views.scss */
+.alert {
+  display: block;
+  text-align: center;
 }
 
 /*

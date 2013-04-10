@@ -52,9 +52,10 @@
     position: absolute;
     display: block;
     width: 100%;
-    height: 38px;
+    height: 33px;
     z-index: 500;
     padding-top: 5px;
+    padding-bottom: 5px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     border-top: 1px solid #2b87b8;
@@ -111,7 +112,13 @@
   }
 
   .oae-mobile-topbar-logo{
-
+    width: 33px;
+    height: 32px;
+    float: right;
+    margin-right: 8px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url('../img/interface/logosmall.png');
   }
 
   // View content
@@ -155,6 +162,11 @@
 
 .scroll{
   overflow: scroll;
+}
+
+.alert{
+  display: block;
+  text-align: center;
 }
 
 /////////////////
