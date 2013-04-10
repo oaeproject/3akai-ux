@@ -61,14 +61,14 @@
   display: table;
   overflow: hidden;
   position: absolute;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 }
 
 /* line 38, ../../../../sass/shared/oae/partials/views.scss */
 .view {
-  overflow: hidden;
   position: absolute;
+  overflow: hidden;
 }
 /* line 42, ../../../../sass/shared/oae/partials/views.scss */
 .view.full {
@@ -87,8 +87,6 @@
   width: 100%;
   height: 38px;
   z-index: 500;
-  padding-left: 8px;
-  padding-right: 8px;
   padding-top: 5px;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
@@ -111,12 +109,12 @@
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$color1', endColorstr='$color2',GradientType=0 );
   /* IE6-9 */
 }
-/* line 66, ../../../../sass/shared/oae/partials/views.scss */
+/* line 64, ../../../../sass/shared/oae/partials/views.scss */
 .view .oae-mobile-view-topbar button, .view .oae-mobile-view-topbar button span {
   -webkit-border-radius: 5px;
   border-radius: 5px;
 }
-/* line 72, ../../../../sass/shared/oae/partials/views.scss */
+/* line 70, ../../../../sass/shared/oae/partials/views.scss */
 .view .oae-mobile-view-title {
   display: block;
   position: absolute;
@@ -129,7 +127,7 @@
   text-shadow: 1px 1px 1px #1b8cc7;
   filter: dropshadow(color=#1b8cc7, offx=1, offy=1);
 }
-/* line 86, ../../../../sass/shared/oae/partials/views.scss */
+/* line 84, ../../../../sass/shared/oae/partials/views.scss */
 .view .oae-mobile-button {
   width: 44px;
   height: 32px;
@@ -157,7 +155,7 @@
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$color1', endColorstr='$color2',GradientType=0 );
   /* IE6-9 */
 }
-/* line 96, ../../../../sass/shared/oae/partials/views.scss */
+/* line 94, ../../../../sass/shared/oae/partials/views.scss */
 .view .oae-mobile-button span {
   width: 100%;
   height: 30px;
@@ -167,42 +165,47 @@
   border-top: 1px solid #2e93c8;
   border-bottom: 1px solid rgba(0, 99, 151, 0.9);
 }
-/* line 107, ../../../../sass/shared/oae/partials/views.scss */
+/* line 105, ../../../../sass/shared/oae/partials/views.scss */
 .view .oae-mobile-button-left {
   left: 8px;
 }
-/* line 111, ../../../../sass/shared/oae/partials/views.scss */
+/* line 109, ../../../../sass/shared/oae/partials/views.scss */
 .view .oae-mobile-button-right {
   right: 8px;
 }
-/* line 120, ../../../../sass/shared/oae/partials/views.scss */
+/* line 118, ../../../../sass/shared/oae/partials/views.scss */
 .view .content {
-  position: absolute;
   z-index: 250;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  top: 0;
+  overflow: hidden;
+  position: absolute;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   background-color: #e3e2e0;
   border-left: 1px solid #eeedeb;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  top: 0;
 }
-/* line 132, ../../../../sass/shared/oae/partials/views.scss */
+/* line 128, ../../../../sass/shared/oae/partials/views.scss */
 .view .content .wrapper {
-  background-color: blue;
+  position: absolute;
+  top: 45px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding-top: 18px;
+  padding-left: 8px;
+  padding-right: 8px;
+  overflow: scroll !important;
 }
-/* line 135, ../../../../sass/shared/oae/partials/views.scss */
-.view .content .wrapper div {
-  display: none;
-}
-/* line 140, ../../../../sass/shared/oae/partials/views.scss */
+/* line 144, ../../../../sass/shared/oae/partials/views.scss */
 .view .content .centered {
   position: absolute;
   top: 50%;
 }
 
-/* line 147, ../../../../sass/shared/oae/partials/views.scss */
+/* line 151, ../../../../sass/shared/oae/partials/views.scss */
 .stretch {
   display: block;
   bottom: 0;
@@ -211,7 +214,7 @@
   top: 0;
 }
 
-/* line 152, ../../../../sass/shared/oae/partials/views.scss */
+/* line 156, ../../../../sass/shared/oae/partials/views.scss */
 .scroll {
   overflow: scroll;
 }
@@ -430,10 +433,6 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-/* line 31, ../../../../sass/shared/oae/partials/views/home.scss */
-#home-view #mobileactivity-container {
-  background-color: red;
-}
 /* line 35, ../../../../sass/shared/oae/partials/views/home.scss */
 #home-view #mobileactivity-container ul {
   padding: 0;
@@ -441,11 +440,16 @@
 }
 /* line 38, ../../../../sass/shared/oae/partials/views/home.scss */
 #home-view #mobileactivity-container ul li {
+  position: relative;
   display: block;
+  height: 242px;
+  overflow: hidden;
+  margin-bottom: 22px;
   list-style-type: none;
+  background-color: white;
 }
 
-/* line 47, ../../../../sass/shared/oae/partials/views/home.scss */
+/* line 56, ../../../../sass/shared/oae/partials/views/home.scss */
 #btnMenu span {
   background-repeat: no-repeat;
   background-position: center center;

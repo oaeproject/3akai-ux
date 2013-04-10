@@ -31,13 +31,13 @@
   display: table;
   overflow: hidden;
   position: absolute;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 }
 
 .view{
-  overflow: hidden;
   position: absolute;
+  overflow: hidden;
 
   &.full{
     @include setBorderRadius(0);
@@ -54,8 +54,6 @@
     width: 100%;
     height: 38px;
     z-index: 500;
-    padding-left: 8px;
-    padding-right: 8px;
     padding-top: 5px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
@@ -118,22 +116,28 @@
 
   // View content
   .content{
-    position: absolute;
     z-index: 250;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    top: 0;
+    overflow: hidden;
+    position: absolute;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     background-color: $beige-background;
     border-left: 1px solid #EEEDEB;
+    @include setStretch;
 
     .wrapper{
-      background-color: blue;
+      position: absolute;
+      top: 45px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding-top: 18px;
+      padding-left: 8px;
+      padding-right: 8px;
+      overflow: scroll !important;
 
       div{
-        display: none;
+
       }
     }
 
