@@ -157,7 +157,7 @@ module.exports = function(grunt) {
         this.requires('inlineImg');
 
         // Add the modules as phases to ver:oae
-        var oaeModules = grunt.file.expand({filter:'isDirectory'}, 'target/optimized/node_modules/oae-*/*');
+        var oaeModules = grunt.file.expand({filter:'isDirectory'}, 'target/optimized/node_modules/oae-*/*/');
         oaeModules.forEach(function(module) {
             grunt.log.writeln(module);
             var conf = {
