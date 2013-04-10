@@ -36,9 +36,11 @@ require(['jquery','oae.core'], function($, oae) {
         oae.api.content.getContent(contentId, function(err, profile) {
             if (err) {
                 if (err.code === 401) {
-                    oae.api.util.redirect().notfound();
-                } else {
                     oae.api.util.redirect().accessdenied();
+                    return;
+                } else {
+                    oae.api.util.redirect().notfound();
+                    return;
                 }
             }
 
@@ -57,8 +59,44 @@ require(['jquery','oae.core'], function($, oae) {
             oae.api.util.setBrowserTitle(contentProfile.displayName);
             // We can now unhide the page
             oae.api.util.showPage();
+            // Fire off an event to widgets that passes the content profile data
+            $(document).trigger('oae.context.send', contentProfile);
         });
     };
+
+    /**
+     * Refresh the content's basic profile and update widgets that need the updated information.
+     */
+    var refreshContentProfile = function() {
+        oae.api.content.getContent(contentId, function(err, profile) {
+            if (err) {
+                if (err.code === 401) {
+                    oae.api.util.redirect().accessdenied();
+                    return;
+                } else {
+                    oae.api.util.redirect().notfound();
+                    return;
+                }
+            }
+
+            contentProfile = profile;
+
+            // TODO: Remove this
+            sakai_global.contentProfile = contentProfile;
+
+            // Refresh the preview
+            $('#content_preview_container').html('');
+            oae.api.widget.insertWidget('contentpreview', null, $('#content_preview_container'), null, contentProfile);
+        });
+    };
+
+    // Bind to the context requests coming in from widgets and send back the content profile data
+    $(document).on('oae.context.get', function() {
+        $(document).trigger('oae.context.send', contentProfile);
+    });
+
+    // Catches the `upload new version complete` event and refreshes the content profile
+    $(document).on('oae-uploadnewversion-complete', refreshContentProfile);
 
     /**
      * Render the content's clip, containing the thumbnail, display name as well as the
