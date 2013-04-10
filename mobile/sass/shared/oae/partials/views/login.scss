@@ -30,9 +30,16 @@
   .centered{
     left: 15px;
     right: 15px;
-    height: 145px;
-    margin-top: -72px;
+    height: 300px;
+    margin-top: -150px;
     text-align: center;
+  }
+
+  .logo{
+    width: 100px;
+    height: 75px;
+    margin: 0 auto 50px auto;
+    background-color: #222222;
   }
 
   input, button{
@@ -44,6 +51,10 @@
 
   .inputcontainer, .buttoncontainer{
     overflow: hidden;
+    border-top: 1px solid #BBBBBB;
+    border-left: 1px solid #BBBBBB;
+    border-right: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
     @include setBorderRadius(10px);
   }
 
@@ -51,7 +62,6 @@
     height: 40px;
     margin-bottom: 10px;
     background-color: #FFFFFF;
-    border: 1px solid #CCCCCC;
 
     input{
       color: #777777;

@@ -39,6 +39,14 @@
   overflow: hidden;
   position: absolute;
 
+  &.full{
+    @include setBorderRadius(0);
+
+    .content{
+      @include setBorderRadius(0);
+    }
+  }
+
   // Topbar
   .oae-mobile-view-topbar{
     position: absolute;
@@ -66,7 +74,8 @@
     position: absolute;
     width: 100%;
     height: 38px;
-    line-height: 38px;
+    line-height: 1.85em;
+    font-size: 1.1em;
     color: #EEEEEE;
     text-align: center;
     text-shadow: 1px 1px 1px #1b8cc7;
@@ -120,12 +129,12 @@
     background-color: $beige-background;
     border-left: 1px solid #EEEDEB;
 
-    &.full{
-      border-radius: none;
-    }
-
     .wrapper{
-      padding-top: 29px;
+      background-color: blue;
+
+      div{
+        display: none;
+      }
     }
 
     .centered{

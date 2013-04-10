@@ -70,7 +70,17 @@
   overflow: hidden;
   position: absolute;
 }
-/* line 43, ../../../../sass/shared/oae/partials/views.scss */
+/* line 42, ../../../../sass/shared/oae/partials/views.scss */
+.view.full {
+  -webkit-border-radius: 0;
+  border-radius: 0;
+}
+/* line 45, ../../../../sass/shared/oae/partials/views.scss */
+.view.full .content {
+  -webkit-border-radius: 0;
+  border-radius: 0;
+}
+/* line 51, ../../../../sass/shared/oae/partials/views.scss */
 .view .oae-mobile-view-topbar {
   position: absolute;
   display: block;
@@ -101,24 +111,25 @@
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$color1', endColorstr='$color2',GradientType=0 );
   /* IE6-9 */
 }
-/* line 58, ../../../../sass/shared/oae/partials/views.scss */
+/* line 66, ../../../../sass/shared/oae/partials/views.scss */
 .view .oae-mobile-view-topbar button, .view .oae-mobile-view-topbar button span {
   -webkit-border-radius: 5px;
   border-radius: 5px;
 }
-/* line 64, ../../../../sass/shared/oae/partials/views.scss */
+/* line 72, ../../../../sass/shared/oae/partials/views.scss */
 .view .oae-mobile-view-title {
   display: block;
   position: absolute;
   width: 100%;
   height: 38px;
-  line-height: 38px;
+  line-height: 1.85em;
+  font-size: 1.1em;
   color: #EEEEEE;
   text-align: center;
   text-shadow: 1px 1px 1px #1b8cc7;
   filter: dropshadow(color=#1b8cc7, offx=1, offy=1);
 }
-/* line 77, ../../../../sass/shared/oae/partials/views.scss */
+/* line 86, ../../../../sass/shared/oae/partials/views.scss */
 .view .oae-mobile-button {
   width: 44px;
   height: 32px;
@@ -146,11 +157,11 @@
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$color1', endColorstr='$color2',GradientType=0 );
   /* IE6-9 */
 }
-/* line 87, ../../../../sass/shared/oae/partials/views.scss */
+/* line 96, ../../../../sass/shared/oae/partials/views.scss */
 .view .oae-mobile-button:hover {
   opacity: .5;
 }
-/* line 91, ../../../../sass/shared/oae/partials/views.scss */
+/* line 100, ../../../../sass/shared/oae/partials/views.scss */
 .view .oae-mobile-button span {
   width: 100%;
   height: 30px;
@@ -160,15 +171,15 @@
   border-top: 1px solid #2e93c8;
   border-bottom: 1px solid rgba(0, 99, 151, 0.9);
 }
-/* line 102, ../../../../sass/shared/oae/partials/views.scss */
+/* line 111, ../../../../sass/shared/oae/partials/views.scss */
 .view .oae-mobile-button-left {
   left: 8px;
 }
-/* line 106, ../../../../sass/shared/oae/partials/views.scss */
+/* line 115, ../../../../sass/shared/oae/partials/views.scss */
 .view .oae-mobile-button-right {
   right: 8px;
 }
-/* line 111, ../../../../sass/shared/oae/partials/views.scss */
+/* line 120, ../../../../sass/shared/oae/partials/views.scss */
 .view .content {
   position: absolute;
   z-index: 250;
@@ -181,21 +192,21 @@
   background-color: #e3e2e0;
   border-left: 1px solid #eeedeb;
 }
-/* line 123, ../../../../sass/shared/oae/partials/views.scss */
-.view .content.full {
-  border-radius: none;
-}
-/* line 127, ../../../../sass/shared/oae/partials/views.scss */
+/* line 132, ../../../../sass/shared/oae/partials/views.scss */
 .view .content .wrapper {
-  padding-top: 29px;
+  background-color: blue;
 }
-/* line 131, ../../../../sass/shared/oae/partials/views.scss */
+/* line 135, ../../../../sass/shared/oae/partials/views.scss */
+.view .content .wrapper div {
+  display: none;
+}
+/* line 140, ../../../../sass/shared/oae/partials/views.scss */
 .view .content .centered {
   position: absolute;
   top: 50%;
 }
 
-/* line 138, ../../../../sass/shared/oae/partials/views.scss */
+/* line 147, ../../../../sass/shared/oae/partials/views.scss */
 .stretch {
   display: block;
   bottom: 0;
@@ -204,7 +215,7 @@
   top: 0;
 }
 
-/* line 143, ../../../../sass/shared/oae/partials/views.scss */
+/* line 152, ../../../../sass/shared/oae/partials/views.scss */
 .scroll {
   overflow: scroll;
 }
@@ -269,11 +280,18 @@
 #login-view .centered {
   left: 15px;
   right: 15px;
-  height: 145px;
-  margin-top: -72px;
+  height: 300px;
+  margin-top: -150px;
   text-align: center;
 }
 /* line 38, ../../../../sass/shared/oae/partials/views/login.scss */
+#login-view .logo {
+  width: 100px;
+  height: 75px;
+  margin: 0 auto 50px auto;
+  background-color: #222222;
+}
+/* line 45, ../../../../sass/shared/oae/partials/views/login.scss */
 #login-view input, #login-view button {
   width: 100%;
   height: 100%;
@@ -281,20 +299,23 @@
   -webkit-border-radius: 8px;
   border-radius: 8px;
 }
-/* line 45, ../../../../sass/shared/oae/partials/views/login.scss */
+/* line 52, ../../../../sass/shared/oae/partials/views/login.scss */
 #login-view .inputcontainer, #login-view .buttoncontainer {
   overflow: hidden;
+  border-top: 1px solid #bbbbbb;
+  border-left: 1px solid #bbbbbb;
+  border-right: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
   -webkit-border-radius: 10px;
   border-radius: 10px;
 }
-/* line 50, ../../../../sass/shared/oae/partials/views/login.scss */
+/* line 61, ../../../../sass/shared/oae/partials/views/login.scss */
 #login-view .inputcontainer {
   height: 40px;
   margin-bottom: 10px;
   background-color: #FFFFFF;
-  border: 1px solid #cccccc;
 }
-/* line 56, ../../../../sass/shared/oae/partials/views/login.scss */
+/* line 66, ../../../../sass/shared/oae/partials/views/login.scss */
 #login-view .inputcontainer input {
   color: #777777;
   padding-top: 1px;
@@ -304,7 +325,7 @@
   -webkit-box-shadow: inset 0px 0px 2px 2px rgba(0, 0, 0, 0.1);
   -webkit-appearance: none;
 }
-/* line 67, ../../../../sass/shared/oae/partials/views/login.scss */
+/* line 77, ../../../../sass/shared/oae/partials/views/login.scss */
 #login-view .buttoncontainer {
   height: 37px;
   padding: 3px;
@@ -312,7 +333,7 @@
   box-shadow: inset 0px 0px 3px 3px rgba(0, 0, 0, 0.15);
   -webkit-box-shadow: inset 0px 0px 3px 3px rgba(0, 0, 0, 0.15);
 }
-/* line 74, ../../../../sass/shared/oae/partials/views/login.scss */
+/* line 84, ../../../../sass/shared/oae/partials/views/login.scss */
 #login-view .buttoncontainer button {
   color: #FFFFFF;
   text-transform: lowercase;
@@ -335,7 +356,7 @@
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$color1', endColorstr='$color2',GradientType=0 );
   /* IE6-9 */
 }
-/* line 80, ../../../../sass/shared/oae/partials/views/login.scss */
+/* line 90, ../../../../sass/shared/oae/partials/views/login.scss */
 #login-view .buttoncontainer button span {
   display: block;
   height: 35px;

@@ -69,11 +69,18 @@ define(
                         callback: function(err){
                             if(err){
 
+                                // TODO: Replace with custom modal view
+
+                                var message = "Wrong username and/or password";
+                                window.alert(message);
                             }
                         }
                     }
                 );
             }else{
+
+                // TODO: Replace with custom modal view
+
                 var message = oae.api.i18n.translate('__MSG__PLEASE_ENTER_YOUR_PASSWORD_AND_USERNAME__');
                 window.alert(message);
             }
