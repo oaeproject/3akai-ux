@@ -73,7 +73,7 @@ define(
                                 $(document).trigger(constants.events.activities.activityend);
                                 $(document).trigger(constants.events.user.loginsuccess);
                             });
-                        }, 500);
+                        }, 300);
                     }catch(e){
                         console.log('[UserController] Executing oae.init failed after login');
                         $(document).trigger(constants.events.activities.activityend);
@@ -102,7 +102,7 @@ define(
                                 $(document).trigger(constants.events.activities.activityend);
                                 $(document).trigger(constants.events.user.logoutsuccess);
                             });
-                        }, 500);
+                        }, 300);
                     }catch(e){
                         console.log('[UserController] Executing oae.init failed after logout');
                         $(document).trigger(constants.events.activities.activityend);

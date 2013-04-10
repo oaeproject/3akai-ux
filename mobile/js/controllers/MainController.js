@@ -173,7 +173,7 @@ define(
          */
         var showIndicator = exports.showIndicator = function() {
             console.log('[MainController] showIndicator');
-            $('#oae-mobile-activity-indicator').animate({'opacity':1}).show();
+            $('#oae-mobile-activity-indicator').animate({'opacity':1}, 250).show();
         };
 
         /**
@@ -181,7 +181,7 @@ define(
          */
         var hideIndicator = exports.hideIndicator = function() {
             console.log('[MainController] hideIndicator');
-            $('#oae-mobile-activity-indicator').animate({'opacity': 0}, null, null, function(){
+            $('#oae-mobile-activity-indicator').animate({'opacity': 0}, 250, null, function(){
                 $('#oae-mobile-activity-indicator').hide();
             });
         };
