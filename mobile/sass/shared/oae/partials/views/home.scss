@@ -61,11 +61,27 @@
 }
 
 /////////////////
-///// RETINA ////
+//// QUERIES ////
 /////////////////
 
-#btnMenu{
-  span{
-    //background-image: url('../img/interface/btnmenu@2x.png');
+/* Retina */
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (   min--moz-device-pixel-ratio: 2),
+only screen and (   -o-min-device-pixel-ratio: 2/1),
+only screen and (        min-device-pixel-ratio: 2),
+only screen and (           min-resolution: 192dpi),
+only screen and (            min-resolution: 2dppx){
+
+  #btnMenu{
+    span{
+      background-size: 50%;
+      background-image: url('../img/interface/btnmenu@2x.png');
+    }
   }
+}
+
+/* Medium screen, non-retina */
+@media only screen and (min-width: 700px) {
+
 }

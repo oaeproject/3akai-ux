@@ -652,6 +652,7 @@ body {
   border-bottom: 1px solid #222222;
 }
 
+/* Retina */
 /*
  * Copyright 2012 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
@@ -890,6 +891,12 @@ body {
   text-align: center;
 }
 
+/* line 178, ../sass/shared/oae/partials/views.scss */
+.view .oae-mobile-topbar-logo {
+  background-size: 100%;
+  background-image: url("../img/interface/logosmall@2x.png");
+}
+
 /*
  * Copyright 2012 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
@@ -1048,6 +1055,27 @@ body {
   top: 0;
 }
 
+/* Retina */
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+  /* line 125, ../sass/shared/oae/partials/views/login.scss */
+  #login-view .logo {
+    background-size: 50%;
+    background-image: url("../img/interface/logostartup@2x.png");
+  }
+}
+/* Landscape */
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  /* line 137, ../sass/shared/oae/partials/views/login.scss */
+  #login-view .centered {
+    height: 150px;
+    margin-top: -75px;
+  }
+  /* line 142, ../sass/shared/oae/partials/views/login.scss */
+  #login-view .logo {
+    display: none;
+  }
+}
+/* Medium screen, non-retina */
 /*
  * Copyright 2012 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
@@ -1127,6 +1155,15 @@ body {
   background-image: url("../img/interface/btnmenu.png");
 }
 
+/* Retina */
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+  /* line 77, ../sass/shared/oae/partials/views/home.scss */
+  #btnMenu span {
+    background-size: 50%;
+    background-image: url("../img/interface/btnmenu@2x.png");
+  }
+}
+/* Medium screen, non-retina */
 /*
  * Copyright 2012 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
@@ -1277,6 +1314,19 @@ body {
   background-image: url("../img/interface/loader@2x.gif");
 }
 
+/* Retina */
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+  /* line 74, ../sass/shared/oae/partials/components.scss */
+  #oae-mobile-activity-indicator .spinner {
+    background-image: url("../img/interface/loader@2x.gif");
+  }
+
+  /* line 80, ../sass/shared/oae/partials/components.scss */
+  #btnMenu span {
+    background-image: url("../img/interface/btnmenu@2x.png");
+  }
+}
+/* Medium screen, non-retina */
 /* Classes */
 /* line 51, ../sass/mobile.scss */
 #oae-mobile-template-helper {

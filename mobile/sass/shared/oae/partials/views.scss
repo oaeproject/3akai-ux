@@ -173,8 +173,12 @@
 ///// RETINA ////
 /////////////////
 
-.oae-mobile-topbar-logo{
+.view{
 
+  .oae-mobile-topbar-logo{
+    background-size: 100%;
+    background-image: url('../img/interface/logosmall@2x.png');
+  }
 }
 
 /////////////////
