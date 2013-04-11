@@ -95,7 +95,7 @@ define(
             viewController.initialize(MainController.getInstance());
 
             // TODO: remove this (just for testing)
-            //onModalInit();
+            onModalInit();
         };
 
         ////////////////////////
