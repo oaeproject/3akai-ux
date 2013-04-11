@@ -61,6 +61,7 @@ define([
         'jquery.infinitescroll',
         'jquery.properties-parser',
         'jquery.serializeObject',
+        'jquery.swipe',
         'jquery.timeago',
         'jquery.dnd-upload',
         'jquery.validate',
