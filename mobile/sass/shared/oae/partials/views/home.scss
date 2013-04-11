@@ -1,4 +1,4 @@
-/*!
+/*
  * Copyright 2012 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
@@ -30,9 +30,8 @@
   // Widget container
   #mobileactivity-container{
 
-
     // The list
-    ul{
+    > ul{
       @include killPaddingAndMargin;
 
       li{
@@ -42,10 +41,94 @@
         overflow: hidden;
         margin-bottom: 22px;
         list-style-type: none;
-        background-color: white;
+        background-color: $grey-dark;
 
-        *{
+        .activity-item-container{
+          height: 142px;
+          overflow: hidden;
 
+          .activity-entity-container{
+            height: 35px;
+            overflow: hidden;
+            background-color: white;
+          }
+
+          ul{
+            height: 117px;
+            overflow: hidden;
+            @include killPaddingAndMargin;
+
+            li{
+              width: 33%;
+              height: 117px;
+              display: block;
+              float: left;
+              background-color: $grey-lightest;
+            }
+
+            li.oae-tile-large{
+              width: 100%;
+              background-color: $grey-lightest;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .oae-mobile-tile-content-wrapper{
+    height: 117px;
+    display: block;
+    background-size: cover;
+    background-position: center center;
+    background-image: url('../img/interface/testthumb.png');
+
+    ul, .oae-mobile-tile-bottom{
+      display: block;
+      position: absolute;
+    }
+
+    ul{
+      visibility: none;
+    }
+
+    .oae-mobile-tile-bottom{
+      bottom: 0;
+      width: 100%;
+      height: 22px;
+      color: #FFFFFF;
+      background-color: black;
+      @include setGradient(#333333,#000000);
+
+      .comments, .timeago{
+        height: 22px;
+        line-height: 22px;
+        display: block;
+
+        span{
+          height: 22px;
+          line-height: 22px;
+          display: block;
+        }
+      }
+
+      .comments{
+        float: left;
+        text-align: left;
+        margin-left: 8px;
+
+        span{
+          margin-left: 16px;
+        }
+      }
+
+      .timeago{
+        float: right;
+        text-align: right;
+        margin-right: 8px;
+
+        span{
+          margin-right: 16px;
         }
       }
     }
@@ -79,9 +162,4 @@ only screen and (            min-resolution: 2dppx){
       background-image: url('../img/interface/btnmenu@2x.png');
     }
   }
-}
-
-/* Medium screen, non-retina */
-@media only screen and (min-width: 700px) {
-
 }

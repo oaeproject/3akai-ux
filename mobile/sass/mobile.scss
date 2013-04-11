@@ -13,6 +13,7 @@
  * permissions and limitations under the License.
  */
 
+
 //////////////////
 /// NORMALIZE ////
 //////////////////
@@ -26,6 +27,7 @@
 @import "shared/oae/dependencies/animations";
 @import "shared/oae/dependencies/colors";
 @import "shared/oae/dependencies/mixins";
+@import "shared/oae/dependencies/fonts";
 
 //////////////////
 //// HTML DOM ////
@@ -45,16 +47,3 @@
 //////////////////
 
 @import "shared/oae/partials/components";
-
-/* Classes */
-
-#oae-mobile-template-helper{
-  display: none;
-}
-
-.clear {
-  clear: both;
-  height: 1px;
-  line-height: 1px;
-  overflow: hidden;
-}

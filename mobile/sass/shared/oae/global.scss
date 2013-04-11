@@ -1,4 +1,4 @@
-/*!
+/*
  * Copyright 2012 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
@@ -33,5 +33,18 @@ html, body {
 body {
   margin: 0;
   padding: 0;
-  background-color: black;
+  font-family: FuturaStd-Medium, "Helvetica Neue", "Helvetica";
+}
+
+/* Classes */
+
+#oae-mobile-template-helper{
+  display: none;
+}
+
+.clear {
+  clear: both;
+  height: 1px;
+  line-height: 1px;
+  overflow: hidden;
 }

@@ -1,4 +1,4 @@
-/*!
+/*
  * Copyright 2012 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
@@ -72,6 +72,7 @@
     border-bottom: 1px solid $grey-darkest;
     background-repeat: no-repeat;
     background-position: 16px center;
+    transition: all 100ms;
 
     &:hover{
       background-color: #393939;
