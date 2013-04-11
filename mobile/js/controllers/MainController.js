@@ -159,6 +159,17 @@ define(
         };
 
         ////////////////////////
+        //////// MODALS ////////
+        ////////////////////////
+
+        /**
+         * Initializes a new modal message window
+         */
+        var onModalMessageInit = function() {
+            console.log('[MainController] onModalMessageInit');
+        };
+
+        ////////////////////////
         // ACTIVITY INDICATOR //
         ////////////////////////
 
@@ -191,6 +202,7 @@ define(
             $(document).on(constants.events.activities.initmenu, onInitMenu);
             $(document).on(constants.events.activities.menuclicked, onMenuItemClicked);
             $(document).on(constants.events.activities.menutoggle, onMenuToggle);
+            $(document).on(constants.events.activities.modalmessage, onModalMessageInit);
             $(document).on(constants.events.user.loginsuccess, onUserLogin);
             $(document).on(constants.events.user.logoutsuccess, onUserLogout);
         };

@@ -33,7 +33,8 @@ define(['exports'], function(exports) {
                 viewpopped      : 'oae-mobile-view-popped',
                 initmenu        : 'oae-mobile-init-menu',
                 menutoggle      : 'oae-mobile-menu-toggle',
-                menuclicked     : 'oae-mobile-menu-clicked'
+                menuclicked     : 'oae-mobile-menu-clicked',
+                modalmessage    : 'oae-mobile-modal-message'
             },
             user: {
                 loginattempt    : 'oae-mobile-user-login-attempt',
