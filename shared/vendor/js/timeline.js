@@ -7801,7 +7801,7 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
 				is_first	= false;
 			
 			current_marker = 	n;
-			
+
 			timenav_pos.left			= (config.width/2) - markers[current_marker].pos_left
 			timenav_pos.visible.left	= Math.abs(timenav_pos.left) - 100;
 			timenav_pos.visible.right	= Math.abs(timenav_pos.left) + config.width + 100;
@@ -8021,16 +8021,16 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
 			interval_calc.minute.last 				= _last.minutes;
 			interval_calc.minute.number 			= timespan.minutes;
 			interval_calc.minute.multiplier 		= 1;
-			interval_calc.minute.minor 				= 60;
+			interval_calc.minute.minor 				= timelookup.minute;
 			
 			// SECOND
-			interval_calc.second.type 				= "decade";
+			interval_calc.second.type 				= "second";
 			interval_calc.second.first 				= _first.seconds;
 			interval_calc.second.base 				= Math.floor(_first.seconds);
 			interval_calc.second.last 				= _last.seconds;
 			interval_calc.second.number 			= timespan.seconds;
 			interval_calc.second.multiplier 		= 1;
-			interval_calc.second.minor 				= 10;
+			interval_calc.second.minor 				= timelookup.second;
 		}
 		
 		function getDateFractions(the_date, is_utc) {
@@ -8869,13 +8869,10 @@ if(typeof VMM.Timeline != 'undefined' && typeof VMM.Timeline.TimeNav == 'undefin
 				interval					=		interval_calc.hour;
 				interval_major				=		interval_calc.day;
 				interval_macro				=		interval_calc.minute;
-			} else if (timespan.minutes		>		data.length / config.nav.density) {
+			} else if (timespan.minutes		>		data.length / config.nav.density ||
+				timespan.seconds		>		data.length / config.nav.density) {
 				interval					=		interval_calc.minute;
 				interval_major				=		interval_calc.hour;
-				interval_macro				=		interval_calc.second;
-			} else if (timespan.seconds		>		data.length / config.nav.density) {
-				interval					=		interval_calc.second;
-				interval_major				=		interval_calc.minute;
 				interval_macro				=		interval_calc.second;
 			} else {
 				trace("NO IDEA WHAT THE TYPE SHOULD BE");

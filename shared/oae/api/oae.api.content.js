@@ -205,7 +205,59 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             }
         });
     };
-    
+
+    /**
+     * Restore a revision of a content item
+     *
+     * @param  {String}       contentId           Content id of the content item we're getting the revisions of
+     * @param  {Function}     [callback]          Standard callback method
+     * @param  {Object}       [callback.err]      Error object containing error code and error message
+     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
+     */
+    var getRevisions = exports.getRevisions = function(contentId, callback) {
+        if (!contentId) {
+            throw new Error('A valid content id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/content/' + contentId + '/revisions?limit=25',
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
+
+    /**
+     * Restore a revision of a content item
+     *
+     * @param  {String}       contentId           Content id of the content item we're restoring a revision of
+     * @param  {String}       revisionId          Revision id of the revision restoring
+     * @param  {Function}     [callback]          Standard callback method
+     * @param  {Object}       [callback.err]      Error object containing error code and error message
+     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
+     */
+    var restoreRevision = exports.restoreRevision = function(contentId, revisionId, callback) {
+        if (!contentId) {
+            throw new Error('A valid content id should be provided');
+        } else if (!revisionId) {
+            throw new Error('A valid revision id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/content/' + contentId + '/revisions/' + revisionId + '/restore',
+            'type': 'POST',
+            'success': function() {
+                callback();
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
+
     /**
      * Update a content item's metadata.
      * 
