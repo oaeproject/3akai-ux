@@ -24,6 +24,15 @@ define(
         ///// Properties /////
         //////////////////////
 
+        var _settings = Modal.prototype.settings = {
+            name: "modal",
+            template: {
+                'templateID':   "#modal-template",
+                'templateURL':  "/mobile/templates/components/modal.html"
+            }
+        };
+
+        var _type = "";
         var _message = "";
 
         //////////////////////
@@ -36,11 +45,8 @@ define(
          * @param {String} data.message         The message
          */
 
-        function Modal(data) {
+        function Modal() {
             console.log('[Modal] constructor');
-            _type = data.type;
-            _message = data.message;
-            this.initialize();
         }
 
         ///////////////////////
@@ -48,10 +54,10 @@ define(
         ///////////////////////
 
         // Initialize Menu
-        Modal.prototype.initialize = function() {
+        Modal.prototype.initialize = function(data) {
             console.log('[Modal] initialize');
-            console.log('type: ' + _type);
-            console.log('message: ' + _message);
+            _type = data.type;
+            _message = data.message;
             renderTemplate();
         };
 

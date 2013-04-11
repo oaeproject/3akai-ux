@@ -5,11 +5,12 @@ define(
         '/mobile/js/constants/constants.js',
         '/mobile/js/mobile.util.js',
         '/mobile/js/views/components/Menu.js',
+        '/mobile/js/views/components/Modal.js',
         '/mobile/js/views/views/LoginView.js',
         '/mobile/js/views/views/HomeView.js',
         '/mobile/js/views/views/DetailView.js'
     ],
-    function(exports, oae, constants, mobileUtil, Menu, LoginView, HomeView, DetailView){
+    function(exports, oae, constants, mobileUtil, Menu, Modal, LoginView, HomeView, DetailView){
 
         // Properties
         var instance = null;
@@ -52,6 +53,7 @@ define(
                 // Put all the views into an array
                 _views = [
                     new Menu(),
+                    new Modal(),
                     new LoginView(),
                     new HomeView(),
                     new DetailView()

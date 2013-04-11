@@ -172,8 +172,14 @@ define(
          */
         var onModalInit = function() {
             console.log('[MainController] onModalInit');
-            var message = {'type': 'Warning', 'message': 'The message'};
-            _modal = new Modal(message);
+
+            var message = {
+                'type': 'Warning',
+                'message': 'The message'
+            };
+
+            _modal = new Modal();
+            _modal.initialize(message);
         };
 
         var onModalDestroy = function() {
