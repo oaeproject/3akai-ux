@@ -8,28 +8,28 @@
         <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
     </head>
     <body>
-        <div id="doc_container">
-            <div id="doc_header_container">
-                <div id="doc_header_content">
+        <div id="doc-container">
+            <div id="doc-header-container">
+                <div id="doc-header-content">
                     <h1>Sakai OAE API Reference</h1>
                 </div>
             </div>
 
-            <div id="doc_content">
-                <div id="doc_content_containers">
+            <div id="doc-content">
+                <div id="doc-content-containers">
                     <div class="span3 bs-docs-sidebar">
-                        <div id="doc_contents_container"><!----></div>
-                        <div id="doc_ui_contents_container"><!----></div>
+                        <div id="doc-contents-container"><!----></div>
+                        <div id="doc-ui-contents-container"><!----></div>
                     </div>    
                 </div>
-                <div id="doc_docs_container"><!----></div>
+                <div id="doc-docs-container"><!----></div>
                 <hr class="clear hidden"/>
             </div>
 
-            <div id="doc_footer"></div>
+            <div id="doc-footer"></div>
         </div>
 
-        <div id="doc_contents_template" style="display:none;"><!--
+        <div id="doc-contents-template" style="display:none;"><!--
             <h3>Hilary API</h3>
             <ul class="nav nav-list bs-docs-sidenav" id="hilary">
                 {for module in modules}
@@ -40,7 +40,7 @@
             </ul>
         --></div>
 
-        <div id="doc_ui_contents_template" style="display:none;"><!--
+        <div id="doc-ui-contents-template" style="display:none;"><!--
             <h3>3akai-ux API</h3>
             <ul class="nav nav-list bs-docs-sidenav" id="3akai">
                 {for module in modules}
@@ -51,7 +51,7 @@
             </ul>
         --></div>
 
-        <div id="doc_docs_template" style="display:none;"><!--
+        <div id="doc-docs-template" style="display:none;"><!--
             <h2>${module}</h2>
             {if docs === null}
                 <p>There is no documentation available for this module.</p>
@@ -104,7 +104,7 @@
                 {/for}
             {/if}
         --></div>
-        <div id="doc_ui_docs_template" style="display:none;"><!--
+        <div id="doc-ui-docs-template" style="display:none;"><!--
             <h2>oae.api.${module}</h2>
             {if docs === null}
                 <p>There is no documentation available for this module.</p>
