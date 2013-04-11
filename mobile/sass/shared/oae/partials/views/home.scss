@@ -27,6 +27,10 @@
 
 #home-view{
 
+  a{
+    font-weight: bold;
+  }
+
   // Widget container
   #mobileactivity-container{
 
@@ -50,31 +54,81 @@
           width: 100%;
           overflow: hidden;
 
-          .activity-entity-container{
-            height: 142px;
+          .activity-content-container{
+            width: 100%;
+            height: 107px;
+            display: block;
             overflow: hidden;
+            position: absolute;
+            margin-top: 35px;
 
-            .activity-entity-name{
-              height: 35px;
-              background-color: white;
-            }
-
-            .oae-list{
+            > .oae-list{
               display: block;
               width: 100%;
-              height: 117px;
+              height: 107px;
+              overflow: hidden;
+
+              li{
+                @include killPaddingAndMargin;
+              }
+            }
+          }
+
+          .activity-entity-container{
+            width: 100%;
+            height: 142px;
+            display: block;
+            overflow: visible;
+            position: absolute;
+
+            .activity-entity-name{
+              width: 100%;
+              height: 35px;
+              font-size: .75em;
+              line-height: 1.1em;
+              background-color: white;
+
+              .activity-actor-picture{
+                width: 42px;
+                height: 42px;
+                z-index: 100;
+                display: block;
+                margin-top: 6px;
+                margin-left: 6px;
+                position: absolute;
+                background-color: $blue-light;
+              }
+
+              .activity-title{
+                height: 100%;
+                display: block;
+                padding-top: 5px;
+                padding-left: 60px;
+              }
+            }
+
+            > .oae-list{
+              display: block;
+              width: 100%;
+              height: 107px;
               overflow: hidden;
             }
+          }
+
+          > .oae-list{
+            width: 100%;
+            margin-top: 35px;
           }
 
           ul{
             height: 117px;
             overflow: hidden;
+            position: absolute;
             @include killPaddingAndMargin;
 
             li{
               width: 33%;
-              height: 117px;
+              height: 107px;
               display: block;
               float: left;
               background-color: $grey-lightest;
@@ -104,17 +158,20 @@
     width: 100%;
     height: 22px;
     color: #FFFFFF;
+    font-size: .7em;
     background-color: black;
-    @include setGradient(#333333,#000000);
+    text-transform: lowercase;
+    @include setGradient(rgba(10,10,10,.75),rgba(0,0,0,.75));
 
     .comments, .timeago{
       height: 22px;
-      line-height: 22px;
       display: block;
+      line-height: 22px;
+      background-repeat: no-repeat;
 
       span{
         height: 22px;
-        line-height: 22px;
+        line-height: 20px;
         display: block;
       }
     }
@@ -123,6 +180,8 @@
       float: left;
       text-align: left;
       margin-left: 8px;
+      background-position: center left;
+      background-image: url('../img/interface/iconcomments.png');
 
       span{
         margin-left: 16px;
@@ -133,9 +192,11 @@
       float: right;
       text-align: right;
       margin-right: 8px;
+      background-position: center right;
+      background-image: url('../img/interface/icontime.png');
 
       span{
-        margin-right: 16px;
+        margin-right: 14px;
       }
     }
   }
@@ -171,5 +232,13 @@ only screen and (            min-resolution: 2dppx){
       background-size: 50%;
       background-image: url('../img/interface/btnmenu@2x.png');
     }
+  }
+
+  .comments{
+    background-image: url('../img/interface/iconcomments@2x.png');
+  }
+
+  .timeago{
+    background-image: url('../img/interface/icontime@2x.png');
   }
 }
