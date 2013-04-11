@@ -20,48 +20,69 @@ define(
     ],
     function($, _, oae, constants) {
 
-        // Properties
-        var mainController = null;
+        //////////////////////
+        ///// Properties /////
+        //////////////////////
 
-        /////////////////////
-        //// Constructor ////
-        /////////////////////
+        var _message = "";
 
-        function Modal(_mainController) {
-            mainController = _mainController;
+        //////////////////////
+        //// Constructor /////
+        //////////////////////
+
+        /**
+         * @param {Object} data                 The object containing the message
+         * @param {String} data.type            The type
+         * @param {String} data.message         The message
+         */
+
+        function Modal(data) {
+            console.log('[Modal] constructor');
+            _type = data.type;
+            _message = data.message;
+            this.initialize();
         }
 
-        ////////////////////
-        // Public methods //
-        ////////////////////
+        ///////////////////////
+        /// Public methods ////
+        ///////////////////////
 
         // Initialize Menu
         Modal.prototype.initialize = function() {
+            console.log('[Modal] initialize');
+            console.log('type: ' + _type);
+            console.log('message: ' + _message);
             renderTemplate();
         };
 
         // Destroy Menu
         Modal.prototype.destroy = function() {
+            console.log('[Modal] destroy');
             destroyBinding();
         };
 
-        /////////////////////
-        // Private methods //
-        /////////////////////
+        ///////////////////////
+        // Getters & Setters //
+        ///////////////////////
+
+        ///////////////////////
+        /// Private methods ///
+        ///////////////////////
 
         // Renders the template + inserts navigation widget
         var renderTemplate = function() {
+            console.log('[Modal] renderTemplate');
             addBinding();
         };
 
         // Add binding
         var addBinding = function() {
-
+            console.log('[Modal] addBinding');
         };
 
         // Destroy binding
         var destroyBinding = function() {
-
+            console.log('[Modal] destroyBinding');
         };
 
         return Modal;

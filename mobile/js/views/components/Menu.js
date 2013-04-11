@@ -33,17 +33,17 @@ define(
             }
         };
 
-        /////////////////////
-        //// Constructor ////
-        /////////////////////
+        //////////////////////
+        //// Constructor /////
+        //////////////////////
 
         function Menu(_mainController) {
             mainController = _mainController;
         }
 
-        ////////////////////
-        // Public methods //
-        ////////////////////
+        ///////////////////////
+        /// Public methods ////
+        ///////////////////////
 
         // Initialize Menu
         Menu.prototype.initialize = function() {
@@ -56,19 +56,21 @@ define(
             destroyBinding();
         };
 
-        // Getter for _active
+        ///////////////////////
+        // Getters & Setters //
+        ///////////////////////
+
         Menu.prototype.getActive = function() {
             return _active;
         };
 
-        // Setter for _active
         Menu.prototype.setActive = function(val) {
             _active = val;
         };
 
-        /////////////////////
-        // Private methods //
-        /////////////////////
+        ///////////////////////
+        /// Private methods ///
+        ///////////////////////
 
         // Renders the template + inserts navigation widget
         var renderTemplate = function() {

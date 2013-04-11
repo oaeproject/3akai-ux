@@ -34,7 +34,8 @@ define(['exports'], function(exports) {
                 initmenu        : 'oae-mobile-init-menu',
                 menutoggle      : 'oae-mobile-menu-toggle',
                 menuclicked     : 'oae-mobile-menu-clicked',
-                modalmessage    : 'oae-mobile-modal-message'
+                modalinit       : 'oae-mobile-modal-init',
+                modaldestroy    : 'oae-mobile-modal-destroy'
             },
             user: {
                 loginattempt    : 'oae-mobile-user-login-attempt',

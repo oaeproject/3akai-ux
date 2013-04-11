@@ -6,9 +6,10 @@ define(
         '/mobile/js/mobile.util.js',
         '/mobile/js/controllers/UserController.js',
         '/mobile/js/controllers/ViewController.js',
-        '/mobile/js/views/components/Menu.js'
+        '/mobile/js/views/components/Menu.js',
+        '/mobile/js/views/components/Modal.js'
     ],
-    function(exports, $, underscore, oae, constants, mobileUtil, userController, viewController, Menu){
+    function(exports, $, underscore, oae, constants, mobileUtil, userController, viewController, Menu, Modal){
 
         // Properties
         var instance = null;
@@ -16,6 +17,7 @@ define(
         var _settings = null;
 
         var _menu = null;
+        var _modal = null;
 
         /////////////////////
         //// Constructor ////
@@ -91,6 +93,9 @@ define(
         var initControllers = function() {
             userController.initialize(MainController.getInstance());
             viewController.initialize(MainController.getInstance());
+
+            // TODO: remove this (just for testing)
+            //onModalInit();
         };
 
         ////////////////////////
@@ -165,8 +170,14 @@ define(
         /**
          * Initializes a new modal message window
          */
-        var onModalMessageInit = function() {
-            console.log('[MainController] onModalMessageInit');
+        var onModalInit = function() {
+            console.log('[MainController] onModalInit');
+            var message = {'type': 'Warning', 'message': 'The message'};
+            _modal = new Modal(message);
+        };
+
+        var onModalDestroy = function() {
+          console.log('[MainController] onModalDestroy');
         };
 
         ////////////////////////
@@ -202,7 +213,8 @@ define(
             $(document).on(constants.events.activities.initmenu, onInitMenu);
             $(document).on(constants.events.activities.menuclicked, onMenuItemClicked);
             $(document).on(constants.events.activities.menutoggle, onMenuToggle);
-            $(document).on(constants.events.activities.modalmessage, onModalMessageInit);
+            $(document).on(constants.events.activities.modaldestroy, onModalDestroy);
+            $(document).on(constants.events.activities.modalinit, onModalInit);
             $(document).on(constants.events.user.loginsuccess, onUserLogin);
             $(document).on(constants.events.user.logoutsuccess, onUserLogout);
         };
