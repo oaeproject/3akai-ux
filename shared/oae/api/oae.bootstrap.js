@@ -67,21 +67,7 @@ requirejs.config({
         'oae.api.util': 'oae/api/oae.api.util',
         'oae.api.widget': 'oae/api/oae.api.widget',
         'oae.core': 'oae/api/oae.core',
-        'pluginBuilder': 'oae/api/pluginBuilder'
-    },
-    /*!
-     * The requireJS shim property allows us to define the dependencies and exports for
-     * older, traditional scripts that do not use define() to declare the dependencies.
-     * See http://requirejs.org/docs/api.html#config-shim for more information.
-     *
-     * In theory, we'd have to define jQuery as a dependency for all of our jQuery plugins.
-     * However, as we are using require-jquery, which includes jQuery into requireJS, we don't
-     * have to do this.
-     */
-    shim: {
-        // Define jquery-ui as an extra dependency for jquery.fileupload, otherwise it
-        // sometimes errors on the $.widget function being undefined.
-        'jquery.fileupload': ['jquery-ui']
+        'pluginBuilder': 'oae/pluginBuilder'
     },
     priority: ['jquery', 'underscore']
 });
