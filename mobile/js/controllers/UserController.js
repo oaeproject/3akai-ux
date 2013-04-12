@@ -67,7 +67,7 @@ define(
                     $(document).trigger(constants.events.activities.activityend);
                     obj.callback(err);
                 }else{
-                    _loginType = constants.authentication.types.oae;
+                    _loginType = constants.authentication.types.local;
                     try{
                         setTimeout(function(){
                             oae.init(function(e){
@@ -117,48 +117,22 @@ define(
          * Login with a social network api
          */
         var loginWithSocialNetwork = function(e, type) {
+            var url = "";
             if(type && type != null){
+                _loginType = type;
                 switch(type){
                     case constants.authentication.types.facebook:
-                        loginWithFacebook();
+                        url = constants.authentication.urls.facebook;
                         break;
                     case constants.authentication.types.google:
-                        loginWithGoogle();
+                        url = constants.authentication.urls.google;
                         break;
                     case constants.authentication.types.twitter:
-                        loginWithTwitter();
+                        url = constants.authentication.urls.twitter;
                         break;
                 }
+                document.location = url;
             }
-        };
-
-        /**
-         * Logout when using a social network api
-         */
-        var logoutWithSocialNetwork = function() {
-            console.log('[UserController] logoutWithSocialNetwork');
-            _loginType = null;
-        };
-
-        // Facebook login
-        var loginWithFacebook = function() {
-            console.log('[UserController] loginWithFacebook');
-            _loginType = constants.authentication.types.facebook;
-            //document.location = '/api/auth/facebook';
-        };
-
-        // Google login
-        var loginWithGoogle = function() {
-            console.log('[UserController] loginWithGoogle');
-            _loginType = constants.authentication.types.google;
-            //document.location = '/api/auth/google';
-        };
-
-        // Twitter login
-        var loginWithTwitter = function() {
-            console.log('[UserController] loginWithTwitter');
-            _loginType = constants.authentication.types.twitter;
-            //document.location = '/api/auth/twitter';
         };
 
         // Private methods
@@ -166,7 +140,6 @@ define(
             $(document).on(constants.authentication.events.loginattempt, login);
             $(document).on(constants.authentication.events.logoutattempt, logout);
             $(document).on(constants.authentication.events.socialloginattempt, loginWithSocialNetwork);
-            $(document).on(constants.authentication.events.sociallogoutattempt, logoutWithSocialNetwork);
         };
 
         // Singleton

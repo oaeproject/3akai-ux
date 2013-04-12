@@ -31,14 +31,18 @@ define(['exports'], function(exports) {
                 logoutattempt           : 'oae-mobile-user-logout-attempt',
                 loginsuccess            : 'oae-mobile-user-login-success',
                 logoutsuccess           : 'oae-mobile-user-logout-success',
-                socialloginattempt      : 'oae-mobile-user-social-login-attempt',
-                sociallogoutattempt     : 'oae-mobile-user-social-logout-attempt'
+                socialloginattempt      : 'oae-mobile-user-social-login-attempt'
             },
             types: {
                 local                   : 'oae-authentication-local',
                 google                  : 'oae-authentication-google',
                 facebook                : 'oae-authentication-facebook',
                 twitter                 : 'oae-authentication-twitter'
+            },
+            urls:{
+                google                  : '/api/auth/google',
+                facebook                : '/api/auth/facebook',
+                twitter                 : '/api/auth/twitter'
             }
         },
         events: {
