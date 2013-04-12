@@ -132,6 +132,34 @@ td form {
     padding: 12px;
 }
 
+/* Skinning configuration */
+
+#admin-skinning-container h3 {
+    font-size: 16px;
+}
+
+#admin-skinning-container h4 {
+    font-size: 14px;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+#admin-skinning-container .control-group {
+    margin-bottom: 0px;
+}
+
+#admin-skinning-container .control-label {
+    width: 350px;
+}
+
+#admin-skinning-container .controls {
+    margin-left: 370px;
+}
+
+#admin-skinning-container #admin-skinning-actions {
+    margin-top: 30px;
+}
+
 /************
  ** FOOTER **
  ************/

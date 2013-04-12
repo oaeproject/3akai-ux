@@ -127,24 +127,45 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             data.push({'name': 'viewers', 'value': viewer});
         });
 
-        var jqXHR = $($fileUploadField).fileupload('send', {
+        $($fileUploadField).fileupload('send', {
             'files': [file],
             'formData': data,
             'success': function(data) {
-                $($fileUploadField).off('oae.upload.abort');
                 callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
             }
         });
+    };
 
-        $($fileUploadField).on('oae.upload.abort', function() {
-            $($fileUploadField).off('oae.upload.abort');
-            jqXHR.abort();
+    /**
+     * Create a new version of a file.
+     *
+     * @param  {Element|String}     $fileUploadField    jQuery element or selector for that jQuery element representing the file upload form field that has been used to initialise jQuery.fileupload
+     * @param  {Object}             file                jQuery.fileUpload object that was returned when selecting the file that needed to be uploaded
+     * @param  {Function}           [callback]          Standard callback method
+     * @param  {Object}             [callback.err]      Error object containing error code and error message
+     * @throws {Error}                                  Error thrown when not all of the required parameters have been provided
+     */
+    var createNewVersion = exports.createNewVersion = function($fileUploadField, file, callback) {
+        if (!$fileUploadField) {
+            throw new Error('A valid jquery.fileUpload container should be provided');
+        } else if (!file) {
+            throw new Error('A valid jquery.fileUpload file object should be provided');
+        }
+
+        $($fileUploadField).fileupload('send', {
+            'files': [file],
+            'success': function() {
+                callback(null);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
         });
     };
-    
+
     /**
      * Create a new collaborative document.
      * 

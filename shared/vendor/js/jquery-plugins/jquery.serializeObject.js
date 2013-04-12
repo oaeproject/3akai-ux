@@ -13,47 +13,43 @@
  * permissions and limitations under the License.
  */
 
-define(['jquery'], function($) {
+(function($) {
 
-    (function($) {
-
-        /**
-         * Extend jQuery to include a serializeObject function which uses $.serializeArray to serialize a form and
-         * its values and then creates an object from that array
-         * 
-         * http://stackoverflow.com/questions/1184624/serialize-form-to-json-with-jquery
-         * 
-         * It can be used as following:
-         * 
-         * ```
-         * var values = $(form).serializeObject();
-         * ```
-         * 
-         * @param  {Boolean}    includeEmpty    Whether or not to include fields that have an empty value
-         * @return {Object}                     JSON Object where the keys represent the names of all of the form fields and the values represent their value
-         */
-        $.fn.serializeObject = function(includeEmpty) {
-            var o = {};
-            var a = this.serializeArray();
-            includeEmpty = includeEmpty === false ? false : true;
-            $.each(a, function() {
-                // In case the field id already exist (e.g. list of checkboxes), we treat
-                // it as an array
-                if (o[this.name]) {
-                    if (!o[this.name].push) {
-                        o[this.name] = [o[this.name]];
-                    }
-                    if (includeEmpty || $.trim(this.value) !== '') {
-                        o[this.name].push(this.value || '');
-                    }
-                } else {
-                    if (includeEmpty || $.trim(this.value) !== '') {
-                        o[this.name] = this.value || '';
-                    }
+    /**
+     * Extend jQuery to include a serializeObject function which uses $.serializeArray to serialize a form and
+     * its values and then creates an object from that array
+     * 
+     * http://stackoverflow.com/questions/1184624/serialize-form-to-json-with-jquery
+     * 
+     * It can be used as following:
+     * 
+     * ```
+     * var values = $(form).serializeObject();
+     * ```
+     * 
+     * @param  {Boolean}    includeEmpty    Whether or not to include fields that have an empty value
+     * @return {Object}                     JSON Object where the keys represent the names of all of the form fields and the values represent their value
+     */
+    $.fn.serializeObject = function(includeEmpty) {
+        var o = {};
+        var a = this.serializeArray();
+        includeEmpty = includeEmpty === false ? false : true;
+        $.each(a, function() {
+            // In case the field id already exist (e.g. list of checkboxes), we treat
+            // it as an array
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
                 }
-            });
-            return o;
-        };
-    })($);
-
-});
+                if (includeEmpty || $.trim(this.value) !== '') {
+                    o[this.name].push(this.value || '');
+                }
+            } else {
+                if (includeEmpty || $.trim(this.value) !== '') {
+                    o[this.name] = this.value || '';
+                }
+            }
+        });
+        return o;
+    };
+})($);

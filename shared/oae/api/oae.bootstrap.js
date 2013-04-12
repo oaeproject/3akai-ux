@@ -28,7 +28,7 @@ requirejs.config({
         'jquery.autoSuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest.sakai-edited',
         'jquery.ba-bbq': 'vendor/js/jquery-plugins/jquery.ba-bbq',
         'jquery.ba-hashchange': 'vendor/js/jquery-plugins/jquery.ba-hashchange',
-        'jquery.contentchange': 'vendor/js/jquery-plugins/jquery.contentchange.sakai-edited',
+        'jquery.encoder': 'vendor/js/jquery-plugins/jquery.encoder',
         'jquery.fileSize': 'vendor/js/jquery-plugins/jquery.fileSize',
         'jquery.fileupload': 'vendor/js/jquery-plugins/jquery.fileupload',
         'jquery.form': 'vendor/js/jquery-plugins/jquery.form',
@@ -39,6 +39,7 @@ requirejs.config({
         'jquery.notify': 'vendor/js/jquery-plugins/jquery.bootstrap.notify',
         'jquery.properties-parser': 'vendor/js/jquery-plugins/jquery.properties-parser',
         'jquery.serializeObject': 'vendor/js/jquery-plugins/jquery.serializeObject',
+        'jquery.spectrum': 'vendor/js/jquery-plugins/jquery.spectrum',
         'jquery.timeago': 'vendor/js/jquery-plugins/jquery.timeago',
         'jquery.validate': 'vendor/js/jquery-plugins/jquery.validate',
         'jquery-ui': 'vendor/js/jquery-ui/jquery-ui.custom',
@@ -50,6 +51,7 @@ requirejs.config({
         'jquery.clip': 'oae/js/jquery-plugins/jquery.clip',
         'jquery.dnd-upload': 'oae/js/jquery-plugins/jquery.dnd-upload',
         'jquery.infinitescroll': 'oae/js/jquery-plugins/jquery.infinitescroll',
+        'jquery.jeditable-focus': 'oae/js/jquery-plugins/jquery.jeditable-focus',
         'jquery.list-options': 'oae/js/jquery-plugins/jquery.list-options',
 
         // OAE API modules
@@ -67,6 +69,20 @@ requirejs.config({
         'oae.core': 'oae/api/oae.core',
         'pluginBuilder': 'oae/api/pluginBuilder',
         'qunitjs': '/tests/qunit/js/qunit'
+    },
+    /*!
+     * The requireJS shim property allows us to define the dependencies and exports for
+     * older, traditional scripts that do not use define() to declare the dependencies.
+     * See http://requirejs.org/docs/api.html#config-shim for more information.
+     *
+     * In theory, we'd have to define jQuery as a dependency for all of our jQuery plugins.
+     * However, as we are using require-jquery, which includes jQuery into requireJS, we don't
+     * have to do this.
+     */
+    shim: {
+        // Define jquery-ui as an extra dependency for jquery.fileupload, otherwise it
+        // sometimes errors on the $.widget function being undefined.
+        'jquery.fileupload': ['jquery-ui']
     },
     priority: ['jquery', 'underscore']
 });

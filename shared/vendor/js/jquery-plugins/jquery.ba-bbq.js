@@ -77,7 +77,6 @@
 //         robust test needed to be added.
 // 1.0   - (10/2/2009) Initial release
 
-define(['jquery'], function (jQuery) {
 (function($,window){
   '$:nomunge'; // Used by YUI compressor.
   
@@ -1136,4 +1135,3 @@ define(['jquery'], function (jQuery) {
   })();
   
 })(jQuery,this);
-});

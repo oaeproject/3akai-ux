@@ -92,9 +92,18 @@ a.oae-plain-link:hover {
  * These icons are used consistently to indicate the visibility setting for an entity
  * in the system. The available visibility privacy options are `private`, `loggedin` and
  * `public`.
- *   e.g. <i class="icon-oae-private"></i>
- *        <i class="icon-oae-loggedin"></i>
- *        <i class="icon-oae-public"></i>
+ *   e.g. <i class="icon-oae-private"><span class="oae-aural-text">__MSG__PRIVATE__</span></i>
+ *        <i class="icon-oae-loggedin"><span class="oae-aural-text">__MSG__LOGGED_IN__</span></i>
+ *        <i class="icon-oae-public"><span class="oae-aural-text">__MSG__PUBLIC__</span></i>
+ *
+ * Large icons can be rendered by adding the `large` class to the icon.
+ *   e.g. <i class="icon-oae-private large"><span class="oae-aural-text">__MSG__PRIVATE__</span></i>
+ *        <i class="icon-oae-loggedin large"><span class="oae-aural-text">__MSG__LOGGED_IN__</span></i>
+ *        <i class="icon-oae-public large"><span class="oae-aural-text">__MSG__PUBLIC__</span></i>
+ *
+ * Note:
+ *
+ * - The `oae-aural-text` span is added in for accessibility purposes, but can be left out when necessary.
  */
 
 i.icon-oae-private,
@@ -134,6 +143,130 @@ i.icon-oae-public:before {
     content: "\f0ac";
 }
 
+/* Large visibility icons */
+
+i.icon-oae-private.large:before,
+i.icon-oae-loggedin.large:before,
+i.icon-oae-public.large:before {
+    font-size: 50px;
+    height: 55px;
+    padding-top: 5px;
+    width: 60px;
+}
+
+
+/************************
+ ** VISIBILITY TOGGLES **
+ ************************/
+
+/**
+ * A Large group of toggle buttons for visibility settings.
+ * When an `oae-visibility-choice input` field changes value the 
+ * `oae-visibility-changed` event is sent out with data: `{'radio': $(input)}`
+ *
+ * e.g. <div class="oae-visibility-choice-container row-fluid">
+ *          <label for="oae-visibility-private" class="span4 text-center">
+ *              <div class="oae-visibility-choice well pull-left text-center checked">
+ *                  <input type="radio" id="oae-visibility-private" value="private" name="oae-visibility-group" class="pull-left" checked="checked"/>
+ *                  <i class="icon-oae-private large text-center"></i>
+ *                  <span>__MSG__PRIVATE__</span>
+ *              </div>
+ *              <i class="icon-ok hide"></i>
+ *              <small>__MSG__PRIVATE_DESCRIPTION__</small>
+ *          </label>
+ *          <label for="oae-visibility-loggedin" class="span4 text-center">
+ *              <div class="oae-visibility-choice well pull-left text-center">
+ *                  <input type="radio" id="oae-visibility-loggedin" value="loggedin" name="oae-visibility-group" class="pull-left"/>
+ *                  <i class="icon-oae-loggedin large text-center"></i>
+ *                  <span>__MSG__DISCOVERABLE_BY_EVERYONE_IN_TENANT__</span>
+ *              </div>
+ *              <i class="icon-ok hide"></i>
+ *              <small>__MSG__LOGGEDIN_DESCRIPTION__</small>
+ *          </label>
+ *          <label for="oae-visibility-public" class="span4 text-center">
+ *              <div class="oae-visibility-choice well pull-left text-center">
+ *                  <input type="radio" id="oae-visibility-public" value="public" name="oae-visibility-group" class="pull-left"/>
+ *                  <i class="icon-oae-public large text-center"></i>
+ *                  <span>__MSG__PUBLIC__</span>
+ *              </div>
+ *              <i class="icon-ok hide"></i>
+ *              <small>__MSG__PUBLIC_DESCRIPTION__</small>
+ *          </label>
+ *      </div>
+ **/
+
+.oae-visibility-choice-container .oae-visibility-choice {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    height: 150px;
+    margin: 0 10px 20px 0;
+    width: 100%;
+}
+
+.oae-visibility-choice-container label:last-child .oae-visibility-choice {
+    margin-right: 0;
+}
+
+.oae-visibility-choice-container .oae-visibility-choice input {
+    position: absolute;
+    z-index: -1; /* Adding a z-index of -1 hides the element from the view but still allows for focus of the element */
+}
+
+.oae-visibility-choice-container .oae-visibility-choice span {
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 7px;
+}
+
+.oae-visibility-choice-container .oae-visibility-choice.checked {
+    border: 8px solid;
+    padding-top: 12px;
+}
+
+.oae-visibility-choice-container .oae-visibility-choice + i {
+    display: none;
+}
+
+.oae-visibility-choice-container .oae-visibility-choice.checked + i {
+    -webkit-border-radius: 100px;
+       -moz-border-radius: 100px;
+            border-radius: 100px;
+    bottom: 26.5%;
+    display: block;
+    margin-left: 65px;
+    position: absolute;
+}
+
+.oae-visibility-choice-container .oae-visibility-choice.checked + i:before {
+    font-size: 24px;
+    height: 30px;
+    padding-top: 5px;
+    width: 35px;
+}
+
+
+/************************
+ ** SUCCESS/FAIL ICONS **
+ ************************/
+
+/* These icons are used in situations where checks for success/failure are done */
+
+
+[class^="icon-"].icon-ok,
+[class*=" icon-"].icon-ok,
+[class^="icon-"].icon-ok:hover,
+[class*=" icon-"].icon-ok:hover {
+    color: #468847;
+}
+
+[class^="icon-"].icon-warning-sign,
+[class*=" icon-"].icon-warning-sign,
+[class^="icon-"].icon-warning-sign:hover,
+[class*=" icon-"].icon-warning-sign:hover {
+    color: #DD2222;
+}
 
 /****************
  ** THUMBNAILS **
@@ -147,7 +280,7 @@ i.icon-oae-public:before {
  * been given by their container.
  *
  *   e.g. <div class="oae-thumbnail icon-oae-user">
- *            <a href="${entityData.profilePath}" title="${entityData.displayName|safeUserInput}">
+ *            <a href="${entityData.profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}">
  *                <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian"/>
  *                <i class="icon-oae-public"></i>
  *            </a>
@@ -158,8 +291,8 @@ i.icon-oae-public:before {
  *
  *   `${renderThumbnail(entityData, [addVisibilityIcon], [large])}`
  *
- * - `entityData` is an object representing a user, group or content item or a search result for a user, group
- *    or content item. Alternatively, a string representing the resourceType or resourceSubType 
+ * - `entityData` is a standard object representing a user, group or content item or a search result for a user, group
+ *    or content item as returned by Hilary. Alternatively, a string representing the resourceType or resourceSubType 
  *    (i.e., 'user', 'group', 'content', 'file', 'link', 'collabdoc') can be passed in for an empty/anonymous 
  *    entity thumbnail.
  * - `addVisibilityIcon` (optional) will determine whether or not the visibility icon should be shown. By default, 
@@ -525,6 +658,7 @@ div.oae-thumbnail i[class^="icon-"] {
     overflow: hidden;
     border: 1px solid;
 }
+
 /* Default thumbnail picture positioning */
 
 .oae-tile .oae-thumbnail {
@@ -653,7 +787,7 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-listitem.oae-listitem-compact > div:not(.oae-thumbnail) {
     height: 25px;
-    width: 600px;
+    width: auto;
 }
 
 .oae-listitem h3 {
@@ -919,15 +1053,3 @@ ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-newdocument i {
     color: #333;
     font-size: 18px; 
 }*/
-
-
-/*******************
- ** DRAG AND DROP **
- ******************/
-
-/* TODO: Add documentation for this */
-
-.oae-dnd-upload.dragover {
-    opacity: 0.3;
-    transition: opacity 0.15s linear 0s;
-}
