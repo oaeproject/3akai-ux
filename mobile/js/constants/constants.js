@@ -64,7 +64,7 @@ define(['exports'], function(exports) {
             templatehelper              : '#oae-mobile-template-helper'
         },
         paths: {
-            settings                    : 'mobile/lib/settings.json'
+            settings                    : '/mobile/lib/settings.json'
         },
         views: {
             detail                      : 'oae-mobile-detail-view',

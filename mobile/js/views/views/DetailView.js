@@ -36,19 +36,16 @@ define(
 
         // Public methods
         DetailView.prototype.initialize = function() {
-            console.log('[DetailView] initialize');
             renderTemplate();
         };
 
         DetailView.prototype.destroy = function() {
-            console.log('[DetailView] destroy');
             _templateId = null;
             deleteBinding();
         };
 
         // Private methods
         var renderTemplate = function() {
-            console.log('[DetailView] render template');
             try{
                 oae.api.util.template().render(_settings.template.templateID, null, $('#oae-mobile-viewport'));
             }catch(e){
@@ -70,7 +67,6 @@ define(
 
         var addBinding = function() {
             $('.oae-mobile-topbar-logo').bind('click', onTopbarLogoClick);
-            console.log('[DetailView] addBinding');
         };
 
         var deleteBinding = function() {
@@ -78,7 +74,6 @@ define(
         };
 
         var onTopbarLogoClick = function() {
-            console.log('[DetailView] onTopbarLogoClick');
             $(document).trigger(constants.events.activities.viewchanged, constants.views.home);
         };
 

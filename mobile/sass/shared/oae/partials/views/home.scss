@@ -103,23 +103,21 @@
             overflow: visible;
             position: absolute;
 
+            .activity-entity-image{
+              position: absolute;
+              width: 42px;
+              height: 42px;
+              z-index: 100;
+              margin-top: 6px;
+              margin-left: 6px;
+            }
+
             .activity-entity-name{
               width: 100%;
               height: 35px;
               font-size: .75em;
               line-height: 1.1em;
               background-color: white;
-
-              .activity-actor-picture{
-                width: 42px;
-                height: 42px;
-                z-index: 100;
-                display: block;
-                margin-top: 6px;
-                margin-left: 6px;
-                position: absolute;
-                background-color: $blue-light;
-              }
 
               .activity-title{
                 height: 100%;
