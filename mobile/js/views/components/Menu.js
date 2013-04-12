@@ -75,7 +75,7 @@ define(
         // Renders the template + inserts navigation widget
         var renderTemplate = function() {
             oae.api.util.template().render(_settings.template.templateID, null, $('#oae-mobile-menu-container'));
-            oae.api.widget.insertWidget('mobilenavigation', null, $('#mobile-navigation-widget-container'), null, _settings, function(){
+            oae.api.widget.insertWidget('mobilenavigation', null, $('#mobile-navigation-widget-container'), null, {'settings': _settings, 'constants': constants}, function(){
                 addBinding();
             });
         };

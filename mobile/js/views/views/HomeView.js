@@ -51,9 +51,10 @@ define(
                 console.log('[HomeView] renderTemplate => rendering home-view-template into viewport failed');
                 location.reload();
             }finally{
-                oae.api.widget.insertWidget('mobileactivity', null, $('#mobile-activity-widget-container'));
-                setTitle(oae.data.me.tenant);
-                addBinding();
+                oae.api.widget.insertWidget('mobileactivity', null, $('#mobile-activity-widget-container'), null, constants, function(e){
+                    setTitle(oae.data.me.tenant);
+                    addBinding();
+                });
             }
         };
 

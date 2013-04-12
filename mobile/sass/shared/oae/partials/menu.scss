@@ -28,7 +28,7 @@
 #oae-mobile-menu-container,
 #mobile-navigation-widget-container,
 #mobile-navigation-widget-container > div,
-#oae-mobile-menu{
+#mobile-navigation-container{
   position: absolute;
   @include setStretch;
 }
@@ -37,37 +37,35 @@
   background-color: black;
 }
 
-#mobile-navigation-widget-container{
+#oae-mobile-menu-header{
+  height: 42px;
+  line-height: 42px;
+  border-top-left-radius: 6px;
+  border-top: 1px solid $grey-light;
+  border-bottom: 1px solid #000000;
+  background-color: $grey-darkest;
 
+  span{
+    display: block;
+    height: 44px;
+    line-height: 44px;
+    color: $grey-text;
+    padding-left: 15px;
+  }
 }
 
-#mobile-navigation-widget-container > div{
-
-}
-
-#oae-mobile-menu{
+ul.items{
+  display: block;
+  height: 100%;
   background-color: #333333;
   @include killPaddingAndMargin;
 
-  li{
+  li.item{
+    display: block;
     height: 44px;
     line-height: 44px;
-
-    span{
-      color: $grey-text;
-      padding-left: 15px;
-    }
-  }
-
-  li.header{
-    border-top-left-radius: 5px;
-    border-top: Spx solid $grey-light;
-    border-bottom: 1px solid #000000;
-    background-color: $grey-darkest;
-  }
-
-  li.item{
     cursor: pointer;
+    color: $grey-text;
     border-top: 1px solid $grey-med;
     border-bottom: 1px solid $grey-darkest;
     background-repeat: no-repeat;
@@ -78,7 +76,7 @@
       background-color: #393939;
     }
 
-    .label{
+    span{
       display: block;
       padding-left: 42px;
       text-transform: lowercase;
