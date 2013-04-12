@@ -16,39 +16,56 @@
 define(['exports'], function(exports) {
 
     return {
-        paths: {
-            settings            : 'mobile/lib/settings.json'
+        alerts: {
+            init                        : 'oae-mobile-modal-init',
+            kill                        : 'oae-mobile-modal-destroy',
+            types: {
+                confirm                 : 'oae-mobile-alert-confirm',
+                error                   : 'oae-mobile-alert-error',
+                warning                 : 'oae-mobile-alert-warning'
+            }
         },
-        views: {
-            login               : 'oae-mobile-login-view',
-            home                : 'oae-mobile-home-view',
-            detail              : 'oae-mobile-detail-view'
+        authentication: {
+            events: {
+                loginattempt            : 'oae-mobile-user-login-attempt',
+                logoutattempt           : 'oae-mobile-user-logout-attempt',
+                loginsuccess            : 'oae-mobile-user-login-success',
+                logoutsuccess           : 'oae-mobile-user-logout-success',
+                socialloginattempt      : 'oae-mobile-user-social-login-attempt',
+                sociallogoutattempt     : 'oae-mobile-user-social-logout-attempt'
+            },
+            types: {
+                oae                     : 'oae-authentication-oae',
+                google                  : 'oae-authentication-google',
+                facebook                : 'oae-authentication-facebook',
+                twitter                 : 'oae-authentication-twitter'
+            }
         },
         events: {
             activities: {
-                activitystart   : 'oae-mobile-activity-start',
-                activityend     : 'oae-mobile-activity-end',
-                templatesready  : 'oae-mobile-templates-ready',
-                viewchanged     : 'oae-mobile-view-changed',
-                viewpopped      : 'oae-mobile-view-popped',
-                initmenu        : 'oae-mobile-init-menu',
-                menutoggle      : 'oae-mobile-menu-toggle',
-                menuclicked     : 'oae-mobile-menu-clicked',
-                modalinit       : 'oae-mobile-modal-init',
-                modaldestroy    : 'oae-mobile-modal-destroy'
-            },
-            user: {
-                loginattempt    : 'oae-mobile-user-login-attempt',
-                logoutattempt   : 'oae-mobile-user-logout-attempt',
-                loginsuccess    : 'oae-mobile-user-login-success',
-                logoutsuccess   : 'oae-mobile-user-logout-success'
+                activitystart           : 'oae-mobile-activity-start',
+                activityend             : 'oae-mobile-activity-end',
+                templatesready          : 'oae-mobile-templates-ready',
+                viewchanged             : 'oae-mobile-view-changed',
+                viewpopped              : 'oae-mobile-view-popped',
+                initmenu                : 'oae-mobile-init-menu',
+                menutoggle              : 'oae-mobile-menu-toggle',
+                menuclicked             : 'oae-mobile-menu-clicked'
             },
             data: {
-                getsettings     : 'oae-mobile-get-settings'
+                getsettings             : 'oae-mobile-get-settings'
             }
         },
         components: {
-            templatehelper      : '#oae-mobile-template-helper'
+            templatehelper              : '#oae-mobile-template-helper'
+        },
+        paths: {
+            settings                    : 'mobile/lib/settings.json'
+        },
+        views: {
+            detail                      : 'oae-mobile-detail-view',
+            home                        : 'oae-mobile-home-view',
+            login                       : 'oae-mobile-login-view'
         }
     };
 

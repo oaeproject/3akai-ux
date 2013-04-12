@@ -148,8 +148,9 @@ define(
          */
         var addBinding = function() {
             $(document).on(constants.events.activities.templatesready, onTemplatesReady);
-            $(document).on(constants.events.user.loginsuccess, onLoginSuccess);
-            $(document).on(constants.events.user.logoutsuccess, onLogoutSuccess);
+            $(document).on(constants.events.activities.viewchanged, onViewChanged);
+            $(document).on(constants.authentication.events.loginsuccess, onLoginSuccess);
+            $(document).on(constants.authentication.events.logoutsuccess, onLogoutSuccess);
         };
 
         /**
@@ -158,6 +159,18 @@ define(
         var setStartupView = function() {
             var newView = oae.data.me.anon ? constants.views.login : constants.views.home;
             instance.changeView(newView);
+        };
+
+        /**
+         * When the changeview event is fired
+         * @param {Event}   e               The dispatched event
+         * @param {String}  view            The view
+         */
+        var onViewChanged = function(e, view) {
+
+            //TODO: CHECK IF THE VIEW != THE CURRENT VIEW
+            //instance.changeView(view);
+
         };
 
         var onLoginSuccess = function() {

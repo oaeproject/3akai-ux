@@ -137,7 +137,7 @@ define(
         var onMenuItemClicked = function(e, action) {
             switch(action){
                 case "signout":
-                    $(document).trigger(constants.events.user.logoutattempt);
+                    $(document).trigger(constants.authentication.events.logoutattempt);
                     break;
             }
         };
@@ -214,15 +214,15 @@ define(
          * Listen te events from controllers
          */
         var addBinding = function() {
+            $(document).on(constants.alerts.init, onModalDestroy);
+            $(document).on(constants.alerts.kill, onModalInit);
+            $(document).on(constants.authentication.events.loginsuccess, onUserLogin);
+            $(document).on(constants.authentication.events.logoutsuccess, onUserLogout);
             $(document).on(constants.events.activities.activityend, hideIndicator);
             $(document).on(constants.events.activities.activitystart, showIndicator);
             $(document).on(constants.events.activities.initmenu, onInitMenu);
             $(document).on(constants.events.activities.menuclicked, onMenuItemClicked);
             $(document).on(constants.events.activities.menutoggle, onMenuToggle);
-            $(document).on(constants.events.activities.modaldestroy, onModalDestroy);
-            $(document).on(constants.events.activities.modalinit, onModalInit);
-            $(document).on(constants.events.user.loginsuccess, onUserLogin);
-            $(document).on(constants.events.user.logoutsuccess, onUserLogout);
         };
 
         // Singleton

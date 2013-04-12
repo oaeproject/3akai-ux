@@ -28,7 +28,7 @@
 #home-view{
 
   a{
-    font-weight: bold;
+    font-weight: 600;
   }
 
   // Widget container
@@ -69,7 +69,29 @@
               overflow: hidden;
 
               li{
+                width: 100%;
                 @include killPaddingAndMargin;
+
+                .oae-tile{
+                  display: block;
+                  width: 100%;
+                  height: 100%;
+                  @include killPaddingAndMargin;
+
+                  h3{
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+
+                    > a{
+                      display: block;
+                      width: 100%;
+                      height: 100%;
+                      line-height: 90px;
+                      text-align: center;
+                    }
+                  }
+                }
               }
             }
           }
@@ -136,7 +158,34 @@
 
             li.oae-tile-large{
               width: 100%;
+              height: 100%;
               background-color: $grey-lightest;
+
+              .oae-tile{
+                width: 100%;
+                height: 100%;
+
+                a{
+                  display: block;
+                  width: 100%;
+                  height: 100%;
+
+                  .oae-thumbnail{
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+
+                    span{
+                      display: block;
+                      width: 100%;
+                      height: 100%;
+                      background-size: cover;
+                      background-repeat: no-repeat;
+                      background-position: center center;
+                    }
+                  }
+                }
+              }
             }
           }
         }
@@ -169,7 +218,7 @@
       line-height: 22px;
       background-repeat: no-repeat;
 
-      span{
+      > span{
         height: 22px;
         line-height: 20px;
         display: block;
@@ -183,7 +232,7 @@
       background-position: center left;
       background-image: url('../img/interface/iconcomments.png');
 
-      span{
+      > span{
         margin-left: 16px;
       }
     }
@@ -195,7 +244,7 @@
       background-position: center right;
       background-image: url('../img/interface/icontime.png');
 
-      span{
+      > span{
         margin-right: 14px;
       }
     }
@@ -241,4 +290,11 @@ only screen and (            min-resolution: 2dppx){
   .timeago{
     background-image: url('../img/interface/icontime@2x.png');
   }
+}
+
+/* Landscape */
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px) {
+
 }

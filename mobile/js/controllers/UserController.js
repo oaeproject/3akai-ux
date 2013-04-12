@@ -7,9 +7,9 @@ define(
     function(oae, constants, mobileUtil){
 
         // Properties
-        var instance = null;
-
-        var mainController = null;
+        var instance = null,
+            mainController = null,
+            _loginType = null;
 
         /////////////////////
         //// Constructor ////
@@ -67,11 +67,12 @@ define(
                     $(document).trigger(constants.events.activities.activityend);
                     obj.callback(err);
                 }else{
+                    _loginType = constants.authentication.types.oae;
                     try{
                         setTimeout(function(){
                             oae.init(function(e){
                                 $(document).trigger(constants.events.activities.activityend);
-                                $(document).trigger(constants.events.user.loginsuccess);
+                                $(document).trigger(constants.authentication.events.loginsuccess);
                             });
                         }, 300);
                     }catch(e){
@@ -96,11 +97,12 @@ define(
                     obj.callback(err);
                     $(document).trigger(constants.events.activities.activityend);
                 }else{
+                    _loginType = null;
                     try{
                         setTimeout(function(){
                             oae.init(function(e){
                                 $(document).trigger(constants.events.activities.activityend);
-                                $(document).trigger(constants.events.user.logoutsuccess);
+                                $(document).trigger(constants.authentication.events.logoutsuccess);
                             });
                         }, 300);
                     }catch(e){
@@ -111,10 +113,36 @@ define(
             });
         };
 
+        /**
+         * Login with a social network api
+         */
+        var loginWithSocialNetwork = function(e, type) {
+            if(type && type != null){
+                $(document).trigger(constants.events.activities.activitystart);
+                switch(type){
+                    case constants.authentication.types.twitter:
+                        _loginType = constants.authentication.types.twitter;
+                        console.log('[UserController] Authenticate with Twitter');
+                        $(document).trigger(constants.events.activities.activityend);
+                        break;
+                }
+            }
+        };
+
+        /**
+         * Logout when using a social network api
+         */
+        var logoutWithSocialNetwork = function() {
+            console.log('[UserController] logoutWithSocialNetwork');
+            _loginType = null;
+        };
+
         // Private methods
         var addBinding = function() {
-            $(document).on(constants.events.user.loginattempt, login);
-            $(document).on(constants.events.user.logoutattempt, logout);
+            $(document).on(constants.authentication.events.loginattempt, login);
+            $(document).on(constants.authentication.events.logoutattempt, logout);
+            $(document).on(constants.authentication.events.socialloginattempt, loginWithSocialNetwork);
+            $(document).on(constants.authentication.events.sociallogoutattempt, logoutWithSocialNetwork);
         };
 
         // Singleton

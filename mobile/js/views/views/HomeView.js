@@ -45,10 +45,15 @@ define(
 
         // Private methods
         var renderTemplate = function() {
-            oae.api.util.template().render(_settings.template.templateID, null, $('#oae-mobile-viewport'));
-            oae.api.widget.insertWidget('mobileactivity', null, $('#mobile-activity-widget-container'));
-            setTitle(oae.data.me.tenant);
-            addBinding();
+            try{
+                oae.api.util.template().render(_settings.template.templateID, null, $('#oae-mobile-viewport'));
+            }catch(e){
+                console.log('[HomeView] renderTemplate => rendering home-view-template into viewport failed');
+            }finally{
+                oae.api.widget.insertWidget('mobileactivity', null, $('#mobile-activity-widget-container'));
+                setTitle(oae.data.me.tenant);
+                addBinding();
+            }
         };
 
         /**
@@ -60,17 +65,33 @@ define(
         };
 
         var addBinding = function() {
+            $('.oae-mobile-topbar-logo').bind('click', onTopbarLogoClick);
             $('#btnMenu').bind('click', onToggleMenuClick);
             $('#home-view').touchSwipe(onToggleMenuClick);
+
+            console.log($('#mobile-activity-widget-container'));
         };
 
         var deleteBinding = function() {
+            $('.oae-mobile-topbar-logo').unbind('click', onTopbarLogoClick);
             $('#btnMenu').unbind('click', onToggleMenuClick);
             $('#home-view').unbindSwipe(onToggleMenuClick);
         };
 
+        var onItemClick = function(e) {
+            console.log('[HomeView] onItemClick');
+            console.log(e);
+            e.stopImmediatePropagation();
+            e.preventDefault();
+            return false;
+        };
+
         var onToggleMenuClick = function() {
             $(document).trigger(constants.events.activities.menutoggle);
+        };
+
+        var onTopbarLogoClick = function() {
+            $(document).trigger(constants.events.activities.viewchanged, constants.views.home);
         };
 
         return HomeView;
