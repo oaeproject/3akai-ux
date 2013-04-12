@@ -24,6 +24,7 @@ define(
         // Properties
         var _settings = HomeView.prototype.settings = {
             name: "homeView",
+            id: constants.views.home,
             template: {
                 'templateID': "#home-view-template",
                 'templateURL': "/mobile/templates/views/home-view.html"
@@ -76,14 +77,6 @@ define(
             $('.oae-mobile-topbar-logo').unbind('click', onTopbarLogoClick);
             $('#btnMenu').unbind('click', onToggleMenuClick);
             $('#home-view').unbindSwipe(onToggleMenuClick);
-        };
-
-        var onItemClick = function(e) {
-            console.log('[HomeView] onItemClick');
-            console.log(e);
-            e.stopImmediatePropagation();
-            e.preventDefault();
-            return false;
         };
 
         var onToggleMenuClick = function() {

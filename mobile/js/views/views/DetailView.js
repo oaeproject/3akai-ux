@@ -24,6 +24,7 @@ define(
         // Properties
         var _settings = DetailView.prototype.settings = {
             name: "detailView",
+            id: constants.views.detail,
             template: {
                 'templateID': "#detail-view-template",
                 'templateURL': "/mobile/templates/views/detail-view.html"

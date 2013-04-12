@@ -117,6 +117,7 @@ define(
          * Login with a social network api
          */
         var loginWithSocialNetwork = function(e, type) {
+            $(document).trigger(constants.events.activities.activitystart);
             var url = "";
             if(type && type != null){
                 _loginType = type;

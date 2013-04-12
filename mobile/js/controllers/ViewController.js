@@ -72,7 +72,6 @@ define(
                     _oldView = _activeView;
                     _oldView.destroy();
                 }
-
                 switch(view){
                     case constants.views.login:
                         _activeView = getView(LoginView);
@@ -142,7 +141,6 @@ define(
             setStartupView();
         };
 
-
         /**
          * Listen to events dispatched from controllers
          */
@@ -167,10 +165,10 @@ define(
          * @param {String}  view            The view
          */
         var onViewChanged = function(e, view) {
-
-            //TODO: CHECK IF THE VIEW != THE CURRENT VIEW
-            //instance.changeView(view);
-
+            // Check if view is not already active
+            if(_activeView != null && _activeView.settings.id != view){
+                instance.changeView(view);
+            }
         };
 
         var onLoginSuccess = function() {

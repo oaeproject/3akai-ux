@@ -24,6 +24,7 @@ define(
         // Properties
         var _settings = LoginView.prototype.settings = {
             name: "loginView",
+            id: constants.views.login,
             template: {
                 'templateID': "#login-view-template",
                 'templateURL': "/mobile/templates/views/login-view.html"
