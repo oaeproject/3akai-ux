@@ -22,36 +22,36 @@
                         <div id="doc-ui-contents-container"><!----></div>
                     </div>    
                 </div>
-                <div id="doc-docs-container"><!----></div>
+                <div id="doc-docs-container"><!-- --></div>
                 <hr class="clear hidden"/>
             </div>
 
             <div id="doc-footer"></div>
         </div>
 
-        <div id="doc-contents-template" style="display:none;"><!--
+        <div id="doc-contents-template"><!--
             <h3>Hilary API</h3>
-            <ul class="nav nav-list bs-docs-sidenav" id="hilary">
+            <ul class="nav nav-list bs-docs-sidenav">
                 {for module in modules}
-                    <li id="${type}${module}" {if moduleToLoad === module} class="active"{/if}>
-                        <a href="/docs/${type}/${module}"><i class="icon-chevron-right"></i> ${module}</a>
+                    <li id="${type}-${module}" {if moduleToLoad === module} class="active"{/if}>
+                        <a href="/docs/${type}/${module}"><i class="icon-chevron-right"></i>${module}</a>
                     </li>
                 {/for}
             </ul>
         --></div>
 
-        <div id="doc-ui-contents-template" style="display:none;"><!--
+        <div id="doc-ui-contents-template"><!--
             <h3>3akai-ux API</h3>
-            <ul class="nav nav-list bs-docs-sidenav" id="3akai">
+            <ul class="nav nav-list bs-docs-sidenav">
                 {for module in modules}
-                    <li id="${type}${module}" {if moduleToLoad === module} class="active"{/if}>
-                        <a href="/docs/${type}/${module}"><i class="icon-chevron-right"></i>{if module.length===3 && module === "api"} oae.{else} oae.api.{/if}${module}</a>
+                    <li id="${type}-${module}" {if moduleToLoad === module} class="active"{/if}>
+                        <a href="/docs/${type}/${module}"><i class="icon-chevron-right"></i>{if module.length === 3 && module === "api"}oae.{else}oae.api.{/if}${module}</a>
                     </li>
                 {/for}
             </ul>
         --></div>
 
-        <div id="doc-docs-template" style="display:none;"><!--
+        <div id="doc-docs-template"><!--
             <h2>${module}</h2>
             {if docs === null}
                 <p>There is no documentation available for this module.</p>
@@ -62,7 +62,7 @@
                         {if !func.ignore}
                             <div class="bs-docs-{if func.isPrivate}private{else}public{/if}">
                                 {if func.ctx}
-                                    <h4><a name="#${module}.${doc_index.substr(0, doc_index.length - 3)}.${func.ctx.name}">${func.ctx.name}</a></h4>
+                                    <h4><a name="${module}.${doc_index.substr(0, doc_index.length - 3)}.${func.ctx.name}">${func.ctx.name}</a></h4>
                                     <p><small>
                                         {if func.ctx.value}
                                             ${func.ctx.value}
@@ -104,7 +104,8 @@
                 {/for}
             {/if}
         --></div>
-        <div id="doc-ui-docs-template" style="display:none;"><!--
+
+        <div id="doc-ui-docs-template"><!--
             <h2>oae.api.${module}</h2>
             {if docs === null}
                 <p>There is no documentation available for this module.</p>
