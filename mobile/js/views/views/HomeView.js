@@ -84,7 +84,7 @@ define(
         };
 
         var onTopbarLogoClick = function() {
-            $(document).trigger(constants.events.activities.viewchanged, constants.views.home);
+            $(document).trigger(constants.events.activities.viewchanged, constants.views.detail);
         };
 
         return HomeView;

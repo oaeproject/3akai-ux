@@ -49,21 +49,37 @@ define(
         // Private methods
         var renderTemplate = function() {
             console.log('[DetailView] render template');
-            oae.api.util.template().render(_settings.template.templateID, null, $('#oae-mobile-viewport'));
-            setTitle('Detailview');
-            addBinding();
+            try{
+                oae.api.util.template().render(_settings.template.templateID, null, $('#oae-mobile-viewport'));
+            }catch(e){
+                console.log('[DetailView] renderTemplate => rendering detail-view-template into viewport failed');
+                location.reload();
+            }finally{
+                setTitle('Detailview');
+                addBinding();
+            }
         };
 
+        /**
+         * Set page title {String} title        The title of the page
+         * @param title
+         */
         var setTitle = function(title){
             $('.oae-mobile-view-title').html(title);
         };
 
         var addBinding = function() {
+            $('.oae-mobile-topbar-logo').bind('click', onTopbarLogoClick);
             console.log('[DetailView] addBinding');
         };
 
         var deleteBinding = function() {
-            console.log('[DetailView] deleteBinding');
+            $('.oae-mobile-topbar-logo').unbind('click', onTopbarLogoClick);
+        };
+
+        var onTopbarLogoClick = function() {
+            console.log('[DetailView] onTopbarLogoClick');
+            $(document).trigger(constants.events.activities.viewchanged, constants.views.home);
         };
 
         return DetailView;

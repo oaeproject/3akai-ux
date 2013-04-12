@@ -39,12 +39,6 @@ define(
         //// Constructor /////
         //////////////////////
 
-        /**
-         * @param {Object} data                 The object containing the message
-         * @param {String} data.type            The type
-         * @param {String} data.message         The message
-         */
-
         function Modal() {
             console.log('[Modal] constructor');
         }
@@ -53,9 +47,14 @@ define(
         /// Public methods ////
         ///////////////////////
 
-        // Initialize Menu
+        /**
+         * Initialize modal view
+         * @param {Object} data                 The object containing the message
+         * @param {String} data.type            The type
+         * @param {String} data.message         The message
+         */
         Modal.prototype.initialize = function(data) {
-            console.log('[Modal] initialize');
+            //console.log('[Modal] initialize');
             _type = data.type;
             _message = data.message;
             renderTemplate();
@@ -63,7 +62,7 @@ define(
 
         // Destroy Menu
         Modal.prototype.destroy = function() {
-            console.log('[Modal] destroy');
+            //console.log('[Modal] destroy');
             destroyBinding();
         };
 
@@ -77,18 +76,18 @@ define(
 
         // Renders the template + inserts navigation widget
         var renderTemplate = function() {
-            console.log('[Modal] renderTemplate');
+            //console.log('[Modal] renderTemplate');
             addBinding();
         };
 
         // Add binding
         var addBinding = function() {
-            console.log('[Modal] addBinding');
+            //console.log('[Modal] addBinding');
         };
 
         // Destroy binding
         var destroyBinding = function() {
-            console.log('[Modal] destroyBinding');
+            //console.log('[Modal] destroyBinding');
         };
 
         return Modal;
