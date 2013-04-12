@@ -27,15 +27,33 @@
 
 #login-view{
 
+  #mobile-login-widget-container,
+  #mobile-login-widget-container > div,
+  #mobile-login-widget-container #mobile-login-form-container{
+    width: 100%;
+    height: 100%;
+  }
+
+  #mobile-login-widget-container,
+  #mobile-login-widget-container > div{
+    display: table;
+  }
+
+  #mobile-login-form-container{
+    display: table-cell;
+    vertical-align: middle;
+  }
+
   .content{
     border-left: none;
+    @include setBorderRadius(0);
   }
 
   .centered{
-    left: 15px;
-    right: 15px;
-    height: 356px;
-    margin-top: -178px;
+    padding: 0 15px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
     text-align: center;
     transition: all 250ms;
   }
@@ -49,6 +67,11 @@
     background-image: url('../img/interface/logostartup.png');
   }
 
+  .oae-external-auth-container{
+    padding-top: 10px;
+    border-top: 2px solid #DDDCDA;
+  }
+
   input, button{
     width: 100%;
     height: 100%;
@@ -58,9 +81,6 @@
 
   .inputcontainer, .buttoncontainer{
     overflow: hidden;
-    max-width: 450px;
-    margin-left: auto;
-    margin-right: auto;
     margin-bottom: 10px;
     text-align: center;
     border-top: 1px solid #BBBBBB;
@@ -112,6 +132,19 @@
         @include setGradient(#1B8CC7, #0D85C4);
       }
 
+      &#btnFacebook{
+        @include setGradient(#1B8CC7, #0D85C4);
+      }
+
+      &#btnGoogle{
+        @include setGradient(#e34e5a, #d94c58);
+
+        span{
+          border-top: 1px solid #fd5561;
+          border-bottom: 1px solid #d94c58;
+        }
+      }
+
       &#btnTwitter{
         @include setGradient(#1BA4E3, #0D9DDF);
       }
@@ -145,11 +178,6 @@ only screen and (            min-resolution: 2dppx){
 @media only screen and (max-height: 360px) {
 
   #login-view{
-
-    .centered{
-      height: 205px;
-      margin-top: -103px;
-    }
 
     .logo{
       display: none;

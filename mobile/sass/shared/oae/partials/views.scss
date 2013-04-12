@@ -33,6 +33,7 @@
   position: absolute;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
+  background-color: $beige-background;
 }
 
 .view{
@@ -156,15 +157,6 @@
       padding-left: 8px;
       padding-right: 8px;
       overflow: scroll !important;
-
-      div{
-
-      }
-    }
-
-    .centered{
-      position: absolute;
-      top: 50%;
     }
   }
 }

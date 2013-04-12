@@ -35,7 +35,7 @@ define(['exports'], function(exports) {
                 sociallogoutattempt     : 'oae-mobile-user-social-logout-attempt'
             },
             types: {
-                oae                     : 'oae-authentication-oae',
+                local                   : 'oae-authentication-local',
                 google                  : 'oae-authentication-google',
                 facebook                : 'oae-authentication-facebook',
                 twitter                 : 'oae-authentication-twitter'

@@ -118,12 +118,15 @@ define(
          */
         var loginWithSocialNetwork = function(e, type) {
             if(type && type != null){
-                $(document).trigger(constants.events.activities.activitystart);
                 switch(type){
+                    case constants.authentication.types.facebook:
+                        loginWithFacebook();
+                        break;
+                    case constants.authentication.types.google:
+                        loginWithGoogle();
+                        break;
                     case constants.authentication.types.twitter:
-                        _loginType = constants.authentication.types.twitter;
-                        console.log('[UserController] Authenticate with Twitter');
-                        $(document).trigger(constants.events.activities.activityend);
+                        loginWithTwitter();
                         break;
                 }
             }
@@ -135,6 +138,27 @@ define(
         var logoutWithSocialNetwork = function() {
             console.log('[UserController] logoutWithSocialNetwork');
             _loginType = null;
+        };
+
+        // Facebook login
+        var loginWithFacebook = function() {
+            console.log('[UserController] loginWithFacebook');
+            _loginType = constants.authentication.types.facebook;
+            //document.location = '/api/auth/facebook';
+        };
+
+        // Google login
+        var loginWithGoogle = function() {
+            console.log('[UserController] loginWithGoogle');
+            _loginType = constants.authentication.types.google;
+            //document.location = '/api/auth/google';
+        };
+
+        // Twitter login
+        var loginWithTwitter = function() {
+            console.log('[UserController] loginWithTwitter');
+            _loginType = constants.authentication.types.twitter;
+            //document.location = '/api/auth/twitter';
         };
 
         // Private methods

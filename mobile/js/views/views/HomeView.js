@@ -49,6 +49,7 @@ define(
                 oae.api.util.template().render(_settings.template.templateID, null, $('#oae-mobile-viewport'));
             }catch(e){
                 console.log('[HomeView] renderTemplate => rendering home-view-template into viewport failed');
+                location.reload();
             }finally{
                 oae.api.widget.insertWidget('mobileactivity', null, $('#mobile-activity-widget-container'));
                 setTitle(oae.data.me.tenant);
@@ -68,8 +69,6 @@ define(
             $('.oae-mobile-topbar-logo').bind('click', onTopbarLogoClick);
             $('#btnMenu').bind('click', onToggleMenuClick);
             $('#home-view').touchSwipe(onToggleMenuClick);
-
-            console.log($('#mobile-activity-widget-container'));
         };
 
         var deleteBinding = function() {
