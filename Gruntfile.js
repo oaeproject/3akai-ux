@@ -80,7 +80,7 @@ module.exports = function(grunt) {
                         name: 'oae.core',
                         exclude: ['jquery']
                     }],
-                    fileExclusionRegExp: /^(\.|tools|target|tests|grunt|shelljs|underscore[^\.])/,
+                    fileExclusionRegExp: /^(\.|tools|target|tests|grunt|shelljs|underscore$)/,
                     logLevel: 2
                 }
             }
