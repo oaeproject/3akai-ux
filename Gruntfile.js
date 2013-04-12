@@ -18,8 +18,6 @@ var shell = require('shelljs');
 var util = require('util');
 var vm = require('vm');
 
-var HASHED_EXTENSIONS = ['bmp', 'css', 'gif', 'html', 'jpeg', 'jpg', 'js', 'png', 'svg', 'tiff'];
-
 module.exports = function(grunt) {
 
     // Project configuration.
@@ -103,7 +101,10 @@ module.exports = function(grunt) {
                             'target/optimized/shared',
                             'target/optimized/ui',
                             'target/optimized/admin'
-                        ], ['html'], ['!target/optimized/shared/vendor/js/l10n/cultures.*/**']),
+                        ], ['html', 'json', 'ico', 'less'], [
+                            '!target/optimized/shared/vendor/js/l10n/cultures.*/**',
+                            '!target/optimized/ui/bundles.*/**'
+                        ]),
 
                         // Look for and replace references to the above (non-excluded) files and folders in these files
                         references: [
@@ -181,7 +182,7 @@ module.exports = function(grunt) {
             grunt.log.writeln(module);
             var conf = {
                 folders: [ module + '/bundles' ],
-                files: _hashFiles([module]),
+                files: _hashFiles([module], ['json']),
                 references: [
                     module + '/**/*.html',
                     module + '/**/*.js',
@@ -248,10 +249,11 @@ var _hashFiles = function(directories, excludeExts, extra) {
     excludeExts = excludeExts || [];
     var globs = [];
     directories.forEach(function(directory) {
-        HASHED_EXTENSIONS.forEach(function(ext) {
-            if (excludeExts.indexOf(ext) === -1) {
-                globs.push(util.format('%s/**/*.%s', directory, ext));
-            }
+        globs.push(util.format('%s/**', directory));
+        excludeExts.forEach(function(ext) {
+            // Exclude both direct children of the exlucded extensions, and all grandchildren
+            globs.push(util.format('!%s/*.%s', directory, ext));
+            globs.push(util.format('!%s/**/*.%s', directory, ext));
         });
     });
 
