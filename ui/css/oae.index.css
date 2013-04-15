@@ -1,0 +1,121 @@
+/*!
+ * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ *     http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+#index-content {
+    font-weight: 200;
+    margin: 0 auto;
+    min-width: 878px;
+    max-width: 985px;
+}
+
+#index-content h1,
+#index-content h2 {
+    font-weight: 200;
+}
+
+#index-container {
+    padding: 10px 20px;
+}
+
+#index-container .index-search-container {
+    margin: 25px auto 50px;
+    padding: 3% 0;
+}
+
+#index-container .index-search-container form,
+#index-container .index-search-container form .control-group {
+    margin: 0;
+}
+
+#index-container .index-search-container label {
+    font-size: 18px;
+    line-height: 2;
+}
+
+#index-container .index-search-container input#index-search-query {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    height: 37px;
+    margin-right: 7px;
+}
+
+#index-container .index-search-container .control-label {
+    padding-top: 0;
+}
+
+#index-container .index-search-container button[type="submit"] {
+    height: 36px;
+    line-height: 0;
+}
+
+#index-container #index-video-container {
+    background: url('/ui/img/framework/index-video-bg.png') no-repeat center 90px #FFF;
+    -webkit-border-radius: 3px;
+       -moz-border-radius: 3px;
+            border-radius: 3px;
+    -webkit-box-shadow: 0 0 7px #444;
+       -moz-box-shadow: 0 0 7px #444;
+            box-shadow: 0 0 7px #444;
+    height: 290px;
+}
+
+#index-container #index-video-container p {
+    font-size: 18px;
+    font-weight: normal;
+    margin: 15px auto 0;
+    width: 350px;
+}
+
+#index-container #index-video-container #index-video-launch {
+    background: transparent;
+    border: none;
+    display: block;
+    font-size: 70px;
+    margin: 25px auto;
+}
+
+#index-container #index-video-container #index-video-launch {
+    opacity: 0.8;
+}
+
+#index-container #index-slogan {
+    font-size: 50px;
+    line-height: 1;
+    margin: 0;
+}
+
+#index-container #index-slogan-description {
+    font-size: 19px;
+    margin-top: 25px;
+    width: 350px;
+}
+
+.index-bottom {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.index-bottom .index-bottom-slogan {
+    font-size: 19px;
+    line-height: 1;
+    margin: 0;
+}
+
+.index-bottom .index-bottom-description {
+    font-size: 14px;
+    margin-top: 25px;
+    overflow: auto;
+}

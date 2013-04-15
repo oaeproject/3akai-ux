@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <noscript>
+            <meta http-equiv="Refresh" content="1; URL=/noscript">
+        </noscript>
+
+        <!-- CORE CSS -->
+        <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
+        <link rel="stylesheet" type="text/css" href="/api/ui/skin" />
+        
+        <!-- PAGE CSS -->
+        <link rel="stylesheet" type="text/css" href="/ui/css/oae.search.css" />
+
+    </head>
+    <body>
+
+        <!-- HEADER -->
+        <div data-widget="topnavigation"><!-- --></div>
+
+        <!-- BODY -->
+        <div class="oae-main-content">
+
+            <!-- CLIPS -->
+            <div>
+                <div id="search-clip-container">
+                    <div class="oae-clip">
+                        <div class="oae-clip-fold">
+                            <div class="oae-clip-fold-inner"></div>
+                            <div class="oae-clip-fold-outer"></div>
+                        </div>
+                        <div class="oae-clip-content">
+                            <form id="search-form" class="form-search">
+                                <h1>__MSG__SEARCH_FOR__</h1>
+                                <label for="search-query" class="oae-aural-text">__MSG__SEARCH__</label>
+                                <input type="text" id="search-query" class="input-xxlarge search-query" title="__MSG__SEARCH_FOR_CONTENT_PEOPLE_GROUPS__" />
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTENT -->
+            <div id="search-content-container" class="row-fluid">
+                <div class="span2">
+                    <ul id="search-refine-type" class="nav nav-list">
+                        <li class="nav-header">__MSG__REFINE_SEARCH_BY_TYPE_COLON__</li>
+                        <li>
+                            <label class="checkbox"><input type="checkbox" data-type="user" /> __MSG__PEOPLE__</label>
+                        </li>
+                        <li>
+                            <label class="checkbox"><input type="checkbox" data-type="group" /> __MSG__GROUPS__</label>
+                        </li>
+                        <li>
+                            <label class="checkbox"><input type="checkbox" data-type="content" /> __MSG__CONTENT__</label>
+                        </li>
+                    </ul>
+                </div>
+                <div id="search-list-container" class="span10">
+                    <div class="oae-list-options">
+                        <div>
+                            <button class="btn oae-list-options-toggle">
+                                <h2>__MSG__SEARCH_RESULTS__ <span id="search-total-results" class="badge"></span></h2>
+                            </button>
+                            <div class="btn-group pull-right">
+                                <button class="btn" data-type="oae-list-compact">
+                                    <i class="icon-list"></i>
+                                    <span class="oae-aural-text">__MSG__LIST_VIEW__</span>
+                                </button>
+                                <button class="btn" data-type="oae-list-details">
+                                    <i class="icon-th-list"></i>
+                                    <span class="oae-aural-text">__MSG__EXPANDED_LIST_VIEW__</span>
+                                </button>
+                                <button class="btn active" data-type="oae-list-grid">
+                                    <i class="icon-th-large"></i>
+                                    <span class="oae-aural-text">__MSG__GRID_VIEW__</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="oae-list oae-list-grid"></ul>
+
+                    <div id="search-template"><!--
+                        {for result in results}
+                            ${listItem(result, null, null, false)}
+                        {/for}
+                    --></div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div data-widget="footer"><!-- --></div>
+
+        <!-- DEPENDENCIES -->
+        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
+        <!-- PAGE JS -->
+        <script>require(['/ui/js/search.js']);</script>
+
+    </body>
+</html>
