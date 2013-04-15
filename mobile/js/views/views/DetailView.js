@@ -40,7 +40,6 @@ define(
         };
 
         DetailView.prototype.destroy = function() {
-            _templateId = null;
             deleteBinding();
         };
 
@@ -49,18 +48,18 @@ define(
             try{
                 oae.api.util.template().render(_settings.template.templateID, null, $('#oae-mobile-viewport'));
             }catch(e){
-                console.log('[DetailView] renderTemplate => rendering detail-view-template into viewport failed');
                 location.reload();
             }finally{
                 var arrHash = window.location.hash.split(':');
                 var contentId = arrHash.slice(1,arrHash.length).join(':').toString();
-                oae.api.content.getContent(contentId, function(err, profile) {
-                    var data = {'constants': constants, 'profile': profile};
-                    oae.api.widget.insertWidget('mobilecontentpreview', null, $('#mobile-content-preview-widget-container'), null, data, function(e){
-                        setTitle(profile.displayName);
-                        addBinding();
-                    });
-                });
+                switch(arrHash[1]){
+                    case 'g':
+                        getGroupContent(contentId);
+                        break;
+                    case 'c':
+                        getDocumentContent(contentId);
+                        break;
+                }
             }
         };
 
@@ -70,6 +69,28 @@ define(
          */
         var setTitle = function(title){
             $('.oae-mobile-view-title').html(title);
+        };
+
+        // Get group content from api
+        var getGroupContent = function(groupId) {
+            oae.api.group.getGroup(groupId, function(err, profile) {
+                addWidget(profile);
+            });
+        };
+
+        // Get document content from api
+        var getDocumentContent = function(contentId) {
+            oae.api.content.getContent(contentId, function(err, profile) {
+                addWidget(profile);
+            });
+        };
+
+        var addWidget = function(profile) {
+            var data = {'constants': constants, 'profile': profile};
+            oae.api.widget.insertWidget('mobilecontentpreview', null, $('#mobile-content-preview-widget-container'), null, data, function(e){
+                setTitle(profile.displayName);
+                addBinding();
+            });
         };
 
         var addBinding = function() {

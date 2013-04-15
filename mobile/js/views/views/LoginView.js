@@ -40,7 +40,7 @@ define(
         };
 
         LoginView.prototype.destroy = function() {
-            _templateId = null;
+
         };
 
         // Private methods
@@ -48,7 +48,6 @@ define(
             try{
                 oae.api.util.template().render(_settings.template.templateID, null, $('#oae-mobile-viewport'));
             }catch(e){
-                console.log('[LoginView] renderTemplate => rendering login-view-template into viewport failed');
                 location.reload();
             }finally{
                 oae.api.widget.insertWidget('mobilelogin', null, $('#mobile-login-widget-container'), null, constants);
