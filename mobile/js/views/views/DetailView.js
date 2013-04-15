@@ -67,13 +67,19 @@ define(
 
         var addBinding = function() {
             $('.oae-mobile-topbar-logo').bind('click', onTopbarLogoClick);
+            $('#btnBack').bind('click', onBackButtonClick);
         };
 
         var deleteBinding = function() {
             $('.oae-mobile-topbar-logo').unbind('click', onTopbarLogoClick);
+            $('#btnBack').unbind('click', onBackButtonClick);
         };
 
         var onTopbarLogoClick = function() {
+            $(document).trigger(constants.events.activities.viewchanged, constants.views.home);
+        };
+
+        var onBackButtonClick = function() {
             $(document).trigger(constants.events.activities.viewchanged, constants.views.home);
         };
 

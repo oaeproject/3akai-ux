@@ -23,6 +23,8 @@ define(
         var _activeView = null;
         var _oldView = null;
 
+        var _tempURL = null;
+
         /////////////////////
         //// Constructor ////
         /////////////////////
@@ -142,41 +144,124 @@ define(
         };
 
         /**
-         * Listen to events dispatched from controllers
+         * Set startup view, depends if user is logged in or not
+         * Checks if a hash is provided in the url
+         * If TRUE => trigger the hashchange event
+         * if FALSE => set the hash in the url
+         */
+        var setStartupView = function() {
+            if(getBBQStateLength()){
+                $(window).trigger('hashchange');
+            }else{
+                var hash = oae.data.me.anon ? constants.views.hash.login : constants.views.hash.home;
+                changeHash(hash);
+            }
+        };
+
+        /**
+         * When the changeview event is fired for internal communication
+         * @param {Event}   e               The dispatched event
+         * @param {String}  view            The view
+         */
+        var onViewChanged = function(e, view) {
+            /*
+            if(_activeView != null && _activeView.settings.id != view){
+                instance.changeView(view);
+            }*/
+
+            var hash = null;
+            switch(view){
+                case constants.views.home:
+                    hash = constants.views.hash.home;
+                    break;
+                case constants.views.detail:
+                    hash = constants.views.hash.detail;
+                    break;
+                case constants.views.login:
+                    hash = constants.views.hash.login;
+                    break;
+            }
+            changeHash(hash);
+        };
+
+        /**
+         * Manually change the hash
+         * @param {String} hash
+         */
+        var changeHash = function(hash) {
+            $.bbq.pushState(hash, 2);
+        };
+
+        /**
+         * When the hashchange event gets triggered for external communication
+         * @param {Event}   e               The dispatched event
+         */
+        var onHashChange = function(e) {
+            console.log('[ViewController] onHashChange');
+
+            var hash = e.currentTarget.location.hash.split(':');
+            var type = hash[0],
+                tenant = hash[1],
+                document = hash[2];
+
+            if(!oae.data.me.anon){
+                var state = null;
+                var type_raw = type.substring(1, type.length);
+                switch(type_raw){
+                    case constants.views.hash.home:
+                        state = constants.views.home;
+                        break;
+                    case constants.views.hash.detail:
+                        state = constants.views.detail;
+                        break;
+                    case constants.views.hash.login:
+                        changeHash(constants.views.hash.home);
+                        state = constants.views.home;
+                        break;
+                }
+                instance.changeView(state);
+            }else{
+                changeHash(constants.views.hash.login);
+                instance.changeView(constants.views.login);
+            }
+        };
+
+        var getBBQStateLength = function() {
+            var size = 0, key;
+            var state = $.bbq.getState();
+            for (key in state) {
+                if (state.hasOwnProperty(key)) size++;
+            }
+            return size;
+        };
+
+        ////////////////////////
+        ///////// USER /////////
+        ////////////////////////
+
+        // When UserController dispatches logged in event
+        var onLoginSuccess = function() {
+            changeHash(constants.views.hash.home);
+        };
+
+        // When UserController dispatches logged out event
+        var onLogoutSuccess = function() {
+            changeHash(constants.views.hash.login);
+        };
+
+        ////////////////////////
+        /////// BINDING ////////
+        ////////////////////////
+
+        /**
+         * Bind events
          */
         var addBinding = function() {
             $(document).on(constants.events.activities.templatesready, onTemplatesReady);
             $(document).on(constants.events.activities.viewchanged, onViewChanged);
             $(document).on(constants.authentication.events.loginsuccess, onLoginSuccess);
             $(document).on(constants.authentication.events.logoutsuccess, onLogoutSuccess);
-        };
-
-        /**
-         * Set startup view, depends if user is logged in or not
-         */
-        var setStartupView = function() {
-            var newView = oae.data.me.anon ? constants.views.login : constants.views.home;
-            instance.changeView(newView);
-        };
-
-        /**
-         * When the changeview event is fired
-         * @param {Event}   e               The dispatched event
-         * @param {String}  view            The view
-         */
-        var onViewChanged = function(e, view) {
-            // Check if view is not already active
-            if(_activeView != null && _activeView.settings.id != view){
-                instance.changeView(view);
-            }
-        };
-
-        var onLoginSuccess = function() {
-            instance.changeView(constants.views.home);
-        };
-
-        var onLogoutSuccess = function() {
-            instance.changeView(constants.views.login);
+            $(window).on('hashchange', onHashChange);
         };
 
         // Singleton

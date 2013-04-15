@@ -69,7 +69,12 @@ define(['exports'], function(exports) {
         views: {
             detail                      : 'oae-mobile-detail-view',
             home                        : 'oae-mobile-home-view',
-            login                       : 'oae-mobile-login-view'
+            login                       : 'oae-mobile-login-view',
+            hash: {
+                detail                  : 'detail',
+                home                    : 'me',
+                login                   : 'login'
+            }
         }
     };
 
