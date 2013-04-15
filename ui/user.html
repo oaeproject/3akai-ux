@@ -10,6 +10,7 @@
 
         <!-- CORE CSS -->
         <link rel="stylesheet" type="text/css" href="/ui/css/oae.main.css" />
+        <link rel="stylesheet" type="text/css" href="/api/ui/skin" />
 
     </head>
     <body class="oae-centered oae-force-hidden oae-hidden">
@@ -30,7 +31,7 @@
                                 <img class="oae-icon-50" src="${user.mediumPicture || '/ui/img/entities/user_icon_medium.png'}"/>
                             </span>
                         </div>
-                        <div class="oae-bold oae-entity-title">${user.displayName|safeUserInput}</div>
+                        <div class="oae-bold oae-entity-title">${user.displayName|encodeForHTML}</div>
                         <div class="oae-push"></div>
                     --></div>
                 </div>

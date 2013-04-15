@@ -15,7 +15,7 @@
  */
 
 /**
- * Sakai edit - replace .html() with .text()
+ * Sakai edit - replace .html() with .text(), define jquery.jeditable-focus.
  * https://github.com/davidchambers/jquery_jeditable/commit/3b65bc6df097dde79ca9f40f55babdbf9882c7a3
  */
 
@@ -61,8 +61,7 @@
   * @param Hash    options[ajaxoptions]  jQuery Ajax options. See docs.jquery.com.
   *             
   */
-
-define(['jquery'], function (jQuery) {
+define(['jquery.jeditable-focus']);
 (function($) {
 
     $.fn.editable = function(target, options) {
@@ -547,4 +546,3 @@ define(['jquery'], function (jQuery) {
     };
 
 })(jQuery);
-});

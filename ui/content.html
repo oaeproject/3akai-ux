@@ -10,7 +10,8 @@
 
         <!-- CORE CSS -->
         <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
-
+        <link rel="stylesheet" type="text/css" href="/api/ui/skin" />
+        
     </head>
     <body>
 
@@ -30,16 +31,11 @@
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button {if !isManager} disabled {/if}>
-                                <div class="oae-thumbnail icon-oae-${resourceSubType}">
-                                    {if previews.thumbnailUrl}
-                                        <img src="${previews.thumbnailUrl}" alt="${displayName|safeUserInput}" />
-                                    {/if}
-                                    <i class="icon-oae-${visibility}"></i>
-                                </div>
+                            <button {if !content.isManager} disabled {/if}>
+                                ${renderThumbnail(content)}
                                 <div>
                                     <div>
-                                        <h1>${displayName|safeUserInput}</h1>
+                                        <h1>${content.displayName|encodeForHTML}</h1>
                                         <i class="icon-caret-down"></i>
                                     </div>
                                 </div>
@@ -48,7 +44,7 @@
                                 <ul>
                                     <li><button><i class="icon-lock"></i>__MSG__PERMISSIONS__</button></li>
                                     <li><button><i class="icon-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
-                                    <li><button><i class="icon-upload"></i>__MSG__UPLOAD_NEW_VERSION__</button></li>
+                                    <li><button class="oae-trigger-uploadnewversion"><i class="icon-upload"></i>__MSG__UPLOAD_NEW_VERSION__</button></li>
                                     <li><button><i class="icon-undo"></i>__MSG__REVISIONS__</button></li>
                                     <li><button><i class="icon-trash"></i>__MSG__DELETE__</button></li>
                                 </ul>
@@ -79,7 +75,7 @@
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button>
+                            <button class="contentcomments-focus-new-comment">
                                 <div>
                                     <i class="icon-comments pull-left"></i>
                                     <h1>__MSG__COMMENT__</h1>

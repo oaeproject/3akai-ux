@@ -13,36 +13,32 @@
  * permissions and limitations under the License.
  */
 
-define(['jquery'], function($) {
+(function($) {
 
-    (function($) {
+    /**
+     * Convert a 
+     * 
+     * http://blog.jbstrickler.com/2011/02/bytes-to-a-human-readable-string/
+     * 
+     * It can be used as following:
+     * 
+     * ```
+     * var readableFileSize = $.fileSize(524231);
+     * console.log(readableFileSize) => 524MB
+     * ```
+     * 
+     * @param  {Boolean}    includeEmpty    Whether or not to include fields that have an empty value
+     * @return {Object}                     JSON Object where the keys represent the names of all of the form fields and the values represent their value
+     */
+     $.fn.fileSize = function(size) {
+        var suffix = ["bytes", "KB", "MB", "GB", "TB", "PB"];
+        var tier = 0;
+    
+        while (size >= 1024) {
+            size = size / 1024;
+            tier++;
+        }
 
-        /**
-         * Convert a 
-         * 
-         * http://blog.jbstrickler.com/2011/02/bytes-to-a-human-readable-string/
-         * 
-         * It can be used as following:
-         * 
-         * ```
-         * var readableFileSize = $.fileSize(524231);
-         * console.log(readableFileSize) => 524MB
-         * ```
-         * 
-         * @param  {Boolean}    includeEmpty    Whether or not to include fields that have an empty value
-         * @return {Object}                     JSON Object where the keys represent the names of all of the form fields and the values represent their value
-         */
-         $.fn.fileSize = function(size) {
-            var suffix = ["bytes", "KB", "MB", "GB", "TB", "PB"];
-            var tier = 0;
-        
-            while (size >= 1024) {
-                size = size / 1024;
-                tier++;
-            }
-
-            return Math.round(size * 10) / 10 + " " + suffix[tier];
-        };
-    })($);
-
-});
+        return Math.round(size * 10) / 10 + " " + suffix[tier];
+    };
+})($);

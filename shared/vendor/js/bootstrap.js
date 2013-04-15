@@ -17,8 +17,6 @@
  * limitations under the License.
  * ========================================================== */
 
-require(['jquery'], function(jQuery) {
-
 !function ($) {
 
   "use strict"; // jshint ;_;
@@ -2267,5 +2265,3 @@ require(['jquery'], function(jQuery) {
 
 
 }(window.jQuery);
-
-});
