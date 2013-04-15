@@ -51,13 +51,13 @@ define(
                 location.reload();
             }finally{
                 var arrHash = window.location.hash.split(':');
-                var contentId = arrHash.slice(1,arrHash.length).join(':').toString();
+                var id = arrHash.slice(1,arrHash.length).join(':').toString();
                 switch(arrHash[1]){
                     case 'g':
-                        getGroupContent(contentId);
+                        getGroupContent(id);
                         break;
                     case 'c':
-                        getDocumentContent(contentId);
+                        getDocumentContent(id);
                         break;
                 }
             }
@@ -87,11 +87,28 @@ define(
 
         var addWidget = function(profile) {
             var data = {'constants': constants, 'profile': profile};
-            oae.api.widget.insertWidget('mobilecontentpreview', null, $('#mobile-content-preview-widget-container'), null, data, function(e){
-                $(document).trigger(constants.events.activities.activityend);
-                setTitle(profile.displayName);
-                addBinding();
-            });
+            oae.api.widget.insertWidget('mobilecontentdetail', null, $('#mobile-content-detail-widget-container'), null, data,
+                function(e){
+                    // Hide activity indicator
+                    $(document).trigger(constants.events.activities.activityend);
+
+                    // Change view title
+                    var title = null;
+                    if(profile && profile != null){
+                        if(profile.displayName.length > 25){
+                            title = profile.displayName.substr(0,30) + "...";
+                        }else{
+                            title = profile.displayName;
+                        }
+                    }else{
+                        title = oae.api.i18n.translate('__MSG__ERROR__');
+                    }
+                    setTitle(title);
+
+                    // Bind events after rendering html
+                    addBinding();
+                }
+            );
         };
 
         var addBinding = function() {
