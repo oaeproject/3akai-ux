@@ -164,11 +164,6 @@ define(
          * @param {String}  view            The view
          */
         var onViewChanged = function(e, view) {
-            /*
-            if(_activeView != null && _activeView.settings.id != view){
-                instance.changeView(view);
-            }*/
-
             var hash = null;
             switch(view){
                 case constants.views.home:
@@ -197,15 +192,13 @@ define(
          * @param {Event}   e               The dispatched event
          */
         var onHashChange = function(e) {
-            console.log('[ViewController] onHashChange');
-
             var hash = e.currentTarget.location.hash.split(':');
             var type = hash[0],
                 tenant = hash[1],
                 document = hash[2];
 
             if(!oae.data.me.anon){
-                var state = null;
+                var state = constants.views.home;
                 var type_raw = type.substring(1, type.length);
                 switch(type_raw){
                     case constants.views.hash.home:

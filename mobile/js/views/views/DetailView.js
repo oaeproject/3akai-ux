@@ -52,8 +52,15 @@ define(
                 console.log('[DetailView] renderTemplate => rendering detail-view-template into viewport failed');
                 location.reload();
             }finally{
-                setTitle('Detailview');
-                addBinding();
+                var arrHash = window.location.hash.split(':');
+                var contentId = arrHash.slice(1,arrHash.length).join(':').toString();
+                oae.api.content.getContent(contentId, function(err, profile) {
+                    var data = {'constants': constants, 'profile': profile};
+                    oae.api.widget.insertWidget('mobilecontentpreview', null, $('#mobile-content-preview-widget-container'), null, data, function(e){
+                        setTitle(profile.displayName);
+                        addBinding();
+                    });
+                });
             }
         };
 
