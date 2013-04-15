@@ -88,6 +88,7 @@ define(
         var addWidget = function(profile) {
             var data = {'constants': constants, 'profile': profile};
             oae.api.widget.insertWidget('mobilecontentpreview', null, $('#mobile-content-preview-widget-container'), null, data, function(e){
+                $(document).trigger(constants.events.activities.activityend);
                 setTitle(profile.displayName);
                 addBinding();
             });

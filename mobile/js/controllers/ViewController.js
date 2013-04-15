@@ -82,6 +82,7 @@ define(
                         _activeView = getView(HomeView);
                         break;
                     case constants.views.detail:
+                        $(document).trigger(constants.events.activities.activitystart);
                         _activeView = getView(DetailView);
                         break;
                 }
