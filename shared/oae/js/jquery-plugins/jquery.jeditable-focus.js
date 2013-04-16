@@ -12,3 +12,20 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
+define(['jquery'], function (jQuery) {
+    (function() {
+
+        /**
+         * Catch the keypress event for `enter` when an editable field has focus
+         */
+        $(document).on('focus', '.jeditable-field', function(ev) {
+            $(this).keypress(function(ev) {
+                if (ev.which == 13){
+                    $(this).trigger('click.editable');
+                }
+            });
+        });
+
+    })();
+});
