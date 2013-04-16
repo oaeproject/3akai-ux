@@ -67,7 +67,7 @@ require(['jquery', 'oae.core'], function($, oae) {
      * Renders the navigation for the available modules
      * 
      * @param {String}      type             The type of the module to render the documentation for
-     * @param {String[]}    modules          An Array of module names
+     * @param {String[]}    modules          An Array of modules
      * @param {String}      currentModule    The name of the module that is currently shown in the UI
      */
     var renderNavigation = function(type, modules, currentModule) {
@@ -93,13 +93,13 @@ require(['jquery', 'oae.core'], function($, oae) {
      * Gets the documentation for a specific module and passes it in a callback
      * 
      * @param {String}    type              The type of the module to get the documentation for
-     * @param {String}    name              The name of the module to get the documentation for
+     * @param {String}    moduleId          The module to get the documentation for
      * @param {Function}  callback          Function executed after the documentation for the module has been retrieved
      * @param {Object}    callback.docs     Retrieved documentation for the specified module. This will be null when the documentation could not be retrieved
      */
-    var getDocumentation = function(type, name, callback) {
+    var getDocumentation = function(type, moduleId, callback) {
         $.ajax({
-            url: '/api/doc/' + type + '/' + name,
+            url: '/api/doc/' + type + '/' + moduleId,
             success: function(docs) {
                 callback(docs);
             }, error: function(err) {
@@ -259,7 +259,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                     } else {
                         // If the path doesn't start with frontend or backend, load the first backend module
                         currentElementToLoad = modules[0];
-                        $('#backend' + currentElementToLoad).addClass('active');
+                        $('#backend-' + currentElementToLoad).addClass('active');
                         getDocumentation('backend', currentElementToLoad, function(docs) {
                             renderDocumentation('backend', docs, currentElementToLoad);
                         });
@@ -268,7 +268,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                 } else {
                     // If the path is empty, load the first backend module
                     currentElementToLoad = modules[0];
-                    $('#backend' + currentElementToLoad).addClass('active');
+                    $('#backend-' + currentElementToLoad).addClass('active');
                     getDocumentation('backend', currentElementToLoad, function(docs) {
                         renderDocumentation('backend', docs, currentElementToLoad);
                     });
