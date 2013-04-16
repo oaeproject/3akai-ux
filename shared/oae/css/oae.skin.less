@@ -477,28 +477,27 @@ div.oae-thumbnail {
  ** @section  Visibility toggle **
  *********************************/
 
-/* Visibility toggle background color */
-@visibility-toggle-background-color: #FFF;
-/* Visibility toggle selected primary color*/
-@visibility-toggle-selected1-color: #9EB7E6;
-/* Visibility toggle selected secondary color*/
-@visibility-toggle-selected2-color: #DBEDFE;
+/* Visibility choice gradient colors */
+@visibility-choice-gradient1-color: #fefefe;
+@visibility-choice-gradient2-color: #f1f0ed;
+@visibility-choice-gradient3-color: #e3e2dd;
+/* Checked visibility label text color */
+@visibility-checked-label-color: #048CC3;
+/* Checked visibility label background color */
+@visibility-checked-label-background-color: #FFF;
 
 .oae-visibility-choice-container .oae-visibility-choice {
-    background-color: @visibility-toggle-background-color;
+    .background-gradient-three(@visibility-choice-gradient1-color, @visibility-choice-gradient1-color, @visibility-choice-gradient2-color, 0%, 44%, 100%);
 }
 
-.oae-visibility-choice-container label .oae-visibility-choice.checked {
-    border-color: @visibility-toggle-selected1-color;
-    background-color: @visibility-toggle-selected2-color;
+.oae-visibility-choice-container label.checked {
+    color: @visibility-checked-label-color;
+    background-color: @visibility-checked-label-background-color;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice.checked + i {
-    background-color: @visibility-toggle-selected1-color;
-}
-
-.oae-visibility-choice-container .oae-visibility-choice.checked + i:before {
-    color: @visibility-toggle-background-color;
+.oae-visibility-choice-container label.checked > i:before {
+    background-color: #0375A3;
+    color: #FFF;
 }
 
 

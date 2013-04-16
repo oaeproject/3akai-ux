@@ -165,31 +165,28 @@ i.icon-oae-public.large:before {
  * `oae-visibility-changed` event is sent out with data: `{'radio': $(input)}`
  *
  * e.g. <div class="oae-visibility-choice-container row-fluid">
- *          <label for="oae-visibility-private" class="span4 text-center">
- *              <div class="oae-visibility-choice well pull-left text-center checked">
+ *          <label for="oae-visibility-private" class="span4 checked">
+ *              <i class="icon-ok hide"></i>
+ *              <div class="oae-visibility-choice well pull-left text-center">
  *                  <input type="radio" id="oae-visibility-private" value="private" name="oae-visibility-group" class="pull-left" checked="checked"/>
  *                  <i class="icon-oae-private large text-center"></i>
- *                  <span>__MSG__PRIVATE__</span>
  *              </div>
- *              <i class="icon-ok hide"></i>
  *              <small>__MSG__PRIVATE_DESCRIPTION__</small>
  *          </label>
- *          <label for="oae-visibility-loggedin" class="span4 text-center">
+ *          <label for="oae-visibility-loggedin" class="span4">
+ *              <i class="icon-ok hide"></i>
  *              <div class="oae-visibility-choice well pull-left text-center">
  *                  <input type="radio" id="oae-visibility-loggedin" value="loggedin" name="oae-visibility-group" class="pull-left"/>
  *                  <i class="icon-oae-loggedin large text-center"></i>
- *                  <span>Cambridge University</span>
  *              </div>
- *              <i class="icon-ok hide"></i>
- *              <small>__MSG__LOGGEDIN_DESCRIPTION__</small>
+ *              <small>Cambridge University</small>
  *          </label>
- *          <label for="oae-visibility-public" class="span4 text-center">
+ *          <label for="oae-visibility-public" class="span4">
+ *              <i class="icon-ok hide"></i>
  *              <div class="oae-visibility-choice well pull-left text-center">
  *                  <input type="radio" id="oae-visibility-public" value="public" name="oae-visibility-group" class="pull-left"/>
  *                  <i class="icon-oae-public large text-center"></i>
- *                  <span>__MSG__PUBLIC__</span>
  *              </div>
- *              <i class="icon-ok hide"></i>
  *              <small>__MSG__PUBLIC_DESCRIPTION__</small>
  *          </label>
  *      </div>
@@ -199,9 +196,13 @@ i.icon-oae-public.large:before {
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
             box-sizing: border-box;
-    height: 150px;
-    margin: 0 10px 20px 0;
+    margin: 0 10px 10px 0;
     width: 100%;
+}
+
+.oae-visibility-choice-container label {
+    min-height: 240px !important;
+    padding: 15px;
 }
 
 .oae-visibility-choice-container label:last-child .oae-visibility-choice {
@@ -213,37 +214,39 @@ i.icon-oae-public.large:before {
     z-index: -1; /* Adding a z-index of -1 hides the element from the view but still allows for focus of the element */
 }
 
-.oae-visibility-choice-container .oae-visibility-choice span {
-    display: block;
-    font-size: 13px;
-    font-weight: bold;
-    margin-top: 7px;
+.oae-visibility-choice-container label small {
+    font-style: italic;
+    line-height: 1.3;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice.checked {
-    border: 8px solid;
-    padding-top: 12px;
+.oae-visibility-choice-container label.checked {
+    -webkit-box-shadow: 0px 0px 10px -1px #0375A3;
+       -moz-box-shadow: 0px 0px 10px -1px #0375A3;
+            box-shadow: 0px 0px 10px -1px #0375A3;
+    -webkit-border-radius: 2px;
+       -moz-border-radius: 2px;
+            border-radius: 2px;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice + i {
+.oae-visibility-choice-container label > i {
     display: none;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice.checked + i {
+.oae-visibility-choice-container label.checked > i {
     -webkit-border-radius: 100px;
        -moz-border-radius: 100px;
             border-radius: 100px;
-    bottom: 26.5%;
     display: block;
-    margin-left: 65px;
+    margin: 80px 0 0 110px;
     position: absolute;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice.checked + i:before {
-    font-size: 24px;
-    height: 30px;
-    padding-top: 5px;
-    width: 35px;
+.oae-visibility-choice-container label.checked > i:before {
+    font-size: 20px;
+    height: 19px;
+    padding: 5px;
+    width: 19px;
+    border-radius: 20px;
 }
 
 
