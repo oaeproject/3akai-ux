@@ -95,8 +95,8 @@ define(
                     // Change view title
                     var title = null;
                     if(profile && profile != null){
-                        if(profile.displayName.length > 25){
-                            title = profile.displayName.substr(0,30) + "...";
+                        if(profile.displayName.length > 24){
+                            title = profile.displayName.substr(0,21) + "...";
                         }else{
                             title = profile.displayName;
                         }

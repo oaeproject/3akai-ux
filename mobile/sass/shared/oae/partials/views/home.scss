@@ -25,165 +25,154 @@
 /// SELECTORS ///
 /////////////////
 
-#home-view{
+#home-view, #detail-view{
 
   a{
     font-weight: 600;
   }
 
   // Widget container
-  #mobileactivity-container{
+  #mobileactivity-container, #mobile-detail-container{
 
-    // The list
-    > ul{
+    // MAIN LIST
+    .oae-list{
+      overflow: hidden;
+      margin-bottom: 22px;
+      @include killPaddingAndMargin;
+    }
+
+    > .oae-list{
       left: 8px;
       right: 8px;
-      @include killPaddingAndMargin;
 
       li{
         position: relative;
         display: block;
-        height: 142px;
-        overflow: hidden;
         margin-bottom: 22px;
         list-style-type: none;
-        background-color: $grey-dark;
 
-        .activity-item-container{
-          height: 142px;
+        .oae-tile{
           width: 100%;
-          overflow: hidden;
+          height: 145px;
 
-          .activity-content-container{
+          a{
             width: 100%;
-            height: 107px;
+            height: 100%;
             display: block;
-            overflow: hidden;
-            position: absolute;
+            cursor: pointer;
             margin-top: 35px;
+            background-color: $grey-dark;
 
-            > .oae-list{
-              display: block;
+            span{
               width: 100%;
-              height: 107px;
-              overflow: hidden;
+              height: 145px;
+              display: block;
+              background-size: cover;
+              background-repeat: no-repeat;
+              background-position: center center;
+            }
 
-              li{
-                width: 100%;
-                @include killPaddingAndMargin;
-
-                .oae-tile{
-                  display: block;
-                  width: 100%;
-                  height: 100%;
-                  @include killPaddingAndMargin;
-
-                  h3{
-                    display: block;
-                    width: 100%;
-                    height: 100%;
-
-                    > a{
-                      display: block;
-                      width: 100%;
-                      height: 100%;
-                      line-height: 90px;
-                      text-align: center;
-                    }
-                  }
-                }
-              }
+            img{
+              width: 100%;
             }
           }
 
-          .activity-entity-container{
-            width: 100%;
-            height: 142px;
+          .h3{
+            display: none;
+          }
+        }
+      }
+
+      // MAIN DIV IN LI
+      .activity-item-container{
+        width: 100%;
+        height: 100%;
+        display: table;
+        min-height: 142px;
+        background-color: white;
+
+        .oae-list{
+          height: 145px;
+
+          li{
             display: block;
-            overflow: visible;
-            position: absolute;
-
-            .activity-entity-image{
-              position: absolute;
-              width: 42px;
-              height: 42px;
-              z-index: 100;
-              margin-top: 6px;
-              margin-left: 6px;
-            }
-
-            .activity-entity-name{
-              width: 100%;
-              height: 35px;
-              font-size: .75em;
-              line-height: 1.1em;
-              background-color: white;
-
-              .activity-title{
-                height: 100%;
-                display: block;
-                padding-top: 5px;
-                padding-left: 60px;
-              }
-            }
-
-            > .oae-list{
-              display: block;
-              width: 100%;
-              height: 107px;
-              overflow: hidden;
-            }
-          }
-
-          > .oae-list{
-            width: 100%;
-            margin-top: 35px;
-          }
-
-          ul{
-            height: 117px;
+            height: 145px;
             overflow: hidden;
-            position: absolute;
-            @include killPaddingAndMargin;
 
-            li{
-              width: 33%;
-              height: 107px;
-              display: block;
-              float: left;
-              background-color: $grey-lightest;
-            }
-
-            li.oae-tile-large{
+            &.oae-tile-large{
               width: 100%;
-              height: 100%;
-              background-color: $grey-lightest;
 
               .oae-tile{
                 width: 100%;
-                height: 100%;
-
-                a{
-                  display: block;
-                  width: 100%;
-                  height: 100%;
-
-                  .oae-thumbnail{
-                    display: block;
-                    width: 100%;
-                    height: 100%;
-
-                    span{
-                      display: block;
-                      width: 100%;
-                      height: 100%;
-                      background-size: cover;
-                      background-repeat: no-repeat;
-                      background-position: center center;
-                    }
-                  }
-                }
+                display: block;
               }
+            }
+          }
+        }
+
+        .oae-list.triple{
+          li{
+
+          }
+        }
+
+        // LVL 2 !!!!
+        > .oae-list{
+
+          li{
+            display: block;
+            float: left;
+          }
+
+          &.single{
+            li{
+              width: 100%;
+            }
+          }
+
+          &.double{
+            li{
+              width: 50%;
+            }
+          }
+
+          &.triple{
+            li{
+              width: 33.33%;
+            }
+          }
+        }
+
+        // LVL 2
+        .activity-entity-container,
+        .activity-content-container{
+
+          .activity-entity-image, .activity-entity-name{
+            display: block;
+            position: absolute;
+          }
+
+          .activity-entity-image{
+            z-index: 2;
+            margin-top: 6px;
+            margin-left: 6px;
+            border: 2px solid white;
+          }
+
+          .activity-entity-name{
+            z-index: 1;
+            width: 100% !important;
+            height: 35px;
+            font-size: .7em;
+            background-color: white;
+
+            .activity-title{
+              position: absolute;
+              display: block;
+              height: 29px;
+              left: 65px;
+              right: 8px;
+              padding-top: 6px;
             }
           }
         }
@@ -191,65 +180,97 @@
     }
   }
 
-  ul, .oae-mobile-tile-bottom{
-    display: block;
-    position: absolute;
-  }
-
-  ul{
-    visibility: none;
-  }
-
   .oae-mobile-tile-bottom{
-    bottom: 0;
+    color: white;
     width: 100%;
-    height: 22px;
-    color: #FFFFFF;
-    font-size: .7em;
-    background-color: black;
-    text-transform: lowercase;
-    @include setGradient(rgba(10,10,10,.75),rgba(0,0,0,.75));
+    height: 30px;
+    line-height: 30px;
+    @include setGradient(rgba(33,33,33,.8), rgba(11,11,11,.8));
 
     .comments, .timeago{
-      height: 22px;
-      display: block;
-      line-height: 22px;
+      font-size: .7em;
       background-repeat: no-repeat;
-
-      > span{
-        height: 22px;
-        line-height: 20px;
-        display: block;
-      }
     }
 
     .comments{
       float: left;
-      text-align: left;
       margin-left: 8px;
-      background-position: center left;
+      padding-left: 17px;
+      background-position: left center;
       background-image: url('../img/interface/iconcomments.png');
-
-      > span{
-        margin-left: 16px;
-      }
     }
 
     .timeago{
       float: right;
-      text-align: right;
       margin-right: 8px;
-      background-position: center right;
+      padding-right: 15px;
+      background-position: right center;
       background-image: url('../img/interface/icontime.png');
-
-      > span{
-        margin-right: 14px;
-      }
     }
   }
 
   .activity-comment-container{
-    display: none;
+    font-size: .7em;
+
+    ul.media-list,
+    ul.media-list li,
+    ul.media-list li div{
+      @include killPaddingAndMargin;
+    }
+
+    ul.media-list{
+      padding-top: 3px;
+    }
+
+    li.media{
+      display: block;
+      margin-bottom: 10px !important;
+
+      .oae-thumbnail img{
+        width: 24px;
+        height: 24px;
+      }
+
+      .media-body{
+        font-size: 1.1em;
+        line-height: 1.5em;
+        padding-top: 6px;
+        padding-left: 40px;
+        padding-right: 8px;
+
+        .media-heading{
+          font-size: .9em;
+          margin-bottom: 8px;
+
+          span{
+            float: right;
+            font-weight: normal;
+            color: $grey-text;
+            padding-right: 14px;
+            background-repeat: no-repeat;
+            background-position: right center;
+            background-image: url('../img/interface/icontime.png');
+          }
+        }
+      }
+    }
+
+    li.media.activity-reply{
+      padding-left: 32px;
+    }
+
+    .activity-read-more{
+      display: block;
+      color: white;
+      height: 32px;
+      line-height: 32px;
+      text-align: center;
+      @include setGradient($blue-light, $blue-darker);
+
+      &:hover{
+        @include setGradient(#1b9ad8, #1B8CC7);
+      }
+    }
   }
 }
 
@@ -288,11 +309,91 @@ only screen and (            min-resolution: 2dppx){
   .timeago{
     background-image: url('../img/interface/icontime@2x.png');
   }
+
+  .media-heading span{
+    background-image: url('../img/interface/icontime@2x.png');
+  }
 }
 
-/* Landscape */
-@media only screen
-and (min-device-width : 768px)
-and (max-device-width : 1024px) {
+@media all and (device-width: 768px) and (device-height: 1024px) {
 
+  #home-view, #detail-view{
+
+    .activity-item-container, .activity-entity-container{
+
+      > .oae-list{
+        height: 250px !important;
+
+        .oae-tile-large, .oae-tile{
+          height: 250px !important;
+
+          .oae-thumbnail span{
+            display: block;
+            height: 250px !important;
+          }
+        }
+      }
+    }
+
+    .activity-item-container{
+      height: 250px;
+    }
+
+    .activity-entity-container{
+
+      > .activity-entity-image .oae-thumbnail img{
+        width: 60px;
+        height: 60px;
+      }
+
+      > .activity-entity-name .activity-title{
+        left: 75px !important;
+      }
+    }
+
+    .activity-comment-container{
+      font-size: .7em;
+
+      li.media{
+        margin-bottom: 20px !important;
+
+        div.activity-entity-image{
+          margin-left: 13px !important;
+          margin-top: 13px !important;
+        }
+
+        .oae-thumbnail img{
+          width: 40px;
+          height: 40px;
+        }
+
+        .media-body{
+          font-size: 1.2em;
+          line-height: 1.5em;
+          padding-top: 10px;
+          padding-left: 67px;
+          padding-right: 8px;
+
+          .media-heading{
+            font-size: 1em;
+            margin-bottom: 10px;
+
+            span{
+              float: none;
+              margin-left: 2px;
+              background: none;
+            }
+          }
+        }
+      }
+
+      li.media.activity-reply{
+        padding-left: 53px;
+      }
+    }
+
+    .activity-read-more{
+      font-size: 1.2em;
+    }
+  }
 }

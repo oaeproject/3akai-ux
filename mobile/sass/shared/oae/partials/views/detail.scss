@@ -27,6 +27,25 @@
 
 #detail-view{
 
+  #mobile-detail-container{
+
+    .activity-content-item{
+      background-color: white;
+      text-align: center;
+
+      img{
+        max-width: 100%;
+      }
+    }
+  }
+}
+
+#btnBack{
+  span{
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url('../img/interface/btnback.png');
+  }
 }
 
 /////////////////
@@ -42,4 +61,10 @@ only screen and (        min-device-pixel-ratio: 2),
 only screen and (           min-resolution: 192dpi),
 only screen and (            min-resolution: 2dppx){
 
+  #btnBack{
+    span{
+      background-size: 50%;
+      background-image: url('../img/interface/btnback@2x.png');
+    }
+  }
 }
