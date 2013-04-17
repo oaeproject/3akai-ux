@@ -229,6 +229,15 @@ define(
             return size;
         };
 
+        /**
+         * When item in activity feed gets clicked
+         * @param {Event}   e           The clickevent
+         * @param {Object}  origin      The object that was clicked on
+         */
+        var onDetailItemClicked = function(e, origin){
+            //_tempURL = $(origin).attr('href');
+        };
+
         ////////////////////////
         ///////// USER /////////
         ////////////////////////
@@ -251,6 +260,7 @@ define(
          * Bind events
          */
         var addBinding = function() {
+            $(document).on(constants.events.activities.detailclicked, onDetailItemClicked);
             $(document).on(constants.events.activities.templatesready, onTemplatesReady);
             $(document).on(constants.events.activities.viewchanged, onViewChanged);
             $(document).on(constants.authentication.events.loginsuccess, onLoginSuccess);

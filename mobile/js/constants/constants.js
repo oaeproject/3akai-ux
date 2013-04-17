@@ -34,14 +34,18 @@ define(['exports'], function(exports) {
                 socialloginattempt      : 'oae-mobile-user-social-login-attempt'
             },
             types: {
-                local                   : 'oae-authentication-local',
-                google                  : 'oae-authentication-google',
+                cas                     : 'oae-authentication-cas',
                 facebook                : 'oae-authentication-facebook',
+                google                  : 'oae-authentication-google',
+                local                   : 'oae-authentication-local',
+                shibboleth              : 'oae-authentication-shibboleth',
                 twitter                 : 'oae-authentication-twitter'
             },
             urls:{
+                cas                     : '/api/auth/cas',
                 google                  : '/api/auth/google',
                 facebook                : '/api/auth/facebook',
+                shibboleth              : '/api/auth/shibboleth',
                 twitter                 : '/api/auth/twitter'
             }
         },
@@ -49,12 +53,14 @@ define(['exports'], function(exports) {
             activities: {
                 activitystart           : 'oae-mobile-activity-start',
                 activityend             : 'oae-mobile-activity-end',
-                templatesready          : 'oae-mobile-templates-ready',
-                viewchanged             : 'oae-mobile-view-changed',
-                viewpopped              : 'oae-mobile-view-popped',
+                detailclicked           : 'oae-mobile-detail-clicked',
                 initmenu                : 'oae-mobile-init-menu',
                 menutoggle              : 'oae-mobile-menu-toggle',
-                menuclicked             : 'oae-mobile-menu-clicked'
+                menuclicked             : 'oae-mobile-menu-clicked',
+                templatesready          : 'oae-mobile-templates-ready',
+                viewchanged             : 'oae-mobile-view-changed',
+                viewpopped              : 'oae-mobile-view-popped'
+
             },
             data: {
                 getsettings             : 'oae-mobile-get-settings'

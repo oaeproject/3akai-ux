@@ -93,10 +93,21 @@
 
         .oae-list{
           height: 145px;
+          overflow: hidden;
+          background-color: $grey-dark;
+
+          li:not(.oae-tile-large){
+            margin-top: 5px;
+            margin-right: 5px;
+            max-width: 32%;
+
+            &:last-child{
+              margin-right: 0;
+            }
+          }
 
           li{
             display: block;
-            height: 145px;
             overflow: hidden;
 
             &.oae-tile-large{
@@ -105,6 +116,7 @@
               .oae-tile{
                 width: 100%;
                 display: block;
+                overflow: hidden;
               }
             }
           }
@@ -164,7 +176,7 @@
             width: 100% !important;
             height: 35px;
             font-size: .7em;
-            background-color: white;
+            background-color: #FAFAFA;
 
             .activity-title{
               position: absolute;
@@ -321,15 +333,22 @@ only screen and (            min-resolution: 2dppx){
 
     .activity-item-container, .activity-entity-container{
 
-      > .oae-list{
-        height: 250px !important;
+      > div .oae-list, > .oae-list{
+        height: 200px !important;
+        background-color: $grey-dark;
 
-        .oae-tile-large, .oae-tile{
-          height: 250px !important;
+        li{
+          height: 200px !important;
+        }
 
-          .oae-thumbnail span{
-            display: block;
-            height: 250px !important;
+        li.oae-tile-large{
+
+          .oae-tile{
+            height: 200px;
+
+            a, a .oae-thumbnail, a .oae-thumbnail span{
+              height: 200px;
+            }
           }
         }
       }

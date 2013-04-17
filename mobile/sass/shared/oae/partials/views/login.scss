@@ -129,6 +129,14 @@
         @include setStretch;
       }
 
+      &#btnCas{
+        @include setGradient(#1B8CC7, #0D85C4);
+      }
+
+      &#btnShibboleth{
+        @include setGradient(#1B8CC7, #0D85C4);
+      }
+
       &#btnLogin{
         @include setGradient(#1B8CC7, #0D85C4);
       }

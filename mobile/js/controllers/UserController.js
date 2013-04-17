@@ -122,11 +122,17 @@ define(
             if(type && type != null){
                 _loginType = type;
                 switch(type){
+                    case constants.authentication.types.cas:
+                        url = constants.authentication.urls.cas;
+                        break;
                     case constants.authentication.types.facebook:
                         url = constants.authentication.urls.facebook;
                         break;
                     case constants.authentication.types.google:
                         url = constants.authentication.urls.google;
+                        break;
+                    case constants.authentication.types.shibboleth:
+                        url = constants.authentication.urls.shibboleth;
                         break;
                     case constants.authentication.types.twitter:
                         url = constants.authentication.urls.twitter;

@@ -30,10 +30,12 @@
   #mobile-detail-container{
 
     .activity-content-item{
-      background-color: white;
       text-align: center;
+      background-color: $grey-dark;
 
-      img{
+      img.oae-detail-image{
+        margin: auto;
+        display: block;
         max-width: 100%;
       }
     }
