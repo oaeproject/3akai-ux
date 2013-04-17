@@ -31,15 +31,20 @@
     font-weight: 600;
   }
 
-  // Widget container
+  //////////////////////
+  // WIDGET CONTAINER //
+  //////////////////////
+
   #mobileactivity-container, #mobile-detail-container{
 
-    // MAIN LIST
     .oae-list{
       overflow: hidden;
-      margin-bottom: 22px;
       @include killPaddingAndMargin;
     }
+
+    ///////////////
+    // MAIN LIST //
+    ///////////////
 
     > .oae-list{
       left: 8px;
@@ -50,147 +55,206 @@
         display: block;
         margin-bottom: 22px;
         list-style-type: none;
-
-        .oae-tile{
-          width: 100%;
-          height: 145px;
-
-          a{
-            width: 100%;
-            height: 100%;
-            display: block;
-            cursor: pointer;
-            margin-top: 35px;
-            background-color: $grey-dark;
-
-            span{
-              width: 100%;
-              height: 145px;
-              display: block;
-              background-size: cover;
-              background-repeat: no-repeat;
-              background-position: center center;
-            }
-
-            img{
-              width: 100%;
-            }
-          }
-
-          .h3{
-            display: none;
-          }
-        }
       }
+    }
 
-      // MAIN DIV IN LI
+    /////////////////////
+    // MAIN LIST ITEMS //
+    /////////////////////
+
+    > .oae-list li {
+
       .activity-item-container{
         width: 100%;
         height: 100%;
         display: table;
-        min-height: 142px;
+        min-height: 147px;
         background-color: white;
+      }
 
-        .oae-list{
-          height: 145px;
+      .activity-item-container > .activity-content-container{
+        height: 147px;
+        background-color: red;
+      }
+    }
+
+    .activity-item-container > .activity-entity-container ul.oae-list,
+    .activity-item-container > ul.oae-list{
+      height: 147px !important;
+    }
+
+    //////////////////////////////
+    // SINGLE TILE IN CONTAINER //
+    //////////////////////////////
+
+    .activity-item-container > .activity-entity-container ul.oae-list .oae-tile{
+      height: 147px;
+
+      a{
+        width: 100%;
+        height: 100%;
+        display: block;
+        margin-top: 35px;
+
+        .oae-thumbnail{
+          max-width: 100%;
+          min-width: 147px;
+          min-height: 100%;
+          min-height: 147px;
+          background-color: #ff8c00;
+
+          span{
+            width: 100%;
+            height: 145px;
+            display: block;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+          }
+
+          img{
+            width: 100%;
+          }
+        }
+      }
+
+      .h3{
+        display: none;
+      }
+    }
+
+    ////////////////////
+    // MULTIPLE TILES //
+    ////////////////////
+
+    .activity-item-container > ul.oae-list{
+      .activity-item-container > .activity-content-container > ul.oae-list{
+        background-color: $grey-dark !important;
+
+        // NORMAL TILES
+        li{
+          float: left;
+          display: block;
+          height: 147px;
+          min-height: 147px;
+          min-width: 147px;
+          max-width: 147px;
           overflow: hidden;
-          background-color: $grey-dark;
+          margin-right: 4px;
+          background-color: red;
 
-          li:not(.oae-tile-large){
-            margin-top: 5px;
-            margin-right: 5px;
-            max-width: 32%;
+          .oae-tile{
+            height: 147px;
+            max-width: 147px;
+            min-width: 147px;
+            background-color: red;
 
-            &:last-child{
-              margin-right: 0;
+            a{
+              display: block;
+              min-width: 147px;
+              min-height: 147px;
+              background-color: red;
+
+              .oae-thumbnail{
+                height: 147px;
+                max-width: 100%;
+                min-width: 147px;
+                background-color: red;
+              }
             }
           }
 
-          li{
-            display: block;
-            overflow: hidden;
+          &:last-child{
+            margin-right: 0;
+          }
+        }
 
-            &.oae-tile-large{
-              width: 100%;
+        // LARGE TILES
+        li.oae-tile-large{
+          float: none;
+          display: inline-table;
+          max-width: 100%;
+          min-width: 100%;
 
-              .oae-tile{
-                width: 100%;
-                display: block;
-                overflow: hidden;
+          .oae-tile{
+            min-width: 100%;
+            max-width: 100%;
+
+            a{
+
+              .oae-thumbnail{
+                background-color: green;
               }
             }
           }
         }
 
-        .oae-list.triple{
-          li{
-
-          }
+        // ICONS
+        .icon-oae-{
+          background-repeat: no-repeat;
+          background-position: center center;
         }
 
-        // LVL 2 !!!!
-        > .oae-list{
-
-          li{
-            display: block;
-            float: left;
-          }
-
-          &.single{
-            li{
-              width: 100%;
-            }
-          }
-
-          &.double{
-            li{
-              width: 50%;
-            }
-          }
-
-          &.triple{
-            li{
-              width: 33.33%;
-            }
-          }
+        .icon-oae-content{
+          background-color: blue !important;
         }
 
-        // LVL 2
-        .activity-entity-container,
-        .activity-content-container{
-
-          .activity-entity-image, .activity-entity-name{
-            display: block;
-            position: absolute;
-          }
-
-          .activity-entity-image{
-            z-index: 2;
-            margin-top: 6px;
-            margin-left: 6px;
-            border: 2px solid white;
-          }
-
-          .activity-entity-name{
-            z-index: 1;
-            width: 100% !important;
-            height: 35px;
-            font-size: .7em;
-            background-color: #FAFAFA;
-
-            .activity-title{
-              position: absolute;
-              display: block;
-              height: 29px;
-              left: 65px;
-              right: 8px;
-              padding-top: 6px;
-            }
-          }
+        .icon-oae-group{
+          background-color: pink !important;
         }
       }
     }
   }
+
+  ////////////////////
+  // AVATAR + TITLE //
+  ////////////////////
+
+  .activity-entity-container,
+  .activity-content-container{
+
+    .activity-entity-image, .activity-entity-name{
+      display: block;
+      position: absolute;
+    }
+
+    .activity-entity-image{
+      z-index: 2;
+      margin-top: 6px;
+      margin-left: 6px;
+      border: 2px solid white;
+
+      .oae-thumbnail{
+        max-width: 48px;
+        max-height: 48px;
+      }
+
+      img{
+        max-width: 48px;
+      }
+    }
+
+    .activity-entity-name{
+      z-index: 1;
+      width: 100% !important;
+      height: 35px;
+      font-size: .7em;
+      background-color: #FAFAFA;
+
+      .activity-title{
+        position: absolute;
+        display: block;
+        height: 29px;
+        left: 65px;
+        right: 8px;
+        padding-top: 6px;
+      }
+    }
+  }
+
+  //////////////////////
+  // CONTAINER BOTTOM //
+  //////////////////////
 
   .oae-mobile-tile-bottom{
     color: white;
@@ -220,6 +284,10 @@
       background-image: url('../img/interface/icontime.png');
     }
   }
+
+  //////////////
+  // COMMENTS //
+  //////////////
 
   .activity-comment-container{
     font-size: .7em;
@@ -382,8 +450,8 @@ only screen and (            min-resolution: 2dppx){
         }
 
         .oae-thumbnail img{
-          width: 40px;
-          height: 40px;
+          max-width: 48px;
+          max-height: 48px;
         }
 
         .media-body{
