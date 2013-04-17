@@ -56,7 +56,7 @@ $top_bar_height: 35px;
       li{
         position: relative;
         display: block;
-        margin-bottom: 22px;
+        margin-bottom: 25px;
         list-style-type: none;
       }
     }
@@ -188,25 +188,30 @@ $top_bar_height: 35px;
       .activity-item-container > ul.oae-list{
 
         li{
-          min-width: $cont_height;
-          max-width: $cont_height;
-          margin-right: 4px;
-          width: 100% !important;
+          min-width: 33.33%;
+          max-width: 33.33%;
 
           .oae-tile{
             height: 112px;
             margin-top: 35px;
-            max-width: $cont_height;
-            min-width: $cont_height;
+            max-width: 100%;
+            min-width: 100%;
 
             a{
-              min-width: $cont_height;
+              min-width: 100%;
+              text-align: center;
               min-height: $cont_height - $top_bar_height;
 
               .oae-thumbnail{
                 height: 112px;
                 max-width: 100%;
-                min-width: $cont_height;
+                min-width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+
+                img{
+                  width: 100%;
+                }
               }
             }
           }
@@ -263,164 +268,164 @@ $top_bar_height: 35px;
         background-image: url('../img/interface/icongroups.png');
       }
     }
-  }
 
-  ////////////////////
-  // AVATAR + TITLE //
-  ////////////////////
+    ////////////////////
+    // AVATAR + TITLE //
+    ////////////////////
 
-  .activity-entity-container,
-  .activity-content-container{
+    .activity-entity-container,
+    .activity-content-container{
 
-    .activity-entity-image, .activity-entity-name{
-      display: block;
-      position: absolute;
-    }
-
-    .activity-entity-image{
-      z-index: 2;
-      margin-top: 6px;
-      margin-left: 6px;
-      border: 2px solid white;
-
-      .oae-thumbnail{
-        width: 48px;
-        height: 48px;
-      }
-
-      .oae-thumbnail.icon-oae-user{
-        background-size: 50%;
-        background-color: #DDDDDD;
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-image: url('../img/interface/iconuser@2x.png');
-      }
-
-      img{
-        max-width: 48px;
-      }
-    }
-
-    .activity-entity-name{
-      z-index: 1;
-      width: 100% !important;
-      height: 35px;
-      font-size: .7em;
-      background-color: #FAFAFA;
-
-      .activity-title{
-        position: absolute;
+      .activity-entity-image, .activity-entity-name{
         display: block;
-        height: 29px;
-        left: 65px;
-        right: 8px;
-        padding-top: 6px;
-      }
-    }
-  }
-
-  //////////////////////
-  // CONTAINER BOTTOM //
-  //////////////////////
-
-  .oae-mobile-tile-bottom{
-    color: white;
-    width: 100%;
-    height: 30px;
-    line-height: 30px;
-    @include setGradient(rgba(33,33,33,.8), rgba(11,11,11,.8));
-
-    .comments, .timeago{
-      font-size: .7em;
-      background-repeat: no-repeat;
-    }
-
-    .comments{
-      float: left;
-      margin-left: 8px;
-      padding-left: 17px;
-      background-position: left center;
-      background-image: url('../img/interface/iconcomments.png');
-    }
-
-    .timeago{
-      float: right;
-      margin-right: 8px;
-      padding-right: 15px;
-      background-position: right center;
-      background-image: url('../img/interface/icontime.png');
-    }
-  }
-
-  //////////////
-  // COMMENTS //
-  //////////////
-
-  .activity-comment-container{
-    font-size: .7em;
-
-    ul.media-list,
-    ul.media-list li{
-      @include killPaddingAndMargin;
-    }
-
-    ul.media-list{
-      padding-top: 5px;
-      padding-left: 5px;
-    }
-
-    li.media{
-      display: block;
-      margin-bottom: 10px !important;
-
-      .oae-thumbnail img{
-        width: 24px;
-        height: 24px;
+        position: absolute;
       }
 
-      .oae-thumbnail.icon-oae-user{
-        width: 24px;
-        height: 24px;
+      .activity-entity-image{
+        z-index: 2;
+        margin-top: 6px;
+        margin-left: 6px;
+        border: 2px solid white;
+
+        .oae-thumbnail{
+          width: 48px;
+          height: 48px;
+        }
+
+        .oae-thumbnail.icon-oae-user{
+          background-size: 50%;
+          background-color: #DDDDDD;
+          background-repeat: no-repeat;
+          background-position: center center;
+          background-image: url('../img/interface/iconuser@2x.png');
+        }
+
+        img{
+          max-width: 48px;
+        }
       }
 
-      .media-body{
-        font-size: 1.1em;
-        line-height: 1.5em;
-        padding-top: 6px;
-        padding-left: 40px;
-        padding-right: 8px;
+      .activity-entity-name{
+        z-index: 1;
+        width: 100% !important;
+        height: 35px;
+        font-size: .7em;
+        background-color: #FAFAFA;
 
-        .media-heading{
-          font-size: .9em;
-          margin-bottom: 8px;
-
-          span{
-            float: right;
-            font-weight: normal;
-            color: $grey-text;
-            padding-right: 14px;
-            background-repeat: no-repeat;
-            background-position: right center;
-            background-image: url('../img/interface/icontime.png');
-          }
+        .activity-title{
+          position: absolute;
+          display: block;
+          height: 29px;
+          left: 65px;
+          right: 8px;
+          padding-top: 6px;
         }
       }
     }
 
-    li.media.activity-reply{
-      padding-left: 38px;
+    //////////////////////
+    // CONTAINER BOTTOM //
+    //////////////////////
+
+    .oae-mobile-tile-bottom{
+      color: white;
+      width: 100%;
+      height: 30px;
+      line-height: 30px;
+      @include setGradient(rgba(33,33,33,.8), rgba(11,11,11,.8));
+
+      .comments, .timeago{
+        font-size: .7em;
+        background-repeat: no-repeat;
+      }
+
+      .comments{
+        float: left;
+        margin-left: 8px;
+        padding-left: 17px;
+        background-position: left center;
+        background-image: url('../img/interface/iconcomments.png');
+      }
+
+      .timeago{
+        float: right;
+        margin-right: 8px;
+        padding-right: 15px;
+        background-position: right center;
+        background-image: url('../img/interface/icontime.png');
+      }
     }
 
-    .activity-read-more{
-      display: block;
-      color: white;
-      height: 32px;
-      line-height: 32px;
-      text-align: center;
-      @include setGradient($blue-light, $blue-darker);
+    //////////////
+    // COMMENTS //
+    //////////////
 
-      &:hover{
-        @include setGradient(#1b9ad8, #1B8CC7);
+    .activity-comment-container{
+      font-size: .7em;
+
+      ul.media-list,
+      ul.media-list li{
+        @include killPaddingAndMargin;
+      }
+
+      ul.media-list{
+        padding-top: 5px;
+        padding-left: 5px;
+      }
+
+      li.media{
+        display: block;
+        margin-bottom: 10px !important;
+
+        .oae-thumbnail img{
+          width: 24px;
+          height: 24px;
+        }
+
+        .oae-thumbnail.icon-oae-user{
+          width: 24px;
+          height: 24px;
+        }
+
+        .media-body{
+          font-size: 1.1em;
+          line-height: 1.5em;
+          padding-top: 6px;
+          padding-left: 40px;
+          padding-right: 8px;
+
+          .media-heading{
+            font-size: .9em;
+            margin-bottom: 8px;
+
+            span{
+              float: right;
+              font-weight: normal;
+              color: $grey-text;
+              padding-right: 14px;
+              background-repeat: no-repeat;
+              background-position: right center;
+              background-image: url('../img/interface/icontime.png');
+            }
+          }
+        }
+      }
+
+      li.media.activity-reply{
+        padding-left: 38px;
+      }
+
+      .activity-read-more{
+        display: block;
+        color: white;
+        height: 32px;
+        line-height: 32px;
+        text-align: center;
+        @include setGradient($blue-light, $blue-darker);
+
+        &:hover{
+          @include setGradient(#1b9ad8, #1B8CC7);
+        }
       }
     }
   }

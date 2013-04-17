@@ -89,6 +89,9 @@ define(
             var data = {'constants': constants, 'profile': profile};
             oae.api.widget.insertWidget('mobilecontentdetail', null, $('#mobile-content-detail-widget-container'), null, data,
                 function(e){
+
+                    console.log(data.profile);
+
                     // Hide activity indicator
                     $(document).trigger(constants.events.activities.activityend);
 

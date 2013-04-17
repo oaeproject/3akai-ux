@@ -29,14 +29,25 @@
 
   #mobile-detail-container{
 
-    .activity-content-item{
-      text-align: center;
-      background-color: $grey-dark;
+    .activity-item-container{
 
-      img.oae-detail-image{
-        margin: auto;
+      .activity-entity-container .oae-list,
+      .activity-entity-container .activity-entity-name{
+        position: relative;
         display: block;
-        max-width: 100%;
+      }
+
+      .activity-entity-container .oae-list{
+
+        .oae-thumbnail{
+          text-align: center;
+          background-color: $grey-dark;
+        }
+
+        .oae-thumbnail img{
+          margin-left: auto;
+          margin-right: auto;
+        }
       }
     }
   }
