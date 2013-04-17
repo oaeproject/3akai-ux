@@ -28,26 +28,42 @@
 #detail-view{
 
   #mobile-detail-container{
+    overflow: visible;
 
     .activity-item-container{
+      overflow: visible;
 
       .activity-entity-container .oae-list,
       .activity-entity-container .activity-entity-name{
+        overflow: visible;
         position: relative;
         display: block;
       }
 
-      .activity-entity-container .oae-list{
+      .activity-entity-container ul.oae-list{
+        height: auto;
+
+        .oae-tile-large, .oae-tile{
+          height: auto;
+        }
 
         .oae-thumbnail{
+          height: auto;
           text-align: center;
           background-color: $grey-dark;
         }
 
         .oae-thumbnail img{
+          width: 100%;
+          height: auto;
           margin-left: auto;
           margin-right: auto;
         }
+      }
+
+      .oae-mobile-tile-bottom{
+        position: absolute;
+        bottom: 0;
       }
     }
   }
