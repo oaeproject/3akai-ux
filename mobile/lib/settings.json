@@ -1,0 +1,11 @@
+{
+    "menu": {
+        "items": [
+            {
+                "label"     : "__MSG__SIGN_OUT__",
+                "icon"      : "/mobile/img/interface/iconsignout.png",
+                "action"    : "signout"
+            }
+        ]
+    }
+}

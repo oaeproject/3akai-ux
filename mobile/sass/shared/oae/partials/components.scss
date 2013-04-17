@@ -1,0 +1,89 @@
+/*
+ * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ *     http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+/////////////////
+///// SHARED ////
+/////////////////
+
+@import "../dependencies/animations";
+@import "../dependencies/colors";
+@import "../dependencies/mixins";
+
+/////////////////
+/// SELECTORS ///
+/////////////////
+
+#oae-mobile-activity-indicator,
+#oae-mobile-activity-indicator .bg,
+#oae-mobile-activity-indicator .spinner{
+  display: block;
+  position: absolute;
+}
+
+#oae-mobile-activity-indicator,
+#oae-mobile-activity-indicator .bg{
+  @include setStretch;
+}
+
+#oae-mobile-activity-indicator {
+  z-index: 10000;
+
+  .bg{
+    background-color: #111111;
+    opacity: .5;
+  }
+
+  .spinner{
+    top: 50%;
+    left: 50%;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    margin-left: -16px;
+    margin-top: -16px;
+    background-image: url('../img/interface/loader@2x.gif');
+  }
+}
+
+/////////////////
+//// QUERIES ////
+/////////////////
+
+/* Retina */
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (   min--moz-device-pixel-ratio: 2),
+only screen and (   -o-min-device-pixel-ratio: 2/1),
+only screen and (        min-device-pixel-ratio: 2),
+only screen and (           min-resolution: 192dpi),
+only screen and (            min-resolution: 2dppx){
+
+  #oae-mobile-activity-indicator {
+    .spinner{
+      background-image: url('../img/interface/loader@2x.gif');
+    }
+  }
+
+  #btnMenu{
+    span{
+      background-image: url('../img/interface/btnmenu@2x.png');
+    }
+  }
+}
+
+/* Medium screen, non-retina */
+@media only screen and (min-width: 700px) {
+
+}

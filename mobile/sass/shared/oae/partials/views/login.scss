@@ -1,0 +1,193 @@
+/*
+ * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ *     http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+/////////////////
+///// SHARED ////
+/////////////////
+
+@import "../../dependencies/animations";
+@import "../../dependencies/colors";
+@import "../../dependencies/mixins";
+
+/////////////////
+/// SELECTORS ///
+/////////////////
+
+#login-view{
+
+  #mobile-login-widget-container,
+  #mobile-login-widget-container > div,
+  #mobile-login-widget-container #mobile-login-form-container{
+    width: 100%;
+    height: 100%;
+  }
+
+  #mobile-login-widget-container,
+  #mobile-login-widget-container > div{
+    display: table;
+  }
+
+  #mobile-login-form-container{
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  .content{
+    border-left: none;
+    @include setBorderRadius(0);
+  }
+
+  .centered{
+    padding: 0 15px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    transition: all 250ms;
+  }
+
+  .logo{
+    width: 100%;
+    height: 122px;
+    transition: all 250ms;
+    margin: 0 auto 30px auto;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url('../img/interface/logostartup.png');
+  }
+
+  .oae-external-auth-container{
+    padding-top: 10px;
+    border-top: 2px solid #DDDCDA;
+  }
+
+  input, button{
+    width: 100%;
+    height: 100%;
+    border: none;
+    @include setBorderRadius(8px);
+  }
+
+  .inputcontainer, .buttoncontainer{
+    overflow: hidden;
+    margin-bottom: 10px;
+    text-align: center;
+    border-top: 1px solid #BBBBBB;
+    border-left: 1px solid #BBBBBB;
+    border-right: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+    @include setBorderRadius(10px);
+  }
+
+  .inputcontainer{
+    height: 40px;
+    background-color: #FFFFFF;
+
+    input{
+      color: #777777;
+      padding-top: 1px;
+      padding-left: 20px;
+      padding-right: 20px;
+      box-shadow: inset 0px 0px 2px 2px rgba(00, 00, 00, .1);
+      -webkit-box-shadow: inset 0px 0px 2px 2px rgba(00, 00, 00, .1);
+      -webkit-appearance: none;
+    }
+  }
+
+  .buttoncontainer{
+    height: 37px;
+    padding: 3px;
+    background-color: #CCCCCC;
+    box-shadow: inset 0px 0px 3px 3px rgba(00, 00, 00, .15);
+    -webkit-box-shadow: inset 0px 0px 3px 3px rgba(00, 00, 00, .15);
+
+    button{
+      color: #FFFFFF;
+      text-transform: lowercase;
+      @include killPaddingAndMargin;
+
+      span{
+        display: block;
+        height: 35px;
+        line-height: 37px;
+        vertical-align: middle;
+        border-top: 1px solid #70BEE6;
+        border-bottom: 1px solid #0A5176;
+        @include setBorderRadius(8px);
+        @include setStretch;
+      }
+
+      &#btnCas{
+        @include setGradient(#1B8CC7, #0D85C4);
+      }
+
+      &#btnShibboleth{
+        @include setGradient(#1B8CC7, #0D85C4);
+      }
+
+      &#btnLogin{
+        @include setGradient(#1B8CC7, #0D85C4);
+      }
+
+      &#btnFacebook{
+        @include setGradient(#1B8CC7, #0D85C4);
+      }
+
+      &#btnGoogle{
+        @include setGradient(#e34e5a, #d94c58);
+
+        span{
+          border-top: 1px solid #fd5561;
+          border-bottom: 1px solid #d94c58;
+        }
+      }
+
+      &#btnTwitter{
+        @include setGradient(#1BA4E3, #0D9DDF);
+      }
+    }
+  }
+}
+
+/////////////////
+//// QUERIES ////
+/////////////////
+
+/* Retina */
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (   min--moz-device-pixel-ratio: 2),
+only screen and (   -o-min-device-pixel-ratio: 2/1),
+only screen and (        min-device-pixel-ratio: 2),
+only screen and (           min-resolution: 192dpi),
+only screen and (            min-resolution: 2dppx){
+
+  #login-view{
+
+    .logo{
+      background-size: 50%;
+      background-image: url('../img/interface/logostartup@2x.png');
+    }
+  }
+}
+
+/* Landscape */
+@media only screen and (max-height: 360px) {
+  #login-view{
+    .logo{
+      display: none;
+    }
+  }
+}
