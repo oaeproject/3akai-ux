@@ -141,18 +141,18 @@ $top_bar_height: 35px;
           float: left;
           display: block;
           height: $cont_height;
-          min-height: $cont_height;
+          min-height: $cont_height - $top_bar_height;
           overflow: hidden;
 
           .oae-tile{
-            height: $cont_height - $top_bar_height;
+            height: $cont_height - 5;
 
             a{
               display: block;
-              min-height: $cont_height - $top_bar_height;
+              min-height: $cont_height;
 
               .oae-thumbnail{
-                height: $cont_height - $top_bar_height;
+                height: $cont_height;
               }
             }
           }
@@ -170,8 +170,10 @@ $top_bar_height: 35px;
             max-width: 100%;
 
             a{
+              margin-top: 35px;
 
               .oae-thumbnail{
+                height: 112px;
                 position: relative;
               }
             }
@@ -192,6 +194,8 @@ $top_bar_height: 35px;
           width: 100% !important;
 
           .oae-tile{
+            height: 112px;
+            margin-top: 35px;
             max-width: $cont_height;
             min-width: $cont_height;
 
@@ -200,6 +204,7 @@ $top_bar_height: 35px;
               min-height: $cont_height - $top_bar_height;
 
               .oae-thumbnail{
+                height: 112px;
                 max-width: 100%;
                 min-width: $cont_height;
               }
@@ -228,8 +233,10 @@ $top_bar_height: 35px;
               min-height: 100%;
 
               .oae-thumbnail{
+                height: 112px;
                 max-width: 100%;
-                min-width: $cont_height;
+                margin-top: 35px;
+                min-width: $cont_height - $top_bar_height;
               }
             }
           }
@@ -243,17 +250,17 @@ $top_bar_height: 35px;
       .icon-oae-content, .icon-oae-group{
         display: block;
         width: 100% !important;
-        background-color: $grey-text;
+        background-color: #EEEEEE;
         background-repeat: no-repeat;
         background-position: center center;
       }
 
       .icon-oae-content{
-        background-image: url('../img/interface/icontime.png');
+        background-image: url('../img/interface/icondocument.png');
       }
 
       .icon-oae-group{
-        background-image: url('../img/interface/iconcomments.png');
+        background-image: url('../img/interface/icongroups.png');
       }
     }
   }
@@ -283,7 +290,7 @@ $top_bar_height: 35px;
 
       .oae-thumbnail.icon-oae-user{
         background-size: 50%;
-        background-color: $grey-text;
+        background-color: #DDDDDD;
         background-repeat: no-repeat;
         background-position: center center;
         background-image: url('../img/interface/iconuser@2x.png');
