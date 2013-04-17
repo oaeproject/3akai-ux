@@ -26,6 +26,7 @@
 ////////////////
 
 $cont_height: 147px;
+$cont_height_tablet: 225px;
 $top_bar_height: 35px;
 
 /////////////////
@@ -33,6 +34,11 @@ $top_bar_height: 35px;
 /////////////////
 
 #home-view, #detail-view{
+
+  .content{
+    background-color: #777777;
+    border-left: 1px solid #444444;
+  }
 
   //////////////////////
   // WIDGET CONTAINER //
@@ -83,10 +89,6 @@ $top_bar_height: 35px;
       .activity-item-container > .activity-content-container ul.oae-list,
       .activity-item-container > ul.oae-list{
         height: $cont_height !important;
-      }
-
-      .activity-item-container ul.oae-list{
-        //padding-top: $top_bar_height;
       }
 
       //////////////////////////////
@@ -332,7 +334,7 @@ $top_bar_height: 35px;
       width: 100%;
       height: 30px;
       line-height: 30px;
-      @include setGradient(rgba(33,33,33,.8), rgba(11,11,11,.8));
+      @include setGradient(rgba(22,22,22,1), rgba(11,11,11,1));
 
       .comments, .timeago{
         font-size: .7em;
@@ -475,4 +477,138 @@ only screen and (            min-resolution: 2dppx){
 
 @media all and (device-width: 768px) and (device-height: 1024px) {
 
+//////////////////////
+// WIDGET CONTAINER //
+//////////////////////
+
+  #home-view, #detail-view{
+
+    #mobileactivity-container, #mobile-detail-container{
+
+      /////////////////////
+      // MAIN LIST ITEMS //
+      /////////////////////
+
+      > .oae-list li {
+
+        .activity-item-container{
+          min-height: $cont_height_tablet;
+        }
+
+        .activity-item-container > .activity-content-container{
+          height: $cont_height_tablet;
+        }
+
+        .activity-item-container > .activity-entity-container ul.oae-list,
+        .activity-item-container > .activity-content-container ul.oae-list,
+        .activity-item-container > ul.oae-list{
+          height: $cont_height_tablet !important;
+        }
+
+        //////////////////////////////
+        // SINGLE TILE IN CONTAINER //
+        //////////////////////////////
+
+        .activity-item-container > .activity-entity-container ul.oae-list .oae-tile{
+          height: $cont_height_tablet;
+
+          a{
+
+            .oae-thumbnail{
+              min-width: $cont_height_tablet - $top_bar_height;
+              min-height: $cont_height_tablet - $top_bar_height;
+
+              span{
+                height: $cont_height_tablet - $top_bar_height;
+              }
+            }
+          }
+        }
+
+        ////////////////////
+        // MULTIPLE TILES //
+        ////////////////////
+
+        .activity-item-container > ul.oae-list,
+        .activity-item-container > .activity-content-container > ul.oae-list{
+
+
+          // NORMAL TILES
+          li{
+            height: $cont_height_tablet;
+            min-height: $cont_height_tablet - $top_bar_height;
+
+            .oae-tile{
+              height: $cont_height_tablet - 5;
+
+              a{
+                min-height: $cont_height_tablet;
+
+                .oae-thumbnail{
+                  height: $cont_height_tablet;
+                }
+              }
+            }
+          }
+
+          // LARGE TILES
+          li.oae-tile-large{
+
+            .oae-tile{
+
+              a{
+
+                .oae-thumbnail{
+                  height: 180px;
+                }
+              }
+            }
+          }
+        }
+
+        //////////////////
+        // SINGLE TILES //
+        //////////////////
+
+        .activity-item-container > ul.oae-list{
+
+          li{
+            min-width: 33.33%;
+            max-width: 33.33%;
+
+            .oae-tile{
+              height: 180px;
+
+              a{
+                min-height: $cont_height_tablet - $top_bar_height;
+
+                .oae-thumbnail{
+                  height: 180px;
+                }
+              }
+            }
+          }
+        }
+
+        .activity-item-container > .activity-content-container > ul.oae-list{
+
+          li{
+
+            .oae-tile{
+              min-width: $cont_height_tablet;
+
+              a{
+                min-width: $cont_height_tablet;
+
+                .oae-thumbnail{
+                  height: 180px;
+                  min-width: $cont_height_tablet - $top_bar_height;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
