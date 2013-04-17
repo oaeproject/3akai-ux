@@ -100,7 +100,8 @@ module.exports = function(grunt) {
                         files: _hashFiles([
                             'target/optimized/shared',
                             'target/optimized/ui',
-                            'target/optimized/admin'
+                            'target/optimized/admin',
+                            'target/optimized/docs'
                         ], ['html', 'json', 'ico', 'less'], [
                             '!target/optimized/shared/vendor/js/l10n/cultures.*/**',
                             '!target/optimized/ui/bundles.*/**'
@@ -116,6 +117,9 @@ module.exports = function(grunt) {
                             'target/optimized/admin/**/*.html',
                             'target/optimized/admin/**/*.js',
                             'target/optimized/admin/**/*.css',
+                            'target/optimized/docs/**/*.html',
+                            'target/optimized/docs/**/*.js',
+                            'target/optimized/docs/**/*.css',
                             'target/optimized/node_modules/oae-*/**/*.html',
                             'target/optimized/node_modules/oae-*/**/*.js',
                             'target/optimized/node_modules/oae-*/**/*.css',
@@ -131,6 +135,7 @@ module.exports = function(grunt) {
                 'target/optimized/admin/**/*.css',
                 'target/optimized/ui/**/*.css',
                 'target/optimized/shared/**/*.css',
+                'target/optimized/docs/**/*.css',
                 'target/optimized/node_modules/oae-*/**/*.css'
             ],
             ie8: false,
