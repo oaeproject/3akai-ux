@@ -21,15 +21,18 @@
 @import "../../dependencies/colors";
 @import "../../dependencies/mixins";
 
+////////////////
+// PROPERTIES //
+////////////////
+
+$cont_height: 147px;
+$top_bar_height: 35px;
+
 /////////////////
 /// SELECTORS ///
 /////////////////
 
 #home-view, #detail-view{
-
-  a{
-    font-weight: 600;
-  }
 
   //////////////////////
   // WIDGET CONTAINER //
@@ -68,66 +71,68 @@
         width: 100%;
         height: 100%;
         display: table;
-        min-height: 147px;
+        min-height: $cont_height;
         background-color: white;
       }
 
       .activity-item-container > .activity-content-container{
-        height: 147px;
-        background-color: red;
+        height: $cont_height;
       }
-    }
 
-    .activity-item-container > .activity-entity-container ul.oae-list,
-    .activity-item-container > ul.oae-list{
-      height: 147px !important;
-    }
+      .activity-item-container > .activity-entity-container ul.oae-list,
+      .activity-item-container > .activity-content-container ul.oae-list,
+      .activity-item-container > ul.oae-list{
+        height: $cont_height !important;
+      }
 
-    //////////////////////////////
-    // SINGLE TILE IN CONTAINER //
-    //////////////////////////////
+      .activity-item-container ul.oae-list{
+        //padding-top: $top_bar_height;
+      }
 
-    .activity-item-container > .activity-entity-container ul.oae-list .oae-tile{
-      height: 147px;
+      //////////////////////////////
+      // SINGLE TILE IN CONTAINER //
+      //////////////////////////////
 
-      a{
-        width: 100%;
-        height: 100%;
-        display: block;
-        margin-top: 35px;
+      .activity-item-container > .activity-entity-container ul.oae-list .oae-tile{
+        height: $cont_height;
 
-        .oae-thumbnail{
-          max-width: 100%;
-          min-width: 147px;
-          min-height: 100%;
-          min-height: 147px;
-          background-color: #ff8c00;
+        a{
+          width: 100%;
+          height: 100%;
+          display: block;
+          margin-top: 35px;
 
-          span{
-            width: 100%;
-            height: 145px;
-            display: block;
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center center;
+          .oae-thumbnail{
+            max-width: 100%;
+            min-width: $cont_height - $top_bar_height;
+            min-height: 100%;
+            min-height: $cont_height - $top_bar_height;
+
+            span{
+              width: 100%;
+              height: $cont_height - $top_bar_height;
+              display: block;
+              background-size: cover;
+              background-repeat: no-repeat;
+              background-position: center center;
+            }
+
+            img{
+              width: 100%;
+            }
           }
+        }
 
-          img{
-            width: 100%;
-          }
+        .h3{
+          display: none;
         }
       }
 
-      .h3{
-        display: none;
-      }
-    }
+      ////////////////////
+      // MULTIPLE TILES //
+      ////////////////////
 
-    ////////////////////
-    // MULTIPLE TILES //
-    ////////////////////
-
-    .activity-item-container > ul.oae-list{
+      .activity-item-container > ul.oae-list,
       .activity-item-container > .activity-content-container > ul.oae-list{
         background-color: $grey-dark !important;
 
@@ -135,37 +140,21 @@
         li{
           float: left;
           display: block;
-          height: 147px;
-          min-height: 147px;
-          min-width: 147px;
-          max-width: 147px;
+          height: $cont_height;
+          min-height: $cont_height;
           overflow: hidden;
-          margin-right: 4px;
-          background-color: red;
 
           .oae-tile{
-            height: 147px;
-            max-width: 147px;
-            min-width: 147px;
-            background-color: red;
+            height: $cont_height - $top_bar_height;
 
             a{
               display: block;
-              min-width: 147px;
-              min-height: 147px;
-              background-color: red;
+              min-height: $cont_height - $top_bar_height;
 
               .oae-thumbnail{
-                height: 147px;
-                max-width: 100%;
-                min-width: 147px;
-                background-color: red;
+                height: $cont_height - $top_bar_height;
               }
             }
-          }
-
-          &:last-child{
-            margin-right: 0;
           }
         }
 
@@ -183,25 +172,88 @@
             a{
 
               .oae-thumbnail{
-                background-color: green;
+                position: relative;
               }
             }
           }
         }
+      }
 
-        // ICONS
-        .icon-oae-{
-          background-repeat: no-repeat;
-          background-position: center center;
-        }
+      //////////////////
+      // SINGLE TILES //
+      //////////////////
 
-        .icon-oae-content{
-          background-color: blue !important;
-        }
+      .activity-item-container > ul.oae-list{
 
-        .icon-oae-group{
-          background-color: pink !important;
+        li{
+          min-width: $cont_height;
+          max-width: $cont_height;
+          margin-right: 4px;
+          width: 100% !important;
+
+          .oae-tile{
+            max-width: $cont_height;
+            min-width: $cont_height;
+
+            a{
+              min-width: $cont_height;
+              min-height: $cont_height - $top_bar_height;
+
+              .oae-thumbnail{
+                max-width: 100%;
+                min-width: $cont_height;
+              }
+            }
+          }
+
+          &:last-child{
+            margin-right: 0;
+          }
         }
+      }
+
+      .activity-item-container > .activity-content-container > ul.oae-list{
+
+        li{
+          min-width: 100%;
+          max-width: 100%;
+          width: 100% !important;
+
+          .oae-tile{
+            max-width: 100%;
+            min-width: $cont_height;
+
+            a{
+              min-width: $cont_height;
+              min-height: 100%;
+
+              .oae-thumbnail{
+                max-width: 100%;
+                min-width: $cont_height;
+              }
+            }
+          }
+        }
+      }
+
+      ///////////
+      // ICONS //
+      ///////////
+
+      .icon-oae-content, .icon-oae-group{
+        display: block;
+        width: 100% !important;
+        background-color: $grey-text;
+        background-repeat: no-repeat;
+        background-position: center center;
+      }
+
+      .icon-oae-content{
+        background-image: url('../img/interface/icontime.png');
+      }
+
+      .icon-oae-group{
+        background-image: url('../img/interface/iconcomments.png');
       }
     }
   }
@@ -225,8 +277,16 @@
       border: 2px solid white;
 
       .oae-thumbnail{
-        max-width: 48px;
-        max-height: 48px;
+        width: 48px;
+        height: 48px;
+      }
+
+      .oae-thumbnail.icon-oae-user{
+        background-size: 50%;
+        background-color: $grey-text;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-image: url('../img/interface/iconuser@2x.png');
       }
 
       img{
@@ -293,13 +353,13 @@
     font-size: .7em;
 
     ul.media-list,
-    ul.media-list li,
-    ul.media-list li div{
+    ul.media-list li{
       @include killPaddingAndMargin;
     }
 
     ul.media-list{
-      padding-top: 3px;
+      padding-top: 5px;
+      padding-left: 5px;
     }
 
     li.media{
@@ -307,6 +367,11 @@
       margin-bottom: 10px !important;
 
       .oae-thumbnail img{
+        width: 24px;
+        height: 24px;
+      }
+
+      .oae-thumbnail.icon-oae-user{
         width: 24px;
         height: 24px;
       }
@@ -336,7 +401,7 @@
     }
 
     li.media.activity-reply{
-      padding-left: 32px;
+      padding-left: 38px;
     }
 
     .activity-read-more{
@@ -361,6 +426,7 @@
     background-image: url('../img/interface/btnmenu.png');
   }
 }
+
 
 /////////////////
 //// QUERIES ////
@@ -397,90 +463,4 @@ only screen and (            min-resolution: 2dppx){
 
 @media all and (device-width: 768px) and (device-height: 1024px) {
 
-  #home-view, #detail-view{
-
-    .activity-item-container, .activity-entity-container{
-
-      > div .oae-list, > .oae-list{
-        height: 200px !important;
-        background-color: $grey-dark;
-
-        li{
-          height: 200px !important;
-        }
-
-        li.oae-tile-large{
-
-          .oae-tile{
-            height: 200px;
-
-            a, a .oae-thumbnail, a .oae-thumbnail span{
-              height: 200px;
-            }
-          }
-        }
-      }
-    }
-
-    .activity-item-container{
-      height: 250px;
-    }
-
-    .activity-entity-container{
-
-      > .activity-entity-image .oae-thumbnail img{
-        width: 60px;
-        height: 60px;
-      }
-
-      > .activity-entity-name .activity-title{
-        left: 75px !important;
-      }
-    }
-
-    .activity-comment-container{
-      font-size: .7em;
-
-      li.media{
-        margin-bottom: 20px !important;
-
-        div.activity-entity-image{
-          margin-left: 13px !important;
-          margin-top: 13px !important;
-        }
-
-        .oae-thumbnail img{
-          max-width: 48px;
-          max-height: 48px;
-        }
-
-        .media-body{
-          font-size: 1.2em;
-          line-height: 1.5em;
-          padding-top: 10px;
-          padding-left: 67px;
-          padding-right: 8px;
-
-          .media-heading{
-            font-size: 1em;
-            margin-bottom: 10px;
-
-            span{
-              float: none;
-              margin-left: 2px;
-              background: none;
-            }
-          }
-        }
-      }
-
-      li.media.activity-reply{
-        padding-left: 53px;
-      }
-    }
-
-    .activity-read-more{
-      font-size: 1.2em;
-    }
-  }
 }
