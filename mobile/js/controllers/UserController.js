@@ -16,7 +16,7 @@ define(
         /////////////////////
 
         function UserController(){
-            if(instance !== null){
+            if (instance !== null) {
                 throw new Error("Cannot instantiate more than one UserController, use UserController.getInstance()");
             }
         }
@@ -43,7 +43,9 @@ define(
          * @return Class {*}        Returns an instance of the MainController
          */
         UserController.getInstance = function(){
-            if(instance === null) instance = new UserController();
+            if (instance === null) {
+                instance = new UserController();
+            }
             return instance;
         };
 
@@ -63,19 +65,19 @@ define(
         var login = function(e, obj) {
             $(document).trigger(constants.events.activities.activitystart);
             oae.api.authentication.login(obj.username, obj.password, function(err) {
-                if(err) {
+                if (err) {
                     $(document).trigger(constants.events.activities.activityend);
                     obj.callback(err);
-                }else{
+                } else {
                     _loginType = constants.authentication.types.local;
-                    try{
+                    try {
                         setTimeout(function(){
                             oae.init(function(e){
                                 $(document).trigger(constants.events.activities.activityend);
                                 $(document).trigger(constants.authentication.events.loginsuccess);
                             });
                         }, 300);
-                    }catch(e){
+                    } catch(e) {
                         console.log('[UserController] Executing oae.init failed after login');
                         $(document).trigger(constants.events.activities.activityend);
                     }
@@ -93,10 +95,10 @@ define(
         var logout = function(e, obj) {
             $(document).trigger(constants.events.activities.activitystart);
             oae.api.authentication.logout(function(err) {
-                if(err) {
+                if (err) {
                     obj.callback(err);
                     $(document).trigger(constants.events.activities.activityend);
-                }else{
+                } else {
                     _loginType = null;
                     try{
                         setTimeout(function(){
@@ -119,7 +121,7 @@ define(
         var loginWithSocialNetwork = function(e, type) {
             $(document).trigger(constants.events.activities.activitystart);
             var url = "";
-            if(type && type != null){
+            if (type && type != null) {
                 _loginType = type;
                 switch(type){
                     case constants.authentication.types.cas:

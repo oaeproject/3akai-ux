@@ -24,7 +24,7 @@ define(
         /////////////////////
 
         function MainController(){
-            if(instance !== null){
+            if (instance !== null) {
                 throw new Error("Cannot instantiate more than one MainController, use MainController.getInstance()");
             }
         }
@@ -59,7 +59,9 @@ define(
          * @return Class {*}        Returns an instance of the MainController
          */
         MainController.getInstance = function(){
-            if(instance === null) instance = new MainController();
+            if (instance === null) {
+                instance = new MainController();
+            }
             return instance;
         };
 
@@ -75,14 +77,12 @@ define(
                 dataType: 'json',
                 url: constants.paths.settings,
                 success: function(data){
-                    if(data && data != null){
-                        _settings = data;
-                        hideIndicator();
-                        initControllers();
-                    }
+                    _settings = data;
+                    hideIndicator();
+                    initControllers();
                 },
                 error: function(e){
-                    console.log(e);
+                    window.alert('Application could not be loaded');
                 }
             });
         };
@@ -93,9 +93,6 @@ define(
         var initControllers = function() {
             userController.initialize(MainController.getInstance());
             viewController.initialize(MainController.getInstance());
-
-            // TODO: remove this (just for testing)
-            //onModalInit();
         };
 
         ////////////////////////
@@ -106,7 +103,9 @@ define(
          * Initialize the menu
          */
         var onInitMenu = function() {
-            if(_menu) _menu = null;
+            if (_menu) {
+                _menu = null;
+            }
             _menu = new Menu(MainController.getInstance());
             _menu.initialize();
         };
@@ -124,7 +123,9 @@ define(
          * @param {Boolean} active              True/false
          */
         var showHideMenu = function(active) {
-            if(active != null) _menu.setActive(active);
+            if (active != null) {
+                _menu.setActive(active);
+            }
             var val = (_menu.getActive()) ? '261px' : '0';
             $('#oae-mobile-viewport').animate({'margin-left': val}, 300);
         };
@@ -172,12 +173,10 @@ define(
          */
         var onModalInit = function() {
             console.log('[MainController] onModalInit');
-
             var message = {
                 'type': 'Warning',
                 'message': 'The message'
             };
-
             _modal = new Modal();
             _modal.initialize(message);
         };

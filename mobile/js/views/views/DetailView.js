@@ -45,11 +45,11 @@ define(
 
         // Private methods
         var renderTemplate = function() {
-            try{
+            try {
                 oae.api.util.template().render(_settings.template.templateID, null, $('#oae-mobile-viewport'));
-            }catch(e){
+            } catch(e) {
                 location.reload();
-            }finally{
+            } finally {
                 var arrHash = window.location.hash.split(':');
                 var id = arrHash.slice(1,arrHash.length).join(':').toString();
                 switch(arrHash[1]){
@@ -89,25 +89,20 @@ define(
             var data = {'constants': constants, 'profile': profile};
             oae.api.widget.insertWidget('mobilecontentdetail', null, $('#mobile-content-detail-widget-container'), null, data,
                 function(e){
-
-                    console.log(data.profile);
-
                     // Hide activity indicator
                     $(document).trigger(constants.events.activities.activityend);
-
                     // Change view title
                     var title = null;
-                    if(profile && profile != null){
-                        if(profile.displayName.length > 24){
+                    if (profile && profile != null) {
+                        if (profile.displayName.length > 24) {
                             title = profile.displayName.substr(0,21) + "...";
-                        }else{
+                        } else {
                             title = profile.displayName;
                         }
-                    }else{
+                    } else {
                         title = oae.api.i18n.translate('__MSG__ERROR__');
                     }
                     setTitle(title);
-
                     // Bind events after rendering html
                     addBinding();
                 }

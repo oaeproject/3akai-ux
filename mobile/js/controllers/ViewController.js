@@ -30,7 +30,7 @@ define(
         /////////////////////
 
         function ViewController(){
-            if(instance !== null){
+            if (instance !== null) {
                 throw new Error("Cannot instantiate more than one ViewController");
             }
         }
@@ -70,11 +70,11 @@ define(
              * @param {String} view          The new view that will be pushed into the stack
              */
             changeView: function(view) {
-                if(_activeView){
+                if (_activeView){
                     _oldView = _activeView;
                     _oldView.destroy();
                 }
-                switch(view){
+                switch (view) {
                     case constants.views.login:
                         _activeView = getView(LoginView);
                         break;
@@ -95,7 +95,9 @@ define(
          * @return Class {*}        Returns an instance of the MainController
          */
         ViewController.getInstance = function(){
-            if(instance === null) instance = new ViewController();
+            if (instance === null) {
+                instance = new ViewController();
+            }
             return instance;
         };
 
@@ -110,7 +112,12 @@ define(
          */
         var getView = function(req) {
             var result = null;
-            _.each(_views, function(view){ if(view.constructor == req) result = view });
+            _.each(_views, function(view){
+                    if (view.constructor == req) {
+                        result = view
+                    }
+                }
+            );
             return result;
         };
 
@@ -137,7 +144,7 @@ define(
          * Add templates to the helper element and initialize startup view
          */
         var onTemplatesReady = function() {
-            for(var template in _templates){
+            for (var template in _templates) {
                 $(constants.components.templatehelper).append(_templates[template]['template']);
             }
             $(document).trigger(constants.events.activities.initmenu);
@@ -151,9 +158,9 @@ define(
          * if FALSE => set the hash in the url
          */
         var setStartupView = function() {
-            if(getBBQStateLength()){
+            if (getBBQStateLength()) {
                 $(window).trigger('hashchange');
-            }else{
+            } else {
                 var hash = oae.data.me.anon ? constants.views.hash.login : constants.views.hash.home;
                 changeHash(hash);
             }
@@ -198,7 +205,7 @@ define(
                 tenant = hash[1],
                 document = hash[2];
 
-            if(!oae.data.me.anon){
+            if (!oae.data.me.anon){
                 var state = constants.views.home;
                 var type_raw = type.substring(1, type.length);
                 switch(type_raw){
@@ -214,7 +221,7 @@ define(
                         break;
                 }
                 instance.changeView(state);
-            }else{
+            } else {
                 changeHash(constants.views.hash.login);
                 instance.changeView(constants.views.login);
             }
@@ -224,7 +231,9 @@ define(
             var size = 0, key;
             var state = $.bbq.getState();
             for (key in state) {
-                if (state.hasOwnProperty(key)) size++;
+                if (state.hasOwnProperty(key)) {
+                    size++;
+                }
             }
             return size;
         };

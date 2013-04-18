@@ -45,9 +45,9 @@ define(
 
         // Private methods
         var renderTemplate = function() {
-            try{
+            try {
                 oae.api.util.template().render(_settings.template.templateID, null, $('#oae-mobile-viewport'));
-            }catch(e){
+            } catch (e) {
                 location.reload();
             }finally{
                 oae.api.widget.insertWidget('mobilelogin', null, $('#mobile-login-widget-container'), null, constants);
