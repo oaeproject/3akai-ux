@@ -44,11 +44,11 @@ define(
 
         // Private methods
         var renderTemplate = function() {
-            try {
+            try{
                 oae.api.util.template().render(settings.template.templateID, null, $('#oae-mobile-viewport'));
-            } catch(e) {
+            }catch(e){
                 location.reload();
-            } finally {
+            }finally{
                 var arrHash = window.location.hash.split(':');
                 var id = arrHash.slice(1,arrHash.length).join(':').toString();
                 switch(arrHash[1]) {

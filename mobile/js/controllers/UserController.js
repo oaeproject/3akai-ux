@@ -70,15 +70,13 @@ define(
                     obj.callback(err);
                 } else {
                     loginType = constants.authentication.types.local;
-                    try {
-                        setTimeout(function() {
-                            oae.init(function(e) {
-                                $(document).trigger(constants.events.activities.activityend);
-                                $(document).trigger(constants.authentication.events.loginsuccess);
-                            });
-                        }, 300);
-                    } catch(e) {
-                        console.log('[UserController] Executing oae.init failed after login');
+                    try{
+                        oae.init(function(e) {
+                            $(document).trigger(constants.events.activities.activityend);
+                            $(document).trigger(constants.authentication.events.loginsuccess);
+                        });
+                    }catch(e){
+                        window.alert('Logged in successfully, but a problem occured when loading the page');
                         $(document).trigger(constants.events.activities.activityend);
                     }
                 }
@@ -99,15 +97,13 @@ define(
                     $(document).trigger(constants.events.activities.activityend);
                 } else {
                     loginType = null;
-                    try {
-                        setTimeout(function() {
-                            oae.init(function(e) {
-                                $(document).trigger(constants.events.activities.activityend);
-                                $(document).trigger(constants.authentication.events.logoutsuccess);
-                            });
-                        }, 300);
-                    } catch(e) {
-                        console.log('[UserController] Executing oae.init failed after logout');
+                    try{
+                        oae.init(function(e) {
+                            $(document).trigger(constants.events.activities.activityend);
+                            $(document).trigger(constants.authentication.events.logoutsuccess);
+                        });
+                    }catch(e){
+                        window.alert('Logged out successfully, but a problem occured when loading the page');
                         $(document).trigger(constants.events.activities.activityend);
                     }
                 }
