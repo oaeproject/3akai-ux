@@ -6,9 +6,15 @@ define(
     ],
     function(oae, constants, mobileUtil) {
 
-        // Pro perties
+        /////////////////////
+        //// Constructor ////
+        /////////////////////
+
+        // Instance of UserController
         var instance = null;
+        // Instance of MainController
         var mainController = null;
+        // The logintype: local/external
         var loginType = null;
 
         /////////////////////

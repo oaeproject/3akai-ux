@@ -12,12 +12,21 @@ define(
     ],
     function(exports, oae, constants, mobileUtil, Menu, Modal, LoginView, HomeView, DetailView) {
 
-        // Properties
+        /////////////////////
+        //// Properties /////
+        /////////////////////
+
+        // Instance of ViewController
         var instance = null;
+        // Instance of MainController
         var mainController = null;
+        // The HTML templates that are cached
         var templates = null;
+        // Array containing all the viewcontrollers
         var views = null;
+        // The current view
         var activeView = null;
+        // The view that needs to be replaced by new view
         var oldView = null;
 
         /////////////////////

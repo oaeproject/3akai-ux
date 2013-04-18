@@ -20,10 +20,15 @@ define(
     ],
     function($, _, oae, constants) {
 
-        // Properties
-        var mainController = null;
+        /////////////////////
+        //// Properties /////
+        /////////////////////
 
+        // Instance of MainController
+        var mainController = null;
+        // Whether the menu is active or not
         var active = false;
+        // Settings for Menu
         var settings = Menu.prototype.settings = {
             name: "menu",
             items: [],

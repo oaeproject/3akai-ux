@@ -24,9 +24,11 @@ define(
         ///// Properties /////
         //////////////////////
 
+        // Type of message (e.g. warning, error...)
         var type = "";
+        // The actual message
         var message = "";
-
+        // Settings for Modal
         var settings = Modal.prototype.settings = {
             name: "modal",
             template: {

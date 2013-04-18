@@ -20,7 +20,11 @@ define(
     ],
     function($, _, oae, constants) {
 
-        // Properties
+        /////////////////////
+        //// Properties /////
+        /////////////////////
+
+        // Settings for LoginView
         var settings = LoginView.prototype.settings = {
             name: "loginView",
             id: constants.views.login,

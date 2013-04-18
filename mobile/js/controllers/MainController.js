@@ -11,10 +11,17 @@ define(
     ],
     function(exports, $, underscore, oae, constants, mobileUtil, userController, viewController, Menu, Modal) {
 
-        // Properties
+        /////////////////////
+        //// Properties /////
+        /////////////////////
+
+        // Instance of MainController
         var instance = null;
+        // Settings loaded from .json file are stored here
         var settings = null;
+        // Instance of the menu
         var menu = null;
+        // Instance of the modal view
         var modal = null;
 
         /////////////////////
