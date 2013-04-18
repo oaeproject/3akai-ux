@@ -24,11 +24,11 @@ define(
         //// Constructor ////
         /////////////////////
 
-        function ViewController() {
+        var ViewController = function() {
             if (instance !== null) {
                 throw new Error("Cannot instantiate more than one ViewController");
             }
-        }
+        };
 
         ////////////////////
         // Public methods //
@@ -101,7 +101,7 @@ define(
         /////////////////////
 
         /**
-         *  Gets the requested class from the array
+         * Gets the requested class from the array
          * @param   {Class}     req             The requested class
          * @return  {Class}     retclass        The returned view class
          */

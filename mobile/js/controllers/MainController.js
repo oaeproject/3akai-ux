@@ -21,11 +21,11 @@ define(
         //// Constructor ////
         /////////////////////
 
-        function MainController() {
+        var MainController = function() {
             if (instance !== null) {
                 throw new Error("Cannot instantiate more than one MainController, use MainController.getInstance()");
             }
-        }
+        };
 
         ////////////////////
         // Public methods //

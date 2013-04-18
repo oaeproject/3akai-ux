@@ -15,11 +15,11 @@ define(
         //// Constructor ////
         /////////////////////
 
-        function UserController() {
+        var UserController = function() {
             if (instance !== null) {
                 throw new Error("Cannot instantiate more than one UserController, use UserController.getInstance()");
             }
-        }
+        };
 
         ////////////////////
         // Public methods //
@@ -87,7 +87,6 @@ define(
 
         /**
          * Logout
-         *
          * @param {Event}       e                   The dispatched event
          * @param {Object}      obj                 The parameters
          * @param {Function}    obj.callback        The callback function
