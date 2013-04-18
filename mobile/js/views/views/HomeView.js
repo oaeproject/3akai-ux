@@ -38,7 +38,7 @@ define(
         //// Constructor ////
         /////////////////////
 
-        function HomeView() {}
+        var HomeView = function() {};
 
         ////////////////////
         // Public methods //
@@ -49,8 +49,7 @@ define(
         };
 
         HomeView.prototype.destroy = function() {
-            _templateId = null;
-            deleteBinding();
+            removeBinding();
         };
 
         /////////////////////
@@ -64,7 +63,8 @@ define(
             try {
                 oae.api.util.template().render(settings.template.templateID, null, $('#oae-mobile-viewport'));
             } catch(e) {
-                location.reload();
+                window.confirm('Unable to display the page. Try again?');
+                //location.reload();
             } finally {
                 oae.api.widget.insertWidget('mobileactivity', null, $('#mobile-activity-widget-container'), null, constants, function(e) {
                     setTitle(oae.data.me.tenant);
@@ -82,22 +82,34 @@ define(
             $('.oae-mobile-view-title').html(title);
         };
 
+        /**
+         * Binds events to components
+         */
         var addBinding = function() {
             $('.oae-mobile-topbar-logo').bind('click', onTopbarLogoClick);
             $('#btnMenu').bind('click', onToggleMenuClick);
             $('#home-view').touchSwipe(onToggleMenuClick);
         };
 
-        var deleteBinding = function() {
+        /**
+         * Removes binding from components
+         */
+        var removeBinding = function() {
             $('.oae-mobile-topbar-logo').unbind('click', onTopbarLogoClick);
             $('#btnMenu').unbind('click', onToggleMenuClick);
             $('#home-view').unbindSwipe(onToggleMenuClick);
         };
 
+        /**
+         * When the menubutton gets clicked
+         */
         var onToggleMenuClick = function() {
             $(document).trigger(constants.events.activities.menutoggle);
         };
 
+        /**
+         * When the logo in the topbar gets clicked
+         */
         var onTopbarLogoClick = function() {
             $(document).trigger(constants.events.activities.viewchanged, constants.views.home);
         };

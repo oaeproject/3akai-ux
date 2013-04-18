@@ -38,7 +38,7 @@ define(
         //// Constructor ////
         /////////////////////
 
-        function DetailView() {}
+        var DetailView = function() {};
 
         ////////////////////
         // Public methods //
@@ -49,7 +49,7 @@ define(
         };
 
         DetailView.prototype.destroy = function() {
-            deleteBinding();
+            removeBinding();
         };
 
         /////////////////////
@@ -80,28 +80,32 @@ define(
         };
 
         /**
-         * Set page title {String} title        The title of the page
+         * Gets content from group activity
          *
-         * @param title
+         * @param {String} groupId
          */
-        var setTitle = function(title) {
-            $('.oae-mobile-view-title').html(title);
-        };
-
-        // Get group content from api
         var getGroupContent = function(groupId) {
             oae.api.group.getGroup(groupId, function(err, profile) {
                 addWidget(profile);
             });
         };
 
-        // Get document content from api
+        /**
+         * Gets content from content created activity
+         *
+         * @param {String} contentId
+         */
         var getDocumentContent = function(contentId) {
             oae.api.content.getContent(contentId, function(err, profile) {
                 addWidget(profile);
             });
         };
 
+        /**
+         * Add the MobileContentDetail widget to the view
+         *
+         * @param {Object} profile
+         */
         var addWidget = function(profile) {
             var data = {'constants': constants, 'profile': profile};
             oae.api.widget.insertWidget('mobilecontentdetail', null, $('#mobile-content-detail-widget-container'), null, data,
@@ -126,20 +130,41 @@ define(
             );
         };
 
+        /**
+         * Set the view's title
+         *
+         * @param {String} title        The title of the page
+         */
+        var setTitle = function(title) {
+            $('.oae-mobile-view-title').html(title);
+        };
+
+        /**
+         * Bind events to components
+         */
         var addBinding = function() {
             $('.oae-mobile-topbar-logo').bind('click', onTopbarLogoClick);
             $('#btnBack').bind('click', onBackButtonClick);
         };
 
-        var deleteBinding = function() {
+        /**
+         * Removes events from components
+         */
+        var removeBinding = function() {
             $('.oae-mobile-topbar-logo').unbind('click', onTopbarLogoClick);
             $('#btnBack').unbind('click', onBackButtonClick);
         };
 
+        /**
+         * When the logo in the topbar gets clicked
+         */
         var onTopbarLogoClick = function() {
             $(document).trigger(constants.events.activities.viewchanged, constants.views.home);
         };
 
+        /**
+         * When the backbutton gets clicked
+         */
         var onBackButtonClick = function() {
             $(document).trigger(constants.events.activities.viewchanged, constants.views.home);
         };

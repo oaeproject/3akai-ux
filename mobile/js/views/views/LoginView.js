@@ -38,16 +38,22 @@ define(
         //// Constructor ////
         /////////////////////
 
-        function LoginView() {}
+        var LoginView = function() {};
 
         ////////////////////
         // Public methods //
         ////////////////////
 
+        /**
+         * Initialize LoginView
+         */
         LoginView.prototype.initialize = function() {
             initializeTemplate();
         };
 
+        /**
+         * Destroy LoginView
+         */
         LoginView.prototype.destroy = function() {
 
         };
@@ -63,7 +69,8 @@ define(
             try {
                 oae.api.util.template().render(settings.template.templateID, null, $('#oae-mobile-viewport'));
             } catch(e) {
-                location.reload();
+                window.confirm('Unable to display the page. Try again?');
+                //location.reload();
             } finally {
                 oae.api.widget.insertWidget('mobilelogin', null, $('#mobile-login-widget-container'), null, constants);
             }
