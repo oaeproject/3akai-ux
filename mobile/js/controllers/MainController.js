@@ -80,7 +80,7 @@ define(
                     initControllers();
                 },
                 error: function(e) {
-                    window.alert('Application could not be loaded');
+                    window.alert('An error occured while loading the application');
                 }
             });
         };
