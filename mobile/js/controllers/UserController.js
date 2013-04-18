@@ -124,7 +124,7 @@ define(
         var loginWithSocialNetwork = function(e, type) {
             $(document).trigger(constants.events.activities.activitystart);
             var url = "";
-            if (type && type != null) {
+            if (type) {
                 loginType = type;
                 switch(type) {
                     case constants.authentication.types.cas:

@@ -128,7 +128,7 @@ define(
         /**
          * Shows or hides the menu
          *
-         * @param {Boolean} active              True/false
+         * @param {Boolean} active              true/false
          */
         var showHideMenu = function(active) {
             if (active != null) {
