@@ -16,12 +16,17 @@
 #index-content {
     font-weight: 200;
     margin: 0 auto;
-    width: 985px;
+    min-width: 878px;
+    max-width: 985px;
 }
 
 #index-content h1,
 #index-content h2 {
     font-weight: 200;
+}
+
+#index-container {
+    padding: 10px 20px;
 }
 
 #index-container .index-search-container {
@@ -45,7 +50,6 @@
             box-sizing: border-box;
     height: 37px;
     margin-right: 7px;
-    width: 620px;
 }
 
 #index-container .index-search-container .control-label {
@@ -66,7 +70,6 @@
        -moz-box-shadow: 0 0 7px #444;
             box-shadow: 0 0 7px #444;
     height: 290px;
-    width: 515px;
 }
 
 #index-container #index-video-container p {

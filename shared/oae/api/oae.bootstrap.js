@@ -30,7 +30,7 @@ requirejs.config({
         'jquery.autoSuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest.sakai-edited',
         'jquery.ba-bbq': 'vendor/js/jquery-plugins/jquery.ba-bbq',
         'jquery.ba-hashchange': 'vendor/js/jquery-plugins/jquery.ba-hashchange',
-        'jquery.contentchange': 'vendor/js/jquery-plugins/jquery.contentchange.sakai-edited',
+        'jquery.encoder': 'vendor/js/jquery-plugins/jquery.encoder',
         'jquery.fileSize': 'vendor/js/jquery-plugins/jquery.fileSize',
         'jquery.fileupload': 'vendor/js/jquery-plugins/jquery.fileupload',
         'jquery.form': 'vendor/js/jquery-plugins/jquery.form',
@@ -38,9 +38,11 @@ requirejs.config({
         'jquery.iframe-transport': 'vendor/js/jquery-plugins/jquery.iframe-transport',
         'jquery.imgareaselect': 'vendor/js/jquery-plugins/imgareaselect/jquery.imgareaselect',
         'jquery.jeditable': 'vendor/js/jquery-plugins/jquery.jeditable.sakai-edited',
+        'jquery.notify': 'vendor/js/jquery-plugins/jquery.bootstrap.notify',
         'jquery.properties-parser': 'vendor/js/jquery-plugins/jquery.properties-parser',
         'jquery.serializeObject': 'vendor/js/jquery-plugins/jquery.serializeObject',
         'jquery.swipe': 'vendor/js/jquery-plugins/jquery.swipe',
+        'jquery.spectrum': 'vendor/js/jquery-plugins/jquery.spectrum',
         'jquery.timeago': 'vendor/js/jquery-plugins/jquery.timeago',
         'jquery.validate': 'vendor/js/jquery-plugins/jquery.validate',
         'jquery-ui': 'vendor/js/jquery-ui/jquery-ui.custom',
@@ -52,6 +54,7 @@ requirejs.config({
         'jquery.clip': 'oae/js/jquery-plugins/jquery.clip',
         'jquery.dnd-upload': 'oae/js/jquery-plugins/jquery.dnd-upload',
         'jquery.infinitescroll': 'oae/js/jquery-plugins/jquery.infinitescroll',
+        'jquery.jeditable-focus': 'oae/js/jquery-plugins/jquery.jeditable-focus',
         'jquery.list-options': 'oae/js/jquery-plugins/jquery.list-options',
 
         // OAE API modules
@@ -67,7 +70,7 @@ requirejs.config({
         'oae.api.util': 'oae/api/oae.api.util',
         'oae.api.widget': 'oae/api/oae.api.widget',
         'oae.core': 'oae/api/oae.core',
-        'pluginBuilder': 'oae/api/pluginBuilder'
+        'pluginBuilder': 'oae/pluginBuilder'
     },
     priority: ['jquery', 'underscore']
 });
