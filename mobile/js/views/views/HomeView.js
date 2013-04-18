@@ -45,7 +45,7 @@ define(
         ////////////////////
 
         HomeView.prototype.initialize = function() {
-            renderTemplate();
+            initializeTemplate();
         };
 
         HomeView.prototype.destroy = function() {
@@ -60,7 +60,7 @@ define(
         /**
          * Gets the view template and renders it into the viewport
          */
-        var renderTemplate = function() {
+        var initializeTemplate = function() {
             try {
                 oae.api.util.template().render(settings.template.templateID, null, $('#oae-mobile-viewport'));
             } catch(e) {
