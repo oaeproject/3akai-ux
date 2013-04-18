@@ -11,5 +11,6 @@ node_modules/*
 nginx.*
 !nginx.conf
 mobile_reserve/
+css/shared
 sass/.sass-cache/*
 sass/.sass-cache
