@@ -49,11 +49,11 @@ define(
 
         // Private methods
         var renderTemplate = function() {
-            try{
+            try {
                 oae.api.util.template().render(settings.template.templateID, null, $('#oae-mobile-viewport'));
-            }catch(e){
+            } catch(e) {
                 location.reload();
-            }finally{
+            } finally {
                 oae.api.widget.insertWidget('mobileactivity', null, $('#mobile-activity-widget-container'), null, constants, function(e) {
                     setTitle(oae.data.me.tenant);
                     addBinding();
