@@ -34,10 +34,16 @@ define(
             }
         };
 
-        // Constructor
+        /////////////////////
+        //// Constructor ////
+        /////////////////////
+
         function HomeView() {}
 
-        // Public methods
+        ////////////////////
+        // Public methods //
+        ////////////////////
+
         HomeView.prototype.initialize = function() {
             renderTemplate();
         };
@@ -47,7 +53,13 @@ define(
             deleteBinding();
         };
 
-        // Private methods
+        /////////////////////
+        // Private methods //
+        /////////////////////
+
+        /**
+         * Gets the view template and renders it into the viewport
+         */
         var renderTemplate = function() {
             try {
                 oae.api.util.template().render(settings.template.templateID, null, $('#oae-mobile-viewport'));

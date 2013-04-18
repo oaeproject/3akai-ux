@@ -7,7 +7,7 @@ define(
     function(oae, constants, mobileUtil) {
 
         /////////////////////
-        //// Constructor ////
+        //// Properties /////
         /////////////////////
 
         // Instance of UserController
