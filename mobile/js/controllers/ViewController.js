@@ -163,7 +163,7 @@ define(
         /**
          * Set startup view, depends if user is logged in or not
          * Checks if a hash is provided in the url
-         * If TRUE => trigger the hashchange event
+         * if TRUE => trigger the hashchange event
          * if FALSE => set the hash in the url
          */
         var setStartupView = function() {
