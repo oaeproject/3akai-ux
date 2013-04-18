@@ -9,21 +9,21 @@ define(
         '/mobile/js/views/components/Menu.js',
         '/mobile/js/views/components/Modal.js'
     ],
-    function(exports, $, underscore, oae, constants, mobileUtil, userController, viewController, Menu, Modal){
+    function(exports, $, underscore, oae, constants, mobileUtil, userController, viewController, Menu, Modal) {
 
         // Properties
         var instance = null;
 
-        var _settings = null;
+        var settings = null;
 
-        var _menu = null;
-        var _modal = null;
+        var menu = null;
+        var modal = null;
 
         /////////////////////
         //// Constructor ////
         /////////////////////
 
-        function MainController(){
+        function MainController() {
             if (instance !== null) {
                 throw new Error("Cannot instantiate more than one MainController, use MainController.getInstance()");
             }
@@ -50,7 +50,7 @@ define(
              * @return {Object} object      Returns the settings as an object
              */
             getSettings: function() {
-                return _settings;
+                return settings;
             }
         };
 
@@ -76,12 +76,12 @@ define(
             $.ajax({
                 dataType: 'json',
                 url: constants.paths.settings,
-                success: function(data){
-                    _settings = data;
+                success: function(data) {
+                    settings = data;
                     hideIndicator();
                     initControllers();
                 },
-                error: function(e){
+                error: function(e) {
                     window.alert('Application could not be loaded');
                 }
             });
@@ -103,18 +103,18 @@ define(
          * Initialize the menu
          */
         var onInitMenu = function() {
-            if (_menu) {
-                _menu = null;
+            if (menu) {
+                menu = null;
             }
-            _menu = new Menu(MainController.getInstance());
-            _menu.initialize();
+            menu = new Menu(MainController.getInstance());
+            menu.initialize();
         };
 
         /**
          * Toggles the menu visibility
          */
         var onMenuToggle = function() {
-            _menu.setActive(!_menu.getActive());
+            menu.setActive(!menu.getActive());
             showHideMenu();
         };
 
@@ -124,9 +124,9 @@ define(
          */
         var showHideMenu = function(active) {
             if (active != null) {
-                _menu.setActive(active);
+                menu.setActive(active);
             }
-            var val = (_menu.getActive()) ? '261px' : '0';
+            var val = (menu.getActive()) ? '261px' : '0';
             $('#oae-mobile-viewport').animate({'margin-left': val}, 300);
         };
 
@@ -136,7 +136,7 @@ define(
          * @param {String}  action              The action that needs to be executed
          */
         var onMenuItemClicked = function(e, action) {
-            switch(action){
+            switch(action) {
                 case "signout":
                     $(document).trigger(constants.authentication.events.logoutattempt);
                     break;
@@ -172,17 +172,16 @@ define(
          * Initializes a new modal message window
          */
         var onModalInit = function() {
-            console.log('[MainController] onModalInit');
             var message = {
                 'type': 'Warning',
                 'message': 'The message'
             };
-            _modal = new Modal();
-            _modal.initialize(message);
+            modal = new Modal();
+            modal.initialize(message);
         };
 
         var onModalDestroy = function() {
-          console.log('[MainController] onModalDestroy');
+            console.log('[MainController] onModalDestroy');
         };
 
         ////////////////////////

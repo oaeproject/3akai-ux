@@ -83,5 +83,4 @@ define(['exports'], function(exports) {
             }
         }
     };
-
 });

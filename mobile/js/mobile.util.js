@@ -40,7 +40,7 @@ define(
                     retval.name = key;
                     retval.el = template;
                     callback(null, retval);
-                    if(index === total){
+                    if (index === total) {
                         $(document).trigger(constants.events.activities.templatesready);
                     }
                 },

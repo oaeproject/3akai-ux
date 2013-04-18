@@ -10,26 +10,21 @@ define(
         '/mobile/js/views/views/HomeView.js',
         '/mobile/js/views/views/DetailView.js'
     ],
-    function(exports, oae, constants, mobileUtil, Menu, Modal, LoginView, HomeView, DetailView){
+    function(exports, oae, constants, mobileUtil, Menu, Modal, LoginView, HomeView, DetailView) {
 
         // Properties
-        var instance = null;
-
-        var mainController = null;
-
-        var _templates = null;
-
-        var _views = null;
-        var _activeView = null;
-        var _oldView = null;
-
-        var _tempURL = null;
+        var instance = null,
+            mainController = null,
+            templates = null,
+            views = null,
+            activeView = null,
+            oldView = null;
 
         /////////////////////
         //// Constructor ////
         /////////////////////
 
-        function ViewController(){
+        function ViewController() {
             if (instance !== null) {
                 throw new Error("Cannot instantiate more than one ViewController");
             }
@@ -53,7 +48,7 @@ define(
                 mainController = _mainController;
 
                 // Put all the views into an array
-                _views = [
+                views = [
                     new Menu(),
                     new Modal(),
                     new LoginView(),
@@ -70,23 +65,23 @@ define(
              * @param {String} view          The new view that will be pushed into the stack
              */
             changeView: function(view) {
-                if (_activeView){
-                    _oldView = _activeView;
-                    _oldView.destroy();
+                if (activeView) {
+                    oldView = activeView;
+                    oldView.destroy();
                 }
-                switch (view) {
+                switch(view) {
                     case constants.views.login:
-                        _activeView = getView(LoginView);
+                        activeView = getView(LoginView);
                         break;
                     case constants.views.home:
-                        _activeView = getView(HomeView);
+                        activeView = getView(HomeView);
                         break;
                     case constants.views.detail:
                         $(document).trigger(constants.events.activities.activitystart);
-                        _activeView = getView(DetailView);
+                        activeView = getView(DetailView);
                         break;
                 }
-                _activeView.initialize();
+                activeView.initialize();
             }
         };
 
@@ -94,7 +89,7 @@ define(
          * Returns an instance of the MainController
          * @return Class {*}        Returns an instance of the MainController
          */
-        ViewController.getInstance = function(){
+        ViewController.getInstance = function() {
             if (instance === null) {
                 instance = new ViewController();
             }
@@ -112,7 +107,7 @@ define(
          */
         var getView = function(req) {
             var result = null;
-            _.each(_views, function(view){
+            _.each(views, function(view) {
                     if (view.constructor == req) {
                         result = view
                     }
@@ -125,13 +120,13 @@ define(
          * Renders all the templates and caches them
          */
         var renderAllTemplates = function() {
-            _templates = {};
-            _.each(_views, function(view){
+            templates = {};
+            _.each(views, function(view) {
                 var name = view.settings.name;
-                var index = _views.indexOf(view);
-                var total = _views.length - 1;
-                mobileUtil.renderTemplate(name, view, index, total, function(err, template){
-                    _templates[template.name] = {
+                var index = views.indexOf(view);
+                var total = views.length - 1;
+                mobileUtil.renderTemplate(name, view, index, total, function(err, template) {
+                    templates[template.name] = {
                         templateID: template.templateID,
                         template: template.el
                     };
@@ -144,8 +139,8 @@ define(
          * Add templates to the helper element and initialize startup view
          */
         var onTemplatesReady = function() {
-            for (var template in _templates) {
-                $(constants.components.templatehelper).append(_templates[template]['template']);
+            for (var template in templates) {
+                $(constants.components.templatehelper).append(templates[template]['template']);
             }
             $(document).trigger(constants.events.activities.initmenu);
             setStartupView();
@@ -205,10 +200,10 @@ define(
                 tenant = hash[1],
                 document = hash[2];
 
-            if (!oae.data.me.anon){
+            if (!oae.data.me.anon) {
                 var state = constants.views.home;
                 var type_raw = type.substring(1, type.length);
-                switch(type_raw){
+                switch(type_raw) {
                     case constants.views.hash.home:
                         state = constants.views.home;
                         break;
@@ -238,15 +233,6 @@ define(
             return size;
         };
 
-        /**
-         * When item in activity feed gets clicked
-         * @param {Event}   e           The clickevent
-         * @param {Object}  origin      The object that was clicked on
-         */
-        var onDetailItemClicked = function(e, origin){
-            //_tempURL = $(origin).attr('href');
-        };
-
         ////////////////////////
         ///////// USER /////////
         ////////////////////////
@@ -269,7 +255,6 @@ define(
          * Bind events
          */
         var addBinding = function() {
-            $(document).on(constants.events.activities.detailclicked, onDetailItemClicked);
             $(document).on(constants.events.activities.templatesready, onTemplatesReady);
             $(document).on(constants.events.activities.viewchanged, onViewChanged);
             $(document).on(constants.authentication.events.loginsuccess, onLoginSuccess);

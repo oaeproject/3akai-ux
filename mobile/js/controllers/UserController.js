@@ -4,7 +4,7 @@ define(
         '/mobile/js/constants/constants.js',
         '/mobile/js/mobile.util.js'
     ],
-    function(oae, constants, mobileUtil){
+    function(oae, constants, mobileUtil) {
 
         // Properties
         var instance = null,
@@ -15,7 +15,7 @@ define(
         //// Constructor ////
         /////////////////////
 
-        function UserController(){
+        function UserController() {
             if (instance !== null) {
                 throw new Error("Cannot instantiate more than one UserController, use UserController.getInstance()");
             }
@@ -42,7 +42,7 @@ define(
          * Returns an instance of the MainController
          * @return Class {*}        Returns an instance of the MainController
          */
-        UserController.getInstance = function(){
+        UserController.getInstance = function() {
             if (instance === null) {
                 instance = new UserController();
             }
@@ -71,8 +71,8 @@ define(
                 } else {
                     _loginType = constants.authentication.types.local;
                     try {
-                        setTimeout(function(){
-                            oae.init(function(e){
+                        setTimeout(function() {
+                            oae.init(function(e) {
                                 $(document).trigger(constants.events.activities.activityend);
                                 $(document).trigger(constants.authentication.events.loginsuccess);
                             });
@@ -100,14 +100,14 @@ define(
                     $(document).trigger(constants.events.activities.activityend);
                 } else {
                     _loginType = null;
-                    try{
-                        setTimeout(function(){
-                            oae.init(function(e){
+                    try {
+                        setTimeout(function() {
+                            oae.init(function(e) {
                                 $(document).trigger(constants.events.activities.activityend);
                                 $(document).trigger(constants.authentication.events.logoutsuccess);
                             });
                         }, 300);
-                    }catch(e){
+                    } catch(e) {
                         console.log('[UserController] Executing oae.init failed after logout');
                         $(document).trigger(constants.events.activities.activityend);
                     }
@@ -123,7 +123,7 @@ define(
             var url = "";
             if (type && type != null) {
                 _loginType = type;
-                switch(type){
+                switch(type) {
                     case constants.authentication.types.cas:
                         url = constants.authentication.urls.cas;
                         break;
