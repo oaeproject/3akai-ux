@@ -114,7 +114,7 @@ define(
                     $(document).trigger(constants.events.activities.activityend);
                     // Change view title
                     var title = null;
-                    if (profile && profile != null) {
+                    if (profile) {
                         if (profile.displayName.length > 24) {
                             title = profile.displayName.substr(0,21) + "...";
                         } else {
