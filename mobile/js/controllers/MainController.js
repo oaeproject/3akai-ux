@@ -45,7 +45,7 @@ define(
 
             /**
              * Returns the settings
-             * @return {Object} object      Returns the settings as an object
+             * @return {Object} object              Returns the settings as an object
              */
             getSettings: function() {
                 return settings;
@@ -54,9 +54,9 @@ define(
 
         /**
          * Returns an instance of the MainController
-         * @return Class {*}        Returns an instance of the MainController
+         * @return {MainController} instance        Returns an instance of the MainController
          */
-        MainController.getInstance = function(){
+        MainController.getInstance = function() {
             if (instance === null) {
                 instance = new MainController();
             }

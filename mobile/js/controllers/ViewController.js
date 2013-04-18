@@ -87,7 +87,7 @@ define(
 
         /**
          * Returns an instance of the MainController
-         * @return Class {*}        Returns an instance of the MainController
+         * @return {ViewController} instance        Returns an instance of the ViewController
          */
         ViewController.getInstance = function() {
             if (instance === null) {
@@ -168,7 +168,7 @@ define(
          */
         var onViewChanged = function(e, view) {
             var hash = null;
-            switch(view){
+            switch(view) {
                 case constants.views.home:
                     hash = constants.views.hash.home;
                     break;

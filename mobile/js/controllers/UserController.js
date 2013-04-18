@@ -40,7 +40,7 @@ define(
 
         /**
          * Returns an instance of the MainController
-         * @return Class {*}        Returns an instance of the MainController
+         * @return {UserController} instance        Returns an instance of the UserController
          */
         UserController.getInstance = function() {
             if (instance === null) {
