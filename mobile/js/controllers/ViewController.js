@@ -70,9 +70,11 @@ define(
             },
 
             /**
-             * Push a new view into the stack
+             * Sets the activeView and initializes it, the oldView gets destroyed.
+             * The getView method is called to fetch the requested view from the view array.
+             * Only displays the view, since its html already has been rendered on application init.
              *
-             * @param {String} view          The new view that will be pushed into the stack
+             * @param {String} view          The new view that will be shown
              */
             changeView: function(view) {
                 if (activeView) {
