@@ -49,6 +49,7 @@ define(
 
         /**
          * Initialize modal view
+         *
          * @param {Object} data                 The object containing the message
          * @param {String} data.type            The type
          * @param {String} data.message         The message

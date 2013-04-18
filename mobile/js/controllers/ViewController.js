@@ -71,6 +71,7 @@ define(
 
             /**
              * Push a new view into the stack
+             *
              * @param {String} view          The new view that will be pushed into the stack
              */
             changeView: function(view) {
@@ -96,6 +97,7 @@ define(
 
         /**
          * Returns an instance of the MainController
+         *
          * @return {ViewController} instance        Returns an instance of the ViewController
          */
         ViewController.getInstance = function() {
@@ -111,6 +113,7 @@ define(
 
         /**
          * Gets the requested class from the array
+         *
          * @param   {Class}     req             The requested class
          * @return  {Class}     retclass        The returned view class
          */
@@ -134,7 +137,7 @@ define(
                 var name = view.settings.name;
                 var index = views.indexOf(view);
                 var total = views.length - 1;
-                mobileUtil.renderTemplate(name, view, index, total, function(err, template) {
+                mobileUtil.getTemplate(name, view, index, total, function(err, template) {
                     templates[template.name] = {
                         templateID: template.templateID,
                         template: template.el
@@ -172,6 +175,7 @@ define(
 
         /**
          * When the changeview event is fired for internal communication
+         *
          * @param {Event}   e               The dispatched event
          * @param {String}  view            The view
          */
@@ -193,6 +197,7 @@ define(
 
         /**
          * Manually change the hash
+         *
          * @param {String} hash
          */
         var changeHash = function(hash) {
@@ -201,6 +206,7 @@ define(
 
         /**
          * When the hashchange event gets triggered for external communication
+         *
          * @param {Event}   e               The dispatched event
          */
         var onHashChange = function(e) {

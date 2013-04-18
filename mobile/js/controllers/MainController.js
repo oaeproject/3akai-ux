@@ -52,6 +52,7 @@ define(
 
             /**
              * Returns the settings
+             *
              * @return {Object} object              Returns the settings as an object
              */
             getSettings: function() {
@@ -61,6 +62,7 @@ define(
 
         /**
          * Returns an instance of the MainController
+         *
          * @return {MainController} instance        Returns an instance of the MainController
          */
         MainController.getInstance = function() {
@@ -125,6 +127,7 @@ define(
 
         /**
          * Shows or hides the menu
+         *
          * @param {Boolean} active              True/false
          */
         var showHideMenu = function(active) {
@@ -137,6 +140,7 @@ define(
 
         /**
          * When a menu items gets clicked
+         *
          * @param {Event}   e                   The dispatched event
          * @param {String}  action              The action that needs to be executed
          */

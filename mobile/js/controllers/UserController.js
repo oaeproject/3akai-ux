@@ -46,6 +46,7 @@ define(
 
         /**
          * Returns an instance of the MainController
+         *
          * @return {UserController} instance        Returns an instance of the UserController
          */
         UserController.getInstance = function() {
@@ -91,6 +92,7 @@ define(
 
         /**
          * Logout
+         *
          * @param {Event}       e                   The dispatched event
          * @param {Object}      obj                 The parameters
          * @param {Function}    obj.callback        The callback function

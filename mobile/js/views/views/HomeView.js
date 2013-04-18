@@ -63,6 +63,7 @@ define(
 
         /**
          * Set page title {String} title        The title of the page
+         *
          * @param title
          */
         var setTitle = function(title) {
