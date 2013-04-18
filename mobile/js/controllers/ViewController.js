@@ -118,7 +118,7 @@ define(
             var result = null;
             _.each(views, function(view) {
                     if (view.constructor == req) {
-                        result = view
+                        result = view;
                     }
                 }
             );
@@ -162,7 +162,7 @@ define(
          * if FALSE => set the hash in the url
          */
         var setStartupView = function() {
-            if (getBBQStateLength()) {
+            if (!$.isEmptyObject($.bbq.getState())) {
                 $(window).trigger('hashchange');
             } else {
                 var hash = oae.data.me.anon ? constants.views.hash.login : constants.views.hash.home;
@@ -229,17 +229,6 @@ define(
                 changeHash(constants.views.hash.login);
                 instance.changeView(constants.views.login);
             }
-        };
-
-        var getBBQStateLength = function() {
-            var size = 0, key;
-            var state = $.bbq.getState();
-            for (key in state) {
-                if (state.hasOwnProperty(key)) {
-                    size++;
-                }
-            }
-            return size;
         };
 
         ////////////////////////

@@ -37,6 +37,7 @@ module.exports = function(grunt) {
             files: [
                 'grunt.js',
                 'admin/**/*.js',
+                'mobile/**/*.js',
                 'shared/**/*.js',
                 'ui/**/*.js',
                 'node_modules/oae-*/**/*.js'
