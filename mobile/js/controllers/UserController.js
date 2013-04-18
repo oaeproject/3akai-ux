@@ -6,10 +6,10 @@ define(
     ],
     function(oae, constants, mobileUtil) {
 
-        // Properties
-        var instance = null,
-            mainController = null,
-            _loginType = null;
+        // Pro perties
+        var instance = null;
+        var mainController = null;
+        var loginType = null;
 
         /////////////////////
         //// Constructor ////
@@ -69,7 +69,7 @@ define(
                     $(document).trigger(constants.events.activities.activityend);
                     obj.callback(err);
                 } else {
-                    _loginType = constants.authentication.types.local;
+                    loginType = constants.authentication.types.local;
                     try {
                         setTimeout(function() {
                             oae.init(function(e) {
@@ -99,7 +99,7 @@ define(
                     obj.callback(err);
                     $(document).trigger(constants.events.activities.activityend);
                 } else {
-                    _loginType = null;
+                    loginType = null;
                     try {
                         setTimeout(function() {
                             oae.init(function(e) {
@@ -122,7 +122,7 @@ define(
             $(document).trigger(constants.events.activities.activitystart);
             var url = "";
             if (type && type != null) {
-                _loginType = type;
+                loginType = type;
                 switch(type) {
                     case constants.authentication.types.cas:
                         url = constants.authentication.urls.cas;

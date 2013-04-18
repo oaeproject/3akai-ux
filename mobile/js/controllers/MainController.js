@@ -13,9 +13,7 @@ define(
 
         // Properties
         var instance = null;
-
         var settings = null;
-
         var menu = null;
         var modal = null;
 
@@ -199,7 +197,7 @@ define(
          * Hide the activity indicator
          */
         var hideIndicator = exports.hideIndicator = function() {
-            $('#oae-mobile-activity-indicator').animate({'opacity': 0}, 250, null, function(){
+            $('#oae-mobile-activity-indicator').animate({'opacity': 0}, 250, null, function() {
                 $('#oae-mobile-activity-indicator').hide();
             });
         };

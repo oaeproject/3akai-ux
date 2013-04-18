@@ -13,12 +13,12 @@ define(
     function(exports, oae, constants, mobileUtil, Menu, Modal, LoginView, HomeView, DetailView) {
 
         // Properties
-        var instance = null,
-            mainController = null,
-            templates = null,
-            views = null,
-            activeView = null,
-            oldView = null;
+        var instance = null;
+        var mainController = null;
+        var templates = null;
+        var views = null;
+        var activeView = null;
+        var oldView = null;
 
         /////////////////////
         //// Constructor ////
@@ -39,13 +39,13 @@ define(
             /**
              * Initialize ViewController
              */
-            initialize: function(_mainController) {
+            initialize: function(controller) {
 
                 // Listen to events from controllers
                 addBinding();
 
                 // Store instance of the maincontroller
-                mainController = _mainController;
+                mainController = controller;
 
                 // Put all the views into an array
                 views = [
