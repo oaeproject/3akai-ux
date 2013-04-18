@@ -24,16 +24,6 @@ define(
         //// Properties /////
         /////////////////////
 
-        // Settings for HomeView
-        var settings = HomeView.prototype.settings = {
-            name: "homeView",
-            id: constants.views.home,
-            template: {
-                'templateID': "#home-view-template",
-                'templateURL': "/mobile/templates/views/home-view.html"
-            }
-        };
-
         /////////////////////
         //// Constructor ////
         /////////////////////
@@ -43,6 +33,16 @@ define(
         ////////////////////
         // Public methods //
         ////////////////////
+
+        // Settings for HomeView
+        var settings = HomeView.prototype.settings = {
+            name: "homeView",
+            id: constants.views.home,
+            template: {
+                'templateID': "#home-view-template",
+                'templateURL': "/mobile/templates/views/home-view.html"
+            }
+        };
 
         HomeView.prototype.initialize = function() {
             initializeTemplate();

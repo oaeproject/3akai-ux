@@ -14,7 +14,6 @@
  */
 
 define(['exports'], function(exports) {
-
     return {
         alerts: {
             init                        : 'oae-mobile-modal-init',

@@ -28,6 +28,19 @@ define(
         var mainController = null;
         // Whether the menu is active or not
         var active = false;
+
+        //////////////////////
+        //// Constructor /////
+        //////////////////////
+
+        var Menu = function(controller) {
+            mainController = controller;
+        };
+
+        ///////////////////////
+        /// Public methods ////
+        ///////////////////////
+
         // Settings for Menu
         var settings = Menu.prototype.settings = {
             name: "menu",
@@ -37,18 +50,6 @@ define(
                 'templateURL':  "/mobile/templates/components/menu.html"
             }
         };
-
-        //////////////////////
-        //// Constructor /////
-        //////////////////////
-
-        function Menu(controller) {
-            mainController = controller;
-        }
-
-        ///////////////////////
-        /// Public methods ////
-        ///////////////////////
 
         // Initialize Menu
         Menu.prototype.initialize = function() {

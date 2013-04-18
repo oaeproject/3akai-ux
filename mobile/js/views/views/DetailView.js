@@ -24,16 +24,6 @@ define(
         //// Properties /////
         /////////////////////
 
-        // Settings for DetailView
-        var settings = DetailView.prototype.settings = {
-            name: "detailView",
-            id: constants.views.detail,
-            template: {
-                'templateID': "#detail-view-template",
-                'templateURL': "/mobile/templates/views/detail-view.html"
-            }
-        };
-
         /////////////////////
         //// Constructor ////
         /////////////////////
@@ -43,6 +33,16 @@ define(
         ////////////////////
         // Public methods //
         ////////////////////
+
+        // Settings for DetailView
+        var settings = DetailView.prototype.settings = {
+            name: "detailView",
+            id: constants.views.detail,
+            template: {
+                'templateID': "#detail-view-template",
+                'templateURL': "/mobile/templates/views/detail-view.html"
+            }
+        };
 
         DetailView.prototype.initialize = function() {
             initializeTemplate();

@@ -28,6 +28,17 @@ define(
         var type = "";
         // The actual message
         var message = "";
+
+        //////////////////////
+        //// Constructor /////
+        //////////////////////
+
+        var Modal = function() {};
+
+        ///////////////////////
+        /// Public methods ////
+        ///////////////////////
+
         // Settings for Modal
         var settings = Modal.prototype.settings = {
             name: "modal",
@@ -36,16 +47,6 @@ define(
                 'templateURL':  "/mobile/templates/components/modal.html"
             }
         };
-
-        //////////////////////
-        //// Constructor /////
-        //////////////////////
-
-        function Modal() {}
-
-        ///////////////////////
-        /// Public methods ////
-        ///////////////////////
 
         /**
          * Initialize modal view

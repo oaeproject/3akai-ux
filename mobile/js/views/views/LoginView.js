@@ -24,16 +24,6 @@ define(
         //// Properties /////
         /////////////////////
 
-        // Settings for LoginView
-        var settings = LoginView.prototype.settings = {
-            name: "loginView",
-            id: constants.views.login,
-            template: {
-                'templateID': "#login-view-template",
-                'templateURL': "/mobile/templates/views/login-view.html"
-            }
-        };
-
         /////////////////////
         //// Constructor ////
         /////////////////////
@@ -43,6 +33,16 @@ define(
         ////////////////////
         // Public methods //
         ////////////////////
+
+        // Settings for LoginView
+        var settings = LoginView.prototype.settings = {
+            name: "loginView",
+            id: constants.views.login,
+            template: {
+                'templateID': "#login-view-template",
+                'templateURL': "/mobile/templates/views/login-view.html"
+            }
+        };
 
         /**
          * Initialize LoginView
