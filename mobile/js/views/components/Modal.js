@@ -24,7 +24,10 @@ define(
         ///// Properties /////
         //////////////////////
 
-        var _settings = Modal.prototype.settings = {
+        var type = "";
+        var message = "";
+
+        var settings = Modal.prototype.settings = {
             name: "modal",
             template: {
                 'templateID':   "#modal-template",
@@ -32,16 +35,11 @@ define(
             }
         };
 
-        var _type = "";
-        var _message = "";
-
         //////////////////////
         //// Constructor /////
         //////////////////////
 
-        function Modal() {
-            console.log('[Modal] constructor');
-        }
+        function Modal() {}
 
         ///////////////////////
         /// Public methods ////
@@ -54,15 +52,13 @@ define(
          * @param {String} data.message         The message
          */
         Modal.prototype.initialize = function(data) {
-            //console.log('[Modal] initialize');
-            _type = data.type;
-            _message = data.message;
+            type = data.type;
+            message = data.message;
             renderTemplate();
         };
 
         // Destroy Menu
         Modal.prototype.destroy = function() {
-            //console.log('[Modal] destroy');
             destroyBinding();
         };
 
@@ -76,18 +72,17 @@ define(
 
         // Renders the template + inserts navigation widget
         var renderTemplate = function() {
-            //console.log('[Modal] renderTemplate');
             addBinding();
         };
 
         // Add binding
         var addBinding = function() {
-            //console.log('[Modal] addBinding');
+
         };
 
         // Destroy binding
         var destroyBinding = function() {
-            //console.log('[Modal] destroyBinding');
+
         };
 
         return Modal;

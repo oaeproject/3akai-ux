@@ -16,13 +16,12 @@
 define(
     [
         'jquery','underscore','oae.core',
-        '/mobile/js/constants/constants.js',
-        '/mobile/js/mobile.util.js'
+        '/mobile/js/constants/constants.js'
     ],
-    function($, _, oae, constants, mobileUtil) {
+    function($, _, oae, constants) {
 
         // Properties
-        var _settings = DetailView.prototype.settings = {
+        var settings = DetailView.prototype.settings = {
             name: "detailView",
             id: constants.views.detail,
             template: {
@@ -46,13 +45,13 @@ define(
         // Private methods
         var renderTemplate = function() {
             try {
-                oae.api.util.template().render(_settings.template.templateID, null, $('#oae-mobile-viewport'));
+                oae.api.util.template().render(settings.template.templateID, null, $('#oae-mobile-viewport'));
             } catch(e) {
                 location.reload();
             } finally {
                 var arrHash = window.location.hash.split(':');
                 var id = arrHash.slice(1,arrHash.length).join(':').toString();
-                switch(arrHash[1]){
+                switch(arrHash[1]) {
                     case 'g':
                         getGroupContent(id);
                         break;
@@ -88,7 +87,7 @@ define(
         var addWidget = function(profile) {
             var data = {'constants': constants, 'profile': profile};
             oae.api.widget.insertWidget('mobilecontentdetail', null, $('#mobile-content-detail-widget-container'), null, data,
-                function(e){
+                function(e) {
                     // Hide activity indicator
                     $(document).trigger(constants.events.activities.activityend);
                     // Change view title

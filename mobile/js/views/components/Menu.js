@@ -23,8 +23,8 @@ define(
         // Properties
         var mainController = null;
 
-        var _active = false;
-        var _settings = Menu.prototype.settings = {
+        var active = false;
+        var settings = Menu.prototype.settings = {
             name: "menu",
             items: [],
             template: {
@@ -37,8 +37,8 @@ define(
         //// Constructor /////
         //////////////////////
 
-        function Menu(_mainController) {
-            mainController = _mainController;
+        function Menu(controller) {
+            mainController = controller;
         }
 
         ///////////////////////
@@ -47,7 +47,7 @@ define(
 
         // Initialize Menu
         Menu.prototype.initialize = function() {
-            _settings.items = mainController.getSettings()['menu'].items;
+            settings.items = mainController.getSettings()['menu'].items;
             renderTemplate();
         };
 
@@ -61,11 +61,11 @@ define(
         ///////////////////////
 
         Menu.prototype.getActive = function() {
-            return _active;
+            return active;
         };
 
         Menu.prototype.setActive = function(val) {
-            _active = val;
+            active = val;
         };
 
         ///////////////////////
@@ -74,10 +74,12 @@ define(
 
         // Renders the template + inserts navigation widget
         var renderTemplate = function() {
-            oae.api.util.template().render(_settings.template.templateID, null, $('#oae-mobile-menu-container'));
-            oae.api.widget.insertWidget('mobilenavigation', null, $('#mobile-navigation-widget-container'), null, {'settings': _settings, 'constants': constants}, function(){
-                addBinding();
-            });
+            oae.api.util.template().render(settings.template.templateID, null, $('#oae-mobile-menu-container'));
+            oae.api.widget.insertWidget('mobilenavigation', null, $('#mobile-navigation-widget-container'), null, {'settings': settings, 'constants': constants},
+                function() {
+                    addBinding();
+                }
+            );
         };
 
         // Add binding

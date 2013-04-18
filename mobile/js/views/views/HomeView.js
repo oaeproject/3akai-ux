@@ -16,13 +16,12 @@
 define(
     [
         'jquery','underscore','oae.core',
-        '/mobile/js/constants/constants.js',
-        '/mobile/js/mobile.util.js'
+        '/mobile/js/constants/constants.js'
     ],
-    function($, _, oae, constants, mobileUtil) {
+    function($, _, oae, constants) {
 
         // Properties
-        var _settings = HomeView.prototype.settings = {
+        var settings = HomeView.prototype.settings = {
             name: "homeView",
             id: constants.views.home,
             template: {
@@ -46,12 +45,12 @@ define(
 
         // Private methods
         var renderTemplate = function() {
-            try{
-                oae.api.util.template().render(_settings.template.templateID, null, $('#oae-mobile-viewport'));
-            }catch(e){
+            try {
+                oae.api.util.template().render(settings.template.templateID, null, $('#oae-mobile-viewport'));
+            } catch(e) {
                 location.reload();
-            }finally{
-                oae.api.widget.insertWidget('mobileactivity', null, $('#mobile-activity-widget-container'), null, constants, function(e){
+            } finally {
+                oae.api.widget.insertWidget('mobileactivity', null, $('#mobile-activity-widget-container'), null, constants, function(e) {
                     setTitle(oae.data.me.tenant);
                     addBinding();
                 });
@@ -62,7 +61,7 @@ define(
          * Set page title {String} title        The title of the page
          * @param title
          */
-        var setTitle = function(title){
+        var setTitle = function(title) {
             $('.oae-mobile-view-title').html(title);
         };
 

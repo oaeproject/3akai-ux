@@ -16,13 +16,12 @@
 define(
     [
         'jquery','underscore','oae.core',
-        '/mobile/js/constants/constants.js',
-        '/mobile/js/mobile.util.js'
+        '/mobile/js/constants/constants.js'
     ],
-    function($, _, oae, constants, mobileUtil) {
+    function($, _, oae, constants) {
 
         // Properties
-        var _settings = LoginView.prototype.settings = {
+        var settings = LoginView.prototype.settings = {
             name: "loginView",
             id: constants.views.login,
             template: {
@@ -46,8 +45,8 @@ define(
         // Private methods
         var renderTemplate = function() {
             try {
-                oae.api.util.template().render(_settings.template.templateID, null, $('#oae-mobile-viewport'));
-            } catch (e) {
+                oae.api.util.template().render(settings.template.templateID, null, $('#oae-mobile-viewport'));
+            } catch(e) {
                 location.reload();
             }finally{
                 oae.api.widget.insertWidget('mobilelogin', null, $('#mobile-login-widget-container'), null, constants);
