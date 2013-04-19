@@ -76,17 +76,26 @@ ul.items{
       background-color: #393939;
     }
 
-    span{
+    span.label{
       display: block;
-      padding-left: 42px;
+      padding-left: 15px;
       text-transform: lowercase;
+
+      span.icon{
+        margin-right: 20px;
+        font-family: 'FontAwesome' !important;
+      }
+
+      span.icon:before{
+        content: "\f090";
+      }
     }
   }
 
   li.item:last-child{
     border-bottom: 2px solid $grey-med;
 
-    span{
+    span.label{
       border-bottom: 1px solid $grey-darkest;
     }
   }
