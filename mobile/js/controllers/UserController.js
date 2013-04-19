@@ -79,7 +79,10 @@ define(
                             $(document).trigger(constants.authentication.events.loginsuccess);
                         });
                     }catch(e){
-                        window.alert(oae.api.i18n.translate('__MSG__SIGNED_IN_SUCCESSFUL_BUT_PROBLEM_OCCURED__'));
+                        var confirm = false;
+                        var type = constants.alerts.types.error;
+                        var message = oae.api.i18n.translate('__MSG__SIGNED_IN_SUCCESSFUL_BUT_PROBLEM_OCCURED__');
+                        $(document).trigger(constants.alerts.init, {'confirm': confirm, 'type': type, 'message': message});
                         $(document).trigger(constants.events.activities.activityend);
                     }
                 }
@@ -106,7 +109,10 @@ define(
                             $(document).trigger(constants.authentication.events.logoutsuccess);
                         });
                     }catch(e){
-                        window.alert(oae.api.i18n.translate('__MSG__SIGNED_OUT_SUCCESSFUL_BUT_PROBLEM_OCCURED__'));
+                        var confirm = false;
+                        var type = constants.alerts.types.error;
+                        var message = oae.api.i18n.translate('__MSG__SIGNED_OUT_SUCCESSFUL_BUT_PROBLEM_OCCURED__');
+                        $(document).trigger(constants.alerts.init, {'confirm': confirm, 'type': type, 'message': message});
                         $(document).trigger(constants.events.activities.activityend);
                     }
                 }

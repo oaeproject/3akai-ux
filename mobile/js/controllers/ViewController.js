@@ -5,12 +5,11 @@ define(
         '/mobile/js/constants/constants.js',
         '/mobile/js/mobile.util.js',
         '/mobile/js/views/components/Menu.js',
-        '/mobile/js/views/components/Modal.js',
         '/mobile/js/views/views/LoginView.js',
         '/mobile/js/views/views/HomeView.js',
         '/mobile/js/views/views/DetailView.js'
     ],
-    function(exports, oae, constants, mobileUtil, Menu, Modal, LoginView, HomeView, DetailView) {
+    function(exports, oae, constants, mobileUtil, Menu, LoginView, HomeView, DetailView) {
 
         /////////////////////
         //// Properties /////
@@ -59,7 +58,6 @@ define(
                 // Put all the views into an array
                 views = [
                     new Menu(),
-                    new Modal(),
                     new LoginView(),
                     new HomeView(),
                     new DetailView()
@@ -158,6 +156,7 @@ define(
             }
             $(document).trigger(constants.events.activities.initmenu);
             setStartupView();
+
         };
 
         /**
@@ -188,7 +187,8 @@ define(
                     hash = constants.views.hash.home;
                     break;
                 case constants.views.detail:
-                    hash = constants.views.hash.detail;
+                    // TODO: Uncomment when DetailView is out of development mode
+                    //hash = constants.views.hash.detail;
                     break;
                 case constants.views.login:
                     hash = constants.views.hash.login;
@@ -225,7 +225,7 @@ define(
                         state = constants.views.home;
                         break;
                     case constants.views.hash.detail:
-                        // TODO: Change back to detail when DetailView is out of development
+                        // TODO: Change back to detail when DetailView is out of development mode
                         //state = constants.views.detail;
                         state = constants.views.home;
                         break;

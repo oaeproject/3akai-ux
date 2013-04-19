@@ -61,14 +61,23 @@ define(
          * Gets the view template and renders it into the viewport
          */
         var initializeTemplate = function() {
+            // Try to render the template
             try {
                 oae.api.util.template().render(settings.template.templateID, null, $('#oae-mobile-viewport'));
+
+            // When template rendering fails, dispatch an event that will be handled in the MainController
             } catch(e) {
+                var type = constants.alerts.types.error;
                 var message = oae.api.i18n.translate('__MSG__UNABLE_TO_LOAD_THE_PAGE__' + '. ' + '__MSG__TRY_AGAIN__' + '?');
-                var proceed = window.confirm(message);
-                if (proceed) {
-                    location.reload();
-                }
+                $(document).trigger(constants.alerts.init, {'confirm': true, 'type': type, 'message': message,
+                    'callback': function(response) {
+                        if (response) {
+                            location.reload();
+                        }
+                    }
+                });
+
+            // Insert the widget + set the view title and bind events
             } finally {
                 oae.api.widget.insertWidget('mobileactivity', null, $('#mobile-activity-widget-container'), null, constants, function(e) {
                     setTitle(oae.data.me.tenant);

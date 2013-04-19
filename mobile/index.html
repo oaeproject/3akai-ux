@@ -36,12 +36,21 @@
 </head>
 <body>
 
+<!-- MODALS -->
+<div id="oae-mobile-activity-indicator"><div class="bg"></div><div class="spinner"></div></div>
+
+<div id="oae-mobile-modal" class="modal hide fade">
+    <div class="modal-header"><!-- --></div>
+    <div class="modal-body"><!-- --></div>
+    <div class="modal-footer">
+        <a href="#" title="close" class="btn" id="btnModalClose"></a>
+        <a href="#" title="confirm" class="btn" id="btnModalConfirm"></a>
+    </div>
+</div>
+
 <div id="oae-mobile-menu-container"><!-- --></div>
 <div id="oae-mobile-viewport"><!-- --></div>
 <div id="oae-mobile-template-helper"></div>
-
-<!-- MODALS -->
-<div id="oae-mobile-activity-indicator"><div class="bg"></div><div class="spinner"></div></div>
 
 <!-- DEPENDENCIES -->
 <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>

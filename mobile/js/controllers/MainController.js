@@ -6,10 +6,9 @@ define(
         '/mobile/js/mobile.util.js',
         '/mobile/js/controllers/UserController.js',
         '/mobile/js/controllers/ViewController.js',
-        '/mobile/js/views/components/Menu.js',
-        '/mobile/js/views/components/Modal.js'
+        '/mobile/js/views/components/Menu.js'
     ],
-    function(exports, $, underscore, oae, constants, mobileUtil, userController, viewController, Menu, Modal) {
+    function(exports, $, underscore, oae, constants, mobileUtil, userController, viewController, Menu) {
 
         /////////////////////
         //// Properties /////
@@ -21,8 +20,8 @@ define(
         var settings = null;
         // Instance of the menu
         var menu = null;
-        // Instance of the modal view
-        var modal = null;
+        // The modal view
+        var modal = $('#oae-mobile-modal');
 
         /////////////////////
         //// Constructor ////
@@ -48,6 +47,14 @@ define(
                 addBinding();
                 // Load settings from JSON file
                 loadSettings();
+
+
+                // TODO: remove this
+                var type = constants.alerts.types.error;
+                var message = oae.api.i18n.translate('__MSG__AN_ERROR_HAS_OCCURED_TRY_LATER__');
+                $(document).trigger(constants.alerts.init, {'confirm': true, 'type': type, 'message': message});
+
+
             },
 
             /**
@@ -89,9 +96,9 @@ define(
                     initControllers();
                 },
                 error: function(e) {
-                    // TODO: Replace with modal view
+                    var type = constants.alerts.types.error;
                     var message = oae.api.i18n.translate('__MSG__AN_ERROR_HAS_OCCURED_TRY_LATER__');
-                    window.alert(message);
+                    $(document).trigger(constants.alerts.init, {'confirm': false, 'type': type, 'message': message});
                 }
             });
         };
@@ -180,19 +187,48 @@ define(
         ////////////////////////
 
         /**
-         * Initializes a new modal message window
+         * Initializes a new modal window
+         *
+         * @param {Event}       e                   The dispatched event
+         * @param {Object}      message             The object containing the message data
+         * @param {Boolean}     message.confirm     If the modal needs a confirm button
+         * @param {String}      message.type        The type of the message
+         * @param {String}      message.message     The message
+         * @param {Function}    message.callback    The callback function when confirm is pressed
          */
-        var onModalInit = function() {
-            var message = {
-                'type': 'Warning',
-                'message': 'The message'
-            };
-            modal = new Modal();
-            modal.initialize(message);
+        var onShowModal = function(e, message) {
+
+            // Set header and body
+            $(modal).find('.modal-header').html(oae.api.i18n.translate('__MSG__ERROR__'));
+            $(modal).find('.modal-body').html(message.message);
+
+            // Hide the confirm button by default
+            $(modal).find('#btnModalConfirm').hide();
+
+            // Show the modal
+            $(modal).modal({show: true, backdrop: false});
+
+            // When a confirm button is needed => show button + add eventlistener
+            if (message.confirm) {
+                var canceltext = oae.api.i18n.translate('__MSG__CANCEL__');
+                var confirmtext = oae.api.i18n.translate('__MSG__CONFIRM__');
+                $(modal).find('#btnModalClose').html(canceltext);
+                $(modal).find('#btnModalConfirm').html(confirmtext).show().on('click', function() {
+                    // Do callback when pressed on confirm button
+                    message.callback(true);
+                    // Hide the modal
+                    onHideModal();
+                });
+            } else {
+                $(modal).find('#btnModalClose').html(oae.api.i18n.translate('__MSG__OK__'));
+            }
         };
 
-        var onModalDestroy = function() {
-            console.log('[MainController] onModalDestroy');
+        /**
+         * Hides the modal window
+         */
+        var onHideModal = function() {
+            $(modal).modal('hide');
         };
 
         ////////////////////////
@@ -223,8 +259,8 @@ define(
          * Listen to events dispatched from controllers
          */
         var addBinding = function() {
-            $(document).on(constants.alerts.init, onModalDestroy);
-            $(document).on(constants.alerts.kill, onModalInit);
+            $(document).on(constants.alerts.init, onShowModal);
+            $(document).on(constants.alerts.kill, onHideModal);
             $(document).on(constants.authentication.events.loginsuccess, onUserLogin);
             $(document).on(constants.authentication.events.logoutsuccess, onUserLogout);
             $(document).on(constants.events.activities.activityend, hideIndicator);
@@ -232,6 +268,7 @@ define(
             $(document).on(constants.events.activities.initmenu, onInitMenu);
             $(document).on(constants.events.activities.menuclicked, onMenuItemClicked);
             $(document).on(constants.events.activities.menutoggle, onMenuToggle);
+            $(modal).find("#btnModalClose").bind('click', onHideModal);
         };
 
         /**
