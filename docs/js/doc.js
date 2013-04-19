@@ -20,19 +20,19 @@ require(['jquery', 'oae.core'], function($, oae) {
      * 
      * @param {String} type     The type of module to render the documentation for
      * @param {Object} docs     The documentation object as returned from the server
-     * @param {String} name     The module name to render the documentation for
+     * @param {String} moduleId The id to render the documentation for
      * @param {String} item     The item to scroll down the page to that item
      */
-    var renderDocumentation = function(type, docs, name, item) {
+    var renderDocumentation = function(type, docs, moduleId, item) {
         if (type === 'frontend') {
             oae.api.util.template().render($('#doc-ui-docs-template'), {
                 'docs': docs,
-                'module': name
+                'module': moduleId
             }, $('#doc-docs-container'));
         } else if (type === 'backend') {
             oae.api.util.template().render($('#doc-docs-template'), {
                 'docs': docs,
-                'module': name
+                'module': moduleId
             }, $('#doc-docs-container'));
         }
         
@@ -86,7 +86,6 @@ require(['jquery', 'oae.core'], function($, oae) {
             },
             $('#doc-contents-container'));
         }
-        addBinding();
     };
 
     /**
@@ -151,6 +150,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             $(this).addClass('active'); 
             window.scrollTo(0, 0);
             var selectedLinkToShow = $('a', $(this)).attr('href');
+            console.log(selectedLinkToShow);
             history.pushState(null, null, selectedLinkToShow);
             var nameOfModuleToLoad = null;
             // If the current selected item contains backend
@@ -161,8 +161,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                 getDocumentation('backend', nameOfModuleToLoad, function(docs) {
                     renderDocumentation('backend', docs, nameOfModuleToLoad);
                 });
-            } else if (selectedLinkToShow.indexOf('frontend') > 0) {
-                // If the current selected item contains frontend
+            } else {
                 //Subtract the link to get the name of the module, in this case /docs/frontend/
                 nameOfModuleToLoad = selectedLinkToShow.substr(15);
                 setDocumentTitle('oae.api.' + nameOfModuleToLoad);
@@ -172,7 +171,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             }
         });
     };
-    
+
     /**
      * Scroll the page to the element that has a name-attribute equal to item, if the item is empty the value of the scroll is 0
      *
@@ -188,6 +187,29 @@ require(['jquery', 'oae.core'], function($, oae) {
         }
         window.scrollTo(0, offset);
     };
+
+    /**
+     * Load the documentation for a module and update the navigation 
+     *
+     * @param {String}      type        The type of the module
+     * @param {String}      item        The id of the module
+     * @param {String[]}    modules     List of all available modules
+     */
+    var loadDocumentation = function(type, item, modules) {
+        // Get the moduleId from the item, it's the first part before a . 
+        var moduleId = item.substr(0, item.indexOf('.'));
+        // If the moduleId is empty load the first module from the modules array
+        if (moduleId.length === 0) {
+            moduleId = modules[0];
+        }
+        // Set the li active -> twitter bootstrap
+        $('#'+ type + '-' + moduleId).addClass('active');
+        // Get the documentation
+        getDocumentation(type, moduleId, function(docs) {
+            // Render the documentation 
+            renderDocumentation(type, docs, moduleId, item);
+        });
+    };
     
     /**
      * Initializes the API Docs UI
@@ -195,84 +217,32 @@ require(['jquery', 'oae.core'], function($, oae) {
     var doInit = function() {
         // Remove all slashes from the pathname to get the name of the module
         var pathname = window.location.pathname.replace(/\//g,'');
-        var currentElementToLoad = null;
-        var element = null;
-        var module = null;
 
-        // Get all the elements
-        getAvailableModulesForType('frontend', function(elements) {
-            elements.sort();
-            // Render the docs for the current module
-            renderNavigation('frontend', elements, currentElementToLoad);
-            getAvailableModulesForType('backend', function(modules) {
-                modules.sort();
-                // Render the docs for the current module
-                renderNavigation('backend', modules, currentElementToLoad);
+        // Get all the frontend modules
+        getAvailableModulesForType('frontend', function(modulesFrontend) {
+            modulesFrontend.sort();
+            // Render the frontend navigation without a specific module
+            renderNavigation('frontend', modulesFrontend, null);
+            // Get all the backend modules
+            getAvailableModulesForType('backend', function(modulesBackend) {
+                modulesBackend.sort();
+                // Render the backend navigation without a specific module
+                renderNavigation('backend', modulesBackend, null);
+                // Add binding for the navigation
+                addBinding();
                 // Remove docs from the path
                 pathname = pathname.slice(4);
-                // Check if the pathname isn't empty otherwise load the first backend module
-                if (pathname) {
-                    // If the path contains 'frontend' or 'backend'
-                    if (pathname.indexOf('frontend') > -1 || pathname.indexOf('backend') > -1) {
-                        // If the pathname contains 'frontend'
-                        if (pathname.indexOf('frontend') > -1) {
-                            // Remove frontend from the pathname for the element
-                            element = pathname.slice(8);
-                            // Get the details of the element
-                            var currentElementToLoadArray = element.split('.');
-                            // The currentElementToLoad is the first string in the array
-                            currentElementToLoad = currentElementToLoadArray[0];
-                            // If the currentElementToLoad is empty load the first element in the _elements array
-                            if (currentElementToLoad.length === 0) {
-                                currentElementToLoad = elements[0];
-                            }
-                            // Set the li active
-                            console.log(currentElementToLoad);
-                            $('#frontend-' + currentElementToLoad).addClass('active');
-                            // Set the document title to 
-                            setDocumentTitle('oae.api.' + currentElementToLoad);
-                            // Load the documentation
-                            getDocumentation('frontend', currentElementToLoad, function(docs) {
-                                renderDocumentation('frontend', docs, currentElementToLoad, element);
-                            });
-                        } else if (pathname.indexOf('backend') > -1) {
-                            // If the pathname contains 'backend'
-                            // Remove backend from the pathname for the module
-                            module = pathname.slice(7);
-                            // Get the details of the module
-                            var currentModuleToLoadArray = module.split('.');
-                            // The currentElementToLoad is the first string in the array
-                            currentElementToLoad = currentModuleToLoadArray[0];
-                            // If the currentElementToLoad is empty load the first module in the _modules array
-                            if (currentElementToLoad.length === 0) {
-                                currentElementToLoad = modules[0];
-                            }
-                            // Set the li active
-                            $('#backend-' + currentElementToLoad).addClass('active');
-                            // Set the document title to
-                            setDocumentTitle(currentElementToLoad);
-                            // Load the documentation
-                            getDocumentation('backend', currentElementToLoad, function(docs) {
-                                renderDocumentation('backend', docs, currentElementToLoad, module);
-                            });
-                        }
-                    } else {
-                        // If the path doesn't start with frontend or backend, load the first backend module
-                        currentElementToLoad = modules[0];
-                        $('#backend-' + currentElementToLoad).addClass('active');
-                        getDocumentation('backend', currentElementToLoad, function(docs) {
-                            renderDocumentation('backend', docs, currentElementToLoad);
-                        });
-                        history.pushState(null, null, '/docs/backend/' + currentElementToLoad);
-                    }
+                // Check the pathname
+                if (pathname.indexOf('frontend') > -1) {
+                    // Remove frontend from path
+                    var item = pathname.slice(8);
+                    setDocumentTitle('oae.api.' + item);
+                    loadDocumentation('frontend', item, modulesFrontend);
                 } else {
-                    // If the path is empty, load the first backend module
-                    currentElementToLoad = modules[0];
-                    $('#backend-' + currentElementToLoad).addClass('active');
-                    getDocumentation('backend', currentElementToLoad, function(docs) {
-                        renderDocumentation('backend', docs, currentElementToLoad);
-                    });
-                    history.pushState(null, null, '/docs/backend/' + currentElementToLoad);
+                    // Remove backend from path
+                    var item = pathname.slice(7);
+                    setDocumentTitle(item);
+                    loadDocumentation('backend', item, modulesBackend);
                 }
             });
         });
