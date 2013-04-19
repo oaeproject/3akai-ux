@@ -140,7 +140,7 @@ define(
         ////////////////////////
 
         /**
-         * Add eventlisteners to componenets
+         * Add eventlisteners to components
          */
         var addBinding = function() {
             // When the logo in the topbar gets clicked

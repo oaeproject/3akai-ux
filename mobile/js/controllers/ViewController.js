@@ -225,7 +225,9 @@ define(
                         state = constants.views.home;
                         break;
                     case constants.views.hash.detail:
-                        state = constants.views.detail;
+                        // TODO: Change back to detail when DetailView is out of development
+                        //state = constants.views.detail;
+                        state = constants.views.home;
                         break;
                     case constants.views.hash.login:
                         changeHash(constants.views.hash.home);
