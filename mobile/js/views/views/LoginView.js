@@ -69,8 +69,8 @@ define(
             try {
                 oae.api.util.template().render(settings.template.templateID, null, $('#oae-mobile-viewport'));
             } catch(e) {
-                // TODO: internationalise this
-                var proceed = window.confirm('Unable to display the page. Try again?');
+                var message = oae.api.i18n.translate('__MSG__UNABLE_TO_LOAD_THE_PAGE__' + '. ' + '__MSG__TRY_AGAIN__' + '?');
+                var proceed = window.confirm(message);
                 if (proceed) {
                     location.reload();
                 }

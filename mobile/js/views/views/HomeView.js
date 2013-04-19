@@ -64,8 +64,8 @@ define(
             try {
                 oae.api.util.template().render(settings.template.templateID, null, $('#oae-mobile-viewport'));
             } catch(e) {
-                // TODO: internationalise this
-                var proceed = window.confirm('Unable to display the page. Try again?');
+                var message = oae.api.i18n.translate('__MSG__UNABLE_TO_LOAD_THE_PAGE__' + '. ' + '__MSG__TRY_AGAIN__' + '?');
+                var proceed = window.confirm(message);
                 if (proceed) {
                     location.reload();
                 }
@@ -87,35 +87,45 @@ define(
         };
 
         /**
-         * Binds events to components
-         */
-        var addBinding = function() {
-            $('.oae-mobile-topbar-logo').bind('click', onTopbarLogoClick);
-            $('#btnMenu').bind('click', onToggleMenuClick);
-            $('#home-view').touchSwipe(onToggleMenuClick);
-        };
-
-        /**
-         * Removes binding from components
-         */
-        var removeBinding = function() {
-            $('.oae-mobile-topbar-logo').unbind('click', onTopbarLogoClick);
-            $('#btnMenu').unbind('click', onToggleMenuClick);
-            $('#home-view').unbindSwipe(onToggleMenuClick);
-        };
-
-        /**
-         * When the menubutton gets clicked
+         * When the menubutton gets clicked an event is dispatched and handled in the MainController
          */
         var onToggleMenuClick = function() {
             $(document).trigger(constants.events.activities.menutoggle);
         };
 
         /**
-         * When the logo in the topbar gets clicked
+         * When the logo in the topbar gets clicked an event is dispatched and handled in the ViewController
          */
         var onTopbarLogoClick = function() {
             $(document).trigger(constants.events.activities.viewchanged, constants.views.home);
+        };
+
+        ////////////////////////
+        /////// BINDING ////////
+        ////////////////////////
+
+        /**
+         * Add eventlisteners to components
+         */
+        var addBinding = function() {
+            // When the logo in the topbar gets clicked
+            $('.oae-mobile-topbar-logo').bind('click', onTopbarLogoClick);
+            // When the menubutton gets clicked
+            $('#btnMenu').bind('click', onToggleMenuClick);
+            // When a swipe is detected on the homeview
+            $('#home-view').touchSwipe(onToggleMenuClick);
+        };
+
+        /**
+         * Remove eventlisteners from components
+         */
+        var removeBinding = function() {
+            // When the logo in the topbar gets clicked
+            $('.oae-mobile-topbar-logo').unbind('click', onTopbarLogoClick);
+            // When the menubutton gets clicked
+            $('#btnMenu').unbind('click', onToggleMenuClick);
+            // When a swipe is detected on the homeview
+            $('#home-view').unbindSwipe(onToggleMenuClick);
         };
 
         return HomeView;

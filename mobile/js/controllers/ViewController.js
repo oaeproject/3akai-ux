@@ -258,7 +258,7 @@ define(
         ////////////////////////
 
         /**
-         * Bind events
+         * Listen to events dispatched from controllers
          */
         var addBinding = function() {
             $(document).on(constants.events.activities.templatesready, onTemplatesReady);
@@ -268,7 +268,9 @@ define(
             $(window).on('hashchange', onHashChange);
         };
 
-        // Singleton
+        /**
+         * Returns an instance of ViewController
+         */
         return ViewController.getInstance();
     }
 );

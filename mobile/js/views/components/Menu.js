@@ -88,20 +88,30 @@ define(
             );
         };
 
-        // Add binding
-        var addBinding = function() {
-            $('#oae-mobile-menu').find('li').bind('click', onItemClickHandler);
-        };
-
-        // Destroy binding
-        var destroyBinding = function() {
-            $('#oae-mobile-menu').find('li').unbind('click', onItemClickHandler);
-        };
-
-        // When menu item gets clicked
+        // When a navigation items gets clicked an event is dispatched and handlet in the MainController
         var onItemClickHandler = function(e) {
             var action = $(e.currentTarget).attr('data-action');
             $(document).trigger(constants.events.activities.menuclicked, action);
+        };
+
+        ////////////////////////
+        /////// BINDING ////////
+        ////////////////////////
+
+        /**
+         * Add eventlisteners to components
+         */
+        var addBinding = function() {
+            // When a navigation items gets clicked
+            $('#oae-mobile-menu').find('li').bind('click', onItemClickHandler);
+        };
+
+        /**
+         * Remove eventlisteners from components
+         */
+        var destroyBinding = function() {
+            // When a navigation items gets clicked
+            $('#oae-mobile-menu').find('li').unbind('click', onItemClickHandler);
         };
 
         return Menu;

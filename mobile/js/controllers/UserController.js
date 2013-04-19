@@ -1,10 +1,9 @@
 define(
     [
         'oae.core',
-        '/mobile/js/constants/constants.js',
-        '/mobile/js/mobile.util.js'
+        '/mobile/js/constants/constants.js'
     ],
-    function(oae, constants, mobileUtil) {
+    function(oae, constants) {
 
         /////////////////////
         //// Properties /////
@@ -34,11 +33,11 @@ define(
             /**
              * Initialize UserController
              */
-            initialize: function(_mainController) {
+            initialize: function(controller) {
                 // Bind events
                 addBinding();
                 // Store an instance of MainController
-                mainController = _mainController;
+                mainController = controller;
             }
         };
 
@@ -116,6 +115,9 @@ define(
 
         /**
          * Login with a social network api
+         *
+         * @param {Event}       e                   The dispatched event
+         * @param {String}      type                The external login type (e.g. cas, facebook...)
          */
         var loginWithSocialNetwork = function(e, type) {
             if (type) {
@@ -124,14 +126,22 @@ define(
             }
         };
 
-        // Private methods
+        ////////////////////////
+        /////// BINDING ////////
+        ////////////////////////
+
+        /**
+         * Listen to events dispatched from controllers
+         */
         var addBinding = function() {
             $(document).on(constants.authentication.events.loginattempt, login);
             $(document).on(constants.authentication.events.logoutattempt, logout);
             $(document).on(constants.authentication.events.socialloginattempt, loginWithSocialNetwork);
         };
 
-        // Singleton
+        /**
+         * Returns an instance of UserController
+         */
         return UserController.getInstance();
     }
 );

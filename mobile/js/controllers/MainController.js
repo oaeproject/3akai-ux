@@ -89,8 +89,9 @@ define(
                     initControllers();
                 },
                 error: function(e) {
-                    // TODO: internationalise this
-                    window.alert('An error occured while loading the application');
+                    // TODO: Replace with modal view
+                    var message = oae.api.i18n.translate('__MSG__AN_ERROR_HAS_OCCURED_TRY_LATER__');
+                    window.alert(message);
                 }
             });
         };
@@ -219,7 +220,7 @@ define(
         ////////////////////////
 
         /**
-         * Listen te events from controllers
+         * Listen to events dispatched from controllers
          */
         var addBinding = function() {
             $(document).on(constants.alerts.init, onModalDestroy);
@@ -233,7 +234,9 @@ define(
             $(document).on(constants.events.activities.menutoggle, onMenuToggle);
         };
 
-        // Singleton
+        /**
+         * Returns an instance of MainController
+         */
         return MainController.getInstance();
     }
 );

@@ -63,8 +63,8 @@ define(
             try {
                 oae.api.util.template().render(settings.template.templateID, null, $('#oae-mobile-viewport'));
             } catch(e) {
-                // TODO: internationalise this
-                var proceed = window.confirm('Unable to display the page. Try again?');
+                var message = oae.api.i18n.translate('__MSG__UNABLE_TO_LOAD_THE_PAGE__' + '. ' + '__MSG__TRY_AGAIN__' + '?');
+                var proceed = window.confirm(message);
                 if (proceed) {
                     location.reload();
                 }
@@ -72,25 +72,11 @@ define(
                 var arrHash = window.location.hash.split(':');
                 var id = arrHash.slice(1,arrHash.length).join(':').toString();
                 switch(arrHash[1]) {
-                    case 'g':
-                        getGroupContent(id);
-                        break;
                     case 'c':
                         getDocumentContent(id);
                         break;
                 }
             }
-        };
-
-        /**
-         * Gets content from group activity
-         *
-         * @param {String} groupId
-         */
-        var getGroupContent = function(groupId) {
-            oae.api.group.getGroup(groupId, function(err, profile) {
-                addWidget(profile);
-            });
         };
 
         /**
@@ -136,33 +122,41 @@ define(
         };
 
         /**
-         * Bind events to components
-         */
-        var addBinding = function() {
-            $('.oae-mobile-topbar-logo').bind('click', onTopbarLogoClick);
-            $('#btnBack').bind('click', onBackButtonClick);
-        };
-
-        /**
-         * Removes events from components
-         */
-        var removeBinding = function() {
-            $('.oae-mobile-topbar-logo').unbind('click', onTopbarLogoClick);
-            $('#btnBack').unbind('click', onBackButtonClick);
-        };
-
-        /**
-         * When the logo in the topbar gets clicked
+         * When the logo in the topbar gets clicked and event is dispatched and handled in the ViewController
          */
         var onTopbarLogoClick = function() {
             $(document).trigger(constants.events.activities.viewchanged, constants.views.home);
         };
 
         /**
-         * When the backbutton gets clicked
+         * When the backbutton gets clicked an event is dispatched and handled in the ViewController
          */
         var onBackButtonClick = function() {
             $(document).trigger(constants.events.activities.viewchanged, constants.views.home);
+        };
+
+        ////////////////////////
+        /////// BINDING ////////
+        ////////////////////////
+
+        /**
+         * Add eventlisteners to componenets
+         */
+        var addBinding = function() {
+            // When the logo in the topbar gets clicked
+            $('.oae-mobile-topbar-logo').bind('click', onTopbarLogoClick);
+            // When the backbutton gets clicked
+            $('#btnBack').bind('click', onBackButtonClick);
+        };
+
+        /**
+         * Remove eventlisteners from components
+         */
+        var removeBinding = function() {
+            // When the logo in the topbar gets clicked
+            $('.oae-mobile-topbar-logo').unbind('click', onTopbarLogoClick);
+            // When the backbutton gets clicked
+            $('#btnBack').unbind('click', onBackButtonClick);
         };
 
         return DetailView;
