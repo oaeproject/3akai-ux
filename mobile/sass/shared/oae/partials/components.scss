@@ -177,9 +177,25 @@
   clear: both;
 }
 
+.modal-footer .btn{
+  display: inline-block;
+  height: 20px;
+  width: 100px;
+  padding: 10px;
+  line-height: 20px;
+  border-radius: 6px;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  color: white;
+  @include setGradient($blue-light, $blue-darker);
+
+  &:hover{
+    @include setGradient(#1b9ad8, #1B8CC7);
+  }
+}
+
 .modal-footer .btn + .btn {
   margin-bottom: 0;
-  margin-left: 5px;
 }
 
 .modal-footer .btn-group .btn + .btn {

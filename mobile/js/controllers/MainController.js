@@ -47,14 +47,6 @@ define(
                 addBinding();
                 // Load settings from JSON file
                 loadSettings();
-
-
-                // TODO: remove this
-                var type = constants.alerts.types.error;
-                var message = oae.api.i18n.translate('__MSG__AN_ERROR_HAS_OCCURED_TRY_LATER__');
-                $(document).trigger(constants.alerts.init, {'confirm': true, 'type': type, 'message': message});
-
-
             },
 
             /**
