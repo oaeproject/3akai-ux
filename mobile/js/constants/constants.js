@@ -41,11 +41,7 @@ define(['exports'], function(exports) {
                 twitter                 : 'oae-authentication-twitter'
             },
             urls:{
-                cas                     : '/api/auth/cas',
-                google                  : '/api/auth/google',
-                facebook                : '/api/auth/facebook',
-                shibboleth              : '/api/auth/shibboleth',
-                twitter                 : '/api/auth/twitter'
+                authpath                : '/api/auth/'
             }
         },
         events: {

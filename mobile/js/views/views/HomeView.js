@@ -16,7 +16,8 @@
 define(
     [
         'jquery','underscore','oae.core',
-        '/mobile/js/constants/constants.js'
+        '/mobile/js/constants/constants.js',
+        'jquery.swipe'
     ],
     function($, _, oae, constants) {
 

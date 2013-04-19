@@ -14,8 +14,6 @@ define(
         var instance = null;
         // Instance of MainController
         var mainController = null;
-        // The logintype: local/external
-        var loginType = null;
 
         /////////////////////
         //// Constructor ////
@@ -76,14 +74,13 @@ define(
                     $(document).trigger(constants.events.activities.activityend);
                     obj.callback(err);
                 } else {
-                    loginType = constants.authentication.types.local;
                     try{
                         oae.init(function(e) {
                             $(document).trigger(constants.events.activities.activityend);
                             $(document).trigger(constants.authentication.events.loginsuccess);
                         });
                     }catch(e){
-                        window.alert('Logged in successfully, but a problem occured when loading the page');
+                        window.alert(oae.api.i18n.translate('__MSG__SIGNED_IN_SUCCESSFUL_BUT_PROBLEM_OCCURED__'));
                         $(document).trigger(constants.events.activities.activityend);
                     }
                 }
@@ -104,14 +101,13 @@ define(
                     obj.callback(err);
                     $(document).trigger(constants.events.activities.activityend);
                 } else {
-                    loginType = null;
                     try{
                         oae.init(function(e) {
                             $(document).trigger(constants.events.activities.activityend);
                             $(document).trigger(constants.authentication.events.logoutsuccess);
                         });
                     }catch(e){
-                        window.alert('Logged out successfully, but a problem occured when loading the page');
+                        window.alert(oae.api.i18n.translate('__MSG__SIGNED_OUT_SUCCESSFUL_BUT_PROBLEM_OCCURED__'));
                         $(document).trigger(constants.events.activities.activityend);
                     }
                 }
@@ -122,28 +118,9 @@ define(
          * Login with a social network api
          */
         var loginWithSocialNetwork = function(e, type) {
-            $(document).trigger(constants.events.activities.activitystart);
-            var url = "";
             if (type) {
-                loginType = type;
-                switch(type) {
-                    case constants.authentication.types.cas:
-                        url = constants.authentication.urls.cas;
-                        break;
-                    case constants.authentication.types.facebook:
-                        url = constants.authentication.urls.facebook;
-                        break;
-                    case constants.authentication.types.google:
-                        url = constants.authentication.urls.google;
-                        break;
-                    case constants.authentication.types.shibboleth:
-                        url = constants.authentication.urls.shibboleth;
-                        break;
-                    case constants.authentication.types.twitter:
-                        url = constants.authentication.urls.twitter;
-                        break;
-                }
-                document.location = url;
+                $(document).trigger(constants.events.activities.activitystart);
+                document.location = constants.authentication.urls.authpath + type;
             }
         };
 
