@@ -295,8 +295,10 @@ a:hover, .btn-link:hover {
    color: @button-icon-color;
 }
 
+[class^="icon-"].active, [class*=" icon-"].active,
 [class^="icon-"]:hover, [class*=" icon-"]:hover,
 [class^="icon-"]:focus, [class*=" icon-"]:focus,
+.btn-link [class^="icon-"].active, .btn-link:hover [class*=" icon-"].active,
 .btn-link:hover [class^="icon-"], .btn-link:hover [class*=" icon-"],
 .btn-link:focus [class^="icon-"], .btn-link:focus [class*=" icon-"] {
     color: @button-icon-hover-color;
