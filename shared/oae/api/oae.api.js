@@ -16,7 +16,7 @@
 /*!
  * Initializes the Sakai OAE UI APIs. First of all, the me data will be retrieved. After that, the configuration for the current
  * tenant will be retrueved, and the localization and internationalization APIs will be initialized. Finally, the widgets declared
- * in the page source will be rendered,
+ * in the page source will be rendered.
  *
  * This module is intended to be referenced as a *plugin*, not a regular module. Do not depend on this directly, instead depend
  * on `oae.core`, which invokes this plugin, and also efficiently pre-loads many third-party dependencies.
