@@ -30,9 +30,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * @throws {Error}                                      Error thrown when not all of the required parameters have been provided
      */
     var createGroup = exports.createGroup = function (displayName, description, visibility, joinable, managers, members, callback) {
-        if (!alias) {
-             throw new Error('A group alias should be provided');
-        } else if (!displayName) {
+        if (!displayName) {
              throw new Error('A group displayName should be provided');
         }
 

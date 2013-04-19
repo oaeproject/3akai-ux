@@ -293,7 +293,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         // Show the actual notification
         $notificationContainer.notify({
             'type': type,
-            'message': {'html': message}
+            'message': {'html': message},
+            'transition': 'slideDown'
         }).show();
     };
 
