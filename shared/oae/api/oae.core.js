@@ -68,7 +68,6 @@ define([
         'jquery.notify',
         'jquery.properties-parser',
         'jquery.serializeObject',
-        'jquery.swipe',
         'jquery.timeago',
         'jquery.validate',
         'jquery-ui',

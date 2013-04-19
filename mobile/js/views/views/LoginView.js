@@ -69,8 +69,11 @@ define(
             try {
                 oae.api.util.template().render(settings.template.templateID, null, $('#oae-mobile-viewport'));
             } catch(e) {
-                window.confirm('Unable to display the page. Try again?');
-                //location.reload();
+                // TODO: internationalise this
+                var proceed = window.confirm('Unable to display the page. Try again?');
+                if (proceed) {
+                    location.reload();
+                }
             } finally {
                 oae.api.widget.insertWidget('mobilelogin', null, $('#mobile-login-widget-container'), null, constants);
             }

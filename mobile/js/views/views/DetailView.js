@@ -45,7 +45,7 @@ define(
         };
 
         DetailView.prototype.initialize = function() {
-            initializeTemplate();
+            initializeWidget();
         };
 
         DetailView.prototype.destroy = function() {
@@ -59,12 +59,15 @@ define(
         /**
          * Gets the view template and renders it into the viewport
          */
-        var initializeTemplate = function() {
+        var initializeWidget = function() {
             try {
                 oae.api.util.template().render(settings.template.templateID, null, $('#oae-mobile-viewport'));
             } catch(e) {
-                window.confirm('Unable to display the page. Try again?');
-                //location.reload();
+                // TODO: internationalise this
+                var proceed = window.confirm('Unable to display the page. Try again?');
+                if (proceed) {
+                    location.reload();
+                }
             } finally {
                 var arrHash = window.location.hash.split(':');
                 var id = arrHash.slice(1,arrHash.length).join(':').toString();
@@ -113,18 +116,11 @@ define(
                     // Hide activity indicator
                     $(document).trigger(constants.events.activities.activityend);
                     // Change view title
-                    var title = null;
-                    if (profile) {
-                        if (profile.displayName.length > 24) {
-                            title = profile.displayName.substr(0,21) + "...";
-                        } else {
-                            title = profile.displayName;
-                        }
-                    } else {
+                    var title = profile.displayName;
+                    if (!profile) {
                         title = oae.api.i18n.translate('__MSG__ERROR__');
                     }
                     setTitle(title);
-                    // Bind events after rendering html
                     addBinding();
                 }
             );

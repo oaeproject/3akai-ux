@@ -89,6 +89,7 @@ define(
                     initControllers();
                 },
                 error: function(e) {
+                    // TODO: internationalise this
                     window.alert('An error occured while loading the application');
                 }
             });

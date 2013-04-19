@@ -388,10 +388,6 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @throws {Error}                            Error thrown when no content id has been provided
      */
     var getComments = exports.getComments = function(contentId, start, limit, callback) {
-
-        console.log('getComments: ' + contentId);
-
-
         if (!contentId) {
             throw new Error('A valid content id should be provided');
         }
