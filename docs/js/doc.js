@@ -140,6 +140,19 @@ require(['jquery', 'oae.core'], function($, oae) {
     };
 
     /**
+     * Get and renders the documentation for a specific module
+     * 
+     * @param {String} type     The type of module to render the documentation for
+     * @param {String} moduleId The id to render the documentation for
+     * @param {String} item     The item to scroll down the page to that item
+     */
+    var getAndRenderDocumentation = function(type, moduleId, item) {
+        getDocumentation(type, moduleId, function(docs) {
+            renderDocumentation(type, docs, moduleId, item);
+        });    
+    }
+
+    /**
      * Adds binding to various elements and events in the UI
      */
     var addBinding = function() {
@@ -150,24 +163,19 @@ require(['jquery', 'oae.core'], function($, oae) {
             $(this).addClass('active'); 
             window.scrollTo(0, 0);
             var selectedLinkToShow = $('a', $(this)).attr('href');
-            console.log(selectedLinkToShow);
             history.pushState(null, null, selectedLinkToShow);
-            var nameOfModuleToLoad = null;
+            var moduleId = null;
             // If the current selected item contains backend
             if (selectedLinkToShow.indexOf('backend') > 0) {
                 //Subtract the link to get the name of the module, in this case /docs/backend/
-                nameOfModuleToLoad = selectedLinkToShow.substr(14);
-                setDocumentTitle(nameOfModuleToLoad);
-                getDocumentation('backend', nameOfModuleToLoad, function(docs) {
-                    renderDocumentation('backend', docs, nameOfModuleToLoad);
-                });
+                moduleId = selectedLinkToShow.substr(14);
+                setDocumentTitle(moduleId);
+                getAndRenderDocumentation('backend', moduleId);
             } else {
                 //Subtract the link to get the name of the module, in this case /docs/frontend/
-                nameOfModuleToLoad = selectedLinkToShow.substr(15);
-                setDocumentTitle('oae.api.' + nameOfModuleToLoad);
-                getDocumentation('frontend', nameOfModuleToLoad, function(docs) {
-                    renderDocumentation('frontend', docs, nameOfModuleToLoad);
-                });
+                moduleId = selectedLinkToShow.substr(15);
+                setDocumentTitle('oae.api.' + moduleId);
+                getAndRenderDocumentation('frontend', moduleId);
             }
         });
     };
@@ -204,11 +212,8 @@ require(['jquery', 'oae.core'], function($, oae) {
         }
         // Set the li active -> twitter bootstrap
         $('#'+ type + '-' + moduleId).addClass('active');
-        // Get the documentation
-        getDocumentation(type, moduleId, function(docs) {
-            // Render the documentation 
-            renderDocumentation(type, docs, moduleId, item);
-        });
+        // Get and render the documentation
+        getAndRenderDocumentation(type, moduleId, item);
     };
     
     /**
