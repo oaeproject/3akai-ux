@@ -178,7 +178,7 @@ i.icon-oae-public.large:before {
  *              <div class="oae-visibility-choice well pull-left text-center">
  *                  <input type="radio" id="oae-visibility-loggedin" value="loggedin" name="oae-visibility-group" class="pull-left"/>
  *                  <i class="icon-oae-loggedin large text-center"></i>
- *                  <span>__MSG__DISCOVERABLE_BY_EVERYONE_IN_TENANT__</span>
+ *                  <span>Cambridge University</span>
  *              </div>
  *              <i class="icon-ok hide"></i>
  *              <small>__MSG__LOGGEDIN_DESCRIPTION__</small>

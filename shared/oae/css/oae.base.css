@@ -217,6 +217,7 @@ input.search-query,
 }
 
 .modal-footer {
+    padding: 10px 25px 15px 15px;
     background-color: transparent;
     border-top: none;
     box-shadow: none;
