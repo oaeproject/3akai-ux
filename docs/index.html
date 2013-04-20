@@ -1,42 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title></title>
-        <link href="/shared/vendor/css/bootstrap.css" type="text/css" rel="stylesheet"/>
-        <link href="/docs/css/doc.css" type="text/css" rel="stylesheet"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <noscript>
+            <meta http-equiv="Refresh" content="1; URL=/noscript">
+        </noscript>
 
-        <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+        <!-- CORE CSS -->
+        <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
+        <link rel="stylesheet" type="text/css" href="/api/ui/skin" />
+        
+        <!-- PAGE CSS -->
+        <link href="/docs/css/doc.css" type="text/css" rel="stylesheet"/>
     </head>
     <body>
-        <div id="doc_container">
-            <div id="doc_header_container">
-                <div id="doc_header_content">
-                    <h1>Sakai OAE API Reference</h1>
-                </div>
+        <!-- HEADER -->
+        <div id="doc-header-container">
+            <div id="doc-header-content">
+                <h1>API Reference</h1>
             </div>
-
-            <div id="doc_content">
-                <div id="doc_contents_container"><!----></div>
-                <div id="doc_docs_container"><!----></div>
-                <hr class="clear hidden"/>
+        </div>
+        <!-- CONTENT -->
+        <div id="doc-content-container">
+            <div class="row-fluid">
+                <div id="doc-modules-container" class="span3"><!----></div>
+                <div id="doc-module-container" class="span9"><!----></div>
             </div>
-
-            <div id="doc_footer"></div>
         </div>
 
-        <div id="doc_contents_template" style="display:none;"><!--
-            <div class="span3 bs-docs-sidebar">
+        <div id="doc-modules-template"><!--
+            <div class="bs-docs-sidebar">
             <ul class="nav nav-list bs-docs-sidenav">
                 {for module in modules}
-                    <li id="${module}" {if moduleToLoad === module} class="active"{/if}>
-                        <a href="#${module}"><i class="icon-chevron-right"></i> ${module}</a>
+                    <li id="${module}">
+                        <a href="/docs/module/${module}"><i class="icon-chevron-right pull-right"></i> ${module}</a>
                     </li>
                 {/for}
             </ul>
             </div>
         --></div>
 
-        <div id="doc_docs_template" style="display:none;"><!--
+        <div id="doc-module-template"><!--
             <h2>${module}</h2>
             {if docs === null}
                 <p>There is no documentation available for this module.</p>
@@ -47,7 +52,7 @@
                         {if !func.ignore}
                             <div class="bs-docs-{if func.isPrivate}private{else}public{/if}">
                                 {if func.ctx}
-                                    <h4><a name="#${module}.${doc_index.substr(0, doc_index.length - 3)}.${func.ctx.name}">${func.ctx.name}</a></h4>
+                                    <h4><a name="${module}.${doc_index.substr(0, doc_index.length - 3)}.${func.ctx.name}">${func.ctx.name}</a></h4>
                                     <p><small>
                                         {if func.ctx.value}
                                             ${func.ctx.value}

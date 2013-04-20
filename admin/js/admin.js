@@ -549,9 +549,9 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         }
     };
 
-    ///////////////////////
-    //// DATA FETCHING ////
-    ///////////////////////
+    ///////////////////
+    // DATA FETCHING //
+    ///////////////////
 
     /**
      * Reload the list of available tenants and re-render the footer
@@ -648,8 +648,9 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         $('#admin-lhnav-container').show();
 
         // Extract the currently selected view from the URL. We parse the URL fragment that's 
-        // inside of the current History.js state. The expected URL structure is `/?view=<view>`. 
-        // This will only be executed when the page is loaded.
+        // inside of the current History.js state. The expected URL structure is `...?view=<view>`.
+        // It is not possible to use cleaner `/view` URLs, as the admin UI can be found at `/` and 
+        // `/tenant/<tenantAlias>` on the global admin server and `/admin` on the tenant servers.
         var selectedView = $.url().param().view;
         // Replace the current History.js state to have the selected view. This is necessary 
         // because a newly loaded page will not contain the data object in its state. Calling the 
@@ -666,7 +667,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
      * Every time an item in the left hand navigation is clicked, we push a new state using
      * History.js, containing the id of the view that should be shown next.
      */
-    var selectPage = function() {
+    var selectView = function() {
         // Push the state, This will trigger the statechange event, which will then
         // take care of showing of the selected view
         History.pushState({
@@ -707,7 +708,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         // Change skin
         $(document).on('submit', '#admin-skinning-form', saveSkin);
         // Left hand navigation switching
-        $(document).on('click', '#admin-lhnav-container ul li', selectPage)
+        $(document).on('click', '#admin-lhnav-container ul li', selectView);
         $(window).on('statechange', switchView);
     };
 
