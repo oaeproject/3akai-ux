@@ -94,7 +94,7 @@ require(['jquery','oae.core'], function($, oae) {
         var initialState = $.url(History.getState().hash);
         var query = initialState.segment().slice(1).join('/');
         var types = (initialState.param().types || '').split(',');
-        // Replace the current History.js to have the query and type refinement data. This
+        // Replace the current History.js state to have the query and type refinement data. This
         // is necessary because a newly loaded page will not contain the data object in its
         // state. Calling the replaceState function will automatically trigger the statechange
         // event, which will take care of the actual search. However, we also need to add a random
