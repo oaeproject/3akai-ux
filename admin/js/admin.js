@@ -62,20 +62,19 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
 
     /**
      * Switches the view when a left hand navigation link is clicked or when the page loads.
-     * Defaults to the Tenant configuration page when no or an invalid hash is provided.
+     * Defaults to the Tenant configuration page when no or an invalid view querystring parameter is provided.
      */
-    var switchView = function(hash) {
-        hash = window.location.hash || '#configurationtenants';
-        hash = hash.replace('#', '');
+    var switchView = function() {
+        var view = History.getState().data.view || 'tenants';
         $('#admin-views > div').hide();
         $('#admin-lhnav-container li').removeClass('active');
-        $('#admin-lhnav-container li#' + hash).addClass('active');
+        $('#admin-lhnav-container li[data-id="' + view + '"]').addClass('active');
 
-        switch (hash) {
-            case 'configurationmodules':
+        switch (view) {
+            case 'modules':
                 $('#admin-views > #admin-modules-container').show();
                 break;
-            case 'configurationskinning':
+            case 'skinning':
                 $('#admin-views > #admin-skinning-container').show();
                 break;
             default:
@@ -637,6 +636,45 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         });
     };
 
+    //////////////////////////
+    // LEFT HAND NAVIGATION //
+    //////////////////////////
+
+    /**
+     * Initializes the left hand navigation
+     */
+    var initializeNavigation = function() {
+        oae.api.util.template().render($('#admin-lhnav-template'), {'context': currentContext}, $('#admin-lhnav-container'));
+        $('#admin-lhnav-container').show();
+
+        // Extract the currently selected view from the URL. We parse the URL fragment that's 
+        // inside of the current History.js state. The expected URL structure is `/?view=<view>`. 
+        // This will only be executed when the page is loaded.
+        var selectedView = $.url().param().view;
+        // Replace the current History.js state to have the selected view. This is necessary 
+        // because a newly loaded page will not contain the data object in its state. Calling the 
+        // replaceState function will automatically trigger the statechange event, which will take care 
+        // of showing the correct view. However, we also need to add a random number to the data object 
+        // to make  sure that the statechange event is triggered after a page reload.
+        History.replaceState({
+            'view': selectedView,
+            '_': Math.random()
+        });
+    };
+
+    /**
+     * Every time an item in the left hand navigation is clicked, we push a new state using
+     * History.js, containing the id of the view that should be shown next.
+     */
+    var selectPage = function() {
+        // Push the state, This will trigger the statechange event, which will then
+        // take care of showing of the selected view
+        History.pushState({
+            'view': $(this).attr('data-id')
+        }, null, $('a', $(this)).attr('href'));
+        return false;
+    };
+
     ////////////////////////
     //// INITIALIZATION ////
     ////////////////////////
@@ -669,7 +707,8 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         // Change skin
         $(document).on('submit', '#admin-skinning-form', saveSkin);
         // Left hand navigation switching
-        $(window).hashchange(switchView);
+        $(document).on('click', '#admin-lhnav-container ul li', selectPage)
+        $(window).on('statechange', switchView);
     };
 
     /**
@@ -731,14 +770,6 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
     };
 
     /**
-     * Initializes the left hand navigation
-     */
-    var initializeNavigation = function() {
-        oae.api.util.template().render($('#admin-lhnav-template'), {'context': currentContext}, $('#admin-lhnav-container'));
-        $('#admin-lhnav-container').show();
-    };
-
-    /**
      * Initializes the admin UI
      */
     var doInit = function() {
@@ -771,8 +802,6 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                         initializeModules();
                         // Initialize the skinning UI
                         initializeSkinning();
-                        // Show requested view
-                        switchView();
                     });
                 }
             });
