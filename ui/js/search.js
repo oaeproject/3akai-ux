@@ -115,7 +115,7 @@ require(['jquery','oae.core'], function($, oae) {
         $(document).on('submit', '#search-form', modifySearch);
         // Listen to the change event on the type refinement checkboxes
         $('#search-refine-type').on('change', 'input[type="checkbox"]', modifySearch);
-        // List to History.js state changes
+        // Listen to History.js state changes
         $(window).on('statechange', renderSearch);
     };
 
