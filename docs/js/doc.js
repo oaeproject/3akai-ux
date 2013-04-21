@@ -112,7 +112,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             'module': $(this).attr('id')
         }, null, $('a', $(this)).attr('href'));
         return false;
-    }
+    };
 
     /**
      * Adds binding to various elements and events in the UI
