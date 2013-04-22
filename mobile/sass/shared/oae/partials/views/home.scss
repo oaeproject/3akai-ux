@@ -1,0 +1,614 @@
+/*
+ * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ *     http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+/////////////////
+///// SHARED ////
+/////////////////
+
+@import "../../dependencies/animations";
+@import "../../dependencies/colors";
+@import "../../dependencies/mixins";
+
+////////////////
+// PROPERTIES //
+////////////////
+
+$cont_height: 147px;
+$cont_height_tablet: 225px;
+$top_bar_height: 35px;
+
+/////////////////
+/// SELECTORS ///
+/////////////////
+
+#home-view, #detail-view{
+
+  .content{
+    background-color: #777777;
+    border-left: 1px solid #444444;
+  }
+
+  //////////////////////
+  // WIDGET CONTAINER //
+  //////////////////////
+
+  #mobileactivity-container, #mobile-detail-container{
+
+    .oae-list{
+      overflow: hidden;
+      @include killPaddingAndMargin;
+    }
+
+    ///////////////
+    // MAIN LIST //
+    ///////////////
+
+    > .oae-list{
+      left: 8px;
+      right: 8px;
+
+      li{
+        position: relative;
+        display: block;
+        margin-bottom: 25px;
+        list-style-type: none;
+      }
+    }
+
+    /////////////////////
+    // MAIN LIST ITEMS //
+    /////////////////////
+
+    > .oae-list li {
+
+      .activity-item-container{
+        width: 100%;
+        height: 100%;
+        display: table;
+        min-height: $cont_height;
+        background-color: white;
+      }
+
+      .activity-item-container > .activity-content-container{
+        height: $cont_height;
+      }
+
+      .activity-item-container > .activity-entity-container ul.oae-list,
+      .activity-item-container > .activity-content-container ul.oae-list,
+      .activity-item-container > ul.oae-list{
+        height: $cont_height !important;
+      }
+
+      //////////////////////////////
+      // SINGLE TILE IN CONTAINER //
+      //////////////////////////////
+
+      .activity-item-container > .activity-entity-container ul.oae-list .oae-tile{
+        height: $cont_height;
+
+        a{
+          width: 100%;
+          height: 100%;
+          display: block;
+          margin-top: 35px;
+
+          .oae-thumbnail{
+            max-width: 100%;
+            min-width: $cont_height - $top_bar_height;
+            min-height: 100%;
+            min-height: $cont_height - $top_bar_height;
+
+            span{
+              width: 100%;
+              height: $cont_height - $top_bar_height;
+              display: block;
+              background-size: cover;
+              background-repeat: no-repeat;
+              background-position: center center;
+            }
+
+            img{
+              width: 100%;
+            }
+          }
+        }
+
+        .h3{
+          display: none;
+        }
+      }
+
+      ////////////////////
+      // MULTIPLE TILES //
+      ////////////////////
+
+      .activity-item-container > ul.oae-list,
+      .activity-item-container > .activity-content-container > ul.oae-list{
+        background-color: $grey-dark !important;
+
+        // NORMAL TILES
+        li{
+          float: left;
+          display: block;
+          height: $cont_height;
+          min-height: $cont_height - $top_bar_height;
+          overflow: hidden;
+
+          .oae-tile{
+            height: $cont_height - 5;
+
+            a{
+              display: block;
+              min-height: $cont_height;
+
+              .oae-thumbnail{
+                height: $cont_height;
+              }
+            }
+          }
+        }
+
+        // LARGE TILES
+        li.oae-tile-large{
+          float: none;
+          display: inline-table;
+          max-width: 100%;
+          min-width: 100%;
+
+          .oae-tile{
+            min-width: 100%;
+            max-width: 100%;
+
+            a{
+              margin-top: 35px;
+
+              .oae-thumbnail{
+                height: 112px;
+                position: relative;
+              }
+            }
+          }
+        }
+      }
+
+      //////////////////
+      // SINGLE TILES //
+      //////////////////
+
+      .activity-item-container > ul.oae-list{
+
+        li{
+          min-width: 33.33%;
+          max-width: 33.33%;
+
+          .oae-tile{
+            height: 112px;
+            margin-top: 35px;
+            max-width: 100%;
+            min-width: 100%;
+
+            a{
+              min-width: 100%;
+              text-align: center;
+              min-height: $cont_height - $top_bar_height;
+
+              .oae-thumbnail{
+                height: 112px;
+                max-width: 100%;
+                min-width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+
+                img{
+                  width: 100%;
+                }
+              }
+            }
+          }
+
+          &:last-child{
+            margin-right: 0;
+          }
+        }
+      }
+
+      .activity-item-container > .activity-content-container > ul.oae-list{
+
+        li{
+          min-width: 100%;
+          max-width: 100%;
+          width: 100% !important;
+
+          .oae-tile{
+            max-width: 100%;
+            min-width: $cont_height;
+
+            a{
+              min-width: $cont_height;
+              min-height: 100%;
+
+              .oae-thumbnail{
+                height: 112px;
+                max-width: 100%;
+                margin-top: 35px;
+                min-width: $cont_height - $top_bar_height;
+              }
+            }
+          }
+        }
+      }
+
+      ///////////
+      // ICONS //
+      ///////////
+
+      .icon-oae-content, .icon-oae-group{
+        display: block;
+        width: 100% !important;
+        background-color: #EEEEEE;
+        background-repeat: no-repeat;
+        background-position: center center;
+      }
+
+      .icon-oae-content{
+        background-image: url('../img/interface/icondocument.png');
+      }
+
+      .icon-oae-group{
+        background-image: url('../img/interface/icongroups.png');
+      }
+    }
+
+    ////////////////////
+    // AVATAR + TITLE //
+    ////////////////////
+
+    .activity-entity-container,
+    .activity-content-container{
+
+      .activity-entity-image, .activity-entity-name{
+        display: block;
+        position: absolute;
+      }
+
+      .activity-entity-image{
+        z-index: 2;
+        margin-top: 6px;
+        margin-left: 6px;
+        border: 2px solid white;
+
+        .oae-thumbnail{
+          width: 48px;
+          height: 48px;
+        }
+
+        .oae-thumbnail.icon-oae-user, .oae-thumbnail.icon-oae-{
+          background-size: 50%;
+          background-color: #DDDDDD;
+          background-repeat: no-repeat;
+          background-position: center center;
+          background-image: url('../img/interface/iconuser@2x.png');
+        }
+
+        img{
+          max-width: 48px;
+        }
+      }
+
+      .activity-entity-name{
+        z-index: 1;
+        width: 100% !important;
+        height: 35px;
+        font-size: .7em;
+        background-color: #FAFAFA;
+
+        .activity-title{
+          position: absolute;
+          display: block;
+          height: 29px;
+          left: 65px;
+          right: 8px;
+          padding-top: 6px;
+        }
+      }
+    }
+
+    //////////////////////
+    // CONTAINER BOTTOM //
+    //////////////////////
+
+    .oae-mobile-tile-bottom{
+      color: white;
+      width: 100%;
+      height: 30px;
+      line-height: 30px;
+      @include setGradient(rgba(22,22,22,1), rgba(11,11,11,1));
+
+      .comments, .timeago{
+        font-size: .7em;
+        background-repeat: no-repeat;
+      }
+
+      .comments{
+        float: left;
+        margin-left: 8px;
+        padding-left: 17px;
+        background-position: left center;
+        background-image: url('../img/interface/iconcomments.png');
+      }
+
+      .timeago{
+        float: right;
+        margin-right: 8px;
+        padding-right: 15px;
+        background-position: right center;
+        background-image: url('../img/interface/icontime.png');
+      }
+    }
+
+    //////////////
+    // COMMENTS //
+    //////////////
+
+    .activity-comment-container{
+      font-size: .7em;
+
+      ul.media-list,
+      ul.media-list li{
+        @include killPaddingAndMargin;
+      }
+
+      ul.media-list{
+        padding-top: 5px;
+        padding-left: 5px;
+      }
+
+      li.media{
+        display: block;
+        margin-bottom: 10px !important;
+
+        .oae-thumbnail img{
+          width: 24px;
+          height: 24px;
+        }
+
+        .oae-thumbnail.icon-oae-user{
+          width: 24px;
+          height: 24px;
+        }
+
+        .media-body{
+          font-size: 1.1em;
+          line-height: 1.5em;
+          padding-top: 6px;
+          padding-left: 40px;
+          padding-right: 8px;
+
+          .media-heading{
+            font-size: .9em;
+            margin-bottom: 8px;
+
+            span{
+              float: right;
+              font-weight: normal;
+              color: $grey-text;
+              padding-right: 14px;
+              background-repeat: no-repeat;
+              background-position: right center;
+              background-image: url('../img/interface/icontime.png');
+            }
+          }
+        }
+      }
+
+      li.media.activity-reply{
+        padding-left: 38px;
+      }
+
+      .activity-read-more{
+        display: block;
+        color: white;
+        height: 32px;
+        line-height: 32px;
+        text-align: center;
+        @include setGradient($blue-light, $blue-darker);
+
+        &:hover{
+          @include setGradient(#1b9ad8, #1B8CC7);
+        }
+      }
+    }
+  }
+}
+
+#btnMenu{
+  span{
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url('../img/interface/btnmenu.png');
+  }
+}
+
+
+/////////////////
+//// QUERIES ////
+/////////////////
+
+/* Retina */
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (   min--moz-device-pixel-ratio: 2),
+only screen and (   -o-min-device-pixel-ratio: 2/1),
+only screen and (        min-device-pixel-ratio: 2),
+only screen and (           min-resolution: 192dpi),
+only screen and (            min-resolution: 2dppx){
+
+  #btnMenu{
+    span{
+      background-size: 50%;
+      background-image: url('../img/interface/btnmenu@2x.png');
+    }
+  }
+
+  .comments{
+    background-image: url('../img/interface/iconcomments@2x.png');
+  }
+
+  .timeago{
+    background-image: url('../img/interface/icontime@2x.png');
+  }
+
+  .media-heading span{
+    background-image: url('../img/interface/icontime@2x.png');
+  }
+}
+
+@media all and (device-width: 768px) and (device-height: 1024px) {
+
+//////////////////////
+// WIDGET CONTAINER //
+//////////////////////
+
+  #home-view, #detail-view{
+
+    #mobileactivity-container, #mobile-detail-container{
+
+      /////////////////////
+      // MAIN LIST ITEMS //
+      /////////////////////
+
+      > .oae-list li {
+
+        .activity-item-container{
+          min-height: $cont_height_tablet;
+        }
+
+        .activity-item-container > .activity-content-container{
+          height: $cont_height_tablet;
+        }
+
+        .activity-item-container > .activity-entity-container ul.oae-list,
+        .activity-item-container > .activity-content-container ul.oae-list,
+        .activity-item-container > ul.oae-list{
+          height: $cont_height_tablet !important;
+        }
+
+        //////////////////////////////
+        // SINGLE TILE IN CONTAINER //
+        //////////////////////////////
+
+        .activity-item-container > .activity-entity-container ul.oae-list .oae-tile{
+          height: $cont_height_tablet;
+
+          a{
+
+            .oae-thumbnail{
+              min-width: $cont_height_tablet - $top_bar_height;
+              min-height: $cont_height_tablet - $top_bar_height;
+
+              span{
+                height: $cont_height_tablet - $top_bar_height;
+              }
+            }
+          }
+        }
+
+        ////////////////////
+        // MULTIPLE TILES //
+        ////////////////////
+
+        .activity-item-container > ul.oae-list,
+        .activity-item-container > .activity-content-container > ul.oae-list{
+
+
+          // NORMAL TILES
+          li{
+            height: $cont_height_tablet;
+            min-height: $cont_height_tablet - $top_bar_height;
+
+            .oae-tile{
+              height: $cont_height_tablet - 5;
+
+              a{
+                min-height: $cont_height_tablet;
+
+                .oae-thumbnail{
+                  height: $cont_height_tablet;
+                }
+              }
+            }
+          }
+
+          // LARGE TILES
+          li.oae-tile-large{
+
+            .oae-tile{
+
+              a{
+
+                .oae-thumbnail{
+                  height: 180px;
+                }
+              }
+            }
+          }
+        }
+
+        //////////////////
+        // SINGLE TILES //
+        //////////////////
+
+        .activity-item-container > ul.oae-list{
+
+          li{
+            min-width: 33.33%;
+            max-width: 33.33%;
+
+            .oae-tile{
+              height: 180px;
+
+              a{
+                min-height: $cont_height_tablet - $top_bar_height;
+
+                .oae-thumbnail{
+                  height: 180px;
+                }
+              }
+            }
+          }
+        }
+
+        .activity-item-container > .activity-content-container > ul.oae-list{
+
+          li{
+
+            .oae-tile{
+              min-width: $cont_height_tablet;
+
+              a{
+                min-width: $cont_height_tablet;
+
+                .oae-thumbnail{
+                  height: 180px;
+                  min-width: $cont_height_tablet - $top_bar_height;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

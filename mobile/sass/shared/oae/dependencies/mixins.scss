@@ -1,0 +1,55 @@
+/*
+ * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ *     http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+@mixin setStretch {
+  bottom: 0;
+  right: 0;
+  left: 0;
+  top: 0;
+}
+
+@mixin setGradient($color1, $color2){
+  background: $color1; /* Old browsers */
+  background: -moz-linear-gradient(top,  $color1 0%, $color1 50%, $color2 50%, $color2 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$color1), color-stop(50%,$color1), color-stop(50%,$color2), color-stop(100%,$color2)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  $color1 0%,$color1 50%,$color2 50%,$color2 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  $color1 0%,$color1 50%,$color2 50%,$color2 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  $color1 0%,$color1 50%,$color2 50%,$color2 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  $color1 0%,$color1 50%,$color2 50%,$color2 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$color1', endColorstr='$color2',GradientType=0 ); /* IE6-9 */
+}
+
+@mixin setBoxShadow($r, $g, $b, $opacity) {
+  box-shadow:  0px 0px 1px 1px rgba($r, $g, $b, $opacity);
+  -webkit-box-shadow:  0px 0px 1px 1px rgba($r, $g, $b, $opacity);
+}
+
+@mixin setBorderRadius($radius) {
+  -webkit-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin noPadding{
+  padding: 0;
+}
+
+@mixin noMargin{
+  margin: 0;
+}
+
+@mixin killPaddingAndMargin{
+  @include noPadding;
+  @include noMargin;
+}

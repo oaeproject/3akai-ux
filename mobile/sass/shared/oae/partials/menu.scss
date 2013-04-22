@@ -1,0 +1,118 @@
+/*
+ * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ *     http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+/////////////////
+///// SHARED ////
+/////////////////
+
+@import "../dependencies/animations";
+@import "../dependencies/colors";
+@import "../dependencies/mixins";
+
+/////////////////
+/// SELECTORS ///
+/////////////////
+
+#oae-mobile-menu-container,
+#mobile-navigation-widget-container,
+#mobile-navigation-widget-container > div,
+#mobile-navigation-container{
+  position: absolute;
+  @include setStretch;
+}
+
+#oae-mobile-menu-container{
+  background-color: black;
+}
+
+#oae-mobile-menu-header{
+  height: 43px;
+  line-height: 43px;
+  border-top-left-radius: 6px;
+  border-top: 1px solid $grey-light;
+  border-bottom: 1px solid #000000;
+  background-color: $grey-darkest;
+
+  span{
+    display: block;
+    height: 44px;
+    line-height: 44px;
+    color: $grey-text;
+    padding-left: 15px;
+  }
+}
+
+ul.items{
+  display: block;
+  height: 100%;
+  background-color: #333333;
+  @include killPaddingAndMargin;
+
+  li.item{
+    display: block;
+    height: 44px;
+    line-height: 44px;
+    cursor: pointer;
+    color: $grey-text;
+    border-top: 1px solid $grey-med;
+    border-bottom: 1px solid $grey-darkest;
+    background-repeat: no-repeat;
+    background-position: 16px center;
+    transition: all 100ms;
+
+    &:hover{
+      background-color: #393939;
+    }
+
+    span.label{
+      display: block;
+      padding-left: 15px;
+      text-transform: lowercase;
+
+      span.icon{
+        margin-right: 20px;
+        font-family: 'FontAwesome' !important;
+      }
+
+      span.icon:before{
+        content: "\f090";
+      }
+    }
+  }
+
+  li.item:last-child{
+    border-bottom: 2px solid $grey-med;
+
+    span.label{
+      border-bottom: 1px solid $grey-darkest;
+    }
+  }
+}
+
+/////////////////
+//// QUERIES ////
+/////////////////
+
+/* Retina */
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (   min--moz-device-pixel-ratio: 2),
+only screen and (   -o-min-device-pixel-ratio: 2/1),
+only screen and (        min-device-pixel-ratio: 2),
+only screen and (           min-resolution: 192dpi),
+only screen and (            min-resolution: 2dppx){
+
+
+}

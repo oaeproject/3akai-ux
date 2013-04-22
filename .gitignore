@@ -10,3 +10,7 @@ node_modules/*
 !node_modules/oae-core
 nginx.*
 !nginx.conf
+mobile_reserve/
+css/shared
+.sass-cache/*
+.sass-cache

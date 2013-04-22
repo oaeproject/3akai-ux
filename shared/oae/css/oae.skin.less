@@ -1,22 +1,22 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
- *
- *     http://www.osedu.org/licenses/ECL-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
- * permissions and limitations under the License.
- */
+* Copyright 2012 Sakai Foundation (SF) Licensed under the
+* Educational Community License, Version 2.0 (the "License"); you may
+* not use this file except in compliance with the License. You may
+* obtain a copy of the License at
+*
+*     http://www.osedu.org/licenses/ECL-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an "AS IS"
+* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+* or implied. See the License for the specific language governing
+* permissions and limitations under the License.
+*/
 
 
 /*****************
- ** LESS Mixins **
- *****************/
+** LESS Mixins **
+*****************/
 
 .background-image-with-gradient(@image, @gradient1, @gradient2) {
     background-image: url(@image) @gradient1;
@@ -45,14 +45,14 @@
 
 
 /************************
- ** @section  Branding **
- ************************/
+** @section  Branding **
+************************/
 
 /* Body background color */
 @body-background-color: #ECEAE5;
 
 body {
-   background-color: @body-background-color;
+    background-color: @body-background-color;
 }
 
 
@@ -77,15 +77,15 @@ body {
 
 
 /***************************
- ** @section  Text colors **
- ***************************/
+** @section  Text colors **
+***************************/
 
 /* Plain text color */
 @text-color: #333;
 
 body, button, input, select, textarea,
 .btn > i, a.oae-plain-link,
-h1 [class^="icon-"], h1 [class*=" icon-"], 
+h1 [class^="icon-"], h1 [class*=" icon-"],
 h2 [class^="icon-"], h2 [class*=" icon-"],
 h3 [class^="icon-"], h3 [class*=" icon-"],
 h4 [class^="icon-"], h4 [class*=" icon-"],
@@ -103,7 +103,7 @@ h6 [class^="icon-"], h6 [class*=" icon-"] {
 @link-hover-color: #005580;
 
 a, .btn-link {
-   color: @link-color;
+    color: @link-color;
 }
 
 a:hover, .btn-link:hover {
@@ -112,8 +112,8 @@ a:hover, .btn-link:hover {
 
 
 /***********************
- ** @section  Buttons **
- ***********************/
+** @section  Buttons **
+***********************/
 
 /* @subsection  Default button */
 
@@ -292,7 +292,7 @@ a:hover, .btn-link:hover {
 
 [class^="icon-"], [class*=" icon-"],
 .btn.btn-link [class^="icon-"], .btn.btn-link [class*=" icon-"] {
-   color: @button-icon-color;
+    color: @button-icon-color;
 }
 
 [class^="icon-"]:hover, [class*=" icon-"]:hover,
@@ -302,8 +302,8 @@ a:hover, .btn-link:hover {
 
 
 /*******************************************************
- ** @section  Modal dialogs, dropdowns and clickovers **
- *******************************************************/
+** @section  Modal dialogs, dropdowns and clickovers **
+*******************************************************/
 
 /* Background gradient primary color */
 @modal-gradient1-color: #FFF;
@@ -322,8 +322,8 @@ a:hover, .btn-link:hover {
 
 
 /*****************************
- ** @section  Notifications **
- *****************************/
+** @section  Notifications **
+*****************************/
 
 /* @subsection  Success notification */
 
@@ -385,8 +385,8 @@ a:hover, .btn-link:hover {
 
 
 /************************************
- ** @section  Left hand navigation **
- ************************************/
+** @section  Left hand navigation **
+************************************/
 
 /* Left hand navigation item text color */
 @lhnav-item-text-color: #999;
@@ -416,8 +416,8 @@ a:hover, .btn-link:hover {
     background-color: @lhnav-item-background-hover-color;
 }
 
-.nav > li.active > a, 
-.nav > li.active > a:hover, 
+.nav > li.active > a,
+.nav > li.active > a:hover,
 .nav > li.active > a:focus,
 .nav > li.active i {
     color: @lhnav-item-text-selected-color;
@@ -426,8 +426,8 @@ a:hover, .btn-link:hover {
 
 
 /**************************
- ** @section  Thumbnails **
- **************************/
+** @section  Thumbnails **
+**************************/
 
 /* Thumbnail background gradient primary color */
 @thumbnail-gradient1-color: #F8F8F6;
@@ -440,8 +440,8 @@ div.oae-thumbnail {
 
 
 /*********************************
- ** @section  Visibility toggle **
- *********************************/
+** @section  Visibility toggle **
+*********************************/
 
 /* Visibility toggle background color */
 @visibility-toggle-background-color: #FFF;
@@ -469,8 +469,8 @@ div.oae-thumbnail {
 
 
 /*********************
- ** @section  Tiles **
- *********************/
+** @section  Tiles **
+*********************/
 
 /* Tile border color */
 @tile-border-color: #DDD;
@@ -493,8 +493,8 @@ div.oae-thumbnail {
 
 
 /**************************
- ** @section  List items **
- **************************/
+** @section  List items **
+**************************/
 
 /* List item border color */
 @listitem-border-color: #F5F5F5;
@@ -505,8 +505,8 @@ div.oae-thumbnail {
 
 
 /**********************
- ** @section  Panels **
- **********************/
+** @section  Panels **
+**********************/
 
 /* @subsection  Primary panel */
 
@@ -526,7 +526,7 @@ div.oae-thumbnail {
     border-color: @panel-primary-background-color;
 }
 
-.oae-panel-primary h1, .oae-panel-primary h2, .oae-panel-primary h3, 
+.oae-panel-primary h1, .oae-panel-primary h2, .oae-panel-primary h3,
 .oae-panel-primary h4, .oae-panel-primary h5, .oae-panel-primary h6,
 .oae-panel-primary i, .oae-panel-primary i:hover {
     color: @panel-primary-title-color;
@@ -551,7 +551,7 @@ div.oae-thumbnail {
     border-color: @panel-secondary-background-color;
 }
 
-.oae-panel-secondary h1, .oae-panel-secondary h2, .oae-panel-secondary h3, 
+.oae-panel-secondary h1, .oae-panel-secondary h2, .oae-panel-secondary h3,
 .oae-panel-secondary h4, .oae-panel-secondary h5, .oae-panel-secondary h6,
 .oae-panel-secondary i, .oae-panel-secondary i:hover {
     color: @panel-secondary-title-color;
@@ -576,7 +576,7 @@ div.oae-thumbnail {
     border-color: @panel-tertiary-background-color;
 }
 
-.oae-panel-tertiary h1, .oae-panel-tertiary h2, .oae-panel-tertiary h3, 
+.oae-panel-tertiary h1, .oae-panel-tertiary h2, .oae-panel-tertiary h3,
 .oae-panel-tertiary h4, .oae-panel-tertiary h5, .oae-panel-tertiary h6,
 .oae-panel-tertiary i, .oae-panel-tertiary i:hover {
     color: @panel-tertiary-title-color;
@@ -584,8 +584,8 @@ div.oae-thumbnail {
 
 
 /*********************
- ** @section  Clips **
- *********************/
+** @section  Clips **
+*********************/
 
 /* @subsection  Primary clip */
 
@@ -609,7 +609,7 @@ div.oae-thumbnail {
 }
 
 .oae-clip .oae-clip-content {
-    .background-gradient-three(@clip-primary-gradient1-color, @clip-primary-gradient1-color, @clip-primary-gradient2-color, 0%, 10%, 100%);
+  .background-gradient-three(@clip-primary-gradient1-color, @clip-primary-gradient1-color, @clip-primary-gradient2-color, 0%, 10%, 100%);
 }
 
 .oae-clip .oae-clip-content,
@@ -679,4 +679,3 @@ div.oae-thumbnail {
 .oae-clip.oae-clip-secondary ul li button:hover {
     background-color: @clip-secondary-gradient2-color;
 }
-

@@ -254,7 +254,7 @@ require(['jquery', 'oae.core'], function($, oae) {
     });
 
     // List to the left hand navigation ready event for navigation rendering
-    $(window).on('lhnav.ready', setUpNavigation);  
+    $(window).on('lhnav.ready', setUpNavigation);
 
     getUserProfile();
 

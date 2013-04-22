@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if (gt IEMobile 7)|!(IEMobile)]><!--><html class="no-js"><!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <title>Sakai OAE - Mobile</title>
+    <meta name="description" content="OAE Mobile">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <meta http-equiv="cleartype" content="on">
+
+    <!-- Apple -->
+    <link rel="shortcut icon" href="/mobile/img/touch/apple-touch-icon.png">
+
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/mobile/img/touch/apple-touch-icon-144x144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/mobile/img/touch/apple-touch-icon-114x114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/mobile/img/touch/apple-touch-icon-72x72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/mobile/img/touch/apple-touch-icon-57x57-precomposed.png">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="/mobile/img/touch/apple-touch-icon-144x144-precomposed.png">
+    <meta name="msapplication-TileColor" content="#222222">
+
+    <!-- PAGE CSS -->
+    <link rel="stylesheet" href="/mobile/css/mobile.css" />
+
+</head>
+<body>
+
+<!-- MODALS -->
+<div id="oae-mobile-activity-indicator"><div class="bg"></div><div class="spinner"></div></div>
+
+<div id="oae-mobile-modal" class="modal hide fade">
+    <div class="modal-header"><!-- --></div>
+    <div class="modal-body"><!-- --></div>
+    <div class="modal-footer">
+        <a href="#" title="close" class="btn" id="btnModalClose"></a>
+        <a href="#" title="confirm" class="btn" id="btnModalConfirm"></a>
+    </div>
+</div>
+
+<div id="oae-mobile-menu-container"><!-- --></div>
+<div id="oae-mobile-viewport"><!-- --></div>
+<div id="oae-mobile-template-helper"></div>
+
+<!-- DEPENDENCIES -->
+<script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
+<script>require(['/mobile/js/mobile.js']);</script>
+
+</body>
+</html>

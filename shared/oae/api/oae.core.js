@@ -56,6 +56,8 @@ define([
          */
         'bootstrap',
         'globalize',
+        'helper',
+        'jquery.address',
         'jquery.ba-bbq',
         'jquery.ba-hashchange',
         'jquery.encoder',
@@ -70,7 +72,7 @@ define([
         'jquery.validate',
         'jquery-ui',
         'underscore'
-    ],
+],
 
     function(oae, $) {
 

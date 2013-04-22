@@ -1,0 +1,238 @@
+/*
+ * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ *     http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+/////////////////
+///// SHARED ////
+/////////////////
+
+@import "../dependencies/animations";
+@import "../dependencies/colors";
+@import "../dependencies/mixins";
+
+/////////////////
+/// SELECTORS ///
+/////////////////
+
+#oae-mobile-activity-indicator,
+#oae-mobile-activity-indicator .bg,
+#oae-mobile-activity-indicator .spinner{
+  display: block;
+  position: absolute;
+}
+
+#oae-mobile-activity-indicator,
+#oae-mobile-activity-indicator .bg{
+  @include setStretch;
+}
+
+#oae-mobile-activity-indicator {
+  z-index: 10000;
+
+  .bg{
+    background-color: #111111;
+    opacity: .5;
+  }
+
+  .spinner{
+    top: 50%;
+    left: 50%;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    margin-left: -16px;
+    margin-top: -16px;
+    background-image: url('../img/interface/loader@2x.gif');
+  }
+}
+
+///////////
+// MODAL //
+///////////
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+  background-color: #000000;
+}
+
+.modal-backdrop.fade {
+  opacity: 0;
+}
+
+.modal-backdrop,
+.modal-backdrop.fade.in {
+  opacity: 0.8;
+  filter: alpha(opacity=80);
+}
+
+.modal {
+  position: fixed;
+  top: 0%;
+  left: 5%;
+  right: 5%;
+  z-index: 1050;
+  background-color: #ffffff;
+  border: 1px solid #999;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  *border: 1px solid #999;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  outline: none;
+  -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
+  background-clip: padding-box;
+}
+
+.modal.fade {
+  top: -25%;
+  -webkit-transition: opacity 0.3s linear, top 0.3s ease-out;
+  -moz-transition: opacity 0.3s linear, top 0.3s ease-out;
+  -o-transition: opacity 0.3s linear, top 0.3s ease-out;
+  transition: opacity 0.3s linear, top 0.3s ease-out;
+}
+
+.modal.fade.in {
+  top: 10%;
+}
+
+.modal.hide {
+  top: -1000px;
+}
+
+.modal-header,
+.modal-body,
+.modal-footer {
+  text-align: center;
+}
+
+.modal-header {
+  color: white;
+  padding: 9px 15px;
+  border-bottom: 1px solid #eee;
+  @include setGradient($blue-light, $blue-darker);
+}
+
+.modal-header .close {
+  margin-top: 2px;
+}
+
+.modal-header h3 {
+  margin: 0;
+  line-height: 30px;
+}
+
+.modal-body {
+  position: relative;
+  max-height: 350px;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+.modal-form {
+  margin-bottom: 0;
+}
+
+.modal-footer {
+  padding: 14px 15px 15px;
+  margin-bottom: 0;
+  background-color: #f5f5f5;
+  border-top: 1px solid #ddd;
+  -webkit-border-radius: 0 0 6px 6px;
+  -moz-border-radius: 0 0 6px 6px;
+  border-radius: 0 0 6px 6px;
+  *zoom: 1;
+  -webkit-box-shadow: inset 0 1px 0 #ffffff;
+  -moz-box-shadow: inset 0 1px 0 #ffffff;
+  box-shadow: inset 0 1px 0 #ffffff;
+}
+
+.modal-footer:before,
+.modal-footer:after {
+  display: table;
+  line-height: 0;
+  content: "";
+}
+
+.modal-footer:after {
+  clear: both;
+}
+
+.modal-footer .btn{
+  display: inline-block;
+  height: 20px;
+  width: 100px;
+  padding: 10px;
+  line-height: 20px;
+  border-radius: 6px;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  color: white;
+  @include setGradient($blue-light, $blue-darker);
+
+  &:hover{
+    @include setGradient(#1b9ad8, #1B8CC7);
+  }
+}
+
+.modal-footer .btn + .btn {
+  margin-bottom: 0;
+}
+
+.modal-footer .btn-group .btn + .btn {
+  margin-left: -1px;
+}
+
+.modal-footer .btn-block + .btn-block {
+  margin-left: 0;
+}
+
+/////////////////
+//// QUERIES ////
+/////////////////
+
+/* Retina */
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (   min--moz-device-pixel-ratio: 2),
+only screen and (   -o-min-device-pixel-ratio: 2/1),
+only screen and (        min-device-pixel-ratio: 2),
+only screen and (           min-resolution: 192dpi),
+only screen and (            min-resolution: 2dppx){
+
+  #oae-mobile-activity-indicator {
+    .spinner{
+      background-image: url('../img/interface/loader@2x.gif');
+    }
+  }
+
+  #btnMenu{
+    span{
+      background-image: url('../img/interface/btnmenu@2x.png');
+    }
+  }
+}
+
+/* Medium screen, non-retina */
+@media only screen and (min-width: 700px) {
+
+}
