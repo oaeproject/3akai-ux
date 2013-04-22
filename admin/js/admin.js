@@ -504,17 +504,17 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
     };
 
     /**
-     * Compares the skin values against the default skin and returns the changed values.
+     * Compares the selected skin values against the default skin and returns the changed values only.
      *
-     * @return  {Object}    The skinning values that need to be saved
+     * @return {Object}    The skinning values that have been changed (i.e. are different to the default skin)
      */
     var getSkinChanges = function() {
-        // Get the form input fields and initialize the object used to cache the values that need to be saved
+        // Get the form input fields
         var formFields = $('#admin-skinning-form input');
         var changedValues = {};
 
-        // Loop over the form input fields and match the value with the default.
-        // If the default is equal to the form value the value was not changed and doesn't need to be saved.
+        // Loop over the form input fields and match their value with their default value.
+        // If the default is equal to the selected value, the value was not changed and doesn't need to be returned.
         $.each(formFields, function(i, input) {
             // Get the ID and data type of the skin element
             var name = $(input).attr('name');
@@ -523,13 +523,13 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
             // If the field is a color, match as colors
             if (type === 'color') {
                 // Get the default and form colors and convert them to RGB for easy matching with tinycolor
-                var defaultColor = tinycolor(defaultSkin[name]);
-                var selectedColor = tinycolor($(formFields[i]).val());
+                var defaultColor = defaultSkin[name];
+                var selectedColor = $(formFields[i]).val();
 
-                // If the default and form colors don't match up (RBG) the value was changed and
+                // If the default and form colors don't match up, the value was changed and
                 // is added to the cached values to return.
                 if (!tinycolor.equals(defaultColor, selectedColor)) {
-                    changedValues[name] = selectedColor.toRgbString();;
+                    changedValues[name] = selectedColor;
                 }
             // The only other choice is an input field, handle as string
             } else {
