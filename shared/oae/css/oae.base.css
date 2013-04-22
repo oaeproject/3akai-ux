@@ -224,7 +224,8 @@ input.search-query,
 }
 
 /* NOTIFICATIONS
- * @see http://twitter.github.com/bootstrap/components.html#alerts */
+ * @see http://twitter.github.com/bootstrap/components.html#alerts
+ * @see http://nijikokun.github.io/bootstrap-notify */
 
 .alert h4 {
     display: inline;
@@ -241,6 +242,25 @@ input.search-query,
     -webkit-border-radius: 0px 0px 4px 4px;
        -moz-border-radius: 0px 0px 4px 4px;
             border-radius: 0px 0px 4px 4px;
+}
+
+/* Bootstrap.notify overrides */
+
+.notifications.top-center {
+    top: 0px;
+}
+
+.notifications.bottom-center {
+    bottom: 0px;
+}
+
+.notifications.top-center > div,
+.notifications.center > div,
+.notifications.bottom-center > div {
+    margin: 0px auto;
+    text-align: left;
+    width: 40%;
+    max-width: 400px;
 }
 
 /* BADGES 

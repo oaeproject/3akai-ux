@@ -4,6 +4,7 @@
 .notifications.bottom-left{left:10px;bottom:25px;}
 .notifications.bottom-right{right:10px;bottom:25px;}
 .notifications>div{position:relative;z-index:9999;margin:5px 0px;}
-.notifications.top-center{top:0px;left:0;width:100%;}.notifications.top-center>div{margin:0px auto;width:40%;max-width: 400px;}
-.notifications.center{top:48%;left:0;width:100%;}.notifications.center>div{margin:5px auto;width:40%;max-width: 400px;}
-.notifications.bottom-center{bottom:0px;left:0;width:100%;}.notifications.bottom-center>div{margin:0px auto;width:40%;max-width: 400px;}
+.notifications.top-center{top:25px;left:0;width:100%;}.notifications.top-center>div{margin:5px auto;width:20%;text-align:center;}
+.notifications.center{top:48%;left:0;width:100%;}.notifications.center>div{margin:5px auto;width:20%;text-align:center;}
+.notifications.bottom-center{bottom:25px;left:0;width:100%;}.notifications.bottom-center>div{margin:5px auto;width:20%;text-align:center;}
+
