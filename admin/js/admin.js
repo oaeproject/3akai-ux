@@ -504,50 +504,49 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
     };
 
     /**
-     * Matches the form input fields against the default skin and returns the changed values that
-     * need to be saved.
+     * Compares the skin values against the default skin and returns the changed values.
      *
-     * @return  {Object}    saveValues    The skinning values that need to be saved
+     * @return  {Object}    The skinning values that need to be saved
      */
     var getSkinChanges = function() {
         // Get the form input fields and initialize the object used to cache the values that need to be saved
-        var formValues = $('#admin-skinning-form input');
-        var saveValues = {};
+        var formFields = $('#admin-skinning-form input');
+        var changedValues = {};
 
         // Loop over the form input fields and match the value with the default.
         // If the default is equal to the form value the value was not changed and doesn't need to be saved.
-        $.each(formValues, function(i, input) {
+        $.each(formFields, function(i, input) {
             // Get the ID and data type of the skin element
-            var id = $(input).attr('id').replace('admin-skinning-', '');
-            var dataType = $(input).attr('data-type');
+            var name = $(input).attr('name');
+            var type = $(input).attr('data-type');
 
             // If the field is a color, match as colors
-            if (dataType === 'color') {
+            if (type === 'color') {
                 // Get the default and form colors and convert them to RGB for easy matching with tinycolor
-                var defaultSkinColor = tinycolor(defaultSkin[id]).toRgbString();
-                var formValueColor = tinycolor($(formValues[i]).val()).toRgbString();
+                var defaultColor = tinycolor(defaultSkin[name]);
+                var selectedColor = tinycolor($(formFields[i]).val());
 
                 // If the default and form colors don't match up (RBG) the value was changed and
-                // is added to the cached values to save.
-                if (!tinycolor.equals(defaultSkinColor, formValueColor)) {
-                    saveValues[id] = formValueColor;
+                // is added to the cached values to return.
+                if (!tinycolor.equals(defaultColor, selectedColor)) {
+                    changedValues[name] = selectedColor.toRgbString();;
                 }
             // The only other choice is an input field, handle as string
             } else {
                 // Get the default and form text
-                var defaultSkinText = defaultSkin[id];
-                var formValueText = $.trim($(formValues[i]).val());
+                var defaultSkinText = defaultSkin[name];
+                var formValueText = $.trim($(formFields[i]).val());
 
                 // If the default and form text don't match up the value was changed and
-                // is added to the cached values to save.
+                // is added to the cached values to return.
                 if (defaultSkinText !== formValueText) {
-                    saveValues[id] = formValueText;
+                    changedValues[name] = formValueText;
                 }
             }
         });
 
         // Returns the object of skin values to be saved
-        return saveValues;
+        return changedValues;
     };
 
     /**
@@ -555,7 +554,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
      * the skin variables at once in a stringified JSON object.
      */
     var saveSkin = function() {
-        // Create the JSON to send to the server
+        // Create the JSON only containing the values that have changed to send to the server
         var data = {
             'oae-ui/skin/variables': JSON.stringify(getSkinChanges())
         }
