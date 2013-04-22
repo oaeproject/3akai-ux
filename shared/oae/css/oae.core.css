@@ -1,0 +1,38 @@
+/*!
+ * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ *     http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+/* Import the Bootstrap CSS file */
+@import url('../../vendor/css/bootstrap.css');
+
+/* Import the Font Awesome Icon Set */
+@import url('../../vendor/css/font-awesome/css/font-awesome.css');
+/* Import the Open Sans font */
+@import url('../../vendor/css/opensans/css/opensans.css');
+
+/* Import the OAE Core styles. These will be used for bootstrap overrides, as well
+   as styles used in the main portal that are not expected to be re-used in widgets */
+@import url('../../oae/css/oae.base.css');
+
+/* Import the OAE Component Styles. These contain OAE specific re-usable styles that, 
+   combined with basic bootstrap, should make it easy to quickly put new widgets together */
+@import url('../../oae/css/oae.components.css');
+
+/* Import the Google, Facebook and Twitter login, as this will be needed on every
+   page because of the topnavigation */
+@import url('../../vendor/css/auth-buttons.css');
+/* Import the JQuery AutoSuggest plugin CSS */
+@import url('../../vendor/css/jquery.autoSuggest.css');
+/* Import the JQuery Bootstrap Notify plugin CSS */
+@import url('../../vendor/css/jquery.bootstrap.notify.css');

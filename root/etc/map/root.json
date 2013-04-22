@@ -1,4 +1,0 @@
-{
-  'sling:match': '^[^/]+/[^/]+/$',
-  'sling:internalRedirect': '/dev/index.html'
-}
