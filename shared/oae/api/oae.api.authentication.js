@@ -75,6 +75,22 @@ define(['exports', 'jquery'], function(exports, $) {
      * @param  {Function}               [callback]          Standard callback method
      * @param  {Object}                 [callback.err]      Error object containing error code and error message
      */
-    var changePassword = exports.changePassword = function(oldPassword, newPassword, callback) {};
+    var changePassword = exports.changePassword = function(oldPassword, newPassword, callback) {
+        var userId = require('oae.core').data.me.id;
+        $.ajax({
+            'url':'/api/user/'+userId+'/password',
+            'type': 'POST',
+            'data':{
+                'oldPassword': oldPassword,
+                'newPassword': newPassword
+            },
+            'success': function(){
+                callback(null);
+            },
+            'error': function(jqXHR,textStatus){
+                callback({'code':jqXHR.status, 'msg':jqXHR.statusText});
+            }
+        });
+    };
 
 });
