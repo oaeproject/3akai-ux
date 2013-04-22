@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <noscript>
+            <meta http-equiv="Refresh" content="1; URL=/noscript">
+        </noscript>
+
+        <!-- CORE CSS -->
+        <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
+        <link rel="stylesheet" type="text/css" href="/api/ui/skin" />
+        
+    </head>
+    <body>
+
+        <!-- HEADER -->
+        <div data-widget="topnavigation"><!-- --></div>
+
+        <!-- BODY -->
+        <div class="oae-main-content">
+
+            <!-- CLIPS -->
+            <div>
+                <div id="content-clip-container"><!-- --></div>
+                <div id="content-clip-template"><!--
+                    <div class="oae-clip">
+                        <div class="oae-clip-fold">
+                            <div class="oae-clip-fold-inner"></div>
+                            <div class="oae-clip-fold-outer"></div>
+                        </div>
+                        <div class="oae-clip-content">
+                            <button {if !content.isManager} disabled {/if}>
+                                ${renderThumbnail(content)}
+                                <div>
+                                    <div>
+                                        <h1>${content.displayName|encodeForHTML}</h1>
+                                        <i class="icon-caret-down"></i>
+                                    </div>
+                                </div>
+                            </button>
+                            <div>
+                                <ul>
+                                    <li><button><i class="icon-lock"></i>__MSG__PERMISSIONS__</button></li>
+                                    <li><button><i class="icon-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
+                                    <li><button class="oae-trigger-uploadnewversion"><i class="icon-upload"></i>__MSG__UPLOAD_NEW_VERSION__</button></li>
+                                    <li><button><i class="icon-undo"></i>__MSG__REVISIONS__</button></li>
+                                    <li><button><i class="icon-trash"></i>__MSG__DELETE__</button></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                --></div>
+
+                <div class="pull-right">
+                    <div class="oae-clip oae-clip-flipped">
+                        <div class="oae-clip-fold">
+                            <div class="oae-clip-fold-inner"></div>
+                            <div class="oae-clip-fold-outer"></div>
+                        </div>
+                        <div class="oae-clip-content">
+                            <button>
+                                <div>
+                                    <i class="icon-share pull-left"></i>
+                                    <h1>__MSG__SHARE__</h1>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="oae-clip oae-clip-secondary oae-clip-flipped">
+                        <div class="oae-clip-fold">
+                            <div class="oae-clip-fold-inner"></div>
+                            <div class="oae-clip-fold-outer"></div>
+                        </div>
+                        <div class="oae-clip-content">
+                            <button class="contentcomments-focus-new-comment">
+                                <div>
+                                    <i class="icon-comments pull-left"></i>
+                                    <h1>__MSG__COMMENT__</h1>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="content_preview_container"><!-- --></div>
+            <div data-widget="contentcomments"><!-- --></div>
+        </div>
+
+        <!-- FOOTER -->
+        <div data-widget="footer"><!-- --></div>
+
+        <!-- DEPENDENCIES -->
+        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
+        <!-- PAGE JS -->
+        <script>require(['/ui/js/content.js']);</script>
+
+    </body>
+</html>
