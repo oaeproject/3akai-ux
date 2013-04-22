@@ -246,6 +246,10 @@ input.search-query,
 
 /* Bootstrap.notify overrides */
 
+.notifications {
+    z-index: 9999;
+}
+
 .notifications.top-center {
     top: 0px;
 }
