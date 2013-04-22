@@ -23,6 +23,8 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
     var configurationSchema = null;
     // Variable that will cache the configuration for the current tenant
     var configuration = null;
+    // Variable that will cache the default skin for the current tenant
+    var defaultSkin = {};
 
     /**
      * Toggles containers to show or hide
@@ -480,6 +482,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                         $.each(configSection.subsections, function(configSubsectionIndex, configSubsection) {
                             $.each(configSubsection.variables, function(variableIndex, variable) {
                                 variable.value = configuredSkin[variable.name] || variable.defaultValue;
+                                defaultSkin[variable.name] = variable.defaultValue;
                             });
                         });
                     });
@@ -501,15 +504,60 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
     };
 
     /**
+     * Matches the form input fields against the default skin and returns the changed values that
+     * need to be saved.
+     *
+     * @return  {Object}    saveValues    The skinning values that need to be saved
+     */
+    var getSkinChanges = function() {
+        // Get the form input fields and initialize the object used to cache the values that need to be saved
+        var formValues = $('#admin-skinning-form input');
+        var saveValues = {};
+
+        // Loop over the form input fields and match the value with the default.
+        // If the default is equal to the form value the value was not changed and doesn't need to be saved.
+        $.each(formValues, function(i, input) {
+            // Get the ID and data type of the skin element
+            var id = $(input).attr('id').replace('admin-skinning-', '');
+            var dataType = $(input).attr('data-type');
+
+            // If the field is a color, match as colors
+            if (dataType === 'color') {
+                // Get the default and form colors and convert them to RGB for easy matching with tinycolor
+                var defaultSkinColor = tinycolor(defaultSkin[id]).toRgbString();
+                var formValueColor = tinycolor($(formValues[i]).val()).toRgbString();
+
+                // If the default and form colors don't match up (RBG) the value was changed and
+                // is added to the cached values to save.
+                if (!tinycolor.equals(defaultSkinColor, formValueColor)) {
+                    saveValues[id] = formValueColor;
+                }
+            // The only other choice is an input field, handle as string
+            } else {
+                // Get the default and form text
+                var defaultSkinText = defaultSkin[id];
+                var formValueText = $.trim($(formValues[i]).val());
+
+                // If the default and form text don't match up the value was changed and
+                // is added to the cached values to save.
+                if (defaultSkinText !== formValueText) {
+                    saveValues[id] = formValueText;
+                }
+            }
+        });
+
+        // Returns the object of skin values to be saved
+        return saveValues;
+    };
+
+    /**
      * Save the new skin values. The back-end requires us to send all of
      * the skin variables at once in a stringified JSON object.
      */
     var saveSkin = function() {
-        // Serializing the form gives us all of the current values,
-        // including the latest selected colors
-        var values = $('#admin-skinning-form').serializeObject();
+        // Create the JSON to send to the server
         var data = {
-            'oae-ui/skin/variables': JSON.stringify(values)
+            'oae-ui/skin/variables': JSON.stringify(getSkinChanges())
         }
 
         // When we are on the tenant server itself, we don't have
@@ -530,6 +578,8 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                 oae.api.util.notification('Skin not saved', 'The skin could not be saved successfully.', 'error');
             }
         });
+
+        // Return false to avoid default form submit behavior.
         return false;
     };
 
