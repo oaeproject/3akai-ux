@@ -19,23 +19,24 @@ require(['jquery', 'oae.core'], function($, oae) {
      * Renders the documentation for a specific module
      */
     var renderModuleDocs = function() {
-        // Extract the selected module from the History.js state
+        // Extract the selected module and type from the History.js state
         var module = History.getState().data.module;
+        var type = History.getState().data.type;
 
         // Change the browser title
         setDocumentTitle(module);
         // Make the correct left hand nav item selected
         $('.bs-docs-sidenav li').removeClass('active');
-        $('#' + module).addClass('active');
+        $('[data-id="' + module + '"]').addClass('active');
 
         // Get the current requested module from the History.js 
         // Retrieve the documentation for the current module from the server
-        getModuleDocs(module, function(docs) {
+        getModuleDocs(module, type, function(docs) {
             oae.api.util.template().render($('#doc-module-template'), {
                 'docs': docs,
                 'module': module
             }, $('#doc-module-container'));
-    
+
             // Scroll to the appropriate place on the page. This will be the top of the page most of the time, unless
             // a direct link to a function has been clicked (e.g. http://cambridge.oae.com/docs#oae-authentication.api.removeStrategies)
             // In this case, we scroll to the function's documentation
@@ -52,26 +53,24 @@ require(['jquery', 'oae.core'], function($, oae) {
     /**
      * Renders the navigation for the available modules
      * 
-     * @param {String[]}    modules          An Array of module names
-     * @param {String}      currentModule    The name of the module that is currently shown in the UI
+     * @param  {String[]}    modules          An Array of module names
+     * @param  {String}      currentModule    The name of the module that is currently shown in the UI
      */
     var renderNavigation = function(modules, currentModule) {
-        oae.api.util.template().render($('#doc-modules-template'), {
-            'modules': modules,
-            'moduleToLoad': currentModule
-        }, $('#doc-modules-container'));
+        oae.api.util.template().render($('#doc-modules-template'), modules, $('#doc-modules-container'));
     };
 
     /**
      * Gets the documentation for a specific module and passes it in a callback
      * 
-     * @param {String}    module            The name of the module to get the documentation for
-     * @param {Function}  callback          Function executed after the documentation for the module has been retrieved
-     * @param {Object}    callback.docs     Retrieved documentation for the specified module. This will be null when the documentation could not be retrieved
+     * @param  {String}    module            The name of the module to get the documentation for
+     * @param  {String}    type              The type of the module being loaded. Accepted values are `backend` and `frontend`
+     * @param  {Function}  callback          Function executed after the documentation for the module has been retrieved
+     * @param  {Object}    callback.docs     Retrieved documentation for the specified module. This will be null when the documentation could not be retrieved
      */
-    var getModuleDocs = function(module, callback) {
+    var getModuleDocs = function(module, type, callback) {
         $.ajax({
-            url: '/api/doc/module/' + module,
+            url: '/api/doc/' + type + '/' + module,
             success: function(docs) {
                 callback(docs);
             }, error: function(err) {
@@ -81,22 +80,34 @@ require(['jquery', 'oae.core'], function($, oae) {
     };
 
     /**
-     * Gets the available OAE modules and passes them in a callback
+     * Get the available OAE back-end and front-end modules.
      * 
-     * @param {Function}    callback            Function executed after the list of modules has been retrieved
-     * @param {String[]}    callback.modules    List of all of the available OAE modules
+     * @param  {Function}    callback            Function executed after the list of modules has been retrieved
+     * @param  {Object}      callback.modules    Object where the keys are "frontend" and "backend" and the values are an array of available modules
      */
     var getAvailableModules = function(callback) {
+        var modules = {};
+        // Get the available front-end modules
         $.ajax({
-            url: '/api/doc/modules',
-            success: callback
+            url: '/api/doc/frontend',
+            success: function(frontendModules) {
+                modules.frontend = frontendModules;
+                // Get the available back-end modules
+                 $.ajax({
+                    url: '/api/doc/backend',
+                    success: function(backendModules) {
+                        modules.backend = backendModules;
+                        callback(modules);
+                    }
+                });
+            }
         });
     };
 
     /**
      * Sets the title of the document to `Sakai OAE - API Reference - title`
      * 
-     * @param {String}  title   The title to be added to the document title
+     * @param  {String}  title   The title to be added to the document title
      */
     var setDocumentTitle = function(title) {
         oae.api.util.setBrowserTitle(['API Reference', title]);
@@ -109,7 +120,8 @@ require(['jquery', 'oae.core'], function($, oae) {
     var selectModule = function() {
         // Push the state and render the selected module
         History.pushState({
-            'module': $(this).attr('id')
+            'type': $(this).attr('data-type'),
+            'module': $(this).attr('data-id')
         }, null, $('a', $(this)).attr('href'));
         return false;
     };
@@ -131,13 +143,15 @@ require(['jquery', 'oae.core'], function($, oae) {
     var doInit = function() {
         addBinding();
         // Load the list of the available modules
-        getAvailableModules(function(loadedModules) {
-            modules = loadedModules.sort();
+        getAvailableModules(function(modules) {
+            modules.frontend.sort();
+            modules.backend.sort();
 
             // Extract the currently selected module from the URL. We parse the URL fragment that's 
             // inside of the current History.js state. The expected URL structure is `/docs/module/<moduleId>/<apiFunction>`. 
             var initialState = $.url(History.getState().hash);
-            var moduleToLoad = initialState.segment(3) || modules[0];
+            var type = initialState.segment(2) || 'frontend';
+            var moduleToLoad = initialState.segment(3) || modules[type][0];
             var apiFunction = initialState.segment(4);
 
             // Render the left hand navigation
@@ -149,6 +163,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             // of the documentation rendering for the module. However, we also need to add a random number 
             // to the data object to make sure that the statechange event is triggered after a page reload.
             History.replaceState({
+                'type': type,
                 'module': moduleToLoad,
                 'apiFunction': apiFunction,
                 '_': Math.random()

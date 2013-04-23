@@ -30,18 +30,27 @@
         </div>
 
         <div id="doc-modules-template"><!--
+            {macro renderModules(title, type, modules)}
+                <ul class="nav nav-list bs-docs-sidenav">
+                    {for module in modules}
+                        <li data-id="${module}" data-type="${type}">
+                            <a href="/docs/${type}/${module}"><i class="icon-chevron-right pull-right"></i> ${module}</a>
+                        </li>
+                    {/for}
+                </ul>
+            {/macro}
+
             <div class="bs-docs-sidebar">
-            <ul class="nav nav-list bs-docs-sidenav">
-                {for module in modules}
-                    <li id="${module}">
-                        <a href="/docs/module/${module}"><i class="icon-chevron-right pull-right"></i> ${module}</a>
-                    </li>
-                {/for}
-            </ul>
+                ${renderModules('Front-end', 'frontend', frontend)}
+                ${renderModules('Back-end', 'backend', backend)}
             </div>
         --></div>
 
         <div id="doc-module-template"><!--
+            {macro renderFileDoc}
+                
+            {/macro}
+
             <h2>${module}</h2>
             {if docs === null}
                 <p>There is no documentation available for this module.</p>
