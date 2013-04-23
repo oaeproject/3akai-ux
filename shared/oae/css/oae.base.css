@@ -26,11 +26,15 @@ body {
     display: none;
 }
 
-/* DEFAULT FONT AND TEXT COLOR */
+/* DEFAULT FONT AND TEXT STYLE */
 
 body, button, input, select, textarea {
     font-family: 'Open Sans', sans-serif; arial, helvetica, sans-serif;
     line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
 }
 
 /* DEFAULT LINK STYLE */
@@ -60,6 +64,10 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     margin-bottom: 4px;
 }
 
+.nav > li > a:active {
+    opacity: 0.8;
+}
+
 .nav-list [class^="icon-"], .nav-list [class*=" icon-"] {
     font-size: 1.5em;
     margin-right: 10px;
@@ -69,7 +77,7 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 
 .nav-list .nav-header {
     text-transform: none;
-    font-weight: 700;
+    font-weight: 600;
     margin-bottom: 10px;
     font-size: 12px;
 }
@@ -102,6 +110,7 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 
 .dropdown-menu {
     padding: 10px;
+    border: none;
     -webkit-border-radius: 5px;
        -moz-border-radius: 5px;
             border-radius: 5px;
@@ -115,7 +124,7 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 }
 
 .dropdown-menu form {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 /* FORMS 
@@ -170,7 +179,7 @@ input.search-query,
 .form-horizontal .uneditable-input + .help-block,
 .form-horizontal .input-prepend + .help-block,
 .form-horizontal .input-append + .help-block {
-  margin-top: 3px;
+    margin-top: 3px;
 }
 
 /* MODAL DIALOGS
@@ -208,22 +217,61 @@ input.search-query,
 }
 
 .modal-footer {
+    padding: 10px 25px 15px 15px;
     background-color: transparent;
     border-top: none;
     box-shadow: none;
 }
 
 /* NOTIFICATIONS
- * @see http://twitter.github.com/bootstrap/components.html#alerts */
+ * @see http://twitter.github.com/bootstrap/components.html#alerts
+ * @see http://nijikokun.github.io/bootstrap-notify */
 
 .alert h4 {
-    margin-bottom: 5px;
+    display: inline;
+    margin-right: 5px;
+    font-size: 14px;
+}
+
+.notifications .alert {
+    padding: 20px 40px 20px 30px;
+    border-top: none;
+    -webkit-box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.3);
+       -moz-box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.3);
+            box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.3);
+    -webkit-border-radius: 0px 0px 4px 4px;
+       -moz-border-radius: 0px 0px 4px 4px;
+            border-radius: 0px 0px 4px 4px;
+}
+
+/* Bootstrap.notify overrides */
+
+.notifications {
+    z-index: 9999;
+}
+
+.notifications.top-center {
+    top: 0px;
+}
+
+.notifications.bottom-center {
+    bottom: 0px;
+}
+
+.notifications.top-center > div,
+.notifications.center > div,
+.notifications.bottom-center > div {
+    margin: 0px auto;
+    text-align: left;
+    width: 40%;
+    max-width: 400px;
 }
 
 /* BADGES 
  * @see http://twitter.github.com/bootstrap/components.html#labels-badges */
 
 .badge {
+    font-weight: 600;
     -webkit-border-radius: 3px;
        -moz-border-radius: 3px;
             border-radius: 3px;
@@ -270,8 +318,6 @@ input.search-query,
 
 .oae-main-content {
     background-color: #FFF;
-    border: 1px solid #DDD;
-    border-bottom: none;
     -webkit-border-radius: 5px;
        -moz-border-radius: 5px;
             border-radius: 5px;
@@ -279,7 +325,7 @@ input.search-query,
        -moz-box-shadow: 0 2px 4px #DBDBDB;
             box-shadow: 0 2px 4px #DBDBDB;
     padding: 10px;
-    min-height: 400px;
+    min-height: 450px;
     clear: both;
 }
 

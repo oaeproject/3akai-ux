@@ -32,9 +32,9 @@
                             <div id="admin-login" class="admin-login-container">
                                 <form id="admin-login-form" form method="POST" class="form-horizontal">
                                     <div class="control-group">
-                                        <label for="admin-login-form-name" class="control-label">Name</label>
+                                        <label for="admin-login-form-username" class="control-label">Username</label>
                                         <div class="controls">
-                                            <input type="text" id="admin-login-form-name" name="username" class="required"/>
+                                            <input type="text" id="admin-login-form-username" name="username" class="required"/>
                                         </div>
                                     </div>
                                     <div class="control-group">
@@ -79,7 +79,7 @@
                     {if context.isGlobalAdminServer && !context.host}
                         <h1>Global administration UI</h1>
                     {else}
-                        <h1>${context.name}</h1>
+                        <h1>${context.displayName}</h1>
                     {/if}
                 </div>
             </div>
@@ -118,12 +118,12 @@
                     {if !oae.data.me.anon && context.isGlobalAdminServer}
                         <ul class="inline">
                             <li>
-                                <a href="/" title="Global administration">Global administration</a>
+                                <a href="/">Global administration</a>
                             </li>
                             {for tenant in tenants}
                                 {if tenant.alias}
                                     <li>
-                                        <a href="/tenant/${tenant.alias}" title="${tenant.name} administration">${tenant.name}</a>
+                                        <a href="/tenant/${tenant.alias|encodeForURL}">${tenant.displayName|encodeForHTML}</a>
                                     </li>
                                 {/if}
                             {/for}
@@ -164,15 +164,15 @@
                         {if tenant.alias}
                             <tr>
                                 {if isMainGlobalAdmin}
-                                    <td><a href="/tenant/${tenant.alias}" title="Edit ${tenant.name}"><i class="icon-pencil"></i></a></td>
+                                    <td><a href="/tenant/${tenant.alias|encodeForURL}" title="Edit ${tenant.displayName|encodeForHTMLAttribute}"><i class="icon-pencil"></i></a></td>
                                 {/if}
                                 <td>${tenant.alias}</td>
                                 {if oae.data.me.isGlobalAdmin}
-                                    <td class="jeditable-container"><div class="jeditable-field" data-alias="${tenant.alias}">${tenant.name}</div></td>
+                                    <td class="jeditable-container"><div class="jeditable-field" data-alias="${tenant.alias|encodeForHTMLAttribute}">${tenant.displayName|encodeForHTML}</div></td>
                                 {else}
-                                    <td>${tenant.name}</td>
+                                    <td>${tenant.displayName|encodeForHTML}</td>
                                 {/if}
-                                <td><a href="http://${tenant.host}" title="${tenant.name}" target="_blank">${tenant.host}</a></td>
+                                <td><a href="http://${tenant.host}" title="${tenant.displayName|encodeForHTMLAttribute}" target="_blank">${tenant.host}</a></td>
                                 <td>
                                     {if tenant.active}
                                         <span class="text-success">Running</span>
@@ -183,18 +183,18 @@
                                 <td>
                                     {if true || oae.data.me.isGlobalAdmin}
                                         {if tenant.active}
-                                            <button type="button" class="btn btn-warning stop-tenant" data-alias="${tenant.alias}" data-name="${tenant.name}">Stop</button>
+                                            <button type="button" class="btn btn-warning stop-tenant" data-alias="${tenant.alias|encodeForHTMLAttribute}" data-displayName="${tenant.displayName|encodeForHTMLAttribute}">Stop</button>
                                         {else}
-                                            <button type="button" class="btn btn-success start-tenant" data-alias="${tenant.alias}" data-name="${tenant.name}">Start</button>
+                                            <button type="button" class="btn btn-success start-tenant" data-alias="${tenant.alias|encodeForHTMLAttribute}" data-displayName="${tenant.displayName|encodeForHTMLAttribute}">Start</button>
                                         {/if}
                                     {/if}
                                 </td>
                                 {if oae.data.me.isGlobalAdmin}
                                     <td>
-                                        <button type="button" class="btn btn-danger delete-tenant" data-alias="${tenant.alias}" data-name="${tenant.name}">Delete</button>
+                                        <button type="button" class="btn btn-danger delete-tenant" data-alias="${tenant.alias|encodeForHTMLAttribute}" data-displayName="${tenant.displayName|encodeForHTMLAttribute}">Delete</button>
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-primary login-tenant" data-alias="${tenant.alias}">Login</button>
+                                        <button type="button" class="btn btn-primary login-tenant" data-alias="${tenant.alias|encodeForHTMLAttribute}">Login</button>
                                     </td>
                                 {/if}
                             </tr>
@@ -220,9 +220,9 @@
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label for="createtenant-name" class="control-label">Name:</label>
+                                    <label for="createtenant-displayName" class="control-label">Name:</label>
                                     <div class="controls">
-                                        <input type="text" name="name" id="createtenant-name" placeholder="Name" class="required"/>
+                                        <input type="text" name="displayName" id="createtenant-displayName" placeholder="Name" class="required"/>
                                     </div>
                                 </div>
                                 <div class="control-group">
