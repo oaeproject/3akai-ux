@@ -31,6 +31,7 @@
 
         <div id="doc-modules-template"><!--
             {macro renderModules(title, type, modules)}
+                <h5>${title}</h5>
                 <ul class="nav nav-list bs-docs-sidenav">
                     {for module in modules}
                         <li data-id="${module}" data-type="${type}">
@@ -41,65 +42,67 @@
             {/macro}
 
             <div class="bs-docs-sidebar">
-                ${renderModules('Front-end', 'frontend', frontend)}
-                ${renderModules('Back-end', 'backend', backend)}
+                ${renderModules('Front-end documentation', 'frontend', frontend)}
+                ${renderModules('Back-end documentation', 'backend', backend)}
             </div>
         --></div>
 
         <div id="doc-module-template"><!--
-            {macro renderFileDoc}
-                
+            {macro renderFileDocs(doc)}
+                {for func in doc}
+                    {if !func.ignore}
+                        <div class="bs-docs-{if func.isPrivate}private{else}public{/if}">
+                            {if func.ctx}
+                                <h4><a name="${module}.${func.ctx.name}">${func.ctx.name}</a></h4>
+                                <p><small>
+                                    {if func.ctx.value}
+                                        ${func.ctx.value}
+                                    {else}
+                                        ${func.ctx.string}
+                                    {/if}
+                                </small></p>
+                            {/if}
+                            <blockquote>${func.description.full.replace(/<br \/>/g, ' ')}</blockquote>
+                            {if func.tags.length > 0}
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            {if func.ctx}
+                                                <th>Parameters for ${func.ctx.name}</th>
+                                            {else}
+                                                <th>Parameters</th>
+                                            {/if}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {for tag in func.tags}
+                                            <tr>
+                                                {if tag.type === "param" || tag.type === "return"}
+                                                    <td class="bs-docs-${tag.type}-tag"><strong>{if tag.name}${tag.name}{else}Returns{/if} : {if tag.types} ${tag.types.join(' or ')}{/if}</strong> <br/> ${tag.description}</td>
+                                                {elseif tag.type === "see"}
+                                                    <td class="bs-docs-${tag.type}-tag"><strong>${tag.type} : <a href="/#${tag.local}">${tag.local}</a></strong>
+                                                {elseif tag.type !== "api"}
+                                                    <td class="bs-docs-${tag.type}-tag"><strong>${tag.type} : ${tag.local}</strong> <br/> ${tag.string}</td>
+                                                {/if}
+                                            </tr>
+                                        {/for}
+                                    </tbody>
+                                </table>
+                            {/if}
+                        </div>
+                    {/if}
+                {/for}
             {/macro}
 
             <h2>${module}</h2>
             {if docs === null}
                 <p>There is no documentation available for this module.</p>
+            {elseif _.isArray(docs)}
+                ${renderFileDocs(docs)}
             {else}
                 {for doc in docs}
                     <h3>${doc_index}</h3>
-                    {for func in doc}
-                        {if !func.ignore}
-                            <div class="bs-docs-{if func.isPrivate}private{else}public{/if}">
-                                {if func.ctx}
-                                    <h4><a name="${module}.${doc_index.substr(0, doc_index.length - 3)}.${func.ctx.name}">${func.ctx.name}</a></h4>
-                                    <p><small>
-                                        {if func.ctx.value}
-                                            ${func.ctx.value}
-                                        {else}
-                                            ${func.ctx.string}
-                                        {/if}
-                                    </small></p>
-                                {/if}
-                                <blockquote>${func.description.full.replace(/<br \/>/g, ' ')}</blockquote>
-                                {if func.tags.length > 0}
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                {if func.ctx}
-                                                    <th>Parameters for ${func.ctx.name}</th>
-                                                {else}
-                                                    <th>Parameters</th>
-                                                {/if}
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {for tag in func.tags}
-                                                <tr>
-                                                    {if tag.type === "param" || tag.type === "return"}
-                                                        <td class="bs-docs-${tag.type}-tag"><strong>{if tag.name}${tag.name}{else}Returns{/if} : {if tag.types} ${tag.types.join(' or ')}{/if}</strong> <br/> ${tag.description}</td>
-                                                    {elseif tag.type === "see"}
-                                                        <td class="bs-docs-${tag.type}-tag"><strong>${tag.type} : <a href="/#${tag.local}">${tag.local}</a></strong>
-                                                    {elseif tag.type !== "api"}
-                                                        <td class="bs-docs-${tag.type}-tag"><strong>${tag.type} : ${tag.local}</strong> <br/> ${tag.string}</td>
-                                                    {/if}
-                                                </tr>
-                                            {/for}
-                                        </tbody>
-                                    </table>
-                                {/if}
-                            </div>
-                        {/if}
-                    {/for}
+                    ${renderFileDocs(doc)}
                 {/for}
             {/if}
         --></div>

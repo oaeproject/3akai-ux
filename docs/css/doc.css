@@ -38,6 +38,17 @@ html, body {
     padding: 15px 0 0 80px;
 }
 
+/* Content */
+
+#doc-content-container {
+    padding-bottom: 50px;
+}
+
+#doc-modules-container h5 {
+    margin-top: 30px;
+    margin-left: 10px;
+}
+
 /* Module documentation */
 
 h2 {
@@ -83,7 +94,7 @@ td form {
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
     -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
     -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
-    margin: 25px 0 0;
+    margin: 15px 0 0;
     padding: 0;
 }
 .bs-docs-sidenav > li:first-child > a {
