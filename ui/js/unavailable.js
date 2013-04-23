@@ -28,7 +28,7 @@ define(['jquery'], function($) {
         $.ajax({
             'url': '/api/me',
             'success': function() {
-                document.location = '/me';
+                window.location = '/me';
             }
         });
     };

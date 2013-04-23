@@ -77,7 +77,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                 'icon': 'icon-dashboard',
                 'layout': [
                     {
-                        'width': 'span8',
+                        'width': 'span12',
                         'widgets': [
                             {
                                 'id': 'activity',
