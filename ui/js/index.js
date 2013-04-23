@@ -25,7 +25,7 @@ require(['jquery','oae.core'], function($, oae) {
     var setUpSearch = function() {
         $(document).on('submit', '#index-search-form', function() {
             // Filter out slashes before redirecting
-            document.location = '/search#q=' + $.trim($('#index-search-query', $(this)).val()).replace(/\//g, '');
+            window.location = '/search#q=' + $.trim($('#index-search-query', $(this)).val()).replace(/\//g, '');
             return false;
         });
     };

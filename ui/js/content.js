@@ -19,7 +19,7 @@ var sakai_global = sakai_global || {};
 require(['jquery','oae.core'], function($, oae) {
 
     //  Get the content id from the URL. The expected URL is /content/<groupId>
-    var contentId = document.location.pathname.split('/').pop();
+    var contentId = window.location.pathname.split('/').pop();
     if (!contentId) {
         oae.api.util.redirect().login();
     }
