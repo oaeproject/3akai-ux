@@ -38,7 +38,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             }, $('#doc-module-container'));
 
             // Scroll to the appropriate place on the page. This will be the top of the page most of the time, unless
-            // a direct link to a function has been clicked (e.g. http://cambridge.oae.com/docs#oae-authentication.api.removeStrategies)
+            // a direct link to a function has been clicked (e.g. http://cambridge.oae.com/docs/backend/oae-authentication/createUser)
             // In this case, we scroll to the function's documentation
             var offset = 0;
             var apiFunction = History.getState().data.apiFunction;
@@ -147,8 +147,8 @@ require(['jquery', 'oae.core'], function($, oae) {
             modules.frontend.sort();
             modules.backend.sort();
 
-            // Extract the currently selected module from the URL. We parse the URL fragment that's 
-            // inside of the current History.js state. The expected URL structure is `/docs/module/<moduleId>/<apiFunction>`. 
+            // Extract the currently selected module from the URL by parsing the URL fragment that's 
+            // inside of the current History.js hash. The expected URL structure is `/docs/module/<moduleId>/<apiFunction>`. 
             var initialState = $.url(History.getState().hash);
             var type = initialState.segment(2) || 'frontend';
             var moduleToLoad = initialState.segment(3) || modules[type][0];
@@ -157,11 +157,15 @@ require(['jquery', 'oae.core'], function($, oae) {
             // Render the left hand navigation
             renderNavigation(modules, moduleToLoad);
 
-            // Replace the current History.js state to have the selected module. This is necessary 
-            // because a newly loaded page will not contain the data object in its state. Calling the 
-            // replaceState function will automatically trigger the statechange event, which will take care 
-            // of the documentation rendering for the module. However, we also need to add a random number 
-            // to the data object to make sure that the statechange event is triggered after a page reload.
+            // When the page loads, the History.js state data object will either be empty (when having
+            // followed a link or entering the URL directly) or will contain the previous state data when
+            // refreshing the page. This is why we use the URL to determine the initial state. We want
+            // to replace the initial state with all of the required state data for the requested URL so
+            // we have the correct state data in all circumstances. Calling the `replaceState` function 
+            // will automatically trigger the statechange event, which will take care of the documentation rendering.
+            // for the requested module. However, as the page can already have the History.js state data 
+            // when only doing a page refresh, we need to add a random number to make sure that History.js 
+            // recognizes this as a new state and triggers the `statechange` event.
             History.replaceState({
                 'type': type,
                 'module': moduleToLoad,

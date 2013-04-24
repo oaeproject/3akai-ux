@@ -86,6 +86,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         };
     };
 
+
     //////////////////////
     //// DATA STORING ////
     //////////////////////
@@ -367,6 +368,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         });
     };
 
+
     //////////////////////
     // LOGIN AND LOGOUT //
     //////////////////////
@@ -448,6 +450,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
             }
         });
     };
+
 
     //////////////
     // SKINNING //
@@ -599,6 +602,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         }
     };
 
+
     ///////////////////
     // DATA FETCHING //
     ///////////////////
@@ -677,14 +681,15 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
 
                 // Check if we're currently on a tenant admin on the global server. In that
                 // case, the URL should /tenant/<tenantAlias>
-                if (window.location.pathname.split('/').length === 3) {
-                    var tenantAlias = window.location.pathname.split('/').pop();
+                var tenantAlias = $.url().segment(2);
+                if (tenantAlias) {
                     $.extend(currentContext, tenants[tenantAlias]);
                 }
                 callback();
             }
         });
     };
+
 
     //////////////////////////
     // LEFT HAND NAVIGATION //
@@ -697,16 +702,20 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         oae.api.util.template().render($('#admin-lhnav-template'), {'context': currentContext}, $('#admin-lhnav-container'));
         $('#admin-lhnav-container').show();
 
-        // Extract the currently selected view from the URL. We parse the URL fragment that's 
-        // inside of the current History.js state. The expected URL structure is `...?view=<view>`.
+        // Extract the currently selected view from the URL by parsing the URL fragment that's 
+        // inside of the current History.js hash. The expected URL structure is `...?view=<view>`.
         // It is not possible to use cleaner `/view` URLs, as the admin UI can be found at `/` and 
         // `/tenant/<tenantAlias>` on the global admin server and `/admin` on the tenant servers.
         var selectedView = $.url().param().view;
-        // Replace the current History.js state to have the selected view. This is necessary 
-        // because a newly loaded page will not contain the data object in its state. Calling the 
-        // replaceState function will automatically trigger the statechange event, which will take care 
-        // of showing the correct view. However, we also need to add a random number to the data object 
-        // to make  sure that the statechange event is triggered after a page reload.
+        // When the page loads, the History.js state data object will either be empty (when having
+        // followed a link or entering the URL directly) or will contain the previous state data when
+        // refreshing the page. This is why we use the URL to determine the initial state. We want
+        // to replace the initial state with all of the required state data for the requested URL so
+        // we have the correct state data in all circumstances. Calling the `replaceState` function 
+        // will automatically trigger the statechange event, which will take care of showing the correct view.
+        // However, as the page can already have the History.js state data when only doing a page refresh,
+        // we need to add a random number to make sure that History.js recognizes this as a new state and
+        // triggers the `statechange` event.
         History.replaceState({
             'view': selectedView,
             '_': Math.random()
@@ -725,6 +734,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         }, null, $('a', $(this)).attr('href'));
         return false;
     };
+
 
     ////////////////////////
     //// INITIALIZATION ////
