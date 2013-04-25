@@ -34,6 +34,7 @@ requirejs.config({
         'jquery.form': 'vendor/js/jquery-plugins/jquery.form',
         'jquery.history': 'vendor/js/jquery-plugins/jquery.history',
         'jquery.iframe-transport': 'vendor/js/jquery-plugins/jquery.iframe-transport',
+        'jquery.Jcrop': 'vendor/js/jquery-plugins/jcrop/jquery.Jcrop',
         'jquery.imgareaselect': 'vendor/js/jquery-plugins/imgareaselect/jquery.imgareaselect',
         'jquery.jeditable': 'vendor/js/jquery-plugins/jquery.jeditable.sakai-edited',
         'jquery.notify': 'vendor/js/jquery-plugins/jquery.bootstrap.notify',

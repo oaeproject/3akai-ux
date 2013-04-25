@@ -36,3 +36,6 @@
 @import url('../../vendor/css/auth-buttons.css');
 /* Import the JQuery AutoSuggest plugin CSS */
 @import url('../../vendor/css/jquery.autoSuggest.css');
+
+/* Import the jCrop CSS */
+@import url('../../vendor/js/jquery-plugins/jcrop/jquery.Jcrop.css');
