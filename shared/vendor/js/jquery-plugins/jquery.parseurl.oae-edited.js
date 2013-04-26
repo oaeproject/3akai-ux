@@ -5,13 +5,19 @@
  * Licensed under an MIT-style license. See https://github.com/allmarkedup/jQuery-URL-Parser/blob/master/LICENSE for details.
  */ 
 
+/*!
+ * NOTE: The OAE edits in this file are limited to the changes on line 16 and 18. The anonymous
+ * define causes a problem when all of the core files are concatenated in the production build.
+ * @see https://github.com/sakaiproject/3akai-ux/pull/2729#issuecomment-17049214
+ */
+
 ;(function(factory) {
 	if (typeof define === 'function' && define.amd) {
 		// AMD available; use anonymous module
 		if ( typeof jQuery !== 'undefined' ) {
-			define(['jquery'], factory);	
+			define('jquery.parseurl', ['jquery'], factory);	
 		} else {
-			define([], factory);
+			define('parseurl', [], factory);
 		}
 	} else {
 		// No AMD available; mutate global vars
