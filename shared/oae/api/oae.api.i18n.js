@@ -103,7 +103,7 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.propertie
      * Function that will translate a string by replacing all of the internationalization key by its translated value. This
      * original string can be a single internationalization key, or can contain multiple internationalization keys. Parts of
      * the string that are not internationalization keys will remain unchanged. Internationalization keys are identified by
-     * the following format: __MSG__KEY__
+     * the following format: `__MSG__KEY__`
      *
      * The translation order for the found keys is:
      *
