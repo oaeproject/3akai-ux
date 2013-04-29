@@ -42,15 +42,24 @@ require(['jquery', 'oae.core'], function($, oae) {
             groupProfile = profile;
             setUpClip();
             setUpNavigation();
+            setUpContext();
             // Set the browser title
             oae.api.util.setBrowserTitle(groupProfile.displayName);
         });
     };
 
-    $(document).on('oae.context.get', function() {
+    /**
+     * The `oae.context.get` event can be sent by widgets to get hold off the current
+     * context (i.e. group profile), which will be send as a `oae.context.send` event. 
+     * In case the widget has put in its context request before the profile was loaded,
+     * we also broadcast it out straight away.
+     */
+    var setUpContext = function() {
+        $(document).on('oae.context.get', function() {
+            $(document).trigger('oae.context.send', groupProfile);
+        });
         $(document).trigger('oae.context.send', groupProfile);
-    });
-    $(document).trigger('oae.context.send', groupProfile);
+    };
 
     /**
      * Render the group's clip, containing the profile picture, display name as well as the

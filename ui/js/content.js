@@ -57,11 +57,24 @@ require(['jquery','oae.core'], function($, oae) {
             oae.api.widget.insertWidget('contentpreview', null, $('#content_preview_container'), null, contentProfile);
             // Set the browser title
             oae.api.util.setBrowserTitle(contentProfile.displayName);
+            // Set up context communication
+            setUpContext();
             // We can now unhide the page
             oae.api.util.showPage();
-            // Fire off an event to widgets that passes the content profile data
+        });
+    };
+
+    /**
+     * The `oae.context.get` event can be sent by widgets to get hold off the current
+     * context (i.e. content profile), which will be send as a `oae.context.send` event. 
+     * In case the widget has put in its context request before the profile was loaded,
+     * we also broadcast it out straight away.
+     */
+    var setUpContext = function() {
+        $(document).on('oae.context.get', function() {
             $(document).trigger('oae.context.send', contentProfile);
         });
+        $(document).trigger('oae.context.send', contentProfile);
     };
 
     /**
@@ -89,11 +102,6 @@ require(['jquery','oae.core'], function($, oae) {
             oae.api.widget.insertWidget('contentpreview', null, $('#content_preview_container'), null, contentProfile);
         });
     };
-
-    // Bind to the context requests coming in from widgets and send back the content profile data
-    $(document).on('oae.context.get', function() {
-        $(document).trigger('oae.context.send', contentProfile);
-    });
 
     // Catches the `upload new version complete` event and refreshes the content profile
     $(document).on('oae-uploadnewversion-complete', refreshContentProfile);

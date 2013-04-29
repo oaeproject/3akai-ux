@@ -102,6 +102,12 @@ require(['jquery','oae.core'], function($, oae) {
         oae.api.util.template().render($('#me-clip-template'), null, $('#me-clip-container'));
     };
 
+    /**
+     * The `oae.context.get` event can be sent by widgets to get hold off the current
+     * context (i.e. current user's profile), which will be send as a `oae.context.send` event. 
+     * In case the widget has put in its context request before this file was executed,
+     * we also broadcast it out straight away.
+     */
     $(document).on('oae.context.get', function() {
         $(document).trigger('oae.context.send');
     });

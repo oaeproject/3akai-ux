@@ -47,15 +47,24 @@ require(['jquery', 'oae.core'], function($, oae) {
             userProfile = profile;
             setUpClip();
             setUpNavigation();
+            setUpContext();
             // Set the browser title
             oae.api.util.setBrowserTitle(userProfile.displayName);
         });
     };
 
-    $(document).on('oae.context.get', function() {
+    /**
+     * The `oae.context.get` event can be sent by widgets to get hold off the current
+     * context (i.e. user profile), which will be send as a `oae.context.send` event. 
+     * In case the widget has put in its context request before the profile was loaded,
+     * we also broadcast it out straight away.
+     */
+    var setUpContext = function() {
+        $(document).on('oae.context.get', function() {
+            $(document).trigger('oae.context.send', userProfile);
+        });
         $(document).trigger('oae.context.send', userProfile);
-    });
-    $(document).trigger('oae.context.send', userProfile);
+    };
 
     /**
      * Render the user's clip, containing the profile picture, display name and affiliation
