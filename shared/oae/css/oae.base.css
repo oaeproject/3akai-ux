@@ -144,6 +144,11 @@ input[type="checkbox"] {
     margin-top: 3px;
 }
 
+input[type="file"] {
+    height: auto;
+    line-height: 1;
+}
+
 input.search-query,
 .navbar-search .search-query {
   font-family: inherit;
@@ -180,11 +185,6 @@ input.search-query,
 .form-horizontal .input-prepend + .help-block,
 .form-horizontal .input-append + .help-block {
     margin-top: 3px;
-}
-
-input[type="file"] {
-    height: auto;
-    line-height: 1;
 }
 
 /* MODAL DIALOGS
