@@ -269,7 +269,7 @@
                                                 <div class="control-group">
                                                     <label for="${configPath}" class="control-label">${element.description} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
                                                     <div class="controls">
-                                                        <input type="text" id="${configPath}" name="${configPath}" value="${configValue}" {if !tenantCanOverride} disabled="disabled"{/if}/>
+                                                        <input type="text" id="${configPath}" name="${configPath}" value="${configValue|encodeForHTMLAttribute}" {if !tenantCanOverride} disabled="disabled"{/if}/>
                                                     </div>
                                                 </div>
                                             {elseif element.type === "radio"}
