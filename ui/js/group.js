@@ -21,13 +21,13 @@ require(['jquery', 'oae.core'], function($, oae) {
         oae.api.util.redirect().login();
     }
 
-    // Variable used to cache the requested user's profile
+    // Variable used to cache the requested group's profile
     var groupProfile = null;
     // Variable used to cache the group's base URL
     var baseUrl = '/group/' + groupId;
 
     /**
-     * Get the group's basic profile and set up the screen. If the groups
+     * Get the group's basic profile and set up the screen. If the group
      * can't be found or is private to the current user, the appropriate
      * error page will be shown
      */
@@ -64,9 +64,9 @@ require(['jquery', 'oae.core'], function($, oae) {
             $('#group-actions').show();
         }
     };
-    
+
     /**
-     * Set up the left hand navigation with the me space page structure
+     * Set up the left hand navigation with the group space page structure
      */
     var setUpNavigation = function() {
         // Structure that will be used to construct the left hand navigation
