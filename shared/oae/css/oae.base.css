@@ -182,6 +182,11 @@ input.search-query,
     margin-top: 3px;
 }
 
+input[type="file"] {
+    height: auto;
+    line-height: 1;
+}
+
 /* MODAL DIALOGS
  * @see http://twitter.github.com/bootstrap/javascript.html#modals */
 
