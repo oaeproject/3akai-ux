@@ -17,11 +17,11 @@ define(['jquery'], function (jQuery) {
     (function() {
 
         /**
-         * Catch the keypress event for `enter` when an editable field has focus
+         * Catch the keypress event for `enter` and `space` when an editable field has focus
          */
         $(document).on('focus', '.jeditable-field', function(ev) {
             $(this).keypress(function(ev) {
-                if (ev.which == 13){
+                if (ev.which == 13 || ev.which == 32){
                     $(this).trigger('click.editable');
                 }
             });
