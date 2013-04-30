@@ -22,19 +22,19 @@ module.exports = function(grunt) {
 
     // Project configuration.
     grunt.initConfig({
-        pkg: '<json:package.json>',
-        meta: {
-            banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
-            '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
-            '<%= pkg.homepage ? "* " + pkg.homepage + "\n" : "" %>' +
-            '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
-            ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */'
+        'pkg': '<json:package.json>',
+        'meta': {
+            'banner': '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
+                      '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
+                      '<%= pkg.homepage ? "* " + pkg.homepage + "\n" : "" %>' +
+                      '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
+                      ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */'
         },
-        qunit: {
-            index: ['tests/qunit/tests/unit/*.html']
+        'qunit': {
+            'index': ['tests/qunit/tests/unit/*.html']
         },
-        lint: {
-            files: [
+        'lint': {
+            'files': [
                 'grunt.js',
                 'admin/**/*.js',
                 'shared/**/*.js',
@@ -42,54 +42,54 @@ module.exports = function(grunt) {
                 'node_modules/oae-*/**/*.js'
             ]
         },
-        watch: {
-            files: '<config:lint.files>',
-            tasks: 'lint test'
+        'watch': {
+            'files': '<config:lint.files>',
+            'tasks': 'lint test'
         },
-        jshint: {
-            options: {
-                sub: true
+        'jshint': {
+            'options': {
+                'sub': true
             },
-            globals: {
-                exports: true,
-                module: false
+            'globals': {
+                'exports': true,
+                'module': false
             }
         },
-        clean: {
-            folder: 'target/'
+        'clean': {
+            'folder': 'target/'
         },
-        requirejs: {
-            optimize: {
-                options: {
-                    appDir: './',
-                    baseUrl: './shared',
-                    mainConfigFile: './shared/oae/api/oae.bootstrap.js',
-                    dir: 'target/optimized',
-                    optimize: 'uglify',
-                    preserveLicenseComments: false,
-                    optimizeCss: 'standard',
-                    cssImportIgnore: null,
-                    inlineText: true,
-                    useStrict: false,
-                    pragmas: {},
-                    skipPragmas: false,
-                    skipModuleInsertion: false,
-                    modules: [{
-                        name: 'oae.core',
-                        exclude: ['jquery']
+        'requirejs': {
+            'optimize': {
+                'options': {
+                    'appDir': './',
+                    'baseUrl': './shared',
+                    'mainConfigFile': './shared/oae/api/oae.bootstrap.js',
+                    'dir': 'target/optimized',
+                    'optimize': 'uglify',
+                    'preserveLicenseComments': false,
+                    'optimizeCss': 'standard',
+                    'cssImportIgnore': null,
+                    'inlineText': true,
+                    'useStrict': false,
+                    'pragmas': {},
+                    'skipPragmas': false,
+                    'skipModuleInsertion': false,
+                    'modules': [{
+                        'name': 'oae.core',
+                        'exclude': ['jquery']
                     }],
-                    fileExclusionRegExp: /^(\.|tools|target|tests|grunt|shelljs|underscore$)/,
-                    logLevel: 2
+                    'fileExclusionRegExp': /^(\.|tools|target|tests|grunt|shelljs|underscore$)/,
+                    'logLevel': 2
                 }
             }
         },
-        ver: {
-            oae: {
-                basedir: 'target/optimized',
-                phases: [
+        'ver': {
+            'oae': {
+                'basedir': 'target/optimized',
+                'phases': [
                     {
                         // Rename and hash these folders
-                        folders: [
+                        'folders': [
                             'target/optimized/shared/bundles',
                             'target/optimized/ui/bundles',
                             'target/optimized/admin/bundles',
@@ -97,7 +97,7 @@ module.exports = function(grunt) {
                         ],
 
                         // Rename and hash these files
-                        files: _hashFiles([
+                        'files': _hashFiles([
                             'target/optimized/shared',
                             'target/optimized/ui',
                             'target/optimized/admin',
@@ -108,7 +108,7 @@ module.exports = function(grunt) {
                         ]),
 
                         // Look for and replace references to the above (non-excluded) files and folders in these files
-                        references: [
+                        'references': [
                             'target/optimized/shared/**/*.js',
                             'target/optimized/shared/**/*.css',
                             'target/optimized/ui/**/*.html',
@@ -127,19 +127,19 @@ module.exports = function(grunt) {
                         ]
                     }
                 ],
-                version: 'target/optimized/hashes.json'
+                'version': 'target/optimized/hashes.json'
             }
         },
-        inlineImg: {
-            src: [
+        'inlineImg': {
+            'src': [
                 'target/optimized/admin/**/*.css',
                 'target/optimized/ui/**/*.css',
                 'target/optimized/shared/**/*.css',
                 'target/optimized/docs/**/*.css',
                 'target/optimized/node_modules/oae-*/**/*.css'
             ],
-            ie8: false,
-            base: __dirname
+            'ie8': false,
+            'base': __dirname
         },
         'git-describe': {
             'oae': {}
@@ -186,9 +186,9 @@ module.exports = function(grunt) {
         oaeModules.forEach(function(module) {
             grunt.log.writeln(module);
             var conf = {
-                folders: [ module + '/bundles' ],
-                files: _hashFiles([module], ['json']),
-                references: [
+                'folders': [ module + '/bundles' ],
+                'files': _hashFiles([module], ['json']),
+                'references': [
                     module + '/**/*.html',
                     module + '/**/*.js',
                     module + '/**/*.css',

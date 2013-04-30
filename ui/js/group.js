@@ -16,7 +16,7 @@
 require(['jquery', 'oae.core'], function($, oae) {
 
     //  Get the group id from the URL. The expected URL is /group/<groupId>
-    var groupId = window.location.pathname.split('/')[2];
+    var groupId = $.url().segment(2);
     if (!groupId) {
         oae.api.util.redirect().login();
     }

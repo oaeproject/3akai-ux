@@ -79,7 +79,7 @@
                     {if context.isGlobalAdminServer && !context.host}
                         <h1>Global administration UI</h1>
                     {else}
-                        <h1>${context.displayName}</h1>
+                        <h1>${context.displayName|encodeForHTML}</h1>
                     {/if}
                 </div>
             </div>
@@ -87,8 +87,8 @@
 
         <div id="admin-lhnav-template"><!--
             <ul class="nav nav-list">
-                <li id="configurationtenants">
-                    <a title="Tenant configuration" href="#configurationtenants">
+                <li data-id="tenants">
+                    <a title="Tenant configuration" href="?view=tenants">
                         <i class="icon-dashboard"></i>
                         {if context.isGlobalAdminServer && !context.host}
                             Tenants
@@ -97,14 +97,14 @@
                         {/if}
                     </a>
                 </li>
-                <li id="configurationmodules">
-                    <a title="Module configuration" href="#configurationmodules">
+                <li data-id="modules">
+                    <a title="Module configuration" href="?view=modules">
                         <i class="icon-cogs"></i> Modules
                     </a>
                 </li>
                 {if context.host}
-                    <li id="configurationskinning">
-                        <a title="Skinning configuration" href="#configurationskinning">
+                    <li data-id="skinning">
+                        <a title="Skinning configuration" href="?view=skinning">
                             <i class="icon-tint"></i> Skinning
                         </a>
                     </li>
@@ -166,13 +166,13 @@
                                 {if isMainGlobalAdmin}
                                     <td><a href="/tenant/${tenant.alias|encodeForURL}" title="Edit ${tenant.displayName|encodeForHTMLAttribute}"><i class="icon-pencil"></i></a></td>
                                 {/if}
-                                <td>${tenant.alias}</td>
+                                <td>${tenant.alias|encodeForHTML}</td>
                                 {if oae.data.me.isGlobalAdmin}
                                     <td class="jeditable-container"><div class="jeditable-field" data-alias="${tenant.alias|encodeForHTMLAttribute}">${tenant.displayName|encodeForHTML}</div></td>
                                 {else}
                                     <td>${tenant.displayName|encodeForHTML}</td>
                                 {/if}
-                                <td><a href="http://${tenant.host}" title="${tenant.displayName|encodeForHTMLAttribute}" target="_blank">${tenant.host}</a></td>
+                                <td><a href="//${tenant.host}" title="${tenant.displayName|encodeForHTMLAttribute}" target="_blank">${tenant.host|encodeForHTML}</a></td>
                                 <td>
                                     {if tenant.active}
                                         <span class="text-success">Running</span>
@@ -181,7 +181,7 @@
                                     {/if}
                                 </td>
                                 <td>
-                                    {if true || oae.data.me.isGlobalAdmin}
+                                    {if oae.data.me.isGlobalAdmin}
                                         {if tenant.active}
                                             <button type="button" class="btn btn-warning stop-tenant" data-alias="${tenant.alias|encodeForHTMLAttribute}" data-displayName="${tenant.displayName|encodeForHTMLAttribute}">Stop</button>
                                         {else}
@@ -247,47 +247,47 @@
             <div class="admin-container-striped">
                 {for module in schema}
                     <div class="admin-module-configuration-container">
-                        <button type="button" title="Edit the ${module.title}" class="admin-module-configuration-toggle-button btn">
+                        <button type="button" title="Edit the ${module.title|encodeForHTMLAttribute}" class="admin-module-configuration-toggle-button btn">
                             <i class="icon-pencil"></i>
-                            ${module.title}
+                            ${module.title|encodeForHTML}
                         </button>
                         <div class="admin-module-configuration-container" style="display:none;">
                             <form class="form-horizontal admin-module-configuration-form" data-module="${module_index}">
                                 {for option in module}
                                     {if option && option_index !== "title"}
-                                        <h4>${option.name} <span style="display:none;">(${option.description})</span></h4>
+                                        <h4>${option.name|encodeForHTML}</h4>
                                         {for element in option.elements}
                                             {var tenantCanOverride = oae.data.me.isGlobalAdmin || option.tenantOverride !== false}
                                             {var configPath = module_index + '/' + option_index + '/' + element_index}
                                             {var configValue = configuration[module_index][option_index][element_index]}
                                             {if element.type === "boolean"}
                                                 <div class="control-group">
-                                                    <input type="checkbox" id="${configPath}" name="${configPath}" {if configValue}checked="checked"{/if} class="admin-module-config-checkbox" {if !tenantCanOverride} disabled="disabled"{/if}/>
-                                                    <label for="${configPath}">${element.description} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                    <input type="checkbox" id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" {if configValue}checked="checked"{/if} class="admin-module-config-checkbox" {if !tenantCanOverride} disabled="disabled"{/if}/>
+                                                    <label for="${configPath|encodeForHTMLAttribute}">${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
                                                 </div>
                                             {elseif element.type === "text"}
                                                 <div class="control-group">
-                                                    <label for="${configPath}" class="control-label">${element.description} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                    <label for="${configPath|encodeForHTMLAttribute}" class="control-label">${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
                                                     <div class="controls">
-                                                        <input type="text" id="${configPath}" name="${configPath}" value="${configValue}" {if !tenantCanOverride} disabled="disabled"{/if}/>
+                                                        <input type="text" id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" value="${configValue.toString()|encodeForHTMLAttribute}" {if !tenantCanOverride} disabled="disabled"{/if}/>
                                                     </div>
                                                 </div>
                                             {elseif element.type === "radio"}
                                                 <div class="control-group">
                                                     {for rbt in element.group}
                                                         <label class="radio">
-                                                            <input type="radio" id="${configPath}" name="${configPath}" value="${rbt.value}" {if configValue === rbt.value} checked="checked"{/if} {if !tenantCanOverride} disabled="disabled"{/if}>
-                                                            ${rbt.name} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}
+                                                            <input type="radio" id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" value="${rbt.value|encodeForHTMLAttribute}" {if configValue === rbt.value} checked="checked"{/if} {if !tenantCanOverride} disabled="disabled"{/if}>
+                                                            ${rbt.name|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}
                                                         </label>
                                                     {/for}
                                                 </div>
                                             {elseif element.type === "list"}
                                                 <div class="control-group">
-                                                    <label for="${configPath}" class="control-label">${element.description} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                    <label for="${configPath|encodeForHTMLAttribute}" class="control-label">${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
                                                     <div class="controls">
-                                                        <select id="${configPath}" name="${configPath}" {if !tenantCanOverride} disabled="disabled"{/if}>
+                                                        <select id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" {if !tenantCanOverride} disabled="disabled"{/if}>
                                                             {for opt in element.list}
-                                                                <option value="${opt.value}" {if configValue === opt.value} selected="selected"{/if}>${opt.name}</option>
+                                                                <option value="${opt.value|encodeForHTMLAttribute}" {if configValue === opt.value} selected="selected"{/if}>${opt.name|encodeForHTML}</option>
                                                             {/for}
                                                         </select>
                                                     </div>
@@ -308,19 +308,19 @@
             <h2>Skin values</h2>
             <form id="admin-skinning-form" class="form-horizontal">
                 {for skinningGroup in results}
-                    <h3>${skinningGroup.name}</h3>
+                    <h3>${skinningGroup.name|encodeForHTML}</h3>
                     {for subsection in skinningGroup.subsections}
                         {if subsection.name !== 'main'}
                             <div>
-                                <h4>${subsection.name}</h4>
+                                <h4>${subsection.name|encodeForHTML}</h4>
                             </div>
                         {/if}
                         <div class="admin-container-striped">
                             {for variable in subsection.variables}
                                 <div class="control-group">
-                                    <label class="control-label" for="admin-skinning-${variable.name}">${variable.description}</label>
+                                    <label class="control-label" for="admin-skinning-${variable.name|encodeForHTMLAttribute}">${variable.description|encodeForHTML}</label>
                                     <div class="controls">
-                                        <input type="text" id="admin-skinning-${variable.name}" name="${variable.name}" class="input-xlarge" value="${variable.value}" data-type="${variable.type}" data-defaultvalue="${variable.defaultValue}" />
+                                        <input type="text" id="admin-skinning-${variable.name|encodeForHTMLAttribute}" name="${variable.name|encodeForHTMLAttribute}" class="input-xlarge" value="${variable.value|encodeForHTMLAttribute}" data-type="${variable.type|encodeForHTMLAttribute}" data-defaultvalue="${variable.defaultValue|encodeForHTMLAttribute}" />
                                         <button type="button" class="btn btn-link pull-right admin-skinning-revert" title="Revert to original value">
                                             <i class="icon-undo"><span class="oae-aural-text">Revert to original value</span></i>
                                         </button>
@@ -339,23 +339,23 @@
         <!-- UTIL TEMPLATE -->
 
         <div id="admin-confirmation-template"><!--
-            <div class="modal" id="${modal.id}" tabindex="-1" role="dialog" aria-labelledby="${modal.id}-label" aria-hidden="true">
+            <div class="modal" id="${modal.id|encodeForHTMLAttribute}" tabindex="-1" role="dialog" aria-labelledby="${modal.id|encodeForHTMLAttribute}-label" aria-hidden="true">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h3 id="${modal.id}-label">${modal.title}</h3>
+                    <h3 id="${modal.id|encodeForHTMLAttribute}-label">${modal.title|encodeForHTML}</h3>
                 </div>
                 <div class="modal-body">
-                    <p>${modal.message}</p>
+                    <p>${modal.message|encodeForHTML}</p>
                 </div>
                 <div class="modal-footer">
                     {if modal.cancel}
-                        <button class="btn" data-dismiss="modal" aria-hidden="true">${modal.cancel}</button>
+                        <button class="btn" data-dismiss="modal" aria-hidden="true">${modal.cancel|encodeForHTML}</button>
                     {/if}
-                    <button class="btn {if modal.confirmclass} ${modal.confirmclass}{else} btn-primary{/if}" id="${modal.id}-confirm"
+                    <button class="btn {if modal.confirmclass} ${modal.confirmclass|encodeForHTMLAttribute}{else} btn-primary{/if}" id="${modal.id|encodeForHTMLAttribute}-confirm"
                         {for attr in modal.confirmdata}
-                            data-${attr_index}="${attr}"
+                            data-${attr_index}="${attr|encodeForHTMLAttribute}"
                         {/for}
-                        >${modal.confirm}</button>
+                        >${modal.confirm|encodeForHTML}</button>
                 </div>
             </div>
         --></div>
