@@ -22,7 +22,6 @@ define(['jquery'], function (jQuery) {
         $(document).on('focus', '.jeditable-field', function(ev) {
             $(this).keypress(function(ev) {
                 if (ev.which == 13 || ev.which == 32){
-                    ev.preventDefault();
                     $(this).trigger('click.editable');
                 }
             });
