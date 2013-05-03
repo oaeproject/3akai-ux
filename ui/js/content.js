@@ -31,9 +31,10 @@ require(['jquery','oae.core'], function($, oae) {
      * Shows or keeps hidden actions for the content profile
      */
     var showActions = function() {
-        // If the resourceSubType is `file` a revision can be uploaded
+        // If the resourceSubType is `file` a revision can be uploaded and restored
         if (contentProfile.resourceSubType === 'file' && contentProfile.isManager) {
             $('li .oae-trigger-uploadnewversion').show();
+            $('li .oae-trigger-revisions').show();
         }
     };
 
