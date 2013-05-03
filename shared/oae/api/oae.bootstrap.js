@@ -37,6 +37,7 @@ requirejs.config({
         'jquery.imgareaselect': 'vendor/js/jquery-plugins/imgareaselect/jquery.imgareaselect',
         'jquery.jeditable': 'vendor/js/jquery-plugins/jquery.jeditable.sakai-edited',
         'jquery.notify': 'vendor/js/jquery-plugins/jquery.bootstrap.notify',
+        'jquery.oembed': 'vendor/js/jquery-plugins/jquery.oembed.sakai-edited',
         'jquery.properties-parser': 'vendor/js/jquery-plugins/jquery.properties-parser',
         'jquery.serializeObject': 'vendor/js/jquery-plugins/jquery.serializeObject',
         'jquery.spectrum': 'vendor/js/jquery-plugins/jquery.spectrum',
