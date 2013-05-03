@@ -178,7 +178,7 @@ i.icon-oae-public.large:before {
  *              <div class="oae-visibility-choice well pull-left text-center">
  *                  <input type="radio" id="oae-visibility-loggedin" value="loggedin" name="oae-visibility-group" class="pull-left"/>
  *                  <i class="icon-oae-loggedin large text-center"></i>
- *                  <span>__MSG__DISCOVERABLE_BY_EVERYONE_IN_TENANT__</span>
+ *                  <span>Cambridge University</span>
  *              </div>
  *              <i class="icon-ok hide"></i>
  *              <small>__MSG__LOGGEDIN_DESCRIPTION__</small>
@@ -332,7 +332,9 @@ div.oae-thumbnail {
     -webkit-border-radius: 4px;
        -moz-border-radius: 4px;
             border-radius: 4px;
-    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.35);
+    -webkit-box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.35);
+       -moz-box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.35);
 }
 
 div.oae-thumbnail a,
@@ -386,8 +388,8 @@ div.oae-thumbnail.icon-oae-user:before {
 
 div.oae-thumbnail i[class^="icon-"] {
     position: absolute;
-    bottom: -4px;
-    right: -7px;
+    bottom: -8px;
+    right: -8px;
 }
 
 
@@ -403,37 +405,44 @@ div.oae-thumbnail i[class^="icon-"] {
  * 
  * The HTML structure required for creating a clip is the following:
  * 
- *  <div class="oae-clip">
- *      <div class="oae-clip-fold">
- *          <div class="oae-clip-fold-inner"></div>
- *          <div class="oae-clip-fold-outer"></div>
- *      </div>
- *      <div class="oae-clip-content">
- *          <button>
- *              <div class="oae-thumbnail icon-oae-user">
- *                  <img src="/url/to/picture" alt="John Doe"/>
- *                  <i class="icon-oae-public"></i>
+ *  <div class="oae-clip-container">
+ *      <div class="oae-clip-container-left">
+ *          <div class="oae-clip">
+ *              <div class="oae-clip-fold">
+ *                  <div class="oae-clip-fold-inner"></div>
+ *                  <div class="oae-clip-fold-outer"></div>
  *              </div>
- *              <div>
+ *              <div class="oae-clip-content">
+ *                  <button>
+ *                      <div class="oae-thumbnail icon-oae-user">
+ *                          <img src="/url/to/picture" alt="John Doe"/>
+ *                          <i class="icon-oae-public"></i>
+ *                      </div>
+ *                      <div>
+ *                          <div>
+ *                              <h1>John Doe</h1>
+ *                              <i class="icon-caret-down"></i>
+ *                              <small>Job Title</small>
+ *                          </div>
+ *                      </div>
+ *                  </button>
  *                  <div>
- *                      <h1>John Doe</h1>
- *                      <i class="icon-caret-down"></i>
- *                      <small>Job Title</small>
+ *                      <ul>
+ *                          <li><button><i class="icon-user"></i>Action 1</button></li>
+ *                          <li><button><i class="icon-envelope"></i>Action 2</button></li>
+ *                          <li><button type="button"><i class="icon-wrench"></i>Action 3</button></li>
+ *                      </ul>
  *                  </div>
  *              </div>
- *          </button>
- *          <div>
- *              <ul>
- *                  <li><button><i class="icon-user"></i>Action 1</button></li>
- *                  <li><button><i class="icon-envelope"></i>Action 2</button></li>
- *                  <li><button type="button"><i class="icon-wrench"></i>Action 3</button></li>
- *              </ul>
  *          </div>
  *      </div>
  *  </div>
  *
  * Notes:
  * 
+ * - A clip needs to be inside of an `oae-clip-container` div. Inside of this container, you can specify the
+ *   clips that should go on the left by adding them to a `oae-clip-container-left` div. You can specify the
+ *   clips that should go on the right by adding them to a `oae-clip-container-right div inside of this container.
  * - The fold on a clip can be on the left of the clip or on the right of the clip. By default, the
  *   fold will be on the right. When a fold on the left is required, an `oae-clip-flipped` class should
  *   be added to the .`oae-clip` element.
@@ -453,15 +462,29 @@ div.oae-thumbnail i[class^="icon-"] {
 
 /* Clip container */
 
+.oae-clip-container {
+    position: relative;
+    margin-bottom: 55px;
+}
+
+.oae-clip-container .oae-clip-container-left,
+.oae-clip-container .oae-clip-container-right {
+    position: absolute;
+}
+
+.oae-clip-container .oae-clip-container-right {
+    margin-right: 55px;
+    right: 0px;
+}
+
 .oae-clip {
     float: left;
     margin: -16px 10px 10px;
     position: relative;
+    z-index: 100;
 }
 
-.pull-right .oae-clip:last-child {
-    margin-right: 50px;
-}
+
 
 /* Clip fold */
 
@@ -523,7 +546,8 @@ div.oae-thumbnail i[class^="icon-"] {
             border-radius: 0 6px 6px;
 }
 
-.oae-clip .oae-clip-content button {
+.oae-clip .oae-clip-content > button,
+.oae-clip .oae-clip-content ul li button {
     background: none;
     border: none;
     font-weight: 600;
@@ -553,7 +577,8 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-clip .oae-clip-content > button i.icon-caret-down,
 .oae-clip .oae-clip-content > button i.icon-caret-up {
-    margin-left: 5px;
+    margin-left: 10px;
+    line-height: 16px;
     position: relative;
     top: 2px;
 }
@@ -567,7 +592,7 @@ div.oae-thumbnail i[class^="icon-"] {
     display: inline-block;
     font-size: 16px;
     line-height: 1;
-    margin: 0;
+    margin: 0px;
     font-weight: 600;
     max-width: 500px;
     word-wrap: break-word;
@@ -657,6 +682,9 @@ div.oae-thumbnail i[class^="icon-"] {
     position: relative;
     overflow: hidden;
     border: 1px solid;
+    -webkit-border-radius: 3px;
+       -moz-border-radius: 3px;
+            border-radius: 3px;
 }
 
 /* Default thumbnail picture positioning */
@@ -682,9 +710,6 @@ div.oae-thumbnail i[class^="icon-"] {
     bottom: 0px;
     right: 0px;
     left: 0px;
-    -webkit-border-radius: 0 0 3px 3px;
-       -moz-border-radius: 0 0 3px 3px;
-            border-radius: 0 0 3px 3px;
     padding: 7px;
 }
 
@@ -748,11 +773,21 @@ div.oae-thumbnail i[class^="icon-"] {
  *   `oae-thumbnail` element (See Thumbnail section for full overview).
  */
 
+.oae-tile,
+.oae-listitem {
+    -webkit-box-shadow: 0 0 2px 0 rgba(219, 219, 219, 0.8);
+       -moz-box-shadow: 0 0 2px 0 rgba(219, 219, 219, 0.8);
+            box-shadow: 0 0 2px 0 rgba(219, 219, 219, 0.8);
+}
+
 .oae-listitem {
     padding: 10px;
-    margin-bottom: 2px;
+    margin-bottom: 10px;
     height: 50px;
     border: 1px solid;
+    -webkit-border-radius: 3px;
+       -moz-border-radius: 3px;
+            border-radius: 3px;
 }
 
 .oae-listitem.oae-listitem-compact {
@@ -761,6 +796,11 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-listitem input[type="checkbox"].pull-left {
     margin-right: 10px;
+    margin-top: 20px;
+}
+
+.oae-listitem.oae-listitem-compact input[type="checkbox"].pull-left {
+    margin-top: 6px;
 }
 
 /* List item thumbnail */
@@ -858,7 +898,7 @@ div.oae-thumbnail i[class^="icon-"] {
 
 ul.oae-list {
     margin: 0;
-    padding: 10px 0 0 0;
+    padding: 0;
     clear: both;
 }
 
@@ -879,7 +919,7 @@ ul.oae-list:not(.oae-list-compact) li .oae-list-compact-item {
 
 ul.oae-list.oae-list-grid li {
     float: left;
-    margin: 0px 7px 24px;
+    margin: 0px 14px 24px 0px;
 }
 
 ul.oae-list.oae-list-grid li .oae-thumbnail {
@@ -953,7 +993,8 @@ ul.oae-list li .oae-list-compact-item  {
  */
 
 .oae-list-options {
-    margin-left: 10px;
+    border-bottom: 1px solid #EEE;
+    margin-bottom: 20px;
 }
 
 .oae-list-options > div {
@@ -965,7 +1006,8 @@ ul.oae-list li .oae-list-compact-item  {
 .oae-list-options .oae-list-options-toggle,
 .oae-list-options .btn.oae-list-options-toggle,
 .oae-list-options .btn.oae-list-options-toggle:hover,
-.oae-list-options .btn.oae-list-options-toggle:active {
+.oae-list-options .btn.oae-list-options-toggle:active,
+.oae-list-options .btn.oae-list-options-toggle:focus {
     background: none;
     border: none;
     padding: 1px 0px;

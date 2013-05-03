@@ -25,9 +25,7 @@ requirejs.config({
         // Vendor paths
         'bootstrap': 'vendor/js/bootstrap',
         'globalize': 'vendor/js/l10n/globalize',
-        'jquery.autoSuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest.sakai-edited',
-        'jquery.ba-bbq': 'vendor/js/jquery-plugins/jquery.ba-bbq',
-        'jquery.ba-hashchange': 'vendor/js/jquery-plugins/jquery.ba-hashchange',
+        'jquery.autoSuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest.oae-edited',
         'jquery.encoder': 'vendor/js/jquery-plugins/jquery.encoder',
         'jquery.fileSize': 'vendor/js/jquery-plugins/jquery.fileSize',
         'jquery.fileupload': 'vendor/js/jquery-plugins/jquery.fileupload',
@@ -35,8 +33,9 @@ requirejs.config({
         'jquery.history': 'vendor/js/jquery-plugins/jquery.history',
         'jquery.iframe-transport': 'vendor/js/jquery-plugins/jquery.iframe-transport',
         'jquery.imgareaselect': 'vendor/js/jquery-plugins/imgareaselect/jquery.imgareaselect',
-        'jquery.jeditable': 'vendor/js/jquery-plugins/jquery.jeditable.sakai-edited',
+        'jquery.jeditable': 'vendor/js/jquery-plugins/jquery.jeditable.oae-edited',
         'jquery.notify': 'vendor/js/jquery-plugins/jquery.bootstrap.notify',
+        'jquery.parseurl': 'vendor/js/jquery-plugins/jquery.parseurl.oae-edited',
         'jquery.properties-parser': 'vendor/js/jquery-plugins/jquery.properties-parser',
         'jquery.serializeObject': 'vendor/js/jquery-plugins/jquery.serializeObject',
         'jquery.spectrum': 'vendor/js/jquery-plugins/jquery.spectrum',
@@ -68,21 +67,7 @@ requirejs.config({
         'oae.api.util': 'oae/api/oae.api.util',
         'oae.api.widget': 'oae/api/oae.api.widget',
         'oae.core': 'oae/api/oae.core',
-        'pluginBuilder': 'oae/api/pluginBuilder'
-    },
-    /*!
-     * The requireJS shim property allows us to define the dependencies and exports for
-     * older, traditional scripts that do not use define() to declare the dependencies.
-     * See http://requirejs.org/docs/api.html#config-shim for more information.
-     *
-     * In theory, we'd have to define jQuery as a dependency for all of our jQuery plugins.
-     * However, as we are using require-jquery, which includes jQuery into requireJS, we don't
-     * have to do this.
-     */
-    shim: {
-        // Define jquery-ui as an extra dependency for jquery.fileupload, otherwise it
-        // sometimes errors on the $.widget function being undefined.
-        'jquery.fileupload': ['jquery-ui']
+        'pluginBuilder': 'oae/pluginBuilder'
     },
     priority: ['jquery', 'underscore']
 });

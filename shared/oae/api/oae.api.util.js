@@ -200,7 +200,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             data['oae'] = require('oae.core');
             // Make underscore available
             data['_'] = require('underscore');
-            // Make jQuery available
+
+            // Ensure jQuery is available. Since there is a version of jQuery in the global scope, ensure use of
+            // either jQuery or $ do not pick up the global-scope on inadvertently.
+            data['jQuery'] = require('jquery');
             data['$'] = require('jquery');
 
             // Add the Trimpath modifiers onto the data object.
@@ -290,7 +293,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         // Show the actual notification
         $notificationContainer.notify({
             'type': type,
-            'message': {'html': message}
+            'message': {'html': message},
+            'transition': 'slideDown'
         }).show();
     };
 
@@ -587,15 +591,15 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * a page that requires login.
          */
         var login = function() {
-            document.location = '/';
-        };  
+            window.location = '/';
+        };
 
         /**
          * Redirect the current user to the 401 page. This can be used when the current user does not have
          * permission to see a certain page.
          */
         var accessdenied = function() {
-            document.location = '/accessdenied';
+            window.location = '/accessdenied';
         };
 
         /**
@@ -603,7 +607,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * that cannot be found.
          */
         var notfound = function() {
-            document.location = '/notfound';
+            window.location = '/notfound';
         };
 
         /**
@@ -611,7 +615,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * that is currently not available.
          */
         var unavailable = function() {
-            document.location = '/unavailable';
+            window.location = '/unavailable';
         };
 
         /**
@@ -619,7 +623,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * that is currently undergoing maintenance.
          */
         var maintenance = function() {
-            document.location = '/maintenance';
+            window.location = '/maintenance';
         };
 
         return {

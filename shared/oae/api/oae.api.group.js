@@ -13,12 +13,11 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
+define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $, _, utilAPI) {
 
     /**
      * Creates a group.
      * 
-     * @param  {String}            alias                    The alias for this group
      * @param  {String}            displayName              The displayName for this group
      * @param  {String}            [description]            The description for this group
      * @param  {String}            [visibility]             The visibility for this group
@@ -30,12 +29,14 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Group}             [callback.response]      A Group object representing the created group
      * @throws {Error}                                      Error thrown when not all of the required parameters have been provided
      */
-    var createGroup = exports.createGroup = function (alias, displayName, description, visibility, joinable, managers, members, callback) {
-        if (!alias) {
-             throw new Error('A group alias should be provided');
-        } else if (!displayName) {
+    var createGroup = exports.createGroup = function (displayName, description, visibility, joinable, managers, members, callback) {
+        if (!displayName) {
              throw new Error('A group displayName should be provided');
         }
+
+        // TODO: Remove this when groups no longer require an alias. After that, the oae.api.util
+        // dependency can be removed as well
+        var alias = utilAPI.generateId();
 
         var data = {
             'alias': alias,
