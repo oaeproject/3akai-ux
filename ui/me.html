@@ -22,8 +22,8 @@
         <div class="oae-main-content">
 
             <!-- CLIPS -->
-            <div>
-                <div id="me-clip-container"><!-- --></div>
+            <div class="oae-clip-container">
+                <div id="me-clip-container" class="oae-clip-container-left"><!-- --></div>
                 <div id="me-clip-template"><!--
                     <div class="oae-clip">
                         <div class="oae-clip-fold">
@@ -37,7 +37,7 @@
                                     <div>
                                         <h1>${oae.data.me.displayName|encodeForHTML}</h1>
                                         <i class="icon-caret-down"></i>
-                                        <small>${oae.data.me.department}</small>
+                                        <small>${oae.data.me.tenant.displayName|encodeForHTML}</small>
                                     </div>
                                 </div>
                             </button>
@@ -52,7 +52,7 @@
                     </div>
                 --></div>
 
-                <div class="pull-right">
+                <div class="oae-clip-container-right">
                     <div class="oae-clip oae-clip-flipped oae-dnd-upload">
                         <div class="oae-clip-fold">
                             <div class="oae-clip-fold-inner"></div>

@@ -454,6 +454,15 @@
         this.embedtag = this.embedtag || {tag:""};
     };
 
+    /*
+     * Function to update existing providers
+     *
+     * @param  {String}    name             The name of the provider
+     * @param  {String}    type             The type of the provider can be "file", "photo", "video", "rich"
+     * @param  {String}    urlshemesarray   Array of url of the provider
+     * @param  {String}    apiendpoint      The endpoint of the provider
+     * @param  {String}    extraSettings   Extra settings of the provider     
+     */
     $.fn.updateOEmbedProvider = function(name, type, urlschemesarray, apiendpoint, extraSettings) {
         for (var i = 0; i < $.fn.oembed.providers.length; i++) {
             if ($.fn.oembed.providers[i].name === name) {

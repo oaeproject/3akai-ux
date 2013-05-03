@@ -65,7 +65,7 @@ body {
 
 
 /* Branding image */
-@branding-image-url: '/ui/img/framework/index.png';
+@branding-image-url: '/ui/img/index.png';
 /* Branding gradient primary color */
 @branding-gradient1-color: #0074A7;
 /* Branding gradient secondary color */
@@ -120,11 +120,11 @@ a:hover, .btn-link:hover {
 /* Default button text color */
 @button-default-text-color: #333333;
 /* Default button border */
-@button-default-border-color: #CCC;
+@button-default-border-color: #E3E2DB;
 /* Default button gradient primary color */
 @button-default-gradient1-color: #FFF;
 /* Default button gradient secondary color */
-@button-default-gradient2-color: #E6E6E6;
+@button-default-gradient2-color: #E3E2DB;
 
 .btn:not(.btn-link) {
     color: @button-default-text-color;
@@ -148,11 +148,11 @@ a:hover, .btn-link:hover {
 /* Primary button text color */
 @button-primary-text-color: #FFF;
 /* Primary button border */
-@button-primary-border-color: #0044CC;
+@button-primary-border-color: #444;
 /* Primary button gradient primary color */
-@button-primary-gradient1-color: #0088CC;
+@button-primary-gradient1-color: #555;
 /* Primary button gradient secondary color */
-@button-primary-gradient2-color: #0044CC;
+@button-primary-gradient2-color: #222;
 
 .btn.btn-primary {
     color: @button-primary-text-color;
@@ -260,11 +260,11 @@ a:hover, .btn-link:hover {
 /* Inverse button text color */
 @button-inverse-text-color: #FFF;
 /* Inverse button border */
-@button-inverse-border-color: #222222;
+@button-inverse-border-color: #333;
 /* Inverse button gradient primary color */
-@button-inverse-gradient1-color: #444444;
+@button-inverse-gradient1-color: #333;
 /* Inverse button gradient secondary color */
-@button-inverse-gradient2-color: #222222;
+@button-inverse-gradient2-color: #666;
 
 .btn.btn-inverse {
     color: @button-inverse-text-color;
@@ -295,9 +295,43 @@ a:hover, .btn-link:hover {
    color: @button-icon-color;
 }
 
+[class^="icon-"].active, [class*=" icon-"].active,
 [class^="icon-"]:hover, [class*=" icon-"]:hover,
-.btn-link:hover [class^="icon-"], .btn-link:hover [class*=" icon-"] {
+[class^="icon-"]:focus, [class*=" icon-"]:focus,
+.btn-link [class^="icon-"].active, .btn-link:hover [class*=" icon-"].active,
+.btn-link:hover [class^="icon-"], .btn-link:hover [class*=" icon-"],
+.btn-link:focus [class^="icon-"], .btn-link:focus [class*=" icon-"] {
     color: @button-icon-hover-color;
+}
+
+
+/*********************
+ ** @section  Forms **
+ *********************/
+
+/* Selected form field color */
+@form-selected-color: rgba(82, 168, 236, 0.8);
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {
+    border-color: @form-selected-color;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px @form-selected-color;
+       -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px @form-selected-color;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px @form-selected-color;
 }
 
 
@@ -328,11 +362,11 @@ a:hover, .btn-link:hover {
 /* @subsection  Success notification */
 
 /* Success notification text color */
-@notification-success-text-color: #468847;
+@notification-success-text-color: #666;
 /* Success notification border color */
-@notification-success-border-color: #D6E9C6;
+@notification-success-border-color: #CCC;
 /* Success notification background color */
-@notification-success-background-color: #DFF0D8;
+@notification-success-background-color: #F5F4F2;
 
 .alert-success, .alert-success h4 {
     color: @notification-success-text-color;
@@ -472,16 +506,10 @@ div.oae-thumbnail {
  ** @section  Tiles **
  *********************/
 
-/* Tile border color */
-@tile-border-color: #DDD;
 /* Tile banner text color */
 @tile-text-color: #FFF;
 /* Tile banner background color */
 @tile-background-color: rgba(0, 0, 0, 0.8);
-
-.oae-tile {
-    border-color: @tile-border-color;
-}
 
 .oae-tile > div:last-child {
     background-color: @tile-background-color;
@@ -497,8 +525,9 @@ div.oae-thumbnail {
  **************************/
 
 /* List item border color */
-@listitem-border-color: #F5F5F5;
+@listitem-border-color: #EEEDEB;
 
+.oae-tile,
 .oae-listitem {
     border-color: @listitem-border-color;
 }
@@ -613,7 +642,8 @@ div.oae-thumbnail {
 }
 
 .oae-clip .oae-clip-content,
-.oae-clip .oae-clip-content button,
+.oae-clip .oae-clip-content > button,
+.oae-clip .oae-clip-content ul li button,
 .oae-clip .oae-clip-content i {
     color: @clip-primary-title-color;
 }

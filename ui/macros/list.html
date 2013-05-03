@@ -43,10 +43,10 @@
         <!-- COMPACT LIST VIEW -->
         <div class="oae-list-compact-item">
             <div class="oae-listitem oae-listitem-compact">
-                ${renderCheckbox(entityData, 'compact')}
+                ${renderCheckbox(entityData, 'compact', showCheckbox)}
                 ${renderThumbnail(entityData)}
                 <div>
-                    ${renderMetadata(entityData, metadata, showCheckbox)}
+                    ${renderMetadata(entityData, metadata)}
                 </div>
             </div>
         </div>
@@ -123,14 +123,13 @@
 {macro renderMetadata(entityData, metadata)}
     {if !metadata}
         {if entityData.resourceType === 'user'}
-            <!-- TODO: Add proper tenant metadata and i18n -->
-            ${metadata = 'Cambridge University' |eat}
+            {var metadata = entityData.tenant.displayName}
         {elseif entityData.resourceType === 'group'}
             <!-- TODO: Add proper metadata and i18n -->
-            ${metadata = 'Group' |eat}
+            {var metadata = 'Group'}
         {elseif entityData.resourceType === 'content'}
             <!-- TODO: Add proper document type and i18n -->
-            ${metadata = 'Other document' |eat}
+            {var metadata = 'Other document'}
         {/if}
     {/if}
 

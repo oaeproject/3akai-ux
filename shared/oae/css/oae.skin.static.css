@@ -31,10 +31,10 @@ body {
 /* Branding image */
 
 .oae-main-content.oae-branding-container {
-    background-image: url('/ui/img/framework/index.png') rgb(37,169,223);
-    background-image: url('/ui/img/framework/index.png'), -moz-linear-gradient(top, rgba(37,169,223,1) 0%, rgba(0,116,167,1) 100%);
-    background-image: url('/ui/img/framework/index.png'), -webkit-linear-gradient(top, rgba(37,169,223,1) 0%, rgba(0,116,167,1) 100%);
-    background-image: url('/ui/img/framework/index.png'), linear-gradient(to bottom, rgba(37,169,223,1) 0%, rgba(0,116,167,1) 100%);
+    background-image: url('/ui/img/index.png') rgb(37,169,223);
+    background-image: url('/ui/img/index.png'), -moz-linear-gradient(top, rgba(37,169,223,1) 0%, rgba(0,116,167,1) 100%);
+    background-image: url('/ui/img/index.png'), -webkit-linear-gradient(top, rgba(37,169,223,1) 0%, rgba(0,116,167,1) 100%);
+    background-image: url('/ui/img/index.png'), linear-gradient(to bottom, rgba(37,169,223,1) 0%, rgba(0,116,167,1) 100%);
 }
 
 /************

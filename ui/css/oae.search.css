@@ -16,16 +16,16 @@
 /* Search clip overrides */
 
 #search-clip-container .oae-clip-content {
-    padding: 20px 15px;
+    padding: 15px;
 }
 
 #search-clip-container .oae-clip-content #search-form {
-    margin-bottom: 0px;
+    margin: 0px 50px 0px 10px;
 }
 
 #search-clip-container .oae-clip-content .search-query {
-    margin-left: 30px;
-    margin-right: 50px;
+    margin-left: 10px;
+    margin-right: 20px;
 }
 
 /* Search container */
@@ -35,5 +35,5 @@
 }
 
 #search-content-container #search-list-container {
-    padding: 5px 100px 50px 0px;
+    padding: 5px 75px 50px 0px;
 }
