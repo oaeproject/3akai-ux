@@ -247,7 +247,7 @@ module.exports = function(grunt) {
  * @param  {String[]}   directories     The list of directories whose files to hash
  * @param  {String[]}   [excludeExts]   The extensions to exclude from the list of `HASHED_EXTENSIONS`, if any
  * @param  {String[]}   [extra]         Extra glob patterns to append, in addition to the ones added for the extensions
- * @return {String[]}                   An array of glob expressions that match the files to hash in the directories
+ * @returns {String[]}                   An array of glob expressions that match the files to hash in the directories
  * @api private
  */
 var _hashFiles = function(directories, excludeExts, extra) {

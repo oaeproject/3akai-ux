@@ -28,13 +28,38 @@ require(['jquery','oae.core'], function($, oae) {
     var contentProfile = null;
 
     /**
-     * Shows or keeps hidden actions for the content profile
+     * Shows or hides actions on the content profile (e.g. uploading a new version)
      */
-    var showActions = function() {
-        // If the resourceSubType is `file` a revision can be uploaded
-        if (contentProfile.resourceSubType === 'file' && contentProfile.isManager) {
+    var showContentActions = function() {
+        // When we are dealing with a file, new versions can be uploaded and the revision history can be shown
+        if (contentProfile.resourceSubType === 'file') {
             $('li .oae-trigger-uploadnewversion').show();
         }
+    };
+
+    /**
+     * Shows the content profile preview.
+     * If the user has no access to the profile or the content has not been found they are redirected.
+     *
+     * @param  {Object}   err       An error object, if any.
+     * @param  {Object}   profile   The content profile object
+     */
+    var showContentProfilePreview = function(err, profile) {
+        if (err) {
+            if (err.code === 401) {
+                oae.api.util.redirect().accessdenied();
+            } else {
+                oae.api.util.redirect().notfound();
+            }
+            return;
+        }
+
+        contentProfile = profile;
+
+        // Refresh the preview
+        $('#content_preview_container').html('');
+        // Insert the preview
+        oae.api.widget.insertWidget('contentpreview', null, $('#content_preview_container'), null, contentProfile);
     };
 
     /**
@@ -44,33 +69,16 @@ require(['jquery','oae.core'], function($, oae) {
      */
     var getContentProfile = function() {
         oae.api.content.getContent(contentId, function(err, profile) {
-            if (err) {
-                if (err.code === 401) {
-                    oae.api.util.redirect().accessdenied();
-                    return;
-                } else {
-                    oae.api.util.redirect().notfound();
-                    return;
-                }
-            }
-
-            contentProfile = profile;
-
-            // TODO: Remove this
-            sakai_global.contentProfile = contentProfile;
+            showContentProfilePreview(err, profile);
             $(window).trigger('ready.content.oae');
-
             // Render the entity information
             setUpClip();
-
-            // Insert the preview
-            oae.api.widget.insertWidget('contentpreview', null, $('#content_preview_container'), null, contentProfile);
             // Set the browser title
             oae.api.util.setBrowserTitle(contentProfile.displayName);
             // We can now unhide the page
             oae.api.util.showPage();
-            // Show or keep certain actions hidden
-            showActions();
+            // Shows or hides actions on the content profile (e.g. uploading a new version)
+            showContentActions();
             // Fire off an event to widgets that passes the content profile data
             $(document).trigger('oae.context.send', contentProfile);
         });
@@ -80,26 +88,7 @@ require(['jquery','oae.core'], function($, oae) {
      * Refresh the content's basic profile and update widgets that need the updated information.
      */
     var refreshContentProfile = function() {
-        oae.api.content.getContent(contentId, function(err, profile) {
-            if (err) {
-                if (err.code === 401) {
-                    oae.api.util.redirect().accessdenied();
-                    return;
-                } else {
-                    oae.api.util.redirect().notfound();
-                    return;
-                }
-            }
-
-            contentProfile = profile;
-
-            // TODO: Remove this
-            sakai_global.contentProfile = contentProfile;
-
-            // Refresh the preview
-            $('#content_preview_container').html('');
-            oae.api.widget.insertWidget('contentpreview', null, $('#content_preview_container'), null, contentProfile);
-        });
+        oae.api.content.getContent(contentId, showContentProfilePreview);
     };
 
     // Bind to the context requests coming in from widgets and send back the content profile data
