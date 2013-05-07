@@ -13,9 +13,6 @@
  * permissions and limitations under the License.
  */
 
-// TODO: Remove this once we have a better way of sharing data
-var sakai_global = sakai_global || {};
-
 require(['jquery','oae.core'], function($, oae) {
 
     //  Get the content id from the URL. The expected URL is `/content/<contentId>`
@@ -56,10 +53,6 @@ require(['jquery','oae.core'], function($, oae) {
 
             contentProfile = profile;
 
-            // TODO: Remove this
-            sakai_global.contentProfile = contentProfile;
-            $(window).trigger('ready.content.oae');
-
             // Render the entity information
             setUpClip();
 
@@ -92,9 +85,6 @@ require(['jquery','oae.core'], function($, oae) {
             }
 
             contentProfile = profile;
-
-            // TODO: Remove this
-            sakai_global.contentProfile = contentProfile;
 
             // Refresh the preview
             $('#content_preview_container').html('');
