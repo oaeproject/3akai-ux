@@ -144,6 +144,11 @@ input[type="checkbox"] {
     margin-top: 3px;
 }
 
+input[type="file"] {
+    height: auto;
+    line-height: 1;
+}
+
 input.search-query,
 .navbar-search .search-query {
   font-family: inherit;

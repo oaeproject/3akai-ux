@@ -28,6 +28,16 @@ require(['jquery','oae.core'], function($, oae) {
     var contentProfile = null;
 
     /**
+     * Shows or keeps hidden actions for the content profile
+     */
+    var showActions = function() {
+        // If the resourceSubType is `file` a revision can be uploaded
+        if (contentProfile.resourceSubType === 'file' && contentProfile.isManager) {
+            $('li .oae-trigger-uploadnewversion').show();
+        }
+    };
+
+    /**
      * Get the content's basic profile and set up the screen. If the content
      * can't be found or is private to the current user, the appropriate
      * error page will be shown
@@ -50,13 +60,16 @@ require(['jquery','oae.core'], function($, oae) {
             sakai_global.contentProfile = contentProfile;
             $(window).trigger('ready.content.oae');
 
+            // Set the browser title
+            oae.api.util.setBrowserTitle(contentProfile.displayName);
             // Render the entity information
             setUpClip();
+            // Show or keep certain actions hidden
+            showActions();
 
             // Insert the preview
             oae.api.widget.insertWidget('contentpreview', null, $('#content_preview_container'), null, contentProfile);
-            // Set the browser title
-            oae.api.util.setBrowserTitle(contentProfile.displayName);
+
             // Set up context communication
             setUpContext();
             // We can now unhide the page
