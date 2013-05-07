@@ -17,7 +17,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
 
     /**
      * Get a full content profile.
-     * 
+     *
      * @param  {String}       contentId           Content id of the content item we're trying to retrieve
      * @param  {Function}     callback            Standard callback method
      * @param  {Object}       callback.err        Error object containing error code and error message
@@ -39,10 +39,10 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             }
         });
     };
-    
+
     /**
      * Create a new link.
-     * 
+     *
      * @param  {String}         displayName         Display title for the created content item
      * @param  {String}         [description]       The content item's description
      * @param  {String}         [visibility]        The content item's visibility. This can be public, loggedin or private
@@ -83,10 +83,10 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             }
         });
     };
-    
+
     /**
      * Create a new file.
-     * 
+     *
      * @param  {String}             displayName         Display title for the created content item
      * @param  {String}             [description]       The content item's description
      * @param  {String}             [visibility]        The content item's visibility. This can be public, loggedin or private
@@ -168,7 +168,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
 
     /**
      * Create a new collaborative document.
-     * 
+     *
      * @param  {String}       displayName         Display title for the created content item
      * @param  {String}       [description]       The content item's description
      * @param  {String}       [visibility]        The content item's visibility. This can be public, loggedin or private
@@ -205,10 +205,10 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             }
         });
     };
-    
+
     /**
      * Update a content item's metadata.
-     * 
+     *
      * @param  {String}       contentId           Content id of the content item we're trying to update
      * @param  {Object}       params              JSON object where the keys represent all of the profile field names we want to update and the values represent the new values for those fields
      * @param  {Function}     [callback]          Standard callback method
@@ -234,19 +234,19 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             }
         });
     };
-    
+
     /**
      * Delete a content item through the REST API.
-     * 
+     *
      * @param  {String}        contentId           Content id of the content item we're trying to delete
      * @param  {Function}      callback            Standard callback method
      * @param  {Object}        callback.err        Error object containing error code and error message
      */
     var deleteContent = exports.deleteContent = function(contentId, callback) {};
-    
+
     /**
      * Get the viewers and managers of a content item.
-     * 
+     *
      * @param  {String}          contentId           Content id of the content item we're trying to retrieve the members for
      * @param  {String}          [start]             The principal id to start from (this will not be included in the response)
      * @param  {Number}          [limit]             The number of members to retrieve.
@@ -279,7 +279,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
 
     /**
      * Change the members and managers of a content item.
-     * 
+     *
      * @param  {String}       contentId           Content id of the content item we're trying to update the members for
      * @param  {Object}       updatedMembers      JSON Object where the keys are the user/group ids we want to update membership for, and the values are the roles these members should get (manager or viewer). If false is passed in as a role, the principal will be removed as a member
      * @param  {Function}     [callback]          Standard callback method
@@ -305,10 +305,10 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             }
         });
     };
-    
+
     /**
      * Share a content item.
-     * 
+     *
      * @param  {String}       contentId           Content id of the content item we're trying to share
      * @param  {String[]}     principals          Array of principal ids with who the content should be shared
      * @param  {Function}     [callback]          Standard callback method
@@ -338,10 +338,10 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             }
         });
     };
-    
+
     /**
      * Get a principal library.
-     * 
+     *
      * @param  {String}         principalId         User or group id for who we want to retrieve the library
      * @param  {String}         [start]             The content id to start from (this will not be included in the response). If the first page is needed, null should be passed in.
      * @param  {Number}         [limit]             The number of content items to retrieve.
@@ -464,7 +464,6 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         $.ajax({
             'url': '/api/content/' + contentId + '/comments/' + commentId,
             'type': 'DELETE',
-            'dataType': 'json',
             'success': function(softDeleted) {
                 callback(null, softDeleted);
             },
@@ -478,29 +477,29 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * Set the thumbnail URL of a piece of content. For links and Sakai Docs, this will just be a thumbnail representing their type.
      * For uploaded files, we will first check if a thumbnail URL is already set on the back-end side (which will use the generated
      * previews). If this is not present, we add a icon URL based on the file's mimeType
-     * 
+     *
      * @param  {Content}        contentObj          Content object for which to set the thumbnail. This object will be modified to include the thumbnail URL.
      * @api private
      */
     var setThumbnail = function(contentObj) {};
-    
+
     /**
-     * Sets the mime type information on a piece of content, based on the mimetype mapping above. 
+     * Sets the mime type information on a piece of content, based on the mimetype mapping above.
      * The mime type information will contain the following items:
-     * 
+     *
      * - cssClass: CSS Class that can be used to show a small 16x16 icon
      * - description: Describes the type of content this is
-     * 
+     *
      * Unrecognized content types or mimetypes will default to the 'Other' type.
-     * 
+     *
      * @param  {Content}        contentObj          Content object for which to set the mimetype information. This object will be modified to include the mimetype info.
      * @api private
      */
     var setMimeTypeInfo = function(contentObj) {};
-    
+
     /**
      * Sets the filesize of a file to be a human readable string. This will only be done for uploaded files, other content items will remain unchanged.
-     * 
+     *
      * @param  {Content}        contentObj          Content object for which to set the readable filesize information. This object will be modified to include the mimetype info.
      * @api private
      */
