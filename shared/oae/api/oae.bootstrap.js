@@ -43,6 +43,7 @@ requirejs.config({
         'jquery.validate': 'vendor/js/jquery-plugins/jquery.validate',
         'jquery-ui': 'vendor/js/jquery-ui/jquery-ui.custom',
         'text': 'vendor/js/requirejs/require.text',
+        'storyjs-embed': 'vendor/js/storyjs-embed',
         'trimpath': 'vendor/js/trimpath',
         'underscore': 'vendor/js/underscore',
 

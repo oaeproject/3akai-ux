@@ -28,9 +28,10 @@ require(['jquery','oae.core'], function($, oae) {
      * Shows or keeps hidden actions for the content profile
      */
     var showActions = function() {
-        // If the resourceSubType is `file` a revision can be uploaded
+        // If the resourceSubType is `file` a revision can be uploaded and restored
         if (contentProfile.resourceSubType === 'file' && contentProfile.isManager) {
             $('li .oae-trigger-uploadnewversion').show();
+            $('li .oae-trigger-revisions').show();
         }
     };
 
@@ -98,7 +99,7 @@ require(['jquery','oae.core'], function($, oae) {
     });
 
     // Catches the `upload new version complete` event and refreshes the content profile
-    $(document).on('oae-uploadnewversion-complete', refreshContentProfile);
+    $(document).on('oae-contentprofile-refresh', refreshContentProfile);
 
     /**
      * Render the content's clip, containing the thumbnail, display name as well as the
