@@ -53,8 +53,6 @@ require(['jquery','oae.core'], function($, oae) {
 
             contentProfile = profile;
 
-            $(window).trigger('ready.content.oae');
-
             // Render the entity information
             setUpClip();
 
