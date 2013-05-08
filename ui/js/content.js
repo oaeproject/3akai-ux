@@ -35,7 +35,7 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     /**
-     * Shows the content profile preview.
+     * Renders the content preview.
      * If the user has no access to the profile or the content has not been found, they will be redirected.
      *
      * @param  {Object}   err       An error object, if any.
