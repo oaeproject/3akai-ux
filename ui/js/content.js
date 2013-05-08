@@ -13,19 +13,26 @@
  * permissions and limitations under the License.
  */
 
-// TODO: Remove this once we have a better way of sharing data
-var sakai_global = sakai_global || {};
-
 require(['jquery','oae.core'], function($, oae) {
 
-    //  Get the content id from the URL. The expected URL is /content/<groupId>
-    var contentId = window.location.pathname.split('/').pop();
+    //  Get the content id from the URL. The expected URL is `/content/<contentId>`
+    var contentId = $.url().segment(2);
     if (!contentId) {
         oae.api.util.redirect().login();
     }
 
     // Variable used to cache the requested content profile
     var contentProfile = null;
+
+    /**
+     * Shows or keeps hidden actions for the content profile
+     */
+    var showActions = function() {
+        // If the resourceSubType is `file` a revision can be uploaded
+        if (contentProfile.resourceSubType === 'file' && contentProfile.isManager) {
+            $('li .oae-trigger-uploadnewversion').show();
+        }
+    };
 
     /**
      * Get the content's basic profile and set up the screen. If the content
@@ -46,10 +53,6 @@ require(['jquery','oae.core'], function($, oae) {
 
             contentProfile = profile;
 
-            // TODO: Remove this
-            sakai_global.contentProfile = contentProfile;
-            $(window).trigger('ready.content.oae');
-
             // Render the entity information
             setUpClip();
 
@@ -59,6 +62,8 @@ require(['jquery','oae.core'], function($, oae) {
             oae.api.util.setBrowserTitle(contentProfile.displayName);
             // We can now unhide the page
             oae.api.util.showPage();
+            // Show or keep certain actions hidden
+            showActions();
             // Fire off an event to widgets that passes the content profile data
             $(document).trigger('oae.context.send', contentProfile);
         });
@@ -80,9 +85,6 @@ require(['jquery','oae.core'], function($, oae) {
             }
 
             contentProfile = profile;
-
-            // TODO: Remove this
-            sakai_global.contentProfile = contentProfile;
 
             // Refresh the preview
             $('#content_preview_container').html('');
