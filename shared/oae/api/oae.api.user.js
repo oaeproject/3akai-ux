@@ -116,41 +116,6 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     };
 
     /**
-     * Changes the password for the currently authenticated user
-     *
-     * @param  {String}     oldPassword         The old password for the currently authenticated user
-     * @param  {String}     newPassword         The new password for the currently authenticated user
-     * @param  {Function}   callback            Standard callback method
-     * @param  {Object}     callback.err        Error object containing error code and error message
-     * @param  {User}       callback.response   The user's basic profile
-     * @throws {Error}                          Error thrown when no new password has been provided
-     */
-    var changePassword = exports.changePassword = function(oldPassword, newPassword, callback) {
-        if (!newPassword) {
-            throw new Error('A valid new password should be provided');
-        } else if (!oldPassword) {
-            throw new Error('A valid old password should be provided');
-        }
-
-        var userId = require('oae.core').data.me.id;
-
-        $.ajax({
-            'url': '/api/user/' + userId + '/password',
-            'type': 'POST',
-            'data': {
-                'oldPassword': oldPassword,
-                'newPassword': newPassword
-            },
-            'success': function(data) {
-                callback(null, data);
-            },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
-            }
-        });
-    };
-
-    /**
      * Update the current user's basic profile
      *
      * @param  {Object}         params              Object representing the profile fields that need to be updated. The keys are the profile fields, the values are the profile field values
