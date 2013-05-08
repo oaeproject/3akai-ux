@@ -53,7 +53,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
      * Get a widget's manifest.json file.
      *
      * @param  {String}     widgetName      The name of the widget for which we want to retrieve the manifest
-     * @returns {Object}                     JSON object representing the widget's manifest file. This will be null if no widget can be found for the given widget name
+     * @return {Object}                     JSON object representing the widget's manifest file. This will be null if no widget can be found for the given widget name
      * @throws {Error}                      Error thrown when no or an invalid widget name is provided
      */
     var getWidgetManifest = exports.getWidgetManifest = function(widgetName) {
@@ -67,7 +67,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
      * Get a list of all of the available widgets that have certain properties in their manifest file and return their actual manifest files.
      *
      * @param  {Object}     [properties]    JSON object that lists all of the properties and values for those properties that should be set on the widget's manifest file before it will return in the final list, so only the widgets we need are returned. If this is not provided, all widgets will be returned.
-     * @returns {Object}                     JSON object where the keys represent all of the available widgets and the values are the widget's manifest files.
+     * @return {Object}                     JSON object where the keys represent all of the available widgets and the values are the widget's manifest files.
      */
     var getWidgetManifests = exports.getWidgetManifests = function(properties) {
         if (!properties) {
@@ -197,7 +197,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
      *
      * @param  {String}     url     Relative path that should be made absolute
      * @param  {String}     prefix  The absolute path that should be used to prefix the relative path with
-     * @returns {String}             The generated absolute path
+     * @return {String}             The generated absolute path
      * @api private
      */
     var convertRelativeToAbsolutePath = function(url, prefix) {

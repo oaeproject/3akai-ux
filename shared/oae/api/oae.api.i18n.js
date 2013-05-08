@@ -114,7 +114,7 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.propertie
      *
      * @param  {String}     input           The text which we want to translate
      * @param  {String}     [widgetName]    Widget for which we want to use the translation bundles
-     * @returns {String}                     The translated text
+     * @return {String}                     The translated text
      */
     var translate = exports.translate = function(input, widgetName) {
         // If the current user's language is the debug language, we don't need to do any translations

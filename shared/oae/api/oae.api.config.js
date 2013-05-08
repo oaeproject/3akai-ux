@@ -44,7 +44,7 @@ define(['exports', 'jquery'], function(exports, $) {
      * @param  {String}                          module                The module to get the config value for. e.g. `oae-authentication`
      * @param  {String}                          feature               The feature to get the config value for. e.g. `twitter`
      * @param  {String}                          element               The element to get the config value for. e.g. `enabled`
-     * @returns {Boolean|String|Number|Object}                          The requested config value e.g. `true`. This will be null if the config element cannot be found.
+     * @return {Boolean|String|Number|Object}                          The requested config value e.g. `true`. This will be null if the config element cannot be found.
      * @throws {Error}                                                 Error thrown when no module, feature or element has been provided
      */
     var getValue = exports.getValue = function(module, feature, element) {

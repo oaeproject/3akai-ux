@@ -509,7 +509,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
     /**
      * Compares the selected skin values against the default skin and returns the changed values only.
      *
-     * @returns {Object}    The skinning values that have been changed (i.e. are different to the default skin)
+     * @return {Object}    The skinning values that have been changed (i.e. are different to the default skin)
      */
     var getSkinChanges = function() {
         // Get the form input fields
@@ -816,7 +816,9 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         if (currentContext.host) {
             tenantsToRender = [tenants[currentContext.alias]];
         }
-        // Determine whether or not there is at least
+        // Determine whether or not there is at least one tenant server that has been
+        // stopped. When that's the case, the 'Start all' button will be shown instead
+        // of the 'Stop all' button.
         var hasStoppedServer = _.find(tenants, function(tenant) {
             return !tenant.active;
         });

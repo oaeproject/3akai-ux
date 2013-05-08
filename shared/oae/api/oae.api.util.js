@@ -57,7 +57,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
      * Generate a random ID. This ID generator does not guarantee global uniqueness.
      * The generated id will have the following format: `oae-<random number>-<random number>`
      *
-     * @returns {String}         Generated random ID
+     * @return {String}         Generated random ID
      */
     var generateId = exports.generateId = function() {
         return 'oae-' + Math.round(Math.random() * 10000000) + '-' + Math.round(Math.random() * 10000000);
@@ -186,7 +186,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * @param  {Element|String}     $template       jQuery element representing the HTML element that contains the template or jQuery selector for the template container.
          * @param  {Object}             [data]          JSON object representing the values used for ifs, fors and value insertions.
          * @param  {Element|String}     [$output]       jQuery element representing the HTML element in which the template output should be put, or jQuery selector for the output container.
-         * @returns {String}                             The rendered HTML
+         * @return {String}                             The rendered HTML
          * @throws {Error}                              Error thrown when no template has been provided
          */
         var render = function($template, data, $output) {
@@ -526,7 +526,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * inside of an HTML tag.
          *
          * @param  {String}     [input]         The user input string that should be sanitized. If this is not provided, an empty string will be returned.
-         * @returns {String}                     The sanitized user input, ready to be put inside of an HTML tag.
+         * @return {String}                     The sanitized user input, ready to be put inside of an HTML tag.
          */
         var encodeForHTML = function(input) {
             if (!input) {
@@ -542,7 +542,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          *
          * @param  {String}     [input]         The user input string that should be sanitized. If this is not provided, an empty string will be returned.
          * @param  {String}     [attribute]     The name of the HTML attribute to encode for.
-         * @returns {String}                     The sanitized user input, ready to be put inside of an HTML attribute.
+         * @return {String}                     The sanitized user input, ready to be put inside of an HTML attribute.
          */
         var encodeForHTMLAttribute = function(input, attribute) {
             if (!input) {
@@ -560,7 +560,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * as a URL fragment
          *
          * @param  {String}     [input]         The user input string that should be sanitized. If this is not provided, an empty string will be returned.
-         * @returns {String}                     The sanitized user input, ready to be used as a URL fragment.
+         * @return {String}                     The sanitized user input, ready to be used as a URL fragment.
          */
         var encodeForURL = function(input) {
             if (!input) {
