@@ -17,51 +17,60 @@ require(['jquery', 'oae.core'], function($, oae) {
 
     /**
      * Renders the documentation for a specific module
-     * 
-     * @param {Object} docs    The documentation object as returned from the server
-     * @param {String} module  The module name to render the documentation for
      */
-    var renderModuleDocs = function(docs, module) {
-        oae.api.util.template().render($('#doc_docs_template'), {
-            'docs': docs,
-            'module': module
-        }, $('#doc_docs_container'));
+    var renderModuleDocs = function() {
+        // Extract the selected module and type from the History.js state
+        var module = History.getState().data.module;
+        var type = History.getState().data.type;
 
-        // Scroll to the appropriate place on the page. This will be the top of the page most of the time, unless
-        // a direct link to a function has been clicked (e.g. http://cambridge.oae.com/docs#oae-authentication.api.removeStrategies)
-        // In this case, we scroll to the function's documentation
-        var offset = 0;
-        var hash = window.location.hash.replace('#', '');
-        if (hash && hash !== module){
-            var $anchor = $('a[name="#' + hash + '"]');
-            offset = $anchor.offset().top;
-        }
-        window.scrollTo(0, offset);
+        // Change the browser title
+        setDocumentTitle(module);
+        // Make the correct left hand nav item selected
+        $('.bs-docs-sidenav li').removeClass('active');
+        $('[data-id="' + module + '"]').addClass('active');
+
+        // Get the current requested module from the History.js 
+        // Retrieve the documentation for the current module from the server
+        getModuleDocs(module, type, function(docs) {
+            oae.api.util.template().render($('#doc-module-template'), {
+                'docs': docs,
+                'module': module
+            }, $('#doc-module-container'));
+
+            // Scroll to the appropriate place on the page. This will be the top of the page most of the time, unless
+            // a direct link to a function has been clicked (e.g. http://cambridge.oae.com/docs/backend/oae-authentication/createUser)
+            // In this case, we scroll to the function's documentation
+            var offset = 0;
+            var apiFunction = History.getState().data.apiFunction;
+            if (apiFunction){
+                var $anchor = $('a[name="' + module + '.' + apiFunction + '"]');
+                offset = $anchor.offset().top;
+            }
+            window.scrollTo(0, offset);
+        });
     };
 
     /**
      * Renders the navigation for the available modules
      * 
-     * @param {String[]}    modules          An Array of module names
-     * @param {String}      currentModule    The name of the module that is currently shown in the UI
+     * @param  {String[]}    modules          An Array of module names
+     * @param  {String}      currentModule    The name of the module that is currently shown in the UI
      */
     var renderNavigation = function(modules, currentModule) {
-        oae.api.util.template().render($('#doc_contents_template'), {
-            'modules': modules,
-            'moduleToLoad': currentModule
-        }, $('#doc_contents_container'));
+        oae.api.util.template().render($('#doc-modules-template'), modules, $('#doc-modules-container'));
     };
 
     /**
      * Gets the documentation for a specific module and passes it in a callback
      * 
-     * @param {String}    module            The name of the module to get the documentation for
-     * @param {Function}  callback          Function executed after the documentation for the module has been retrieved
-     * @param {Object}    callback.docs     Retrieved documentation for the specified module. This will be null when the documentation could not be retrieved
+     * @param  {String}    module            The name of the module to get the documentation for
+     * @param  {String}    type              The type of the module being loaded. Accepted values are `backend` and `frontend`
+     * @param  {Function}  callback          Function executed after the documentation for the module has been retrieved
+     * @param  {Object}    callback.docs     Retrieved documentation for the specified module. This will be null when the documentation could not be retrieved
      */
-    var getModuleDocs = function(module, callback) {
+    var getModuleDocs = function(module, type, callback) {
         $.ajax({
-            url: '/api/doc/module/' + module,
+            url: '/api/doc/' + type + '/' + module,
             success: function(docs) {
                 callback(docs);
             }, error: function(err) {
@@ -71,54 +80,61 @@ require(['jquery', 'oae.core'], function($, oae) {
     };
 
     /**
-     * Gets the available OAE modules and passes them in a callback
+     * Get the available OAE back-end and front-end modules.
      * 
-     * @param {Function}    callback            Function executed after the list of modules has been retrieved
-     * @param {String[]}    callback.modules    List of all of the available OAE modules
+     * @param  {Function}    callback            Function executed after the list of modules has been retrieved
+     * @param  {Object}      callback.modules    Object where the keys are "frontend" and "backend" and the values are an array of available modules
      */
     var getAvailableModules = function(callback) {
+        var modules = {};
+        // Get the available front-end modules
         $.ajax({
-            url: '/api/doc/modules',
-            success: callback
+            url: '/api/doc/frontend',
+            success: function(frontendModules) {
+                modules.frontend = frontendModules;
+                // Get the available back-end modules
+                 $.ajax({
+                    url: '/api/doc/backend',
+                    success: function(backendModules) {
+                        modules.backend = backendModules;
+                        callback(modules);
+                    }
+                });
+            }
         });
-    };
-
-    /**
-     * Gets and returns the currently selected module by retrieving the hash from the URL
-     * 
-     * @return {String}         The currently selected module
-     */
-    var getSelectedModule = function() {
-        var moduleToLoad = window.location.hash.replace('#', '');
-        // As it is possible to reference a specific function in an API directly 
-        // (e.g. http://cambridge.oae.com/docs#oae-authentication.api.removeStrategies),
-        // we strip it out to just get the current module
-        moduleToLoad = moduleToLoad.split('.')[0];
-        return moduleToLoad;
     };
 
     /**
      * Sets the title of the document to `Sakai OAE - API Reference - title`
      * 
-     * @param {String}  title   The title to be added to the document title
+     * @param  {String}  title   The title to be added to the document title
      */
     var setDocumentTitle = function(title) {
         oae.api.util.setBrowserTitle(['API Reference', title]);
     };
 
     /**
+     * Every time an new module is clicked, we push a new state using
+     * History.js, containing the name of the module that should be loaded next.
+     */
+    var selectModule = function() {
+        // Push the state and render the selected module
+        History.pushState({
+            'type': $(this).attr('data-type'),
+            'module': $(this).attr('data-id')
+        }, null, $('a', $(this)).attr('href'));
+        return false;
+    };
+
+    /**
      * Adds binding to various elements and events in the UI
      */
     var addBinding = function() {
-        $(window).hashchange(function() {
-            var moduleToLoad = getSelectedModule();
-            setDocumentTitle(moduleToLoad);
-            getModuleDocs(moduleToLoad, function(docs) {
-                $('.bs-docs-sidenav li').removeClass('active');
-                $('#' + moduleToLoad).addClass('active');
-                renderModuleDocs(docs, moduleToLoad);
-            });
-        });
+        // Module switching
+        $(document).on('click', '#doc-modules-container ul li', selectModule)
+        // The statechange event will be triggered every time the browser back or forward button 
+        // is pressed or state is pushed/replaced using Hisory.js.
+        $(window).on('statechange', renderModuleDocs);
     };
 
     /**
@@ -128,17 +144,33 @@ require(['jquery', 'oae.core'], function($, oae) {
         addBinding();
         // Load the list of the available modules
         getAvailableModules(function(modules) {
-            modules.sort();
+            modules.frontend.sort();
+            modules.backend.sort();
 
-            // Get the currently selected module. If there is no selected module,
-            // we select the first one in the list
-            var moduleToLoad = getSelectedModule() || modules[0];
+            // Extract the currently selected module from the URL by parsing the URL fragment that's 
+            // inside of the current History.js hash. The expected URL structure is `/docs/module/<moduleId>/<apiFunction>`. 
+            var initialState = $.url(History.getState().hash);
+            var type = initialState.segment(2) || 'frontend';
+            var moduleToLoad = initialState.segment(3) || modules[type][0];
+            var apiFunction = initialState.segment(4);
 
-            // Render the docs for the current module
-            setDocumentTitle(moduleToLoad);
+            // Render the left hand navigation
             renderNavigation(modules, moduleToLoad);
-            getModuleDocs(moduleToLoad, function(docs) {
-                renderModuleDocs(docs, moduleToLoad);
+
+            // When the page loads, the History.js state data object will either be empty (when having
+            // followed a link or entering the URL directly) or will contain the previous state data when
+            // refreshing the page. This is why we use the URL to determine the initial state. We want
+            // to replace the initial state with all of the required state data for the requested URL so
+            // we have the correct state data in all circumstances. Calling the `replaceState` function 
+            // will automatically trigger the statechange event, which will take care of the documentation rendering.
+            // for the requested module. However, as the page can already have the History.js state data 
+            // when only doing a page refresh, we need to add a random number to make sure that History.js 
+            // recognizes this as a new state and triggers the `statechange` event.
+            History.replaceState({
+                'type': type,
+                'module': moduleToLoad,
+                'apiFunction': apiFunction,
+                '_': Math.random()
             });
         });
     };

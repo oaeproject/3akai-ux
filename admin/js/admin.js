@@ -23,6 +23,8 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
     var configurationSchema = null;
     // Variable that will cache the configuration for the current tenant
     var configuration = null;
+    // Variable that will cache the default skin for the current tenant
+    var defaultSkin = {};
 
     /**
      * Toggles containers to show or hide
@@ -39,7 +41,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         $('.jeditable-field').editable(function(value) {
             value = $.trim(value);
             if (!value) {
-                oae.api.util.notification('Invalid tenant name', 'Please enter a tenant name.', 'error');
+                oae.api.util.notification('Invalid tenant name.', 'Please enter a tenant name.', 'error');
                 return this.revert;
             } else {
                 $.ajax({
@@ -47,35 +49,35 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                     'type': 'POST',
                     'data': {
                         'alias': $(this).attr('data-alias'),
-                        'name': value
+                        'displayName': value
                     },
                     'success': function() {
-                        oae.api.util.notification('Tenant name updated', 'The tenant name has been successfully updated.');
+                        oae.api.util.notification('Tenant name updated.', 'The tenant name has been successfully updated.');
                     }
                 });
                 return value;
             }
         }, {
-            'tooltip': 'Click to edit name'
+            'tooltip': 'Click to edit name',
+            'select' : true
         });
     };
 
     /**
      * Switches the view when a left hand navigation link is clicked or when the page loads.
-     * Defaults to the Tenant configuration page when no or an invalid hash is provided.
+     * Defaults to the Tenant configuration page when no or an invalid view querystring parameter is provided.
      */
-    var switchView = function(hash) {
-        hash = window.location.hash || '#configurationtenants';
-        hash = hash.replace('#', '');
+    var switchView = function() {
+        var view = History.getState().data.view || 'tenants';
         $('#admin-views > div').hide();
         $('#admin-lhnav-container li').removeClass('active');
-        $('#admin-lhnav-container li#' + hash).addClass('active');
+        $('#admin-lhnav-container li[data-id="' + view + '"]').addClass('active');
 
-        switch (hash) {
-            case 'configurationmodules':
+        switch (view) {
+            case 'modules':
                 $('#admin-views > #admin-modules-container').show();
                 break;
-            case 'configurationskinning':
+            case 'skinning':
                 $('#admin-views > #admin-skinning-container').show();
                 break;
             default:
@@ -83,6 +85,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                 break;
         };
     };
+
 
     //////////////////////
     //// DATA STORING ////
@@ -128,9 +131,9 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                 type: 'POST',
                 data: data,
                 success: function() {
-                    oae.api.util.notification('Configuration saved', 'The configuration was successfully saved.');
+                    oae.api.util.notification('Configuration saved.', 'The configuration was successfully saved.');
                 }, error: function() {
-                    oae.api.util.notification('Configuration not saved', 'The configuration could not be saved successfully.', 'error');
+                    oae.api.util.notification('Configuration not saved.', 'The configuration could not be saved successfully.', 'error');
                 }
             });
         }
@@ -149,15 +152,15 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
             'type': 'POST',
             'data': {
                 'alias': $.trim($('#createtenant-alias').val()),
-                'name': $.trim($('#createtenant-name').val()),
+                'displayName': $.trim($('#createtenant-displayName').val()),
                 'host': $.trim($('#createtenant-host').val())
             },
             'success': function() {
-                oae.api.util.notification('Tenant created', 'The new tenant "' + $('#createtenant-name').val() + '" has been successfully created.');
+                oae.api.util.notification('Tenant created.', 'The new tenant "' + $('#createtenant-displayName').val() + '" has been successfully created.');
                 reloadTenants()
             },
             'error': function(jqXHR, textStatus) {
-                oae.api.util.notification('Tenant could not be created', jqXHR.responseText, 'error');
+                oae.api.util.notification('Tenant could not be created.', jqXHR.responseText, 'error');
             }
         });
         return false;
@@ -246,9 +249,9 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                     $('#start-all-tenants-modal').modal('hide');
                     // Show a success or failure message
                     if (err) {
-                        oae.api.util.notification('Tenants not started', 'Not all tenants could be started.', 'error');
+                        oae.api.util.notification('Tenants not started.', 'Not all tenants could be started.', 'error');
                     } else {
-                        oae.api.util.notification('Tenants started', 'All tenants where successfully started.');
+                        oae.api.util.notification('Tenants started.', 'All tenants where successfully started.');
                     }
                 });
             }
@@ -272,9 +275,9 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                     $('#stop-all-tenants-modal').modal('hide');
                     // Show a success or failure message
                     if (err) {
-                        oae.api.util.notification('Tenants not stopped', 'Not all tenants could be stopped.', 'error');
+                        oae.api.util.notification('Tenants not stopped.', 'Not all tenants could be stopped.', 'error');
                     } else {
-                        oae.api.util.notification('Tenants stopped', 'All tenants where successfully stopped.');
+                        oae.api.util.notification('Tenants stopped.', 'All tenants where successfully stopped.');
                     }
                 });
             }
@@ -285,14 +288,14 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
      * Deletes a single tenant and shows a confirmation message
      */
     var deleteTenantHandler = function() {
-        var tenantName = $(this).attr('data-name');
+        var tenantDisplayName = $(this).attr('data-displayName');
         var tenantAlias = $(this).attr('data-alias');
         adminUtil.showConfirmationModal({
             'id': 'deletetenant-modal',
-            'title': 'Delete tenant "' + tenantName + '"',
-            'message': 'Are you sure you want to delete tenant "' + tenantName + '"?',
+            'title': 'Delete tenant "' + tenantDisplayName + '"',
+            'message': 'Are you sure you want to delete tenant "' + tenantDisplayName + '"?',
             'cancel': 'Cancel',
-            'confirm': 'Yes, delete "' + tenantName + '"',
+            'confirm': 'Yes, delete "' + tenantDisplayName + '"',
             'confirmclass': 'btn-danger',
             'confirmed': function() {
                 deleteTenants([tenantAlias], function(err) {
@@ -300,9 +303,9 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                     $('#deletetenant-modal').modal('hide');
                     // Show a success or failure message
                     if (err) {
-                        oae.api.util.notification('Tenant not deleted', 'The tenant could not be deleted.', 'error');
+                        oae.api.util.notification('Tenant not deleted.', 'The tenant could not be deleted.', 'error');
                     } else {
-                        oae.api.util.notification('Tenant deleted', 'Tenant ' + tenantName + ' was successfully deleted.');
+                        oae.api.util.notification('Tenant deleted.', 'Tenant ' + tenantDisplayName + ' was successfully deleted.');
                     }
                 });
             }
@@ -313,14 +316,14 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
      * Stops a single tenant and shows a confirmation message
      */
     var stopTenantHandler = function() {
-        var tenantName = $(this).attr('data-name');
+        var tenantDisplayName = $(this).attr('data-displayName');
         var tenantAlias = $(this).attr('data-alias');
         adminUtil.showConfirmationModal({
             'id': 'stoptenant-modal',
-            'title': 'Stop tenant "' + tenantName + '"',
-            'message': 'Are you sure you want to stop tenant "' + tenantName + '"?',
+            'title': 'Stop tenant "' + tenantDisplayName + '"',
+            'message': 'Are you sure you want to stop tenant "' + tenantDisplayName + '"?',
             'cancel': 'Cancel',
-            'confirm': 'Yes, stop "' + tenantName + '"',
+            'confirm': 'Yes, stop "' + tenantDisplayName + '"',
             'confirmclass': 'btn-warning',
             'confirmed': function() {
                 stopTenants([tenantAlias], function(err) {
@@ -328,9 +331,9 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                     $('#stoptenant-modal').modal('hide');
                     // Show a success or failure message
                     if (err) {
-                        oae.api.util.notification('Tenant not stopped', 'The tenant could not be stopped.', 'error');
+                        oae.api.util.notification('Tenant not stopped.', 'The tenant could not be stopped.', 'error');
                     } else {
-                        oae.api.util.notification('Tenant stopped', 'Tenant ' + tenantName + ' was successfully stopped.');
+                        oae.api.util.notification('Tenant stopped.', 'Tenant ' + tenantDisplayName + ' was successfully stopped.');
                     }
                 });
             }
@@ -341,14 +344,14 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
      * Starts a single tenant and shows a confirmation message
      */
     var startTenantHandler = function() {
-        var tenantName = $(this).attr('data-name');
+        var tenantDisplayName = $(this).attr('data-displayName');
         var tenantAlias = $(this).attr('data-alias');
         adminUtil.showConfirmationModal({
             'id': 'starttenant-modal',
-            'title': 'start tenant "' + tenantName + '"',
-            'message': 'Are you sure you want to start tenant "' + tenantName + '"?',
+            'title': 'start tenant "' + tenantDisplayName + '"',
+            'message': 'Are you sure you want to start tenant "' + tenantDisplayName + '"?',
             'cancel': 'Cancel',
-            'confirm': 'Yes, start ' + tenantName,
+            'confirm': 'Yes, start ' + tenantDisplayName,
             'confirmclass': 'btn-success',
             'confirmed': function() {
                 startTenants([tenantAlias], function(err) {
@@ -356,14 +359,15 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                     $('#starttenant-modal').modal('hide');
                     // Show a success or failure message
                     if (err) {
-                        oae.api.util.notification('Tenant not started', 'The tenant could not be started.', 'error');
+                        oae.api.util.notification('Tenant not started.', 'The tenant could not be started.', 'error');
                     } else {
-                        oae.api.util.notification('Tenant started', 'Tenant ' + tenantName + ' was successfully started.');
+                        oae.api.util.notification('Tenant started.', 'Tenant ' + tenantDisplayName + ' was successfully started.');
                     }
                 });
             }
         });
     };
+
 
     //////////////////////
     // LOGIN AND LOGOUT //
@@ -381,12 +385,12 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
      * Set up the log in handler
      */
     var login = function() {
-        oae.api.authentication.login($('#admin-login-form-name').val(), $('#admin-login-form-password').val(), function(err) {
+        oae.api.authentication.login($('#admin-login-form-username').val(), $('#admin-login-form-password').val(), function(err) {
             if (err) {
                 // Show the error message
-                oae.api.util.notification('Login failed', 'Invalid username or password.', 'error');
+                oae.api.util.notification('Login failed.', 'Invalid username or password.', 'error');
             } else {
-                document.location.reload(true);
+                window.location.reload(true);
             }
         });
         return false;
@@ -397,7 +401,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
      */
     var logout = function() {
         oae.api.authentication.logout(function() {
-            document.location.reload(true);
+            window.location.reload(true);
         });
     };
 
@@ -410,7 +414,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         var tenantAlias = $(this).attr('data-alias');
         getToken(tenantAlias, function(err, token) {
             if (err) {
-                oae.api.util.notification('Token error', 'Could not retrieve a token to log onto the tenant.', 'error');
+                oae.api.util.notification('Token error.', 'Could not retrieve a token to log onto the tenant.', 'error');
             } else {
                 // Fill in our hidden form and submit it. This is done because we are
                 // dealing with a cross-domain request. The action should have the tenant URL.
@@ -447,6 +451,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         });
     };
 
+
     //////////////
     // SKINNING //
     //////////////
@@ -480,6 +485,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                         $.each(configSection.subsections, function(configSubsectionIndex, configSubsection) {
                             $.each(configSubsection.variables, function(variableIndex, variable) {
                                 variable.value = configuredSkin[variable.name] || variable.defaultValue;
+                                defaultSkin[variable.name] = variable.defaultValue;
                             });
                         });
                     });
@@ -501,15 +507,59 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
     };
 
     /**
+     * Compares the selected skin values against the default skin and returns the changed values only.
+     *
+     * @return {Object}    The skinning values that have been changed (i.e. are different to the default skin)
+     */
+    var getSkinChanges = function() {
+        // Get the form input fields
+        var formFields = $('#admin-skinning-form input');
+        var changedValues = {};
+
+        // Loop over the form input fields and match their value with their default value.
+        // If the default is equal to the selected value, the value was not changed and doesn't need to be returned.
+        $.each(formFields, function(i, input) {
+            // Get the ID and data type of the skin element
+            var name = $(input).attr('name');
+            var type = $(input).attr('data-type');
+
+            // If the field is a color, match as colors
+            if (type === 'color') {
+                // Get the default and form colors and convert them to RGB for easy matching with tinycolor
+                var defaultColor = defaultSkin[name];
+                var selectedColor = $(formFields[i]).val();
+
+                // If the default and form colors don't match up, the value was changed and
+                // is added to the cached values to return.
+                if (!tinycolor.equals(defaultColor, selectedColor)) {
+                    changedValues[name] = selectedColor;
+                }
+            // The only other choice is an input field, handle as string
+            } else {
+                // Get the default and form text
+                var defaultSkinText = defaultSkin[name];
+                var formValueText = $.trim($(formFields[i]).val());
+
+                // If the default and form text don't match up the value was changed and
+                // is added to the cached values to return.
+                if (defaultSkinText !== formValueText) {
+                    changedValues[name] = formValueText;
+                }
+            }
+        });
+
+        // Returns the object of skin values to be saved
+        return changedValues;
+    };
+
+    /**
      * Save the new skin values. The back-end requires us to send all of
      * the skin variables at once in a stringified JSON object.
      */
     var saveSkin = function() {
-        // Serializing the form gives us all of the current values,
-        // including the latest selected colors
-        var values = $('#admin-skinning-form').serializeObject();
+        // Create the JSON only containing the values that have changed to send to the server
         var data = {
-            'oae-ui/skin/variables': JSON.stringify(values)
+            'oae-ui/skin/variables': JSON.stringify(getSkinChanges())
         }
 
         // When we are on the tenant server itself, we don't have
@@ -525,11 +575,13 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
             type: 'POST',
             data: data,
             success: function() {
-                oae.api.util.notification('Skin saved', 'The skin has been successfully saved.');
+                oae.api.util.notification('Skin saved.', 'The skin has been successfully saved.');
             }, error: function() {
-                oae.api.util.notification('Skin not saved', 'The skin could not be saved successfully.', 'error');
+                oae.api.util.notification('Skin not saved.', 'The skin could not be saved successfully.', 'error');
             }
         });
+
+        // Return false to avoid default form submit behavior.
         return false;
     };
 
@@ -550,9 +602,10 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         }
     };
 
-    ///////////////////////
-    //// DATA FETCHING ////
-    ///////////////////////
+
+    ///////////////////
+    // DATA FETCHING //
+    ///////////////////
 
     /**
      * Reload the list of available tenants and re-render the footer
@@ -628,14 +681,60 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
 
                 // Check if we're currently on a tenant admin on the global server. In that
                 // case, the URL should /tenant/<tenantAlias>
-                if (window.location.pathname.split('/').length === 3) {
-                    var tenantAlias = window.location.pathname.split('/').pop();
+                var tenantAlias = $.url().segment(2);
+                if (tenantAlias) {
                     $.extend(currentContext, tenants[tenantAlias]);
                 }
                 callback();
             }
         });
     };
+
+
+    //////////////////////////
+    // LEFT HAND NAVIGATION //
+    //////////////////////////
+
+    /**
+     * Initializes the left hand navigation
+     */
+    var initializeNavigation = function() {
+        oae.api.util.template().render($('#admin-lhnav-template'), {'context': currentContext}, $('#admin-lhnav-container'));
+        $('#admin-lhnav-container').show();
+
+        // Extract the currently selected view from the URL by parsing the URL fragment that's 
+        // inside of the current History.js hash. The expected URL structure is `...?view=<view>`.
+        // It is not possible to use cleaner `/view` URLs, as the admin UI can be found at `/` and 
+        // `/tenant/<tenantAlias>` on the global admin server and `/admin` on the tenant servers.
+        var selectedView = $.url().param().view;
+        // When the page loads, the History.js state data object will either be empty (when having
+        // followed a link or entering the URL directly) or will contain the previous state data when
+        // refreshing the page. This is why we use the URL to determine the initial state. We want
+        // to replace the initial state with all of the required state data for the requested URL so
+        // we have the correct state data in all circumstances. Calling the `replaceState` function 
+        // will automatically trigger the statechange event, which will take care of showing the correct view.
+        // However, as the page can already have the History.js state data when only doing a page refresh,
+        // we need to add a random number to make sure that History.js recognizes this as a new state and
+        // triggers the `statechange` event.
+        History.replaceState({
+            'view': selectedView,
+            '_': Math.random()
+        });
+    };
+
+    /**
+     * Every time an item in the left hand navigation is clicked, we push a new state using
+     * History.js, containing the id of the view that should be shown next.
+     */
+    var selectView = function() {
+        // Push the state, This will trigger the statechange event, which will then
+        // take care of showing of the selected view
+        History.pushState({
+            'view': $(this).attr('data-id')
+        }, null, $('a', $(this)).attr('href'));
+        return false;
+    };
+
 
     ////////////////////////
     //// INITIALIZATION ////
@@ -669,7 +768,8 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         // Change skin
         $(document).on('submit', '#admin-skinning-form', saveSkin);
         // Left hand navigation switching
-        $(window).hashchange(switchView);
+        $(document).on('click', '#admin-lhnav-container ul li', selectView);
+        $(window).on('statechange', switchView);
     };
 
     /**
@@ -731,14 +831,6 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
     };
 
     /**
-     * Initializes the left hand navigation
-     */
-    var initializeNavigation = function() {
-        oae.api.util.template().render($('#admin-lhnav-template'), {'context': currentContext}, $('#admin-lhnav-container'));
-        $('#admin-lhnav-container').show();
-    };
-
-    /**
      * Initializes the admin UI
      */
     var doInit = function() {
@@ -771,8 +863,6 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                         initializeModules();
                         // Initialize the skinning UI
                         initializeSkinning();
-                        // Show requested view
-                        switchView();
                     });
                 }
             });

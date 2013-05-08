@@ -45,11 +45,12 @@
 }
 
 #index-container .index-search-container input#index-search-query {
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
     height: 37px;
     margin-right: 7px;
+    border-color: transparent;
+    -webkit-box-shadow: none;
+       -moz-box-shadow: none;
+            box-shadow: none;
 }
 
 #index-container .index-search-container .control-label {
@@ -62,7 +63,8 @@
 }
 
 #index-container #index-video-container {
-    background: url('/ui/img/framework/index-video-bg.png') no-repeat center 90px #FFF;
+    position: relative;
+    background: url('/ui/img/index-video-bg.png') no-repeat center 0px #ECEAE5;
     -webkit-border-radius: 3px;
        -moz-border-radius: 3px;
             border-radius: 3px;
@@ -72,23 +74,16 @@
     height: 290px;
 }
 
-#index-container #index-video-container p {
-    font-size: 18px;
-    font-weight: normal;
-    margin: 15px auto 0;
-    width: 350px;
-}
-
 #index-container #index-video-container #index-video-launch {
-    background: transparent;
-    border: none;
-    display: block;
-    font-size: 70px;
-    margin: 25px auto;
-}
-
-#index-container #index-video-container #index-video-launch {
+    position: absolute;
     opacity: 0.8;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#index-container #index-video-container #index-video-launch i {
+    font-size: 70px;
 }
 
 #index-container #index-slogan {

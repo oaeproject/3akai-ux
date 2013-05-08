@@ -30,11 +30,11 @@ require(['jquery','oae.core'], function($, oae) {
     var lhNavigation = [
         {
             'id': 'dashboard',
-            'title': oae.api.i18n.translate('__MSG__MY_DASHBOARD__'),
+            'title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
             'icon': 'icon-dashboard',
             'layout': [
                 {
-                    'width': 'span8',
+                    'width': 'span12',
                     'widgets': [
                         {
                             'id': 'activity',
