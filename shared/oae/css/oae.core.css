@@ -27,7 +27,7 @@
    as styles used in the main portal that are not expected to be re-used in widgets */
 @import url('../../oae/css/oae.base.css');
 
-/* Import the OAE Component Styles. These contain OAE specific re-usable styles that, 
+/* Import the OAE Component Styles. These contain OAE specific re-usable styles that,
    combined with basic bootstrap, should make it easy to quickly put new widgets together */
 @import url('../../oae/css/oae.components.css');
 
