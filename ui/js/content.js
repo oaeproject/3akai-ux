@@ -25,34 +25,10 @@ require(['jquery','oae.core'], function($, oae) {
     var contentProfile = null;
 
     /**
-     * Shows or hides actions on the content profile (e.g. uploading a new version)
-     */
-    var showContentActions = function() {
-        // When we are dealing with a file, new versions can be uploaded and the revision history can be shown
-        if (contentProfile.resourceSubType === 'file') {
-            $('li .oae-trigger-uploadnewversion').show();
-        }
-    };
-
-    /**
      * Renders the content preview.
      * If the user has no access to the profile or the content has not been found, they will be redirected.
-     *
-     * @param  {Object}   err       An error object, if any.
-     * @param  {Object}   profile   The content profile object
      */
-    var showContentProfilePreview = function(err, profile) {
-        if (err) {
-            if (err.code === 401) {
-                oae.api.util.redirect().accessdenied();
-            } else {
-                oae.api.util.redirect().notfound();
-            }
-            return;
-        }
-
-        contentProfile = profile;
-
+    var showContentProfilePreview = function() {
         // Refresh the preview
         $('#content_preview_container').html('');
         // Insert the preview
@@ -66,15 +42,24 @@ require(['jquery','oae.core'], function($, oae) {
      */
     var getContentProfile = function() {
         oae.api.content.getContent(contentId, function(err, profile) {
-            showContentProfilePreview(err, profile);
+            if (err) {
+                if (err.code === 401) {
+                    oae.api.util.redirect().accessdenied();
+                } else {
+                    oae.api.util.redirect().notfound();
+                }
+                return;
+            }
+            // Cache the content profile data
+            contentProfile = profile;
+            // Show the content preview
+            showContentProfilePreview();
             // Render the entity information
             setUpClip();
             // Set the browser title
             oae.api.util.setBrowserTitle(contentProfile.displayName);
             // We can now unhide the page
             oae.api.util.showPage();
-            // Shows or hides actions on the content profile (e.g. uploading a new version)
-            showContentActions();
             // Fire off an event to widgets that passes the content profile data
             $(document).trigger('oae.context.send', contentProfile);
         });
@@ -84,7 +69,12 @@ require(['jquery','oae.core'], function($, oae) {
      * Refresh the content's basic profile and update widgets that need the updated information.
      */
     var refreshContentProfile = function() {
-        oae.api.content.getContent(contentId, showContentProfilePreview);
+        oae.api.content.getContent(contentId, function(err, profile) {
+            // Cache the content profile data
+            contentProfile = profile;
+            // Show the content preview
+            showContentProfilePreview();
+        });
     };
 
     // Bind to the context requests coming in from widgets and send back the content profile data
