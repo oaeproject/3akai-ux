@@ -27,6 +27,7 @@
     "grunt": "latest",
     "grunt-cli": "latest",
     "grunt-contrib-clean": "latest",
+    "grunt-contrib-copy": "latest",
     "grunt-contrib-requirejs": "latest",
     "grunt-git-describe": "latest",
     "grunt-imagine": "git://github.com/amcdaniel2/grunt-imagine.git#master",
