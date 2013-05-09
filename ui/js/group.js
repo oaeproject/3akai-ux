@@ -47,8 +47,12 @@ require(['jquery', 'oae.core'], function($, oae) {
         });
     };
 
-    $(document).on('oae.context.get', function() {
-        $(document).trigger('oae.context.send', groupProfile);
+    $(document).on('oae.context.get', function(ev, widgetId) {
+        if (widgetId) {
+            $(document).trigger('oae.context.send.' + widgetId, groupProfile);
+        } else {
+            $(document).trigger('oae.context.send', groupProfile);
+        }
     });
     $(document).trigger('oae.context.send', groupProfile);
 
@@ -64,7 +68,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             $('#group-actions').show();
         }
     };
-    
+
     /**
      * Set up the left hand navigation with the me space page structure
      */

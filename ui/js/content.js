@@ -50,6 +50,7 @@ require(['jquery','oae.core'], function($, oae) {
                 }
                 return;
             }
+
             // Cache the content profile data
             contentProfile = profile;
             // Show the content preview
@@ -78,8 +79,12 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     // Bind to the context requests coming in from widgets and send back the content profile data
-    $(document).on('oae.context.get', function() {
-        $(document).trigger('oae.context.send', contentProfile);
+    $(document).on('oae.context.get', function(ev, widgetId) {
+        if (widgetId) {
+            $(document).trigger('oae.context.send.' + widgetId, contentProfile);
+        } else {
+            $(document).trigger('oae.context.send', contentProfile);
+        }
     });
 
     // Catches the `upload new version complete` event and refreshes the content profile
