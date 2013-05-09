@@ -1,4 +1,0 @@
-{
-  'sling:match': '^[^/]+/[^/]+/categories',
-  'sling:internalRedirect': '/dev/allcategories.html'
-}

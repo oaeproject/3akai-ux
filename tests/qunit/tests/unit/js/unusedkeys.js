@@ -1,3 +1,18 @@
+/*!
+ * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ *     http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 /*global require, sakai_global, QUnit, asyncTest, module, ok, start */
 require(
     [
@@ -16,8 +31,7 @@ require(
 
         var allHtml = '';
         var allJs = '';
-        var batchSections = {};
-        var batchURLs = [];
+        var allBundles = {};
         var devBundleURL = '/dev/bundle';
         var ignoreKeys = ['description', 'name'];
         var keyList = {};
@@ -178,21 +192,6 @@ require(
         };
 
         /**
-         * Add a URL to the complete list of batch URLs
-         * @param {String} url The URL that we are adding
-         */
-        var addToBatchURLs = function(url, section) {
-            batchURLs.push({
-                'url': url,
-                'method': 'GET'
-            });
-            if (!batchSections[section]) {
-                batchSections[section] = [];
-            }
-            batchSections[section].push(url);
-        };
-
-        /**
          * Process the batch request
          * @param results {Object} The data returned from the server
          */
@@ -237,84 +236,49 @@ require(
         };
 
         /**
-         * Perform the batch request.
+         * Get all the language files.
          */
-        var performBatchRequest = function() {
-            sakai.api.Server.batch(batchURLs, function(success, data) {
-                if (success && data && data.results) {
-                    processBatchRequest(data.results);
-                }
-            });
-        };
+        var getBundles = function() {
+            var urls = [];
 
-        /**
-         * Add the JS and HTML files for widgets to the batch request
-         */
-        var addWidgetFiles = function() {
-            for (var z=0,y=sakai_global.qunit.widgets.length; z<y; z++) {
-                addToBatchURLs(sakai_global.qunit.widgets[z].html, 'widgethtml');
-                addToBatchURLs(sakai_global.qunit.widgets[z].js, 'widgetjs');
+            // Get all the /dev bundles.
+            for (var i = 0; i < sakai.config.Languages.length; i++) {
+                urls.push(sakai.config.Languages[i].bundle);
             }
-        };
-
-        /**
-         * Add the JS and HTML files for core dev files to the batch request
-         */
-        var addCoreFiles = function() {
-            // Add all the core HTML files
-            for (var i=0,j=sakai_global.qunit.devHtmlFiles.length; i<j; i++) {
-                addToBatchURLs(sakai_global.qunit.devHtmlFiles[i], 'devhtml');
-            }
-
-            // Add all the core JS files
-            for (var a=0,b=sakai_global.qunit.devJsFiles.length; a<b; a++) {
-                addToBatchURLs(sakai_global.qunit.devJsFiles[a], 'devjs');
-            }
-        };
-
-        /**
-         * Add the widget bundles to the batch request
-         */
-        var addWidgetBundles = function() {
+            
+            // Get all the widget bundles.
             for (var i in sakai.widgets) {
                 if (sakai.widgets.hasOwnProperty(i) && sakai.widgets[i].i18n) {
                     for (var j in sakai.widgets[i].i18n) {
                         if (sakai.widgets[i].i18n.hasOwnProperty(j) && sakai.widgets[i].i18n[j].bundle) {
-                            addToBatchURLs(sakai.widgets[i].i18n[j].bundle , 'widgetbundle');
+                            urls.push(sakai.widgets[i].i18n[j].bundle);
                         }
                     }
                 }
             }
-        };
 
-        /**
-         * Filter the default language bundles
-         * @param data {Object} The object we get back from the server
-         */
-        var filterDefaultBundles = function(data) {
-            for (var bundle in data) {
-                if (data.hasOwnProperty(bundle) && bundle.substr(-11) === '.properties') {
-                    addToBatchURLs(devBundleURL + '/' + bundle, 'devbundle');
-                }
-            }
-        };
+            var results = [];
+            var getFiles = function(allUrls) {
+                // Get'em all
+                var urls = allUrls.slice(0, 40);
+                allUrls.splice(0, 40);
+                sakai.api.Server.staticBatch(urls, function(success, data) {
+                    if (success && data && data.results) {
+                        results = results.concat(data.results);
+                    }
 
-        /**
-         * Get all the dev bundles.
-         * If this succeeds, start building the batch request and actually perform it
-         */
-        var getDevBundles = function() {
-            $.ajax({
-                url: '/dev/bundle.1.json',
-                dataType: 'json',
-                success: function(data) {
-                    filterDefaultBundles(data);
-                    addWidgetBundles();
-                    addCoreFiles();
-                    addWidgetFiles();
-                    performBatchRequest();
-                }
-            });
+                    if (allUrls.length > 0) {
+                        // Get remaining files.
+                        getFiles(allUrls);
+                    } else {
+                        // We're done.
+                        console.log(results);
+                    }
+                });
+            };
+
+            console.log(urls.length);
+            getFiles(urls);
         };
 
         /**
@@ -322,10 +286,10 @@ require(
          */
         var startTest = function() {
             if (sakai.api.i18n.done) {
-                getDevBundles();
+                getBundles();
             } else {
                 $(window).on('done.i18n.sakai', function() {
-                    getDevBundles();
+                    getBundles();
                 });
             }
         };
