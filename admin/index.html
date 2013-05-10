@@ -9,7 +9,7 @@
         <!-- CORE CSS -->
         <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
         <link rel="stylesheet" type="text/css" href="/api/ui/skin" />
-        
+
         <!-- PAGE CSS -->
         <link rel="stylesheet" type="text/css" href="/admin/css/admin.css" />
 
@@ -52,13 +52,13 @@
                             </div>
                         </div>
                     </div>
-    
+
                     <div id="admin-views">
                         <div id="admin-tenants-container" class="hide"><!-- --></div>
                         <div id="admin-modules-container" class="hide"><!-- --></div>
                         <div id="admin-skinning-container" class="hide"><!-- --></div>
                     </div>
-    
+
                     <div id="admin-error-container"><!-- --></div>
                     <div id="admin-warning-container"><!-- --></div>
                     <div id="admin-success-container"><!-- --></div>
@@ -76,7 +76,7 @@
                             <button type="button" class="btn btn-inverse" id="admin-header-user-logout">Log out</button>
                         </div>
                     {/if}
-                    {if context.isGlobalAdminServer && !context.host}
+                    {if context.isGlobalAdminServer}
                         <h1>Global administration UI</h1>
                     {else}
                         <h1>${context.displayName|encodeForHTML}</h1>
@@ -90,7 +90,7 @@
                 <li data-id="tenants">
                     <a title="Tenant configuration" href="?view=tenants">
                         <i class="icon-dashboard"></i>
-                        {if context.isGlobalAdminServer && !context.host}
+                        {if context.isGlobalAdminServer}
                             Tenants
                         {else}
                             Tenant
@@ -102,7 +102,7 @@
                         <i class="icon-cogs"></i> Modules
                     </a>
                 </li>
-                {if context.host}
+                {if !context.isGlobalAdminServer}
                     <li data-id="skinning">
                         <a title="Skinning configuration" href="?view=skinning">
                             <i class="icon-tint"></i> Skinning
@@ -115,7 +115,7 @@
         <div id="admin-footer-template"><!--
             <div class="row-fluid">
                 <div class="span12" id="admin-footer-content">
-                    {if !oae.data.me.anon && context.isGlobalAdminServer}
+                    {if !oae.data.me.anon && oae.data.me.isGlobalAdmin}
                         <ul class="inline">
                             <li>
                                 <a href="/">Global administration</a>
@@ -134,7 +134,7 @@
         --></div>
 
         <div id="admin-tenants-template"><!--
-            {var isMainGlobalAdmin = context.isGlobalAdminServer && !context.host}
+            {var isMainGlobalAdmin = context.isGlobalAdminServer}
             <h2>Tenants</h2>
             {if _.keys(tenants).length > 0}
                 <table class="table table-striped">
@@ -371,6 +371,6 @@
         <!-- DEPENDENCIES -->
         <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
         <script>require(['/admin/js/admin.js']);</script>
-        
+
     </body>
 </html>
