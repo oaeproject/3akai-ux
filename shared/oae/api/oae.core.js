@@ -26,6 +26,7 @@ define([
         'oae.api!',
 
         'jquery',
+        'bootstrap',
 
         /*!
          * All the OAE API libraries found in /shared/oae/api. By including these here, requirejs will know that the
@@ -44,8 +45,9 @@ define([
         'oae.api.widget',
 
         /**
-         * OAE jQuery plugins
+         * OAE plugins
          */
+        'bootstrap.modal',
         'jquery.clip',
         'jquery.dnd-upload',
         'jquery.infinitescroll',
@@ -54,7 +56,6 @@ define([
         /*!
          * Third-party dependencies.
          */
-        'bootstrap',
         'globalize',
         'jquery.encoder',
         'jquery.fileSize',
