@@ -25,13 +25,14 @@ require(['jquery','oae.core'], function($, oae) {
     var contentProfile = null;
 
     /**
-     * Shows or keeps hidden actions for the content profile
+     * Renders the content preview.
+     * If the user has no access to the profile or the content has not been found, they will be redirected.
      */
-    var showActions = function() {
-        // If the resourceSubType is `file` a revision can be uploaded
-        if (contentProfile.resourceSubType === 'file' && contentProfile.isManager) {
-            $('li .oae-trigger-uploadnewversion').show();
-        }
+    var showContentProfilePreview = function() {
+        // Refresh the preview
+        $('#content_preview_container').html('');
+        // Insert the preview
+        oae.api.widget.insertWidget('contentpreview', null, $('#content_preview_container'), null, contentProfile);
     };
 
     /**
@@ -44,26 +45,22 @@ require(['jquery','oae.core'], function($, oae) {
             if (err) {
                 if (err.code === 401) {
                     oae.api.util.redirect().accessdenied();
-                    return;
                 } else {
                     oae.api.util.redirect().notfound();
-                    return;
                 }
+                return;
             }
 
+            // Cache the content profile data
             contentProfile = profile;
-
+            // Show the content preview
+            showContentProfilePreview();
             // Render the entity information
             setUpClip();
-
-            // Insert the preview
-            oae.api.widget.insertWidget('contentpreview', null, $('#content_preview_container'), null, contentProfile);
             // Set the browser title
             oae.api.util.setBrowserTitle(contentProfile.displayName);
             // We can now unhide the page
             oae.api.util.showPage();
-            // Show or keep certain actions hidden
-            showActions();
             // Fire off an event to widgets that passes the content profile data
             $(document).trigger('oae.context.send', contentProfile);
         });
@@ -74,31 +71,24 @@ require(['jquery','oae.core'], function($, oae) {
      */
     var refreshContentProfile = function() {
         oae.api.content.getContent(contentId, function(err, profile) {
-            if (err) {
-                if (err.code === 401) {
-                    oae.api.util.redirect().accessdenied();
-                    return;
-                } else {
-                    oae.api.util.redirect().notfound();
-                    return;
-                }
-            }
-
+            // Cache the content profile data
             contentProfile = profile;
-
-            // Refresh the preview
-            $('#content_preview_container').html('');
-            oae.api.widget.insertWidget('contentpreview', null, $('#content_preview_container'), null, contentProfile);
+            // Show the content preview
+            showContentProfilePreview();
         });
     };
 
     // Bind to the context requests coming in from widgets and send back the content profile data
-    $(document).on('oae.context.get', function() {
-        $(document).trigger('oae.context.send', contentProfile);
+    $(document).on('oae.context.get', function(ev, widgetId) {
+        if (widgetId) {
+            $(document).trigger('oae.context.send.' + widgetId, contentProfile);
+        } else {
+            $(document).trigger('oae.context.send', contentProfile);
+        }
     });
 
     // Catches the `upload new version complete` event and refreshes the content profile
-    $(document).on('oae-uploadnewversion-complete', refreshContentProfile);
+    $(document).on('oae.uploadnewversion.complete', refreshContentProfile);
 
     /**
      * Render the content's clip, containing the thumbnail, display name as well as the
