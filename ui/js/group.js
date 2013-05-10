@@ -52,6 +52,8 @@ require(['jquery', 'oae.core'], function($, oae) {
     });
     $(document).trigger('oae.context.send', groupProfile);
 
+    $(document).on('oae.changepic.finished', setUpClip);
+
     /**
      * Render the group's clip, containing the profile picture, display name as well as the
      * group's admin options
@@ -64,7 +66,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             $('#group-actions').show();
         }
     };
-    
+
     /**
      * Set up the left hand navigation with the me space page structure
      */
