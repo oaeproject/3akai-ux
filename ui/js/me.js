@@ -102,8 +102,10 @@ require(['jquery','oae.core'], function($, oae) {
         oae.api.util.template().render($('#me-clip-template'), null, $('#me-clip-container'));
     };
 
+    $(document).on('oae.changepic.finished', setUpClip);
+
     $(document).on('oae.context.get', function() {
-        $(document).trigger('oae.context.send');
+        $(document).trigger('oae.context.send', oae.data.me);
     });
     $(document).trigger('oae.context.send');
 
