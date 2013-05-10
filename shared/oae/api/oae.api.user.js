@@ -69,11 +69,11 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             }
         });
     };
-    
+
     /**
      * Gets the currently logged in user. A cached copy of this object will be available on oae.data.me when requiring
      * `oae.api!` in your widget
-     * 
+     *
      * @param  {Function}       callback            Standard callback method takes arguments `err` and `resp`
      * @param  {Object}         callback.err        Error object containing error code and error message
      * @param  {Object}         callback.response   The user's me feed
@@ -89,10 +89,10 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             }
         });
     };
-    
+
     /**
      * Get a user's basic profile
-     * 
+     *
      * @param  {String}         userId              User id of the profile you wish to retrieve
      * @param  {Function}       callback            Standard callback method
      * @param  {Object}         callback.err        Error object containing error code and error message
@@ -114,7 +114,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             }
         });
     };
-    
+
     /**
      * Update the current user's basic profile
      *
