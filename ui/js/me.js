@@ -104,8 +104,12 @@ require(['jquery','oae.core'], function($, oae) {
 
     $(document).on('oae.changepic.finished', setUpClip);
 
-    $(document).on('oae.context.get', function() {
-        $(document).trigger('oae.context.send', oae.data.me);
+    $(document).on('oae.context.get', function(ev, widgetId) {
+        if (widgetId) {
+            $(document).trigger('oae.context.send.' + widgetId, oae.data.me);
+        } else {
+            $(document).trigger('oae.context.send', oae.data.me);
+        }
     });
     $(document).trigger('oae.context.send');
 

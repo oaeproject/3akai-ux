@@ -59,7 +59,7 @@ define(['exports', 'underscore', 'oae.api.config', 'globalize'], function(export
         }
         return Globalize.format(date, 'd');
     };
-    
+
     /**
      * Function that will take a date and convert it into a localized date and time string, conforming with
      * the conventions for the user's current locale.
@@ -85,7 +85,7 @@ define(['exports', 'underscore', 'oae.api.config', 'globalize'], function(export
             return Globalize.format(date, 'D') + ' ' + Globalize.format(date, 't');
         }
     };
-    
+
     /**
      * Function that will take a number and convert it into a localized number with correct punctuations,
      * conforming with the conventions for the user's current locale.
