@@ -88,7 +88,7 @@ require(['jquery','oae.core'], function($, oae) {
     });
 
     // Catches the `upload new version complete` event and refreshes the content profile
-    $(document).on('oae-uploadnewversion-complete', refreshContentProfile);
+    $(document).on('oae.uploadnewversion.complete', refreshContentProfile);
 
     /**
      * Render the content's clip, containing the thumbnail, display name as well as the
