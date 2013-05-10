@@ -47,12 +47,12 @@ requirejs.config({
         'underscore': 'vendor/js/underscore',
 
         // OAE paths
+        'bootstrap.modal': 'oae/js/bootstrap-plugins/bootstrap.modal',
         'jquery.clip': 'oae/js/jquery-plugins/jquery.clip',
         'jquery.dnd-upload': 'oae/js/jquery-plugins/jquery.dnd-upload',
         'jquery.infinitescroll': 'oae/js/jquery-plugins/jquery.infinitescroll',
         'jquery.jeditable-focus': 'oae/js/jquery-plugins/jquery.jeditable-focus',
         'jquery.list-options': 'oae/js/jquery-plugins/jquery.list-options',
-        'bootstrap.modal': 'oae/js/bootstrap.modal',
 
         // OAE API modules
         'oae.api': 'oae/api/oae.api',
