@@ -120,7 +120,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         var url = '/api/config';
         // Tenant and global servers do not need the tenantId to be specified in the URL
         // If a tenant server is accessed through the global server the tenantId needs to be specified
-        if (currentContext.isGlobalAdminServer) {
+        if (currentContext.isTenantOnGlobalAdminServer) {
             url += '/' + currentContext.alias;
         }
 
@@ -565,7 +565,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         // When we are on the tenant server itself, we don't have
         // to append the tenant alias to the endpoint
         var url = '/api/config';
-        if (currentContext.isGlobalAdminServer) {
+        if (currentContext.isTenantOnGlobalAdminServer) {
             url += '/' + currentContext.alias;
         }
 
@@ -636,7 +636,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
 
                 // Get the tenant configuration values
                 var url = '/api/config';
-                if (currentContext.isGlobalAdminServer && currentContext.alias) {
+                if (currentContext.isTenantOnGlobalAdminServer) {
                     url += '/' + currentContext.alias;
                 }
 
@@ -680,10 +680,11 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                 currentContext = data;
 
                 // Check if we're currently on a tenant admin on the global server. In that
-                // case, the URL should /tenant/<tenantAlias>
+                // case, the URL should be /tenant/<tenantAlias>
                 var tenantAlias = $.url().segment(2);
                 if (tenantAlias) {
                     currentContext = tenants[tenantAlias];
+                    currentContext.isTenantOnGlobalAdminServer = true;
                 }
                 callback();
             }
