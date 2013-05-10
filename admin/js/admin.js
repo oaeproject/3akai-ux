@@ -811,16 +811,13 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
      * Initializes the list of tenants and renders them in a view
      */
     var initializeTenants = function() {
-        var tenantsToRender = [];
-        if (currentContext.isGlobalAdminServer) {
-            // If we're on the global admin server, we can render all the tenants.
-            tenantsToRender = tenants;
-        } else {
-            // Otherwise we only render the current tenant.
-            tenantsToRender = [currentContext];
-        }
+        // If we're on the global admin server, we can render all the tenants. 
+        // Otherwise we only render the current tenant.
+        var tenantsToRender = (currentContext.isGlobalAdminServer) ? tenants: [currentContext];
 
-        // Determine whether or not there is at least
+        // Determine whether or not there is at least one tenant server that has been
+        // stopped. When that's the case, the 'Start all' button will be shown instead
+        // of the 'Stop all' button.
         var hasStoppedServer = _.find(tenants, function(tenant) {
             return !tenant.active;
         });

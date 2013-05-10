@@ -115,7 +115,7 @@
         <div id="admin-footer-template"><!--
             <div class="row-fluid">
                 <div class="span12" id="admin-footer-content">
-                    {if !oae.data.me.anon && oae.data.me.isGlobalAdmin}
+                    {if oae.data.me.isGlobalAdmin}
                         <ul class="inline">
                             <li>
                                 <a href="/">Global administration</a>
@@ -134,12 +134,11 @@
         --></div>
 
         <div id="admin-tenants-template"><!--
-            {var isMainGlobalAdmin = context.isGlobalAdminServer}
             <h2>Tenants</h2>
             {if _.keys(tenants).length > 0}
                 <table class="table table-striped">
                     <tr>
-                        {if isMainGlobalAdmin}
+                        {if context.isGlobalAdminServer}
                             <th></th>
                         {/if}
                         <th>Alias</th>
@@ -147,7 +146,7 @@
                         <th>Host</th>
                         <th>Status</th>
                         <th>
-                            {if isMainGlobalAdmin}
+                            {if context.isGlobalAdminServer}
                                 {if hasStoppedServer}
                                     <button type="button" class="btn btn-success start-all-tenants">Start all</button>
                                 {else}
@@ -163,7 +162,7 @@
                     {for tenant in tenants}
                         {if tenant.alias}
                             <tr>
-                                {if isMainGlobalAdmin}
+                                {if context.isGlobalAdminServer}
                                     <td><a href="/tenant/${tenant.alias|encodeForURL}" title="Edit ${tenant.displayName|encodeForHTMLAttribute}"><i class="icon-pencil"></i></a></td>
                                 {/if}
                                 <td>${tenant.alias|encodeForHTML}</td>
@@ -204,7 +203,7 @@
             {else}
                 <p class="text-warning">There are no tenants.</p>
             {/if}
-            {if isMainGlobalAdmin}
+            {if context.isGlobalAdminServer}
                 <div class="admin-container-striped">
                     <div>
                         <button id="createtenant-toggle-button" type="button" class="btn">
