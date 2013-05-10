@@ -1055,6 +1055,15 @@ ul.oae-list li .oae-list-compact-item  {
     font-size: 12px;
 }
 
+/*****************************
+ ** Twitter bootstrap modal **
+ *****************************/
+
+.modal .close[disabled]:hover {
+    opacity: 0.2;
+    filter:alpha(opacity=20);
+    cursor:default;
+}
 
 
 
