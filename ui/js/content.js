@@ -59,7 +59,7 @@ require(['jquery','oae.core'], function($, oae) {
             // Show the content preview
             setUpContentProfilePreview();
             // Set up the context event exchange
-            setUpContext
+            setUpContext();
             // We can now unhide the page
             oae.api.util.showPage();
         });
