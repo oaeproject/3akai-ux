@@ -85,7 +85,7 @@ body {
 
 body, button, input, select, textarea,
 .btn > i, a.oae-plain-link,
-h1 [class^="icon-"], h1 [class*=" icon-"], 
+h1 [class^="icon-"], h1 [class*=" icon-"],
 h2 [class^="icon-"], h2 [class*=" icon-"],
 h3 [class^="icon-"], h3 [class*=" icon-"],
 h4 [class^="icon-"], h4 [class*=" icon-"],
@@ -450,12 +450,48 @@ input[type="color"]:focus,
     background-color: @lhnav-item-background-hover-color;
 }
 
-.nav > li.active > a, 
-.nav > li.active > a:hover, 
+.nav > li.active > a,
+.nav > li.active > a:hover,
 .nav > li.active > a:focus,
 .nav > li.active i {
     color: @lhnav-item-text-selected-color;
     background-color: @lhnav-item-background-selected-color;
+}
+
+
+/*********************************
+ ** @section  Tabbed navigation **
+ *********************************/
+
+/* Tabbed navigation item text color */
+@tabbed-nav-text-color: #999;
+/* Tabbed navigation item hover text color */
+@tabbed-nav-text-hover-color: #333;
+/* Tabbed navigation item selected text color */
+@tabbed-nav-text-selected-color: #333;
+/* Tabbed navigation background color */
+@tabbed-nav-background-color: transparent;
+/* Tabbed navigation background color */
+@tabbed-nav-background-hover-color: transparent;
+/* Tabbed navigation active tab background color */
+@tabbed-nav-background-selected-color: #F8F8F6;
+
+.nav-tabs > li > a {
+    color: @tabbed-nav-text-color;
+    background-color: @tabbed-nav-background-color;
+}
+
+.nav-tabs > li > a:hover,
+.nav-tabs > li > a:focus {
+    color: @tabbed-nav-text-hover-color;
+    background-color: @tabbed-nav-background-hover-color;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+    color: @tabbed-nav-text-selected-color;
+    background-color: @tabbed-nav-background-selected-color;
 }
 
 
@@ -555,7 +591,7 @@ div.oae-thumbnail {
     border-color: @panel-primary-background-color;
 }
 
-.oae-panel-primary h1, .oae-panel-primary h2, .oae-panel-primary h3, 
+.oae-panel-primary h1, .oae-panel-primary h2, .oae-panel-primary h3,
 .oae-panel-primary h4, .oae-panel-primary h5, .oae-panel-primary h6,
 .oae-panel-primary i, .oae-panel-primary i:hover {
     color: @panel-primary-title-color;
@@ -580,7 +616,7 @@ div.oae-thumbnail {
     border-color: @panel-secondary-background-color;
 }
 
-.oae-panel-secondary h1, .oae-panel-secondary h2, .oae-panel-secondary h3, 
+.oae-panel-secondary h1, .oae-panel-secondary h2, .oae-panel-secondary h3,
 .oae-panel-secondary h4, .oae-panel-secondary h5, .oae-panel-secondary h6,
 .oae-panel-secondary i, .oae-panel-secondary i:hover {
     color: @panel-secondary-title-color;
@@ -605,7 +641,7 @@ div.oae-thumbnail {
     border-color: @panel-tertiary-background-color;
 }
 
-.oae-panel-tertiary h1, .oae-panel-tertiary h2, .oae-panel-tertiary h3, 
+.oae-panel-tertiary h1, .oae-panel-tertiary h2, .oae-panel-tertiary h3,
 .oae-panel-tertiary h4, .oae-panel-tertiary h5, .oae-panel-tertiary h6,
 .oae-panel-tertiary i, .oae-panel-tertiary i:hover {
     color: @panel-tertiary-title-color;
