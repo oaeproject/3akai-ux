@@ -105,7 +105,7 @@
     <div class="oae-thumbnail {if large} oae-thumbnail-large {/if} icon-oae-${entityData.resourceSubType} icon-oae-${resourceType}">
         {if profilePath}<a href="${profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}">{/if}
         {if thumbnailUrl}
-            <img src="${thumbnailUrl}&${Math.round(Math.random() * 10000000)}" alt="${entityData.displayName|encodeForHTMLAttribute}" />
+            <img src="${thumbnailUrl}" alt="${entityData.displayName|encodeForHTMLAttribute}" />
         {/if}
         {if addVisibilityIcon !== false && resourceType !== 'user'}
             <i class="icon-oae-${visibility}"></i>
