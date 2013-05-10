@@ -32,7 +32,7 @@
                         </div>
                         <div class="oae-clip-content">
                             <button {if !content.isManager} disabled {/if}>
-                                ${renderThumbnail(content)}
+                                ${renderThumbnail(content, false, false, false)}
                                 <div>
                                     <div>
                                         <h1>${content.displayName|encodeForHTML}</h1>

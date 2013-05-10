@@ -32,7 +32,7 @@
                         </div>
                         <div class="oae-clip-content">
                             <button {if !group.isManager} disabled {/if}>
-                                ${renderThumbnail(group)}
+                                ${renderThumbnail(group, false, false, false)}
                                 <div>
                                     <div>
                                         <h1>${group.displayName|encodeForHTML}</h1>
