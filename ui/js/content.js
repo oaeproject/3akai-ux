@@ -25,13 +25,13 @@ require(['jquery','oae.core'], function($, oae) {
     var contentProfile = null;
 
     /**
-     * Shows or keeps hidden actions for the content profile
+     * Renders the content preview.
      */
-    var showActions = function() {
-        // If the resourceSubType is `file` a revision can be uploaded
-        if (contentProfile.resourceSubType === 'file' && contentProfile.isManager) {
-            $('li .oae-trigger-uploadnewversion').show();
-        }
+    var setUpContentProfilePreview = function() {
+        // Remove the old preview widget
+        $('#content_preview_container').html('');
+        // Insert a new preview widget and pass in the updated content profile data
+        oae.api.widget.insertWidget('contentpreview', null, $('#content_preview_container'), null, contentProfile);
     };
 
     /**
@@ -44,44 +44,25 @@ require(['jquery','oae.core'], function($, oae) {
             if (err) {
                 if (err.code === 401) {
                     oae.api.util.redirect().accessdenied();
-                    return;
                 } else {
                     oae.api.util.redirect().notfound();
-                    return;
                 }
+                return;
             }
 
+            // Cache the content profile data
             contentProfile = profile;
-
             // Set the browser title
             oae.api.util.setBrowserTitle(contentProfile.displayName);
-
             // Render the entity information
             setUpClip();
-            // Show or keep certain actions hidden
-            showActions();
-
-            // Insert the preview
-            oae.api.widget.insertWidget('contentpreview', null, $('#content_preview_container'), null, contentProfile);
-
-            // Set up context communication
-            setUpContext();
+            // Show the content preview
+            setUpContentProfilePreview();
+            // Set up the context event exchange
+            setUpContext
             // We can now unhide the page
             oae.api.util.showPage();
         });
-    };
-
-    /**
-     * The `oae.context.get` event can be sent by widgets to get hold off the current
-     * context (i.e. content profile), which will be send as a `oae.context.send` event. 
-     * In case the widget has put in its context request before the profile was loaded,
-     * we also broadcast it out straight away.
-     */
-    var setUpContext = function() {
-        $(document).on('oae.context.get', function() {
-            $(document).trigger('oae.context.send', contentProfile);
-        });
-        $(document).trigger('oae.context.send', contentProfile);
     };
 
     /**
@@ -89,26 +70,34 @@ require(['jquery','oae.core'], function($, oae) {
      */
     var refreshContentProfile = function() {
         oae.api.content.getContent(contentId, function(err, profile) {
-            if (err) {
-                if (err.code === 401) {
-                    oae.api.util.redirect().accessdenied();
-                    return;
-                } else {
-                    oae.api.util.redirect().notfound();
-                    return;
-                }
-            }
-
+            // Cache the content profile data
             contentProfile = profile;
-
-            // Refresh the preview
-            $('#content_preview_container').html('');
-            oae.api.widget.insertWidget('contentpreview', null, $('#content_preview_container'), null, contentProfile);
+            // Show the content preview
+            setUpContentProfilePreview();
         });
     };
 
+    /**
+     * The `oae.context.get` or `oae.context.get.<widgetname>` event can be sent by widgets 
+     * to get hold of the current context (i.e. content profile). In the first case, a
+     * `oae.context.send` event will be sent out as a broadcast to all widgets listening
+     * for the context event. In the second case, a `oae.context.send.<widgetname>` event
+     * will be sent out and will only be caught by that particular widget. In case the widget
+     * has put in its context request before the profile was loaded, we also broadcast it out straight away.
+     */
+    var setUpContext = function() {
+        $(document).on('oae.context.get', function(ev, widgetId) {
+            if (widgetId) {
+                $(document).trigger('oae.context.send.' + widgetId, contentProfile);
+            } else {
+                $(document).trigger('oae.context.send', contentProfile);
+            }
+        });
+        $(document).trigger('oae.context.send', contentProfile);
+    };
+
     // Catches the `upload new version complete` event and refreshes the content profile
-    $(document).on('oae-uploadnewversion-complete', refreshContentProfile);
+    $(document).on('oae.uploadnewversion.complete', refreshContentProfile);
 
     /**
      * Render the content's clip, containing the thumbnail, display name as well as the

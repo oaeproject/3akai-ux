@@ -103,15 +103,21 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     /**
-     * The `oae.context.get` event can be sent by widgets to get hold off the current
-     * context (i.e. current user's profile), which will be send as a `oae.context.send` event. 
-     * In case the widget has put in its context request before this file was executed,
-     * we also broadcast it out straight away.
+     * The `oae.context.get` or `oae.context.get.<widgetname>` event can be sent by widgets 
+     * to get hold of the current context (i.e. current user's profile). In the first case, a
+     * `oae.context.send` event will be sent out as a broadcast to all widgets listening
+     * for the context event. In the second case, a `oae.context.send.<widgetname>` event
+     * will be sent out and will only be caught by that particular widget. In case the widget
+     * has put in its context request before the profile was loaded, we also broadcast it out straight away.
      */
-    $(document).on('oae.context.get', function() {
-        $(document).trigger('oae.context.send');
+    $(document).on('oae.context.get', function(ev, widgetId) {
+        if (widgetId) {
+            $(document).trigger('oae.context.send.' + widgetId, oae.data.me);
+        } else {
+            $(document).trigger('oae.context.send', oae.data.me);
+        }
     });
-    $(document).trigger('oae.context.send');
+    $(document).trigger('oae.context.send', oae.data.me);
 
     setUpClip();
     setUpNavigation();
