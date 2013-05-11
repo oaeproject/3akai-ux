@@ -21,7 +21,14 @@ define(['jquery'], function (jQuery) {
          */
         $(document).on('click', '.oae-list-options-toggle', function(ev) {
             $('.oae-list-options-actions').toggleClass('hide');
-            $(ev.target).find('i').toggleClass('icon-caret-down icon-caret-up');
+            var $toggle = $(ev.target);
+            // If the clicked element is the icon, toggle its class
+            if ($toggle.hasClass('icon-caret-down') || $toggle.hasClass('icon-caret-up')) {
+                $toggle.toggleClass('icon-caret-down icon-caret-up');
+            // If the clicked element is not the icon, look for it in the children and change its class
+            } else {
+                $toggle.find('i').toggleClass('icon-caret-down icon-caret-up');
+            }
         });
 
         /**
