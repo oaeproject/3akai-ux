@@ -31,11 +31,11 @@ body {
 /* Branding image */
 
 .oae-main-content.oae-branding-container {
-    background-image: url('/ui/img/index.png') rgb(37,169,223);
-    background-image: url('/ui/img/index.png'), -moz-linear-gradient(top, rgba(37,169,223,1) 0%, rgba(0,116,167,1) 100%);
-    background-image: url('/ui/img/index.png'), -webkit-linear-gradient(top, rgba(37,169,223,1) 0%, rgba(0,116,167,1) 100%);
-    background-image: url('/ui/img/index.png'), linear-gradient(to bottom, rgba(37,169,223,1) 0%, rgba(0,116,167,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=rgba(37,169,223,1), endColorstr=rgba(0,116,167,1)); /* IE9 */
+    background-image: url('/ui/img/index.png') #0074A7;
+    background-image: url('/ui/img/index.png'), -moz-linear-gradient(top, #0074A7 0%, #25A9FD 100%);
+    background-image: url('/ui/img/index.png'), -webkit-linear-gradient(top, #0074A7 0%, #25A9FD 100%);
+    background-image: url('/ui/img/index.png'), linear-gradient(to bottom, #0074A7 0%, #25A9FD 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#0074A7, endColorstr=#25A9FD); /* IE9 */
 }
 
 /************
