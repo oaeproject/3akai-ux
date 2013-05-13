@@ -466,6 +466,42 @@ input[type="color"]:focus,
 }
 
 
+/*********************************
+ ** @section  Tabbed navigation **
+ *********************************/
+
+/* Tabbed navigation item text color */
+@tabbed-nav-text-color: #999;
+/* Tabbed navigation item hover text color */
+@tabbed-nav-text-hover-color: #333;
+/* Tabbed navigation item selected text color */
+@tabbed-nav-text-selected-color: #333;
+/* Tabbed navigation background color */
+@tabbed-nav-background-color: transparent;
+/* Tabbed navigation background color */
+@tabbed-nav-background-hover-color: transparent;
+/* Tabbed navigation active tab background color */
+@tabbed-nav-background-selected-color: #F8F8F6;
+
+.nav-tabs > li > a {
+    color: @tabbed-nav-text-color;
+    background-color: @tabbed-nav-background-color;
+}
+
+.nav-tabs > li > a:hover,
+.nav-tabs > li > a:focus {
+    color: @tabbed-nav-text-hover-color;
+    background-color: @tabbed-nav-background-hover-color;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+    color: @tabbed-nav-text-selected-color;
+    background-color: @tabbed-nav-background-selected-color;
+}
+
+
 /**************************
  ** @section  Thumbnails **
  **************************/

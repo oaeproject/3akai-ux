@@ -47,6 +47,7 @@ requirejs.config({
         'underscore': 'vendor/js/underscore',
 
         // OAE paths
+        'bootstrap.modal': 'oae/js/bootstrap-plugins/bootstrap.modal',
         'jquery.clip': 'oae/js/jquery-plugins/jquery.clip',
         'jquery.dnd-upload': 'oae/js/jquery-plugins/jquery.dnd-upload',
         'jquery.infinitescroll': 'oae/js/jquery-plugins/jquery.infinitescroll',
