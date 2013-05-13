@@ -25,7 +25,7 @@
     background-image: url(@image), -moz-linear-gradient(top, @gradient1 0%, @gradient2 100%);
     background-image: url(@image), -webkit-linear-gradient(top, @gradient1 0%, @gradient2 100%);
     background-image: url(@image), linear-gradient(to bottom, @gradient1 0%, @gradient2 100%);
-    filter: ~"progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=@{iegradient1}, endColorstr=@{iegradient2}"; /* IE9 */
+    -ms-filter: ~'"progid:DXImageTransform.Microsoft.gradient(startColorstr=@{iegradient1}, endColorstr=@{iegradient2}, GradientType=0"'; /* IE9 */
 }
 
 .background-gradient-two(@gradient1, @gradient2, @gradient1start:0%, @gradient2start:100%) {
@@ -36,7 +36,7 @@
     background-image: -o-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start);
     background-image: -moz-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start);
     background-image: -webkit-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start);
-    filter: ~"progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=@{iegradient1}, endColorstr=@{iegradient2}"; /* IE9 */
+    -ms-filter: ~'"progid:DXImageTransform.Microsoft.gradient(startColorstr=@{iegradient1}, endColorstr=@{iegradient2}, GradientType=0"'; /* IE9 */
 }
 
 .background-gradient-three(@gradient1, @gradient2, @gradient3, @gradient1start:0%, @gradient2start:50%, @gradient3start:100%) {
@@ -47,7 +47,7 @@
     background-image: -o-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start, @gradient3 @gradient3start);
     background-image: -moz-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start, @gradient3 @gradient3start);
     background-image: -webkit-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start, @gradient3 @gradient3start);
-    filter: ~"progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=@{iegradient1}, endColorstr=@{iegradient3}"; /* IE9 */
+    -ms-filter: ~'"progid:DXImageTransform.Microsoft.gradient(startColorstr=@{iegradient1}, endColorstr=@{iegradient3}, GradientType=0"'; /* IE9 */
 }
 
 
