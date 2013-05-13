@@ -22,7 +22,7 @@
  *     e.g. $('#widget-modal').modal('unlock');
  */
 
-define(['jquery', 'bootstrap'], function($, bootstrap) {
+define(['jquery', 'bootstrap'], function($) {
     $.extend($.fn.modal.Constructor.prototype, {
         'lock': function() {
             // Set isShown to false. https://github.com/twitter/bootstrap/issues/1202#issuecomment-3698674
