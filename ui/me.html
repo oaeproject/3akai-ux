@@ -32,7 +32,7 @@
                         </div>
                         <div class="oae-clip-content">
                             <button>
-                                ${renderThumbnail(oae.data.me)}
+                                ${renderThumbnail(oae.data.me, false, false, false)}
                                 <div>
                                     <div>
                                         <h1>${oae.data.me.displayName|encodeForHTML}</h1>
@@ -43,9 +43,9 @@
                             </button>
                             <div>
                                 <ul>
-                                    <li><button><i class="icon-camera"></i>__MSG__MY_PICTURE__</button></li>
+                                    <li><button class="oae-trigger-changepic"><i class="icon-camera"></i>__MSG__MY_PICTURE__</button></li>
                                     <li><button><i class="icon-user"></i>__MSG__MY_PROFILE__</button></li>
-                                    <li><button><i class="icon-wrench"></i>__MSG__MY_ACCOUNT__</button></li>
+                                    <li><button class="oae-trigger-accountpreferences"><i class="icon-wrench"></i>__MSG__MY_ACCOUNT__</button></li>
                                 </ul>
                             </div>
                         </div>

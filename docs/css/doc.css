@@ -14,68 +14,43 @@
  */
 
 html, body {
-    height: 100%;
     margin: 0;
-    padding: 0;
 }
-body {
-    background: #EEE;
+#doc-header-container, #doc-content-container {
+    padding: 0 30px;
 }
-.clear {
-    clear: both;
-}
-.hidden {
-    visibility: hidden;
-}
-#doc-container {
-    min-height: 100%;
-    position: relative;
-}
+
+/* Header */
+
 #doc-header-container {
     background-color: #FFF;
     height: 70px;
-    margin: 0 auto;
-    width: 100%;
 }
 #doc-header-container #doc-header-content {
     background: url('/shared/oae/img/oae-logo.png') no-repeat left center transparent;
+    background-size: 60px;
     height: 70px;
-    margin: 0 auto;
-    width: 1150px;
-}
-#doc-header-container #doc-header-user {
-    float: right;
-    margin: 20px;
 }
 #doc-header-container h1 {
     font-size: 22px;
     font-weight: normal;
     margin: 0;
-    padding: 15px 0 0 150px;
+    padding: 15px 0 0 80px;
 }
-#doc-content {
-    margin: 0 auto;
-    padding-bottom: 120px;
-    width: 1150px;
+
+/* Content */
+
+#doc-content-container {
+    padding-bottom: 50px;
 }
-#doc-docs-container {
-    float: right;
-    width: 880px;
+
+#doc-modules-container h5 {
+    margin-top: 30px;
+    margin-left: 10px;
 }
-#doc-footer {
-    background: #3b3b3b; /* Old browsers */
-    background: -moz-linear-gradient(top, #3b3b3b 0%, #333333 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3b3b3b), color-stop(100%,#333333)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #3b3b3b 0%,#333333 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #3b3b3b 0%,#333333 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #3b3b3b 0%,#333333 100%); /* IE10+ */
-    background: linear-gradient(to bottom, #3b3b3b 0%,#333333 100%); /* W3C */
-    height: 100px;
-    margin-top: 25px;
-    bottom: 0;
-    position: absolute;
-    width: 100%;
-}
+
+/* Module documentation */
+
 h2 {
     border-bottom: 1px solid #DDDDDD;
     color: #0088CC;
@@ -100,63 +75,12 @@ h4 {
     line-height: 27px;
     margin: 7px 0 12px;
 }
-.anchor-section {
-    color: #9A9A9A;
-    float: right;
-    text-decoration: none;
-}
-.doc-func-description {
-    display: block;
-    padding-left: 7px;
-}
-/* BOOTSTRAP ADDITIONS/OVERRIDES */
-.alert.success {
-    background-color: #DFF0D8;
-    border: 1px solid #D0DFC9;
-    color: #728F66;
-}
+
+/* Bootstrap overrides */
+/* TODO: At some point, this needs to be cleaned up and brought in line with the main OAE CSS files */
 
 td form {
     margin: 0;
-}
-
-td.jeditable-container:hover {
-    cursor: pointer;
-    color: #666;
-    background: #3b3b3b; /* Old browsers */
-    background: -moz-linear-gradient(top, #ddd 0%, #ccc 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ddd), color-stop(100%,#ccc)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #ddd 0%,#ccc 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #ddd 0%,#ccc 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #ddd 0%,#ccc 100%); /* IE10+ */
-    background: linear-gradient(to bottom, #ddd 0%,#ccc 100%); /* W3C */
-}
-
-.table-striped tbody tr:nth-child(2n+1) td,
-.table-striped tbody tr:nth-child(2n+1) th,
-.container-striped > div:nth-child(2n+1) {
-    background: #f8f8f8; /* Old browsers */
-    background: -moz-linear-gradient(top, #f8f8f8 0%, #F0f0f0 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f8f8f8), color-stop(100%,#F0f0f0)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #f8f8f8 0%,#F0f0f0 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #f8f8f8 0%,#F0f0f0 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #f8f8f8 0%,#F0f0f0 100%); /* IE10+ */
-    background: linear-gradient(to bottom, #f8f8f8 0%,#F0f0f0 100%); /* W3C */
-    max-width: 150px;
-    vertical-align: middle;
-}
-.table-striped tbody tr:nth-child(2n+2) td,
-.table-striped tbody tr:nth-child(2n+2) th,
-.container-striped > div:nth-child(2n+2) {
-    background-color: #fff;
-    max-width: 150px;
-    vertical-align: middle;
-}
-.container-striped > div:nth-child(2n+1),
-.container-striped > div:nth-child(2n+2) {
-    border-top: 1px solid #ddd;
-    max-width: none;
-    padding: 12px;
 }
 .bs-docs-public, .bs-docs-private {
     margin-bottom: 30px;
@@ -164,21 +88,14 @@ td.jeditable-container:hover {
 .bs-docs-private {
     display: none;
 }
-.bs-docs-sidenav.affix {
-    top: 40px;
-}
-.bs-docs-sidenav {
-    width: 258px;
-}
 .bs-docs-sidenav {
     background-color: #FFFFFF;
     border-radius: 6px 6px 6px 6px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
     -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
     -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
-    margin: 25px 0 0;
+    margin: 15px 0 0;
     padding: 0;
-    width: 228px;
 }
 .bs-docs-sidenav > li:first-child > a {
     border-radius: 6px 6px 0 0;
@@ -190,29 +107,27 @@ td.jeditable-container:hover {
     padding: 8px 14px;
 }
 .bs-docs-sidenav .icon-chevron-right {
-    float: right;
     margin-right: -6px;
-    margin-top: 2px;
     opacity: 0.25;
 }
 .nav > li > a:hover {
-    background: #f8f8f8; /* Old browsers */
-    background: -moz-linear-gradient(top, #f8f8f8 0%, #F0f0f0 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f8f8f8), color-stop(100%,#F0f0f0)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #f8f8f8 0%,#F0f0f0 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #f8f8f8 0%,#F0f0f0 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #f8f8f8 0%,#F0f0f0 100%); /* IE10+ */
-    background: linear-gradient(to bottom, #f8f8f8 0%,#F0f0f0 100%); /* W3C */
+    background: #f8f8f8;
+    background: -moz-linear-gradient(top, #f8f8f8 0%, #F0f0f0 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f8f8f8), color-stop(100%,#F0f0f0));
+    background: -webkit-linear-gradient(top, #f8f8f8 0%,#F0f0f0 100%);
+    background: -o-linear-gradient(top, #f8f8f8 0%,#F0f0f0 100%);
+    background: -ms-linear-gradient(top, #f8f8f8 0%,#F0f0f0 100%);
+    background: linear-gradient(to bottom, #f8f8f8 0%,#F0f0f0 100%);
 }
-.nav-list > .active > a, .nav-list > .active > a,
-.nav-list > .active > a, .nav-list > .active > a:hover {
-    background: #0088CC; /* Old browsers */
-    background: -moz-linear-gradient(top, #0099DD 0%, #0088CC 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#0099DD), color-stop(100%,#0088CC)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #0099DD 0%,#0088CC 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #0099DD 0%,#0088CC 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #0099DD 0%,#0088CC 100%); /* IE10+ */
-    background: linear-gradient(to bottom, #0099DD 0%,#0088CC 100%); /* W3C */
+.nav-list > li.active > a, .nav-list > li.active > a,
+.nav-list > li.active > a:focus, .nav-list > li.active > a:hover {
+    background: #0088CC;
+    background: -moz-linear-gradient(top, #0099DD 0%, #0088CC 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#0099DD), color-stop(100%,#0088CC));
+    background: -webkit-linear-gradient(top, #0099DD 0%,#0088CC 100%);
+    background: -o-linear-gradient(top, #0099DD 0%,#0088CC 100%);
+    background: -ms-linear-gradient(top, #0099DD 0%,#0088CC 100%);
+    background: linear-gradient(to bottom, #0099DD 0%,#0088CC 100%);
     color: #FFFFFF;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
 }
