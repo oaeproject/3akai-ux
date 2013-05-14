@@ -232,10 +232,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
                 }
             }
 
-            // Render the template
+            // Render the template and filter out comments (in the form of <!--...-->)
             var renderedHTML = null;
             try {
-                renderedHTML = templateCache[templateId].process(data, {'throwExceptions': true});
+                renderedHTML = templateCache[templateId].process(data, {'throwExceptions': true}).replace(/<!--(?:.|\n)*?-->/gm, '');
             } catch (err) {
                 throw new Error('Rendering of template "' + templateId + '" failed: ' + err);
             }
@@ -254,7 +254,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         return {
             'init': init,
             'render': render
-        }
+        };
     };
 
     /**
@@ -265,7 +265,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
      * at http://nijikokun.github.com/bootstrap-notify/.
      *
      * @param  {String}     [title]       The notification title.
-     * @param  {String}     message       The notification message that will be shown underneath the title.
+     * @param  {String}     message       The notification message that will be shown underneath the title. The message should be sanitized by the caller to allow for HTML inside of the notification.
      * @param  {String}     [type]        The notification type. The supported types are `success`, `error` and `info`, as defined in http://twitter.github.com/bootstrap/components.html#alerts. By default, the `success` type will be used.
      * @throws {Error}                    Error thrown when no message has been provided
      */
@@ -283,8 +283,6 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             $('body').append($notificationContainer);
         }
 
-        // We make sure the notification message is protected against XSS attacks
-        message = security().encodeForHTML(message);
         // If a title has been provided, we wrap it in an h4 and prepend it to the message
         if (title) {
             message = '<h4>' + security().encodeForHTML(title) + '</h4>' + message;
@@ -490,7 +488,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             'init': init,
             'validate': validate,
             'clear': clear
-        }
+        };
     };
 
     ////////////////////
