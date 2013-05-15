@@ -144,6 +144,12 @@ i.icon-oae-public:before {
 }
 
 /* Large visibility icons */
+i.icon-oae-private.large,
+i.icon-oae-loggedin.large,
+i.icon-oae-public.large {
+    width: 60px;
+    height: 60px;
+}
 
 i.icon-oae-private.large:before,
 i.icon-oae-loggedin.large:before,
@@ -258,7 +264,7 @@ i.icon-oae-public.large:before {
 [class*=" icon-"].icon-ok,
 [class^="icon-"].icon-ok:hover,
 [class*=" icon-"].icon-ok:hover {
-    color: #468847;
+    color: #0480BE;
 }
 
 [class^="icon-"].icon-warning-sign,
