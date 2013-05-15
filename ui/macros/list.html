@@ -141,6 +141,8 @@
 
     {if entityData.resourceType}
         {var resourceType = entityData.resourceType}
+    {elseif entityData.objectType}
+        {var resourceType = entityData.objectType}
     {/if}
 
     {if entityData.profilePath}
@@ -149,13 +151,19 @@
         {var profilePath = entityData['oae:profilePath']}
     {/if}
 
+    {if entityData.tenant}
+        {var tenant = entityData.tenant}
+    {elseif entityData['oae:tenant']}
+        {var tenant = entityData['oae:tenant']}
+    {/if}
+
     {if !metadata}
         {if resourceType === 'user'}
-            {var metadata = entityData.tenant.displayName}
-        {elseif entityData.resourceType === 'group'}
+            {var metadata = tenant.displayName}
+        {elseif resourceType === 'group'}
             <!-- TODO: Add proper metadata and i18n -->
             {var metadata = 'Group'}
-        {elseif entityData.resourceType === 'content'}
+        {elseif resourceType === 'content'}
             <!-- TODO: Add proper document type and i18n -->
             {var metadata = 'Other document'}
         {/if}
