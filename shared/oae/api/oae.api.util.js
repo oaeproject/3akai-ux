@@ -235,7 +235,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             // Render the template and filter out comments (in the form of <!--...-->)
             var renderedHTML = null;
             try {
-                renderedHTML = templateCache[templateId].process(data, {'throwExceptions': true}).replace(/<!--(?:.|\n)*?-->/gm, '');
+                // Render the template
+                renderedHTML = templateCache[templateId].process(data, {'throwExceptions': true});
+                // Filter out comments
+                renderedHTML = renderedHTML.replace(/<!--(?:.|\n)*?-->/gm, '');
             } catch (err) {
                 throw new Error('Rendering of template "' + templateId + '" failed: ' + err);
             }
