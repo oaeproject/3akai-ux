@@ -69,7 +69,7 @@
  * @param  {Boolean}                    [addLink]               Whether or not a link to the entity profile should be placed on the image. By default, a link will be set
  * @param  {String}                     [customImage]           URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
 -->
-{macro renderThumbnail(entityData, addVisibilityIcon, large, addLink, customImage)}
+{macro renderThumbnail(entityData, addVisibilityIcon, largeDefault, addLink, customImage)}
     <!-- If only a string, representing the resourceType, has been passed in. The eval block
          will be interpreted as plain Javascript by TrimPath -->
     {eval}
@@ -119,7 +119,7 @@
         {var visibility = entityData['oae:visibility']}
     {/if}
 
-    <div class="oae-thumbnail {if large} oae-thumbnail-large {/if} icon-oae-${resourceSubType} icon-oae-${resourceType}">
+    <div class="oae-thumbnail {if largeDefault} oae-thumbnail-large {/if} icon-oae-${resourceSubType} icon-oae-${resourceType}">
         {if profilePath && addLink !== false}<a href="${profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}">{/if}
         {if thumbnailUrl}
             <img src="${thumbnailUrl}" alt="${entityData.displayName|encodeForHTMLAttribute}" />
