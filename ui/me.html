@@ -32,7 +32,7 @@
                         </div>
                         <div class="oae-clip-content">
                             <button>
-                                ${renderThumbnail(oae.data.me)}
+                                ${renderThumbnail(oae.data.me, false, false, false)}
                                 <div>
                                     <div>
                                         <h1>${oae.data.me.displayName|encodeForHTML}</h1>
@@ -45,7 +45,7 @@
                                 <ul>
                                     <li><button class="oae-trigger-changepic"><i class="icon-camera"></i>__MSG__MY_PICTURE__</button></li>
                                     <li><button><i class="icon-user"></i>__MSG__MY_PROFILE__</button></li>
-                                    <li><button><i class="icon-wrench"></i>__MSG__MY_ACCOUNT__</button></li>
+                                    <li><button class="oae-trigger-accountpreferences"><i class="icon-wrench"></i>__MSG__MY_ACCOUNT__</button></li>
                                 </ul>
                             </div>
                         </div>
@@ -85,7 +85,7 @@
                                 <ul>
                                     <li><button class="oae-trigger-creategroup"><i class="icon-group"></i>__MSG__GROUP__</button></li>
                                     <li><button class="oae-trigger-createlink"><i class="icon-link"></i>__MSG__LINK__</button></li>
-                                    <li><button><i class="icon-edit"></i>__MSG__DOCUMENT__</button></li>
+                                    <li><button class="oae-trigger-createcollabdoc"><i class="icon-edit"></i>__MSG__DOCUMENT__</button></li>
                                     <li><button><i class="icon-comments"></i>__MSG__DISCUSSION__</button></li>
                                 </ul>
                             </div>

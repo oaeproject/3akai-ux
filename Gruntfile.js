@@ -68,6 +68,7 @@ module.exports = function(grunt) {
                             '!target/**',
                             '!tests/**',
                             '!tools/**',
+                            '!node_modules/.*/**',
                             '!node_modules/grunt*/**',
                             '!node_modules/shelljs/**',
                             '!node_modules/underscore/**'
@@ -97,7 +98,7 @@ module.exports = function(grunt) {
                         'name': 'oae.core',
                         'exclude': ['jquery']
                     }],
-                    'fileExclusionRegExp': /^(\.|tools|target|tests|grunt|shelljs|underscore$)/,
+                    'fileExclusionRegExp': /^(\.|target|tests|tools|grunt|shelljs|underscore$)/,
                     'logLevel': 2
                 }
             }

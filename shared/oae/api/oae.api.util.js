@@ -17,7 +17,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
 
     /**
      * Initialize all utility functionality.
-     * 
+     *
      * @param  {Function}   callback            Standard callback function
      * @api private
      */
@@ -30,7 +30,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
 
     /**
      * Request a number of static files at once through a static batch request
-     * 
+     *
      * @param  {String[]}       paths               Array of paths that should be retrieved
      * @param  {Function}       callback            Standard callback function
      * @param  {Object}         callback.err        Error object containing error code and message
@@ -56,7 +56,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
     /**
      * Generate a random ID. This ID generator does not guarantee global uniqueness.
      * The generated id will have the following format: `oae-<random number>-<random number>`
-     * 
+     *
      * @return {String}         Generated random ID
      */
     var generateId = exports.generateId = function() {
@@ -65,11 +65,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
 
     /**
      * Change the browser title for a particular page. The browser's title has the following structure
-     * 
+     *
      * Sakai OAE - Sakai Doc 1 [- Page 1]
-     * 
+     *
      * Where the first part will be fixed.
-     * 
+     *
      * @param  {String|String[]}     title       The new page title or an array of strings representing the fragments of the page title
      * @throws {Error}                           Error thrown when no page title has been provided
      */
@@ -92,7 +92,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
     // TRIMPATH TEMPLATE RENDERER //
     ////////////////////////////////
 
-    // Variable that will cache all of the parsed Trimpath templates. 
+    // Variable that will cache all of the parsed Trimpath templates.
     // This avoids the same template being parsed over and over again
     var templateCache = [];
     // Variable that will be used to cache the OAE Trimpath macros for
@@ -119,8 +119,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         };
 
         /**
-         * Initialize the template utility functions by fetching and caching 
-         * a global macro that can be used for rendering list view items. 
+         * Initialize the template utility functions by fetching and caching
+         * a global macro that can be used for rendering list view items.
          *
          * @param  {Function}       callback        Standard callback function
          * @api private
@@ -135,8 +135,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         };
 
         /**
-         * Functionality that allows you to create HTML Templates, using a JSON object. That template 
-         * will then be rendered and all of the values from the JSON object can be used to insert values 
+         * Functionality that allows you to create HTML Templates, using a JSON object. That template
+         * will then be rendered and all of the values from the JSON object can be used to insert values
          * into the rendered HTML. More information and examples can be found over here:
          *
          * http://code.google.com/p/trimpath/wiki/JavaScriptTemplates
@@ -149,10 +149,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * NOTE: The OAE core APIs will automatically be passed into each template render, so they can be
          * called inside of each template without having to explicitly pass it in. There are also two standard
          * TrimPath modifiers that will be available:
-         * 
+         *
          * - `${value|encodeForHTML}`: Should be used for all user input rendered as text
          * - `${value|encodeForURL}`: Should be used for all user input used as part of a URL
-         * 
+         *
          * There are also 2 globally available macros that can be used inside of all TrimPath templates:
          *
          * 1) Thumbnail
@@ -160,17 +160,17 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          *   `${renderThumbnail(entityData, [addVisibilityIcon], [large])}`
          *
          * - `entityData` is a standard object representing a user, group or content item or a search result for a user, group
-         *    or content item as returned by Hilary. Alternatively, a string representing the resourceType or resourceSubType 
-         *    (i.e., 'user', 'group', 'content', 'file', 'link', 'collabdoc') can be passed in for an empty/anonymous 
+         *    or content item as returned by Hilary. Alternatively, a string representing the resourceType or resourceSubType
+         *    (i.e., 'user', 'group', 'content', 'file', 'link', 'collabdoc') can be passed in for an empty/anonymous
          *    entity thumbnail.
-         * - `addVisibilityIcon` (optional) will determine whether or not the visibility icon should be shown. By default, 
+         * - `addVisibilityIcon` (optional) will determine whether or not the visibility icon should be shown. By default,
          *    the visibility icon will be shown. However, users will not never show a visibility icon.
          * - `large` (optional) determines whether or not a large default thumbnail icon should used. By default, a small icon will be used.
          *
          * 2) List item
          *
          *   `${listItem(entityData, [pagingKey], [metadata], [showCheckbox])}`
-         * 
+         *
          * - `entityData` is an object representing a user, group or content item or a search result for a user, group
          *    or content item
          * - `metadata` (optional) is a line of metadata information that should be displayed underneath the entity name
@@ -180,9 +180,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          *
          * IMPORTANT: There should be no line breaks in between the div and the <!-- declarations,
          * because that line break will be recognized as a node and the template won't show up, as
-         * it's expecting the comments tag as the first one. This is done because otherwise a template 
+         * it's expecting the comments tag as the first one. This is done because otherwise a template
          * wouldn't validate in an HTML validator and to make sure that the template isn't visible in the page.
-         * 
+         *
          * @param  {Element|String}     $template       jQuery element representing the HTML element that contains the template or jQuery selector for the template container.
          * @param  {Object}             [data]          JSON object representing the values used for ifs, fors and value insertions.
          * @param  {Element|String}     [$output]       jQuery element representing the HTML element in which the template output should be put, or jQuery selector for the output container.
@@ -223,7 +223,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
                 // the macros have access to all of the variables in scope of the template
                 templateContent = globalMacros.join('') + templateContent;
 
-                // Parse the template through TrimPath and add the 
+                // Parse the template through TrimPath and add the
                 // parsed template to the template cache
                 try {
                     templateCache[templateId] = TrimPath.parseTemplate(templateContent, templateId);
@@ -263,7 +263,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
      *
      * This function is mostly just a wrapper around jQuery.bootstrap.notify.js and supports all of the options documented
      * at http://nijikokun.github.com/bootstrap-notify/.
-     * 
+     *
      * @param  {String}     [title]       The notification title.
      * @param  {String}     message       The notification message that will be shown underneath the title.
      * @param  {String}     [type]        The notification type. The supported types are `success`, `error` and `info`, as defined in http://twitter.github.com/bootstrap/components.html#alerts. By default, the `success` type will be used.
@@ -328,17 +328,17 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * Validate a form using the jquery.validate plugin. This will automatically style the error messages, as well as positioning
          * them appropriately and giving all of the required aria roles for accessibility. This function is mostly just a wrapper around
          * jquery.validate, and supports all of the options supported by jquery.validate (see http://bassistance.de/jquery-plugins/jquery-plugin-validation/)
-         * 
+         *
          * In order for forms to have the appropriate validation styles, each label and control should be wrapped in an element with a `control-group` class.
-         * The label should have a `control-label` class. All input fields should be accompanied by a label, mostly for accessibility purposes. 
+         * The label should have a `control-label` class. All input fields should be accompanied by a label, mostly for accessibility purposes.
          * More information on creating forms (including horizontal forms) can be found at http://twitter.github.com/bootstrap/base-css.html#forms
-         * 
+         *
          * Validation messages will by default be displayed underneath the input field. If a custom position for the validation needs to provided,
          * a placeholder element with the class `help` should be created inside of the `control-group` element.
-         * 
+         *
          * Metadata can be added directly onto the HTML fields to tell jquery.validate which validation rules to use. These should be added as a class onto
          * the input field. The available ones are:
-         * 
+         *
          * - `required`: Makes the element always required.
          * - `email`: Makes the element require a valid email.
          * - `number`: Makes the element require a decimal number.
@@ -346,9 +346,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * - `date`: Makes the element require a date.
          * - `dateISO`: Makes the element require a ISO date.
          * - `creditcard`: Makes the element require a creditcard number.
-         * 
+         *
          * Example:
-         * 
+         *
          * ```
          * <form id='form_id' role='main'>
          *      <div class='control-group'>
@@ -362,14 +362,14 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          *      </div>
          * </div>
          * ```
-         * 
+         *
          * All other validation configuration should be passed into the options object when calling `oae.api.util.validation().validate($form, options)`.
-         * 
+         *
          * Sakai OAE defines to additional validation methods:
-         * 
+         *
          * - `nospaces`: Makes the element require no spaces.
          * - `prependhttp`: Prepends http:// to a URL field if no protocal has been specified.
-         * 
+         *
          * @param  {Element|String}     $form                           jQuery form element or jQuery selector for that form which we want to validate
          * @param  {Object}             [options]                       JSON object containing options to pass to the to the jquery validate plugin, as defined on http://docs.jquery.com/Plugins/Validation/validate#options
          * @param  {Object}             [options.methods]               Extension to the jquery validate options, allowing to specify custom validators. The keys should be the validator identifiers. The value should be an object with a method key containing the validator function and a text key containing the validation message.
@@ -383,7 +383,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
 
             options = options || {};
 
-            // We need to first handle the invalid and submit callback inside of this function, in order to set/remove all of the necessary 
+            // We need to first handle the invalid and submit callback inside of this function, in order to set/remove all of the necessary
             // styles and aria attributes. Therefore, we cache these callback so they can be  called after those functions have finished
             var invalidCallback = null;
             if (options.invalidHandler && $.isFunction(options.invalidHandler)) {
@@ -432,7 +432,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             };
 
             // Function that will be called when a form field should be marked no longer
-            // needs to be marked as invalid. In that case, we remove the `error` class from 
+            // needs to be marked as invalid. In that case, we remove the `error` class from
             // the parent `control-group` element
             options.unhighlight = function($element) {
                 $($element).parents('.control-group').removeClass('error');
@@ -460,11 +460,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
 
             // Set up the form with the provided options in jquery.validate
             $form.validate(options);
-        }; 
+        };
 
         /**
          * Clear the validation on a form. This will remove all visible validation styles, as well as the aria roles.
-         * 
+         *
          * @param  {Element|String}     $form       jQuery form element or jQuery selector for that form for which we want to clear the validation
          * @throws {Error}                          Error thrown when no form has been provided
          */
@@ -500,9 +500,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
     /**
      * Using MathJax behind the scenes, find all mathematical function (LaTeX) declarations and render them
      * appropriately. Mathemetical are defined by wrapping them in $$.
-     * 
+     *
      * Example: $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
-     * 
+     *
      * @param  {Element|String}     [$element]        jQuery element or jQuery selector for that element in which we should look for Mathematical formulas and render them. If this is not provided, the body element will be used.
      */
     var renderMath = exports.renderMath = function($element) {};
@@ -515,7 +515,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
      * All functionality related to handling user input and making sure that it displays properly, without opening the door
      * to XSS attacks. This is a wrapper around the jquery.encode.js library that was developed by OWASP. Documentation on
      * the usage of this plugin can be found at https://github.com/chrisisbeef/jquery-encoder.
-     * 
+     *
      * All of the different security functions are also available as TrimPath Template modifiers that can be used in the
      * following manner: `${variable|<securityModifier>}`
      */
@@ -524,7 +524,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         /**
          * Sanitizes user input in a manner that makes it safe for the input to be placed
          * inside of an HTML tag.
-         * 
+         *
          * @param  {String}     [input]         The user input string that should be sanitized. If this is not provided, an empty string will be returned.
          * @return {String}                     The sanitized user input, ready to be put inside of an HTML tag.
          */
@@ -539,7 +539,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         /**
          * Sanitizes user input in a manner that it makes safe for the input to be placed
          * inside of an HTML attribute.
-         * 
+         *
          * @param  {String}     [input]         The user input string that should be sanitized. If this is not provided, an empty string will be returned.
          * @param  {String}     [attribute]     The name of the HTML attribute to encode for.
          * @return {String}                     The sanitized user input, ready to be put inside of an HTML attribute.
@@ -558,7 +558,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         /**
          * Sanitizes user input in a manner that it makes safe for the input to be used
          * as a URL fragment
-         * 
+         *
          * @param  {String}     [input]         The user input string that should be sanitized. If this is not provided, an empty string will be returned.
          * @return {String}                     The sanitized user input, ready to be used as a URL fragment.
          */
@@ -643,7 +643,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         /**
          * Make all elements with the oae-draggable-container CSS class inside of the provided container draggable, using
          * jQuery UI behind the scenes.
-         * 
+         *
          * @param  {Element|String}     [$container]      jQuery element or jQuery selector for the element which will be used as the container to locate draggable items. If this is not provided, the body element will be used.
          * @param  {Object}             [options]         JSON object containing options to pass into jQuery UI, as defined on http://api.jqueryui.com/draggable/
          */
@@ -652,7 +652,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         /**
          * Make all elements with the oae-droppable-container CSS class inside of the provided container droppable (accept draggable items), using
          * jQuery UI behind the scenes.
-         * 
+         *
          * @param  {Element|String}     [$container]      jQuery element or jQuery selector for the element which will be used as the container to locate draggable items. If this is not provided, the body element will be used.
          * @param  {Object}             [options]         JSON object containing options to pass into jQuery UI, as defined on http://api.jqueryui.com/droppable/
          */
