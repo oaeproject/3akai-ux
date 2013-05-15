@@ -655,7 +655,7 @@ div.oae-thumbnail i[class^="icon-"] {
  *              <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian" />
  *          </div>
  *      </a>
- *      <div>
+ *      <div class="oae-tile-metadata">
  *          <i class="icon-oae-public pull-left"></i>
  *          <h3 class="oae-threedots">
  *              <a href="/user/u:cambridge:PPTBPgxSdf">John Librarian</a>
@@ -705,7 +705,7 @@ div.oae-thumbnail i[class^="icon-"] {
 
 /* Tile metadata */
 
-.oae-tile > div:last-child {
+.oae-tile > .oae-tile-metadata {
     position: absolute;
     bottom: 0px;
     right: 0px;

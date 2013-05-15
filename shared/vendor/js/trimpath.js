@@ -41,7 +41,10 @@
     if (TrimPath == null)
         TrimPath = new Object();
     if (TrimPath.evalEx == null)
-        TrimPath.evalEx = function(src) { return eval(src); };
+        TrimPath.evalEx = function(src) { 
+            console.log(src);
+            return eval(src);
+        };
 
     var UNDEFINED;
     if (Array.prototype.pop == null)  // IE 5.x fix from Igor Poteryaev.

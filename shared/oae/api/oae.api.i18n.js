@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.properties-parser'], function(exports, $, configAPI, utilAPI) {
+define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.properties-parser', 'jquery.timeago'], function(exports, $, configAPI, utilAPI) {
 
     // Variable that will keep track of the current user's locale
     var locale = null;
@@ -57,6 +57,10 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.propertie
             // We put the translated string back into the HTML. We use the old innerHTML function here because the
             // `$.html()` function will try to reload all of the JavaScript files declared in the HTML.
             $('body')[0].innerHTML = translatedHTML;
+
+            // Add translations for the current user's language to all jQuery plugins
+            // that generate strings seen by end-users
+            translateJqueryPlugins();
             callback();
         });
     };
@@ -77,6 +81,7 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.propertie
             }
 
             bundles.core['default'] = $.parseProperties(data[bundlesToLoad[0]]);
+            console.log(bundles.core['default']);
             bundles.core[locale] = $.parseProperties(data[bundlesToLoad[1]]);
             callback(null);
         });
@@ -97,6 +102,33 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.propertie
         if (localeBundle) {
             bundles.widgets[widgetName][locale] = $.parseProperties(localeBundle);
         }
+    };
+
+    /**
+     * Provide translations for the current user's language for all jQuery plugins
+     * that generate strings seen by end-users
+     *
+     * @api private
+     */
+    var translateJqueryPlugins = function() {
+        // Translate the jquery.timeago.js plugin
+        $.timeago.settings.strings = {
+            'prefixAgo': translate('__MSG__JQUERY_TIMEAGO_PREFIXAGO__'),
+            'prefixFromNow': translate('__MSG__JQUERY_TIMEAGO_PREFIXFROMNOW__'),
+            'suffixAgo': translate('__MSG__JQUERY_TIMEAGO_SUFFIXAGO__'),
+            'suffixFromNow': translate('__MSG__JQUERY_TIMEAGO_SUFFIXFROMNOW__'),
+            'seconds': translate('__MSG__JQUERY_TIMEAGO_SECONDS__'),
+            'minute': translate('__MSG__JQUERY_TIMEAGO_MINUTE__'),
+            'minutes': translate('__MSG__JQUERY_TIMEAGO_MINUTES__'),
+            'hour': translate('__MSG__JQUERY_TIMEAGO_HOUR__'),
+            'hours': translate('__MSG__JQUERY_TIMEAGO_HOURS__'),
+            'day': translate('__MSG__JQUERY_TIMEAGO_DAY__'),
+            'days': translate('__MSG__JQUERY_TIMEAGO_DAYS__'),
+            'month': translate('__MSG__JQUERY_TIMEAGO_MONTH__'),
+            'months': translate('__MSG__JQUERY_TIMEAGO_MONTHS__'),
+            'year': translate('__MSG__JQUERY_TIMEAGO_YEAR__'),
+            'years': translate('__MSG__JQUERY_TIMEAGO_YEARS__')
+        };
     };
 
     /**
@@ -133,10 +165,10 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.propertie
                 }
             }
             // Check the core locale bundle
-            if (bundles.core[locale] && bundles.core[locale][i18nkey]) {
+            if (bundles.core[locale] && bundles.core[locale][i18nkey] !== undefined) {
                 return bundles.core[locale][i18nkey];
             // Check the widget's default bundle
-            } else if (bundles.core['default'] && bundles.core['default'][i18nkey]) {
+            } else if (bundles.core['default'] && bundles.core['default'][i18nkey] !== undefined) {
                 return bundles.core['default'][i18nkey];
             }
             // If the key hasn't been found, we return as is
