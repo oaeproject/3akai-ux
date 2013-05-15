@@ -21,13 +21,13 @@ require(['jquery', 'oae.core'], function($, oae) {
         oae.api.util.redirect().login();
     }
 
-    // Variable used to cache the requested user's profile
+    // Variable used to cache the requested group's profile
     var groupProfile = null;
     // Variable used to cache the group's base URL
     var baseUrl = '/group/' + groupId;
 
     /**
-     * Get the group's basic profile and set up the screen. If the groups
+     * Get the group's basic profile and set up the screen. If the group
      * can't be found or is private to the current user, the appropriate
      * error page will be shown
      */
@@ -39,18 +39,37 @@ require(['jquery', 'oae.core'], function($, oae) {
                 oae.api.util.redirect().accessdenied();
             }
 
+            // Cache the group profile data
             groupProfile = profile;
-            setUpClip();
-            setUpNavigation();
             // Set the browser title
             oae.api.util.setBrowserTitle(groupProfile.displayName);
+            // Render the entity information
+            setUpClip();
+            // Render the navigation
+            setUpNavigation();
+            // Set up the context event exchange
+            setUpContext();
         });
     };
 
-    $(document).on('oae.context.get', function() {
+    /**
+     * The `oae.context.get` or `oae.context.get.<widgetname>` event can be sent by widgets 
+     * to get hold of the current context (i.e. group profile). In the first case, a
+     * `oae.context.send` event will be sent out as a broadcast to all widgets listening
+     * for the context event. In the second case, a `oae.context.send.<widgetname>` event
+     * will be sent out and will only be caught by that particular widget. In case the widget
+     * has put in its context request before the profile was loaded, we also broadcast it out straight away.
+     */
+    var setUpContext = function() {
+        $(document).on('oae.context.get', function(ev, widgetId) {
+            if (widgetId) {
+                $(document).trigger('oae.context.send.' + widgetId, groupProfile);
+            } else {
+                $(document).trigger('oae.context.send', groupProfile);
+            }
+        });
         $(document).trigger('oae.context.send', groupProfile);
-    });
-    $(document).trigger('oae.context.send', groupProfile);
+    };
 
     /**
      * Render the group's clip, containing the profile picture, display name as well as the
@@ -64,9 +83,9 @@ require(['jquery', 'oae.core'], function($, oae) {
             $('#group-actions').show();
         }
     };
-    
+
     /**
-     * Set up the left hand navigation with the me space page structure
+     * Set up the left hand navigation with the group space page structure
      */
     var setUpNavigation = function() {
         // Structure that will be used to construct the left hand navigation

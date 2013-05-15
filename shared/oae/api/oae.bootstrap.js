@@ -32,7 +32,7 @@ requirejs.config({
         'jquery.form': 'vendor/js/jquery-plugins/jquery.form',
         'jquery.history': 'vendor/js/jquery-plugins/jquery.history',
         'jquery.iframe-transport': 'vendor/js/jquery-plugins/jquery.iframe-transport',
-        'jquery.imgareaselect': 'vendor/js/jquery-plugins/imgareaselect/jquery.imgareaselect',
+        'jquery.jcrop': 'vendor/js/jquery-plugins/jcrop/jquery.Jcrop',
         'jquery.jeditable': 'vendor/js/jquery-plugins/jquery.jeditable.oae-edited',
         'jquery.notify': 'vendor/js/jquery-plugins/jquery.bootstrap.notify',
         'jquery.parseurl': 'vendor/js/jquery-plugins/jquery.parseurl.oae-edited',
@@ -47,6 +47,7 @@ requirejs.config({
         'underscore': 'vendor/js/underscore',
 
         // OAE paths
+        'bootstrap.modal': 'oae/js/bootstrap-plugins/bootstrap.modal',
         'jquery.clip': 'oae/js/jquery-plugins/jquery.clip',
         'jquery.dnd-upload': 'oae/js/jquery-plugins/jquery.dnd-upload',
         'jquery.infinitescroll': 'oae/js/jquery-plugins/jquery.infinitescroll',
