@@ -139,9 +139,14 @@
 -->
 {macro renderMetadata(entityData, metadata)}
 
-    <!-- TODO: Recognize wide images here as well -->
     {if entityData.resourceType}
         {var resourceType = entityData.resourceType}
+    {/if}
+
+    {if entityData.profilePath}
+        {var profilePath = entityData.profilePath}
+    {elseif entityData['oae:profilePath']}
+        {var profilePath = entityData['oae:profilePath']}
     {/if}
 
     {if !metadata}
@@ -156,7 +161,7 @@
         {/if}
     {/if}
 
-    <h3 class="oae-threedots"><a href="${entityData.profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}">${entityData.displayName|encodeForHTML}</a></h3>
+    <h3 class="oae-threedots"><a href="${profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}">${entityData.displayName|encodeForHTML}</a></h3>
     {if metadata}
         <small class="oae-threedots">${metadata|encodeForHTML}</small>
     {/if}
