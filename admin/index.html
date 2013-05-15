@@ -9,7 +9,7 @@
         <!-- CORE CSS -->
         <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
         <link rel="stylesheet" type="text/css" href="/api/ui/skin" />
-        
+
         <!-- PAGE CSS -->
         <link rel="stylesheet" type="text/css" href="/admin/css/admin.css" />
 
@@ -52,13 +52,13 @@
                             </div>
                         </div>
                     </div>
-    
+
                     <div id="admin-views">
                         <div id="admin-tenants-container" class="hide"><!-- --></div>
                         <div id="admin-modules-container" class="hide"><!-- --></div>
                         <div id="admin-skinning-container" class="hide"><!-- --></div>
                     </div>
-    
+
                     <div id="admin-error-container"><!-- --></div>
                     <div id="admin-warning-container"><!-- --></div>
                     <div id="admin-success-container"><!-- --></div>
@@ -76,7 +76,7 @@
                             <button type="button" class="btn btn-inverse" id="admin-header-user-logout">Log out</button>
                         </div>
                     {/if}
-                    {if context.isGlobalAdminServer && !context.host}
+                    {if context.isGlobalAdminServer}
                         <h1>Global administration UI</h1>
                     {else}
                         <h1>${context.displayName|encodeForHTML}</h1>
@@ -90,7 +90,7 @@
                 <li data-id="tenants">
                     <a title="Tenant configuration" href="?view=tenants">
                         <i class="icon-dashboard"></i>
-                        {if context.isGlobalAdminServer && !context.host}
+                        {if context.isGlobalAdminServer}
                             Tenants
                         {else}
                             Tenant
@@ -102,7 +102,7 @@
                         <i class="icon-cogs"></i> Modules
                     </a>
                 </li>
-                {if context.host}
+                {if !context.isGlobalAdminServer}
                     <li data-id="skinning">
                         <a title="Skinning configuration" href="?view=skinning">
                             <i class="icon-tint"></i> Skinning
@@ -115,7 +115,7 @@
         <div id="admin-footer-template"><!--
             <div class="row-fluid">
                 <div class="span12" id="admin-footer-content">
-                    {if !oae.data.me.anon && context.isGlobalAdminServer}
+                    {if !oae.data.me.anon && (context.isGlobalAdminServer || context.isTenantOnGlobalAdminServer)}
                         <ul class="inline">
                             <li>
                                 <a href="/">Global administration</a>
@@ -134,36 +134,39 @@
         --></div>
 
         <div id="admin-tenants-template"><!--
-            {var isMainGlobalAdmin = context.isGlobalAdminServer && !context.host}
             <h2>Tenants</h2>
             {if _.keys(tenants).length > 0}
                 <table class="table table-striped">
                     <tr>
-                        {if isMainGlobalAdmin}
+                        {if context.isGlobalAdminServer}
                             <th></th>
                         {/if}
                         <th>Alias</th>
                         <th>Name</th>
                         <th>Host</th>
                         <th>Status</th>
-                        <th>
-                            {if isMainGlobalAdmin}
-                                {if hasStoppedServer}
-                                    <button type="button" class="btn btn-success start-all-tenants">Start all</button>
-                                {else}
-                                    <button type="button" class="btn btn-warning stop-all-tenants">Stop all</button>
+                        {if oae.data.me.isGlobalAdmin}
+                            <th>
+                                {if context.isGlobalAdminServer}
+                                    {if hasStoppedServer}
+                                        <button type="button" class="btn btn-success start-all-tenants">Start all</button>
+                                    {else}
+                                        <button type="button" class="btn btn-warning stop-all-tenants">Stop all</button>
+                                    {/if}
                                 {/if}
-                            {/if}
-                        </th>
+                            </th>
+                        {/if}
                         {if oae.data.me.isGlobalAdmin}
                             <th></th>
+                        {/if}
+                        {if context.isGlobalAdminServer || context.isTenantOnGlobalAdminServer}
                             <th></th>
                         {/if}
                     </tr>
                     {for tenant in tenants}
                         {if tenant.alias}
                             <tr>
-                                {if isMainGlobalAdmin}
+                                {if context.isGlobalAdminServer}
                                     <td><a href="/tenant/${tenant.alias|encodeForURL}" title="Edit ${tenant.displayName|encodeForHTMLAttribute}"><i class="icon-pencil"></i></a></td>
                                 {/if}
                                 <td>${tenant.alias|encodeForHTML}</td>
@@ -180,19 +183,21 @@
                                         <span class="text-error">Disabled</span>
                                     {/if}
                                 </td>
-                                <td>
-                                    {if oae.data.me.isGlobalAdmin}
+                                {if oae.data.me.isGlobalAdmin}
+                                    <td>
                                         {if tenant.active}
                                             <button type="button" class="btn btn-warning stop-tenant" data-alias="${tenant.alias|encodeForHTMLAttribute}" data-displayName="${tenant.displayName|encodeForHTMLAttribute}">Stop</button>
                                         {else}
                                             <button type="button" class="btn btn-success start-tenant" data-alias="${tenant.alias|encodeForHTMLAttribute}" data-displayName="${tenant.displayName|encodeForHTMLAttribute}">Start</button>
                                         {/if}
-                                    {/if}
-                                </td>
+                                    </td>
+                                {/if}
                                 {if oae.data.me.isGlobalAdmin}
                                     <td>
                                         <button type="button" class="btn btn-danger delete-tenant" data-alias="${tenant.alias|encodeForHTMLAttribute}" data-displayName="${tenant.displayName|encodeForHTMLAttribute}">Delete</button>
                                     </td>
+                                {/if}
+                                {if context.isGlobalAdminServer || context.isTenantOnGlobalAdminServer}
                                     <td>
                                         <button type="button" class="btn btn-primary login-tenant" data-alias="${tenant.alias|encodeForHTMLAttribute}">Login</button>
                                     </td>
@@ -204,7 +209,7 @@
             {else}
                 <p class="text-warning">There are no tenants.</p>
             {/if}
-            {if isMainGlobalAdmin}
+            {if context.isGlobalAdminServer}
                 <div class="admin-container-striped">
                     <div>
                         <button id="createtenant-toggle-button" type="button" class="btn">
@@ -371,6 +376,6 @@
         <!-- DEPENDENCIES -->
         <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
         <script>require(['/admin/js/admin.js']);</script>
-        
+
     </body>
 </html>

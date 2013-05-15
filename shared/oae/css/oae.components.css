@@ -49,8 +49,8 @@ a.oae-plain-link:hover {
  **************/
 
 /**
- * Style that can be applied to text elements to make sure that the text in a text element 
- * doesn't use more than the space it has available. If the text is shorter than the 
+ * Style that can be applied to text elements to make sure that the text in a text element
+ * doesn't use more than the space it has available. If the text is shorter than the
  * available space, this will leave the text unchanged. If the text is longer than the available
  * space, it will be cut off at its maximum length and will be appended with `...`. In order for
  * this to work, the text element will need to have a maximum width set.
@@ -161,7 +161,7 @@ i.icon-oae-public.large:before {
 
 /**
  * A Large group of toggle buttons for visibility settings.
- * When an `oae-visibility-choice input` field changes value the 
+ * When an `oae-visibility-choice input` field changes value the
  * `oae-visibility-changed` event is sent out with data: `{'radio': $(input)}`
  *
  * e.g. <div class="oae-visibility-choice-container row-fluid">
@@ -292,10 +292,10 @@ i.icon-oae-public.large:before {
  *   `${renderThumbnail(entityData, [addVisibilityIcon], [large])}`
  *
  * - `entityData` is a standard object representing a user, group or content item or a search result for a user, group
- *    or content item as returned by Hilary. Alternatively, a string representing the resourceType or resourceSubType 
- *    (i.e., 'user', 'group', 'content', 'file', 'link', 'collabdoc') can be passed in for an empty/anonymous 
+ *    or content item as returned by Hilary. Alternatively, a string representing the resourceType or resourceSubType
+ *    (i.e., 'user', 'group', 'content', 'file', 'link', 'collabdoc') can be passed in for an empty/anonymous
  *    entity thumbnail.
- * - `addVisibilityIcon` (optional) will determine whether or not the visibility icon should be shown. By default, 
+ * - `addVisibilityIcon` (optional) will determine whether or not the visibility icon should be shown. By default,
  *    the visibility icon will be shown. However, users will not never show a visibility icon.
  * - `large` (optional) determines whether or not a large default thumbnail icon should used. By default, a small icon will be used.
  *
@@ -316,7 +316,7 @@ i.icon-oae-public.large:before {
  *   should be added to the `oae-thumbnail` container. It will cause the default
  *   thumbnail to be larger.
  * - An optional visibility icon can be added to the thumbnail as well and will
- *   automatically be positioned correctly. The available visibility icons are 
+ *   automatically be positioned correctly. The available visibility icons are
  *   `icon-oae-private`, `icon-oae-loggedin` and `icon-oae-public` (See Visibility
  *   icons section).
  * - The link inside of the thumbnail can be used to link to the entity's profile page.
@@ -402,9 +402,9 @@ div.oae-thumbnail i[class^="icon-"] {
  * They are folded onto the top of a container, which is usually the main page content
  * container. Each clip can have a set of actions associated to it, which will automatically
  * show when opening the clip through the dropdown icon.
- * 
+ *
  * The HTML structure required for creating a clip is the following:
- * 
+ *
  *  <div class="oae-clip-container">
  *      <div class="oae-clip-container-left">
  *          <div class="oae-clip">
@@ -439,7 +439,7 @@ div.oae-thumbnail i[class^="icon-"] {
  *  </div>
  *
  * Notes:
- * 
+ *
  * - A clip needs to be inside of an `oae-clip-container` div. Inside of this container, you can specify the
  *   clips that should go on the left by adding them to a `oae-clip-container-left` div. You can specify the
  *   clips that should go on the right by adding them to a `oae-clip-container-right div inside of this container.
@@ -456,7 +456,7 @@ div.oae-thumbnail i[class^="icon-"] {
  * - The `icon-caret-down` element is optional. If it is not provided, the clip will be shown in view
  *   only mode. If it is provided, the clip will be toggleable and the action menu will be shown when clicked.
  * - The `small` tag is used to show some additional clip metadata and is optional.
- * - When a clip should not be clickable (e.g. in non-manager mode of a page), the `disabled` attribute 
+ * - When a clip should not be clickable (e.g. in non-manager mode of a page), the `disabled` attribute
  *   should be added to the button. This will hide any caret icons and will make the clip unclickable.
  */
 
@@ -637,18 +637,18 @@ div.oae-thumbnail i[class^="icon-"] {
 
 
 /***********
- ** TILES ** 
+ ** TILES **
  ***********/
 
 /**
- * A tile is a combination of a preview image and some entity metadata in a 
+ * A tile is a combination of a preview image and some entity metadata in a
  * polaroid-like appearance. The preview image will take up the bulk of the
  * space, with a bar at the bottom overlapping with the image that can show
- * metadata. Tiles will adjust in size to the space they have been given by 
+ * metadata. Tiles will adjust in size to the space they have been given by
  * their container.
- * 
+ *
  * The following HTML structure should be used to create a tile:
- * 
+ *
  *  <div class="oae-tile">
  *      <a href="/user/u:cambridge:PPTBPgxSdf" title="John Librarian">
  *          <div class="oae-thumbnail oae-thumbnail-large icon-oae-user">
@@ -663,9 +663,9 @@ div.oae-thumbnail i[class^="icon-"] {
  *          <small class="oae-threedots">Professor</small>
  *      </div>
  *  </div>
- * 
+ *
  * Notes:
- * 
+ *
  * - The `oae-thumbnail` element, containing the preview image, is a standard
  *   `oae-thumbnail` element (See Thumbnail section for full overview).
  * - The `oae-threedots` class should be added to metadata elements if you want
@@ -734,14 +734,14 @@ div.oae-thumbnail i[class^="icon-"] {
  ****************/
 
 /*
- * A list item is a way of displaying an entity and is a combination of a preview image, 
+ * A list item is a way of displaying an entity and is a combination of a preview image,
  * some entity metadata, a checkbox and actions that can be taken on the entity. A list
- * item can be used as part of a larger list, but can also be used outside of a list to 
- * present a single entity. List items will adjust in size to the space they have been 
+ * item can be used as part of a larger list, but can also be used outside of a list to
+ * present a single entity. List items will adjust in size to the space they have been
  * given by their container.
- * 
+ *
  * The following HTML structure should be used to create a list item:
- * 
+ *
  *  <div class="oae-listitem oae-listitem-compact">
  *      <input type="checkbox" class="pull-left" id="oae-list-details-u:cambridge:PPTBPgxSdf" data-id="u:cambridge:PPTBPgxSdf" />
  *      <label class="oae-aural-text" for="oae-list-details-u:cambridge:PPTBPgxSdf">John Librarian</label>
@@ -757,11 +757,11 @@ div.oae-thumbnail i[class^="icon-"] {
  *          <button class="btn btn-link" title="Share"><i class="icon-share"></i></button>
  *      </div>
  *  </div>
- * 
+ *
  * Notes:
- * 
- * - A list item is available in an expanded size and a compact size. By default, the larger expanded 
- *   view will be used. In order to use the smaller compact view, the class `oae-listitem-compact` 
+ *
+ * - A list item is available in an expanded size and a compact size. By default, the larger expanded
+ *   view will be used. In order to use the smaller compact view, the class `oae-listitem-compact`
  *   should be added to the `oae-listitem` element.
  * - A checkbox can be added to the list item for management purposes. This checkbox should have an
  *   accompanying `oae-aural-text` label for accessibility purposes.
@@ -871,24 +871,24 @@ div.oae-thumbnail i[class^="icon-"] {
 /**
  * Lists are used as the core component for multiple widgets (library, membership, participants,
  * search, etc.) and present a list of entities that can be viewed in 3 separate view modes (grid,
- * details and compact). 
- * 
- * The HTML for a list item has been abstracted into a globally available TrimPath template that 
+ * details and compact).
+ *
+ * The HTML for a list item has been abstracted into a globally available TrimPath template that
  * can be used when rendering list view items:
- * 
+ *
  *   `${listItem(entityData, [pagingKey], [metadata], [showCheckbox])}`
- * 
+ *
  * - `entityData` is an object representing a user, group or content item or a search result for a user, group
  *    or content item
  * - `pagingKey` (optional) is the key that should be used for paging through the infinite scroll plugin
  * - `metadata` (optional) is a line of metadata information that should be displayed underneath the entity name
  * - `showCheckbox` (optional) will determine whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
- * 
+ *
  * The output from this macro represents a single list (li) item, and should be wrapped in a list container (ul)
  * element with an `oae-list` class. In order to show the grid view, an `oae-list-grid` class should be added to
  * the list, in order to show the details view, an `oae-list-details` class should be added to the list and in order
  * to show the compact view, an `oae-list-compact` class should be added to the list:
- * 
+ *
  *  e.g. <ul class="oae-list oae-list-grid">
  *          <Generated list items>
  *       </ul>
@@ -943,7 +943,7 @@ ul.oae-list li .oae-list-compact-item  {
 /**
  * The list options can be shown at the top of a list, providing a title for the list, as well
  * as possibly a list search form, list actions, view mode switching, etc.
- * 
+ *
  * Some example HTML for a list options view:
  *
  *  <div class="oae-list-options">
@@ -978,9 +978,9 @@ ul.oae-list li .oae-list-compact-item  {
  *          </div>
  *      </div>
  *  </div>
- * 
+ *
  * Notes:
- * 
+ *
  * - The `oae-list-options-toggle` item is used to show the title of the list, and will also be used to toggle
  *   the actions bar. This will be enabled automatically by the system. If a list needs to be shown in view-only
  *   mode, this element should be set to disabled, in which case the dropdown icon will disappear and the toggle
@@ -1055,9 +1055,6 @@ ul.oae-list li .oae-list-compact-item  {
     font-size: 12px;
 }
 
-
-
-
 /*ul.oae-list li.oae-list-item.oae-list-item-dnd {
     border: none;
     display: none;
@@ -1093,5 +1090,5 @@ ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-newdocument {
 ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-dnd-container .oae-trigger-addcontent i,
 ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-newdocument i {
     color: #333;
-    font-size: 18px; 
+    font-size: 18px;
 }*/

@@ -58,6 +58,26 @@ module.exports = function(grunt) {
         'clean': {
             'folder': 'target/'
         },
+        'copy': {
+            'main': {
+                'files': [
+                    {
+                        'expand': true,
+                        'src': [
+                            '**',
+                            '!target/**',
+                            '!tests/**',
+                            '!tools/**',
+                            '!node_modules/.*/**',
+                            '!node_modules/grunt*/**',
+                            '!node_modules/shelljs/**',
+                            '!node_modules/underscore/**'
+                        ],
+                        'dest': 'target/original'
+                    }
+                ]
+            }
+        },
         'requirejs': {
             'optimize': {
                 'options': {
@@ -78,7 +98,7 @@ module.exports = function(grunt) {
                         'name': 'oae.core',
                         'exclude': ['jquery']
                     }],
-                    'fileExclusionRegExp': /^(\.|tools|target|tests|grunt|shelljs|underscore$)/,
+                    'fileExclusionRegExp': /^(\.|target|tests|tools|grunt|shelljs|underscore$)/,
                     'logLevel': 2
                 }
             }
@@ -148,6 +168,7 @@ module.exports = function(grunt) {
 
     // Load tasks from npm modules
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-git-describe');
     grunt.loadNpmTasks('grunt-ver');
     grunt.loadNpmTasks('grunt-imagine');
@@ -237,7 +258,7 @@ module.exports = function(grunt) {
     grunt.registerTask('test', ['qunit']);
 
     // Default task.
-    grunt.registerTask('default', ['clean', 'git-describe', 'requirejs', 'inlineImg', 'hashFiles', 'writeVersion', 'configNginx']);
+    grunt.registerTask('default', ['clean', 'copy', 'git-describe', 'requirejs', 'inlineImg', 'hashFiles', 'writeVersion', 'configNginx']);
 };
 
 /**

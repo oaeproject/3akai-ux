@@ -21,7 +21,7 @@ define(['jquery'], function (jQuery) {
          */
         $(document).on('click', '.oae-list-options-toggle', function(ev) {
             $('.oae-list-options-actions').toggleClass('hide');
-            $(ev.target).find('i').toggleClass('icon-caret-down icon-caret-up');
+            $(this).find('i').toggleClass('icon-caret-down icon-caret-up');
         });
 
         /**

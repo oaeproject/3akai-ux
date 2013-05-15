@@ -17,12 +17,12 @@ define(['exports', 'jquery'], function(exports, $) {
 
     /**
      * Log in as an internal user
-     * 
+     *
      * @param  {String}                 username            Username for the user logging in.
      * @param  {String}                 password            The user's password
      * @param  {Function}               callback            Standard callback method
-     * @param  {Object}                 callback.err        Error object containing error code and error message       
-     * @throws {Error}                                      Error thrown when not all of the required parameters have been provided                 
+     * @param  {Object}                 callback.err        Error object containing error code and error message
+     * @throws {Error}                                      Error thrown when not all of the required parameters have been provided
      */
     var login = exports.login = function(username, password, callback) {
         if (!username) {
@@ -47,12 +47,12 @@ define(['exports', 'jquery'], function(exports, $) {
             }
         });
     };
-    
+
     /**
      * Log out the currently signed in user
-     * 
+     *
      * @param  {Function}               [callback]          Standard callback method
-     * @param  {Object}                 [callback.err]      Error object containing error code and error message   
+     * @param  {Object}                 [callback.err]      Error object containing error code and error message
      */
     var logout = exports.logout = function(callback) {
         $.ajax({
@@ -64,17 +64,41 @@ define(['exports', 'jquery'], function(exports, $) {
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
             }
-        })
+        });
     };
-    
+
     /**
      * Change the password of the currently logged in user
-     * 
-     * @param  {String}                 oldPassword         The user's current password
-     * @param  {String}                 newPassword         The user's new password
-     * @param  {Function}               [callback]          Standard callback method
-     * @param  {Object}                 [callback.err]      Error object containing error code and error message
+     *
+     * @param  {String}     currentPassword     The user's current password
+     * @param  {String}     newPassword         The user's new password
+     * @param  {Function}   callback            Standard callback method
+     * @param  {Object}     callback.err        Error object containing error code and error message
+     * @throws {Error}                          Error thrown when no new or current password has been provided
      */
-    var changePassword = exports.changePassword = function(oldPassword, newPassword, callback) {};
+    var changePassword = exports.changePassword = function(currentPassword, newPassword, callback) {
+        if (!newPassword) {
+            throw new Error('A valid new password should be provided');
+        } else if (!currentPassword) {
+            throw new Error('A valid old password should be provided');
+        }
+
+        var userId = require('oae.core').data.me.id;
+
+        $.ajax({
+            'url': '/api/user/' + userId + '/password',
+            'type': 'POST',
+            'data': {
+                'oldPassword': currentPassword,
+                'newPassword': newPassword
+            },
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
 
 });

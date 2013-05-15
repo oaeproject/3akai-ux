@@ -24,7 +24,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
 
     /**
      * Initialize all widget functionality by loading and caching the widget manifests
-     * 
+     *
      * @param  {String}     [currentLocale]     The current user's locale. If this has not been provided, the system's default locale will be used.
      * @param  {Function}   callback            Standard callback function
      * @param  {Object}     callback.err        Error object containing error code and message
@@ -51,7 +51,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
 
     /**
      * Get a widget's manifest.json file.
-     * 
+     *
      * @param  {String}     widgetName      The name of the widget for which we want to retrieve the manifest
      * @return {Object}                     JSON object representing the widget's manifest file. This will be null if no widget can be found for the given widget name
      * @throws {Error}                      Error thrown when no or an invalid widget name is provided
@@ -62,10 +62,10 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
         }
         return manifests[widgetName];
     };
-    
+
     /**
      * Get a list of all of the available widgets that have certain properties in their manifest file and return their actual manifest files.
-     * 
+     *
      * @param  {Object}     [properties]    JSON object that lists all of the properties and values for those properties that should be set on the widget's manifest file before it will return in the final list, so only the widgets we need are returned. If this is not provided, all widgets will be returned.
      * @return {Object}                     JSON object where the keys represent all of the available widgets and the values are the widget's manifest files.
      */
@@ -97,15 +97,15 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
     /**
      * Add a widget declaration element to the page for all of the widgets that have identified themselves as needing to automatically
      * load on each page. This is done by adding the following to a widget's manifest.json file:
-     * 
+     *
      * ```
      * 'trigger': {
      *     'onLoad': true
      * }
      * ```
-     * 
+     *
      * Examples for widget that want to use this are Terms & Conditions widgets, etc.
-     * 
+     *
      * @api private
      */
     var initOnLoadWidgets = function() {
@@ -121,13 +121,13 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
      * Register all of the widgets that have identified themselves as needing to lazy load when a certain event is triggered or
      * when an element with a certain selector is clicked. This is done to make sure that widgets are only loaded when they are
      * really needed, which significantly cuts down on the initial page load time.
-     * 
+     *
      * A widget can be lazy loaded by declaring one or more events to which it listens. When that event is triggered, the widget
      * will be loaded and rendered. A widget can also be lazy loaded by declaring one or more jquery selectors for which it listens
      * to click events. When an element with that selector is clicked, the widget will be loaded and rendered.
-     * 
+     *
      * This is done by adding the following to a widget's manifest.json file:
-     * 
+     *
      * ```
      * 'trigger': {
      *     'events': ['oae-trigger-event1', 'oae-trigger-event2'],
@@ -194,7 +194,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
      * Utility function that will be used by the widget loader to convert a relative path
      * declared somewhere in the widget into an absolute path, so it can be successfully
      * retrieved from the server. When an absolute path is passed in, it will be returned as is
-     * 
+     *
      * @param  {String}     url     Relative path that should be made absolute
      * @param  {String}     prefix  The absolute path that should be used to prefix the relative path with
      * @return {String}             The generated absolute path
@@ -206,7 +206,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
         } else if (!prefix) {
             return url;
         }
-        
+
         // If the provided URL is already an absolute URL, we just return it
         if (url.substring(0, 1) === '/' || url.substring(0, 4) === 'http') {
             return url;
@@ -218,11 +218,11 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
     /**
      * Find all of the widgets declared inside of the provided container, and load them into
      * the page.
-     * 
+     *
      * Widgets are declared in the following way:
-     * 
+     *
      * <div id='widgetId' data-widget='widgetName' />
-     * 
+     *
      * @param  {Element|String}     [$container]    HTML container in which we want to look for widgets and load them. This can either be a jQuery Element object or a jQuery selector string. If no container is provided, the body element will be used
      * @param  {Boolean}            [showSettings]  Whether or not to show the widget's settings view. If this is not set, the widget's view mode will be shown.
      * @param  {Function}           [callback]      Standard callback function executed when all widgets have finished loading and rendering
@@ -245,7 +245,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
     /**
      * Find all of the widgets declared inside of the provided container, and pass this information
      * on so all of the widget files can be loaded using a static batch get
-     * 
+     *
      * @param  {Element}        $container      jQuery element representing the HTML container in which we want to look for widgets and load them.
      * @param  {Boolean}        showSettings    Whether or not to show the widget's settings view.
      * @param  {Object}         widgetData      JSON object containing the data that should be passed into the widgets. The keys are the widget's unique instance ids, and the value is what will be passed into the widget with that id
@@ -257,7 +257,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
         // Locate the available widgets in the container. This is done by getting
         // all tags with a `data-widget` attribute
         var widgetsToLoad = {};
-        
+
         $('[data-widget]', $container).each(function(index, element) {
             $element = $(element);
 
@@ -332,7 +332,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
      * @param  {Object}         widgetData      JSON object containing the data that should be passed into the widgets. The keys are the widget's unique instance ids, and the value is what will be passed into the widget with that id
      * @param  {Function}       callback        Standard callback function
      * @param  {Object}         callback.err    Error containing the error code and message
-     * @api private 
+     * @api private
      */
     var loadWidgetFiles = function(widgetsToLoad, $container, showSettings, widgetData, callback) {
         // Collect all static files that need to be loaded
@@ -362,10 +362,10 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
      * the HTML fragments will be translated. Next, the CSS and JS tags will be extracted and removed
      * from the HTML fragment, the CSS styles will be added to the header and the JS files will be
      * required. Finally, all of the widgets will be rendered.
-     * 
+     *
      * NOTE: All text in a widget should be wrapped in an HTML element. Text that is not wrapped in a tag
      * will not be rendered.
-     * 
+     *
      * @param  {Object}         widgetFiles     JSON object containing all of the loaded static widget files. The keys are the paths to the widget file, and the value is the actual file content.
      * @param  {Object}         widgetsToLoad   JSON Object representing the widgets that should be loaded
      * @param  {Element}        $container      jQuery element representing the HTML container in which we want to look for widgets and load them.
@@ -389,7 +389,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
                 widgetHTML = i18nAPI.translate(widgetHTML, widgetName);
             }
 
-            // We transform the translated HTML into a jQuery object. However, as this will actually load all of the 
+            // We transform the translated HTML into a jQuery object. However, as this will actually load all of the
             // images in the widget HTML straight away, and the images will still have relative URLs that need conversion,
             // we replace all `img` tags to temporary `imgtmp` tags
             widgetHTML = widgetHTML.replace(/<img/ig, '<imgtmp');
@@ -400,7 +400,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
                 var $imgTag = $(imgTag);
                 $imgTag.attr('src', convertRelativeToAbsolutePath($imgTag.attr('src'), widgetsToLoad[widgetName].prefixPath));
             });
-            
+
             // Extract CSS and add to head
             $widgetEl.filter('link[rel="stylesheet"]').each(function(index, cssTag) {
                 var $cssTag = $(cssTag);
@@ -415,7 +415,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
             $widgetEl.filter('script').each(function(index, jsTag) {
                 jsFiles.push(convertRelativeToAbsolutePath($(jsTag).attr('src'), widgetsToLoad[widgetName].prefixPath));
             });
-            
+
             // Extract the widget HTML without the link and script tags
             widgetHTML = $('<div>').html($widgetEl.filter(':not(link):not(script)')).html();
             // Change the images back to `img` tags
@@ -445,7 +445,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
     /**
      * Render a widget instance for a widget for which all of the widget files have already been loaded. This will add
      * the widget's HTML to the widget container, and will execute the main widget function, if it exists
-     * 
+     *
      * @param  {String}     widgetName      The name of the widget we want to render
      * @param  {String}     widgetId        The widget's unique id. This should be the id on the widget's container
      * @param  {Boolean}    showSettings    Whether or not to show the widget's settings view.
@@ -463,7 +463,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
 
     /**
      * Insert a widget into a container with the provided viewmode.
-     * 
+     *
      * @param  {String}             widgetName      The name of the widget we want to load into the provided container
      * @param  {String}             [widgetId]      The widget's unique id. If this is not provided, a random id wil be generated
      * @param  {Element|String}     [$container]    HTML container in which we want to insert the widget. This can either be a jQuery Element object or a jQuery selector string. If this is not provided, it will be inserted into the document's body
