@@ -31,11 +31,20 @@ define(['exports', 'underscore', 'oae.api.config', 'globalize'], function(export
         // rather than the 'en_GB' format
         locale = locale.replace('_', '-');
 
+        // Don't bother with l10n when the debug language is active
+        if (locale === 'debug') {
+            callback(null, locale);
+            return;
+        }
+
         // Load the appropriate culture file
         require(['/shared/vendor/js/l10n/cultures/globalize.culture.' + locale + '.js'], function() {
             // Do the actual initialization of the culture
             Globalize.culture(locale);
-            callback(null);
+            callback(null, locale);
+        }, function() {
+            // globalize file does not exist, load the UI with the en_GB culture
+            init('en_GB', callback);
         });
     };
 
