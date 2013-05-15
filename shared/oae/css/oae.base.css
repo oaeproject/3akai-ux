@@ -43,7 +43,7 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     text-decoration: none;
 }
 
-/* NAVIGATION BAR 
+/* NAVIGATION BAR
  * @see http://twitter.github.com/bootstrap/components.html#navs */
 
 .navbar-search {
@@ -127,7 +127,7 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     margin-bottom: 5px;
 }
 
-/* FORMS 
+/* FORMS
  * http://twitter.github.com/bootstrap/base-css.html#forms */
 
 textarea,
@@ -142,6 +142,11 @@ input[type="password"] {
 input[type="radio"],
 input[type="checkbox"] {
     margin-top: 3px;
+}
+
+input[type="file"] {
+    height: auto;
+    line-height: 1;
 }
 
 input.search-query,
@@ -195,8 +200,14 @@ input.search-query,
             box-shadow: 0px 0px 6px #000;
 }
 
+.modal .close[disabled]:hover {
+    cursor: default;
+    filter: alpha(opacity=20);
+    opacity: 0.2;
+}
+
 .modal-header  {
-    border-bottom: none; 
+    border-bottom: none;
     padding: 10px 20px;
 }
 
@@ -267,7 +278,7 @@ input.search-query,
     max-width: 400px;
 }
 
-/* BADGES 
+/* BADGES
  * @see http://twitter.github.com/bootstrap/components.html#labels-badges */
 
 .badge {
@@ -286,6 +297,7 @@ input.search-query,
     background: -webkit-linear-gradient(top, #A90329 0%, #8F0222 44%, #6D0019 100%);
     background: -ms-linear-gradient(top, #A90329 0%, #8F0222 44%, #6D0019 100%);
 }
+
 
 /*****************
  ** MAIN LAYOUT **

@@ -9,47 +9,44 @@
         </noscript>
 
         <!-- CORE CSS -->
-        <link rel="stylesheet" type="text/css" href="/ui/css/oae.main.css" />
+        <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
         <link rel="stylesheet" type="text/css" href="/api/ui/skin" />
 
     </head>
-    <body class="oae-centered oae-force-hidden oae-hidden">
+    <body>
 
         <!-- HEADER -->
-        <div class="oae-container-flex header oae-header">
-            <div class="oae-navigation-container">
-                <div data-widget="topnavigation"><!-- --></div>
-            </div>
-            <div class="oae-fix oae-centered fixed-container oae-fixed-container">
-                <div class="oae-container-shadow-left"><!-- --></div>
-                <div class="oae-container-shadow-right"><!-- --></div>
-                <div class="oae-page-header">
-                    <div id="oae_entity_container" class="oae-entity-container"><!-- --></div>
-                    <div id="oae_entity_template"><!--
-                        <div class="oae-entity-picture">
-                            <span class="oae-entity-picture-image">
-                                <img class="oae-icon-50" src="${user.mediumPicture || '/ui/img/entities/user_icon_medium.png'}"/>
-                            </span>
-                        </div>
-                        <div class="oae-bold oae-entity-title">${user.displayName|encodeForHTML}</div>
-                        <div class="oae-push"></div>
-                    --></div>
-                </div>
-            </div>
-        </div>
+        <div data-widget="topnavigation"><!-- --></div>
 
         <!-- BODY -->
-        <div class="oae-container-flex">
-            <div class="oae-fix oae-centered fixed-container oae-main-container oae-twocolumn">
-                <div class="oae-page-column-left">
-                    <div data-widget="lhnavigation"><!-- --></div>
-                </div>
-                <div class="oae-page-column-right">
-                    <div id="oae-page-main-content" class="oae-page-content-lowpadding" role="main">
-                        <div data-widget="contentauthoring"><!-- --></div>
+        <div class="oae-main-content">
+
+            <!-- CLIP -->
+            <div class="oae-clip-container">
+                <div id="user-clip-container" class="oae-clip-container-left"><!-- --></div>
+                <div id="user-clip-template"><!--
+                    <div class="oae-clip">
+                        <div class="oae-clip-fold">
+                            <div class="oae-clip-fold-inner"></div>
+                            <div class="oae-clip-fold-outer"></div>
+                        </div>
+                        <div class="oae-clip-content">
+                            <button disabled="disabled">
+                                ${renderThumbnail(user, false, false, false)}
+                                <div>
+                                    <div>
+                                        <h1>${user.displayName|encodeForHTML}</h1>
+                                        <small>${user.tenant.displayName|encodeForHTML}</small>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
                     </div>
-                </div>
+                --></div>
             </div>
+
+            <!-- CONTENT -->
+            <div data-widget="lhnavigation"><!-- --></div>
         </div>
 
         <!-- FOOTER -->

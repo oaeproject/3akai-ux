@@ -65,20 +65,19 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
 
     /**
      * Switches the view when a left hand navigation link is clicked or when the page loads.
-     * Defaults to the Tenant configuration page when no or an invalid hash is provided.
+     * Defaults to the Tenant configuration page when no or an invalid view querystring parameter is provided.
      */
-    var switchView = function(hash) {
-        hash = window.location.hash || '#configurationtenants';
-        hash = hash.replace('#', '');
+    var switchView = function() {
+        var view = History.getState().data.view || 'tenants';
         $('#admin-views > div').hide();
         $('#admin-lhnav-container li').removeClass('active');
-        $('#admin-lhnav-container li#' + hash).addClass('active');
+        $('#admin-lhnav-container li[data-id="' + view + '"]').addClass('active');
 
-        switch (hash) {
-            case 'configurationmodules':
+        switch (view) {
+            case 'modules':
                 $('#admin-views > #admin-modules-container').show();
                 break;
-            case 'configurationskinning':
+            case 'skinning':
                 $('#admin-views > #admin-skinning-container').show();
                 break;
             default:
@@ -86,6 +85,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                 break;
         };
     };
+
 
     //////////////////////
     //// DATA STORING ////
@@ -120,7 +120,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         var url = '/api/config';
         // Tenant and global servers do not need the tenantId to be specified in the URL
         // If a tenant server is accessed through the global server the tenantId needs to be specified
-        if (currentContext.isGlobalAdminServer && currentContext.host) {
+        if (currentContext.isTenantOnGlobalAdminServer) {
             url += '/' + currentContext.alias;
         }
 
@@ -143,7 +143,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
     /**
      * Creates a new tenant and starts it up immediately. It will re-render the list of available
      * tenants in the main content and in the footer
-     * 
+     *
      * @param  {Function}  callback  A function that executes after the tenant has been created.
      */
     var createTenant = function() {
@@ -168,7 +168,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
 
     /**
      * Deletes one or more tenant servers
-     * 
+     *
      * @param {String[]}    tenants       Array of tenant aliases that need to be deleted
      * @param {Function}    callback      Standard callback function
      * @param {Object}      callback.err  Error object containing error code and message
@@ -190,7 +190,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
 
     /**
      * Starts one or more tenant servers
-     * 
+     *
      * @param {String[]}    tenants       Array of tenant aliases that need to be started
      * @param {Function}    callback      Standard callback function
      * @param {Object}      callback.err  Error object containing error code and message
@@ -203,7 +203,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
             'success': function(data) {
                 reloadTenants();
                 callback(null);
-            }, 
+            },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
             }
@@ -212,7 +212,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
 
     /**
      * Stops one or more tenant servers
-     * 
+     *
      * @param {String[]}    tenants       Array of tenant aliases that need to be stopped
      * @param {Function}    callback      Standard callback function
      * @param {Object}      callback.err  Error object containing error code and message
@@ -225,7 +225,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
             'success': function(data) {
                 reloadTenants();
                 callback(null);
-            }, 
+            },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
             }
@@ -368,6 +368,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         });
     };
 
+
     //////////////////////
     // LOGIN AND LOGOUT //
     //////////////////////
@@ -405,8 +406,8 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
     };
 
     /**
-     * As a global admin, log onto a tenant. If successful, the user will be redirected 
-     * to the tenant where he should be logged in. If we were unable to retrieve a login 
+     * As a global admin, log onto a tenant. If successful, the user will be redirected
+     * to the tenant where he should be logged in. If we were unable to retrieve a login
      * token, a notification will be shown.
      */
     var loginOnTenantHandler = function() {
@@ -449,6 +450,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
             }
         });
     };
+
 
     //////////////
     // SKINNING //
@@ -563,7 +565,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         // When we are on the tenant server itself, we don't have
         // to append the tenant alias to the endpoint
         var url = '/api/config';
-        if (currentContext.isGlobalAdminServer) {
+        if (currentContext.isTenantOnGlobalAdminServer) {
             url += '/' + currentContext.alias;
         }
 
@@ -585,7 +587,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
 
     /**
      * Revert a skin value back to its original value as defined in the
-     * base less file. Therefore, this will not necessarily revert the 
+     * base less file. Therefore, this will not necessarily revert the
      * value back to its previous value.
      */
     var revertSkinValue = function() {
@@ -600,9 +602,10 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         }
     };
 
-    ///////////////////////
-    //// DATA FETCHING ////
-    ///////////////////////
+
+    ///////////////////
+    // DATA FETCHING //
+    ///////////////////
 
     /**
      * Reload the list of available tenants and re-render the footer
@@ -617,7 +620,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
 
     /**
      * Gets the configuration schema and the configuration for the current tenant.
-     * 
+     *
      * @param {Function}    callback        Standard callback function
      */
     var getConfiguration = function(callback) {
@@ -633,7 +636,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
 
                 // Get the tenant configuration values
                 var url = '/api/config';
-                if (currentContext.isGlobalAdminServer && currentContext.alias) {
+                if (currentContext.isTenantOnGlobalAdminServer) {
                     url += '/' + currentContext.alias;
                 }
 
@@ -650,7 +653,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
 
     /**
      * Get all of the available tenants and cache them
-     * 
+     *
      * @param {Function}    callback        Standard callback function
      */
     var getTenants = function(callback) {
@@ -666,7 +669,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
     /**
      * Determine whether or not we're current on the global admin server and whether or not we need the UI for
      * the global admin or for an admin. This will then be stored in the `currentContext` variable.
-     * 
+     *
      * @param  {Function}  callback  Function to be executed after the context has been determined
      */
     var getCurrentContext = function(callback) {
@@ -677,15 +680,62 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                 currentContext = data;
 
                 // Check if we're currently on a tenant admin on the global server. In that
-                // case, the URL should /tenant/<tenantAlias>
-                if (window.location.pathname.split('/').length === 3) {
-                    var tenantAlias = window.location.pathname.split('/').pop();
-                    $.extend(currentContext, tenants[tenantAlias]);
+                // case, the URL should be /tenant/<tenantAlias>
+                var tenantAlias = $.url().segment(2);
+                if (tenantAlias) {
+                    currentContext = tenants[tenantAlias];
+                    currentContext.isTenantOnGlobalAdminServer = true;
                 }
                 callback();
             }
         });
     };
+
+
+    //////////////////////////
+    // LEFT HAND NAVIGATION //
+    //////////////////////////
+
+    /**
+     * Initializes the left hand navigation
+     */
+    var initializeNavigation = function() {
+        oae.api.util.template().render($('#admin-lhnav-template'), {'context': currentContext}, $('#admin-lhnav-container'));
+        $('#admin-lhnav-container').show();
+
+        // Extract the currently selected view from the URL by parsing the URL fragment that's
+        // inside of the current History.js hash. The expected URL structure is `...?view=<view>`.
+        // It is not possible to use cleaner `/view` URLs, as the admin UI can be found at `/` and
+        // `/tenant/<tenantAlias>` on the global admin server and `/admin` on the tenant servers.
+        var selectedView = $.url().param().view;
+        // When the page loads, the History.js state data object will either be empty (when having
+        // followed a link or entering the URL directly) or will contain the previous state data when
+        // refreshing the page. This is why we use the URL to determine the initial state. We want
+        // to replace the initial state with all of the required state data for the requested URL so
+        // we have the correct state data in all circumstances. Calling the `replaceState` function
+        // will automatically trigger the statechange event, which will take care of showing the correct view.
+        // However, as the page can already have the History.js state data when only doing a page refresh,
+        // we need to add a random number to make sure that History.js recognizes this as a new state and
+        // triggers the `statechange` event.
+        History.replaceState({
+            'view': selectedView,
+            '_': Math.random()
+        });
+    };
+
+    /**
+     * Every time an item in the left hand navigation is clicked, we push a new state using
+     * History.js, containing the id of the view that should be shown next.
+     */
+    var selectView = function() {
+        // Push the state, This will trigger the statechange event, which will then
+        // take care of showing of the selected view
+        History.pushState({
+            'view': $(this).attr('data-id')
+        }, null, $('a', $(this)).attr('href'));
+        return false;
+    };
+
 
     ////////////////////////
     //// INITIALIZATION ////
@@ -719,7 +769,8 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         // Change skin
         $(document).on('submit', '#admin-skinning-form', saveSkin);
         // Left hand navigation switching
-        $(window).hashchange(switchView);
+        $(document).on('click', '#admin-lhnav-container ul li', selectView);
+        $(window).on('statechange', switchView);
     };
 
     /**
@@ -729,7 +780,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         oae.api.util.template().render($('#admin-header-template'), {'context': currentContext}, $('#admin-header-container'));
 
         // Set the page title
-        if (currentContext.isGlobalAdminServer && !currentContext.host) {
+        if (currentContext.isGlobalAdminServer) {
             oae.api.util.setBrowserTitle('Global Administration');
         } else {
             oae.api.util.setBrowserTitle('Tenant Administration');
@@ -761,14 +812,15 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
      * Initializes the list of tenants and renders them in a view
      */
     var initializeTenants = function() {
-        var tenantsToRender = tenants;
-        // Tenant admin UI
-        if (currentContext.host) {
-            tenantsToRender = [tenants[currentContext.alias]];
-        }
-        // Determine whether or not there is at least 
-        var hasStoppedServer = _.find(tenants, function(tenant) { 
-            return !tenant.active; 
+        // If we're on the global admin server, we can render all the tenants. 
+        // Otherwise we only render the current tenant.
+        var tenantsToRender = (currentContext.isGlobalAdminServer) ? tenants: [currentContext];
+
+        // Determine whether or not there is at least one tenant server that has been
+        // stopped. When that's the case, the 'Start all' button will be shown instead
+        // of the 'Stop all' button.
+        var hasStoppedServer = _.find(tenants, function(tenant) {
+            return !tenant.active;
         });
         oae.api.util.template().render($('#admin-tenants-template'), {
             'tenants': tenantsToRender,
@@ -778,14 +830,6 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         enableInlineEdit();
         // Set up the validation for the create tenant form
         oae.api.util.validation().validate($('#createtenant-form'), {'submitHandler': createTenant});
-    };
-
-    /**
-     * Initializes the left hand navigation
-     */
-    var initializeNavigation = function() {
-        oae.api.util.template().render($('#admin-lhnav-template'), {'context': currentContext}, $('#admin-lhnav-container'));
-        $('#admin-lhnav-container').show();
     };
 
     /**
@@ -807,7 +851,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                 // Render the header and the footer
                 initializeHeader();
                 initializeFooter();
-    
+
                 if (oae.data.me.anon) {
                     setUpLogin();
                 } else {
@@ -821,8 +865,6 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                         initializeModules();
                         // Initialize the skinning UI
                         initializeSkinning();
-                        // Show requested view
-                        switchView();
                     });
                 }
             });
