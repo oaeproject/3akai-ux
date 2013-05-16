@@ -154,9 +154,15 @@ require(['jquery', 'oae.core'], function($, oae) {
         });
     };
 
+    /**
+     * Re-render the group's clip when a new profile picture has been uploaded. The updated
+     * group profile will be passed into the event
+     */
     $(document).on('oae.changepic.finished', function(ev, data) {
+        // TODO: Remove this once https://github.com/sakaiproject/Hilary/issues/506 is fixed
         data.isManager = groupProfile.isManager;
         data.isMember = groupProfile.isMember;
+
         groupProfile = data;
         setUpClip();
     });

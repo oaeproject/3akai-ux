@@ -119,6 +119,10 @@ require(['jquery','oae.core'], function($, oae) {
     });
     $(document).trigger('oae.context.send', oae.data.me);
 
+    /**
+     * Re-render the me clip when a new profile picture has been uploaded. The updated
+     * me object will be passed into the event
+     */
     $(document).on('oae.changepic.finished', function(ev, data) {
         oae.data.me = data;
         setUpClip();
