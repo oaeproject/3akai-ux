@@ -53,7 +53,7 @@ require(['jquery', 'oae.core'], function($, oae) {
     };
 
     /**
-     * The `oae.context.get` or `oae.context.get.<widgetname>` event can be sent by widgets 
+     * The `oae.context.get` or `oae.context.get.<widgetname>` event can be sent by widgets
      * to get hold of the current context (i.e. group profile). In the first case, a
      * `oae.context.send` event will be sent out as a broadcast to all widgets listening
      * for the context event. In the second case, a `oae.context.send.<widgetname>` event
@@ -70,8 +70,6 @@ require(['jquery', 'oae.core'], function($, oae) {
         });
         $(document).trigger('oae.context.send', groupProfile);
     };
-
-    $(document).on('oae.changepic.finished', setUpClip);
 
     /**
      * Render the group's clip, containing the profile picture, display name as well as the
@@ -155,6 +153,13 @@ require(['jquery', 'oae.core'], function($, oae) {
             $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
         });
     };
+
+    $(document).on('oae.changepic.finished', function(ev, data) {
+        data.isManager = groupProfile.isManager;
+        data.isMember = groupProfile.isMember;
+        groupProfile = data;
+        setUpClip();
+    });
 
     getGroupProfile();
 
