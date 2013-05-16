@@ -902,10 +902,6 @@ ul.oae-list {
     clear: both;
 }
 
-ul.oae-list:after {
-    clear: both;
-}
-
 ul.oae-list > li {
     list-style: none;
     -webkit-border-radius: 3px;
