@@ -580,7 +580,7 @@ div.oae-thumbnail i[class^="icon-"] {
     margin-left: 10px;
     line-height: 16px;
     position: relative;
-    top: 2px;
+    top: 3px;
 }
 
 .oae-clip .oae-clip-content > button:disabled i.icon-caret-down,
