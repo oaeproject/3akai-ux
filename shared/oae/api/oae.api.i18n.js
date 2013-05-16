@@ -77,7 +77,10 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.propertie
             }
 
             bundles.core['default'] = $.parseProperties(data[bundlesToLoad[0]]);
-            bundles.core[locale] = $.parseProperties(data[bundlesToLoad[1]]);
+            // Only parse the core bundle if it exists
+            if (data[bundlesToLoad[1]]) {
+                bundles.core[locale] = $.parseProperties(data[bundlesToLoad[1]]);
+            }
             callback(null);
         });
     };

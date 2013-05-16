@@ -452,7 +452,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
                 var $helpPlaceholder = $('.help', $element.parents('.control-group'));
                 if ($helpPlaceholder.length === 0) {
                     $error.addClass('help-block');
-                    $error.insertAfter($element)
+                    $error.insertAfter($element);
                 } else {
                     $helpPlaceholder.append($error);
                 }
