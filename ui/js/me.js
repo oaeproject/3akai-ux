@@ -103,7 +103,7 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     /**
-     * The `oae.context.get` or `oae.context.get.<widgetname>` event can be sent by widgets 
+     * The `oae.context.get` or `oae.context.get.<widgetname>` event can be sent by widgets
      * to get hold of the current context (i.e. current user's profile). In the first case, a
      * `oae.context.send` event will be sent out as a broadcast to all widgets listening
      * for the context event. In the second case, a `oae.context.send.<widgetname>` event
@@ -118,6 +118,11 @@ require(['jquery','oae.core'], function($, oae) {
         }
     });
     $(document).trigger('oae.context.send', oae.data.me);
+
+    $(document).on('oae.changepic.finished', function(ev, data) {
+        oae.data.me = data;
+        setUpClip();
+    });
 
     setUpClip();
     setUpNavigation();
