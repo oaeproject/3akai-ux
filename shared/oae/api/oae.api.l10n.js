@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'underscore', 'oae.api.config', 'globalize'], function(exports, _, configAPI) {
+define(['exports', 'jquery', 'underscore', 'oae.api.config', 'globalize'], function(exports, $, _, configAPI) {
 
     /**
      * Initialize all localization functionality by loading the correct culture file.
@@ -46,6 +46,30 @@ define(['exports', 'underscore', 'oae.api.config', 'globalize'], function(export
     };
 
     /**
+     * Utility function that will make sure that a passed in date is a valid Date object adjusted to
+     * the timezone set in the user's account preferences
+     *
+     * @param  {Date|Number}    date        Javascript date object or milliseconds since epoch that needs to be converted into a date adjusted to the user's timezone
+     * @return {Date}                       Date object that has been adjusted to the current user's timezone
+     * @api private
+     */
+    var parseDate = function(date) {
+        // If a millisecond since epoch has been provided, we convert it to a date
+        if (_.isNumber(date)) {
+            date = new Date(date);
+        }
+
+        // Adjust the date to the user's timezone
+        var locale = require('oae.core').data.me.locale;
+        if (locale) {
+            // The offset represent the number of hours offset between GMT and the user's timezone
+            var offset = locale.timezone.offset;
+            date.setTime(date.getTime() + (offset * 60 * 60 * 1000));
+        }
+        return date;
+    };
+
+    /**
      * Function that will take a date and convert it into a localized date only string, conforming with
      * the conventions for the user's current locale.
      *
@@ -59,10 +83,9 @@ define(['exports', 'underscore', 'oae.api.config', 'globalize'], function(export
         if (!date) {
             throw new Error('A date must be provided');
         }
-        // If a millisecond since epoch has been provided, we convert it to a date
-        if (_.isNumber(date)) {
-            date = new Date(date);
-        }
+        // Make sure that we are working with a valid date adjusted to the user's timezone
+        date = parseDate(date);
+        // Convert the date to a localized date string
         return Globalize.format(date, 'd');
     };
 
@@ -81,10 +104,9 @@ define(['exports', 'underscore', 'oae.api.config', 'globalize'], function(export
         if (!date) {
             throw new Error('A date must be provided');
         }
-        // If a millisecond since epoch has been provided, we convert it to a date
-        if (_.isNumber(date)) {
-            date = new Date(date);
-        }
+        // Make sure that we are working with a valid date adjusted to the user's timezone
+        date = parseDate(date);
+        // Convert the date to a localized date and time string
         if (useShort) {
             return Globalize.format(date, 'd') + ' ' + Globalize.format(date, 't');
         } else {
@@ -110,4 +132,22 @@ define(['exports', 'underscore', 'oae.api.config', 'globalize'], function(export
         // When a certain number of decimal places is required, we pass in n<Number of decimal places>
         return Globalize.format(number, decimalPlaces !== null ? 'n' + decimalPlaces : 'n');
     };
+
+    /**
+     * Function that will take a date and convert it into a localized time ago string, based on the current
+     * user's locale.
+     *
+     * @param  {Date|Number}    date        Javascript date object or milliseconds since epoch that needs to be converted into a time ago string
+     * @return {String}                     Converted localized time ago string
+     * @throws {Error}                      Error thrown when no date has been provided
+     */
+    var timeAgo = exports.timeAgo = function(date) {
+        if (!date) {
+            throw new Error('A date must be provided');
+        }
+        // Make sure that we are working with a valid date adjusted to the user's timezone
+        date = parseDate(date);
+        return $.timeago(date);
+    };
+
 });
