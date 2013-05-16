@@ -37,11 +37,11 @@ require(['jquery','oae.core'], function($, oae) {
 
         // Reset the type checkboxes to make sure that none of them stay checked incorrectly
         // when hitting the back and forward buttons
-        $('#search-refine-type input[type="checkbox"]').removeAttr('checked', 'checked');
+        $('#search-refine-type input[type="checkbox"]').prop('checked', false);
         // Get the current type refinements from the History.js data object and select the corresponding checkboxes
         var types = History.getState().data.types;
         $.each(types, function(index, type) {
-            $('#search-refine-type input[type="checkbox"][data-type="' + type + '"]').attr('checked', 'checked');
+            $('#search-refine-type input[type="checkbox"][data-type="' + type + '"]').prop('checked', true);
         });
 
         // Set up the infinite scroll for the list of search results
@@ -85,7 +85,7 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     /**
-     * Extract the search query and type refinements from the current URL. 
+     * Extract the search query and type refinements from the current URL.
      * This will only be executed when the page is loaded.
      */
     var initSearch = function() {
