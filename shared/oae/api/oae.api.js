@@ -74,14 +74,10 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
 
                     // Initialize l10n
                     var userLocale = oae.data.me.locale ? oae.data.me.locale.locale : null;
-                    oae.api.l10n.init(userLocale, function(err, locale) {
+                    oae.api.l10n.init(userLocale, function(err) {
                         if (err) {
                             throw new Error('Could not initialize the l10n API.');
                         }
-
-                        // The globalization plugin we use expects the locale string to be in the 'en-GB',
-                        // rather than the 'en_GB' format. Our APIs use the 'en_GB' notation so we transform it back.
-                        userLocale = locale.replace('-', '_');
 
                         // Initialize i18n
                         oae.api.i18n.init(userLocale, function(err) {
