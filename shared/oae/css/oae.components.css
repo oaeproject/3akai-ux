@@ -145,6 +145,13 @@ i.icon-oae-public:before {
 
 /* Large visibility icons */
 
+i.icon-oae-private.large,
+i.icon-oae-loggedin.large,
+i.icon-oae-public.large {
+    width: 60px;
+    height: 60px;
+}
+
 i.icon-oae-private.large:before,
 i.icon-oae-loggedin.large:before,
 i.icon-oae-public.large:before {
@@ -240,7 +247,7 @@ i.icon-oae-public.large:before {
     display: block;
     margin-left: 65px;
     position: absolute;
-    top: 125px;
+    top: 128px;
 }
 
 .oae-visibility-choice-container .oae-visibility-choice.checked + i:before {
