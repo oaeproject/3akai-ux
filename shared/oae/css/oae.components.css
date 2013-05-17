@@ -195,12 +195,16 @@ i.icon-oae-public.large:before {
  *      </div>
  **/
 
+.oae-visibility-choice-container label {
+    position: relative;
+}
+
 .oae-visibility-choice-container .oae-visibility-choice {
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
             box-sizing: border-box;
     height: 150px;
-    margin: 0 10px 20px 0;
+    margin: 0 10px 15px 0;
     width: 100%;
 }
 
@@ -233,10 +237,10 @@ i.icon-oae-public.large:before {
     -webkit-border-radius: 100px;
        -moz-border-radius: 100px;
             border-radius: 100px;
-    bottom: 26.5%;
     display: block;
     margin-left: 65px;
     position: absolute;
+    top: 125px;
 }
 
 .oae-visibility-choice-container .oae-visibility-choice.checked + i:before {
