@@ -794,7 +794,7 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-listitem {
     padding: 10px;
     margin-bottom: 10px;
-    height: 50px;
+    min-height: 50px;
     border: 1px solid;
     -webkit-border-radius: 3px;
        -moz-border-radius: 3px;
@@ -802,7 +802,7 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .oae-listitem.oae-listitem-compact {
-    height: 25px;
+    min-height: 25px;
 }
 
 .oae-listitem input[type="checkbox"].pull-left {
