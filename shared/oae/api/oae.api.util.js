@@ -293,7 +293,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
 
         // Show the actual notification
         $notificationContainer.notify({
-            'fadeOut': { 
+            'fadeOut': {
                 'enabled': true,
                 'delay': 5000
             },
