@@ -17,13 +17,14 @@
  * Initalize requireJS by setting paths and specifying load priorities
  */
 requirejs.config({
-    baseUrl: '/shared/',
-    paths: {
+    'baseUrl': '/shared/',
+    'paths': {
         // jQuery module is managed by require-jquery variation of require.js
         'jquery': 'empty:',
 
         // Vendor paths
         'bootstrap': 'vendor/js/bootstrap',
+        'bootstrap.clickover': 'vendor/js/bootstrap-plugins/bootstrapx.clickover',
         'globalize': 'vendor/js/l10n/globalize',
         'jquery.autosuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest.oae-edited',
         'jquery.encoder': 'vendor/js/jquery-plugins/jquery.encoder',
@@ -69,7 +70,12 @@ requirejs.config({
         'oae.core': 'oae/api/oae.core',
         'pluginBuilder': 'oae/pluginBuilder'
     },
-    priority: ['jquery', 'underscore']
+    'priority': ['jquery', 'underscore'],
+    'shim': {
+        'bootstrap.clickover': {
+            'deps': ['bootstrap']
+        }
+    }
 });
 
 /*!

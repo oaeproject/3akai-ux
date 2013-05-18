@@ -29,7 +29,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
      * @param  {Object}                            [parameters.limit]              The number of items to load per ajax request. This will default to 10 if not provided.
      * @param  {String|Element|Function}           render                          jQuery element or selector for that jQuery element that identifies the Trimpath template that should be used to render retrieved results. If a function is provided, this function will be called instead with 1 parameters: the server response containing the retrieved results. The function should return the generated HTML string.
      * @param  {Object}                            [options]                       Optional object containing additional configuraton options.
-     * @param  {String|Element}                    [options.scrollcontainer]       jQuery element or selector for that jQuery element that identifies the container on which the scrollposition should be watched to check when we are close enough to the bottom to load a new set of results. If this is not provided, the document body will be used.
+     * @param  {String|Element}                    [options.scrollContainer]       jQuery element or selector for that jQuery element that identifies the container on which the scrollposition should be watched to check when we are close enough to the bottom to load a new set of results. If this is not provided, the document body will be used.
      * @param  {Function}                          [options.emptyListProcessor]    Function that will be executed when the rendered list doesn't have any elements.
      * @param  {Function}                          [options.postProcessor]         Function used to transform the search results before rendering the template. This function will be called with a data parameter containing the retrieved data and should return the processed data
      * @param  {Function}                          [options.postRenderer]          Function executed after the rendered HTML has been appended to the rendered list. The full retrieved server response will be passed into this function.
@@ -97,19 +97,26 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
         var checkLoadNext = function() {
             // We only check if a new set of results should be loaded if a search
             // is not in progress and if the container has not been killed
+            console.log('SCROLLING');
             if (!isDoingSearch && $container) {
                 // In case we use the body
                 var threshold = 500;
                 var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - $(window).scrollTop();
                 // In case we use a scroll container
                 if (options.scrollContainer) {
-                    threshold = 280;
-                    pixelsRemainingUntilBottom = options.scrollContainer.height() - options.scrollContainer.scrollTop();
+                    threshold = 200;
+                    console.log(options.scrollContainer.height());
+                    console.log(options.scrollContainer.scrollTop());
+                    console.log(options.scrollContainer.prop("scrollHeight"));
+                    pixelsRemainingUntilBottom = options.scrollContainer.prop('scrollHeight') - options.scrollContainer.height() - options.scrollContainer.scrollTop();
+                    console.log(pixelsRemainingUntilBottom);
                 }
                 // Check if this is close enough to the bottom to kick off a new item load
                 if (pixelsRemainingUntilBottom <= threshold && $container.is(':visible')) {
+                    console.log('Going to do search')
                     loadResultList();
                 }
+                console.log('***********');
             }
         };
 

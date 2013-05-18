@@ -234,6 +234,18 @@ input.search-query,
     box-shadow: none;
 }
 
+/* CLICKOVER DIALOGS
+ * @see https://github.com/lecar-red/bootstrapx-clickover
+ * @see http://twitter.github.io/bootstrap/javascript.html#popovers */
+
+.popover {
+    max-width: 500px;
+}
+
+.popover-title {
+    display: none;
+}
+
 /* NOTIFICATIONS
  * @see http://twitter.github.com/bootstrap/components.html#alerts
  * @see http://nijikokun.github.io/bootstrap-notify */
