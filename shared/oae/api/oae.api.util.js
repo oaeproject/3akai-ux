@@ -128,8 +128,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         var init = function(callback) {
             // Load the activity summary and lists macros through the RequireJS Text plugin
             require(['text!/ui/macros/activity.html', 'text!/ui/macros/list.html'], function(listMacro, activityMacro) {
-                // Cache the macro
-                // TODO
+                // Translate and cache the macros. We require the i18n API here to avoid creating
+                // a cyclic dependency
                 var i18nAPI = require('oae.api.i18n');
                 globalMacros.push(i18nAPI.translate(activityMacro));
                 globalMacros.push(i18nAPI.translate(listMacro));
@@ -180,7 +180,12 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * - `pagingKey` (optional) is the key that should be used for paging through the infinite scroll plugin
          * - `showCheckbox` (optional) will determine whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
          *
-         * 3) TODO
+         * 3) Activity summary
+         *
+         *   `${renderActivitySummary(activity)}`
+         *
+         * - `activity` is a standard activity object, as specified by the activitystrea.ms specification, for which to generate the activity summary
+         *
          *
          * IMPORTANT: There should be no line breaks in between the div and the <!-- declarations,
          * because that line break will be recognized as a node and the template won't show up, as

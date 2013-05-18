@@ -359,8 +359,15 @@ input[type="color"]:focus,
 /* Modal dialog title color */
 @modal-title-color: #777;
 
-.modal, .dropdown-menu {
+.modal, .dropdown-menu, .popover {
     .background-gradient-two(@modal-gradient1-color, @modal-gradient2-color);
+}
+
+.popover.top .arrow:after,
+.popover.right .arrow:after,
+.popover.bottom .arrow:after,
+.popover.left .arrow:after {
+    border-bottom-color: @modal-gradient1-color;
 }
 
 .modal-header h3, .modal-body h4 {

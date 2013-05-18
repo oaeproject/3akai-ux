@@ -97,7 +97,6 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
         var checkLoadNext = function() {
             // We only check if a new set of results should be loaded if a search
             // is not in progress and if the container has not been killed
-            console.log('SCROLLING');
             if (!isDoingSearch && $container) {
                 // In case we use the body
                 var threshold = 500;
@@ -105,18 +104,12 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
                 // In case we use a scroll container
                 if (options.scrollContainer) {
                     threshold = 200;
-                    console.log(options.scrollContainer.height());
-                    console.log(options.scrollContainer.scrollTop());
-                    console.log(options.scrollContainer.prop("scrollHeight"));
                     pixelsRemainingUntilBottom = options.scrollContainer.prop('scrollHeight') - options.scrollContainer.height() - options.scrollContainer.scrollTop();
-                    console.log(pixelsRemainingUntilBottom);
                 }
                 // Check if this is close enough to the bottom to kick off a new item load
                 if (pixelsRemainingUntilBottom <= threshold && $container.is(':visible')) {
-                    console.log('Going to do search')
                     loadResultList();
                 }
-                console.log('***********');
             }
         };
 
