@@ -297,6 +297,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
 
         // Show the actual notification
         $notificationContainer.notify({
+            'fadeOut': {
+                'enabled': true,
+                'delay': 5000
+            },
             'type': type,
             'message': {'html': message},
             'transition': 'slideDown'

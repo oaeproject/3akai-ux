@@ -285,9 +285,10 @@ input.search-query,
 .notifications.center > div,
 .notifications.bottom-center > div {
     margin: 0px auto;
+    max-width: 400px;
     text-align: left;
     width: 40%;
-    max-width: 400px;
+    word-wrap: break-word;
 }
 
 /* BADGES
