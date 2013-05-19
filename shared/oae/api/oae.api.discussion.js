@@ -47,13 +47,13 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {String}         [description]           The discussion's description
      * @param  {String}         [visibility]            The discusion's visibility. This can be public, loggedin or private
      * @param  {String[]}       [managers]              Array of user/group ids that should be added as managers to the discussion
-     * @param  {String[]}       [viewers]               Array of user/group ids that should be added as viewers to the discussion
+     * @param  {String[]}       [members]               Array of user/group ids that should be added as members to the discussion
      * @param  {Function}       [callback]              Standard callback method
      * @param  {Object}         [callback.err]          Error object containing error code and error message
      * @param  {Discussion}     [callback.discussion]   Discusison object representing the created discussion
      * @throws {Error}                                  Error thrown when no discussion topic has been provided
      */
-    var createDiscussion = exports.createDiscussion = function(displayName, description, visibility, managers, viewers, callback) {
+    var createDiscussion = exports.createDiscussion = function(displayName, description, visibility, managers, members, callback) {
         if (!displayName) {
             throw new Error('A valid description topic should be provided');
         }
@@ -63,7 +63,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             'description': description,
             'visibility': visibility,
             'managers': managers,
-            'viewers': viewers
+            'members': members
         };
 
         $.ajax({
