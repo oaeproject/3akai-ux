@@ -65,6 +65,24 @@ require(['jquery','oae.core'], function($, oae) {
             ]
         },
         {
+            'id': 'discussions',
+            'title': oae.api.i18n.translate('__MSG__MY_DISCUSSIONS__'),
+            'icon': 'icon-comments',
+            'layout': [
+                {
+                    'width': 'span12',
+                    'widgets': [
+                        {
+                            'id': 'discussions',
+                            'settings': {
+                                'principalId': oae.data.me.id
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             'id': 'groups',
             'title': oae.api.i18n.translate('__MSG__MY_GROUPS__'),
             'icon': 'icon-group',

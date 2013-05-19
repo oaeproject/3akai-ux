@@ -21,10 +21,10 @@
  * This module is intended to be referenced as a *plugin*, not a regular module. Do not depend on this directly, instead depend
  * on `oae.core`, which invokes this plugin, and also efficiently pre-loads many third-party dependencies.
  */
-define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.group', 'oae.api.i18n',
-        'oae.api.l10n', 'oae.api.profile', 'oae.api.user', 'oae.api.util', 'oae.api.widget'],
+define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.discussion', 'oae.api.group',
+        'oae.api.i18n', 'oae.api.l10n', 'oae.api.profile', 'oae.api.user', 'oae.api.util', 'oae.api.widget'],
 
-    function(authenticationAPI, configAPI, contentAPI, groupAPI, i18nAPI, l10nAPI, profileAPI, userAPI, utilAPI, widgetAPI) {
+    function(authenticationAPI, configAPI, contentAPI, discussionAPI, groupAPI, i18nAPI, l10nAPI, profileAPI, userAPI, utilAPI, widgetAPI) {
 
         /*!
          * Object containing all of the available OAE API modules and their functions, as well as some
@@ -35,6 +35,7 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
                 'authentication': authenticationAPI,
                 'config': configAPI,
                 'content': contentAPI,
+                'discussion': discussionAPI,
                 'group': groupAPI,
                 'i18n': i18nAPI,
                 'l10n': l10nAPI,

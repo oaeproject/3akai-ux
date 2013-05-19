@@ -340,23 +340,24 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     };
 
     /**
-     * Get a principal library.
+     * Get the content library for a given principal.
      *
-     * @param  {String}         principalId         User or group id for who we want to retrieve the library
-     * @param  {String}         [start]             The content id to start from (this will not be included in the response). If the first page is needed, null should be passed in.
-     * @param  {Number}         [limit]             The number of content items to retrieve.
+     * @param  {String}         principalId         User or group id for who we want to retrieve the content library
+     * @param  {String}         [nextToken]         The token used for paging. If the first page of results is required, `null` should be passed in as the token. For any subsequent pages, the nextToken will be included in the feed from the previous page
+     * @param  {Number}         [limit]             The number of content items to retrieve
      * @param  {Function}       callback            Standard callback method
      * @param  {Object}         callback.err        Error object containing error code and error message
-     * @param  {Content[]}      callback.items      Array of content items representing the content items present in the library
+     * @param  {Content[]}      callback.results    Array of content items representing the content items present in the library
+     * @param  {String}         callback.nextToken  Token that should be used to retrieved the next set of content items in the library
      * @throws {Error}                              Error thrown when no principal ID has been provided
      */
     var getLibrary = exports.getLibrary = function(principalId, start, limit, callback) {
         if (!principalId) {
-            throw new Error('A user ID should be provided');
+            throw new Error('A user or group ID should be provided');
         }
 
         var data = {
-            'start': start,
+            'start': nextToken,
             'limit': limit
         };
 

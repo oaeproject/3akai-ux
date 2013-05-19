@@ -60,6 +60,7 @@ requirejs.config({
         'oae.api.authentication': 'oae/api/oae.api.authentication',
         'oae.api.config': 'oae/api/oae.api.config',
         'oae.api.content': 'oae/api/oae.api.content',
+        'oae.api.discussion': 'oae/api/oae.api.discussion',
         'oae.api.group': 'oae/api/oae.api.group',
         'oae.api.i18n': 'oae/api/oae.api.i18n',
         'oae.api.l10n': 'oae/api/oae.api.l10n',
