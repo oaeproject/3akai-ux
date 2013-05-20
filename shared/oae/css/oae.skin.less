@@ -116,13 +116,16 @@ h6 [class^="icon-"], h6 [class*=" icon-"] {
 @link-hover-color: #005580;
 
 a, .btn-link {
-   color: @link-color;
+    color: @link-color;
 }
 
 a:hover, .btn-link:hover {
     color: @link-hover-color;
 }
 
+.recaptchatable a {
+    color: @link-color !important;
+}
 
 /***********************
  ** @section  Buttons **
