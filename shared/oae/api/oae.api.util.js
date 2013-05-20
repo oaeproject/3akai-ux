@@ -235,7 +235,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             // Render the template
             var renderedHTML = null;
             try {
+                // Render the template
                 renderedHTML = templateCache[templateId].process(data, {'throwExceptions': true});
+                // Filter out comments from the rendered template
+                renderedHTML = renderedHTML.replace(/<!--(?:.|\n)*?-->/gm, '');
             } catch (err) {
                 throw new Error('Rendering of template "' + templateId + '" failed: ' + err);
             }
@@ -254,7 +257,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         return {
             'init': init,
             'render': render
-        }
+        };
     };
 
     /**
@@ -265,7 +268,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
      * at http://nijikokun.github.com/bootstrap-notify/.
      *
      * @param  {String}     [title]       The notification title.
-     * @param  {String}     message       The notification message that will be shown underneath the title.
+     * @param  {String}     message       The notification message that will be shown underneath the title. The message should be sanitized by the caller to allow for HTML inside of the notification.
      * @param  {String}     [type]        The notification type. The supported types are `success`, `error` and `info`, as defined in http://twitter.github.com/bootstrap/components.html#alerts. By default, the `success` type will be used.
      * @throws {Error}                    Error thrown when no message has been provided
      */
@@ -283,8 +286,6 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             $('body').append($notificationContainer);
         }
 
-        // We make sure the notification message is protected against XSS attacks
-        message = security().encodeForHTML(message);
         // If a title has been provided, we wrap it in an h4 and prepend it to the message
         if (title) {
             message = '<h4>' + security().encodeForHTML(title) + '</h4>' + message;
@@ -292,6 +293,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
 
         // Show the actual notification
         $notificationContainer.notify({
+            'fadeOut': {
+                'enabled': true,
+                'delay': 5000
+            },
             'type': type,
             'message': {'html': message},
             'transition': 'slideDown'
@@ -452,7 +457,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
                 var $helpPlaceholder = $('.help', $element.parents('.control-group'));
                 if ($helpPlaceholder.length === 0) {
                     $error.addClass('help-block');
-                    $error.insertAfter($element)
+                    $error.insertAfter($element);
                 } else {
                     $helpPlaceholder.append($error);
                 }
@@ -490,7 +495,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             'init': init,
             'validate': validate,
             'clear': clear
-        }
+        };
     };
 
     ////////////////////

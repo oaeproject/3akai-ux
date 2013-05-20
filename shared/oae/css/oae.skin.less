@@ -473,21 +473,21 @@ input[type="color"]:focus,
 
 
 /*********************************
- ** @section  Tabbed navigation **
+ ** @section  Tabs **
  *********************************/
 
-/* Tabbed navigation item text color */
+/* Tab text color */
 @tabbed-nav-text-color: #999;
-/* Tabbed navigation item hover text color */
+/* Tab text hover color */
 @tabbed-nav-text-hover-color: #333;
-/* Tabbed navigation item selected text color */
+/* Selected tab text color */
 @tabbed-nav-text-selected-color: #333;
-/* Tabbed navigation background color */
+/* Tab background color */
 @tabbed-nav-background-color: transparent;
-/* Tabbed navigation background color */
+/* Tab background hover color */
 @tabbed-nav-background-hover-color: transparent;
-/* Tabbed navigation active tab background color */
-@tabbed-nav-background-selected-color: #F8F8F6;
+/* Selected tab background color */
+@tabbed-nav-background-selected-color: #FFF;
 
 .nav-tabs > li > a {
     color: @tabbed-nav-text-color;
@@ -560,11 +560,11 @@ div.oae-thumbnail {
 /* Tile banner background color */
 @tile-background-color: rgba(0, 0, 0, 0.8);
 
-.oae-tile > div:last-child {
+.oae-tile > .oae-tile-metadata {
     background-color: @tile-background-color;
 }
 
-.oae-tile > div:last-child, .oae-tile h3, .oae-tile h3 a {
+.oae-tile > .oae-tile-metadata, .oae-tile h3, .oae-tile h3 a {
     color: @tile-text-color;
 }
 
