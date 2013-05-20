@@ -759,3 +759,28 @@ div.oae-thumbnail {
     background-color: @clip-secondary-gradient2-color;
 }
 
+
+/*********************
+ ** @section  Well **
+ *********************/
+
+/* Well background color */
+@well-background-color: #F5F5F5;
+/* Well border color */
+@well-border-color: #E3E3E3;
+/* Well box shadow color */
+@well-box-shadow-color: rgba(0, 0, 0, 0.05);
+/* Well blockquote border color */
+@well-blockquote-border-color: rgba(0, 0, 0, 0.15);
+
+.well {
+  background-color: @well-background-color;
+  border: 1px solid @well-border-color;
+  -webkit-box-shadow: inset 0 1px 1px @well-box-shadow-color;
+     -moz-box-shadow: inset 0 1px 1px @well-box-shadow-color;
+          box-shadow: inset 0 1px 1px @well-box-shadow-color;
+}
+
+.well blockquote {
+  border-color: @well-blockquote-border-color;
+}
