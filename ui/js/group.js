@@ -80,7 +80,16 @@ require(['jquery', 'oae.core'], function($, oae) {
 
         // Only show the create and upload clips to managers
         if (groupProfile.isManager) {
-            $('#group-actions').show();
+            $('#group-manager-actions').show();
+        // Show the viewer actions if the user is logged in and not a manager
+        } else if (!oae.data.me.anon) {
+            $('#group-viewer-actions').show();
+            // Show the join button if the group is joinable
+            if (!groupProfile.isMember && groupProfile.joinable === 'yes') {
+                $('#group-viewer-actions-join').show();
+            } else if (groupProfile.isMember) {
+                $('#group-viewer-actions-leave').show();
+            }
         }
     };
 
@@ -153,6 +162,31 @@ require(['jquery', 'oae.core'], function($, oae) {
             $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
         });
     };
+
+    $('#group-viewer-actions-join button').on('click', function() {
+        // Join the group
+        oae.api.group.joinGroup(groupProfile.id, function(err) {
+            if (!err) {
+                // Show a success notification
+                oae.api.util.notification(
+                    oae.api.i18n.translate('__MSG__GROUP_JOINED__'),
+                    oae.api.i18n.translate('__MSG__GROUP_SUCCESSFULLY_JOINED__')
+                );
+
+                // Reload the page after 2 seconds to rerender the group as a member
+                setTimeout(function() {
+                    document.location.reload();
+                }, 2000);
+            } else {
+                // Show a failure notification
+                oae.api.util.notification(
+                    oae.api.i18n.translate('__MSG__GROUP_JOIN_FAILED__'),
+                    oae.api.i18n.translate('__MSG__GROUP_COULD_NOT_BE_JOINED__'),
+                    'error'
+                );
+            }
+        });
+    });
 
     /**
      * Re-render the group's clip when a new profile picture has been uploaded. The updated
