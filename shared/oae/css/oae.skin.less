@@ -116,13 +116,16 @@ h6 [class^="icon-"], h6 [class*=" icon-"] {
 @link-hover-color: #005580;
 
 a, .btn-link {
-   color: @link-color;
+    color: @link-color;
 }
 
 a:hover, .btn-link:hover {
     color: @link-hover-color;
 }
 
+.recaptchatable a {
+    color: @link-color !important;
+}
 
 /***********************
  ** @section  Buttons **
@@ -345,6 +348,21 @@ input[type="color"]:focus,
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px @form-selected-color;
        -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px @form-selected-color;
             box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px @form-selected-color;
+}
+
+
+/*********************
+ ** @section  Well **
+ *********************/
+
+/* Well background color */
+@well-background-color: #F5F5F5;
+/* Well border color */
+@well-border-color: #E3E3E3;
+
+.well {
+  background-color: @well-background-color;
+  border-color: @well-border-color;
 }
 
 
@@ -765,4 +783,3 @@ div.oae-thumbnail {
 .oae-clip.oae-clip-secondary ul li button:hover {
     background-color: @clip-secondary-gradient2-color;
 }
-
