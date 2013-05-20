@@ -33,7 +33,6 @@ require(['jquery','oae.core'], function($, oae) {
 
         // Get the current search query from the History.js data object
         var query = History.getState().data.query;
-        console.log(query);
         $('.search-query').val(query);
 
         // Reset the type checkboxes to make sure that none of them stay checked incorrectly
@@ -100,7 +99,6 @@ require(['jquery','oae.core'], function($, oae) {
             initialState.segment().splice(indexSearch, 1);
         }
         var query = initialState.segment();
-        console.log(JSON.stringify(query));
         var types = (initialState.param().types || '').split(',');
         // Replace the current History.js state to have the query and type refinement data. This
         // is necessary because a newly loaded page will not contain the data object in its
