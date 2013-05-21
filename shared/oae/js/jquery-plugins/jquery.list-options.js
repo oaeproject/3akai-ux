@@ -30,7 +30,7 @@ define(['jquery'], function (jQuery) {
          */
         $(document).on('change', '.oae-list-selectall', function(ev) {
             var checked = $(this).is(':checked');
-            $('.oae-list input[type="checkbox"]').attr('checked', checked);
+            $('.oae-list input[type="checkbox"]').prop('checked', checked);
         });
 
         /**
@@ -41,6 +41,29 @@ define(['jquery'], function (jQuery) {
             $(this).addClass('active');
             $('.oae-list:visible').removeClass('oae-list-grid oae-list-details oae-list-compact');
             $('.oae-list:visible').addClass($(this).attr('data-type'));
+        });
+
+        /**
+         * Gets the id and title data from checkboxes in a list and returns an object.
+         *
+         * @param  {jQuery]}   $list    The list to get the data from. Can be a selector or jQuery object
+         * @return {Object}             Returns an object of data on the list. e.g. {'g:cam:oae-1234908-3240271': 'Mathematics 101'}
+         */
+        var getListData = function($list) {
+            var list = {};
+            // Loop over each list item and store the `data-id` and `data-title` values
+            // in an object to return.
+            $($list).find('li').each(function(i, li) {
+                var chk = $(li).find('input[type="checkbox"]:visible');
+                if ($(chk).is(':checked')) {
+                    list[chk.attr('data-id')] = chk.attr('data-title');
+                }
+            });
+            return list;
+        };
+
+        $(document).on('oae.list-options.getListData', function(ev, $list) {
+            $(document).trigger('oae.list-options.sendListData', getListData($list));
         });
 
     })();

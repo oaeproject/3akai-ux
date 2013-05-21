@@ -241,4 +241,29 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
         });
     };
 
+    /**
+     * Leave a group as the currently authenticated user.
+     *
+     * @param  {String}       groupId             The id of the group you wish leave
+     * @param  {Function}     [callback]          Standard callback method
+     * @param  {Object}       [callback.err]      Error object containing error code and error message
+     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
+     */
+    var leaveGroup = exports.leaveGroup = function(groupId, callback) {
+        if (!groupId) {
+            throw new Error('A valid group id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/group/' + groupId + '/leave',
+            'type': 'POST',
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
+
 });

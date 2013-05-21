@@ -81,15 +81,9 @@ require(['jquery', 'oae.core'], function($, oae) {
         // Only show the create and upload clips to managers
         if (groupProfile.isManager) {
             $('#group-manager-actions').show();
-        // Show the viewer actions if the user is logged in and not a manager
-        } else if (!oae.data.me.anon) {
+        // Show the viewer actions if the user is logged in, not a manager and the group is joinable
+        } else if (!oae.data.me.anon && !groupProfile.isMember && groupProfile.joinable === 'yes') {
             $('#group-viewer-actions').show();
-            // Show the join button if the group is joinable
-            if (!groupProfile.isMember && groupProfile.joinable === 'yes') {
-                $('#group-viewer-actions-join').show();
-            } else if (groupProfile.isMember) {
-                $('#group-viewer-actions-leave').show();
-            }
         }
     };
 
