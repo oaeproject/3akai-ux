@@ -1021,6 +1021,7 @@ ul.oae-list > li .oae-list-compact-item  {
 .oae-list-options .btn.oae-list-options-toggle:focus {
     background: none;
     border: none;
+    filter:none;
     padding: 1px 0px;
     -webkit-box-shadow: none;
        -moz-box-shadow: none;
