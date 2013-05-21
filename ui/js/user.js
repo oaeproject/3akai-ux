@@ -116,7 +116,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                         'width': 'span12',
                         'widgets': [
                             {
-                                'id': 'discussions',
+                                'id': 'discussionslibrary',
                                 'settings': {
                                     'principalId': userProfile.id
                                 }
