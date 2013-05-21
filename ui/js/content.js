@@ -67,14 +67,17 @@ require(['jquery','oae.core'], function($, oae) {
 
     /**
      * Refresh the content's basic profile and update widgets that need the updated information.
+     *
+     * @param  {Object}         ev
+     * @param  {Content}        updatedContent          Content profile of the updated content item
      */
-    var refreshContentProfile = function() {
-        oae.api.content.getContent(contentId, function(err, profile) {
-            // Cache the content profile data
-            contentProfile = profile;
-            // Show the content preview
-            setUpContentProfilePreview();
-        });
+    var refreshContentProfile = function(ev, updatedContent) {
+        // Cache the content profile data
+        contentProfile = updatedContent;
+        // Re-render the entity information
+        setUpClip();
+        // Show the content preview
+        setUpContentProfilePreview();
     };
 
     /**
