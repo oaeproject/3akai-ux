@@ -30,7 +30,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         }
 
         $.ajax({
-            'url': '/api/discussions/' + discussionId,
+            'url': '/api/discussion/' + discussionId,
             'success': function(data) {
                 callback(null, data);
             },
@@ -67,7 +67,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         };
 
         $.ajax({
-            'url': '/api/discussions/create',
+            'url': '/api/discussion/create',
             'type': 'POST',
             'data': data,
             'success': function(data) {
@@ -96,7 +96,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         }
 
         $.ajax({
-            'url': '/api/discussions/' + discussionId,
+            'url': '/api/discussion/' + discussionId,
             'type': 'POST',
             'data': params,
             'success': function() {
@@ -139,7 +139,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         };
 
         $.ajax({
-            'url': '/api/discussions/'+ discussionId + '/members',
+            'url': '/api/discussion/'+ discussionId + '/members',
             'data': data,
             'success': function(data) {
                 callback(null, data);
@@ -167,7 +167,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         }
 
         $.ajax({
-            'url': '/api/discussions/'+ discussionId + '/members',
+            'url': '/api/discussion/'+ discussionId + '/members',
             'type': 'POST',
             'data': updatedMembers,
             'success': function() {
@@ -200,7 +200,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         };
 
         $.ajax({
-            'url': '/api/discussions/' + discussionId + '/share',
+            'url': '/api/discussion/' + discussionId + '/share',
             'type': 'POST',
             'data': data,
             'success': function(data) {
@@ -235,7 +235,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         };
 
         $.ajax({
-            'url': '/api/discussions/library/' + principalId,
+            'url': '/api/discussion/library/' + principalId,
             'data': data,
             'success': function(data) {
                 callback(null, data);
