@@ -184,7 +184,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          *
          *   `${renderActivitySummary(activity)}`
          *
-         * - `activity` is a standard activity object, as specified by the activitystrea.ms specification, for which to generate the activity summary
+         * - `activity` is a standard activity object, as specified by the activitystrea.ms specification (@see http://activitystrea.ms/),
+         *    for which to generate the activity summary
          *
          *
          * IMPORTANT: There should be no line breaks in between the div and the <!-- declarations,
