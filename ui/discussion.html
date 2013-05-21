@@ -11,6 +11,8 @@
         <!-- CORE CSS -->
         <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
         <link rel="stylesheet" type="text/css" href="/api/ui/skin" />
+        <!-- PAGE CSS -->
+        <link rel="stylesheet" type="text/css" href="/ui/css/oae.discussion.css" />
 
     </head>
     <body>
@@ -66,10 +68,33 @@
                             </button>
                         </div>
                     </div>
+
+                    <div class="oae-clip oae-clip-secondary oae-clip-flipped">
+                        <div class="oae-clip-fold">
+                            <div class="oae-clip-fold-inner"></div>
+                            <div class="oae-clip-fold-outer"></div>
+                        </div>
+                        <div class="oae-clip-content">
+                            <button class="comments-focus-new-comment">
+                                <div>
+                                    <i class="icon-comments pull-left"></i>
+                                    <h1>__MSG__COMMENT__</h1>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div data-widget="comments"><!-- --></div>
+            <!-- DISCUSSION TOPIC -->
+            <div id="discussion-topic-container" class="hide">
+                <div id="discussion-topic" class="well"><!-- --></div>
+            </div>
+
+            <!-- DISCUSSION -->
+            <div class="comments-container">
+                <div data-widget="comments"><!-- --></div>
+            </div>
         </div>
 
         <!-- FOOTER -->

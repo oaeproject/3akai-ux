@@ -36,6 +36,7 @@ define([
         'oae.api.authentication',
         'oae.api.config',
         'oae.api.content',
+        'oae.api.comment',
         'oae.api.discussion',
         'oae.api.group',
         'oae.api.i18n',

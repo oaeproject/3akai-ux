@@ -57,6 +57,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'globalize'], funct
         // If a millisecond since epoch has been provided, we convert it to a date
         if (_.isNumber(date)) {
             date = new Date(date);
+        } else if (_.isString(date)) {
+            date = new Date(parseInt(date, 10));
         }
 
         // Adjust the date to the user's timezone

@@ -29,9 +29,9 @@ require(['jquery','oae.core'], function($, oae) {
      */
     var setUpContentProfilePreview = function() {
         // Remove the old preview widget
-        $('#content_preview_container').html('');
+        $('#content-preview-container').html('');
         // Insert a new preview widget and pass in the updated content profile data
-        oae.api.widget.insertWidget('contentpreview', null, $('#content_preview_container'), null, contentProfile);
+        oae.api.widget.insertWidget('contentpreview', null, $('#content-preview-container'), null, contentProfile);
     };
 
     /**

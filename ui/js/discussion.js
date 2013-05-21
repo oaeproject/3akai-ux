@@ -46,6 +46,8 @@ require(['jquery','oae.core'], function($, oae) {
             oae.api.util.setBrowserTitle(discussionProfile.displayName);
             // Render the entity information
             setUpClip();
+            // Render the discussion topic
+            setUpTopic();
             // Set up the context event exchange
             setUpContext();
             // We can now unhide the page
@@ -78,6 +80,17 @@ require(['jquery','oae.core'], function($, oae) {
      */
     var setUpClip = function() {
         oae.api.util.template().render($('#discussion-clip-template'), {'discussion': discussionProfile}, $('#discussion-clip-container'));
+    };
+
+    /**
+     * TODO
+     */
+    var setUpTopic = function() {
+        if (discussionProfile.description) {
+            var topic = oae.api.util.security().encodeForHTML(discussionProfile.description).replace(/\n/g, '<br/>');
+            $('#discussion-topic').html(topic);
+            $('#discussion-topic-container').show();
+        }
     };
 
     getDiscussionProfile();
