@@ -68,7 +68,7 @@ require(['jquery','oae.core'], function($, oae) {
     /**
      * Refresh the content's basic profile and update widgets that need the updated information.
      *
-     * @param  {Object}         ev
+     * @param  {Object}         ev                      jQuery event object
      * @param  {Content}        updatedContent          Content profile of the updated content item
      */
     var refreshContentProfile = function(ev, updatedContent) {
