@@ -30,7 +30,7 @@ define(
         var MainController = function() {
             if (instance !== null) {
                 throw new Error("Cannot instantiate more than one MainController, use MainController.getInstance()");
-            }
+			}
         };
 
         ////////////////////
@@ -42,7 +42,7 @@ define(
             /**
              * Initialize MainController
              */
-            initialize: function() {
+            initialize: function() {				
                 // Listen to events from controllers
                 addBinding();
                 // Load settings from JSON file
