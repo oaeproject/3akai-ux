@@ -80,15 +80,10 @@ ul.items{
       display: block;
       padding-left: 15px;
       text-transform: lowercase;
-
-      span.icon{
-        margin-right: 20px;
-        font-family: 'FontAwesome' !important;
-      }
-
-      span.icon:before{
-        content: "\f090";
-      }
+	
+	  span.icon{
+		margin-right: 20px;
+	  }
     }
   }
 

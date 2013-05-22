@@ -3,9 +3,9 @@
         "items": [
             {
                 "label"     : "__MSG__SIGN_OUT__",
-                "icon"      : "/mobile/img/interface/iconsignout.png",
+				"class"		: "icon-signout",
                 "action"    : "signout"
-            }
+			}
         ]
     }
 }
