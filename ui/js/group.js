@@ -63,12 +63,12 @@ require(['jquery', 'oae.core'], function($, oae) {
     var setUpContext = function() {
         $(document).on('oae.context.get', function(ev, widgetId) {
             if (widgetId) {
-                $(document).trigger('oae.context.send.' + widgetId, groupProfile);
+                $(document).trigger('oae.context.send.' + widgetId, $.extend(true, {}, groupProfile));
             } else {
-                $(document).trigger('oae.context.send', groupProfile);
+                $(document).trigger('oae.context.send', $.extend(true, {}, groupProfile));
             }
         });
-        $(document).trigger('oae.context.send', groupProfile);
+        $(document).trigger('oae.context.send', $.extend(true, {}, groupProfile));
     };
 
     /**
