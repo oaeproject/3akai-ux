@@ -145,12 +145,6 @@
         {var resourceType = entityData.objectType}
     {/if}
 
-    {if entityData.resourceSubType}
-        {var resourceSubType = entityData.resourceSubType}
-    {elseif entityData['oae:resourceSubType']}
-        {var resourceSubType = entityData['oae:resourceSubType']}
-    {/if}
-
     {if entityData.profilePath}
         {var profilePath = entityData.profilePath}
     {elseif entityData['oae:profilePath']}
