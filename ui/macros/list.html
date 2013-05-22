@@ -145,6 +145,12 @@
         {var resourceType = entityData.objectType}
     {/if}
 
+    {if entityData.resourceSubType}
+        {var resourceSubType = entityData.resourceSubType}
+    {elseif entityData['oae:resourceSubType']}
+        {var resourceSubType = entityData['oae:resourceSubType']}
+    {/if}
+
     {if entityData.profilePath}
         {var profilePath = entityData.profilePath}
     {elseif entityData['oae:profilePath']}
@@ -161,14 +167,11 @@
         {if resourceType === 'user'}
             {var metadata = tenant.displayName}
         {elseif resourceType === 'group'}
-            <!-- TODO: Add proper metadata and i18n -->
-            {var metadata = 'Group'}
+            {var metadata = '__MSG__GROUP__'}
         {elseif resourceType === 'content'}
-            <!-- TODO: Add proper document type and i18n -->
-            {var metadata = 'Other document'}
+            {var metadata = oae.api.content.getMimeTypeDescription(entityData)}
         {elseif resourceType === 'discussion'}
-            <!-- TODO: Add proper document type and i18n -->
-            {var metadata = 'Discussion'}
+            {var metadata = '__MSG__DISCUSSION__'}
         {/if}
     {/if}
 
