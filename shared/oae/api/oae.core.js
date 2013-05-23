@@ -56,6 +56,7 @@ define([
         /*!
          * Third-party dependencies.
          */
+        'bootstrap.clickover',
         'globalize',
         'jquery.encoder',
         'jquery.fileSize',

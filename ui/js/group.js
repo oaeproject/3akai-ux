@@ -159,10 +159,6 @@ require(['jquery', 'oae.core'], function($, oae) {
      * group profile will be passed into the event
      */
     $(document).on('oae.changepic.finished', function(ev, data) {
-        // TODO: Remove this once https://github.com/sakaiproject/Hilary/issues/506 is fixed
-        data.isManager = groupProfile.isManager;
-        data.isMember = groupProfile.isMember;
-
         groupProfile = data;
         setUpClip();
     });
