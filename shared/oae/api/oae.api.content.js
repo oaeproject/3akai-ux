@@ -131,7 +131,9 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
             'files': [file],
             'formData': data,
             'success': function(data) {
-                callback(null, data);
+                // The response will return as text/plain to avoid IE9 trying to download
+                // the response when using the iFrame fallback upload solution
+                callback(null, JSON.parse(data));
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
@@ -140,15 +142,16 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     };
 
     /**
-     * Create a new version of a file.
+     * Upload a new version of a file.
      *
      * @param  {Element|String}     $fileUploadField    jQuery element or selector for that jQuery element representing the file upload form field that has been used to initialise jQuery.fileupload
      * @param  {Object}             file                jQuery.fileUpload object that was returned when selecting the file that needed to be uploaded
      * @param  {Function}           [callback]          Standard callback method
      * @param  {Object}             [callback.err]      Error object containing error code and error message
+     * @param  {Content}            [callback.content]  Content object representing the updated content
      * @throws {Error}                                  Error thrown when not all of the required parameters have been provided
      */
-    var createNewVersion = exports.createNewVersion = function($fileUploadField, file, callback) {
+    var uploadNewVersion = exports.uploadNewVersion = function($fileUploadField, file, callback) {
         if (!$fileUploadField) {
             throw new Error('A valid jquery.fileUpload container should be provided');
         } else if (!file) {
@@ -157,8 +160,10 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
 
         $($fileUploadField).fileupload('send', {
             'files': [file],
-            'success': function() {
-                callback(null);
+            'success': function(data) {
+                // The response will return as text/plain to avoid IE9 trying to download
+                // the response when using the iFrame fallback upload solution
+                callback(null, JSON.parse(data));
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
