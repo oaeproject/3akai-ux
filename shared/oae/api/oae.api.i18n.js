@@ -33,6 +33,9 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.propertie
      * @api private
      */
     var init = exports.init = function(currentLocale, callback) {
+		
+		console.log('init translate');
+		
         // Set the locale to be the default one if not provided
         locale = currentLocale || configAPI.getValue('oae-principals', 'user', 'defaultLanguage');
 
@@ -151,6 +154,10 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.propertie
      * @return {String}                     The translated text
      */
     var translate = exports.translate = function(input, widgetName) {
+		
+		
+		console.log('translate: ' + input);
+		
         // If the current user's language is the debug language, we don't need to do any translations
         if (locale === 'debug') {
             return input;
@@ -177,6 +184,9 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.propertie
             console.error('No translation could be found for ' + match);
             return match;
         });
+		
+		console.log('translate before return: ' + input);
+		
         return input;
     };
 
