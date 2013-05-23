@@ -357,3 +357,9 @@ input.search-query,
 .oae-main-content > div {
     clear: both;
 }
+
+/* LOGIN */
+
+.btn-auth.btn-cas:before, .btn-auth.btn-shibboleth:before{
+	background: none;
+}
