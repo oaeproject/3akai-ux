@@ -116,13 +116,16 @@ h6 [class^="icon-"], h6 [class*=" icon-"] {
 @link-hover-color: #005580;
 
 a, .btn-link {
-   color: @link-color;
+    color: @link-color;
 }
 
 a:hover, .btn-link:hover {
     color: @link-hover-color;
 }
 
+.recaptchatable a {
+    color: @link-color !important;
+}
 
 /***********************
  ** @section  Buttons **
@@ -348,6 +351,21 @@ input[type="color"]:focus,
 }
 
 
+/*********************
+ ** @section  Well **
+ *********************/
+
+/* Well background color */
+@well-background-color: #F5F5F5;
+/* Well border color */
+@well-border-color: #E3E3E3;
+
+.well {
+  background-color: @well-background-color;
+  border-color: @well-border-color;
+}
+
+
 /*******************************************************
  ** @section  Modal dialogs, dropdowns and clickovers **
  *******************************************************/
@@ -359,8 +377,15 @@ input[type="color"]:focus,
 /* Modal dialog title color */
 @modal-title-color: #777;
 
-.modal, .dropdown-menu {
+.modal, .dropdown-menu, .popover {
     .background-gradient-two(@modal-gradient1-color, @modal-gradient2-color);
+}
+
+.popover.top .arrow:after,
+.popover.right .arrow:after,
+.popover.bottom .arrow:after,
+.popover.left .arrow:after {
+    border-bottom-color: @modal-gradient1-color;
 }
 
 .modal-header h3, .modal-body h4 {
@@ -473,21 +498,21 @@ input[type="color"]:focus,
 
 
 /*********************************
- ** @section  Tabbed navigation **
+ ** @section  Tabs **
  *********************************/
 
-/* Tabbed navigation item text color */
+/* Tab text color */
 @tabbed-nav-text-color: #999;
-/* Tabbed navigation item hover text color */
+/* Tab text hover color */
 @tabbed-nav-text-hover-color: #333;
-/* Tabbed navigation item selected text color */
+/* Selected tab text color */
 @tabbed-nav-text-selected-color: #333;
-/* Tabbed navigation background color */
+/* Tab background color */
 @tabbed-nav-background-color: transparent;
-/* Tabbed navigation background color */
+/* Tab background hover color */
 @tabbed-nav-background-hover-color: transparent;
-/* Tabbed navigation active tab background color */
-@tabbed-nav-background-selected-color: #F8F8F6;
+/* Selected tab background color */
+@tabbed-nav-background-selected-color: #FFF;
 
 .nav-tabs > li > a {
     color: @tabbed-nav-text-color;
@@ -560,11 +585,11 @@ div.oae-thumbnail {
 /* Tile banner background color */
 @tile-background-color: rgba(0, 0, 0, 0.8);
 
-.oae-tile > div:last-child {
+.oae-tile > .oae-tile-metadata {
     background-color: @tile-background-color;
 }
 
-.oae-tile > div:last-child, .oae-tile h3, .oae-tile h3 a {
+.oae-tile > .oae-tile-metadata, .oae-tile h3, .oae-tile h3 a {
     color: @tile-text-color;
 }
 
@@ -758,4 +783,3 @@ div.oae-thumbnail {
 .oae-clip.oae-clip-secondary ul li button:hover {
     background-color: @clip-secondary-gradient2-color;
 }
-

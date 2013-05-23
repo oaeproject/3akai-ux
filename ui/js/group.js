@@ -53,7 +53,7 @@ require(['jquery', 'oae.core'], function($, oae) {
     };
 
     /**
-     * The `oae.context.get` or `oae.context.get.<widgetname>` event can be sent by widgets 
+     * The `oae.context.get` or `oae.context.get.<widgetname>` event can be sent by widgets
      * to get hold of the current context (i.e. group profile). In the first case, a
      * `oae.context.send` event will be sent out as a broadcast to all widgets listening
      * for the context event. In the second case, a `oae.context.send.<widgetname>` event
@@ -153,6 +153,15 @@ require(['jquery', 'oae.core'], function($, oae) {
             $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
         });
     };
+
+    /**
+     * Re-render the group's clip when a new profile picture has been uploaded. The updated
+     * group profile will be passed into the event
+     */
+    $(document).on('oae.changepic.finished', function(ev, data) {
+        groupProfile = data;
+        setUpClip();
+    });
 
     getGroupProfile();
 

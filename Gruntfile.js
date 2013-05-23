@@ -150,17 +150,6 @@ module.exports = function(grunt) {
                 'version': 'target/optimized/hashes.json'
             }
         },
-        'inlineImg': {
-            'src': [
-                'target/optimized/admin/**/*.css',
-                'target/optimized/ui/**/*.css',
-                'target/optimized/shared/**/*.css',
-                'target/optimized/docs/**/*.css',
-                'target/optimized/node_modules/oae-*/**/*.css'
-            ],
-            'ie8': false,
-            'base': __dirname
-        },
         'git-describe': {
             'oae': {}
         }
@@ -171,7 +160,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-git-describe');
     grunt.loadNpmTasks('grunt-ver');
-    grunt.loadNpmTasks('grunt-imagine');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
 
     // Task to write the version to a file
@@ -200,7 +188,6 @@ module.exports = function(grunt) {
     // Task to hash files
     grunt.registerTask('hashFiles', function() {
         this.requires('requirejs');
-        this.requires('inlineImg');
 
         // Add the modules as phases to ver:oae
         var oaeModules = grunt.file.expand({filter:'isDirectory'}, 'target/optimized/node_modules/oae-*/*');
@@ -258,7 +245,7 @@ module.exports = function(grunt) {
     grunt.registerTask('test', ['qunit']);
 
     // Default task.
-    grunt.registerTask('default', ['clean', 'copy', 'git-describe', 'requirejs', 'inlineImg', 'hashFiles', 'writeVersion', 'configNginx']);
+    grunt.registerTask('default', ['clean', 'copy', 'git-describe', 'requirejs', 'hashFiles', 'writeVersion', 'configNginx']);
 };
 
 /**
