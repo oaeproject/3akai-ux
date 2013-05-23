@@ -74,40 +74,6 @@
     padding: 0;
 }
 
-/* CAS
-   ========================================================================== */
-
-.btn-cas {
-    border-color: #0f96b4 !important;
-  	color: #fcfcfc;
-  	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  	background-color: #49afcd;
- 	*background-color: #2f96b4;
-	background-image: -moz-linear-gradient(top, #5bc0de, #2f96b4);
-	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#5bc0de), to(#2f96b4));
-	background-image: -webkit-linear-gradient(top, #5bc0de, #2f96b4);
-	background-image: -o-linear-gradient(top, #5bc0de, #2f96b4);
-	background-image: linear-gradient(to bottom, #5bc0de, #2f96b4);
-	background-repeat: repeat-x;
-	border-color: #2f96b4 #2f96b4 #1f6377;
-	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5bc0de', endColorstr='#ff2f96b4', GradientType=0);
-	filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-}
-
-.btn-cas:hover,
-.btn-cas:focus,
-.btn-cas:active {
-	color: #fcfcfc;
-    background-color: #cadde9 !important;
-}
-
-.btn-cas:active {
-    background: #cadde9 !important;
-    -webkit-box-shadow: inset 0 1px 0 #bbd6e7;
-    box-shadow: inset 0 1px 0 #bbd6e7;
-}
-
 /* Facebook (extends .btn-auth)
    ========================================================================== */
 
@@ -293,40 +259,6 @@
 
 .btn-openid.large:before {
     background-position: -252px -22px;
-}
-
-/* Shibboleth
-   ========================================================================== */
-
-.btn-shibboleth {
-    border-color: #0f96b4 !important;
-  	color: #fcfcfc;
-  	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  	background-color: #49afcd;
- 	*background-color: #2f96b4;
-	background-image: -moz-linear-gradient(top, #5bc0de, #2f96b4);
-	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#5bc0de), to(#2f96b4));
-	background-image: -webkit-linear-gradient(top, #5bc0de, #2f96b4);
-	background-image: -o-linear-gradient(top, #5bc0de, #2f96b4);
-	background-image: linear-gradient(to bottom, #5bc0de, #2f96b4);
-	background-repeat: repeat-x;
-	border-color: #2f96b4 #2f96b4 #1f6377;
-	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5bc0de', endColorstr='#ff2f96b4', GradientType=0);
-	filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-}
-
-.btn-shibboleth:hover,
-.btn-shibboleth:focus,
-.btn-shibboleth:active {
-	color: #fcfcfc;
-    background-color: #cadde9 !important;
-}
-
-.btn-shibboleth:active {
-    background: #cadde9 !important;
-    -webkit-box-shadow: inset 0 1px 0 #bbd6e7;
-    box-shadow: inset 0 1px 0 #bbd6e7;
 }
 
 /* Twitter
