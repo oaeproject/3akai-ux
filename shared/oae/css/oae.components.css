@@ -1067,7 +1067,14 @@ ul.oae-list > li .oae-list-compact-item  {
     font-size: 12px;
 }
 
-/*ul.oae-list li.oae-list-item.oae-list-item-dnd {
+
+
+
+
+
+
+
+ul.oae-list li.oae-list-item.oae-list-item-dnd {
     border: none;
     display: none;
 }
@@ -1103,4 +1110,4 @@ ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-dnd-container .oae-trig
 ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-newdocument i {
     color: #333;
     font-size: 18px;
-}*/
+}
