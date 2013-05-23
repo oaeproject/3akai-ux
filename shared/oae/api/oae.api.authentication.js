@@ -77,10 +77,10 @@ define(['exports', 'jquery'], function(exports, $) {
      * @throws {Error}                          Error thrown when no new or current password has been provided
      */
     var changePassword = exports.changePassword = function(currentPassword, newPassword, callback) {
-        if (!newPassword) {
+        if (!currentPassword) {
+            throw new Error('A valid current password should be provided');
+        } else if (!newPassword) {
             throw new Error('A valid new password should be provided');
-        } else if (!currentPassword) {
-            throw new Error('A valid old password should be provided');
         }
 
         var userId = require('oae.core').data.me.id;

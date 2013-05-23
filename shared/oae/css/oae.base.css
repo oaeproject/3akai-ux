@@ -234,6 +234,18 @@ input.search-query,
     box-shadow: none;
 }
 
+/* CLICKOVER DIALOGS
+ * @see https://github.com/lecar-red/bootstrapx-clickover
+ * @see http://twitter.github.io/bootstrap/javascript.html#popovers */
+
+.popover {
+    max-width: 500px;
+}
+
+.popover-title {
+    display: none;
+}
+
 /* NOTIFICATIONS
  * @see http://twitter.github.com/bootstrap/components.html#alerts
  * @see http://nijikokun.github.io/bootstrap-notify */
@@ -273,9 +285,10 @@ input.search-query,
 .notifications.center > div,
 .notifications.bottom-center > div {
     margin: 0px auto;
+    max-width: 400px;
     text-align: left;
     width: 40%;
-    max-width: 400px;
+    word-wrap: break-word;
 }
 
 /* BADGES

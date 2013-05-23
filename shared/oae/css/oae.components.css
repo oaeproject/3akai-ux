@@ -109,7 +109,7 @@ a.oae-plain-link:hover {
 i.icon-oae-private,
 i.icon-oae-loggedin,
 i.icon-oae-public {
-    font-size: 100%;
+    font-size: 18px;
     width: 18px;
     height: 18px;
 }
@@ -144,6 +144,13 @@ i.icon-oae-public:before {
 }
 
 /* Large visibility icons */
+
+i.icon-oae-private.large,
+i.icon-oae-loggedin.large,
+i.icon-oae-public.large {
+    width: 60px;
+    height: 60px;
+}
 
 i.icon-oae-private.large:before,
 i.icon-oae-loggedin.large:before,
@@ -195,12 +202,16 @@ i.icon-oae-public.large:before {
  *      </div>
  **/
 
+.oae-visibility-choice-container label {
+    position: relative;
+}
+
 .oae-visibility-choice-container .oae-visibility-choice {
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
             box-sizing: border-box;
     height: 150px;
-    margin: 0 10px 20px 0;
+    margin: 0 10px 15px 0;
     width: 100%;
 }
 
@@ -233,10 +244,10 @@ i.icon-oae-public.large:before {
     -webkit-border-radius: 100px;
        -moz-border-radius: 100px;
             border-radius: 100px;
-    bottom: 26.5%;
     display: block;
     margin-left: 65px;
     position: absolute;
+    top: 128px;
 }
 
 .oae-visibility-choice-container .oae-visibility-choice.checked + i:before {
@@ -655,7 +666,7 @@ div.oae-thumbnail i[class^="icon-"] {
  *              <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian" />
  *          </div>
  *      </a>
- *      <div>
+ *      <div class="oae-tile-metadata">
  *          <i class="icon-oae-public pull-left"></i>
  *          <h3 class="oae-threedots">
  *              <a href="/user/u:cambridge:PPTBPgxSdf">John Librarian</a>
@@ -705,7 +716,7 @@ div.oae-thumbnail i[class^="icon-"] {
 
 /* Tile metadata */
 
-.oae-tile > div:last-child {
+.oae-tile > .oae-tile-metadata {
     position: absolute;
     bottom: 0px;
     right: 0px;
@@ -783,7 +794,7 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-listitem {
     padding: 10px;
     margin-bottom: 10px;
-    height: 50px;
+    min-height: 50px;
     border: 1px solid;
     -webkit-border-radius: 3px;
        -moz-border-radius: 3px;
@@ -791,7 +802,7 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .oae-listitem.oae-listitem-compact {
-    height: 25px;
+    min-height: 25px;
 }
 
 .oae-listitem input[type="checkbox"].pull-left {
@@ -902,35 +913,35 @@ ul.oae-list {
     clear: both;
 }
 
-ul.oae-list li {
+ul.oae-list > li {
     list-style: none;
     -webkit-border-radius: 3px;
        -moz-border-radius: 3px;
             border-radius: 3px;
 }
 
-ul.oae-list:not(.oae-list-grid) li .oae-list-grid-item,
-ul.oae-list:not(.oae-list-details) li .oae-list-details-item,
-ul.oae-list:not(.oae-list-compact) li .oae-list-compact-item {
+ul.oae-list:not(.oae-list-grid) > li > .oae-list-grid-item,
+ul.oae-list:not(.oae-list-details) > li > .oae-list-details-item,
+ul.oae-list:not(.oae-list-compact) > li > .oae-list-compact-item {
     display: none;
 }
 
 /* Grid view */
 
-ul.oae-list.oae-list-grid li {
+ul.oae-list.oae-list-grid > li {
     float: left;
     margin: 0px 14px 24px 0px;
 }
 
-ul.oae-list.oae-list-grid li .oae-thumbnail {
+ul.oae-list.oae-list-grid > li .oae-thumbnail {
     height: 162px;
     width: 162px;
 }
 
 /* Details and compact view */
 
-ul.oae-list li .oae-list-details-item,
-ul.oae-list li .oae-list-compact-item  {
+ul.oae-list > li .oae-list-details-item,
+ul.oae-list > li .oae-list-compact-item  {
     display: table;
     width: 100%;
 }
@@ -1010,6 +1021,7 @@ ul.oae-list li .oae-list-compact-item  {
 .oae-list-options .btn.oae-list-options-toggle:focus {
     background: none;
     border: none;
+    filter:none;
     padding: 1px 0px;
     -webkit-box-shadow: none;
        -moz-box-shadow: none;
