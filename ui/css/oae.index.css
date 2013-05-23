@@ -58,8 +58,8 @@
 }
 
 #index-container .index-search-container button[type="submit"] {
-    height: 36px;
-    line-height: 0;
+    height: 37px;
+    padding: 0px 19px;
 }
 
 #index-container #index-video-container {
