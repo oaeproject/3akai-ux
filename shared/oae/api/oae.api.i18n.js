@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.properties-parser', 'jquery.timeago'], function(exports, $, configAPI, utilAPI) {
+define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.properties-parser', 'jquery.timeago', 'jquery.validate'], function(exports, $, configAPI, utilAPI) {
 
     // Variable that will keep track of the current user's locale
     var locale = null;
@@ -130,6 +130,29 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.propertie
             'months': translate('__MSG__JQUERY_TIMEAGO_MONTHS__'),
             'year': translate('__MSG__JQUERY_TIMEAGO_YEAR__'),
             'years': translate('__MSG__JQUERY_TIMEAGO_YEARS__')
+        };
+
+        // Translate the jquery.validate.js plugin		
+        $.validator.messages = {
+            'creditcard': translate('__MSG__PLEASE_ENTER_A_VALID_CREDIT_CARD_NUMBER__'),
+            'date': translate('__MSG__PLEASE_ENTER_A_VALID_DATE__'),
+            'dateISO': translate('__MSG__PLEASE_ENTER_A_VALID_DATE_ISO__'),
+            'digits': translate('__MSG__PLEASE_ENTER_ONLY_DIGITS__'),
+            'email': translate('__MSG__PLEASE_ENTER_A_VALID_EMAIL_ADDRESS__'),
+            'equalTo': translate('__MSG__PLEASE_ENTER_THE_SAME_VALUE_AGAIN__'),
+            'max': translate('__MSG__PLEASE_ENTER_A_VALUE_LESS_THAN_OR_EQUAL_TO__'),
+            'maxlength': translate('__MSG__PLEASE_ENTER_NO_MORE_THAN_X_CHARACTERS__'),
+            'min': translate('__MSG__PLEASE_ENTER_A_VALUE_GREATER_THAN_OR_EQUAL_TO__'),
+            'minlength': translate('__MSG__PLEASE_ENTER_AT_LEAST_X_CHARACTERS__'),
+            'nospaces': translate('__MSG__NO_SPACES_ARE_ALLOWED__'),
+            'number': translate('__MSG__PLEASE_ENTER_A_VALID_NUMBER__'),
+            'prependhttp': translate('__MSG__PLEASE_PREPEND_HTTP__'),
+            'range': translate('__MSG__PLEASE_ENTER_A_VALUE_BETWEEN_X_AND_Y__'),
+            'rangelength': translate('__MSG__PLEASE_ENTER_A_VALUE_BETWEEN_X_AND_Y_CHARACTERS_LONG__'),
+            'remote': translate('__MSG__PLEASE_FIX_THIS_FIELD__'),
+            'required': translate('__MSG__THIS_FIELD_IS_REQUIRED__'),
+            'topnavigation-failed-attempt': translate('__MSG__INVALID_USERNAME_OR_PASSWORD__'),
+            'url': translate('__MSG__PLEASE_ENTER_A_VALID_URL__')
         };
     };
 
