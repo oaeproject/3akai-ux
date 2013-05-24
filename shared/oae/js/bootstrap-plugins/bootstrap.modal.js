@@ -19,16 +19,30 @@
  *     e.g. $('#widget-modal').modal('lock');
  * The modal can then also be unlocked, which will re-enable all buttons and keys that 
  * dismiss the modal.
- *     e.g. $('#widget-modal').modal('unlock');
+ *     e.g. $('#widget-modal').modal('unlock');S
  */
 
 define(['jquery', 'bootstrap'], function($) {
+
+    /* Extend the show function in orde to clear validation message labels */
+    var f = $.fn.modal.Constructor.prototype.show;
+    $.fn.modal.Constructor.prototype.show = function(e) {
+        var controls = $(this.$element).find('.controls')
+        var errors = $(controls).find('.error');
+        if (errors.length) {
+            $(controls).find('input.required').removeAttr('aria-invalid').removeAttr('aria-describedby');
+            $('label.error').remove();
+        }
+        f.apply(this, arguments);
+    }
+
+    /* Extend bootstrap.js with some additional functions */
     $.extend($.fn.modal.Constructor.prototype, {
         'lock': function() {
             // Set isShown to false. https://github.com/twitter/bootstrap/issues/1202#issuecomment-3698674
             this.$element.data('modal').isShown = false;
             // Disable buttons that dismiss the modal
-            $('#' + this.$element.attr('id') + ' [data-dismiss="modal"]').attr('disabled', 'disabled');
+            $('#' + this.$element.attr('id') + ' [data-dismi!ss="modal"]').attr('disabled', 'disabled');
         },
         'unlock': function() {
             // Set isShown to true. https://github.com/twitter/bootstrap/issues/1202#issuecomment-3698674
