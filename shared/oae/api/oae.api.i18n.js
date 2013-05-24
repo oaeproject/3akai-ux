@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.properties-parser', 'jquery.timeago'], function(exports, $, configAPI, utilAPI) {
+define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.properties-parser', 'jquery.timeago', 'jquery.validate'], function(exports, $, configAPI, utilAPI) {
 
     // Variable that will keep track of the current user's locale
     var locale = null;
@@ -131,6 +131,33 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.propertie
             'year': translate('__MSG__JQUERY_TIMEAGO_YEAR__'),
             'years': translate('__MSG__JQUERY_TIMEAGO_YEARS__')
         };
+		
+		// Translate the jquery.validate.js plugin
+		console.log('TRANSLATE THE JQUERY VALIDATE PLUGIN');
+		console.log($.validator.messages);
+		
+		$.validator.messages = {
+			'creditcard': translate('__MSG__PLEASE_ENTER_A_VALID_CREDIT_CARD_NUMBER__'),
+			'date': translate('__MSG__PLEASE_ENTER_A_VALID_DATE__'),
+			'dateISO': translate('__MSG__PLEASE_ENTER_A_VALID_DATE_ISO__'),
+			'digits': translate('__MSG__PLEASE_ENTER_ONLY_DIGITS__'),
+			'email': translate('__MSG__PLEASE_ENTER_A_VALID_EMAIL_ADDRESS__'),
+			'equalTo': translate('__MSG__PLEASE_ENTER_THE_SAME_VALUE_AGAIN__'),
+			//'max': '__MSG__', // func
+			//'maxlength': '__MSG__', // func
+			//'min': '__MSG__', // func
+			//'minlength': '__MSG__', // func
+			'nospaces': translate('__MSG__NO_SPACES_ARE_ALLOWED__'),
+			'number': translate('__MSG__PLEASE_ENTER_A_VALID_NUMBER__'),
+			'prependhttp': translate('__MSG__PLEASE_PREPEND_HTTP'),
+			//'range': '__MSG__', // func
+			//'rangelength': '__MSG__', // func
+			'remote': translate('__MSG__PLEASE_FIX_THIS_FIELD__'),
+			'required': translate('__MSG__THIS_FIELD_IS_REQUIRED__'),
+			'url': translate('__MSG__PLEASE_ENTER_A_VALID_URL__')
+		};
+		
+		console.log('- - - - - - - - - - - - ');
     };
 
     /**
