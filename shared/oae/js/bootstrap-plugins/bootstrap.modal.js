@@ -42,7 +42,7 @@ define(['jquery', 'bootstrap'], function($) {
             // Set isShown to false. https://github.com/twitter/bootstrap/issues/1202#issuecomment-3698674
             this.$element.data('modal').isShown = false;
             // Disable buttons that dismiss the modal
-            $('#' + this.$element.attr('id') + ' [data-dismi!ss="modal"]').attr('disabled', 'disabled');
+            $('#' + this.$element.attr('id') + ' [data-dismiss="modal"]').attr('disabled', 'disabled');
         },
         'unlock': function() {
             // Set isShown to true. https://github.com/twitter/bootstrap/issues/1202#issuecomment-3698674
