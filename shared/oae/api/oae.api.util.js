@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpath'], function(exports, require, $, _) {
+define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpath', 'jquery.autosuggest'], function(exports, require, $, _) {
 
     /**
      * Initialize all utility functionality.
@@ -573,6 +573,129 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
 
         // Show the clickover
         $trigger.trigger('click');
+    };
+
+    /////////////////
+    // AUTOSUGGEST //
+    /////////////////
+
+    /**
+     * Initiate a new autosuggest field. This function is basically a wrapper around the jQuery AutoSuggest Plugin
+     * (https://github.com/croby/jquery-autosuggest).
+     * By default user and groups will be searched through.
+     * This wrapper adds 2 main features on top of the existing functionality:
+     *
+     *  - Fixed prefilled data:     This allows one to add a set of default items which cannot be deleted by the user.
+     *                              Simply set the `fixed` key to `true` on the objects in the `preFill` option.
+     *  - XSS escaped data:         All data that is inserted into the DOM by the autoSuggest plugin will be XSS escaped.
+     */
+    var autoSuggest = exports.autoSuggest = function() {
+
+        var defaultOptions = {
+            'selectedItemProp': 'displayName',
+            'searchObjProps': 'displayName',
+            'selectedValuesProp': 'id',
+            'extraParams': {
+                'resourceTypes': ['user', 'group']
+            },
+            'minChars': 3,
+            'neverSubmit': true,
+            'showResultListWhenNoMatch': true
+        };
+
+        /**
+         * Sets up the autoSuggest field.
+         *
+         * @param  {Element|String}     $element    jQuery element or jQuery selector for that element that represents the element on which the auto suggest should be attached
+         * @param  {Object}             options     A set of options for the AutoSuggest plugin. Some of these will be overridden to provide the fixed prefilled data and do the XSS escaping. See https://github.com/croby/jquery-autosuggest
+         */
+        var setup = function($element, options) {
+            if (!$element) {
+                throw new Error('An valid element should be specified on which to attach the autoSuggest.');
+            }
+
+            // Default the arguments
+            $element = $($element);
+            options = _.extend({}, defaultOptions, options);
+
+            // Escape all the data.
+            options.retrieveComplete = options.retrieveComplete || function(data) {
+                $.each(data.results, function(index, result) {
+                    result.displayName = security().encodeForHTML(result.displayName);
+                });
+                return data.results;
+            };
+
+            // Escape any preFill data we might have.
+            if (options.preFill) {
+                $.each(options.preFill, function(index, preFilledItem) {
+                    preFilledItem[options.selectedItemProp] = security().encodeForHTML(preFilledItem[options.selectedItemProp]);
+                });
+            }
+
+            // This function gets called when a user wants to remove an item
+            // from the auto suggest field.
+            // We intercept it and only remove elements when they are not fixed.
+            options.selectionRemoved = options.selectionRemoved || function(elem) {
+                var isFixed = false;
+                if (options.preFill) {
+                    isFixed = _.some(options.preFill, function(preFilledItem) {
+                        return preFilledItem.id === elem.value && preFilledItem.fixed === true;
+                    });
+                }
+
+                if (!isFixed) {
+                    elem.remove();
+                }
+            };
+
+            // Initialize the autoSuggest field
+            $element.autoSuggest('/api/search/general', options);
+
+            // Remove the close (x) buttons from the fixed fields.
+            if (options.preFill) {
+                $.each(options.preFill, function(index, preFilledItem) {
+                    if (preFilledItem.fixed) {
+                        $('li[data-value="' + preFilledItem[options.selectedValuesProp] + '"] a.as-close').hide();
+                    }
+                });
+            }
+        };
+
+        /**
+         * Retrieves the selected data.
+         *
+         * @param  {Element|String}     $container  jQuery element or jQuery selector for the container in which the auto suggest was initialized. Note that this will *not* be the same element as the one you used to setup the auto suggest.
+         * @return {Object[]}                       An array of objects, each one representing a selected item. Each object has an `id` and `displayName`.
+         */
+        var getSelection = function($container) {
+            if (!$container) {
+                throw new Error('A valid element should be specified.');
+            }
+
+            $container = $($container);
+
+            var data = [];
+
+            // We cannot use the input.as-values field as that only gives us the IDs and we also need the displayNames
+            $.each($container.find('.as-selections > li'), function(index, selection) {
+                var id = $(selection).attr('data-value');
+                // jQuery autosuggest will always prepare an empty item for the next item that needs to be
+                // added to the list. Therefore, it is possible that an item in the list is empty
+                if (id) {
+                    data.push({
+                        'id': id,
+                        'displayName': $(selection).data().data && $(selection).data().data.displayName
+                    });
+                }
+            });
+            return data;
+        };
+
+        return {
+            'setup': setup,
+            'getSelection': getSelection
+        };
     };
 
     ////////////////////
