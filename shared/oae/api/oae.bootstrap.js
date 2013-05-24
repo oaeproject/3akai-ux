@@ -41,7 +41,7 @@ requirejs.config({
         'jquery.serializeObject': 'vendor/js/jquery-plugins/jquery.serializeObject',
         'jquery.spectrum': 'vendor/js/jquery-plugins/jquery.spectrum',
         'jquery.timeago': 'vendor/js/jquery-plugins/jquery.timeago',
-        'jquery.validate': 'vendor/js/jquery-plugins/jquery.validate',
+        'jquery.validate': 'vendor/js/jquery-plugins/jquery.validate.oae-edited',
         'jquery-ui': 'vendor/js/jquery-ui/jquery-ui.custom',
         'text': 'vendor/js/requirejs/require.text',
         'trimpath': 'vendor/js/trimpath',
