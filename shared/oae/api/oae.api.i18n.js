@@ -131,8 +131,8 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.propertie
             'year': translate('__MSG__JQUERY_TIMEAGO_YEAR__'),
             'years': translate('__MSG__JQUERY_TIMEAGO_YEARS__')
         };
-		
-		// Translate the jquery.validate.js plugin		
+
+        // Translate the jquery.validate.js plugin		
         $.validator.messages = {
             'creditcard': translate('__MSG__PLEASE_ENTER_A_VALID_CREDIT_CARD_NUMBER__'),
             'date': translate('__MSG__PLEASE_ENTER_A_VALID_DATE__'),
@@ -154,7 +154,7 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.propertie
             'topnavigation-failed-attempt': translate('__MSG__INVALID_USERNAME_OR_PASSWORD__'),
             'url': translate('__MSG__PLEASE_ENTER_A_VALID_URL__')
         };
-		
+
         console.log($.validator.messages);
         console.log('- - - - - - - - - - - - ');
     };
