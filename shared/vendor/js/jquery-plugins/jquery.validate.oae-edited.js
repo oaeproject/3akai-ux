@@ -272,29 +272,34 @@ $.extend($.validator, {
     },
 
     messages: {
-        required: "This field is required.",
-        remote: "Please fix this field.",
-        email: "Please enter a valid email address.",
-        url: "Please enter a valid URL.",
-        date: "Please enter a valid date.",
-        dateISO: "Please enter a valid date (ISO).",
-        number: "Please enter a valid number.",
-        digits: "Please enter only digits.",
-        creditcard: "Please enter a valid credit card number.",
-        equalTo: "Please enter the same value again.",
-        maxlength: $.validator.format("Please enter no more than {0} characters."),
-        minlength: $.validator.format("Please enter at least {0} characters."),
-        rangelength: $.validator.format("Please enter a value between {0} and {1} characters long."),
-        range: $.validator.format("Please enter a value between {0} and {1}."),
-        max: $.validator.format("Please enter a value less than or equal to {0}."),
-        min: $.validator.format("Please enter a value greater than or equal to {0}.")
+        required: "__MSG__THIS_FIELD_IS_REQUIRED__",
+        remote: "__MSG__PLEASE_FIX_THIS_FIELD__",
+        email: "__MSG__PLEASE_ENTER_A_VALID_EMAIL_ADDRESS__",
+        url: "__MSG__PLEASE_ENTER_A_VALID_URL__",
+        date: "__MSG__PLEASE_ENTER_A_VALID_DATE__",
+        dateISO: "__MSG__PLEASE_ENTER_A_VALID_DATE_ISO__",
+        number: "__MSG__PLEASE_ENTER_A_VALID_NUMBER__",
+        digits: "__MSG__PLEASE_ENTER_ONLY_DIGITS__",
+        creditcard: "__MSG__PLEASE_ENTER_A_VALID_CREDIT_CARD_NUMBER__",
+        equalTo: "__MSG__PLEASE_ENTER_THE_SAME_VALUE_AGAIN__",
+        max: $.validator.format("__MSG__PLEASE_ENTER_A_VALUE_LESS_THAN_OR_EQUAL_TO__ {0}."),
+		maxlength: $.validator.format("__MSG__PLEASE_ENTER_NO_MORE_THAN__ {0} __MSG__CHARACTERS__."),
+        min: $.validator.format("__MSG__PLEASE_ENTER_A_VALUE_GREATER_THAN_OR_EQUAL_TO__ {0}."),
+		minlength: $.validator.format("__MSG__PLEASE_ENTER_AT_LEAST__ {0} __MSG__CHARACTERS__."),
+   		range: $.validator.format("__MSG__PLEASE_ENTER_A_VALUE_BETWEEN__ {x} __MSG__AND__ {y}."),
+		rangelength: $.validator.format("__MSG__PLEASE_ENTER_A_VALUE__ __MSG__BETWEEN__ {0} __MSG__AND__ {1} __MSG__CHARACTERS__.")
     },
 
     autoCreateRanges: false,
 
     prototype: {
 
+		i18n: {},
         init: function() {
+			
+			// Set the translator library
+			this.i18n = require('oae.api.i18n');
+						
             this.labelContainer = $(this.settings.errorLabelContainer);
             this.errorContext = this.labelContainer.length && this.labelContainer || $(this.currentForm);
             this.containers = $(this.settings.errorContainer).add( this.settings.errorLabelContainer );
@@ -383,7 +388,7 @@ $.extend($.validator, {
                 // add items to error list and map
                 $.extend( this.errorMap, errors );
                 this.errorList = [];
-                for ( var name in errors ) {
+                for ( var name in errors ) {					
                     this.errorList.push({
                         message: errors[name],
                         element: this.findByName(name)[0]
@@ -635,7 +640,7 @@ $.extend($.validator, {
                 if ( this.settings.highlight ) {
                     this.settings.highlight.call( this, error.element, this.settings.errorClass, this.settings.validClass );
                 }
-                this.showLabel( error.element, error.message );
+                this.showLabel( error.element, this.i18n.translate(error.message) );
             }
             if( this.errorList.length ) {
                 this.toShow = this.toShow.add( this.containers );
