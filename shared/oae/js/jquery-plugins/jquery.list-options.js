@@ -20,7 +20,8 @@ define(['jquery'], function (jQuery) {
          * Show or hide the list options when clicking the toggle next to the page title
          */
         $(document).on('click', '.oae-list-options-toggle', function(ev) {
-            $('.oae-list-options-actions').toggleClass('hide');
+            var $listOptionActions = $('.oae-list-options-actions:visible');
+            $('.oae-list-options-actions:visible').toggle({ direction: 'vertical' }, 500);
             $(this).find('i').toggleClass('icon-caret-down icon-caret-up');
         });
 
@@ -41,6 +42,24 @@ define(['jquery'], function (jQuery) {
             $(this).addClass('active');
             $('.oae-list:visible').removeClass('oae-list-grid oae-list-details oae-list-compact');
             $('.oae-list:visible').addClass($(this).attr('data-type'));
+        });
+
+        /**
+         * TODO
+         */
+        $(document).on('click', '.oae-list input[type="checkbox"]', function() {
+            var $list = $(this).parents('.oae-list');
+            var $listOptions = $list.siblings('.oae-list-options');
+            var $listOptionActions = $('.oae-list-options-actions', $listOptions);
+            var $listOptionActionsToggle = $('.oae-list-options-toggle', $listOptions);
+
+            // TODO
+            var totalChecked = $('input[type="checkbox"]:checked', $list).length;
+            if (totalChecked > 0 && !$listOptionActions.is(':visible')) {
+                $listOptionActionsToggle.click();
+            } else if (totalChecked === 0 && $listOptionActions.is(':visible')) {
+                $listOptionActionsToggle.click();
+            }
         });
 
     })();

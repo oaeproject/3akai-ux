@@ -1068,8 +1068,8 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
  *      <div class="oae-list-options-actions hide">
  *          <input type="checkbox" id="library-selectall" class="oae-list-selectall" />
  *          <label for="library-selectall" class="oae-aural-text">__MSG__SELECT_ALL__</label>
- *          <button type="button" class="btn"><i class="icon-share pull-left"></i>__MSG__SHARE__</button>
- *          <button type="button" class="btn"><i class="icon-remove pull-left"></i>__MSG__REMOVE__</button>
+ *          <button type="button" class="btn" disabled="disabled"><i class="icon-share pull-left"></i>__MSG__SHARE__</button>
+ *          <button type="button" class="btn" disabled="disabled"><i class="icon-remove pull-left"></i>__MSG__REMOVE__</button>
  *          <div class="btn-group pull-right">
  *              <button class="btn" data-type="oae-list-compact">
  *                  <i class="icon-list"></i>
@@ -1098,6 +1098,8 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
  *   can basically be anything.
  * - An `oae-list-selectall` class can be applied to the element that should be used to select/deselect all list
  *   items. This will be enabled automatically by the system.
+ * - The primary actions under `oae-list-options-actions` should be disabled by default, as they can only be clicked
+ *   when at least one of the items in the corresponding list is checked.
  */
 
 .oae-list-options {
