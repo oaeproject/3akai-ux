@@ -156,7 +156,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                         'width': 'span12',
                         'widgets': [
                             {
-                                'id': 'participants',
+                                'id': 'members',
                                 'settings': {
                                     'principalId': groupProfile.id,
                                     'canManage': groupProfile.isManager

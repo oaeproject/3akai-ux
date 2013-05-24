@@ -52,6 +52,11 @@ require(['jquery','oae.core'], function($, oae) {
         }, '#search-template', {
             'postRenderer': function(data) {
                 $('#search-total-results').text(data.total);
+            },
+            'emptyListProcessor': function() {
+                oae.api.util.template().render($('#search-noresults-template'), {
+                    'query': query
+                }, $('.oae-list'));
             }
         });
     };
