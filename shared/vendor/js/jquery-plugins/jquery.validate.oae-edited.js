@@ -282,12 +282,12 @@ $.extend($.validator, {
         digits: "__MSG__PLEASE_ENTER_ONLY_DIGITS__",
         creditcard: "__MSG__PLEASE_ENTER_A_VALID_CREDIT_CARD_NUMBER__",
         equalTo: "__MSG__PLEASE_ENTER_THE_SAME_VALUE_AGAIN",
-        maxlength: $.validator.format("Please enter no more than {0} characters."),
-        minlength: $.validator.format("Please enter at least {0} characters."),
-        rangelength: $.validator.format("Please enter a value between {0} and {1} characters long."),
-        range: $.validator.format("Please enter a value between {0} and {1}."),
-        max: $.validator.format("Please enter a value less than or equal to {0}."),
-        min: $.validator.format("Please enter a value greater than or equal to {0}.")
+        max: $.validator.format("__MSG__PLEASE_ENTER_A_VALUE_LESS_THAN_OR_EQUAL_TO__ {0}."),
+		maxlength: $.validator.format("__MSG__PLEASE_ENTER_NO_MORE_THAN__ {0} __MSG__CHARACTERS__."),
+        min: $.validator.format("__MSG__PLEASE_ENTER_A_VALUE_GREATER_THAN_OR_EQUAL_TO__ {0}."),
+		minlength: $.validator.format("__MSG__PLEASE_ENTER_AT_LEAST__ {0} __MSG__CHARACTERS__."),
+   		range: $.validator.format("__MSG__PLEASE_ENTER_A_VALUE_BETWEEN__ {x} __MSG__AND__ {y}."),
+		rangelength: $.validator.format("__MSG__PLEASE_ENTER_A_VALUE__ __MSG__BETWEEN__ {0} __MSG__AND__ {1} __MSG__CHARACTERS__.")
     },
 
     autoCreateRanges: false,
@@ -299,7 +299,7 @@ $.extend($.validator, {
 			
 			// Set the translator library
 			this.i18n = require('oae.api.i18n');
-			
+						
             this.labelContainer = $(this.settings.errorLabelContainer);
             this.errorContext = this.labelContainer.length && this.labelContainer || $(this.currentForm);
             this.containers = $(this.settings.errorContainer).add( this.settings.errorLabelContainer );
