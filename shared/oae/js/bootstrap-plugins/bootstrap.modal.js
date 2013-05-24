@@ -19,7 +19,7 @@
  *     e.g. $('#widget-modal').modal('lock');
  * The modal can then also be unlocked, which will re-enable all buttons and keys that 
  * dismiss the modal.
- *     e.g. $('#widget-modal').modal('unlock');S
+ *     e.g. $('#widget-modal').modal('unlock');
  */
 
 define(['jquery', 'bootstrap'], function($) {
