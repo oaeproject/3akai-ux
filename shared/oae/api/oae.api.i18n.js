@@ -143,20 +143,22 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.propertie
 			'digits': translate('__MSG__PLEASE_ENTER_ONLY_DIGITS__'),
 			'email': translate('__MSG__PLEASE_ENTER_A_VALID_EMAIL_ADDRESS__'),
 			'equalTo': translate('__MSG__PLEASE_ENTER_THE_SAME_VALUE_AGAIN__'),
-			//'max': '__MSG__', // func
-			//'maxlength': '__MSG__', // func
-			//'min': '__MSG__', // func
-			//'minlength': '__MSG__', // func
+			'max': 'Please enter a value less than or equal to {0}.', // func
+			'maxlength': 'Please enter no more than {0} characters.', // func
+			'min': 'Please enter a value greater than or equal to {0}.', // func
+			'minlength': 'Please enter at least {0} characters.', // func
 			'nospaces': translate('__MSG__NO_SPACES_ARE_ALLOWED__'),
 			'number': translate('__MSG__PLEASE_ENTER_A_VALID_NUMBER__'),
-			'prependhttp': translate('__MSG__PLEASE_PREPEND_HTTP'),
-			//'range': '__MSG__', // func
-			//'rangelength': '__MSG__', // func
+			'prependhttp': translate('__MSG__PLEASE_PREPEND_HTTP__'),
+			'range': 'Please enter a value between {0} and {1}.', // func
+			'rangelength': 'Please enter a value between {0} and {1} characters long.', // func
 			'remote': translate('__MSG__PLEASE_FIX_THIS_FIELD__'),
 			'required': translate('__MSG__THIS_FIELD_IS_REQUIRED__'),
+			'topnavigation-failed-attempt': translate('__MSG__INVALID_USERNAME_OR_PASSWORD__'),
 			'url': translate('__MSG__PLEASE_ENTER_A_VALID_URL__')
 		};
 		
+		console.log($.validator.messages);
 		console.log('- - - - - - - - - - - - ');
     };
 
