@@ -281,7 +281,7 @@ $.extend($.validator, {
         number: "__MSG__PLEASE_ENTER_A_VALID_NUMBER__",
         digits: "__MSG__PLEASE_ENTER_ONLY_DIGITS__",
         creditcard: "__MSG__PLEASE_ENTER_A_VALID_CREDIT_CARD_NUMBER__",
-        equalTo: "__MSG__PLEASE_ENTER_THE_SAME_VALUE_AGAIN",
+        equalTo: "__MSG__PLEASE_ENTER_THE_SAME_VALUE_AGAIN__",
         max: $.validator.format("__MSG__PLEASE_ENTER_A_VALUE_LESS_THAN_OR_EQUAL_TO__ {0}."),
 		maxlength: $.validator.format("__MSG__PLEASE_ENTER_NO_MORE_THAN__ {0} __MSG__CHARACTERS__."),
         min: $.validator.format("__MSG__PLEASE_ENTER_A_VALUE_GREATER_THAN_OR_EQUAL_TO__ {0}."),
