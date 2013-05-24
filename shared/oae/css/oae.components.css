@@ -689,7 +689,8 @@ div.oae-thumbnail i[class^="icon-"] {
  *   can be floated on the left or right.
  */
 
-.oae-tile {
+.oae-tile,
+.oae-list.oae-list-grid > li.oae-list-actions {
     position: relative;
     overflow: hidden;
     border: 1px solid;
@@ -785,7 +786,8 @@ div.oae-thumbnail i[class^="icon-"] {
  */
 
 .oae-tile,
-.oae-listitem {
+.oae-listitem,
+.oae-list.oae-list-grid > li.oae-list-actions {
     -webkit-box-shadow: 0 0 2px 0 rgba(219, 219, 219, 0.8);
        -moz-box-shadow: 0 0 2px 0 rgba(219, 219, 219, 0.8);
             box-shadow: 0 0 2px 0 rgba(219, 219, 219, 0.8);
@@ -901,7 +903,7 @@ div.oae-thumbnail i[class^="icon-"] {
  * to show the compact view, an `oae-list-compact` class should be added to the list:
  *
  *  e.g. <ul class="oae-list oae-list-grid">
- *          <Generated list items>
+ *           <Generated list items>
  *       </ul>
  */
 
@@ -933,7 +935,8 @@ ul.oae-list.oae-list-grid > li {
     margin: 0px 14px 24px 0px;
 }
 
-ul.oae-list.oae-list-grid > li .oae-thumbnail {
+ul.oae-list.oae-list-grid > li .oae-thumbnail,
+ul.oae-list.oae-list-grid > li.oae-list-actions {
     height: 162px;
     width: 162px;
 }
@@ -944,6 +947,100 @@ ul.oae-list > li .oae-list-details-item,
 ul.oae-list > li .oae-list-compact-item  {
     display: table;
     width: 100%;
+}
+
+
+/******************
+ ** LIST ACTIONS **
+ ******************/
+
+/**
+ * The list actions are shown to the managers of a list and provide options to add new items to the
+ * list or manage the items in the list. List actions are expected to be shown as the first item in
+ * a list. In grid view, the list actions will be rendered as a tile that is similar to the other tiles in
+ * the list and will contain the action buttons as well as the default thumbnail for the resource type.
+ * In details and compact view, the list actions will only display the actions buttons.
+ *
+ * The following HTML structure should be used to create a list actions element:
+ *
+ *  <li class="oae-list-actions oae-list-actions-multiple">
+ *      <div class="oae-thumbnail oae-thumbnail-large icon-oae-content"></div>
+ *      <ul>
+ *          <li>
+ *              <button type="button" class="btn oae-trigger-upload">
+ *                  <i class="icon-cloud-upload pull-left"></i>__MSG__UPLOAD__
+ *              </button>
+ *          </li>
+ *      </ul>
+ *   </li>
+ *
+ * Notes:
+ *
+ * - The most common way to use a list actions element is to prepend it into an infinite scroll list for managers
+ *   of the list. This will then also avoid that the `empty` list message is shown to managers.
+ * - When more than 1 action button needs to be shown in the list actions, the optional `oae-list-actions-multiple`
+ *   class should be added to the `oae-list-actions` container.
+ * - In grid view, icons inside of the action buttons will be hidden from the actions tile because of the limited
+ *   available space. In details and compact view, the icons will be shown.
+ * - The resource type icon shown in the list actions in grid view can be any of the `icon-oae-<resourceType>`
+ *   icons outlines in the `Thumbnails` section.
+ */
+
+/* Core list action styles */
+
+.oae-list-actions ul {
+    margin: 0px;
+}
+
+.oae-list-actions ul > li {
+    list-style-type: none;
+    margin-top: 10px;
+}
+
+.oae-list-actions div.oae-thumbnail {
+    background: none;
+}
+
+/* Grid view */
+
+ul.oae-list.oae-list-grid > li.oae-list-actions {
+    border-style: dashed;
+}
+
+ul.oae-list.oae-list-grid .oae-list-actions div.oae-thumbnail:before {
+    margin-top: -40px;
+}
+
+ul.oae-list.oae-list-grid .oae-list-actions.oae-list-actions-multiple div.oae-thumbnail:before {
+    margin-top: -60px;
+}
+
+ul.oae-list.oae-list-grid .oae-list-actions .btn i {
+    display: none;
+}
+
+ul.oae-list.oae-list-grid .oae-list-actions ul {
+    bottom: 5px;
+    left: 0;
+    padding: 7px;
+    position: absolute;
+    right: 0;
+    text-align: center;
+}
+
+/* Details and compact view */
+
+ul.oae-list:not(.oae-list-grid) .oae-list-actions {
+    height: 60px;
+}
+
+ul.oae-list:not(.oae-list-grid) .oae-list-actions div.oae-thumbnail {
+    display: none;
+}
+
+ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
+    display: inline;
+    margin-right: 10px;
 }
 
 
@@ -971,8 +1068,8 @@ ul.oae-list > li .oae-list-compact-item  {
  *      <div class="oae-list-options-actions hide">
  *          <input type="checkbox" id="library-selectall" class="oae-list-selectall" />
  *          <label for="library-selectall" class="oae-aural-text">__MSG__SELECT_ALL__</label>
- *          <button type="button" class="btn"><i class="icon-share pull-left"></i>__MSG__SHARE__</button>
- *          <button type="button" class="btn"><i class="icon-remove pull-left"></i>__MSG__REMOVE__</button>
+ *          <button type="button" class="btn" disabled="disabled"><i class="icon-share pull-left"></i>__MSG__SHARE__</button>
+ *          <button type="button" class="btn" disabled="disabled"><i class="icon-remove pull-left"></i>__MSG__REMOVE__</button>
  *          <div class="btn-group pull-right">
  *              <button class="btn" data-type="oae-list-compact">
  *                  <i class="icon-list"></i>
@@ -1001,6 +1098,8 @@ ul.oae-list > li .oae-list-compact-item  {
  *   can basically be anything.
  * - An `oae-list-selectall` class can be applied to the element that should be used to select/deselect all list
  *   items. This will be enabled automatically by the system.
+ * - The primary actions under `oae-list-options-actions` should be disabled by default, as they can only be clicked
+ *   when at least one of the items in the corresponding list is checked.
  */
 
 .oae-list-options {
@@ -1066,41 +1165,3 @@ ul.oae-list > li .oae-list-compact-item  {
 .oae-list-options .btn-group .btn i {
     font-size: 12px;
 }
-
-/*ul.oae-list li.oae-list-item.oae-list-item-dnd {
-    border: none;
-    display: none;
-}
-ul.oae-list li.oae-list-item.oae-list-item-dnd:first-child {
-    display: block;
-}
-ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-dnd-container {
-    border: 1px solid #F5F5F5;
-    height: 120px;
-}
-ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-dnd-container > div {
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
-    border: 1px dashed #999;
-    height: 112px;
-    margin: 4px;
-}
-ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-dnd-container .oae-list-dnd-label {
-    color: #999;
-    font-size: 13px;
-    font-style: italic;
-    line-height: 1.3;
-    margin: 10px auto 0;
-    width: 100px;
-}
-ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-dnd-container .oae-trigger-addcontent,
-ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-newdocument {
-    display: block;
-    margin: 10px auto;
-}
-ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-dnd-container .oae-trigger-addcontent i,
-ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-newdocument i {
-    color: #333;
-    font-size: 18px;
-}*/
