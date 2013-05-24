@@ -1104,3 +1104,55 @@ ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-newdocument i {
     color: #333;
     font-size: 18px;
 }*/
+
+
+/*****************
+ ** AutoSuggest **
+ *****************/
+
+ul.as-selections li.as-selection-item.as-ghost-item, ul.as-selections li.as-selection-item.blur.as-ghost-item, ul.as-selections li.as-selection-item.blur.as-ghost-item:hover, ul.as-selections li.as-selection-item.as-ghost-item:hover {
+    border: 1px dashed #000000;
+    background-color: #ffffff;
+    background-image: none;
+    cursor: pointer;
+}
+
+ul.as-selections li.as-selection-item.ghost-selected, ul.as-selections li.as-selection-item.as-ghost-item.ghost-selected:hover {
+    color: #666666;
+    background-color: #ddeefe;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ddeefe), to(#bfe0f1));
+    border-color: #bbb;
+
+    border: 1px solid #acc3ec;
+    border-top-color: #c0d9e9;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+    -webkit-box-shadow: 0 1px 1px #e4edf2;
+    -moz-box-shadow: 0 1px 1px #e4edf2;
+    box-shadow: 0 1px 1px #e4edf2;
+}
+
+ul.as-selections li.as-selection-item a.as-ghost-add {
+    float: right;
+    margin: -1px 0 0 7px;
+    padding: 0 2px;
+    color: #666666;
+    font-family: "Helvetica", helvetica, arial, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    text-shadow: 0 1px 1px #fff;
+    -webkit-transition: color .1s ease-in;
+}
+
+ul.as-selections li.as-selection-item a.as-ghost-remove {
+    float: right;
+    margin: -1px 0 0 7px;
+    padding: 0 2px;
+    color: #666666;
+    font-family: "Helvetica", helvetica, arial, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    text-shadow: 0 1px 1px #fff;
+    -webkit-transition: color .1s ease-in;
+}

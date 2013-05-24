@@ -587,6 +587,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
      *
      *  - Fixed prefilled data:     This allows one to add a set of default items which cannot be deleted by the user.
      *                              Simply set the `fixed` key to `true` on the objects in the `preFill` option.
+     *  - Ghost items:              These are items that can be added to the beginning of the list. They can be toggled by the user
+     *                              by clicking on them.
+     *                              The same data format as the `preFill` array can be used with one addition:
+     *                              If the `selected` key is set to `true` the item will be selected.
      *  - XSS escaped data:         All data that is inserted into the DOM by the autoSuggest plugin will be XSS escaped.
      */
     var autoSuggest = exports.autoSuggest = function() {
@@ -633,6 +637,13 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
                 });
             }
 
+            // Escape any ghost data we might have.
+            if (options.ghosts) {
+                $.each(options.ghosts, function(index, ghostItem) {
+                    ghostItem[options.selectedItemProp] = security().encodeForHTML(ghostItem[options.selectedItemProp]);
+                });
+            }
+
             // This function gets called when a user wants to remove an item
             // from the auto suggest field.
             // We intercept it and only remove elements when they are not fixed.
@@ -650,7 +661,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             };
 
             // Initialize the autoSuggest field
-            $element.autoSuggest('/api/search/general', options);
+            var $autoSuggest = $element.autoSuggest('/api/search/general', options);
+            var $list = $autoSuggest.parent().parent();
 
             // Remove the close (x) buttons from the fixed fields.
             if (options.preFill) {
@@ -660,13 +672,38 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
                     }
                 });
             }
+
+            // Add the ghost fields
+            if (options.ghosts) {
+                $.each(options.ghosts, function(index, ghostItem) {
+                    // Create the list item.
+                    var cssSelected = ghostItem.selected ? ' ghost-selected' : '';
+                    var addDisplayed = ghostItem.selected ? ' style="display: none;"' : '';
+                    var removeDisplayed = ghostItem.selected ? '' : ' style="display: none;"';
+                    var $li = $('<li class="as-selection-item as-ghost-item' + cssSelected + '" id="as-selection-ghost-' + index + '" data-value="' + ghostItem[options.selectedValuesProp] + '">' +
+                                    '<a class="as-ghost-add"' + addDisplayed + '>+</a>' +
+                                    '<a class="as-ghost-remove"' + removeDisplayed + '>&times;</a>' +
+                                    ghostItem[options.selectedItemProp] +
+                                '</li>');
+
+                    // When the user clicks the ghost item we should (de)select it.
+                    $li.click(function() {
+                        $($(this)).toggleClass('ghost-selected');
+                        $('a.as-ghost-add', this).toggle();
+                        $('a.as-ghost-remove', this).toggle();
+                    });
+
+                    // Add it to the beginning of the list.
+                    $list.prepend($li);
+                });
+            }
         };
 
         /**
          * Retrieves the selected data.
          *
          * @param  {Element|String}     $container  jQuery element or jQuery selector for the container in which the auto suggest was initialized. Note that this will *not* be the same element as the one you used to setup the auto suggest.
-         * @return {Object[]}                       An array of objects, each one representing a selected item. Each object has an `id` and `displayName`.
+         * @return {Object[]}                       An array of objects, each one representing a selected item. Each object has an `id` with the selected value, a `displayName` with the human readable value and an `isGhost` flag that indicates whether or not the result came from a ghost item.
          */
         var getSelection = function($container) {
             if (!$container) {
@@ -679,14 +716,20 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
 
             // We cannot use the input.as-values field as that only gives us the IDs and we also need the displayNames
             $.each($container.find('.as-selections > li'), function(index, selection) {
-                var id = $(selection).attr('data-value');
+                var $li = $(selection);
+                var selectedValue = $li.attr('data-value');
                 // jQuery autosuggest will always prepare an empty item for the next item that needs to be
                 // added to the list. Therefore, it is possible that an item in the list is empty
-                if (id) {
-                    data.push({
-                        'id': id,
-                        'displayName': $(selection).data().data && $(selection).data().data.displayName
-                    });
+                if (selectedValue) {
+                    // In case this is a ghost item, we can only add it when it has been selected.
+                    var isGhostItem = $li.hasClass('as-ghost-item');
+                    if (!isGhostItem || (isGhostItem && $li.hasClass('ghost-selected'))) {
+                        data.push({
+                            'id': selectedValue,
+                            'displayName': $(selection).data().data && $(selection).data().data.displayName,
+                            'isGhost': isGhostItem
+                        });
+                    }
                 }
             });
             return data;
