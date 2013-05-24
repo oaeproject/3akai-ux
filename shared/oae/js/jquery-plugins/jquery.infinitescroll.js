@@ -58,7 +58,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
             options.scrollContainer = $(options.scrollContainer);
         }
 
-        // Container that will be used to show the loading animation.We add the 
+        // Container that will be used to show the loading animation.We add the
         // `text-center` class to make sure that the animation is centered. We also
         // add `clear: both` to make sure that the animation is displayed underneath
         // the actual list
@@ -184,7 +184,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
                     }
                 });
                 data.results = filteredresults;
-    
+
                 // Render the template and put it in the container
                 hideLoadingContainer();
                 var templateOutput = '';
@@ -194,12 +194,12 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
                     templateOutput = oaeUtil.template().render(render, data);
                 }
                 $container.append(templateOutput);
-    
+
                 // Call the post renderer if it has been provided
                 if (options.postRenderer) {
                     options.postRenderer(data);
                 }
-    
+
                 // If there are more results and we're still close to the bottom of the page,
                 // check if we should do another one. However, we pause for a second, as to
                 // not to send too many requests at once
