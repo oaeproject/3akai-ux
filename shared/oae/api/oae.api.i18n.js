@@ -146,12 +146,10 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.propertie
             'minlength': translate('__MSG__PLEASE_ENTER_AT_LEAST_X_CHARACTERS__'),
             'nospaces': translate('__MSG__NO_SPACES_ARE_ALLOWED__'),
             'number': translate('__MSG__PLEASE_ENTER_A_VALID_NUMBER__'),
-            'prependhttp': translate('__MSG__PLEASE_PREPEND_HTTP__'),
             'range': translate('__MSG__PLEASE_ENTER_A_VALUE_BETWEEN_X_AND_Y__'),
             'rangelength': translate('__MSG__PLEASE_ENTER_A_VALUE_BETWEEN_X_AND_Y_CHARACTERS_LONG__'),
             'remote': translate('__MSG__PLEASE_FIX_THIS_FIELD__'),
             'required': translate('__MSG__THIS_FIELD_IS_REQUIRED__'),
-            'topnavigation-failed-attempt': translate('__MSG__INVALID_USERNAME_OR_PASSWORD__'),
             'url': translate('__MSG__PLEASE_ENTER_A_VALID_URL__')
         };
     };
