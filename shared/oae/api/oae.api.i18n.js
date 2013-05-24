@@ -133,8 +133,6 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.propertie
         };
 
         // Translate the jquery.validate.js plugin		
-        console.log($.validator.messages);
-		
         $.validator.messages = {
             'creditcard': translate('__MSG__PLEASE_ENTER_A_VALID_CREDIT_CARD_NUMBER__'),
             'date': translate('__MSG__PLEASE_ENTER_A_VALID_DATE__'),
@@ -156,9 +154,6 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.propertie
             'topnavigation-failed-attempt': translate('__MSG__INVALID_USERNAME_OR_PASSWORD__'),
             'url': translate('__MSG__PLEASE_ENTER_A_VALID_URL__')
         };
-
-        console.log($.validator.messages);
-        console.log('- - - - - - - - - - - - ');
     };
 
     /**
