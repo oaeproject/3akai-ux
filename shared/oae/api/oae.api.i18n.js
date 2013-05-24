@@ -133,6 +133,8 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.propertie
         };
 
         // Translate the jquery.validate.js plugin		
+        console.log($.validator.messages);
+		
         $.validator.messages = {
             'creditcard': translate('__MSG__PLEASE_ENTER_A_VALID_CREDIT_CARD_NUMBER__'),
             'date': translate('__MSG__PLEASE_ENTER_A_VALID_DATE__'),
@@ -140,15 +142,15 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.propertie
             'digits': translate('__MSG__PLEASE_ENTER_ONLY_DIGITS__'),
             'email': translate('__MSG__PLEASE_ENTER_A_VALID_EMAIL_ADDRESS__'),
             'equalTo': translate('__MSG__PLEASE_ENTER_THE_SAME_VALUE_AGAIN__'),
-            'max': 'Please enter a value less than or equal to {0}.', // func
-            'maxlength': 'Please enter no more than {0} characters.', // func
-            'min': 'Please enter a value greater than or equal to {0}.', // func
-            'minlength': 'Please enter at least {0} characters.', // func
+            'max': translate('__MSG__PLEASE_ENTER_A_VALUE_LESS_THAN_OR_EQUAL_TO__'),
+            'maxlength': translate('__MSG__PLEASE_ENTER_NO_MORE_THAN_X_CHARACTERS__'),
+            'min': translate('__MSG__PLEASE_ENTER_A_VALUE_GREATER_THAN_OR_EQUAL_TO__'),
+            'minlength': translate('__MSG__PLEASE_ENTER_AT_LEAST_X_CHARACTERS__'),
             'nospaces': translate('__MSG__NO_SPACES_ARE_ALLOWED__'),
             'number': translate('__MSG__PLEASE_ENTER_A_VALID_NUMBER__'),
             'prependhttp': translate('__MSG__PLEASE_PREPEND_HTTP__'),
-            'range': 'Please enter a value between {0} and {1}.', // func
-            'rangelength': 'Please enter a value between {0} and {1} characters long.', // func
+            'range': translate('__MSG__PLEASE_ENTER_A_VALUE_BETWEEN_X_AND_Y__'),
+            'rangelength': translate('__MSG__PLEASE_ENTER_A_VALUE_BETWEEN_X_AND_Y_CHARACTERS_LONG__'),
             'remote': translate('__MSG__PLEASE_FIX_THIS_FIELD__'),
             'required': translate('__MSG__THIS_FIELD_IS_REQUIRED__'),
             'topnavigation-failed-attempt': translate('__MSG__INVALID_USERNAME_OR_PASSWORD__'),
