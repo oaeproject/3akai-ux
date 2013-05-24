@@ -1003,6 +1003,10 @@ ul.oae-list > li .oae-list-compact-item  {
 
 /* Grid view */
 
+ul.oae-list.oae-list-grid > li.oae-list-actions {
+    border-style: dashed;
+}
+
 ul.oae-list.oae-list-grid .oae-list-actions div.oae-thumbnail:before {
     margin-top: -40px;
 }
@@ -1016,16 +1020,12 @@ ul.oae-list.oae-list-grid .oae-list-actions .btn i {
 }
 
 ul.oae-list.oae-list-grid .oae-list-actions ul {
-    bottom: 10px;
+    bottom: 5px;
     left: 0;
     padding: 7px;
     position: absolute;
     right: 0;
     text-align: center;
-}
-
-ul.oae-list.oae-list-grid .oae-list-actions.oae-list-actions-multiple ul {
-    bottom: 5px;
 }
 
 /* Details and compact view */

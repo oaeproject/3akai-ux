@@ -27,9 +27,10 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
      * @param  {String}                            source                          The REST endpoint URL to use for retrieving list data.
      * @param  {Object}                            [parameters]                    Parameters to send along for each list items retrieval ajax request.
      * @param  {Object}                            [parameters.limit]              The number of items to load per ajax request. This will default to 10 if not provided.
-     * @param  {String|Element|Function}           render                          jQuery element or selector for that jQuery element that identifies the Trimpath template that should be used to render retrieved results. If a function is provided, this function will be called instead with 1 parameters: the server response containing the retrieved results. The function should return the generated HTML string.
+     * @param  {String|Element|Function}           render                          jQuery element or selector for that jQuery element that identifies the Trimpath template that should be used to render retrieved results. If a function is provided, this function will be called instead with 1 parameter: the server response containing the retrieved results. The function should return the generated HTML string.
      * @param  {Object}                            [options]                       Optional object containing additional configuraton options.
      * @param  {String|Element}                    [options.scrollContainer]       jQuery element or selector for that jQuery element that identifies the container on which the scrollposition should be watched to check when we are close enough to the bottom to load a new set of results. If this is not provided, the document body will be used.
+     * @param  {String|Function}                   [options.initialContent]        HTML string that should be prepended to the list upon initialization. If a function is provided, the function will be called with no parameters and should return the HTML string to prepend.
      * @param  {Function}                          [options.emptyListProcessor]    Function that will be executed when the rendered list doesn't have any elements.
      * @param  {Function}                          [options.postProcessor]         Function used to transform the search results before rendering the template. This function will be called with a data parameter containing the retrieved data and should return the processed data
      * @param  {Function}                          [options.postRenderer]          Function executed after the rendered HTML has been appended to the rendered list. The full retrieved server response will be passed into this function.
@@ -67,8 +68,9 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
         // Set the container in which the results should be rendered
         var $container = options.scrollContainer ? options.scrollContainer : $(this);
 
-        // Gets filled up each time we request a list.
-        var lastItem = null;
+        // Variable that keeps track of whether or not the initial search has happened, as the initial
+        // search does not need to provide a paging parameter
+        var initialSearchDone = false;
 
         ////////////////////////
         // Infinite scrolling //
@@ -125,7 +127,8 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
             showLoadingContainer();
             // Get the key of the latest
             var $lastElement = $container.children('li').filter(':visible').filter(':last');
-            if ($lastElement.length !== 0) {
+            // Only page once the initial search has been done
+            if ($lastElement.length !== 0 && initialSearchDone === true) {
                 parameters.start = $lastElement.attr('data-key') ? $lastElement.attr('data-key') : ($lastElement.index() + 1);
             }
 
@@ -134,6 +137,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
                 'url': source,
                 'data': parameters,
                 'success': function(data) {
+                    initialSearchDone = true;
                     processList(data);
                 },
                 'error': function() {
@@ -220,6 +224,19 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
             }
         };
 
+        /**
+         * TODO
+         */
+        var setUpInitialContent = function() {
+            if (options.initialContent) {
+                if (_.isFunction(options.initialContent)) {
+                    $container.prepend(options.initialContent());
+                } else {
+                    $container.prepend(options.initialContent);
+                }
+            }
+        };
+
         ///////////////////////
         // List manipulation //
         ///////////////////////
@@ -302,6 +319,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
 
         $container.attr('aria-live', 'assertive');
         setUpLoadingImage();
+        setUpInitialContent();
         loadResultList();
         startInfiniteScrolling();
 
