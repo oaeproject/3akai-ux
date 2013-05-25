@@ -171,25 +171,13 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
          */
         var renderList = function(data, prepend) {
             // Determine if we should attempt to load a next page
-            var canFetchMore = (data.results.length === parameters.limit);
+            var canFetchMore = (data.results.length === parameters.limit) || prepend;
 
             // Check if the infinite scroll instance still exists. It's possible that
             // the instance was killed in between the time that a request was fired and
             // the response was received. If that's the cause, there's nothing else we
             // need to do
             if ($container) {
-
-                // Filter out items that are already in the list
-                var filteredresults = [];
-                $.each(data.results, function(i, result) {
-                    // Determine whether this item is already in the list
-                    // by looking for an element with the same id
-                    if (!$('*[data-id="' + result.id + '"]', $container).length) {
-                        filteredresults.push(result);
-                    }
-                });
-                data.results = filteredresults;
-
                 // Render the template and put it in the container
                 hideLoadingContainer();
                 var templateOutput = '';
@@ -199,7 +187,39 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
                     templateOutput = oaeUtil.template().render(render, data);
                 }
 
+                // Append the template to the body so we can filter on duplicate items
+                var id = oaeUtil.generateId();
+                $('body').append('<div class="hide" id="' + id + '">' + templateOutput + '</div>');
+                var $newTemplate = $('#' + id);
+
+                // Go over the list of previously shown items
+                $.each($container.children(), function(i, listItem) {
+                    var id = $(listItem).attr('data-id');
+
+                    // Go over the list of new items and remove duplicates in the previously shown items.
+                    $.each($newTemplate.children(), function(ii, newListItem) {
+                        var newId = $(newListItem).attr('data-id');
+                        if (newId === id) {
+                            // If we are prepending the data it's new to the list and the old list
+                            // item needs to be removed.
+                            if (prepend) {
+                                $(listItem).remove();
+                            // If the data is appended, the data is older than the prepended data and
+                            // needs to be removed from the list.
+                            } else {
+                                $newTemplate.find($('#' + newId)).remove();
+                            }
+                            return false;
+                        }
+                    });
+                });
+
                 if (prepend) {
+                    // Bring the filtered html back to templateOutput before prepending
+                    templateOutput = $newTemplate.html();
+                    // Remove the filtered html from the page
+                    $newTemplate.remove();
+                    // Prepend the HTML
                     $container.prepend(templateOutput);
                 } else {
                     $container.append(templateOutput);
