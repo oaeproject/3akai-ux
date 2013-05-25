@@ -961,7 +961,7 @@ ul.oae-list > li .oae-list-compact-item  {
  * the list and will contain the action buttons as well as the default thumbnail for the resource type.
  * In details and compact view, the list actions will only display the actions buttons.
  *
- * The following HTML structure should be used to create a list action:
+ * The following HTML structure should be used to create a list actions element:
  *
  *  <li class="oae-list-actions oae-list-actions-multiple">
  *      <div class="oae-thumbnail oae-thumbnail-large icon-oae-content"></div>
