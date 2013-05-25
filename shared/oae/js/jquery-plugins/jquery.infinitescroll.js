@@ -200,15 +200,25 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
                     $.each($newTemplate.children(), function(ii, newListItem) {
                         var newId = $(newListItem).attr('data-id');
                         if (newId && id && newId === id) {
+                            idToRemove = newId;
                             // If we are prepending the data it's new to the list and the old list
                             // item needs to be removed.
                             if (prepend) {
                                 $(listItem).remove();
+                                idToRemove = id;
                             // If the data is appended, the data is older than the prepended data and
                             // needs to be removed from the list.
                             } else {
                                 $('li[data-id="' + newId + '"]', $newTemplate).remove();
                             }
+
+                            // Remove from the data results that return in postRenderer and postProcessor
+                            $.each(data.results, function(iii, item) {
+                                if (item && ((item.profile && item.profile.id) === idToRemove ||
+                                    item.id === idToRemove)) {
+                                    data.results.splice(iii, 1);
+                                }
+                            });
                             return false;
                         }
                     });
