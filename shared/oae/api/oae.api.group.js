@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -17,7 +17,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
 
     /**
      * Creates a group.
-     * 
+     *
      * @param  {String}            displayName              The displayName for this group
      * @param  {String}            [description]            The description for this group
      * @param  {String}            [visibility]             The visibility for this group
@@ -60,10 +60,10 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
             }
         });
     };
-       
+
     /**
      * Get a group.
-     * 
+     *
      * @param  {String}       groupId             The id of the group you wish to retrieve.
      * @param  {Function}     callback            Standard callback method
      * @param  {Object}       callback.err        Error object containing error code and error message
@@ -85,10 +85,10 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
             }
         });
     };
-    
+
     /**
      * Updates a group.
-     * 
+     *
      * @param  {String}       groupId                       The id of the group you wish to update
      * @param  {Object}       profileFields                 Object where the keys represent the profile fields that need to be updated and the values represent the new values for those profile fields.
      * @param  {String}       [profileFields.displayName]   New displayName for the group
@@ -124,7 +124,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
 
     /**
      * Get the members of a group.
-     * 
+     *
      * @param  {String}             groupId             The id of the group you wish to update
      * @param  {String}             [start]             The principal id to start from (this will not be included in the response)
      * @param  {Number}             [limit]             The number of members to retrieve.
@@ -157,7 +157,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
 
     /**
      * Update the members of a group.
-     * 
+     *
      * @param  {String}       groupId             The id of the group you wish to update
      * @param  {Object}       members             A hash object where each key is the id of a user or group and the value is one of 'manager', 'member' or false. In case the value is false, the member will be deleted.
      * @param  {Function}     [callback]          Standard callback method
@@ -186,7 +186,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
 
     /**
      * Returns all of the groups that a user is a direct and indirect member of.
-     * 
+     *
      * @param  {String}       [userId]            The user id for which we want to get all of the memberships. If this is not provided, the current user's id will be used.
      * @param  {String}       [start]             The group id to start from (this will not be included in the response)
      * @param  {Number}       [limit]             The number of members to retrieve
@@ -199,7 +199,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
         // Default values
         userId = userId || require('oae.core').data.me.id;
         limit = limit || 10;
-        
+
         // Parameter validation
         if (!_.isNumber(limit)) {
             throw new Error('A valid limit should be provided');
