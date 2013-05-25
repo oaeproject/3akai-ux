@@ -63,12 +63,12 @@ require(['jquery', 'oae.core'], function($, oae) {
     var setUpContext = function() {
         $(document).on('oae.context.get', function(ev, widgetId) {
             if (widgetId) {
-                $(document).trigger('oae.context.send.' + widgetId, $.extend(true, {}, groupProfile));
+                $(document).trigger('oae.context.send.' + widgetId, groupProfile);
             } else {
-                $(document).trigger('oae.context.send', $.extend(true, {}, groupProfile));
+                $(document).trigger('oae.context.send', groupProfile);
             }
         });
-        $(document).trigger('oae.context.send', $.extend(true, {}, groupProfile));
+        $(document).trigger('oae.context.send', groupProfile);
     };
 
     /**
@@ -160,6 +160,13 @@ require(['jquery', 'oae.core'], function($, oae) {
      */
     $(document).on('oae.changepic.finished', function(ev, data) {
         groupProfile = data;
+        setUpClip();
+    });
+
+    /**
+     * Re-render the group's clip when the permissions have been updated.
+     */
+    $(document).on('done.manageaccess.oae', function(ev) {
         setUpClip();
     });
 
