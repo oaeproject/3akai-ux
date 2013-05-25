@@ -163,6 +163,13 @@ require(['jquery', 'oae.core'], function($, oae) {
         setUpClip();
     });
 
+    /**
+     * Re-render the group's clip when the permissions have been updated.
+     */
+    $(document).on('done.manageaccess.oae', function(ev) {
+        setUpClip();
+    });
+
     getGroupProfile();
 
 });

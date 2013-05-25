@@ -179,7 +179,7 @@ i.icon-oae-public.large:before {
  *                  <span>__MSG__PRIVATE__</span>
  *              </div>
  *              <i class="icon-ok hide"></i>
- *              <small>__MSG__PRIVATE_DESCRIPTION__</small>
+ *              <small>__MSG__GROUP_PRIVATE_DESCRIPTION__</small>
  *          </label>
  *          <label for="oae-visibility-loggedin" class="span4 text-center">
  *              <div class="oae-visibility-choice well pull-left text-center">
@@ -188,7 +188,7 @@ i.icon-oae-public.large:before {
  *                  <span>Cambridge University</span>
  *              </div>
  *              <i class="icon-ok hide"></i>
- *              <small>__MSG__LOGGEDIN_DESCRIPTION__</small>
+ *              <small>__MSG__GROUP_LOGGEDIN_DESCRIPTION__</small>
  *          </label>
  *          <label for="oae-visibility-public" class="span4 text-center">
  *              <div class="oae-visibility-choice well pull-left text-center">
@@ -197,7 +197,7 @@ i.icon-oae-public.large:before {
  *                  <span>__MSG__PUBLIC__</span>
  *              </div>
  *              <i class="icon-ok hide"></i>
- *              <small>__MSG__PUBLIC_DESCRIPTION__</small>
+ *              <small>__MSG__GROUP_PUBLIC_DESCRIPTION__</small>
  *          </label>
  *      </div>
  **/
