@@ -225,7 +225,8 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
         };
 
         /**
-         * TODO
+         * Prepend some initial content to the infinite scroll list if initial content or an
+         * initial content function has been provided.
          */
         var setUpInitialContent = function() {
             if (options.initialContent) {
