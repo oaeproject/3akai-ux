@@ -27,11 +27,17 @@ require(['jquery','oae.core'], function($, oae) {
     /**
      * Renders the content preview.
      */
-    var setUpContentProfilePreview = function() {
+    var setUpContentPreview = function() {
         // Remove the old preview widget
         $('#content-preview-container').html('');
-        // Insert a new preview widget and pass in the updated content profile data
-        oae.api.widget.insertWidget('contentpreview', null, $('#content-preview-container'), null, contentProfile);
+        // Based on the content type, insert a new preview widget and pass in the updated content profile data
+        if (contentProfile.resourceSubType === 'file') {
+            oae.api.widget.insertWidget('filepreview', null, $('#content-preview-container'), null, contentProfile);
+        } else if (contentProfile.resourceSubType === 'link') {
+            oae.api.widget.insertWidget('linkpreview', null, $('#content-preview-container'), null, contentProfile);
+        } else if (contentProfile.resourceSubType === 'collabdoc') {
+            oae.api.widget.insertWidget('etherpad', null, $('#content-preview-container'), null, contentProfile);
+        }
     };
 
     /**
@@ -57,7 +63,7 @@ require(['jquery','oae.core'], function($, oae) {
             // Render the entity information
             setUpClip();
             // Show the content preview
-            setUpContentProfilePreview();
+            setUpContentPreview();
             // Set up the context event exchange
             setUpContext();
             // We can now unhide the page
@@ -77,7 +83,7 @@ require(['jquery','oae.core'], function($, oae) {
         // Re-render the entity information
         setUpClip();
         // Show the content preview
-        setUpContentProfilePreview();
+        setUpContentPreview();
     };
 
     /**
