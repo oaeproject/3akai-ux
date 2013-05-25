@@ -199,7 +199,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
                     // Go over the list of new items and remove duplicates in the previously shown items.
                     $.each($newTemplate.children(), function(ii, newListItem) {
                         var newId = $(newListItem).attr('data-id');
-                        if (newId === id) {
+                        if (newId && id && newId === id) {
                             // If we are prepending the data it's new to the list and the old list
                             // item needs to be removed.
                             if (prepend) {
@@ -207,18 +207,19 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
                             // If the data is appended, the data is older than the prepended data and
                             // needs to be removed from the list.
                             } else {
-                                $newTemplate.find($('#' + newId)).remove();
+                                $('li[data-id="' + newId + '"]', $newTemplate).remove();
                             }
                             return false;
                         }
                     });
                 });
 
+                // Bring the filtered html back to templateOutput before prepending
+                templateOutput = $newTemplate.html();
+                // Remove the filtered html from the page
+                $newTemplate.remove();
+
                 if (prepend) {
-                    // Bring the filtered html back to templateOutput before prepending
-                    templateOutput = $newTemplate.html();
-                    // Remove the filtered html from the page
-                    $newTemplate.remove();
                     // Prepend the HTML
                     $container.prepend(templateOutput);
                 } else {
