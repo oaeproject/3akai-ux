@@ -144,17 +144,21 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
         };
 
         /**
-         * Run the list of items to be added through a processor before pushing them through
-         * a template. The postProcessor will be pass on the server response to the postProcessor
-         * function.
+         * Run the list of items to be added to a processor before pushing them through
+         * a template. The postProcessor will be given an array of items to be added to
+         * the infinite scroll. The plugin expects an array of items to come back from
+         * the postProcessor as well.
          *
-         * @param {Object}      data       Response received from the server
+         * @param  {Object}      data       List of items to add to the infinite scroll list
+         * @param  {Object}      prepend    True when we want to prepend the new items to the list, False when we want to append the new items to the list
          */
-        var processList = function(data) {
+        var processList = function(data, prepend) {
             if (options.postProcessor) {
                 data = options.postProcessor(data);
+                renderList(data, prepend);
+            } else {
+                renderList(data, prepend);
             }
-            renderList(data);
         };
 
         /**
@@ -162,9 +166,10 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
          * to be wrapped in a `results` object, and have an `id` parameter for each of the results.
          * Results that are already in the list will not be re-rendered.
          *
-         * @param {Object} data       Post-processed server response
+         * @param  {Object}    data       Post-processed server response
+         * @param  {Object}    prepend    True when we want to prepend the new items to the list, False when we want to append the new items to the list
          */
-        var renderList = function(data) {
+        var renderList = function(data, prepend) {
             // Determine if we should attempt to load a next page
             var canFetchMore = (data.results.length === parameters.limit);
 
@@ -193,7 +198,12 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
                 } else {
                     templateOutput = oaeUtil.template().render(render, data);
                 }
-                $container.append(templateOutput);
+
+                if (prepend) {
+                    $container.prepend(templateOutput);
+                } else {
+                    $container.append(templateOutput);
+                }
 
                 // Call the post renderer if it has been provided
                 if (options.postRenderer) {
@@ -223,6 +233,18 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
         ///////////////////////
         // List manipulation //
         ///////////////////////
+
+        /**
+         * Function called to prepend items to the list. This will be used when UI caching needs
+         * to be used
+         *
+         * @param  {Object}       items       Array of items to be prepended
+         */
+        var prependItems = function(items) {
+            processList({
+                'results': items
+            }, true);
+        };
 
         /**
          * Remove one or more items from the list. This will fade the items out and hide them.
@@ -306,6 +328,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
         startInfiniteScrolling();
 
         return {
+            'prependItems': prependItems,
             'removeItems': removeItems,
             'kill': kill
         };
