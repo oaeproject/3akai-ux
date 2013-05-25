@@ -678,11 +678,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
                 $.each(options.ghosts, function(index, ghostItem) {
                     // Create the list item.
                     var cssSelected = ghostItem.selected ? ' ghost-selected' : '';
-                    var addDisplayed = ghostItem.selected ? ' style="display: none;"' : '';
-                    var removeDisplayed = ghostItem.selected ? '' : ' style="display: none;"';
+                    var addDisplayed = ghostItem.selected ? ' hide' : '';
+                    var removeDisplayed = ghostItem.selected ? '' : ' hide';
                     var $li = $('<li class="as-selection-item as-ghost-item' + cssSelected + '" id="as-selection-ghost-' + index + '" data-value="' + ghostItem[options.selectedValuesProp] + '">' +
-                                    '<a class="as-ghost-add"' + addDisplayed + '>+</a>' +
-                                    '<a class="as-ghost-remove"' + removeDisplayed + '>&times;</a>' +
+                                    '<a class="as-ghost-add' + addDisplayed + '">+</a>' +
+                                    '<a class="as-ghost-remove' + removeDisplayed + '">&times;</a>' +
                                     ghostItem[options.selectedItemProp] +
                                 '</li>');
 
