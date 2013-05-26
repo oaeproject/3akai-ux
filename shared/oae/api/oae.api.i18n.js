@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -132,7 +132,7 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.propertie
             'years': translate('__MSG__JQUERY_TIMEAGO_YEARS__')
         };
 
-        // Translate the jquery.validate.js plugin		
+        // Translate the jquery.validate.js plugin
         $.validator.messages = {
             'creditcard': translate('__MSG__PLEASE_ENTER_A_VALID_CREDIT_CARD_NUMBER__'),
             'date': translate('__MSG__PLEASE_ENTER_A_VALID_DATE__'),
