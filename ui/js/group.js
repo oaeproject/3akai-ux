@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -179,6 +179,13 @@ require(['jquery', 'oae.core'], function($, oae) {
      */
     $(document).on('oae.changepic.finished', function(ev, data) {
         groupProfile = data;
+        setUpClip();
+    });
+
+    /**
+     * Re-render the group's clip when the permissions have been updated.
+     */
+    $(document).on('done.manageaccess.oae', function(ev) {
         setUpClip();
     });
 

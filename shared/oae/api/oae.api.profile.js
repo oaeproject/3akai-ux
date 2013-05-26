@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -17,7 +17,7 @@ define(['exports'], function(exports) {
 
     /**
      * Request a profile section from a user's profile.
-     * 
+     *
      * @param  {String}         userId              User id of the user for who we want to retrieve a profile section
      * @param  {String}         sectionId           Id of the profile section we want to retrieve
      * @param  {Function}       callback            Standard callback method takes arguments `err` and `section`
@@ -42,10 +42,10 @@ define(['exports'], function(exports) {
             }
         });
     };
-    
+
     /**
      * Get an overview of all of the sections for which a user has profile information set and their visibility setting.
-     * 
+     *
      * @param  {String}         userId              User id of the user for who we want to retrieve the profile section visibility overview
      * @param  {Function}       callback            Standard callback method takes arguments `err` and `vis`
      * @param  {Object}         callback.err        Error object containing error code and error message
@@ -67,10 +67,10 @@ define(['exports'], function(exports) {
             }
         });
     };
-    
+
     /**
      * Set a profile section for the currently logged in user.
-     * 
+     *
      * @param  {String}         sectionId           Id of the profile section we want to set
      * @param  {String}         [visibility]        Visibility of the profile section. This can be public, loggedin or private
      * @param  {Object}         sectionData         JSON object representing the profile section that needs to be stored. The object will be stored (and later on retrieved) as is
@@ -111,10 +111,10 @@ define(['exports'], function(exports) {
             }
         });
     };
-    
+
     /**
      * Delete a profile section for the currently logged in user.
-     * 
+     *
      * @param  {String}         sectionId           Id of the profile section we want to delete
      * @param  {Function}       [callback]          Standard callback method takes argument `err`
      * @param  {Object}         [callback.err]      Error object containing error code and error message
@@ -139,10 +139,10 @@ define(['exports'], function(exports) {
             }
         });
     };
-    
+
     /**
      * Update a profile section's visibility for the currently logged in user
-     * 
+     *
      * @param  {String}         sectionId           Id of the profile section we want to set visibility for
      * @param  {String}         [visibility]        The profile section's new visibility. This can be public, loggedin or private
      * @param  {Function}       [callback]          Standard callback method takes argument `err`
