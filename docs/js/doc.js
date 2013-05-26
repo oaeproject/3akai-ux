@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -29,7 +29,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         $('.bs-docs-sidenav li').removeClass('active');
         $('[data-id="' + module + '"]').addClass('active');
 
-        // Get the current requested module from the History.js 
+        // Get the current requested module from the History.js
         // Retrieve the documentation for the current module from the server
         getModuleDocs(module, type, function(docs) {
             oae.api.util.template().render($('#doc-module-template'), {
@@ -52,7 +52,7 @@ require(['jquery', 'oae.core'], function($, oae) {
 
     /**
      * Renders the navigation for the available modules
-     * 
+     *
      * @param  {String[]}    modules          An Array of module names
      * @param  {String}      currentModule    The name of the module that is currently shown in the UI
      */
@@ -62,7 +62,7 @@ require(['jquery', 'oae.core'], function($, oae) {
 
     /**
      * Gets the documentation for a specific module and passes it in a callback
-     * 
+     *
      * @param  {String}    module            The name of the module to get the documentation for
      * @param  {String}    type              The type of the module being loaded. Accepted values are `backend` and `frontend`
      * @param  {Function}  callback          Function executed after the documentation for the module has been retrieved
@@ -81,7 +81,7 @@ require(['jquery', 'oae.core'], function($, oae) {
 
     /**
      * Get the available OAE back-end and front-end modules.
-     * 
+     *
      * @param  {Function}    callback            Function executed after the list of modules has been retrieved
      * @param  {Object}      callback.modules    Object where the keys are "frontend" and "backend" and the values are an array of available modules
      */
@@ -106,7 +106,7 @@ require(['jquery', 'oae.core'], function($, oae) {
 
     /**
      * Sets the title of the document to `Sakai OAE - API Reference - title`
-     * 
+     *
      * @param  {String}  title   The title to be added to the document title
      */
     var setDocumentTitle = function(title) {
@@ -132,7 +132,7 @@ require(['jquery', 'oae.core'], function($, oae) {
     var addBinding = function() {
         // Module switching
         $(document).on('click', '#doc-modules-container ul li', selectModule)
-        // The statechange event will be triggered every time the browser back or forward button 
+        // The statechange event will be triggered every time the browser back or forward button
         // is pressed or state is pushed/replaced using Hisory.js.
         $(window).on('statechange', renderModuleDocs);
     };
@@ -147,8 +147,8 @@ require(['jquery', 'oae.core'], function($, oae) {
             modules.frontend.sort();
             modules.backend.sort();
 
-            // Extract the currently selected module from the URL by parsing the URL fragment that's 
-            // inside of the current History.js hash. The expected URL structure is `/docs/module/<moduleId>/<apiFunction>`. 
+            // Extract the currently selected module from the URL by parsing the URL fragment that's
+            // inside of the current History.js hash. The expected URL structure is `/docs/module/<moduleId>/<apiFunction>`.
             var initialState = $.url(History.getState().hash);
             var type = initialState.segment(2) || 'frontend';
             var moduleToLoad = initialState.segment(3) || modules[type][0];
@@ -161,10 +161,10 @@ require(['jquery', 'oae.core'], function($, oae) {
             // followed a link or entering the URL directly) or will contain the previous state data when
             // refreshing the page. This is why we use the URL to determine the initial state. We want
             // to replace the initial state with all of the required state data for the requested URL so
-            // we have the correct state data in all circumstances. Calling the `replaceState` function 
+            // we have the correct state data in all circumstances. Calling the `replaceState` function
             // will automatically trigger the statechange event, which will take care of the documentation rendering.
-            // for the requested module. However, as the page can already have the History.js state data 
-            // when only doing a page refresh, we need to add a random number to make sure that History.js 
+            // for the requested module. However, as the page can already have the History.js state data
+            // when only doing a page refresh, we need to add a random number to make sure that History.js
             // recognizes this as a new state and triggers the `statechange` event.
             History.replaceState({
                 'type': type,
