@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -36,6 +36,8 @@ define([
         'oae.api.authentication',
         'oae.api.config',
         'oae.api.content',
+        'oae.api.comment',
+        'oae.api.discussion',
         'oae.api.group',
         'oae.api.i18n',
         'oae.api.l10n',
