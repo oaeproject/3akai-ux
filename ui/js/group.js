@@ -15,16 +15,14 @@
 
 require(['jquery', 'oae.core'], function($, oae) {
 
-    //  Get the group id from the URL. The expected URL is /group/<groupId>
-    var groupId = $.url().segment(2);
-    if (!groupId) {
-        oae.api.util.redirect().login();
-    }
+    // Get the group id from the URL. The expected URL is `/group/<tenantId>/<resourceId>`.
+    // The group id will then be `g:<tenantId>:<resourceId>`
+    var groupId = 'g:' + $.url().segment(2) + ':' + $.url().segment(3);
 
     // Variable used to cache the requested group's profile
     var groupProfile = null;
     // Variable used to cache the group's base URL
-    var baseUrl = '/group/' + groupId;
+    var baseUrl = '/group/' + $.url().segment(2) + '/' + $.url().segment(3);
 
     /**
      * Get the group's basic profile and set up the screen. If the group
