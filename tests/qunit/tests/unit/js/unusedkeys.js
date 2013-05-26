@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -245,7 +245,7 @@ require(
             for (var i = 0; i < sakai.config.Languages.length; i++) {
                 urls.push(sakai.config.Languages[i].bundle);
             }
-            
+
             // Get all the widget bundles.
             for (var i in sakai.widgets) {
                 if (sakai.widgets.hasOwnProperty(i) && sakai.widgets[i].i18n) {

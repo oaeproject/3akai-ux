@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -812,7 +812,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
      * Initializes the list of tenants and renders them in a view
      */
     var initializeTenants = function() {
-        // If we're on the global admin server, we can render all the tenants. 
+        // If we're on the global admin server, we can render all the tenants.
         // Otherwise we only render the current tenant.
         var tenantsToRender = (currentContext.isGlobalAdminServer) ? tenants: [currentContext];
 
