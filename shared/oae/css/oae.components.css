@@ -802,7 +802,7 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .oae-listitem.oae-listitem-compact {
-    min-height: 25px;
+    min-height: 27px;
 }
 
 .oae-listitem input[type="checkbox"].pull-left {
