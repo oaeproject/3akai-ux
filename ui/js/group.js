@@ -118,7 +118,26 @@ require(['jquery', 'oae.core'], function($, oae) {
                         'width': 'span12',
                         'widgets': [
                             {
-                                'id': 'library',
+                                'id': 'contentlibrary',
+                                'settings': {
+                                    'principalId': groupProfile.id,
+                                    'canManage': groupProfile.isManager
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                'id': 'discussions',
+                'title': oae.api.i18n.translate('__MSG__DISCUSSIONS__'),
+                'icon': 'icon-comments',
+                'layout': [
+                    {
+                        'width': 'span12',
+                        'widgets': [
+                            {
+                                'id': 'discussionslibrary',
                                 'settings': {
                                     'principalId': groupProfile.id,
                                     'canManage': groupProfile.isManager
