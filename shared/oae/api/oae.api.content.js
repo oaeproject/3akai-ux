@@ -345,23 +345,24 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     };
 
     /**
-     * Get a principal library.
+     * Get the content library for a given principal.
      *
-     * @param  {String}         principalId         User or group id for who we want to retrieve the library
-     * @param  {String}         [start]             The content id to start from (this will not be included in the response). If the first page is needed, null should be passed in.
-     * @param  {Number}         [limit]             The number of content items to retrieve.
+     * @param  {String}         principalId         User or group id for who we want to retrieve the content library
+     * @param  {String}         [nextToken]         The token used for paging. If the first page of results is required, `null` should be passed in as the token. For any subsequent pages, the nextToken will be included in the feed from the previous page
+     * @param  {Number}         [limit]             The number of content items to retrieve
      * @param  {Function}       callback            Standard callback method
      * @param  {Object}         callback.err        Error object containing error code and error message
-     * @param  {Content[]}      callback.items      Array of content items representing the content items present in the library
+     * @param  {Content[]}      callback.results    Array of content items representing the content items present in the library
+     * @param  {String}         callback.nextToken  Token that should be used to retrieved the next set of content items in the library
      * @throws {Error}                              Error thrown when no principal ID has been provided
      */
     var getLibrary = exports.getLibrary = function(principalId, start, limit, callback) {
         if (!principalId) {
-            throw new Error('A user ID should be provided');
+            throw new Error('A user or group ID should be provided');
         }
 
         var data = {
-            'start': start,
+            'start': nextToken,
             'limit': limit
         };
 
@@ -370,107 +371,6 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             'data': data,
             'success': function(data) {
                 callback(null, data);
-            },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
-            }
-        });
-    };
-
-    //////////////////////
-    // Content comments //
-    //////////////////////
-
-    /**
-     * Gets the comments on a content item
-     *
-     * @param  {String}       contentId           Content id of the content item for which to get the comments
-     * @param  {String}       [start]             Determines the point at which content items are returned for paging purposed.
-     * @param  {Integer}      [limit]             Number of items to return
-     * @param  {Function}     callback            Standard callback method
-     * @param  {Object}       callback.err        Error object containing error code and error message
-     * @param  {Comment[]}    callback.comments   Array of comments on the content item
-     * @throws {Error}                            Error thrown when no content id has been provided
-     */
-    var getComments = exports.getComments = function(contentId, start, limit, callback) {
-        if (!contentId) {
-            throw new Error('A valid content id should be provided');
-        }
-
-        var data = {
-            'start': start,
-            'limit': limit
-        };
-
-        $.ajax({
-            'url': '/api/content/' + contentId + '/comments',
-            'data': data,
-            'success': function(data) {
-                callback(null, data);
-            },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
-            }
-        });
-    };
-
-    /**
-     * Create a comment on a content item or reply to an existing comment.
-     *
-     * @param  {String}       contentId           Content id of the content item we're trying to comment on
-     * @param  {String}       body                The comment to be placed on the content item
-     * @param  {String}       [replyTo]           Id of the comment to reply to
-     * @param  {Function}     callback            Standard callback method
-     * @param  {Object}       callback.err        Error object containing error code and error message
-     * @param  {Comment}      callback.comment    Comment object representing the created comment
-     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
-     */
-    var createComment = exports.createComment = function(contentId, body, replyTo, callback) {
-        if (!contentId) {
-            throw new Error('A valid content id should be provided');
-        } else if (!body) {
-            throw new Error('A comment should be provided');
-        }
-
-        var data = {
-            'body': body,
-            'replyTo': replyTo
-        };
-
-        $.ajax({
-            'url': '/api/content/' + contentId + '/comments',
-            'type': 'POST',
-            'data': data,
-            'success': function(data) {
-                callback(null, data);
-            },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
-            }
-        });
-    };
-
-    /**
-     * Delete an existing comment from a content item
-     *
-     * @param  {String}       contentId               Content id of the content item we're trying to delete a comment from
-     * @param  {String}       commentId               The ID of the comment to delete
-     * @param  {Function}     callback                Standard callback method
-     * @param  {Object}       callback.err            Error object containing error code and error message
-     * @param  {Object}       [callback.softDeleted]  If the comment is not deleted, but instead flagged as deleted because it has replies, this will return a stripped down comment object representing the deleted comment will be returned, with the `deleted` parameter set to `false`.. If the comment has been properly deleted, no comment will be returned.
-     */
-    var deleteComment = exports.deleteComment = function(contentId, commentId, callback) {
-        if (!contentId) {
-            throw new Error('A valid content id should be provided');
-        } else if (!commentId) {
-            throw new Error('A comment id should be provided');
-        }
-
-        $.ajax({
-            'url': '/api/content/' + contentId + '/comments/' + commentId,
-            'type': 'DELETE',
-            'success': function(softDeleted) {
-                callback(null, softDeleted);
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
