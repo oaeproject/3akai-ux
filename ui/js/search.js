@@ -92,7 +92,13 @@ require(['jquery','oae.core'], function($, oae) {
         // We parse the URL fragment that's inside of the current History.js state.
         // The expected URL structure is `/search/<query>?types=type1,type2`
         var initialState = $.url(History.getState().hash);
-        var query = initialState.segment().slice(1).join('/');
+        // By using history.js plugin IE9 receives no search value in the array
+        // so we have to filter search out the array to work in all supported browsers
+        var indexSearch = initialState.segment().indexOf('search');
+        if(indexSearch != -1) {
+            initialState.segment().splice(indexSearch, 1);
+        }
+        var query = initialState.segment();
         var types = (initialState.param().types || '').split(',');
         // Replace the current History.js state to have the query and type refinement data. This
         // is necessary because a newly loaded page will not contain the data object in its
@@ -104,7 +110,7 @@ require(['jquery','oae.core'], function($, oae) {
             'query': query,
             'types': types,
             '_': Math.random()
-        });
+        }, null, query);
     };
 
     /**
