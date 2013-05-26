@@ -15,11 +15,9 @@
 
 require(['jquery','oae.core'], function($, oae) {
 
-    //  Get the content id from the URL. The expected URL is `/content/<contentId>`
-    var contentId = $.url().segment(2);
-    if (!contentId) {
-        oae.api.util.redirect().login();
-    }
+    // Get the content id from the URL. The expected URL is `/content/<tenantId>/<resourceId>`.
+    // The content id will then be `c:<tenantId>:<resourceId>`
+    var contentId = 'c:' + $.url().segment(2) + ':' + $.url().segment(3);
 
     // Variable used to cache the requested content profile
     var contentProfile = null;

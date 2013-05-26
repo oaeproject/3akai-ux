@@ -15,11 +15,9 @@
 
 require(['jquery','oae.core'], function($, oae) {
 
-    //  Get the discussion id from the URL. The expected URL is `/discussion/<discussionId>`
-    var discussionId = $.url().segment(2);
-    if (!discussionId) {
-        oae.api.util.redirect().login();
-    }
+    // Get the discussion id from the URL. The expected URL is `/discussion/<tenantId>/<resourceId>`.
+    // The discussion id will then be `d:<tenantId>:<resourceId>`
+    var discussionId = 'd:' + $.url().segment(2) + ':' + $.url().segment(3);
 
     // Variable used to cache the requested discussion profile
     var discussionProfile = null;
