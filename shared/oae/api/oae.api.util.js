@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -126,10 +126,13 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * @api private
          */
         var init = function(callback) {
-            // Load the lists macros through the RequireJS Text plugin
-            require(['text!/ui/macros/list.html'], function(listMacro) {
-                // Cache the macro
-                globalMacros.push(listMacro);
+            // Load the activity summary and lists macros through the RequireJS Text plugin
+            require(['text!/ui/macros/activity.html', 'text!/ui/macros/list.html'], function(listMacro, activityMacro) {
+                // Translate and cache the macros. We require the i18n API here to avoid creating
+                // a cyclic dependency
+                var i18nAPI = require('oae.api.i18n');
+                globalMacros.push(i18nAPI.translate(activityMacro));
+                globalMacros.push(i18nAPI.translate(listMacro));
                 callback();
             });
         };
@@ -153,7 +156,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * - `${value|encodeForHTML}`: Should be used for all user input rendered as text
          * - `${value|encodeForURL}`: Should be used for all user input used as part of a URL
          *
-         * There are also 2 globally available macros that can be used inside of all TrimPath templates:
+         * There are also 3 globally available macros that can be used inside of all TrimPath templates:
          *
          * 1) Thumbnail
          *
@@ -176,6 +179,13 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * - `metadata` (optional) is a line of metadata information that should be displayed underneath the entity name
          * - `pagingKey` (optional) is the key that should be used for paging through the infinite scroll plugin
          * - `showCheckbox` (optional) will determine whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
+         *
+         * 3) Activity summary
+         *
+         *   `${renderActivitySummary(activity)}`
+         *
+         * - `activity` is a standard activity object, as specified by the activitystrea.ms specification (@see http://activitystrea.ms/),
+         *    for which to generate the activity summary
          *
          *
          * IMPORTANT: There should be no line breaks in between the div and the <!-- declarations,
@@ -318,7 +328,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             // Don't allow spaces in the field
             $.validator.addMethod('nospaces', function(value, element) {
                 return this.optional(element) || (value.indexOf(' ') === -1);
-            }, require('oae.api.i18n').translate('__MSG__NO_SPACES_ARE_ALLOWED__'));
+            });
 
             // Prepends http if no protocol has been provided
             $.validator.addMethod('prependhttp', function(value, element) {
@@ -498,6 +508,73 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         };
     };
 
+    ///////////////
+    // CLICKOVER //
+    ///////////////
+
+    /**
+     * Initiate a new clickover dialog. This function is basically a wrapper around the BootstrapX clickover component
+     * (https://github.com/lecar-red/bootstrapx-clickover), which in itself is an extension to the Bootstrap popover component.
+     * It allows for a popover to be shown in context to the element that triggered it. The main additional benefit to using the
+     * BootstrapX clickover component is that it will automatically be closed when clicking outside of the clickover or when hitting
+     * the `Esc` button, unless configured otherwise.
+     *
+     * The clickover will be opened straight away and will be shown below the trigger by default, unless configured otherwise.
+     *
+     * The following options could be useful for widget clickovers:
+     *
+     * - options.onShown:  Function that will be executed when the clickover is shown. The argument that will be passed into the callback
+     *                     is the root element of the current popover. This function can be useful to initiate things like autosuggests or
+     *                     refresh the cached widget $rootel for event bindings.
+     * - options.onHidden: Function that will be executed when the clickover is hidden. This function can be useful to kill components in
+     *                     the clickover, like infinite scrolls.
+     *
+     * @param  {Element|String}     $element      jQuery element or jQuery selector for that element that represents the element that triggers the clickover. The clickover will be positioned relative to this element.
+     * @param  {Element|String}     $content      jQuery element or jQuery selector for the element that should be used as the content of the clickover.
+     * @param  {Object}             [options]     JSON Object containing options to pass to the BootstrapX clickover component. It supports all of the standard options documented at http://twitter.github.com/bootstrap/javascript.html#popovers and http://www.leecarmichael.com/bootstrapx-clickover/examples.html#.
+     * @return {Element}                          The root element of the generated clickover.
+     */
+    var clickover = exports.clickover = function($trigger, $content, options) {
+        if (!$trigger) {
+            throw new Error('A valid trigger element should be provided');
+        } else if (!$content) {
+            throw new Error('A valid content element should be provided');
+        }
+
+        // Make sure the trigger and the content elements are jQuery elements
+        $trigger = $($trigger);
+        $content = $($content);
+
+        // Merge the default options with the provided options, giving priority
+        // to the provided options
+        options = options || {};
+        var defaultOptions = {
+            'global_close': true,
+            'html': true,
+            'placement': 'bottom',
+            'title': ''
+        };
+        options = $.extend(defaultOptions, options);
+
+        // Cache the `onShown` callback if it has been provided, so the clickover's
+        // root element can be passed into the `onShown` callback.
+        if (options.onShown) {
+            showCallback = options.onShown;
+            options.onShown = function() {
+                showCallback(this.$tip);
+            }
+        }
+
+        // Set the HTML of the content element as the content of the clickover
+        options.content = $content.html();
+
+        // Initiate the clickover
+        $trigger.clickover(options);
+
+        // Show the clickover
+        $trigger.trigger('click');
+    };
+
     ////////////////////
     // MATH RENDERING //
     ////////////////////
@@ -638,31 +715,6 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             'unavailable': unavailable,
             'maintenance': maintenance
         };
-    };
-
-    /**
-     * All functionality related to dragging and dropping items
-     */
-    var dragAndDrop = exports.dragAndDrop = function() {
-
-        /**
-         * Make all elements with the oae-draggable-container CSS class inside of the provided container draggable, using
-         * jQuery UI behind the scenes.
-         *
-         * @param  {Element|String}     [$container]      jQuery element or jQuery selector for the element which will be used as the container to locate draggable items. If this is not provided, the body element will be used.
-         * @param  {Object}             [options]         JSON object containing options to pass into jQuery UI, as defined on http://api.jqueryui.com/draggable/
-         */
-        exports.dragAndDrop.setupDraggable = function($container, options) {};
-
-        /**
-         * Make all elements with the oae-droppable-container CSS class inside of the provided container droppable (accept draggable items), using
-         * jQuery UI behind the scenes.
-         *
-         * @param  {Element|String}     [$container]      jQuery element or jQuery selector for the element which will be used as the container to locate draggable items. If this is not provided, the body element will be used.
-         * @param  {Object}             [options]         JSON object containing options to pass into jQuery UI, as defined on http://api.jqueryui.com/droppable/
-         */
-        exports.dragAndDrop.setupDroppable = function($container, options) {};
-
     };
 
     /**

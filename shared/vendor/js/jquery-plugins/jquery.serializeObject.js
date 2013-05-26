@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -18,15 +18,15 @@
     /**
      * Extend jQuery to include a serializeObject function which uses $.serializeArray to serialize a form and
      * its values and then creates an object from that array
-     * 
+     *
      * http://stackoverflow.com/questions/1184624/serialize-form-to-json-with-jquery
-     * 
+     *
      * It can be used as following:
-     * 
+     *
      * ```
      * var values = $(form).serializeObject();
      * ```
-     * 
+     *
      * @param  {Boolean}    includeEmpty    Whether or not to include fields that have an empty value
      * @return {Object}                     JSON Object where the keys represent the names of all of the form fields and the values represent their value
      */

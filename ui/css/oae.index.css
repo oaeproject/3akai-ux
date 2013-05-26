@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -58,8 +58,8 @@
 }
 
 #index-container .index-search-container button[type="submit"] {
-    height: 36px;
-    line-height: 0;
+    height: 37px;
+    padding: 0px 19px;
 }
 
 #index-container #index-video-container {

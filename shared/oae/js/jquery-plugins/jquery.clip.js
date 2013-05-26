@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -14,7 +14,7 @@
  */
 
 /**
- * jQuery plugin that will detect the clips that are present on the page, and 
+ * jQuery plugin that will detect the clips that are present on the page, and
  * will take care of making them active where necessary. This includes showing
  * and hiding the admin options and toggling the caret icons
  */

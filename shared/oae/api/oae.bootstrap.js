@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -17,15 +17,16 @@
  * Initalize requireJS by setting paths and specifying load priorities
  */
 requirejs.config({
-    baseUrl: '/shared/',
-    paths: {
+    'baseUrl': '/shared/',
+    'paths': {
         // jQuery module is managed by require-jquery variation of require.js
         'jquery': 'empty:',
 
         // Vendor paths
         'bootstrap': 'vendor/js/bootstrap',
+        'bootstrap.clickover': 'vendor/js/bootstrap-plugins/bootstrapx.clickover',
         'globalize': 'vendor/js/l10n/globalize',
-        'jquery.autoSuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest.oae-edited',
+        'jquery.autosuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest.oae-edited',
         'jquery.encoder': 'vendor/js/jquery-plugins/jquery.encoder',
         'jquery.fileSize': 'vendor/js/jquery-plugins/jquery.fileSize',
         'jquery.fileupload': 'vendor/js/jquery-plugins/jquery.fileupload',
@@ -59,6 +60,8 @@ requirejs.config({
         'oae.api.authentication': 'oae/api/oae.api.authentication',
         'oae.api.config': 'oae/api/oae.api.config',
         'oae.api.content': 'oae/api/oae.api.content',
+        'oae.api.comment': 'oae/api/oae.api.comment',
+        'oae.api.discussion': 'oae/api/oae.api.discussion',
         'oae.api.group': 'oae/api/oae.api.group',
         'oae.api.i18n': 'oae/api/oae.api.i18n',
         'oae.api.l10n': 'oae/api/oae.api.l10n',
@@ -69,7 +72,12 @@ requirejs.config({
         'oae.core': 'oae/api/oae.core',
         'pluginBuilder': 'oae/pluginBuilder'
     },
-    priority: ['jquery', 'underscore']
+    'priority': ['jquery', 'underscore'],
+    'shim': {
+        'bootstrap.clickover': {
+            'deps': ['bootstrap']
+        }
+    }
 });
 
 /*!
