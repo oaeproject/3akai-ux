@@ -58,4 +58,5 @@ define(['exports', 'jquery'], function(exports, $) {
 
         return config[module][feature][element];
     };
+
 });

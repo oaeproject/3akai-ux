@@ -121,4 +121,5 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             }
         });
     };
+
 });
