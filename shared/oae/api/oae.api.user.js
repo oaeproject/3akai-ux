@@ -23,6 +23,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {String}         displayName                     The display name for the user
      * @param  {Object}         [additionalOptions]             Additional optional parameters that need to be passed.
      * @param  {String}         [additionalOptions.visibility]  The user's visibility setting. This can be public, loggedin or private.
+     * @param  {String}         [additionalOptions.email]       The user's email address
      * @param  {String}         [additionalOptions.locale]      The user's locale
      * @param  {String}         [additionalOptions.timezone]    The user's timezone
      * @param  {String}         [additionalOptions.publicAlias] The publically-available alias for users to see when the user's display name is protected
@@ -51,6 +52,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             'recaptchaChallenge': recaptchaChallenge,
             'recaptchaResponse': recaptchaResponse,
             'visibility': additionalOptions.visibility,
+            'email': additionalOptions.email,
             'locale': additionalOptions.locale,
             'timezone': additionalOptions.timezone,
             'publicAlias': additionalOptions.publicAlias
