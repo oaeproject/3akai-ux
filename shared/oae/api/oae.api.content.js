@@ -379,7 +379,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     };
 
     ///////////////////////
-    // Content utilities //
+    // CONTENT UTILITIES //
     ///////////////////////
 
     /*!
