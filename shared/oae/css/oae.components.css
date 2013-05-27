@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -109,7 +109,7 @@ a.oae-plain-link:hover {
 i.icon-oae-private,
 i.icon-oae-loggedin,
 i.icon-oae-public {
-    font-size: 100%;
+    font-size: 18px;
     width: 18px;
     height: 18px;
 }
@@ -179,7 +179,7 @@ i.icon-oae-public.large:before {
  *                  <span>__MSG__PRIVATE__</span>
  *              </div>
  *              <i class="icon-ok hide"></i>
- *              <small>__MSG__PRIVATE_DESCRIPTION__</small>
+ *              <small>__MSG__GROUP_PRIVATE_DESCRIPTION__</small>
  *          </label>
  *          <label for="oae-visibility-loggedin" class="span4 text-center">
  *              <div class="oae-visibility-choice well pull-left text-center">
@@ -188,7 +188,7 @@ i.icon-oae-public.large:before {
  *                  <span>Cambridge University</span>
  *              </div>
  *              <i class="icon-ok hide"></i>
- *              <small>__MSG__LOGGEDIN_DESCRIPTION__</small>
+ *              <small>__MSG__GROUP_LOGGEDIN_DESCRIPTION__</small>
  *          </label>
  *          <label for="oae-visibility-public" class="span4 text-center">
  *              <div class="oae-visibility-choice well pull-left text-center">
@@ -197,7 +197,7 @@ i.icon-oae-public.large:before {
  *                  <span>__MSG__PUBLIC__</span>
  *              </div>
  *              <i class="icon-ok hide"></i>
- *              <small>__MSG__PUBLIC_DESCRIPTION__</small>
+ *              <small>__MSG__GROUP_PUBLIC_DESCRIPTION__</small>
  *          </label>
  *      </div>
  **/
@@ -794,7 +794,7 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-listitem {
     padding: 10px;
     margin-bottom: 10px;
-    height: 50px;
+    min-height: 50px;
     border: 1px solid;
     -webkit-border-radius: 3px;
        -moz-border-radius: 3px;
@@ -802,7 +802,7 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .oae-listitem.oae-listitem-compact {
-    height: 25px;
+    min-height: 25px;
 }
 
 .oae-listitem input[type="checkbox"].pull-left {
@@ -1021,6 +1021,7 @@ ul.oae-list > li .oae-list-compact-item  {
 .oae-list-options .btn.oae-list-options-toggle:focus {
     background: none;
     border: none;
+    filter:none;
     padding: 1px 0px;
     -webkit-box-shadow: none;
        -moz-box-shadow: none;

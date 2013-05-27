@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -15,16 +15,14 @@
 
 require(['jquery', 'oae.core'], function($, oae) {
 
-    //  Get the group id from the URL. The expected URL is /group/<groupId>
-    var groupId = $.url().segment(2);
-    if (!groupId) {
-        oae.api.util.redirect().login();
-    }
+    // Get the group id from the URL. The expected URL is `/group/<tenantId>/<resourceId>`.
+    // The group id will then be `g:<tenantId>:<resourceId>`
+    var groupId = 'g:' + $.url().segment(2) + ':' + $.url().segment(3);
 
     // Variable used to cache the requested group's profile
     var groupProfile = null;
     // Variable used to cache the group's base URL
-    var baseUrl = '/group/' + groupId;
+    var baseUrl = '/group/' + $.url().segment(2) + '/' + $.url().segment(3);
 
     /**
      * Get the group's basic profile and set up the screen. If the group
@@ -121,7 +119,26 @@ require(['jquery', 'oae.core'], function($, oae) {
                         'width': 'span12',
                         'widgets': [
                             {
-                                'id': 'library',
+                                'id': 'contentlibrary',
+                                'settings': {
+                                    'principalId': groupProfile.id,
+                                    'canManage': groupProfile.isManager
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                'id': 'discussions',
+                'title': oae.api.i18n.translate('__MSG__DISCUSSIONS__'),
+                'icon': 'icon-comments',
+                'layout': [
+                    {
+                        'width': 'span12',
+                        'widgets': [
+                            {
+                                'id': 'discussionslibrary',
                                 'settings': {
                                     'principalId': groupProfile.id,
                                     'canManage': groupProfile.isManager
@@ -187,11 +204,14 @@ require(['jquery', 'oae.core'], function($, oae) {
      * group profile will be passed into the event
      */
     $(document).on('oae.changepic.finished', function(ev, data) {
-        // TODO: Remove this once https://github.com/sakaiproject/Hilary/issues/506 is fixed
-        data.isManager = groupProfile.isManager;
-        data.isMember = groupProfile.isMember;
-
         groupProfile = data;
+        setUpClip();
+    });
+
+    /**
+     * Re-render the group's clip when the permissions have been updated.
+     */
+    $(document).on('done.manageaccess.oae', function(ev) {
         setUpClip();
     });
 

@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -15,11 +15,9 @@
 
 require(['jquery','oae.core'], function($, oae) {
 
-    //  Get the content id from the URL. The expected URL is `/content/<contentId>`
-    var contentId = $.url().segment(2);
-    if (!contentId) {
-        oae.api.util.redirect().login();
-    }
+    // Get the content id from the URL. The expected URL is `/content/<tenantId>/<resourceId>`.
+    // The content id will then be `c:<tenantId>:<resourceId>`
+    var contentId = 'c:' + $.url().segment(2) + ':' + $.url().segment(3);
 
     // Variable used to cache the requested content profile
     var contentProfile = null;
@@ -29,9 +27,9 @@ require(['jquery','oae.core'], function($, oae) {
      */
     var setUpContentProfilePreview = function() {
         // Remove the old preview widget
-        $('#content_preview_container').html('');
+        $('#content-preview-container').html('');
         // Insert a new preview widget and pass in the updated content profile data
-        oae.api.widget.insertWidget('contentpreview', null, $('#content_preview_container'), null, contentProfile);
+        oae.api.widget.insertWidget('contentpreview', null, $('#content-preview-container'), null, contentProfile);
     };
 
     /**
@@ -67,18 +65,21 @@ require(['jquery','oae.core'], function($, oae) {
 
     /**
      * Refresh the content's basic profile and update widgets that need the updated information.
+     *
+     * @param  {Object}         ev                      jQuery event object
+     * @param  {Content}        updatedContent          Content profile of the updated content item
      */
-    var refreshContentProfile = function() {
-        oae.api.content.getContent(contentId, function(err, profile) {
-            // Cache the content profile data
-            contentProfile = profile;
-            // Show the content preview
-            setUpContentProfilePreview();
-        });
+    var refreshContentProfile = function(ev, updatedContent) {
+        // Cache the content profile data
+        contentProfile = updatedContent;
+        // Re-render the entity information
+        setUpClip();
+        // Show the content preview
+        setUpContentProfilePreview();
     };
 
     /**
-     * The `oae.context.get` or `oae.context.get.<widgetname>` event can be sent by widgets 
+     * The `oae.context.get` or `oae.context.get.<widgetname>` event can be sent by widgets
      * to get hold of the current context (i.e. content profile). In the first case, a
      * `oae.context.send` event will be sent out as a broadcast to all widgets listening
      * for the context event. In the second case, a `oae.context.send.<widgetname>` event
