@@ -219,10 +219,10 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
     /**
      * Join a group as the currently authenticated user.
      *
-     * @param  {String}       groupId             The id of the group you wish join
+     * @param  {String}       groupId             The id of the group that should be joined
      * @param  {Function}     [callback]          Standard callback method
      * @param  {Object}       [callback.err]      Error object containing error code and error message
-     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
+     * @throws {Error}                            Error thrown when no groupid has been provided.
      */
     var joinGroup = exports.joinGroup = function(groupId, callback) {
         if (!groupId) {
@@ -244,10 +244,10 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
     /**
      * Leave a group as the currently authenticated user.
      *
-     * @param  {String}       groupId             The id of the group you wish leave
+     * @param  {String}       groupId             The id of the group that should be left
      * @param  {Function}     [callback]          Standard callback method
      * @param  {Object}       [callback.err]      Error object containing error code and error message
-     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
+     * @throws {Error}                            Error thrown when no group id has been provided
      */
     var leaveGroup = exports.leaveGroup = function(groupId, callback) {
         if (!groupId) {

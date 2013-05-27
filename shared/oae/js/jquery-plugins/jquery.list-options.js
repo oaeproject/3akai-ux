@@ -46,24 +46,36 @@ define(['jquery'], function (jQuery) {
         /**
          * Gets the id and title data from checkboxes in a list and returns an object.
          *
-         * @param  {jQuery]}   $list    The list to get the data from. Can be a selector or jQuery object
          * @return {Object}             Returns an object of data on the list. e.g. {'g:cam:oae-1234908-3240271': 'Mathematics 101'}
          */
-        var getListData = function($list) {
-            var list = {};
+        var getListData = function() {
+            var list = [];
             // Loop over each list item and store the `data-id` and `data-title` values
             // in an object to return.
-            $($list).find('li').each(function(i, li) {
-                var chk = $(li).find('input[type="checkbox"]:visible');
-                if ($(chk).is(':checked')) {
-                    list[chk.attr('data-id')] = chk.attr('data-title');
-                }
+            var $checked = $('input[type="checkbox"]:visible:checked', $('.oae-list:visible'));
+            $.each($checked, function(i, checked) {
+                // Get the parent list item
+                var $chkParent = $($(this).parents('li'));
+
+                // Get the basic information for the item out of the parent
+                var resourcetype = $(checked).attr('data-resourceType');
+                var id = $(checked).attr('data-id');
+                var displayName = $chkParent.find('label:visible').text();
+                var thumbnailImage = $chkParent.find('img:visible').attr('src');
+
+                list.push({
+                    'resourceType': resourcetype,
+                    'id': id,
+                    'displayName': displayName,
+                    'thumbnailUrl': thumbnailImage
+                });
             });
+
             return list;
         };
 
-        $(document).on('oae.list-options.getListData', function(ev, $list) {
-            $(document).trigger('oae.list-options.sendListData', getListData($list));
+        $(document).on('oae.list.getSelection', function() {
+            $(document).trigger('oae.list.sendSelection', {'data': getListData()});
         });
 
     })();

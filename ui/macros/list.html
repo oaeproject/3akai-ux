@@ -187,7 +187,7 @@
 -->
 {macro renderCheckbox(entityData, type, showCheckbox)}
     {if !oae.data.me.anon && showCheckbox !== false}
-        <input type="checkbox" class="pull-left" id="oae-list-${type}-${entityData.id}" data-id="${entityData.id}" data-title="${entityData.displayName}" />
+        <input type="checkbox" class="pull-left" id="oae-list-${type}-${entityData.id}" data-id="${entityData.id}" data-resourceType="${entityData.resourceType}"/>
         <label class="oae-aural-text" for="oae-list-${type}-${entityData.id}">${entityData.displayName|encodeForHTML}</label>
     {/if}
 {/macro}
