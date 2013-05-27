@@ -58,7 +58,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
             options.scrollContainer = $(options.scrollContainer);
         }
 
-        // Container that will be used to show the loading animation.We add the
+        // Container that will be used to show the loading animation. We add the
         // `text-center` class to make sure that the animation is centered. We also
         // add `clear: both` to make sure that the animation is displayed underneath
         // the actual list
@@ -144,21 +144,19 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
         };
 
         /**
-         * Run the list of items to be added to a processor before pushing them through
+         * Run the list of items to be added through a processor before pushing them through
          * a template. The postProcessor will be given an array of items to be added to
          * the infinite scroll. The plugin expects an array of items to come back from
          * the postProcessor as well.
          *
-         * @param  {Object}      data       List of items to add to the infinite scroll list
-         * @param  {Object}      prepend    True when we want to prepend the new items to the list, False when we want to append the new items to the list
+         * @param  {Object}      data         List of items to add to the infinite scroll list
+         * @param  {Boolean}      [prepend]   true when we want to prepend the new items to the list, false when we want to append the new items to the list
          */
         var processList = function(data, prepend) {
             if (options.postProcessor) {
                 data = options.postProcessor(data);
-                renderList(data, prepend);
-            } else {
-                renderList(data, prepend);
             }
+            renderList(data, prepend);
         };
 
         /**
@@ -166,8 +164,8 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
          * to be wrapped in a `results` object, and have an `id` parameter for each of the results.
          * Results that are already in the list will not be re-rendered.
          *
-         * @param  {Object}    data       Post-processed server response
-         * @param  {Object}    prepend    True when we want to prepend the new items to the list, False when we want to append the new items to the list
+         * @param  {Object}     data         Post-processed server response
+         * @param  {Boolean}    [prepend]    true when we want to prepend the new items to the list, false when we want to append the new items to the list
          */
         var renderList = function(data, prepend) {
             // Determine if we should attempt to load a next page
@@ -188,47 +186,25 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
                     templateOutput = oaeUtil.template().render(render, data);
                 }
 
-                // Append the template to the body so we can filter on duplicate items
-                var id = oaeUtil.generateId();
-                $('body').append('<div class="hide" id="' + id + '">' + templateOutput + '</div>');
-                var $newTemplate = $('#' + id);
-
-                // Go over the list of previously shown items
-                $.each($container.children(), function(i, listItem) {
-                    var id = $(listItem).attr('data-id');
-
-                    // Go over the list of new items and remove duplicates in the previously shown items.
-                    $.each($newTemplate.children(), function(ii, newListItem) {
-                        var newId = $(newListItem).attr('data-id');
-                        if (newId && id && newId === id) {
-                            idToRemove = newId;
-                            // If we are prepending the data it's new to the list and the old list
-                            // item needs to be removed.
-                            if (prepend) {
-                                $(listItem).remove();
-                                idToRemove = id;
-                            // If the data is appended, the data is older than the prepended data and
-                            // needs to be removed from the list.
-                            } else {
-                                $('li[data-id="' + newId + '"]', $newTemplate).remove();
-                            }
-
-                            // Remove from the data results that return in postRenderer and postProcessor
-                            $.each(data.results, function(iii, item) {
-                                if (item && ((item.profile && item.profile.id) === idToRemove ||
-                                    item.id === idToRemove)) {
-                                    data.results.splice(iii, 1);
-                                }
-                            });
-                            return false;
+                // Filter out items that are already in the list. When appending results, we
+                // skip the new results that already have an element with the same data-id attribute
+                // in the list. When prepending results, we always add the new ones and remove the existing
+                // elements with the same data-id attribute
+                var $tmp = $('<div>').html(templateOutput);
+                $tmp.children().each(function(index, newListItem) {
+                    var id = $(newListItem).attr('data-id');
+                    var $existing = $('li[data-id="' + id + '"]', $container);
+                    if (id) {
+                        if (prepend) {
+                            $existing.remove();
+                        } else if ($existing.length > 0) {
+                            $(newListItem).remove();
                         }
-                    });
+                    }
                 });
 
-                // Bring the filtered html back to templateOutput before prepending
-                templateOutput = $newTemplate.html();
-                // Remove the filtered html from the page
-                $newTemplate.remove();
+                // Bring the filtered html back to templateOutput
+                templateOutput = $tmp.html();
 
                 if (prepend) {
                     // Prepend the HTML
