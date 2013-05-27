@@ -515,6 +515,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
                         var joinedRegex = new RegExp(regex.join('|'), 'i');
                         if (mimeType.match(joinedRegex)) {
                             mimeTypeObject = mimeTypeMapping;
+                            return false;
                         }
                     }
                 });
