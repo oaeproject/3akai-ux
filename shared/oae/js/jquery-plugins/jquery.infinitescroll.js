@@ -150,7 +150,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
          * the postProcessor as well.
          *
          * @param  {Object}      data         List of items to add to the infinite scroll list
-         * @param  {Boolean}      [prepend]   true when we want to prepend the new items to the list, false when we want to append the new items to the list
+         * @param  {Boolean}     [prepend]    `true` when we want to prepend the new items to the list, `false` when we want to append the new items to the list
          */
         var processList = function(data, prepend) {
             if (options.postProcessor) {
