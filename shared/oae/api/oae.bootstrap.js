@@ -36,6 +36,7 @@ requirejs.config({
         'jquery.jcrop': 'vendor/js/jquery-plugins/jcrop/jquery.Jcrop',
         'jquery.jeditable': 'vendor/js/jquery-plugins/jquery.jeditable.oae-edited',
         'jquery.notify': 'vendor/js/jquery-plugins/jquery.bootstrap.notify',
+        'jquery.oembed': 'vendor/js/jquery-plugins/jquery.oembed.oae-edited',
         'jquery.parseurl': 'vendor/js/jquery-plugins/jquery.parseurl.oae-edited',
         'jquery.properties-parser': 'vendor/js/jquery-plugins/jquery.properties-parser',
         'jquery.serializeObject': 'vendor/js/jquery-plugins/jquery.serializeObject',
