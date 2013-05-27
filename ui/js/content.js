@@ -103,8 +103,9 @@ require(['jquery','oae.core'], function($, oae) {
         $(document).trigger('oae.context.send', contentProfile);
     };
 
-    // Catches the `upload new version complete` event and refreshes the content profile
-    $(document).on('oae.uploadnewversion.complete', refreshContentProfile);
+    // Catches an event sent out when the content has been updated. This can be either when
+    // a new version has been uploaded or the preview has finished generating.
+    $(document).on('oae.content.update', refreshContentProfile);
 
     /**
      * Render the content's clip, containing the thumbnail, display name as well as the
