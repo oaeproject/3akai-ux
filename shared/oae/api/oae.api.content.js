@@ -526,7 +526,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
 
         // If no mimeType mapping has matched the content's mimeType, we can default back
         // to the `other` mimeType.
-        if (!mimeType) {
+        if (!mimeTypeObject) {
             mimeTypeObject = MIMETYPES.other;
         }
 
