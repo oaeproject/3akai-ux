@@ -379,7 +379,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     };
 
     ///////////////////////
-    // Content utilities //
+    // CONTENT UTILITIES //
     ///////////////////////
 
     /*!
@@ -515,6 +515,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
                         var joinedRegex = new RegExp(regex.join('|'), 'i');
                         if (mimeType.match(joinedRegex)) {
                             mimeTypeObject = mimeTypeMapping;
+                            return false;
                         }
                     }
                 });
@@ -526,7 +527,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
 
         // If no mimeType mapping has matched the content's mimeType, we can default back
         // to the `other` mimeType.
-        if (!mimeType) {
+        if (!mimeTypeObject) {
             mimeTypeObject = MIMETYPES.other;
         }
 
