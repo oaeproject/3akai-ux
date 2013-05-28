@@ -81,6 +81,8 @@
         ${renderGroupAddMemberSummary(activity, actor1, actor1URL, object1, object1URL, target1, target1URL, target2, target2URL, targetCount)}
     {elseif activityType === 'group-create'}
         ${renderGroupCreateSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount)}
+    {elseif activityType === 'group-join'}
+        ${renderGroupJoinSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, object1, object1URL)}
     {elseif activityType === 'group-update'}
         ${renderGroupUpdateSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, object1, object1URL)}
     {elseif activityType === 'group-update-visibility'}
@@ -514,6 +516,28 @@
         __MSG__ACTIVITY_GROUP_CREATE_2__
     {else}
         __MSG__ACTIVITY_GROUP_CREATE_2+__
+    {/if}
+{/macro}
+
+<!--
+ * Render the end-user friendly, internationalized summary of a group join activity.
+ *
+ * @param  {Activity}     activity      Standard activity object as specified by the activitystrea.ms specification, representing the group join activity, for which to generate the activity summary
+ * @param  {String}       actor1        Display name of the first actor on the activity
+ * @param  {String}       actor1URL     Profile path for the first actor on the activity
+ * @param  {String}       actor2        Display name of the second actor on the activity
+ * @param  {String}       actor2URL     Profile path for the second actor on the activity
+ * @param  {Number}       actorCount    The total number of different actors on the activity
+ * @param  {String}       object1       Display name of the first object on the activity
+ * @param  {String}       object1URL    Profile path for the first object on the activity
+-->
+{macro renderGroupJoinSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, object1, object1URL)}
+    {if !actorCount}
+        __MSG__ACTIVITY_GROUP_JOIN_1__
+    {elseif actorCount === 2}
+        __MSG__ACTIVITY_GROUP_JOIN_2__
+    {else}
+        __MSG__ACTIVITY_GROUP_JOIN_2+__
     {/if}
 {/macro}
 
