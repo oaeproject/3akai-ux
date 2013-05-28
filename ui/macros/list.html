@@ -161,11 +161,11 @@
         {if resourceType === 'user'}
             {var metadata = tenant.displayName}
         {elseif resourceType === 'group'}
-            <!-- TODO: Add proper metadata and i18n -->
-            {var metadata = 'Group'}
+            {var metadata = '__MSG__GROUP__'}
         {elseif resourceType === 'content'}
-            <!-- TODO: Add proper document type and i18n -->
-            {var metadata = 'Other document'}
+            {var metadata = oae.api.content.getMimeTypeDescription(entityData)}
+        {elseif resourceType === 'discussion'}
+            {var metadata = '__MSG__DISCUSSION__'}
         {/if}
     {/if}
 

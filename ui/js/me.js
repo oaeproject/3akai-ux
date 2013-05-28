@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -39,7 +39,8 @@ require(['jquery','oae.core'], function($, oae) {
                         {
                             'id': 'activity',
                             'settings': {
-                                'principalId': oae.data.me.id
+                                'principalId': oae.data.me.id,
+                                'canManage': true
                             }
                         }
                     ]
@@ -55,9 +56,29 @@ require(['jquery','oae.core'], function($, oae) {
                     'width': 'span12',
                     'widgets': [
                         {
-                            'id': 'library',
+                            'id': 'contentlibrary',
                             'settings': {
-                                'principalId': oae.data.me.id
+                                'principalId': oae.data.me.id,
+                                'canManage': true
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            'id': 'discussions',
+            'title': oae.api.i18n.translate('__MSG__MY_DISCUSSIONS__'),
+            'icon': 'icon-comments',
+            'layout': [
+                {
+                    'width': 'span12',
+                    'widgets': [
+                        {
+                            'id': 'discussionslibrary',
+                            'settings': {
+                                'principalId': oae.data.me.id,
+                                'canManage': true
                             }
                         }
                     ]
@@ -75,7 +96,8 @@ require(['jquery','oae.core'], function($, oae) {
                         {
                             'id': 'memberships',
                             'settings': {
-                                'principalId': oae.data.me.id
+                                'principalId': oae.data.me.id,
+                                'canManage': true
                             }
                         }
                     ]

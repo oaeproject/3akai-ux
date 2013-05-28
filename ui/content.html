@@ -37,12 +37,13 @@
                                     <div>
                                         <h1 class="oae-threedots pull-left">${content.displayName|encodeForHTML}</h1>
                                         <i class="icon-caret-down"></i>
+                                        <small>${oae.api.content.getMimeTypeDescription(content)}</small>
                                     </div>
                                 </div>
                             </button>
                             <div>
                                 <ul>
-                                    <li><button><i class="icon-lock"></i>__MSG__PERMISSIONS__</button></li>
+                                    <li><button><i class="icon-lock"></i>__MSG__MANAGE_ACCESS__</button></li>
                                     <li><button><i class="icon-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
                                     {if content.resourceSubType === 'file'}
                                         <li><button class="oae-trigger-uploadnewversion"><i class="icon-upload"></i>__MSG__UPLOAD_NEW_VERSION__</button></li>
@@ -77,7 +78,7 @@
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button class="contentcomments-focus-new-comment">
+                            <button class="comments-focus-new-comment">
                                 <div>
                                     <i class="icon-comments pull-left"></i>
                                     <h1>__MSG__COMMENT__</h1>
@@ -88,8 +89,8 @@
                 </div>
             </div>
 
-            <div id="content_preview_container"><!-- --></div>
-            <div data-widget="contentcomments"><!-- --></div>
+            <div id="content-preview-container"><!-- --></div>
+            <div data-widget="comments"><!-- --></div>
         </div>
 
         <!-- FOOTER -->

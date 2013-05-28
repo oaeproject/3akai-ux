@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -15,11 +15,9 @@
 
 require(['jquery', 'oae.core'], function($, oae) {
 
-    //  Get the user id from the URL. The expected URL is /user/<userId>
-    var userId = $.url().segment(2);
-    if (!userId) {
-        oae.api.util.redirect().login();
-    }
+    // Get the user id from the URL. The expected URL is `/user/<tenantId>/<resourceId>`.
+    // The user id will then be `u:<tenantId>:<resourceId>`
+    var userId = 'u:' + $.url().segment(2) + ':' + $.url().segment(3);
 
     // Redirect to /me if the requested user is the currently logged in user
     if (userId === oae.data.me.id) {
@@ -29,7 +27,7 @@ require(['jquery', 'oae.core'], function($, oae) {
     // Variable used to cache the requested user's profile
     var userProfile = null;
     // Variable used to cache the user's base URL
-    var baseUrl = '/user/' + userId;
+    var baseUrl = '/user/' + $.url().segment(2) + '/' + $.url().segment(3);
 
     /**
      * Get the user's basic profile and set up the screen. If the user
@@ -58,7 +56,7 @@ require(['jquery', 'oae.core'], function($, oae) {
     };
 
     /**
-     * The `oae.context.get` or `oae.context.get.<widgetname>` event can be sent by widgets 
+     * The `oae.context.get` or `oae.context.get.<widgetname>` event can be sent by widgets
      * to get hold of the current context (i.e. user profile). In the first case, a
      * `oae.context.send` event will be sent out as a broadcast to all widgets listening
      * for the context event. In the second case, a `oae.context.send.<widgetname>` event
@@ -98,7 +96,25 @@ require(['jquery', 'oae.core'], function($, oae) {
                         'width': 'span12',
                         'widgets': [
                             {
-                                'id': 'library',
+                                'id': 'contentlibrary',
+                                'settings': {
+                                    'principalId': userProfile.id
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                'id': 'discussions',
+                'title': oae.api.i18n.translate('__MSG__DISCUSSIONS__'),
+                'icon': 'icon-comments',
+                'layout': [
+                    {
+                        'width': 'span12',
+                        'widgets': [
+                            {
+                                'id': 'discussionslibrary',
                                 'settings': {
                                     'principalId': userProfile.id
                                 }

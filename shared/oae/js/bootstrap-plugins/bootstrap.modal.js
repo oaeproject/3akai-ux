@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -17,7 +17,7 @@
  * Bootstrap plugin that adds the ability to lock down a modal. Users will not be able
  * to dismiss a modal once `lock` has been called.
  *     e.g. $('#widget-modal').modal('lock');
- * The modal can then also be unlocked, which will re-enable all buttons and keys that 
+ * The modal can then also be unlocked, which will re-enable all buttons and keys that
  * dismiss the modal.
  *     e.g. $('#widget-modal').modal('unlock');
  */
