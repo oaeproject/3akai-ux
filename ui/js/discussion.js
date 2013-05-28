@@ -54,7 +54,7 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     /**
-     * The `oae.context.get` or `oae.context.get.<widgetname>` event can be sent by widgets 
+     * The `oae.context.get` or `oae.context.get.<widgetname>` event can be sent by widgets
      * to get hold of the current context (i.e. discussion profile). In the first case, a
      * `oae.context.send` event will be sent out as a broadcast to all widgets listening
      * for the context event. In the second case, a `oae.context.send.<widgetname>` event
@@ -90,6 +90,17 @@ require(['jquery','oae.core'], function($, oae) {
             $('#discussion-topic-container').show();
         }
     };
+
+    $(document).on('done.editdiscussion.oae', function(ev, data) {
+        // TODO: remove once https://github.com/sakaiproject/Hilary/issues/519 is merged
+        data.canShare = discussionProfile.canShare;
+        data.canPost = discussionProfile.canPost;
+        data.isManager = discussionProfile.isManager;
+
+        discussionProfile = data;
+        setUpClip();
+        setUpTopic();
+    });
 
     getDiscussionProfile();
 
