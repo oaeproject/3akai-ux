@@ -428,7 +428,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
         },
         'other': {
             // The other type will be used for all unrecognized mimeTypes
-            'description': '__MSG__OTHER_DOCUMENT__',
+            'description': '__MSG__OTHER_DOCUMENT__'
         },
         'pdf': {
             'description': '__MSG__PDF_DOCUMENT__',
@@ -485,7 +485,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     };
 
     /**
-     * Get a human readable mimeType description for a content item. 
+     * Get a human readable mimeType description for a content item.
      * Unrecognized mimeTypes will default to the `other` type.
      *
      * @param  {Content}       contentObj       Content object for which to get the mimetype description
@@ -508,7 +508,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
                     if (mimeTypeMapping.regex) {
                         // When only a single regex is available for a mimeType mapping, a string can be provided
                         // instead of an array. We ensure that the mimeType mapping regex is an array.
-                        var regex = mimeTypeMapping.regex; 
+                        var regex = mimeTypeMapping.regex;
                         regex = _.isArray(regex) ? regex : [regex];
                         // Parse the provided regular expressions into a single regular expression and match
                         // on the content's mimeType
@@ -536,9 +536,9 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     };
 
     /**
-     * Get the filesize of a file as a human readable string. This will only be done for uploaded files, 
+     * Get the filesize of a file as a human readable string. This will only be done for uploaded files,
      * other content items will remain unchanged.
-     * 
+     *
      * @param  {Content}        contentObj          Content object for which to set the readable filesize information. This object will be modified to include the mimetype info.
      */
     var getFileSize = exports.getFileSize = function(contentObj) {};
