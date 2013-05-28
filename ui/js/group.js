@@ -187,6 +187,42 @@ require(['jquery', 'oae.core'], function($, oae) {
         setUpClip();
     });
 
+    /**
+     * Creates the widgetData object to send to the manageaccess widget that contains all
+     * variable values needed by the widget.
+     *
+     * @return  {Object}    The widgetData to be passed into the manageaccess widget
+     */
+    var getManageAccessData = function() {
+        return {
+            'contextProfile': groupProfile,
+            'messages': {
+                'accessnotupdated': '__MSG__GROUP_ACCESS_NOT_UPDATED__',
+                'accesscouldnotbeupdated': '__MSG__THE_GROUP_ACCESS_COULD_NOT_BE_UPDATED__',
+                'accesssuccessfullyupdated': '__MSG__GROUP_ACCESS_SUCCESSFULLY_UPDATED__',
+                'accessupdated': '__MSG__GROUP_ACCESS_UPDATED__',
+                'members': '__MSG__GROUP_MEMBERS__'
+            },
+            'roles': {
+                'member': '__MSG__MEMBER__',
+                'manager': '__MSG__MANAGER__'
+            },
+            'api': {
+                'getMembersURL': '/api/group/' + groupProfile.id + '/members',
+                'setMembers': oae.api.group.setGroupMembers,
+                'setVisibility': oae.api.group.updateGroup
+            }
+        };
+    };
+
+    $(document).on('click', '.oae-trigger-manageaccess', function() {
+        $(document).trigger('oae.trigger.manageaccess', getManageAccessData());
+    });
+
+    $(document).on('click', '.oae-trigger-manageaccess-add', function() {
+        $(document).trigger('oae.trigger.manageaccess-add', getManageAccessData());
+    });
+
     getGroupProfile();
 
 });

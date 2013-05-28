@@ -54,7 +54,7 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     /**
-     * The `oae.context.get` or `oae.context.get.<widgetname>` event can be sent by widgets 
+     * The `oae.context.get` or `oae.context.get.<widgetname>` event can be sent by widgets
      * to get hold of the current context (i.e. discussion profile). In the first case, a
      * `oae.context.send` event will be sent out as a broadcast to all widgets listening
      * for the context event. In the second case, a `oae.context.send.<widgetname>` event
@@ -90,6 +90,49 @@ require(['jquery','oae.core'], function($, oae) {
             $('#discussion-topic-container').show();
         }
     };
+
+    /**
+     * Re-render the group's clip when the permissions have been updated.
+     */
+    $(document).on('done.manageaccess.oae', function(ev) {
+        setUpClip();
+    });
+
+    /**
+     * Creates the widgetData object to send to the manageaccess widget that contains all
+     * variable values needed by the widget.
+     *
+     * @return  {Object}    The widgetData to be passed into the manageaccess widget
+     */
+    var getManageAccessData = function() {
+        return {
+            'contextProfile': discussionProfile,
+            'messages': {
+                'accessnotupdated': '__MSG__DISCUSSION_ACCESS_NOT_UPDATED__',
+                'accesscouldnotbeupdated': '__MSG__THE_DISCUSSION_ACCESS_COULD_NOT_BE_UPDATED__',
+                'accesssuccessfullyupdated': '__MSG__DISCUSSION_ACCESS_SUCCESSFULLY_UPDATED__',
+                'accessupdated': '__MSG__DISCUSSION_ACCESS_UPDATED__',
+                'members': '__MSG__DISCUSSION_MEMBERS__'
+            },
+            'roles': {
+                'member': '__MSG__MEMBER__',
+                'manager': '__MSG__MANAGER__'
+            },
+            'api': {
+                'getMembersURL': '/api/discussion/'+ discussionProfile.id + '/members',
+                'setMembers': oae.api.discussion.updateMembers,
+                'setVisibility': oae.api.discussion.updateDiscussion
+            }
+        };
+    };
+
+    $(document).on('click', '.oae-trigger-manageaccess', function() {
+        $(document).trigger('oae.trigger.manageaccess', getManageAccessData());
+    });
+
+    $(document).on('click', '.oae-trigger-manageaccess-add', function() {
+        $(document).trigger('oae.trigger.manageaccess-add', getManageAccessData());
+    });
 
     getDiscussionProfile();
 

@@ -101,6 +101,49 @@ require(['jquery','oae.core'], function($, oae) {
     $(document).on('oae.uploadnewversion.complete', refreshContentProfile);
 
     /**
+     * Re-render the group's clip when the permissions have been updated.
+     */
+    $(document).on('done.manageaccess.oae', function(ev) {
+        setUpClip();
+    });
+
+    /**
+     * Creates the widgetData object to send to the manageaccess widget that contains all
+     * variable values needed by the widget.
+     *
+     * @return  {Object}    The widgetData to be passed into the manageaccess widget
+     */
+    var getManageAccessData = function() {
+        return {
+            'contextProfile': contentProfile,
+            'messages': {
+                'accessnotupdated': '__MSG__CONTENT_ACCESS_NOT_UPDATED__',
+                'accesscouldnotbeupdated': '__MSG__THE_CONTENT_ACCESS_COULD_NOT_BE_UPDATED__',
+                'accesssuccessfullyupdated': '__MSG__CONTENT_ACCESS_SUCCESSFULLY_UPDATED__',
+                'accessupdated': '__MSG__CONTENT_ACCESS_UPDATED__',
+                'members': '__MSG__CONTENT_MEMBERS__'
+            },
+            'roles': {
+                'viewer': '__MSG__VIEWER__',
+                'manager': '__MSG__MANAGER__'
+            },
+            'api': {
+                'getMembersURL': '/api/content/'+ contentProfile.id + '/members',
+                'setMembers': oae.api.content.updateMembers,
+                'setVisibility': oae.api.content.updateContent
+            }
+        };
+    };
+
+    $(document).on('click', '.oae-trigger-manageaccess', function() {
+        $(document).trigger('oae.trigger.manageaccess', getManageAccessData());
+    });
+
+    $(document).on('click', '.oae-trigger-manageaccess-add', function() {
+        $(document).trigger('oae.trigger.manageaccess-add', getManageAccessData());
+    });
+
+    /**
      * Render the content's clip, containing the thumbnail, display name as well as the
      * content's admin options
      */
