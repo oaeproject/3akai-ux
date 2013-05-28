@@ -62,7 +62,7 @@
     {elseif activityType === 'content-revision'}
         ${renderContentRevisionSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, object1, object1URL)}
     {elseif activityType === 'content-share'}
-        ${renderContentShareSummary(activity, actor1, actor1URL, object1, object1URL, target1, target1URL, target2, target2URL, targetCount)}
+        ${renderContentShareSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount, target1, target1URL, target2, target2URL, targetCount)}
     {elseif activityType === 'content-update'}
          ${renderContentUpdateSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, object1, object1URL)}
     {elseif activityType === 'content-update-visibility'}
@@ -72,7 +72,7 @@
     {elseif activityType === 'discussion-message'}
         ${renderDiscussionMessageSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, target1, target1URL)}
     {elseif activityType === 'discussion-share'}
-        ${renderDiscussionShareSummary(activity, actor1, actor1URL, object1, object1URL, target1, target1URL, target2, target2URL, targetCount)}
+        ${renderDiscussionShareSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount, target1, target1URL, target2, target2URL, targetCount)}
     {elseif activityType === 'discussion-update'}
          ${renderDiscussionUpdateSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, object1, object1URL)}
     {elseif activityType === 'discussion-update-visibility'}
@@ -231,48 +231,67 @@
  * @param  {String}       actor1URL     Profile path for the first actor on the activity
  * @param  {String}       object1       Display name of the first object on the activity
  * @param  {String}       object1URL    Profile path for the first object on the activity
+ * @param  {String}       object2       Display name of the second object on the activity
+ * @param  {String}       object2URL    Profile path for the second object on the activity
+ * @param  {Number}       objectCount   The total number of different objects on the activity
  * @param  {String}       target1       Display name of the first target on the activity
  * @param  {String}       target1URL    Profile path for the first target on the activity
  * @param  {String}       target2       Display name of the second target on the activity
  * @param  {String}       target2URL    Profile path for the second target on the activity
  * @param  {Number}       targetCount   The total number of different target on the activity
 -->
-{macro renderContentShareSummary(activity, actor1, actor1URL, object1, object1URL, target1, target1URL, target2, target2URL, targetCount)}
-    {if activity.object['oae:resourceSubType'] === 'collabdoc'}
-        {if !targetCount}
-            {if activity.target['oae:id'] === oae.data.me.id}
-                __MSG__ACTIVITY_CONTENT_SHARE_COLLABDOC_YOU__
+{macro renderContentShareSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount, target1, target1URL, target2, target2URL, targetCount)}
+    {if !objectCount}
+        {if activity.object['oae:resourceSubType'] === 'collabdoc'}
+            {if !targetCount}
+                {if activity.target['oae:id'] === oae.data.me.id}
+                    __MSG__ACTIVITY_CONTENT_SHARE_COLLABDOC_YOU__
+                {else}
+                    __MSG__ACTIVITY_CONTENT_SHARE_COLLABDOC_1__
+                {/if}
+            {elseif targetCount === 2}
+                __MSG__ACTIVITY_CONTENT_SHARE_COLLABDOC_2__
             {else}
-                __MSG__ACTIVITY_CONTENT_SHARE_COLLABDOC_1__
+                __MSG__ACTIVITY_CONTENT_SHARE_COLLABDOC_2+__
             {/if}
-        {elseif targetCount === 2}
-            __MSG__ACTIVITY_CONTENT_SHARE_COLLABDOC_2__
-        {else}
-            __MSG__ACTIVITY_CONTENT_SHARE_COLLABDOC_2+__
+        {elseif activity.object['oae:resourceSubType'] === 'file'}
+            {if !targetCount}
+               {if activity.target['oae:id'] === oae.data.me.id}
+                    __MSG__ACTIVITY_CONTENT_SHARE_FILE_YOU__
+                {else}
+                    __MSG__ACTIVITY_CONTENT_SHARE_FILE_1__
+                {/if}
+            {elseif targetCount === 2}
+                __MSG__ACTIVITY_CONTENT_SHARE_FILE_2__
+            {else}
+                __MSG__ACTIVITY_CONTENT_SHARE_FILE_2+__
+            {/if}
+        {elseif activity.object['oae:resourceSubType'] === 'link'}
+            {if !targetCount}
+                {if activity.target['oae:id'] === oae.data.me.id}
+                    __MSG__ACTIVITY_CONTENT_SHARE_LINK_YOU__
+                {else}
+                    __MSG__ACTIVITY_CONTENT_SHARE_LINK_1__
+                {/if}
+            {elseif targetCount === 2}
+                __MSG__ACTIVITY_CONTENT_SHARE_LINK_2__
+            {else}
+                __MSG__ACTIVITY_CONTENT_SHARE_LINK_2+__
+            {/if}
         {/if}
-    {elseif activity.object['oae:resourceSubType'] === 'file'}
-        {if !targetCount}
-           {if activity.target['oae:id'] === oae.data.me.id}
-                __MSG__ACTIVITY_CONTENT_SHARE_FILE_YOU__
-            {else}
-                __MSG__ACTIVITY_CONTENT_SHARE_FILE_1__
-            {/if}
-        {elseif targetCount === 2}
-            __MSG__ACTIVITY_CONTENT_SHARE_FILE_2__
-        {else}
-            __MSG__ACTIVITY_CONTENT_SHARE_FILE_2+__
-        {/if}
-    {elseif activity.object['oae:resourceSubType'] === 'link'}
-        {if !targetCount}
+    {else}
+        {if objectCount === 2}
             {if activity.target['oae:id'] === oae.data.me.id}
-                __MSG__ACTIVITY_CONTENT_SHARE_LINK_YOU__
+                __MSG__ACTIVITY_CONTENT_SHARE_YOU_2__
             {else}
-                __MSG__ACTIVITY_CONTENT_SHARE_LINK_1__
+                __MSG__ACTIVITY_CONTENT_SHARE_2__
             {/if}
-        {elseif targetCount === 2}
-            __MSG__ACTIVITY_CONTENT_SHARE_LINK_2__
         {else}
-            __MSG__ACTIVITY_CONTENT_SHARE_LINK_2+__
+            {if activity.target['oae:id'] === oae.data.me.id}
+                __MSG__ACTIVITY_CONTENT_SHARE_YOU_2+__
+            {else}
+                __MSG__ACTIVITY_CONTENT_SHARE_2+__
+            {/if}
         {/if}
     {/if}
 {/macro}
@@ -407,23 +426,34 @@
  * @param  {String}       actor1URL     Profile path for the first actor on the activity
  * @param  {String}       object1       Display name of the first object on the activity
  * @param  {String}       object1URL    Profile path for the first object on the activity
+ * @param  {String}       object2       Display name of the second object on the activity
+ * @param  {String}       object2URL    Profile path for the second object on the activity
+ * @param  {Number}       objectCount   The total number of different objects on the activity
  * @param  {String}       target1       Display name of the first target on the activity
  * @param  {String}       target1URL    Profile path for the first target on the activity
  * @param  {String}       target2       Display name of the second target on the activity
  * @param  {String}       target2URL    Profile path for the second target on the activity
  * @param  {Number}       targetCount   The total number of different target on the activity
 -->
-{macro renderDiscussionShareSummary(activity, actor1, actor1URL, object1, object1URL, target1, target1URL, target2, target2URL, targetCount)}
-    {if !targetCount}
-        {if activity.target['oae:id'] === oae.data.me.id}
-            __MSG__ACTIVITY_DISCUSSION_SHARE_YOU__
+{macro renderDiscussionShareSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount, target1, target1URL, target2, target2URL, targetCount)}
+    {if !objectCount}
+        {if !targetCount}
+            {if activity.target['oae:id'] === oae.data.me.id}
+                __MSG__ACTIVITY_DISCUSSION_SHARE_YOU__
+            {else}
+                __MSG__ACTIVITY_DISCUSSION_SHARE_1__
+            {/if}
+        {elseif targetCount === 2}
+            __MSG__ACTIVITY_DISCUSSION_SHARE_2__
         {else}
-            __MSG__ACTIVITY_DISCUSSION_SHARE_1__
+            __MSG__ACTIVITY_DISCUSSION_SHARE_2+__
         {/if}
-    {elseif targetCount === 2}
-        __MSG__ACTIVITY_DISCUSSION_SHARE_2__
     {else}
-        __MSG__ACTIVITY_DISCUSSION_SHARE_2+__
+        {if objectCount === 2}
+            __MSG__ACTIVITY_DISCUSSION_SHARE_YOU_2__
+        {else}
+            __MSG__ACTIVITY_DISCUSSION_SHARE_YOU_2+__
+        {/if}
     {/if}
 {/macro}
 
