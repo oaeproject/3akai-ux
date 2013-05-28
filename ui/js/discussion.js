@@ -103,20 +103,27 @@ require(['jquery','oae.core'], function($, oae) {
      * variable values needed by the widget.
      *
      * @return  {Object}    The widgetData to be passed into the manageaccess widget
+     * @see  manageaccess#initManageAccess
      */
     var getManageAccessData = function() {
         return {
             'contextProfile': discussionProfile,
             'messages': {
-                'accessnotupdated': '__MSG__DISCUSSION_ACCESS_NOT_UPDATED__',
-                'accesscouldnotbeupdated': '__MSG__THE_DISCUSSION_ACCESS_COULD_NOT_BE_UPDATED__',
-                'accesssuccessfullyupdated': '__MSG__DISCUSSION_ACCESS_SUCCESSFULLY_UPDATED__',
-                'accessupdated': '__MSG__DISCUSSION_ACCESS_UPDATED__',
-                'members': '__MSG__DISCUSSION_MEMBERS__'
+                'accessnotupdated': oae.api.i18n.translate('__MSG__DISCUSSION_ACCESS_NOT_UPDATED__'),
+                'accesscouldnotbeupdated': oae.api.i18n.translate('__MSG__DISCUSSION_ACCESS_COULD_NOT_BE_UPDATED__'),
+                'accesssuccessfullyupdated': oae.api.i18n.translate('__MSG__DISCUSSION_ACCESS_SUCCESSFULLY_UPDATED__'),
+                'accessupdated': oae.api.i18n.translate('__MSG__DISCUSSION_ACCESS_UPDATED__'),
+                'members': oae.api.i18n.translate('__MSG__SHARE_WITH__'),
+                'private': oae.api.i18n.translate('__MSG__PRIVATE__'),
+                'loggedin': oae.api.util.security().encodeForHTML(discussionProfile.tenant.displayName),
+                'public': oae.api.i18n.translate('__MSG__PUBLIC__'),
+                'privatedescription': oae.api.i18n.translate('__MSG__DISCUSSION_PRIVATE_DESCRIPTION__'),
+                'loggedindescription': oae.api.i18n.translate('__MSG__DISCUSSION_LOGGEDIN_DESCRIPTION__').replace('${tenant}', oae.api.util.security().encodeForHTML(discussionProfile.tenant.displayName)),
+                'publicdescription': oae.api.i18n.translate('__MSG__DISCUSSION_PUBLIC_DESCRIPTION__')
             },
             'roles': {
-                'member': '__MSG__MEMBER__',
-                'manager': '__MSG__MANAGER__'
+                'member': oae.api.i18n.translate('__MSG__CAN_VIEW__'),
+                'manager': oae.api.i18n.translate('__MSG__CAN_MANAGE__')
             },
             'api': {
                 'getMembersURL': '/api/discussion/'+ discussionProfile.id + '/members',
@@ -126,12 +133,11 @@ require(['jquery','oae.core'], function($, oae) {
         };
     };
 
-    $(document).on('click', '.oae-trigger-manageaccess', function() {
+    /*!
+     * Triggers the manageaccess widget and passes in context data
+     */
+    $(document).on('click', '.discussion-trigger-manageaccess', function() {
         $(document).trigger('oae.trigger.manageaccess', getManageAccessData());
-    });
-
-    $(document).on('click', '.oae-trigger-manageaccess-add', function() {
-        $(document).trigger('oae.trigger.manageaccess-add', getManageAccessData());
     });
 
     getDiscussionProfile();
