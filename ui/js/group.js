@@ -174,6 +174,9 @@ require(['jquery', 'oae.core'], function($, oae) {
         });
     };
 
+    /**
+     * Join the group when the join button is clicked
+     */
     $('#group-join-actions-join button').on('click', function() {
         // Join the group
         oae.api.group.joinGroup(groupProfile.id, function(err) {
@@ -181,10 +184,10 @@ require(['jquery', 'oae.core'], function($, oae) {
                 // Show a success notification
                 oae.api.util.notification(
                     oae.api.i18n.translate('__MSG__GROUP_JOINED__'),
-                    oae.api.i18n.translate('__MSG__GROUP_SUCCESSFULLY_JOINED__')
+                    oae.api.i18n.translate('__MSG__GROUP_JOIN_SUCCESS__')
                 );
 
-                // Reload the page after 2 seconds to rerender the group as a member
+                // Reload the page after 2 seconds to re-render the group as a member
                 setTimeout(function() {
                     document.location.reload();
                 }, 2000);
@@ -192,7 +195,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                 // Show a failure notification
                 oae.api.util.notification(
                     oae.api.i18n.translate('__MSG__GROUP_JOIN_FAILED__'),
-                    oae.api.i18n.translate('__MSG__GROUP_COULD_NOT_BE_JOINED__'),
+                    oae.api.i18n.translate('__MSG__GROUP_NOT_JOINED__'),
                     'error'
                 );
             }
