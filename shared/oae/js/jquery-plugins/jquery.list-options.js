@@ -87,33 +87,6 @@ define(['jquery'], function ($) {
             $('.oae-list-options-actions > .btn', $list).prop('disabled', (totalChecked === 0));
         });
 
-        
-        var getListData = function() {
-            var list = [];
-            // Loop over each list item and store the `data-id` and `data-title` values
-            // in an object to return.
-            var $checked = $('input[type="checkbox"]:visible:checked', $('.oae-list:visible'));
-            $.each($checked, function(i, checked) {
-                // Get the parent list item
-                var $chkParent = $($(this).parents('li'));
-
-                // Get the basic information for the item out of the parent
-                var resourcetype = $(checked).attr('data-resourceType');
-                var id = $(checked).attr('data-id');
-                var displayName = $chkParent.find('label:visible').text();
-                var thumbnailImage = $chkParent.find('img:visible').attr('src');
-
-                list.push({
-                    'resourceType': resourcetype,
-                    'id': id,
-                    'displayName': displayName,
-                    'thumbnailUrl': thumbnailImage
-                });
-            });
-
-            return list;
-        };
-
         /**
          * Gets the selected list items in the current list and send them out through an `oae.list.sendSelection` event
          *
