@@ -78,7 +78,10 @@ require(['jquery', 'oae.core'], function($, oae) {
 
         // Only show the create and upload clips to managers
         if (groupProfile.isManager) {
-            $('#group-actions').show();
+            $('#group-manager-actions').show();
+        // Show the join clip to non-members when the group is joinable
+        } else if (!groupProfile.isMember && groupProfile.joinable === 'yes') {
+            $('#group-join-actions').show();
         }
     };
 
@@ -170,6 +173,34 @@ require(['jquery', 'oae.core'], function($, oae) {
             $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
         });
     };
+
+    /**
+     * Join the group when the join button is clicked
+     */
+    $('#group-join-actions-join button').on('click', function() {
+        // Join the group
+        oae.api.group.joinGroup(groupProfile.id, function(err) {
+            if (!err) {
+                // Show a success notification
+                oae.api.util.notification(
+                    oae.api.i18n.translate('__MSG__GROUP_JOINED__'),
+                    oae.api.i18n.translate('__MSG__GROUP_JOIN_SUCCESS__')
+                );
+
+                // Reload the page after 2 seconds to re-render the group as a member
+                setTimeout(function() {
+                    document.location.reload();
+                }, 2000);
+            } else {
+                // Show a failure notification
+                oae.api.util.notification(
+                    oae.api.i18n.translate('__MSG__GROUP_JOIN_FAILED__'),
+                    oae.api.i18n.translate('__MSG__GROUP_NOT_JOINED__'),
+                    'error'
+                );
+            }
+        });
+    });
 
     /**
      * Re-render the group's clip when a new profile picture has been uploaded. The updated
