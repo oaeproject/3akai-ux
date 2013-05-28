@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery','oae.core'], function($, oae) {
+require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
     // Get the content id from the URL. The expected URL is `/content/<tenantId>/<resourceId>`.
     // The content id will then be `c:<tenantId>:<resourceId>`
@@ -99,6 +99,90 @@ require(['jquery','oae.core'], function($, oae) {
 
     // Catches the `upload new version complete` event and refreshes the content profile
     $(document).on('oae.uploadnewversion.complete', refreshContentProfile);
+
+    /**
+     * Re-render the group's clip when the permissions have been updated.
+     */
+    $(document).on('done.manageaccess.oae', function(ev) {
+        setUpClip();
+    });
+
+    /**
+     * Returns the correct messages for the manage access widget based on
+     * the resourceSubType of the content.
+     */
+    var getManageAccessMessages = function() {
+        // Keeps track of messages to return
+        var messages = {
+            'members': oae.api.i18n.translate('__MSG__SHARE_WITH__'),
+            'private': oae.api.i18n.translate('__MSG__PRIVATE__'),
+            'loggedin': oae.api.util.security().encodeForHTML(contentProfile.tenant.displayName),
+            'public': oae.api.i18n.translate('__MSG__PUBLIC__')
+        };
+
+        switch (contentProfile.resourceSubType) {
+            case 'file':
+                return _.extend(messages, {
+                    'accessnotupdated': oae.api.i18n.translate('__MSG__FILE_ACCESS_NOT_UPDATED__'),
+                    'accesscouldnotbeupdated': oae.api.i18n.translate('__MSG__FILE_ACCESS_COULD_NOT_BE_UPDATED__'),
+                    'accesssuccessfullyupdated': oae.api.i18n.translate('__MSG__FILE_ACCESS_SUCCESSFULLY_UPDATED__'),
+                    'accessupdated': oae.api.i18n.translate('__MSG__FILE_ACCESS_UPDATED__'),
+                    'privatedescription': oae.api.i18n.translate('__MSG__FILE_PRIVATE_DESCRIPTION__'),
+                    'loggedindescription': oae.api.i18n.translate('__MSG__FILE_LOGGEDIN_DESCRIPTION__').replace('${tenant}', oae.api.util.security().encodeForHTML(contentProfile.tenant.displayName)),
+                    'publicdescription': oae.api.i18n.translate('__MSG__FILE_PUBLIC_DESCRIPTION__')
+                });
+            case 'link':
+                return _.extend(messages, {
+                    'accessnotupdated': oae.api.i18n.translate('__MSG__LINK_ACCESS_NOT_UPDATED__'),
+                    'accesscouldnotbeupdated': oae.api.i18n.translate('__MSG__LINK_ACCESS_COULD_NOT_BE_UPDATED__'),
+                    'accesssuccessfullyupdated': oae.api.i18n.translate('__MSG__LINK_ACCESS_SUCCESSFULLY_UPDATED__'),
+                    'accessupdated': oae.api.i18n.translate('__MSG__LINK_ACCESS_UPDATED__'),
+                    'privatedescription': oae.api.i18n.translate('__MSG__LINK_PRIVATE_DESCRIPTION__'),
+                    'loggedindescription': oae.api.i18n.translate('__MSG__LINK_LOGGEDIN_DESCRIPTION__').replace('${tenant}', oae.api.util.security().encodeForHTML(contentProfile.tenant.displayName)),
+                    'publicdescription': oae.api.i18n.translate('__MSG__LINK_PUBLIC_DESCRIPTION__')
+                });
+            case 'collabdoc':
+                return _.extend(messages, {
+                    'accessnotupdated': oae.api.i18n.translate('__MSG__DOCUMENT_ACCESS_NOT_UPDATED__'),
+                    'accesscouldnotbeupdated': oae.api.i18n.translate('__MSG__DOCUMENT_ACCESS_COULD_NOT_BE_UPDATED__'),
+                    'accesssuccessfullyupdated': oae.api.i18n.translate('__MSG__DOCUMENT_ACCESS_SUCCESSFULLY_UPDATED__'),
+                    'accessupdated': oae.api.i18n.translate('__MSG__DOCUMENT_ACCESS_UPDATED__'),
+                    'privatedescription': oae.api.i18n.translate('__MSG__DOCUMENT_PRIVATE_DESCRIPTION__'),
+                    'loggedindescription': oae.api.i18n.translate('__MSG__DOCUMENT_LOGGEDIN_DESCRIPTION__').replace('${tenant}', oae.api.util.security().encodeForHTML(contentProfile.tenant.displayName)),
+                    'publicdescription': oae.api.i18n.translate('__MSG__DOCUMENT_PUBLIC_DESCRIPTION__')
+                });
+        }
+    };
+
+    /**
+     * Creates the widgetData object to send to the manageaccess widget that contains all
+     * variable values needed by the widget.
+     *
+     * @return  {Object}    The widgetData to be passed into the manageaccess widget
+     * @see  manageaccess#initManageAccess
+     */
+    var getManageAccessData = function() {
+        return {
+            'api': {
+                'getMembersURL': '/api/content/'+ contentProfile.id + '/members',
+                'setMembers': oae.api.content.updateMembers,
+                'setVisibility': oae.api.content.updateContent
+            },
+            'contextProfile': contentProfile,
+            'messages': getManageAccessMessages(),
+            'roles': {
+                'viewer': oae.api.i18n.translate('__MSG__CAN_VIEW__'),
+                'manager': oae.api.i18n.translate('__MSG__CAN_MANAGE__')
+            }
+        };
+    };
+
+    /*!
+     * Triggers the manageaccess widget and passes in context data
+     */
+    $(document).on('click', '.content-trigger-manageaccess', function() {
+        $(document).trigger('oae.trigger.manageaccess', getManageAccessData());
+    });
 
     /**
      * Render the content's clip, containing the thumbnail, display name as well as the

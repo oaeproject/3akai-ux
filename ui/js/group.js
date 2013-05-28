@@ -218,6 +218,55 @@ require(['jquery', 'oae.core'], function($, oae) {
         setUpClip();
     });
 
+    /**
+     * Creates the widgetData object to send to the manageaccess widget that contains all
+     * variable values needed by the widget.
+     *
+     * @return  {Object}    The widgetData to be passed into the manageaccess widget
+     * @see  manageaccess#initManageAccess
+     */
+    var getManageAccessData = function() {
+        return {
+            'contextProfile': groupProfile,
+            'messages': {
+                'accessnotupdated': oae.api.i18n.translate('__MSG__GROUP_ACCESS_NOT_UPDATED__'),
+                'accesscouldnotbeupdated': oae.api.i18n.translate('__MSG__GROUP_ACCESS_COULD_NOT_BE_UPDATED__'),
+                'accesssuccessfullyupdated': oae.api.i18n.translate('__MSG__GROUP_ACCESS_SUCCESSFULLY_UPDATED__'),
+                'accessupdated': oae.api.i18n.translate('__MSG__GROUP_ACCESS_UPDATED__'),
+                'members': oae.api.i18n.translate('__MSG__GROUP_MEMBERS__'),
+                'private': oae.api.i18n.translate('__MSG__PARTICIPANTS_ONLY__'),
+                'loggedin': oae.api.util.security().encodeForHTML(groupProfile.tenant.displayName),
+                'public': oae.api.i18n.translate('__MSG__PUBLIC__'),
+                'privatedescription': oae.api.i18n.translate('__MSG__GROUP_PRIVATE_DESCRIPTION__'),
+                'loggedindescription': oae.api.i18n.translate('__MSG__GROUP_LOGGEDIN_DESCRIPTION__').replace('${tenant}', oae.api.util.security().encodeForHTML(groupProfile.tenant.displayName)),
+                'publicdescription': oae.api.i18n.translate('__MSG__GROUP_PUBLIC_DESCRIPTION__')
+            },
+            'roles': {
+                'member': oae.api.i18n.translate('__MSG__MEMBER__'),
+                'manager': oae.api.i18n.translate('__MSG__MANAGER__')
+            },
+            'api': {
+                'getMembersURL': '/api/group/' + groupProfile.id + '/members',
+                'setMembers': oae.api.group.setGroupMembers,
+                'setVisibility': oae.api.group.updateGroup
+            }
+        };
+    };
+
+    /*!
+     * Triggers the manageaccess widget and passes in context data
+     */
+    $(document).on('click', '.group-trigger-manageaccess', function() {
+        $(document).trigger('oae.trigger.manageaccess', getManageAccessData());
+    });
+
+    /*!
+     * Triggers the manageaccess widget in `add members` view and passes in context data
+     */
+    $(document).on('click', '.group-trigger-manageaccess-add', function() {
+        $(document).trigger('oae.trigger.manageaccess-add', getManageAccessData());
+    });
+
     getGroupProfile();
 
 });
