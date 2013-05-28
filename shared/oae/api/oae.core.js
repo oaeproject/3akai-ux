@@ -63,7 +63,6 @@ define([
         'jquery.encoder',
         'jquery.fileSize',
         'jquery.form',
-        'jquery.history',
         'jquery.infinitescroll',
         'jquery.notify',
         'jquery.parseurl',
