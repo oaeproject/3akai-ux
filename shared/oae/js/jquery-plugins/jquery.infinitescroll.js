@@ -27,9 +27,10 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
      * @param  {String}                            source                          The REST endpoint URL to use for retrieving list data.
      * @param  {Object}                            [parameters]                    Parameters to send along for each list items retrieval ajax request.
      * @param  {Object}                            [parameters.limit]              The number of items to load per ajax request. This will default to 10 if not provided.
-     * @param  {String|Element|Function}           render                          jQuery element or selector for that jQuery element that identifies the Trimpath template that should be used to render retrieved results. If a function is provided, this function will be called instead with 1 parameters: the server response containing the retrieved results. The function should return the generated HTML string.
+     * @param  {String|Element|Function}           render                          jQuery element or selector for that jQuery element that identifies the Trimpath template that should be used to render retrieved results. If a function is provided, this function will be called instead with 1 parameter: the server response containing the retrieved results. The function should return the generated HTML string.
      * @param  {Object}                            [options]                       Optional object containing additional configuraton options.
      * @param  {String|Element}                    [options.scrollContainer]       jQuery element or selector for that jQuery element that identifies the container on which the scrollposition should be watched to check when we are close enough to the bottom to load a new set of results. If this is not provided, the document body will be used.
+     * @param  {String|Function}                   [options.initialContent]        HTML string that should be prepended to the list upon initialization. If a function is provided, the function will be called with no parameters and should return the HTML string to prepend.
      * @param  {Function}                          [options.emptyListProcessor]    Function that will be executed when the rendered list doesn't have any elements.
      * @param  {Function}                          [options.postProcessor]         Function used to transform the search results before rendering the template. This function will be called with a data parameter containing the retrieved data and should return the processed data
      * @param  {Function}                          [options.postRenderer]          Function executed after the rendered HTML has been appended to the rendered list. The full retrieved server response will be passed into this function.
@@ -58,7 +59,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
             options.scrollContainer = $(options.scrollContainer);
         }
 
-        // Container that will be used to show the loading animation.We add the
+        // Container that will be used to show the loading animation. We add the
         // `text-center` class to make sure that the animation is centered. We also
         // add `clear: both` to make sure that the animation is displayed underneath
         // the actual list
@@ -67,8 +68,9 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
         // Set the container in which the results should be rendered
         var $container = options.scrollContainer ? options.scrollContainer : $(this);
 
-        // Gets filled up each time we request a list.
-        var lastItem = null;
+        // Variable that keeps track of whether or not the initial search has happened, as the initial
+        // search does not need to provide a paging parameter
+        var initialSearchDone = false;
 
         ////////////////////////
         // Infinite scrolling //
@@ -125,7 +127,8 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
             showLoadingContainer();
             // Get the key of the latest
             var $lastElement = $container.children('li').filter(':visible').filter(':last');
-            if ($lastElement.length !== 0) {
+            // Only page once the initial search has been done
+            if ($lastElement.length !== 0 && initialSearchDone === true) {
                 parameters.start = $lastElement.attr('data-key') ? $lastElement.attr('data-key') : ($lastElement.index() + 1);
             }
 
@@ -134,6 +137,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
                 'url': source,
                 'data': parameters,
                 'success': function(data) {
+                    initialSearchDone = true;
                     processList(data);
                 },
                 'error': function() {
@@ -144,21 +148,19 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
         };
 
         /**
-         * Run the list of items to be added to a processor before pushing them through
+         * Run the list of items to be added through a processor before pushing them through
          * a template. The postProcessor will be given an array of items to be added to
          * the infinite scroll. The plugin expects an array of items to come back from
          * the postProcessor as well.
          *
-         * @param  {Object}      data       List of items to add to the infinite scroll list
-         * @param  {Object}      prepend    True when we want to prepend the new items to the list, False when we want to append the new items to the list
+         * @param  {Object}      data         List of items to add to the infinite scroll list
+         * @param  {Boolean}     [prepend]    `true` when we want to prepend the new items to the list, `false` when we want to append the new items to the list
          */
         var processList = function(data, prepend) {
             if (options.postProcessor) {
                 data = options.postProcessor(data);
-                renderList(data, prepend);
-            } else {
-                renderList(data, prepend);
             }
+            renderList(data, prepend);
         };
 
         /**
@@ -166,8 +168,8 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
          * to be wrapped in a `results` object, and have an `id` parameter for each of the results.
          * Results that are already in the list will not be re-rendered.
          *
-         * @param  {Object}    data       Post-processed server response
-         * @param  {Object}    prepend    True when we want to prepend the new items to the list, False when we want to append the new items to the list
+         * @param  {Object}     data         Post-processed server response
+         * @param  {Boolean}    [prepend]    true when we want to prepend the new items to the list, false when we want to append the new items to the list
          */
         var renderList = function(data, prepend) {
             // Determine if we should attempt to load a next page
@@ -188,47 +190,25 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
                     templateOutput = oaeUtil.template().render(render, data);
                 }
 
-                // Append the template to the body so we can filter on duplicate items
-                var id = oaeUtil.generateId();
-                $('body').append('<div class="hide" id="' + id + '">' + templateOutput + '</div>');
-                var $newTemplate = $('#' + id);
-
-                // Go over the list of previously shown items
-                $.each($container.children(), function(i, listItem) {
-                    var id = $(listItem).attr('data-id');
-
-                    // Go over the list of new items and remove duplicates in the previously shown items.
-                    $.each($newTemplate.children(), function(ii, newListItem) {
-                        var newId = $(newListItem).attr('data-id');
-                        if (newId && id && newId === id) {
-                            idToRemove = newId;
-                            // If we are prepending the data it's new to the list and the old list
-                            // item needs to be removed.
-                            if (prepend) {
-                                $(listItem).remove();
-                                idToRemove = id;
-                            // If the data is appended, the data is older than the prepended data and
-                            // needs to be removed from the list.
-                            } else {
-                                $('li[data-id="' + newId + '"]', $newTemplate).remove();
-                            }
-
-                            // Remove from the data results that return in postRenderer and postProcessor
-                            $.each(data.results, function(iii, item) {
-                                if (item && ((item.profile && item.profile.id) === idToRemove ||
-                                    item.id === idToRemove)) {
-                                    data.results.splice(iii, 1);
-                                }
-                            });
-                            return false;
+                // Filter out items that are already in the list. When appending results, we
+                // skip the new results that already have an element with the same data-id attribute
+                // in the list. When prepending results, we always add the new ones and remove the existing
+                // elements with the same data-id attribute
+                var $tmp = $('<div>').html(templateOutput);
+                $tmp.children().each(function(index, newListItem) {
+                    var id = $(newListItem).attr('data-id');
+                    var $existing = $('li[data-id="' + id + '"]', $container);
+                    if (id) {
+                        if (prepend) {
+                            $existing.remove();
+                        } else if ($existing.length > 0) {
+                            $(newListItem).remove();
                         }
-                    });
+                    }
                 });
 
-                // Bring the filtered html back to templateOutput before prepending
-                templateOutput = $newTemplate.html();
-                // Remove the filtered html from the page
-                $newTemplate.remove();
+                // Bring the filtered html back to templateOutput
+                templateOutput = $tmp.html();
 
                 if (prepend) {
                     // Prepend the HTML
@@ -258,6 +238,20 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
                             options.emptyListProcessor();
                         }
                     }
+                }
+            }
+        };
+
+        /**
+         * Prepend some initial content to the infinite scroll list if initial content or an
+         * initial content function has been provided.
+         */
+        var setUpInitialContent = function() {
+            if (options.initialContent) {
+                if (_.isFunction(options.initialContent)) {
+                    $container.prepend(options.initialContent());
+                } else {
+                    $container.prepend(options.initialContent);
                 }
             }
         };
@@ -356,6 +350,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
 
         $container.attr('aria-live', 'assertive');
         setUpLoadingImage();
+        setUpInitialContent();
         loadResultList();
         startInfiniteScrolling();
 

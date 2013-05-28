@@ -34,12 +34,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
              throw new Error('A group displayName should be provided');
         }
 
-        // TODO: Remove this when groups no longer require an alias. After that, the oae.api.util
-        // dependency can be removed as well
-        var alias = utilAPI.generateId();
-
         var data = {
-            'alias': alias,
             'displayName': displayName,
             'description': description,
             'visibility': visibility,
