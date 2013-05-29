@@ -67,11 +67,17 @@ define(['jquery'], function ($) {
         });
 
         /**
-         * When at least 1 checkbox inside of the list is checked, the list options are shown and
-         * the list option action buttons are enabled. When no checkboxes are checked in the list,
-         * the list options are hidden and the list option actions buttons are hidden
+         * When a checkbox is checked/unchecked, we make sure that its corresponding checkbox in the
+         * other views are checked as well. When at least 1 list item is checked, the list options
+         * are shown and the list option action buttons are enabled. When no checkboxes are checked
+         * in the list, the list options are hidden and the list option actions buttons are disabled.
          */
         $(document).on('click', '.oae-list input[type="checkbox"]', function() {
+            // Get the list item the checkbox corresponds to and make sure the other views have the
+            // same checked status
+            $listItem = $(this).parents('li');
+            $('input[type="checkbox"]', $listItem).prop('checked', $(this).is(':checked'))
+
             // Get the list container, so we don't end up changing state in other lists
             var $list = $(this).parents('.oae-list').parent();
             var $listOptionActions = $('.oae-list-options-actions', $list);

@@ -82,11 +82,12 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     /**
      * Update a discussion's metadata.
      *
-     * @param  {String}       discussionId        Id of the discussion we're trying to update
-     * @param  {Object}       params              JSON object where the keys represent all of the profile field names we want to update and the values represent the new values for those fields
-     * @param  {Function}     [callback]          Standard callback method
-     * @param  {Object}       [callback.err]      Error object containing error code and error message
-     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
+     * @param  {String}       discussionId              Id of the discussion we're trying to update
+     * @param  {Object}       params                    JSON object where the keys represent all of the profile field names we want to update and the values represent the new values for those fields
+     * @param  {Function}     [callback]                Standard callback method
+     * @param  {Object}       [callback.err]            Error object containing error code and error message
+     * @param  {Discussion}   [callback.discussion]     Discussion object representing the updated discussion
+     * @throws {Error}                                  Error thrown when not all of the required parameters have been provided
      */
     var updateDiscussion = exports.updateDiscussion = function(discussionId, params, callback) {
         if (!discussionId) {
@@ -99,8 +100,8 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             'url': '/api/discussion/' + discussionId,
             'type': 'POST',
             'data': params,
-            'success': function() {
-                callback(null);
+            'success': function(data) {
+                callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
