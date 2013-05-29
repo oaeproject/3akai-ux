@@ -26,7 +26,7 @@ requirejs.config({
         'bootstrap': 'vendor/js/bootstrap',
         'bootstrap.clickover': 'vendor/js/bootstrap-plugins/bootstrapx.clickover',
         'globalize': 'vendor/js/l10n/globalize',
-        'jquery.autosuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest.oae-edited',
+        'jquery.autosuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest',
         'jquery.encoder': 'vendor/js/jquery-plugins/jquery.encoder',
         'jquery.fileSize': 'vendor/js/jquery-plugins/jquery.fileSize',
         'jquery.fileupload': 'vendor/js/jquery-plugins/jquery.fileupload',

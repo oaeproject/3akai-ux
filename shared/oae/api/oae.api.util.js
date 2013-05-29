@@ -24,6 +24,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
     var init = exports.init = function(callback) {
         // Set up custom validators
         validation().init();
+        // Set up the custom autosuggest listeners
+        autoSuggest().init();
         // Load the OAE TrimPath Template macros
         template().init(callback);
     };
@@ -580,75 +582,147 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
     /////////////////
 
     /**
-     * Initiate a new autosuggest field. This function is basically a wrapper around the jQuery AutoSuggest Plugin
-     * (https://github.com/croby/jquery-autosuggest).
-     * By default user and groups will be searched through.
-     * This wrapper adds 2 main features on top of the existing functionality:
-     *
-     *  - Fixed prefilled data:     This allows one to add a set of default items which cannot be deleted by the user.
-     *                              Simply set the `fixed` key to `true` on the objects in the `preFill` option.
-     *  - Ghost items:              These are items that can be added to the beginning of the list. They can be toggled by the user
-     *                              by clicking on them.
-     *                              The same data format as the `preFill` array can be used with one addition:
-     *                              If the `selected` key is set to `true` the item will be selected.
-     *  - XSS escaped data:         All data that is inserted into the DOM by the autoSuggest plugin will be XSS escaped.
+     * All functionality related to the autosuggest component
      */
     var autoSuggest = exports.autoSuggest = function() {
 
+        /*!
+         * Default options that will be used to supplement the provided options.
+         * A list of the available options can be found at https://github.com/wuyuntao/jquery-autosuggest
+         */
         var defaultOptions = {
+            'canGenerateNewSelections': false,
+            'minChars': 2,
+            'retrieveLimit': 10,
+            'url': '/api/search/general',
+            'scroll': 100,
+            'searchObjProps': 'id, displayName',
             'selectedItemProp': 'displayName',
-            'searchObjProps': 'displayName',
             'selectedValuesProp': 'id',
-            'extraParams': {
-                'resourceTypes': ['user', 'group']
-            },
-            'minChars': 3,
-            'neverSubmit': true,
             'showResultListWhenNoMatch': true
         };
 
         /**
-         * Sets up the autoSuggest field.
+         * Initialize the autosuggest functionality by binding a custom listeners
+         * that will be responsible for marking the autosuggest container as if it
+         * were a focused input field.
          *
-         * @param  {Element|String}     $element    jQuery element or jQuery selector for that element that represents the element on which the auto suggest should be attached
-         * @param  {Object}             options     A set of options for the AutoSuggest plugin. Some of these will be overridden to provide the fixed prefilled data and do the XSS escaping. See https://github.com/croby/jquery-autosuggest
+         * @api private
          */
-        var setup = function($element, options) {
+        var init = function() {
+            $(document).on('focus', 'ul.as-selections input', function() {
+                $(this).parents('ul.as-selections').addClass('as-selections-focus');
+            });
+            $(document).on('focusout', 'ul.as-selections input', function() {
+                $(this).parents('ul.as-selections').removeClass('as-selections-focus');
+            });
+        };
+
+        /**
+         * Set up a new autosuggest field. This function is a wrapper around the jQuery AutoSuggest Plugin
+         * (https://github.com/wuyuntao/jquery-autosuggest). It allows for a standard input field to be converted
+         * in an autosuggest field that can be used to suggest people, groups, content, etc. pulled from one of the
+         * back-end feeds.
+         *
+         * By default, the autosuggest field will show users and groups. This can be overriden through the resouceTypes array
+         * that can be passed into the initialization function.
+         *
+         * This wrapper function will also automatically take care of XSS escaping, as that is something the autoSuggest plugin
+         * doesn't deal with itself.
+         *
+         * The following additions to the standard autosuggest plugin are available:
+         *
+         *  - Fixed items:         This allows for making items that will be used to pre-fill the autosuggest component to be undeleteable from the
+         *                         selection list. In order to make a pre-fill item fixed, the `fixed` property on the preFill item should be set to `true`
+         *  - Ghost items:         This allows for adding suggested ghost items to the beginning of the autosuggest component. These can be toggled by
+         *                         clicking on them. In order to add a ghost item, the same data format as the `preFill` array can be used. If a ghost item
+         *                         should be selected to start off with, the `selected` property on the ghost item should be set to `true`
+         *
+         * @param  {Element|String}     $element                        jQuery element or jQuery selector for that element that represents the element on which the autosuggest should be initialized
+         * @param  {Object}             [options]                       JSON Object containing options to pass to the autosuggest component. It supports all of the standard options documented at https://github.com/wuyuntao/jquery-autosuggest
+         * @param  {Object[]}           [options.preFill]               Items that should be pre-filled into the autosuggest field upon initialization
+         * @param  {Boolean}            [options.preFill[i].fixed]      Whether or not the pre-filled item should be undeleteable from the selection list
+         * @param  {Object[]}           [options.ghost]                 Ghost items that should be added to the autosuggest field upon initialization. This has the same format as `options.preFill`
+         * @param  {Boolean}            [options.ghost[i].selected]     Whether or not the ghost item should be selected by default
+         * @param  {String}             [options.url]                   URL for the REST endpoint that should be used to fetch the suggested results
+         * @param  {String[]}           [resourceTypes]                 Array of resourceTypes that should be used for the search. By default, `user` and `group` will be used
+         * @throws {Error}                                              Error thrown when no source element has been provided
+         */
+        var setup = function($element, options, resourceTypes) {
             if (!$element) {
-                throw new Error('An valid element should be specified on which to attach the autoSuggest.');
+                throw new Error('An valid input element should be provided.');
             }
 
-            // Default the arguments
             $element = $($element);
+
+            // Merge the supplied options with the default options. Default options will be overriden
+            // by supplied options
             options = _.extend({}, defaultOptions, options);
 
-            // Escape all the data.
-            options.retrieveComplete = options.retrieveComplete || function(data) {
-                $.each(data.results, function(index, result) {
-                    result.displayName = security().encodeForHTML(result.displayName);
-                });
-                return data.results;
-            };
+            // Add the resourceTypes onto the additional querystring parameter that need to be added to the request.
+            // We need to do this as querystring-formatted string as the Autosuggest component is not able to deal with objects.
+            if (!resourceTypes) {
+                resourceTypes = ['user', 'group'];
+            }
+            options.extraParams = options.extraParams || '';
+            $.each(resourceTypes, function(index, resourceType) {
+                options.extraParams += '&resourceTypes=' + resourceType;
+            });
 
-            // Escape any preFill data we might have.
+            // By default, the autosuggest component will only show results in the suggested items that actually match the query
+            // on one of the fields specified in the `searchObjProps` parameter. However, as we rely on the REST endpoint to do
+            // the appropriate filtering and ordering, we undo this behavior by adding a `query` property onto each result that will
+            // contain the current search query, causing all results to match and display.
+            options.searchObjProps += ',query';
+
+            // XSS escape the preFill items
             if (options.preFill) {
-                $.each(options.preFill, function(index, preFilledItem) {
-                    preFilledItem[options.selectedItemProp] = security().encodeForHTML(preFilledItem[options.selectedItemProp]);
+                $.each(options.preFill, function(index, preFillItem) {
+                    preFillItem[options.selectedItemProp] = security().encodeForHTML(preFillItem[options.selectedItemProp]);
                 });
             }
 
-            // Escape any ghost data we might have.
+            // XSS escape the ghost items
             if (options.ghosts) {
                 $.each(options.ghosts, function(index, ghostItem) {
                     ghostItem[options.selectedItemProp] = security().encodeForHTML(ghostItem[options.selectedItemProp]);
                 });
             }
 
-            // This function gets called when a user wants to remove an item
-            // from the auto suggest field.
-            // We intercept it and only remove elements when they are not fixed.
-            options.selectionRemoved = options.selectionRemoved || function(elem) {
+            // XSS escape the incoming data from the REST endpoints. We also add the current query
+            // onto each result object to make sure that the matching succeeds and all items are
+            // shown in the suggested list. If a `retrieveComplete` function has already been provided,
+            // we cache it so it can be executed after this
+            var retrieveComplete = null;
+            if (options.retrieveComplete) {
+                retrieveComplete = options.retrieveComplete;
+            }
+            options.retrieveComplete = function(data) {
+                // Get the query from the request URL on the Ajax object, as that is the only provided clue
+                // for finding out the search query
+                var query = $.url(this.url).param('q');
+                $.each(data.results, function(index, result) {
+                    result.displayName = security().encodeForHTML(result.displayName);
+                    result.query = query;
+                });
+                if (retrieveComplete) {
+                    return retrieveComplete(data);
+                } else {
+                    return data.results;
+                }
+            };
+
+            // Function that will be called when an item is attempted to be removed from the autosuggest
+            // field. We only remove the element when the element is not fixed. If a `selectionRemoved`
+            // function has already been provided, we cache it so it can be executed after this. If the
+            // item is fixed, we don't execute the cached `selectionRemoved` function
+            var selectionRemoved = null;
+            if (options.selectionRemoved) {
+                selectionRemoved = options.selectionRemoved;
+            }
+            options.selectionRemoved = function(elem) {
                 var isFixed = false;
+                // Check if the removed element was one of the fixed elements in the preFill object
                 if (options.preFill) {
                     isFixed = _.some(options.preFill, function(preFilledItem) {
                         return preFilledItem.id === elem.value && preFilledItem.fixed === true;
@@ -656,19 +730,44 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
                 }
 
                 if (!isFixed) {
-                    elem.remove();
+                    if (selectionRemoved) {
+                        selectionRemoved(elem);
+                    } else {
+                        elem.remove();
+                    }
+                }
+            };
+
+            // Function that will be called when an item is added to the autosuggest field. We add the
+            // thumbnail picure to the element. If a `selectionAdded` function has already been provided,
+            // we cache it so it can be executed after this.
+            var selectionAdded = null;
+            if (options.selectionAdded) {
+                selectionAdded = options.selectionAdded;
+            }
+            options.selectionAdded = function(elem) {
+                var $elem = $(elem);
+                var originalData = $elem.data('originalData');
+                var $thumbnail = $('<div>').addClass('oae-thumbnail icon-oae-' + originalData.resourceType);
+                if (originalData.thumbnailUrl) {
+                    $thumbnail.append($('<img>').attr('src', originalData.thumbnailUrl));
+                }
+                $elem.prepend($thumbnail);
+
+                if (selectionAdded) {
+                    selectionAdded(elem);
                 }
             };
 
             // Initialize the autoSuggest field
-            var $autoSuggest = $element.autoSuggest('/api/search/general', options);
-            var $list = $autoSuggest.parent().parent();
+            var $autoSuggest = $element.autoSuggest(options.url, options);
+            var $list = $autoSuggest.parents('ul');
 
-            // Remove the close (x) buttons from the fixed fields.
+            // Remove the delete (x) button from the fixed fields
             if (options.preFill) {
-                $.each(options.preFill, function(index, preFilledItem) {
-                    if (preFilledItem.fixed) {
-                        $('li[data-value="' + preFilledItem[options.selectedValuesProp] + '"] a.as-close').hide();
+                $.each(options.preFill, function(index, preFillItem) {
+                    if (preFillItem.fixed) {
+                        $('li[data-value="' + preFillItem[options.selectedValuesProp] + '"]').addClass('as-fixed-item');
                     }
                 });
             }
@@ -676,66 +775,74 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             // Add the ghost fields
             if (options.ghosts) {
                 $.each(options.ghosts, function(index, ghostItem) {
-                    // Create the list item.
-                    var cssSelected = ghostItem.selected ? ' ghost-selected' : '';
-                    var addDisplayed = ghostItem.selected ? ' hide' : '';
-                    var removeDisplayed = ghostItem.selected ? '' : ' hide';
-                    var $li = $('<li class="as-selection-item as-ghost-item' + cssSelected + '" id="as-selection-ghost-' + index + '" data-value="' + ghostItem[options.selectedValuesProp] + '">' +
-                                    '<a class="as-ghost-add' + addDisplayed + '">+</a>' +
-                                    '<a class="as-ghost-remove' + removeDisplayed + '">&times;</a>' +
+                    // Create the list item. An `as-ghost-selected` class is added to selected ghosts
+                    var cssSelected = ghostItem.selected ? 'as-ghost-selected' : '';
+                    var $li = $('<li class="as-selection-item as-ghost-item ' + cssSelected + '" id="as-selection-ghost-' + index + '" data-value="' + ghostItem[options.selectedValuesProp] + '">' +
+                                    '<a class="as-ghost-add"><i class="icon-plus"></i></a>' +
+                                    '<a class="as-close">&times;</a>' +
                                     ghostItem[options.selectedItemProp] +
                                 '</li>');
+                    // Add the original ghost object onto the item
+                    $li.data('originalData', ghostItem);
 
-                    // When the user clicks the ghost item we should (de)select it.
-                    $li.click(function() {
-                        $($(this)).toggleClass('ghost-selected');
-                        $('a.as-ghost-add', this).toggle();
-                        $('a.as-ghost-remove', this).toggle();
+                    // Select/deselect the ghost item when it is clicked
+                    $li.on('click', function() {
+                        $($(this)).toggleClass('as-ghost-selected');
                     });
 
-                    // Add it to the beginning of the list.
+                    // Prepend it to the list
                     $list.prepend($li);
                 });
             }
         };
 
         /**
-         * Retrieves the selected data.
+         * Retrieve the selected items in an autosuggest field
          *
-         * @param  {Element|String}     $container  jQuery element or jQuery selector for the container in which the auto suggest was initialized. Note that this will *not* be the same element as the one you used to setup the auto suggest.
-         * @return {Object[]}                       An array of objects, each one representing a selected item. Each object has an `id` with the selected value, a `displayName` with the human readable value and an `isGhost` flag that indicates whether or not the result came from a ghost item.
+         * @param  {Element|String}     $element                            jQuery element or jQuery selector for the container in which the auto suggest was initialized. Note that this will *not* be the same element as the one you used to setup the auto suggest.
+         * @return {Object[]}           selectedItems                       Array of objects representing the selected autosuggest items
+         * @return {String}             selectedItems[i].id                 Resource id of the selected item
+         * @return {String}             selectedItems[i].displayName        Display name of the selected item
+         * @return {String}             selectedItems[i].resourceType       Resource type of the selected item (e.g. user, group, content)
+         * @return {String}             [selectedItems[i].thumbnailUrl]     Thumbnail URL for the selected item
+         * @return {String}             selectedItems[i].visibility         Visibility for the selected item (i.e. private, loggedin, public)
+         * @throws {Error}                                                  Error thrown when no source element has been provided
          */
-        var getSelection = function($container) {
-            if (!$container) {
-                throw new Error('A valid element should be specified.');
+        var getSelection = function($element) {
+            if (!$element) {
+                throw new Error('An valid input element should be provided.');
             }
 
-            $container = $($container);
+            $element = $($element);
 
-            var data = [];
+            var selectedItems = [];
 
-            // We cannot use the input.as-values field as that only gives us the IDs and we also need the displayNames
-            $.each($container.find('.as-selections > li'), function(index, selection) {
-                var $li = $(selection);
-                var selectedValue = $li.attr('data-value');
+            // We cannot use the input.as-values field as that only gives us the IDs and we also need the other basic profile information
+            $.each($element.find('.as-selections > li'), function(index, selection) {
+                var $selection = $(selection);
+                var id = $selection.attr('data-value');
+                var isGhostItem = $selection.hasClass('as-ghost-item');
                 // jQuery autosuggest will always prepare an empty item for the next item that needs to be
                 // added to the list. Therefore, it is possible that an item in the list is empty
-                if (selectedValue) {
+                if (id) {
+                    var selectionData = $selection.data().originalData;
                     // In case this is a ghost item, we can only add it when it has been selected.
-                    var isGhostItem = $li.hasClass('as-ghost-item');
-                    if (!isGhostItem || (isGhostItem && $li.hasClass('ghost-selected'))) {
-                        data.push({
-                            'id': selectedValue,
-                            'displayName': $(selection).data().data && $(selection).data().data.displayName,
-                            'isGhost': isGhostItem
+                    if (!isGhostItem || (isGhostItem && $selection.hasClass('as-ghost-selected'))) {
+                        selectedItems.push({
+                            'id': id,
+                            'displayName': selectionData.displayName,
+                            'resourceType': selectionData.resourceType,
+                            'thumbnailUrl': selectionData.thumbnailUrl,
+                            'visibility': selectionData.visibility
                         });
                     }
                 }
             });
-            return data;
+            return selectedItems;
         };
 
         return {
+            'init': init,
             'setup': setup,
             'getSelection': getSelection
         };
