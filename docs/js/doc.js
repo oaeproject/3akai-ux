@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae.core'], function($, oae) {
+require(['jquery', 'oae.core', 'jquery.history'], function($, oae) {
 
     /**
      * Renders the documentation for a specific module
@@ -122,7 +122,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         History.pushState({
             'type': $(this).attr('data-type'),
             'module': $(this).attr('data-id')
-        }, null, $('a', $(this)).attr('href'));
+        }, $('title').text(), $('a', $(this)).attr('href'));
         return false;
     };
 
@@ -171,7 +171,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                 'module': moduleToLoad,
                 'apiFunction': apiFunction,
                 '_': Math.random()
-            });
+            }, $('title').text(), History.getState().cleanUrl);
         });
     };
 
