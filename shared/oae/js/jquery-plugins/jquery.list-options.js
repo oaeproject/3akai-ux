@@ -87,5 +87,45 @@ define(['jquery'], function ($) {
             $('.oae-list-options-actions > .btn', $list).prop('disabled', (totalChecked === 0));
         });
 
+        /**
+         * Gets the selected list items in the current list and send them out through an `oae.list.sendSelection` event
+         *
+         * @return {Object}       selectedItems                               Object containing the selected items
+         * @return {Object[]}     selectedItems.results                       Array of objects representing the selected list items
+         * @return {String}       selectedItems.results[i].id                 Resource id of the selected list item
+         * @return {String}       selectedItems.results[i].displayName        Display name of the selected list item
+         * @return {String}       selectedItems.results[i].resourceType       Resource type of the selected list item (group, user, content, etc.)
+         * @return {String}       [selectedItems.results[i].thumbnailUrl]     URL to the thumbnail image of the selected list item
+         */
+        $(document).on('oae.list.getSelection', function() {
+            var selectedItems = {
+                'results': []
+            };
+
+            // Collect all of the selected items
+            var $checked = $('input[type="checkbox"]:visible:checked', $('.oae-list:visible'));
+            $checked.each(function(index, checked) {
+                // Get the parent list item
+                var $checkedListItem = $(this).parents('li');
+
+                // Get the id and resourceType from the data attributes on the checkbox
+                var id = $(checked).attr('data-id');
+                var resourcetype = $(checked).attr('data-resourceType');
+                // Get the displayName and thumbnail image from the content of the list item
+                var displayName = $('h3:visible', $checkedListItem).text();
+                var thumbnailImage = $('img:visible', $checkedListItem).attr('src');
+
+                selectedItems.results.push({
+                    'displayName': displayName,
+                    'id': id,
+                    'resourceType': resourcetype,
+                    'thumbnailUrl': thumbnailImage
+                });
+            });
+
+            // Respond to the request event by sending the list of selected items
+            $(document).trigger('oae.list.sendSelection', selectedItems);
+        });
+
     })();
 });

@@ -428,7 +428,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
         },
         'other': {
             // The other type will be used for all unrecognized mimeTypes
-            'description': '__MSG__OTHER_DOCUMENT__',
+            'description': '__MSG__OTHER_DOCUMENT__'
         },
         'pdf': {
             'description': '__MSG__PDF_DOCUMENT__',

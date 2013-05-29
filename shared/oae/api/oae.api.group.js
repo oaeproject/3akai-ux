@@ -211,4 +211,54 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
         });
     };
 
+    /**
+     * Join a group as the currently authenticated user.
+     *
+     * @param  {String}       groupId             The id of the group that should be joined
+     * @param  {Function}     [callback]          Standard callback method
+     * @param  {Object}       [callback.err]      Error object containing error code and error message
+     * @throws {Error}                            Error thrown when no groupid has been provided.
+     */
+    var joinGroup = exports.joinGroup = function(groupId, callback) {
+        if (!groupId) {
+            throw new Error('A valid group id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/group/' + groupId + '/join',
+            'type': 'POST',
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
+
+    /**
+     * Leave a group as the currently authenticated user.
+     *
+     * @param  {String}       groupId             The id of the group that should be left
+     * @param  {Function}     [callback]          Standard callback method
+     * @param  {Object}       [callback.err]      Error object containing error code and error message
+     * @throws {Error}                            Error thrown when no group id has been provided
+     */
+    var leaveGroup = exports.leaveGroup = function(groupId, callback) {
+        if (!groupId) {
+            throw new Error('A valid group id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/group/' + groupId + '/leave',
+            'type': 'POST',
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
+
 });

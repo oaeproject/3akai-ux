@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery','oae.core'], function($, oae) {
+require(['jquery','oae.core', 'jquery.history'], function($, oae) {
 
     // Set the browser title
     oae.api.util.setBrowserTitle(oae.api.i18n.translate('__MSG__SEARCH__'));
@@ -85,7 +85,7 @@ require(['jquery','oae.core'], function($, oae) {
         History.pushState({
             'query': query,
             'types': types
-        }, null, url);
+        }, $('title').text(), url);
         return false;
     };
 
@@ -96,7 +96,8 @@ require(['jquery','oae.core'], function($, oae) {
     var initSearch = function() {
         // We parse the URL fragment that's inside of the current History.js state.
         // The expected URL structure is `/search/<query>?types=type1,type2`
-        var initialState = $.url(History.getState().hash);
+        var url = History.getState().cleanUrl;
+        var initialState = $.url(url);
         var query = initialState.segment().slice(1).join('/');
         var types = (initialState.param().types || '').split(',');
         // Replace the current History.js state to have the query and type refinement data. This
@@ -109,7 +110,7 @@ require(['jquery','oae.core'], function($, oae) {
             'query': query,
             'types': types,
             '_': Math.random()
-        });
+        }, $('title').text(), url);
     };
 
     /**
@@ -126,5 +127,4 @@ require(['jquery','oae.core'], function($, oae) {
 
     addBinding();
     initSearch();
-
 });

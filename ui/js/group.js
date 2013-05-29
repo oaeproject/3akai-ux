@@ -24,6 +24,11 @@ require(['jquery', 'oae.core'], function($, oae) {
     // Variable used to cache the group's base URL
     var baseUrl = '/group/' + $.url().segment(2) + '/' + $.url().segment(3);
 
+
+    //////////////////////////////////
+    // GROUP PROFILE INITIALIZATION //
+    //////////////////////////////////
+
     /**
      * Get the group's basic profile and set up the screen. If the group
      * can't be found or is private to the current user, the appropriate
@@ -78,7 +83,10 @@ require(['jquery', 'oae.core'], function($, oae) {
 
         // Only show the create and upload clips to managers
         if (groupProfile.isManager) {
-            $('#group-actions').show();
+            $('#group-manager-actions').show();
+        // Show the join clip to non-members when the group is joinable
+        } else if (!groupProfile.isMember && groupProfile.joinable === 'yes') {
+            $('#group-join-actions').show();
         }
     };
 
@@ -171,6 +179,11 @@ require(['jquery', 'oae.core'], function($, oae) {
         });
     };
 
+
+    //////////////////////////
+    // CHANGE GROUP PICTURE //
+    //////////////////////////
+
     /**
      * Re-render the group's clip when a new profile picture has been uploaded. The updated
      * group profile will be passed into the event
@@ -180,12 +193,100 @@ require(['jquery', 'oae.core'], function($, oae) {
         setUpClip();
     });
 
+
+    ///////////////////
+    // MANAGE ACCESS //
+    ///////////////////
+
+    /**
+     * Creates the widgetData object to send to the manageaccess widget that contains all
+     * variable values needed by the widget.
+     *
+     * @return {Object}    The widgetData to be passed into the manageaccess widget
+     * @see manageaccess#initManageAccess
+     */
+    var getManageAccessData = function() {
+        return {
+            'contextProfile': groupProfile,
+            'messages': {
+                'accessNotUpdatedBody': oae.api.i18n.translate('__MSG__GROUP_ACCESS_COULD_NOT_BE_UPDATED__'),
+                'accessNotUpdatedTitle': oae.api.i18n.translate('__MSG__GROUP_ACCESS_NOT_UPDATED__'),
+                'accessUpdatedBody': oae.api.i18n.translate('__MSG__GROUP_ACCESS_SUCCESSFULLY_UPDATED__'),
+                'accessUpdatedTitle': oae.api.i18n.translate('__MSG__GROUP_ACCESS_UPDATED__'),
+                'membersTitle': oae.api.i18n.translate('__MSG__GROUP_MEMBERS__'),
+                'private': oae.api.i18n.translate('__MSG__PARTICIPANTS_ONLY__'),
+                'loggedin': oae.api.util.security().encodeForHTML(groupProfile.tenant.displayName),
+                'public': oae.api.i18n.translate('__MSG__PUBLIC__'),
+                'privateDescription': oae.api.i18n.translate('__MSG__GROUP_PRIVATE_DESCRIPTION_PRESENT__'),
+                'loggedinDescription': oae.api.i18n.translate('__MSG__GROUP_LOGGEDIN_DESCRIPTION__', null, {'tenant': oae.api.util.security().encodeForHTML(groupProfile.tenant.displayName)}),
+                'publicDescription': oae.api.i18n.translate('__MSG__GROUP_PUBLIC_DESCRIPTION_PRESENT__')
+            },
+            'roles': {
+                'member': oae.api.i18n.translate('__MSG__MEMBER__'),
+                'manager': oae.api.i18n.translate('__MSG__MANAGER__')
+            },
+            'api': {
+                'getMembersURL': '/api/group/' + groupProfile.id + '/members',
+                'setMembers': oae.api.group.setGroupMembers,
+                'setVisibility': oae.api.group.updateGroup
+            }
+        };
+    };
+
+    /**
+     * Triggers the manageaccess widget and passes in context data
+     */
+    $(document).on('click', '.group-trigger-manageaccess', function() {
+        $(document).trigger('oae.trigger.manageaccess', getManageAccessData());
+    });
+
+    /**
+     * Triggers the manageaccess widget in `add members` view and passes in context data
+     */
+    $(document).on('click', '.group-trigger-manageaccess-add', function() {
+        $(document).trigger('oae.trigger.manageaccess-add', getManageAccessData());
+    });
+
     /**
      * Re-render the group's clip when the permissions have been updated.
      */
-    $(document).on('done.manageaccess.oae', function(ev) {
+    $(document).on('oae.manageaccess.done', function(ev) {
         setUpClip();
     });
+
+
+    ////////////////
+    // JOIN GROUP //
+    ////////////////
+
+    /**
+     * Join the group when the join button is clicked
+     */
+    $('#group-join-actions-join button').on('click', function() {
+        // Join the group
+        oae.api.group.joinGroup(groupProfile.id, function(err) {
+            if (!err) {
+                // Show a success notification
+                oae.api.util.notification(
+                    oae.api.i18n.translate('__MSG__GROUP_JOINED__'),
+                    oae.api.i18n.translate('__MSG__GROUP_JOIN_SUCCESS__')
+                );
+
+                // Reload the page after 2 seconds to re-render the group as a member
+                setTimeout(function() {
+                    document.location.reload();
+                }, 2000);
+            } else {
+                // Show a failure notification
+                oae.api.util.notification(
+                    oae.api.i18n.translate('__MSG__GROUP_JOIN_FAILED__'),
+                    oae.api.i18n.translate('__MSG__GROUP_NOT_JOINED__'),
+                    'error'
+                );
+            }
+        });
+    });
+
 
     getGroupProfile();
 
