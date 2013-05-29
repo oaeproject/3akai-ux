@@ -118,7 +118,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         // Re-render the entity information
         setUpClip();
         // Show the content preview
-        setUpContentProfilePreview();
+        setUpContentPreview();
     };
 
     // Catches an event sent out when the content has been updated. This can be either when
