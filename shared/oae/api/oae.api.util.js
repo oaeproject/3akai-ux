@@ -713,22 +713,30 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             };
 
             // Function that will be called when an item is attempted to be removed from the autosuggest
-            // field. We only remove the element when the element is not fixed. If a `selectionRemoved`
-            // function has already been provided, we cache it so it can be executed after this. If the
-            // item is fixed, we don't execute the cached `selectionRemoved` function
+            // field. We only remove the element when the element is not fixed and not a ghost. If a
+            // `selectionRemoved` function has already been provided, we cache it so it can be executed
+            // after this. If the item is fixed, we don't execute the cached `selectionRemoved` function
             var selectionRemoved = null;
             if (options.selectionRemoved) {
                 selectionRemoved = options.selectionRemoved;
             }
             options.selectionRemoved = function(elem) {
                 var isFixed = false;
-                // Check if the removed element was one of the fixed elements in the preFill object
+                // Check if the removed element was one of the fixed elements in the preFill objects
+                var originalData = $(elem).data('originalData');
                 if (options.preFill) {
                     isFixed = _.some(options.preFill, function(preFilledItem) {
-                        return preFilledItem.id === elem.value && preFilledItem.fixed === true;
+                        return preFilledItem.id === originalData.id && preFilledItem.fixed === true;
+                    });
+                }
+                // Check if the removed element was one of the ghost elements in the ghosts objects
+                if (!isFixed && options.ghosts) {
+                    isFixed = _.some(options.ghosts, function(ghostItem) {
+                        return ghostItem.id === originalData.id;
                     });
                 }
 
+                // If the item is fixed, we don't do anything
                 if (!isFixed) {
                     if (selectionRemoved) {
                         selectionRemoved(elem);
@@ -747,12 +755,18 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             }
             options.selectionAdded = function(elem) {
                 var $elem = $(elem);
+                // Make sure that the item cannot overflow
+                $elem.addClass('oae-threedots');
+
                 var originalData = $elem.data('originalData');
-                var $thumbnail = $('<div>').addClass('oae-thumbnail icon-oae-' + originalData.resourceType);
-                if (originalData.thumbnailUrl) {
-                    $thumbnail.append($('<img>').attr('src', originalData.thumbnailUrl));
+                if (originalData.resourceType) {
+                    // Prepend a thumbnail to the item to add to the list
+                    var $thumbnail = $('<div>').addClass('oae-thumbnail icon-oae-' + originalData.resourceType);
+                    if (originalData.thumbnailUrl) {
+                        $thumbnail.append($('<img>').attr('src', originalData.thumbnailUrl));
+                    }
+                    $elem.prepend($thumbnail);
                 }
-                $elem.prepend($thumbnail);
 
                 if (selectionAdded) {
                     selectionAdded(elem);
@@ -797,9 +811,27 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         };
 
         /**
+         * Set the focus on the autosuggest field. This will end up setting the focus on the input field that is used
+         * by the autosuggest component to enter the next item in the list
+         *
+         * @param  {Element|String}     $element             jQuery element or jQuery selector for the container in which the auto suggest was initialized. Note that this will *not* be the same element as the one used to setup the auto suggest.
+         * @throws {Error}                                   Error thrown when no source element has been provided
+         */
+        var focus = function($element) {
+            if (!$element) {
+                throw new Error('An valid input element should be provided.');
+            }
+
+            $element = $($element);
+            console.log($('.as-selections input', $element));
+            console.log($('.as-selections input', $element).is(':visible'));
+            $('.as-selections input', $element).focus();
+        };
+
+        /**
          * Retrieve the selected items in an autosuggest field
          *
-         * @param  {Element|String}     $element                            jQuery element or jQuery selector for the container in which the auto suggest was initialized. Note that this will *not* be the same element as the one you used to setup the auto suggest.
+         * @param  {Element|String}     $element                            jQuery element or jQuery selector for the container in which the auto suggest was initialized. Note that this will *not* be the same element as the one used to setup the auto suggest.
          * @return {Object[]}           selectedItems                       Array of objects representing the selected autosuggest items
          * @return {String}             selectedItems[i].id                 Resource id of the selected item
          * @return {String}             selectedItems[i].displayName        Display name of the selected item
@@ -821,11 +853,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             $.each($element.find('.as-selections > li'), function(index, selection) {
                 var $selection = $(selection);
                 var id = $selection.attr('data-value');
+                var selectionData = $selection.data().originalData;
                 var isGhostItem = $selection.hasClass('as-ghost-item');
                 // jQuery autosuggest will always prepare an empty item for the next item that needs to be
                 // added to the list. Therefore, it is possible that an item in the list is empty
-                if (id) {
-                    var selectionData = $selection.data().originalData;
+                if (id && selectionData) {
                     // In case this is a ghost item, we can only add it when it has been selected.
                     if (!isGhostItem || (isGhostItem && $selection.hasClass('as-ghost-selected'))) {
                         selectedItems.push({
@@ -844,6 +876,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         return {
             'init': init,
             'setup': setup,
+            'focus': focus,
             'getSelection': getSelection
         };
     };

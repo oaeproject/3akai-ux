@@ -563,233 +563,72 @@ ul.as-selections.as-selections-focus {
  ** @section  Autosuggest **
  ****************************/
 
-/* @subsection  List item */
+/* @subsection  Active item */
 
-/* Selection list item color */
-@as-item-color: #2b3840;
-/* Selection list item text shadow */
-@as-item-text-shadow-color: #fff;
-/* Selection list item background color */
-@as-item-background-color: #ddeefe;
-/* Selection list item background gradient to color */
-@as-item-background-gradient-to-color: #bfe0f1;
-/* Selection list item border color */
-@as-item-border-color: #acc3ec;
-/* Selection list item box shadow */
-@as-item-box-shadow-color: #e4edf2;
+/* Active item text color */
+@as-item-active-color: #2B3840;
+/* Active item border color */
+@as-item-active-border-color: #ACC3EC;
+/* Active item background gradient primary color */
+@as-item-active-gradient1-color: #DDEEFE;
+/* Active item background gradient secondary color */
+@as-item-active-gradient2-color: #BFE0F1;
 
-ul.as-selections li.as-selection-item {
-    color: @as-item-color;
-    text-shadow: 0 1px 1px @as-item-text-shadow-color;
-    background-color: @as-item-background-color;
-    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(@as-item-background-color), to(@as-item-background-gradient-to-color));
-    border-color: @as-item-border-color;
-    box-shadow: 0 1px 1px @as-item-box-shadow-color;
-    -webkit-box-shadow: 0 1px 1px @as-item-box-shadow-color;
-    -moz-box-shadow: 0 1px 1px @as-item-box-shadow-color;
+ul.as-selections li.as-selection-item,
+ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected,
+ul.as-selections.as-selections-focus li.as-selection-item.selected {
+    .background-gradient-two(@as-item-active-gradient1-color, @as-item-active-gradient2-color);
+    color: @as-item-active-color;
+    border-color: @as-item-active-border-color;
 }
 
+ul.as-selections li.as-selection-item a.as-close,
+ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected a.as-close {
+    color: @as-item-active-border-color;
+}
 
-/* @subsection  List item blur */
+/* @subsection  Inactive item */
 
-/* Selection list item blur text color */
-@as-item-blur-text-color: #666666;
-/* Selection list item blur background color */
-@as-item-blur-background-color: #f4f4f4;
-/* Selection list item blur background gradient to color */
-@as-item-blur-background-gradient-to-color: #d5d5d5;
-/* Selection list item blur border color */
-@as-item-blur-border-color: #bbb;
-/* Selection list item blur box shadow color */
-@as-item-blur-box-shadow-color: #e9e9e9;
+/* Inactive item text color */
+@as-item-blur-color: #666;
+/* Inactive item border color */
+@as-item-blur-border-color: #BBB;
+/* Inactive item background gradient primary color */
+@as-item-blur-gradient1-color: #F4F4F4;
+/* Inactive item background gradient secondary color */
+@as-item-blur-gradient2-color: #D5D5D5;
 
 ul.as-selections li.as-selection-item.blur {
-    color: @as-item-blur-text-color;
-    background-color: @as-item-blur-background-color;
-    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(@as-item-blur-background-color), to(@as-item-blur-background-gradient-to-color));
+    .background-gradient-two(@as-item-blur-gradient1-color, @as-item-blur-gradient2-color);
+    color: @as-item-blur-color;
     border-color: @as-item-blur-border-color;
-    box-shadow: 0 1px 1px @as-item-blur-box-shadow-color;
-    -webkit-box-shadow: 0 1px 1px @as-item-blur-box-shadow-color;
-    -moz-box-shadow: 0 1px 1px @as-item-blur-box-shadow-color;
-}
-
-
-/* @subsection  List item close */
-
-/* Selection list item close text color */
-@as-item-close-text-color: #5491be;
-/* Selection list item close text shadow color */
-@as-item-close-text-shadow-color: #fff;
-/* Selection list item blur-close text color */
-@as-item-blur-close-text-color: #999;
-
-ul.as-selections li.as-selection-item a.as-close {
-    color: @as-item-close-text-color;
-    text-shadow: 0 1px 1px @as-item-close-text-shadow-color;
 }
 
 ul.as-selections li.as-selection-item.blur a.as-close {
-    color: @as-item-blur-close-text-color;
+    color: @as-item-blur-border-color;
 }
 
+/* @subsection  Ghost item */
 
-/* subsection List ghost item */
+/* Ghost item text color */
+@as-item-ghost-color: #666;
+/* Ghost item border color */
+@as-item-ghost-border-color: #BBB;
+/* Ghost item background gradient primary color */
+@as-item-ghost-gradient1-color: #FFF;
+/* Ghost item background gradient secondary color */
+@as-item-ghost-gradient2-color: #FFF;
 
-/* Selection list ghost item border color */
-@as-ghost-item-border-color: #000000;
-/* Selection list ghost item background color */
-@as-ghost-item-background-color: #000000;
-
-/* Selection list ghost item selected text color */
-@as-ghost-item-selected-text-color: #666666;
-/* Selection list ghost item selected background color */
-@as-ghost-item-selected-background-color: #ddeefe;
-/* Selection list ghost item selected background gradient to color */
-@as-ghost-item-selected-background-gradient-to-color: #bfe0f1;
-/* Selection list ghost item selected border color */
-@as-ghost-item-selected-border-color: #acc3ec;
-/* Selection list ghost item selected box shadow color */
-@as-ghost-item-selected-box-shadow-color: #e4edf2;
-
-ul.as-selections li.as-selection-item.as-ghost-item,
-ul.as-selections li.as-selection-item.blur.as-ghost-item,
-ul.as-selections li.as-selection-item.blur.as-ghost-item:hover,
-ul.as-selections li.as-selection-item.as-ghost-item:hover {
-    border: 1px dashed @as-ghost-item-border-color;
-    background-color: @as-ghost-item-background-color;
+ul.as-selections li.as-selection-item.as-ghost-item {
+    .background-gradient-two(@as-item-ghost-gradient1-color, @as-item-ghost-gradient2-color);
+    color: @as-item-ghost-color;
+    border-color: @as-item-ghost-border-color;
 }
 
-ul.as-selections li.as-selection-item.ghost-selected,
-ul.as-selections li.as-selection-item.as-ghost-item.ghost-selected:hover {
-    color: @as-ghost-item-selected-text-color;
-    background-color: @as-ghost-item-selected-background-color;
-    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(@as-ghost-item-selected-background-color), to(@as-ghost-item-selected-background-gradient-to-color));
-
-    border-color: @as-ghost-item-selected-border-color;
-    -webkit-box-shadow: 0 1px 1px @as-ghost-item-selected-box-shadow-color;
-    -moz-box-shadow: 0 1px 1px @as-ghost-item-selected-box-shadow-color;
-    box-shadow: 0 1px 1px @as-ghost-item-selected-box-shadow-color;
+ul.as-selections li.as-selection-item.as-ghost-item a.as-close {
+    color: @as-item-ghost-border-color;
 }
 
-ul.as-selections li.as-selection-item a.as-ghost-add {
-    color: @as-ghost-item-selected-text-color;
-}
-
-ul.as-selections li.as-selection-item a.as-ghost-remove {
-    color: @as-ghost-item-selected-text-color;
-}
-
-
-/* @subsection  List item hover */
-
-/* Selection list item hover text color */
-@as-item-hover-text-color: #2b3840;
-/* Selection list item hover background color */
-@as-item-hover-background-color: #bbd4f1;
-/* Selection list item hover background gradient to color */
-@as-item-hover-background-gradient-to-color: #bbd4f1;
-/* Selection list item hover border color */
-@as-item-hover-border-color: #8bb7ed;
-/* Selection list item hover close text color */
-@as-item-hover-close-text-color: #4d70b0;
-
-ul.as-selections li:hover.as-selection-item {
-    color: @as-item-hover-text-color;
-    background-color: @as-item-hover-background-color;
-    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(@as-item-hover-background-color), to(@as-item-hover-background-gradient-to-color));
-    border-color: @as-item-hover-border-color;
-}
-
-ul.as-selections li:hover.as-selection-item a.as-close {
-    color: @as-item-hover-close-text-color;
-}
-
-
-/* @subsection  List item misc */
-
-/* Selection list item selected item */
-@as-item-selected-border-color: #1f30e4;
-/* Selection list item close button hover color */
-@as-item-close-button-hover-color: #1b3c65;
-/* Selection list item close button active color */
-@as-item-close-button-active-color: #4d70b0;
-
-ul.as-selections li.as-selection-item.selected {
-    border-color: @as-item-selected-border-color;
-}
-
-
-ul.as-selections li.as-selection-item a:hover.as-close {
-    color: @as-item-close-button-hover-color;
-}
-
-ul.as-selections li.as-selection-item a:active.as-close {
-    color: @as-item-close-button-active-color;
-}
-
-
-/* @subsection  Result list */
-
-/* Result list text color */
-@as-result-list-text-color: #000;
-/* Result list background color */
-@as-result-list-background-color: #fff;
-/* Result list box shadow color */
-@as-result-list-box-shadow-color: #222;
-
-ul.as-list {
-    color: @as-result-list-text-color;
-    background-color: @as-result-list-background-color;
-    box-shadow: 0 2px 12px @as-result-list-box-shadow-color;
-    -webkit-box-shadow: 0 2px 12px @as-result-list-box-shadow-color;
-    -moz-box-shadow: 0 2px 12px @as-result-list-box-shadow-color;
-}
-
-li.as-result-item, li.as-message {
-    background-color: @as-result-list-background-color;         /** sakai addition **/
-    border: 1px solid @as-result-list-background-color;
-}
-
-
-
-/* @subsection  Result list item */
-
-/* Result list item text color */
-@as-result-list-item-text-color: #fff;
-/* Result list item text shadow color */
-@as-result-list-item-text-shadow-color: #122042;
-/* Result list item background color */
-@as-result-list-item-background-color: #3668d9;
-/* Result list item background gradient to color */
-@as-result-list-item-background-gradient-to-color: rgb(62, 82, 242);
-/* Result list item border color */
-@as-result-list-item-border-color: #3342e8;
-/* Result list item em background color */
-@as-result-list-item-em-background-color: #444;
-/* Result list item text color */
-@as-result-list-item-text-color: #fff;
-/* Result list item active em background color */
-@as-result-list-item-active-em-background-color: #253f7a;
-/* Result list item active text color */
-@as-result-list-item-active-text-color: #fff;
-
-li.as-result-item.active {
-    background-color: @as-result-list-item-background-color;
-    background-image: -webkit-gradient(linear, 0% 0%, 0% 64%, from(@as-result-list-item-background-color), to(@as-result-list-item-background-gradient-to-color));
-    border-color: @as-result-list-item-border-color;
-    color: @as-result-list-item-text-color;
-    text-shadow: 0 1px 2px @as-result-list-item-text-shadow-color;
-}
-
-li.as-result-item em {
-    background: @as-result-list-item-em-background-color;
-    color: @as-result-list-item-text-color;
-}
-
-li.as-result-item.active em {
-    background-color: @as-result-list-item-active-em-background-color;
-    color: @as-result-list-item-active-text-color;
-}
 
 
 /**************************

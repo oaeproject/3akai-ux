@@ -322,31 +322,40 @@ ul.as-selections {
             border-radius: 4px;
 }
 
+ul.as-selections li.as-original {
+    height: 35px;
+    margin-bottom: 4px;
+}
+
 ul.as-selections li.as-original input,
 ul.as-selections li.as-original input:focus {
     border-color: none;
     -webkit-box-shadow: none;
        -moz-box-shadow: none;
             box-shadow: none;
-    margin-bottom: 0px;
-    padding-top: 8px;
+    padding-top: 10px;
 }
 
 ul.as-selections li.as-selection-item {
-    -webkit-border-radius: 15px;
-        -moz-border-radius: 15px;
-             border-radius: 15px;
+    -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+             border-radius: 3px;
+    -webkit-box-shadow: none;
+       -moz-box-shadow: none;
+            box-shadow: none;
     font-family: inherit;
     height: 30px;
     line-height: 30px;
     margin-bottom: 3px;
+    margin-right: 5px;
+    max-width: 400px;
+    text-shadow: none;
 }
 
 ul.as-selections li.as-selection-item .oae-thumbnail {
     float: left;
     height: 25px;
-    margin-left: 2px;
-    margin-right: 8px;
+    margin-right: 10px;
     position: relative;
     top: 2px;
     width: 25px;
@@ -367,6 +376,10 @@ ul.as-selections li.as-selection-item.as-fixed-item a.as-close {
 ul.as-selections li.as-selection-item.as-ghost-item {
     border: 1px dashed;
     cursor: pointer;
+}
+
+ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected {
+    border: 1px solid;
 }
 
 ul.as-selections li.as-selection-item.as-ghost-item a.as-ghost-add {
