@@ -208,6 +208,16 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     });
 
 
+    ///////////////
+    // REVISIONS //
+    ///////////////
+
+    $(document).on('oae.revisions.done', function(ev, data) {
+        // TODO: uncomment next line once https://github.com/sakaiproject/Hilary/issues/523 has been merged.
+        //contentProfile = data;
+        setUpContentProfilePreview();
+    });
+
     getContentProfile();
 
 });
