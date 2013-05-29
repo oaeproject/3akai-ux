@@ -97,25 +97,6 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
 
-    /////////////////////
-    // EDIT DISCUSSION //
-    /////////////////////
-
-    /**
-     * Re-render the discussion's clip and topic when the title or topic have been updated.
-     */
-    $(document).on('oae.editdiscussion.done', function(ev, data) {
-        // TODO: remove once https://github.com/sakaiproject/Hilary/issues/519 is merged
-        data.canShare = discussionProfile.canShare;
-        data.canPost = discussionProfile.canPost;
-        data.isManager = discussionProfile.isManager;
-
-        discussionProfile = data;
-        setUpClip();
-        setUpTopic();
-    });
-
-
     ///////////////////
     // MANAGE ACCESS //
     ///////////////////
@@ -168,6 +149,26 @@ require(['jquery','oae.core'], function($, oae) {
     $(document).on('oae.manageaccess.done', function(ev) {
         setUpClip();
     });
+
+
+    /////////////////////
+    // EDIT DISCUSSION //
+    /////////////////////
+
+    /**
+     * Re-render the discussion's clip and topic when the title or topic have been updated.
+     */
+    $(document).on('oae.editdiscussion.done', function(ev, data) {
+        // TODO: remove once https://github.com/sakaiproject/Hilary/issues/519 is merged
+        data.canShare = discussionProfile.canShare;
+        data.canPost = discussionProfile.canPost;
+        data.isManager = discussionProfile.isManager;
+
+        discussionProfile = data;
+        setUpClip();
+        setUpTopic();
+    });
+
 
     getDiscussionProfile();
 
