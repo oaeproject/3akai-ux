@@ -233,7 +233,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
                 } else {
                     // Don't do any more searches when scrolling
                     isDoingSearch = true;
-                    if ($('li:visible', $container).length === 0) {
+                    if ($('li', $container).length === 0) {
                         if (options.emptyListProcessor) {
                             options.emptyListProcessor();
                         }
