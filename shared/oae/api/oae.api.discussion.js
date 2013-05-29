@@ -99,8 +99,8 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             'url': '/api/discussion/' + discussionId,
             'type': 'POST',
             'data': params,
-            'success': function() {
-                callback(null);
+            'success': function(data) {
+                callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
