@@ -226,6 +226,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         }
     });
 
+
     getContentProfile();
 
 });
