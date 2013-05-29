@@ -231,8 +231,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
             'url': '/api/content/' + contentId,
             'type': 'POST',
             'data': params,
-            'success': function() {
-                callback(null);
+            'success': function(data) {
+                callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
