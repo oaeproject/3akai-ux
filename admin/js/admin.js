@@ -104,11 +104,18 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         // Run over all the old config values to check which ones have been modified
         $.each(configuration[module], function(option, optionValues) {
             $.each(optionValues, function(element, elementValue) {
-                // Convert the value in case it's a checkbox
                 var configPath = module + '/' + option + '/' + element;
+                // Convert the value to a boolean in case it's a checkbox
                 if (configurationSchema[module][option].elements[element].type === 'boolean') {
                     values[configPath] = values[configPath] ? true : false;
                 }
+
+                // If the original value is of type "number", convert the new
+                // value to a number as well.
+                if (typeof elementValue === 'number') {
+                    values[configPath] = Number(values[configPath]);
+                }
+
                 // Check if the value has changed and overwrite if it has
                 if (values[configPath] !== elementValue) {
                     data[configPath] = values[configPath];
