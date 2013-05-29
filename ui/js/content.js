@@ -69,7 +69,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     /**
      * Renders the content preview.
      */
-    var setUpContentProfilePreview = function() {
+    var setUpContentPreview = function() {
         // Remove the old preview widget
         $('#content-preview-container').html('');
         // Based on the content type, insert a new preview widget and pass in the updated content profile data
