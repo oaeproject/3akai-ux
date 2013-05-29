@@ -247,7 +247,22 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
      * @param  {Function}      callback            Standard callback method
      * @param  {Object}        callback.err        Error object containing error code and error message
      */
-    var deleteContent = exports.deleteContent = function(contentId, callback) {};
+    var deleteContent = exports.deleteContent = function(contentId, callback) {
+        if (!contentId) {
+            throw new Error('A valid content id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/content/' + contentId,
+            'type': 'DELETE',
+            'success': function() {
+                callback(null);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
 
     /**
      * Get the viewers and managers of a content item.

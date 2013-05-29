@@ -677,6 +677,13 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         };
 
         /**
+         * Redirect the currently user to the me page. This can be used when a user has removed a piece of content.
+         */
+        var me = function() {
+            window.location = '/me';
+        };
+
+        /**
          * Redirect the current user to the 401 page. This can be used when the current user does not have
          * permission to see a certain page.
          */
@@ -710,6 +717,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
 
         return {
             'login': login,
+            'me': me,
             'accessdenied': accessdenied,
             'notfound': notfound,
             'unavailable': unavailable,

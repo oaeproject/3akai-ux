@@ -116,7 +116,22 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Function}      callback            Standard callback method
      * @param  {Object}        callback.err        Error object containing error code and error message
      */
-    var deleteDiscussion = exports.deleteDiscussion = function(discussionId, callback) {};
+    var deleteDiscussion = exports.deleteDiscussion = function(discussionId, callback) {
+        if (!discussionId) {
+            throw new Error('A valid discussion id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/discussion/' + discussionId,
+            'type': 'DELETE',
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
 
     /**
      * Get the viewers and managers of a discussion.
