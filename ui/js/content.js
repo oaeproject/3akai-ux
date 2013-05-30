@@ -223,7 +223,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * Re-render the content's clip when the details have been updated.
      * When the type of content is a link the content preview will be re-rendered as well.
      */
-    $(document).on('done.editcontent.oae', function(ev, data) {
+    $(document).on('oae.editcontent.done', function(ev, data) {
         if (contentProfile.resourceSubType === 'link') {
             refreshContentProfile(ev, data);
         } else {
