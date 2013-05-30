@@ -224,10 +224,11 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     };
 
     /**
-     * Creates a new revision with the content of the restored revision.
+     * Restore a revision. The restored revision will become the content item's current revision, and will have the same content as that revision.
+     * Revisions can only be restored for documents and files.
      *
      * @param  {String}       contentId           Content id of the content item we're restoring a revision of
-     * @param  {String}       revisionId          Revision id of the revision restoring
+     * @param  {String}       revisionId          Revision id of the revision that's being restored
      * @param  {Function}     [callback]          Standard callback method
      * @param  {Object}       [callback.err]      Error object containing error code and error message
      * @throws {Error}                            Error thrown when not all of the required parameters have been provided

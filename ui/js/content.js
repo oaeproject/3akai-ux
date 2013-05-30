@@ -225,6 +225,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         setUpContentProfilePreview();
     });
 
+
     getContentProfile();
 
 });
