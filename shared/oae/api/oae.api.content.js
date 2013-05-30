@@ -230,6 +230,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
      * @param  {Object}       params              JSON object where the keys represent all of the profile field names we want to update and the values represent the new values for those fields
      * @param  {Function}     [callback]          Standard callback method
      * @param  {Object}       [callback.err]      Error object containing error code and error message
+     * @param  {Content}      [callback.data]     Content object representing the updated content
      * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */
     var updateContent = exports.updateContent = function(contentId, params, callback) {
@@ -243,8 +244,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
             'url': '/api/content/' + contentId,
             'type': 'POST',
             'data': params,
-            'success': function() {
-                callback(null);
+            'success': function(data) {
+                callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
