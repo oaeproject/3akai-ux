@@ -158,14 +158,15 @@ i[class^="icon-"].large:before {
 }
 
 
-/************************
- ** VISIBILITY TOGGLES **
- ************************/
+/*******************
+ ** LARGE OPTIONS **
+ *******************/
 
 /**
- * A Large group of toggle buttons for visibility settings.
- * When an `oae-large-options input` field changes value the
- * `oae-visibility-changed` event is sent out with data: `{'radio': $(input)}`
+ * Generate a group of large toggle buttons.
+ *
+ * Each toggle button will have an icon, a name and a description. One of the toggle buttons will
+ * selected at any time.
  *
  * e.g. <div class="oae-large-options-container row-fluid">
  *          <label for="oae-visibility-private" class="span4 text-center">
@@ -196,6 +197,10 @@ i[class^="icon-"].large:before {
  *              <small>__MSG__GROUP_PUBLIC_DESCRIPTION__</small>
  *          </label>
  *      </div>
+ *
+ * Notes:
+ *
+ * - The selected button should have a `checked` class on the `oae-large-options` element
  **/
 
 .oae-large-options-container label {
@@ -219,6 +224,12 @@ i[class^="icon-"].large:before {
 .oae-large-options-container .oae-large-options input {
     position: absolute;
     z-index: -1; /* Adding a z-index of -1 hides the element from the view but still allows for focus of the element */
+}
+
+.oae-large-options-container .oae-large-options i.icon-oae-private:before,
+.oae-large-options-container .oae-large-options i.icon-oae-loggedin:before,
+.oae-large-options-container .oae-large-options i.icon-oae-public:before {
+    margin-top: 6px;
 }
 
 .oae-large-options-container .oae-large-options span {
