@@ -411,8 +411,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
         $.ajax({
             'url': '/api/content/library/' + principalId + '/' + contentId,
             'type': 'DELETE',
-            'success': function(data) {
-                callback(null, data);
+            'success': function() {
+                callback(null);
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});

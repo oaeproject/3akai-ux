@@ -124,8 +124,8 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         $.ajax({
             'url': '/api/discussion/' + discussionId,
             'type': 'DELETE',
-            'success': function(data) {
-                callback(null, data);
+            'success': function() {
+                callback(null);
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
@@ -280,8 +280,8 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         $.ajax({
             'url': '/api/discussion/library/' + principalId + '/' + discussionId,
             'type': 'DELETE',
-            'success': function(data) {
-                callback(null, data);
+            'success': function() {
+                callback(null);
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
