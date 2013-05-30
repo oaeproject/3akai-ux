@@ -222,7 +222,6 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     /**
      * Re-render the content's clip when the details have been updated.
      * When the type of content is a link the content preview will be re-rendered as well.
-     * TODO: Verify this works after https://github.com/sakaiproject/Hilary/issues/521 has been merged
      */
     $(document).on('done.editcontent.oae', function(ev, data) {
         if (contentProfile.resourceSubType === 'link') {
