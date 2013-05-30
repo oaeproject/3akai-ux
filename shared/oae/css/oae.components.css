@@ -145,16 +145,12 @@ i.icon-oae-public:before {
 
 /* Large visibility icons */
 
-i.icon-oae-private.large,
-i.icon-oae-loggedin.large,
-i.icon-oae-public.large {
+i[class^="icon-"].large {
     width: 60px;
     height: 60px;
 }
 
-i.icon-oae-private.large:before,
-i.icon-oae-loggedin.large:before,
-i.icon-oae-public.large:before {
+i[class^="icon-"].large:before {
     font-size: 50px;
     height: 55px;
     padding-top: 5px;
