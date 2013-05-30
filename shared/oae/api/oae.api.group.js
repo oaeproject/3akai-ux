@@ -92,7 +92,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * @param  {String}       [profileFields.joinable]      New joinability setting for the group. The possible values are 'yes', 'no' and 'request'
      * @param  {Function}     callback                      Standard callback method
      * @param  {Object}       callback.err                  Error object containing error code and error message
-     * @param  {Group}        callback.response             The group object representing the updated group
+     * @param  {Group}        callback.group                The group object representing the updated group
      * @throws {Error}                                      Error thrown when not all of the required parameters have been provided
      */
     var updateGroup = exports.updateGroup = function (groupId, profileFields, callback) {
