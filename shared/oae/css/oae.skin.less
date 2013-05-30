@@ -1,0 +1,712 @@
+/*!
+ * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ *     http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+
+/*****************
+ ** LESS Mixins **
+ *****************/
+
+.background-image-with-gradient(@image, @gradient1, @gradient2) {
+    background-image: url(@image) @gradient1;
+    background-image: url(@image), -moz-linear-gradient(top, @gradient1 0%, @gradient2 100%);
+    background-image: url(@image), -webkit-linear-gradient(top, @gradient1 0%, @gradient2 100%);
+    background-image: url(@image), linear-gradient(to bottom, @gradient1 0%, @gradient2 100%);
+}
+
+.background-gradient-two(@gradient1, @gradient2, @gradient1start:0%, @gradient2start:100%) {
+    background: @gradient1;
+    background-image: linear-gradient(to bottom, @gradient1 @gradient1start, @gradient2 @gradient2start);
+    background-image: -o-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start);
+    background-image: -moz-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start);
+    background-image: -webkit-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start);
+    background-image: -ms-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start);
+}
+
+.background-gradient-three(@gradient1, @gradient2, @gradient3, @gradient1start:0%, @gradient2start:50%, @gradient3start:100%) {
+    background: @gradient1;
+    background-image: linear-gradient(to bottom, @gradient1 @gradient1start, @gradient2 @gradient2start, @gradient3 @gradient3start);
+    background-image: -o-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start, @gradient3 @gradient3start);
+    background-image: -moz-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start, @gradient3 @gradient3start);
+    background-image: -webkit-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start, @gradient3 @gradient3start);
+    background-image: -ms-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start, @gradient3 @gradient3start);
+}
+
+
+/************************
+ ** @section  Branding **
+ ************************/
+
+/* Body background color */
+@body-background-color: #ECEAE5;
+
+body {
+   background-color: @body-background-color;
+}
+
+
+/* Institutional logo */
+@institutional-logo-url: '/shared/oae/img/oae-logo.png';
+
+.oae-institutional-logo {
+    background-image: url(@institutional-logo-url);
+}
+
+
+/* Branding image */
+@branding-image-url: '/ui/img/index.png';
+/* Branding gradient primary color */
+@branding-gradient1-color: #0074A7;
+/* Branding gradient secondary color */
+@branding-gradient2-color: #25A9FD;
+
+.oae-main-content.oae-branding-container {
+    .background-image-with-gradient(@branding-image-url, @branding-gradient1-color, @branding-gradient2-color);
+}
+
+
+/***************************
+ ** @section  Text colors **
+ ***************************/
+
+/* Plain text color */
+@text-color: #333;
+
+body, button, input, select, textarea,
+.btn > i, a.oae-plain-link,
+h1 [class^="icon-"], h1 [class*=" icon-"], 
+h2 [class^="icon-"], h2 [class*=" icon-"],
+h3 [class^="icon-"], h3 [class*=" icon-"],
+h4 [class^="icon-"], h4 [class*=" icon-"],
+h5 [class^="icon-"], h5 [class*=" icon-"],
+h6 [class^="icon-"], h6 [class*=" icon-"] {
+    color: @text-color;
+}
+
+
+/* @subsection  Link colors */
+
+/* Link color */
+@link-color: #0088CC;
+/* Link hover color */
+@link-hover-color: #005580;
+
+a, .btn-link {
+   color: @link-color;
+}
+
+a:hover, .btn-link:hover {
+    color: @link-hover-color;
+}
+
+
+/***********************
+ ** @section  Buttons **
+ ***********************/
+
+/* @subsection  Default button */
+
+/* Default button text color */
+@button-default-text-color: #333333;
+/* Default button border */
+@button-default-border-color: #E3E2DB;
+/* Default button gradient primary color */
+@button-default-gradient1-color: #FFF;
+/* Default button gradient secondary color */
+@button-default-gradient2-color: #E3E2DB;
+
+.btn:not(.btn-link) {
+    color: @button-default-text-color;
+    border-color: @button-default-border-color;
+    .background-gradient-two(@button-default-gradient1-color, @button-default-gradient2-color);
+}
+
+.btn:not(.btn-link):hover,
+.btn:not(.btn-link):focus,
+.btn:not(.btn-link):active,
+.btn:not(.btn-link).active,
+.btn:not(.btn-link).disabled,
+.btn:not(.btn-link)[disabled] {
+    color: @button-default-text-color;
+    background-color: @button-default-gradient2-color;
+}
+
+
+/* @subsection  Primary button */
+
+/* Primary button text color */
+@button-primary-text-color: #FFF;
+/* Primary button border */
+@button-primary-border-color: #444;
+/* Primary button gradient primary color */
+@button-primary-gradient1-color: #555;
+/* Primary button gradient secondary color */
+@button-primary-gradient2-color: #222;
+
+.btn.btn-primary {
+    color: @button-primary-text-color;
+    border-color: @button-primary-border-color;
+    .background-gradient-two(@button-primary-gradient1-color, @button-primary-gradient2-color);
+}
+
+.btn.btn-primary:hover,
+.btn.btn-primary:focus,
+.btn.btn-primary:active,
+.btn.btn-primary.active,
+.btn.btn-primary.disabled,
+.btn.btn-primary[disabled] {
+    color: @button-primary-text-color;
+    background-color: @button-primary-gradient2-color;
+}
+
+
+/* @subsection  Success button */
+
+/* Success button text color */
+@button-success-text-color: #FFF;
+/* Success button border */
+@button-success-border-color: #51A351;
+/* Success button gradient primary color */
+@button-success-gradient1-color: #62C462;
+/* Success button gradient secondary color */
+@button-success-gradient2-color: #51A351;
+
+.btn.btn-success {
+    color: @button-success-text-color;
+    border-color: @button-success-border-color;
+    .background-gradient-two(@button-success-gradient1-color, @button-success-gradient2-color);
+}
+
+.btn.btn-success:hover,
+.btn.btn-success:focus,
+.btn.btn-success:active,
+.btn.btn-success.active,
+.btn.btn-success.disabled,
+.btn.btn-success[disabled] {
+    color: @button-success-text-color;
+    background-color: @button-success-gradient2-color;
+}
+
+
+/* @subsection  Warning button */
+
+/* Warning button text color */
+@button-warning-text-color: #FFF;
+/* Warning button border */
+@button-warning-border-color: #F89406;
+/* Warning button gradient primary color */
+@button-warning-gradient1-color: #FBB450;
+/* Warning button gradient secondary color */
+@button-warning-gradient2-color: #F89406;
+
+.btn.btn-warning {
+    color: @button-warning-text-color;
+    border-color: @button-warning-border-color;
+    .background-gradient-two(@button-warning-gradient1-color, @button-warning-gradient2-color);
+}
+
+.btn.btn-warning:hover,
+.btn.btn-warning:focus,
+.btn.btn-warning:active,
+.btn.btn-warning.active,
+.btn.btn-warning.disabled,
+.btn.btn-warning[disabled] {
+    color: @button-warning-text-color;
+    background-color: @button-warning-gradient2-color;
+}
+
+
+/* @subsection  Danger button */
+
+/* Danger button text color */
+@button-danger-text-color: #FFF;
+/* Danger button border */
+@button-danger-border-color: #BD362F;
+/* Danger button gradient primary color */
+@button-danger-gradient1-color: #EE5F5B;
+/* Danger button gradient secondary color */
+@button-danger-gradient2-color: #BD362F;
+
+.btn.btn-danger {
+    color: @button-danger-text-color;
+    border-color: @button-danger-border-color;
+    .background-gradient-two(@button-danger-gradient1-color, @button-danger-gradient2-color);
+}
+
+.btn.btn-danger:hover,
+.btn.btn-danger:focus,
+.btn.btn-danger:active,
+.btn.btn-danger.active,
+.btn.btn-danger.disabled,
+.btn.btn-danger[disabled] {
+    color: @button-danger-text-color;
+    background-color: @button-danger-gradient2-color;
+}
+
+
+/* @subsection  Inverse button */
+
+/* Inverse button text color */
+@button-inverse-text-color: #FFF;
+/* Inverse button border */
+@button-inverse-border-color: #333;
+/* Inverse button gradient primary color */
+@button-inverse-gradient1-color: #333;
+/* Inverse button gradient secondary color */
+@button-inverse-gradient2-color: #666;
+
+.btn.btn-inverse {
+    color: @button-inverse-text-color;
+    border-color: @button-inverse-border-color;
+    .background-gradient-two(@button-inverse-gradient1-color, @button-inverse-gradient2-color);
+}
+
+.btn.btn-inverse:hover,
+.btn.btn-inverse:focus,
+.btn.btn-inverse:active,
+.btn.btn-inverse.active,
+.btn.btn-inverse.disabled,
+.btn.btn-inverse[disabled] {
+    color: @button-inverse-text-color;
+    background-color: @button-inverse-gradient2-color;
+}
+
+
+/* @subsection  Icon button */
+
+/* Icon button color */
+@button-icon-color: #A9A9A9;
+/* Icon button hover color */
+@button-icon-hover-color: #555;
+
+[class^="icon-"], [class*=" icon-"],
+.btn.btn-link [class^="icon-"], .btn.btn-link [class*=" icon-"] {
+   color: @button-icon-color;
+}
+
+[class^="icon-"].active, [class*=" icon-"].active,
+[class^="icon-"]:hover, [class*=" icon-"]:hover,
+[class^="icon-"]:focus, [class*=" icon-"]:focus,
+.btn-link [class^="icon-"].active, .btn-link:hover [class*=" icon-"].active,
+.btn-link:hover [class^="icon-"], .btn-link:hover [class*=" icon-"],
+.btn-link:focus [class^="icon-"], .btn-link:focus [class*=" icon-"] {
+    color: @button-icon-hover-color;
+}
+
+
+/*********************
+ ** @section  Forms **
+ *********************/
+
+/* Selected form field color */
+@form-selected-color: rgba(82, 168, 236, 0.8);
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {
+    border-color: @form-selected-color;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px @form-selected-color;
+       -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px @form-selected-color;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px @form-selected-color;
+}
+
+
+/*******************************************************
+ ** @section  Modal dialogs, dropdowns and clickovers **
+ *******************************************************/
+
+/* Background gradient primary color */
+@modal-gradient1-color: #FFF;
+/* Background gradient secondary color */
+@modal-gradient2-color: #F5F5F5;
+/* Modal dialog title color */
+@modal-title-color: #777;
+
+.modal, .dropdown-menu {
+    .background-gradient-two(@modal-gradient1-color, @modal-gradient2-color);
+}
+
+.modal-header h3, .modal-body h4 {
+    color: @modal-title-color;
+}
+
+
+/*****************************
+ ** @section  Notifications **
+ *****************************/
+
+/* @subsection  Success notification */
+
+/* Success notification text color */
+@notification-success-text-color: #666;
+/* Success notification border color */
+@notification-success-border-color: #CCC;
+/* Success notification background color */
+@notification-success-background-color: #F5F4F2;
+
+.alert-success, .alert-success h4 {
+    color: @notification-success-text-color;
+}
+
+.alert-success {
+    border-color: @notification-success-border-color;
+    background-color: @notification-success-background-color;
+}
+
+
+/* @subsection  Error notification */
+
+/* Error notification text color */
+@notification-error-text-color: #B94A48;
+/* Error notification border color */
+@notification-error-border-color: #EED3D7;
+/* Error notification background color */
+@notification-error-background-color: #F2DEDE;
+
+.alert-danger, .alert-danger h4,
+.alert-error, .alert-error h4 {
+    color: @notification-error-text-color;
+}
+
+.alert-danger,
+.alert-error {
+    border-color: @notification-error-border-color;
+    background-color: @notification-error-background-color;
+}
+
+
+/* @subsection  Info notification */
+
+/* Info notification text color */
+@notification-info-text-color: #3A87AD;
+/* Info notification border color */
+@notification-info-border-color: #BCE8F1;
+/* Info notification background color */
+@notification-info-background-color: #D9EDF7;
+
+.alert-info, .alert-info h4 {
+    color: @notification-info-text-color;
+}
+
+.alert-info {
+    border-color: @notification-info-border-color;
+    background-color: @notification-info-background-color;
+}
+
+
+/************************************
+ ** @section  Left hand navigation **
+ ************************************/
+
+/* Left hand navigation item text color */
+@lhnav-item-text-color: #999;
+/* Left hand navigation item hover text color */
+@lhnav-item-text-hover-color: #333;
+/* Left hand navigation item selected text color */
+@lhnav-item-text-selected-color: #333;
+/* Left hand navigation item background color */
+@lhnav-item-background-color: transparent;
+/* Left hand navigation item hover background color */
+@lhnav-item-background-hover-color: transparent;
+/* Left hand navigation item selected background color */
+@lhnav-item-background-selected-color: transparent;
+
+.nav > li > a,
+.nav > li i,
+.nav > li.nav-header {
+    color: @lhnav-item-text-color;
+    background-color: @lhnav-item-background-color;
+}
+
+.nav > li > a:hover,
+.nav > li > a:focus,
+.nav > li > a:hover i,
+.nav > li > a:focus i {
+    color: @lhnav-item-text-hover-color;
+    background-color: @lhnav-item-background-hover-color;
+}
+
+.nav > li.active > a, 
+.nav > li.active > a:hover, 
+.nav > li.active > a:focus,
+.nav > li.active i {
+    color: @lhnav-item-text-selected-color;
+    background-color: @lhnav-item-background-selected-color;
+}
+
+
+/**************************
+ ** @section  Thumbnails **
+ **************************/
+
+/* Thumbnail background gradient primary color */
+@thumbnail-gradient1-color: #F8F8F6;
+/* Thumbnail background gradient secondary color */
+@thumbnail-gradient2-color: #E3E2DB;
+
+div.oae-thumbnail {
+    .background-gradient-two(@thumbnail-gradient1-color, @thumbnail-gradient2-color, 47%, 74%);
+}
+
+
+/*********************************
+ ** @section  Visibility toggle **
+ *********************************/
+
+/* Visibility toggle background color */
+@visibility-toggle-background-color: #FFF;
+/* Visibility toggle selected primary color*/
+@visibility-toggle-selected1-color: #9EB7E6;
+/* Visibility toggle selected secondary color*/
+@visibility-toggle-selected2-color: #DBEDFE;
+
+.oae-visibility-choice-container .oae-visibility-choice {
+    background-color: @visibility-toggle-background-color;
+}
+
+.oae-visibility-choice-container label .oae-visibility-choice.checked {
+    border-color: @visibility-toggle-selected1-color;
+    background-color: @visibility-toggle-selected2-color;
+}
+
+.oae-visibility-choice-container .oae-visibility-choice.checked + i {
+    background-color: @visibility-toggle-selected1-color;
+}
+
+.oae-visibility-choice-container .oae-visibility-choice.checked + i:before {
+    color: @visibility-toggle-background-color;
+}
+
+
+/*********************
+ ** @section  Tiles **
+ *********************/
+
+/* Tile banner text color */
+@tile-text-color: #FFF;
+/* Tile banner background color */
+@tile-background-color: rgba(0, 0, 0, 0.8);
+
+.oae-tile > div:last-child {
+    background-color: @tile-background-color;
+}
+
+.oae-tile > div:last-child, .oae-tile h3, .oae-tile h3 a {
+    color: @tile-text-color;
+}
+
+
+/**************************
+ ** @section  List items **
+ **************************/
+
+/* List item border color */
+@listitem-border-color: #EEEDEB;
+
+.oae-tile,
+.oae-listitem {
+    border-color: @listitem-border-color;
+}
+
+
+/**********************
+ ** @section  Panels **
+ **********************/
+
+/* @subsection  Primary panel */
+
+/* Primary panel text color */
+@panel-primary-text-color: #FFF;
+/* Primary panel title color */
+@panel-primary-title-color: #FFF;
+/* Primary panel background color */
+@panel-primary-background-color: transparent;
+
+.oae-panel-primary {
+    color: @panel-primary-text-color;
+    background: @panel-primary-background-color;
+}
+
+.oae-panel-primary, .oae-panel-primary:before, .oae-panel-primary:after {
+    border-color: @panel-primary-background-color;
+}
+
+.oae-panel-primary h1, .oae-panel-primary h2, .oae-panel-primary h3, 
+.oae-panel-primary h4, .oae-panel-primary h5, .oae-panel-primary h6,
+.oae-panel-primary i, .oae-panel-primary i:hover {
+    color: @panel-primary-title-color;
+}
+
+
+/* @subsection  Secondary pannel */
+
+/* Secondary panel text color */
+@panel-secondary-text-color: #FFF;
+/* Secondary panel title color */
+@panel-secondary-title-color: #FFF;
+/* Secondary panel background color */
+@panel-secondary-background-color: transparent;
+
+.oae-panel-secondary {
+    color: @panel-secondary-text-color;
+    background: @panel-secondary-background-color;
+}
+
+.oae-panel-secondary, .oae-panel-secondary:before, .oae-panel-secondary:after {
+    border-color: @panel-secondary-background-color;
+}
+
+.oae-panel-secondary h1, .oae-panel-secondary h2, .oae-panel-secondary h3, 
+.oae-panel-secondary h4, .oae-panel-secondary h5, .oae-panel-secondary h6,
+.oae-panel-secondary i, .oae-panel-secondary i:hover {
+    color: @panel-secondary-title-color;
+}
+
+
+/* @subsection  Tertiary panel */
+
+/* Tertiary panel text color */
+@panel-tertiary-text-color: #FFF;
+/* Tertiary panel title color */
+@panel-tertiary-title-color: #FFF;
+/* Tertiary panel background color */
+@panel-tertiary-background-color: rgba(255,255,255,0.3);
+
+.oae-panel-tertiary {
+    color: @panel-tertiary-text-color;
+    background: @panel-tertiary-background-color;
+}
+
+.oae-panel-tertiary, .oae-panel-tertiary:before, .oae-panel-tertiary:after {
+    border-color: @panel-tertiary-background-color;
+}
+
+.oae-panel-tertiary h1, .oae-panel-tertiary h2, .oae-panel-tertiary h3, 
+.oae-panel-tertiary h4, .oae-panel-tertiary h5, .oae-panel-tertiary h6,
+.oae-panel-tertiary i, .oae-panel-tertiary i:hover {
+    color: @panel-tertiary-title-color;
+}
+
+
+/*********************
+ ** @section  Clips **
+ *********************/
+
+/* @subsection  Primary clip */
+
+/* Primary clip text color */
+@clip-primary-title-color: #DBDBDB;
+/* Primary clip text hover color */
+@clip-primary-hover-color: #FFF;
+/* Primary clip description color */
+@clip-primary-description-color: #999;
+/* Primary clip background gradient primary color */
+@clip-primary-gradient1-color: #545454;
+/* Primary clip background gradient secondary color */
+@clip-primary-gradient2-color: #000;
+
+.oae-clip .oae-clip-fold .oae-clip-fold-outer {
+    background-color: @clip-primary-gradient1-color;
+}
+
+.oae-clip .oae-clip-fold .oae-clip-fold-inner {
+    background-color: @clip-primary-gradient2-color;
+}
+
+.oae-clip .oae-clip-content {
+    .background-gradient-three(@clip-primary-gradient1-color, @clip-primary-gradient1-color, @clip-primary-gradient2-color, 0%, 10%, 100%);
+}
+
+.oae-clip .oae-clip-content,
+.oae-clip .oae-clip-content > button,
+.oae-clip .oae-clip-content ul li button,
+.oae-clip .oae-clip-content i {
+    color: @clip-primary-title-color;
+}
+
+.oae-clip button small {
+    color: @clip-primary-description-color;
+}
+
+.oae-clip button:hover,
+.oae-clip button:focus,
+.oae-clip button:hover i,
+.oae-clip button:focus i {
+    color: @clip-primary-hover-color;
+}
+
+.oae-clip ul li button:hover {
+    background-color: @clip-primary-gradient2-color;
+}
+
+
+/* @subsection  Secondary clip */
+
+/* Secondary clip text color */
+@clip-secondary-title-color: #F5F5F5;
+/* Secondary clip text hover color */
+@clip-secondary-hover-color: #FFF;
+/* Secondary clip description color */
+@clip-secondary-description-color: #DBDBDB;
+/* Secondary clip background gradient primary color */
+@clip-secondary-gradient1-color: #24A7DD;
+/* Secondary clip background gradient secondary color */
+@clip-secondary-gradient2-color: #0175A9;
+
+.oae-clip.oae-clip-secondary .oae-clip-fold .oae-clip-fold-outer {
+    background-color: @clip-secondary-gradient1-color;
+}
+
+.oae-clip.oae-clip-secondary .oae-clip-fold .oae-clip-fold-inner {
+    background-color: @clip-secondary-gradient2-color;
+}
+
+.oae-clip.oae-clip-secondary .oae-clip-content {
+    .background-gradient-three(@clip-secondary-gradient1-color, @clip-secondary-gradient1-color, @clip-secondary-gradient2-color, 0%, 10%, 100%);
+}
+
+.oae-clip.oae-clip-secondary .oae-clip-content,
+.oae-clip.oae-clip-secondary .oae-clip-content button,
+.oae-clip.oae-clip-secondary .oae-clip-content i {
+    color: @clip-secondary-title-color;
+}
+
+.oae-clip.oae-clip-secondary button small {
+    color: @clip-secondary-description-color;
+}
+
+.oae-clip.oae-clip-secondary button:hover,
+.oae-clip.oae-clip-secondary button:focus,
+.oae-clip.oae-clip-secondary button:hover i,
+.oae-clip.oae-clip-secondary button:focus i {
+    color: @clip-secondary-hover-color;
+}
+
+.oae-clip.oae-clip-secondary ul li button:hover {
+    background-color: @clip-secondary-gradient2-color;
+}
+
