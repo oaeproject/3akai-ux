@@ -1,0 +1,24 @@
+<!-- SELECTED ITEMS -->
+<div id="autosuggest-selected-template"><!--
+    <li class="as-selection-item as-ghost-item {if ghostItem.selected} as-ghost-selected {/if}" id="as-selection-ghost-${index}" data-value="${ghostItem[options.selectedValuesProp]}">
+        <a class="as-ghost-add"><i class="icon-plus"></i></a>
+        <a class="as-close">&times;</a>
+        ${ghostItem[options.selectedItemProp]}
+    </li>
+--></div>
+
+<!-- SUGGESTED ITEMS -->
+<div id="autosuggest-suggested-template"><!--
+    <ul class="oae-list oae-list-compact>
+        <li class="oae-list-item">
+            <div class="oae-list-compact-item">
+                <div class="oae-listitem oae-listitem-compact">
+                    ${renderThumbnail(data, false, false, false)}
+                    <div class="pull-left">
+                        <h3 class="oae-threedots">${data.displayName}</h3>
+                        <small class="oae-threedots">Group</small>
+                    </div>
+                </div>
+            </div>
+        </li>
+--></div>

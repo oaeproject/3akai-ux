@@ -581,6 +581,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
     // AUTOSUGGEST //
     /////////////////
 
+    // Variable that will cache the autosuggest TrimPath templates. The template will only be loaded
+    // the first time it is required
+    var $autosuggestTemplates = null;
+
     /**
      * All functionality related to the autosuggest component
      */
@@ -619,6 +623,21 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         };
 
         /**
+         * TODO
+         */
+        var getAutosuggestTemplates = function(callback) {
+            if (!$autosuggestTemplates) {
+                // Load the autosuggest templates through the RequireJS Text plugin
+                require(['text!/ui/macros/autosuggest.html'], function(templates) {
+                    $autosuggestTemplates = $('<div>').append(templates);
+                    callback();
+                });
+            } else {
+                callback();
+            }
+        }
+
+        /**
          * Set up a new autosuggest field. This function is a wrapper around the jQuery AutoSuggest Plugin
          * (https://github.com/wuyuntao/jquery-autosuggest). It allows for a standard input field to be converted
          * in an autosuggest field that can be used to suggest people, groups, content, etc. pulled from one of the
@@ -653,161 +672,174 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
                 throw new Error('An valid input element should be provided.');
             }
 
-            $element = $($element);
+            // Load the autosuggest templates in case they haven't been loaded yet
+            getAutosuggestTemplates(function() {
 
-            // Merge the supplied options with the default options. Default options will be overriden
-            // by supplied options
-            options = _.extend({}, defaultOptions, options);
+                $element = $($element);
 
-            // Add the resourceTypes onto the additional querystring parameter that need to be added to the request.
-            // We need to do this as querystring-formatted string as the Autosuggest component is not able to deal with objects.
-            if (!resourceTypes) {
-                resourceTypes = ['user', 'group'];
-            }
-            options.extraParams = options.extraParams || '';
-            $.each(resourceTypes, function(index, resourceType) {
-                options.extraParams += '&resourceTypes=' + resourceType;
-            });
+                // Merge the supplied options with the default options. Default options will be overriden
+                // by supplied options
+                options = _.extend({}, defaultOptions, options);
 
-            // By default, the autosuggest component will only show results in the suggested items that actually match the query
-            // on one of the fields specified in the `searchObjProps` parameter. However, as we rely on the REST endpoint to do
-            // the appropriate filtering and ordering, we undo this behavior by adding a `query` property onto each result that will
-            // contain the current search query, causing all results to match and display.
-            options.searchObjProps += ',query';
-
-            // XSS escape the preFill items
-            if (options.preFill) {
-                $.each(options.preFill, function(index, preFillItem) {
-                    preFillItem[options.selectedItemProp] = security().encodeForHTML(preFillItem[options.selectedItemProp]);
-                });
-            }
-
-            // XSS escape the ghost items
-            if (options.ghosts) {
-                $.each(options.ghosts, function(index, ghostItem) {
-                    ghostItem[options.selectedItemProp] = security().encodeForHTML(ghostItem[options.selectedItemProp]);
-                });
-            }
-
-            // XSS escape the incoming data from the REST endpoints. We also add the current query
-            // onto each result object to make sure that the matching succeeds and all items are
-            // shown in the suggested list. If a `retrieveComplete` function has already been provided,
-            // we cache it so it can be executed after this
-            var retrieveComplete = null;
-            if (options.retrieveComplete) {
-                retrieveComplete = options.retrieveComplete;
-            }
-            options.retrieveComplete = function(data) {
-                // Get the query from the request URL on the Ajax object, as that is the only provided clue
-                // for finding out the search query
-                var query = $.url(this.url).param('q');
-                $.each(data.results, function(index, result) {
-                    result.displayName = security().encodeForHTML(result.displayName);
-                    result.query = query;
-                });
-                if (retrieveComplete) {
-                    return retrieveComplete(data);
-                } else {
-                    return data.results;
+                // Add the resourceTypes onto the additional querystring parameter that need to be added to the request.
+                // We need to do this as querystring-formatted string as the Autosuggest component is not able to deal with objects.
+                if (!resourceTypes) {
+                    resourceTypes = ['user', 'group'];
                 }
-            };
+                options.extraParams = options.extraParams || '';
+                $.each(resourceTypes, function(index, resourceType) {
+                    options.extraParams += '&resourceTypes=' + resourceType;
+                });
 
-            // Function that will be called when an item is attempted to be removed from the autosuggest
-            // field. We only remove the element when the element is not fixed and not a ghost. If a
-            // `selectionRemoved` function has already been provided, we cache it so it can be executed
-            // after this. If the item is fixed, we don't execute the cached `selectionRemoved` function
-            var selectionRemoved = null;
-            if (options.selectionRemoved) {
-                selectionRemoved = options.selectionRemoved;
-            }
-            options.selectionRemoved = function(elem) {
-                var isFixed = false;
-                // Check if the removed element was one of the fixed elements in the preFill objects
-                var originalData = $(elem).data('originalData');
+                // By default, the autosuggest component will only show results in the suggested items that actually match the query
+                // on one of the fields specified in the `searchObjProps` parameter. However, as we rely on the REST endpoint to do
+                // the appropriate filtering and ordering, we undo this behavior by adding a `query` property onto each result that will
+                // contain the current search query, causing all results to match and display.
+                options.searchObjProps += ',query';
+
+                // XSS escape the preFill items
                 if (options.preFill) {
-                    isFixed = _.some(options.preFill, function(preFilledItem) {
-                        return preFilledItem.id === originalData.id && preFilledItem.fixed === true;
-                    });
-                }
-                // Check if the removed element was one of the ghost elements in the ghosts objects
-                if (!isFixed && options.ghosts) {
-                    isFixed = _.some(options.ghosts, function(ghostItem) {
-                        return ghostItem.id === originalData.id;
+                    $.each(options.preFill, function(index, preFillItem) {
+                        preFillItem[options.selectedItemProp] = security().encodeForHTML(preFillItem[options.selectedItemProp]);
                     });
                 }
 
-                // If the item is fixed, we don't do anything
-                if (!isFixed) {
-                    if (selectionRemoved) {
-                        selectionRemoved(elem);
+                // XSS escape the ghost items
+                if (options.ghosts) {
+                    $.each(options.ghosts, function(index, ghostItem) {
+                        ghostItem[options.selectedItemProp] = security().encodeForHTML(ghostItem[options.selectedItemProp]);
+                    });
+                }
+
+                // XSS escape the incoming data from the REST endpoints. We also add the current query
+                // onto each result object to make sure that the matching succeeds and all items are
+                // shown in the suggested list. If a `retrieveComplete` function has already been provided,
+                // we cache it so it can be executed after this
+                var retrieveComplete = null;
+                if (options.retrieveComplete) {
+                    retrieveComplete = options.retrieveComplete;
+                }
+                options.retrieveComplete = function(data) {
+                    // Get the query from the request URL on the Ajax object, as that is the only provided clue
+                    // for finding out the search query
+                    var query = $.url(this.url).param('q');
+                    $.each(data.results, function(index, result) {
+                        result.displayName = security().encodeForHTML(result.displayName);
+                        result.query = query;
+                    });
+                    if (retrieveComplete) {
+                        return retrieveComplete(data);
                     } else {
-                        elem.remove();
+                        return data.results;
+                    }
+                };
+
+                // TODO
+                if (!options.formatList) {
+                    options.formatList = function(data, elem) {
+                        console.log($autosuggestTemplates);
+                        console.log($('#autosuggest-suggested-template', $autosuggestTemplates));
+                        return elem.html(template().render($('#autosuggest-suggested-template', $autosuggestTemplates), {'data': data}));
                     }
                 }
-            };
 
-            // Function that will be called when an item is added to the autosuggest field. We add the
-            // thumbnail picure to the element. If a `selectionAdded` function has already been provided,
-            // we cache it so it can be executed after this.
-            var selectionAdded = null;
-            if (options.selectionAdded) {
-                selectionAdded = options.selectionAdded;
-            }
-            options.selectionAdded = function(elem) {
-                var $elem = $(elem);
-                // Make sure that the item cannot overflow
-                $elem.addClass('oae-threedots');
-
-                var originalData = $elem.data('originalData');
-                if (originalData.resourceType) {
-                    // Prepend a thumbnail to the item to add to the list
-                    var $thumbnail = $('<div>').addClass('oae-thumbnail icon-oae-' + originalData.resourceType);
-                    if (originalData.thumbnailUrl) {
-                        $thumbnail.append($('<img>').attr('src', originalData.thumbnailUrl));
-                    }
-                    $elem.prepend($thumbnail);
+                // Function that will be called when an item is attempted to be removed from the autosuggest
+                // field. We only remove the element when the element is not fixed and not a ghost. If a
+                // `selectionRemoved` function has already been provided, we cache it so it can be executed
+                // after this. If the item is fixed, we don't execute the cached `selectionRemoved` function
+                var selectionRemoved = null;
+                if (options.selectionRemoved) {
+                    selectionRemoved = options.selectionRemoved;
                 }
-
-                if (selectionAdded) {
-                    selectionAdded(elem);
-                }
-            };
-
-            // Initialize the autoSuggest field
-            var $autoSuggest = $element.autoSuggest(options.url, options);
-            var $list = $autoSuggest.parents('ul');
-
-            // Remove the delete (x) button from the fixed fields
-            if (options.preFill) {
-                $.each(options.preFill, function(index, preFillItem) {
-                    if (preFillItem.fixed) {
-                        $('li[data-value="' + preFillItem[options.selectedValuesProp] + '"]').addClass('as-fixed-item');
+                options.selectionRemoved = function(elem) {
+                    var isFixed = false;
+                    // Check if the removed element was one of the fixed elements in the preFill objects
+                    var originalData = $(elem).data('originalData');
+                    if (options.preFill) {
+                        isFixed = _.some(options.preFill, function(preFilledItem) {
+                            return preFilledItem.id === originalData.id && preFilledItem.fixed === true;
+                        });
                     }
-                });
-            }
+                    // Check if the removed element was one of the ghost elements in the ghosts objects
+                    if (!isFixed && options.ghosts) {
+                        isFixed = _.some(options.ghosts, function(ghostItem) {
+                            return ghostItem.id === originalData.id;
+                        });
+                    }
 
-            // Add the ghost fields
-            if (options.ghosts) {
-                $.each(options.ghosts, function(index, ghostItem) {
-                    // Create the list item. An `as-ghost-selected` class is added to selected ghosts
-                    var cssSelected = ghostItem.selected ? 'as-ghost-selected' : '';
-                    var $li = $('<li class="as-selection-item as-ghost-item ' + cssSelected + '" id="as-selection-ghost-' + index + '" data-value="' + ghostItem[options.selectedValuesProp] + '">' +
-                                    '<a class="as-ghost-add"><i class="icon-plus"></i></a>' +
-                                    '<a class="as-close">&times;</a>' +
-                                    ghostItem[options.selectedItemProp] +
-                                '</li>');
-                    // Add the original ghost object onto the item
-                    $li.data('originalData', ghostItem);
+                    // If the item is fixed, we don't do anything
+                    if (!isFixed) {
+                        if (selectionRemoved) {
+                            selectionRemoved(elem);
+                        } else {
+                            elem.remove();
+                        }
+                    }
+                };
 
-                    // Select/deselect the ghost item when it is clicked
-                    $li.on('click', function() {
-                        $($(this)).toggleClass('as-ghost-selected');
+                // Function that will be called when an item is added to the autosuggest field. We add the
+                // thumbnail picure to the element. If a `selectionAdded` function has already been provided,
+                // we cache it so it can be executed after this.
+                var selectionAdded = null;
+                if (options.selectionAdded) {
+                    selectionAdded = options.selectionAdded;
+                }
+                options.selectionAdded = function(elem) {
+                    var $elem = $(elem);
+                    // Make sure that the item cannot overflow
+                    $elem.addClass('oae-threedots');
+
+                    var originalData = $elem.data('originalData');
+                    if (originalData.resourceType) {
+                        // Prepend a thumbnail to the item to add to the list
+                        var $thumbnail = $('<div>').addClass('oae-thumbnail icon-oae-' + originalData.resourceType);
+                        if (originalData.thumbnailUrl) {
+                            $thumbnail.append($('<img>').attr('src', originalData.thumbnailUrl));
+                        }
+                        $elem.prepend($thumbnail);
+                    }
+
+                    if (selectionAdded) {
+                        selectionAdded(elem);
+                    }
+                };
+
+                // Initialize the autoSuggest field
+                var $autoSuggest = $element.autoSuggest(options.url, options);
+                var $list = $autoSuggest.parents('ul');
+
+                // Remove the delete (x) button from the fixed fields
+                if (options.preFill) {
+                    $.each(options.preFill, function(index, preFillItem) {
+                        if (preFillItem.fixed) {
+                            $('li[data-value="' + preFillItem[options.selectedValuesProp] + '"]').addClass('as-fixed-item');
+                        }
                     });
+                }
 
-                    // Prepend it to the list
-                    $list.prepend($li);
-                });
-            }
+                // Add the ghost fields
+                if (options.ghosts) {
+                    $.each(options.ghosts, function(index, ghostItem) {
+                        // Create the list item. An `as-ghost-selected` class will be added to selected ghosts
+                        var li = template().render($('#autosuggest-selected-template', $autosuggestTemplates), {
+                            'index': index,
+                            'ghostItem': ghostItem,
+                            'options': options
+                        });
+                        var $li = $(li);
+                        // Add the original ghost object onto the item
+                        $li.data('originalData', ghostItem);
+
+                        // Select/deselect the ghost item when it is clicked
+                        $li.on('click', function() {
+                            $($(this)).toggleClass('as-ghost-selected');
+                        });
+
+                        // Prepend it to the list
+                        $list.prepend($li);
+                    });
+                }
+            });
         };
 
         /**

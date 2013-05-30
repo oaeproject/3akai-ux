@@ -361,10 +361,6 @@ ul.as-selections li.as-selection-item .oae-thumbnail {
     width: 25px;
 }
 
-.as-results {
-    position: fixed;
-}
-
 /* Fixed items */
 
 ul.as-selections li.as-selection-item.as-fixed-item a.as-close {
@@ -401,6 +397,20 @@ ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected a.as-close
     display: block;
 }
 
+/* Suggested list items */
+
+.as-results {
+    position: fixed;
+}
+
+ul.as-list .as-result-item .oae-thumbnail {
+    float: left;
+    height: 25px;
+    margin-right: 10px;
+    position: relative;
+    top: 2px;
+    width: 25px;
+}
 
 /*****************
  ** MAIN LAYOUT **
