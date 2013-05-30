@@ -415,7 +415,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
             'regex': 'image/*'
         },
         'flash': {
-            'description': '__MSG__FLASH__',
+            'description': '__MSG__FLASH_FILE__',
             'regex': 'application/x-shockwave-flash'
         },
         'html': {
