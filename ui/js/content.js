@@ -50,7 +50,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             // Render the entity information
             setUpClip();
             // Show the content preview
-            setUpContentProfilePreview();
+            setUpContentPreview();
             // Set up the context event exchange
             setUpContext();
             // We can now unhide the page
@@ -69,11 +69,17 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     /**
      * Renders the content preview.
      */
-    var setUpContentProfilePreview = function() {
+    var setUpContentPreview = function() {
         // Remove the old preview widget
         $('#content-preview-container').html('');
-        // Insert a new preview widget and pass in the updated content profile data
-        oae.api.widget.insertWidget('contentpreview', null, $('#content-preview-container'), null, contentProfile);
+        // Based on the content type, insert a new preview widget and pass in the updated content profile data
+        if (contentProfile.resourceSubType === 'file') {
+            oae.api.widget.insertWidget('filepreview', null, $('#content-preview-container'), null, contentProfile);
+        } else if (contentProfile.resourceSubType === 'link') {
+            oae.api.widget.insertWidget('linkpreview', null, $('#content-preview-container'), null, contentProfile);
+        } else if (contentProfile.resourceSubType === 'collabdoc') {
+            oae.api.widget.insertWidget('etherpad', null, $('#content-preview-container'), null, contentProfile);
+        }
     };
 
     /**
@@ -112,11 +118,12 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         // Re-render the entity information
         setUpClip();
         // Show the content preview
-        setUpContentProfilePreview();
+        setUpContentPreview();
     };
 
-    // Catches the `upload new version complete` event and refreshes the content profile
-    $(document).on('oae.uploadnewversion.complete', refreshContentProfile);
+    // Catches an event sent out when the content has been updated. This can be either when
+    // a new version has been uploaded or the preview has finished generating.
+    $(document).on('oae.content.update', refreshContentProfile);
 
 
     ///////////////////
