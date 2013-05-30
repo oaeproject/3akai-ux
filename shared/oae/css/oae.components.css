@@ -949,6 +949,15 @@ ul.oae-list > li .oae-list-compact-item  {
     width: 100%;
 }
 
+ul.oae-list > li .oae-listitem {
+    margin-bottom: 0px;
+    margin-top: 10px;
+}
+
+ul.oae-list > li:first-child .oae-listitem {
+    margin-top: 0px;
+}
+
 
 /******************
  ** LIST ACTIONS **
@@ -1031,7 +1040,7 @@ ul.oae-list.oae-list-grid .oae-list-actions ul {
 /* Details and compact view */
 
 ul.oae-list:not(.oae-list-grid) .oae-list-actions {
-    height: 60px;
+    height: 50px;
 }
 
 ul.oae-list:not(.oae-list-grid) .oae-list-actions div.oae-thumbnail {
