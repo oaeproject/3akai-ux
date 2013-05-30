@@ -262,4 +262,30 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         });
     };
 
+    /**
+     * Removes a discussion item from a discussion library.
+     *
+     * @param  {String}         principalId     User or group id for who we want to remove the discussion item.
+     * @param  {String}         discussionId    The ID of the discussion that needs removal
+     * @param  {Function}       callback        Standard callback method
+     * @param  {Object}         callback.err    Error object containing error code and error message
+     */
+    var removeDiscussionFromLibrary = exports.removeDiscussionFromLibrary = function(principalId, discussionId, callback) {
+        if (!principalId) {
+            throw new Error('A user or group ID should be provided');
+        } else if (!discussionId) {
+            throw new Error('A discussion ID should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/discussion/library/' + principalId + '/' + discussionId,
+            'type': 'DELETE',
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
 });
