@@ -314,6 +314,7 @@ a:hover, .btn-link:hover {
 [class^="icon-"].active, [class*=" icon-"].active,
 [class^="icon-"]:hover, [class*=" icon-"]:hover,
 [class^="icon-"]:focus, [class*=" icon-"]:focus,
+[class^="icon-"].selected, [class*=" icon-"].selected,
 .btn-link [class^="icon-"].active, .btn-link:hover [class*=" icon-"].active,
 .btn-link:hover [class^="icon-"], .btn-link:hover [class*=" icon-"],
 .btn-link:focus [class^="icon-"], .btn-link:focus [class*=" icon-"] {
@@ -558,20 +559,20 @@ div.oae-thumbnail {
 /* Visibility toggle selected secondary color*/
 @visibility-toggle-selected2-color: #DBEDFE;
 
-.oae-visibility-choice-container .oae-visibility-choice {
+.oae-large-options-container .oae-large-options {
     background-color: @visibility-toggle-background-color;
 }
 
-.oae-visibility-choice-container label .oae-visibility-choice.checked {
+.oae-large-options-container label .oae-large-options.checked {
     border-color: @visibility-toggle-selected1-color;
     background-color: @visibility-toggle-selected2-color;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice.checked + i {
+.oae-large-options-container .oae-large-options.checked + i {
     background-color: @visibility-toggle-selected1-color;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice.checked + i:before {
+.oae-large-options-container .oae-large-options.checked + i:before {
     color: @visibility-toggle-background-color;
 }
 
