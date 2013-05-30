@@ -208,10 +208,28 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     });
 
     /**
-     * Re-render the group's clip when the permissions have been updated.
+     * Re-render the content's clip when the permissions have been updated.
      */
     $(document).on('oae.manageaccess.done', function(ev) {
         setUpClip();
+    });
+
+
+    //////////////////
+    // EDIT DETAILS //
+    //////////////////
+
+    /**
+     * Re-render the content's clip when the details have been updated.
+     * When the type of content is a link the content preview will be re-rendered as well.
+     */
+    $(document).on('done.editcontent.oae', function(ev, data) {
+        if (contentProfile.resourceSubType === 'link') {
+            refreshContentProfile(ev, data);
+        } else {
+            contentProfile = data;
+            setUpClip();
+        }
     });
 
 
