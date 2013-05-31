@@ -855,7 +855,7 @@ div.oae-thumbnail i[class^="icon-"] {
     display: inline-block;
     font-size: 16px;
     font-weight: 500;
-    line-height: 1.4;
+    line-height: 25px;
     margin: 0;
     max-width: 450px;
 }
@@ -869,7 +869,7 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-listitem.oae-listitem-compact small {
     display: inline-block;
-    line-height: 1.6;
+    line-height: 25px;
     margin-left: 20px;
 }
 

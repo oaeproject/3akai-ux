@@ -43,7 +43,6 @@
             resultsHighlight: true,
             neverSubmit: false,
             scroll: false,
-            scrollHeight: 200,
             selectionLimit: false,
             showResultList: true,
             showResultListWhenNoMatch: false,
@@ -377,7 +376,7 @@
                     if (opts.scroll) {
                         results_ul.css({
                             'max-height': opts.scroll,
-                            'overflow-y': 'scroll'
+                            'overflow-y': 'auto'
                         });
                     }
                     if (matchCount > 0 || !opts.showResultListWhenNoMatch) {

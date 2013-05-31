@@ -588,6 +588,10 @@ ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected a.as-close
     color: @as-item-active-border-color;
 }
 
+ul.as-list li.as-result-item.active {
+    .background-gradient-two(@as-item-active-gradient1-color, @as-item-active-gradient2-color);
+}
+
 /* @subsection  Inactive item */
 
 /* Inactive item text color */
@@ -629,7 +633,6 @@ ul.as-selections li.as-selection-item.as-ghost-item {
 ul.as-selections li.as-selection-item.as-ghost-item a.as-close {
     color: @as-item-ghost-border-color;
 }
-
 
 
 /**************************

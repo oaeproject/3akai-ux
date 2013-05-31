@@ -599,7 +599,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             'minChars': 2,
             'retrieveLimit': 10,
             'url': '/api/search/general',
-            'scroll': 100,
+            'scroll': 117,
             'searchObjProps': 'id, displayName',
             'selectedItemProp': 'displayName',
             'selectedValuesProp': 'id',
@@ -623,19 +623,27 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         };
 
         /**
-         * TODO
+         * The HTML that is generated for rendering ghost items and selected items can be found in the
+         * `autosuggest.html` templates files. When the first autosuggest is initialised on a page, these
+         * templates will be loaded and cached for further usage. If the templates have already been loaded,
+         * nothing happens
+         *
+         * @param  {Function}           callback            Standard callback function
+         * @api private
          */
         var getAutosuggestTemplates = function(callback) {
             if (!$autosuggestTemplates) {
                 // Load the autosuggest templates through the RequireJS Text plugin
-                require(['text!/ui/macros/autosuggest.html'], function(templates) {
-                    $autosuggestTemplates = $('<div>').append(templates);
+                require(['text!/ui/macros/autosuggest.html'], function(autosuggestTemplates) {
+                    // Translate the template. We require the i18n API here to avoid creating a cyclic dependency
+                    autosuggestTemplates = require('oae.api.i18n').translate(autosuggestTemplates);
+                    $autosuggestTemplates = $('<div>').append(autosuggestTemplates);
                     callback();
                 });
             } else {
                 callback();
             }
-        }
+        };
 
         /**
          * Set up a new autosuggest field. This function is a wrapper around the jQuery AutoSuggest Plugin
@@ -734,11 +742,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
                     }
                 };
 
-                // TODO
+                // If no custom suggest list item formatting function is provided, we use the standard formatting
+                // function that will render the thumbnail image, displayName and some metadata for each suggested item
                 if (!options.formatList) {
                     options.formatList = function(data, elem) {
-                        console.log($autosuggestTemplates);
-                        console.log($('#autosuggest-suggested-template', $autosuggestTemplates));
                         return elem.html(template().render($('#autosuggest-suggested-template', $autosuggestTemplates), {'data': data}));
                     }
                 }
@@ -855,8 +862,6 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             }
 
             $element = $($element);
-            console.log($('.as-selections input', $element));
-            console.log($('.as-selections input', $element).is(':visible'));
             $('.as-selections input', $element).focus();
         };
 
