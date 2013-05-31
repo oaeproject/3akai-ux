@@ -673,9 +673,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * @param  {Boolean}            [options.ghost[i].selected]     Whether or not the ghost item should be selected by default
          * @param  {String}             [options.url]                   URL for the REST endpoint that should be used to fetch the suggested results
          * @param  {String[]}           [resourceTypes]                 Array of resourceTypes that should be used for the search. By default, `user` and `group` will be used
+         * @param  {Function}           [callback]                      Standard callback function
          * @throws {Error}                                              Error thrown when no source element has been provided
          */
-        var setup = function($element, options, resourceTypes) {
+        var setup = function($element, options, resourceTypes, callback) {
             if (!$element) {
                 throw new Error('An valid input element should be provided.');
             }
@@ -846,6 +847,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
                         $list.prepend($li);
                     });
                 }
+
+                // Trigger the callback function
+                if (_.isFunction(callback)) {
+                    callback();
+                };
             });
         };
 
