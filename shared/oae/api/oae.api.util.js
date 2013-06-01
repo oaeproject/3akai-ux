@@ -602,8 +602,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             'scroll': 117,
             'searchObjProps': 'id, displayName',
             'selectedItemProp': 'displayName',
-            'selectedValuesProp': 'id',
-            'showResultListWhenNoMatch': true
+            'selectedValuesProp': 'id'
         };
 
         /**
@@ -685,6 +684,21 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             getAutosuggestTemplates(function() {
 
                 $element = $($element);
+
+                // We require the i18n API here to avoid creating a cyclic dependency
+                var i18nAPI = require('oae.api.i18n');
+                // The `startText` is the text that will be shown as the placeholder in the autosuggest field.
+                // If no `startText` has been provided, we fall back to the placeholder on the input element. If that
+                // hasn't been provided either, we fall back to a default string
+                if (!options.startText) {
+                    var placeholder = $element.attr('placeholder');
+                    options.startText = placeholder ? placeholder : i18nAPI.translate('__MSG__ENTER_NAME_HERE__');
+                }
+                // The `emptyText` is the text that will be shown when no suggested items could be found.
+                // If no `emptyText` has been provided, we fall back to a default string
+                if (!options.emptyText) {
+                    options.emptyText = i18nAPI.translate('__MSG__NO_RESULTS_FOUND__');
+                }
 
                 // Merge the supplied options with the default options. Default options will be overriden
                 // by supplied options

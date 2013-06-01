@@ -334,6 +334,7 @@ ul.as-selections li.as-original input:focus {
        -moz-box-shadow: none;
             box-shadow: none;
     padding-top: 10px;
+    width: 150px;
 }
 
 ul.as-selections li.as-selection-item {
@@ -404,6 +405,7 @@ ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected a.as-close
 }
 
 ul.as-list {
+    color: inherit;
     font-family: inherit;
 }
 
