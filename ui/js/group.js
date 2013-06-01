@@ -288,6 +288,16 @@ require(['jquery', 'oae.core'], function($, oae) {
     });
 
 
+    ////////////////
+    // EDIT GROUP //
+    ////////////////
+
+    $(document).on('oae.editgroup.done', function(ev, data) {
+        groupProfile = data;
+        setUpClip();
+    });
+
+
     getGroupProfile();
 
 });
