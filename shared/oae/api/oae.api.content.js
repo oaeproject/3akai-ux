@@ -231,6 +231,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
      * @param  {String}       revisionId          Revision id of the revision that's being restored
      * @param  {Function}     [callback]          Standard callback method
      * @param  {Object}       [callback.err]      Error object containing error code and error message
+     * @param  {Revision}     [callback.data]     Revision object representing the restored revision
      * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */
     var restoreRevision = exports.restoreRevision = function(contentId, revisionId, callback) {
