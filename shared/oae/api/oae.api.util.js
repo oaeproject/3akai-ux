@@ -671,6 +671,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * @param  {Object[]}           [options.ghost]                 Ghost items that should be added to the autosuggest field upon initialization. This has the same format as `options.preFill`
          * @param  {Boolean}            [options.ghost[i].selected]     Whether or not the ghost item should be selected by default
          * @param  {String}             [options.url]                   URL for the REST endpoint that should be used to fetch the suggested results
+         * @param  {Function}           [options.selectionChanged]      Function that will be executed when the selection in the autosuggest field has changed
          * @param  {String[]}           [resourceTypes]                 Array of resourceTypes that should be used for the search. By default, `user` and `group` will be used
          * @param  {Function}           [callback]                      Standard callback function
          * @throws {Error}                                              Error thrown when no source element has been provided
@@ -796,6 +797,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
                         } else {
                             elem.remove();
                         }
+                        // Trigger the custom selection changed function
+                        if (options.selectionChanged) {
+                            options.selectionChanged();
+                        }
                     }
                 };
 
@@ -823,6 +828,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
 
                     if (selectionAdded) {
                         selectionAdded(elem);
+                    }
+                    // Trigger the custom selection changed function
+                    if (options.selectionChanged) {
+                        options.selectionChanged();
                     }
                 };
 
@@ -854,7 +863,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
 
                         // Select/deselect the ghost item when it is clicked
                         $li.on('click', function() {
-                            $($(this)).toggleClass('as-ghost-selected');
+                            $(this).toggleClass('as-ghost-selected');
+                            // Trigger the custom selection changed function
+                            if (options.selectionChanged) {
+                                options.selectionChanged();
+                            }
                         });
                     });
                 }
