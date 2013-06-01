@@ -829,12 +829,12 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
                 if (options.ghosts) {
                     $.each(options.ghosts, function(index, ghostItem) {
                         // Create the list item. An `as-ghost-selected` class will be added to selected ghosts
-                        var li = template().render($('#autosuggest-selected-template', $autosuggestTemplates), {
+                        $list.prepend(template().render($('#autosuggest-selected-template', $autosuggestTemplates), {
                             'index': index,
                             'ghostItem': ghostItem,
                             'options': options
-                        });
-                        var $li = $(li);
+                        }));
+                        var $li = $('li', $list).first();
                         // Add the original ghost object onto the item
                         $li.data('originalData', ghostItem);
 
@@ -842,9 +842,6 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
                         $li.on('click', function() {
                             $($(this)).toggleClass('as-ghost-selected');
                         });
-
-                        // Prepend it to the list
-                        $list.prepend($li);
                     });
                 }
 

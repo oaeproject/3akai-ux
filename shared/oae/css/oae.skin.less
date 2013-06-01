@@ -575,6 +575,15 @@ ul.as-selections.as-selections-focus {
 /* Active item background gradient secondary color */
 @as-item-active-gradient2-color: #BFE0F1;
 
+/* Active item hover text color */
+@as-item-active-hover-color: #2B3840;
+/* Active item hover border color */
+@as-item-active-hover-border-color: #ACC3EC;
+/* Active item hover background gradient primary color */
+@as-item-active-hover-gradient1-color: #DDEEFE;
+/* Active item hover background gradient secondary color */
+@as-item-active-hover-gradient2-color: #BFE0F1;
+
 ul.as-selections li.as-selection-item,
 ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected,
 ul.as-selections.as-selections-focus li.as-selection-item.selected {
@@ -583,9 +592,27 @@ ul.as-selections.as-selections-focus li.as-selection-item.selected {
     border-color: @as-item-active-border-color;
 }
 
+ul.as-selections li.as-selection-item:hover,
+ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected:hover,
+ul.as-selections.as-selections-focus li.as-selection-item.selected:hover {
+    .background-gradient-two(@as-item-active-hover-gradient1-color, @as-item-active-hover-gradient2-color);
+    color: @as-item-active-hover-color;
+    border-color: @as-item-active-hover-border-color;
+}
+
 ul.as-selections li.as-selection-item a.as-close,
 ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected a.as-close {
     color: @as-item-active-border-color;
+}
+
+ul.as-selections li.as-selection-item:hover a.as-close,
+ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected:hover a.as-close {
+    color: @as-item-active-hover-border-color;
+}
+
+ul.as-selections li.as-selection-item a.as-close:hover,
+ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected a.as-close:hover {
+    color: @as-item-active-hover-color;
 }
 
 ul.as-list li.as-result-item.active {
@@ -624,14 +651,33 @@ ul.as-selections li.as-selection-item.blur a.as-close {
 /* Ghost item background gradient secondary color */
 @as-item-ghost-gradient2-color: #FFF;
 
+/* Ghost item hover text color */
+@as-item-ghost-hover-color: #666;
+/* Ghost item hover border color */
+@as-item-ghost-hover-border-color: #BBB;
+
 ul.as-selections li.as-selection-item.as-ghost-item {
     .background-gradient-two(@as-item-ghost-gradient1-color, @as-item-ghost-gradient2-color);
     color: @as-item-ghost-color;
     border-color: @as-item-ghost-border-color;
 }
 
-ul.as-selections li.as-selection-item.as-ghost-item a.as-close {
+ul.as-selections li.as-selection-item.as-ghost-item:hover {
+    .background-gradient-two(@as-item-ghost-gradient1-color, @as-item-ghost-gradient2-color);
+    color: @as-item-ghost-hover-color;
+    border-color: @as-item-ghost-hover-border-color;
+}
+
+ul.as-selections li.as-selection-item.as-ghost-item a.as-ghost-add i {
     color: @as-item-ghost-border-color;
+}
+
+ul.as-selections li.as-selection-item.as-ghost-item:hover a.as-ghost-add i {
+    color: @as-item-ghost-hover-border-color;
+}
+
+ul.as-selections li.as-selection-item.as-ghost-item a.as-ghost-add i:hover {
+    color: @as-item-ghost-hover-color;
 }
 
 
