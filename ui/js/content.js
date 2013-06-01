@@ -216,6 +216,22 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     });
 
 
+    ///////////////
+    // REVISIONS //
+    ///////////////
+
+    $(document).on('oae.revisions.done', function(ev, data) {
+        // Update the content profile
+        contentProfile.downloadPath = '/api/content/' + contentProfile.id + '/download/' + data.revisionId;
+        contentProfile.previews.mediumUrl = data.mediumUrl;
+        contentProfile.previews.thumbnailUrl = data.thumbnailUrl;
+
+        // Refresh the preview and clip
+        setUpContentPreview();
+        setUpClip();
+    });
+
+
     //////////////////
     // EDIT DETAILS //
     //////////////////
