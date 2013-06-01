@@ -224,6 +224,36 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     };
 
     /**
+     * Restore a revision. The restored revision will become the content item's current revision, and will have the same content as that revision.
+     * Revisions can only be restored for documents and files.
+     *
+     * @param  {String}       contentId           Content id of the content item we're restoring a revision of
+     * @param  {String}       revisionId          Revision id of the revision that's being restored
+     * @param  {Function}     [callback]          Standard callback method
+     * @param  {Object}       [callback.err]      Error object containing error code and error message
+     * @param  {Revision}     [callback.data]     Revision object representing the restored revision
+     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
+     */
+    var restoreRevision = exports.restoreRevision = function(contentId, revisionId, callback) {
+        if (!contentId) {
+            throw new Error('A valid content id should be provided');
+        } else if (!revisionId) {
+            throw new Error('A valid revision id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/content/' + contentId + '/revisions/' + revisionId + '/restore',
+            'type': 'POST',
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
+
+    /**
      * Update a content item's metadata.
      *
      * @param  {String}       contentId           Content id of the content item we're trying to update
