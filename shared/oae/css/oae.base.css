@@ -400,7 +400,7 @@ ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected a.as-close
 
 /* Suggested list items */
 
-.as-results {
+.modal .as-results {
     position: fixed;
 }
 
