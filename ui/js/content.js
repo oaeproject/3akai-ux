@@ -220,8 +220,14 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     ///////////////
 
     $(document).on('oae.revisions.done', function(ev, data) {
-        contentProfile = _.extend(contentProfile, data);
+        // Update the content profile
+        contentProfile.downloadPath = '/api/content/' + contentProfile.id + '/download/' + data.revisionId;
+        contentProfile.previews.mediumUrl = data.mediumUrl;
+        contentProfile.previews.thumbnailUrl = data.thumbnailUrl;
+
+        // Refresh the preview and clip
         setUpContentPreview();
+        setUpClip();
     });
 
 
