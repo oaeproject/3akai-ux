@@ -260,7 +260,22 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
      * @param  {Function}      callback            Standard callback method
      * @param  {Object}        callback.err        Error object containing error code and error message
      */
-    var deleteContent = exports.deleteContent = function(contentId, callback) {};
+    var deleteContent = exports.deleteContent = function(contentId, callback) {
+        if (!contentId) {
+            throw new Error('A valid content id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/content/' + contentId,
+            'type': 'DELETE',
+            'success': function() {
+                callback(null);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
 
     /**
      * Get the viewers and managers of a content item.
@@ -384,6 +399,33 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
             'data': data,
             'success': function(data) {
                 callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
+
+    /**
+     * Removes a piece of content from a content library.
+     *
+     * @param  {String}         principalId     User or group id for who we want to remove the content item.
+     * @param  {String}         contentId       The ID of the piece of content that needs removal
+     * @param  {Function}       callback        Standard callback method
+     * @param  {Object}         callback.err    Error object containing error code and error message
+     */
+    var removeContentFromLibrary = exports.removeContentFromLibrary = function(principalId, contentId, callback) {
+        if (!principalId) {
+            throw new Error('A user or group ID should be provided');
+        } else if (!contentId) {
+            throw new Error('A content ID should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/content/library/' + principalId + '/' + contentId,
+            'type': 'DELETE',
+            'success': function() {
+                callback(null);
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
