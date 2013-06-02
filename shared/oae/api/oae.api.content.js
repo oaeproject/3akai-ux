@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
+define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $, _, i18nAPI) {
 
     /**
      * Get a full content profile.
@@ -133,6 +133,12 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             'success': function(data) {
                 // The response will return as text/plain to avoid IE9 trying to download
                 // the response when using the iFrame fallback upload solution
+
+                // In IE9 the response is a jQuery object. In this case we have
+                // to extract the data found in the inner pre tag.
+                if (data instanceof $) {
+                    data = data.find('pre').text();
+                }
                 callback(null, JSON.parse(data));
             },
             'error': function(jqXHR, textStatus) {
@@ -163,6 +169,12 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             'success': function(data) {
                 // The response will return as text/plain to avoid IE9 trying to download
                 // the response when using the iFrame fallback upload solution
+
+                // In IE9 the response is a jQuery object. In this case we have
+                // to extract the data found in the inner pre tag.
+                if (data instanceof $) {
+                    data = data.find('pre').text();
+                }
                 callback(null, JSON.parse(data));
             },
             'error': function(jqXHR, textStatus) {
@@ -212,12 +224,43 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     };
 
     /**
+     * Restore a revision. The restored revision will become the content item's current revision, and will have the same content as that revision.
+     * Revisions can only be restored for documents and files.
+     *
+     * @param  {String}       contentId           Content id of the content item we're restoring a revision of
+     * @param  {String}       revisionId          Revision id of the revision that's being restored
+     * @param  {Function}     [callback]          Standard callback method
+     * @param  {Object}       [callback.err]      Error object containing error code and error message
+     * @param  {Revision}     [callback.data]     Revision object representing the restored revision
+     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
+     */
+    var restoreRevision = exports.restoreRevision = function(contentId, revisionId, callback) {
+        if (!contentId) {
+            throw new Error('A valid content id should be provided');
+        } else if (!revisionId) {
+            throw new Error('A valid revision id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/content/' + contentId + '/revisions/' + revisionId + '/restore',
+            'type': 'POST',
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
+
+    /**
      * Update a content item's metadata.
      *
      * @param  {String}       contentId           Content id of the content item we're trying to update
      * @param  {Object}       params              JSON object where the keys represent all of the profile field names we want to update and the values represent the new values for those fields
      * @param  {Function}     [callback]          Standard callback method
      * @param  {Object}       [callback.err]      Error object containing error code and error message
+     * @param  {Content}      [callback.data]     Content object representing the updated content
      * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */
     var updateContent = exports.updateContent = function(contentId, params, callback) {
@@ -231,8 +274,8 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             'url': '/api/content/' + contentId,
             'type': 'POST',
             'data': params,
-            'success': function() {
-                callback(null);
+            'success': function(data) {
+                callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
@@ -378,36 +421,169 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         });
     };
 
-    /**
-     * Set the thumbnail URL of a piece of content. For links and Sakai Docs, this will just be a thumbnail representing their type.
-     * For uploaded files, we will first check if a thumbnail URL is already set on the back-end side (which will use the generated
-     * previews). If this is not present, we add a icon URL based on the file's mimeType
-     *
-     * @param  {Content}        contentObj          Content object for which to set the thumbnail. This object will be modified to include the thumbnail URL.
-     * @api private
+    ///////////////////////
+    // CONTENT UTILITIES //
+    ///////////////////////
+
+    /*!
+     * Constant that holds regular expressions for the different mimeTypes that might be returned by the
+     * back-end, allowing for these mimeTypes to be transformed into a human readable mime type description.
      */
-    var setThumbnail = function(contentObj) {};
+    var MIMETYPES = {
+        'archive': {
+            'description': '__MSG__ARCHIVE__',
+            'regex': [
+                'application/zip',
+                'application/x-zip*',
+                'application/x-tar'
+            ]
+        },
+        'audio': {
+            'description': '__MSG__AUDIO__',
+            'regex': [
+                'audio/*',
+                'kaltura/audio'
+            ]
+        },
+        'collabdoc': {
+            // The collabdoc type will be used for collaborative documents
+            'description': '__MSG__DOCUMENT__'
+        },
+        'css': {
+            'description': '__MSG__CSS_FILE__',
+            'regex': 'text/css'
+        },
+        'image': {
+            'description': '__MSG__IMAGE__',
+            'regex': 'image/*'
+        },
+        'flash': {
+            'description': '__MSG__FLASH_FILE__',
+            'regex': 'application/x-shockwave-flash'
+        },
+        'html': {
+            'description': '__MSG__HTML_DOCUMENT__',
+            'regex': 'text/html'
+        },
+        'link': {
+            // The link type will be used for added links
+            'description': '__MSG__LINK__'
+        },
+        'other': {
+            // The other type will be used for all unrecognized mimeTypes
+            'description': '__MSG__OTHER_DOCUMENT__'
+        },
+        'pdf': {
+            'description': '__MSG__PDF_DOCUMENT__',
+            'regex': [
+                'application/pdf',
+                'application/x-download',
+                'application/x-pdf'
+            ]
+        },
+        'presentation': {
+            'description': '__MSG__PRESENTATION__',
+            'regex': [
+                'application/vnd.ms-powerpoint',
+                'application/vnd.oasis.opendocument.presentation',
+                'application/vnd.openxmlformats-officedocument.presentation*'
+            ]
+        },
+        'spreadsheet': {
+            'description': '__MSG__SPREADSHEET__',
+            'regex': [
+                'application/vnd.oasis.opendocument.spreadsheet',
+                'application/vnd.openxmlformats-officedocument.spreadsheet*',
+                'application/vnd.ms-excel'
+            ]
+        },
+        'text': {
+            'description': '__MSG__TEXT_DOCUMENT__',
+            'regex': [
+                'text/plain',
+                'text/rtf'
+            ]
+        },
+        'xml': {
+            'description': '__MSG__XML_DOCUMENT__',
+            'regex': 'text/xml'
+        },
+        'video': {
+            'description': '__MSG__VIDEO__',
+            'regex': [
+                'video/*',
+                'kaltura/video'
+            ]
+        },
+        'word': {
+            'description': '__MSG__WORD_DOCUMENT__',
+            'regex': [
+                'application/doc',
+                'application/msword',
+                'application/vnd.openxmlformats-officedocument.word*',
+                'application/vnd.oasis.opendocument.text',
+                'application/octet-stream'
+            ]
+        }
+    };
 
     /**
-     * Sets the mime type information on a piece of content, based on the mimetype mapping above.
-     * The mime type information will contain the following items:
+     * Get a human readable mimeType description for a content item.
+     * Unrecognized mimeTypes will default to the `other` type.
      *
-     * - cssClass: CSS Class that can be used to show a small 16x16 icon
-     * - description: Describes the type of content this is
-     *
-     * Unrecognized content types or mimetypes will default to the 'Other' type.
-     *
-     * @param  {Content}        contentObj          Content object for which to set the mimetype information. This object will be modified to include the mimetype info.
-     * @api private
+     * @param  {Content}       contentObj       Content object for which to get the mimetype description
+     * @return {String}                         Human readable mimeType description for the provided content item
      */
-    var setMimeTypeInfo = function(contentObj) {};
+    var getMimeTypeDescription = exports.getMimeTypeDescription = function(contentObj) {
+        // The `oae:resourceSubType` property is used by the activity feed
+        var resourceSubType = contentObj.resourceSubType || contentObj['oae:resourceSubType'];
+        var mimeTypeObject = null;
+
+        // Only files will have an actual mimeType. For all of these, we will run through the available
+        // mimeType mappings and check if the content mimeType matches any of the regular expressions for
+        // the mimeType mapping.
+        if (resourceSubType === 'file') {
+            // The `oae:mimeType` property is used by the activity feed
+            var mimeType = contentObj.mime || contentObj['oae:mimeType'];
+            if (mimeType) {
+                $.each(MIMETYPES, function(mimeTypeMappingId, mimeTypeMapping) {
+                    // Some mimeType mappings might not have any regular expressions. No need to check for those.
+                    if (mimeTypeMapping.regex) {
+                        // When only a single regex is available for a mimeType mapping, a string can be provided
+                        // instead of an array. We ensure that the mimeType mapping regex is an array.
+                        var regex = mimeTypeMapping.regex;
+                        regex = _.isArray(regex) ? regex : [regex];
+                        // Parse the provided regular expressions into a single regular expression and match
+                        // on the content's mimeType
+                        var joinedRegex = new RegExp(regex.join('|'), 'i');
+                        if (mimeType.match(joinedRegex)) {
+                            mimeTypeObject = mimeTypeMapping;
+                            return false;
+                        }
+                    }
+                });
+            }
+        // Links and collaborative documents
+        } else {
+            mimeTypeObject = MIMETYPES[resourceSubType];
+        }
+
+        // If no mimeType mapping has matched the content's mimeType, we can default back
+        // to the `other` mimeType.
+        if (!mimeTypeObject) {
+            mimeTypeObject = MIMETYPES.other;
+        }
+
+        // Return the mime type description, translated into the user's language
+        return i18nAPI.translate(mimeTypeObject.description);
+    };
 
     /**
-     * Sets the filesize of a file to be a human readable string. This will only be done for uploaded files, other content items will remain unchanged.
+     * Get the filesize of a file as a human readable string. This will only be done for uploaded files,
+     * other content items will remain unchanged.
      *
      * @param  {Content}        contentObj          Content object for which to set the readable filesize information. This object will be modified to include the mimetype info.
-     * @api private
      */
-    var setFileSize = function(contentObj) {};
+    var getFileSize = exports.getFileSize = function(contentObj) {};
 
 });

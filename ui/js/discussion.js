@@ -15,14 +15,17 @@
 
 require(['jquery','oae.core'], function($, oae) {
 
-    //  Get the discussion id from the URL. The expected URL is `/discussion/<discussionId>`
-    var discussionId = $.url().segment(2);
-    if (!discussionId) {
-        oae.api.util.redirect().login();
-    }
+    // Get the discussion id from the URL. The expected URL is `/discussion/<tenantId>/<resourceId>`.
+    // The discussion id will then be `d:<tenantId>:<resourceId>`
+    var discussionId = 'd:' + $.url().segment(2) + ':' + $.url().segment(3);
 
     // Variable used to cache the requested discussion profile
     var discussionProfile = null;
+
+
+    ///////////////////////////////////////
+    // DISCUSSION PROFILE INITIALIZATION //
+    ///////////////////////////////////////
 
     /**
      * Get the discussion's basic profile and set up the screen. If the discussion
@@ -45,7 +48,7 @@ require(['jquery','oae.core'], function($, oae) {
             // Set the browser title
             oae.api.util.setBrowserTitle(discussionProfile.displayName);
             // Render the entity information
-            setUpClip();
+            setUpClips();
             // Render the discussion topic
             setUpTopic();
             // Set up the context event exchange
@@ -56,7 +59,7 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     /**
-     * The `oae.context.get` or `oae.context.get.<widgetname>` event can be sent by widgets 
+     * The `oae.context.get` or `oae.context.get.<widgetname>` event can be sent by widgets
      * to get hold of the current context (i.e. discussion profile). In the first case, a
      * `oae.context.send` event will be sent out as a broadcast to all widgets listening
      * for the context event. In the second case, a `oae.context.send.<widgetname>` event
@@ -76,14 +79,15 @@ require(['jquery','oae.core'], function($, oae) {
 
     /**
      * Render the discussion's clip, containing the thumbnail, display name as well as the
-     * discussion's admin options
+     * discussion's admin options. Also render the share and comment actions clips.
      */
-    var setUpClip = function() {
+    var setUpClips = function() {
         oae.api.util.template().render($('#discussion-clip-template'), {'discussion': discussionProfile}, $('#discussion-clip-container'));
+        oae.api.util.template().render($('#discussion-actions-clip-template'), {'discussion': discussionProfile}, $('#discussion-actions-clip-container'));
     };
 
     /**
-     * TODO
+     * Render the discussions's topic, if available
      */
     var setUpTopic = function() {
         if (discussionProfile.description) {
@@ -92,6 +96,80 @@ require(['jquery','oae.core'], function($, oae) {
             $('#discussion-topic-container').show();
         }
     };
+
+
+    ///////////////////
+    // MANAGE ACCESS //
+    ///////////////////
+
+    /**
+     * Creates the widgetData object to send to the manageaccess widget that contains all
+     * variable values needed by the widget.
+     *
+     * @return {Object}    The widgetData to be passed into the manageaccess widget
+     * @see manageaccess#initManageAccess
+     */
+    var getManageAccessData = function() {
+        return {
+            'contextProfile': discussionProfile,
+            'messages': {
+                'accessNotUpdatedBody': oae.api.i18n.translate('__MSG__DISCUSSION_ACCESS_COULD_NOT_BE_UPDATED__'),
+                'accessNotUpdatedTitle': oae.api.i18n.translate('__MSG__DISCUSSION_ACCESS_NOT_UPDATED__'),
+                'accessUpdatedBody': oae.api.i18n.translate('__MSG__DISCUSSION_ACCESS_SUCCESSFULLY_UPDATED__'),
+                'accessUpdatedTitle': oae.api.i18n.translate('__MSG__DISCUSSION_ACCESS_UPDATED__'),
+                'membersTitle': oae.api.i18n.translate('__MSG__SHARE_WITH__'),
+                'private': oae.api.i18n.translate('__MSG__PRIVATE__'),
+                'loggedin': oae.api.util.security().encodeForHTML(discussionProfile.tenant.displayName),
+                'public': oae.api.i18n.translate('__MSG__PUBLIC__'),
+                'privateDescription': oae.api.i18n.translate('__MSG__DISCUSSION_PRIVATE_DESCRIPTION__'),
+                'loggedinDescription': oae.api.i18n.translate('__MSG__DISCUSSION_LOGGEDIN_DESCRIPTION__', null, {'tenant': oae.api.util.security().encodeForHTML(discussionProfile.tenant.displayName)}),
+                'publicDescription': oae.api.i18n.translate('__MSG__DISCUSSION_PUBLIC_DESCRIPTION__')
+            },
+            'roles': {
+                'member': oae.api.i18n.translate('__MSG__CAN_VIEW__'),
+                'manager': oae.api.i18n.translate('__MSG__CAN_MANAGE__')
+            },
+            'api': {
+                'getMembersURL': '/api/discussion/'+ discussionProfile.id + '/members',
+                'setMembers': oae.api.discussion.updateMembers,
+                'setVisibility': oae.api.discussion.updateDiscussion
+            }
+        };
+    };
+
+    /**
+     * Triggers the manageaccess widget and passes in context data
+     */
+    $(document).on('click', '.discussion-trigger-manageaccess', function() {
+        $(document).trigger('oae.trigger.manageaccess', getManageAccessData());
+    });
+
+    /**
+     * Re-render the discussion's clip when the permissions have been updated.
+     */
+    $(document).on('oae.manageaccess.done', function(ev) {
+        setUpClips();
+    });
+
+
+    /////////////////////
+    // EDIT DISCUSSION //
+    /////////////////////
+
+    /**
+     * Re-render the discussion's clip and topic when the title or topic have been updated.
+     */
+    $(document).on('oae.editdiscussion.done', function(ev, data) {
+        // TODO: remove once https://github.com/sakaiproject/Hilary/issues/519 is merged
+        data.canShare = discussionProfile.canShare;
+        data.canPost = discussionProfile.canPost;
+        data.isManager = discussionProfile.isManager;
+
+        discussionProfile = data;
+        setUpClips();
+        setUpTopic();
+    });
+
 
     getDiscussionProfile();
 

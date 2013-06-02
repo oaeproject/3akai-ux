@@ -23,6 +23,9 @@
 /* Import the Open Sans font */
 @import url('../../vendor/css/opensans/css/opensans.css');
 
+/* Import the JQuery AutoSuggest plugin CSS */
+@import url('../../vendor/css/jquery.autoSuggest.css');
+
 /* Import the OAE Core styles. These will be used for bootstrap overrides, as well
    as styles used in the main portal that are not expected to be re-used in widgets */
 @import url('../../oae/css/oae.base.css');
@@ -34,5 +37,3 @@
 /* Import the Google, Facebook and Twitter login, as this will be needed on every
    page because of the topnavigation */
 @import url('../../vendor/css/auth-buttons.css');
-/* Import the JQuery AutoSuggest plugin CSS */
-@import url('../../vendor/css/jquery.autoSuggest.css');

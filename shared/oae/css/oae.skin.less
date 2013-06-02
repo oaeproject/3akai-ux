@@ -98,6 +98,7 @@ body {
 
 body, button, input, select, textarea,
 .btn > i, a.oae-plain-link,
+.popover-content, .popover-content button:not(.btn),
 h1 [class^="icon-"], h1 [class*=" icon-"],
 h2 [class^="icon-"], h2 [class*=" icon-"],
 h3 [class^="icon-"], h3 [class*=" icon-"],
@@ -314,6 +315,7 @@ a:hover, .btn-link:hover {
 [class^="icon-"].active, [class*=" icon-"].active,
 [class^="icon-"]:hover, [class*=" icon-"]:hover,
 [class^="icon-"]:focus, [class*=" icon-"]:focus,
+[class^="icon-"].selected, [class*=" icon-"].selected,
 .btn-link [class^="icon-"].active, .btn-link:hover [class*=" icon-"].active,
 .btn-link:hover [class^="icon-"], .btn-link:hover [class*=" icon-"],
 .btn-link:focus [class^="icon-"], .btn-link:focus [class*=" icon-"] {
@@ -325,8 +327,33 @@ a:hover, .btn-link:hover {
  ** @section  Forms **
  *********************/
 
+/* Form field border color */
+@form-border-color: #CCC;
 /* Selected form field color */
 @form-selected-color: rgba(82, 168, 236, 0.8);
+
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input,
+ul.as-selections {
+    border-color: @form-border-color;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+       -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
 
 textarea:focus,
 input[type="text"]:focus,
@@ -343,7 +370,8 @@ input[type="url"]:focus,
 input[type="search"]:focus,
 input[type="tel"]:focus,
 input[type="color"]:focus,
-.uneditable-input:focus {
+.uneditable-input:focus,
+ul.as-selections.as-selections-focus {
     border-color: @form-selected-color;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px @form-selected-color;
        -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px @form-selected-color;
@@ -533,6 +561,127 @@ input[type="color"]:focus,
 }
 
 
+/****************************
+ ** @section  Autosuggest **
+ ****************************/
+
+/* @subsection  Active item */
+
+/* Active item text color */
+@as-item-active-color: #2B3840;
+/* Active item border color */
+@as-item-active-border-color: #ACC3EC;
+/* Active item background gradient primary color */
+@as-item-active-gradient1-color: #DDEEFE;
+/* Active item background gradient secondary color */
+@as-item-active-gradient2-color: #BFE0F1;
+
+/* Active item hover text color */
+@as-item-active-hover-color: #2B3840;
+/* Active item hover border color */
+@as-item-active-hover-border-color: #ACC3EC;
+/* Active item hover background gradient primary color */
+@as-item-active-hover-gradient1-color: #DDEEFE;
+/* Active item hover background gradient secondary color */
+@as-item-active-hover-gradient2-color: #BFE0F1;
+
+ul.as-selections li.as-selection-item,
+ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected,
+ul.as-selections.as-selections-focus li.as-selection-item.selected {
+    .background-gradient-two(@as-item-active-gradient1-color, @as-item-active-gradient2-color);
+    color: @as-item-active-color;
+    border-color: @as-item-active-border-color;
+}
+
+ul.as-selections li.as-selection-item:hover,
+ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected:hover,
+ul.as-selections.as-selections-focus li.as-selection-item.selected:hover {
+    .background-gradient-two(@as-item-active-hover-gradient1-color, @as-item-active-hover-gradient2-color);
+    color: @as-item-active-hover-color;
+    border-color: @as-item-active-hover-border-color;
+}
+
+ul.as-selections li.as-selection-item a.as-close,
+ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected a.as-close {
+    color: @as-item-active-border-color;
+}
+
+ul.as-selections li.as-selection-item:hover a.as-close,
+ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected:hover a.as-close {
+    color: @as-item-active-hover-border-color;
+}
+
+ul.as-selections li.as-selection-item a.as-close:hover,
+ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected a.as-close:hover {
+    color: @as-item-active-hover-color;
+}
+
+ul.as-list li.as-result-item.active {
+    .background-gradient-two(@as-item-active-gradient1-color, @as-item-active-gradient2-color);
+}
+
+/* @subsection  Inactive item */
+
+/* Inactive item text color */
+@as-item-blur-color: #666;
+/* Inactive item border color */
+@as-item-blur-border-color: #BBB;
+/* Inactive item background gradient primary color */
+@as-item-blur-gradient1-color: #F4F4F4;
+/* Inactive item background gradient secondary color */
+@as-item-blur-gradient2-color: #D5D5D5;
+
+ul.as-selections li.as-selection-item.blur {
+    .background-gradient-two(@as-item-blur-gradient1-color, @as-item-blur-gradient2-color);
+    color: @as-item-blur-color;
+    border-color: @as-item-blur-border-color;
+}
+
+ul.as-selections li.as-selection-item.blur a.as-close {
+    color: @as-item-blur-border-color;
+}
+
+/* @subsection  Ghost item */
+
+/* Ghost item text color */
+@as-item-ghost-color: #666;
+/* Ghost item border color */
+@as-item-ghost-border-color: #BBB;
+/* Ghost item background gradient primary color */
+@as-item-ghost-gradient1-color: #FFF;
+/* Ghost item background gradient secondary color */
+@as-item-ghost-gradient2-color: #FFF;
+
+/* Ghost item hover text color */
+@as-item-ghost-hover-color: #666;
+/* Ghost item hover border color */
+@as-item-ghost-hover-border-color: #BBB;
+
+ul.as-selections li.as-selection-item.as-ghost-item {
+    .background-gradient-two(@as-item-ghost-gradient1-color, @as-item-ghost-gradient2-color);
+    color: @as-item-ghost-color;
+    border-color: @as-item-ghost-border-color;
+}
+
+ul.as-selections li.as-selection-item.as-ghost-item:hover {
+    .background-gradient-two(@as-item-ghost-gradient1-color, @as-item-ghost-gradient2-color);
+    color: @as-item-ghost-hover-color;
+    border-color: @as-item-ghost-hover-border-color;
+}
+
+ul.as-selections li.as-selection-item.as-ghost-item a.as-ghost-add i {
+    color: @as-item-ghost-border-color;
+}
+
+ul.as-selections li.as-selection-item.as-ghost-item:hover a.as-ghost-add i {
+    color: @as-item-ghost-hover-border-color;
+}
+
+ul.as-selections li.as-selection-item.as-ghost-item a.as-ghost-add i:hover {
+    color: @as-item-ghost-hover-color;
+}
+
+
 /**************************
  ** @section  Thumbnails **
  **************************/
@@ -558,20 +707,20 @@ div.oae-thumbnail {
 /* Visibility toggle selected secondary color*/
 @visibility-toggle-selected2-color: #DBEDFE;
 
-.oae-visibility-choice-container .oae-visibility-choice {
+.oae-large-options-container .oae-large-options {
     background-color: @visibility-toggle-background-color;
 }
 
-.oae-visibility-choice-container label .oae-visibility-choice.checked {
+.oae-large-options-container label .oae-large-options.checked {
     border-color: @visibility-toggle-selected1-color;
     background-color: @visibility-toggle-selected2-color;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice.checked + i {
+.oae-large-options-container .oae-large-options.checked + i {
     background-color: @visibility-toggle-selected1-color;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice.checked + i:before {
+.oae-large-options-container .oae-large-options.checked + i:before {
     color: @visibility-toggle-background-color;
 }
 
@@ -602,7 +751,8 @@ div.oae-thumbnail {
 @listitem-border-color: #EEEDEB;
 
 .oae-tile,
-.oae-listitem {
+.oae-listitem,
+.oae-list.oae-list-grid > li.oae-list-actions {
     border-color: @listitem-border-color;
 }
 

@@ -85,7 +85,18 @@
                             </div>
                         </div>
                     </div>
-                    <ul class="oae-list oae-list-grid"></ul>
+                    <ul class="oae-list oae-list-grid"><!-- --></ul>
+
+                    <div id="search-noresults-template"><!--
+                        <div class="alert alert-info">
+                            {if query}
+                                {var query = oae.api.util.security().encodeForHTML(query)}
+                                __MSG__SEARCH_QUERY_EMPTY__
+                            {else}
+                                __MSG__SEARCH_EMPTY__
+                            {/if}
+                        </div>
+                    --></div>
 
                     <div id="search-template"><!--
                         {for result in results}
