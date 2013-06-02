@@ -197,7 +197,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         }
 
         var data = {
-            'viewers': principals
+            'members': principals
         };
 
         $.ajax({

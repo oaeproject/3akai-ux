@@ -48,7 +48,7 @@ require(['jquery','oae.core'], function($, oae) {
             // Set the browser title
             oae.api.util.setBrowserTitle(discussionProfile.displayName);
             // Render the entity information
-            setUpClip();
+            setUpClips();
             // Render the discussion topic
             setUpTopic();
             // Set up the context event exchange
@@ -79,10 +79,11 @@ require(['jquery','oae.core'], function($, oae) {
 
     /**
      * Render the discussion's clip, containing the thumbnail, display name as well as the
-     * discussion's admin options
+     * discussion's admin options. Also render the share and comment actions clips.
      */
-    var setUpClip = function() {
+    var setUpClips = function() {
         oae.api.util.template().render($('#discussion-clip-template'), {'discussion': discussionProfile}, $('#discussion-clip-container'));
+        oae.api.util.template().render($('#discussion-actions-clip-template'), {'discussion': discussionProfile}, $('#discussion-actions-clip-container'));
     };
 
     /**
@@ -147,7 +148,7 @@ require(['jquery','oae.core'], function($, oae) {
      * Re-render the discussion's clip when the permissions have been updated.
      */
     $(document).on('oae.manageaccess.done', function(ev) {
-        setUpClip();
+        setUpClips();
     });
 
 
@@ -165,7 +166,7 @@ require(['jquery','oae.core'], function($, oae) {
         data.isManager = discussionProfile.isManager;
 
         discussionProfile = data;
-        setUpClip();
+        setUpClips();
         setUpTopic();
     });
 
