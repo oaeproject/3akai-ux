@@ -493,7 +493,7 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-clip-container .oae-clip-container-right {
     margin-right: 55px;
-    right: 0px;
+    right: 0;
 }
 
 .oae-clip {
@@ -599,7 +599,7 @@ div.oae-thumbnail i[class^="icon-"] {
     margin-left: 10px;
     line-height: 16px;
     position: relative;
-    top: 2px;
+    top: 3px;
 }
 
 .oae-clip .oae-clip-content > button:disabled i.icon-caret-down,
@@ -610,10 +610,10 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-clip .oae-clip-content h1 {
     display: inline-block;
     font-size: 16px;
-    line-height: 1;
-    margin: 0px;
+    line-height: 1.4;
+    margin: 0;
     font-weight: 600;
-    max-width: 500px;
+    max-width: 230px;
     word-wrap: break-word;
 }
 
@@ -710,9 +710,9 @@ div.oae-thumbnail i[class^="icon-"] {
 /* Default thumbnail picture positioning */
 
 .oae-tile .oae-thumbnail {
-    -webkit-border-radius: 0px;
-       -moz-border-radius: 0px;
-            border-radius: 0px;
+    -webkit-border-radius: 0;
+       -moz-border-radius: 0;
+            border-radius: 0;
 }
 
 .oae-tile .oae-thumbnail:before {
@@ -727,9 +727,9 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-tile > .oae-tile-metadata {
     position: absolute;
-    bottom: 0px;
-    right: 0px;
-    left: 0px;
+    bottom: 0;
+    right: 0;
+    left: 0;
     padding: 7px;
 }
 
@@ -737,8 +737,8 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-tile h3 a {
     font-size: 14px;
     font-weight: bold;
-    line-height: 1.2;
-    margin: 0px;
+    line-height: 1.3;
+    margin: 0;
 }
 
 .oae-tile small {
@@ -940,7 +940,7 @@ ul.oae-list:not(.oae-list-compact) > li > .oae-list-compact-item {
 
 ul.oae-list.oae-list-grid > li {
     float: left;
-    margin: 0px 14px 24px 0px;
+    margin: 0 14px 24px 0;
 }
 
 ul.oae-list.oae-list-grid > li .oae-thumbnail,
@@ -1138,7 +1138,7 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
     background: none;
     border: none;
     filter:none;
-    padding: 1px 0px;
+    padding: 1px 0;
     -webkit-box-shadow: none;
        -moz-box-shadow: none;
             box-shadow: none;
@@ -1165,7 +1165,7 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
 }
 
 .oae-list-options form {
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 /* Actions bar */
