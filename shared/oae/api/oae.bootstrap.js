@@ -28,6 +28,7 @@ requirejs.config({
         'flowplayer': 'vendor/js/flowplayer/flowplayer.min',
         'globalize': 'vendor/js/l10n/globalize',
         'jquery.autosuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest',
+        'jquery.carouFredSel': 'vendor/js/jquery-plugins/jquery.carouFredSel-6.2.0',
         'jquery.encoder': 'vendor/js/jquery-plugins/jquery.encoder',
         'jquery.fileSize': 'vendor/js/jquery-plugins/jquery.fileSize',
         'jquery.fileupload': 'vendor/js/jquery-plugins/jquery.fileupload',
