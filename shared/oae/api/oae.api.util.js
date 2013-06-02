@@ -647,7 +647,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         /**
          * Set up a new autosuggest field. This function is a wrapper around the jQuery AutoSuggest Plugin
          * (https://github.com/wuyuntao/jquery-autosuggest). It allows for a standard input field to be converted
-         * in an autosuggest field that can be used to suggest people, groups, content, etc. pulled from one of the
+         * into an autosuggest field that can be used to suggest people, groups, content, etc. pulled from one of the
          * back-end feeds.
          *
          * By default, the autosuggest field will show users and groups. This can be overriden through the resouceTypes array
@@ -678,7 +678,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          */
         var setup = function($element, options, resourceTypes, callback) {
             if (!$element) {
-                throw new Error('An valid input element should be provided.');
+                throw new Error('A valid input element should be provided.');
             }
 
             // Load the autosuggest templates in case they haven't been loaded yet
@@ -705,7 +705,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
                 // by supplied options
                 options = _.extend({}, defaultOptions, options);
 
-                // Add the resourceTypes onto the additional querystring parameter that need to be added to the request.
+                // Add the resourceTypes onto the additional querystring parameter that needs to be added to the request.
                 // We need to do this as querystring-formatted string as the Autosuggest component is not able to deal with objects.
                 if (!resourceTypes) {
                     resourceTypes = ['user', 'group'];
