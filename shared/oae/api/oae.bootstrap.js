@@ -25,8 +25,9 @@ requirejs.config({
         // Vendor paths
         'bootstrap': 'vendor/js/bootstrap',
         'bootstrap.clickover': 'vendor/js/bootstrap-plugins/bootstrapx.clickover',
+        'flowplayer': 'vendor/js/flowplayer/flowplayer.min',
         'globalize': 'vendor/js/l10n/globalize',
-        'jquery.autosuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest.oae-edited',
+        'jquery.autosuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest',
         'jquery.carouFredSel': 'vendor/js/jquery-plugins/jquery.carouFredSel-6.2.0',
         'jquery.encoder': 'vendor/js/jquery-plugins/jquery.encoder',
         'jquery.fileSize': 'vendor/js/jquery-plugins/jquery.fileSize',
@@ -37,6 +38,7 @@ requirejs.config({
         'jquery.jcrop': 'vendor/js/jquery-plugins/jcrop/jquery.Jcrop',
         'jquery.jeditable': 'vendor/js/jquery-plugins/jquery.jeditable.oae-edited',
         'jquery.notify': 'vendor/js/jquery-plugins/jquery.bootstrap.notify',
+        'jquery.oembed': 'vendor/js/jquery-plugins/jquery.oembed',
         'jquery.parseurl': 'vendor/js/jquery-plugins/jquery.parseurl.oae-edited',
         'jquery.properties-parser': 'vendor/js/jquery-plugins/jquery.properties-parser',
         'jquery.serializeObject': 'vendor/js/jquery-plugins/jquery.serializeObject',

@@ -34,12 +34,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
              throw new Error('A group displayName should be provided');
         }
 
-        // TODO: Remove this when groups no longer require an alias. After that, the oae.api.util
-        // dependency can be removed as well
-        var alias = utilAPI.generateId();
-
         var data = {
-            'alias': alias,
             'displayName': displayName,
             'description': description,
             'visibility': visibility,
@@ -95,8 +90,9 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * @param  {String}       [profileFields.description]   New description for the group
      * @param  {String}       [profileFields.visibility]    New visibility setting for the group. The possible values are 'private', 'loggedin' and 'public'
      * @param  {String}       [profileFields.joinable]      New joinability setting for the group. The possible values are 'yes', 'no' and 'request'
-     * @param  {Function}     [callback]                    Standard callback method
-     * @param  {Object}       [callback.err]                Error object containing error code and error message
+     * @param  {Function}     callback                      Standard callback method
+     * @param  {Object}       callback.err                  Error object containing error code and error message
+     * @param  {Group}        callback.group                The group object representing the updated group
      * @throws {Error}                                      Error thrown when not all of the required parameters have been provided
      */
     var updateGroup = exports.updateGroup = function (groupId, profileFields, callback) {
@@ -113,8 +109,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
             'url': '/api/group/' + groupId,
             'type': 'POST',
             'data': data,
-            'success': function() {
-                callback(null);
+            'success': function(data) {
+                callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
@@ -207,6 +203,56 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
 
         $.ajax({
             'url': '/api/user/' + userId + '/memberships',
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
+
+    /**
+     * Join a group as the currently authenticated user.
+     *
+     * @param  {String}       groupId             The id of the group that should be joined
+     * @param  {Function}     [callback]          Standard callback method
+     * @param  {Object}       [callback.err]      Error object containing error code and error message
+     * @throws {Error}                            Error thrown when no groupid has been provided.
+     */
+    var joinGroup = exports.joinGroup = function(groupId, callback) {
+        if (!groupId) {
+            throw new Error('A valid group id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/group/' + groupId + '/join',
+            'type': 'POST',
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
+
+    /**
+     * Leave a group as the currently authenticated user.
+     *
+     * @param  {String}       groupId             The id of the group that should be left
+     * @param  {Function}     [callback]          Standard callback method
+     * @param  {Object}       [callback.err]      Error object containing error code and error message
+     * @throws {Error}                            Error thrown when no group id has been provided
+     */
+    var leaveGroup = exports.leaveGroup = function(groupId, callback) {
+        if (!groupId) {
+            throw new Error('A valid group id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/group/' + groupId + '/leave',
+            'type': 'POST',
             'success': function(data) {
                 callback(null, data);
             },

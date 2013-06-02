@@ -27,8 +27,7 @@ define(['exports', 'jquery'], function(exports, $) {
     var login = exports.login = function(username, password, callback) {
         if (!username) {
             throw new Error('A valid username should be provided');
-        }
-        if (!password) {
+        } else if (!password) {
             throw new Error('A valid password should be provided');
         }
 

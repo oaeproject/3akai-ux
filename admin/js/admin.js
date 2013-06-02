@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.jeditable', 'jquery.spectrum'], function($, _, oae, adminUtil) {
+require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.jeditable', 'jquery.spectrum', 'jquery.history'], function($, _, oae, adminUtil) {
 
     // Variable that will be used to keep track of current tenant
     var currentContext = null;
@@ -720,7 +720,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         History.replaceState({
             'view': selectedView,
             '_': Math.random()
-        });
+        }, $('title').text(), History.getState().cleanUrl);
     };
 
     /**
@@ -732,7 +732,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
         // take care of showing of the selected view
         History.pushState({
             'view': $(this).attr('data-id')
-        }, null, $('a', $(this)).attr('href'));
+        }, $('title').text(), $('a', $(this)).attr('href'));
         return false;
     };
 

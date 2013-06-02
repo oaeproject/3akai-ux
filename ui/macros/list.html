@@ -28,7 +28,7 @@
                 ${renderThumbnail(entityData, false, true, null, customImage)}
                 <div class="oae-tile-metadata">
                     {if resourceType !== 'user'}
-                        <i class="icon-oae-${visibility} pull-left"></i>
+                        <i class="icon-oae-${visibility} pull-right"></i>
                     {/if}
                     ${renderMetadata(entityData, metadata)}
                 </div>
@@ -161,14 +161,11 @@
         {if resourceType === 'user'}
             {var metadata = tenant.displayName}
         {elseif resourceType === 'group'}
-            <!-- TODO: Add proper metadata and i18n -->
-            {var metadata = 'Group'}
+            {var metadata = '__MSG__GROUP__'}
         {elseif resourceType === 'content'}
-            <!-- TODO: Add proper document type and i18n -->
-            {var metadata = 'Other document'}
+            {var metadata = oae.api.content.getMimeTypeDescription(entityData)}
         {elseif resourceType === 'discussion'}
-            <!-- TODO: Add proper document type and i18n -->
-            {var metadata = 'Discussion'}
+            {var metadata = '__MSG__DISCUSSION__'}
         {/if}
     {/if}
 
@@ -186,8 +183,20 @@
  * @param  {Boolean}                [showCheckbox]  Whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
 -->
 {macro renderCheckbox(entityData, type, showCheckbox)}
+    {if entityData.resourceType}
+        {var resourceType = entityData.resourceType}
+    {elseif entityData.objectType}
+        {var resourceType = entityData.objectType}
+    {/if}
+
+    {if entityData.resourceSubType}
+        {var resourceSubType = entityData.resourceSubType}
+    {elseif entityData['oae:resourceSubType']}
+        {var resourceSubType = entityData['oae:resourceSubType']}
+    {/if}
+
     {if !oae.data.me.anon && showCheckbox !== false}
-        <input type="checkbox" class="pull-left" id="oae-list-${type}-${entityData.id}" data-id="${entityData.id}" />
+        <input type="checkbox" class="pull-left" id="oae-list-${type}-${entityData.id}" data-id="${entityData.id}" data-resourceType="${resourceType}" data-resourceSubType="${resourceSubType}"/>
         <label class="oae-aural-text" for="oae-list-${type}-${entityData.id}">${entityData.displayName|encodeForHTML}</label>
     {/if}
 {/macro}

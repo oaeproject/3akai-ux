@@ -167,33 +167,51 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.propertie
      * - Try to find the key in the global i18n bundle of the user's language
      * - Try to find the key in the global default i18n file
      *
+     * Dynamic values can be identified in a key's translation as `${variable}`. An optional dynamic variables object can be passed
+     * into this function that will try to do replacements based on the keys in these object
+     *
      * @param  {String}     input           The text which we want to translate
      * @param  {String}     [widgetName]    Widget for which we want to use the translation bundles
+     * @param  {Object}     [variables]     Dynamic variables that should replace ${variable} placeholder in a translation. The replacements will happen based on the object keys
      * @return {String}                     The translated text
      */
-    var translate = exports.translate = function(input, widgetName) {
+    var translate = exports.translate = function(input, widgetName, variables) {
         // If the current user's language is the debug language, we don't need to do any translations
         if (locale === 'debug') {
             return input;
         }
         // Replace all __MSG__KEY__ instances with the appropriate translation
         input = input.replace(/__MSG__(.*?)__/gm, function(match, i18nkey) {
+            var translation = null;
             if (widgetName) {
                 // Check the widget's locale bundle
-                if (bundles.widgets[widgetName][locale] && bundles.widgets[widgetName][locale][i18nkey]) {
-                    return bundles.widgets[widgetName][locale][i18nkey];
+                if (bundles.widgets[widgetName][locale] && bundles.widgets[widgetName][locale][i18nkey] !== undefined) {
+                    translation = bundles.widgets[widgetName][locale][i18nkey];
                 // Check the widget's default bundle
-                } else if (bundles.widgets[widgetName]['default'] && bundles.widgets[widgetName]['default'][i18nkey]) {
-                    return bundles.widgets[widgetName]['default'][i18nkey];
+                } else if (bundles.widgets[widgetName]['default'] && bundles.widgets[widgetName]['default'][i18nkey] !== undefined) {
+                    translation = bundles.widgets[widgetName]['default'][i18nkey];
                 }
             }
-            // Check the core locale bundle
-            if (bundles.core[locale] && bundles.core[locale][i18nkey] !== undefined) {
-                return bundles.core[locale][i18nkey];
-            // Check the widget's default bundle
-            } else if (bundles.core['default'] && bundles.core['default'][i18nkey] !== undefined) {
-                return bundles.core['default'][i18nkey];
+            // Fall back to the core bundles
+            if (!translation) {
+                // Check the core locale bundle
+                if (bundles.core[locale] && bundles.core[locale][i18nkey] !== undefined) {
+                    translation = bundles.core[locale][i18nkey];
+                // Check the widget's default bundle
+                } else if (bundles.core['default'] && bundles.core['default'][i18nkey] !== undefined) {
+                    translation = bundles.core['default'][i18nkey];
+                }
             }
+            if (translation !== undefined) {
+                // Replace all of the dynamic variables, if provided
+                if (variables) {
+                    $.each(variables, function(dynamicVariable, dynamicTranslation) {
+                        translation = translation.replace('${' + dynamicVariable + '}', dynamicTranslation);
+                    });
+                }
+                return translation;
+            }
+
             // If the key hasn't been found, we return as is
             console.error('No translation could be found for ' + match);
             return match;

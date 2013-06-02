@@ -499,4 +499,5 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
         // Load the widget
         loadWidgets($container, showSettings, widgetDataToPassIn, callback);
     };
+
 });

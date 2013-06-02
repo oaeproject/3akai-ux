@@ -15,11 +15,9 @@
 
 require(['jquery', 'oae.core'], function($, oae) {
 
-    //  Get the user id from the URL. The expected URL is /user/<userId>
-    var userId = $.url().segment(2);
-    if (!userId) {
-        oae.api.util.redirect().login();
-    }
+    // Get the user id from the URL. The expected URL is `/user/<tenantId>/<resourceId>`.
+    // The user id will then be `u:<tenantId>:<resourceId>`
+    var userId = 'u:' + $.url().segment(2) + ':' + $.url().segment(3);
 
     // Redirect to /me if the requested user is the currently logged in user
     if (userId === oae.data.me.id) {
@@ -29,7 +27,7 @@ require(['jquery', 'oae.core'], function($, oae) {
     // Variable used to cache the requested user's profile
     var userProfile = null;
     // Variable used to cache the user's base URL
-    var baseUrl = '/user/' + userId;
+    var baseUrl = '/user/' + $.url().segment(2) + '/' + $.url().segment(3);
 
     /**
      * Get the user's basic profile and set up the screen. If the user

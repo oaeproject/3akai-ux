@@ -145,16 +145,12 @@ i.icon-oae-public:before {
 
 /* Large visibility icons */
 
-i.icon-oae-private.large,
-i.icon-oae-loggedin.large,
-i.icon-oae-public.large {
+i[class^="icon-"].large {
     width: 60px;
     height: 60px;
 }
 
-i.icon-oae-private.large:before,
-i.icon-oae-loggedin.large:before,
-i.icon-oae-public.large:before {
+i[class^="icon-"].large:before {
     font-size: 50px;
     height: 55px;
     padding-top: 5px;
@@ -162,18 +158,19 @@ i.icon-oae-public.large:before {
 }
 
 
-/************************
- ** VISIBILITY TOGGLES **
- ************************/
+/*******************
+ ** LARGE OPTIONS **
+ *******************/
 
 /**
- * A Large group of toggle buttons for visibility settings.
- * When an `oae-visibility-choice input` field changes value the
- * `oae-visibility-changed` event is sent out with data: `{'radio': $(input)}`
+ * Generate a group of large toggle buttons.
  *
- * e.g. <div class="oae-visibility-choice-container row-fluid">
+ * Each toggle button will have an icon, a name and a description. One of the toggle buttons will
+ * selected at any time.
+ *
+ * e.g. <div class="oae-large-options-container row-fluid">
  *          <label for="oae-visibility-private" class="span4 text-center">
- *              <div class="oae-visibility-choice well pull-left text-center checked">
+ *              <div class="oae-large-options well pull-left text-center checked">
  *                  <input type="radio" id="oae-visibility-private" value="private" name="oae-visibility-group" class="pull-left" checked="checked"/>
  *                  <i class="icon-oae-private large text-center"></i>
  *                  <span>__MSG__PRIVATE__</span>
@@ -182,7 +179,7 @@ i.icon-oae-public.large:before {
  *              <small>__MSG__GROUP_PRIVATE_DESCRIPTION__</small>
  *          </label>
  *          <label for="oae-visibility-loggedin" class="span4 text-center">
- *              <div class="oae-visibility-choice well pull-left text-center">
+ *              <div class="oae-large-options well pull-left text-center">
  *                  <input type="radio" id="oae-visibility-loggedin" value="loggedin" name="oae-visibility-group" class="pull-left"/>
  *                  <i class="icon-oae-loggedin large text-center"></i>
  *                  <span>Cambridge University</span>
@@ -191,7 +188,7 @@ i.icon-oae-public.large:before {
  *              <small>__MSG__GROUP_LOGGEDIN_DESCRIPTION__</small>
  *          </label>
  *          <label for="oae-visibility-public" class="span4 text-center">
- *              <div class="oae-visibility-choice well pull-left text-center">
+ *              <div class="oae-large-options well pull-left text-center">
  *                  <input type="radio" id="oae-visibility-public" value="public" name="oae-visibility-group" class="pull-left"/>
  *                  <i class="icon-oae-public large text-center"></i>
  *                  <span>__MSG__PUBLIC__</span>
@@ -200,47 +197,58 @@ i.icon-oae-public.large:before {
  *              <small>__MSG__GROUP_PUBLIC_DESCRIPTION__</small>
  *          </label>
  *      </div>
+ *
+ * Notes:
+ *
+ * - The selected button should have a `checked` class on the `oae-large-options` element
  **/
 
-.oae-visibility-choice-container label {
+.oae-large-options-container label {
     position: relative;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice {
+.oae-large-options-container .oae-large-options {
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
             box-sizing: border-box;
     height: 150px;
     margin: 0 10px 15px 0;
+    padding-top: 13px;
     width: 100%;
 }
 
-.oae-visibility-choice-container label:last-child .oae-visibility-choice {
+.oae-large-options-container label:last-child .oae-large-options {
     margin-right: 0;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice input {
+.oae-large-options-container .oae-large-options input {
     position: absolute;
     z-index: -1; /* Adding a z-index of -1 hides the element from the view but still allows for focus of the element */
 }
 
-.oae-visibility-choice-container .oae-visibility-choice span {
+.oae-large-options-container .oae-large-options i.icon-oae-private:before,
+.oae-large-options-container .oae-large-options i.icon-oae-loggedin:before,
+.oae-large-options-container .oae-large-options i.icon-oae-public:before {
+    margin-top: 6px;
+}
+
+.oae-large-options-container .oae-large-options span {
     display: block;
     font-size: 13px;
     font-weight: bold;
     margin-top: 7px;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice.checked {
+.oae-large-options-container .oae-large-options.checked {
     border: 8px solid;
-    padding-top: 12px;
+    padding-top: 6px;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice + i {
+.oae-large-options-container .oae-large-options + i {
     display: none;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice.checked + i {
+.oae-large-options-container .oae-large-options.checked + i {
     -webkit-border-radius: 100px;
        -moz-border-radius: 100px;
             border-radius: 100px;
@@ -250,7 +258,7 @@ i.icon-oae-public.large:before {
     top: 128px;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice.checked + i:before {
+.oae-large-options-container .oae-large-options.checked + i:before {
     font-size: 24px;
     height: 30px;
     padding-top: 5px;
@@ -620,17 +628,17 @@ div.oae-thumbnail i[class^="icon-"] {
 
 /* Clip actions */
 
-.oae-clip .oae-clip-content ul {
+.oae-clip .oae-clip-content > div > ul {
     list-style: none;
     margin: 0 10px;
     display: none;
 }
 
-.oae-clip .oae-clip-content ul li {
+.oae-clip .oae-clip-content > div > ul li {
     display: inline;
 }
 
-.oae-clip .oae-clip-content ul li button {
+.oae-clip .oae-clip-content > div > ul li button {
     -webkit-border-radius: 6px;
        -moz-border-radius: 6px;
             border-radius: 6px;
@@ -641,7 +649,7 @@ div.oae-thumbnail i[class^="icon-"] {
     text-align: center;
 }
 
-.oae-clip .oae-clip-content ul li button i {
+.oae-clip .oae-clip-content > div > ul li button i {
     display: block;
     margin: 0 auto 3px;
 }
@@ -689,7 +697,8 @@ div.oae-thumbnail i[class^="icon-"] {
  *   can be floated on the left or right.
  */
 
-.oae-tile {
+.oae-tile,
+.oae-list.oae-list-grid > li.oae-list-actions {
     position: relative;
     overflow: hidden;
     border: 1px solid;
@@ -728,12 +737,12 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-tile h3 a {
     font-size: 14px;
     font-weight: bold;
-    line-height: 1.3;
+    line-height: 1.2;
     margin: 0px;
 }
 
 .oae-tile small {
-    font-size: 11px;
+    font-size: 12px;
     font-style: italic;
     font-weight: normal;
     text-transform: uppercase;
@@ -785,7 +794,8 @@ div.oae-thumbnail i[class^="icon-"] {
  */
 
 .oae-tile,
-.oae-listitem {
+.oae-listitem,
+.oae-list.oae-list-grid > li.oae-list-actions {
     -webkit-box-shadow: 0 0 2px 0 rgba(219, 219, 219, 0.8);
        -moz-box-shadow: 0 0 2px 0 rgba(219, 219, 219, 0.8);
             box-shadow: 0 0 2px 0 rgba(219, 219, 219, 0.8);
@@ -802,7 +812,7 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .oae-listitem.oae-listitem-compact {
-    min-height: 25px;
+    min-height: 27px;
 }
 
 .oae-listitem input[type="checkbox"].pull-left {
@@ -845,7 +855,7 @@ div.oae-thumbnail i[class^="icon-"] {
     display: inline-block;
     font-size: 16px;
     font-weight: 500;
-    line-height: 1.4;
+    line-height: 25px;
     margin: 0;
     max-width: 450px;
 }
@@ -859,7 +869,7 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-listitem.oae-listitem-compact small {
     display: inline-block;
-    line-height: 1.6;
+    line-height: 25px;
     margin-left: 20px;
 }
 
@@ -901,7 +911,7 @@ div.oae-thumbnail i[class^="icon-"] {
  * to show the compact view, an `oae-list-compact` class should be added to the list:
  *
  *  e.g. <ul class="oae-list oae-list-grid">
- *          <Generated list items>
+ *           <Generated list items>
  *       </ul>
  */
 
@@ -933,7 +943,8 @@ ul.oae-list.oae-list-grid > li {
     margin: 0px 14px 24px 0px;
 }
 
-ul.oae-list.oae-list-grid > li .oae-thumbnail {
+ul.oae-list.oae-list-grid > li .oae-thumbnail,
+ul.oae-list.oae-list-grid > li.oae-list-actions {
     height: 162px;
     width: 162px;
 }
@@ -944,6 +955,109 @@ ul.oae-list > li .oae-list-details-item,
 ul.oae-list > li .oae-list-compact-item  {
     display: table;
     width: 100%;
+}
+
+ul.oae-list > li .oae-listitem {
+    margin-bottom: 0px;
+    margin-top: 10px;
+}
+
+ul.oae-list > li:first-child .oae-listitem {
+    margin-top: 0px;
+}
+
+
+/******************
+ ** LIST ACTIONS **
+ ******************/
+
+/**
+ * The list actions are shown to the managers of a list and provide options to add new items to the
+ * list or manage the items in the list. List actions are expected to be shown as the first item in
+ * a list. In grid view, the list actions will be rendered as a tile that is similar to the other tiles in
+ * the list and will contain the action buttons as well as the default thumbnail for the resource type.
+ * In details and compact view, the list actions will only display the actions buttons.
+ *
+ * The following HTML structure should be used to create a list actions element:
+ *
+ *  <li class="oae-list-actions oae-list-actions-multiple">
+ *      <div class="oae-thumbnail oae-thumbnail-large icon-oae-content"></div>
+ *      <ul>
+ *          <li>
+ *              <button type="button" class="btn oae-trigger-upload">
+ *                  <i class="icon-cloud-upload pull-left"></i>__MSG__UPLOAD__
+ *              </button>
+ *          </li>
+ *      </ul>
+ *   </li>
+ *
+ * Notes:
+ *
+ * - The most common way to use a list actions element is to prepend it into an infinite scroll list for managers
+ *   of the list. This will then also avoid that the `empty` list message is shown to managers.
+ * - When more than 1 action button needs to be shown in the list actions, the optional `oae-list-actions-multiple`
+ *   class should be added to the `oae-list-actions` container.
+ * - In grid view, icons inside of the action buttons will be hidden from the actions tile because of the limited
+ *   available space. In details and compact view, the icons will be shown.
+ * - The resource type icon shown in the list actions in grid view can be any of the `icon-oae-<resourceType>`
+ *   icons outlines in the `Thumbnails` section.
+ */
+
+/* Core list action styles */
+
+.oae-list-actions ul {
+    margin: 0px;
+}
+
+.oae-list-actions ul > li {
+    list-style-type: none;
+    margin-top: 10px;
+}
+
+.oae-list-actions div.oae-thumbnail {
+    background: none;
+}
+
+/* Grid view */
+
+ul.oae-list.oae-list-grid > li.oae-list-actions {
+    border-style: dashed;
+}
+
+ul.oae-list.oae-list-grid .oae-list-actions div.oae-thumbnail:before {
+    margin-top: -40px;
+}
+
+ul.oae-list.oae-list-grid .oae-list-actions.oae-list-actions-multiple div.oae-thumbnail:before {
+    margin-top: -60px;
+}
+
+ul.oae-list.oae-list-grid .oae-list-actions .btn i {
+    display: none;
+}
+
+ul.oae-list.oae-list-grid .oae-list-actions ul {
+    bottom: 5px;
+    left: 0;
+    padding: 7px;
+    position: absolute;
+    right: 0;
+    text-align: center;
+}
+
+/* Details and compact view */
+
+ul.oae-list:not(.oae-list-grid) .oae-list-actions {
+    height: 50px;
+}
+
+ul.oae-list:not(.oae-list-grid) .oae-list-actions div.oae-thumbnail {
+    display: none;
+}
+
+ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
+    display: inline;
+    margin-right: 10px;
 }
 
 
@@ -971,8 +1085,8 @@ ul.oae-list > li .oae-list-compact-item  {
  *      <div class="oae-list-options-actions hide">
  *          <input type="checkbox" id="library-selectall" class="oae-list-selectall" />
  *          <label for="library-selectall" class="oae-aural-text">__MSG__SELECT_ALL__</label>
- *          <button type="button" class="btn"><i class="icon-share pull-left"></i>__MSG__SHARE__</button>
- *          <button type="button" class="btn"><i class="icon-remove pull-left"></i>__MSG__REMOVE__</button>
+ *          <button type="button" class="btn" disabled="disabled"><i class="icon-share pull-left"></i>__MSG__SHARE__</button>
+ *          <button type="button" class="btn" disabled="disabled"><i class="icon-remove pull-left"></i>__MSG__REMOVE__</button>
  *          <div class="btn-group pull-right">
  *              <button class="btn" data-type="oae-list-compact">
  *                  <i class="icon-list"></i>
@@ -1001,6 +1115,8 @@ ul.oae-list > li .oae-list-compact-item  {
  *   can basically be anything.
  * - An `oae-list-selectall` class can be applied to the element that should be used to select/deselect all list
  *   items. This will be enabled automatically by the system.
+ * - The primary actions under `oae-list-options-actions` should be disabled by default, as they can only be clicked
+ *   when at least one of the items in the corresponding list is checked.
  */
 
 .oae-list-options {
@@ -1066,41 +1182,3 @@ ul.oae-list > li .oae-list-compact-item  {
 .oae-list-options .btn-group .btn i {
     font-size: 12px;
 }
-
-/*ul.oae-list li.oae-list-item.oae-list-item-dnd {
-    border: none;
-    display: none;
-}
-ul.oae-list li.oae-list-item.oae-list-item-dnd:first-child {
-    display: block;
-}
-ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-dnd-container {
-    border: 1px solid #F5F5F5;
-    height: 120px;
-}
-ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-dnd-container > div {
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
-    border: 1px dashed #999;
-    height: 112px;
-    margin: 4px;
-}
-ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-dnd-container .oae-list-dnd-label {
-    color: #999;
-    font-size: 13px;
-    font-style: italic;
-    line-height: 1.3;
-    margin: 10px auto 0;
-    width: 100px;
-}
-ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-dnd-container .oae-trigger-addcontent,
-ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-newdocument {
-    display: block;
-    margin: 10px auto;
-}
-ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-dnd-container .oae-trigger-addcontent i,
-ul.oae-list li.oae-list-item.oae-list-item-dnd .oae-list-newdocument i {
-    color: #333;
-    font-size: 18px;
-}*/
