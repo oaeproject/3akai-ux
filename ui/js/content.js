@@ -47,8 +47,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             contentProfile = profile;
             // Set the browser title
             oae.api.util.setBrowserTitle(contentProfile.displayName);
-            // Render the entity information
-            setUpClip();
+            // Render the entity information and actions
+            setUpClips();
             // Show the content preview
             setUpContentPreview();
             // Set up the context event exchange
@@ -60,10 +60,11 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
     /**
      * Render the content's clip, containing the thumbnail, display name as well as the
-     * content's admin options
+     * content's admin options. Also render the share and comment actions clips.
      */
-    var setUpClip = function() {
+    var setUpClips = function() {
         oae.api.util.template().render($('#content-clip-template'), {'content': contentProfile}, $('#content-clip-container'));
+        oae.api.util.template().render($('#content-actions-clip-template'), {'content': contentProfile}, $('#content-actions-clip-container'));
     };
 
     /**
@@ -116,7 +117,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         // Cache the content profile data
         contentProfile = updatedContent;
         // Re-render the entity information
-        setUpClip();
+        setUpClips();
         // Show the content preview
         setUpContentPreview();
     };
@@ -211,7 +212,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * Re-render the content's clip when the permissions have been updated.
      */
     $(document).on('oae.manageaccess.done', function(ev) {
-        setUpClip();
+        setUpClips();
     });
 
 
@@ -244,7 +245,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             refreshContentProfile(ev, data);
         } else {
             contentProfile = data;
-            setUpClip();
+            setUpClips();
         }
     });
 

@@ -116,15 +116,17 @@ define(['jquery'], function ($) {
 
                 // Get the id and resourceType from the data attributes on the checkbox
                 var id = $(checked).attr('data-id');
-                var resourcetype = $(checked).attr('data-resourceType');
+                var resourceType = $(checked).attr('data-resourceType');
+                var resourceSubType = $(checked).attr('data-resourceSubType');
                 // Get the displayName and thumbnail image from the content of the list item
                 var displayName = $('h3:visible', $checkedListItem).text();
                 var thumbnailImage = $('img:visible', $checkedListItem).attr('src');
 
                 selectedItems.results.push({
-                    'displayName': displayName,
                     'id': id,
-                    'resourceType': resourcetype,
+                    'displayName': displayName,
+                    'resourceType': resourceType,
+                    'resourceSubType': resourceSubType,
                     'thumbnailUrl': thumbnailImage
                 });
             });

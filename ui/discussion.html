@@ -53,14 +53,15 @@
                     </div>
                 --></div>
 
-                <div class="oae-clip-container-right">
+                <div id="discussion-actions-clip-container" class="oae-clip-container-right"><!-- --></div>
+                <div id="discussion-actions-clip-template"><!--
                     <div class="oae-clip oae-clip-flipped">
                         <div class="oae-clip-fold">
                             <div class="oae-clip-fold-inner"></div>
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button>
+                            <button class="oae-trigger-share" data-id="${discussion.id}" data-resourceType="${discussion.resourceType}">
                                 <div>
                                     <i class="icon-share pull-left"></i>
                                     <h1>__MSG__SHARE__</h1>
@@ -83,7 +84,7 @@
                             </button>
                         </div>
                     </div>
-                </div>
+                --></div>
             </div>
 
             <!-- DISCUSSION TOPIC -->

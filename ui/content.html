@@ -59,14 +59,15 @@
                     </div>
                 --></div>
 
-                <div class="oae-clip-container-right">
+                <div id="content-actions-clip-container" class="oae-clip-container-right"><!-- --></div>
+                <div id="content-actions-clip-template"><!--
                     <div class="oae-clip oae-clip-flipped">
                         <div class="oae-clip-fold">
                             <div class="oae-clip-fold-inner"></div>
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button>
+                            <button class="oae-trigger-share" data-id="${content.id}" data-resourceType="${content.resourceType}" data-resourceSubType="${content.resourceSubType}">
                                 <div>
                                     <i class="icon-share pull-left"></i>
                                     <h1>__MSG__SHARE__</h1>
@@ -75,7 +76,7 @@
                         </div>
                     </div>
 
-                    <div class="oae-clip oae-clip-secondary oae-clip-flipped">
+                    <div id="content-share-clip-template" class="oae-clip oae-clip-secondary oae-clip-flipped">
                         <div class="oae-clip-fold">
                             <div class="oae-clip-fold-inner"></div>
                             <div class="oae-clip-fold-outer"></div>
@@ -89,7 +90,7 @@
                             </button>
                         </div>
                     </div>
-                </div>
+                --></div>
             </div>
 
             <div id="content-preview-container"><!-- --></div>
