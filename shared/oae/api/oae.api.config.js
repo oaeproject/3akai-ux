@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -20,7 +20,7 @@ define(['exports', 'jquery'], function(exports, $) {
 
     /**
      * Initialize all config functionality by loading the configuration settings for the current tenant
-     * 
+     *
      * @param  {Function}   callback      Standard callback function
      * @param  {Object}     callback.err  Error object containing error code and message
      * @api private
@@ -40,7 +40,7 @@ define(['exports', 'jquery'], function(exports, $) {
 
     /**
      * Get a configuration value from the cached config values.
-     * 
+     *
      * @param  {String}                          module                The module to get the config value for. e.g. `oae-authentication`
      * @param  {String}                          feature               The feature to get the config value for. e.g. `twitter`
      * @param  {String}                          element               The element to get the config value for. e.g. `enabled`
@@ -58,4 +58,5 @@ define(['exports', 'jquery'], function(exports, $) {
 
         return config[module][feature][element];
     };
+
 });

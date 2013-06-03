@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -13,24 +13,26 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpath'], function(exports, require, $, _) {
+define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpath', 'jquery.autosuggest'], function(exports, require, $, _) {
 
     /**
      * Initialize all utility functionality.
-     * 
+     *
      * @param  {Function}   callback            Standard callback function
      * @api private
      */
     var init = exports.init = function(callback) {
         // Set up custom validators
         validation().init();
+        // Set up the custom autosuggest listeners
+        autoSuggest().init();
         // Load the OAE TrimPath Template macros
         template().init(callback);
     };
 
     /**
      * Request a number of static files at once through a static batch request
-     * 
+     *
      * @param  {String[]}       paths               Array of paths that should be retrieved
      * @param  {Function}       callback            Standard callback function
      * @param  {Object}         callback.err        Error object containing error code and message
@@ -56,7 +58,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
     /**
      * Generate a random ID. This ID generator does not guarantee global uniqueness.
      * The generated id will have the following format: `oae-<random number>-<random number>`
-     * 
+     *
      * @return {String}         Generated random ID
      */
     var generateId = exports.generateId = function() {
@@ -65,11 +67,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
 
     /**
      * Change the browser title for a particular page. The browser's title has the following structure
-     * 
+     *
      * Sakai OAE - Sakai Doc 1 [- Page 1]
-     * 
+     *
      * Where the first part will be fixed.
-     * 
+     *
      * @param  {String|String[]}     title       The new page title or an array of strings representing the fragments of the page title
      * @throws {Error}                           Error thrown when no page title has been provided
      */
@@ -92,7 +94,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
     // TRIMPATH TEMPLATE RENDERER //
     ////////////////////////////////
 
-    // Variable that will cache all of the parsed Trimpath templates. 
+    // Variable that will cache all of the parsed Trimpath templates.
     // This avoids the same template being parsed over and over again
     var templateCache = [];
     // Variable that will be used to cache the OAE Trimpath macros for
@@ -119,24 +121,27 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         };
 
         /**
-         * Initialize the template utility functions by fetching and caching 
-         * a global macro that can be used for rendering list view items. 
+         * Initialize the template utility functions by fetching and caching
+         * a global macro that can be used for rendering list view items.
          *
          * @param  {Function}       callback        Standard callback function
          * @api private
          */
         var init = function(callback) {
-            // Load the lists macros through the RequireJS Text plugin
-            require(['text!/ui/macros/list.html'], function(listMacro) {
-                // Cache the macro
-                globalMacros.push(listMacro);
+            // Load the activity summary and lists macros through the RequireJS Text plugin
+            require(['text!/ui/macros/activity.html', 'text!/ui/macros/list.html'], function(listMacro, activityMacro) {
+                // Translate and cache the macros. We require the i18n API here to avoid creating
+                // a cyclic dependency
+                var i18nAPI = require('oae.api.i18n');
+                globalMacros.push(i18nAPI.translate(activityMacro));
+                globalMacros.push(i18nAPI.translate(listMacro));
                 callback();
             });
         };
 
         /**
-         * Functionality that allows you to create HTML Templates, using a JSON object. That template 
-         * will then be rendered and all of the values from the JSON object can be used to insert values 
+         * Functionality that allows you to create HTML Templates, using a JSON object. That template
+         * will then be rendered and all of the values from the JSON object can be used to insert values
          * into the rendered HTML. More information and examples can be found over here:
          *
          * http://code.google.com/p/trimpath/wiki/JavaScriptTemplates
@@ -149,40 +154,47 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * NOTE: The OAE core APIs will automatically be passed into each template render, so they can be
          * called inside of each template without having to explicitly pass it in. There are also two standard
          * TrimPath modifiers that will be available:
-         * 
+         *
          * - `${value|encodeForHTML}`: Should be used for all user input rendered as text
          * - `${value|encodeForURL}`: Should be used for all user input used as part of a URL
-         * 
-         * There are also 2 globally available macros that can be used inside of all TrimPath templates:
+         *
+         * There are also 3 globally available macros that can be used inside of all TrimPath templates:
          *
          * 1) Thumbnail
          *
          *   `${renderThumbnail(entityData, [addVisibilityIcon], [large])}`
          *
          * - `entityData` is a standard object representing a user, group or content item or a search result for a user, group
-         *    or content item as returned by Hilary. Alternatively, a string representing the resourceType or resourceSubType 
-         *    (i.e., 'user', 'group', 'content', 'file', 'link', 'collabdoc') can be passed in for an empty/anonymous 
+         *    or content item as returned by Hilary. Alternatively, a string representing the resourceType or resourceSubType
+         *    (i.e., 'user', 'group', 'content', 'file', 'link', 'collabdoc') can be passed in for an empty/anonymous
          *    entity thumbnail.
-         * - `addVisibilityIcon` (optional) will determine whether or not the visibility icon should be shown. By default, 
+         * - `addVisibilityIcon` (optional) will determine whether or not the visibility icon should be shown. By default,
          *    the visibility icon will be shown. However, users will not never show a visibility icon.
          * - `large` (optional) determines whether or not a large default thumbnail icon should used. By default, a small icon will be used.
          *
          * 2) List item
          *
          *   `${listItem(entityData, [pagingKey], [metadata], [showCheckbox])}`
-         * 
+         *
          * - `entityData` is an object representing a user, group or content item or a search result for a user, group
          *    or content item
          * - `metadata` (optional) is a line of metadata information that should be displayed underneath the entity name
          * - `pagingKey` (optional) is the key that should be used for paging through the infinite scroll plugin
          * - `showCheckbox` (optional) will determine whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
          *
+         * 3) Activity summary
+         *
+         *   `${renderActivitySummary(activity)}`
+         *
+         * - `activity` is a standard activity object, as specified by the activitystrea.ms specification (@see http://activitystrea.ms/),
+         *    for which to generate the activity summary
+         *
          *
          * IMPORTANT: There should be no line breaks in between the div and the <!-- declarations,
          * because that line break will be recognized as a node and the template won't show up, as
-         * it's expecting the comments tag as the first one. This is done because otherwise a template 
+         * it's expecting the comments tag as the first one. This is done because otherwise a template
          * wouldn't validate in an HTML validator and to make sure that the template isn't visible in the page.
-         * 
+         *
          * @param  {Element|String}     $template       jQuery element representing the HTML element that contains the template or jQuery selector for the template container.
          * @param  {Object}             [data]          JSON object representing the values used for ifs, fors and value insertions.
          * @param  {Element|String}     [$output]       jQuery element representing the HTML element in which the template output should be put, or jQuery selector for the output container.
@@ -200,7 +212,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             data['oae'] = require('oae.core');
             // Make underscore available
             data['_'] = require('underscore');
-            // Make jQuery available
+
+            // Ensure jQuery is available. Since there is a version of jQuery in the global scope, ensure use of
+            // either jQuery or $ do not pick up the global-scope on inadvertently.
+            data['jQuery'] = require('jquery');
             data['$'] = require('jquery');
 
             // Add the Trimpath modifiers onto the data object.
@@ -220,7 +235,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
                 // the macros have access to all of the variables in scope of the template
                 templateContent = globalMacros.join('') + templateContent;
 
-                // Parse the template through TrimPath and add the 
+                // Parse the template through TrimPath and add the
                 // parsed template to the template cache
                 try {
                     templateCache[templateId] = TrimPath.parseTemplate(templateContent, templateId);
@@ -232,7 +247,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             // Render the template
             var renderedHTML = null;
             try {
+                // Render the template
                 renderedHTML = templateCache[templateId].process(data, {'throwExceptions': true});
+                // Filter out comments from the rendered template
+                renderedHTML = renderedHTML.replace(/<!--(?:.|\n)*?-->/gm, '');
             } catch (err) {
                 throw new Error('Rendering of template "' + templateId + '" failed: ' + err);
             }
@@ -251,7 +269,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         return {
             'init': init,
             'render': render
-        }
+        };
     };
 
     /**
@@ -260,9 +278,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
      *
      * This function is mostly just a wrapper around jQuery.bootstrap.notify.js and supports all of the options documented
      * at http://nijikokun.github.com/bootstrap-notify/.
-     * 
+     *
      * @param  {String}     [title]       The notification title.
-     * @param  {String}     message       The notification message that will be shown underneath the title.
+     * @param  {String}     message       The notification message that will be shown underneath the title. The message should be sanitized by the caller to allow for HTML inside of the notification.
      * @param  {String}     [type]        The notification type. The supported types are `success`, `error` and `info`, as defined in http://twitter.github.com/bootstrap/components.html#alerts. By default, the `success` type will be used.
      * @throws {Error}                    Error thrown when no message has been provided
      */
@@ -280,8 +298,6 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             $('body').append($notificationContainer);
         }
 
-        // We make sure the notification message is protected against XSS attacks
-        message = security().encodeForHTML(message);
         // If a title has been provided, we wrap it in an h4 and prepend it to the message
         if (title) {
             message = '<h4>' + security().encodeForHTML(title) + '</h4>' + message;
@@ -289,8 +305,13 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
 
         // Show the actual notification
         $notificationContainer.notify({
+            'fadeOut': {
+                'enabled': true,
+                'delay': 5000
+            },
             'type': type,
-            'message': {'html': message}
+            'message': {'html': message},
+            'transition': 'slideDown'
         }).show();
     };
 
@@ -309,7 +330,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             // Don't allow spaces in the field
             $.validator.addMethod('nospaces', function(value, element) {
                 return this.optional(element) || (value.indexOf(' ') === -1);
-            }, require('oae.api.i18n').translate('__MSG__NO_SPACES_ARE_ALLOWED__'));
+            });
 
             // Prepends http if no protocol has been provided
             $.validator.addMethod('prependhttp', function(value, element) {
@@ -324,17 +345,17 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * Validate a form using the jquery.validate plugin. This will automatically style the error messages, as well as positioning
          * them appropriately and giving all of the required aria roles for accessibility. This function is mostly just a wrapper around
          * jquery.validate, and supports all of the options supported by jquery.validate (see http://bassistance.de/jquery-plugins/jquery-plugin-validation/)
-         * 
+         *
          * In order for forms to have the appropriate validation styles, each label and control should be wrapped in an element with a `control-group` class.
-         * The label should have a `control-label` class. All input fields should be accompanied by a label, mostly for accessibility purposes. 
+         * The label should have a `control-label` class. All input fields should be accompanied by a label, mostly for accessibility purposes.
          * More information on creating forms (including horizontal forms) can be found at http://twitter.github.com/bootstrap/base-css.html#forms
-         * 
+         *
          * Validation messages will by default be displayed underneath the input field. If a custom position for the validation needs to provided,
          * a placeholder element with the class `help` should be created inside of the `control-group` element.
-         * 
+         *
          * Metadata can be added directly onto the HTML fields to tell jquery.validate which validation rules to use. These should be added as a class onto
          * the input field. The available ones are:
-         * 
+         *
          * - `required`: Makes the element always required.
          * - `email`: Makes the element require a valid email.
          * - `number`: Makes the element require a decimal number.
@@ -342,9 +363,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * - `date`: Makes the element require a date.
          * - `dateISO`: Makes the element require a ISO date.
          * - `creditcard`: Makes the element require a creditcard number.
-         * 
+         *
          * Example:
-         * 
+         *
          * ```
          * <form id='form_id' role='main'>
          *      <div class='control-group'>
@@ -358,14 +379,14 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          *      </div>
          * </div>
          * ```
-         * 
+         *
          * All other validation configuration should be passed into the options object when calling `oae.api.util.validation().validate($form, options)`.
-         * 
+         *
          * Sakai OAE defines to additional validation methods:
-         * 
+         *
          * - `nospaces`: Makes the element require no spaces.
          * - `prependhttp`: Prepends http:// to a URL field if no protocal has been specified.
-         * 
+         *
          * @param  {Element|String}     $form                           jQuery form element or jQuery selector for that form which we want to validate
          * @param  {Object}             [options]                       JSON object containing options to pass to the to the jquery validate plugin, as defined on http://docs.jquery.com/Plugins/Validation/validate#options
          * @param  {Object}             [options.methods]               Extension to the jquery validate options, allowing to specify custom validators. The keys should be the validator identifiers. The value should be an object with a method key containing the validator function and a text key containing the validation message.
@@ -379,7 +400,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
 
             options = options || {};
 
-            // We need to first handle the invalid and submit callback inside of this function, in order to set/remove all of the necessary 
+            // We need to first handle the invalid and submit callback inside of this function, in order to set/remove all of the necessary
             // styles and aria attributes. Therefore, we cache these callback so they can be  called after those functions have finished
             var invalidCallback = null;
             if (options.invalidHandler && $.isFunction(options.invalidHandler)) {
@@ -428,7 +449,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             };
 
             // Function that will be called when a form field should be marked no longer
-            // needs to be marked as invalid. In that case, we remove the `error` class from 
+            // needs to be marked as invalid. In that case, we remove the `error` class from
             // the parent `control-group` element
             options.unhighlight = function($element) {
                 $($element).parents('.control-group').removeClass('error');
@@ -448,7 +469,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
                 var $helpPlaceholder = $('.help', $element.parents('.control-group'));
                 if ($helpPlaceholder.length === 0) {
                     $error.addClass('help-block');
-                    $error.insertAfter($element)
+                    $error.insertAfter($element);
                 } else {
                     $helpPlaceholder.append($error);
                 }
@@ -456,11 +477,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
 
             // Set up the form with the provided options in jquery.validate
             $form.validate(options);
-        }; 
+        };
 
         /**
          * Clear the validation on a form. This will remove all visible validation styles, as well as the aria roles.
-         * 
+         *
          * @param  {Element|String}     $form       jQuery form element or jQuery selector for that form for which we want to clear the validation
          * @throws {Error}                          Error thrown when no form has been provided
          */
@@ -486,7 +507,445 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             'init': init,
             'validate': validate,
             'clear': clear
+        };
+    };
+
+    ///////////////
+    // CLICKOVER //
+    ///////////////
+
+    /**
+     * Initiate a new clickover dialog. This function is basically a wrapper around the BootstrapX clickover component
+     * (https://github.com/lecar-red/bootstrapx-clickover), which in itself is an extension to the Bootstrap popover component.
+     * It allows for a popover to be shown in context to the element that triggered it. The main additional benefit to using the
+     * BootstrapX clickover component is that it will automatically be closed when clicking outside of the clickover or when hitting
+     * the `Esc` button, unless configured otherwise.
+     *
+     * The clickover will be opened straight away and will be shown below the trigger by default, unless configured otherwise.
+     *
+     * The following options could be useful for widget clickovers:
+     *
+     * - options.onShown:  Function that will be executed when the clickover is shown. The argument that will be passed into the callback
+     *                     is the root element of the current popover. This function can be useful to initiate things like autosuggests or
+     *                     refresh the cached widget $rootel for event bindings.
+     * - options.onHidden: Function that will be executed when the clickover is hidden. This function can be useful to kill components in
+     *                     the clickover, like infinite scrolls.
+     *
+     * @param  {Element|String}     $element      jQuery element or jQuery selector for that element that represents the element that triggers the clickover. The clickover will be positioned relative to this element.
+     * @param  {Element|String}     $content      jQuery element or jQuery selector for the element that should be used as the content of the clickover.
+     * @param  {Object}             [options]     JSON Object containing options to pass to the BootstrapX clickover component. It supports all of the standard options documented at http://twitter.github.com/bootstrap/javascript.html#popovers and http://www.leecarmichael.com/bootstrapx-clickover/examples.html#.
+     * @return {Element}                          The root element of the generated clickover.
+     */
+    var clickover = exports.clickover = function($trigger, $content, options) {
+        if (!$trigger) {
+            throw new Error('A valid trigger element should be provided');
+        } else if (!$content) {
+            throw new Error('A valid content element should be provided');
         }
+
+        // Make sure the trigger and the content elements are jQuery elements
+        $trigger = $($trigger);
+        $content = $($content);
+
+        // Merge the default options with the provided options, giving priority
+        // to the provided options
+        options = options || {};
+        var defaultOptions = {
+            'global_close': true,
+            'html': true,
+            'placement': 'bottom',
+            'title': ''
+        };
+        options = $.extend(defaultOptions, options);
+
+        // Cache the `onShown` callback if it has been provided, so the clickover's
+        // root element can be passed into the `onShown` callback.
+        if (options.onShown) {
+            showCallback = options.onShown;
+            options.onShown = function() {
+                showCallback(this.$tip);
+            }
+        }
+
+        // Set the HTML of the content element as the content of the clickover
+        options.content = $content.html();
+
+        // Initiate the clickover
+        $trigger.clickover(options);
+
+        // Show the clickover
+        $trigger.trigger('click');
+    };
+
+    /////////////////
+    // AUTOSUGGEST //
+    /////////////////
+
+    // Variable that will cache the autosuggest TrimPath templates. The template will only be loaded
+    // the first time it is required
+    var $autosuggestTemplates = null;
+
+    /**
+     * All functionality related to the autosuggest component
+     */
+    var autoSuggest = exports.autoSuggest = function() {
+
+        /*!
+         * Default options that will be used to supplement the provided options.
+         * A list of the available options can be found at https://github.com/wuyuntao/jquery-autosuggest
+         */
+        var defaultOptions = {
+            'canGenerateNewSelections': false,
+            'minChars': 2,
+            'retrieveLimit': 10,
+            'url': '/api/search/general',
+            'scroll': 117,
+            'searchObjProps': 'id, displayName',
+            'selectedItemProp': 'displayName',
+            'selectedValuesProp': 'id'
+        };
+
+        /**
+         * Initialize the autosuggest functionality by binding a custom listeners
+         * that will be responsible for marking the autosuggest container as if it
+         * were a focused input field.
+         *
+         * @api private
+         */
+        var init = function() {
+            $(document).on('focus', 'ul.as-selections input', function() {
+                $(this).parents('ul.as-selections').addClass('as-selections-focus');
+            });
+            $(document).on('focusout', 'ul.as-selections input', function() {
+                $(this).parents('ul.as-selections').removeClass('as-selections-focus');
+            });
+        };
+
+        /**
+         * The HTML that is generated for rendering ghost items and selected items can be found in the
+         * `autosuggest.html` templates files. When the first autosuggest is initialised on a page, these
+         * templates will be loaded and cached for further usage. If the templates have already been loaded,
+         * nothing happens
+         *
+         * @param  {Function}           callback            Standard callback function
+         * @api private
+         */
+        var getAutosuggestTemplates = function(callback) {
+            if (!$autosuggestTemplates) {
+                // Load the autosuggest templates through the RequireJS Text plugin
+                require(['text!/ui/macros/autosuggest.html'], function(autosuggestTemplates) {
+                    // Translate the template. We require the i18n API here to avoid creating a cyclic dependency
+                    autosuggestTemplates = require('oae.api.i18n').translate(autosuggestTemplates);
+                    $autosuggestTemplates = $('<div>').append(autosuggestTemplates);
+                    callback();
+                });
+            } else {
+                callback();
+            }
+        };
+
+        /**
+         * Set up a new autosuggest field. This function is a wrapper around the jQuery AutoSuggest Plugin
+         * (https://github.com/wuyuntao/jquery-autosuggest). It allows for a standard input field to be converted
+         * into an autosuggest field that can be used to suggest people, groups, content, etc. pulled from one of the
+         * back-end feeds.
+         *
+         * By default, the autosuggest field will show users and groups. This can be overriden through the resouceTypes array
+         * that can be passed into the initialization function.
+         *
+         * This wrapper function will also automatically take care of XSS escaping, as that is something the autoSuggest plugin
+         * doesn't deal with itself.
+         *
+         * The following additions to the standard autosuggest plugin are available:
+         *
+         *  - Fixed items:         This allows for making items that will be used to pre-fill the autosuggest component to be undeleteable from the
+         *                         selection list. In order to make a pre-fill item fixed, the `fixed` property on the preFill item should be set to `true`
+         *  - Ghost items:         This allows for adding suggested ghost items to the beginning of the autosuggest component. These can be toggled by
+         *                         clicking on them. In order to add a ghost item, the same data format as the `preFill` array can be used. If a ghost item
+         *                         should be selected to start off with, the `selected` property on the ghost item should be set to `true`
+         *
+         * @param  {Element|String}     $element                        jQuery element or jQuery selector for that element that represents the element on which the autosuggest should be initialized
+         * @param  {Object}             [options]                       JSON Object containing options to pass to the autosuggest component. It supports all of the standard options documented at https://github.com/wuyuntao/jquery-autosuggest
+         * @param  {Object[]}           [options.preFill]               Items that should be pre-filled into the autosuggest field upon initialization
+         * @param  {Boolean}            [options.preFill[i].fixed]      Whether or not the pre-filled item should be undeleteable from the selection list
+         * @param  {Object[]}           [options.ghost]                 Ghost items that should be added to the autosuggest field upon initialization. This has the same format as `options.preFill`
+         * @param  {Boolean}            [options.ghost[i].selected]     Whether or not the ghost item should be selected by default
+         * @param  {String}             [options.url]                   URL for the REST endpoint that should be used to fetch the suggested results
+         * @param  {Function}           [options.selectionChanged]      Function that will be executed when the selection in the autosuggest field has changed
+         * @param  {String[]}           [resourceTypes]                 Array of resourceTypes that should be used for the search. By default, `user` and `group` will be used
+         * @param  {Function}           [callback]                      Standard callback function
+         * @throws {Error}                                              Error thrown when no source element has been provided
+         */
+        var setup = function($element, options, resourceTypes, callback) {
+            if (!$element) {
+                throw new Error('A valid input element should be provided.');
+            }
+
+            // Load the autosuggest templates in case they haven't been loaded yet
+            getAutosuggestTemplates(function() {
+
+                $element = $($element);
+
+                // We require the i18n API here to avoid creating a cyclic dependency
+                var i18nAPI = require('oae.api.i18n');
+                // The `startText` is the text that will be shown as the placeholder in the autosuggest field.
+                // If no `startText` has been provided, we fall back to the placeholder on the input element. If that
+                // hasn't been provided either, we fall back to a default string
+                if (!options.startText) {
+                    var placeholder = $element.attr('placeholder');
+                    options.startText = placeholder ? placeholder : i18nAPI.translate('__MSG__ENTER_NAME_HERE__');
+                }
+                // The `emptyText` is the text that will be shown when no suggested items could be found.
+                // If no `emptyText` has been provided, we fall back to a default string
+                if (!options.emptyText) {
+                    options.emptyText = i18nAPI.translate('__MSG__NO_RESULTS_FOUND__');
+                }
+
+                // Merge the supplied options with the default options. Default options will be overriden
+                // by supplied options
+                options = _.extend({}, defaultOptions, options);
+
+                // Add the resourceTypes onto the additional querystring parameter that needs to be added to the request.
+                // We need to do this as querystring-formatted string as the Autosuggest component is not able to deal with objects.
+                if (!resourceTypes) {
+                    resourceTypes = ['user', 'group'];
+                }
+                options.extraParams = options.extraParams || '';
+                $.each(resourceTypes, function(index, resourceType) {
+                    options.extraParams += '&resourceTypes=' + resourceType;
+                });
+
+                // By default, the autosuggest component will only show results in the suggested items that actually match the query
+                // on one of the fields specified in the `searchObjProps` parameter. However, as we rely on the REST endpoint to do
+                // the appropriate filtering and ordering, we undo this behavior by adding a `query` property onto each result that will
+                // contain the current search query, causing all results to match and display.
+                options.searchObjProps += ',query';
+
+                // XSS escape the preFill items
+                if (options.preFill) {
+                    $.each(options.preFill, function(index, preFillItem) {
+                        preFillItem[options.selectedItemProp] = security().encodeForHTML(preFillItem[options.selectedItemProp]);
+                    });
+                }
+
+                // XSS escape the ghost items
+                if (options.ghosts) {
+                    $.each(options.ghosts, function(index, ghostItem) {
+                        ghostItem[options.selectedItemProp] = security().encodeForHTML(ghostItem[options.selectedItemProp]);
+                    });
+                }
+
+                // XSS escape the incoming data from the REST endpoints. We also add the current query
+                // onto each result object to make sure that the matching succeeds and all items are
+                // shown in the suggested list. If a `retrieveComplete` function has already been provided,
+                // we cache it so it can be executed after this
+                var retrieveComplete = null;
+                if (options.retrieveComplete) {
+                    retrieveComplete = options.retrieveComplete;
+                }
+                options.retrieveComplete = function(data) {
+                    // Get the query from the request URL on the Ajax object, as that is the only provided clue
+                    // for finding out the search query
+                    var query = $.url(this.url).param('q');
+                    $.each(data.results, function(index, result) {
+                        result.displayName = security().encodeForHTML(result.displayName);
+                        result.query = query;
+                    });
+                    if (retrieveComplete) {
+                        return retrieveComplete(data);
+                    } else {
+                        return data.results;
+                    }
+                };
+
+                // If no custom suggest list item formatting function is provided, we use the standard formatting
+                // function that will render the thumbnail image, displayName and some metadata for each suggested item
+                if (!options.formatList) {
+                    options.formatList = function(data, elem) {
+                        return elem.html(template().render($('#autosuggest-suggested-template', $autosuggestTemplates), {'data': data}));
+                    }
+                }
+
+                // Function that will be called when an item is attempted to be removed from the autosuggest
+                // field. We only remove the element when the element is not fixed and not a ghost. If a
+                // `selectionRemoved` function has already been provided, we cache it so it can be executed
+                // after this. If the item is fixed, we don't execute the cached `selectionRemoved` function
+                var selectionRemoved = null;
+                if (options.selectionRemoved) {
+                    selectionRemoved = options.selectionRemoved;
+                }
+                options.selectionRemoved = function(elem) {
+                    var isFixed = false;
+                    // Check if the removed element was one of the fixed elements in the preFill objects
+                    var originalData = $(elem).data('originalData');
+                    if (options.preFill) {
+                        isFixed = _.some(options.preFill, function(preFilledItem) {
+                            return preFilledItem.id === originalData.id && preFilledItem.fixed === true;
+                        });
+                    }
+                    // Check if the removed element was one of the ghost elements in the ghosts objects
+                    if (!isFixed && options.ghosts) {
+                        isFixed = _.some(options.ghosts, function(ghostItem) {
+                            return ghostItem.id === originalData.id;
+                        });
+                    }
+
+                    // If the item is fixed, we don't do anything
+                    if (!isFixed) {
+                        if (selectionRemoved) {
+                            selectionRemoved(elem);
+                        } else {
+                            elem.remove();
+                        }
+                        // Trigger the custom selection changed function
+                        if (options.selectionChanged) {
+                            options.selectionChanged();
+                        }
+                    }
+                };
+
+                // Function that will be called when an item is added to the autosuggest field. We add the
+                // thumbnail picure to the element. If a `selectionAdded` function has already been provided,
+                // we cache it so it can be executed after this.
+                var selectionAdded = null;
+                if (options.selectionAdded) {
+                    selectionAdded = options.selectionAdded;
+                }
+                options.selectionAdded = function(elem) {
+                    var $elem = $(elem);
+                    // Make sure that the item cannot overflow
+                    $elem.addClass('oae-threedots');
+
+                    var originalData = $elem.data('originalData');
+                    if (originalData.resourceType) {
+                        // Prepend a thumbnail to the item to add to the list
+                        var $thumbnail = $('<div>').addClass('oae-thumbnail icon-oae-' + originalData.resourceType);
+                        if (originalData.thumbnailUrl) {
+                            $thumbnail.append($('<img>').attr('src', originalData.thumbnailUrl));
+                        }
+                        $elem.prepend($thumbnail);
+                    }
+
+                    if (selectionAdded) {
+                        selectionAdded(elem);
+                    }
+                    // Trigger the custom selection changed function
+                    if (options.selectionChanged) {
+                        options.selectionChanged();
+                    }
+                };
+
+                // Initialize the autoSuggest field
+                var $autoSuggest = $element.autoSuggest(options.url, options);
+                var $list = $autoSuggest.parents('ul');
+
+                // Remove the delete (x) button from the fixed fields
+                if (options.preFill) {
+                    $.each(options.preFill, function(index, preFillItem) {
+                        if (preFillItem.fixed) {
+                            $('li[data-value="' + preFillItem[options.selectedValuesProp] + '"]').addClass('as-fixed-item');
+                        }
+                    });
+                }
+
+                // Add the ghost fields
+                if (options.ghosts) {
+                    $.each(options.ghosts, function(index, ghostItem) {
+                        // Create the list item. An `as-ghost-selected` class will be added to selected ghosts
+                        $list.prepend(template().render($('#autosuggest-selected-template', $autosuggestTemplates), {
+                            'index': index,
+                            'ghostItem': ghostItem,
+                            'options': options
+                        }));
+                        var $li = $('li', $list).first();
+                        // Add the original ghost object onto the item
+                        $li.data('originalData', ghostItem);
+
+                        // Select/deselect the ghost item when it is clicked
+                        $li.on('click', function() {
+                            $(this).toggleClass('as-ghost-selected');
+                            // Trigger the custom selection changed function
+                            if (options.selectionChanged) {
+                                options.selectionChanged();
+                            }
+                        });
+                    });
+                }
+
+                // Trigger the callback function
+                if (_.isFunction(callback)) {
+                    callback();
+                };
+            });
+        };
+
+        /**
+         * Set the focus on the autosuggest field. This will end up setting the focus on the input field that is used
+         * by the autosuggest component to enter the next item in the list
+         *
+         * @param  {Element|String}     $element             jQuery element or jQuery selector for the container in which the auto suggest was initialized. Note that this will *not* be the same element as the one used to setup the auto suggest.
+         * @throws {Error}                                   Error thrown when no source element has been provided
+         */
+        var focus = function($element) {
+            if (!$element) {
+                throw new Error('An valid input element should be provided.');
+            }
+
+            $element = $($element);
+            $('.as-selections input', $element).focus();
+        };
+
+        /**
+         * Retrieve the selected items in an autosuggest field
+         *
+         * @param  {Element|String}     $element                            jQuery element or jQuery selector for the container in which the auto suggest was initialized. Note that this will *not* be the same element as the one used to setup the auto suggest.
+         * @return {Object[]}           selectedItems                       Array of objects representing the selected autosuggest items
+         * @return {String}             selectedItems[i].id                 Resource id of the selected item
+         * @return {String}             selectedItems[i].displayName        Display name of the selected item
+         * @return {String}             selectedItems[i].resourceType       Resource type of the selected item (e.g. user, group, content)
+         * @return {String}             [selectedItems[i].thumbnailUrl]     Thumbnail URL for the selected item
+         * @return {String}             selectedItems[i].visibility         Visibility for the selected item (i.e. private, loggedin, public)
+         * @throws {Error}                                                  Error thrown when no source element has been provided
+         */
+        var getSelection = function($element) {
+            if (!$element) {
+                throw new Error('An valid input element should be provided.');
+            }
+
+            $element = $($element);
+
+            var selectedItems = [];
+
+            // We cannot use the input.as-values field as that only gives us the IDs and we also need the other basic profile information
+            $.each($element.find('.as-selections > li'), function(index, selection) {
+                var $selection = $(selection);
+                var id = $selection.attr('data-value');
+                var selectionData = $selection.data().originalData;
+                var isGhostItem = $selection.hasClass('as-ghost-item');
+                // jQuery autosuggest will always prepare an empty item for the next item that needs to be
+                // added to the list. Therefore, it is possible that an item in the list is empty
+                if (id && selectionData) {
+                    // In case this is a ghost item, we can only add it when it has been selected.
+                    if (!isGhostItem || (isGhostItem && $selection.hasClass('as-ghost-selected'))) {
+                        selectedItems.push({
+                            'id': id,
+                            'displayName': selectionData.displayName,
+                            'resourceType': selectionData.resourceType,
+                            'thumbnailUrl': selectionData.thumbnailUrl,
+                            'visibility': selectionData.visibility
+                        });
+                    }
+                }
+            });
+            return selectedItems;
+        };
+
+        return {
+            'init': init,
+            'setup': setup,
+            'focus': focus,
+            'getSelection': getSelection
+        };
     };
 
 
@@ -497,9 +956,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
     /**
      * Using MathJax behind the scenes, find all mathematical function (LaTeX) declarations and render them
      * appropriately. Mathemetical are defined by wrapping them in $$.
-     * 
+     *
      * Example: $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
-     * 
+     *
      * @param  {Element|String}     [$element]        jQuery element or jQuery selector for that element in which we should look for Mathematical formulas and render them. If this is not provided, the body element will be used.
      */
     var renderMath = exports.renderMath = function($element) {};
@@ -512,7 +971,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
      * All functionality related to handling user input and making sure that it displays properly, without opening the door
      * to XSS attacks. This is a wrapper around the jquery.encode.js library that was developed by OWASP. Documentation on
      * the usage of this plugin can be found at https://github.com/chrisisbeef/jquery-encoder.
-     * 
+     *
      * All of the different security functions are also available as TrimPath Template modifiers that can be used in the
      * following manner: `${variable|<securityModifier>}`
      */
@@ -521,7 +980,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         /**
          * Sanitizes user input in a manner that makes it safe for the input to be placed
          * inside of an HTML tag.
-         * 
+         *
          * @param  {String}     [input]         The user input string that should be sanitized. If this is not provided, an empty string will be returned.
          * @return {String}                     The sanitized user input, ready to be put inside of an HTML tag.
          */
@@ -536,7 +995,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         /**
          * Sanitizes user input in a manner that it makes safe for the input to be placed
          * inside of an HTML attribute.
-         * 
+         *
          * @param  {String}     [input]         The user input string that should be sanitized. If this is not provided, an empty string will be returned.
          * @param  {String}     [attribute]     The name of the HTML attribute to encode for.
          * @return {String}                     The sanitized user input, ready to be put inside of an HTML attribute.
@@ -555,7 +1014,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
         /**
          * Sanitizes user input in a manner that it makes safe for the input to be used
          * as a URL fragment
-         * 
+         *
          * @param  {String}     [input]         The user input string that should be sanitized. If this is not provided, an empty string will be returned.
          * @return {String}                     The sanitized user input, ready to be used as a URL fragment.
          */
@@ -588,15 +1047,15 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * a page that requires login.
          */
         var login = function() {
-            document.location = '/';
-        };  
+            window.location = '/';
+        };
 
         /**
          * Redirect the current user to the 401 page. This can be used when the current user does not have
          * permission to see a certain page.
          */
         var accessdenied = function() {
-            document.location = '/accessdenied';
+            window.location = '/accessdenied';
         };
 
         /**
@@ -604,7 +1063,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * that cannot be found.
          */
         var notfound = function() {
-            document.location = '/notfound';
+            window.location = '/notfound';
         };
 
         /**
@@ -612,7 +1071,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * that is currently not available.
          */
         var unavailable = function() {
-            document.location = '/unavailable';
+            window.location = '/unavailable';
         };
 
         /**
@@ -620,7 +1079,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          * that is currently undergoing maintenance.
          */
         var maintenance = function() {
-            document.location = '/maintenance';
+            window.location = '/maintenance';
         };
 
         return {
@@ -630,31 +1089,6 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             'unavailable': unavailable,
             'maintenance': maintenance
         };
-    };
-
-    /**
-     * All functionality related to dragging and dropping items
-     */
-    var dragAndDrop = exports.dragAndDrop = function() {
-
-        /**
-         * Make all elements with the oae-draggable-container CSS class inside of the provided container draggable, using
-         * jQuery UI behind the scenes.
-         * 
-         * @param  {Element|String}     [$container]      jQuery element or jQuery selector for the element which will be used as the container to locate draggable items. If this is not provided, the body element will be used.
-         * @param  {Object}             [options]         JSON object containing options to pass into jQuery UI, as defined on http://api.jqueryui.com/draggable/
-         */
-        exports.dragAndDrop.setupDraggable = function($container, options) {};
-
-        /**
-         * Make all elements with the oae-droppable-container CSS class inside of the provided container droppable (accept draggable items), using
-         * jQuery UI behind the scenes.
-         * 
-         * @param  {Element|String}     [$container]      jQuery element or jQuery selector for the element which will be used as the container to locate draggable items. If this is not provided, the body element will be used.
-         * @param  {Object}             [options]         JSON object containing options to pass into jQuery UI, as defined on http://api.jqueryui.com/droppable/
-         */
-        exports.dragAndDrop.setupDroppable = function($container, options) {};
-
     };
 
     /**

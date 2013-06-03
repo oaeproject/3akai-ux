@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -16,15 +16,15 @@
 /*!
  * Initializes the Sakai OAE UI APIs. First of all, the me data will be retrieved. After that, the configuration for the current
  * tenant will be retrueved, and the localization and internationalization APIs will be initialized. Finally, the widgets declared
- * in the page source will be rendered,
+ * in the page source will be rendered.
  *
  * This module is intended to be referenced as a *plugin*, not a regular module. Do not depend on this directly, instead depend
  * on `oae.core`, which invokes this plugin, and also efficiently pre-loads many third-party dependencies.
  */
-define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.group', 'oae.api.i18n',
-        'oae.api.l10n', 'oae.api.profile', 'oae.api.user', 'oae.api.util', 'oae.api.widget'],
+define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.comment', 'oae.api.discussion', 'oae.api.group',
+        'oae.api.i18n', 'oae.api.l10n', 'oae.api.profile', 'oae.api.user', 'oae.api.util', 'oae.api.widget'],
 
-    function(authenticationAPI, configAPI, contentAPI, groupAPI, i18nAPI, l10nAPI, profileAPI, userAPI, utilAPI, widgetAPI) {
+    function(authenticationAPI, configAPI, contentAPI, commentAPI, discussionAPI, groupAPI, i18nAPI, l10nAPI, profileAPI, userAPI, utilAPI, widgetAPI) {
 
         /*!
          * Object containing all of the available OAE API modules and their functions, as well as some
@@ -35,6 +35,8 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
                 'authentication': authenticationAPI,
                 'config': configAPI,
                 'content': contentAPI,
+                'comment': commentAPI,
+                'discussion': discussionAPI,
                 'group': groupAPI,
                 'i18n': i18nAPI,
                 'l10n': l10nAPI,

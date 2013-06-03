@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -26,6 +26,7 @@ define([
         'oae.api!',
 
         'jquery',
+        'bootstrap',
 
         /*!
          * All the OAE API libraries found in /shared/oae/api. By including these here, requirejs will know that the
@@ -35,6 +36,8 @@ define([
         'oae.api.authentication',
         'oae.api.config',
         'oae.api.content',
+        'oae.api.comment',
+        'oae.api.discussion',
         'oae.api.group',
         'oae.api.i18n',
         'oae.api.l10n',
@@ -44,8 +47,9 @@ define([
         'oae.api.widget',
 
         /**
-         * OAE jQuery plugins
+         * OAE plugins
          */
+        'bootstrap.modal',
         'jquery.clip',
         'jquery.dnd-upload',
         'jquery.infinitescroll',
@@ -54,16 +58,14 @@ define([
         /*!
          * Third-party dependencies.
          */
-        'bootstrap',
+        'bootstrap.clickover',
         'globalize',
-        'jquery.ba-bbq',
-        'jquery.ba-hashchange',
         'jquery.encoder',
         'jquery.fileSize',
         'jquery.form',
-        'jquery.history',
         'jquery.infinitescroll',
         'jquery.notify',
+        'jquery.parseurl',
         'jquery.properties-parser',
         'jquery.serializeObject',
         'jquery.timeago',

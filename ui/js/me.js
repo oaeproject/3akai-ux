@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -30,16 +30,17 @@ require(['jquery','oae.core'], function($, oae) {
     var lhNavigation = [
         {
             'id': 'dashboard',
-            'title': oae.api.i18n.translate('__MSG__MY_DASHBOARD__'),
+            'title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
             'icon': 'icon-dashboard',
             'layout': [
                 {
-                    'width': 'span8',
+                    'width': 'span12',
                     'widgets': [
                         {
                             'id': 'activity',
                             'settings': {
-                                'principalId': oae.data.me.id
+                                'principalId': oae.data.me.id,
+                                'canManage': true
                             }
                         }
                     ]
@@ -55,9 +56,29 @@ require(['jquery','oae.core'], function($, oae) {
                     'width': 'span12',
                     'widgets': [
                         {
-                            'id': 'library',
+                            'id': 'contentlibrary',
                             'settings': {
-                                'principalId': oae.data.me.id
+                                'principalId': oae.data.me.id,
+                                'canManage': true
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            'id': 'discussions',
+            'title': oae.api.i18n.translate('__MSG__MY_DISCUSSIONS__'),
+            'icon': 'icon-comments',
+            'layout': [
+                {
+                    'width': 'span12',
+                    'widgets': [
+                        {
+                            'id': 'discussionslibrary',
+                            'settings': {
+                                'principalId': oae.data.me.id,
+                                'canManage': true
                             }
                         }
                     ]
@@ -75,7 +96,8 @@ require(['jquery','oae.core'], function($, oae) {
                         {
                             'id': 'memberships',
                             'settings': {
-                                'principalId': oae.data.me.id
+                                'principalId': oae.data.me.id,
+                                'canManage': true
                             }
                         }
                     ]
@@ -102,10 +124,31 @@ require(['jquery','oae.core'], function($, oae) {
         oae.api.util.template().render($('#me-clip-template'), null, $('#me-clip-container'));
     };
 
-    $(document).on('oae.context.get', function() {
-        $(document).trigger('oae.context.send');
+    /**
+     * The `oae.context.get` or `oae.context.get.<widgetname>` event can be sent by widgets
+     * to get hold of the current context (i.e. current user's profile). In the first case, a
+     * `oae.context.send` event will be sent out as a broadcast to all widgets listening
+     * for the context event. In the second case, a `oae.context.send.<widgetname>` event
+     * will be sent out and will only be caught by that particular widget. In case the widget
+     * has put in its context request before the profile was loaded, we also broadcast it out straight away.
+     */
+    $(document).on('oae.context.get', function(ev, widgetId) {
+        if (widgetId) {
+            $(document).trigger('oae.context.send.' + widgetId, oae.data.me);
+        } else {
+            $(document).trigger('oae.context.send', oae.data.me);
+        }
     });
-    $(document).trigger('oae.context.send');
+    $(document).trigger('oae.context.send', oae.data.me);
+
+    /**
+     * Re-render the me clip when a new profile picture has been uploaded. The updated
+     * me object will be passed into the event
+     */
+    $(document).on('oae.changepic.finished', function(ev, data) {
+        oae.data.me = data;
+        setUpClip();
+    });
 
     setUpClip();
     setUpNavigation();

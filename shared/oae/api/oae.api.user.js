@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -23,6 +23,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {String}         displayName                     The display name for the user
      * @param  {Object}         [additionalOptions]             Additional optional parameters that need to be passed.
      * @param  {String}         [additionalOptions.visibility]  The user's visibility setting. This can be public, loggedin or private.
+     * @param  {String}         [additionalOptions.email]       The user's email address
      * @param  {String}         [additionalOptions.locale]      The user's locale
      * @param  {String}         [additionalOptions.timezone]    The user's timezone
      * @param  {String}         [additionalOptions.publicAlias] The publically-available alias for users to see when the user's display name is protected
@@ -51,6 +52,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             'recaptchaChallenge': recaptchaChallenge,
             'recaptchaResponse': recaptchaResponse,
             'visibility': additionalOptions.visibility,
+            'email': additionalOptions.email,
             'locale': additionalOptions.locale,
             'timezone': additionalOptions.timezone,
             'publicAlias': additionalOptions.publicAlias
@@ -69,11 +71,11 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             }
         });
     };
-    
+
     /**
      * Gets the currently logged in user. A cached copy of this object will be available on oae.data.me when requiring
      * `oae.api!` in your widget
-     * 
+     *
      * @param  {Function}       callback            Standard callback method takes arguments `err` and `resp`
      * @param  {Object}         callback.err        Error object containing error code and error message
      * @param  {Object}         callback.response   The user's me feed
@@ -89,10 +91,10 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             }
         });
     };
-    
+
     /**
      * Get a user's basic profile
-     * 
+     *
      * @param  {String}         userId              User id of the profile you wish to retrieve
      * @param  {Function}       callback            Standard callback method
      * @param  {Object}         callback.err        Error object containing error code and error message
@@ -114,7 +116,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             }
         });
     };
-    
+
     /**
      * Update the current user's basic profile
      *

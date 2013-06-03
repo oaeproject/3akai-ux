@@ -10,6 +10,7 @@
 
         <!-- CORE CSS -->
         <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
+        <link rel="stylesheet" type="text/css" href="/api/ui/skin" />
 
     </head>
     <body>
@@ -21,8 +22,8 @@
         <div class="oae-main-content">
 
             <!-- CLIPS -->
-            <div>
-                <div id="me-clip-container"><!-- --></div>
+            <div class="oae-clip-container">
+                <div id="me-clip-container" class="oae-clip-container-left"><!-- --></div>
                 <div id="me-clip-template"><!--
                     <div class="oae-clip">
                         <div class="oae-clip-fold">
@@ -31,27 +32,26 @@
                         </div>
                         <div class="oae-clip-content">
                             <button>
-                                ${renderThumbnail(oae.data.me)}
+                                ${renderThumbnail(oae.data.me, false, false, false)}
                                 <div>
                                     <div>
                                         <h1>${oae.data.me.displayName|encodeForHTML}</h1>
                                         <i class="icon-caret-down"></i>
-                                        <small>${oae.data.me.department}</small>
+                                        <small>${oae.data.me.tenant.displayName|encodeForHTML}</small>
                                     </div>
                                 </div>
                             </button>
                             <div>
                                 <ul>
-                                    <li><button><i class="icon-camera"></i>__MSG__MY_PICTURE__</button></li>
-                                    <li><button><i class="icon-user"></i>__MSG__MY_PROFILE__</button></li>
-                                    <li><button><i class="icon-wrench"></i>__MSG__MY_ACCOUNT__</button></li>
+                                    <li><button class="oae-trigger-changepic"><i class="icon-camera"></i>__MSG__MY_PICTURE__</button></li>
+                                    <li><button class="oae-trigger-accountpreferences"><i class="icon-wrench"></i>__MSG__MY_ACCOUNT__</button></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 --></div>
 
-                <div class="pull-right">
+                <div class="oae-clip-container-right">
                     <div class="oae-clip oae-clip-flipped oae-dnd-upload">
                         <div class="oae-clip-fold">
                             <div class="oae-clip-fold-inner"></div>
@@ -84,8 +84,8 @@
                                 <ul>
                                     <li><button class="oae-trigger-creategroup"><i class="icon-group"></i>__MSG__GROUP__</button></li>
                                     <li><button class="oae-trigger-createlink"><i class="icon-link"></i>__MSG__LINK__</button></li>
-                                    <li><button><i class="icon-edit"></i>__MSG__DOCUMENT__</button></li>
-                                    <li><button><i class="icon-comments"></i>__MSG__DISCUSSION__</button></li>
+                                    <li><button class="oae-trigger-createcollabdoc"><i class="icon-edit"></i>__MSG__DOCUMENT__</button></li>
+                                    <li><button class="oae-trigger-creatediscussion"><i class="icon-comments"></i>__MSG__DISCUSSION__</button></li>
                                 </ul>
                             </div>
                         </div>

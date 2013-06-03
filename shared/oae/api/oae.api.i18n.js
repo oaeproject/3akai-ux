@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.properties-parser'], function(exports, $, configAPI, utilAPI) {
+define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.properties-parser', 'jquery.timeago', 'jquery.validate'], function(exports, $, configAPI, utilAPI) {
 
     // Variable that will keep track of the current user's locale
     var locale = null;
@@ -57,6 +57,10 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.propertie
             // We put the translated string back into the HTML. We use the old innerHTML function here because the
             // `$.html()` function will try to reload all of the JavaScript files declared in the HTML.
             $('body')[0].innerHTML = translatedHTML;
+
+            // Add translations for the current user's language to all jQuery plugins
+            // that generate strings seen by end-users
+            translateJqueryPlugins();
             callback();
         });
     };
@@ -77,7 +81,10 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.propertie
             }
 
             bundles.core['default'] = $.parseProperties(data[bundlesToLoad[0]]);
-            bundles.core[locale] = $.parseProperties(data[bundlesToLoad[1]]);
+            // Only parse the core bundle for the current user's language if it exists
+            if (data[bundlesToLoad[1]]) {
+                bundles.core[locale] = $.parseProperties(data[bundlesToLoad[1]]);
+            }
             callback(null);
         });
     };
@@ -100,10 +107,58 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.propertie
     };
 
     /**
+     * Provide translations for the current user's language for all jQuery plugins
+     * that generate strings seen by end-users
+     *
+     * @api private
+     */
+    var translateJqueryPlugins = function() {
+        // Translate the jquery.timeago.js plugin
+        $.timeago.settings.strings = {
+            'prefixAgo': translate('__MSG__JQUERY_TIMEAGO_PREFIXAGO__'),
+            'prefixFromNow': translate('__MSG__JQUERY_TIMEAGO_PREFIXFROMNOW__'),
+            'suffixAgo': translate('__MSG__JQUERY_TIMEAGO_SUFFIXAGO__'),
+            'suffixFromNow': translate('__MSG__JQUERY_TIMEAGO_SUFFIXFROMNOW__'),
+            'seconds': translate('__MSG__JQUERY_TIMEAGO_SECONDS__'),
+            'minute': translate('__MSG__JQUERY_TIMEAGO_MINUTE__'),
+            'minutes': translate('__MSG__JQUERY_TIMEAGO_MINUTES__'),
+            'hour': translate('__MSG__JQUERY_TIMEAGO_HOUR__'),
+            'hours': translate('__MSG__JQUERY_TIMEAGO_HOURS__'),
+            'day': translate('__MSG__JQUERY_TIMEAGO_DAY__'),
+            'days': translate('__MSG__JQUERY_TIMEAGO_DAYS__'),
+            'month': translate('__MSG__JQUERY_TIMEAGO_MONTH__'),
+            'months': translate('__MSG__JQUERY_TIMEAGO_MONTHS__'),
+            'year': translate('__MSG__JQUERY_TIMEAGO_YEAR__'),
+            'years': translate('__MSG__JQUERY_TIMEAGO_YEARS__')
+        };
+
+        // Translate the jquery.validate.js plugin
+        $.validator.messages = {
+            'creditcard': translate('__MSG__PLEASE_ENTER_A_VALID_CREDIT_CARD_NUMBER__'),
+            'date': translate('__MSG__PLEASE_ENTER_A_VALID_DATE__'),
+            'dateISO': translate('__MSG__PLEASE_ENTER_A_VALID_DATE_ISO__'),
+            'digits': translate('__MSG__PLEASE_ENTER_ONLY_DIGITS__'),
+            'email': translate('__MSG__PLEASE_ENTER_A_VALID_EMAIL_ADDRESS__'),
+            'equalTo': translate('__MSG__PLEASE_ENTER_THE_SAME_VALUE_AGAIN__'),
+            'max': translate('__MSG__PLEASE_ENTER_A_VALUE_LESS_THAN_OR_EQUAL_TO__'),
+            'maxlength': translate('__MSG__PLEASE_ENTER_NO_MORE_THAN_X_CHARACTERS__'),
+            'min': translate('__MSG__PLEASE_ENTER_A_VALUE_GREATER_THAN_OR_EQUAL_TO__'),
+            'minlength': translate('__MSG__PLEASE_ENTER_AT_LEAST_X_CHARACTERS__'),
+            'nospaces': translate('__MSG__NO_SPACES_ARE_ALLOWED__'),
+            'number': translate('__MSG__PLEASE_ENTER_A_VALID_NUMBER__'),
+            'range': translate('__MSG__PLEASE_ENTER_A_VALUE_BETWEEN_X_AND_Y__'),
+            'rangelength': translate('__MSG__PLEASE_ENTER_A_VALUE_BETWEEN_X_AND_Y_CHARACTERS_LONG__'),
+            'remote': translate('__MSG__PLEASE_FIX_THIS_FIELD__'),
+            'required': translate('__MSG__THIS_FIELD_IS_REQUIRED__'),
+            'url': translate('__MSG__PLEASE_ENTER_A_VALID_URL__')
+        };
+    };
+
+    /**
      * Function that will translate a string by replacing all of the internationalization key by its translated value. This
      * original string can be a single internationalization key, or can contain multiple internationalization keys. Parts of
      * the string that are not internationalization keys will remain unchanged. Internationalization keys are identified by
-     * the following format: __MSG__KEY__
+     * the following format: `__MSG__KEY__`
      *
      * The translation order for the found keys is:
      *
@@ -112,33 +167,51 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.propertie
      * - Try to find the key in the global i18n bundle of the user's language
      * - Try to find the key in the global default i18n file
      *
+     * Dynamic values can be identified in a key's translation as `${variable}`. An optional dynamic variables object can be passed
+     * into this function that will try to do replacements based on the keys in these object
+     *
      * @param  {String}     input           The text which we want to translate
      * @param  {String}     [widgetName]    Widget for which we want to use the translation bundles
+     * @param  {Object}     [variables]     Dynamic variables that should replace ${variable} placeholder in a translation. The replacements will happen based on the object keys
      * @return {String}                     The translated text
      */
-    var translate = exports.translate = function(input, widgetName) {
+    var translate = exports.translate = function(input, widgetName, variables) {
         // If the current user's language is the debug language, we don't need to do any translations
         if (locale === 'debug') {
             return input;
         }
         // Replace all __MSG__KEY__ instances with the appropriate translation
         input = input.replace(/__MSG__(.*?)__/gm, function(match, i18nkey) {
+            var translation = null;
             if (widgetName) {
                 // Check the widget's locale bundle
-                if (bundles.widgets[widgetName][locale] && bundles.widgets[widgetName][locale][i18nkey]) {
-                    return bundles.widgets[widgetName][locale][i18nkey];
+                if (bundles.widgets[widgetName][locale] && bundles.widgets[widgetName][locale][i18nkey] !== undefined) {
+                    translation = bundles.widgets[widgetName][locale][i18nkey];
                 // Check the widget's default bundle
-                } else if (bundles.widgets[widgetName]['default'] && bundles.widgets[widgetName]['default'][i18nkey]) {
-                    return bundles.widgets[widgetName]['default'][i18nkey];
+                } else if (bundles.widgets[widgetName]['default'] && bundles.widgets[widgetName]['default'][i18nkey] !== undefined) {
+                    translation = bundles.widgets[widgetName]['default'][i18nkey];
                 }
             }
-            // Check the core locale bundle
-            if (bundles.core[locale] && bundles.core[locale][i18nkey]) {
-                return bundles.core[locale][i18nkey];
-            // Check the widget's default bundle
-            } else if (bundles.core['default'] && bundles.core['default'][i18nkey]) {
-                return bundles.core['default'][i18nkey];
+            // Fall back to the core bundles
+            if (!translation) {
+                // Check the core locale bundle
+                if (bundles.core[locale] && bundles.core[locale][i18nkey] !== undefined) {
+                    translation = bundles.core[locale][i18nkey];
+                // Check the widget's default bundle
+                } else if (bundles.core['default'] && bundles.core['default'][i18nkey] !== undefined) {
+                    translation = bundles.core['default'][i18nkey];
+                }
             }
+            if (translation !== undefined) {
+                // Replace all of the dynamic variables, if provided
+                if (variables) {
+                    $.each(variables, function(dynamicVariable, dynamicTranslation) {
+                        translation = translation.replace('${' + dynamicVariable + '}', dynamicTranslation);
+                    });
+                }
+                return translation;
+            }
+
             // If the key hasn't been found, we return as is
             console.error('No translation could be found for ' + match);
             return match;

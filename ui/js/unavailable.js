@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -28,7 +28,7 @@ define(['jquery'], function($) {
         $.ajax({
             'url': '/api/me',
             'success': function() {
-                document.location = '/me';
+                window.location = '/me';
             }
         });
     };

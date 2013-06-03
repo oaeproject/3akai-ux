@@ -10,6 +10,7 @@
 
         <!-- CORE CSS -->
         <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
+        <link rel="stylesheet" type="text/css" href="/api/ui/skin" />
 
     </head>
     <body>
@@ -21,8 +22,8 @@
         <div class="oae-main-content">
 
             <!-- CLIPS -->
-            <div>
-                <div id="content-clip-container"><!-- --></div>
+            <div class="oae-clip-container">
+                <div id="content-clip-container" class="oae-clip-container-left"><!-- --></div>
                 <div id="content-clip-template"><!--
                     <div class="oae-clip">
                         <div class="oae-clip-fold">
@@ -31,20 +32,26 @@
                         </div>
                         <div class="oae-clip-content">
                             <button {if !content.isManager} disabled {/if}>
-                                ${renderThumbnail(content)}
+                                ${renderThumbnail(content, true, false, false)}
                                 <div>
                                     <div>
                                         <h1>${content.displayName|encodeForHTML}</h1>
                                         <i class="icon-caret-down"></i>
+                                        <small>${oae.api.content.getMimeTypeDescription(content)}</small>
                                     </div>
                                 </div>
                             </button>
                             <div>
                                 <ul>
-                                    <li><button><i class="icon-lock"></i>__MSG__PERMISSIONS__</button></li>
-                                    <li><button><i class="icon-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
-                                    <li><button class="oae-trigger-uploadnewversion"><i class="icon-upload"></i>__MSG__UPLOAD_NEW_VERSION__</button></li>
-                                    <li><button><i class="icon-undo"></i>__MSG__REVISIONS__</button></li>
+                                    <li><button class="content-trigger-manageaccess"><i class="icon-lock"></i>__MSG__MANAGE_ACCESS__</button></li>
+                                    <li><button class="oae-trigger-editcontent"><i class="icon-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
+                                    {if content.resourceSubType === 'file'}
+                                        <li><button class="oae-trigger-uploadnewversion"><i class="icon-upload"></i>__MSG__UPLOAD_NEW_VERSION__</button></li>
+                                    {/if}
+                                    {if content.resourceSubType === 'file' ||
+                                        content.resourceSubType === 'collabdoc'}
+                                        <li><button class="oae-trigger-revisions"><i class="icon-undo"></i>__MSG__REVISIONS__</button></li>
+                                    {/if}
                                     <li><button><i class="icon-trash"></i>__MSG__DELETE__</button></li>
                                 </ul>
                             </div>
@@ -52,14 +59,15 @@
                     </div>
                 --></div>
 
-                <div class="pull-right">
+                <div id="content-actions-clip-container" class="oae-clip-container-right"><!-- --></div>
+                <div id="content-actions-clip-template"><!--
                     <div class="oae-clip oae-clip-flipped">
                         <div class="oae-clip-fold">
                             <div class="oae-clip-fold-inner"></div>
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button>
+                            <button class="oae-trigger-share" data-id="${content.id}" data-resourceType="${content.resourceType}" data-resourceSubType="${content.resourceSubType}">
                                 <div>
                                     <i class="icon-share pull-left"></i>
                                     <h1>__MSG__SHARE__</h1>
@@ -68,13 +76,13 @@
                         </div>
                     </div>
 
-                    <div class="oae-clip oae-clip-secondary oae-clip-flipped">
+                    <div id="content-share-clip-template" class="oae-clip oae-clip-secondary oae-clip-flipped">
                         <div class="oae-clip-fold">
                             <div class="oae-clip-fold-inner"></div>
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button class="contentcomments-focus-new-comment">
+                            <button class="comments-focus-new-comment">
                                 <div>
                                     <i class="icon-comments pull-left"></i>
                                     <h1>__MSG__COMMENT__</h1>
@@ -82,11 +90,11 @@
                             </button>
                         </div>
                     </div>
-                </div>
+                --></div>
             </div>
 
-            <div id="content_preview_container"><!-- --></div>
-            <div data-widget="contentcomments"><!-- --></div>
+            <div id="content-preview-container"><!-- --></div>
+            <div data-widget="comments"><!-- --></div>
         </div>
 
         <!-- FOOTER -->

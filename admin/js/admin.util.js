@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -31,7 +31,7 @@ define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
      *         $('#deletetenant-modal').modal('hide');
      *     }
      * });
-     * 
+     *
      * @param {Object}  data    Data object used to render the modal dialog. All required elements are shown above in 'usage' and should be provided
      */
     exports.showConfirmationModal = function(data) {

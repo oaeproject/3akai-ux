@@ -1,10 +1,10 @@
-# Sakai OAE
+# Open Academic Environment (OAE Project)
 
-3akai-ux is the front-end for Sakai OAE
+3akai-ux is the front-end for the Open Academic Environment project.
 
-### Installing Sakai OAE
+### Installing OAE
 
-Documentation on how to install and configure Sakai OAE can be found [here](https://github.com/sakaiproject/Hilary).
+Documentation on how to install and configure OAE can be found in the [back-end repository](https://github.com/sakaiproject/Hilary).
 
 ### Widget development
 

@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery','oae.core'], function($, oae) {
+require(['jquery','oae.core', 'jquery.history'], function($, oae) {
 
     // Set the browser title
     oae.api.util.setBrowserTitle(oae.api.i18n.translate('__MSG__SEARCH__'));
@@ -31,14 +31,17 @@ require(['jquery','oae.core'], function($, oae) {
             infinityScroll.kill();
         }
 
-        // Get the current search query
-        var query = $.bbq.getState('q');
+        // Get the current search query from the History.js data object
+        var query = History.getState().data.query;
         $('.search-query').val(query);
 
-        // Get the current type refinement
-        var types = ($.bbq.getState('types') || '').split(',');
+        // Reset the type checkboxes to make sure that none of them stay checked incorrectly
+        // when hitting the back and forward buttons
+        $('#search-refine-type input[type="checkbox"]').prop('checked', false);
+        // Get the current type refinements from the History.js data object and select the corresponding checkboxes
+        var types = History.getState().data.types;
         $.each(types, function(index, type) {
-            $('#search-refine-type input[type="checkbox"][data-type="' + type + '"]').attr('checked', 'checked');
+            $('#search-refine-type input[type="checkbox"][data-type="' + type + '"]').prop('checked', true);
         });
 
         // Set up the infinite scroll for the list of search results
@@ -49,45 +52,79 @@ require(['jquery','oae.core'], function($, oae) {
         }, '#search-template', {
             'postRenderer': function(data) {
                 $('#search-total-results').text(data.total);
+            },
+            'emptyListProcessor': function() {
+                oae.api.util.template().render($('#search-noresults-template'), {
+                    'query': query
+                }, $('.oae-list'));
             }
         });
     };
 
     /**
-     * Initiate a search with the search query entered by the user.
+     * Initiate a new search when a new search query has been entered or a type checkbox has been
+     * checked/unchecked.
      */
-    var search = function() {
-        // Filter out slashes before pushing the state
-        $.bbq.pushState({'q': $.trim($('.search-query', $(this)).val()).replace(/\//g, '')});
-        renderSearch();
+    var modifySearch = function() {
+        // Get the query from the search form
+        var query = $.trim($('#search-query').val());
+
+        // Get all of the selected type checkboxes
+        var types = [];
+        $('#search-refine-type input[type="checkbox"]:checked').each(function(index, checkbox) {
+            types.push($(checkbox).attr('data-type'));
+        });
+
+        // Add the query and types into a new state, and encode a URL that reflects these for bookmarking
+        // and refresh purposes
+        var url = '/search/' + oae.api.util.security().encodeForURL(query);
+        if (types.length > 0) {
+            url += '?types=' + types.join(',');
+        }
+
+        History.pushState({
+            'query': query,
+            'types': types
+        }, $('title').text(), url);
         return false;
     };
 
     /**
-     * Every time a new resource type refinement options has been checked or unchecked, we change
-     * the page URL to reflect the selected type refinements and kick off a new search
+     * Extract the search query and type refinements from the current URL.
+     * This will only be executed when the page is loaded.
      */
-    var refineByType = function() {
-        var types = [];
-        // Get all of the selected type checkboxes
-        $('#search-refine-type input[type="checkbox"]:checked').each(function(index, checkbox) {
-            types.push($(checkbox).attr('data-type'));
-        });
-        $.bbq.pushState({'types': types.join(',')});
-        renderSearch();
+    var initSearch = function() {
+        // We parse the URL fragment that's inside of the current History.js state.
+        // The expected URL structure is `/search/<query>?types=type1,type2`
+        var url = History.getState().cleanUrl;
+        var initialState = $.url(url);
+        var query = initialState.segment().slice(1).join('/');
+        var types = (initialState.param().types || '').split(',');
+        // Replace the current History.js state to have the query and type refinement data. This
+        // is necessary because a newly loaded page will not contain the data object in its
+        // state. Calling the replaceState function will automatically trigger the statechange
+        // event, which will take care of the actual search. However, we also need to add a random
+        // number to the data object to make sure that the statechange event is triggered after
+        // a page reload.
+        History.replaceState({
+            'query': query,
+            'types': types,
+            '_': Math.random()
+        }, $('title').text(), url);
     };
 
     /**
      * Add the different event bindings
      */
     var addBinding = function() {
-        // Set up search event
-        $(document).on('submit', '#search-form', search);
+        // Listen to the form submit event on the search form
+        $(document).on('submit', '#search-form', modifySearch);
         // Listen to the change event on the type refinement checkboxes
-        $('#search-refine-type').on('change', 'input[type="checkbox"]', refineByType);
+        $('#search-refine-type').on('change', 'input[type="checkbox"]', modifySearch);
+        // Listen to History.js state changes
+        $(window).on('statechange', renderSearch);
     };
 
     addBinding();
-    renderSearch();
-
+    initSearch();
 });

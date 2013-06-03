@@ -10,6 +10,7 @@
 
         <!-- CORE CSS -->
         <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
+        <link rel="stylesheet" type="text/css" href="/api/ui/skin" />
 
     </head>
     <body>
@@ -21,8 +22,8 @@
         <div class="oae-main-content">
 
             <!-- CLIPS -->
-            <div>
-                <div id="group-clip-container"><!-- --></div>
+            <div class="oae-clip-container">
+                <div id="group-clip-container" class="oae-clip-container-left"><!-- --></div>
                 <div id="group-clip-template"><!--
                     <div class="oae-clip">
                         <div class="oae-clip-fold">
@@ -31,7 +32,7 @@
                         </div>
                         <div class="oae-clip-content">
                             <button {if !group.isManager} disabled {/if}>
-                                ${renderThumbnail(group)}
+                                ${renderThumbnail(group, true, false, false)}
                                 <div>
                                     <div>
                                         <h1>${group.displayName|encodeForHTML}</h1>
@@ -42,16 +43,33 @@
                             </button>
                             <div>
                                 <ul>
-                                    <li><button><i class="icon-camera"></i>__MSG__CHANGE_PICTURE__</button></li>
-                                    <li><button><i class="icon-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
-                                    <li><button><i class="icon-user"></i>__MSG__EDIT_MEMBERS__</button></li>
+                                    <li><button class="oae-trigger-changepic"><i class="icon-camera"></i>__MSG__CHANGE_PICTURE__</button></li>
+                                    <li><button class="group-trigger-manageaccess"><i class="icon-user"></i>__MSG__MANAGE_ACCESS__</button></li>
+                                    <li><button class="group-trigger-editgroup"><i class="icon-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 --></div>
 
-                <div id="group-actions" class="pull-right hide">
+                <div id="group-join-actions" class="oae-clip-container-right hide">
+                    <div id="group-join-actions-join" class="oae-clip oae-clip-secondary oae-clip-flipped">
+                        <div class="oae-clip-fold">
+                            <div class="oae-clip-fold-inner"></div>
+                            <div class="oae-clip-fold-outer"></div>
+                        </div>
+                        <div class="oae-clip-content">
+                            <button>
+                                <div>
+                                    <i class="icon-pushpin pull-left"></i>
+                                    <h1>__MSG__JOIN_GROUP__</h1>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="group-manager-actions" class="oae-clip-container-right hide">
                     <div class="oae-clip oae-clip-flipped oae-dnd-upload">
                         <div class="oae-clip-fold">
                             <div class="oae-clip-fold-inner"></div>
@@ -83,8 +101,8 @@
                             <div>
                                 <ul>
                                     <li><button class="oae-trigger-createlink"><i class="icon-link"></i>__MSG__LINK__</button></li>
-                                    <li><button><i class="icon-edit"></i>__MSG__DOCUMENT__</button></li>
-                                    <li><button><i class="icon-comments"></i>__MSG__DISCUSSION__</button></li>
+                                    <li><button class="oae-trigger-createcollabdoc"><i class="icon-edit"></i>__MSG__DOCUMENT__</button></li>
+                                    <li><button class="oae-trigger-creatediscussion"><i class="icon-comments"></i>__MSG__DISCUSSION__</button></li>
                                 </ul>
                             </div>
                         </div>

@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -17,11 +17,11 @@ define(['jquery'], function (jQuery) {
     (function() {
 
         /**
-         * Catch the keypress event for `enter` when an editable field has focus
+         * Catch the keypress event for `enter` and `space` when an editable field has focus
          */
         $(document).on('focus', '.jeditable-field', function(ev) {
             $(this).keypress(function(ev) {
-                if (ev.which == 13){
+                if (ev.which == 13 || ev.which == 32){
                     $(this).trigger('click.editable');
                 }
             });

@@ -1,5 +1,5 @@
 /*!
- * Copyright 2012 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Sakai Foundation (SF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -23,6 +23,11 @@
     background-image: url(@image), -moz-linear-gradient(top, @gradient1 0%, @gradient2 100%);
     background-image: url(@image), -webkit-linear-gradient(top, @gradient1 0%, @gradient2 100%);
     background-image: url(@image), linear-gradient(to bottom, @gradient1 0%, @gradient2 100%);
+
+    /* IE9 */
+    @iegradient1: argb(@gradient1);
+    @iegradient2: argb(@gradient2);
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=@iegradient1, endColorstr=@iegradient2);
 }
 
 .background-gradient-two(@gradient1, @gradient2, @gradient1start:0%, @gradient2start:100%) {
@@ -31,7 +36,11 @@
     background-image: -o-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start);
     background-image: -moz-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start);
     background-image: -webkit-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start);
-    background-image: -ms-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start);
+
+    /* IE9 */
+    @iegradient1: argb(@gradient1);
+    @iegradient2: argb(@gradient2);
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=@iegradient1, endColorstr=@iegradient2);
 }
 
 .background-gradient-three(@gradient1, @gradient2, @gradient3, @gradient1start:0%, @gradient2start:50%, @gradient3start:100%) {
@@ -40,7 +49,11 @@
     background-image: -o-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start, @gradient3 @gradient3start);
     background-image: -moz-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start, @gradient3 @gradient3start);
     background-image: -webkit-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start, @gradient3 @gradient3start);
-    background-image: -ms-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start, @gradient3 @gradient3start);
+
+    /* IE9 */
+    @iegradient1: argb(@gradient1);
+    @iegradient3: argb(@gradient3);
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=@iegradient1, endColorstr=@iegradient3);
 }
 
 
@@ -65,7 +78,7 @@ body {
 
 
 /* Branding image */
-@branding-image-url: '/ui/img/framework/index.png';
+@branding-image-url: '/ui/img/index.png';
 /* Branding gradient primary color */
 @branding-gradient1-color: #0074A7;
 /* Branding gradient secondary color */
@@ -85,7 +98,8 @@ body {
 
 body, button, input, select, textarea,
 .btn > i, a.oae-plain-link,
-h1 [class^="icon-"], h1 [class*=" icon-"], 
+.popover-content, .popover-content button:not(.btn),
+h1 [class^="icon-"], h1 [class*=" icon-"],
 h2 [class^="icon-"], h2 [class*=" icon-"],
 h3 [class^="icon-"], h3 [class*=" icon-"],
 h4 [class^="icon-"], h4 [class*=" icon-"],
@@ -103,13 +117,16 @@ h6 [class^="icon-"], h6 [class*=" icon-"] {
 @link-hover-color: #005580;
 
 a, .btn-link {
-   color: @link-color;
+    color: @link-color;
 }
 
 a:hover, .btn-link:hover {
     color: @link-hover-color;
 }
 
+.recaptchatable a {
+    color: @link-color !important;
+}
 
 /***********************
  ** @section  Buttons **
@@ -120,11 +137,11 @@ a:hover, .btn-link:hover {
 /* Default button text color */
 @button-default-text-color: #333333;
 /* Default button border */
-@button-default-border-color: #CCC;
+@button-default-border-color: #E3E2DB;
 /* Default button gradient primary color */
 @button-default-gradient1-color: #FFF;
 /* Default button gradient secondary color */
-@button-default-gradient2-color: #E6E6E6;
+@button-default-gradient2-color: #E3E2DB;
 
 .btn:not(.btn-link) {
     color: @button-default-text-color;
@@ -148,11 +165,11 @@ a:hover, .btn-link:hover {
 /* Primary button text color */
 @button-primary-text-color: #FFF;
 /* Primary button border */
-@button-primary-border-color: #0044CC;
+@button-primary-border-color: #444;
 /* Primary button gradient primary color */
-@button-primary-gradient1-color: #0088CC;
+@button-primary-gradient1-color: #555;
 /* Primary button gradient secondary color */
-@button-primary-gradient2-color: #0044CC;
+@button-primary-gradient2-color: #222;
 
 .btn.btn-primary {
     color: @button-primary-text-color;
@@ -260,11 +277,11 @@ a:hover, .btn-link:hover {
 /* Inverse button text color */
 @button-inverse-text-color: #FFF;
 /* Inverse button border */
-@button-inverse-border-color: #222222;
+@button-inverse-border-color: #333;
 /* Inverse button gradient primary color */
-@button-inverse-gradient1-color: #444444;
+@button-inverse-gradient1-color: #333;
 /* Inverse button gradient secondary color */
-@button-inverse-gradient2-color: #222222;
+@button-inverse-gradient2-color: #666;
 
 .btn.btn-inverse {
     color: @button-inverse-text-color;
@@ -295,9 +312,85 @@ a:hover, .btn-link:hover {
    color: @button-icon-color;
 }
 
+[class^="icon-"].active, [class*=" icon-"].active,
 [class^="icon-"]:hover, [class*=" icon-"]:hover,
-.btn-link:hover [class^="icon-"], .btn-link:hover [class*=" icon-"] {
+[class^="icon-"]:focus, [class*=" icon-"]:focus,
+[class^="icon-"].selected, [class*=" icon-"].selected,
+.btn-link [class^="icon-"].active, .btn-link:hover [class*=" icon-"].active,
+.btn-link:hover [class^="icon-"], .btn-link:hover [class*=" icon-"],
+.btn-link:focus [class^="icon-"], .btn-link:focus [class*=" icon-"] {
     color: @button-icon-hover-color;
+}
+
+
+/*********************
+ ** @section  Forms **
+ *********************/
+
+/* Form field border color */
+@form-border-color: #CCC;
+/* Selected form field color */
+@form-selected-color: rgba(82, 168, 236, 0.8);
+
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input,
+ul.as-selections {
+    border-color: @form-border-color;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+       -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus,
+ul.as-selections.as-selections-focus {
+    border-color: @form-selected-color;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px @form-selected-color;
+       -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px @form-selected-color;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px @form-selected-color;
+}
+
+
+/*********************
+ ** @section  Well **
+ *********************/
+
+/* Well background color */
+@well-background-color: #F5F5F5;
+/* Well border color */
+@well-border-color: #E3E3E3;
+
+.well {
+  background-color: @well-background-color;
+  border-color: @well-border-color;
 }
 
 
@@ -312,8 +405,15 @@ a:hover, .btn-link:hover {
 /* Modal dialog title color */
 @modal-title-color: #777;
 
-.modal, .dropdown-menu {
+.modal, .dropdown-menu, .popover {
     .background-gradient-two(@modal-gradient1-color, @modal-gradient2-color);
+}
+
+.popover.top .arrow:after,
+.popover.right .arrow:after,
+.popover.bottom .arrow:after,
+.popover.left .arrow:after {
+    border-bottom-color: @modal-gradient1-color;
 }
 
 .modal-header h3, .modal-body h4 {
@@ -328,11 +428,11 @@ a:hover, .btn-link:hover {
 /* @subsection  Success notification */
 
 /* Success notification text color */
-@notification-success-text-color: #468847;
+@notification-success-text-color: #666;
 /* Success notification border color */
-@notification-success-border-color: #D6E9C6;
+@notification-success-border-color: #CCC;
 /* Success notification background color */
-@notification-success-background-color: #DFF0D8;
+@notification-success-background-color: #F5F4F2;
 
 .alert-success, .alert-success h4 {
     color: @notification-success-text-color;
@@ -416,12 +516,169 @@ a:hover, .btn-link:hover {
     background-color: @lhnav-item-background-hover-color;
 }
 
-.nav > li.active > a, 
-.nav > li.active > a:hover, 
+.nav > li.active > a,
+.nav > li.active > a:hover,
 .nav > li.active > a:focus,
 .nav > li.active i {
     color: @lhnav-item-text-selected-color;
     background-color: @lhnav-item-background-selected-color;
+}
+
+
+/*********************************
+ ** @section  Tabs **
+ *********************************/
+
+/* Tab text color */
+@tabbed-nav-text-color: #999;
+/* Tab text hover color */
+@tabbed-nav-text-hover-color: #333;
+/* Selected tab text color */
+@tabbed-nav-text-selected-color: #333;
+/* Tab background color */
+@tabbed-nav-background-color: transparent;
+/* Tab background hover color */
+@tabbed-nav-background-hover-color: transparent;
+/* Selected tab background color */
+@tabbed-nav-background-selected-color: #FFF;
+
+.nav-tabs > li > a {
+    color: @tabbed-nav-text-color;
+    background-color: @tabbed-nav-background-color;
+}
+
+.nav-tabs > li > a:hover,
+.nav-tabs > li > a:focus {
+    color: @tabbed-nav-text-hover-color;
+    background-color: @tabbed-nav-background-hover-color;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+    color: @tabbed-nav-text-selected-color;
+    background-color: @tabbed-nav-background-selected-color;
+}
+
+
+/****************************
+ ** @section  Autosuggest **
+ ****************************/
+
+/* @subsection  Active item */
+
+/* Active item text color */
+@as-item-active-color: #2B3840;
+/* Active item border color */
+@as-item-active-border-color: #ACC3EC;
+/* Active item background gradient primary color */
+@as-item-active-gradient1-color: #DDEEFE;
+/* Active item background gradient secondary color */
+@as-item-active-gradient2-color: #BFE0F1;
+
+/* Active item hover text color */
+@as-item-active-hover-color: #2B3840;
+/* Active item hover border color */
+@as-item-active-hover-border-color: #ACC3EC;
+/* Active item hover background gradient primary color */
+@as-item-active-hover-gradient1-color: #DDEEFE;
+/* Active item hover background gradient secondary color */
+@as-item-active-hover-gradient2-color: #BFE0F1;
+
+ul.as-selections li.as-selection-item,
+ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected,
+ul.as-selections.as-selections-focus li.as-selection-item.selected {
+    .background-gradient-two(@as-item-active-gradient1-color, @as-item-active-gradient2-color);
+    color: @as-item-active-color;
+    border-color: @as-item-active-border-color;
+}
+
+ul.as-selections li.as-selection-item:hover,
+ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected:hover,
+ul.as-selections.as-selections-focus li.as-selection-item.selected:hover {
+    .background-gradient-two(@as-item-active-hover-gradient1-color, @as-item-active-hover-gradient2-color);
+    color: @as-item-active-hover-color;
+    border-color: @as-item-active-hover-border-color;
+}
+
+ul.as-selections li.as-selection-item a.as-close,
+ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected a.as-close {
+    color: @as-item-active-border-color;
+}
+
+ul.as-selections li.as-selection-item:hover a.as-close,
+ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected:hover a.as-close {
+    color: @as-item-active-hover-border-color;
+}
+
+ul.as-selections li.as-selection-item a.as-close:hover,
+ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected a.as-close:hover {
+    color: @as-item-active-hover-color;
+}
+
+ul.as-list li.as-result-item.active {
+    .background-gradient-two(@as-item-active-gradient1-color, @as-item-active-gradient2-color);
+}
+
+/* @subsection  Inactive item */
+
+/* Inactive item text color */
+@as-item-blur-color: #666;
+/* Inactive item border color */
+@as-item-blur-border-color: #BBB;
+/* Inactive item background gradient primary color */
+@as-item-blur-gradient1-color: #F4F4F4;
+/* Inactive item background gradient secondary color */
+@as-item-blur-gradient2-color: #D5D5D5;
+
+ul.as-selections li.as-selection-item.blur {
+    .background-gradient-two(@as-item-blur-gradient1-color, @as-item-blur-gradient2-color);
+    color: @as-item-blur-color;
+    border-color: @as-item-blur-border-color;
+}
+
+ul.as-selections li.as-selection-item.blur a.as-close {
+    color: @as-item-blur-border-color;
+}
+
+/* @subsection  Ghost item */
+
+/* Ghost item text color */
+@as-item-ghost-color: #666;
+/* Ghost item border color */
+@as-item-ghost-border-color: #BBB;
+/* Ghost item background gradient primary color */
+@as-item-ghost-gradient1-color: #FFF;
+/* Ghost item background gradient secondary color */
+@as-item-ghost-gradient2-color: #FFF;
+
+/* Ghost item hover text color */
+@as-item-ghost-hover-color: #666;
+/* Ghost item hover border color */
+@as-item-ghost-hover-border-color: #BBB;
+
+ul.as-selections li.as-selection-item.as-ghost-item {
+    .background-gradient-two(@as-item-ghost-gradient1-color, @as-item-ghost-gradient2-color);
+    color: @as-item-ghost-color;
+    border-color: @as-item-ghost-border-color;
+}
+
+ul.as-selections li.as-selection-item.as-ghost-item:hover {
+    .background-gradient-two(@as-item-ghost-gradient1-color, @as-item-ghost-gradient2-color);
+    color: @as-item-ghost-hover-color;
+    border-color: @as-item-ghost-hover-border-color;
+}
+
+ul.as-selections li.as-selection-item.as-ghost-item a.as-ghost-add i {
+    color: @as-item-ghost-border-color;
+}
+
+ul.as-selections li.as-selection-item.as-ghost-item:hover a.as-ghost-add i {
+    color: @as-item-ghost-hover-border-color;
+}
+
+ul.as-selections li.as-selection-item.as-ghost-item a.as-ghost-add i:hover {
+    color: @as-item-ghost-hover-color;
 }
 
 
@@ -450,20 +707,20 @@ div.oae-thumbnail {
 /* Visibility toggle selected secondary color*/
 @visibility-toggle-selected2-color: #DBEDFE;
 
-.oae-visibility-choice-container .oae-visibility-choice {
+.oae-large-options-container .oae-large-options {
     background-color: @visibility-toggle-background-color;
 }
 
-.oae-visibility-choice-container label .oae-visibility-choice.checked {
+.oae-large-options-container label .oae-large-options.checked {
     border-color: @visibility-toggle-selected1-color;
     background-color: @visibility-toggle-selected2-color;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice.checked + i {
+.oae-large-options-container .oae-large-options.checked + i {
     background-color: @visibility-toggle-selected1-color;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice.checked + i:before {
+.oae-large-options-container .oae-large-options.checked + i:before {
     color: @visibility-toggle-background-color;
 }
 
@@ -472,22 +729,16 @@ div.oae-thumbnail {
  ** @section  Tiles **
  *********************/
 
-/* Tile border color */
-@tile-border-color: #DDD;
 /* Tile banner text color */
 @tile-text-color: #FFF;
 /* Tile banner background color */
 @tile-background-color: rgba(0, 0, 0, 0.8);
 
-.oae-tile {
-    border-color: @tile-border-color;
-}
-
-.oae-tile > div:last-child {
+.oae-tile > .oae-tile-metadata {
     background-color: @tile-background-color;
 }
 
-.oae-tile > div:last-child, .oae-tile h3, .oae-tile h3 a {
+.oae-tile > .oae-tile-metadata, .oae-tile h3, .oae-tile h3 a {
     color: @tile-text-color;
 }
 
@@ -497,9 +748,11 @@ div.oae-thumbnail {
  **************************/
 
 /* List item border color */
-@listitem-border-color: #F5F5F5;
+@listitem-border-color: #EEEDEB;
 
-.oae-listitem {
+.oae-tile,
+.oae-listitem,
+.oae-list.oae-list-grid > li.oae-list-actions {
     border-color: @listitem-border-color;
 }
 
@@ -526,7 +779,7 @@ div.oae-thumbnail {
     border-color: @panel-primary-background-color;
 }
 
-.oae-panel-primary h1, .oae-panel-primary h2, .oae-panel-primary h3, 
+.oae-panel-primary h1, .oae-panel-primary h2, .oae-panel-primary h3,
 .oae-panel-primary h4, .oae-panel-primary h5, .oae-panel-primary h6,
 .oae-panel-primary i, .oae-panel-primary i:hover {
     color: @panel-primary-title-color;
@@ -551,7 +804,7 @@ div.oae-thumbnail {
     border-color: @panel-secondary-background-color;
 }
 
-.oae-panel-secondary h1, .oae-panel-secondary h2, .oae-panel-secondary h3, 
+.oae-panel-secondary h1, .oae-panel-secondary h2, .oae-panel-secondary h3,
 .oae-panel-secondary h4, .oae-panel-secondary h5, .oae-panel-secondary h6,
 .oae-panel-secondary i, .oae-panel-secondary i:hover {
     color: @panel-secondary-title-color;
@@ -576,7 +829,7 @@ div.oae-thumbnail {
     border-color: @panel-tertiary-background-color;
 }
 
-.oae-panel-tertiary h1, .oae-panel-tertiary h2, .oae-panel-tertiary h3, 
+.oae-panel-tertiary h1, .oae-panel-tertiary h2, .oae-panel-tertiary h3,
 .oae-panel-tertiary h4, .oae-panel-tertiary h5, .oae-panel-tertiary h6,
 .oae-panel-tertiary i, .oae-panel-tertiary i:hover {
     color: @panel-tertiary-title-color;
@@ -613,7 +866,8 @@ div.oae-thumbnail {
 }
 
 .oae-clip .oae-clip-content,
-.oae-clip .oae-clip-content button,
+.oae-clip .oae-clip-content > button,
+.oae-clip .oae-clip-content ul li button,
 .oae-clip .oae-clip-content i {
     color: @clip-primary-title-color;
 }
@@ -679,4 +933,3 @@ div.oae-thumbnail {
 .oae-clip.oae-clip-secondary ul li button:hover {
     background-color: @clip-secondary-gradient2-color;
 }
-

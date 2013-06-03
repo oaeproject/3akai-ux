@@ -10,6 +10,8 @@
 
         <!-- CORE CSS -->
         <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
+        <link rel="stylesheet" type="text/css" href="/api/ui/skin" />
+
         <!-- PAGE CSS -->
         <link rel="stylesheet" type="text/css" href="/ui/css/oae.search.css" />
 
@@ -35,6 +37,7 @@
                                 <h1>__MSG__SEARCH_FOR__</h1>
                                 <label for="search-query" class="oae-aural-text">__MSG__SEARCH__</label>
                                 <input type="text" id="search-query" class="input-xxlarge search-query" title="__MSG__SEARCH_FOR_CONTENT_PEOPLE_GROUPS__" />
+                                <button type="submit" class="btn">__MSG__GO__</button>
                             </form>
                         </div>
                     </div>
@@ -54,6 +57,9 @@
                         </li>
                         <li>
                             <label class="checkbox"><input type="checkbox" data-type="content" /> __MSG__CONTENT__</label>
+                        </li>
+                        <li>
+                            <label class="checkbox"><input type="checkbox" data-type="discussion" /> __MSG__DISCUSSIONS__</label>
                         </li>
                     </ul>
                 </div>
@@ -79,7 +85,18 @@
                             </div>
                         </div>
                     </div>
-                    <ul class="oae-list oae-list-grid"></ul>
+                    <ul class="oae-list oae-list-grid"><!-- --></ul>
+
+                    <div id="search-noresults-template"><!--
+                        <div class="alert alert-info">
+                            {if query}
+                                {var query = oae.api.util.security().encodeForHTML(query)}
+                                __MSG__SEARCH_QUERY_EMPTY__
+                            {else}
+                                __MSG__SEARCH_EMPTY__
+                            {/if}
+                        </div>
+                    --></div>
 
                     <div id="search-template"><!--
                         {for result in results}
