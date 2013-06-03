@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpath', 'jquery.autosuggest'], function(exports, require, $, _) {
+define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.validate', 'trimpath', 'jquery.autosuggest'], function(exports, require, $, _, configAPI) {
 
     /**
      * Initialize all utility functionality.
@@ -714,6 +714,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
                 $.each(resourceTypes, function(index, resourceType) {
                     options.extraParams += '&resourceTypes=' + resourceType;
                 });
+                // Add the parameter that specifies whether or not results from other tenants need to be included as well
+                options.extraParams += '&includeExternal=' + (!configAPI.getValue('oae-tenants', 'tenantprivacy', 'tenantprivate'));
 
                 // By default, the autosuggest component will only show results in the suggested items that actually match the query
                 // on one of the fields specified in the `searchObjProps` parameter. However, as we rely on the REST endpoint to do
