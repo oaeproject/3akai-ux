@@ -48,12 +48,14 @@ define(['exports', 'jquery', 'qunitjs'], function(exports, $) {
         var widgetBundles = [];
         $.each(widgets, function(i, widget) {
             var widgetObj = {'id': widget.id, 'bundles': []};
-            $.each(widget.i18n, function(i, bundle) {
-                if (i === 'default') {
-                    widgetObj.bundles.push(i);
-                }
-            });
-            widgetBundles.push(widgetObj);
+            if (widget.i18n) {
+                $.each(widget.i18n, function(i, bundle) {
+                    if (i === 'default') {
+                        widgetObj.bundles.push(i);
+                    }
+                });
+                widgetBundles.push(widgetObj);
+            }
         });
 
         /**

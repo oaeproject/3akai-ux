@@ -63,7 +63,6 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
             var coreHTML = ['errors/accessdenied',
                             'errors/notfound',
                             'content',
-                            'creategroup',
                             'group',
                             'index',
                             'me',
