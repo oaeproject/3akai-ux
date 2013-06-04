@@ -13,17 +13,9 @@
  * permissions and limitations under the License.
  */
 
-require(
-    [
-    'jquery',
-    'sakai/sakai.api.core',
-    'qunitjs/qunit',
-    '../../../../tests/qunit/js/sakai_qunit_lib.js',
-    '../../../../tests/qunit/js/dev.js',
-    '../../../../tests/qunit/js/devwidgets.js'
-    ], function($, sakai) {
+require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, util) {
 
-        module('JavaScript formatting');
+        module("JavaScript Formatting");
 
         var doRegexTest = function(jsFile, regex, testString) {
             // remove comments from file to test
@@ -106,14 +98,6 @@ require(
             testString = 'Do not extend prototypes';
             doRegexTest(jsFile, regex, testString);
 
-            //regex = /.{81}/gm;
-            //testString = 'Limit lines to 80 characters';
-            //doRegexTest(jsFile, regex, testString);
-
-            //regex = /"/gm;
-            //testString = 'Use single quotes';
-            //doRegexTest(jsFile, regex, testString);
-
             regex = /(^|\s)(Object\.(freeze|preventExtensions|seal)|eval|((?!['"].*)(with)(?!.*['"])))(\s|$)/gm;
             testString = 'Avoid using Object.freeze, Object.preventExtensions, Object.seal, with, eval';
             doRegexTest(jsFile, regex, testString);
@@ -124,39 +108,53 @@ require(
 
         };
 
-        /**
-         * Check JavaScript formatting
-         */
-        var checkJsFormatting = function() {
-            $(window).trigger('addlocalbinding.qunit.sakai');
-            QUnit.start();
-            for (var j = 0; j < sakai_global.qunit.allJSFiles.length; j++) {
-                var urlToCheck = sakai_global.qunit.allJSFiles[j];
-                (function(url) {
-                    asyncTest(url, function() {
-                        $.ajax({
-                            dataType: 'text',
-                            url: url,
-                            success: function(data) {
-                                checkJs(data);
-                                start();
-                            }
-                        });
-                    });
-                })(urlToCheck);
-            }
+        var makeJSFormattingTest = function(filename) {
+            asyncTest(filename, function() {
+                $.ajax({
+                    dataType: 'text',
+                    url: filename,
+                    success: function(data) {
+                        checkJs(data);
+                        start();
+                    }, error: function() {
+                        QUnit.ok(true, 'This widget does not have a JavaScript file associated to it.');
+                        start();
+                    }
+                });
+            });
         };
 
         /**
-         * Run the test
+         * Initializes the JavaScript Formatting module
+         * @param  {Object}   widgets    Object containing the manifests of all widgets in node_modules/oae-core.
          */
+        var jsFormattingTest = function(widgets) {
+            QUnit.load();
 
-        if (sakai_global.qunit && sakai_global.qunit.ready) {
-            checkJsFormatting();
-        } else {
-            $(window).bind('ready.qunit.sakai', function() {
-                checkJsFormatting();
+            // Test the widget JavaScript files
+            $.each(widgets, function(i, widget) {
+                makeJSFormattingTest('/node_modules/oae-core/' + widget.id + '/js/' + widget.id + '.js');
             });
-        }
+
+            // Test the core JavaScript files
+            var coreJS = ['oae.api.authentication',
+                          'oae.api.config',
+                          'oae.api.content',
+                          'oae.api.group',
+                          'oae.api.i18n',
+                          'oae.api',
+                          'oae.api.l10n',
+                          'oae.api.profile',
+                          'oae.api.user',
+                          'oae.api.util',
+                          'oae.api.widget',
+                          'oae.bootstrap',
+                          'oae.core'];
+            $.each(coreJS, function(ii, coreJSFile) {
+                makeJSFormattingTest('/shared/oae/api/' + coreJSFile + '.js');
+            });
+        };
+
+        util.loadWidgets(jsFormattingTest);
     }
 );

@@ -13,8 +13,8 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'sakai/sakai.api.core'], function($, sakai) {
-    if (typeof _$jscoverage !== 'undefined') {
-        $('#coveragereport').show();
-    }
-});
+iframe {
+    border: none;
+    height: 600px;
+    width: 100%;
+}

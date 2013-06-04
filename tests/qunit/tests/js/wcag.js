@@ -13,16 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(
-    [
-    'jquery',
-    'sakai/sakai.api.core',
-    'qunitjs/qunit',
-    '../../../../tests/qunit/js/sakai_qunit_lib.js',
-    '../../../../tests/qunit/js/dev.js',
-    '../../../../tests/qunit/js/devwidgets.js'
-    ],
-    function($, sakai) {
+require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, util) {
 
     module('WCAG 2.0 Compliance - 1.1.1 Non-text Content / Text Alternatives');
 
@@ -76,7 +67,7 @@ require(
             if ($(elt).attr('id')) {
                 var textareaId = $(elt).attr('id');
                 $.each($elt.find('label'), function(j, label) {
-                    if ($(label).attr('for') ===  textareaId) {
+                    if ($(label).attr('for') === textareaId) {
                         hasLabel = true;
                     }
                 });
@@ -110,18 +101,13 @@ require(
         }
     };
 
+
     /**
      * Check HTML pages and test for WCAG compliance
      */
-    var testWCAGCompliance = function() {
-
-        // First, run a test on static markup to ensure the testing is working properly
-        test('TEST - Embedded link text', function() {
-            checkElements($('#qunit-fixture'));
-        });
-
-        for (var j = 0; j < sakai_global.qunit.allHtmlFiles.length; j++) {
-            var urlToCheck = sakai_global.qunit.allHtmlFiles[j];
+    var testWCAGCompliance = function(widgets) {
+        $.each(widgets, function(i, widget) {
+            var filename = '/node_modules/oae-core/' + widget.id + '/' + widget.id + '.html';
             (function(url) {
                 asyncTest(url, function() {
                     $.ajax({
@@ -139,22 +125,14 @@ require(
                         }
                     });
                 });
-            })(urlToCheck);
-        }
-        QUnit.start();
-        $(window).trigger('addlocalbinding.qunit.sakai');
+            })(filename);
+        });
     };
 
-    /**
-     * Run the test
-     */
+    util.loadWidgets(function(widgets) {
+        testWCAGCompliance(widgets);
+    });
 
-    if (sakai_global.qunit && sakai_global.qunit.ready) {
-        testWCAGCompliance();
-    } else {
-        $(window).on('ready.qunit.sakai', function() {
-            testWCAGCompliance();
-        });
-    }
+    QUnit.load();
 
 });

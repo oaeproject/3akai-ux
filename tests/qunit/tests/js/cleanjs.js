@@ -13,27 +13,21 @@
  * permissions and limitations under the License.
  */
 
-require(
-    [
-    'jquery',
-    'sakai/sakai.api.core',
-    'qunitjs/qunit',
-    '../../../../tests/qunit/js/sakai_qunit_lib.js',
-    '../../../../tests/qunit/js/dev.js',
-    '../../../../tests/qunit/js/devwidgets.js',
-    '../../../../tests/qunit/js/jshint.js'
-    ], function($, sakai) {
+require(['oae.core', '../js/util.js', 'qunitjs', 'jquery', '../js/jshint.js'], function(oae, util) {
 
-        module('Clean Javascript');
+        module("Clean JavaScript");
 
-        var consoleregex = new RegExp(/console\.(?:log|warn|error|debug|trace)/g),
-            alertregex = new RegExp(/alert\([.\s\S]*\)/g);
+        var consoleregex = new RegExp(/console\.(?:log|warn|error|debug|trace)/g);
+        var alertregex = new RegExp(/alert\([.\s\S]*\)/g);
 
+        /**
+         * Checks for console.log('') statements in the code
+         * @param  {String}   file        The contents of the file in the form of a string
+         * @param  {String}   filename    The path to the file
+         */
         var checkForConsoleLog = function(file, filename) {
             var matches = consoleregex.exec(file);
-            if (filename === '/dev/lib/sakai/sakai.dependencies.js' && matches && matches.length === 1) {
-                ok(true, 'Found a single console.log in sakai.dependencies.js which is the only one allowed as it is the wrapper for debug.log');
-            } else if (matches && matches.length) {
+            if (matches && matches.length) {
                 for (var i=0,j=matches.length; i<j; i++) {
                     ok(false, 'found console.(log|warn|error|debug|trace)');
                 }
@@ -42,6 +36,10 @@ require(
             }
         };
 
+        /**
+         * Checks for alert() statements in the code
+         * @param  {String}   file    The contents of the file in the form of a string
+         */
         var checkForAlert = function(file) {
             var matches = alertregex.exec(file);
             if (matches && matches.length) {
@@ -53,6 +51,11 @@ require(
             }
         };
 
+        /**
+         * Runs the file through JSHint
+         * @param  {String}     file        The contents of the file in the form of a string
+         * @param  {Function}   callback    Function executed after checking for JSHint errors is complete
+         */
         var JSHintfile = function(data, callback) {
             var result = JSHINT(data, {
                 // http://www.jshint.com/options/
@@ -64,6 +67,7 @@ require(
                 for (var i=0,j=JSHINT.errors.length; i<j; i++) {
                     var error = JSHINT.errors[i];
                     if (error) {
+                        console.log(error);
                         ok(false, 'JSHint error on line ' + error.line + ' character ' + error.character + ': ' + error.reason + ', ' + error.evidence);
                     }
                 }
@@ -71,6 +75,10 @@ require(
             callback();
         };
 
+        /**
+         * Creates an asynchronous test and calls checks for console.log(), alert() and JSHint errors
+         * @param  {String}    filename    The path to the file
+         */
         var makeCleanJSTest = function(filename) {
             asyncTest(filename, function() {
                 $.ajax({
@@ -87,21 +95,17 @@ require(
             });
         };
 
-        var cleanJSTest = function() {
-            $(window).trigger('addlocalbinding.qunit.sakai');
-            QUnit.start();
-            for (var i=0, j=sakai_global.qunit.allJSFiles.length; i<j; i++) {
-                var file = sakai_global.qunit.allJSFiles[i];
-                makeCleanJSTest(file);
-            }
+        /**
+         * Initializes the clean JS Test module
+         * @param  {Object}   widgets    Object containing the manifests of all widgets in node_modules/oae-core.
+         */
+        var cleanJSTest = function(widgets) {
+            QUnit.load();
+            $.each(widgets, function(i, widget) {
+                makeCleanJSTest('/node_modules/oae-core/' + widget.id + '/js/' + widget.id + '.js');
+            });
         };
 
-        if (sakai_global.qunit && sakai_global.qunit.ready) {
-            cleanJSTest();
-        } else {
-            $(window).on('ready.qunit.sakai', function() {
-                cleanJSTest();
-            });
-        }
+        util.loadWidgets(cleanJSTest);
     }
 );

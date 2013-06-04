@@ -13,17 +13,9 @@
  * permissions and limitations under the License.
  */
 
-require(
-    [
-    'jquery',
-    'sakai/sakai.api.core',
-    'qunitjs/qunit',
-    '../../../../tests/qunit/js/sakai_qunit_lib.js',
-    '../../../../tests/qunit/js/dev.js',
-    '../../../../tests/qunit/js/devwidgets.js'
-    ], function($, sakai) {
+require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, util) {
 
-        module('CSS formatting');
+        module("CSS Formatting");
 
         var doRegexTest = function(cssFile, regex, testString) {
             // remove comments from file to test
@@ -84,43 +76,41 @@ require(
 
         };
 
-        /**
-         * Check CSS formatting
-         */
-        var checkCssFormatting = function() {
-            $(window).trigger('addlocalbinding.qunit.sakai');
-            QUnit.start();
-            for (var j = 0; j < sakai_global.qunit.allCssFiles.length; j++) {
-                var urlToCheck = sakai_global.qunit.allCssFiles[j];
-                (function(url) {
-                    asyncTest(url, function() {
-                        $.ajax({
-                            dataType: 'text',
-                            url: url,
-                            success: function(data) {
-                                checkCss(data);
-                                start();
-                            },
-                            error: function() {
-                                // the css file probably doesn't exist
-                                start();
-                            }
-                        });
-                    });
-                })(urlToCheck);
-            }
+        var makeCSSFormattingTest = function(filename) {
+            asyncTest(filename, function() {
+                $.ajax({
+                    dataType: 'text',
+                    url: filename,
+                    success: function(data) {
+                        checkCss(data);
+                        start();
+                    }, error: function() {
+                        QUnit.ok(true, 'This widget does not have a CSS file associated to it.');
+                        start();
+                    }
+                });
+            });
         };
 
         /**
-         * Run the test
+         * Initializes the CSS Formatting module
+         * @param  {Object}   widgets    Object containing the manifests of all widgets in node_modules/oae-core.
          */
+        var cssFormattingTest = function(widgets) {
+            QUnit.load();
 
-        if (sakai_global.qunit && sakai_global.qunit.ready) {
-            checkCssFormatting();
-        } else {
-            $(window).bind('ready.qunit.sakai', function() {
-                checkCssFormatting();
+            // Test the widget CSS files
+            $.each(widgets, function(i, widget) {
+                makeCSSFormattingTest('/node_modules/oae-core/' + widget.id + '/css/' + widget.id + '.css');
             });
-        }
+
+            // Test the core CSS files
+            var coreCSS = ['oae.base', 'oae.components', 'oae.core', 'oae.skin', 'oae.skin.gt', 'oae.skin.gt'];
+            $.each(coreCSS, function(ii, coreCSSFile) {
+                makeCSSFormattingTest('/shared/oae/css/' + coreCSSFile + '.css');
+            });
+        };
+
+        util.loadWidgets(cssFormattingTest);
     }
 );
