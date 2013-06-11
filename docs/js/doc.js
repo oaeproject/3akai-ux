@@ -105,7 +105,7 @@ require(['jquery', 'oae.core', 'jquery.history'], function($, oae) {
     };
 
     /**
-     * Sets the title of the document to `Sakai OAE - API Reference - title`
+     * Sets the title of the document to `Open Academic Environment - API Reference - title`
      *
      * @param  {String}  title   The title to be added to the document title
      */

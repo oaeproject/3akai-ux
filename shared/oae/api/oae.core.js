@@ -15,7 +15,7 @@
 
 /*!
  * Load all of the 3rd party libraries that need to be present from the very beginning, as well as the actual
- * core client-side Sakai OAE APIs
+ * core client-side OAE APIs
  */
 define([
         /*!

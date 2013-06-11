@@ -165,7 +165,7 @@ module.exports = function(grunt) {
     // Task to write the version to a file
     grunt.registerTask('writeVersion', function() {
         this.requires('git-describe');
-        var json = grunt.template.process('{"sakai:ux-version":"<%= meta.version %>"}');
+        var json = grunt.template.process('{"oae:ux-version":"<%= meta.version %>"}');
         grunt.file.write('target/optimized/ui/version.json', json);
     });
 

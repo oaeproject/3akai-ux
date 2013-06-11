@@ -14,7 +14,7 @@
  */
 
 /*!
- * Initializes the Sakai OAE UI APIs. First of all, the me data will be retrieved. After that, the configuration for the current
+ * Initializes the OAE UI APIs. First of all, the me data will be retrieved. After that, the configuration for the current
  * tenant will be retrueved, and the localization and internationalization APIs will be initialized. Finally, the widgets declared
  * in the page source will be rendered.
  *

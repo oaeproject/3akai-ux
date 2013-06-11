@@ -293,7 +293,7 @@ require(['jquery', 'oae.core'], function($, oae) {
     ////////////////
 
     $(document).on('oae.editgroup.done', function(ev, data) {
-        // TODO: Remove this once https://github.com/sakaiproject/Hilary/issues/519 is fixed
+        // TODO: Remove this once https://github.com/oaeproject/Hilary/issues/537 is fixed
         data.isManager = groupProfile.isManager;
         data.isMember = groupProfile.isMember;
 
