@@ -17,6 +17,12 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
 
         module("Unused Translation Keys");
 
+        var cachedWidgets = {
+            'html': null,
+            'js': null,
+            'i18n': null
+        };
+
         /**
          * Retrieves the HTML on provided path and adds it to a string
          * @param  {String[]}    htmlPaths    An Array of paths to files containing HTML
@@ -72,13 +78,13 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
                 htmlPaths.push('/ui/' + coreHTMLFile + '.html');
             });
 
-            getWidgetHTML(htmlPaths, function(html) {
-                $.each(cachedWidgets, function(i, widget) {
+            //getWidgetHTML(htmlPaths, function(html) {
+                $.each(cachedWidgets.i18n, function(i, widget) {
                     asyncTest(widget.id, function() {
                         $.each(widget.i18n.default, function(key, value) {
                             if (key) {
                                 var regex = new RegExp('__MSG__' + key + '__', 'gm');
-                                var used = regex.test(html);
+                                var used = regex.test(cachedWidgets[i].html);
                                 if (used) {
                                     ok(true, key + ' in \'' + widget.id + '\' is used.');
                                 } else {
@@ -89,13 +95,16 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
                         start();
                     });
                 });
-            });
+            //});
         };
 
         util.loadWidgets(function(widgets) {
             util.loadWidgetBundles(widgets, function(widgetBundles) {
-                cachedWidgets = widgetBundles;
-                unusedTranslationKeysTest();
+                cachedWidgets.i18n = widgetBundles;
+                util.loadWidgetHTML(widgets, function(widgetHTML){
+                    cachedWidgets.html = widgetHTML;
+                    unusedTranslationKeysTest();
+                });
             });
         });
 

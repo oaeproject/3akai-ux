@@ -41,6 +41,43 @@ define(['exports', 'jquery', 'qunitjs'], function(exports, $) {
 
 
     /**
+     * [ description]
+     *
+     * @param  {[type]}   widgets  [description]
+     * @param  {Function} callback [description]
+     *
+     * @return {[type]}            [description]
+     */
+    var loadWidgetHTML = exports.loadWidgetHTML = function(widgets, callback) {
+        var widgetsToDo = 0;
+        var widgetHTML = [];
+        $.each(widgets, function(i, widget) {
+            var widgetObj = {'id': widget.id, 'src': widget.src};
+            widgetHTML.push(widgetObj);
+        });
+
+        var getHTML = function(widget) {
+            var htmlToDo = 0;
+
+            $.ajax({
+                dataType: 'text',
+                url: '/node_modules/oae-core/' + widget.id + '/' + widget.src,
+                success: function(data) {
+                    widgetHTML[widgetsToDo].html = data;
+                    widgetsToDo++;
+                    if (widgetsToDo !== widgetHTML.length) {
+                        getHTML(widgetHTML[widgetsToDo]);
+                    } else {
+                        callback(widgetHTML);
+                    }
+                }
+            });
+        };
+
+        getHTML(widgetHTML[0]);
+    };
+
+    /**
      * Retrieves the bundle files from widgets
      */
     var loadWidgetBundles = exports.loadWidgetBundles = function(widgets, callback) {
