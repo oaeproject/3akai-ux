@@ -1,10 +1,10 @@
 /*!
- * Copyright 2013 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Apereo Foundation (AF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
  *
- *     http://www.osedu.org/licenses/ECL-2.0
+ *     http://opensource.org/licenses/ECL-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpath', 'jquery.autosuggest'], function(exports, require, $, _) {
+define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.validate', 'trimpath', 'jquery.autosuggest'], function(exports, require, $, _, configAPI) {
 
     /**
      * Initialize all utility functionality.
@@ -68,7 +68,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
     /**
      * Change the browser title for a particular page. The browser's title has the following structure
      *
-     * Sakai OAE - Sakai Doc 1 [- Page 1]
+     * Open Academic Environment - Document 1 [- Page 1]
      *
      * Where the first part will be fixed.
      *
@@ -85,7 +85,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
             title = [title];
         }
         // Render the page title with the following format
-        //   `Sakai OAE - Fragment 1 - Fragment 2`
+        //   `Open Academic Environment - Fragment 1 - Fragment 2`
         title.splice(0, 0, '__MSG__TITLE_PREFIX__');
         document.title = require('oae.api.i18n').translate(title.join(' - '));
     };
@@ -382,7 +382,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
          *
          * All other validation configuration should be passed into the options object when calling `oae.api.util.validation().validate($form, options)`.
          *
-         * Sakai OAE defines to additional validation methods:
+         * OAE defines the additional validation methods:
          *
          * - `nospaces`: Makes the element require no spaces.
          * - `prependhttp`: Prepends http:// to a URL field if no protocal has been specified.
@@ -714,6 +714,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'jquery.validate', 'trimpa
                 $.each(resourceTypes, function(index, resourceType) {
                     options.extraParams += '&resourceTypes=' + resourceType;
                 });
+                // Add the parameter that specifies whether or not results from other tenants need to be included as well
+                options.extraParams += '&includeExternal=' + (!configAPI.getValue('oae-tenants', 'tenantprivacy', 'tenantprivate'));
 
                 // By default, the autosuggest component will only show results in the suggested items that actually match the query
                 // on one of the fields specified in the `searchObjProps` parameter. However, as we rely on the REST endpoint to do
