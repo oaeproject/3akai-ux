@@ -36,7 +36,6 @@ ul.as-selections li.as-selection-item {
     box-shadow: 0 1px 1px #e4edf2;
     -webkit-box-shadow: 0 1px 1px #e4edf2;
     -moz-box-shadow: 0 1px 1px #e4edf2;
-    list-style: none outside none;  /** sakai addition **/
 }
 
 ul.as-selections li.as-selection-item:last-child {
@@ -97,7 +96,6 @@ ul.as-selections li.as-selection-item a:active.as-close {
 
 ul.as-selections li.as-original {
     margin-left: 0;
-    list-style: none outside none;  /** sakai addition **/
 }
 
 ul.as-selections li.as-original input, ul.as-selections li.as-original textarea {
@@ -135,14 +133,12 @@ ul.as-list {
 li.as-result-item, li.as-message {
     margin: 0 0 0 0;
     padding: 5px 12px;
-    background-color: #fff;         /** sakai addition **/
     border: 1px solid #fff;
     border-bottom: 1px solid #ddd;
     cursor: pointer;
     border-radius: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
-    list-style: none outside none;  /** sakai addition **/
 }
 
 li:first-child.as-result-item {

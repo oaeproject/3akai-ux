@@ -8,7 +8,7 @@
 /*!
  * NOTE: The OAE edits in this file are limited to the changes on line 18 and 20. The anonymous
  * define causes a problem when all of the core files are concatenated in the production build.
- * @see https://github.com/sakaiproject/3akai-ux/pull/2729#issuecomment-17049214
+ * @see https://github.com/oaeproject/3akai-ux/pull/2729#issuecomment-17049214
  */
 
 ;(function(factory) {
