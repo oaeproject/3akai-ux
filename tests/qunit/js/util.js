@@ -40,6 +40,105 @@ define(['exports', 'jquery', 'qunitjs'], function(exports, $) {
         return json;
     };
 
+    /**
+     * [ description]
+     *
+     * @param  {[type]}   widgetData [description]
+     * @param  {Function} callback   [description]
+     *
+     * @return {[type]}              [description]
+     */
+    var loadWidgetCSS = exports.loadWidgetCSS = function(widgetData, callback) {
+        var widgetsToDo = 0;
+
+        var getCSS = function(widget) {
+            $.ajax({
+                dataType: 'text',
+                url: '/node_modules/oae-core/' + widget.id + '/css/' + widget.id + '.css',
+                success: function(data) {
+                    widget.css = data;
+                    widgetsToDo++;
+                    if (widgetsToDo !== _.keys(widgetData).length) {
+                        getCSS(widgetData[_.keys(widgetData)[widgetsToDo]]);
+                    } else {
+                        callback(widgetData);
+                    }
+                },
+                error: function() {
+                    widget.css = '';
+                    widgetsToDo++;
+                    if (widgetsToDo !== _.keys(widgetData).length) {
+                        getCSS(widgetData[_.keys(widgetData)[widgetsToDo]]);
+                    } else {
+                        callback(widgetData);
+                    }
+                }
+            });
+        };
+
+        getCSS(widgetData[_.keys(widgetData)[0]]);
+    };
+
+    /**
+     * [ description]
+     *
+     * @param  {[type]}   htmlData [description]
+     * @param  {Function} callback [description]
+     *
+     * @return {[type]}            [description]
+     */
+    var loadMainCSS = exports.loadMainCSS = function(cssData, callback) {
+        var cssToDo = 0;
+
+        var getCSS = function(filename) {
+            $.ajax({
+                dataType: 'text',
+                url: '/ui/css/' + filename + '.css',
+                success: function(data) {
+                    cssData[filename] = data;
+                    cssToDo++;
+                    if (cssToDo === _.keys(cssData).length) {
+                        callback(cssData);
+                    }
+                }
+            });
+        };
+
+        $.each(cssData, function(i) {
+            getCSS(i);
+        });
+    };
+
+    /**
+     * [ description]
+     *
+     * @param  {[type]}   htmlData [description]
+     * @param  {Function} callback [description]
+     *
+     * @return {[type]}            [description]
+     */
+    var loadSharedCSS = exports.loadSharedCSS = function(cssData, callback) {
+        var cssToDo = 0;
+
+        var getCSS = function(filename) {
+            $.ajax({
+                dataType: 'text',
+                url: '/shared/oae/css/' + filename + '.css',
+                success: function(data) {
+                    cssData[filename] = data;
+                    cssToDo++;
+                    if (cssToDo === _.keys(cssData).length) {
+                        callback(cssData);
+                    }
+                }
+            });
+        };
+
+        $.each(cssData, function(i) {
+            getCSS(i);
+        });
+    };
+
 
     /**
      * [ description]
@@ -401,6 +500,21 @@ define(['exports', 'jquery', 'qunitjs'], function(exports, $) {
                     'oae.core': null
                 };
 
+                var mainCSS = {
+                    'oae.discussion': null,
+                    'oae.error': null,
+                    'oae.index': null,
+                    'oae.noscript': null,
+                    'oae.search': null
+                };
+
+                var sharedCSS = {
+                    'oae.base': null,
+                    'oae.components': null,
+                    'oae.core': null,
+                    'oae.skin.static': null
+                };
+
                 // Load the main bundles
                 loadMainBundles(mainBundles, function(mainBundles) {
                     // Load the widget bundles
@@ -415,23 +529,36 @@ define(['exports', 'jquery', 'qunitjs'], function(exports, $) {
                                     loadWidgetJS(widgetData, function(widgetData) {
                                         // Load the main JS
                                         loadMainJS(mainJS, function(mainJS) {
-                                            // Load the API JS
-                                            loadAPIJS(apiJS, function(apiJS) {
-                                                console.log({
-                                                    'widgetData': widgetData,
-                                                    'mainBundles': mainBundles,
-                                                    'mainHTML': mainHTML,
-                                                    'macroHTML': macroHTML,
-                                                    'mainJS': mainJS,
-                                                    'apiJS': apiJS
-                                                });
-                                                callback({
-                                                    'widgetData': widgetData,
-                                                    'mainBundles': mainBundles,
-                                                    'mainHTML': mainHTML,
-                                                    'macroHTML': macroHTML,
-                                                    'mainJS': mainJS,
-                                                    'apiJS': apiJS
+                                            // Load the main CSS
+                                            loadMainCSS(mainCSS, function(mainCSS) {
+                                                // Load the shared CSS
+                                                loadSharedCSS(sharedCSS, function(sharedCSS) {
+                                                    // Load the widget CSS
+                                                    loadWidgetCSS(widgetData, function(widgetData) {
+                                                        // Load the API JS
+                                                        loadAPIJS(apiJS, function(apiJS) {
+                                                            console.log({
+                                                                'widgetData': widgetData,
+                                                                'mainBundles': mainBundles,
+                                                                'mainHTML': mainHTML,
+                                                                'macroHTML': macroHTML,
+                                                                'mainJS': mainJS,
+                                                                'apiJS': apiJS,
+                                                                'mainCSS': mainCSS,
+                                                                'sharedCSS': sharedCSS
+                                                            });
+                                                            callback({
+                                                                'widgetData': widgetData,
+                                                                'mainBundles': mainBundles,
+                                                                'mainHTML': mainHTML,
+                                                                'macroHTML': macroHTML,
+                                                                'mainJS': mainJS,
+                                                                'apiJS': apiJS,
+                                                                'mainCSS': mainCSS,
+                                                                'sharedCSS': sharedCSS
+                                                            });
+                                                        });
+                                                    });
                                                 });
                                             });
                                         });

@@ -18,7 +18,11 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
     module('WCAG 2.0 Compliance - 1.1.1 Non-text Content / Text Alternatives');
 
     var checkElements = function($elt, callback) {
+        // If there are no elements that need to be checked we show a success message in the end.
+        var needsChecking = false;
+
         $.each($elt.find('a'), function(i, elt) {
+            needsChecking = true;
             if ($(elt).attr('id') !== 'topnavigation_user_options_name') {
                 ok($(elt).attr('title') || $(elt).text() || $(elt).find('*').text() || ($(elt).html() === '<!-- -->') || $(elt).find('img').attr('alt'), 'A tag has text or children that have text: ' + $('<div/>').html(elt).html());
             }
@@ -30,10 +34,12 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
         });
 
         $.each($elt.find('button'), function(i, elt) {
+            needsChecking = true;
             ok(!($(elt).attr('title') && $(elt).text() && !$.trim($(elt).text())) && ($(elt).attr('title') || $(elt).find('img').attr('alt') || $.trim($(elt).text()) || $.trim($(elt).find('*').text()) || ($(elt).html() === '<!-- -->')), 'BUTTON tag has text or children that have text: ' + $('<div/>').html(elt).html());
         });
 
         $.each($elt.find('img'), function(i, elt) {
+            needsChecking = true;
             var parentTitle = false;
             if ($(elt).parent().attr('title') && $(elt).parent().attr('title').length) {
                 parentTitle = true;
@@ -42,26 +48,32 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
         });
 
         $.each($elt.find('input[type="image"]'), function(i, elt) {
+            needsChecking = true;
             ok($(elt).attr('alt'), 'INPUT img type tag has ALT attribute:' + $('<div/>').html(elt).html());
         });
 
         $.each($elt.find('applet'), function(i, elt) {
+            needsChecking = true;
             ok($(elt).attr('alt'), 'APPLET tag has ALT attribute: ' + $('<div/>').html(elt).html());
         });
 
         $.each($elt.find('object'), function(i, elt) {
+            needsChecking = true;
             ok($(elt).children().length > 0, 'OBJECT tag has contents: ' + $('<div/>').html(elt).html());
         });
 
         $.each($elt.find('area'), function(i, elt) {
+            needsChecking = true;
             ok($(elt).attr('alt'), 'AREA tag has ALT attribute: ' + $('<div/>').html(elt).html());
         });
 
         $.each($elt.find('abbr'), function(i, elt) {
+            needsChecking = true;
             ok($(elt).attr('title'), 'ABBR tag has TITLE attribute: ' + $('<div/>').html(elt).html());
         });
 
         $.each($elt.find('textarea'), function(i, elt) {
+            needsChecking = true;
             // check if textarea has an attached label element, otherwise it needs a title attribute
             var hasLabel = false;
             if ($(elt).attr('id')) {
@@ -78,10 +90,12 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
         });
 
         $.each($elt.find('input, select'), function(i, elt) {
+            needsChecking = true;
             ok(!$(elt).attr('alt'), 'INPUT/SELECT tag does not have ALT attribute: ' + $('<div/>').html(elt).html());
         });
 
         $.each($elt.find('div'), function(i, elt) {
+            needsChecking = true;
             var divHtml = $(elt).html();
             if (divHtml.substr(0, 5) === '<!--\n' && divHtml.substr(divHtml.length - 4, divHtml.length) === '\n-->') {
                 // this is a javascript template, check the elements in the template
@@ -96,43 +110,67 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
             }
         });
 
+        if (!needsChecking) {
+            ok(true, 'No elements need checking.');
+        }
         if ($.isFunction(callback)) {
             callback();
         }
     };
 
-
     /**
      * Check HTML pages and test for WCAG compliance
      */
-    var testWCAGCompliance = function(widgets) {
-        $.each(widgets, function(i, widget) {
-            var filename = '/node_modules/oae-core/' + widget.id + '/' + widget.id + '.html';
-            (function(url) {
-                asyncTest(url, function() {
-                    $.ajax({
-                        url: url,
-                        success: function(data) {
-                            var div = document.createElement('div');
-                            div.innerHTML = data;
-                            $(div).find('script').remove();
-                            $(div).find('link').remove();
-                            $(div).find('meta').remove();
-                            $(div).find('title').remove();
-                            checkElements($(div), function() {
-                                start();
-                            });
-                        }
-                    });
+    var testWCAGCompliance = function(widgetData) {
+        // Check the WCAG compliance of widgets
+        $.each(widgetData.widgetData, function(i, widget) {
+            asyncTest(widget.id + '.html', function() {
+                var div = document.createElement('div');
+                div.innerHTML = widget.html;
+                $(div).find('script').remove();
+                $(div).find('link').remove();
+                $(div).find('meta').remove();
+                $(div).find('title').remove();
+                checkElements($(div), function() {
+                    start();
                 });
-            })(filename);
+            });
+        });
+
+        // Check the WCAG compliance of the main HTML files
+        $.each(widgetData.mainHTML, function(i, mainHTML) {
+            asyncTest(i + '.html', function() {
+                var div = document.createElement('div');
+                div.innerHTML = mainHTML;
+                $(div).find('script').remove();
+                $(div).find('link').remove();
+                $(div).find('meta').remove();
+                $(div).find('title').remove();
+                checkElements($(div), function() {
+                    start();
+                });
+            });
+        });
+
+        // Check the WCAG compliance of the macro HTML files
+        $.each(widgetData.macroHTML, function(i, macroHTML) {
+            asyncTest(i + '.html', function() {
+                var div = document.createElement('div');
+                div.innerHTML = macroHTML;
+                $(div).find('script').remove();
+                $(div).find('link').remove();
+                $(div).find('meta').remove();
+                $(div).find('title').remove();
+                checkElements($(div), function() {
+                    start();
+                });
+            });
         });
     };
 
-    util.loadWidgets(function(widgets) {
-        testWCAGCompliance(widgets);
-    });
+    util.loadWidgets(testWCAGCompliance);
 
     QUnit.load();
+    QUnit.start();
 
 });

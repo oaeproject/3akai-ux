@@ -40,10 +40,9 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
             } else {
                 ok(false, testString + ', ' + count + ' error(s): ' + errorString);
             }
-        }
+        };
 
-        var checkCss = function(cssFile) {
-
+        var checkCSS = function(cssFile) {
             // test space before brace character
             var regex = /[a-zA-Z0-9]+\{/gm;
             var testString = 'Use space before opening brace';
@@ -73,44 +72,41 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
             regex = /(\{|;)\s*\n[a-z-A-Z0-9]+/gm;
             testString = 'Indent expression 4 spaces';
             doRegexTest(cssFile, regex, testString);
-
-        };
-
-        var makeCSSFormattingTest = function(filename) {
-            asyncTest(filename, function() {
-                $.ajax({
-                    dataType: 'text',
-                    url: filename,
-                    success: function(data) {
-                        checkCss(data);
-                        start();
-                    }, error: function() {
-                        QUnit.ok(true, 'This widget does not have a CSS file associated to it.');
-                        start();
-                    }
-                });
-            });
         };
 
         /**
          * Initializes the CSS Formatting module
          * @param  {Object}   widgets    Object containing the manifests of all widgets in node_modules/oae-core.
          */
-        var cssFormattingTest = function(widgets) {
-            QUnit.load();
-
-            // Test the widget CSS files
-            $.each(widgets, function(i, widget) {
-                makeCSSFormattingTest('/node_modules/oae-core/' + widget.id + '/css/' + widget.id + '.css');
+        var cssFormattingTest = function(widgetData) {
+            // Test that the main CSS files are properly formatted
+            $.each(widgetData.mainCSS, function(i, mainCSS) {
+                asyncTest(i + '.css', function() {
+                    checkCSS(mainCSS);
+                    start();
+                });
             });
 
-            // Test the core CSS files
-            var coreCSS = ['oae.base', 'oae.components', 'oae.core', 'oae.skin', 'oae.skin.gt', 'oae.skin.gt'];
-            $.each(coreCSS, function(ii, coreCSSFile) {
-                makeCSSFormattingTest('/shared/oae/css/' + coreCSSFile + '.css');
+            // Test that the shared CSS files are properly formatted
+            $.each(widgetData.sharedCSS, function(ii, sharedCSS) {
+                asyncTest(ii + '.css', function() {
+                    checkCSS(sharedCSS);
+                    start();
+                });
+            });
+
+            // Test that the widget CSS files are properly formatted
+            $.each(widgetData.widgetData, function(iii, widget) {
+                asyncTest(iii + '.css', function() {
+                    checkCSS(widget.css);
+                    start();
+                });
             });
         };
 
         util.loadWidgets(cssFormattingTest);
+
+        QUnit.load();
+        QUnit.start();
     }
 );

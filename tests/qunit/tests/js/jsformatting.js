@@ -40,7 +40,7 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
             } else {
                 ok(false, testString + ', ' + count + ' error(s): ' + errorString);
             }
-        }
+        };
 
         var checkJs = function(jsFile) {
             // test for double quotes in strings
@@ -49,8 +49,8 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
             doRegexTest(jsFile, regex, testString);
 
             // test function declarations
-            var regex = /^\s*function\s.*/gm;
-            var testString = 'Use \"var <functionName> = function() {\"';
+            regex = /^\s*function\s.*/gm;
+            testString = 'Use \"var <functionName> = function() {\"';
             doRegexTest(jsFile, regex, testString);
 
             // test opening braces
@@ -105,56 +105,41 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
             regex = /(^|\s)typeof(\s|$)/gm;
             testString = 'Use jquery or underscore for type checking';
             doRegexTest(jsFile, regex, testString);
-
-        };
-
-        var makeJSFormattingTest = function(filename) {
-            asyncTest(filename, function() {
-                $.ajax({
-                    dataType: 'text',
-                    url: filename,
-                    success: function(data) {
-                        checkJs(data);
-                        start();
-                    }, error: function() {
-                        QUnit.ok(true, 'This widget does not have a JavaScript file associated to it.');
-                        start();
-                    }
-                });
-            });
         };
 
         /**
          * Initializes the JavaScript Formatting module
          * @param  {Object}   widgets    Object containing the manifests of all widgets in node_modules/oae-core.
          */
-        var jsFormattingTest = function(widgets) {
-            QUnit.load();
-
-            // Test the widget JavaScript files
-            $.each(widgets, function(i, widget) {
-                makeJSFormattingTest('/node_modules/oae-core/' + widget.id + '/js/' + widget.id + '.js');
+        var jsFormattingTest = function(widgetData) {
+            // Test that the main JavaScript files are properly formatted
+            $.each(widgetData.mainJS, function(i, mainJS) {
+                asyncTest(i + '.js', function() {
+                    checkJs(mainJS);
+                    start();
+                });
             });
 
-            // Test the core JavaScript files
-            var coreJS = ['oae.api.authentication',
-                          'oae.api.config',
-                          'oae.api.content',
-                          'oae.api.group',
-                          'oae.api.i18n',
-                          'oae.api',
-                          'oae.api.l10n',
-                          'oae.api.profile',
-                          'oae.api.user',
-                          'oae.api.util',
-                          'oae.api.widget',
-                          'oae.bootstrap',
-                          'oae.core'];
-            $.each(coreJS, function(ii, coreJSFile) {
-                makeJSFormattingTest('/shared/oae/api/' + coreJSFile + '.js');
+            // Test that the API JavaScript files are properly formatted
+            $.each(widgetData.apiJS, function(ii, apiJS) {
+                asyncTest(ii + '.js', function() {
+                    checkJs(apiJS);
+                    start();
+                });
+            });
+
+            // Test that the widget JavaScript files are properly formatted
+            $.each(widgetData.widgetData, function(iii, widget) {
+                asyncTest(iii + '.js', function() {
+                    checkJs(widget.js);
+                    start();
+                });
             });
         };
 
         util.loadWidgets(jsFormattingTest);
+
+        QUnit.load();
+        QUnit.start();
     }
 );
