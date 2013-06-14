@@ -24,90 +24,120 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
         };
 
         /**
-         * Retrieves the HTML on provided path and adds it to a string
-         * @param  {String[]}    htmlPaths    An Array of paths to files containing HTML
-         * @param  {Function}    callback     Function executed after all HTML content has been read
+         * Escaps a regular string meant for regular expression testing
+         *
+         * @param  {String}    str    The string that will be used as a regular expression
          */
-        var getWidgetHTML = function(htmlPaths, callback) {
-            var html = '';
-            var toDo = 0;
-
-            var getHTML = function(filename) {
-                $.ajax({
-                    dataType: 'text',
-                    url: filename,
-                    success: function(data) {
-                        html+=data;
-                        toDo++;
-                        if (toDo !== htmlPaths.length) {
-                            getHTML(htmlPaths[toDo]);
-                        } else {
-                            callback(html);
-                        }
-                    }
-                });
-            };
-
-            getHTML(htmlPaths[toDo]);
+        var escapeRegExp = function(str) {
+          return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
         };
 
         /**
-         * Initializes the Untranslated Keys module
+         * Initializes the Untranslated Keys module and executes the tests
+         *
          * @param  {Object}   widgets    Object containing the manifests of all widgets in node_modules/oae-core.
          */
-        var unusedTranslationKeysTest = function() {
-            var htmlPaths = [];
-
-            // Test the widget HTML files
-            $.each(cachedWidgets, function(i, widget) {
-                if (widget.id !== 'default bundle') {
-                    htmlPaths.push('/node_modules/oae-core/' + widget.id + '/' + widget.id + '.html');
-                }
-            });
-
-            // Test the core HTML files
-            var coreHTML = ['errors/accessdenied',
-                            'errors/notfound',
-                            'content',
-                            'group',
-                            'index',
-                            'me',
-                            'search',
-                            'user'];
-            $.each(coreHTML, function(ii, coreHTMLFile) {
-                htmlPaths.push('/ui/' + coreHTMLFile + '.html');
-            });
-
-            //getWidgetHTML(htmlPaths, function(html) {
-                $.each(cachedWidgets.i18n, function(i, widget) {
-                    asyncTest(widget.id, function() {
-                        $.each(widget.i18n.default, function(key, value) {
+        var unusedTranslationKeysTest = function(widgetData) {
+            // Loop over all main bundles
+            $.each(widgetData.mainBundles, function(i, mainBundle) {
+                asyncTest(i, function() {
+                    if (_.keys(mainBundle).length) {
+                        // For each key in the main bundle, check if it's used in a widget or main HTML file
+                        $.each(mainBundle, function(key, value) {
                             if (key) {
-                                var regex = new RegExp('__MSG__' + key + '__', 'gm');
-                                var used = regex.test(cachedWidgets[i].html);
-                                if (used) {
-                                    ok(true, key + ' in \'' + widget.id + '\' is used.');
+                                var keyUsed = false;
+
+                                // Check if key is used in the main HTML files
+                                $.each(widgetData.mainHTML, function(ii, mainHTML) {
+                                    var regex = new RegExp(escapeRegExp('__MSG__' + key + '__', 'gm'));
+                                    var used = regex.test(mainHTML);
+                                    if (used) {
+                                        keyUsed = true;
+                                    }
+                                });
+
+                                // Check if key is used in the main macro HTML files
+                                $.each(widgetData.macroHTML, function(iii, mainMacroHTML) {
+                                    var regex = new RegExp(escapeRegExp('__MSG__' + key + '__', 'gm'));
+                                    var used = regex.test(mainMacroHTML);
+                                    if (used) {
+                                        keyUsed = true;
+                                    }
+                                });
+
+                                // Check if the key is used in the widget HTML or JavaScript files
+                                $.each(widgetData.widgetData, function(iiii, widget) {
+                                    var regex = new RegExp(escapeRegExp('__MSG__' + key + '__', 'gm'));
+                                    var used = regex.test(widget.html) || regex.test(widget.js);
+                                    if (used) {
+                                        keyUsed = true;
+                                    }
+                                });
+
+                                // Check if key is used in the main JS files
+                                $.each(widgetData.mainJS, function(iii, mainJS) {
+                                    var regex = new RegExp(escapeRegExp('__MSG__' + key + '__', 'gm'));
+                                    var used = regex.test(mainJS);
+                                    if (used) {
+                                        keyUsed = true;
+                                    }
+                                });
+
+                                // Check if key is used in the API files
+                                $.each(widgetData.apiJS, function(iii, apiJS) {
+                                    var regex = new RegExp(escapeRegExp('__MSG__' + key + '__', 'gm'));
+                                    var used = regex.test(apiJS);
+                                    if (used) {
+                                        keyUsed = true;
+                                    }
+                                });
+
+                                if (keyUsed) {
+                                    ok(true, '\'' + key + '\' in \'' + i + '.properties\' is used.');
                                 } else {
-                                    ok(false, key + ' in \'' + widget.id + '\' is not being used.');
+                                    ok(false, '\'' + key + '\' in \'' + i + '.properties\' is not being used.');
                                 }
                             }
                         });
-                        start();
-                    });
-                });
-            //});
-        };
-
-        util.loadWidgets(function(widgets) {
-            util.loadWidgetBundles(widgets, function(widgetBundles) {
-                cachedWidgets.i18n = widgetBundles;
-                util.loadWidgetHTML(widgets, function(widgetHTML){
-                    cachedWidgets.html = widgetHTML;
-                    unusedTranslationKeysTest();
+                    } else {
+                        ok(true, 'No keys in \'' + i + '\'.');
+                    }
+                    start();
                 });
             });
-        });
+
+            // Check if keys in widgets are being used
+            $.each(widgetData.widgetData, function(ii, widget) {
+                asyncTest(ii, function() {
+                    if (_.keys(widget.i18n).length) {
+                        $.each(widget.i18n, function(iii, bundle) {
+                            if (_.keys(bundle).length) {
+                                $.each(bundle, function(key, value) {
+                                    if (value) {
+                                        var regex = new RegExp(escapeRegExp('__MSG__' + key + '__', 'gm'));
+                                        var used = regex.test(widget.html) || regex.test(widget.js);
+                                        if (used) {
+                                            ok(true, key + ' in \'' + ii + ' ' + iii + '.properties\' is used.');
+                                        } else {
+                                            ok(false, key + ' in \'' + ii + ' ' + iii + '.properties\' is not being used.');
+                                        }
+                                    }
+                                });
+                            } else {
+                                ok(true, '\'' + ii + '\' does does not have any keys in \'' + iii + '.properties\'.');
+                            }
+                        });
+                    } else {
+                        ok(true, '\'' + ii + '\' does does not have any bundles.');
+                    }
+                    start();
+                });
+            });
+        };
+
+        util.loadWidgets(unusedTranslationKeysTest);
 
         QUnit.load();
+        QUnit.start();
     }
 );
