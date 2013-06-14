@@ -76,36 +76,48 @@ require(['oae.core', '../js/util.js', 'qunitjs', 'jquery', '../js/jshint.js'], f
         };
 
         /**
-         * Creates an asynchronous test and calls checks for console.log(), alert() and JSHint errors
-         * @param  {String}    filename    The path to the file
+         * Initializes the clean JS Test module
+         * @param  {Object}   widgetData    Object containing the manifests of all widgets in node_modules/oae-core.
          */
-        var makeCleanJSTest = function(filename) {
-            asyncTest(filename, function() {
-                $.ajax({
-                    dataType: 'text',
-                    url: filename,
-                    success: function(data) {
-                        checkForConsoleLog(data, filename);
-                        checkForAlert(data);
-                        JSHintfile(data, function() {
-                            start();
-                        });
-                    }
+
+        var cleanJSTest = function(widgetData) {
+            // Check the widgets for clean javascript
+            $.each(widgetData.widgetData, function(i, widget) {
+                asyncTest(widget.id, function() {
+                    checkForConsoleLog(widget.js, widget.id);
+                    checkForAlert(widget.js);
+                    JSHintfile(widget.js, function() {
+                        start();
+                    });
+                });
+            });
+
+            // Check the API for clean javascript
+            $.each(widgetData.apiJS, function(ii, apiJS) {
+                asyncTest(ii, function() {
+                    checkForConsoleLog(apiJS, ii);
+                    checkForAlert(apiJS);
+                    JSHintfile(apiJS, function() {
+                        start();
+                    });
+                });
+            });
+
+            // Check the main JavaScript files for clean javascript
+            $.each(widgetData.mainJS, function(iii, mainJS) {
+                asyncTest(iii, function() {
+                    checkForConsoleLog(mainJS, iii);
+                    checkForAlert(mainJS);
+                    JSHintfile(mainJS, function() {
+                        start();
+                    });
                 });
             });
         };
 
-        /**
-         * Initializes the clean JS Test module
-         * @param  {Object}   widgets    Object containing the manifests of all widgets in node_modules/oae-core.
-         */
-        var cleanJSTest = function(widgets) {
-            QUnit.load();
-            $.each(widgets, function(i, widget) {
-                makeCleanJSTest('/node_modules/oae-core/' + widget.id + '/js/' + widget.id + '.js');
-            });
-        };
-
         util.loadWidgets(cleanJSTest);
+
+        QUnit.load();
+        QUnit.start();
     }
 );
