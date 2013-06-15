@@ -150,6 +150,23 @@ require(['jquery','oae.core'], function($, oae) {
         setUpClip();
     });
 
+
+    //////////////////
+    // EDIT PROFILE //
+    //////////////////
+
+    /**
+     * Re-render the me clip when the user profile information has been updated. The updated
+     * me object will be passed into the event
+     *
+     * TODO: verify this works when https://github.com/oaeproject/Hilary/issues/538 is merged.
+     */
+    $(document).on('oae.editprofile.done', function(ev, data) {
+        oae.data.me = data;
+        setUpClip();
+    });
+
+
     setUpClip();
     setUpNavigation();
 
