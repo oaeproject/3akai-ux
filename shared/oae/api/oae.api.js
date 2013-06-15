@@ -1,10 +1,10 @@
 /*!
- * Copyright 2013 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Apereo Foundation (AF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
  *
- *     http://www.osedu.org/licenses/ECL-2.0
+ *     http://opensource.org/licenses/ECL-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
@@ -14,7 +14,7 @@
  */
 
 /*!
- * Initializes the Sakai OAE UI APIs. First of all, the me data will be retrieved. After that, the configuration for the current
+ * Initializes the OAE UI APIs. First of all, the me data will be retrieved. After that, the configuration for the current
  * tenant will be retrueved, and the localization and internationalization APIs will be initialized. Finally, the widgets declared
  * in the page source will be rendered.
  *
