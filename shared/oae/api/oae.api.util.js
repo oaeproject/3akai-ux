@@ -564,7 +564,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             showCallback = options.onShown;
             options.onShown = function() {
                 showCallback(this.$tip);
-            }
+            };
         }
 
         // Set the HTML of the content element as the content of the clickover
@@ -765,7 +765,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                 if (!options.formatList) {
                     options.formatList = function(data, elem) {
                         return elem.html(template().render($('#autosuggest-suggested-template', $autosuggestTemplates), {'data': data}));
-                    }
+                    };
                 }
 
                 // Function that will be called when an item is attempted to be removed from the autosuggest
@@ -874,10 +874,13 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                     });
                 }
 
+                // Add a label to the autosuggest input field for accessibility
+                $('.as-input', $list).after('<label class="oae-aural-text" for="' + $('.as-input', $list).attr('id') + '">' + options.emptyText + '</label>');
+
                 // Trigger the callback function
                 if (_.isFunction(callback)) {
                     callback();
-                };
+                }
             });
         };
 
