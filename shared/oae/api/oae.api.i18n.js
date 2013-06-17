@@ -183,7 +183,7 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.propertie
         // Replace all __MSG__KEY__ instances with the appropriate translation
         input = input.replace(/__MSG__(.*?)__/gm, function(match, i18nkey) {
             var translation = null;
-            if (widgetName) {
+            if (widgetName && bundles.widgets[widgetName]) {
                 // Check the widget's locale bundle
                 if (bundles.widgets[widgetName][locale] && bundles.widgets[widgetName][locale][i18nkey] !== undefined) {
                     translation = bundles.widgets[widgetName][locale][i18nkey];
