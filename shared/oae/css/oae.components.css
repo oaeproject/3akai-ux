@@ -737,7 +737,7 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-tile h3 a {
     font-size: 14px;
     font-weight: bold;
-    line-height: 1.2;
+    line-height: 1.4;
     margin: 0px;
 }
 
@@ -745,6 +745,7 @@ div.oae-thumbnail i[class^="icon-"] {
     font-size: 12px;
     font-style: italic;
     font-weight: normal;
+    line-height: 1.5;
     text-transform: uppercase;
 }
 

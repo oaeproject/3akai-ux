@@ -292,7 +292,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
             widgetsToLoad[widgetName].bundles = {};
             if (widget.i18n) {
                 widgetsToLoad[widgetName].bundles['default'] = widget.i18n['default'] ? convertRelativeToAbsolutePath(widget.i18n['default'].bundle, widgetsToLoad[widgetName].prefixPath) : null,
-                widgetsToLoad[widgetName].bundles[locale] = widget.i18n[locale] ? convertRelativeToAbsolutePath(widget.i18n[locale].bundle, widgetsToLoad[widgetName].prefixPath) : null
+                widgetsToLoad[widgetName].bundles[locale] = widget.i18n[locale] ? convertRelativeToAbsolutePath(widget.i18n[locale].bundle, widgetsToLoad[widgetName].prefixPath) : null;
             }
             // Add the id of the widget to the instances that should be loaded for the current widget name
             widgetsToLoad[widgetName].instances = widgetsToLoad[widgetName].instances || [];
@@ -385,9 +385,10 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
             var widgetHTML = widgetFiles[loadData.html];
             if (loadData.bundles['default']) {
                 i18nAPI.parseWidgetBundles(widgetName, widgetFiles[loadData.bundles['default']], loadData.bundles[locale] ? widgetFiles[loadData.bundles[locale]] : null);
-                // Translate the HTML fragment
-                widgetHTML = i18nAPI.translate(widgetHTML, widgetName);
             }
+
+            // Translate the HTML fragment
+            widgetHTML = i18nAPI.translate(widgetHTML, widgetName);
 
             // We transform the translated HTML into a jQuery object. However, as this will actually load all of the
             // images in the widget HTML straight away, and the images will still have relative URLs that need conversion,
