@@ -156,7 +156,7 @@ require(['jquery','oae.core'], function($, oae) {
     //////////////////
 
     /**
-     * Re-render the me clip when the user profile information has been updated. The updated
+     * Re-render the me clip when the user profile has been updated. The updated
      * me object will be passed into the event
      *
      * TODO: verify this works when https://github.com/oaeproject/Hilary/issues/538 is merged.
