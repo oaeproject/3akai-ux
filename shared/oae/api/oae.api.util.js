@@ -875,7 +875,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                 }
 
                 // Add a label to the autosuggest input field for accessibility
-                $('.as-input', $list).after('<label class="oae-aural-text" for="' + $('.as-input', $list).attr('id') + '">' + options.emptyText + '</label>');
+                $('.as-input', $list).before('<label class="oae-aural-text" for="' + $('.as-input', $list).attr('id') + '">' + options.emptyText + '</label>');
 
                 // Trigger the callback function
                 if (_.isFunction(callback)) {
