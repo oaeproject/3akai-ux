@@ -171,14 +171,15 @@ module.exports = function(grunt) {
 
     // Task to fill out the nginx config template
     grunt.registerTask('configNginx', function() {
-        var infile = './nginx.json';
+        var infile = './nginx/nginx.json';
         if (shell.test('-f', infile)) {
             var nginxConf = require(infile);
-            var template = grunt.file.read('./nginx.conf');
+            var template = grunt.file.read('./nginx/nginx.conf');
             grunt.config.set('nginxConf', nginxConf);
             var conf = grunt.template.process(template);
-            grunt.file.write('./target/optimized/nginx.conf', conf);
-            grunt.log.writeln('nginx.conf rendered at ./target/optimized/nginx.conf'.green);
+            var outfile = './target/optimized/nginx/nginx.conf';
+            grunt.file.write(outfile, conf);
+            grunt.log.writeln('nginx.conf rendered at '.green + outfile.green);
         } else {
             var msg = 'No ' + infile + ' found, not rendering nginx.conf template';
             grunt.log.writeln(msg.yellow);

@@ -8,5 +8,5 @@ dump.rdb
 target/
 node_modules/*
 !node_modules/oae-core
-nginx.*
-!nginx.conf
+nginx/nginx.*
+!nginx/nginx.conf
