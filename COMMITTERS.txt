@@ -1,4 +1,4 @@
-The following people are active contributors on Sakai OAE front-end development:
+The following people are active contributors on Apereo OAE front-end development:
 (alphabetic order)
 
 D. Stuart Freeman - stuart.freeman@et.gatech.edu
@@ -26,4 +26,3 @@ James Sloane - jsloane@csu.edu.au
 Chris Tweney - chris@media.berkeley.edu
 Christian Vuerings - christian@media.berkeley.edu
 Anthony Whyte - arwhyte@umich.edu
-

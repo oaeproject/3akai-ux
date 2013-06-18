@@ -1,10 +1,10 @@
 /*!
- * Copyright 2013 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Apereo Foundation (AF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
  *
- *     http://www.osedu.org/licenses/ECL-2.0
+ *     http://opensource.org/licenses/ECL-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
@@ -183,7 +183,7 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.propertie
         // Replace all __MSG__KEY__ instances with the appropriate translation
         input = input.replace(/__MSG__(.*?)__/gm, function(match, i18nkey) {
             var translation = null;
-            if (widgetName) {
+            if (widgetName && bundles.widgets[widgetName]) {
                 // Check the widget's locale bundle
                 if (bundles.widgets[widgetName][locale] && bundles.widgets[widgetName][locale][i18nkey] !== undefined) {
                     translation = bundles.widgets[widgetName][locale][i18nkey];
