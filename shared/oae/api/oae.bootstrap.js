@@ -79,7 +79,8 @@ requirejs.config({
         'bootstrap.clickover': {
             'deps': ['bootstrap']
         }
-    }
+    },
+    'waitSeconds': 30
 });
 
 /*!
