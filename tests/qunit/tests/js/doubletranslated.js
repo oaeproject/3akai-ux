@@ -18,44 +18,41 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
         module("Double Translation Keys");
 
         /**
-         * Checks if there are keys in the system that are defined twice or more.
-         * @param  {Array}     An Array of objects containing bundles and translations
-         * @param  {String}    The widget ID of the widget that holds the key
-         * @param  {String}    The key to check
+         * Initializes the double tranlsated keys test module
+         *
+         * @param  {Object}   widgetData    Object containing the manifests of all widgets in node_modules/oae-core.
          */
-        var checkForDoubleKey = function(widgetBundles, widgetId, key) {
-            var doubleKeys = [];
-            $.each(widgetBundles, function(i, widget) {
-                if (widget.id !== widgetId) {
-                    $.each(widget.i18n['default'], function(iii, keyToCheck) {
-                        if (key === iii) {
-                            doubleKeys.push(key + ' in ' + widget.id);
-                        }
-                    });
-                }
+        var doubleTranslationKeysTest = function(widgetData) {
+            // Store each key in an object, if the same key is added twice it's considered a duplicate
+            var keys = {};
+            test('default.properties', function() {
+                $.each(widgetData.mainBundles['default'], function(keyName, mainKey) {
+                    if (keys[keyName]) {
+                        // The key exists already, test fails
+                        QUnit.ok(false, keyName + ' already exists in the global bundles');
+                    } else {
+                        keys[keyName] = 'default global' ;
+                        QUnit.ok(true, keyName + ' isn\'t used in any other widgets or in the default bundles');
+                    }
+                });
             });
-            if (doubleKeys.length) {
-                QUnit.ok(false, 'Double keys found: ' + doubleKeys.join(', '));
-            } else {
-                QUnit.ok(true, 'The key isn\'t used in any other widgets or in the defaultbundle');
-            }
-        };
 
-        /**
-         * Initializes the clean JS Test module
-         * @param  {Object}   widgets    Object containing the manifests of all widgets in node_modules/oae-core.
-         */
-        var doubleTranslationKeysTest = function(widgets) {
-            util.loadWidgetBundles(widgets, function(widgetBundles) {
-                $.each(widgetBundles, function(i, widget) {
-                    if (widget.id) {
-                        QUnit.test(widget.id, function() {
-                            $.each(widget.i18n['default'], function(iii, keyToCheck) {
-                                if (iii) {
-                                    checkForDoubleKey(widgetBundles, widget.id, iii);
+            $.each(widgetData.widgetData, function(i, widget) {
+                test(widget.id, function() {
+                    if (widget.i18n && widget.i18n['default']) {
+                        $.each(widget.i18n, function(ii, widgetBundle) {
+                            $.each(widgetBundle, function(keyName, widgetKey) {
+                                if (keys[keyName] && keys[keyName] === 'default global') {
+                                    // The key exists already, test fails
+                                    QUnit.ok(false, keyName + ' in ' + ii + ' already exists in the ' + keys[keyName] + ' bundle');
+                                } else {
+                                    keys[keyName] = ii + ' ' + widget.id;
+                                    QUnit.ok(true, keyName + ' isn\'t used in any other widgets or in the default bundles');
                                 }
                             });
                         });
+                    } else {
+                        QUnit.ok(true, 'This widget has no i18n keys');
                     }
                 });
             });
@@ -64,5 +61,6 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
         util.loadWidgets(doubleTranslationKeysTest);
 
         QUnit.load();
+        QUnit.start();
     }
 );

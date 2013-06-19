@@ -57,19 +57,6 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
          };
 
         /**
-         * Checks i18n keys from core HTML files for their presence in the default bundle
-         *
-         * @param {jQuery} $elt The element to check for valid translated keys (and all its children)
-         */
-        var checkKeys = function($elt, callback) {
-            var keys = getAllKeys($elt);
-            for (var i=0,j=keys.length;i<j;i++) {
-                ok(sakai.api.i18n.data.defaultBundle[keys[i]], 'Default value exists for ' + keys[i]);
-            }
-            callback();
-        };
-
-        /**
          * Check the element against the global array of attributes for internationalized strings
          *
          * @param {jQuery} $elt The element to check for attributes (and all its children)
@@ -97,68 +84,63 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
          * @param {jQuery} $elt The element to check (and all its children)
          */
         var checkElements = function($elt) {
-            // check all elements with no children that have text, filtering out any empties (post-trim)
-            $.each($elt.find('*:not(:empty)').filter(function(index) {
-                return $(this).children().length === 0 && $.trim($(this).text()) !== '';
-            }), function(i,elt) {
-                var tagText = $.trim($(elt).text());
-                var pass = testString(tagText);
-                ok(pass, 'String: ' + tagText);
-            });
-        };
-
-        var makeUninternationalizedStringsTest = function(filename) {
-            $.ajax({
-                url: filename,
-                success: function(data) {
-                    var div = document.createElement('div');
-                    div.innerHTML = data;
-                    asyncTest(filename, function() {
-                        checkElements($(div));
-                        checkAttrs($(div));
-                        //checkWidgetKeys($(div), widget, function() {
-                            start();
-                        //});
-                    });
-                }
-            });
+            if ($elt.find('*:not(:empty)').length) {
+                // check all elements with no children that have text, filtering out any empties (post-trim)
+                $.each($elt.find('*:not(:empty)').filter(function(index) {
+                    return $(this).children().length === 0 && $.trim($(this).text()) !== '';
+                }), function(i,elt) {
+                    var tagText = $.trim($(elt).text());
+                    var pass = testString(tagText);
+                    ok(pass, 'String: ' + tagText);
+                });
+            } else {
+                ok(true, 'No strings found');
+            }
         };
 
         /**
          * Initializes the Uninternationalized Strings module
+         *
          * @param  {Object}   widgets    Object containing the manifests of all widgets in node_modules/oae-core.
          */
-        var uninternationalizedStringsTest = function() {
-
-            // Test the widget HTML files
-            $.each(cachedWidgets, function(i, widget) {
-                if (widget.id !== 'default bundle') {
-                    makeUninternationalizedStringsTest('/node_modules/oae-core/' + widget.id + '/' + widget.id + '.html');
-                }
+        var uninternationalizedStringsTest = function(widgetData) {
+            // Check widgets for uninternationalized strings
+            $.each(widgetData.widgetData, function(i, widget) {
+                asyncTest(widget.id + '.html', function() {
+                    var div = document.createElement('div');
+                    div.innerHTML = widget.html;
+                    checkElements($(div));
+                    checkAttrs($(div));
+                    start();
+                });
             });
 
-            // Test the core HTML files
-            var coreHTML = ['errors/accessdenied',
-                            'errors/notfound',
-                            'content',
-                            'group',
-                            'index',
-                            'me',
-                            'search',
-                            'user'];
-            $.each(coreHTML, function(ii, coreHTMLFile) {
-                makeUninternationalizedStringsTest('/ui/' + coreHTMLFile + '.html');
+            // Check main HTML for uninternationalized strings
+            $.each(widgetData.mainHTML, function(i, mainHTML) {
+                asyncTest(i + '.html', function() {
+                    var div = document.createElement('div');
+                    div.innerHTML = mainHTML;
+                    checkElements($(div));
+                    checkAttrs($(div));
+                    start();
+                });
+            });
+
+            // Check macro HTML for uninternationalized strings
+            $.each(widgetData.macroHTML, function(i, macroHTML) {
+                asyncTest(i + '.html', function() {
+                    var div = document.createElement('div');
+                    div.innerHTML = macroHTML;
+                    checkElements($(div));
+                    checkAttrs($(div));
+                    start();
+                });
             });
         };
 
-        util.loadWidgets(function(widgets) {
-            util.loadWidgetBundles(widgets, function(widgetBundles) {
-                cachedWidgets = widgetBundles;
-                uninternationalizedStringsTest();
-            });
-        });
+        util.loadWidgets(uninternationalizedStringsTest);
 
         QUnit.load();
-
+        QUnit.start();
     }
 );
