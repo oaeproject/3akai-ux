@@ -599,7 +599,12 @@ div.oae-thumbnail i[class^="icon-"] {
     margin: 0;
     font-weight: 600;
     max-width: 300px;
+    min-height: 21px;
     word-wrap: break-word;
+}
+
+.oae-clip .oae-clip-content h1.oae-threedots {
+    float: left;
 }
 
 .oae-clip .oae-clip-content > button i.icon-caret-down,
