@@ -1060,10 +1060,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
 
         /**
          * Redirect the current user to the 401 page. This can be used when the current user does not have
-         * permission to see a certain page.
+         * permission to see a certain page. The link to which access was denied is added to the url.
          */
         var accessdenied = function() {
-            window.location = '/accessdenied';
+            window.location = '/accessdenied?url=' + window.location.pathname;
         };
 
         /**
