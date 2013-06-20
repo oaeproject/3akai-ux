@@ -146,7 +146,8 @@ require(['jquery','oae.core'], function($, oae) {
      * me object will be passed into the event
      */
     $(document).on('oae.changepic.finished', function(ev, data) {
-        oae.data.me = data;
+        // Add the new picture object onto the me object
+        oae.data.me.picture = data.picture;
         setUpClip();
     });
 
