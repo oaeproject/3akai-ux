@@ -503,8 +503,6 @@ div.oae-thumbnail i[class^="icon-"] {
     z-index: 100;
 }
 
-
-
 /* Clip fold */
 
 .oae-clip .oae-clip-fold {
@@ -594,27 +592,32 @@ div.oae-thumbnail i[class^="icon-"] {
     margin-right: 12px;
 }
 
+.oae-clip .oae-clip-content h1 {
+    display: inline-block;
+    font-size: 16px;
+    line-height: 1.3;
+    margin: 0;
+    font-weight: 600;
+    max-width: 300px;
+    word-wrap: break-word;
+}
+
 .oae-clip .oae-clip-content > button i.icon-caret-down,
 .oae-clip .oae-clip-content > button i.icon-caret-up {
-    margin-left: 10px;
+    margin-left: 5px;
     line-height: 16px;
     position: relative;
-    top: 3px;
+    top: 2px;
+}
+
+.oae-clip .oae-clip-content > button h1.oae-threedots + i.icon-caret-down,
+.oae-clip .oae-clip-content > button h1.oae-threedots + i.icon-caret-up {
+    margin-left: 10px;
 }
 
 .oae-clip .oae-clip-content > button:disabled i.icon-caret-down,
 .oae-clip .oae-clip-content > button:disabled i.icon-caret-up {
     display: none;
-}
-
-.oae-clip .oae-clip-content h1 {
-    display: inline-block;
-    font-size: 16px;
-    line-height: 1.4;
-    margin: 0;
-    font-weight: 600;
-    max-width: 230px;
-    word-wrap: break-word;
 }
 
 .oae-clip .oae-clip-content small {
