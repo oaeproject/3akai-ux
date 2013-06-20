@@ -439,7 +439,7 @@ div.oae-thumbnail i[class^="icon-"] {
  *                      </div>
  *                      <div>
  *                          <div>
- *                              <h1>John Doe</h1>
+ *                              <h1 class="oae-threedots">John Doe</h1>
  *                              <i class="icon-caret-down"></i>
  *                              <small>Job Title</small>
  *                          </div>
@@ -472,6 +472,8 @@ div.oae-thumbnail i[class^="icon-"] {
  *   main button. This can also show a default entity picture (in case no image is provided) as well as a
  *   visibility icon (See the `Thumbnail` section for details on how to create a thumbnail).
  *   The thumbnail image is optional and can be left out as well.
+ * - An optional `oae-threedots` class can be added to the `h1` elements in case a maximum width needs to be
+ *   enforced.
  * - The `icon-caret-down` element is optional. If it is not provided, the clip will be shown in view
  *   only mode. If it is provided, the clip will be toggleable and the action menu will be shown when clicked.
  * - The `small` tag is used to show some additional clip metadata and is optional.
