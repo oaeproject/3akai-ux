@@ -1,10 +1,10 @@
 /*!
- * Copyright 2013 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Apereo Foundation (AF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
  *
- *     http://www.osedu.org/licenses/ECL-2.0
+ *     http://opensource.org/licenses/ECL-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
@@ -48,7 +48,7 @@ require(['jquery','oae.core'], function($, oae) {
             // Set the browser title
             oae.api.util.setBrowserTitle(discussionProfile.displayName);
             // Render the entity information
-            setUpClip();
+            setUpClips();
             // Render the discussion topic
             setUpTopic();
             // Set up the context event exchange
@@ -79,10 +79,11 @@ require(['jquery','oae.core'], function($, oae) {
 
     /**
      * Render the discussion's clip, containing the thumbnail, display name as well as the
-     * discussion's admin options
+     * discussion's admin options. Also render the share and comment actions clips.
      */
-    var setUpClip = function() {
+    var setUpClips = function() {
         oae.api.util.template().render($('#discussion-clip-template'), {'discussion': discussionProfile}, $('#discussion-clip-container'));
+        oae.api.util.template().render($('#discussion-actions-clip-template'), {'discussion': discussionProfile}, $('#discussion-actions-clip-container'));
     };
 
     /**
@@ -147,7 +148,7 @@ require(['jquery','oae.core'], function($, oae) {
      * Re-render the discussion's clip when the permissions have been updated.
      */
     $(document).on('oae.manageaccess.done', function(ev) {
-        setUpClip();
+        setUpClips();
     });
 
 
@@ -159,13 +160,13 @@ require(['jquery','oae.core'], function($, oae) {
      * Re-render the discussion's clip and topic when the title or topic have been updated.
      */
     $(document).on('oae.editdiscussion.done', function(ev, data) {
-        // TODO: remove once https://github.com/sakaiproject/Hilary/issues/519 is merged
+        // TODO: remove once https://github.com/oaeproject/Hilary/issues/519 is merged
         data.canShare = discussionProfile.canShare;
         data.canPost = discussionProfile.canPost;
         data.isManager = discussionProfile.isManager;
 
         discussionProfile = data;
-        setUpClip();
+        setUpClips();
         setUpTopic();
     });
 

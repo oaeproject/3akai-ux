@@ -1,10 +1,10 @@
 /*!
- * Copyright 2013 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Apereo Foundation (AF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
  *
- *     http://www.osedu.org/licenses/ECL-2.0
+ *     http://opensource.org/licenses/ECL-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
@@ -47,10 +47,10 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             contentProfile = profile;
             // Set the browser title
             oae.api.util.setBrowserTitle(contentProfile.displayName);
-            // Render the entity information
-            setUpClip();
+            // Render the entity information and actions
+            setUpClips();
             // Show the content preview
-            setUpContentProfilePreview();
+            setUpContentPreview();
             // Set up the context event exchange
             setUpContext();
             // We can now unhide the page
@@ -60,20 +60,27 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
     /**
      * Render the content's clip, containing the thumbnail, display name as well as the
-     * content's admin options
+     * content's admin options. Also render the share and comment actions clips.
      */
-    var setUpClip = function() {
+    var setUpClips = function() {
         oae.api.util.template().render($('#content-clip-template'), {'content': contentProfile}, $('#content-clip-container'));
+        oae.api.util.template().render($('#content-actions-clip-template'), {'content': contentProfile}, $('#content-actions-clip-container'));
     };
 
     /**
      * Renders the content preview.
      */
-    var setUpContentProfilePreview = function() {
+    var setUpContentPreview = function() {
         // Remove the old preview widget
         $('#content-preview-container').html('');
-        // Insert a new preview widget and pass in the updated content profile data
-        oae.api.widget.insertWidget('contentpreview', null, $('#content-preview-container'), null, contentProfile);
+        // Based on the content type, insert a new preview widget and pass in the updated content profile data
+        if (contentProfile.resourceSubType === 'file') {
+            oae.api.widget.insertWidget('filepreview', null, $('#content-preview-container'), null, contentProfile);
+        } else if (contentProfile.resourceSubType === 'link') {
+            oae.api.widget.insertWidget('linkpreview', null, $('#content-preview-container'), null, contentProfile);
+        } else if (contentProfile.resourceSubType === 'collabdoc') {
+            oae.api.widget.insertWidget('etherpad', null, $('#content-preview-container'), null, contentProfile);
+        }
     };
 
     /**
@@ -110,13 +117,14 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         // Cache the content profile data
         contentProfile = updatedContent;
         // Re-render the entity information
-        setUpClip();
+        setUpClips();
         // Show the content preview
-        setUpContentProfilePreview();
+        setUpContentPreview();
     };
 
-    // Catches the `upload new version complete` event and refreshes the content profile
-    $(document).on('oae.uploadnewversion.complete', refreshContentProfile);
+    // Catches an event sent out when the content has been updated. This can be either when
+    // a new version has been uploaded or the preview has finished generating.
+    $(document).on('oae.content.update', refreshContentProfile);
 
 
     ///////////////////
@@ -201,10 +209,44 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     });
 
     /**
-     * Re-render the group's clip when the permissions have been updated.
+     * Re-render the content's clip when the permissions have been updated.
      */
     $(document).on('oae.manageaccess.done', function(ev) {
+        setUpClips();
+    });
+
+
+    ///////////////
+    // REVISIONS //
+    ///////////////
+
+    $(document).on('oae.revisions.done', function(ev, data) {
+        // Update the content profile
+        contentProfile.downloadPath = '/api/content/' + contentProfile.id + '/download/' + data.revisionId;
+        contentProfile.previews.mediumUrl = data.mediumUrl;
+        contentProfile.previews.thumbnailUrl = data.thumbnailUrl;
+
+        // Refresh the preview and clip
+        setUpContentPreview();
         setUpClip();
+    });
+
+
+    //////////////////
+    // EDIT DETAILS //
+    //////////////////
+
+    /**
+     * Re-render the content's clip when the details have been updated.
+     * When the type of content is a link the content preview will be re-rendered as well.
+     */
+    $(document).on('oae.editcontent.done', function(ev, data) {
+        if (contentProfile.resourceSubType === 'link') {
+            refreshContentProfile(ev, data);
+        } else {
+            contentProfile = data;
+            setUpClips();
+        }
     });
 
 

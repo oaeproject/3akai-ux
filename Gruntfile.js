@@ -1,10 +1,10 @@
 /*!
- * Copyright 2013 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Apereo Foundation (AF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
  *
- *     http://www.osedu.org/licenses/ECL-2.0
+ *     http://opensource.org/licenses/ECL-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
@@ -165,20 +165,21 @@ module.exports = function(grunt) {
     // Task to write the version to a file
     grunt.registerTask('writeVersion', function() {
         this.requires('git-describe');
-        var json = grunt.template.process('{"sakai:ux-version":"<%= meta.version %>"}');
+        var json = grunt.template.process('{"oae:ux-version":"<%= meta.version %>"}');
         grunt.file.write('target/optimized/ui/version.json', json);
     });
 
     // Task to fill out the nginx config template
     grunt.registerTask('configNginx', function() {
-        var infile = './nginx.json';
+        var infile = './nginx/nginx.json';
         if (shell.test('-f', infile)) {
             var nginxConf = require(infile);
-            var template = grunt.file.read('./nginx.conf');
+            var template = grunt.file.read('./nginx/nginx.conf');
             grunt.config.set('nginxConf', nginxConf);
             var conf = grunt.template.process(template);
-            grunt.file.write('./target/optimized/nginx.conf', conf);
-            grunt.log.writeln('nginx.conf rendered at ./target/optimized/nginx.conf'.green);
+            var outfile = './target/optimized/nginx/nginx.conf';
+            grunt.file.write(outfile, conf);
+            grunt.log.writeln('nginx.conf rendered at '.green + outfile.green);
         } else {
             var msg = 'No ' + infile + ' found, not rendering nginx.conf template';
             grunt.log.writeln(msg.yellow);

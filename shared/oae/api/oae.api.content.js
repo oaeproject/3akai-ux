@@ -1,10 +1,10 @@
 /*!
- * Copyright 2013 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Apereo Foundation (AF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
  *
- *     http://www.osedu.org/licenses/ECL-2.0
+ *     http://opensource.org/licenses/ECL-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
@@ -133,6 +133,12 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
             'success': function(data) {
                 // The response will return as text/plain to avoid IE9 trying to download
                 // the response when using the iFrame fallback upload solution
+
+                // In IE9 the response is a jQuery object. In this case we have
+                // to extract the data found in the inner pre tag.
+                if (data instanceof $) {
+                    data = data.find('pre').text();
+                }
                 callback(null, JSON.parse(data));
             },
             'error': function(jqXHR, textStatus) {
@@ -163,6 +169,12 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
             'success': function(data) {
                 // The response will return as text/plain to avoid IE9 trying to download
                 // the response when using the iFrame fallback upload solution
+
+                // In IE9 the response is a jQuery object. In this case we have
+                // to extract the data found in the inner pre tag.
+                if (data instanceof $) {
+                    data = data.find('pre').text();
+                }
                 callback(null, JSON.parse(data));
             },
             'error': function(jqXHR, textStatus) {
@@ -212,12 +224,43 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     };
 
     /**
+     * Restore a revision. The restored revision will become the content item's current revision, and will have the same content as that revision.
+     * Revisions can only be restored for documents and files.
+     *
+     * @param  {String}       contentId           Content id of the content item we're restoring a revision of
+     * @param  {String}       revisionId          Revision id of the revision that's being restored
+     * @param  {Function}     [callback]          Standard callback method
+     * @param  {Object}       [callback.err]      Error object containing error code and error message
+     * @param  {Revision}     [callback.data]     Revision object representing the restored revision
+     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
+     */
+    var restoreRevision = exports.restoreRevision = function(contentId, revisionId, callback) {
+        if (!contentId) {
+            throw new Error('A valid content id should be provided');
+        } else if (!revisionId) {
+            throw new Error('A valid revision id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/content/' + contentId + '/revisions/' + revisionId + '/restore',
+            'type': 'POST',
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
+
+    /**
      * Update a content item's metadata.
      *
      * @param  {String}       contentId           Content id of the content item we're trying to update
      * @param  {Object}       params              JSON object where the keys represent all of the profile field names we want to update and the values represent the new values for those fields
      * @param  {Function}     [callback]          Standard callback method
      * @param  {Object}       [callback.err]      Error object containing error code and error message
+     * @param  {Content}      [callback.data]     Content object representing the updated content
      * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */
     var updateContent = exports.updateContent = function(contentId, params, callback) {
@@ -231,8 +274,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
             'url': '/api/content/' + contentId,
             'type': 'POST',
             'data': params,
-            'success': function() {
-                callback(null);
+            'success': function(data) {
+                callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
@@ -457,7 +500,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
             'regex': 'image/*'
         },
         'flash': {
-            'description': '__MSG__FLASH__',
+            'description': '__MSG__FLASH_FILE__',
             'regex': 'application/x-shockwave-flash'
         },
         'html': {

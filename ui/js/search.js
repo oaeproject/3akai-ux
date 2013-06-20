@@ -1,10 +1,10 @@
 /*!
- * Copyright 2013 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Apereo Foundation (AF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
  *
- *     http://www.osedu.org/licenses/ECL-2.0
+ *     http://opensource.org/licenses/ECL-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
@@ -48,7 +48,8 @@ require(['jquery','oae.core', 'jquery.history'], function($, oae) {
         infinityScroll = $('.oae-list').infiniteScroll('/api/search/general', {
             'limit': 12,
             'q': query,
-            'resourceTypes': types
+            'resourceTypes': types,
+            'includeExternal': !oae.api.config.getValue('oae-tenants', 'tenantprivacy', 'tenantprivate')
         }, '#search-template', {
             'postRenderer': function(data) {
                 $('#search-total-results').text(data.total);

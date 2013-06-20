@@ -1,10 +1,10 @@
 /*!
- * Copyright 2013 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Apereo Foundation (AF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
  *
- *     http://www.osedu.org/licenses/ECL-2.0
+ *     http://opensource.org/licenses/ECL-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
@@ -145,16 +145,12 @@ i.icon-oae-public:before {
 
 /* Large visibility icons */
 
-i.icon-oae-private.large,
-i.icon-oae-loggedin.large,
-i.icon-oae-public.large {
+i[class^="icon-"].large {
     width: 60px;
     height: 60px;
 }
 
-i.icon-oae-private.large:before,
-i.icon-oae-loggedin.large:before,
-i.icon-oae-public.large:before {
+i[class^="icon-"].large:before {
     font-size: 50px;
     height: 55px;
     padding-top: 5px;
@@ -162,18 +158,19 @@ i.icon-oae-public.large:before {
 }
 
 
-/************************
- ** VISIBILITY TOGGLES **
- ************************/
+/*******************
+ ** LARGE OPTIONS **
+ *******************/
 
 /**
- * A Large group of toggle buttons for visibility settings.
- * When an `oae-visibility-choice input` field changes value the
- * `oae-visibility-changed` event is sent out with data: `{'radio': $(input)}`
+ * Generate a group of large toggle buttons.
  *
- * e.g. <div class="oae-visibility-choice-container row-fluid">
+ * Each toggle button will have an icon, a name and a description. One of the toggle buttons will
+ * selected at any time.
+ *
+ * e.g. <div class="oae-large-options-container row-fluid">
  *          <label for="oae-visibility-private" class="span4 text-center">
- *              <div class="oae-visibility-choice well pull-left text-center checked">
+ *              <div class="oae-large-options well pull-left text-center checked">
  *                  <input type="radio" id="oae-visibility-private" value="private" name="oae-visibility-group" class="pull-left" checked="checked"/>
  *                  <i class="icon-oae-private large text-center"></i>
  *                  <span>__MSG__PRIVATE__</span>
@@ -182,7 +179,7 @@ i.icon-oae-public.large:before {
  *              <small>__MSG__GROUP_PRIVATE_DESCRIPTION__</small>
  *          </label>
  *          <label for="oae-visibility-loggedin" class="span4 text-center">
- *              <div class="oae-visibility-choice well pull-left text-center">
+ *              <div class="oae-large-options well pull-left text-center">
  *                  <input type="radio" id="oae-visibility-loggedin" value="loggedin" name="oae-visibility-group" class="pull-left"/>
  *                  <i class="icon-oae-loggedin large text-center"></i>
  *                  <span>Cambridge University</span>
@@ -191,7 +188,7 @@ i.icon-oae-public.large:before {
  *              <small>__MSG__GROUP_LOGGEDIN_DESCRIPTION__</small>
  *          </label>
  *          <label for="oae-visibility-public" class="span4 text-center">
- *              <div class="oae-visibility-choice well pull-left text-center">
+ *              <div class="oae-large-options well pull-left text-center">
  *                  <input type="radio" id="oae-visibility-public" value="public" name="oae-visibility-group" class="pull-left"/>
  *                  <i class="icon-oae-public large text-center"></i>
  *                  <span>__MSG__PUBLIC__</span>
@@ -200,47 +197,58 @@ i.icon-oae-public.large:before {
  *              <small>__MSG__GROUP_PUBLIC_DESCRIPTION__</small>
  *          </label>
  *      </div>
+ *
+ * Notes:
+ *
+ * - The selected button should have a `checked` class on the `oae-large-options` element
  **/
 
-.oae-visibility-choice-container label {
+.oae-large-options-container label {
     position: relative;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice {
+.oae-large-options-container .oae-large-options {
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
             box-sizing: border-box;
     height: 150px;
     margin: 0 10px 15px 0;
+    padding-top: 13px;
     width: 100%;
 }
 
-.oae-visibility-choice-container label:last-child .oae-visibility-choice {
+.oae-large-options-container label:last-child .oae-large-options {
     margin-right: 0;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice input {
+.oae-large-options-container .oae-large-options input {
     position: absolute;
     z-index: -1; /* Adding a z-index of -1 hides the element from the view but still allows for focus of the element */
 }
 
-.oae-visibility-choice-container .oae-visibility-choice span {
+.oae-large-options-container .oae-large-options i.icon-oae-private:before,
+.oae-large-options-container .oae-large-options i.icon-oae-loggedin:before,
+.oae-large-options-container .oae-large-options i.icon-oae-public:before {
+    margin-top: 6px;
+}
+
+.oae-large-options-container .oae-large-options span {
     display: block;
     font-size: 13px;
     font-weight: bold;
     margin-top: 7px;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice.checked {
+.oae-large-options-container .oae-large-options.checked {
     border: 8px solid;
-    padding-top: 12px;
+    padding-top: 6px;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice + i {
+.oae-large-options-container .oae-large-options + i {
     display: none;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice.checked + i {
+.oae-large-options-container .oae-large-options.checked + i {
     -webkit-border-radius: 100px;
        -moz-border-radius: 100px;
             border-radius: 100px;
@@ -250,7 +258,7 @@ i.icon-oae-public.large:before {
     top: 128px;
 }
 
-.oae-visibility-choice-container .oae-visibility-choice.checked + i:before {
+.oae-large-options-container .oae-large-options.checked + i:before {
     font-size: 24px;
     height: 30px;
     padding-top: 5px;
@@ -485,7 +493,7 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-clip-container .oae-clip-container-right {
     margin-right: 55px;
-    right: 0px;
+    right: 0;
 }
 
 .oae-clip {
@@ -591,7 +599,7 @@ div.oae-thumbnail i[class^="icon-"] {
     margin-left: 10px;
     line-height: 16px;
     position: relative;
-    top: 2px;
+    top: 3px;
 }
 
 .oae-clip .oae-clip-content > button:disabled i.icon-caret-down,
@@ -602,10 +610,10 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-clip .oae-clip-content h1 {
     display: inline-block;
     font-size: 16px;
-    line-height: 1;
-    margin: 0px;
+    line-height: 1.4;
+    margin: 0;
     font-weight: 600;
-    max-width: 500px;
+    max-width: 230px;
     word-wrap: break-word;
 }
 
@@ -620,17 +628,17 @@ div.oae-thumbnail i[class^="icon-"] {
 
 /* Clip actions */
 
-.oae-clip .oae-clip-content ul {
+.oae-clip .oae-clip-content > div > ul {
     list-style: none;
     margin: 0 10px;
     display: none;
 }
 
-.oae-clip .oae-clip-content ul li {
+.oae-clip .oae-clip-content > div > ul li {
     display: inline;
 }
 
-.oae-clip .oae-clip-content ul li button {
+.oae-clip .oae-clip-content > div > ul li button {
     -webkit-border-radius: 6px;
        -moz-border-radius: 6px;
             border-radius: 6px;
@@ -641,7 +649,7 @@ div.oae-thumbnail i[class^="icon-"] {
     text-align: center;
 }
 
-.oae-clip .oae-clip-content ul li button i {
+.oae-clip .oae-clip-content > div > ul li button i {
     display: block;
     margin: 0 auto 3px;
 }
@@ -702,9 +710,9 @@ div.oae-thumbnail i[class^="icon-"] {
 /* Default thumbnail picture positioning */
 
 .oae-tile .oae-thumbnail {
-    -webkit-border-radius: 0px;
-       -moz-border-radius: 0px;
-            border-radius: 0px;
+    -webkit-border-radius: 0;
+       -moz-border-radius: 0;
+            border-radius: 0;
 }
 
 .oae-tile .oae-thumbnail:before {
@@ -719,9 +727,9 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-tile > .oae-tile-metadata {
     position: absolute;
-    bottom: 0px;
-    right: 0px;
-    left: 0px;
+    bottom: 0;
+    right: 0;
+    left: 0;
     padding: 7px;
 }
 
@@ -729,14 +737,15 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-tile h3 a {
     font-size: 14px;
     font-weight: bold;
-    line-height: 1.2;
-    margin: 0px;
+    line-height: 1.4;
+    margin: 0;
 }
 
 .oae-tile small {
     font-size: 12px;
     font-style: italic;
     font-weight: normal;
+    line-height: 1.5;
     text-transform: uppercase;
 }
 
@@ -847,7 +856,7 @@ div.oae-thumbnail i[class^="icon-"] {
     display: inline-block;
     font-size: 16px;
     font-weight: 500;
-    line-height: 1.4;
+    line-height: 25px;
     margin: 0;
     max-width: 450px;
 }
@@ -861,7 +870,7 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-listitem.oae-listitem-compact small {
     display: inline-block;
-    line-height: 1.6;
+    line-height: 25px;
     margin-left: 20px;
 }
 
@@ -932,7 +941,7 @@ ul.oae-list:not(.oae-list-compact) > li > .oae-list-compact-item {
 
 ul.oae-list.oae-list-grid > li {
     float: left;
-    margin: 0px 14px 24px 0px;
+    margin: 0 14px 24px 0;
 }
 
 ul.oae-list.oae-list-grid > li .oae-thumbnail,
@@ -947,6 +956,15 @@ ul.oae-list > li .oae-list-details-item,
 ul.oae-list > li .oae-list-compact-item  {
     display: table;
     width: 100%;
+}
+
+ul.oae-list > li .oae-listitem {
+    margin-bottom: 0px;
+    margin-top: 10px;
+}
+
+ul.oae-list > li:first-child .oae-listitem {
+    margin-top: 0px;
 }
 
 
@@ -1031,7 +1049,7 @@ ul.oae-list.oae-list-grid .oae-list-actions ul {
 /* Details and compact view */
 
 ul.oae-list:not(.oae-list-grid) .oae-list-actions {
-    height: 60px;
+    height: 50px;
 }
 
 ul.oae-list:not(.oae-list-grid) .oae-list-actions div.oae-thumbnail {
@@ -1121,7 +1139,7 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
     background: none;
     border: none;
     filter:none;
-    padding: 1px 0px;
+    padding: 1px 0;
     -webkit-box-shadow: none;
        -moz-box-shadow: none;
             box-shadow: none;
@@ -1148,7 +1166,7 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
 }
 
 .oae-list-options form {
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 /* Actions bar */

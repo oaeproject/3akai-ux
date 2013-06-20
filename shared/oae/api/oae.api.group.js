@@ -1,10 +1,10 @@
 /*!
- * Copyright 2013 Sakai Foundation (SF) Licensed under the
+ * Copyright 2013 Apereo Foundation (AF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
  *
- *     http://www.osedu.org/licenses/ECL-2.0
+ *     http://opensource.org/licenses/ECL-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
@@ -90,8 +90,9 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * @param  {String}       [profileFields.description]   New description for the group
      * @param  {String}       [profileFields.visibility]    New visibility setting for the group. The possible values are 'private', 'loggedin' and 'public'
      * @param  {String}       [profileFields.joinable]      New joinability setting for the group. The possible values are 'yes', 'no' and 'request'
-     * @param  {Function}     [callback]                    Standard callback method
-     * @param  {Object}       [callback.err]                Error object containing error code and error message
+     * @param  {Function}     callback                      Standard callback method
+     * @param  {Object}       callback.err                  Error object containing error code and error message
+     * @param  {Group}        callback.group                The group object representing the updated group
      * @throws {Error}                                      Error thrown when not all of the required parameters have been provided
      */
     var updateGroup = exports.updateGroup = function (groupId, profileFields, callback) {
@@ -108,8 +109,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
             'url': '/api/group/' + groupId,
             'type': 'POST',
             'data': data,
-            'success': function() {
-                callback(null);
+            'success': function(data) {
+                callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
