@@ -14,7 +14,7 @@
  */
 
 define(['jquery'], function (jQuery) {
-    (function() {
+    (function($) {
 
         /**
          * Catch the keypress event for `enter` and `space` when an editable field has focus
@@ -27,5 +27,5 @@ define(['jquery'], function (jQuery) {
             });
         });
 
-    })();
+    })(jQuery);
 });
