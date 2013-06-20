@@ -221,9 +221,9 @@ module.exports = function(grunt) {
         var hashedPaths = require('./' + grunt.config.get('ver.oae.version'));
         var bootstrapPath = basedir + hashedPaths['/shared/oae/api/oae.bootstrap.js'];
         var bootstrap = grunt.file.read(bootstrapPath);
-        var regex = /paths: ?\{[^}]*\}/;
-        var match = bootstrap.match(regex);
-        var scriptPaths = 'paths = {' + bootstrap.match(regex) + '}';
+        var regex = /("|')?paths("|')?: ?\{[^}]*\}/;
+        var scriptPaths = 'paths = {' + bootstrap.match(regex)[0] + '}';
+
         var paths = vm.runInThisContext(scriptPaths).paths;
 
         // Update the bootstrap file with the hashed paths
