@@ -7,35 +7,42 @@
             <meta http-equiv="Refresh" content="1; URL=/noscript">
         </noscript>
 
-         <title>Open Academic Environment - Service unavailable</title>
-
-        <!-- STATIC SKIN CSS -->
-        <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.skin.static.css" />
         <!-- CORE CSS -->
         <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
         <link rel="stylesheet" type="text/css" href="/api/ui/skin" />
         <!-- PAGE CSS -->
         <link rel="stylesheet" type="text/css" href="/ui/css/oae.error.css" />
     </head>
-    <body style="display: block;">
+    <body>
+
+         <!-- HEADER -->
+        <div data-widget="topnavigation"><!-- --></div>
+
         <!-- BODY -->
-        <div class="error-static oae-branding-container oae-main-content">
+        <div class="oae-branding-container oae-main-content">
             <div id="error-content">
                 <div class="row-fluid oae-panel-primary">
                     <div class="span4 text-right">
-                        <h1>502 <br/> <span>Service unavailable</span></h1>
+                        <h1>__MSG__404__ <br/> <span>__MSG__PAGE_NOT_FOUND__</span></h1>
                     </div>
                     <div class="span8">
                         <div id="error-quote-container" class="oae-panel-tertiary">
-                            <p id="error-quote">"Challenges are meant to be met and overcome."</p>
+                            <p id="error-quote">"__MSG__QUOTE_NOT_FOUND__"</p>
+                            <a href="/search" class="btn btn-primary">__MSG__SEARCH__</a> <span>__MSG__SEARCH_FOR_CONTENT_PEOPLE_GROUPS__</span>
                         </div>
-                        <div>Liu Xiang</div>
+                        <div>__MSG__QUOTED_NOT_FOUND__</div>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- FOOTER -->
+        <div data-widget="footer"><!-- --></div>
+
+        <!-- DEPENDENCIES -->
+        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
         <!-- PAGE JS -->
-        <script data-main="/ui/js/unavailable.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
+        <script>require(['/shared/oae/js/errors/notfound.js']);</script>
+
     </body>
 </html>
