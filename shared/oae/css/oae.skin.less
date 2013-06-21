@@ -30,13 +30,17 @@
     filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=@iegradient1, endColorstr=@iegradient2);
 }
 
-.background-gradient-two(@gradient1, @gradient2, @gradient1start:0%, @gradient2start:100%) {
+.background-gradient-two(@gradient1, @gradient2, @gradient1start:0%, @gradient2start:100%, @skipIE: false) {
     background: @gradient1;
+    /* Fallback to the middle color if there's no gradient support or we skipIE */
+    background-color: mix(@gradient1, @gradient2, 50%);
     background-image: linear-gradient(to bottom, @gradient1 @gradient1start, @gradient2 @gradient2start);
     background-image: -o-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start);
     background-image: -moz-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start);
     background-image: -webkit-linear-gradient(top, @gradient1 @gradient1start, @gradient2 @gradient2start);
+}
 
+.background-gradient-two(@gradient1, @gradient2, @gradient1start:0%, @gradient2start:100%, @skipIE: false) when not (@skipIE) {
     /* IE9 */
     @iegradient1: argb(@gradient1);
     @iegradient2: argb(@gradient2);
@@ -406,7 +410,7 @@ ul.as-selections.as-selections-focus {
 @modal-title-color: #777;
 
 .modal, .dropdown-menu, .popover {
-    .background-gradient-two(@modal-gradient1-color, @modal-gradient2-color);
+    .background-gradient-two(@modal-gradient1-color, @modal-gradient2-color, @skipIE: true);
 }
 
 .popover.top .arrow:after,
