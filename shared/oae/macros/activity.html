@@ -80,7 +80,7 @@
     {elseif activityType === 'discussion-update-visibility'}
         ${renderDiscussionUpdateVisibilitySummary(activity, actor1, actor1URL, object1, object1URL, object1Tenant)}
     {elseif activityType === 'discussion-add-to-library'}
-        ${renderDiscussionAddToLibrarySummary(activity, actor1, actor1URL, object1, object1URL, object1Tenant)}
+        ${renderDiscussionAddToLibrarySummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount)}
     {elseif activityType === 'group-add-member'}
         ${renderGroupAddMemberSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount, target1, target1URL)}
     {elseif activityType === 'group-create'}
@@ -541,8 +541,15 @@
  * @param  {String}       object1URL    Profile path for the first object on the activity
  * @param  {String}       object1Tenant Name of the tenant to which the content visibility is limited
 -->
-{macro renderDiscussionAddToLibrarySummary(activity, actor1, actor1URL, object1, object1URL, object1Tenant)}
-    __MSG__ACTIVITY_DISCUSSION_ADD__
+{macro renderDiscussionAddToLibrarySummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount)}
+    {if !objectCount}
+        __MSG__ACTIVITY_DISCUSSION_ADD_LIBRARY__
+    {elseif objectCount === 2}
+        __MSG__ACTIVITY_DISCUSSION_ADD_LIBRARY_2__
+    {else}
+        __MSG__ACTIVITY_DISCUSSION_ADD_LIBRARY_2+__
+    {/if}
+
 {/macro}
 
 <!--
