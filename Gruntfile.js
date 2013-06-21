@@ -124,11 +124,13 @@ module.exports = function(grunt) {
                             'target/optimized/docs'
                         ], ['html', 'json', 'ico', 'less'], [
                             '!target/optimized/shared/vendor/js/l10n/cultures.*/**',
-                            '!target/optimized/ui/bundles.*/**'
+                            '!target/optimized/ui/bundles.*/**',
+                            'target/optimized/shared/oae/macros/*.html'
                         ]),
 
                         // Look for and replace references to the above (non-excluded) files and folders in these files
                         'references': [
+                            'target/optimized/shared/**/*.html',
                             'target/optimized/shared/**/*.js',
                             'target/optimized/shared/**/*.css',
                             'target/optimized/ui/**/*.html',
@@ -221,9 +223,9 @@ module.exports = function(grunt) {
         var hashedPaths = require('./' + grunt.config.get('ver.oae.version'));
         var bootstrapPath = basedir + hashedPaths['/shared/oae/api/oae.bootstrap.js'];
         var bootstrap = grunt.file.read(bootstrapPath);
-        var regex = /paths: ?\{[^}]*\}/;
-        var match = bootstrap.match(regex);
-        var scriptPaths = 'paths = {' + bootstrap.match(regex) + '}';
+        var regex = /("|')?paths("|')?: ?\{[^}]*\}/;
+        var scriptPaths = 'paths = {' + bootstrap.match(regex)[0] + '}';
+
         var paths = vm.runInThisContext(scriptPaths).paths;
 
         // Update the bootstrap file with the hashed paths

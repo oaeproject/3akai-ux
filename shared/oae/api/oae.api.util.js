@@ -129,7 +129,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          */
         var init = function(callback) {
             // Load the activity summary and lists macros through the RequireJS Text plugin
-            require(['text!/ui/macros/activity.html', 'text!/ui/macros/list.html'], function(listMacro, activityMacro) {
+            require(['text!/shared/oae/macros/activity.html', 'text!/shared/oae/macros/list.html'], function(listMacro, activityMacro) {
                 // Translate and cache the macros. We require the i18n API here to avoid creating
                 // a cyclic dependency
                 var i18nAPI = require('oae.api.i18n');
@@ -637,7 +637,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         var getAutosuggestTemplates = function(callback) {
             if (!$autosuggestTemplates) {
                 // Load the autosuggest templates through the RequireJS Text plugin
-                require(['text!/ui/macros/autosuggest.html'], function(autosuggestTemplates) {
+                require(['text!/shared/oae/macros/autosuggest.html'], function(autosuggestTemplates) {
                     // Translate the template. We require the i18n API here to avoid creating a cyclic dependency
                     autosuggestTemplates = require('oae.api.i18n').translate(autosuggestTemplates);
                     $autosuggestTemplates = $('<div>').append(autosuggestTemplates);

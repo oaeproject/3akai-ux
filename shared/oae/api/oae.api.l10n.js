@@ -46,14 +46,15 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'globalize'], funct
     };
 
     /**
-     * Utility function that will make sure that a passed in date is a valid Date object adjusted to
-     * the timezone set in the user's account preferences
+     * Utility function that will make sure that a passed in date is a valid Date object. If desired, this function
+     * will also adjust the date to the timezone set in the user's account preferences
      *
-     * @param  {Date|Number}    date        Javascript date object or milliseconds since epoch that needs to be converted into a date adjusted to the user's timezone
-     * @return {Date}                       Date object that has been adjusted to the current user's timezone
+     * @param  {Date|Number}    date        Javascript date object or milliseconds since epoch that needs to be converted into a date
+     * @param  {Boolean}        [localize]  Whether or not the date should be adjusted to the user's timezone. By default, the date will be adjusted to the user's timezone
+     * @return {Date}                       Parsed date object, adjusted to the current user's timezone if desired
      * @api private
      */
-    var parseDate = function(date) {
+    var parseDate = function(date, localize) {
         // If a millisecond since epoch has been provided, we convert it to a date
         if (_.isNumber(date)) {
             date = new Date(date);
@@ -62,11 +63,13 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'globalize'], funct
         }
 
         // Adjust the date to the user's timezone
-        var locale = require('oae.core').data.me.locale;
-        if (locale) {
-            // The offset represent the number of hours offset between GMT and the user's timezone
-            var offset = locale.timezone.offset;
-            date.setTime(date.getTime() + (offset * 60 * 60 * 1000));
+        if (localize !== false) {
+            var locale = require('oae.core').data.me.locale;
+            if (locale) {
+                // The offset represent the number of hours offset between GMT and the user's timezone
+                var offset = locale.timezone.offset;
+                date.setTime(date.getTime() + (offset * 60 * 60 * 1000));
+            }
         }
         return date;
     };
@@ -136,8 +139,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'globalize'], funct
     };
 
     /**
-     * Function that will take a date and convert it into a localized time ago string, based on the current
-     * user's locale.
+     * Function that will take a date and convert it into a localized time ago string.
+     * The user's locale does not come into play in this since we're expressing how long ago something happened.
      *
      * @param  {Date|Number}    date        Javascript date object or milliseconds since epoch that needs to be converted into a time ago string
      * @return {String}                     Converted localized time ago string
@@ -147,8 +150,11 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'globalize'], funct
         if (!date) {
             throw new Error('A date must be provided');
         }
-        // Make sure that we are working with a valid date adjusted to the user's timezone
-        date = parseDate(date);
+        // Make sure that we are working with a valid date. The timeago plugin uses the browsers 
+        // timezone for time comparisons by relying on `new Date()` to get the current time. This
+        // means that the provided date does not need to be localized to the user's timezone, as
+        // it can then simply compare the current time and the date we pass in.
+        date = parseDate(date, false);
         return $.timeago(date);
     };
 
