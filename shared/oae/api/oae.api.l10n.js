@@ -136,8 +136,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'globalize'], funct
     };
 
     /**
-     * Function that will take a date and convert it into a localized time ago string, based on the current
-     * user's locale.
+     * Function that will take a date and convert it into a localized time ago string.
+     * The user's locale does not come into play in this since we're expressing how long ago something happened.
      *
      * @param  {Date|Number}    date        Javascript date object or milliseconds since epoch that needs to be converted into a time ago string
      * @return {String}                     Converted localized time ago string
@@ -147,8 +147,17 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'globalize'], funct
         if (!date) {
             throw new Error('A date must be provided');
         }
-        // Make sure that we are working with a valid date adjusted to the user's timezone
-        date = parseDate(date);
+        // If a value with milliseconds since epoch has been provided, we convert it to a date.
+        // All non-date values passed into this function are expressed in UTC and by passing them into
+        // `new Date` they will be automatically converted to the user's browser timezone.
+        if (_.isNumber(date)) {
+            date = new Date(date);
+        } else if (_.isString(date)) {
+            date = new Date(parseInt(date, 10));
+        }
+
+        // The timeago plugin uses the browsers timezone by relying on `new Date()` to get
+        // the current time. It can then simply compare the current time and the date we pass in.
         return $.timeago(date);
     };
 
