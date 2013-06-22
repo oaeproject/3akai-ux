@@ -228,7 +228,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
         // Refresh the preview and clip
         setUpContentPreview();
-        setUpClip();
+        setUpClips();
     });
 
 
