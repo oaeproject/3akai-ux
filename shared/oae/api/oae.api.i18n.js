@@ -202,7 +202,7 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'jquery.propertie
                     translation = bundles.core['default'][i18nkey];
                 }
             }
-            if (translation !== undefined) {
+            if (translation !== null) {
                 // Replace all of the dynamic variables, if provided
                 if (variables) {
                     $.each(variables, function(dynamicVariable, dynamicTranslation) {
