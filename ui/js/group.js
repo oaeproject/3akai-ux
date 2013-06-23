@@ -48,10 +48,16 @@ require(['jquery', 'oae.core'], function($, oae) {
             oae.api.util.setBrowserTitle(groupProfile.displayName);
             // Render the entity information
             setUpClip();
-            // Render the navigation
-            setUpNavigation();
             // Set up the context event exchange
             setUpContext();
+
+            // Depending on the group visibility settings we need to show different views.
+            if (!profile.isMember && !profile.isManager && profile.visibility === 'private' && profile.canJoin) {
+                $('#group-join-view').show();
+            } else {
+                // Render the navigation
+                setUpNavigation();
+            }
         });
     };
 
@@ -85,7 +91,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         if (groupProfile.isManager) {
             $('#group-manager-actions').show();
         // Show the join clip to non-members when the group is joinable
-        } else if (!groupProfile.isMember && groupProfile.joinable === 'yes') {
+        } else if (!groupProfile.isMember && groupProfile.canJoin) {
             $('#group-join-actions').show();
         }
     };
@@ -95,87 +101,94 @@ require(['jquery', 'oae.core'], function($, oae) {
      */
     var setUpNavigation = function() {
         // Structure that will be used to construct the left hand navigation
-        var lhNavigation = [
-            {
-                'id': 'activity',
-                'title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
-                'icon': 'icon-dashboard',
-                'layout': [
-                    {
-                        'width': 'span12',
-                        'widgets': [
-                            {
-                                'id': 'activity',
-                                'settings': {
-                                    'principalId': groupProfile.id,
-                                    'canManage': groupProfile.isManager
-                                }
+        var activityView = {
+            'id': 'activity',
+            'title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
+            'icon': 'icon-dashboard',
+            'layout': [
+                {
+                    'width': 'span12',
+                    'widgets': [
+                        {
+                            'id': 'activity',
+                            'settings': {
+                                'principalId': groupProfile.id,
+                                'canManage': groupProfile.isManager
                             }
-                        ]
-                    }
-                ]
-            },
-            {
-                'id': 'library',
-                'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
-                'icon': 'icon-briefcase',
-                'layout': [
-                    {
-                        'width': 'span12',
-                        'widgets': [
-                            {
-                                'id': 'contentlibrary',
-                                'settings': {
-                                    'principalId': groupProfile.id,
-                                    'canManage': groupProfile.isManager
-                                }
+                        }
+                    ]
+                }
+            ]
+        };
+        var libraryView = {
+            'id': 'library',
+            'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
+            'icon': 'icon-briefcase',
+            'layout': [
+                {
+                    'width': 'span12',
+                    'widgets': [
+                        {
+                            'id': 'contentlibrary',
+                            'settings': {
+                                'principalId': groupProfile.id,
+                                'canManage': groupProfile.isManager
                             }
-                        ]
-                    }
-                ]
-            },
-            {
-                'id': 'discussions',
-                'title': oae.api.i18n.translate('__MSG__DISCUSSIONS__'),
-                'icon': 'icon-comments',
-                'layout': [
-                    {
-                        'width': 'span12',
-                        'widgets': [
-                            {
-                                'id': 'discussionslibrary',
-                                'settings': {
-                                    'principalId': groupProfile.id,
-                                    'canManage': groupProfile.isManager
-                                }
+                        }
+                    ]
+                }
+            ]
+        };
+        var discussionsView = {
+            'id': 'discussions',
+            'title': oae.api.i18n.translate('__MSG__DISCUSSIONS__'),
+            'icon': 'icon-comments',
+            'layout': [
+                {
+                    'width': 'span12',
+                    'widgets': [
+                        {
+                            'id': 'discussionslibrary',
+                            'settings': {
+                                'principalId': groupProfile.id,
+                                'canManage': groupProfile.isManager
                             }
-                        ]
-                    }
-                ]
-            },
-            {
-                'id': 'members',
-                'title': oae.api.i18n.translate('__MSG__MEMBERS__'),
-                'icon': 'icon-user',
-                'layout': [
-                    {
-                        'width': 'span12',
-                        'widgets': [
-                            {
-                                'id': 'members',
-                                'settings': {
-                                    'principalId': groupProfile.id,
-                                    'canManage': groupProfile.isManager
-                                }
+                        }
+                    ]
+                }
+            ]
+        };
+        var membersView = {
+            'id': 'members',
+            'title': oae.api.i18n.translate('__MSG__MEMBERS__'),
+            'icon': 'icon-user',
+            'layout': [
+                {
+                    'width': 'span12',
+                    'widgets': [
+                        {
+                            'id': 'members',
+                            'settings': {
+                                'principalId': groupProfile.id,
+                                'canManage': groupProfile.isManager
                             }
-                        ]
-                    }
-                ]
-            }
-        ];
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
+                        }
+                    ]
+                }
+            ]
+        };
+        var views = [];
+
+        if (groupProfile.isMember || groupProfile.isManager) {
+            views.push(activityView);
+        }
+        views.push(libraryView);
+        views.push(discussionsView);
+        views.push(membersView);
+
+        $(window).trigger('oae.trigger.lhnavigation', [views, baseUrl]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
+            $(window).trigger('oae.trigger.lhnavigation', [views, baseUrl]);
         });
     };
 
@@ -260,9 +273,10 @@ require(['jquery', 'oae.core'], function($, oae) {
     ////////////////
 
     /**
-     * Join the group when the join button is clicked
+     * Join the current group.
+     * If successful, a notification will be displayed and after 2 seconds the page will be reloaded.
      */
-    $('#group-join-actions-join button').on('click', function() {
+    var joinGroup = function() {
         // Join the group
         oae.api.group.joinGroup(groupProfile.id, function(err) {
             if (!err) {
@@ -283,8 +297,22 @@ require(['jquery', 'oae.core'], function($, oae) {
                     oae.api.i18n.translate('__MSG__GROUP_NOT_JOINED__'),
                     'error'
                 );
+
+                // Re-enable the join buttons.
+                $('#createcollabdoc-form *', $rootel).prop('disabled', false);
             }
         });
+    };
+
+    /**
+     * Join the group when a join button is clicked.
+     */
+    $('.group-join-btn').on('click', function() {
+        // Disable the button first, so the user can't accidentally click it twice.
+        $('.group-join-btn').prop('disabled', 'disabled');
+
+        // Now perform the join request.
+        joinGroup();
     });
 
 
