@@ -1,3 +1,4 @@
+
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
@@ -103,7 +104,11 @@
         <!-- DEPENDENCIES -->
         <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
         <!-- PAGE JS -->
-        <script>require(['/ui/js/content.js']);</script>
+        <script>
+            require(['oae.bootstrap'], function() {
+                require(['/ui/js/content.js']);
+            });
+        </script>
 
     </body>
 </html>
