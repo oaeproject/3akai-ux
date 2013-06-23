@@ -183,6 +183,9 @@ i[class^="icon-"].large:before {
  * Each toggle button will have an icon, a name and a description. One of the toggle buttons will
  * selected at any time.
  *
+ * TODO: This component needs to be more generic so the tick is always displayed in the middle, independent
+ * of the width of the large option. https://github.com/oaeproject/3akai-ux/issues/2980
+ *
  * e.g. <div class="oae-large-options-container row-fluid">
  *          <label for="oae-visibility-private" class="span4 text-center">
  *              <div class="oae-large-options well pull-left text-center checked">
@@ -268,7 +271,7 @@ i[class^="icon-"].large:before {
        -moz-border-radius: 100px;
             border-radius: 100px;
     display: block;
-    margin-left: 107px;
+    margin-left: 65px;
     position: absolute;
     top: 128px;
 }

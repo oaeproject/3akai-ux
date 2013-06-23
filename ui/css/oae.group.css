@@ -13,23 +13,19 @@
  * permissions and limitations under the License.
  */
 
-#editgroup-modal .modal-body {
-    max-height: 420px;
-}
+/* Join group */
 
-#editgroup-modal #editgroup-name,
-#editgroup-modal #editgroup-description {
+#group-join-container {
+    display: table;
     width: 100%;
 }
 
-#editgroup-modal form {
-    margin: 0;
+#group-join-container #group-join {
+    display: table-cell;
+    height: 350px;
+    vertical-align: middle;
 }
 
-/* Large options override.
-   TODO: Remove this once the large options component no longer bind to a fixed width option.
-   https://github.com/oaeproject/3akai-ux/issues/2980 */
-
-#editgroup-modal #editgroup-joinable-container .oae-large-options-container .oae-large-options.checked + i {
-    margin-left: 107px;
+#group-join-container #group-join > div {
+    margin-bottom: 15px;
 }

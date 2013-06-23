@@ -11,6 +11,8 @@
         <!-- CORE CSS -->
         <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
         <link rel="stylesheet" type="text/css" href="/api/ui/skin" />
+        <!-- PAGE CSS -->
+        <link rel="stylesheet" type="text/css" href="/ui/css/oae.group.css" />
 
     </head>
     <body>
@@ -53,13 +55,13 @@
                 --></div>
 
                 <div id="group-join-actions" class="oae-clip-container-right hide">
-                    <div id="group-join-actions-join" class="oae-clip oae-clip-secondary oae-clip-flipped">
+                    <div class="oae-clip oae-clip-secondary oae-clip-flipped">
                         <div class="oae-clip-fold">
                             <div class="oae-clip-fold-inner"></div>
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button>
+                            <button class="group-join">
                                 <div>
                                     <i class="icon-pushpin pull-left"></i>
                                     <h1>__MSG__JOIN_GROUP__</h1>
@@ -110,15 +112,19 @@
                 </div>
             </div>
 
-            <!-- CONTENT -->
-            <div data-widget="lhnavigation"><!-- --></div>
-
-            <div class="row-fluid">
-                <div id="group-join-view" class="span4 offset4 hide pagination-centered">
-                    <p>__MSG__GROUP_NOT_VISIBLE_BUT_CAN_BE_JOINED__</p>
-                    <button type="button" id="group-join-view-button" class="btn group-join-btn"><i class="icon-pushpin pull-left"></i> Join</button>
+            <!-- JOIN GROUP VIEW -->
+            <div id="group-join-view" class="hide">
+                <div id="group-join-container">
+                    <div id="group-join" class="text-center">
+                        <div>__MSG__GROUP_PRIVATE_JOINABLE__</div>
+                        <button type="button" class="btn group-join">
+                            <i class="icon-pushpin pull-left"></i> __MSG__JOIN_GROUP__
+                        </button>
+                    </div>
                 </div>
             </div>
+            <!-- GROUP CONTENT -->
+            <div data-widget="lhnavigation"><!-- --></div>
         </div>
 
         <!-- FOOTER -->
