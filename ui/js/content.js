@@ -224,14 +224,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     ///////////////
 
     $(document).on('oae.revisions.done', function(ev, data) {
-        // Update the content profile
-        contentProfile.downloadPath = '/api/content/' + contentProfile.id + '/download/' + data.revisionId;
-        contentProfile.previews.mediumUrl = data.mediumUrl;
-        contentProfile.previews.thumbnailUrl = data.thumbnailUrl;
-
-        // Refresh the preview and clip
-        setUpContentPreview();
-        setUpClips();
+        // Refresh the content profile to get the latest revision and preview data
+        getContentProfile();
     });
 
 
