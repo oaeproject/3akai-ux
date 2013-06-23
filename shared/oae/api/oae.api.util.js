@@ -1108,4 +1108,16 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         $('body').show();
     };
 
+    /**
+     * Function that takes HTML content and will check whether or not its content is solely non-visual elements such as white-spaces,
+     * line-breaks, empty elements, etc...
+     *
+     * @param  {String}     htmlStr     The html content to test
+     * @return {Boolean}                `true` if the html content is blank, `false` otherwise
+     */
+    var isBlank = exports.isBlank = function(html) {
+        var txt = $('<div>').html(html).text();
+        return $.trim(txt) ? false : true;
+    };
+
 });
