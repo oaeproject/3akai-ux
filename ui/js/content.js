@@ -223,9 +223,11 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     // REVISIONS //
     ///////////////
 
-    $(document).on('oae.revisions.done', function(ev, data) {
-        // Refresh the content profile to get the latest revision and preview data
-        getContentProfile();
+    $(document).on('oae.revisions.done', function(ev, restoredRevision, updatedContentProfile) {
+        contentProfile = updatedContentProfile;
+        // Refresh the preview and clip
+        setUpContentPreview();
+        setUpClips();
     });
 
 

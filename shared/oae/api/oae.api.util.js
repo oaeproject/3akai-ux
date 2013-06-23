@@ -66,6 +66,18 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     };
 
     /**
+     * Determine whether or not HTML content consists of solely non-textual elements such as white-spaces,
+     * line-breaks, empty elements, etc...
+     *
+     * @param  {String}     html    The HTML content to test for the existence of textual elements
+     * @return {Boolean}            `true` if the HTML content is blank, `false` otherwise
+     */
+    var isBlank = exports.isBlank = function(html) {
+        var txt = $('<div>').html(html).text();
+        return $.trim(txt) ? false : true;
+    };
+
+    /**
      * Change the browser title for a particular page. The browser's title has the following structure
      *
      * Open Academic Environment - Document 1 [- Page 1]
@@ -1106,18 +1118,6 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
      */
     var showPage = exports.showPage = function() {
         $('body').show();
-    };
-
-    /**
-     * Function that takes HTML content and will check whether or not its content is solely non-visual elements such as white-spaces,
-     * line-breaks, empty elements, etc...
-     *
-     * @param  {String}     html    The html content to test
-     * @return {Boolean}            `true` if the html content is blank, `false` otherwise
-     */
-    var isBlank = exports.isBlank = function(html) {
-        var txt = $('<div>').html(html).text();
-        return $.trim(txt) ? false : true;
     };
 
 });
