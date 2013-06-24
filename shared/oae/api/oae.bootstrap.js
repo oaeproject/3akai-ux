@@ -72,6 +72,7 @@ requirejs.config({
         'oae.api.user': 'oae/api/oae.api.user',
         'oae.api.util': 'oae/api/oae.api.util',
         'oae.api.widget': 'oae/api/oae.api.widget',
+        'oae.bootstrap': 'oae/api/oae.bootstrap',
         'oae.core': 'oae/api/oae.core',
         'pluginBuilder': 'oae/pluginBuilder'
     },
