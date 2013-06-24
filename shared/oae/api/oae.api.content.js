@@ -284,11 +284,12 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     };
 
     /**
-     * Delete a content item through the REST API.
+     * Permenantly delete a piece of content from the system.
      *
      * @param  {String}        contentId           Content id of the content item we're trying to delete
      * @param  {Function}      callback            Standard callback method
      * @param  {Object}        callback.err        Error object containing error code and error message
+     * @throws {Error}                             Error thrown when not all of the required parameters have been provided
      */
     var deleteContent = exports.deleteContent = function(contentId, callback) {
         if (!contentId) {
@@ -443,6 +444,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
      * @param  {String}         contentId       The ID of the piece of content that needs removal
      * @param  {Function}       callback        Standard callback method
      * @param  {Object}         callback.err    Error object containing error code and error message
+     * @throws {Error}                          Error thrown when not all of the required parameters have been provided
      */
     var removeContentFromLibrary = exports.removeContentFromLibrary = function(principalId, contentId, callback) {
         if (!principalId) {

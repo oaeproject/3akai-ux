@@ -1059,7 +1059,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         };
 
         /**
-         * Redirect the currently user to the me page. This can be used when a user has removed a piece of content.
+         * Redirect the currently user to the me page.
          */
         var me = function() {
             window.location = '/me';

@@ -110,11 +110,12 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     };
 
     /**
-     * Delete a discussion.
+     * Permanently delete a discussion from the system.
      *
      * @param  {String}        discussionId        Id of the discussion we're trying to delete
      * @param  {Function}      callback            Standard callback method
      * @param  {Object}        callback.err        Error object containing error code and error message
+     * @throws {Error}                             Error thrown when not all of the required parameters have been provided
      */
     var deleteDiscussion = exports.deleteDiscussion = function(discussionId, callback) {
         if (!discussionId) {
@@ -269,6 +270,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {String}         discussionId    The ID of the discussion that needs removal
      * @param  {Function}       callback        Standard callback method
      * @param  {Object}         callback.err    Error object containing error code and error message
+     * @throws {Error}                          Error thrown when not all of the required parameters have been provided
      */
     var removeDiscussionFromLibrary = exports.removeDiscussionFromLibrary = function(principalId, discussionId, callback) {
         if (!principalId) {
