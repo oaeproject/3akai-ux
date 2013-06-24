@@ -86,6 +86,17 @@ requirejs.config({
 });
 
 /*!
- * Load all of the dependencies and core OAE APIs
+ * Load all of the dependencies, core OAE APIs, and the page-specific javascript file (if specified)
  */
-require(['oae.core']);
+require(['oae.core'], function() {
+    // Find a script that has specified both the data-main (which loaded this bootstrap script) and a data-loadmodule attribute. The
+    // data-loadmodule attribute tells us which script they wish to load *after* the core APIs have been properly bootstrapped.
+    var $mainScript = $('script[data-main][data-loadmodule]');
+    if ($mainScript.length) {
+        var loadModule = $mainScript.attr('data-loadmodule');
+        if (loadModule) {
+            // Require the module they specified in the data-loadmodule attribute
+            require([loadModule]);
+        }
+    }
+});
