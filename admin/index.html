@@ -376,11 +376,7 @@
         <!-- DEPENDENCIES -->
         <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
         <!-- PAGE JS -->
-        <script>
-            require(['oae.bootstrap'], function() {
-                require(['/admin/js/admin.js']);
-            });
-        </script>
+        <script data-requiremodule="oae.bootstrap">require(['/admin/js/admin.js']);</script>
 
     </body>
 </html>
