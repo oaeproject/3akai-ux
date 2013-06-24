@@ -1071,6 +1071,13 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         };
 
         /**
+         * Redirect the currently user to the me page.
+         */
+        var me = function() {
+            window.location = '/me';
+        };
+
+        /**
          * Redirect the current user to the 401 page. This can be used when the current user does not have
          * permission to see a certain page. We encode the current URL into the querystring to make sure that
          * the user can be redirected here when signing in.
@@ -1105,6 +1112,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
 
         return {
             'login': login,
+            'me': me,
             'accessdenied': accessdenied,
             'notfound': notfound,
             'unavailable': unavailable,
