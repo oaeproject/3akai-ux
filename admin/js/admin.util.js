@@ -36,7 +36,9 @@ define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
      */
     exports.showConfirmationModal = function(data) {
         oae.api.util.template().render($('#admin-confirmation-template'), {'modal': data}, $('#admin-confirmation-container'));
-        $('#' + data.id).modal();
+        $('#' + data.id).modal({
+            'backdrop': 'static'
+        });
         $('#' + data.id + '-confirm', $('#' + data.id)).click(data.confirmed);
     };
 
