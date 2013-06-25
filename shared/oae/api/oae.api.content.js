@@ -284,13 +284,29 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     };
 
     /**
-     * Delete a content item through the REST API.
+     * Permanently delete a piece of content from the system.
      *
      * @param  {String}        contentId           Content id of the content item we're trying to delete
      * @param  {Function}      callback            Standard callback method
      * @param  {Object}        callback.err        Error object containing error code and error message
+     * @throws {Error}                             Error thrown when no valid content id has been provided
      */
-    var deleteContent = exports.deleteContent = function(contentId, callback) {};
+    var deleteContent = exports.deleteContent = function(contentId, callback) {
+        if (!contentId) {
+            throw new Error('A valid content id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/content/' + contentId,
+            'type': 'DELETE',
+            'success': function() {
+                callback(null);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
 
     /**
      * Get the viewers and managers of a content item.
@@ -414,6 +430,34 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
             'data': data,
             'success': function(data) {
                 callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
+
+    /**
+     * Delete a piece of content from a content library.
+     *
+     * @param  {String}         principalId     User or group id for for the library from which we want to delete the content
+     * @param  {String}         contentId       Content id of the content item we're trying to delete from the library
+     * @param  {Function}       callback        Standard callback method
+     * @param  {Object}         callback.err    Error object containing error code and error message
+     * @throws {Error}                          Error thrown when not all of the required parameters have been provided
+     */
+    var deleteContentFromLibrary = exports.deleteContentFromLibrary = function(principalId, contentId, callback) {
+        if (!principalId) {
+            throw new Error('A valid user or group ID should be provided');
+        } else if (!contentId) {
+            throw new Error('A valid content ID should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/content/library/' + principalId + '/' + contentId,
+            'type': 'DELETE',
+            'success': function() {
+                callback(null);
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
