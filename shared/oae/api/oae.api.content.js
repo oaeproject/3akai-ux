@@ -289,7 +289,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
      * @param  {String}        contentId           Content id of the content item we're trying to delete
      * @param  {Function}      callback            Standard callback method
      * @param  {Object}        callback.err        Error object containing error code and error message
-     * @throws {Error}                             Error thrown when not all of the required parameters have been provided
+     * @throws {Error}                             Error thrown when no valid content id has been provided
      */
     var deleteContent = exports.deleteContent = function(contentId, callback) {
         if (!contentId) {
@@ -438,19 +438,19 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     };
 
     /**
-     * Removes a piece of content from a content library.
+     * Delete a piece of content from a content library.
      *
-     * @param  {String}         principalId     User or group id for who we want to remove the content item.
-     * @param  {String}         contentId       The ID of the piece of content that needs removal
+     * @param  {String}         principalId     User or group id for for the library from which we want to delete the content
+     * @param  {String}         contentId       Content id of the content item we're trying to delete from the library
      * @param  {Function}       callback        Standard callback method
      * @param  {Object}         callback.err    Error object containing error code and error message
      * @throws {Error}                          Error thrown when not all of the required parameters have been provided
      */
-    var removeContentFromLibrary = exports.removeContentFromLibrary = function(principalId, contentId, callback) {
+    var deleteContentFromLibrary = exports.deleteContentFromLibrary = function(principalId, contentId, callback) {
         if (!principalId) {
-            throw new Error('A user or group ID should be provided');
+            throw new Error('A valid user or group ID should be provided');
         } else if (!contentId) {
-            throw new Error('A content ID should be provided');
+            throw new Error('A valid content ID should be provided');
         }
 
         $.ajax({

@@ -112,10 +112,10 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     /**
      * Permanently delete a discussion from the system.
      *
-     * @param  {String}        discussionId        Id of the discussion we're trying to delete
+     * @param  {String}        discussionId        Discussion id of the discussion item we're trying to delete
      * @param  {Function}      callback            Standard callback method
      * @param  {Object}        callback.err        Error object containing error code and error message
-     * @throws {Error}                             Error thrown when not all of the required parameters have been provided
+     * @throws {Error}                             Error thrown when no valid discussion id has been provided
      */
     var deleteDiscussion = exports.deleteDiscussion = function(discussionId, callback) {
         if (!discussionId) {
@@ -264,19 +264,19 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     };
 
     /**
-     * Removes a discussion item from a discussion library.
+     * Delete a discussion from a discussion library.
      *
-     * @param  {String}         principalId     User or group id for who we want to remove the discussion item.
-     * @param  {String}         discussionId    The ID of the discussion that needs removal
+     * @param  {String}         principalId     User or group id for for the library from which we want to delete the content
+     * @param  {String}         discussionId    Discussion id of the discussion we're trying to delete from the library
      * @param  {Function}       callback        Standard callback method
      * @param  {Object}         callback.err    Error object containing error code and error message
      * @throws {Error}                          Error thrown when not all of the required parameters have been provided
      */
-    var removeDiscussionFromLibrary = exports.removeDiscussionFromLibrary = function(principalId, discussionId, callback) {
+    var deleteDiscussionFromLibrary = exports.deleteDiscussionFromLibrary = function(principalId, discussionId, callback) {
         if (!principalId) {
-            throw new Error('A user or group ID should be provided');
+            throw new Error('A valid user or group ID should be provided');
         } else if (!discussionId) {
-            throw new Error('A discussion ID should be provided');
+            throw new Error('A valid discussion ID should be provided');
         }
 
         $.ajax({

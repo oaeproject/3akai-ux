@@ -136,6 +136,7 @@ i.icon-oae-public:before {
        -moz-border-radius: 500px;
             border-radius: 500px;
     color: #313131;
+    display: inline-block;
     font-size: 15px;
     width: 18px;
     height: 16px;

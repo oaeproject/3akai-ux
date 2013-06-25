@@ -8,56 +8,57 @@
  * @param  {String}                 [customImage]   URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
 -->
 {macro listItem(entityData, pagingKey, metadata, showCheckbox, customImage)}
-
-    {if entityData.resourceType}
-        {var resourceType = entityData.resourceType}
-    {elseif entityData.objectType}
-        {var resourceType = entityData.objectType}
+    {if entityData}
+        {if entityData.resourceType}
+            {var resourceType = entityData.resourceType}
+        {elseif entityData.objectType}
+            {var resourceType = entityData.objectType}
+        {/if}
+    
+        {if entityData.visibility}
+            {var visibility = entityData.visibility}
+        {elseif entityData['oae:visibility']}
+            {var visibility = entityData['oae:visibility']}
+        {/if}
+    
+        <li {if pagingKey} data-key="${pagingKey}" {/if}>
+            <!-- THUMBNAIL VIEW -->
+            <div class="oae-list-grid-item">
+                <div class="oae-tile">
+                    ${renderThumbnail(entityData, false, true, null, customImage)}
+                    <div class="oae-tile-metadata">
+                        {if resourceType !== 'user'}
+                            <i class="icon-oae-${visibility} pull-right"></i>
+                        {/if}
+                        ${renderMetadata(entityData, metadata)}
+                    </div>
+                </div>
+                ${renderCheckbox(entityData, 'grid', showCheckbox)}
+            </div>
+    
+            <!-- DETAILED LIST VIEW -->
+            <div class="oae-list-details-item">
+                <div class="oae-listitem">
+                    ${renderCheckbox(entityData, 'details', showCheckbox)}
+                    ${renderThumbnail(entityData, null, null, null, customImage)}
+                    <div>
+                        ${renderMetadata(entityData, metadata)}
+                    </div>
+                </div>
+            </div>
+    
+            <!-- COMPACT LIST VIEW -->
+            <div class="oae-list-compact-item">
+                <div class="oae-listitem oae-listitem-compact">
+                    ${renderCheckbox(entityData, 'compact', showCheckbox)}
+                    ${renderThumbnail(entityData, null, null, null, customImage)}
+                    <div>
+                        ${renderMetadata(entityData, metadata)}
+                    </div>
+                </div>
+            </div>
+        </li>
     {/if}
-
-    {if entityData.visibility}
-        {var visibility = entityData.visibility}
-    {elseif entityData['oae:visibility']}
-        {var visibility = entityData['oae:visibility']}
-    {/if}
-
-    <li {if pagingKey} data-key="${pagingKey}" {/if}>
-        <!-- THUMBNAIL VIEW -->
-        <div class="oae-list-grid-item">
-            <div class="oae-tile">
-                ${renderThumbnail(entityData, false, true, null, customImage)}
-                <div class="oae-tile-metadata">
-                    {if resourceType !== 'user'}
-                        <i class="icon-oae-${visibility} pull-right"></i>
-                    {/if}
-                    ${renderMetadata(entityData, metadata)}
-                </div>
-            </div>
-            ${renderCheckbox(entityData, 'grid', showCheckbox)}
-        </div>
-
-        <!-- DETAILED LIST VIEW -->
-        <div class="oae-list-details-item">
-            <div class="oae-listitem">
-                ${renderCheckbox(entityData, 'details', showCheckbox)}
-                ${renderThumbnail(entityData, null, null, null, customImage)}
-                <div>
-                    ${renderMetadata(entityData, metadata)}
-                </div>
-            </div>
-        </div>
-
-        <!-- COMPACT LIST VIEW -->
-        <div class="oae-list-compact-item">
-            <div class="oae-listitem oae-listitem-compact">
-                ${renderCheckbox(entityData, 'compact', showCheckbox)}
-                ${renderThumbnail(entityData, null, null, null, customImage)}
-                <div>
-                    ${renderMetadata(entityData, metadata)}
-                </div>
-            </div>
-        </div>
-    </li>
 {/macro}
 
 <!--
