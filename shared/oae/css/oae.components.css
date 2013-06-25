@@ -1166,6 +1166,7 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
 
 .oae-list-options .oae-list-options-toggle,
 .oae-list-options .btn.oae-list-options-toggle,
+.oae-list-options .btn.oae-list-options-toggle:disabled,
 .oae-list-options .btn.oae-list-options-toggle:hover,
 .oae-list-options .btn.oae-list-options-toggle:active,
 .oae-list-options .btn.oae-list-options-toggle:focus {
