@@ -1181,7 +1181,7 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
 
 .oae-list-options .oae-list-options-toggle h2 .badge {
     margin-left: 5px;
-    top: -4px;
+    top: -3px;
 }
 
 .oae-list-options .oae-list-options-toggle:disabled {
