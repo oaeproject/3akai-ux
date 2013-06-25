@@ -94,10 +94,10 @@ define(['jquery'], function ($) {
         });
 
         /**
-         * The `oae.clist.getSelection` or `oae.list.getSelection.<widgetname>` event can be sent by widgets
+         * The `oae.list.getSelection` or `oae.list.getSelection.<widgetname>` event can be sent by widgets
          * to get hold of the selected list items in the current list. In the first case, an
          * `oae.list.sendSelection` event will be sent out as a broadcast to all widgets listening
-         * for the event. In the second case, a `oae.list.sendSelection.<widgetname>` event
+         * for the event. In the second case, an `oae.list.sendSelection.<widgetname>` event
          * will be sent out and will only be caught by that particular widget.
          *
          * @param  {Object}       ev                                          jQuery event

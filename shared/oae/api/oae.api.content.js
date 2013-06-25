@@ -284,7 +284,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     };
 
     /**
-     * Permenantly delete a piece of content from the system.
+     * Permanently delete a piece of content from the system.
      *
      * @param  {String}        contentId           Content id of the content item we're trying to delete
      * @param  {Function}      callback            Standard callback method
