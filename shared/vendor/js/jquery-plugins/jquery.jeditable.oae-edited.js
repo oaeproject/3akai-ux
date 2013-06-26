@@ -15,7 +15,7 @@
  */
 
 /**
- * OAE edit - replace .html() with .text(), define jquery.jeditable-focus.
+ * OAE edit - replace .html() with .text(), define jquery.jeditable-focus, remove setTimeouts from blur
  * https://github.com/davidchambers/jquery_jeditable/commit/3b65bc6df097dde79ca9f40f55babdbf9882c7a3
  */
 
@@ -276,17 +276,11 @@ define(['jquery.jeditable-focus']);
                 var t;
                 if ('cancel' == settings.onblur) {
                     input.blur(function(e) {
-                        /* prevent canceling if submit was clicked */
-                        t = setTimeout(function() {
-                            reset.apply(form, [settings, self]);
-                        }, 500);
+                        reset.apply(form, [settings, self]);
                     });
                 } else if ('submit' == settings.onblur) {
                     input.blur(function(e) {
-                        /* prevent double submit if submit was clicked */
-                        t = setTimeout(function() {
-                            form.submit();
-                        }, 200);
+                        form.submit();
                     });
                 } else if ($.isFunction(settings.onblur)) {
                     input.blur(function(e) {
