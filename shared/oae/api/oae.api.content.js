@@ -565,8 +565,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
                 'application/doc',
                 'application/msword',
                 'application/vnd.openxmlformats-officedocument.word*',
-                'application/vnd.oasis.opendocument.text',
-                'application/octet-stream'
+                'application/vnd.oasis.opendocument.text'
             ]
         }
     };
