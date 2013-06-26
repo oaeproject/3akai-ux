@@ -339,17 +339,17 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          * @api private
          */
         var init = function() {
-            // Don't allow fields to have more than 1000 characters
+            // Don't allow the field to have more than 1000 characters
             $.validator.addMethod('maxlength-short', function(value, element) {
                 return $.trim(value.length) <= 1000;
             });
 
-            // Don't allow fields to have more than 10.000 characters
+            // Don't allow the field to have more than 10000 characters
             $.validator.addMethod('maxlength-medium', function(value, element) {
                 return $.trim(value.length) <= 10000;
             });
 
-            // Don't allow fields to have more than 100.000 characters
+            // Don't allow the field to have more than 100000 characters
             $.validator.addMethod('maxlength-long', function(value, element) {
                 return $.trim(value.length) <= 100000;
             });

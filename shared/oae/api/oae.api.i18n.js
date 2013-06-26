@@ -141,7 +141,7 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'oae.api.l10n', '
             'email': translate('__MSG__PLEASE_ENTER_A_VALID_EMAIL_ADDRESS__'),
             'equalTo': translate('__MSG__PLEASE_ENTER_THE_SAME_VALUE_AGAIN__'),
             'max': translate('__MSG__PLEASE_ENTER_A_VALUE_LESS_THAN_OR_EQUAL_TO__'),
-            'maxlength': translate('__MSG__PLEASE_ENTER_NO_MORE_THAN_X0_CHARACTERS__'),
+            'maxlength': translate('__MSG__PLEASE_ENTER_MAXIMUM_X_CHARACTERS__'),
             'maxlength-long': translate('__MSG__PLEASE_ENTER_NO_MORE_THAN_X_CHARACTERS__', null, {'x': l10nAPI.transformNumber(100000)}),
             'maxlength-medium': translate('__MSG__PLEASE_ENTER_NO_MORE_THAN_X_CHARACTERS__', null, {'x': l10nAPI.transformNumber(10000)}),
             'maxlength-short': translate('__MSG__PLEASE_ENTER_NO_MORE_THAN_X_CHARACTERS__', null, {'x': l10nAPI.transformNumber(1000)}),
