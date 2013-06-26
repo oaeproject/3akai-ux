@@ -386,6 +386,7 @@ div.oae-thumbnail img {
 }
 
 div.oae-thumbnail:before {
+    display: inline-block;
     font-size: 20px;
     padding-top: 50%;
     margin-top: -11px;
