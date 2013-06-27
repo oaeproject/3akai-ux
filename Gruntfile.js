@@ -250,8 +250,7 @@ module.exports = function(grunt) {
             return grunt.log.writeln('Please provide a path where the release files should be copied to'.red);
         }
 
-        shell.cp('-R', './target/optimized/*', outputDir + '/3akai-ux');
-        shell.cp('-R', './target/original/*', outputDir + '/original');
+        shell.cp('-R', './target/*', outputDir);
     });
 
     // Release task.
@@ -262,7 +261,7 @@ module.exports = function(grunt) {
     //    grunt release:/tmp/release
     //
     // This will run the entire UI build (minification, hashing, nginx config, etc, ..) and create the following folders:
-    //    /tmp/release/3akai-ux   -  contains the minified UI sources
+    //    /tmp/release/optimized  -  contains the minified UI sources
     //    /tmp/release/original   -  contains the original UI files
     grunt.registerTask('release', function(outputDir) {
         if (!outputDir) {
