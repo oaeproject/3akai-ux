@@ -29,19 +29,16 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
                 if (i !== 'default') {
                     asyncTest(i + '.properties', function() {
                         var keysFound = 0;
-                        var missingKeys = [];
                         $.each(widgetData.mainBundles['default'], function(ii, defaultKey) {
                             if (mainBundle[ii]) {
                                 keysFound++;
-                            } else {
-                                missingKeys.push(ii);
                             }
                         });
                         if (keysFound === totalDefaultKeys) {
                             ok(true, '100% coverage for ' + i + '.properties');
                         } else {
                             console.log((keysFound / totalDefaultKeys) * 100);
-                            ok(false, ((keysFound / totalDefaultKeys) * 100).toFixed(2) + '% coverage for ' + i + '.properties, ' + (totalDefaultKeys - keysFound) + ' keys missing. (' + missingKeys.toString() + ')');
+                            ok(false, ((keysFound / totalDefaultKeys) * 100).toFixed(2) + '% coverage for ' + i + '.properties, ' + (totalDefaultKeys - keysFound) + ' keys missing.');
                         }
                         start();
                     });

@@ -93,7 +93,7 @@ define(['exports', 'jquery', 'qunitjs'], function(exports, $) {
         var getCSS = function(filename) {
             $.ajax({
                 dataType: 'text',
-                url: '/ui/css/' + filename + '.css',
+                url: '/' + filename + '.css',
                 success: function(data) {
                     cssData[filename] = data;
                     cssToDo++;
@@ -184,7 +184,7 @@ define(['exports', 'jquery', 'qunitjs'], function(exports, $) {
         var getJS = function(filename) {
             $.ajax({
                 dataType: 'text',
-                url: '/ui/js/' + filename + '.js',
+                url: '/' + filename + '.js',
                 success: function(data) {
                     jsData[filename] = data;
                     jsToDo++;
@@ -304,7 +304,7 @@ define(['exports', 'jquery', 'qunitjs'], function(exports, $) {
         var getHTML = function(filename) {
             $.ajax({
                 dataType: 'text',
-                url: '/ui/macros/' + filename + '.html',
+                url: '/shared/oae/macros/' + filename + '.html',
                 success: function(data) {
                     macroHTML[filename] = data;
                     htmlToDo++;
@@ -437,23 +437,25 @@ define(['exports', 'jquery', 'qunitjs'], function(exports, $) {
                 });
 
                 var mainBundles = {
+                    'ca_ES': null,
                     'de_DE': null,
                     'default': null,
                     'en_GB': null,
                     'en_US': null,
                     'es_ES': null,
                     'fr_FR': null,
+                    'it_IT': null,
                     'nl_NL': null,
                     'ru_RU': null,
                     'zh_CN': null
                 };
 
                 var mainHTML = {
-                    'errors/accessdenied': null,
-                    'errors/maintenance': null,
-                    'errors/noscript': null,
-                    'errors/notfound': null,
-                    'errors/unavailable': null,
+                    'shared/oae/errors/accessdenied': null,
+                    'shared/oae/errors/maintenance': null,
+                    'shared/oae/errors/noscript': null,
+                    'shared/oae/errors/notfound': null,
+                    'shared/oae/errors/unavailable': null,
                     'content': null,
                     'discussion': null,
                     'group': null,
@@ -470,16 +472,16 @@ define(['exports', 'jquery', 'qunitjs'], function(exports, $) {
                 };
 
                 var mainJS = {
-                    'accessdenied': null,
-                    'content': null,
-                    'discussion': null,
-                    'group': null,
-                    'index': null,
-                    'me': null,
-                    'notfound': null,
-                    'search': null,
-                    'unavailable': null,
-                    'user': null
+                    'shared/oae/errors/js/accessdenied': null,
+                    'ui/js/content': null,
+                    'ui/js/discussion': null,
+                    'ui/js/group': null,
+                    'ui/js/index': null,
+                    'ui/js/me': null,
+                    'shared/oae/errors/js/notfound': null,
+                    'ui/js/search': null,
+                    'shared/oae/errors/js/unavailable': null,
+                    'ui/js/user': null
                 };
 
                 var apiJS = {
@@ -501,11 +503,11 @@ define(['exports', 'jquery', 'qunitjs'], function(exports, $) {
                 };
 
                 var mainCSS = {
-                    'oae.discussion': null,
-                    'oae.error': null,
-                    'oae.index': null,
-                    'oae.noscript': null,
-                    'oae.search': null
+                    'ui/css/oae.discussion': null,
+                    'shared/oae/errors/css/oae.error': null,
+                    'ui/css/oae.index': null,
+                    'shared/oae/errors/css/oae.noscript': null,
+                    'ui/css/oae.search': null
                 };
 
                 var sharedCSS = {
