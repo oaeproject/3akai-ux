@@ -250,7 +250,8 @@ module.exports = function(grunt) {
             return grunt.log.writeln('Please provide a path where the release files should be copied to'.red);
         }
 
-        shell.cp('-R', './target/*', outputDir);
+        shell.mkdir('-p', outputDir);
+        shell.cp('-R', ['./target/*', './README.md', './LICENSE', './COMMITTERS.txt'], outputDir);
     });
 
     // Release task.
