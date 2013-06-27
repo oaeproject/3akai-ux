@@ -11,6 +11,8 @@
         <!-- CORE CSS -->
         <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
         <link rel="stylesheet" type="text/css" href="/api/ui/skin" />
+        <!-- PAGE CSS -->
+        <link rel="stylesheet" type="text/css" href="/ui/css/oae.group.css" />
 
     </head>
     <body>
@@ -35,7 +37,7 @@
                                 ${renderThumbnail(group, true, false, false)}
                                 <div>
                                     <div>
-                                        <h1>${group.displayName|encodeForHTML}</h1>
+                                        <h1 class="oae-threedots">${group.displayName|encodeForHTML}</h1>
                                         <i class="icon-caret-down"></i>
                                         <small>__MSG__GROUP__</small>
                                     </div>
@@ -53,13 +55,13 @@
                 --></div>
 
                 <div id="group-join-actions" class="oae-clip-container-right hide">
-                    <div id="group-join-actions-join" class="oae-clip oae-clip-secondary oae-clip-flipped">
+                    <div class="oae-clip oae-clip-secondary oae-clip-flipped">
                         <div class="oae-clip-fold">
                             <div class="oae-clip-fold-inner"></div>
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button>
+                            <button class="group-join">
                                 <div>
                                     <i class="icon-pushpin pull-left"></i>
                                     <h1>__MSG__JOIN_GROUP__</h1>
@@ -110,17 +112,26 @@
                 </div>
             </div>
 
-            <!-- CONTENT -->
+            <!-- JOIN GROUP VIEW -->
+            <div id="group-join-view" class="hide">
+                <div id="group-join-container">
+                    <div id="group-join" class="text-center">
+                        <div>__MSG__GROUP_PRIVATE_JOINABLE__</div>
+                        <button type="button" class="btn group-join">
+                            <i class="icon-pushpin pull-left"></i> __MSG__JOIN_GROUP__
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- GROUP CONTENT -->
             <div data-widget="lhnavigation"><!-- --></div>
         </div>
 
         <!-- FOOTER -->
         <div data-widget="footer"><!-- --></div>
 
-        <!-- DEPENDENCIES -->
-        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
-        <!-- PAGE JS -->
-        <script>require(['/ui/js/group.js']);</script>
+        <!-- JAVASCRIPT -->
+        <script data-main="/shared/oae/api/oae.bootstrap.js" data-loadmodule="/ui/js/group.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
 
     </body>
 </html>

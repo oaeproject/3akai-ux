@@ -35,7 +35,7 @@
                                 ${renderThumbnail(content, true, false, false)}
                                 <div>
                                     <div>
-                                        <h1>${content.displayName|encodeForHTML}</h1>
+                                        <h1 class="oae-threedots">${content.displayName|encodeForHTML}</h1>
                                         <i class="icon-caret-down"></i>
                                         <small>${oae.api.content.getMimeTypeDescription(content)}</small>
                                     </div>
@@ -52,7 +52,7 @@
                                         content.resourceSubType === 'collabdoc'}
                                         <li><button class="oae-trigger-revisions"><i class="icon-undo"></i>__MSG__REVISIONS__</button></li>
                                     {/if}
-                                    <li><button><i class="icon-trash"></i>__MSG__DELETE__</button></li>
+                                    <li><button class="oae-trigger-deleteresource"><i class="icon-trash"></i>__MSG__DELETE__</button></li>
                                 </ul>
                             </div>
                         </div>
@@ -100,10 +100,8 @@
         <!-- FOOTER -->
         <div data-widget="footer"><!-- --></div>
 
-        <!-- DEPENDENCIES -->
-        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
-        <!-- PAGE JS -->
-        <script>require(['/ui/js/content.js']);</script>
+        <!-- JAVASCRIPT -->
+        <script data-main="/shared/oae/api/oae.bootstrap.js" data-loadmodule="/ui/js/content.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
 
     </body>
 </html>

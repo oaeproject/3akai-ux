@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <noscript>
+            <meta http-equiv="Refresh" content="1; URL=/noscript">
+        </noscript>
+
+        <!-- CORE CSS -->
+        <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
+        <link rel="stylesheet" type="text/css" href="/api/ui/skin" />
+        <!-- PAGE CSS -->
+        <link rel="stylesheet" type="text/css" href="/shared/oae/errors/css/oae.error.css" />
+    </head>
+    <body>
+
+         <!-- HEADER -->
+        <div data-widget="topnavigation"><!-- --></div>
+
+        <!-- BODY -->
+        <div class="oae-branding-container oae-main-content">
+            <div id="error-content">
+                <div class="row-fluid oae-panel-primary">
+                    <div class="span4 text-right">
+                        <h1>__MSG__401__ <br/> <span>__MSG__ACCESS_DENIED__</span></h1>
+                    </div>
+                    <div class="span8">
+                        <div id="error-quote-container" class="oae-panel-tertiary">
+                            <p id="error-quote">"__MSG__QUOTE_ACCESS_DENIED__"</p>
+                            <p id="error-signin" class="hide">
+                                <button class="btn btn-primary">__MSG__SIGN_IN__</button> <span>__MSG__YOU_MAY_NOT_HAVE_ACCESS_TO_VIEW_THE_PAGE_LOGGED_OUT__</span>
+                            </p>
+                            <p>
+                                <a href="/search" class="btn btn-primary">__MSG__SEARCH__</a> <span>__MSG__SEARCH_FOR_CONTENT_PEOPLE_GROUPS__</span>
+                            </p>
+                        </div>
+                        <div>__MSG__QUOTED_ACCESS_DENIED__</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div data-widget="footer"><!-- --></div>
+
+        <!-- JAVASCRIPT -->
+        <script data-main="/shared/oae/api/oae.bootstrap.js" data-loadmodule="/shared/oae/errors/js/accessdenied.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
+
+    </body>
+</html>

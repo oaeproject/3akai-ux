@@ -48,10 +48,16 @@ require(['jquery', 'oae.core'], function($, oae) {
             oae.api.util.setBrowserTitle(groupProfile.displayName);
             // Render the entity information
             setUpClip();
-            // Render the navigation
-            setUpNavigation();
             // Set up the context event exchange
             setUpContext();
+
+            // When the current user is not a member and the group is private and joinable, we show the join screen
+            if (!groupProfile.isMember && groupProfile.visibility === 'private' && groupProfile.canJoin) {
+                $('#group-join-view').show();
+            } else {
+                // Render the navigation
+                setUpNavigation();
+            }
         });
     };
 
@@ -85,7 +91,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         if (groupProfile.isManager) {
             $('#group-manager-actions').show();
         // Show the join clip to non-members when the group is joinable
-        } else if (!groupProfile.isMember && groupProfile.joinable === 'yes') {
+        } else if (!groupProfile.isMember && groupProfile.canJoin) {
             $('#group-join-actions').show();
         }
     };
@@ -95,8 +101,10 @@ require(['jquery', 'oae.core'], function($, oae) {
      */
     var setUpNavigation = function() {
         // Structure that will be used to construct the left hand navigation
-        var lhNavigation = [
-            {
+        var lhNavigation = [];
+        // Only show the recent activity to group members
+        if (groupProfile.isMember) {
+            lhNavigation.push({
                 'id': 'activity',
                 'title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
                 'icon': 'icon-dashboard',
@@ -114,7 +122,9 @@ require(['jquery', 'oae.core'], function($, oae) {
                         ]
                     }
                 ]
-            },
+            });
+        }
+        lhNavigation.push(
             {
                 'id': 'library',
                 'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
@@ -172,7 +182,8 @@ require(['jquery', 'oae.core'], function($, oae) {
                     }
                 ]
             }
-        ];
+        );
+
         $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
         $(window).on('oae.ready.lhnavigation', function() {
             $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
@@ -260,9 +271,13 @@ require(['jquery', 'oae.core'], function($, oae) {
     ////////////////
 
     /**
-     * Join the group when the join button is clicked
+     * Join the current group.
+     * If successful, a notification will be displayed and the page will be reloaded after 2 seconds.
      */
-    $('#group-join-actions-join button').on('click', function() {
+    $('.group-join').on('click', function() {
+        // Disable the join buttons
+        $('.group-join').prop('disabled', true);
+
         // Join the group
         oae.api.group.joinGroup(groupProfile.id, function(err) {
             if (!err) {
@@ -283,6 +298,9 @@ require(['jquery', 'oae.core'], function($, oae) {
                     oae.api.i18n.translate('__MSG__GROUP_NOT_JOINED__'),
                     'error'
                 );
+
+                // Re-enable the join buttons.
+                $('.group-join').prop('disabled', false);
             }
         });
     });

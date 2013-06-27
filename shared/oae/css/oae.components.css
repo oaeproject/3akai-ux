@@ -13,6 +13,20 @@
  * permissions and limitations under the License.
  */
 
+/*******************
+ ** MISCELLANEOUS **
+ *******************/
+
+/**
+ * Style that can be used for links if we just want them to have the same color as the
+ * text. These links will be underlined when hovering over them.
+ *   e.g. <a href="http://www.google.co.uk" class="oae-plain-link">Google</a>
+ */
+a.oae-plain-link:hover {
+    text-decoration: underline;
+}
+
+
 /******************
  * ACCESSIBILITY **
  ******************/
@@ -35,12 +49,13 @@
 }
 
 /**
- * Style that can be used for links if we just want them to have the same color as the
- * text. These links will be underlined when hovering over them.
- *   e.g. <a href="http://www.google.co.uk" class="oae-plain-link">Google</a>
+ * Style that can be used to fake focus on an element. This can for example
+ * be used when a hidden element needs to provide visual feedback on a different element.
  */
-a.oae-plain-link:hover {
-    text-decoration: underline;
+.oae-focus {
+    outline: thin dotted #333;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
 }
 
 
@@ -121,6 +136,7 @@ i.icon-oae-public:before {
        -moz-border-radius: 500px;
             border-radius: 500px;
     color: #313131;
+    display: inline-block;
     font-size: 15px;
     width: 18px;
     height: 16px;
@@ -167,6 +183,9 @@ i[class^="icon-"].large:before {
  *
  * Each toggle button will have an icon, a name and a description. One of the toggle buttons will
  * selected at any time.
+ *
+ * TODO: This component needs to be more generic so the tick is always displayed in the middle, independent
+ * of the width of the large option. https://github.com/oaeproject/3akai-ux/issues/2980
  *
  * e.g. <div class="oae-large-options-container row-fluid">
  *          <label for="oae-visibility-private" class="span4 text-center">
@@ -367,6 +386,7 @@ div.oae-thumbnail img {
 }
 
 div.oae-thumbnail:before {
+    display: inline-block;
     font-size: 20px;
     padding-top: 50%;
     margin-top: -11px;
@@ -439,7 +459,7 @@ div.oae-thumbnail i[class^="icon-"] {
  *                      </div>
  *                      <div>
  *                          <div>
- *                              <h1>John Doe</h1>
+ *                              <h1 class="oae-threedots">John Doe</h1>
  *                              <i class="icon-caret-down"></i>
  *                              <small>Job Title</small>
  *                          </div>
@@ -472,6 +492,8 @@ div.oae-thumbnail i[class^="icon-"] {
  *   main button. This can also show a default entity picture (in case no image is provided) as well as a
  *   visibility icon (See the `Thumbnail` section for details on how to create a thumbnail).
  *   The thumbnail image is optional and can be left out as well.
+ * - An optional `oae-threedots` class can be added to the `h1` elements in case a maximum width needs to be
+ *   enforced.
  * - The `icon-caret-down` element is optional. If it is not provided, the clip will be shown in view
  *   only mode. If it is provided, the clip will be toggleable and the action menu will be shown when clicked.
  * - The `small` tag is used to show some additional clip metadata and is optional.
@@ -493,7 +515,7 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-clip-container .oae-clip-container-right {
     margin-right: 55px;
-    right: 0px;
+    right: 0;
 }
 
 .oae-clip {
@@ -502,8 +524,6 @@ div.oae-thumbnail i[class^="icon-"] {
     position: relative;
     z-index: 100;
 }
-
-
 
 /* Clip fold */
 
@@ -565,6 +585,10 @@ div.oae-thumbnail i[class^="icon-"] {
             border-radius: 0 6px 6px;
 }
 
+.oae-clip .oae-clip-content > button {
+    width: 100%;
+}
+
 .oae-clip .oae-clip-content > button,
 .oae-clip .oae-clip-content ul li button {
     background: none;
@@ -594,27 +618,37 @@ div.oae-thumbnail i[class^="icon-"] {
     margin-right: 12px;
 }
 
+.oae-clip .oae-clip-content h1 {
+    display: inline-block;
+    font-size: 16px;
+    line-height: 1.3;
+    margin: 0;
+    font-weight: 600;
+    max-width: 300px;
+    min-height: 21px;
+    word-wrap: break-word;
+}
+
+.oae-clip .oae-clip-content h1.oae-threedots {
+    float: left;
+}
+
 .oae-clip .oae-clip-content > button i.icon-caret-down,
 .oae-clip .oae-clip-content > button i.icon-caret-up {
-    margin-left: 10px;
+    margin-left: 5px;
     line-height: 16px;
     position: relative;
     top: 2px;
 }
 
+.oae-clip .oae-clip-content > button h1.oae-threedots + i.icon-caret-down,
+.oae-clip .oae-clip-content > button h1.oae-threedots + i.icon-caret-up {
+    margin-left: 10px;
+}
+
 .oae-clip .oae-clip-content > button:disabled i.icon-caret-down,
 .oae-clip .oae-clip-content > button:disabled i.icon-caret-up {
     display: none;
-}
-
-.oae-clip .oae-clip-content h1 {
-    display: inline-block;
-    font-size: 16px;
-    line-height: 1;
-    margin: 0px;
-    font-weight: 600;
-    max-width: 500px;
-    word-wrap: break-word;
 }
 
 .oae-clip .oae-clip-content small {
@@ -710,9 +744,9 @@ div.oae-thumbnail i[class^="icon-"] {
 /* Default thumbnail picture positioning */
 
 .oae-tile .oae-thumbnail {
-    -webkit-border-radius: 0px;
-       -moz-border-radius: 0px;
-            border-radius: 0px;
+    -webkit-border-radius: 0;
+       -moz-border-radius: 0;
+            border-radius: 0;
 }
 
 .oae-tile .oae-thumbnail:before {
@@ -727,9 +761,9 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-tile > .oae-tile-metadata {
     position: absolute;
-    bottom: 0px;
-    right: 0px;
-    left: 0px;
+    bottom: 0;
+    right: 0;
+    left: 0;
     padding: 7px;
 }
 
@@ -738,7 +772,7 @@ div.oae-thumbnail i[class^="icon-"] {
     font-size: 14px;
     font-weight: bold;
     line-height: 1.4;
-    margin: 0px;
+    margin: 0;
 }
 
 .oae-tile small {
@@ -941,7 +975,7 @@ ul.oae-list:not(.oae-list-compact) > li > .oae-list-compact-item {
 
 ul.oae-list.oae-list-grid > li {
     float: left;
-    margin: 0px 14px 24px 0px;
+    margin: 0 14px 24px 0;
 }
 
 ul.oae-list.oae-list-grid > li .oae-thumbnail,
@@ -1133,13 +1167,14 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
 
 .oae-list-options .oae-list-options-toggle,
 .oae-list-options .btn.oae-list-options-toggle,
+.oae-list-options .btn.oae-list-options-toggle:disabled,
 .oae-list-options .btn.oae-list-options-toggle:hover,
 .oae-list-options .btn.oae-list-options-toggle:active,
 .oae-list-options .btn.oae-list-options-toggle:focus {
     background: none;
     border: none;
     filter:none;
-    padding: 1px 0px;
+    padding: 1px 0;
     -webkit-box-shadow: none;
        -moz-box-shadow: none;
             box-shadow: none;
@@ -1148,12 +1183,12 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
 .oae-list-options .oae-list-options-toggle h2 {
     margin: 0;
     font-size: 20px;
-    line-height: 1;
+    line-height: 1.2;
 }
 
 .oae-list-options .oae-list-options-toggle h2 .badge {
     margin-left: 5px;
-    top: -4px;
+    top: -3px;
 }
 
 .oae-list-options .oae-list-options-toggle:disabled {
@@ -1166,7 +1201,7 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
 }
 
 .oae-list-options form {
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 /* Actions bar */

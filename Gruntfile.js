@@ -124,11 +124,13 @@ module.exports = function(grunt) {
                             'target/optimized/docs'
                         ], ['html', 'json', 'ico', 'less'], [
                             '!target/optimized/shared/vendor/js/l10n/cultures.*/**',
-                            '!target/optimized/ui/bundles.*/**'
+                            '!target/optimized/ui/bundles.*/**',
+                            'target/optimized/shared/oae/macros/*.html'
                         ]),
 
                         // Look for and replace references to the above (non-excluded) files and folders in these files
                         'references': [
+                            'target/optimized/shared/**/*.html',
                             'target/optimized/shared/**/*.js',
                             'target/optimized/shared/**/*.css',
                             'target/optimized/ui/**/*.html',
@@ -171,14 +173,15 @@ module.exports = function(grunt) {
 
     // Task to fill out the nginx config template
     grunt.registerTask('configNginx', function() {
-        var infile = './nginx.json';
+        var infile = './nginx/nginx.json';
         if (shell.test('-f', infile)) {
             var nginxConf = require(infile);
-            var template = grunt.file.read('./nginx.conf');
+            var template = grunt.file.read('./nginx/nginx.conf');
             grunt.config.set('nginxConf', nginxConf);
             var conf = grunt.template.process(template);
-            grunt.file.write('./target/optimized/nginx.conf', conf);
-            grunt.log.writeln('nginx.conf rendered at ./target/optimized/nginx.conf'.green);
+            var outfile = './target/optimized/nginx/nginx.conf';
+            grunt.file.write(outfile, conf);
+            grunt.log.writeln('nginx.conf rendered at '.green + outfile.green);
         } else {
             var msg = 'No ' + infile + ' found, not rendering nginx.conf template';
             grunt.log.writeln(msg.yellow);
@@ -220,9 +223,9 @@ module.exports = function(grunt) {
         var hashedPaths = require('./' + grunt.config.get('ver.oae.version'));
         var bootstrapPath = basedir + hashedPaths['/shared/oae/api/oae.bootstrap.js'];
         var bootstrap = grunt.file.read(bootstrapPath);
-        var regex = /paths: ?\{[^}]*\}/;
-        var match = bootstrap.match(regex);
-        var scriptPaths = 'paths = {' + bootstrap.match(regex) + '}';
+        var regex = /("|')?paths("|')?: ?\{[^}]*\}/;
+        var scriptPaths = 'paths = {' + bootstrap.match(regex)[0] + '}';
+
         var paths = vm.runInThisContext(scriptPaths).paths;
 
         // Update the bootstrap file with the hashed paths

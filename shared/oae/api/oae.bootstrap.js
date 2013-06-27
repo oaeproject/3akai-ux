@@ -51,6 +51,7 @@ requirejs.config({
 
         // OAE paths
         'bootstrap.modal': 'oae/js/bootstrap-plugins/bootstrap.modal',
+        'jquery.browse-focus': 'oae/js/jquery-plugins/jquery.browse-focus',
         'jquery.clip': 'oae/js/jquery-plugins/jquery.clip',
         'jquery.dnd-upload': 'oae/js/jquery-plugins/jquery.dnd-upload',
         'jquery.infinitescroll': 'oae/js/jquery-plugins/jquery.infinitescroll',
@@ -71,6 +72,7 @@ requirejs.config({
         'oae.api.user': 'oae/api/oae.api.user',
         'oae.api.util': 'oae/api/oae.api.util',
         'oae.api.widget': 'oae/api/oae.api.widget',
+        'oae.bootstrap': 'oae/api/oae.bootstrap',
         'oae.core': 'oae/api/oae.core',
         'pluginBuilder': 'oae/pluginBuilder',
         'qunitjs': '/tests/qunit/js/qunit'
@@ -80,10 +82,22 @@ requirejs.config({
         'bootstrap.clickover': {
             'deps': ['bootstrap']
         }
-    }
+    },
+    'waitSeconds': 30
 });
 
 /*!
- * Load all of the dependencies and core OAE APIs
+ * Load all of the dependencies, core OAE APIs, and the page-specific javascript file (if specified)
  */
-require(['oae.core']);
+require(['oae.core'], function() {
+    // Find the script that has specified both the data-main (which loaded this bootstrap script) and a data-loadmodule attribute. The
+    // data-loadmodule attribute tells us which script they wish to load *after* the core APIs have been properly bootstrapped.
+    var $mainScript = $('script[data-main][data-loadmodule]');
+    if ($mainScript.length > 0) {
+        var loadModule = $mainScript.attr('data-loadmodule');
+        if (loadModule) {
+            // Require the module they specified in the data-loadmodule attribute
+            require([loadModule]);
+        }
+    }
+});

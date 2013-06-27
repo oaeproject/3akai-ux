@@ -35,7 +35,7 @@
                                 ${renderThumbnail(oae.data.me, false, false, false)}
                                 <div>
                                     <div>
-                                        <h1>${oae.data.me.displayName|encodeForHTML}</h1>
+                                        <h1 class="oae-threedots">${oae.data.me.displayName|encodeForHTML}</h1>
                                         <i class="icon-caret-down"></i>
                                         <small>${oae.data.me.tenant.displayName|encodeForHTML}</small>
                                     </div>
@@ -44,6 +44,7 @@
                             <div>
                                 <ul>
                                     <li><button class="oae-trigger-changepic"><i class="icon-camera"></i>__MSG__MY_PICTURE__</button></li>
+                                    <li><button class="oae-trigger-editprofile"><i class="icon-user"></i>__MSG__MY_PROFILE__</button></li>
                                     <li><button class="oae-trigger-accountpreferences"><i class="icon-wrench"></i>__MSG__MY_ACCOUNT__</button></li>
                                 </ul>
                             </div>
@@ -100,10 +101,8 @@
         <!-- FOOTER -->
         <div data-widget="footer"><!-- --></div>
 
-        <!-- DEPENDENCIES -->
-        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
-        <!-- PAGE JS -->
-        <script>require(['/ui/js/me.js']);</script>
+        <!-- JAVASCRIPT -->
+        <script data-main="/shared/oae/api/oae.bootstrap.js" data-loadmodule="/ui/js/me.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
 
     </body>
 </html>

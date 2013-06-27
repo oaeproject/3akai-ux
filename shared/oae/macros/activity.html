@@ -1,0 +1,666 @@
+<!--
+ * Render the end-user friendly, internationalized summary of an activity
+ *
+ * @param  {Activity}     activity      Standard activity object as specified by the activitystrea.ms specification (@see http://activitystrea.ms/) for which to generate the activity summary
+-->
+{macro renderActivitySummary(activity)}
+
+    <!-- Prepare the actor-related variables that will be present in the i18n keys -->
+    {if activity.actor['oae:collection']}
+        {var actor1Obj = activity.actor['oae:collection'][0]}
+        {if activity.actor['oae:collection'].length > 1}
+            {var actorCount = activity.actor['oae:collection'].length}
+            {var actor2 = oae.api.util.security().encodeForHTML(activity.actor['oae:collection'][1].displayName)}
+            {var actor2URL = oae.api.util.security().encodeForHTML(activity.actor['oae:collection'][1]['oae:profilePath'])}
+        {/if}
+    {else}
+        {var actor1Obj = activity.actor}
+    {/if}
+    {var actor1 = oae.api.util.security().encodeForHTML(actor1Obj.displayName)}
+    {var actor1URL = oae.api.util.security().encodeForHTML(actor1Obj['oae:profilePath'])}
+
+    <!-- Prepare the object-related variables that will be present in the i18n keys -->
+    {if activity.object['oae:collection']}
+        {var object1Obj = activity.object['oae:collection'][0]}
+        {if activity.object['oae:collection'].length > 1}
+            {var objectCount = activity.object['oae:collection'].length}
+            {var object2 = oae.api.util.security().encodeForHTML(activity.object['oae:collection'][1].displayName)}
+            {var object2URL = oae.api.util.security().encodeForHTML(activity.object['oae:collection'][1]['oae:profilePath'])}
+        {/if}
+    {else}
+        {var object1Obj = activity.object}
+    {/if}
+    {var object1 = oae.api.util.security().encodeForHTML(object1Obj.displayName)}
+    {var object1URL = oae.api.util.security().encodeForHTML(object1Obj['oae:profilePath'])}
+    {if object1Obj['oae:tenant']}
+        {var object1Tenant = oae.api.util.security().encodeForHTML(object1Obj['oae:tenant'].displayName)}
+    {/if}
+
+    <!-- Prepare the target-related variables that will be present in the i18n keys -->
+    {if activity.target}
+        {if activity.target['oae:collection']}
+            {var target1Obj = activity.target['oae:collection'][0]}
+            {if activity.target['oae:collection'].length > 1}
+                {var targetCount = activity.target['oae:collection'].length}
+                {var target2 = oae.api.util.security().encodeForHTML(activity.target['oae:collection'][1].displayName)}
+                {var target2URL = oae.api.util.security().encodeForHTML(activity.target['oae:collection'][1]['oae:profilePath'])}
+            {/if}
+        {else}
+            {var target1Obj = activity.target}
+        {/if}
+        {var target1 = oae.api.util.security().encodeForHTML(target1Obj.displayName)}
+        {var target1URL = oae.api.util.security().encodeForHTML(target1Obj['oae:profilePath'])}
+    {/if}
+
+    <!-- Depending on the activity type, we render a different template that is specific to that activity,
+         to make sure that the summary is as accurate and descriptive as possible -->
+    {var activityType = activity['oae:activityType']}
+    {if activityType === 'content-add-to-library'}
+        ${renderContentAddToLibrarySummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount)}
+    {elseif activityType === 'content-comment'}
+        ${renderContentCommentSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, target1, target1URL)}
+    {elseif activityType === 'content-create'}
+        ${renderContentCreateSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount)}
+    {elseif activityType === 'content-revision'}
+        ${renderContentRevisionSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, object1, object1URL)}
+    {elseif activityType === 'content-share'}
+        ${renderContentShareSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount, target1, target1URL, target2, target2URL, targetCount)}
+    {elseif activityType === 'content-update'}
+         ${renderContentUpdateSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, object1, object1URL)}
+    {elseif activityType === 'content-update-visibility'}
+        ${renderContentUpdateVisibilitySummary(activity, actor1, actor1URL, object1, object1URL, object1Tenant)}
+    {elseif activityType === 'discussion-add-to-library'}
+        ${renderDiscussionAddToLibrarySummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount)}
+    {elseif activityType === 'discussion-create'}
+        ${renderDiscussionCreateSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount)}
+    {elseif activityType === 'discussion-message'}
+        ${renderDiscussionMessageSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, target1, target1URL)}
+    {elseif activityType === 'discussion-share'}
+        ${renderDiscussionShareSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount, target1, target1URL, target2, target2URL, targetCount)}
+    {elseif activityType === 'discussion-update'}
+         ${renderDiscussionUpdateSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, object1, object1URL)}
+    {elseif activityType === 'discussion-update-visibility'}
+        ${renderDiscussionUpdateVisibilitySummary(activity, actor1, actor1URL, object1, object1URL, object1Tenant)}
+    {elseif activityType === 'group-add-member'}
+        ${renderGroupAddMemberSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount, target1, target1URL)}
+    {elseif activityType === 'group-create'}
+        ${renderGroupCreateSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount)}
+    {elseif activityType === 'group-join'}
+        ${renderGroupJoinSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, object1, object1URL)}
+    {elseif activityType === 'group-update'}
+        ${renderGroupUpdateSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, object1, object1URL)}
+    {elseif activityType === 'group-update-visibility'}
+        ${renderGroupUpdateVisibilitySummary(activity, actor1, actor1URL, object1, object1URL, object1Tenant)}
+    <!-- Fall back on the default activity summary if no specific template is found for the activity type -->
+    {else}
+        ${renderDefaultSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount)}
+    {/if}
+{/macro}
+
+<!--
+ * Render the end-user friendly, internationalized summary of an activity for which no specific handling is available. This will
+ * use the activity verb to construct the summary.
+ *
+ * @param  {Activity}     activity      Standard activity object as specified by the activitystrea.ms specification, representing the unrecognized activity, for which to generate the activity summary
+ * @param  {String}       actor1        Display name of the first actor on the activity
+ * @param  {String}       actor1URL     Profile path for the first actor on the activity
+ * @param  {String}       actor2        Display name of the second actor on the activity
+ * @param  {String}       actor2URL     Profile path for the second actor on the activity
+ * @param  {Number}       actorCount    The total number of different actors on the activity
+-->
+{macro renderDefaultSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount)}
+    {var verb = activity.verb}
+    {if !actorCount}
+        __MSG__ACTIVITY_DEFAULT_1__
+    {elseif actorCount === 2}
+        __MSG__ACTIVITY_DEFAULT_2__
+    {else}
+        __MSG__ACTIVITY_DEFAULT_2+__
+    {/if}
+{/macro}
+
+<!--
+ * Render the end-user friendly, internationalized summary of an add to content library activity.
+ *
+ * @param  {Activity}     activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to content library activity, for which to generate the activity summary
+ * @param  {String}       actor1        Display name of the first actor on the activity
+ * @param  {String}       actor1URL     Profile path for the first actor on the activity
+ * @param  {String}       object1       Display name of the first object on the activity
+ * @param  {String}       object1URL    Profile path for the first object on the activity
+ * @param  {String}       object2       Display name of the second object on the activity
+ * @param  {String}       object2URL    Profile path for the second object on the activity
+ * @param  {Number}       objectCount   The total number of different objects on the activity
+-->
+{macro renderContentAddToLibrarySummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount)}
+    {if !objectCount}
+        {if activity.object['oae:resourceSubType'] === 'collabdoc'}
+            __MSG__ACTIVITY_CONTENT_ADD_LIBRARY_COLLABDOC__
+        {elseif activity.object['oae:resourceSubType'] === 'file'}
+            __MSG__ACTIVITY_CONTENT_ADD_LIBRARY_FILE__
+        {elseif activity.object['oae:resourceSubType'] === 'link'}
+            __MSG__ACTIVITY_CONTENT_ADD_LIBRARY_LINK__
+        {/if}
+    {elseif objectCount === 2}
+        __MSG__ACTIVITY_CONTENT_ADD_LIBRARY_2__
+    {else}
+        __MSG__ACTIVITY_CONTENT_ADD_LIBRARY_2+__
+    {/if}
+{/macro}
+
+<!--
+ * Render the end-user friendly, internationalized summary of a content comment activity.
+ *
+ * @param  {Activity}     activity      Standard activity object as specified by the activitystrea.ms specification, representing the content comment activity, for which to generate the activity summary
+ * @param  {String}       actor1        Display name of the first actor on the activity
+ * @param  {String}       actor1URL     Profile path for the first actor on the activity
+ * @param  {String}       actor2        Display name of the second actor on the activity
+ * @param  {String}       actor2URL     Profile path for the second actor on the activity
+ * @param  {Number}       actorCount    The total number of different actors on the activity
+ * @param  {String}       object1       Display name of the first object on the activity
+ * @param  {String}       object1URL    Profile path for the first object on the activity
+-->
+{macro renderContentCommentSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, object1, object1URL)}
+    {if activity.target['oae:resourceSubType'] === 'collabdoc'}
+        {if !actorCount}
+            __MSG__ACTIVITY_CONTENT_COMMENT_COLLABDOC_1__
+        {elseif actorCount === 2}
+            __MSG__ACTIVITY_CONTENT_COMMENT_COLLABDOC_2__
+        {else}
+            __MSG__ACTIVITY_CONTENT_COMMENT_COLLABDOC_2+__
+        {/if}
+    {elseif activity.target['oae:resourceSubType'] === 'file'}
+        {if !actorCount}
+            __MSG__ACTIVITY_CONTENT_COMMENT_FILE_1__
+        {elseif actorCount === 2}
+            __MSG__ACTIVITY_CONTENT_COMMENT_FILE_2__
+        {else}
+            __MSG__ACTIVITY_CONTENT_COMMENT_FILE_2+__
+        {/if}
+    {elseif activity.target['oae:resourceSubType'] === 'link'}
+        {if !actorCount}
+            __MSG__ACTIVITY_CONTENT_COMMENT_LINK_1__
+        {elseif actorCount === 2}
+            __MSG__ACTIVITY_CONTENT_COMMENT_LINK_2__
+        {else}
+            __MSG__ACTIVITY_CONTENT_COMMENT_LINK_2+__
+        {/if}
+    {/if}
+{/macro}
+
+<!--
+ * Render the end-user friendly, internationalized summary of a content creation activity.
+ *
+ * @param  {Activity}     activity      Standard activity object as specified by the activitystrea.ms specification, representing the content creation activity, for which to generate the activity summary
+ * @param  {String}       actor1        Display name of the first actor on the activity
+ * @param  {String}       actor1URL     Profile path for the first actor on the activity
+ * @param  {String}       object1       Display name of the first object on the activity
+ * @param  {String}       object1URL    Profile path for the first object on the activity
+ * @param  {String}       object2       Display name of the second object on the activity
+ * @param  {String}       object2URL    Profile path for the second object on the activity
+ * @param  {Number}       objectCount   The total number of different objects on the activity
+-->
+{macro renderContentCreateSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount)}
+    {if !objectCount}
+        {if activity.object['oae:resourceSubType'] === 'collabdoc'}
+            __MSG__ACTIVITY_CONTENT_CREATE_COLLABDOC__
+        {elseif activity.object['oae:resourceSubType'] === 'file'}
+            __MSG__ACTIVITY_CONTENT_CREATE_FILE__
+        {elseif activity.object['oae:resourceSubType'] === 'link'}
+            __MSG__ACTIVITY_CONTENT_CREATE_LINK__
+        {/if}
+    {elseif objectCount === 2}
+        __MSG__ACTIVITY_CONTENT_CREATE_2__
+    {else}
+        __MSG__ACTIVITY_CONTENT_CREATE_2+__
+    {/if}
+{/macro}
+
+<!--
+ * Render the end-user friendly, internationalized summary of a new content version activity.
+ *
+ * @param  {Activity}     activity      Standard activity object as specified by the activitystrea.ms specification, representing the content revision activity, for which to generate the activity summary
+ * @param  {String}       actor1        Display name of the first actor on the activity
+ * @param  {String}       actor1URL     Profile path for the first actor on the activity
+ * @param  {String}       actor2        Display name of the second actor on the activity
+ * @param  {String}       actor2URL     Profile path for the second actor on the activity
+ * @param  {Number}       actorCount    The total number of different actors on the activity
+ * @param  {String}       object1       Display name of the first object on the activity
+ * @param  {String}       object1URL    Profile path for the first object on the activity
+-->
+{macro renderContentRevisionSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, object1, object1URL)}
+    {if activity.object['oae:resourceSubType'] === 'collabdoc'}
+        {if !actorCount}
+            __MSG__ACTIVITY_CONTENT_REVISION_COLLABDOC_1__
+        {elseif actorCount === 2}
+            __MSG__ACTIVITY_CONTENT_REVISION_COLLABDOC_2__
+        {else}
+            __MSG__ACTIVITY_CONTENT_REVISION_COLLABDOC_2+__
+        {/if}
+    {elseif activity.object['oae:resourceSubType'] === 'file'}
+        {if !actorCount}
+            __MSG__ACTIVITY_CONTENT_REVISION_FILE_1__
+        {elseif actorCount === 2}
+            __MSG__ACTIVITY_CONTENT_REVISION_FILE_2__
+        {else}
+            __MSG__ACTIVITY_CONTENT_REVISION_FILE_2+__
+        {/if}
+    {elseif activity.object['oae:resourceSubType'] === 'link'}
+        {if !actorCount}
+            __MSG__ACTIVITY_CONTENT_REVISION_LINK_1__
+        {elseif actorCount === 2}
+            __MSG__ACTIVITY_CONTENT_REVISION_LINK_2__
+        {else}
+            __MSG__ACTIVITY_CONTENT_REVISION_LINK_2+__
+        {/if}
+    {/if}
+{/macro}
+
+<!--
+ * Render the end-user friendly, internationalized summary of a content share activity.
+ *
+ * @param  {Activity}     activity      Standard activity object as specified by the activitystrea.ms specification, representing the content share activity, for which to generate the activity summary
+ * @param  {String}       actor1        Display name of the first actor on the activity
+ * @param  {String}       actor1URL     Profile path for the first actor on the activity
+ * @param  {String}       object1       Display name of the first object on the activity
+ * @param  {String}       object1URL    Profile path for the first object on the activity
+ * @param  {String}       object2       Display name of the second object on the activity
+ * @param  {String}       object2URL    Profile path for the second object on the activity
+ * @param  {Number}       objectCount   The total number of different objects on the activity
+ * @param  {String}       target1       Display name of the first target on the activity
+ * @param  {String}       target1URL    Profile path for the first target on the activity
+ * @param  {String}       target2       Display name of the second target on the activity
+ * @param  {String}       target2URL    Profile path for the second target on the activity
+ * @param  {Number}       targetCount   The total number of different target on the activity
+-->
+{macro renderContentShareSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount, target1, target1URL, target2, target2URL, targetCount)}
+    {if !objectCount}
+        {if activity.object['oae:resourceSubType'] === 'collabdoc'}
+            {if !targetCount}
+                {if activity.target['oae:id'] === oae.data.me.id}
+                    __MSG__ACTIVITY_CONTENT_SHARE_COLLABDOC_YOU__
+                {else}
+                    __MSG__ACTIVITY_CONTENT_SHARE_COLLABDOC_1__
+                {/if}
+            {elseif targetCount === 2}
+                __MSG__ACTIVITY_CONTENT_SHARE_COLLABDOC_2__
+            {else}
+                __MSG__ACTIVITY_CONTENT_SHARE_COLLABDOC_2+__
+            {/if}
+        {elseif activity.object['oae:resourceSubType'] === 'file'}
+            {if !targetCount}
+               {if activity.target['oae:id'] === oae.data.me.id}
+                    __MSG__ACTIVITY_CONTENT_SHARE_FILE_YOU__
+                {else}
+                    __MSG__ACTIVITY_CONTENT_SHARE_FILE_1__
+                {/if}
+            {elseif targetCount === 2}
+                __MSG__ACTIVITY_CONTENT_SHARE_FILE_2__
+            {else}
+                __MSG__ACTIVITY_CONTENT_SHARE_FILE_2+__
+            {/if}
+        {elseif activity.object['oae:resourceSubType'] === 'link'}
+            {if !targetCount}
+                {if activity.target['oae:id'] === oae.data.me.id}
+                    __MSG__ACTIVITY_CONTENT_SHARE_LINK_YOU__
+                {else}
+                    __MSG__ACTIVITY_CONTENT_SHARE_LINK_1__
+                {/if}
+            {elseif targetCount === 2}
+                __MSG__ACTIVITY_CONTENT_SHARE_LINK_2__
+            {else}
+                __MSG__ACTIVITY_CONTENT_SHARE_LINK_2+__
+            {/if}
+        {/if}
+    {else}
+        {if objectCount === 2}
+            {if activity.target['oae:id'] === oae.data.me.id}
+                __MSG__ACTIVITY_CONTENT_SHARE_YOU_2__
+            {else}
+                __MSG__ACTIVITY_CONTENT_SHARE_2__
+            {/if}
+        {else}
+            {if activity.target['oae:id'] === oae.data.me.id}
+                __MSG__ACTIVITY_CONTENT_SHARE_YOU_2+__
+            {else}
+                __MSG__ACTIVITY_CONTENT_SHARE_2+__
+            {/if}
+        {/if}
+    {/if}
+{/macro}
+
+<!--
+ * Render the end-user friendly, internationalized summary of a content update activity.
+ *
+ * @param  {Activity}     activity      Standard activity object as specified by the activitystrea.ms specification, representing the content update activity, for which to generate the activity summary
+ * @param  {String}       actor1        Display name of the first actor on the activity
+ * @param  {String}       actor1URL     Profile path for the first actor on the activity
+ * @param  {String}       actor2        Display name of the second actor on the activity
+ * @param  {String}       actor2URL     Profile path for the second actor on the activity
+ * @param  {Number}       actorCount    The total number of different actors on the activity
+ * @param  {String}       object1       Display name of the first object on the activity
+ * @param  {String}       object1URL    Profile path for the first object on the activity
+-->
+{macro renderContentUpdateSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, object1, object1URL)}
+    {if activity.object['oae:resourceSubType'] === 'collabdoc'}
+        {if !actorCount}
+            __MSG__ACTIVITY_CONTENT_UPDATE_COLLABDOC_1__
+        {elseif actorCount === 2}
+            __MSG__ACTIVITY_CONTENT_UPDATE_COLLABDOC_2__
+        {else}
+            __MSG__ACTIVITY_CONTENT_UPDATE_COLLABDOC_2+__
+        {/if}
+    {elseif activity.object['oae:resourceSubType'] === 'file'}
+        {if !actorCount}
+            __MSG__ACTIVITY_CONTENT_UPDATE_FILE_1__
+        {elseif actorCount === 2}
+            __MSG__ACTIVITY_CONTENT_UPDATE_FILE_2__
+        {else}
+            __MSG__ACTIVITY_CONTENT_UPDATE_FILE_2+__
+        {/if}
+    {elseif activity.object['oae:resourceSubType'] === 'link'}
+        {if !actorCount}
+            __MSG__ACTIVITY_CONTENT_UPDATE_LINK_1__
+        {elseif actorCount === 2}
+            __MSG__ACTIVITY_CONTENT_UPDATE_LINK_2__
+        {else}
+            __MSG__ACTIVITY_CONTENT_UPDATE_LINK_2+__
+        {/if}
+    {/if}
+{/macro}
+
+<!--
+ * Render the end-user friendly, internationalized summary of a visibility update activity for content.
+ *
+ * @param  {Activity}     activity      Standard activity object as specified by the activitystrea.ms specification, representing the content visibility update activity, for which to generate the activity summary
+ * @param  {String}       actor1        Display name of the first actor on the activity
+ * @param  {String}       actor1URL     Profile path for the first actor on the activity
+ * @param  {String}       object1       Display name of the first object on the activity
+ * @param  {String}       object1URL    Profile path for the first object on the activity
+ * @param  {String}       object1Tenant Name of the tenant to which the content visibility is limited
+-->
+{macro renderContentUpdateVisibilitySummary(activity, actor1, actor1URL, object1, object1URL, object1Tenant)}
+    {if activity.object['oae:resourceSubType'] === 'collabdoc'}
+        {if activity.object['oae:visibility'] === 'public'}
+            __MSG__ACTIVITY_CONTENT_VISIBILITY_COLLABDOC_PUBLIC__
+        {elseif activity.object['oae:visibility'] === 'loggedin'}
+            __MSG__ACTIVITY_CONTENT_VISIBILITY_COLLABDOC_LOGGEDIN__
+        {else}
+            __MSG__ACTIVITY_CONTENT_VISIBILITY_COLLABDOC_PRIVATE__
+        {/if}
+    {elseif activity.object['oae:resourceSubType'] === 'file'}
+        {if activity.object['oae:visibility'] === 'public'}
+            __MSG__ACTIVITY_CONTENT_VISIBILITY_FILE_PUBLIC__
+        {elseif activity.object['oae:visibility'] === 'loggedin'}
+            __MSG__ACTIVITY_CONTENT_VISIBILITY_FILE_LOGGEDIN__
+        {else}
+            __MSG__ACTIVITY_CONTENT_VISIBILITY_FILE_PRIVATE__
+        {/if}
+    {elseif activity.object['oae:resourceSubType'] === 'link'}
+        {if activity.object['oae:visibility'] === 'public'}
+            __MSG__ACTIVITY_CONTENT_VISIBILITY_LINK_PUBLIC__
+        {elseif activity.object['oae:visibility'] === 'loggedin'}
+            __MSG__ACTIVITY_CONTENT_VISIBILITY_LINK_LOGGEDIN__
+        {else}
+            __MSG__ACTIVITY_CONTENT_VISIBILITY_LINK_PRIVATE__
+        {/if}
+    {/if}
+{/macro}
+
+<!--
+ * Render the end-user friendly, internationalized summary of an add to library activity for a discussion.
+ *
+ * @param  {Activity}     activity      Standard activity object as specified by the activitystrea.ms specification, representing the discussion add to library activity, for which to generate the activity summary
+ * @param  {String}       actor1        Display name of the first actor on the activity
+ * @param  {String}       actor1URL     Profile path for the first actor on the activity
+ * @param  {String}       object1       Display name of the first object on the activity
+ * @param  {String}       object1URL    Profile path for the first object on the activity
+ * @param  {String}       object1Tenant Name of the tenant to which the content visibility is limited
+-->
+{macro renderDiscussionAddToLibrarySummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount)}
+    {if !objectCount}
+        __MSG__ACTIVITY_DISCUSSION_ADD_LIBRARY__
+    {elseif objectCount === 2}
+        __MSG__ACTIVITY_DISCUSSION_ADD_LIBRARY_2__
+    {else}
+        __MSG__ACTIVITY_DISCUSSION_ADD_LIBRARY_2+__
+    {/if}
+{/macro}
+
+<!--
+ * Render the end-user friendly, internationalized summary of a discussion creation activity.
+ *
+ * @param  {Activity}     activity      Standard activity object as specified by the activitystrea.ms specification, representing the discussion creation activity, for which to generate the activity summary
+ * @param  {String}       actor1        Display name of the first actor on the activity
+ * @param  {String}       actor1URL     Profile path for the first actor on the activity
+ * @param  {String}       object1       Display name of the first object on the activity
+ * @param  {String}       object1URL    Profile path for the first object on the activity
+ * @param  {String}       object2       Display name of the second object on the activity
+ * @param  {String}       object2URL    Profile path for the second object on the activity
+ * @param  {Number}       objectCount   The total number of different objects on the activity
+-->
+{macro renderDiscussionCreateSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount)}
+    {if !objectCount}
+        __MSG__ACTIVITY_DISCUSSION_CREATE_1__
+    {elseif objectCount === 2}
+        __MSG__ACTIVITY_DISCUSSION_CREATE_2__
+    {else}
+        __MSG__ACTIVITY_DISCUSSION_CREATE_2+__
+    {/if}
+{/macro}
+
+<!--
+ * Render the end-user friendly, internationalized summary of a discussion post activity.
+ *
+ * @param  {Activity}     activity      Standard activity object as specified by the activitystrea.ms specification, representing the discussion post activity, for which to generate the activity summary
+ * @param  {String}       actor1        Display name of the first actor on the activity
+ * @param  {String}       actor1URL     Profile path for the first actor on the activity
+ * @param  {String}       actor2        Display name of the second actor on the activity
+ * @param  {String}       actor2URL     Profile path for the second actor on the activity
+ * @param  {Number}       actorCount    The total number of different actors on the activity
+ * @param  {String}       object1       Display name of the first object on the activity
+ * @param  {String}       object1URL    Profile path for the first object on the activity
+-->
+{macro renderDiscussionMessageSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, object1, object1URL)}
+    {if !actorCount}
+        __MSG__ACTIVITY_DISCUSSION_MESSAGE_1__
+    {elseif actorCount === 2}
+        __MSG__ACTIVITY_DISCUSSION_MESSAGE_2__
+    {else}
+        __MSG__ACTIVITY_DISCUSSION_MESSAGE_2+__
+    {/if}
+{/macro}
+
+<!--
+ * Render the end-user friendly, internationalized summary of a discussion share activity.
+ *
+ * @param  {Activity}     activity      Standard activity object as specified by the activitystrea.ms specification, representing the discussion share activity, for which to generate the activity summary
+ * @param  {String}       actor1        Display name of the first actor on the activity
+ * @param  {String}       actor1URL     Profile path for the first actor on the activity
+ * @param  {String}       object1       Display name of the first object on the activity
+ * @param  {String}       object1URL    Profile path for the first object on the activity
+ * @param  {String}       object2       Display name of the second object on the activity
+ * @param  {String}       object2URL    Profile path for the second object on the activity
+ * @param  {Number}       objectCount   The total number of different objects on the activity
+ * @param  {String}       target1       Display name of the first target on the activity
+ * @param  {String}       target1URL    Profile path for the first target on the activity
+ * @param  {String}       target2       Display name of the second target on the activity
+ * @param  {String}       target2URL    Profile path for the second target on the activity
+ * @param  {Number}       targetCount   The total number of different target on the activity
+-->
+{macro renderDiscussionShareSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount, target1, target1URL, target2, target2URL, targetCount)}
+    {if !objectCount}
+        {if !targetCount}
+            {if activity.target['oae:id'] === oae.data.me.id}
+                __MSG__ACTIVITY_DISCUSSION_SHARE_YOU__
+            {else}
+                __MSG__ACTIVITY_DISCUSSION_SHARE_1__
+            {/if}
+        {elseif targetCount === 2}
+            __MSG__ACTIVITY_DISCUSSION_SHARE_2__
+        {else}
+            __MSG__ACTIVITY_DISCUSSION_SHARE_2+__
+        {/if}
+    {else}
+        {if objectCount === 2}
+            __MSG__ACTIVITY_DISCUSSION_SHARE_YOU_2__
+        {else}
+            __MSG__ACTIVITY_DISCUSSION_SHARE_YOU_2+__
+        {/if}
+    {/if}
+{/macro}
+
+<!--
+ * Render the end-user friendly, internationalized summary of a discussion update activity.
+ *
+ * @param  {Activity}     activity      Standard activity object as specified by the activitystrea.ms specification, representing the discussion update activity, for which to generate the activity summary
+ * @param  {String}       actor1        Display name of the first actor on the activity
+ * @param  {String}       actor1URL     Profile path for the first actor on the activity
+ * @param  {String}       actor2        Display name of the second actor on the activity
+ * @param  {String}       actor2URL     Profile path for the second actor on the activity
+ * @param  {Number}       actorCount    The total number of different actors on the activity
+ * @param  {String}       object1       Display name of the first object on the activity
+ * @param  {String}       object1URL    Profile path for the first object on the activity
+-->
+{macro renderDiscussionUpdateSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, object1, object1URL)}
+    {if !actorCount}
+        __MSG__ACTIVITY_DISCUSSION_UPDATE_1__
+    {elseif actorCount === 2}
+        __MSG__ACTIVITY_DISCUSSION_UPDATE_2__
+    {else}
+        __MSG__ACTIVITY_DISCUSSION_UPDATE_2+__
+    {/if}
+{/macro}
+
+<!--
+ * Render the end-user friendly, internationalized summary of a visibility update activity for a discussion.
+ *
+ * @param  {Activity}     activity      Standard activity object as specified by the activitystrea.ms specification, representing the discussion visibility update activity, for which to generate the activity summary
+ * @param  {String}       actor1        Display name of the first actor on the activity
+ * @param  {String}       actor1URL     Profile path for the first actor on the activity
+ * @param  {String}       object1       Display name of the first object on the activity
+ * @param  {String}       object1URL    Profile path for the first object on the activity
+ * @param  {String}       object1Tenant Name of the tenant to which the content visibility is limited
+-->
+{macro renderDiscussionUpdateVisibilitySummary(activity, actor1, actor1URL, object1, object1URL, object1Tenant)}
+    {if activity.object['oae:visibility'] === 'public'}
+        __MSG__ACTIVITY_DISCUSSION_VISIBILITY_PUBLIC__
+    {elseif activity.object['oae:visibility'] === 'loggedin'}
+        __MSG__ACTIVITY_DISCUSSION_VISIBILITY_LOGGEDIN__
+    {else}
+        __MSG__ACTIVITY_DISCUSSION_VISIBILITY_PRIVATE__
+    {/if}
+{/macro}
+
+<!--
+ * Render the end-user friendly, internationalized summary of a group member add activity.
+ *
+ * @param  {Activity}     activity      Standard activity object as specified by the activitystrea.ms specification, representing the group member add activity, for which to generate the activity summary
+ * @param  {String}       actor1        Display name of the first actor on the activity
+ * @param  {String}       actor1URL     Profile path for the first actor on the activity
+ * @param  {String}       object1       Display name of the first object on the activity
+ * @param  {String}       object1URL    Profile path for the first object on the activity
+ * @param  {String}       object2       Display name of the second object on the activity
+ * @param  {String}       object2URL    Profile path for the second object on the activity
+ * @param  {Number}       objectCount   The total number of different objects on the activity
+ * @param  {String}       target1       Display name of the first target on the activity
+ * @param  {String}       target1URL    Profile path for the first target on the activity
+-->
+{macro renderGroupAddMemberSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount, target1, target1URL)}
+    {if !objectCount}
+        {if activity.object['oae:id'] === oae.data.me.id}
+            __MSG__ACTIVITY_GROUP_ADD_MEMBER_YOU__
+        {else}
+            __MSG__ACTIVITY_GROUP_ADD_MEMBER_1__
+        {/if}
+    {elseif objectCount === 2}
+        __MSG__ACTIVITY_GROUP_ADD_MEMBER_2__
+    {else}
+        __MSG__ACTIVITY_GROUP_ADD_MEMBER_2+__
+    {/if}
+{/macro}
+
+<!--
+ * Render the end-user friendly, internationalized summary of a group creation activity.
+ *
+ * @param  {Activity}     activity      Standard activity object as specified by the activitystrea.ms specification, representing the group creation activity, for which to generate the activity summary
+ * @param  {String}       actor1        Display name of the first actor on the activity
+ * @param  {String}       actor1URL     Profile path for the first actor on the activity
+ * @param  {String}       object1       Display name of the first object on the activity
+ * @param  {String}       object1URL    Profile path for the first object on the activity
+ * @param  {String}       object2       Display name of the second object on the activity
+ * @param  {String}       object2URL    Profile path for the second object on the activity
+ * @param  {Number}       objectCount   The total number of different objects on the activity
+-->
+{macro renderGroupCreateSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount)}
+    {if !objectCount}
+        __MSG__ACTIVITY_GROUP_CREATE_1__
+    {elseif objectCount === 2}
+        __MSG__ACTIVITY_GROUP_CREATE_2__
+    {else}
+        __MSG__ACTIVITY_GROUP_CREATE_2+__
+    {/if}
+{/macro}
+
+<!--
+ * Render the end-user friendly, internationalized summary of a group join activity.
+ *
+ * @param  {Activity}     activity      Standard activity object as specified by the activitystrea.ms specification, representing the group join activity, for which to generate the activity summary
+ * @param  {String}       actor1        Display name of the first actor on the activity
+ * @param  {String}       actor1URL     Profile path for the first actor on the activity
+ * @param  {String}       actor2        Display name of the second actor on the activity
+ * @param  {String}       actor2URL     Profile path for the second actor on the activity
+ * @param  {Number}       actorCount    The total number of different actors on the activity
+ * @param  {String}       object1       Display name of the first object on the activity
+ * @param  {String}       object1URL    Profile path for the first object on the activity
+-->
+{macro renderGroupJoinSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, object1, object1URL)}
+    {if !actorCount}
+        __MSG__ACTIVITY_GROUP_JOIN_1__
+    {elseif actorCount === 2}
+        __MSG__ACTIVITY_GROUP_JOIN_2__
+    {else}
+        __MSG__ACTIVITY_GROUP_JOIN_2+__
+    {/if}
+{/macro}
+
+<!--
+ * Render the end-user friendly, internationalized summary of a group update activity.
+ *
+ * @param  {Activity}     activity      Standard activity object as specified by the activitystrea.ms specification, representing the group update activity, for which to generate the activity summary
+ * @param  {String}       actor1        Display name of the first actor on the activity
+ * @param  {String}       actor1URL     Profile path for the first actor on the activity
+ * @param  {String}       actor2        Display name of the second actor on the activity
+ * @param  {String}       actor2URL     Profile path for the second actor on the activity
+ * @param  {Number}       actorCount    The total number of different actors on the activity
+ * @param  {String}       object1       Display name of the first object on the activity
+ * @param  {String}       object1URL    Profile path for the first object on the activity
+-->
+{macro renderGroupUpdateSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, object1, object1URL)}
+    {if !actorCount}
+        __MSG__ACTIVITY_GROUP_UPDATE_1__
+    {elseif actorCount === 2}
+        __MSG__ACTIVITY_GROUP_UPDATE_2__
+    {else}
+        __MSG__ACTIVITY_GROUP_UPDATE_2+__
+    {/if}
+{/macro}
+
+<!--
+ * Render the end-user friendly, internationalized summary of  a visibility update activity for a group.
+ *
+ * @param  {Activity}     activity      Standard activity object as specified by the activitystrea.ms specification, representing the group visibility update activity, for which to generate the activity summary
+ * @param  {String}       actor1        Display name of the first actor on the activity
+ * @param  {String}       actor1URL     Profile path for the first actor on the activity
+ * @param  {String}       object1       Display name of the first object on the activity
+ * @param  {String}       object1URL    Profile path for the first object on the activity
+ * @param  {String}       object1Tenant Name of the tenant to which the group visibility is limited
+-->
+{macro renderGroupUpdateVisibilitySummary(activity, actor1, actor1URL, object1, object1URL, object1Tenant)}
+    {if activity.object['oae:visibility'] === 'public'}
+        __MSG__ACTIVITY_GROUP_VISIBILITY_PUBLIC__
+    {elseif activity.object['oae:visibility'] === 'loggedin'}
+        __MSG__ACTIVITY_GROUP_VISIBILITY_LOGGEDIN__
+    {else}
+        __MSG__ACTIVITY_GROUP_VISIBILITY_PRIVATE__
+    {/if}
+{/macro}

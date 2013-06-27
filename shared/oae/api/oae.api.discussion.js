@@ -110,13 +110,29 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     };
 
     /**
-     * Delete a discussion.
+     * Permanently delete a discussion from the system.
      *
-     * @param  {String}        discussionId        Id of the discussion we're trying to delete
+     * @param  {String}        discussionId        Discussion id of the discussion item we're trying to delete
      * @param  {Function}      callback            Standard callback method
      * @param  {Object}        callback.err        Error object containing error code and error message
+     * @throws {Error}                             Error thrown when no valid discussion id has been provided
      */
-    var deleteDiscussion = exports.deleteDiscussion = function(discussionId, callback) {};
+    var deleteDiscussion = exports.deleteDiscussion = function(discussionId, callback) {
+        if (!discussionId) {
+            throw new Error('A valid discussion id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/discussion/' + discussionId,
+            'type': 'DELETE',
+            'success': function() {
+                callback(null);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
 
     /**
      * Get the viewers and managers of a discussion.
@@ -247,4 +263,31 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         });
     };
 
+    /**
+     * Delete a discussion from a discussion library.
+     *
+     * @param  {String}         principalId     User or group id for for the library from which we want to delete the content
+     * @param  {String}         discussionId    Discussion id of the discussion we're trying to delete from the library
+     * @param  {Function}       callback        Standard callback method
+     * @param  {Object}         callback.err    Error object containing error code and error message
+     * @throws {Error}                          Error thrown when not all of the required parameters have been provided
+     */
+    var deleteDiscussionFromLibrary = exports.deleteDiscussionFromLibrary = function(principalId, discussionId, callback) {
+        if (!principalId) {
+            throw new Error('A valid user or group ID should be provided');
+        } else if (!discussionId) {
+            throw new Error('A valid discussion ID should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/discussion/library/' + principalId + '/' + discussionId,
+            'type': 'DELETE',
+            'success': function() {
+                callback(null);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
 });
