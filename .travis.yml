@@ -1,0 +1,40 @@
+language: node_js
+node_js:
+  - 0.8
+
+branches:
+  only:
+    - casperjs
+
+before_install:
+  - sudo apt-get install phantomjs
+  - git clone git://github.com/n1k0/casperjs.git
+  - cd casperjs
+  - git checkout tags/1.0.2
+  - ln -sf `pwd`/bin/casperjs /usr/local/bin/casperjs
+  - sudo sh -c "echo 'JVM_OPTS=\"\${JVM_OPTS} -Djava.net.preferIPv4Stack=false\"' >> /usr/local/cassandra/conf/cassandra-env.sh"
+  - sudo service cassandra stop
+  - sudo service cassandra start
+  - sudo service cassandra status
+  - sudo service mysql stop
+  - sudo service memcached stop
+  - sudo service postgresql stop
+  - sudo apt-get install -qq graphicsmagick
+  - npm install -g grunt-cli
+  - git clone git://github.com/oaeproject/3akai-ux.git --branch master ../3akai-ux
+  - git clone git://github.com/ether/etherpad-lite --branch master ../etherpad-lite
+  - cd ../etherpad-lite
+  - echo "13SirapH8t3kxUh5T5aqWXhXahMzoZRA" > APIKEY.txt
+  - ./bin/installDeps.sh
+  - "sed -i 's/defaultPadText\" : \".*\"/defaultPadText\" : \"\"/g' settings.json"
+  - node src/node/server.js &
+  - cd ../Hilary
+
+services:
+  - cassandra
+  - elasticsearch
+  - rabbitmq
+  - redis-server
+
+script:
+  - grunt test
