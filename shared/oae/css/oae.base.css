@@ -206,6 +206,10 @@ input.search-query,
     opacity: 0.2;
 }
 
+.modal form {
+    margin: 0;
+}
+
 .modal-header  {
     border-bottom: none;
     padding: 10px 20px;
@@ -225,6 +229,20 @@ input.search-query,
     font-style: italic;
     font-weight: 200;
     margin-top: 0;
+}
+
+.modal-body h4:first-child {
+    margin-top: 0;
+}
+
+.modal-body label h4 {
+    margin-top: 0;
+}
+
+.modal-body input[type="text"],
+.modal-body input[type="password"],
+.modal-body textarea {
+    width: 100%;
 }
 
 .modal-footer {
