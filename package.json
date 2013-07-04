@@ -15,16 +15,17 @@
     "url": "https://github.com/oaeproject/3akai-ux/issues"
   },
   "licenses": [
-     {
-       "type": "ECLv2",
-       "url": "http://opensource.org/licenses/ecl2.php"
-     }
+    {
+      "type": "ECLv2",
+      "url": "http://opensource.org/licenses/ecl2.php"
+    }
   ],
   "dependencies": {
     "oae-core": ""
   },
   "devDependencies": {
     "grunt": "latest",
+    "grunt-casperjs": "latest",
     "grunt-cli": "latest",
     "grunt-contrib-clean": "latest",
     "grunt-contrib-copy": "latest",
