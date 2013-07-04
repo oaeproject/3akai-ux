@@ -1,0 +1,66 @@
+language: node_js
+node_js:
+  - 0.8
+
+branches:
+  only:
+    - master
+
+before_install:
+  - sudo sed -e 's/^\(127\.0\.0\.1.*\)$/\1 admin.oae.com cam.oae.com/' --in-place /etc/hosts
+  - sudo sed -e 's/^\(::1.*\)$/\1 admin.oae.com cam.oae.com/' --in-place /etc/hosts
+  - npm install -d
+  - "echo '{\"NGINX_USER\": \"root\",\"NGINX_GROUP\": \"root\",\"NGINX_HOSTNAME\": \"admin.oae.com\",\"UX_HOME\": \"/home/travis/build/oaeproject/3akai-ux\",\"LOCAL_FILE_STORAGE_DIRECTORY\": \"/home/travis/build/oaeproject/files\"}' > nginx/nginx.json"
+  - grunt configNginx
+  - sudo apt-get -y install python-software-properties
+  - sudo add-apt-repository -y ppa:nginx/stable
+  - sudo apt-get update
+  - sudo apt-get install nginx-full
+  - sudo cp ./target/optimized/nginx/nginx.conf /etc/nginx/nginx.conf
+  - sudo mkdir /usr/share/nginx/logs
+  - sudo service nginx start
+  - cd ../
+  - sudo apt-get install phantomjs
+  - git clone git://github.com/n1k0/casperjs.git
+  - cd casperjs
+  - git checkout tags/1.0.2
+  - sudo ln -sf `pwd`/bin/casperjs /usr/local/bin/casperjs
+  - cd ../
+  - sudo sh -c "echo 'JVM_OPTS=\"\${JVM_OPTS} -Djava.net.preferIPv4Stack=false\"' >> /usr/local/cassandra/conf/cassandra-env.sh"
+  - sudo service cassandra stop
+  - sudo service cassandra start
+  - sudo service cassandra status
+  - sudo service mysql stop
+  - sudo service memcached stop
+  - sudo service postgresql stop
+  - sudo apt-get install -qq graphicsmagick
+  - npm install -g grunt-cli
+  - git clone git://github.com/ether/etherpad-lite --branch master etherpad-lite
+  - cd etherpad-lite
+  - echo "13SirapH8t3kxUh5T5aqWXhXahMzoZRA" > APIKEY.txt
+  - ./bin/installDeps.sh
+  - "sed -i 's/defaultPadText\" : \".*\"/defaultPadText\" : \"\"/g' settings.json"
+  - node src/node/server.js &
+  - git clone git://github.com/oaeproject/Hilary.git --branch master ../Hilary
+  - cd ../Hilary
+  - npm install -d
+  - node app.js &
+  - sleep 20
+  - ADMIN_COOKIE=$(curl -s --cookie-jar - -d"username=administrator" -d"password=administrator"  -e "/" http://admin.oae.com/api/auth/login | grep connect.sess | cut -f 7)
+  - curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d"alias=cam" -d"displayName=Cambridge" -d"host=cam.oae.com" http://admin.oae.com/api/tenant/create
+  - curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d"oae-principals/recaptcha/enabled=false" http://admin.oae.com/api/config
+  - cd ../3akai-ux
+
+services:
+  - cassandra
+  - elasticsearch
+  - rabbitmq
+  - redis-server
+
+script:
+  - grunt test
+
+notifications:
+  email:
+    - oae-team@collab.sakaiproject.org
+  irc: "irc.freenode.org#sakai"

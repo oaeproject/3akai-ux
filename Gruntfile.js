@@ -154,6 +154,10 @@ module.exports = function(grunt) {
         },
         'git-describe': {
             'oae': {}
+        },
+        'casperjs': {
+            options: {},
+            files: ['tests/casperjs/suites/*.js']
         }
     });
 
@@ -163,6 +167,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-git-describe');
     grunt.loadNpmTasks('grunt-ver');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
+    grunt.loadNpmTasks('grunt-casperjs');
 
     // Task to write the version to a file
     grunt.registerTask('writeVersion', function() {
@@ -277,8 +282,8 @@ module.exports = function(grunt) {
         grunt.task.run('copyReleaseArtifacts:' + outputDir);
     });
 
-    // Override the test task with the qunit task
-    grunt.registerTask('test', ['qunit']);
+    // Override the test task with the casperjs task
+    grunt.registerTask('test', ['casperjs']);
 
     // Default task.
     grunt.registerTask('default', ['clean', 'copy', 'git-describe', 'requirejs', 'hashFiles', 'writeVersion', 'configNginx']);
