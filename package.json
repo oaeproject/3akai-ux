@@ -25,11 +25,11 @@
   },
   "devDependencies": {
     "grunt": "latest",
-    "grunt-casperjs": "latest",
     "grunt-cli": "latest",
     "grunt-contrib-clean": "latest",
     "grunt-contrib-copy": "latest",
     "grunt-contrib-requirejs": "latest",
+    "grunt-ghost": "latest",
     "grunt-git-describe": "latest",
     "grunt-ver": "git://github.com/oaeproject/grunt-ver.git#v0.2.3-hilary-0.2",
     "oae-release-tools": "git://github.com/oaeproject/oae-release-tools",

@@ -159,9 +159,25 @@ module.exports = function(grunt) {
         'git-describe': {
             'oae': {}
         },
-        'casperjs': {
-            options: {},
-            files: ['tests/casperjs/suites/*.js']
+        ghost: {
+            dist: {
+                filesSrc: ['tests/casperjs/suites/'],
+                // CasperJS test command options
+                options: {
+                    // Specifies files to be included for each test file
+                    includes: [
+                      'tests/casperjs/util/users.js'
+                    ],
+                    // Adds tests from specified files before running the test suite
+                    pre: ['tests/casperjs/util/prep.js'],
+                    // Adds tests from specified files after running the test suite
+                    post: ['tests/casperjs/util/cleanup.js'],
+                    // Terminates test suite upon failure of first test
+                    failFast: false,
+                    // Prints the command given to CasperJS
+                    printCommand: true
+                }
+            }
         }
     });
 
@@ -171,7 +187,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-git-describe');
     grunt.loadNpmTasks('grunt-ver');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
-    grunt.loadNpmTasks('grunt-casperjs');
+    grunt.loadNpmTasks('grunt-ghost');
 
     // Task to write the version to a file
     grunt.registerTask('writeVersion', function() {
@@ -285,8 +301,8 @@ module.exports = function(grunt) {
         grunt.task.run('copyReleaseArtifacts:' + outputDir);
     });
 
-    // Override the test task with the casperjs task
-    grunt.registerTask('test', ['casperjs']);
+    // Override the test task with the grunt-ghost task that runs casperjs
+    grunt.registerTask('test', ['ghost']);
 
     // Default task.
     grunt.registerTask('default', ['clean', 'copy', 'git-describe', 'requirejs', 'hashFiles', 'writeVersion', 'configNginx']);
