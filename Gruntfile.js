@@ -282,7 +282,7 @@ module.exports = function(grunt) {
         grunt.task.run('copyReleaseArtifacts:' + outputDir);
     });
 
-    // Override the test task with the qunit task
+    // Override the test task with the casperjs task
     grunt.registerTask('test', ['casperjs']);
 
     // Default task.
