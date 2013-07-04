@@ -154,6 +154,10 @@ module.exports = function(grunt) {
         },
         'git-describe': {
             'oae': {}
+        },
+        'casperjs': {
+            options: {},
+            files: ['tests/casperjs/suites/*.js']
         }
     });
 
@@ -163,6 +167,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-git-describe');
     grunt.loadNpmTasks('grunt-ver');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
+    grunt.loadNpmTasks('grunt-casperjs');
 
     // Task to write the version to a file
     grunt.registerTask('writeVersion', function() {
@@ -244,8 +249,41 @@ module.exports = function(grunt) {
         grunt.log.writeln('Boots strapped'.green);
     });
 
-    // Override the test task with the qunit task
-    grunt.registerTask('test', ['qunit']);
+    // A task that will copy the release files to a directory of your choosing.
+    grunt.registerTask('copyReleaseArtifacts', function(outputDir) {
+        if (!outputDir) {
+            return grunt.log.writeln('Please provide a path where the release files should be copied to'.red);
+        }
+
+        shell.mkdir('-p', outputDir);
+        shell.cp('-R', ['./target/*', './README.md', './LICENSE', './COMMITTERS.txt'], outputDir);
+    });
+
+    // Release task.
+    // This essentially runs the default task and then
+    // copies the target directory to the `outputDir`
+    //
+    // Example:
+    //    grunt release:/tmp/release
+    //
+    // This will run the entire UI build (minification, hashing, nginx config, etc, ..) and create the following folders:
+    //    /tmp/release/optimized  -  contains the minified UI sources
+    //    /tmp/release/original   -  contains the original UI files
+    grunt.registerTask('release', function(outputDir) {
+        if (!outputDir) {
+            return grunt.log.writeln('Please provide a path where the release files should be copied to'.red);
+        }
+
+        // Run the default task that will minify and hash all the UI files.
+        grunt.task.run('default');
+
+        // Copy the minified and original files to the output directory
+        // and give them the proper names so no config changes in Hilary need to occur.
+        grunt.task.run('copyReleaseArtifacts:' + outputDir);
+    });
+
+    // Override the test task with the casperjs task
+    grunt.registerTask('test', ['casperjs']);
 
     // Default task.
     grunt.registerTask('default', ['clean', 'copy', 'git-describe', 'requirejs', 'hashFiles', 'writeVersion', 'configNginx']);
