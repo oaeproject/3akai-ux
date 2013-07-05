@@ -1,2 +1,9 @@
-casper.echo('Prep casperjs');
-casper.test.done();
+///////////////////
+// USER CREATION //
+///////////////////
+
+userUtil().createUsers();
+
+casper.run(function() {
+    this.test.done();
+});

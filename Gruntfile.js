@@ -166,7 +166,7 @@ module.exports = function(grunt) {
                 options: {
                     // Specifies files to be included for each test file
                     includes: [
-                      'tests/casperjs/util/users.js'
+                        'tests/casperjs/util/users.js'
                     ],
                     // Adds tests from specified files before running the test suite
                     pre: ['tests/casperjs/util/prep.js'],

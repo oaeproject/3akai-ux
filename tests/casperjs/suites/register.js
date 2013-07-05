@@ -7,7 +7,7 @@ casper.test.comment('Sakai OAE - Register new user and verify logged in');
 casper.start('http://cam.oae.com');
 
 /**
- * Assert that the register button is visible and trigger the modal
+ * Assert that the register button is present and trigger the modal
  */
 casper.waitForSelector('.oae-trigger-register', function() {
     casper.test.assertExists('.oae-trigger-register', 'Assert register button exists and click');
@@ -38,15 +38,14 @@ casper.waitForSelector('form#register-form', function() {
 });
 
 /**
- * Wait for 1 second and assert that the user is logged in and has the correct name
+ * Assert that the user is logged in and has the correct name
  */
-casper.wait(1000, function() {
+casper.waitForSelector('#me-clip-container h1', function() {
     casper.test.assertExists('#me-clip-container h1', 'Assert user is logged in');
     casper.test.assertSelectorHasText('#me-clip-container h1', 'John Doe', 'Logged in user is John Doe');
     casper.click('#topnavigation-signout');
 });
 
-// Run the whole test suite (all the above)
 casper.run(function() {
     this.test.done();
 });
