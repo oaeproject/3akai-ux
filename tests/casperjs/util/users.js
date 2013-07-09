@@ -13,17 +13,18 @@ var userUtil = function() {
     /**
      * Creates a given number of users
      *
-     * @param  {Number} numToCreate The number of users to create
+     * @param  {Number}   numToCreate   The number of users to create
+     * @return {User[]}                 An array of created users
      */
-    var createUsers = function(numToCreate) {
+    var createUsers = function(numToCreate, callback) {
         var toCreate = numToCreate || 4;
-
-        casper.test.comment('Create ' + toCreate + ' users');
+        var users = [];
 
         casper.start('http://cam.oae.com/').repeat(toCreate, function() {
-            data = this.evaluate(function(url) {
+            var username = 'roy-' + Date.now();
+            data = casper.evaluate(function(username) {
                 return JSON.parse(__utils__.sendAJAX('/api/user/create', 'POST', {
-                    'username': 'roy-' + new Date().getTime(),
+                    'username': username,
                     'password': 'password',
                     'displayName': 'Roy McBleh',
                     'visibility': 'public',
@@ -32,17 +33,59 @@ var userUtil = function() {
                     'timezone': 'Europe/London',
                     'publicAlias': 'Roy'
                 }, false));
-            });
+            }, username);
 
             casper.then(function() {
-                casper.echo('Created user ' + data.id + '.', 'INFO');
+                casper.echo('Created user ' + username + '.');
+                data.username = username;
                 createdUsers.push(data);
+                users.push(data);
             });
+        });
+
+        casper.then(function() {
+            callback(users);
+        });
+    };
+
+    /**
+     * Logs a user into the OAE
+     *
+     * @param  {String}    username    The username of the user to log in
+     * @param  {String}    password    The password of the user to log in
+     */
+    var doLogIn = function(username, password) {
+        casper.waitForSelector('#topnavigation-signin', function() {
+            // Open sign in form
+            casper.click('#topnavigation-signin');
+            // Fill sign in form
+            casper.fill('form#topnavigation-signin-form', {
+                'topnavigation-signin-username': username,
+                'topnavigation-signin-password': password
+            }, false);
+            // Do the login
+            casper.click('#topnavigation-signin-button');
+        });
+
+        casper.waitForSelector('#me-clip-container h1', function() {
+            casper.echo('Log in with user ' + username);
+        });
+    };
+
+    /**
+     * Logs out the current user
+     */
+    var doLogOut = function() {
+        casper.then(function() {
+            casper.echo('Log out');
+            casper.click('#topnavigation-signout');
         });
     };
 
     return {
         'createUsers': createUsers,
-        'createdUsers': createdUsers
+        'createdUsers': createdUsers,
+        'doLogIn': doLogIn,
+        'doLogOut': doLogOut
     };
 };
