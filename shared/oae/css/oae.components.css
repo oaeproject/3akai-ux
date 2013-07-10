@@ -1121,7 +1121,7 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
  *          <input type="checkbox" id="library-selectall" class="oae-list-selectall" />
  *          <label for="library-selectall" class="oae-aural-text">__MSG__SELECT_ALL__</label>
  *          <button type="button" class="btn" disabled="disabled"><i class="icon-share pull-left"></i>__MSG__SHARE__</button>
- *          <button type="button" class="btn" disabled="disabled"><i class="icon-remove pull-left"></i>__MSG__REMOVE__</button>
+ *          <button type="button" class="btn" disabled="disabled"><i class="icon-remove pull-left"></i>__MSG__DELETE__</button>
  *          <div class="btn-group pull-right">
  *              <button class="btn" data-type="oae-list-compact">
  *                  <i class="icon-list"></i>
