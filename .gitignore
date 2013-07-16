@@ -10,3 +10,4 @@ node_modules/*
 !node_modules/oae-core
 nginx/nginx.*
 !nginx/nginx.conf
+npm-debug.log

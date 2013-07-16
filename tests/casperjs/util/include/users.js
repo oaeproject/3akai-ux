@@ -21,23 +21,23 @@ var userUtil = function() {
         var users = [];
 
         casper.start('http://cam.oae.com/').repeat(toCreate, function() {
-            var username = 'roy-' + Date.now();
-            data = casper.evaluate(function(username) {
+            var rndString = mainUtil().generateRandomString();
+            data = casper.evaluate(function(rndString) {
                 return JSON.parse(__utils__.sendAJAX('/api/user/create', 'POST', {
-                    'username': username,
+                    'username': 'user-' + rndString,
                     'password': 'password',
-                    'displayName': 'Roy McBleh',
+                    'displayName': rndString,
                     'visibility': 'public',
                     'email': 'roy@example.com',
                     'locale': 'en_GB',
                     'timezone': 'Europe/London',
                     'publicAlias': 'Roy'
                 }, false));
-            }, username);
+            }, rndString);
 
             casper.then(function() {
-                casper.echo('Created user ' + username + '.');
-                data.username = username;
+                casper.echo('Created user-' + rndString + '.');
+                data.username = 'user-' + rndString;
                 createdUsers.push(data);
                 users.push(data);
             });
