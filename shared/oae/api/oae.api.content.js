@@ -41,6 +41,35 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     };
 
     /**
+     * Get a specific revision
+     *
+     * @param  {String}       contentId           Content id of the content item we're trying to retrieve
+     * @param  {String}       revisionId          Revision id of the revision we're trying to retrieve
+     * @param  {Function}     callback            Standard callback method
+     * @param  {Object}       callback.err        Error object containing error code and error message
+     * @param  {Content}      callback.content    Content object representing the retrieved content
+     * @throws {Error}                            Error thrown when no content id has been provided
+     */
+    var getRevision = exports.getRevision = function(contentId, revisionId, callback) {
+        if (!contentId) {
+            throw new Error('A valid content id should be provided');
+        }
+        if (!revisionId) {
+            throw new Error('A valid revision id should be provided');
+        }
+
+        $.ajax({
+            'url': '/api/content/' + contentId + '/revisions/' + revisionId,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
+
+    /**
      * Create a new link.
      *
      * @param  {String}         displayName         Display title for the created content item
