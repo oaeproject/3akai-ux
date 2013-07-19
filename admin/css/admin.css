@@ -46,6 +46,17 @@ body {
     padding: 15px 0 0 80px;
 }
 
+
+/*******************
+ ** LH NAVIGATION **
+ *******************/
+
+#admin-lhnav-container .nav-list li i {
+    display: inline-block;
+    width: 20px;
+}
+
+
 /*************
  ** CONTENT **
  *************/
