@@ -67,6 +67,25 @@ var verifyStopTenant = function(tenantID) {
 };
 
 /**
+ * Verifies that a tenant can be renamed
+ *
+ * @param  {String}    tenantID    The ID of the tenant to be renamed
+ */
+var verifyRenameTenant = function(tenantID) {
+    casper.test.assertExists('.jeditable-container .jeditable-field[data-alias="' + tenantID + '"]', 'The editable tenant name field is present');
+    casper.click('.jeditable-container .jeditable-field[data-alias="' + tenantID + '"]');
+    // Try submitting an empty form
+    casper.test.assertExists('.jeditable-container .jeditable-field[data-alias="' + tenantID + '"] form', 'The tenant name form is present after click');
+    casper.fill('.jeditable-container .jeditable-field[data-alias="' + tenantID + '"] form', {
+        'value': 'New tenant name'
+    }, false);
+    casper.click('html');
+    casper.waitForSelector('.jeditable-container .jeditable-field[data-alias="' + tenantID + '"]', function() {
+        casper.test.assertSelectorHasText('.jeditable-container .jeditable-field[data-alias="' + tenantID + '"]', 'New tenant name', 'The tenant name has been successfully changed');
+    });
+};
+
+/**
  * Verifies that a new tenant can be created and returns the ID of the new tenant in the callback.
  *
  * @param  {Function}   callback            Standard callback function executed when the test is complete
@@ -159,23 +178,34 @@ casper.start('http://admin.oae.com', function() {
     });
 
     // Verify form validation
+    casper.echo('Verify the create tenant form validation', 'INFO');
     casper.then(verifyCreateTenantValidation);
 
     casper.then(function() {
         // Create a new tenant
+        casper.echo('Verify creating a new tenant', 'INFO');
         verifyCreateNewTenant(function(tenantID) {
+            // Rename the new tenant
+            casper.then(function() {
+                casper.echo('Verify renaming a tenant', 'INFO');
+                verifyRenameTenant(tenantID);
+            });
+
             // Stop the new tenant
             casper.then(function() {
+                casper.echo('Verify stopping a tenant', 'INFO');
                 verifyStopTenant(tenantID);
             });
 
             // Start the new tenant
             casper.then(function() {
+                casper.echo('Verify starting a tenant', 'INFO');
                 verifyStartTenant(tenantID);
             });
 
             // Delete the new tenant
             casper.then(function() {
+                casper.echo('Verify deleting a tenant', 'INFO');
                 verifyDeleteTenant(tenantID);
             });
         });

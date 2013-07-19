@@ -56,17 +56,25 @@ var verifyLoginValidation = function() {
 casper.start('http://admin.oae.com', function() {
     // Log in with admin user
     casper.then(function() {
+        casper.echo('Verify logging in to the administration interface', 'INFO');
         userUtil().doAdminLogIn('administrator', 'administrator');
+        casper.then(function() {
+            casper.test.assertExists('#admin-header-user', 'Successfully logged in to the administration interface');
+        });
     });
 
     // Verify that the login was successfull
     casper.then(function() {
-        casper.test.assertExists('#admin-header-user', 'Successfully logged in to the administration interface');
+        casper.echo('Verify logging out of the administration interface', 'INFO');
         userUtil().doAdminLogOut('administrator', 'administrator');
+        casper.test.assertExists('#admin-login-form', 'Successfully logged out of the administration interface');
     });
 
     // Verify form validation
-    casper.then(verifyLoginValidation);
+    casper.then(function() {
+        casper.echo('Verify log in form validation', 'INFO');
+        casper.then(verifyLoginValidation);
+    });
 });
 
 casper.run(function() {
