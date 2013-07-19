@@ -1,5 +1,5 @@
 // Add a title comment so that you know what's happening and when
-casper.test.comment('Sakai OAE - Register new user and verify logged in');
+casper.test.comment('Scenario - Register new user and verify logged in');
 
 /**
  * Initialize CasperJS and point it to cam.oae.com
