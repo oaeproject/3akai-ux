@@ -73,6 +73,28 @@ var userUtil = function() {
     };
 
     /**
+     * Logs a user into the OAE administration interface
+     *
+     * @param  {String}    username    The username of the user to log in
+     * @param  {String}    password    The password of the user to log in
+     */
+    var doAdminLogIn = function(username, password) {
+        casper.waitForSelector('#admin-login-form', function() {
+            // Fill sign in form
+            casper.fill('form#admin-login-form', {
+                'username': username,
+                'password': password
+            }, false);
+            // Do the login
+            casper.click('form#admin-login-form button[type="submit"]');
+        });
+
+        casper.waitForSelector('#admin-header-user', function() {
+            casper.echo('Log in with user ' + username);
+        });
+    };
+
+    /**
      * Logs out the current user
      */
     var doLogOut = function() {
@@ -82,9 +104,21 @@ var userUtil = function() {
         });
     };
 
+    /**
+     * Logs out the current user from the administration interface
+     */
+    var doAdminLogOut = function() {
+        casper.then(function() {
+            casper.echo('Log out');
+            casper.click('#admin-header-user-logout');
+        });
+    };
+
     return {
         'createUsers': createUsers,
         'createdUsers': createdUsers,
+        'doAdminLogIn': doAdminLogIn,
+        'doAdminLogOut': doAdminLogOut,
         'doLogIn': doLogIn,
         'doLogOut': doLogOut
     };
