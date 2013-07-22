@@ -210,6 +210,11 @@ casper.start('http://admin.oae.com', function() {
             });
         });
     });
+
+    // Log out with admin user
+    casper.then(function() {
+        userUtil().doAdminLogOut();
+    });
 });
 
 casper.run(function() {

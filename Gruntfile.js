@@ -166,18 +166,17 @@ module.exports = function(grunt) {
                 options: {
                     // Specifies files to be included for each test file
                     includes: [
+                        'tests/casperjs/util/include/admin.js',
                         'tests/casperjs/util/include/content.js',
                         'tests/casperjs/util/include/users.js',
                         'tests/casperjs/util/include/util.js'
                     ],
                     // Adds tests from specified files before running the test suite
-                    //pre: ['tests/casperjs/util/prep.js'],
+                    pre: ['tests/casperjs/util/prep.js'],
                     // Adds tests from specified files after running the test suite
                     //post: ['tests/casperjs/util/cleanup.js'],
                     // Terminates test suite upon failure of first test
-                    failFast: false,
-                    // Prints the command given to CasperJS
-                    printCommand: true
+                    failFast: false
                 }
             }
         }

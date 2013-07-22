@@ -2,9 +2,9 @@
 casper.test.comment('Scenario - Register new user and verify logged in');
 
 /**
- * Initialize CasperJS and point it to cam.oae.com
+ * Initialize CasperJS and point it to test.oae.com
  */
-casper.start('http://cam.oae.com');
+casper.start('http://test.oae.com');
 
 /**
  * Assert that the register button is present and trigger the modal

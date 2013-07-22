@@ -11,7 +11,7 @@ var createdContent = [];
 var contentUtil = function() {
 
     casper.page.customHeaders = {
-        "Referer" : "http://cam.oae.com/"
+        "Referer" : "http://test.oae.com/"
     };
 
     var createFile = function(numToCreate, callback) {

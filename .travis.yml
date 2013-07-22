@@ -7,8 +7,8 @@ branches:
     - master
 
 before_install:
-  - sudo sed -e 's/^\(127\.0\.0\.1.*\)$/\1 admin.oae.com cam.oae.com/' --in-place /etc/hosts
-  - sudo sed -e 's/^\(::1.*\)$/\1 admin.oae.com cam.oae.com/' --in-place /etc/hosts
+  - sudo sed -e 's/^\(127\.0\.0\.1.*\)$/\1 admin.oae.com test.oae.com/' --in-place /etc/hosts
+  - sudo sed -e 's/^\(::1.*\)$/\1 admin.oae.com test.oae.com/' --in-place /etc/hosts
   - npm install -d
   - "echo '{\"NGINX_USER\": \"root\",\"NGINX_GROUP\": \"root\",\"NGINX_HOSTNAME\": \"admin.oae.com\",\"UX_HOME\": \"/home/travis/build/oaeproject/3akai-ux\",\"LOCAL_FILE_STORAGE_DIRECTORY\": \"/home/travis/build/oaeproject/files\"}' > nginx/nginx.json"
   - grunt configNginx
@@ -47,7 +47,7 @@ before_install:
   - node app.js &
   - sleep 20
   - ADMIN_COOKIE=$(curl -s --cookie-jar - -d"username=administrator" -d"password=administrator"  -e "/" http://admin.oae.com/api/auth/login | grep connect.sess | cut -f 7)
-  - curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d"alias=cam" -d"displayName=Cambridge" -d"host=cam.oae.com" http://admin.oae.com/api/tenant/create
+  - curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d"alias=cam" -d"displayName=Cambridge" -d"host=test.oae.com" http://admin.oae.com/api/tenant/create
   - curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d"oae-principals/recaptcha/enabled=false" http://admin.oae.com/api/config
   - cd ../3akai-ux
 

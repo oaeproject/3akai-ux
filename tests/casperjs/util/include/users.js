@@ -20,7 +20,7 @@ var userUtil = function() {
         var toCreate = numToCreate || 4;
         var users = [];
 
-        casper.start('http://cam.oae.com/').repeat(toCreate, function() {
+        casper.start('http://test.oae.com/').repeat(toCreate, function() {
             var rndString = mainUtil().generateRandomString();
             data = casper.evaluate(function(rndString) {
                 return JSON.parse(__utils__.sendAJAX('/api/user/create', 'POST', {
