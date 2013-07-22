@@ -8,7 +8,11 @@ casper.start('http://admin.oae.com', function() {
 
 	casper.then(function() {
 		adminUtil().createTenant('test', 'CasperJS Tenant', 'test.oae.com', function() {
-			userUtil().doAdminLogOut();
+			adminUtil().writeConfig('test', {
+				'oae-principals/recaptcha/enabled': false
+			}, function() {
+				userUtil().doAdminLogOut();
+			});
 		});
 	});
 });
