@@ -5,14 +5,21 @@ casper.test.comment('Admin - Modules');
  */
 var verifyTenantModuleSettingsChange = function() {
     // Double check that the form is present
-    casper.test.assertExists('.admin-module-configuration-container .admin-module-configuration-toggle-button[title="Edit the OAE Principals Module"] + .admin-module-configuration-container form', 'The form is present for the Principals module');
-    // Change the recaptcha setting for the test tenant to disabled
-    casper.fill('form[data-module="oae-principals"]', {
-        'oae-principals/recaptcha/enabled': false,
-        'oae-principals/user/defaultLanguage': 'en_GB'
+    casper.test.assertExists('.admin-module-configuration-container .admin-module-configuration-toggle-button[title="Edit the OAE Tenant Module"] + .admin-module-configuration-container form', 'The form is present for the Tenant module');
+    // Change a setting
+    casper.fill('form[data-module="oae-tenants"]', {
+        'oae-tenants/actions/allowStop': false,
+        'oae-tenants/tenantprivacy/tenantprivate': false
     });
     // Submit the form
-    casper.click('.admin-module-configuration-container .admin-module-configuration-toggle-button[title="Edit the OAE Principals Module"] + .admin-module-configuration-container form button[type="submit"]');
+    casper.click('.admin-module-configuration-container .admin-module-configuration-toggle-button[title="Edit the OAE Tenant Module"] + .admin-module-configuration-container form button[type="submit"]');
+    // Change it back
+    casper.fill('form[data-module="oae-tenants"]', {
+        'oae-tenants/actions/allowStop': true,
+        'oae-tenants/tenantprivacy/tenantprivate': false
+    });
+    // Submit the form
+    casper.click('.admin-module-configuration-container .admin-module-configuration-toggle-button[title="Edit the OAE Tenant Module"] + .admin-module-configuration-container form button[type="submit"]');
     // Wait for a notification to show and verify it's not an error
     casper.waitForSelector('#oae-notification-container .alert', function() {
         casper.test.assertDoesntExist('#oae-notification-container .alert.alert-error', 'Configuration successfully saved');
