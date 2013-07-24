@@ -168,6 +168,7 @@ module.exports = function(grunt) {
                     includes: [
                         'tests/casperjs/util/include/admin.js',
                         'tests/casperjs/util/include/content.js',
+                        'tests/casperjs/util/include/groups.js',
                         'tests/casperjs/util/include/users.js',
                         'tests/casperjs/util/include/util.js'
                     ],
