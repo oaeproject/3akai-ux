@@ -6,12 +6,15 @@ var createdGroups = [];
 /**
  * Utility functions for groups
  *
- * @return  {Object}    Returns an object with referenced user utility functions
+ * @return  {Object}    Returns an object with referenced group utility functions
  */
 var groupUtil = function() {
 
     /**
      * Creates a group
+     *
+     * @param {Function}   callback          Standard callback function
+     * @param {Group}      callback.group    The group data coming back from the server
      */
     var createGroup = function(callback) {
         var group = null;

@@ -167,6 +167,7 @@ module.exports = function(grunt) {
                     // Specifies files to be included for each test file
                     includes: [
                         'tests/casperjs/util/include/admin.js',
+                        'tests/casperjs/util/include/collabdocs.js',
                         'tests/casperjs/util/include/content.js',
                         'tests/casperjs/util/include/groups.js',
                         'tests/casperjs/util/include/users.js',
