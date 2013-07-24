@@ -74,7 +74,7 @@ var verifyStopTenant = function(tenantID) {
 var verifyRenameTenant = function(tenantID) {
     casper.test.assertExists('.jeditable-container .jeditable-field[data-alias="' + tenantID + '"]', 'The editable tenant name field is present');
     casper.click('.jeditable-container .jeditable-field[data-alias="' + tenantID + '"]');
-    // Try submitting an empty form
+    // Submit the form
     casper.test.assertExists('.jeditable-container .jeditable-field[data-alias="' + tenantID + '"] form', 'The tenant name form is present after click');
     casper.fill('.jeditable-container .jeditable-field[data-alias="' + tenantID + '"] form', {
         'value': 'New tenant name'
