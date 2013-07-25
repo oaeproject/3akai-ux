@@ -25,22 +25,20 @@ var adminUtil = function() {
         displayName = displayName || rndString + ' Tenant';
         host = host || rndString + '.oae.com';
 
-        casper.start('http://admin.oae.com/', function() {
-            data = casper.evaluate(function(alias, displayName, host) {
-                return JSON.parse(__utils__.sendAJAX('/api/tenant/create', 'POST', {
-                    'alias': alias,
-                    'displayName': displayName,
-                    'host': host
-                }, false));
-            }, alias, displayName, host);
+        data = casper.evaluate(function(alias, displayName, host) {
+            return JSON.parse(__utils__.sendAJAX('/api/tenant/create', 'POST', {
+                'alias': alias,
+                'displayName': displayName,
+                'host': host
+            }, false));
+        }, alias, displayName, host);
 
-            casper.then(function() {
-                if (!data) {
-                    casper.echo('Did not create tenant ' + displayName + '. It probably already exists.');
-                } else {
-                    casper.echo('Created tenant ' + displayName + '.');
-                }
-            });
+        casper.then(function() {
+            if (!data) {
+                casper.echo('Did not create tenant ' + displayName + '. It probably already exists.');
+            } else {
+                casper.echo('Created tenant ' + displayName + '.');
+            }
         });
 
         casper.then(function() {
@@ -58,14 +56,12 @@ var adminUtil = function() {
      * @param  {Funcction}    callback          Standard callback function
      */
     var writeConfig = function(tenantID, config, callback) {
-        casper.start('http://admin.oae.com/', function() {
-            data = casper.evaluate(function(tenantID, config) {
-                return JSON.parse(__utils__.sendAJAX('/api/config/' + tenantID, 'POST', config, false));
-            }, tenantID, config);
+        data = casper.evaluate(function(tenantID, config) {
+            return JSON.parse(__utils__.sendAJAX('/api/config/' + tenantID, 'POST', config, false));
+        }, tenantID, config);
 
-            casper.then(function() {
-                casper.echo('Saved configuration for ' + tenantID + '.');
-            });
+        casper.then(function() {
+            casper.echo('Saved configuration for ' + tenantID + '.');
         });
 
         casper.then(function() {

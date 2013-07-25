@@ -1,4 +1,4 @@
-casper.echo('Include userUtil');
+casper.echo('Include user utilities');
 
 // Keeps track of the created users that are available for testing
 var createdUsers = [];

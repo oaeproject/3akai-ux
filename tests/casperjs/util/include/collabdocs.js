@@ -1,4 +1,4 @@
-casper.echo('Include collabdocUtil');
+casper.echo('Include collabdoc utilities');
 
 // Keeps track of the created collabdocs that are available for testing
 var createdCollabDocs = [];
