@@ -61,6 +61,8 @@
         ${renderContentCommentSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, target1, target1URL)}
     {elseif activityType === 'content-create'}
         ${renderContentCreateSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount)}
+    {elseif activityType === 'content-restored-revision'}
+        ${renderContentRestoredRevision(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount)}
     {elseif activityType === 'content-revision'}
         ${renderContentRevisionSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, object1, object1URL)}
     {elseif activityType === 'content-share'}
@@ -212,6 +214,32 @@
         __MSG__ACTIVITY_CONTENT_CREATE_2__
     {else}
         __MSG__ACTIVITY_CONTENT_CREATE_2+__
+    {/if}
+{/macro}
+
+<!--
+ * Render the end-user friendly, internationalized summary of a content restored revision activity.
+ *
+ * @param  {Activity}     activity      Standard activity object as specified by the activitystrea.ms specification, representing the content revision restoration activity, for which to generate the activity summary
+ * @param  {String}       actor1        Display name of the first actor on the activity
+ * @param  {String}       actor1URL     Profile path for the first actor on the activity
+ * @param  {String}       object1       Display name of the first object on the activity
+ * @param  {String}       object1URL    Profile path for the first object on the activity
+ * @param  {String}       object2       Display name of the second object on the activity
+ * @param  {String}       object2URL    Profile path for the second object on the activity
+ * @param  {Number}       objectCount   The total number of different objects on the activity
+-->
+{macro renderContentRestoredRevision(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount)}
+    {if !objectCount}
+        {if activity.object['oae:resourceSubType'] === 'collabdoc'}
+            __MSG__ACTIVITY_CONTENT_RESTORED_COLLABDOC__
+        {elseif activity.object['oae:resourceSubType'] === 'file'}
+            __MSG__ACTIVITY_CONTENT_RESTORED_FILE__
+        {/if}
+    {elseif objectCount === 2}
+        __MSG__ACTIVITY_CONTENT_RESTORED_2__
+    {else}
+        __MSG__ACTIVITY_CONTENT_RESTORED_2+__
     {/if}
 {/macro}
 
