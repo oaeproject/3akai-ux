@@ -80,13 +80,16 @@ var userUtil = function() {
      */
     var doAdminLogIn = function(username, password) {
         casper.waitForSelector('#admin-login-form', function() {
-            // Fill sign in form
-            casper.fill('form#admin-login-form', {
-                'username': username,
-                'password': password
-            }, false);
-            // Do the login
-            casper.click('form#admin-login-form button[type="submit"]');
+            casper.wait(2000, function() {
+
+                // Fill sign in form
+                casper.fill('form#admin-login-form', {
+                    'username': username,
+                    'password': password
+                }, false);
+                // Do the login
+                casper.click('form#admin-login-form button[type="submit"]');
+            });
         });
 
         casper.waitForSelector('#admin-header-user', function() {
@@ -111,6 +114,7 @@ var userUtil = function() {
         casper.then(function() {
             casper.echo('Log out');
             casper.click('#admin-header-user-logout');
+            casper.wait(2000);
         });
     };
 

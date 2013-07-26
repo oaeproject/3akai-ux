@@ -72,16 +72,18 @@ var verifyStopTenant = function(tenantID) {
  * @param  {String}    tenantID    The ID of the tenant to be renamed
  */
 var verifyRenameTenant = function(tenantID) {
-    casper.test.assertExists('.jeditable-container .jeditable-field[data-alias="' + tenantID + '"]', 'The editable tenant name field is present');
-    casper.click('.jeditable-container .jeditable-field[data-alias="' + tenantID + '"]');
-    // Submit the form
-    casper.test.assertExists('.jeditable-container .jeditable-field[data-alias="' + tenantID + '"] form', 'The tenant name form is present after click');
-    casper.fill('.jeditable-container .jeditable-field[data-alias="' + tenantID + '"] form', {
-        'value': 'New tenant name'
-    }, false);
-    casper.click('html');
     casper.waitForSelector('.jeditable-container .jeditable-field[data-alias="' + tenantID + '"]', function() {
-        casper.test.assertSelectorHasText('.jeditable-container .jeditable-field[data-alias="' + tenantID + '"]', 'New tenant name', 'The tenant name has been successfully changed');
+        casper.test.assertExists('.jeditable-container .jeditable-field[data-alias="' + tenantID + '"]', 'The editable tenant name field is present');
+        casper.click('.jeditable-container .jeditable-field[data-alias="' + tenantID + '"]');
+        // Submit the form
+        casper.test.assertExists('.jeditable-container .jeditable-field[data-alias="' + tenantID + '"] form', 'The tenant name form is present after click');
+        casper.fill('.jeditable-container .jeditable-field[data-alias="' + tenantID + '"] form', {
+            'value': 'New tenant name'
+        }, false);
+        casper.click('html');
+        casper.waitForSelector('.jeditable-container .jeditable-field[data-alias="' + tenantID + '"]', function() {
+            casper.test.assertSelectorHasText('.jeditable-container .jeditable-field[data-alias="' + tenantID + '"]', 'New tenant name', 'The tenant name has been successfully changed');
+        });
     });
 };
 

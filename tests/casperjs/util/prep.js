@@ -1,7 +1,7 @@
 casper.test.comment('Prepare environment for tests');
 
 // Override default waitTimeout before test fails
-casper.options.waitTimeout = 10000;
+casper.options.waitTimeout = 20000;
 
 // Set up test tenant
 casper.start('http://admin.oae.com', function() {
