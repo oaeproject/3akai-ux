@@ -36,7 +36,7 @@ var userUtil = function() {
             }, rndString);
 
             casper.then(function() {
-                casper.echo('Created user-' + rndString + '.');
+                casper.echo('Created user-' + rndString);
                 data.username = 'user-' + rndString;
                 createdUsers.push(data);
                 users.push(data);
@@ -81,7 +81,6 @@ var userUtil = function() {
     var doAdminLogIn = function(username, password) {
         casper.waitForSelector('#admin-login-form', function() {
             casper.wait(2000, function() {
-
                 // Fill sign in form
                 casper.fill('form#admin-login-form', {
                     'username': username,
