@@ -30,9 +30,13 @@ var collabDocUtil = function() {
             }, rndString);
 
             casper.then(function() {
-                casper.echo('Created collabdoc-' + rndString + '.');
-                createdCollabDocs.push(data);
-                collabdoc = data;
+                if (data) {
+                    casper.echo('Created collabdoc-' + rndString + '.');
+                    createdCollabDocs.push(data);
+                    collabdoc = data;
+                } else {
+                    casper.echo('Could not create collabdoc-' + rndString + '.', 'ERROR');
+                }
             });
         });
 

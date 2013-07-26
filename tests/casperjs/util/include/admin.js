@@ -34,10 +34,10 @@ var adminUtil = function() {
         }, alias, displayName, host);
 
         casper.then(function() {
-            if (!data) {
-                casper.echo('Did not create tenant ' + displayName + '. It probably already exists.');
-            } else {
+            if (data) {
                 casper.echo('Created tenant ' + displayName + '.');
+            } else {
+                casper.echo('Did not create tenant ' + displayName + '. It probably already exists.', 'ERROR');
             }
         });
 
@@ -65,6 +65,9 @@ var adminUtil = function() {
         });
 
         casper.then(function() {
+            if (!data) {
+                casper.echo('Could not save configuration for ' + tenantID + '.', 'ERROR');
+            }
             if (callback) {
                 callback();
             }

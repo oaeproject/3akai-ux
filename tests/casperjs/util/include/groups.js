@@ -30,9 +30,13 @@ var groupUtil = function() {
             }, rndString);
 
             casper.then(function() {
-                casper.echo('Created group-' + rndString + '.');
-                createdGroups.push(data);
-                group = data;
+                if (data) {
+                    casper.echo('Created group-' + rndString + '.');
+                    createdGroups.push(data);
+                    group = data;
+                } else {
+                    casper.echo('Could not create group-' + rndString + '.', 'ERROR');
+                }
             });
         });
 

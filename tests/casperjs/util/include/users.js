@@ -36,10 +36,14 @@ var userUtil = function() {
             }, rndString);
 
             casper.then(function() {
-                casper.echo('Created user-' + rndString);
-                data.username = 'user-' + rndString;
-                createdUsers.push(data);
-                users.push(data);
+                if (data) {
+                    casper.echo('Created user-' + rndString);
+                    data.username = 'user-' + rndString;
+                    createdUsers.push(data);
+                    users.push(data);
+                } else {
+                    casper.echo('Could not create user-' + rndString, 'ERROR');
+                }
             });
         });
 
