@@ -984,6 +984,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         };
     };
 
+
     ////////////////////
     // MATH RENDERING //
     ////////////////////
