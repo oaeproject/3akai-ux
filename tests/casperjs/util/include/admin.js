@@ -61,12 +61,10 @@ var adminUtil = function() {
         }, tenantID, config);
 
         casper.then(function() {
-            casper.echo('Saved configuration for ' + tenantID + '.');
-        });
-
-        casper.then(function() {
-            if (!data) {
-                casper.echo('Could not save configuration for ' + tenantID + '.', 'ERROR');
+            if (data) {
+                casper.echo('Saved configuration for ' + tenantID + '.');
+            } else {
+                casper.echo('Could not save configuration for ' + tenantID + '. It was probably already configured.', 'ERROR');
             }
             if (callback) {
                 callback();
