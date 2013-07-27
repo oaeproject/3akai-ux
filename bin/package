@@ -1,0 +1,68 @@
+#!/usr/bin/env node
+
+var path = require('path');
+var util = require('util');
+
+var CoreUtil = require('oae-release-tools').CoreUtil;
+var PackageUtil = require('oae-release-tools').PackageUtil;
+
+var argv = require('optimist')
+    .usage('Usage: $0 [-s] [-v <force ui version>]')
+
+    .alias('h', 'help')
+    .describe('h', 'Show this help information.')
+
+    .alias('v', 'ui-version')
+    .describe('v', 'The version of the UI that we are packaging. If not specified, it will be derived from the 3akai-ux version in package.json and git describe')
+
+    .alias('s', 'skip-tests')
+    .describe('s', 'Skip the unit tests in the packaging process.')
+
+    .argv;
+
+// Display the help if requested
+if (argv.h) {
+    require('optimist').showHelp();
+    return process.exit(0);
+}
+
+var packageJsonPath = path.resolve('package.json');
+
+// Ensure the target directory doesn't exist yet
+var srcDir = 'target';
+PackageUtil.validatePackage(srcDir, 3);
+
+// Load and validate the package.json
+var packageJson = CoreUtil.loadPackageJson(packageJsonPath, '3akai-ux', 4);
+
+if (!argv.s) {
+    CoreUtil.runUnitTests(6);
+} else {
+    CoreUtil.logWarn('Skipping unit tests because of -s parameter');
+}
+
+// Find the 3akai-ux version
+var uiVersion = argv.v;
+if (!uiVersion) {
+    var describe = CoreUtil.gitDescribe(packageJson.version, 7);
+    uiVersion = describe.tag;
+
+    if (describe.commits) {
+        uiVersion += '-' + describe.commits;
+    }
+
+    if (describe.hash) {
+        uiVersion += '-' + describe.hash;
+    }
+}
+
+CoreUtil.logSuccess('Resolved UI version to be '.text + uiVersion.white);
+
+// Loudly optimize the UI into the target directory
+CoreUtil.exec('grunt', 'Error during the grunt optimization stop', 8, true);
+CoreUtil.logSuccess('Successfully optimized the UI files into the '.text + 'target'.white + ' directory'.text);
+
+// Package the source directory into a tarball
+var packageFilename = util.format('3akai-ux-%s', uiVersion);
+var packageResult = PackageUtil.packageRelease(srcDir, '.', packageFilename, 9);
+PackageUtil.checksumPackage(packageResult.packagePath, 10);

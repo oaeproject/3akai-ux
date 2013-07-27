@@ -39,7 +39,8 @@ module.exports = function(grunt) {
                 'admin/**/*.js',
                 'shared/**/*.js',
                 'ui/**/*.js',
-                'node_modules/oae-*/**/*.js'
+                'node_modules/oae-*/**/*.js',
+                '!node_modules/oae-release-tools/**'
             ]
         },
         'watch': {
@@ -70,6 +71,8 @@ module.exports = function(grunt) {
                             '!tools/**',
                             '!node_modules/.*/**',
                             '!node_modules/grunt*/**',
+                            '!node_modules/oae-release-tools/**',
+                            '!node_modules/optimist/**',
                             '!node_modules/shelljs/**',
                             '!node_modules/underscore/**'
                         ],
@@ -98,7 +101,7 @@ module.exports = function(grunt) {
                         'name': 'oae.core',
                         'exclude': ['jquery']
                     }],
-                    'fileExclusionRegExp': /^(\.|target|tests|tools|grunt|shelljs|underscore$)/,
+                    'fileExclusionRegExp': /^(\.|target|tests|tools|grunt|shelljs|underscore$|optimist|oae-release-tools)/,
                     'logLevel': 2
                 }
             }
