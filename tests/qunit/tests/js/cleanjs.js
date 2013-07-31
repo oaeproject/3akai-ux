@@ -129,6 +129,5 @@ require(['oae.core', '/tests/qunit/js/util.js', 'qunitjs', 'jquery', '/shared/ve
         util.loadTestData(cleanJSTest);
 
         QUnit.load();
-        QUnit.start();
     }
 );
