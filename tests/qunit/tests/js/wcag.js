@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, util) {
+require(['jquery', 'oae.core', '../js/util.js'], function($, oae, util) {
 
     module('WCAG 2.0 Compliance - 1.1.1 Non-text Content / Text Alternatives');
 
@@ -171,6 +171,4 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
     util.loadWidgets(testWCAGCompliance);
 
     QUnit.load();
-    QUnit.start();
-
 });
