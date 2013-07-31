@@ -26,6 +26,8 @@ if (argv.h) {
     return process.exit(0);
 }
 
+// Gather system information so we know what system we built on
+var systemInfo = CoreUtil.getSystemInfo();
 var packageJsonPath = path.resolve('package.json');
 
 // Ensure the target directory doesn't exist yet
@@ -62,7 +64,10 @@ CoreUtil.logSuccess('Resolved UI version to be '.text + uiVersion.white);
 CoreUtil.exec('grunt', 'Error during the grunt optimization stop', 8, true);
 CoreUtil.logSuccess('Successfully optimized the UI files into the '.text + 'target'.white + ' directory'.text);
 
+// Save the system info into the 3akai-ux. This will tell us at least what version we are
+PackageUtil.saveBuildInfo(srcDir, uiVersion, systemInfo, 9);
+
 // Package the source directory into a tarball
 var packageFilename = util.format('3akai-ux-%s', uiVersion);
-var packageResult = PackageUtil.packageRelease(srcDir, '.', packageFilename, 9);
-PackageUtil.checksumPackage(packageResult.packagePath, 10);
+var packageResult = PackageUtil.packageRelease(srcDir, '.', packageFilename, 10);
+PackageUtil.checksumPackage(packageResult.packagePath, 11);
