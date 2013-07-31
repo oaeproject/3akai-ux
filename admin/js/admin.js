@@ -640,9 +640,17 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                     url += '/' + currentContext.alias;
                 }
 
+                // We explicitly cache bust this request, as the caching headers will be
+                // set to cache the config feed for 15 minutes because the endpoint is used
+                // by end-users on tenants as we don't want to refresh the config feed on
+                // every page load. However, in the administration UI we don't want to serve
+                // cached configs to the administrator, as that could give the impression of
+                // a broken administration UI
+                // TODO
                 $.ajax({
-                    url: url,
-                    success: function(data) {
+                    'url': url,
+                    'cache': false,
+                    'success': function(data) {
                         configuration = data;
                         callback();
                     }
