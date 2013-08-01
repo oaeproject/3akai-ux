@@ -16,13 +16,13 @@ var argv = require('optimist')
     .usage('Usage: $0 [-s] [-v <force ui version>]')
 
     .alias('h', 'help')
-    .describe('h', 'Show this help information.')
+    .describe('h', 'Show this help information')
 
     .alias('v', 'ui-version')
     .describe('v', 'The version of the UI that we are packaging. If not specified, it will be derived from the 3akai-ux version in package.json and git describe')
 
     .alias('s', 'skip-tests')
-    .describe('s', 'Skip the unit tests in the packaging process.')
+    .describe('s', 'Skip the unit tests in the packaging process')
 
     .argv;
 
