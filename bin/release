@@ -7,6 +7,8 @@ var CoreUtil = require('oae-release-tools').CoreUtil;
 var PackageUtil = require('oae-release-tools').PackageUtil;
 var ReleaseUtil = require('oae-release-tools').ReleaseUtil;
 
+
+
 //////////////////////
 // HANDLE ARGUMENTS //
 //////////////////////
@@ -29,15 +31,21 @@ var argv = require('optimist')
 
     .argv;
 
-var version = argv.v;
-var packageJsonPath = path.resolve('package.json');
-var packageDest = 'dist';
-
 // Display the help if requested
 if (argv.h) {
     require('optimist').showHelp();
     return process.exit(0);
 }
+
+
+
+/////////////////////
+// PERFORM RELEASE //
+/////////////////////
+
+var version = argv.v;
+var packageJsonPath = path.resolve('package.json');
+var packageDest = 'dist';
 
 // Ensure everything is OK to do a release
 ReleaseUtil.validateRelease(3);
