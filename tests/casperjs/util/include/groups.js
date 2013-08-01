@@ -18,26 +18,25 @@ var groupUtil = function() {
      */
     var createGroup = function(callback) {
         var group = null;
-        casper.start('http://test.oae.com/', function() {
-            var rndString = mainUtil().generateRandomString();
-            data = casper.evaluate(function(rndString) {
-                return JSON.parse(__utils__.sendAJAX('/api/group/create', 'POST', {
-                    'displayName': 'group-' + rndString,
-                    'description': '',
-                    'visibility': 'public',
-                    'joinable': 'yes'
-                }, false));
-            }, rndString);
 
-            casper.then(function() {
-                if (data) {
-                    casper.echo('Created group-' + rndString + '.');
-                    createdGroups.push(data);
-                    group = data;
-                } else {
-                    casper.echo('Could not create group-' + rndString + '.', 'ERROR');
-                }
-            });
+        var rndString = mainUtil().generateRandomString();
+        data = casper.evaluate(function(rndString) {
+            return JSON.parse(__utils__.sendAJAX('/api/group/create', 'POST', {
+                'displayName': 'group-' + rndString,
+                'description': '',
+                'visibility': 'public',
+                'joinable': 'yes'
+            }, false));
+        }, rndString);
+
+        casper.then(function() {
+            if (data) {
+                casper.echo('Created group-' + rndString + '.');
+                createdGroups.push(data);
+                group = data;
+            } else {
+                casper.echo('Could not create group-' + rndString + '.', 'ERROR');
+            }
         });
 
         casper.then(function() {

@@ -18,7 +18,7 @@ var discussionUtil = function() {
         var rndString = mainUtil().generateRandomString();
         data = casper.evaluate(function(rndString) {
             return JSON.parse(__utils__.sendAJAX('/api/discussion/create', 'POST', {
-                'displayName': 'Conversation starter ' + rndString,
+                'displayName': 'Discussion ' + rndString,
                 'description': 'Talk about all the things!',
                 'visibility': 'public'
             }, false));
@@ -26,10 +26,10 @@ var discussionUtil = function() {
 
         casper.then(function() {
             if (data) {
-                casper.echo('Created \'Conversation starter ' + rndString + '\'.');
+                casper.echo('Created \'Discussion' + rndString + '\'.');
                 discussion = data;
             } else {
-                casper.echo('Could not create discussion \'Conversation starter ' + rndString + '\'.', 'ERROR');
+                casper.echo('Could not create discussion \'Discussion' + rndString + '\'.', 'ERROR');
             }
         });
 
