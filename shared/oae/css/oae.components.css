@@ -1211,7 +1211,7 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
     margin-bottom: 0;
 }
 
-.oae-list-options form button[type="submit"] {
+.oae-list-options .form-search button[type="submit"] {
     margin-left: -30px;
     margin-top: 2px;
     padding: 0;
