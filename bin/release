@@ -1,0 +1,96 @@
+#!/usr/bin/env node
+
+var path = require('path');
+var util = require('util');
+
+var CoreUtil = require('oae-release-tools').CoreUtil;
+var PackageUtil = require('oae-release-tools').PackageUtil;
+var ReleaseUtil = require('oae-release-tools').ReleaseUtil;
+
+
+
+//////////////////////
+// HANDLE ARGUMENTS //
+//////////////////////
+
+var argv = require('optimist')
+    .usage('Usage: $0 [-s] [-p] -v <release version>')
+
+    .alias('h', 'help')
+    .describe('h', 'Show this help information')
+
+    .alias('s', 'skip-tests')
+    .describe('s', 'Skip the unit tests in the release process')
+
+    .alias('p', 'package')
+    .describe('p', 'Generate a package tarball (tar.gz) of the tag')
+
+    .alias('v', 'version')
+    .describe('v', 'Which version to release (e.g., 0.4.1)')
+    .demand('v')
+
+    .argv;
+
+// Display the help if requested
+if (argv.h) {
+    require('optimist').showHelp();
+    return process.exit(0);
+}
+
+
+
+/////////////////////
+// PERFORM RELEASE //
+/////////////////////
+
+var version = argv.v;
+var packageJsonPath = path.resolve('package.json');
+var packageDest = 'dist';
+
+// Ensure everything is OK to do a release
+ReleaseUtil.validateRelease(3);
+
+// If they specified to package after the tag, verify everything is OK to package before doing anything
+if (argv.p) {
+    PackageUtil.validatePackage(packageDest, 3);
+}
+
+// Load and validate the package.json
+var packageJson = CoreUtil.loadPackageJson(packageJsonPath, '3akai-ux', 4);
+
+// Ensure our target version is a valid jump from where we are
+ReleaseUtil.validateTargetVersion(packageJson, argv.v, 5);
+
+// Optionally, run the tests right now
+if (!argv.s) {
+    CoreUtil.runUnitTests(6);
+} else {
+    CoreUtil.logWarn('Skipping unit tests because of -s parameter');
+}
+
+// Bump the version in package.json to the target version
+ReleaseUtil.bumpPackageJsonVersion(packageJsonPath, packageJson.version, argv.v, 7);
+
+// Commit the version change and tag the release
+ReleaseUtil.gitCommitVersionAndTag(argv.v, 8);
+
+// Optionally package up the release on the tag
+if (argv.p) {
+    // Skip the tests and just use the version from package.json
+    CoreUtil.exec('bin/package -s', 'Error packaging up the distribution release', 9, true);
+}
+
+CoreUtil.logSuccess('Successfully released 3akai-ux '.text + argv.v.white + ' in your local repository'.text);
+CoreUtil.logInfo(' ');
+CoreUtil.logInfo('Next you will have to do the following:');
+CoreUtil.logInfo(' ');
+CoreUtil.logInfo('    1. Analyze the commits in your local repository and verify they are what you want. Look at the diffs between the 2 commits');
+CoreUtil.logInfo('       to ensure they are only bumping the version.');
+CoreUtil.logInfo('            * Use "git log" and "git diff" to analyze the commit');
+CoreUtil.logInfo('            * Use "git tag" to verify that the tag '.text + argv.v.white + ' was indeed created'.text);
+CoreUtil.logInfo(' ');
+CoreUtil.logInfo('    2. If everything is OK, push the commits to the https://github.com/oaeproject/3akai-ux repository with "git push".');
+CoreUtil.logInfo(' ');
+CoreUtil.logInfo('    3. Once pushed, also push the tag you created with: "git push <remote> ' + argv.v + '"');
+CoreUtil.logInfo(' ');
+CoreUtil.logSuccess('Complete!');

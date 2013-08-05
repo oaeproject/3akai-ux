@@ -39,7 +39,8 @@ module.exports = function(grunt) {
                 'admin/**/*.js',
                 'shared/**/*.js',
                 'ui/**/*.js',
-                'node_modules/oae-*/**/*.js'
+                'node_modules/oae-*/**/*.js',
+                '!node_modules/oae-release-tools/**'
             ]
         },
         'watch': {
@@ -70,6 +71,8 @@ module.exports = function(grunt) {
                             '!tools/**',
                             '!node_modules/.*/**',
                             '!node_modules/grunt*/**',
+                            '!node_modules/oae-release-tools/**',
+                            '!node_modules/optimist/**',
                             '!node_modules/shelljs/**',
                             '!node_modules/underscore/**'
                         ],
@@ -98,7 +101,7 @@ module.exports = function(grunt) {
                         'name': 'oae.core',
                         'exclude': ['jquery']
                     }],
-                    'fileExclusionRegExp': /^(\.|target|tests|tools|grunt|shelljs|underscore$)/,
+                    'fileExclusionRegExp': /^(\.|target|tests|tools|grunt|shelljs|underscore$|optimist|oae-release-tools)/,
                     'logLevel': 2
                 }
             }
@@ -249,7 +252,7 @@ module.exports = function(grunt) {
         grunt.log.writeln('Boots strapped'.green);
     });
 
-    // A task that will copy the release files to a directory of your choosing.
+    // A task that will copy the release files to a directory of your choosing
     grunt.registerTask('copyReleaseArtifacts', function(outputDir) {
         if (!outputDir) {
             return grunt.log.writeln('Please provide a path where the release files should be copied to'.red);
@@ -260,8 +263,7 @@ module.exports = function(grunt) {
     });
 
     // Release task.
-    // This essentially runs the default task and then
-    // copies the target directory to the `outputDir`
+    // This essentially runs the default task and then copies the target directory to the `outputDir`
     //
     // Example:
     //    grunt release:/tmp/release
@@ -278,7 +280,7 @@ module.exports = function(grunt) {
         grunt.task.run('default');
 
         // Copy the minified and original files to the output directory
-        // and give them the proper names so no config changes in Hilary need to occur.
+        // and give them the proper names so no config changes in Hilary need to occur
         grunt.task.run('copyReleaseArtifacts:' + outputDir);
     });
 

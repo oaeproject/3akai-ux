@@ -1,0 +1,94 @@
+#!/usr/bin/env node
+
+var path = require('path');
+var util = require('util');
+
+var CoreUtil = require('oae-release-tools').CoreUtil;
+var PackageUtil = require('oae-release-tools').PackageUtil;
+
+
+
+//////////////////////
+// HANDLE ARGUMENTS //
+//////////////////////
+
+var argv = require('optimist')
+    .usage('Usage: $0 [-s] [-v <force ui version>]')
+
+    .alias('h', 'help')
+    .describe('h', 'Show this help information')
+
+    .alias('v', 'ui-version')
+    .describe('v', 'The version of the UI that we are packaging. If not specified, it will be derived from the 3akai-ux version in package.json and git describe')
+
+    .alias('s', 'skip-tests')
+    .describe('s', 'Skip the unit tests in the packaging process')
+
+    .argv;
+
+// Display the help if requested
+if (argv.h) {
+    require('optimist').showHelp();
+    return process.exit(0);
+}
+
+
+
+///////////////////////
+// PERFORM PACKAGING //
+///////////////////////
+
+// Gather system information so we know what system we built on
+var systemInfo = CoreUtil.getSystemInfo();
+var packageJsonPath = path.resolve('package.json');
+
+// Ensure the target directory doesn't exist yet
+var srcDir = 'target';
+PackageUtil.validatePackage(srcDir, 3);
+
+// Load and validate the package.json
+var packageJson = CoreUtil.loadPackageJson(packageJsonPath, '3akai-ux', 4);
+
+if (!argv.s) {
+    CoreUtil.runUnitTests(6);
+} else {
+    CoreUtil.logWarn('Skipping unit tests because of -s parameter');
+}
+
+/*!
+ * Find the 3akai-ux version. If not specified explicitly in the command with a -v parameter, it will be derived
+ * using a combination of the package.json version and the closest matching tag using git describe:
+ *
+ *  git describe --always --tag --match=<package.json version>
+ *
+ * And the result being:
+ *
+ *  <closest relevant tag>-<number of commits since the tag>-<current commit hash>
+ */
+var uiVersion = argv.v;
+if (!uiVersion) {
+    var describe = CoreUtil.gitDescribe(packageJson.version, 7);
+    uiVersion = describe.tag;
+
+    if (describe.commits) {
+        uiVersion += '-' + describe.commits;
+    }
+
+    if (describe.hash) {
+        uiVersion += '-' + describe.hash;
+    }
+}
+
+CoreUtil.logSuccess('Resolved UI version to be '.text + uiVersion.white);
+
+// Loudly optimize the UI into the target directory
+CoreUtil.exec('node_modules/.bin/grunt', 'Error during the grunt optimization stage', 8, true);
+CoreUtil.logSuccess('Successfully optimized the UI files into the '.text + 'target'.white + ' directory'.text);
+
+// Save the system info into the 3akai-ux target directory. This will tell us at least what version we are
+PackageUtil.saveBuildInfo(srcDir, uiVersion, systemInfo, 9);
+
+// Package the source directory into a tarball
+var packageFilename = util.format('3akai-ux-%s', uiVersion);
+var packageResult = PackageUtil.packageRelease(srcDir, '.', packageFilename, 10);
+PackageUtil.checksumPackage(packageResult.packagePath, 11);
