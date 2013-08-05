@@ -18,26 +18,24 @@ var collabDocUtil = function() {
      */
     var createCollabDoc = function(callback) {
         var collabdoc = null;
-        casper.start('http://test.oae.com/', function() {
-            var rndString = mainUtil().generateRandomString();
-            data = casper.evaluate(function(rndString) {
-                return JSON.parse(__utils__.sendAJAX('/api/content/create', 'POST', {
-                    'resourceSubType': 'collabdoc',
-                    'displayName': 'collabdoc-' + rndString,
-                    'description': '',
-                    'visibility': 'public'
-                }, false));
-            }, rndString);
+        var rndString = mainUtil().generateRandomString();
+        data = casper.evaluate(function(rndString) {
+            return JSON.parse(__utils__.sendAJAX('/api/content/create', 'POST', {
+                'resourceSubType': 'collabdoc',
+                'displayName': 'collabdoc-' + rndString,
+                'description': '',
+                'visibility': 'public'
+            }, false));
+        }, rndString);
 
-            casper.then(function() {
-                if (data) {
-                    casper.echo('Created collabdoc-' + rndString + '.');
-                    createdCollabDocs.push(data);
-                    collabdoc = data;
-                } else {
-                    casper.echo('Could not create collabdoc-' + rndString + '.', 'ERROR');
-                }
-            });
+        casper.then(function() {
+            if (data) {
+                casper.echo('Created collabdoc-' + rndString + '.');
+                createdCollabDocs.push(data);
+                collabdoc = data;
+            } else {
+                casper.echo('Could not create collabdoc-' + rndString + '.', 'ERROR');
+            }
         });
 
         casper.then(function() {

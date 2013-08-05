@@ -13,9 +13,11 @@ var contentUtil = function() {
     /**
      * Creates a file through the UI and returns the URL to it
      *
-     * @param  {Function} callback    Standard callback function
+     * @param  {[String]}     file       Optional URL to the file to create
+     * @param  {Function}   callback   Standard callback function
      */
-    var createFile = function(callback) {
+    var createFile = function(file, callback) {
+        var fileToUpload = file || 'tests/casperjs/data/balloons.jpg';
         var contentUrl = null;
 
         casper.thenOpen('http://test.oae.com/me', function() {
@@ -28,7 +30,7 @@ var contentUtil = function() {
             });
             casper.then(function() {
                 casper.fill('#upload-dropzone form', {
-                    'file': 'tests/casperjs/data/balloons.jpg'
+                    'file': fileToUpload
                 }, false);
                 casper.click('button#upload-upload');
                 casper.waitForSelector('#oae-notification-container .alert', function() {
