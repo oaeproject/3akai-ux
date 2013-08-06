@@ -72,8 +72,30 @@ var contentUtil = function() {
         });
     };
 
+    /**
+     * Creates a revision for a content item
+     *
+     * @param  {Function}    callback    Standard callback function
+     */
+    var createRevision = function(callback) {
+        casper.waitForSelector('#content-clip-container .oae-clip-content > button', function() {
+            casper.click('.oae-trigger-uploadnewversion');
+            casper.waitForSelector('form#uploadnewversion-form', function() {
+                casper.fill('form#uploadnewversion-form', {
+                    'file': 'tests/casperjs/data/apereo.jpg'
+                });
+                casper.waitForSelector('#oae-notification-container .alert', function() {
+                    casper.click('#oae-notification-container .close');
+                    casper.echo('Created a new revision');
+                    callback();
+                });
+            });
+        });
+    };
+
     return {
         'createFile': createFile,
-        'createLink': createLink
+        'createLink': createLink,
+        'createRevision': createRevision
     };
 };

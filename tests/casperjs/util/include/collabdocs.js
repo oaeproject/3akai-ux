@@ -13,8 +13,8 @@ var collabDocUtil = function() {
     /**
      * Creates a collabdoc
      *
-     * @param {Function}   callback              Standard callback function
-     * @param {Collabdoc}      callback.collabdoc    The collabdoc data coming back from the server
+     * @param {Function}    callback              Standard callback function
+     * @param {Collabdoc}   callback.collabdoc    The collabdoc data coming back from the server
      */
     var createCollabDoc = function(callback) {
         var collabdoc = null;
