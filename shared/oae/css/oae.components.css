@@ -192,7 +192,7 @@ i[class^="icon-"].large:before {
  *              <div class="oae-large-options well pull-left text-center checked">
  *                  <input type="radio" id="oae-visibility-private" value="private" name="oae-visibility-group" class="pull-left" checked="checked"/>
  *                  <i class="icon-oae-private large text-center"></i>
- *                  <span>__MSG__PRIVATE__</span>
+ *                  <span class="oae-threedots">__MSG__PRIVATE__</span>
  *              </div>
  *              <i class="icon-ok hide"></i>
  *              <small>__MSG__GROUP_PRIVATE_DESCRIPTION__</small>
@@ -201,7 +201,7 @@ i[class^="icon-"].large:before {
  *              <div class="oae-large-options well pull-left text-center">
  *                  <input type="radio" id="oae-visibility-loggedin" value="loggedin" name="oae-visibility-group" class="pull-left"/>
  *                  <i class="icon-oae-loggedin large text-center"></i>
- *                  <span>Cambridge University</span>
+ *                  <span class="oae-threedots">Cambridge University</span>
  *              </div>
  *              <i class="icon-ok hide"></i>
  *              <small>__MSG__GROUP_LOGGEDIN_DESCRIPTION__</small>
@@ -210,7 +210,7 @@ i[class^="icon-"].large:before {
  *              <div class="oae-large-options well pull-left text-center">
  *                  <input type="radio" id="oae-visibility-public" value="public" name="oae-visibility-group" class="pull-left"/>
  *                  <i class="icon-oae-public large text-center"></i>
- *                  <span>__MSG__PUBLIC__</span>
+ *                  <span class="oae-threedots">__MSG__PUBLIC__</span>
  *              </div>
  *              <i class="icon-ok hide"></i>
  *              <small>__MSG__GROUP_PUBLIC_DESCRIPTION__</small>
@@ -241,6 +241,7 @@ i[class^="icon-"].large:before {
 }
 
 .oae-large-options-container .oae-large-options input {
+    margin: 24px;
     position: absolute;
     z-index: -1; /* Adding a z-index of -1 hides the element from the view but still allows for focus of the element */
 }
