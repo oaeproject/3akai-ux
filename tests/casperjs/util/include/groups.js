@@ -16,18 +16,20 @@ var groupUtil = function() {
      * @param {Function}   callback          Standard callback function
      * @param {Group}      callback.group    The group data coming back from the server
      */
-    var createGroup = function(callback) {
+    var createGroup = function(members, managers, callback) {
         var group = null;
 
         var rndString = mainUtil().generateRandomString();
-        data = casper.evaluate(function(rndString) {
+        data = casper.evaluate(function(rndString, members, managers) {
             return JSON.parse(__utils__.sendAJAX('/api/group/create', 'POST', {
                 'displayName': 'group-' + rndString,
                 'description': '',
                 'visibility': 'public',
-                'joinable': 'yes'
+                'joinable': 'yes',
+                'members': members,
+                'managers': managers
             }, false));
-        }, rndString);
+        }, rndString, members, managers);
 
         casper.then(function() {
             if (data) {
