@@ -55,6 +55,7 @@ define([
         'jquery.dnd-upload',
         'jquery.infinitescroll',
         'jquery.list-options',
+        'jquery.update-picture',
 
         /*!
          * Third-party dependencies.

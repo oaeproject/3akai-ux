@@ -191,20 +191,6 @@ require(['jquery', 'oae.core'], function($, oae) {
     };
 
 
-    //////////////////////////
-    // CHANGE GROUP PICTURE //
-    //////////////////////////
-
-    /**
-     * Re-render the group's clip when a new profile picture has been uploaded. The updated
-     * group profile will be passed into the event
-     */
-    $(document).on('oae.changepic.finished', function(ev, data) {
-        groupProfile = data;
-        setUpClip();
-    });
-
-
     ///////////////////
     // MANAGE ACCESS //
     ///////////////////

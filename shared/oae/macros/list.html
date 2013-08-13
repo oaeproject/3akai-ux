@@ -120,7 +120,7 @@
         {var visibility = entityData['oae:visibility']}
     {/if}
 
-    <div class="oae-thumbnail {if largeDefault} oae-thumbnail-large {/if} icon-oae-${resourceSubType} icon-oae-${resourceType}">
+    <div class="oae-thumbnail {if largeDefault} oae-thumbnail-large {/if} icon-oae-${resourceSubType} icon-oae-${resourceType}" data-id="${entityData['oae:id'] || entityData.id}">
         {if profilePath && addLink !== false}<a href="${profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}">{/if}
         {if thumbnailUrl}
             <img src="${thumbnailUrl}" alt="${entityData.displayName|encodeForHTMLAttribute}" />
