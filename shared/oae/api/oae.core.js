@@ -65,6 +65,7 @@ define([
         'jquery.fileSize',
         'jquery.form',
         'jquery.infinitescroll',
+        'jquery.migrate',
         'jquery.notify',
         'jquery.parseurl',
         'jquery.properties-parser',

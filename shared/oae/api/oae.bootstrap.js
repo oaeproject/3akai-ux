@@ -36,6 +36,7 @@ requirejs.config({
         'jquery.iframe-transport': 'vendor/js/jquery-plugins/jquery.iframe-transport',
         'jquery.jcrop': 'vendor/js/jquery-plugins/jcrop/jquery.Jcrop',
         'jquery.jeditable': 'vendor/js/jquery-plugins/jquery.jeditable.oae-edited',
+        'jquery.migrate': 'vendor/js/jquery-plugins/jquery.migrate-1.2.1',
         'jquery.notify': 'vendor/js/jquery-plugins/jquery.bootstrap.notify',
         'jquery.oembed': 'vendor/js/jquery-plugins/jquery.oembed',
         'jquery.parseurl': 'vendor/js/jquery-plugins/jquery.parseurl.oae-edited',
