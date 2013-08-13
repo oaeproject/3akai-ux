@@ -74,7 +74,8 @@ requirejs.config({
         'oae.api.widget': 'oae/api/oae.api.widget',
         'oae.bootstrap': 'oae/api/oae.bootstrap',
         'oae.core': 'oae/api/oae.core',
-        'pluginBuilder': 'oae/pluginBuilder'
+        'pluginBuilder': 'oae/pluginBuilder',
+        'qunitjs': '/tests/qunit/js/qunit'
     },
     'priority': ['jquery', 'underscore'],
     'shim': {

@@ -385,7 +385,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
      * Set up the log in handler
      */
     var login = function() {
-        oae.api.authentication.login($('#admin-login-form-username').val(), $('#admin-login-form-password').val(), function(err) {
+        oae.api.authentication.localLogin($('#admin-login-form-username').val(), $('#admin-login-form-password').val(), function(err) {
             if (err) {
                 // Show the error message
                 oae.api.util.notification('Login failed.', 'Invalid username or password.', 'error');
