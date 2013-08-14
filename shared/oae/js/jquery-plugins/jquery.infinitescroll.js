@@ -66,7 +66,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
         var $loadingContainer = $('<div />').addClass('text-center hide').css('clear', 'both');
 
         // Set the container in which the results should be rendered
-        var $container = options.scrollContainer ? options.scrollContainer : $(this);
+        var $listContainer = $(this);
 
         // Variable that keeps track of whether or not the initial search has happened, as the initial
         // search does not need to provide a paging parameter
@@ -99,7 +99,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
         var checkLoadNext = function() {
             // We only check if a new set of results should be loaded if a search
             // is not in progress and if the container has not been killed
-            if (!isDoingSearch && $container) {
+            if (!isDoingSearch && $listContainer) {
                 // In case we use the body
                 var threshold = 500;
                 var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - $(window).scrollTop();
@@ -109,7 +109,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
                     pixelsRemainingUntilBottom = options.scrollContainer.prop('scrollHeight') - options.scrollContainer.height() - options.scrollContainer.scrollTop();
                 }
                 // Check if this is close enough to the bottom to kick off a new item load
-                if (pixelsRemainingUntilBottom <= threshold && $container.is(':visible')) {
+                if (pixelsRemainingUntilBottom <= threshold && $listContainer.is(':visible')) {
                     loadResultList();
                 }
             }
@@ -126,7 +126,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
             isDoingSearch = true;
             showLoadingContainer();
             // Get the key of the latest
-            var $lastElement = $container.children('li').filter(':visible').filter(':last');
+            var $lastElement = $listContainer.children('li').filter(':visible').filter(':last');
             // Only page once the initial search has been done
             if ($lastElement.length !== 0 && initialSearchDone === true) {
                 parameters.start = $lastElement.attr('data-key') ? $lastElement.attr('data-key') : ($lastElement.index() + 1);
@@ -179,7 +179,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
             // the instance was killed in between the time that a request was fired and
             // the response was received. If that's the cause, there's nothing else we
             // need to do
-            if ($container) {
+            if ($listContainer) {
 
                 // Render the template and put it in the container
                 hideLoadingContainer();
@@ -197,7 +197,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
                 var $tmp = $('<div>').html(templateOutput);
                 $tmp.children().each(function(index, newListItem) {
                     var id = $(newListItem).attr('data-id');
-                    var $existing = $('li[data-id="' + id + '"]', $container);
+                    var $existing = $('li[data-id="' + id + '"]', $listContainer);
                     if (id) {
                         if (prepend) {
                             $existing.remove();
@@ -212,9 +212,9 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
 
                 if (prepend) {
                     // Prepend the HTML
-                    $container.prepend(templateOutput);
+                    $listContainer.prepend(templateOutput);
                 } else {
-                    $container.append(templateOutput);
+                    $listContainer.append(templateOutput);
                 }
 
                 // Call the post renderer if it has been provided
@@ -233,7 +233,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
                 } else {
                     // Don't do any more searches when scrolling
                     isDoingSearch = true;
-                    if ($('li', $container).length === 0) {
+                    if ($('li', $listContainer).length === 0) {
                         if (options.emptyListProcessor) {
                             options.emptyListProcessor();
                         }
@@ -249,9 +249,9 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
         var setUpInitialContent = function() {
             if (options.initialContent) {
                 if (_.isFunction(options.initialContent)) {
-                    $container.prepend(options.initialContent());
+                    $listContainer.prepend(options.initialContent());
                 } else {
-                    $container.prepend(options.initialContent);
+                    $listContainer.prepend(options.initialContent);
                 }
             }
         };
@@ -284,7 +284,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
 
             var removed = 0;
             $.each(items, function(i, item) {
-                $item = $('[data-id="' + item + '"]', $container);
+                $item = $('[data-id="' + item + '"]', $listContainer);
                 $item.fadeOut(false, function() {
                     $(this).remove();
                     removed++;
@@ -304,10 +304,10 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
          * will no longer respond to any events or functions
          */
         var kill = function() {
-            $container.html('');
+            $listContainer.html('');
             $loadingContainer.remove();
             isDoingSearch = true;
-            $container = null;
+            $listContainer = null;
         };
 
         ///////////////////
@@ -341,14 +341,14 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
             // animation to the loader container
             $loader.append($a11yHelper);
             $loadingContainer.append($loader);
-            $loadingContainer.insertAfter($container);
+            $loadingContainer.insertAfter($listContainer);
         };
 
         ////////////////////
         // Initialisation //
         ////////////////////
 
-        $container.attr('aria-live', 'assertive');
+        $listContainer.attr('aria-live', 'assertive');
         setUpLoadingImage();
         setUpInitialContent();
         loadResultList();
