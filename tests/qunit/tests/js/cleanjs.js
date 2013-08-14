@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['oae.core', '../js/util.js', 'qunitjs', 'jquery', '../js/jshint.js'], function(oae, util) {
+require(['oae.core', '/tests/qunit/js/util.js', 'qunitjs', 'jquery', '/shared/vendor/js/jshint.js'], function(oae, util) {
 
         module("Clean JavaScript");
 
