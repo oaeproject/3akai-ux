@@ -7,7 +7,7 @@
             <meta http-equiv="Refresh" content="1; URL=/noscript">
         </noscript>
 
-        <title>Sakai OAE Javascript QUnit Test Suite</title>
+        <title>Open Academic Environment - QUnit Test Suite</title>
 
         <!-- CORE CSS -->
         <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
@@ -15,49 +15,45 @@
 
     </head>
     <body style="display: block;">
-        <div id="index-content">
-            <div class="row-fluid">
-                <div class="span12">
-                    <h1>Unit tests</h1>
-                    <button id="tests_run_all" type="button" class="btn">Run all unit tests on this page</button>
+        <div class="row-fluid">
+            <div class="span12">
+                <h1>Unit tests</h1>
+                <button type="button" id="tests-run-all" class="btn">Run all</button>
 
-                    <h2>Core</h2>
-                    <ul>
-                        <li><a href="/tests/qunit/tests/cleanjs.html" class="test">Clean JavaScript</a></li>
-                    </ul>
+                <h2>Core</h2>
+                <ul>
+                    <li><a href="/tests/qunit/tests/cleanjs.html" class="test">Clean JavaScript</a></li>
+                </ul>
 
-                    <h2>Internationalization and localization</h2>
-                    <ul>
-                        <li><a href="/tests/qunit/tests/unusedkeys.html" class="test">Unused Translation Keys</a></li>
-                        <li><a href="/tests/qunit/tests/untranslatedkeys.html" class="test">Untranslated Translation Keys</a></li>
-                        <li><a href="/tests/qunit/tests/doubletranslated.html" class="test">Double Translation Keys</a></li>
-                        <li><a href="/tests/qunit/tests/uninternationalizedstrings.html" class="test">Uninternationalized English Strings</a></li>
-                    </ul>
+                <h2>Internationalization and localization</h2>
+                <ul>
+                    <li><a href="/tests/qunit/tests/unusedkeys.html" class="test">Unused Translation Keys</a></li>
+                    <li><a href="/tests/qunit/tests/untranslatedkeys.html" class="test">Untranslated Translation Keys</a></li>
+                    <li><a href="/tests/qunit/tests/doubletranslated.html" class="test">Double Translation Keys</a></li>
+                    <li><a href="/tests/qunit/tests/uninternationalizedstrings.html" class="test">Uninternationalized English Strings</a></li>
+                </ul>
 
-                    <h2>Formatting</h2>
-                    <ul>
-                        <li><a href="/tests/qunit/tests/cssformatting.html" class="test">CSS Formatting</a></li>
-                        <li><a href="/tests/qunit/tests/jsformatting.html" class="test">JavaScript Formatting</a></li>
-                    </ul>
+                <h2>Formatting</h2>
+                <ul>
+                    <li><a href="/tests/qunit/tests/cssformatting.html" class="test">CSS Formatting</a></li>
+                    <li><a href="/tests/qunit/tests/jsformatting.html" class="test">JavaScript Formatting</a></li>
+                </ul>
 
-                    <h2>Accessibility</h2>
-                    <ul>
-                        <li><a href="/tests/qunit/tests/wcag.html" class="test">WCAG 2.0 Compliance - 1.1.1 Non-text Content / Text Alternatives</a></li>
-                    </ul>
+                <h2>Accessibility</h2>
+                <ul>
+                    <li><a href="/tests/qunit/tests/wcag.html" class="test">WCAG 2.0 Compliance - 1.1.1 Non-text Content / Text Alternatives</a></li>
+                </ul>
 
-                    <h1>Statistics</h1>
-                    <h2>i18n</h2>
-                    <ul>
-                        <li><a href="/tests/qunit/stats/i18ncoverage.html" class="test">i18n Coverage</a></li>
-                    </ul>
-                </div>
+                <h1>Statistics</h1>
+                <h2>i18n</h2>
+                <ul>
+                    <li><a href="/tests/qunit/stats/i18ncoverage.html" class="test">i18n Coverage</a></li>
+                </ul>
             </div>
-
-            <div id="tests-run-all-container"><!-- --></div>
-
         </div>
 
-        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
-        <script>require(["./qunit/js/util.js"]);</script>
+        <div id="tests-run-all-container"><!-- --></div>
+
+        <script data-main="/shared/oae/api/oae.bootstrap.js" data-loadmodule="/tests/qunit/js/util.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
     </body>
 </html>

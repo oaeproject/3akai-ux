@@ -48,6 +48,7 @@ requirejs.config({
         'text': 'vendor/js/requirejs/require.text',
         'trimpath': 'vendor/js/trimpath',
         'underscore': 'vendor/js/underscore',
+        'qunitjs': 'vendor/js/qunit',
 
         // OAE paths
         'bootstrap.modal': 'oae/js/bootstrap-plugins/bootstrap.modal',
@@ -74,8 +75,7 @@ requirejs.config({
         'oae.api.widget': 'oae/api/oae.api.widget',
         'oae.bootstrap': 'oae/api/oae.bootstrap',
         'oae.core': 'oae/api/oae.core',
-        'pluginBuilder': 'oae/pluginBuilder',
-        'qunitjs': '/tests/qunit/js/qunit'
+        'pluginBuilder': 'oae/pluginBuilder'
     },
     'priority': ['jquery', 'underscore'],
     'shim': {
