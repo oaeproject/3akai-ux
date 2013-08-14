@@ -375,6 +375,11 @@ div.oae-thumbnail {
             box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.35);
 }
 
+/* IE9 and IE10 need a background color on the link to be able to click the entire icon */
+div.oae-thumbnail a {
+    background: rgba(0, 0, 0, 0.01);
+}
+
 div.oae-thumbnail a,
 div.oae-thumbnail img {
     position: absolute;

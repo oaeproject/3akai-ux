@@ -30,6 +30,7 @@ module.exports = function(grunt) {
                       '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
                       ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */'
         },
+        'target': process.env['DESTDIR'] || 'target',
         'qunit': {
             'index': ['tests/qunit/tests/unit/*.html']
         },
@@ -57,7 +58,7 @@ module.exports = function(grunt) {
             }
         },
         'clean': {
-            'folder': 'target/'
+            'folder': '<%= target %>/'
         },
         'copy': {
             'main': {
@@ -66,7 +67,7 @@ module.exports = function(grunt) {
                         'expand': true,
                         'src': [
                             '**',
-                            '!target/**',
+                            '!<%= target %>/**',
                             '!tests/**',
                             '!tools/**',
                             '!node_modules/.*/**',
@@ -76,7 +77,7 @@ module.exports = function(grunt) {
                             '!node_modules/shelljs/**',
                             '!node_modules/underscore/**'
                         ],
-                        'dest': 'target/original'
+                        'dest': '<%= target %>/original'
                     }
                 ]
             }
@@ -87,7 +88,7 @@ module.exports = function(grunt) {
                     'appDir': './',
                     'baseUrl': './shared',
                     'mainConfigFile': './shared/oae/api/oae.bootstrap.js',
-                    'dir': 'target/optimized',
+                    'dir': '<%= target %>/optimized',
                     'optimize': 'uglify',
                     'preserveLicenseComments': false,
                     'optimizeCss': 'standard',
@@ -101,58 +102,58 @@ module.exports = function(grunt) {
                         'name': 'oae.core',
                         'exclude': ['jquery']
                     }],
-                    'fileExclusionRegExp': /^(\.|target|tests|tools|grunt|shelljs|underscore$|optimist|oae-release-tools)/,
+                    'fileExclusionRegExp': /^(\.|<%= target %>|tests|tools|grunt|shelljs|underscore$|optimist|oae-release-tools)/,
                     'logLevel': 2
                 }
             }
         },
         'ver': {
             'oae': {
-                'basedir': 'target/optimized',
+                'basedir': '<%= target %>/optimized',
                 'phases': [
                     {
                         // Rename and hash these folders
                         'folders': [
-                            'target/optimized/shared/bundles',
-                            'target/optimized/ui/bundles',
-                            'target/optimized/admin/bundles',
-                            'target/optimized/shared/vendor/js/l10n/cultures'
+                            '<%= target %>/optimized/shared/bundles',
+                            '<%= target %>/optimized/ui/bundles',
+                            '<%= target %>/optimized/admin/bundles',
+                            '<%= target %>/optimized/shared/vendor/js/l10n/cultures'
                         ],
 
                         // Rename and hash these files
                         'files': _hashFiles([
-                            'target/optimized/shared',
-                            'target/optimized/ui',
-                            'target/optimized/admin',
-                            'target/optimized/docs'
+                            '<%= target %>/optimized/shared',
+                            '<%= target %>/optimized/ui',
+                            '<%= target %>/optimized/admin',
+                            '<%= target %>/optimized/docs'
                         ], ['html', 'json', 'ico', 'less'], [
-                            '!target/optimized/shared/vendor/js/l10n/cultures.*/**',
-                            '!target/optimized/ui/bundles.*/**',
-                            'target/optimized/shared/oae/macros/*.html'
+                            '!<%= target %>/optimized/shared/vendor/js/l10n/cultures.*/**',
+                            '!<%= target %>/optimized/ui/bundles.*/**',
+                            '<%= target %>/optimized/shared/oae/macros/*.html'
                         ]),
 
                         // Look for and replace references to the above (non-excluded) files and folders in these files
                         'references': [
-                            'target/optimized/shared/**/*.html',
-                            'target/optimized/shared/**/*.js',
-                            'target/optimized/shared/**/*.css',
-                            'target/optimized/ui/**/*.html',
-                            'target/optimized/ui/**/*.js',
-                            'target/optimized/ui/**/*.css',
-                            'target/optimized/admin/**/*.html',
-                            'target/optimized/admin/**/*.js',
-                            'target/optimized/admin/**/*.css',
-                            'target/optimized/docs/**/*.html',
-                            'target/optimized/docs/**/*.js',
-                            'target/optimized/docs/**/*.css',
-                            'target/optimized/node_modules/oae-*/**/*.html',
-                            'target/optimized/node_modules/oae-*/**/*.js',
-                            'target/optimized/node_modules/oae-*/**/*.css',
-                            'target/optimized/node_modules/oae-*/**/*.json'
+                            '<%= target %>/optimized/shared/**/*.html',
+                            '<%= target %>/optimized/shared/**/*.js',
+                            '<%= target %>/optimized/shared/**/*.css',
+                            '<%= target %>/optimized/ui/**/*.html',
+                            '<%= target %>/optimized/ui/**/*.js',
+                            '<%= target %>/optimized/ui/**/*.css',
+                            '<%= target %>/optimized/admin/**/*.html',
+                            '<%= target %>/optimized/admin/**/*.js',
+                            '<%= target %>/optimized/admin/**/*.css',
+                            '<%= target %>/optimized/docs/**/*.html',
+                            '<%= target %>/optimized/docs/**/*.js',
+                            '<%= target %>/optimized/docs/**/*.css',
+                            '<%= target %>/optimized/node_modules/oae-*/**/*.html',
+                            '<%= target %>/optimized/node_modules/oae-*/**/*.js',
+                            '<%= target %>/optimized/node_modules/oae-*/**/*.css',
+                            '<%= target %>/optimized/node_modules/oae-*/**/*.json'
                         ]
                     }
                 ],
-                'version': 'target/optimized/hashes.json'
+                'version': '<%= target %>/optimized/hashes.json'
             }
         },
         'git-describe': {
@@ -176,7 +177,7 @@ module.exports = function(grunt) {
     grunt.registerTask('writeVersion', function() {
         this.requires('git-describe');
         var json = grunt.template.process('{"oae:ux-version":"<%= meta.version %>"}');
-        grunt.file.write('target/optimized/ui/version.json', json);
+        grunt.file.write(grunt.config('target') + '/optimized/ui/version.json', json);
     });
 
     // Task to fill out the nginx config template
@@ -187,7 +188,7 @@ module.exports = function(grunt) {
             var template = grunt.file.read('./nginx/nginx.conf');
             grunt.config.set('nginxConf', nginxConf);
             var conf = grunt.template.process(template);
-            var outfile = './target/optimized/nginx/nginx.conf';
+            var outfile = grunt.config('target') + '/optimized/nginx/nginx.conf';
             grunt.file.write(outfile, conf);
             grunt.log.writeln('nginx.conf rendered at '.green + outfile.green);
         } else {
@@ -201,7 +202,7 @@ module.exports = function(grunt) {
         this.requires('requirejs');
 
         // Add the modules as phases to ver:oae
-        var oaeModules = grunt.file.expand({filter:'isDirectory'}, 'target/optimized/node_modules/oae-*/*');
+        var oaeModules = grunt.file.expand({filter:'isDirectory'}, grunt.config('target') + '/optimized/node_modules/oae-*/*');
         oaeModules.forEach(function(module) {
             grunt.log.writeln(module);
             var conf = {
@@ -227,7 +228,7 @@ module.exports = function(grunt) {
     grunt.registerTask('updateBootstrapPaths', function() {
         this.requires('ver:oae');
 
-        var basedir = 'target/optimized/';
+        var basedir = grunt.config('target') + '/optimized/';
         var hashedPaths = require('./' + grunt.config.get('ver.oae.version'));
         var bootstrapPath = basedir + hashedPaths['/shared/oae/api/oae.bootstrap.js'];
         var bootstrap = grunt.file.read(bootstrapPath);
@@ -259,7 +260,7 @@ module.exports = function(grunt) {
         }
 
         shell.mkdir('-p', outputDir);
-        shell.cp('-R', ['./target/*', './README.md', './LICENSE', './COMMITTERS.txt'], outputDir);
+        shell.cp('-R', ['./' + grunt.config('target') + '/*', './README.md', './LICENSE', './COMMITTERS.txt'], outputDir);
     });
 
     // Release task.
