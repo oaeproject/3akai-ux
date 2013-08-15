@@ -15,10 +15,10 @@
 
 require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.jeditable', 'jquery.spectrum', 'jquery.history'], function($, _, oae, adminUtil) {
 
-    // Variable that will be used to keep track of current tenant
+    // Variable that will be used to keep track of the current tenant
     var currentContext = null;
     // Variable that will cache the list of available tenants
-    var tenants = null;
+    var allTenants = null;
     // Variable that will cache the config schema
     var configurationSchema = null;
     // Variable that will cache the configuration for the current tenant
@@ -34,25 +34,47 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
     };
 
     /**
-     * Initializes jEditable on fields throughout the UI
-     * This initialization will also take care of the form submit to /api/tenant
+     * Initializes jEditable on fields throughout the UI and posts any changes back to
+     * the back-end
      */
     var enableInlineEdit = function() {
         $('.jeditable-field').editable(function(value) {
             value = $.trim(value);
+            // Check which field is being updated
+            var $inlineEdit = $(this);
+            var type = $inlineEdit.attr('data-type');
             if (!value) {
-                oae.api.util.notification('Invalid tenant name.', 'Please enter a tenant name.', 'error');
+                if (type === 'displayName') {
+                    oae.api.util.notification('Invalid tenant name.', 'Please enter a tenant name.', 'error');
+                } else if (type === 'host') {
+                    oae.api.util.notification('Invalid host name.', 'Please enter a host name.', 'error');
+                }
                 return this.revert;
             } else {
+                // If we're making the change from the global admin tenant, the tenant alias
+                // needs to be incorporated into the URL
+                var url = '/api/tenant';
+                if (currentContext.isGlobalAdminServer || currentContext.isTenantOnGlobalAdminServer) {
+                    url += '/' + $inlineEdit.attr('data-alias')
+                }
+
+                // Post the update
+                var data = {};
+                data[type] = value;
+
                 $.ajax({
-                    'url': '/api/tenant',
+                    'url': url,
                     'type': 'POST',
-                    'data': {
-                        'alias': $(this).attr('data-alias'),
-                        'displayName': value
-                    },
+                    'data': data,
                     'success': function() {
-                        oae.api.util.notification('Tenant name updated.', 'The tenant name has been successfully updated.');
+                        if (type === 'displayName') {
+                            oae.api.util.notification('Tenant name updated.', 'The tenant name has been successfully updated.');
+                        } else if (type === 'host') {
+                            oae.api.util.notification('Tenant host updated.', 'The tenant host has been successfully updated.');
+                            // Update the link that links to the tenant's landing page
+                            // TODO: Use alias instead?
+                            $('a', $inlineEdit.parent().prev()).attr('href', '//' + value);
+                        }
                     }
                 });
                 return value;
@@ -144,7 +166,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
      * Creates a new tenant and starts it up immediately. It will re-render the list of available
      * tenants in the main content and in the footer
      *
-     * @param  {Function}  callback  A function that executes after the tenant has been created.
+     * @param  {Function}  callback  A function that executes after the tenant has been created
      */
     var createTenant = function() {
         $.ajax({
@@ -155,9 +177,11 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
                 'displayName': $.trim($('#createtenant-displayName').val()),
                 'host': $.trim($('#createtenant-host').val())
             },
-            'success': function() {
-                oae.api.util.notification('Tenant created.', 'The new tenant "' + $('#createtenant-displayName').val() + '" has been successfully created.');
-                reloadTenants()
+            'success': function(tenant) {
+                oae.api.util.notification('Tenant created.', 'The new tenant "' + tenant.displayName + '" has been successfully created.');
+                // Add the created tenant to the list of available tenants
+                allTenants[tenant.alias] = tenant;
+                renderTenants();
             },
             'error': function(jqXHR, textStatus) {
                 oae.api.util.notification('Tenant could not be created.', jqXHR.responseText, 'error');
@@ -179,7 +203,11 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
             'type': 'POST',
             'data': {'aliases': tenants},
             'success': function(data) {
-                reloadTenants();
+                // Remove the deleted tenant from the list of available tenants
+                $.each(tenants, function(index, alias) {
+                    delete allTenants[alias];
+                });
+                renderTenants();
                 callback(null);
             },
             'error': function(jqXHR, textStatus) {
@@ -201,7 +229,11 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
             'type': 'POST',
             'data': {'aliases': tenants},
             'success': function(data) {
-                reloadTenants();
+                // Flag the provided tenants as started in the list of available tenants
+                $.each(tenants, function(index, alias) {
+                    allTenants[alias].active = true;
+                });
+                renderTenants();
                 callback(null);
             },
             'error': function(jqXHR, textStatus) {
@@ -223,7 +255,11 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
             'type': 'POST',
             'data': {'aliases': tenants},
             'success': function(data) {
-                reloadTenants();
+                // Flag the provided tenants as stopped in the list of available tenants
+                $.each(tenants, function(index, alias) {
+                    allTenants[alias].active = false;
+                });
+                renderTenants();
                 callback(null);
             },
             'error': function(jqXHR, textStatus) {
@@ -244,7 +280,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
             'confirm': 'Yes, start all tenants',
             'confirmclass': 'btn-success',
             'confirmed': function() {
-                startTenants(_.keys(tenants), function(err) {
+                startTenants(_.keys(allTenants), function(err) {
                     // Hide the dialog when done
                     $('#start-all-tenants-modal').modal('hide');
                     // Show a success or failure message
@@ -270,7 +306,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
             'confirm': 'Yes, stop all tenants',
             'confirmclass': 'btn-warning',
             'confirmed': function() {
-                stopTenants(_.keys(tenants), function(err) {
+                stopTenants(_.keys(allTenants), function(err) {
                     // Hide the dialog when done
                     $('#stop-all-tenants-modal').modal('hide');
                     // Show a success or failure message
@@ -608,17 +644,6 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
     ///////////////////
 
     /**
-     * Reload the list of available tenants and re-render the footer
-     * and tenant list
-     */
-    var reloadTenants = function() {
-        getTenants(function() {
-            initializeTenants();
-            initializeFooter();
-        });
-    };
-
-    /**
      * Gets the configuration schema and the configuration for the current tenant.
      *
      * @param {Function}    callback        Standard callback function
@@ -659,21 +684,6 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
     };
 
     /**
-     * Get all of the available tenants and cache them
-     *
-     * @param {Function}    callback        Standard callback function
-     */
-    var getTenants = function(callback) {
-        $.ajax({
-            url: '/api/tenants',
-            success: function(data) {
-                tenants = data;
-                callback();
-            }
-        });
-    };
-
-    /**
      * Determine whether or not we're current on the global admin server and whether or not we need the UI for
      * the global admin or for an admin. This will then be stored in the `currentContext` variable.
      *
@@ -686,13 +696,38 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
             'success': function(data) {
                 currentContext = data;
 
-                // Check if we're currently on a tenant admin on the global server. In that
-                // case, the URL should be /tenant/<tenantAlias>
-                var tenantAlias = $.url().segment(2);
-                if (tenantAlias) {
-                    currentContext = tenants[tenantAlias];
-                    currentContext.isTenantOnGlobalAdminServer = true;
+                // If we are on the global admin tenant, we load the full list of available tenants for rendering
+                // the tenant view and the footer
+                if (currentContext.isGlobalAdminServer) {
+                    getTenants(function() {
+                        // Check if we're currently on a tenant admin on the global server. In that
+                        // case, the URL should be /tenant/<tenantAlias>
+                        var tenantAlias = $.url().segment(2);
+                        if (tenantAlias) {
+                            currentContext = allTenants[tenantAlias];
+                            currentContext.isTenantOnGlobalAdminServer = true;
+                        }
+                        callback();
+                    });
+                } else {
+                    callback();
                 }
+            }
+        });
+    };
+
+    /**
+     * Get all of the available tenants and cache them. This can only be run on the global admin tenant,
+     * as there is no endpoint that allows for fetching the full list of available tenants from a user
+     * tenant
+     *
+     * @param {Function}    callback        Standard callback function
+     */
+    var getTenants = function(callback) {
+        $.ajax({
+            url: '/api/tenants',
+            success: function(data) {
+                allTenants = data;
                 callback();
             }
         });
@@ -781,6 +816,36 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
     };
 
     /**
+     * Renders the list of tenants in both the overview and footer
+     */
+    var renderTenants = function() {
+        // If we're on the global admin server, we can render all the tenants.
+        // Otherwise we only render the current tenant.
+        var tenantsToRender = (currentContext.isGlobalAdminServer) ? allTenants : [currentContext];
+
+        // Determine whether or not there is at least one tenant server that has been
+        // stopped. When that's the case, the 'Start all' button will be shown instead
+        // of the 'Stop all' button.
+        var hasStoppedServer = _.find(allTenants, function(tenant) {
+            return !tenant.active;
+        });
+        oae.api.util.template().render($('#admin-tenants-template'), {
+            'tenants': tenantsToRender,
+            'hasStoppedServer': hasStoppedServer,
+            'context': currentContext
+        }, $('#admin-tenants-container'));
+        enableInlineEdit();
+        // Set up the validation for the create tenant form
+        oae.api.util.validation().validate($('#createtenant-form'), {'submitHandler': createTenant});
+
+        // Render the footer
+        oae.api.util.template().render($('#admin-footer-template'), {
+            'context': currentContext,
+            'tenants': allTenants
+        }, $('#admin-footer-container'));
+    };
+
+    /**
      * Initializes the header and set the document title
      */
     var initializeHeader = function() {
@@ -795,16 +860,6 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
     };
 
     /**
-     * Initializes the footer that shows links to other tenants.
-     */
-    var initializeFooter = function() {
-        oae.api.util.template().render($('#admin-footer-template'), {
-            'context': currentContext,
-            'tenants': tenants
-        }, $('#admin-footer-container'));
-    };
-
-    /**
      * Initializes the list of modules and renders them in a view
      */
     var initializeModules = function() {
@@ -813,30 +868,6 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
             'configuration': configuration,
             'context': currentContext
         }, $('#admin-modules-container'));
-    };
-
-    /**
-     * Initializes the list of tenants and renders them in a view
-     */
-    var initializeTenants = function() {
-        // If we're on the global admin server, we can render all the tenants.
-        // Otherwise we only render the current tenant.
-        var tenantsToRender = (currentContext.isGlobalAdminServer) ? tenants: [currentContext];
-
-        // Determine whether or not there is at least one tenant server that has been
-        // stopped. When that's the case, the 'Start all' button will be shown instead
-        // of the 'Stop all' button.
-        var hasStoppedServer = _.find(tenants, function(tenant) {
-            return !tenant.active;
-        });
-        oae.api.util.template().render($('#admin-tenants-template'), {
-            'tenants': tenantsToRender,
-            'hasStoppedServer': hasStoppedServer,
-            'context': currentContext
-        }, $('#admin-tenants-container'));
-        enableInlineEdit();
-        // Set up the validation for the create tenant form
-        oae.api.util.validation().validate($('#createtenant-form'), {'submitHandler': createTenant});
     };
 
     /**
@@ -849,32 +880,27 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js', 'jquery.
             return oae.api.util.redirect().accessdenied();
         }
 
-        // Fetch the list of available tenants
-        getTenants(function() {
+        // Determine the tenant for which we want to see the admin UI
+        getCurrentContext(function() {
 
-            // Determine for which tenant we want to see the admin UI
-            getCurrentContext(function() {
+            // Render the header and the footer
+            initializeHeader();
 
-                // Render the header and the footer
-                initializeHeader();
-                initializeFooter();
-
-                if (oae.data.me.anon) {
-                    setUpLogin();
-                } else {
-                    // Get the configuration and continue rendering the page
-                    getConfiguration(function() {
-                        // Initialize left hand navigation
-                        initializeNavigation();
-                        // Initialize the tenants table (only 1 tenant if not on global server)
-                        initializeTenants();
-                        // Initialize configurable modules
-                        initializeModules();
-                        // Initialize the skinning UI
-                        initializeSkinning();
-                    });
-                }
-            });
+            if (oae.data.me.anon) {
+                setUpLogin();
+            } else {
+                // Get the configuration and continue rendering the page
+                getConfiguration(function() {
+                    // Initialize left hand navigation
+                    initializeNavigation();
+                    // Initialize configurable modules
+                    initializeModules();
+                    // Initialize the skinning UI
+                    initializeSkinning();
+                    // Initialize the tenants table (only 1 tenant if not on global server) and the footer
+                    renderTenants();
+                });
+            }
         });
     };
 

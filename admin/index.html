@@ -135,6 +135,7 @@
 
         <div id="admin-tenants-template"><!--
             <h2>Tenants</h2>
+            {var isOnGlobalAdminServer = context.isGlobalAdminServer || context.isTenantOnGlobalAdminServer}
             {if _.keys(tenants).length > 0}
                 <table class="table table-striped">
                     <tr>
@@ -143,9 +144,13 @@
                         {/if}
                         <th>Alias</th>
                         <th>Name</th>
-                        <th>Host</th>
-                        <th>Status</th>
                         {if oae.data.me.isGlobalAdmin}
+                            <th colspan="2">Host</th>
+                        {else}
+                            <th>Host</th>
+                        {/if}
+                        <th>Status</th>
+                        {if isOnGlobalAdminServer}
                             <th>
                                 {if context.isGlobalAdminServer}
                                     {if hasStoppedServer}
@@ -156,10 +161,10 @@
                                 {/if}
                             </th>
                         {/if}
-                        {if oae.data.me.isGlobalAdmin}
+                        {if isOnGlobalAdminServer}
                             <th></th>
                         {/if}
-                        {if context.isGlobalAdminServer || context.isTenantOnGlobalAdminServer}
+                        {if isOnGlobalAdminServer}
                             <th></th>
                         {/if}
                     </tr>
@@ -171,14 +176,20 @@
                                 {/if}
                                 <td>${tenant.alias|encodeForHTML}</td>
                                 {if oae.data.me.isGlobalAdmin}
-                                    <td class="jeditable-container"><div class="jeditable-field" data-alias="${tenant.alias|encodeForHTMLAttribute}">${tenant.displayName|encodeForHTML}</div></td>
+                                    <td class="jeditable-container"><div class="jeditable-field" data-alias="${tenant.alias|encodeForHTMLAttribute}" data-type="displayName">${tenant.displayName|encodeForHTML}</div></td>
                                 {else}
                                     <td>${tenant.displayName|encodeForHTML}</td>
                                 {/if}
-                                <td>
-                                    <a href="//${tenant.host}" title="${tenant.displayName|encodeForHTMLAttribute}" target="_blank">
-                                        <div class="jeditable-field" data-alias="${tenant.alias|encodeForHTMLAttribute}">${tenant.host|encodeForHTML}</div>
-                                    </a></td>
+                                {if oae.data.me.isGlobalAdmin}
+                                    <td class="admin-tenants-visit">
+                                        <a href="//${tenant.host}" title="Visit ${tenant.displayName|encodeForHTMLAttribute}" target="_blank"><i class="icon-external-link admin-tenants-visit"></i></a>
+                                    </td>
+                                    <td class="jeditable-container">
+                                       <div class="jeditable-field" data-alias="${tenant.alias|encodeForHTMLAttribute}" data-type="host">${tenant.host|encodeForHTML}</div>
+                                    </td>
+                                {else}
+                                    <td><a href="//${tenant.host}" title="${tenant.displayName|encodeForHTMLAttribute}" target="_blank">${tenant.host|encodeForHTML}</a></td>
+                                {/if}
                                 <td>
                                     {if tenant.active}
                                         <span class="text-success">Running</span>
@@ -186,7 +197,7 @@
                                         <span class="text-error">Disabled</span>
                                     {/if}
                                 </td>
-                                {if oae.data.me.isGlobalAdmin}
+                                {if isOnGlobalAdminServer}
                                     <td>
                                         {if tenant.active}
                                             <button type="button" class="btn btn-warning stop-tenant" data-alias="${tenant.alias|encodeForHTMLAttribute}" data-displayName="${tenant.displayName|encodeForHTMLAttribute}">Stop</button>
@@ -195,12 +206,12 @@
                                         {/if}
                                     </td>
                                 {/if}
-                                {if oae.data.me.isGlobalAdmin}
+                                {if isOnGlobalAdminServer}
                                     <td>
                                         <button type="button" class="btn btn-danger delete-tenant" data-alias="${tenant.alias|encodeForHTMLAttribute}" data-displayName="${tenant.displayName|encodeForHTMLAttribute}">Delete</button>
                                     </td>
                                 {/if}
-                                {if context.isGlobalAdminServer || context.isTenantOnGlobalAdminServer}
+                                {if isOnGlobalAdminServer}
                                     <td>
                                         <button type="button" class="btn btn-primary login-tenant" data-alias="${tenant.alias|encodeForHTMLAttribute}">Login</button>
                                     </td>
@@ -224,7 +235,7 @@
                                 <div class="control-group">
                                     <label for="createtenant-alias" class="control-label">Alias:</label>
                                     <div class="controls">
-                                        <input type="text" name="alias" id="createtenant-alias" placeholder="Alias" class="required"/>
+                                        <input type="text" name="alias" id="createtenant-alias" placeholder="Alias" class="required nospaces"/>
                                     </div>
                                 </div>
                                 <div class="control-group">
