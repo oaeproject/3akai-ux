@@ -76,7 +76,7 @@ define(['jquery'], function ($) {
             // Get the list item the checkbox corresponds to and make sure the other views have the
             // same checked status
             $listItem = $(this).parents('li');
-            $('input[type="checkbox"]', $listItem).prop('checked', $(this).is(':checked'))
+            $('input[type="checkbox"]', $listItem).prop('checked', $(this).is(':checked'));
 
             // Get the list container, so we don't end up changing state in other lists
             var $list = $(this).parents('.oae-list').parent();

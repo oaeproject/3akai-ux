@@ -15,121 +15,112 @@
 
 require(['jquery', 'oae.core', '/tests/qunit/js/util.js', 'qunitjs'], function($, oae, util) {
 
-        module("Untranslated Keys");
+    module("Untranslated Keys");
 
-        var regex = new RegExp('__MSG__(.*?)__', 'gm');
+    var regex = new RegExp('__MSG__(.*?)__', 'gm');
 
-        var cachedWidgets = '';
+    /**
+     * Checks whether all the keys found in the HTML string have a translation
+     *
+     * @param  {Object}     testData     The testdata containing all files to be tested (html, css, js, properties)
+     * @param  {String}     html         The HTML to check for keys that don't have a translation
+     * @param  {Boolean}    widgetID     null if not a widget, has widgetID if a widget is checked
+     */
+    var checkKeys = function(testData, html, widgetID) {
+        if (regex.test(html)) {
+            regex = new RegExp('__MSG__(.*?)__', 'gm');
+            while (regex.test(html)) {
+                // Get the key from the match
+                var key = RegExp.lastMatch;
+                key = key.substring(7, key.length - 2);
 
-        /**
-         * Checks whether all the keys found in the HTML string have a translation
-         *
-         * @param {String} data HTML string to check for untranslated keys
-         */
-        var checkKeys = function(widgetData, html, isWidget) {
-            if (regex.test(html)) {
-                regex = new RegExp('__MSG__(.*?)__', 'gm');
-                while (regex.test(html)) {
-                    // Get the key from the match
-                    var key = RegExp.lastMatch;
-                    key = key.substring(7, key.length - 2);
+                // Checks if the key has been found at least in one of the i18n files.
+                var hasi18n = false;
 
-                    // Checks if the key has been found at least in one of the i18n files.
-                    var hasi18n = false;
-
-                    // If we're checking a widget check the widget bundles first
-                    if (isWidget) {
-                        // Check if the widget has i18n bundles
-                        if (_.keys(widgetData.widgetData[isWidget].i18n).length) {
-                            // For each bundle in the widget, check if it's available
-                            $.each(widgetData.widgetData[isWidget].i18n, function(i, widgetBundle) {
-                                if (widgetBundle[key]) {
-                                    hasi18n = true;
-                                }
-                            });
-                        }
-                    }
-
-                    // If the widget bundle has no translation or the check is not for a widget, check the main bundles
-                    if (!hasi18n) {
-                        $.each(widgetData.mainBundles, function(i, mainBundle) {
-                            if (mainBundle[key]) {
+                // If we're checking a widget check the widget bundles first
+                if (widgetID) {
+                    // Check if the widget has i18n bundles
+                    if (_.keys(testData.widgetData[widgetID].i18n).length) {
+                        // For each bundle in the widget, check if it's available
+                        $.each(testData.widgetData[widgetID].i18n, function(i, widgetBundle) {
+                            if (widgetBundle[key] !== undefined) {
                                 hasi18n = true;
                             }
                         });
                     }
-
-                    // If the key has been translated send an ok
-                    if (hasi18n) {
-                        ok(true, '\'' + key + '\' is translated.');
-                    } else {
-                        ok(false, '\'' + key + '\' is not translated.');
-                    }
                 }
-            } else {
-                ok(true, 'No keys to be translated.');
+
+                // If the widget bundle has no translation or the check is not for a widget, check the main bundles
+                if (!hasi18n) {
+                    $.each(testData.mainBundles, function(i, mainBundle) {
+                        if (mainBundle[key] !== undefined) {
+                            hasi18n = true;
+                        }
+                    });
+                }
+
+                // If the key has been translated send an ok
+                if (hasi18n) {
+                    ok(true, '\'' + key + '\' is translated.');
+                } else {
+                    ok(false, '\'' + key + '\' is not translated.');
+                }
             }
-        };
+        } else {
+            ok(true, 'No keys to be translated.');
+        }
+    };
 
-        /**
-         * Initializes the Untranslated Keys module
-         *
-         * @param  {Object}   widgets    Object containing the manifests of all widgets in node_modules/oae-core.
-         */
-        var untranslatedKeysTest = function(widgetData) {
-            // Test the widget HTML files for untranslated keys
-            $.each(widgetData.widgetData, function(i, widget) {
-                asyncTest(i + '.html', function() {
-                    checkKeys(widgetData, widget.html, widget.id);
-                    start();
-                });
+    /**
+     * Initializes the untranslated Keys module
+     *
+     * @param  {Object}   testData    The testdata containing all files to be tested (html, css, js, properties)
+     */
+    var untranslatedKeysTest = function(testData) {
+        // Test the widget HTML files for untranslated keys
+        $.each(testData.widgetData, function(i, widget) {
+            asyncTest(i, function() {
+                checkKeys(testData, widget.html, widget.id);
+                start();
             });
+        });
 
-            // Test the core HTML files for untranslated keys
-            $.each(widgetData.mainHTML, function(ii, mainHTML) {
-                asyncTest(ii + '.html', function() {
-                    checkKeys(widgetData, mainHTML, false);
-                    start();
-                });
+        // Test the core HTML and macro files for untranslated keys
+        $.each(testData.mainHTML, function(ii, mainHTML) {
+            asyncTest(ii, function() {
+                checkKeys(testData, mainHTML, null);
+                start();
             });
+        });
 
-            // Test the macro HTML files for untranslated keys
-            $.each(widgetData.macroHTML, function(iii, macroHTML) {
-                asyncTest(iii + '.html', function() {
-                    checkKeys(widgetData, macroHTML, false);
-                    start();
-                });
+        // Test the widget JS files for untranslated keys
+        $.each(testData.widgetData, function(j, widget) {
+            asyncTest(j, function() {
+                checkKeys(testData, widget.js, widget.id);
+                start();
             });
+        });
 
-            // Test the widget JS files for untranslated keys
-            $.each(widgetData.widgetData, function(j, widget) {
-                asyncTest(j + '.js', function() {
-                    checkKeys(widgetData, widget.js, widget.id);
-                    start();
-                });
+        // Test the main JS files for untranslated keys
+        $.each(testData.mainJS, function(jj, mainJS) {
+            asyncTest(jj, function() {
+                checkKeys(testData, mainJS, null);
+                start();
             });
+        });
 
-            // Test the main JS files for untranslated keys
-            $.each(widgetData.mainJS, function(jj, mainJS) {
-                asyncTest(jj + '.js', function() {
-                    checkKeys(widgetData, mainJS, false);
-                    start();
-                });
+        // Test the API files for untranslated keys
+        $.each(testData.apiJS, function(jjj, apiJS) {
+            asyncTest(jjj, function() {
+                checkKeys(testData, apiJS, null);
+                start();
             });
+        });
 
-            // Test the API files for untranslated keys
-            $.each(widgetData.apiJS, function(jjj, apiJS) {
-                asyncTest(jjj + '.js', function() {
-                    checkKeys(widgetData, apiJS, false);
-                    start();
-                });
-            });
+    };
 
-        };
+    util.loadTestData(untranslatedKeysTest);
 
-        util.loadWidgets(untranslatedKeysTest);
-
-        QUnit.load();
-        QUnit.start();
-    }
-);
+    QUnit.load();
+    QUnit.start();
+});
