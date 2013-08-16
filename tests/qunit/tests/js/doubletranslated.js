@@ -15,52 +15,80 @@
 
 require(['jquery', 'oae.core', '/tests/qunit/js/util.js', 'qunitjs'], function($, oae, util) {
 
-        module("Double Translation Keys");
+    module("Double Translation Keys");
 
-        /**
-         * Initializes the double tranlsated keys test module
-         *
-         * @param  {Object}   widgetData    Object containing the manifests of all widgets in node_modules/oae-core.
-         */
-        var doubleTranslationKeysTest = function(widgetData) {
-            // Store each key in an object, if the same key is added twice it's considered a duplicate
-            var keys = {};
-            test('default.properties', function() {
-                $.each(widgetData.mainBundles['default'], function(keyName, mainKey) {
-                    if (keys[keyName]) {
-                        // The key exists already, test fails
-                        QUnit.ok(false, keyName + ' already exists in the global bundles');
-                    } else {
-                        keys[keyName] = 'default global' ;
-                        QUnit.ok(true, keyName + ' isn\'t used in any other widgets or in the default bundles');
-                    }
-                });
-            });
-
-            $.each(widgetData.widgetData, function(i, widget) {
-                test(widget.id, function() {
-                    if (widget.i18n && widget.i18n['default']) {
-                        $.each(widget.i18n, function(ii, widgetBundle) {
-                            $.each(widgetBundle, function(keyName, widgetKey) {
-                                if (keys[keyName] && keys[keyName] === 'default global') {
-                                    // The key exists already, test fails
-                                    QUnit.ok(false, keyName + ' in ' + ii + ' already exists in the ' + keys[keyName] + ' bundle');
+    /**
+     * Checks for each widget if a key is already defined in one of the core bundles or in another widget
+     *
+     * @param {Object}    testData    The testdata containing all files to be tested (html, css, js, properties)
+     */
+    var doubleTranslationKeysTest = function(testData) {
+        var widgetKeys = {}; //
+        // Check if widget keys are already defined in the global bundles
+        $.each(testData.widgetData, function(widgetID, widget) {
+            if (widget.i18n) {
+                widgetKeys[widget.id] = {}; //
+                asyncTest('Widget key already defined in global bundle - ' + widget.id, function() {
+                    // Loop over all bundles in the widget
+                    $.each(widget.i18n, function(widgetBundleKey, widgetBundle) {
+                        widgetKeys[widget.id][widgetBundleKey] = {};
+                        // Loop over all keys in the bundle
+                        $.each(widgetBundle, function(widgetKey, widgetValue) {
+                            widgetKeys[widget.id][widgetBundleKey][widgetKey] = widgetValue; //
+                            // Check each global bundle to see if key is already defined
+                            $.each(testData.mainBundles, function(mainBundleKey, mainBundle) {
+                                if (mainBundle[widgetKey]) {
+                                    // Key already exists in the main bundle
+                                    QUnit.ok(false, widgetKey + ' already exists in ' + mainBundleKey);
                                 } else {
-                                    keys[keyName] = ii + ' ' + widget.id;
-                                    QUnit.ok(true, keyName + ' isn\'t used in any other widgets or in the default bundles');
+                                    // Key doesn't exist yet in the main bundle
+                                    QUnit.ok(true, widgetKey + ' doesn\'t exist yet in ' + mainBundleKey);
                                 }
                             });
                         });
-                    } else {
-                        QUnit.ok(true, 'This widget has no i18n keys');
-                    }
+                    });
+                    start();
                 });
-            });
-        };
+            }
+        });
 
-        util.loadWidgets(doubleTranslationKeysTest);
+        // Check if widget keys are already defined in other widget bundles
+        $.each(widgetKeys, function(widgetID, widgetBundles) {
+            setTimeout(function() {
+                asyncTest('Widget key already defined in other widget - ' + widgetID, function() {
+                    var testDone = false;
+                    // Loop over all bundles for a widget
+                    $.each(widgetBundles, function(language, widgetBundle) {
+                        // Loop over all keys in the widget bundle
+                        $.each(widgetBundle, function(i18nkey, i18nvalue) {
+                            // For this key, loop over all widgets and verify that it's not duplicated anywhere else
+                            $.each(widgetKeys, function(otherWidgetID, otherWidgetBundles) {
+                                $.each(otherWidgetBundles, function(otherLanguage, otherWidgetBundle) {
+                                    if (widgetID !== otherWidgetID) {
+                                        if (otherWidgetBundle[i18nkey]) {
+                                            // fail, it's already defined somewhere else
+                                            QUnit.ok(false, i18nkey + ' already exists in ' + otherWidgetID + ' - ' + otherLanguage);
+                                        } else {
+                                            // success, it's not defined anywhere
+                                            QUnit.ok(true, i18nkey + ' doesn\'t exist in ' + otherWidgetID + ' - ' + otherLanguage);
+                                        }
+                                        testDone = true;
+                                    }
+                                });
+                            });
+                        });
+                    });
+                    if (!testDone) {
+                        QUnit.ok(true, 'No tests were run for ' + widgetID);
+                    }
+                    start();
+                });
+            }, 1000);
+        });
+    };
 
-        QUnit.load();
-        QUnit.start();
-    }
-);
+    util.loadTestData(doubleTranslationKeysTest);
+
+    QUnit.load();
+    QUnit.start();
+});

@@ -22,15 +22,15 @@ require(['oae.core', '/tests/qunit/js/util.js', 'qunitjs', 'jquery', '/shared/ve
 
         /**
          * Checks for console.log('') statements in the code
+         *
          * @param  {String}   file        The contents of the file in the form of a string
-         * @param  {String}   filename    The path to the file
          */
-        var checkForConsoleLog = function(file, filename) {
+        var checkForConsoleLog = function(file) {
             var matches = consoleregex.exec(file);
             if (matches && matches.length) {
-                for (var i=0,j=matches.length; i<j; i++) {
-                    ok(false, 'found console.(log|warn|error|debug|trace)');
-                }
+                $.each(matches, function() {
+                    ok(false, 'Found console.(log|warn|error|debug|trace)');
+                });
             } else {
                 ok(true, 'No console.(log|warn|error|debug|trace) calls');
             }
@@ -38,14 +38,15 @@ require(['oae.core', '/tests/qunit/js/util.js', 'qunitjs', 'jquery', '/shared/ve
 
         /**
          * Checks for alert() statements in the code
+         *
          * @param  {String}   file    The contents of the file in the form of a string
          */
         var checkForAlert = function(file) {
             var matches = alertregex.exec(file);
             if (matches && matches.length) {
-                for (var i=0,j=matches.length; i<j; i++) {
-                    ok(false, 'found alert()');
-                }
+                $.each(matches, function() {
+                    ok(false, 'Found alert()');
+                });
             } else {
                 ok(true, 'No alert() found');
             }
@@ -53,36 +54,36 @@ require(['oae.core', '/tests/qunit/js/util.js', 'qunitjs', 'jquery', '/shared/ve
 
         /**
          * Runs the file through JSHint
+         *
          * @param  {String}     file        The contents of the file in the form of a string
          * @param  {Function}   callback    Function executed after checking for JSHint errors is complete
          */
         var JSHintfile = function(data, callback) {
             var result = JSHINT(data, {
                 // http://www.jshint.com/options/
-                sub:true // ignore dot notation recommendations - ie ['userid'] should be .userid
+                'sub': true // ignore dot notation recommendations - ie ['userid'] should be .userid
             });
             if (result) {
                 ok(result, 'JSHint clean');
             } else {
-                for (var i=0,j=JSHINT.errors.length; i<j; i++) {
+                $.each(JSHINT.errors, function(i) {
                     var error = JSHINT.errors[i];
                     if (error) {
-                        console.log(error);
                         ok(false, 'JSHint error on line ' + error.line + ' character ' + error.character + ': ' + error.reason + ', ' + error.evidence);
                     }
-                }
+                });
             }
             callback();
         };
 
         /**
          * Initializes the clean JS Test module
+         *
          * @param  {Object}   widgetData    Object containing the manifests of all widgets in node_modules/oae-core.
          */
-
         var cleanJSTest = function(widgetData) {
             // Check the widgets for clean javascript
-            $.each(widgetData.widgetData, function(i, widget) {
+            $.each(widgetData.widgetData, function(widgetID, widget) {
                 asyncTest(widget.id, function() {
                     checkForConsoleLog(widget.js, widget.id);
                     checkForAlert(widget.js);
@@ -93,9 +94,8 @@ require(['oae.core', '/tests/qunit/js/util.js', 'qunitjs', 'jquery', '/shared/ve
             });
 
             // Check the API for clean javascript
-            $.each(widgetData.apiJS, function(ii, apiJS) {
-                asyncTest(ii, function() {
-                    checkForConsoleLog(apiJS, ii);
+            $.each(widgetData.apiJS, function(apiPath, apiJS) {
+                asyncTest(apiPath, function() {
                     checkForAlert(apiJS);
                     JSHintfile(apiJS, function() {
                         start();
@@ -104,18 +104,29 @@ require(['oae.core', '/tests/qunit/js/util.js', 'qunitjs', 'jquery', '/shared/ve
             });
 
             // Check the main JavaScript files for clean javascript
-            $.each(widgetData.mainJS, function(iii, mainJS) {
-                asyncTest(iii, function() {
-                    checkForConsoleLog(mainJS, iii);
+            $.each(widgetData.mainJS, function(jsPath, mainJS) {
+                asyncTest(jsPath, function() {
+                    checkForConsoleLog(mainJS, jsPath);
                     checkForAlert(mainJS);
                     JSHintfile(mainJS, function() {
                         start();
                     });
                 });
             });
+
+            // Check the OAE plugins JavaScript files for clean javascript
+            $.each(widgetData.oaePlugins, function(jsPath, oaePlugin) {
+                asyncTest(jsPath, function() {
+                    checkForConsoleLog(oaePlugin, jsPath);
+                    checkForAlert(oaePlugin);
+                    JSHintfile(oaePlugin, function() {
+                        start();
+                    });
+                });
+            });
         };
 
-        util.loadWidgets(cleanJSTest);
+        util.loadTestData(cleanJSTest);
 
         QUnit.load();
         QUnit.start();
