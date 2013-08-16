@@ -16,6 +16,13 @@
 define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
 
     /**
+     * Toggles a container to show or hide
+     */
+    exports.toggleContainer = function() {
+        $(this).next().toggle(400);
+    };
+
+    /**
      * Shows a confirmation dialog to the user using predefined data
      * usage
      * showConfirmationModal({

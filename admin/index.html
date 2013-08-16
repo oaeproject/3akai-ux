@@ -66,7 +66,12 @@
                 </div>
             </div>
         </div>
-        <div id="admin-footer-container"><!-- --></div>
+        <div id="admin-footer-container">
+            <!-- DEFAULT FOOTER -->
+            <div class="row-fluid">
+                <div class="span12" id="admin-footer-content"></div>
+            </div>
+        </div>
 
         <div id="admin-header-template"><!--
             <div class="row-fluid">
@@ -176,7 +181,7 @@
                                 {/if}
                                 <td>${tenant.alias|encodeForHTML}</td>
                                 {if oae.data.me.isGlobalAdmin}
-                                    <td class="jeditable-container"><div class="jeditable-field" data-alias="${tenant.alias|encodeForHTMLAttribute}" data-type="displayName">${tenant.displayName|encodeForHTML}</div></td>
+                                    <td class="jeditable-container"><div class="jeditable-field" data-alias="${tenant.alias|encodeForHTMLAttribute}" data-field="displayName">${tenant.displayName|encodeForHTML}</div></td>
                                 {else}
                                     <td>${tenant.displayName|encodeForHTML}</td>
                                 {/if}
@@ -185,7 +190,7 @@
                                         <a href="//${tenant.host}" title="Visit ${tenant.displayName|encodeForHTMLAttribute}" target="_blank"><i class="icon-external-link admin-tenants-visit"></i></a>
                                     </td>
                                     <td class="jeditable-container">
-                                       <div class="jeditable-field" data-alias="${tenant.alias|encodeForHTMLAttribute}" data-type="host">${tenant.host|encodeForHTML}</div>
+                                       <div class="jeditable-field" data-alias="${tenant.alias|encodeForHTMLAttribute}" data-field="host">${tenant.host|encodeForHTML}</div>
                                     </td>
                                 {else}
                                     <td><a href="//${tenant.host}" title="${tenant.displayName|encodeForHTMLAttribute}" target="_blank">${tenant.host|encodeForHTML}</a></td>
