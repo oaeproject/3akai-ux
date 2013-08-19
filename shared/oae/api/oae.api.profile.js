@@ -86,6 +86,9 @@ define(['exports'], function(exports) {
             throw new Error('Section data should be provided');
         }
 
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
         // Get the current user to construct the endpoint url.
         var userId = require('oae.core').data.me.id;
 
@@ -124,6 +127,9 @@ define(['exports'], function(exports) {
         if (!sectionId) {
             throw new Error('A section id should be provided.');
         }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
 
         // Get the current user to construct the endpoint url.
         var userId = require('oae.core').data.me.id;

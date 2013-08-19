@@ -84,8 +84,8 @@ define(['exports', 'jquery'], function(exports, $) {
     /**
      * Log out the currently signed in user
      *
-     * @param  {Function}       [callback]          Standard callback method
-     * @param  {Object}         [callback.err]      Error object containing error code and error message
+     * @param  {Function}       callback            Standard callback method
+     * @param  {Object}         callback.err        Error object containing error code and error message
      */
     var logout = exports.logout = function(callback) {
         $.ajax({

@@ -68,6 +68,10 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
         // Set the container in which the results should be rendered
         var $container = options.scrollContainer ? options.scrollContainer : $(this);
 
+        // Variable that keeps track of the `nextToken` that was provided in the previous results list. This
+        // will be used as the `start` paging parameters for next set of results
+        var nextToken = null;
+
         // Variable that keeps track of whether or not the initial search has happened, as the initial
         // search does not need to provide a paging parameter
         var initialSearchDone = false;
@@ -129,7 +133,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
             var $lastElement = $container.children('li').filter(':visible').filter(':last');
             // Only page once the initial search has been done
             if ($lastElement.length !== 0 && initialSearchDone === true) {
-                parameters.start = $lastElement.attr('data-key') ? $lastElement.attr('data-key') : ($lastElement.index() + 1);
+                parameters.start = nextToken || ($lastElement.index() + 1);
             }
 
             // Get the data from the server
@@ -138,6 +142,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
                 'data': parameters,
                 'success': function(data) {
                     initialSearchDone = true;
+                    nextToken = data.nextToken;
                     processList(data);
                 },
                 'error': function() {

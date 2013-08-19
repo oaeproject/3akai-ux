@@ -238,7 +238,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             },
             'api': {
                 'getMembersURL': '/api/group/' + groupProfile.id + '/members',
-                'setMembers': oae.api.group.setGroupMembers,
+                'setMembers': oae.api.group.updateMembers,
                 'setVisibility': oae.api.group.updateGroup
             }
         };

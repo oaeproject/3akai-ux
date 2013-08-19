@@ -43,6 +43,9 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             throw new Error('A display name should be provided');
         }
 
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
         additionalOptions = additionalOptions || {};
 
         var data = {
@@ -129,6 +132,9 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         if (!params || _.keys(params).length === 0) {
             throw new Error('At least 1 parameter should be provided');
         }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
 
         // Get the current user to construct the endpoint url.
         var userId = require('oae.core').data.me.id;
