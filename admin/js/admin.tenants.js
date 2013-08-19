@@ -40,7 +40,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js'
     var renderTenants = function() {
         // If we're on the global admin server, we can render all the tenants.
         // Otherwise we only render the current tenant.
-        var tenantsToRender = (currentContext.isGlobalAdminServer) ? allTenants : [currentContext];
+        var tenantsToRender = currentContext.isGlobalAdminServer ? allTenants : [currentContext];
 
         // Determine whether or not there is at least one tenant server that has been
         // stopped. When that's the case, the 'Start all' button will be shown instead
@@ -83,7 +83,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js'
                 return this.revert;
             } else {
                 updateTenant($inlineEdit.attr('data-alias'), field, value);
-                // Update the link that links to the tenant's landing page
+                // Update the link to the tenant's landing page
                 $('a', $inlineEdit.parent().prev()).attr('href', '//' + value);
                 return value;
             }
@@ -367,7 +367,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js'
     };
 
     /**
-     * Log into a tenant as a global admin, log onto a tenant. If successful, the user will be redirected
+     * Log into a user tenant as a global admin. If successful, the user will be redirected
      * to the tenant where he should be logged in. If we were unable to retrieve a login
      * token, a notification will be shown.
      */

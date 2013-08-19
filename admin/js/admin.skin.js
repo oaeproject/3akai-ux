@@ -106,12 +106,12 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
 
             // If the field is a color, match as colors
             if (type === 'color') {
-                // Get the default and form colors and convert them to RGB for easy matching with tinycolor
+                // Get the default and form colors
                 var defaultColor = defaultSkin[name];
                 var selectedColor = $(formFields[i]).val();
 
-                // If the default and form colors don't match up, the value was changed and
-                // is added to the cached values to return.
+                // If the default and form colors don't match, the value was changed and
+                // is added to the cached values to return
                 if (!tinycolor.equals(defaultColor, selectedColor)) {
                     changedValues[name] = selectedColor;
                 }
@@ -121,8 +121,8 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
                 var defaultSkinText = defaultSkin[name];
                 var formValueText = $.trim($(formFields[i]).val());
 
-                // If the default and form text don't match up the value was changed and
-                // is added to the cached values to return.
+                // If the default and form text don't match, the value was changed and
+                // is added to the cached values to returnSave the new skin values. The back-end requires us to send all of
                 if (defaultSkinText !== formValueText) {
                     changedValues[name] = formValueText;
                 }
@@ -134,8 +134,8 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
     };
 
     /**
-     * Save the new skin values. The back-end requires us to send all of
-     * the skin variables at once in a stringified JSON object.
+     * Save the new skin values. The back-end requires us to send all skin values
+     * that are different than the default values at once in a stringified JSON object.
      */
     var saveSkin = function() {
         // Create the JSON only containing the values that have changed to send to the server
