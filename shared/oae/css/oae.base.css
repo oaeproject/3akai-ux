@@ -69,10 +69,12 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 }
 
 .nav-list [class^="icon-"], .nav-list [class*=" icon-"] {
+    display: inline-block;
     font-size: 1.5em;
     margin-right: 10px;
     position: relative;
     top: 2px;
+    width: 20px;
 }
 
 .nav-list .nav-header {

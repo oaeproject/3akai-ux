@@ -1,95 +1,63 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <noscript>
+            <meta http-equiv="Refresh" content="1; URL=/noscript">
+        </noscript>
+
         <title>Sakai OAE Javascript QUnit Test Suite</title>
-        <link rel="stylesheet" type="text/css" href="../dev/css/sakai/sakai.base.css" />
-        <link rel="stylesheet" type="text/css" href="../tests/qunit/css/sakai_qunit_runner.css" />
-        <script data-main="../tests/qunit/js/sakai.runnerdependencies.js" src="../dev/lib/jquery/require-jquery.js"></script>
+
+        <!-- CORE CSS -->
+        <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
+        <link rel="stylesheet" type="text/css" href="/tests/qunit/css/tests.css" />
+
     </head>
-    <body class="oae-centered oae-container">
-        <div class="oae-container-flex">
-            <div class="oae-fix oae-centered fixed-container">
-                <h1>Sakai OAE QUnit Test Suite</h1>
-                <hr/>
-            </div>
-        </div>
-        <div class="oae-container-flex">
-            <div class="oae-fix oae-centered fixed-container">
-                <div id="show_list"><button class="oae-button">Hide Tests</button></div>
-                <div id="tests_list">
-                    <h1>Unit Tests</h1>
-                    <hr/>
+    <body style="display: block;">
+        <div id="index-content">
+            <div class="row-fluid">
+                <div class="span12">
+                    <h1>Unit tests</h1>
+                    <button id="tests_run_all" type="button" class="btn">Run all unit tests on this page</button>
+
                     <h2>Core</h2>
                     <ul>
-                        <li><a href="qunit/tests/unit/cleanjs.html" class="oae-action test unit">Clean Javascript (includes JSLint)</a></li>
-                        <li><a href="qunit/tests/unit/ie8content.html" class="oae-action test unit">IE8 bug</a></li>
-                        <li><a href="qunit/tests/unit/security.html" class="oae-action test unit">Security</a></li>
-                        <li><a href="qunit/tests/unit/templates.html" class="oae-action test unit">Template Renderer</a></li>
-                        <li><a href="qunit/tests/unit/profiles.html" class="oae-action test unit">User Profiles</a></li>
-                        <li><a href="qunit/tests/unit/util.html" class="oae-action test unit">Util</a></li>
+                        <li><a href="/tests/qunit/tests/cleanjs.html" class="test">Clean JavaScript</a></li>
                     </ul>
+
+                    <h2>Internationalization and localization</h2>
+                    <ul>
+                        <li><a href="/tests/qunit/tests/unusedkeys.html" class="test">Unused Translation Keys</a></li>
+                        <li><a href="/tests/qunit/tests/untranslatedkeys.html" class="test">Untranslated Translation Keys</a></li>
+                        <li><a href="/tests/qunit/tests/doubletranslated.html" class="test">Double Translation Keys</a></li>
+                        <li><a href="/tests/qunit/tests/uninternationalizedstrings.html" class="test">Uninternationalized English Strings</a></li>
+                    </ul>
+
+                    <h2>Formatting</h2>
+                    <ul>
+                        <li><a href="/tests/qunit/tests/cssformatting.html" class="test">CSS Formatting</a></li>
+                        <li><a href="/tests/qunit/tests/jsformatting.html" class="test">JavaScript Formatting</a></li>
+                    </ul>
+
                     <h2>Accessibility</h2>
                     <ul>
-                        <li><a href="qunit/tests/unit/wcag.html" class="oae-action test unit">WCAG Compliance</a></li>
+                        <li><a href="/tests/qunit/tests/wcag.html" class="test">WCAG 2.0 Compliance - 1.1.1 Non-text Content / Text Alternatives</a></li>
                     </ul>
-                    <h2>Internationalization and Localization</h2>
+
+                    <h1>Statistics</h1>
+                    <h2>i18n</h2>
                     <ul>
-                        <li><a href="qunit/tests/unit/unusedkeys.html" class="oae-action test unit">Unused Translation Keys</a></li>
-                        <li><a href="qunit/tests/unit/untranslated.html" class="oae-action test unit">Untranslated Translation Keys</a></li>
-                        <li><a href="qunit/tests/unit/doublekeys.html" class="oae-action test unit">Double Translation Keys</a></li>
-                        <li><a href="qunit/tests/unit/uninternationalized.html" class="oae-action test unit">Untranslated English Strings</a></li>
+                        <li><a href="/tests/qunit/stats/i18ncoverage.html" class="test">i18n Coverage</a></li>
                     </ul>
-                    <h2>Widgets</h3>
-                    <ul>
-                        <li><a href="qunit/tests/unit/widgets.html" class="oae-action test unit">Widget Configuration</a></li>
-                    </ul>
-                    <h2>Formatting</h3>
-                    <ul>
-                        <li><a href="qunit/tests/unit/formattingcss.html" class="oae-action test unit">CSS formatting</a></li>
-                        <li><a href="qunit/tests/unit/formattingjs.html" class="oae-action test unit">JavaScript formatting</a></li>
-                    </ul>
-                    <h1>Integration Tests</h1>
-                    <hr/>
-                    <h2>Core</h2>
-                    <ul>
-                        <li><a href="qunit/tests/integration/data_transport.html" class="oae-action test integration">Data Transport</a></li>
-                        <li><a href="qunit/tests/integration/groups.html" class="oae-action test integration">Groups</a></li>
-                        <li><a href="qunit/tests/integration/messaging.html" class="oae-action test integration">Messaging</a></li>
-                        <li><a href="qunit/tests/integration/user.html" class="oae-action test integration">User</a></li>
-                        <li><a href="qunit/tests/integration/search.html" class="oae-action test integration">Search</a></li>
-                        <li><a href="qunit/tests/integration/tagging.html" class="oae-action test integration">Tagging</a></li>
-                    </ul>
-                    <button id="run_all_unit" class="oae-button">Run all unit tests on this page</button>
-                    <button id="run_all_integration" class="oae-button">Run all integration tests on this page</button>
-                    <button id="run_all" class="oae-button">Run all tests on this page</button>
-                </div>
-                <div id="run_all_results" style="display:none" class="oae-container-flex">
-                    <div id="run_all_results_status" class="oae-container-flex">
-                        <h1>Running All Tests</h1>
-                        <h2>Status</h2>
-                        <span class="label">Currently Running Test: </span><span id="run_all_current_test" class="result"></span>
-                        <span class="label">Suites Complete: </span><span id="run_all_results_num_finished" class="result">0</span>
-                        <span class="label">Suites To Go: </span><span id="run_all_results_num_to_go" class="result"></span>
-                    </div>
-                    <div id="run_all_results_individual" class="oae-container-flex">
-                        <h2>Results</h2>
-                        <h6>Click a row for detailed test results</h6>
-                        <table cellpadding="0" cellspacing="0" border="1px">
-                            <thead>
-                                <tr><th>Test Suite</th><th>Failures</th><th>Successes</th><th>Test Duration (seconds)</th></tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                            <tfoot>
-                            </tfoot>
-                        </table>
-                        <a id="coveragereport" class="oae-action" href="/dev/jscoverage.html" target="_blank" style="display:none">Coverage report</a>
-                    </div>
-                    <div id="run_all_iframes">
-                    </div>
                 </div>
             </div>
+
+            <div id="tests-run-all-container"><!-- --></div>
+
         </div>
-        <script>require(["./qunit/js/sakai_qunit_runner.js", "./qunit/js/jscoverage.js"]);</script>
+
+        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
+        <script>require(["./qunit/js/util.js"]);</script>
     </body>
 </html>
