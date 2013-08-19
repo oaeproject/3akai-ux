@@ -46,10 +46,14 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.tenants.js', '/adm
         // However, as the page can already have the History.js state data when only doing a page refresh,
         // we need to add a random number to make sure that History.js recognizes this as a new state and
         // triggers the `statechange` event.
+        var url = $.url(History.getState().hash).attr('path');
+        if (selectedView) {
+            url += '?view=' + selectedView;
+        }
         History.replaceState({
             'view': selectedView,
             '_': Math.random()
-        }, $('title').text(), History.getState().cleanUrl);
+        }, $('title').text() , url);
     };
 
     /**
@@ -123,8 +127,8 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.tenants.js', '/adm
     ////////////////////
 
     /**
-     * Determine whether or not we're current on the global admin server and whether or not we need the UI for
-     * the global admin or for an admin. This will then be stored in the `currentContext` variable.
+     * Determine whether or not we're currently on the global admin server and whether or not we need the UI for
+     * the global admin tenant or for a user tenant. This will then be stored in the `currentContext` variable.
      *
      * @param  {Function}    callback        Standard callback function
      */
@@ -139,7 +143,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.tenants.js', '/adm
                 // the tenant view and the footer
                 if (currentContext.isGlobalAdminServer) {
                     getTenants(function() {
-                        // Check if we're currently on a tenant admin on the global server. In that
+                        // Check if we're currently on a user admin on the global admin tenant. In that
                         // case, the URL should be /tenant/<tenantAlias>
                         var tenantAlias = $.url().segment(2);
                         if (tenantAlias) {
@@ -213,14 +217,15 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.tenants.js', '/adm
             // Render the header and the footer
             initializeHeader();
 
+            // Initialize the tenants related functionality
+            adminTenants.init(currentContext, allTenants);
+
             if (oae.data.me.anon) {
                 setUpLogin();
             } else {
                 // Initialize left hand navigation
                 initializeNavigation();
 
-                // Initialize the tenants related functionality
-                adminTenants.init(currentContext, allTenants);
                 // Initialize the config related functionality. This will also initialize the
                 // skinning functionality
                 adminConfig.init(currentContext);

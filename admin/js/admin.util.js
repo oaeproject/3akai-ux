@@ -18,7 +18,7 @@ define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
     /**
      * Toggles a container to show or hide
      */
-    exports.toggleContainer = function() {
+    var toggleContainer = exports.toggleContainer = function() {
         $(this).next().toggle(400);
     };
 
@@ -41,7 +41,7 @@ define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
      *
      * @param {Object}  data    Data object used to render the modal dialog. All required elements are shown above in 'usage' and should be provided
      */
-    exports.showConfirmationModal = function(data) {
+    var showConfirmationModal = exports.showConfirmationModal = function(data) {
         oae.api.util.template().render($('#admin-confirmation-template'), {'modal': data}, $('#admin-confirmation-container'));
         $('#' + data.id).modal({
             'backdrop': 'static'

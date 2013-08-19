@@ -66,12 +66,7 @@
                 </div>
             </div>
         </div>
-        <div id="admin-footer-container">
-            <!-- DEFAULT FOOTER -->
-            <div class="row-fluid">
-                <div class="span12" id="admin-footer-content"></div>
-            </div>
-        </div>
+        <div id="admin-footer-container"><!-- --></div>
 
         <div id="admin-header-template"><!--
             <div class="row-fluid">
@@ -165,11 +160,7 @@
                                     {/if}
                                 {/if}
                             </th>
-                        {/if}
-                        {if isOnGlobalAdminServer}
                             <th></th>
-                        {/if}
-                        {if isOnGlobalAdminServer}
                             <th></th>
                         {/if}
                     </tr>
@@ -210,13 +201,9 @@
                                             <button type="button" class="btn btn-success start-tenant" data-alias="${tenant.alias|encodeForHTMLAttribute}" data-displayName="${tenant.displayName|encodeForHTMLAttribute}">Start</button>
                                         {/if}
                                     </td>
-                                {/if}
-                                {if isOnGlobalAdminServer}
                                     <td>
                                         <button type="button" class="btn btn-danger delete-tenant" data-alias="${tenant.alias|encodeForHTMLAttribute}" data-displayName="${tenant.displayName|encodeForHTMLAttribute}">Delete</button>
                                     </td>
-                                {/if}
-                                {if isOnGlobalAdminServer}
                                     <td>
                                         <button type="button" class="btn btn-primary login-tenant" data-alias="${tenant.alias|encodeForHTMLAttribute}">Login</button>
                                     </td>
@@ -226,7 +213,7 @@
                     {/for}
                 </table>
             {else}
-                <p class="text-warning">There are no tenants.</p>
+                <p class="text-warning">There are no tenants</p>
             {/if}
             {if context.isGlobalAdminServer}
                 <div class="admin-container-striped">

@@ -23,10 +23,10 @@ define(['exports', 'jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js'
     /**
      * Initialize the tenant related functionality
      *
-     * @param  {Tenant}         currentContext          The tenant for which the admin UI is displaying
-     * @param  {Object}         [allTenants]            Object representing all available tenants. This will only be passed in when using the admin UI on the global admin tenant
+     * @param  {Tenant}    currentContext        The tenant for which the admin UI is displaying
+     * @param  {Object}    [allTenants]          Object representing all available tenants. This will only be passed in when using the admin UI on the global admin tenant
      */
-    exports.init = function(_currentContext, _allTenants) {
+    var init = exports.init = function(_currentContext, _allTenants) {
         currentContext = _currentContext;
         allTenants = _allTenants;
 

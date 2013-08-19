@@ -25,9 +25,9 @@ define(['exports', 'jquery', 'underscore', 'oae.core', '/admin/js/admin.skin.js'
     /**
      * Initialize the config related functionality
      *
-     * @param  {Tenant}         currentContext          The tenant for which the admin UI is displaying
+     * @param  {Tenant}    currentContext        The tenant for which the admin UI is displaying
      */
-    exports.init = function(_currentContext) {
+    var init = exports.init = function(_currentContext) {
         currentContext = _currentContext;
 
         loadConfiguration(function() {
@@ -97,7 +97,9 @@ define(['exports', 'jquery', 'underscore', 'oae.core', '/admin/js/admin.skin.js'
         var $form = $(this);
         var values = $form.serializeObject();
 
+        // Object that will be used to construct the POST data
         var data = {};
+
         var module = $form.attr('data-module');
         // Run over all the old config values to check which ones have been modified
         $.each(configuration[module], function(option, optionValues) {

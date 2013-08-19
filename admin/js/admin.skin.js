@@ -26,10 +26,10 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
     /**
      * Initialize the skinning related functionality
      *
-     * @param  {Tenant}         currentContext          The tenant for which the admin UI is displaying
-     * @param  {Object}         configuration           The configuration for the current tenant
+     * @param  {Tenant}    currentContext        The tenant for which the admin UI is displaying
+     * @param  {Object}    configuration         The configuration for the current tenant
      */
-    exports.init = function(_currentContext, _configuration) {
+    var init = exports.init = function(_currentContext, _configuration) {
         currentContext = _currentContext;
         configuration = _configuration;
 
