@@ -122,7 +122,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
                 var formValueText = $.trim($(formFields[i]).val());
 
                 // If the default and form text don't match, the value was changed and
-                // is added to the cached values to returnSave the new skin values. The back-end requires us to send all of
+                // is added to the cached values to return
                 if (defaultSkinText !== formValueText) {
                     changedValues[name] = formValueText;
                 }
