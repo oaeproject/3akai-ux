@@ -282,7 +282,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * Delete a discussion from a discussion library.
      *
      * @param  {String}         principalId       User or group id for for the library from which we want to delete the content
-     * @param  {String}         discussionId      Discussion id of the discussion we're trying to delete from the library
+     * @param  {String}         discussionId      Id of the discussion we're trying to delete from the library
      * @param  {Function}       [callback]        Standard callback method
      * @param  {Object}         [callback.err]    Error object containing error code and error message
      * @throws {Error}                            Error thrown when not all of the required parameters have been provided

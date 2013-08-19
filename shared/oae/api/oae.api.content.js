@@ -268,8 +268,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
      * Restore a revision. The restored revision will become the content item's current revision, and will have the same content as that revision.
      * Revisions can only be restored for documents and files.
      *
-     * @param  {String}       contentId             Content id of the content item we're restoring a revision of
-     * @param  {String}       revisionId            Revision id of the revision that's being restored
+     * @param  {String}       contentId             Id of the content item we're restoring a revision of
+     * @param  {String}       revisionId            Id of the revision that's being restored
      * @param  {Function}     [callback]            Standard callback method
      * @param  {Object}       [callback.err]        Error object containing error code and error message
      * @param  {Revision}     [callback.revision]   Revision object representing the restored revision
@@ -300,7 +300,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     /**
      * Update a content item's metadata.
      *
-     * @param  {String}       contentId           Content id of the content item we're trying to update
+     * @param  {String}       contentId           Id of the content item we're trying to update
      * @param  {Object}       params              JSON object where the keys represent all of the profile field names we want to update and the values represent the new values for those fields
      * @param  {Function}     [callback]          Standard callback method
      * @param  {Object}       [callback.err]      Error object containing error code and error message
@@ -333,7 +333,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     /**
      * Permanently delete a piece of content from the system.
      *
-     * @param  {String}        contentId             Content id of the content item we're trying to delete
+     * @param  {String}        contentId             Id of the content item we're trying to delete
      * @param  {Function}      [callback]            Standard callback method
      * @param  {Object}        [callback.err]        Error object containing error code and error message
      * @throws {Error}                               Error thrown when no valid content id has been provided
@@ -396,7 +396,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     /**
      * Change the members and managers of a content item.
      *
-     * @param  {String}       contentId           Content id of the content item we're trying to update the members for
+     * @param  {String}       contentId           Id of the content item we're trying to update the members for
      * @param  {Object}       updatedMembers      JSON Object where the keys are the user/group ids we want to update membership for, and the values are the roles these members should get (manager or viewer). If false is passed in as a role, the principal will be removed as a member
      * @param  {Function}     [callback]          Standard callback method
      * @param  {Object}       [callback.err]      Error object containing error code and error message
@@ -428,7 +428,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     /**
      * Share a content item.
      *
-     * @param  {String}       contentId           Content id of the content item we're trying to share
+     * @param  {String}       contentId           Id of the content item we're trying to share
      * @param  {String[]}     principals          Array of principal ids with who the content should be shared
      * @param  {Function}     [callback]          Standard callback method
      * @param  {Object}       [callback.err]      Error object containing error code and error message
@@ -500,7 +500,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
      * Delete a piece of content from a content library.
      *
      * @param  {String}         principalId       User or group id for for the library from which we want to delete the content
-     * @param  {String}         contentId         Content id of the content item we're trying to delete from the library
+     * @param  {String}         contentId         Id of the content item we're trying to delete from the library
      * @param  {Function}       [callback]        Standard callback method
      * @param  {Object}         [callback.err]    Error object containing error code and error message
      * @throws {Error}                            Error thrown when not all of the required parameters have been provided

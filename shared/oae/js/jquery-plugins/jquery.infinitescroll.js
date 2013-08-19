@@ -21,8 +21,11 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
      * list items and deciding when to retrieve the next set of results, as well as the actual appending to the list, showing loading
      * animations, etc.
      *
-     * The template used to render the result should put each item into its own `li` tag, and should have a `data-id` attribute containing
-     * the item's id and a `data-key` attribute containing the value that should be used as the start value for paging.
+     * The template used to render the result should put each item into its own `li` tag and should have a `data-id` attribute containing
+     * the item's id.
+     *
+     * By default, the infinite scroll plug-in will use the `nextToken` key for paging when provided in the back-end feed response. When
+     * no `nextToken` is provided, the index of the last rendered item will be used instead.
      *
      * @param  {String}                            source                          The REST endpoint URL to use for retrieving list data.
      * @param  {Object}                            [parameters]                    Parameters to send along for each list items retrieval ajax request.
