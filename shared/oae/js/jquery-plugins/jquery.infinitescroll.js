@@ -181,7 +181,11 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
          */
         var renderList = function(data, prepend) {
             // Determine if we should attempt to load a next page
-            var canFetchMore = (data.results.length === parameters.limit) || prepend;
+            // TODO
+            var canFetchMore = false;
+            if (!prepend) {
+                canFetchMore = (data.results.length === parameters.limit)
+            }
 
             // Check if the infinite scroll instance still exists. It's possible that
             // the instance was killed in between the time that a request was fired and
