@@ -18,14 +18,16 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     /**
      * Gets the comments for a particular resource (content item, discussion, etc.)
      *
-     * @param  {String}       resourceId          Id of the resource for which to get the comments
-     * @param  {String}       resourceType        Type of resource for which to get the comments (e.g. 'content', 'discussion', etc.)
-     * @param  {String}       [start]             Determines the point at which comments are returned for paging purposes
-     * @param  {Number}       [limit]             Number of comments to return
-     * @param  {Function}     callback            Standard callback method
-     * @param  {Object}       callback.err        Error object containing error code and error message
-     * @param  {Comment[]}    callback.comments   Array of comments on the resource
-     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
+     * @param  {String}       resourceId                   Id of the resource for which to get the comments
+     * @param  {String}       resourceType                 Type of resource for which to get the comments (e.g. 'content', 'discussion', etc.)
+     * @param  {String}       [start]                      The token used for paging. If the first page of results is required, `null` should be passed in as the token. For any subsequent pages, the `nextToken` provided in the feed from the previous page should be used
+     * @param  {Number}       [limit]                      Number of comments to return
+     * @param  {Function}     callback                     Standard callback method
+     * @param  {Object}       callback.err                 Error object containing error code and error message
+     * @param  {Object}       callback.comments            Response object containing the resource comments and nextToken
+     * @param  {Comment[]}    callback.comments.results    Array of comments on the resource
+     * @param  {String}       callback.comments.nextToken  The value to provide in the `start` parameter to get the next set of results
+     * @throws {Error}                                     Error thrown when not all of the required parameters have been provided
      */
     var getComments = exports.getComments = function(resourceId, resourceType, start, limit, callback) {
         if (!resourceId) {
@@ -54,14 +56,14 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     /**
      * Create a comment on a resource or reply to an existing comment.
      *
-     * @param  {String}       resourceId          Id of the resource for which to create the comment
-     * @param  {String}       resourceType        Type of resource on which to comment (e.g. 'content', 'discussion', etc.)
-     * @param  {String}       body                The comment to be placed on the resource
-     * @param  {String}       [replyTo]           Id of the comment to reply to
-     * @param  {Function}     callback            Standard callback method
-     * @param  {Object}       callback.err        Error object containing error code and error message
-     * @param  {Comment}      callback.comment    Comment object representing the created comment
-     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
+     * @param  {String}       resourceId            Id of the resource for which to create the comment
+     * @param  {String}       resourceType          Type of resource on which to comment (e.g. 'content', 'discussion', etc.)
+     * @param  {String}       body                  The comment to be placed on the resource
+     * @param  {String}       [replyTo]             Id of the comment to reply to
+     * @param  {Function}     [callback]            Standard callback method
+     * @param  {Object}       [callback.err]        Error object containing error code and error message
+     * @param  {Comment}      [callback.comment]    Comment object representing the created comment
+     * @throws {Error}                              Error thrown when not all of the required parameters have been provided
      */
     var createComment = exports.createComment = function(resourceId, resourceType, body, replyTo, callback) {
         if (!resourceId) {
@@ -71,6 +73,9 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         } else if (!body) {
             throw new Error('A comment should be provided');
         }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
 
         var data = {
             'body': body,
@@ -93,13 +98,13 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     /**
      * Delete an existing comment from a resource
      *
-     * @param  {String}       resourceId              Id of the resource from which to delete the comment
-     * @param  {String}       resourceType            Type of resource for which the comment should be deleted (e.g. 'content', 'discussion', etc.)
-     * @param  {String}       commentId               The ID of the comment to delete
-     * @param  {Function}     callback                Standard callback method
-     * @param  {Object}       callback.err            Error object containing error code and error message
-     * @param  {Object}       [callback.softDeleted]  If the comment is not deleted, but instead flagged as deleted because it has replies, this will return a stripped down comment object representing the deleted comment, with the `deleted` property set to `true`. If the comment has been properly deleted, no comment will be returned.
-     * @throws {Error}                                Error thrown when not all of the required parameters have been provided
+     * @param  {String}       resourceId                Id of the resource from which to delete the comment
+     * @param  {String}       resourceType              Type of resource for which the comment should be deleted (e.g. 'content', 'discussion', etc.)
+     * @param  {String}       commentId                 The ID of the comment to delete
+     * @param  {Function}     [callback]                Standard callback method
+     * @param  {Object}       [callback.err]            Error object containing error code and error message
+     * @param  {Object}       [callback.softDeleted]    If the comment is not deleted, but instead flagged as deleted because it has replies, this will return a stripped down comment object representing the deleted comment, with the `deleted` property set to `true`. If the comment has been properly deleted, no comment will be returned.
+     * @throws {Error}                                  Error thrown when not all of the required parameters have been provided
      */
     var deleteComment = exports.deleteComment = function(resourceId, resourceType, commentId, callback) {
         if (!resourceId) {
@@ -109,6 +114,9 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         } else if (!commentId) {
             throw new Error('A comment id should be provided');
         }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
 
         $.ajax({
             'url': '/api/' + resourceType + '/' + resourceId + '/messages/' + commentId,

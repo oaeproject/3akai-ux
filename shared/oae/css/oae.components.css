@@ -937,11 +937,10 @@ div.oae-thumbnail i[class^="icon-"] {
  * The HTML for a list item has been abstracted into a globally available TrimPath template that
  * can be used when rendering list view items:
  *
- *   `${listItem(entityData, [pagingKey], [metadata], [showCheckbox])}`
+ *   `${listItem(entityData, [metadata], [showCheckbox])}`
  *
  * - `entityData` is an object representing a user, group or content item or a search result for a user, group
  *    or content item
- * - `pagingKey` (optional) is the key that should be used for paging through the infinite scroll plugin
  * - `metadata` (optional) is a line of metadata information that should be displayed underneath the entity name
  * - `showCheckbox` (optional) will determine whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
  *
