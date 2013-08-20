@@ -28,17 +28,21 @@ body {
 #admin-header-container {
     background-color: #FFF;
 }
+
 #admin-header-container #admin-header-content {
     background: url('/shared/oae/img/oae-logo.png') no-repeat left center transparent;
     background-size: 60px;
     min-height: 70px;
 }
+
 #admin-header-container #admin-header-user {
     margin: 20px 0 20px;
 }
+
 #admin-header-container #admin-header-user #admin-header-user-logout {
     margin-left: 12px;
 }
+
 #admin-header-container h1 {
     font-size: 22px;
     font-weight: normal;
@@ -55,6 +59,7 @@ body {
     padding-top: 20px;
     padding-bottom: 120px;
 }
+
 #admin-content h2 {
     font-size: 25px;
     color: #0088CC;
@@ -64,6 +69,16 @@ body {
 }
 
 /* Tenant list */
+
+.table-striped td.admin-tenants-visit {
+    width: 20px;
+}
+
+.table-striped td.admin-tenants-visit i {
+    font-size: 18px;
+    position: relative;
+    top: 2px;
+}
 
 .table-striped tbody tr:nth-child(2n+1) td,
 .table-striped tbody tr:nth-child(2n+1) th,
@@ -78,6 +93,7 @@ body {
     max-width: 150px;
     vertical-align: middle;
 }
+
 .table-striped tbody tr:nth-child(2n+2) td,
 .table-striped tbody tr:nth-child(2n+2) th,
 .admin-container-striped > div:nth-child(2n+2) {
@@ -85,6 +101,7 @@ body {
     max-width: 150px;
     vertical-align: middle;
 }
+
 td.jeditable-container:hover {
     cursor: pointer;
     color: #666;
@@ -96,6 +113,7 @@ td.jeditable-container:hover {
     background: -ms-linear-gradient(top, #DDD 0%,#CCC 100%) !important; /* IE10+ */
     background: linear-gradient(to bottom, #DDD 0%,#CCC 100%) !important; /* W3C */
 }
+
 td form {
     margin: 0;
 }
@@ -107,21 +125,26 @@ td form {
     float:left;
     margin-right:12px;
 }
+
 .admin-module-configuration-container .form-horizontal .control-label {
     width: 225px;
 }
+
 .admin-module-configuration-container .form-horizontal .controls {
     margin-left: 250px;
 }
+
 .admin-module-configuration-container h4 {
     margin-top: 20px;
     margin-bottom: 20px;
 }
+
 .admin-module-configuration-container h4 span,
 .admin-module-configuration-container label span {
     font-size: 14px;
     font-weight: normal;
 }
+
 
 .admin-container-striped form {
     margin: 20px 0;
@@ -173,17 +196,21 @@ td form {
     position: fixed;
     width: 100%;
 }
+
 #admin-footer-content {
     background: url("/shared/oae/img/oae-logo-white.png") no-repeat scroll left 20px transparent;
     background-size: 70px;
     min-height: 75px;
 }
+
 #admin-footer-container ul {
     margin: 30px 0 10px 50px;
 }
+
 #admin-footer-container ul li {
    margin-left: 50px;
 }
+
 #admin-footer-container ul, #admin-footer-container ul li a {
     color: #EEE;
 }
