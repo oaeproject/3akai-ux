@@ -134,7 +134,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
 
             // Make sure that no other requests are sent until the current request finishes
             canRequestMoreData = false;
-            // Get the latest rendered element
+            // Get the last rendered element
             var $lastElement = $container.children('li').filter(':visible').filter(':last');
             // Only page once the initial search has been done
             if ($lastElement.length !== 0 && initialSearchDone === true) {
