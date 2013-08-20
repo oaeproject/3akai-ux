@@ -2,26 +2,25 @@
  * Render a list item representing a user, group or piece of content
  *
  * @param  {User|Group|Content}     entityData      Standard object representing a user, group or content item or a search result for a user, group or content item as returned by Hilary
- * @param  {String}                 [pagingKey]     The key that should be used for paging through the infinite scroll plugin
  * @param  {String}                 [metadata]      Line of metadata information that should be displayed underneath the entity name
  * @param  {Boolean}                [showCheckbox]  Whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
  * @param  {String}                 [customImage]   URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
 -->
-{macro listItem(entityData, pagingKey, metadata, showCheckbox, customImage)}
+{macro listItem(entityData, metadata, showCheckbox, customImage)}
     {if entityData}
         {if entityData.resourceType}
             {var resourceType = entityData.resourceType}
         {elseif entityData.objectType}
             {var resourceType = entityData.objectType}
         {/if}
-    
+
         {if entityData.visibility}
             {var visibility = entityData.visibility}
         {elseif entityData['oae:visibility']}
             {var visibility = entityData['oae:visibility']}
         {/if}
-    
-        <li {if pagingKey} data-key="${pagingKey}" {/if}>
+
+        <li>
             <!-- THUMBNAIL VIEW -->
             <div class="oae-list-grid-item">
                 <div class="oae-tile">
@@ -35,7 +34,7 @@
                 </div>
                 ${renderCheckbox(entityData, 'grid', showCheckbox)}
             </div>
-    
+
             <!-- DETAILED LIST VIEW -->
             <div class="oae-list-details-item">
                 <div class="oae-listitem">
@@ -46,7 +45,7 @@
                     </div>
                 </div>
             </div>
-    
+
             <!-- COMPACT LIST VIEW -->
             <div class="oae-list-compact-item">
                 <div class="oae-listitem oae-listitem-compact">
