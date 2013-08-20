@@ -106,7 +106,9 @@ var userUtil = function() {
     var doLogOut = function() {
         casper.then(function() {
             casper.echo('Log out');
-            casper.click('#topnavigation-signout');
+            casper.waitForSelector('#topnavigation-signout', function() {
+                casper.click('#topnavigation-signout');
+            });
         });
     };
 
