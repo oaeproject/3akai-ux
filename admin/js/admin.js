@@ -53,7 +53,7 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.tenants.js', '/adm
         History.replaceState({
             'view': selectedView,
             '_': Math.random()
-        }, $('title').text() , url);
+        }, $('title').text(), url);
     };
 
     /**
