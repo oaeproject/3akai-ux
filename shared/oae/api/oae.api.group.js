@@ -26,13 +26,16 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * @param  {String[]}          [members]                An array of userIds that should be made members
      * @param  {Function}          [callback]               Standard callback method
      * @param  {Object}            [callback.err]           Error object containing error code and error message
-     * @param  {Group}             [callback.response]      A Group object representing the created group
+     * @param  {Group}             [callback.group]         A Group object representing the created group
      * @throws {Error}                                      Error thrown when not all of the required parameters have been provided
      */
     var createGroup = exports.createGroup = function (displayName, description, visibility, joinable, managers, members, callback) {
         if (!displayName) {
              throw new Error('A group displayName should be provided');
         }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
 
         var data = {
             'displayName': displayName,
@@ -62,7 +65,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * @param  {String}       groupId             The id of the group you wish to retrieve.
      * @param  {Function}     callback            Standard callback method
      * @param  {Object}       callback.err        Error object containing error code and error message
-     * @param  {Group}        callback.response   The group object representing the requested group
+     * @param  {Group}        callback.group      The group object representing the requested group
      * @throws {Error}                            Error thrown when no group id has been provided
      */
     var getGroup = exports.getGroup = function(groupId, callback) {
@@ -84,16 +87,16 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
     /**
      * Updates a group.
      *
-     * @param  {String}       groupId                       The id of the group you wish to update
-     * @param  {Object}       profileFields                 Object where the keys represent the profile fields that need to be updated and the values represent the new values for those profile fields.
-     * @param  {String}       [profileFields.displayName]   New displayName for the group
-     * @param  {String}       [profileFields.description]   New description for the group
-     * @param  {String}       [profileFields.visibility]    New visibility setting for the group. The possible values are 'private', 'loggedin' and 'public'
-     * @param  {String}       [profileFields.joinable]      New joinability setting for the group. The possible values are 'yes', 'no' and 'request'
-     * @param  {Function}     callback                      Standard callback method
-     * @param  {Object}       callback.err                  Error object containing error code and error message
-     * @param  {Group}        callback.group                The group object representing the updated group
-     * @throws {Error}                                      Error thrown when not all of the required parameters have been provided
+     * @param  {String}       groupId                         The id of the group you wish to update
+     * @param  {Object}       profileFields                   Object where the keys represent the profile fields that need to be updated and the values represent the new values for those profile fields.
+     * @param  {String}       [profileFields.displayName]     New displayName for the group
+     * @param  {String}       [profileFields.description]     New description for the group
+     * @param  {String}       [profileFields.visibility]      New visibility setting for the group. The possible values are 'private', 'loggedin' and 'public'
+     * @param  {String}       [profileFields.joinable]        New joinability setting for the group. The possible values are 'yes', 'no' and 'request'
+     * @param  {Function}     [callback]                      Standard callback method
+     * @param  {Object}       [callback.err]                  Error object containing error code and error message
+     * @param  {Group}        [callback.group]                The group object representing the updated group
+     * @throws {Error}                                        Error thrown when not all of the required parameters have been provided
      */
     var updateGroup = exports.updateGroup = function (groupId, profileFields, callback) {
         if (!groupId) {
@@ -101,6 +104,9 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
         } else if (!profileFields || _.keys(profileFields).length === 0) {
             throw new Error('At least one parameter should be provided');
         }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
 
         // Only send those things that are truly supported.
         var data = _.pick(profileFields, 'displayName', 'description', 'visibility', 'joinable');
@@ -121,15 +127,17 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
     /**
      * Get the members of a group.
      *
-     * @param  {String}             groupId             The id of the group you wish to update
-     * @param  {String}             [start]             The principal id to start from (this will not be included in the response)
-     * @param  {Number}             [limit]             The number of members to retrieve.
-     * @param  {Function}           callback            Standard callback method
-     * @param  {Object}             callback.err        Error object containing error code and error message
-     * @param  {User[]|Group[]}     callback.response   Array of principals representing the group members
-     * @throws {Error}                                  Error thrown when no group id has been provided
+     * @param  {String}             groupId                        The id of the group you wish to update
+     * @param  {String}             [start]                        The token used for paging. If the first page of results is required, `null` should be passed in as the token. For any subsequent pages, the `nextToken` provided in the feed from the previous page should be used
+     * @param  {Number}             [limit]                        The number of members to retrieve
+     * @param  {Function}           callback                       Standard callback method
+     * @param  {Object}             callback.err                   Error object containing error code and error message
+     * @param  {Object}             callback.members               Response object containing the group members and nextToken
+     * @param  {User[]|Group[]}     callback.members.results       Array of principals representing the group members
+     * @param  {String}             callback.members.nextToken     The value to provide in the `start` parameter to get the next set of results
+     * @throws {Error}                                             Error thrown when no group id has been provided
      */
-    var getGroupMembers = exports.getGroupMembers = function(groupId, start, limit, callback) {
+    var getMembers = exports.getMembers = function(groupId, start, limit, callback) {
         if (!groupId) {
             throw new Error('A valid group id should be provided');
         }
@@ -160,12 +168,15 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * @param  {Object}       [callback.err]      Error object containing error code and error message
      * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */
-    var setGroupMembers = exports.setGroupMembers = function(groupId, members, callback) {
+    var updateMembers = exports.updateMembers = function(groupId, members, callback) {
         if (!groupId) {
             throw new Error('A valid group id should be provided');
         } else if (!members || _.keys(members).length === 0) {
             throw new Error('At least one member should be speficied.');
         }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
 
         $.ajax({
             'url': '/api/group/'  + groupId + '/members',
@@ -183,13 +194,15 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
     /**
      * Returns all of the groups that a user is a direct and indirect member of.
      *
-     * @param  {String}       [userId]            The user id for which we want to get all of the memberships. If this is not provided, the current user's id will be used.
-     * @param  {String}       [start]             The group id to start from (this will not be included in the response)
-     * @param  {Number}       [limit]             The number of members to retrieve
-     * @param  {Function}     callback            Standard callback method
-     * @param  {Object}       callback.err        Error object containing error code and error message
-     * @param  {Group[]}      callback.response   An array of groups representing the direct and indirect memberships of the provided user
-     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
+     * @param  {String}       [userId]                           The user id for which we want to get all of the memberships. If this is not provided, the current user's id will be used.
+     * @param  {String}       [start]                            The token used for paging. If the first page of results is required, `null` should be passed in as the token. For any subsequent pages, the `nextToken` provided in the feed from the previous page should be used
+     * @param  {Number}       [limit]                            The number of memberships to retrieve
+     * @param  {Function}     callback                           Standard callback method
+     * @param  {Object}       callback.err                       Error object containing error code and error message
+     * @param  {Object}       callback.memberships               Response object containing the groups the provided user is a member of and nextToken
+     * @param  {Group[]}      callback.memberships.results       An array of groups representing the direct and indirect memberships of the provided user
+     * @param  {String}       callback.memberships.nextToken     The value to provide in the `start` parameter to get the next set of results
+     * @throws {Error}                                           Error thrown when not all of the required parameters have been provided
      */
     var memberOf = exports.memberOf = function(userId, start, limit, callback) {
         // Default values
@@ -225,6 +238,9 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
             throw new Error('A valid group id should be provided');
         }
 
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
         $.ajax({
             'url': '/api/group/' + groupId + '/join',
             'type': 'POST',
@@ -249,6 +265,9 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
         if (!groupId) {
             throw new Error('A valid group id should be provided');
         }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
 
         $.ajax({
             'url': '/api/group/' + groupId + '/leave',

@@ -18,7 +18,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     /**
      * Get a full content profile.
      *
-     * @param  {String}       contentId           Content id of the content item we're trying to retrieve
+     * @param  {String}       contentId           Id of the content item we're trying to retrieve
      * @param  {Function}     callback            Standard callback method
      * @param  {Object}       callback.err        Error object containing error code and error message
      * @param  {Content}      callback.content    Content object representing the retrieved content
@@ -43,8 +43,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     /**
      * Get a specific revision
      *
-     * @param  {String}       contentId           Content id of the content item we're trying to retrieve
-     * @param  {String}       revisionId          Revision id of the revision we're trying to retrieve
+     * @param  {String}       contentId           Id of the content item we're trying to retrieve
+     * @param  {String}       revisionId          Id of the revision we're trying to retrieve
      * @param  {Function}     callback            Standard callback method
      * @param  {Object}       callback.err        Error object containing error code and error message
      * @param  {Content}      callback.content    Content object representing the retrieved content
@@ -89,6 +89,9 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
         } else if (!link) {
             throw new Error('A valid link should be provided');
         }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
 
         var data = {
             'resourceSubType': 'link',
@@ -136,6 +139,9 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
         } else if (!file) {
             throw new Error('A valid jquery.fileUpload file object should be provided');
         }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
 
         // jQuery.fileupload requires sending the other form data as a .serializeArray object
         // http://api.jquery.com/serializeArray/
@@ -193,6 +199,9 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
             throw new Error('A valid jquery.fileUpload file object should be provided');
         }
 
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
         $($fileUploadField).fileupload('send', {
             'files': [file],
             'success': function(data) {
@@ -230,6 +239,9 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
             throw new Error('A valid document name should be provided');
         }
 
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
         var data = {
             'resourceSubType': 'collabdoc',
             'displayName': displayName,
@@ -256,12 +268,12 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
      * Restore a revision. The restored revision will become the content item's current revision, and will have the same content as that revision.
      * Revisions can only be restored for documents and files.
      *
-     * @param  {String}       contentId           Content id of the content item we're restoring a revision of
-     * @param  {String}       revisionId          Revision id of the revision that's being restored
-     * @param  {Function}     [callback]          Standard callback method
-     * @param  {Object}       [callback.err]      Error object containing error code and error message
-     * @param  {Revision}     [callback.data]     Revision object representing the restored revision
-     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
+     * @param  {String}       contentId             Id of the content item we're restoring a revision of
+     * @param  {String}       revisionId            Id of the revision that's being restored
+     * @param  {Function}     [callback]            Standard callback method
+     * @param  {Object}       [callback.err]        Error object containing error code and error message
+     * @param  {Revision}     [callback.revision]   Revision object representing the restored revision
+     * @throws {Error}                              Error thrown when not all of the required parameters have been provided
      */
     var restoreRevision = exports.restoreRevision = function(contentId, revisionId, callback) {
         if (!contentId) {
@@ -269,6 +281,9 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
         } else if (!revisionId) {
             throw new Error('A valid revision id should be provided');
         }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
 
         $.ajax({
             'url': '/api/content/' + contentId + '/revisions/' + revisionId + '/restore',
@@ -285,7 +300,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     /**
      * Update a content item's metadata.
      *
-     * @param  {String}       contentId           Content id of the content item we're trying to update
+     * @param  {String}       contentId           Id of the content item we're trying to update
      * @param  {Object}       params              JSON object where the keys represent all of the profile field names we want to update and the values represent the new values for those fields
      * @param  {Function}     [callback]          Standard callback method
      * @param  {Object}       [callback.err]      Error object containing error code and error message
@@ -298,6 +313,9 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
         } else if (!params || _.keys(params).length === 0) {
             throw new Error('At least one update parameter should be provided');
         }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
 
         $.ajax({
             'url': '/api/content/' + contentId,
@@ -315,15 +333,18 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     /**
      * Permanently delete a piece of content from the system.
      *
-     * @param  {String}        contentId           Content id of the content item we're trying to delete
-     * @param  {Function}      callback            Standard callback method
-     * @param  {Object}        callback.err        Error object containing error code and error message
-     * @throws {Error}                             Error thrown when no valid content id has been provided
+     * @param  {String}        contentId             Id of the content item we're trying to delete
+     * @param  {Function}      [callback]            Standard callback method
+     * @param  {Object}        [callback.err]        Error object containing error code and error message
+     * @throws {Error}                               Error thrown when no valid content id has been provided
      */
     var deleteContent = exports.deleteContent = function(contentId, callback) {
         if (!contentId) {
             throw new Error('A valid content id should be provided');
         }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
 
         $.ajax({
             'url': '/api/content/' + contentId,
@@ -340,13 +361,15 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     /**
      * Get the viewers and managers of a content item.
      *
-     * @param  {String}          contentId           Content id of the content item we're trying to retrieve the members for
-     * @param  {String}          [start]             The principal id to start from (this will not be included in the response)
-     * @param  {Number}          [limit]             The number of members to retrieve.
-     * @param  {Function}        callback            Standard callback method
-     * @param  {Object}          callback.err        Error object containing error code and error message
-     * @param  {User[]|Group[]}  callback.members    Array that contains an object for each member. Each object has a role property that contains the role of the member and a profile property that contains the principal profile of the member
-     * @throws {Error}                               Error thrown when no content ID has been provided
+     * @param  {String}          contentId                      Id of the content item we're trying to retrieve the members for
+     * @param  {String}          [start]                        The token used for paging. If the first page of results is required, `null` should be passed in as the token. For any subsequent pages, the `nextToken` provided in the feed from the previous page should be used
+     * @param  {Number}          [limit]                        The number of members to retrieve
+     * @param  {Function}        callback                       Standard callback method
+     * @param  {Object}          callback.err                   Error object containing error code and error message
+     * @param  {Object}          callback.members               Response object containing the content members and nextToken
+     * @param  {User[]|Group[]}  callback.members.results       Array that contains an object for each member. Each object has a role property that contains the role of the member and a profile property that contains the principal profile of the member
+     * @param  {String}          callback.members.nextToken     The value to provide in the `start` parameter to get the next set of results
+     * @throws {Error}                                          Error thrown when no content ID has been provided
      */
     var getMembers = exports.getMembers = function(contentId, start, limit, callback) {
         if (!contentId) {
@@ -373,7 +396,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     /**
      * Change the members and managers of a content item.
      *
-     * @param  {String}       contentId           Content id of the content item we're trying to update the members for
+     * @param  {String}       contentId           Id of the content item we're trying to update the members for
      * @param  {Object}       updatedMembers      JSON Object where the keys are the user/group ids we want to update membership for, and the values are the roles these members should get (manager or viewer). If false is passed in as a role, the principal will be removed as a member
      * @param  {Function}     [callback]          Standard callback method
      * @param  {Object}       [callback.err]      Error object containing error code and error message
@@ -385,6 +408,9 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
         } else if (!updatedMembers || _.keys(updatedMembers).length === 0) {
             throw new Error('The updatedMembers hash should contain at least 1 update.');
         }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
 
         $.ajax({
             'url': '/api/content/'+ contentId + '/members',
@@ -402,7 +428,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     /**
      * Share a content item.
      *
-     * @param  {String}       contentId           Content id of the content item we're trying to share
+     * @param  {String}       contentId           Id of the content item we're trying to share
      * @param  {String[]}     principals          Array of principal ids with who the content should be shared
      * @param  {Function}     [callback]          Standard callback method
      * @param  {Object}       [callback.err]      Error object containing error code and error message
@@ -414,6 +440,9 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
         } else if (!principals.length) {
             throw new Error('A user or group to share with should be provided');
         }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
 
         var data = {
             'viewers': principals
@@ -435,14 +464,15 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     /**
      * Get the content library for a given principal.
      *
-     * @param  {String}         principalId         User or group id for who we want to retrieve the content library
-     * @param  {String}         [nextToken]         The token used for paging. If the first page of results is required, `null` should be passed in as the token. For any subsequent pages, the nextToken will be included in the feed from the previous page
-     * @param  {Number}         [limit]             The number of content items to retrieve
-     * @param  {Function}       callback            Standard callback method
-     * @param  {Object}         callback.err        Error object containing error code and error message
-     * @param  {Content[]}      callback.results    Array of content items representing the content items present in the library
-     * @param  {String}         callback.nextToken  Token that should be used to retrieved the next set of content items in the library
-     * @throws {Error}                              Error thrown when no principal ID has been provided
+     * @param  {String}         principalId                     User or group id for who we want to retrieve the content library
+     * @param  {String}         [start]                         The token used for paging. If the first page of results is required, `null` should be passed in as the token. For any subsequent pages, the `nextToken` provided in the feed from the previous page should be used
+     * @param  {Number}         [limit]                         The number of content items to retrieve
+     * @param  {Function}       callback                        Standard callback method
+     * @param  {Object}         callback.err                    Error object containing error code and error message
+     * @param  {Object}         callback.content                Response object containing the content items in the requested library and nextToken
+     * @param  {Content[]}      callback.content.results        Array of content items representing the content items present in the library
+     * @param  {String}         callback.content.nextToken      The value to provide in the `start` parameter to get the next set of results
+     * @throws {Error}                                          Error thrown when no principal ID has been provided
      */
     var getLibrary = exports.getLibrary = function(principalId, start, limit, callback) {
         if (!principalId) {
@@ -450,7 +480,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
         }
 
         var data = {
-            'start': nextToken,
+            'start': start,
             'limit': limit
         };
 
@@ -469,11 +499,11 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     /**
      * Delete a piece of content from a content library.
      *
-     * @param  {String}         principalId     User or group id for for the library from which we want to delete the content
-     * @param  {String}         contentId       Content id of the content item we're trying to delete from the library
-     * @param  {Function}       callback        Standard callback method
-     * @param  {Object}         callback.err    Error object containing error code and error message
-     * @throws {Error}                          Error thrown when not all of the required parameters have been provided
+     * @param  {String}         principalId       User or group id for for the library from which we want to delete the content
+     * @param  {String}         contentId         Id of the content item we're trying to delete from the library
+     * @param  {Function}       [callback]        Standard callback method
+     * @param  {Object}         [callback.err]    Error object containing error code and error message
+     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */
     var deleteContentFromLibrary = exports.deleteContentFromLibrary = function(principalId, contentId, callback) {
         if (!principalId) {
@@ -481,6 +511,9 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
         } else if (!contentId) {
             throw new Error('A valid content ID should be provided');
         }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
 
         $.ajax({
             'url': '/api/content/library/' + principalId + '/' + contentId,

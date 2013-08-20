@@ -186,12 +186,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          *
          * 2) List item
          *
-         *   `${listItem(entityData, [pagingKey], [metadata], [showCheckbox])}`
+         *   `${listItem(entityData, [metadata], [showCheckbox])}`
          *
          * - `entityData` is an object representing a user, group or content item or a search result for a user, group
          *    or content item
          * - `metadata` (optional) is a line of metadata information that should be displayed underneath the entity name
-         * - `pagingKey` (optional) is the key that should be used for paging through the infinite scroll plugin
          * - `showCheckbox` (optional) will determine whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
          *
          * 3) Activity summary

@@ -43,15 +43,15 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     /**
      * Create a new discussion.
      *
-     * @param  {String}         displayName             Topic for the discussion
-     * @param  {String}         [description]           The discussion's description
-     * @param  {String}         [visibility]            The discussion's visibility. This can be public, loggedin or private
-     * @param  {String[]}       [managers]              Array of user/group ids that should be added as managers to the discussion
-     * @param  {String[]}       [members]               Array of user/group ids that should be added as members to the discussion
-     * @param  {Function}       [callback]              Standard callback method
-     * @param  {Object}         [callback.err]          Error object containing error code and error message
-     * @param  {Discussion}     [callback.discussion]   Discussion object representing the created discussion
-     * @throws {Error}                                  Error thrown when no discussion topic has been provided
+     * @param  {String}         displayName               Topic for the discussion
+     * @param  {String}         [description]             The discussion's description
+     * @param  {String}         [visibility]              The discussion's visibility. This can be public, loggedin or private
+     * @param  {String[]}       [managers]                Array of user/group ids that should be added as managers to the discussion
+     * @param  {String[]}       [members]                 Array of user/group ids that should be added as members to the discussion
+     * @param  {Function}       [callback]                Standard callback method
+     * @param  {Object}         [callback.err]            Error object containing error code and error message
+     * @param  {Discussion}     [callback.discussion]     Discussion object representing the created discussion
+     * @throws {Error}                                    Error thrown when no discussion topic has been provided
      */
     var createDiscussion = exports.createDiscussion = function(displayName, description, visibility, managers, members, callback) {
         if (!displayName) {
@@ -82,12 +82,12 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     /**
      * Update a discussion's metadata.
      *
-     * @param  {String}       discussionId              Id of the discussion we're trying to update
-     * @param  {Object}       params                    JSON object where the keys represent all of the profile field names we want to update and the values represent the new values for those fields
-     * @param  {Function}     [callback]                Standard callback method
-     * @param  {Object}       [callback.err]            Error object containing error code and error message
-     * @param  {Discussion}   [callback.discussion]     Discussion object representing the updated discussion
-     * @throws {Error}                                  Error thrown when not all of the required parameters have been provided
+     * @param  {String}       discussionId                Id of the discussion we're trying to update
+     * @param  {Object}       params                      JSON object where the keys represent all of the profile field names we want to update and the values represent the new values for those fields
+     * @param  {Function}     [callback]                  Standard callback method
+     * @param  {Object}       [callback.err]              Error object containing error code and error message
+     * @param  {Discussion}   [callback.discussion]       Discussion object representing the updated discussion
+     * @throws {Error}                                    Error thrown when not all of the required parameters have been provided
      */
     var updateDiscussion = exports.updateDiscussion = function(discussionId, params, callback) {
         if (!discussionId) {
@@ -95,6 +95,9 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         } else if (!params || _.keys(params).length === 0) {
             throw new Error('At least one update parameter should be provided');
         }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
 
         $.ajax({
             'url': '/api/discussion/' + discussionId,
@@ -112,15 +115,18 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     /**
      * Permanently delete a discussion from the system.
      *
-     * @param  {String}        discussionId        Discussion id of the discussion item we're trying to delete
-     * @param  {Function}      callback            Standard callback method
-     * @param  {Object}        callback.err        Error object containing error code and error message
-     * @throws {Error}                             Error thrown when no valid discussion id has been provided
+     * @param  {String}        discussionId          Id of the discussion we're trying to delete
+     * @param  {Function}      [callback]            Standard callback method
+     * @param  {Object}        [callback.err]        Error object containing error code and error message
+     * @throws {Error}                               Error thrown when no valid discussion id has been provided
      */
     var deleteDiscussion = exports.deleteDiscussion = function(discussionId, callback) {
         if (!discussionId) {
             throw new Error('A valid discussion id should be provided');
         }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
 
         $.ajax({
             'url': '/api/discussion/' + discussionId,
@@ -137,13 +143,15 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     /**
      * Get the viewers and managers of a discussion.
      *
-     * @param  {String}          discussionId        Id of the discussion we're trying to retrieve the members for
-     * @param  {String}          [start]             The principal id to start from (this will not be included in the response)
-     * @param  {Number}          [limit]             The number of members to retrieve.
-     * @param  {Function}        callback            Standard callback method
-     * @param  {Object}          callback.err        Error object containing error code and error message
-     * @param  {User[]|Group[]}  callback.members    Array that contains an object for each member. Each object has a role property that contains the role of the member and a profile property that contains the principal profile of the member
-     * @throws {Error}                               Error thrown when no discussion ID has been provided
+     * @param  {String}          discussionId                   Id of the discussion we're trying to retrieve the members for
+     * @param  {String}          [start]                        The token used for paging. If the first page of results is required, `null` should be passed in as the token. For any subsequent pages, the `nextToken` provided in the feed from the previous page should be used
+     * @param  {Number}          [limit]                        The number of members to retrieve
+     * @param  {Function}        callback                       Standard callback method
+     * @param  {Object}          callback.err                   Error object containing error code and error message
+     * @param  {Object}          callback.members               Response object containing the discussion members and nextToken
+     * @param  {User[]|Group[]}  callback.members.results       Array that contains an object for each member. Each object has a role property that contains the role of the member and a profile property that contains the principal profile of the member
+     * @param  {String}          callback.members.nextToken     The value to provide in the `start` parameter to get the next set of results
+     * @throws {Error}                                          Error thrown when no discussion ID has been provided
      */
     var getMembers = exports.getMembers = function(discussionId, start, limit, callback) {
         if (!discussionId) {
@@ -170,11 +178,11 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     /**
      * Change the members and managers of a discussion.
      *
-     * @param  {String}       discussionId        Id of the discussion we're trying to update the members of
-     * @param  {Object}       updatedMembers      JSON Object where the keys are the user/group ids we want to update membership for, and the values are the roles these members should get (manager or viewer). If false is passed in as a role, the principal will be removed as a member
-     * @param  {Function}     [callback]          Standard callback method
-     * @param  {Object}       [callback.err]      Error object containing error code and error message
-     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
+     * @param  {String}       discussionId          Id of the discussion we're trying to update the members of
+     * @param  {Object}       updatedMembers        JSON Object where the keys are the user/group ids we want to update membership for, and the values are the roles these members should get (manager or viewer). If false is passed in as a role, the principal will be removed as a member
+     * @param  {Function}     [callback]            Standard callback method
+     * @param  {Object}       [callback.err]        Error object containing error code and error message
+     * @throws {Error}                              Error thrown when not all of the required parameters have been provided
      */
     var updateMembers = exports.updateMembers = function(discussionId, updatedMembers, callback) {
         if (!discussionId) {
@@ -182,6 +190,9 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         } else if (!updatedMembers || _.keys(updatedMembers).length === 0) {
             throw new Error('The updatedMembers hash should contain at least 1 update.');
         }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
 
         $.ajax({
             'url': '/api/discussion/'+ discussionId + '/members',
@@ -199,11 +210,11 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     /**
      * Share a discussion.
      *
-     * @param  {String}       discussionId        Id of the discussion we're trying to share
-     * @param  {String[]}     principals          Array of principal ids with who the discussion should be shared
-     * @param  {Function}     [callback]          Standard callback method
-     * @param  {Object}       [callback.err]      Error object containing error code and error message
-     * @throws {Error}                            Error thrown when no discussion ID or Array of principal IDs has been provided
+     * @param  {String}       discussionId          Id of the discussion we're trying to share
+     * @param  {String[]}     principals            Array of principal ids with who the discussion should be shared
+     * @param  {Function}     [callback]            Standard callback method
+     * @param  {Object}       [callback.err]        Error object containing error code and error message
+     * @throws {Error}                              Error thrown when no discussion ID or Array of principal IDs has been provided
      */
     var shareDiscussion = exports.shareDiscussion = function(discussionId, principals, callback) {
         if (!discussionId) {
@@ -211,6 +222,9 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         } else if (!principals.length) {
             throw new Error('A user or group to share with should be provided');
         }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
 
         var data = {
             'members': principals
@@ -232,22 +246,23 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     /**
      * Get the discussion library for a given principal.
      *
-     * @param  {String}         principalId         User or group id for who we want to retrieve the discussions library
-     * @param  {String}         [nextToken]         The token used for paging. If the first page of results is required, `null` should be passed in as the token. For any subsequent pages, the nextToken will be included in the feed from the previous page
-     * @param  {Number}         [limit]             The number of discussions to retrieve
-     * @param  {Function}       callback            Standard callback method
-     * @param  {Object}         callback.err        Error object containing error code and error message
-     * @param  {Discussion[]}   callback.results    Array of discussions representing the discussions present in the library
-     * @param  {String}         callback.nextToken  Token that should be used to retrieved the next set of discussions in the library
-     * @throws {Error}                              Error thrown when no principal ID has been provided
+     * @param  {String}         principalId                     User or group id for who we want to retrieve the discussions library
+     * @param  {String}         [start]                         The token used for paging. If the first page of results is required, `null` should be passed in as the token. For any subsequent pages, the `nextToken` provided in the feed from the previous page should be used
+     * @param  {Number}         [limit]                         The number of discussions to retrieve
+     * @param  {Function}       callback                        Standard callback method
+     * @param  {Object}         callback.err                    Error object containing error code and error message
+     * @param  {Object}         callback.discussions            Response object containing the discussions in the requested library and nextToken
+     * @param  {Discussion[]}   callback.discussions.results    Array of discussions representing the discussions present in the library
+     * @param  {String}         callback.discussions.nextToken  The value to provide in the `start` parameter to get the next set of results
+     * @throws {Error}                                          Error thrown when no principal ID has been provided
      */
-    var getLibrary = exports.getLibrary = function(principalId, nextToken, limit, callback) {
+    var getLibrary = exports.getLibrary = function(principalId, start, limit, callback) {
         if (!principalId) {
             throw new Error('A user or group ID should be provided');
         }
 
         var data = {
-            'start': nextToken,
+            'start': start,
             'limit': limit
         };
 
@@ -266,11 +281,11 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     /**
      * Delete a discussion from a discussion library.
      *
-     * @param  {String}         principalId     User or group id for for the library from which we want to delete the content
-     * @param  {String}         discussionId    Discussion id of the discussion we're trying to delete from the library
-     * @param  {Function}       callback        Standard callback method
-     * @param  {Object}         callback.err    Error object containing error code and error message
-     * @throws {Error}                          Error thrown when not all of the required parameters have been provided
+     * @param  {String}         principalId       User or group id for for the library from which we want to delete the content
+     * @param  {String}         discussionId      Id of the discussion we're trying to delete from the library
+     * @param  {Function}       [callback]        Standard callback method
+     * @param  {Object}         [callback.err]    Error object containing error code and error message
+     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */
     var deleteDiscussionFromLibrary = exports.deleteDiscussionFromLibrary = function(principalId, discussionId, callback) {
         if (!principalId) {
@@ -278,6 +293,9 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         } else if (!discussionId) {
             throw new Error('A valid discussion ID should be provided');
         }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
 
         $.ajax({
             'url': '/api/discussion/library/' + principalId + '/' + discussionId,
