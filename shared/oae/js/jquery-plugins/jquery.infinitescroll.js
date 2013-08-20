@@ -180,13 +180,6 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
          * @param  {Boolean}    [prepend]    true when we want to prepend the new items to the list, false when we want to append the new items to the list
          */
         var renderList = function(data, prepend) {
-            // Determine if we should attempt to load a next page
-            // TODO
-            var canFetchMore = false;
-            if (!prepend) {
-                canFetchMore = (data.results.length === parameters.limit)
-            }
-
             // Check if the infinite scroll instance still exists. It's possible that
             // the instance was killed in between the time that a request was fired and
             // the response was received. If that's the cause, there's nothing else we
@@ -234,20 +227,26 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
                     options.postRenderer(data);
                 }
 
-                // If there are more results and we're still close to the bottom of the page,
-                // check if we should do another one. However, we pause for a second, as to
-                // not to send too many requests at once
-                if (canFetchMore) {
-                    setTimeout(function() {
-                        isDoingSearch = false;
-                        checkLoadNext();
-                    }, 1000);
-                } else {
-                    // Don't do any more searches when scrolling
-                    isDoingSearch = true;
-                    if ($('li', $container).length === 0) {
-                        if (options.emptyListProcessor) {
-                            options.emptyListProcessor();
+                // We only check whether or not more items should be fetched when the results where not
+                // prepended. When they were prepended, this indicates an in-memory user action which should
+                // be independent of the main list infinite scrolling
+                if (!prepend) {
+                    // Determine if the number of returned results is the same as the number of requested
+                    // results. If this is the case, we can assume that more results should be fetched when
+                    // reaching the appropriate scroll position. However, we pause for a second, as to
+                    // not to send too many requests at once
+                    if (data.results.length === parameters.limit) {
+                        setTimeout(function() {
+                            isDoingSearch = false;
+                            checkLoadNext();
+                        }, 1000);
+                    } else {
+                        // Don't do any more searches when scrolling
+                        isDoingSearch = true;
+                        if ($('li', $container).length === 0) {
+                            if (options.emptyListProcessor) {
+                                options.emptyListProcessor();
+                            }
                         }
                     }
                 }
