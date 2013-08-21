@@ -83,9 +83,9 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
         // Infinite scrolling //
         ////////////////////////
 
-        // Keep track as to whether we're currently fetching a new list of items or not.
-        // If we're doing that, we wait until it has finished before fetching the next list.
-        var isDoingSearch = false;
+        // Variable that keeps track of whether or not the infinite scroll plug-in can request more data. This
+        // prevents things like making a request whilst there is still one in progress, etc.
+        var canRequestMoreData = true;
 
         /**
          * Start listening to the window's scroll event and decide when we are close enough to the end of the
@@ -106,7 +106,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
         var checkLoadNext = function() {
             // We only check if a new set of results should be loaded if a search
             // is not in progress and if the container has not been killed
-            if (!isDoingSearch && $container) {
+            if (canRequestMoreData && $container) {
                 // In case we use the body
                 var threshold = 500;
                 var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - $(window).scrollTop();
@@ -130,9 +130,11 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
          * Retrieve the next set of results from the server
          */
         var loadResultList = function() {
-            isDoingSearch = true;
             showLoadingContainer();
-            // Get the key of the latest
+
+            // Make sure that no other requests are sent until the current request finishes
+            canRequestMoreData = false;
+            // Get the last rendered element
             var $lastElement = $container.children('li').filter(':visible').filter(':last');
             // Only page once the initial search has been done
             if ($lastElement.length !== 0 && initialSearchDone === true) {
@@ -237,12 +239,12 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
                     // not to send too many requests at once
                     if (data.results.length === parameters.limit) {
                         setTimeout(function() {
-                            isDoingSearch = false;
+                            canRequestMoreData = true;
                             checkLoadNext();
                         }, 1000);
                     } else {
                         // Don't do any more searches when scrolling
-                        isDoingSearch = true;
+                        canRequestMoreData = false;
                         if ($('li', $container).length === 0) {
                             if (options.emptyListProcessor) {
                                 options.emptyListProcessor();
@@ -317,7 +319,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
         var kill = function() {
             $container.html('');
             $loadingContainer.remove();
-            isDoingSearch = true;
+            canRequestMoreData = false;
             $container = null;
         };
 
