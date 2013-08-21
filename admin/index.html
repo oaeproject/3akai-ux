@@ -205,7 +205,7 @@
                                         <button type="button" class="btn btn-danger delete-tenant" data-alias="${tenant.alias|encodeForHTMLAttribute}" data-displayName="${tenant.displayName|encodeForHTMLAttribute}">Delete</button>
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-primary login-tenant" data-alias="${tenant.alias|encodeForHTMLAttribute}">Login</button>
+                                        <button type="button" class="btn btn-primary login-tenant" {if !tenant.active} disabled="disabled" {/if} data-alias="${tenant.alias|encodeForHTMLAttribute}">Login</button>
                                     </td>
                                 {/if}
                             </tr>
