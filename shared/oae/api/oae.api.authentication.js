@@ -18,12 +18,12 @@ define(['exports', 'jquery'], function(exports, $) {
     /**
      * Log in as an internal user using the local authentication strategy
      *
-     * @param  {String}         username            Username for the user logging in
-     * @param  {String}         password            The user's password
-     * @param  {Function}       callback            Standard callback method
-     * @param  {Object}         callback.err        Error object containing error code and error message
-     * @param  {User}           callback.user       User object representing the logged in user
-     * @throws {Error}                              Error thrown when not all of the required parameters have been provided
+     * @param  {String}         username              Username for the user logging in
+     * @param  {String}         password              The user's password
+     * @param  {Function}       [callback]            Standard callback method
+     * @param  {Object}         [callback.err]        Error object containing error code and error message
+     * @param  {User}           [callback.user]       User object representing the logged in user
+     * @throws {Error}                                Error thrown when not all of the required parameters have been provided
      */
     var localLogin = exports.localLogin = function(username, password, callback) {
         if (!username) {
@@ -31,6 +31,9 @@ define(['exports', 'jquery'], function(exports, $) {
         } else if (!password) {
             throw new Error('A valid password should be provided');
         }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
 
         $.ajax({
             'url': '/api/auth/login',
@@ -51,12 +54,12 @@ define(['exports', 'jquery'], function(exports, $) {
     /**
      * Log in using the LDAP authentication strategy
      *
-     * @param  {String}         username            Username for the user logging in
-     * @param  {String}         password            The user's password
-     * @param  {Function}       callback            Standard callback method
-     * @param  {Object}         callback.err        Error object containing error code and error message
-     * @param  {User}           callback.user       User object representing the logged in user
-     * @throws {Error}                              Error thrown when not all of the required parameters have been provided
+     * @param  {String}         username              Username for the user logging in
+     * @param  {String}         password              The user's password
+     * @param  {Function}       [callback]            Standard callback method
+     * @param  {Object}         [callback.err]        Error object containing error code and error message
+     * @param  {User}           [callback.user]       User object representing the logged in user
+     * @throws {Error}                                Error thrown when not all of the required parameters have been provided
      */
     var LDAPLogin = exports.LDAPLogin = function(username, password, callback) {
         if (!username) {
@@ -64,6 +67,9 @@ define(['exports', 'jquery'], function(exports, $) {
         } else if (!password) {
             throw new Error('A valid password should be provided');
         }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
 
         $.ajax({
             'url': '/api/auth/ldap',
@@ -84,10 +90,13 @@ define(['exports', 'jquery'], function(exports, $) {
     /**
      * Log out the currently signed in user
      *
-     * @param  {Function}       [callback]          Standard callback method
-     * @param  {Object}         [callback.err]      Error object containing error code and error message
+     * @param  {Function}       [callback]            Standard callback method
+     * @param  {Object}         [callback.err]        Error object containing error code and error message
      */
     var logout = exports.logout = function(callback) {
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
         $.ajax({
             'url': '/api/auth/logout',
             'type': 'POST',
@@ -103,11 +112,11 @@ define(['exports', 'jquery'], function(exports, $) {
     /**
      * Change the password of the currently logged in user
      *
-     * @param  {String}         currentPassword     The user's current password
-     * @param  {String}         newPassword         The user's new password
-     * @param  {Function}       callback            Standard callback method
-     * @param  {Object}         callback.err        Error object containing error code and error message
-     * @throws {Error}                              Error thrown when no new or current password has been provided
+     * @param  {String}         currentPassword       The user's current password
+     * @param  {String}         newPassword           The user's new password
+     * @param  {Function}       [callback]            Standard callback method
+     * @param  {Object}         [callback.err]        Error object containing error code and error message
+     * @throws {Error}                                Error thrown when no new or current password has been provided
      */
     var changePassword = exports.changePassword = function(currentPassword, newPassword, callback) {
         if (!currentPassword) {

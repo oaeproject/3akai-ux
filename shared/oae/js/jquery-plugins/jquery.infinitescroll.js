@@ -21,8 +21,11 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
      * list items and deciding when to retrieve the next set of results, as well as the actual appending to the list, showing loading
      * animations, etc.
      *
-     * The template used to render the result should put each item into its own `li` tag, and should have a `data-id` attribute containing
-     * the item's id and a `data-key` attribute containing the value that should be used as the start value for paging.
+     * The template used to render the result should put each item into its own `li` tag and should have a `data-id` attribute containing
+     * the item's id.
+     *
+     * By default, the infinite scroll plug-in will use the `nextToken` key for paging when provided in the back-end feed response. When
+     * no `nextToken` is provided, the index of the last rendered item will be used instead.
      *
      * @param  {String}                            source                          The REST endpoint URL to use for retrieving list data.
      * @param  {Object}                            [parameters]                    Parameters to send along for each list items retrieval ajax request.
@@ -68,6 +71,10 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
         // Set the container in which the results should be rendered
         var $container = options.scrollContainer ? options.scrollContainer : $(this);
 
+        // Variable that keeps track of the `nextToken` that was provided in the previous results list. This
+        // will be used as the `start` paging parameters for next set of results
+        var nextToken = null;
+
         // Variable that keeps track of whether or not the initial search has happened, as the initial
         // search does not need to provide a paging parameter
         var initialSearchDone = false;
@@ -76,9 +83,9 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
         // Infinite scrolling //
         ////////////////////////
 
-        // Keep track as to whether we're currently fetching a new list of items or not.
-        // If we're doing that, we wait until it has finished before fetching the next list.
-        var isDoingSearch = false;
+        // Variable that keeps track of whether or not the infinite scroll plug-in can request more data. This
+        // prevents things like making a request whilst there is still one in progress, etc.
+        var canRequestMoreData = true;
 
         /**
          * Start listening to the window's scroll event and decide when we are close enough to the end of the
@@ -99,7 +106,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
         var checkLoadNext = function() {
             // We only check if a new set of results should be loaded if a search
             // is not in progress and if the container has not been killed
-            if (!isDoingSearch && $container) {
+            if (canRequestMoreData && $container) {
                 // In case we use the body
                 var threshold = 500;
                 var pixelsRemainingUntilBottom = $(document).height() - $(window).height() - $(window).scrollTop();
@@ -123,13 +130,15 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
          * Retrieve the next set of results from the server
          */
         var loadResultList = function() {
-            isDoingSearch = true;
             showLoadingContainer();
-            // Get the key of the latest
+
+            // Make sure that no other requests are sent until the current request finishes
+            canRequestMoreData = false;
+            // Get the last rendered element
             var $lastElement = $container.children('li').filter(':visible').filter(':last');
             // Only page once the initial search has been done
             if ($lastElement.length !== 0 && initialSearchDone === true) {
-                parameters.start = $lastElement.attr('data-key') ? $lastElement.attr('data-key') : ($lastElement.index() + 1);
+                parameters.start = nextToken || ($lastElement.index() + 1);
             }
 
             // Get the data from the server
@@ -138,6 +147,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
                 'data': parameters,
                 'success': function(data) {
                     initialSearchDone = true;
+                    nextToken = data.nextToken;
                     processList(data);
                 },
                 'error': function() {
@@ -172,9 +182,6 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
          * @param  {Boolean}    [prepend]    true when we want to prepend the new items to the list, false when we want to append the new items to the list
          */
         var renderList = function(data, prepend) {
-            // Determine if we should attempt to load a next page
-            var canFetchMore = (data.results.length === parameters.limit) || prepend;
-
             // Check if the infinite scroll instance still exists. It's possible that
             // the instance was killed in between the time that a request was fired and
             // the response was received. If that's the cause, there's nothing else we
@@ -222,20 +229,26 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
                     options.postRenderer(data);
                 }
 
-                // If there are more results and we're still close to the bottom of the page,
-                // check if we should do another one. However, we pause for a second, as to
-                // not to send too many requests at once
-                if (canFetchMore) {
-                    setTimeout(function() {
-                        isDoingSearch = false;
-                        checkLoadNext();
-                    }, 1000);
-                } else {
-                    // Don't do any more searches when scrolling
-                    isDoingSearch = true;
-                    if ($('li', $container).length === 0) {
-                        if (options.emptyListProcessor) {
-                            options.emptyListProcessor();
+                // We only check whether or not more items should be fetched when the results where not
+                // prepended. When they were prepended, this indicates an in-memory user action which should
+                // be independent of the main list infinite scrolling
+                if (!prepend) {
+                    // Determine if the number of returned results is the same as the number of requested
+                    // results. If this is the case, we can assume that more results should be fetched when
+                    // reaching the appropriate scroll position. However, we pause for a second, as to
+                    // not to send too many requests at once
+                    if (data.results.length === parameters.limit) {
+                        setTimeout(function() {
+                            canRequestMoreData = true;
+                            checkLoadNext();
+                        }, 1000);
+                    } else {
+                        // Don't do any more searches when scrolling
+                        canRequestMoreData = false;
+                        if ($('li', $container).length === 0) {
+                            if (options.emptyListProcessor) {
+                                options.emptyListProcessor();
+                            }
                         }
                     }
                 }
@@ -306,7 +319,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
         var kill = function() {
             $container.html('');
             $loadingContainer.remove();
-            isDoingSearch = true;
+            canRequestMoreData = false;
             $container = null;
         };
 
