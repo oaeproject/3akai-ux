@@ -941,3 +941,27 @@ div.oae-thumbnail {
 .oae-clip.oae-clip-secondary ul li button:hover {
     background-color: @clip-secondary-gradient2-color;
 }
+
+/***********************
+ ** preview processor **
+ ***********************/
+
+@annotation-color: rgba(255, 255, 10, 0.3);
+@page-container-background: #FFF;
+@page-container-background-image: none;
+
+// If the background image is not set with important it will fall back to the default gray one
+
+#filepreview-container div#page-container {
+    background-color: @page-container-background;
+    background-image: @page-container-background-image !important;
+}
+
+// Make sure all the white spaces and all the annotations have the same color
+
+#filepreview-container .annotator-hl + span,
+#filepreview-container .annotator-hl{
+    background: @annotation-color;
+}
+
+
