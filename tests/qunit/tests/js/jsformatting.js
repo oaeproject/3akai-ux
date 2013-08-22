@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae.core', '/tests/qunit/js/util.js', 'qunitjs'], function($, oae, util) {
+require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util) {
 
     module("JavaScript Formatting");
 
@@ -120,39 +120,40 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js', 'qunitjs'], function($
     var jsFormattingTest = function(testData) {
         // Test that the main JavaScript files are properly formatted
         $.each(testData.mainJS, function(mainJSPath, mainJS) {
-            asyncTest(mainJSPath, function() {
+            test(mainJSPath, function() {
                 checkJs(mainJS);
-                start();
             });
         });
 
         // Test that the API JavaScript files are properly formatted
         $.each(testData.apiJS, function(mainApiJSPath, apiJS) {
-            asyncTest(mainApiJSPath, function() {
+            test(mainApiJSPath, function() {
                 checkJs(apiJS);
-                start();
             });
         });
 
         // Test that the OAE specific plugin files are properly formatted
         $.each(testData.oaePlugins, function(oaePluginJSPath, oaePluginJS) {
-            asyncTest(oaePluginJSPath, function() {
+            test(oaePluginJSPath, function() {
                 checkJs(oaePluginJS);
-                start();
             });
         });
 
         // Test that the widget JavaScript files are properly formatted
         $.each(testData.widgetData, function(widgetJSPath, widget) {
-            asyncTest(widgetJSPath, function() {
+            test(widgetJSPath, function() {
                 checkJs(widget.js);
-                start();
             });
         });
+
+        // Start consuming tests again
+        QUnit.start(2);
     };
 
-    util.loadTestData(jsFormattingTest);
-
+    // Load up QUnit
     QUnit.load();
-    QUnit.start();
+
+    // Stop consuming QUnit test and load the widgets asynchronous
+    QUnit.stop();
+    util.loadTestData(jsFormattingTest);
 });

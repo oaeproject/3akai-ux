@@ -13,7 +13,11 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'oae.core', 'qunitjs', 'jquery.properties-parser'], function(exports, $, oae) {
+define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(exports, $, oae) {
+
+    var tests = [];
+    var testResults = {};
+    var currentTest = false;
 
     // By default, QUnit runs tests when load event is triggered on the window.
     // We're loading tests asynchronsly and set this property to false, then call QUnit.start() once everything is loaded. 
@@ -373,7 +377,6 @@ define(['exports', 'jquery', 'oae.core', 'qunitjs', 'jquery.properties-parser'],
                                     loadMainJS(testData, function(testData) {
                                         loadAPIJS(testData, function(testData) {
                                             loadOAEPlugins(testData, function(testData) {
-                                                console.log(testData);
                                                 callback(testData);
                                             });
                                         });

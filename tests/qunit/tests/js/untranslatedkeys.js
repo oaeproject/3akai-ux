@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae.core', '/tests/qunit/js/util.js', 'qunitjs'], function($, oae, util) {
+require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util) {
 
     module("Untranslated Keys");
 
@@ -79,48 +79,47 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js', 'qunitjs'], function($
     var untranslatedKeysTest = function(testData) {
         // Test the widget HTML files for untranslated keys
         $.each(testData.widgetData, function(i, widget) {
-            asyncTest(i, function() {
+            test(i, function() {
                 checkKeys(testData, widget.html, widget.id);
-                start();
             });
         });
 
         // Test the core HTML and macro files for untranslated keys
         $.each(testData.mainHTML, function(ii, mainHTML) {
-            asyncTest(ii, function() {
+            test(ii, function() {
                 checkKeys(testData, mainHTML, null);
-                start();
             });
         });
 
         // Test the widget JS files for untranslated keys
         $.each(testData.widgetData, function(j, widget) {
-            asyncTest(j, function() {
+            test(j, function() {
                 checkKeys(testData, widget.js, widget.id);
-                start();
             });
         });
 
         // Test the main JS files for untranslated keys
         $.each(testData.mainJS, function(jj, mainJS) {
-            asyncTest(jj, function() {
+            test(jj, function() {
                 checkKeys(testData, mainJS, null);
-                start();
             });
         });
 
         // Test the API files for untranslated keys
         $.each(testData.apiJS, function(jjj, apiJS) {
-            asyncTest(jjj, function() {
+            test(jjj, function() {
                 checkKeys(testData, apiJS, null);
-                start();
             });
         });
 
+        // Start consuming tests again
+        QUnit.start(2);
     };
 
-    util.loadTestData(untranslatedKeysTest);
-
+    // Load up QUnit
     QUnit.load();
-    QUnit.start();
+
+    // Stop consuming QUnit test and load the widgets asynchronous
+    QUnit.stop();
+    util.loadTestData(untranslatedKeysTest);
 });

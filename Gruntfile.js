@@ -32,7 +32,7 @@ module.exports = function(grunt) {
         },
         'target': process.env['DESTDIR'] || 'target',
         'qunit': {
-            'files': ['tests/qunit/tests/*.html', '!tests/qunit/tests/untranslatedkeys.html']
+            'files': ['tests/qunit/tests/*.html', '!tests/qunit/tests/untranslatedkeys.html', '!tests/qunit/tests/doubletranslated.html']
         },
         'lint': {
             'files': [

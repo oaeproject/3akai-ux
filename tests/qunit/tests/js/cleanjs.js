@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['oae.core', '/tests/qunit/js/util.js', 'qunitjs', 'jquery', '/shared/vendor/js/jshint.js'], function(oae, util) {
+require(['oae.core', '/tests/qunit/js/util.js', 'jquery', '/shared/vendor/js/jshint.js'], function(oae, util) {
 
         module("Clean JavaScript");
 
@@ -56,9 +56,8 @@ require(['oae.core', '/tests/qunit/js/util.js', 'qunitjs', 'jquery', '/shared/ve
          * Runs the file through JSHint
          *
          * @param  {String}     file        The contents of the file in the form of a string
-         * @param  {Function}   callback    Function executed after checking for JSHint errors is complete
          */
-        var JSHintfile = function(data, callback) {
+        var JSHintfile = function(data) {
             var result = JSHINT(data, {
                 // http://www.jshint.com/options/
                 'sub': true // ignore dot notation recommendations - ie ['userid'] should be .userid
@@ -73,7 +72,6 @@ require(['oae.core', '/tests/qunit/js/util.js', 'qunitjs', 'jquery', '/shared/ve
                     }
                 });
             }
-            callback();
         };
 
         /**
@@ -84,50 +82,49 @@ require(['oae.core', '/tests/qunit/js/util.js', 'qunitjs', 'jquery', '/shared/ve
         var cleanJSTest = function(widgetData) {
             // Check the widgets for clean javascript
             $.each(widgetData.widgetData, function(widgetID, widget) {
-                asyncTest(widget.id, function() {
+                test(widget.id, function() {
                     checkForConsoleLog(widget.js, widget.id);
                     checkForAlert(widget.js);
-                    JSHintfile(widget.js, function() {
-                        start();
-                    });
+                    JSHintfile(widget.js);
                 });
             });
 
             // Check the API for clean javascript
             $.each(widgetData.apiJS, function(apiPath, apiJS) {
-                asyncTest(apiPath, function() {
+                test(apiPath, function() {
+                    checkForConsoleLog(apiJS, ii);
                     checkForAlert(apiJS);
-                    JSHintfile(apiJS, function() {
-                        start();
-                    });
+                    JSHintfile(apiJS);
                 });
             });
 
             // Check the main JavaScript files for clean javascript
             $.each(widgetData.mainJS, function(jsPath, mainJS) {
-                asyncTest(jsPath, function() {
+                test(jsPath, function() {
                     checkForConsoleLog(mainJS, jsPath);
                     checkForAlert(mainJS);
-                    JSHintfile(mainJS, function() {
-                        start();
-                    });
+                    JSHintfile(mainJS);
                 });
             });
 
             // Check the OAE plugins JavaScript files for clean javascript
             $.each(widgetData.oaePlugins, function(jsPath, oaePlugin) {
-                asyncTest(jsPath, function() {
+                test(jsPath, function() {
                     checkForConsoleLog(oaePlugin, jsPath);
                     checkForAlert(oaePlugin);
-                    JSHintfile(oaePlugin, function() {
-                        start();
-                    });
+                    JSHintfile(oaePlugin);
                 });
             });
+
+            // Start consuming tests again
+            QUnit.start(2);
         };
 
-        util.loadTestData(cleanJSTest);
-
+        // Load up QUnit
         QUnit.load();
+
+        // Stop consuming QUnit test and load the widgets asynchronous
+        QUnit.stop();
+        util.loadTestData(cleanJSTest);
     }
 );
