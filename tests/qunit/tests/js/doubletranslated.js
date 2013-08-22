@@ -32,7 +32,6 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
             });
         });
 
-        console.time('unit');
         // Check if widget keys are already defined in the global bundles
         $.each(testData.widgetData, function(widgetID, widget) {
             if (widget.i18n) {
@@ -40,26 +39,26 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
                     // Loop over all bundles in the widget
                     $.each(widget.i18n, function(widgetBundleKey, widgetBundle) {
                         // Loop over all keys in the bundle
-                        $.each(widgetBundle, function(widgetKey, widgetValue) {
+                        $.each(widgetBundle, function(i18nKey, widgetValue) {
                             // Check each global bundle to see if key is already defined
-                            if (mainKeys[widgetKey]) {
+                            if (mainKeys[i18nKey]) {
                                 // Key already exists in the main bundle
-                                QUnit.ok(false, widgetKey + ' already exists in ' + mainKeys[widgetKey]);
+                                QUnit.ok(false, i18nKey + ' already exists in main bundle' + mainKeys[i18nKey]);
                             } else {
                                 // Key doesn't exist yet in the main bundle
-                                QUnit.ok(true, widgetKey + ' doesn\'t exist yet in the main bundles');
+                                QUnit.ok(true, i18nKey + ' doesn\'t exist yet in the main bundles');
                             }
 
                             // Check if it was already defined by a previous widget
-                            if (widgetKeys[widgetKey] && widgetKeys[widgetKey] !== widgetID) {
+                            if (widgetKeys[i18nKey] && widgetKeys[i18nKey] !== widgetID) {
                                 // Key already exists in another widget
-                                QUnit.ok(false, widgetKey + ' already exists in ' + widgetKeys[widgetKey]);
+                                QUnit.ok(false, i18nKey + ' already exists in ' + widgetKeys[i18nKey]);
                             } else {
                                 // Key doesn't exist yet in the main bundle
-                                QUnit.ok(true, widgetKey + ' doesn\'t exist yet in another widget');
+                                QUnit.ok(true, i18nKey + ' doesn\'t exist yet in another widget');
                             }
 
-                            widgetKeys[widgetKey] = widgetID;
+                            widgetKeys[i18nKey] = widgetID;
                         });
                     });
                 });

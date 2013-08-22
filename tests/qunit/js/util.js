@@ -231,14 +231,17 @@ define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(e
          */
         var doBatchRequest = function(paths, _callback) {
             oae.api.util.staticBatch(paths, function(err, data) {
-                // Loop over the results
+                // For each bundle, extract the widget and bundle name and parse the properties
                 $.each(data, function(i, bundle) {
+                    var splitPath = i.split('/');
+                    var widgetName = splitPath[splitPath.length - 3];
+                    var bundleName = splitPath.pop().split('.')[0];
+
+                    // Some bundle files are empty though, so do a check
                     if (bundle) {
-                        // For each bundle, extract the widget and bundle name and parse the properties
-                        var splitPath = i.split('/');
-                        var widgetName = splitPath[splitPath.length - 3];
-                        var bundleName = splitPath.pop().split('.')[0];
                         testData.widgetData[widgetName].i18n[bundleName] = $.parseProperties(bundle);
+                    } else {
+                        testData.widgetData[widgetName].i18n[bundleName] = {};
                     }
                 });
 
@@ -254,22 +257,20 @@ define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(e
             if (widget.i18n) {
                 $.each(widget.i18n, function(ii, bundle) {
                     paths.push('/node_modules/' + widget.path + bundle.bundle);
-                    if (paths.length >= 100) {
-                        doBatchRequest(paths);
-                        paths = [];
-                    }
                 });
             }
         });
 
-        // Clean up the queue, if no batch request remaining return the results
-        if (paths.length) {
-            doBatchRequest(paths, function(err, data) {
+        var startGettingData = function() {
+            if (paths.length === 0) {
                 callback(testData);
-            });
-        } else {
-            callback(testData);
-        }
+            } else {
+                var pathsToRetrieve = paths.splice(0, 100);
+                doBatchRequest(pathsToRetrieve, startGettingData);
+            }
+        };
+
+        startGettingData();
     };
 
     /**
