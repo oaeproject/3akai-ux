@@ -131,8 +131,14 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
         });
 
         // Check main HTML and macros for uninternationalized strings
-        $.each(testData.mainHTML, function(i, mainHTML) {
-            test(i, function() {
+        $.each(testData.mainHTML, function(page, mainHTML) {
+            // Ignore error pages.
+            if (/\/shared\/oae\/errors\//.test(page)) {
+                return;
+            }
+
+            // Test all other pages.
+            test(page, function() {
                 var $div = $('<div></div>');
                 $div.html(mainHTML);
                 checkElements($div);
