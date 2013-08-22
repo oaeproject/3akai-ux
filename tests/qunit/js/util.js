@@ -335,7 +335,6 @@ define(['exports', 'jquery', 'qunitjs'], function(exports, $) {
          * Gets the bundles for a widget
          */
         var getBundles = function(widget) {
-            //console.log(widgetBundle);
             var bundlesToDo = 0;
 
             /**
@@ -539,16 +538,6 @@ define(['exports', 'jquery', 'qunitjs'], function(exports, $) {
                                                     loadWidgetCSS(widgetData, function(widgetData) {
                                                         // Load the API JS
                                                         loadAPIJS(apiJS, function(apiJS) {
-                                                            console.log({
-                                                                'widgetData': widgetData,
-                                                                'mainBundles': mainBundles,
-                                                                'mainHTML': mainHTML,
-                                                                'macroHTML': macroHTML,
-                                                                'mainJS': mainJS,
-                                                                'apiJS': apiJS,
-                                                                'mainCSS': mainCSS,
-                                                                'sharedCSS': sharedCSS
-                                                            });
                                                             callback({
                                                                 'widgetData': widgetData,
                                                                 'mainBundles': mainBundles,

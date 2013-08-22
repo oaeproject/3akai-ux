@@ -37,7 +37,6 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
                         if (keysFound === totalDefaultKeys) {
                             ok(true, '100% coverage for ' + i + '.properties');
                         } else {
-                            console.log((keysFound / totalDefaultKeys) * 100);
                             ok(false, ((keysFound / totalDefaultKeys) * 100).toFixed(2) + '% coverage for ' + i + '.properties, ' + (totalDefaultKeys - keysFound) + ' keys missing.');
                         }
                         start();

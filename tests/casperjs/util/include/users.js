@@ -104,10 +104,10 @@ var userUtil = function() {
      * Logs out the current user
      */
     var doLogOut = function() {
-        casper.then(function() {
-            casper.echo('Log out');
-            casper.waitForSelector('#topnavigation-signout', function() {
-                casper.click('#topnavigation-signout');
+        casper.echo('Log out');
+        casper.thenEvaluate(function() {
+            require('oae.core').api.authentication.logout(function() {
+                window.location = '/';
             });
         });
     };

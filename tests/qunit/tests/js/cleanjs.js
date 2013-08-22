@@ -67,7 +67,6 @@ require(['oae.core', '../js/util.js', 'qunitjs', 'jquery', '../js/jshint.js'], f
                 for (var i=0,j=JSHINT.errors.length; i<j; i++) {
                     var error = JSHINT.errors[i];
                     if (error) {
-                        console.log(error);
                         ok(false, 'JSHint error on line ' + error.line + ' character ' + error.character + ': ' + error.reason + ', ' + error.evidence);
                     }
                 }
