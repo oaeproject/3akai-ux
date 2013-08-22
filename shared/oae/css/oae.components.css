@@ -1178,7 +1178,7 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
 .oae-list-options .btn.oae-list-options-toggle:focus {
     background: none;
     border: none;
-    filter:none;
+    filter: none;
     padding: 1px 0;
     -webkit-box-shadow: none;
        -moz-box-shadow: none;
