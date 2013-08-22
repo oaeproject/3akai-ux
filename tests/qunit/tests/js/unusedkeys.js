@@ -102,7 +102,7 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
         // Check if keys in widgets are being used
         $.each(testData.widgetData, function(widgetID, widget) {
             test(widgetID, function() {
-                if (_.keys(widget.i18n).length) {
+                if (widget.i18n && _.keys(widget.i18n).length) {
                     $.each(widget.i18n, function(bundleKey, bundle) {
                         if (_.keys(bundle).length) {
                             $.each(bundle, function(key, value) {
