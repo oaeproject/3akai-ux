@@ -923,11 +923,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          */
         var focus = function($element) {
             if (!$element) {
-                throw new Error('An valid input element should be provided.');
+                throw new Error('A valid input element should be provided');
             }
 
             $element = $($element);
-            $('.as-selections input', $element).focus();
+            $('.as-selections input.as-input', $element).focus();
         };
 
         /**
