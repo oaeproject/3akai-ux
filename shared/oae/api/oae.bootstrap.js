@@ -57,6 +57,7 @@ requirejs.config({
         'jquery.infinitescroll': 'oae/js/jquery-plugins/jquery.infinitescroll',
         'jquery.jeditable-focus': 'oae/js/jquery-plugins/jquery.jeditable-focus',
         'jquery.list-options': 'oae/js/jquery-plugins/jquery.list-options',
+        'jquery.update-picture': 'oae/js/jquery-plugins/jquery.update-picture',
 
         // OAE API modules
         'oae.api': 'oae/api/oae.api',
