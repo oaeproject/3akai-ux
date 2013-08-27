@@ -17,35 +17,53 @@ var userUtil = function() {
     var createUsers = function(numToCreate, callback) {
         var toCreate = numToCreate || 4;
         var users = [];
+        var anon = null;
 
         casper.start('http://test.oae.com/').repeat(toCreate, function() {
-            var rndString = mainUtil().generateRandomString();
-            data = casper.evaluate(function(rndString) {
-                return JSON.parse(__utils__.sendAJAX('/api/user/create', 'POST', {
-                    'username': 'user-' + rndString,
-                    'password': 'password',
-                    'displayName': rndString,
-                    'visibility': 'public',
-                    'email': 'roy@example.com',
-                    'locale': 'en_GB',
-                    'timezone': 'Europe/London',
-                    'publicAlias': 'Roy'
-                }, false));
-            }, rndString);
-
-            casper.then(function() {
-                if (data) {
-                    data.username = 'user-' + rndString;
-                    createdUsers.push(data);
-                    users.push(data);
-                } else {
-                    casper.echo('Could not create user-' + rndString, 'ERROR');
-                }
+            anon = casper.evaluate(function() {
+                return require('oae.core').data.me.anon;
             });
+
+            // If we're currently not logged in we can create users
+            // If we are logged in, skip user creation and log the user out before trying again
+            if (anon) {
+                var rndString = mainUtil().generateRandomString();
+                data = casper.evaluate(function(rndString) {
+                    return JSON.parse(__utils__.sendAJAX('/api/user/create', 'POST', {
+                        'username': 'user-' + rndString,
+                        'password': 'password',
+                        'displayName': rndString,
+                        'visibility': 'public',
+                        'email': 'roy@example.com',
+                        'locale': 'en_GB',
+                        'timezone': 'Europe/London',
+                        'publicAlias': 'Roy'
+                    }, false));
+                }, rndString);
+
+                casper.then(function() {
+                    if (data) {
+                        data.username = 'user-' + rndString;
+                        createdUsers.push(data);
+                        users.push(data);
+                    } else {
+                        casper.echo('Could not create user-' + rndString, 'ERROR');
+                    }
+                });
+            }
         });
 
         casper.then(function() {
-            callback(users);
+            if (anon) {
+                callback(users);
+            } else {
+                casper.then(function() {
+                    doLogOut();
+                });
+                casper.then(function() {
+                    createUsers(toCreate, callback);
+                });
+            }
         });
     };
 
