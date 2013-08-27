@@ -19,7 +19,9 @@
             </div>
         </div>
 
+        <script src="../js/qunit.js"></script>
+        <script>QUnit.config.autostart = false;</script>
         <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
-        <script>require(["./js/doubletranslated.js"]);</script>
+        <script>require(["./js/doubletranslated.js"], QUnit.start);</script>
     </body>
 </html>

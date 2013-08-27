@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, util) {
+require(['jquery', 'oae.core', '../js/util.js'], function($, oae, util) {
 
         module("CSS Formatting");
 
@@ -107,6 +107,6 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
         util.loadWidgets(cssFormattingTest);
 
         QUnit.load();
-        QUnit.start();
+        //QUnit.start();
     }
 );

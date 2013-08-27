@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['oae.core', '../js/util.js', 'qunitjs', 'jquery', '../js/jshint.js'], function(oae, util) {
+require(['oae.core', '../js/util.js', 'jquery', '../js/jshint.js'], function(oae, util) {
 
         module("Clean JavaScript");
 
@@ -118,6 +118,5 @@ require(['oae.core', '../js/util.js', 'qunitjs', 'jquery', '../js/jshint.js'], f
         util.loadWidgets(cleanJSTest);
 
         QUnit.load();
-        QUnit.start();
     }
 );

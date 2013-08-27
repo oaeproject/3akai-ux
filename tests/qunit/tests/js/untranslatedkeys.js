@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, util) {
+require(['jquery', 'oae.core', '../js/util.js'], function($, oae, util) {
 
         module("Untranslated Keys");
 
@@ -130,6 +130,5 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
         util.loadWidgets(untranslatedKeysTest);
 
         QUnit.load();
-        QUnit.start();
     }
 );
