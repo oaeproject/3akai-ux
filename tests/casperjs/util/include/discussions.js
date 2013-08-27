@@ -1,5 +1,3 @@
-casper.echo('Include discussion utilities');
-
 /**
  * Utility functions for discussions
  *

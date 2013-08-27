@@ -1,5 +1,3 @@
-casper.echo('Include group utilities');
-
 // Keeps track of the created groups that are available for testing
 var createdGroups = [];
 

@@ -1,5 +1,3 @@
-casper.echo('Include content utilities');
-
 // Keeps track of the created content that is available for testing
 var createdContent = [];
 

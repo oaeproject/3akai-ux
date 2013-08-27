@@ -1,5 +1,3 @@
-casper.echo('Include admin utilities');
-
 /**
  * General utility functions
  *
