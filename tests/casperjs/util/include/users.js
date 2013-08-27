@@ -37,7 +37,6 @@ var userUtil = function() {
 
             casper.then(function() {
                 if (data) {
-                    casper.echo('Created user-' + rndString);
                     data.username = 'user-' + rndString;
                     createdUsers.push(data);
                     users.push(data);
@@ -71,9 +70,7 @@ var userUtil = function() {
             casper.click('#topnavigation-signin-button');
         });
 
-        casper.waitForSelector('#me-clip-container h1', function() {
-            casper.echo('Log in with user ' + username);
-        });
+        casper.waitForSelector('#me-clip-container h1');
     };
 
     /**
@@ -95,16 +92,13 @@ var userUtil = function() {
             });
         });
 
-        casper.waitForSelector('#admin-header-user', function() {
-            casper.echo('Log in with user ' + username);
-        });
+        casper.waitForSelector('#admin-header-user');
     };
 
     /**
      * Logs out the current user
      */
     var doLogOut = function() {
-        casper.echo('Log out');
         casper.thenEvaluate(function() {
             require('oae.core').api.authentication.logout(function() {
                 window.location = '/';
@@ -117,7 +111,6 @@ var userUtil = function() {
      */
     var doAdminLogOut = function() {
         casper.then(function() {
-            casper.echo('Log out');
             casper.click('#admin-header-user-logout');
             casper.wait(2000);
         });

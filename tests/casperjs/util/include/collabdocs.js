@@ -30,7 +30,6 @@ var collabDocUtil = function() {
 
         casper.then(function() {
             if (data) {
-                casper.echo('Created collabdoc-' + rndString + '.');
                 createdCollabDocs.push(data);
                 collabdoc = data;
             } else {

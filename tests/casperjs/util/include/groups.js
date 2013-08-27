@@ -33,7 +33,6 @@ var groupUtil = function() {
 
         casper.then(function() {
             if (data) {
-                casper.echo('Created group-' + rndString + '.');
                 createdGroups.push(data);
                 group = data;
             } else {

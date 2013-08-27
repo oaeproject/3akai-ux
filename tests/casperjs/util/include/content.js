@@ -35,7 +35,6 @@ var contentUtil = function() {
                 casper.click('button#upload-upload');
                 casper.waitForSelector('#oae-notification-container .alert', function() {
                     contentUrl = casper.getElementAttribute('#oae-notification-container .alert h4 + a', 'href');
-                    casper.echo('Created content item at ' + contentUrl);
                     callback(contentUrl);
                 });
             });
@@ -64,7 +63,6 @@ var contentUtil = function() {
                     casper.click('button#createlink-create');
                     casper.waitForSelector('#oae-notification-container .alert', function() {
                         contentUrl = casper.getElementAttribute('#oae-notification-container .alert h4 + a', 'href');
-                        casper.echo('Created link at ' + contentUrl);
                         callback(contentUrl);
                     });
                 });
@@ -90,7 +88,6 @@ var contentUtil = function() {
                     });
                     casper.waitForSelector('#oae-notification-container .alert', function() {
                         casper.click('#oae-notification-container .close');
-                        casper.echo('Created a new revision');
                         callback();
                     });
                 });

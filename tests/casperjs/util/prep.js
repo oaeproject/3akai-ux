@@ -11,7 +11,7 @@ casper.options.waitTimeout = 10000;
  * @param  {Number}    waitTimeout    Default wait timeout, for wait* family functions.
  */
 casper.options.onWaitTimeout = function(waitTimeout) {
-	casper.test.fail('Test timed out');
+	casper.test.fail('Test timed out after ' + waitTimeout + ' ms');
 
 	// Log out of the system
 	casper.evaluate(function() {

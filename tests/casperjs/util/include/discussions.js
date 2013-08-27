@@ -26,7 +26,6 @@ var discussionUtil = function() {
 
         casper.then(function() {
             if (data) {
-                casper.echo('Created \'Discussion' + rndString + '\'.');
                 discussion = data;
             } else {
                 casper.echo('Could not create discussion \'Discussion' + rndString + '\'.', 'ERROR');
