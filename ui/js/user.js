@@ -78,7 +78,8 @@ require(['jquery', 'oae.core'], function($, oae) {
      * Render the user's clip, containing the profile picture, display name and affiliation
      */
     var setUpClip = function() {
-        oae.api.util.template().render($('#user-clip-template'), {'user': userProfile}, $('#user-clip-container'));
+        oae.api.util.template().render($('#user-clip-left-template'), {'user': userProfile}, $('#user-clip-left-container'));
+        oae.api.util.template().render($('#user-clip-right-template'), {'user': userProfile}, $('#user-clip-right-container'));
     };
 
     /**
@@ -140,6 +141,24 @@ require(['jquery', 'oae.core'], function($, oae) {
                         ]
                     }
                 ]
+            },
+            {
+                'id': 'following',
+                'title': oae.api.i18n.translate('__MSG__NETWORK__'),
+                'icon': 'icon-puzzle-piece',
+                'layout': [
+                    {
+                        'width': 'span12',
+                        'widgets': [
+                            {
+                                'id': 'following',
+                                'settings': {
+                                    'principalId': userProfile.id
+                                }
+                            }
+                        ]
+                    }
+                ]
             }
         ];
         $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
@@ -147,6 +166,30 @@ require(['jquery', 'oae.core'], function($, oae) {
             $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
         });
     };
+
+
+    /////////////////
+    // FOLLOW USER //
+    /////////////////
+
+    $(document).on('click', '#user-follow', function() {
+        oae.api.following.follow(userProfile.id, function(err) {
+            if (!err) {
+                // Show a success notification
+                oae.api.util.notification(
+                    oae.api.i18n.translate('__MSG__FOLLOW_USER__'),
+                    oae.api.i18n.translate('__MSG__FOLLOWING_USER_SUCCESS__')
+                );
+            } else {
+                // Show an error notification
+                oae.api.util.notification(
+                    oae.api.i18n.translate('__MSG__FOLLOW_USER__'),
+                    oae.api.i18n.translate('__MSG__FOLLOWING_USER_FAILED__'),
+                    'error'
+                );
+            }
+        });
+    });
 
     getUserProfile();
 
