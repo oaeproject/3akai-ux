@@ -76,11 +76,17 @@ define(['jquery'], function ($) {
             // Get the list item the checkbox corresponds to and make sure the other views have the
             // same checked status
             $listItem = $(this).parents('li');
-            $('input[type="checkbox"]', $listItem).prop('checked', $(this).is(':checked'))
+            $('input[type="checkbox"]', $listItem).prop('checked', $(this).is(':checked'));
 
             // Get the list container, so we don't end up changing state in other lists
             var $list = $(this).parents('.oae-list').parent();
             var $listOptionActions = $('.oae-list-options-actions', $list);
+
+            // If the list is defined in a tabbed structure the list container is higher up the DOM tree
+            if (!$listOptionActions.length) {
+                $list = $list.parents('.tab-content').parent();
+                $listOptionActions = $('.oae-list-options-actions', $list);
+            }
 
             // Hide the list options when no checkboxes are checked anymore. Show the list options
             // when at least 1 checkbox is checked
