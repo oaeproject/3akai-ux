@@ -22,9 +22,9 @@
         <div id="admin-header-container"><!-- --></div>
 
         <div id="admin-content-container">
-            <div class="row-fluid">
-                <div id="admin-lhnav-container" class="span2 hide"><!-- --></div>
-                <div id="admin-content" class="span10">
+            <div class="row">
+                <div id="admin-lhnav-container" class="col-md-2 hide"><!-- --></div>
+                <div id="admin-content" class="col-md-10">
                     <!-- Login -->
                     <div id="admin-login-container" class="hide">
                         <h2>Sign in to the OAE Administration Panel</h2>
@@ -69,8 +69,8 @@
         <div id="admin-footer-container"><!-- --></div>
 
         <div id="admin-header-template"><!--
-            <div class="row-fluid">
-                <div class="span12" id="admin-header-content">
+            <div class="row">
+                <div class="col-md-12" id="admin-header-content">
                     {if !oae.data.me.anon}
                         <div id="admin-header-user" class="pull-right">
                             <button type="button" class="btn btn-inverse" id="admin-header-user-logout">Log out</button>
@@ -113,8 +113,8 @@
         --></div>
 
         <div id="admin-footer-template"><!--
-            <div class="row-fluid">
-                <div class="span12" id="admin-footer-content">
+            <div class="row">
+                <div class="col-md-12" id="admin-footer-content">
                     {if !oae.data.me.anon && (context.isGlobalAdminServer || context.isTenantOnGlobalAdminServer)}
                         <ul class="inline">
                             <li>

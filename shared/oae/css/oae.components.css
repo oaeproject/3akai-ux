@@ -187,8 +187,8 @@ i[class^="icon-"].large:before {
  * TODO: This component needs to be more generic so the tick is always displayed in the middle, independent
  * of the width of the large option. https://github.com/oaeproject/3akai-ux/issues/2980
  *
- * e.g. <div class="oae-large-options-container row-fluid">
- *          <label for="oae-visibility-private" class="span4 text-center">
+ * e.g. <div class="oae-large-options-container row">
+ *          <label for="oae-visibility-private" class="col-md-4 text-center">
  *              <div class="oae-large-options well pull-left text-center checked">
  *                  <input type="radio" id="oae-visibility-private" value="private" name="oae-visibility-group" class="pull-left" checked="checked"/>
  *                  <i class="icon-oae-private large text-center"></i>
@@ -197,7 +197,7 @@ i[class^="icon-"].large:before {
  *              <i class="icon-ok hide"></i>
  *              <small>__MSG__GROUP_PRIVATE_DESCRIPTION__</small>
  *          </label>
- *          <label for="oae-visibility-loggedin" class="span4 text-center">
+ *          <label for="oae-visibility-loggedin" class="col-md-4 text-center">
  *              <div class="oae-large-options well pull-left text-center">
  *                  <input type="radio" id="oae-visibility-loggedin" value="loggedin" name="oae-visibility-group" class="pull-left"/>
  *                  <i class="icon-oae-loggedin large text-center"></i>
@@ -206,7 +206,7 @@ i[class^="icon-"].large:before {
  *              <i class="icon-ok hide"></i>
  *              <small>__MSG__GROUP_LOGGEDIN_DESCRIPTION__</small>
  *          </label>
- *          <label for="oae-visibility-public" class="span4 text-center">
+ *          <label for="oae-visibility-public" class="col-md-4 text-center">
  *              <div class="oae-large-options well pull-left text-center">
  *                  <input type="radio" id="oae-visibility-public" value="public" name="oae-visibility-group" class="pull-left"/>
  *                  <i class="icon-oae-public large text-center"></i>

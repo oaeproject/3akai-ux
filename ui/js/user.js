@@ -93,7 +93,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                 'icon': 'icon-briefcase',
                 'layout': [
                     {
-                        'width': 'span12',
+                        'width': 'col-md-12',
                         'widgets': [
                             {
                                 'id': 'contentlibrary',
@@ -111,7 +111,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                 'icon': 'icon-comments',
                 'layout': [
                     {
-                        'width': 'span12',
+                        'width': 'col-md-12',
                         'widgets': [
                             {
                                 'id': 'discussionslibrary',
@@ -129,7 +129,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                 'icon': 'icon-group',
                 'layout': [
                     {
-                        'width': 'span12',
+                        'width': 'col-md-12',
                         'widgets': [
                             {
                                 'id': 'memberships',
