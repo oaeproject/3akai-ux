@@ -126,10 +126,11 @@ define(['jquery'], function ($) {
                 // Get the parent list item
                 var $checkedListItem = $(this).parents('li');
 
-                // Get the id and resourceType from the data attributes on the checkbox
+                // Get the id, tenant displayname and resourceType from the data attributes on the checkbox
                 var id = $(checked).attr('data-id');
                 var resourceType = $(checked).attr('data-resourceType');
                 var resourceSubType = $(checked).attr('data-resourceSubType');
+                var tenantDisplayName = $(checked).attr('data-tenant');
                 // Get the displayName and thumbnail image from the content of the list item
                 var displayName = $('h3:visible', $checkedListItem).text();
                 var thumbnailImage = $('img:visible', $checkedListItem).attr('src');
@@ -139,6 +140,9 @@ define(['jquery'], function ($) {
                     'displayName': displayName,
                     'resourceType': resourceType,
                     'resourceSubType': resourceSubType,
+                    'tenant': {
+                        'displayName': tenantDisplayName
+                    },
                     'thumbnailUrl': thumbnailImage
                 });
             });
