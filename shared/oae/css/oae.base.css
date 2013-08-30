@@ -184,8 +184,7 @@ input.search-query,
 .form-horizontal select + .help-block,
 .form-horizontal textarea + .help-block,
 .form-horizontal .uneditable-input + .help-block,
-.form-horizontal .input-prepend + .help-block,
-.form-horizontal .input-append + .help-block {
+.form-horizontal .input-group + .help-block {
     margin-top: 3px;
 }
 
@@ -216,6 +215,8 @@ input.search-query,
 .modal-header h3 {
     font-size: 16px;
     font-weight: 200;
+    margin-bottom: 0;
+    margin-top: 5px;
 }
 
 .modal-body {
