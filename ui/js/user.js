@@ -180,11 +180,32 @@ require(['jquery', 'oae.core'], function($, oae) {
                     oae.api.i18n.translate('__MSG__FOLLOW_USER__'),
                     oae.api.i18n.translate('__MSG__FOLLOWING_USER_SUCCESS__')
                 );
+                getUserProfile();
             } else {
                 // Show an error notification
                 oae.api.util.notification(
                     oae.api.i18n.translate('__MSG__FOLLOW_USER__'),
                     oae.api.i18n.translate('__MSG__FOLLOWING_USER_FAILED__'),
+                    'error'
+                );
+            }
+        });
+    });
+
+    $(document).on('click', '#user-unfollow', function() {
+        oae.api.following.unfollow(userProfile.id, function(err) {
+            if (!err) {
+                // Show a success notification
+                oae.api.util.notification(
+                    oae.api.i18n.translate('__MSG__UNFOLLOW_USER__'),
+                    oae.api.i18n.translate('__MSG__UNFOLLOWING_USER_SUCCESS__')
+                );
+                getUserProfile();
+            } else {
+                // Show an error notification
+                oae.api.util.notification(
+                    oae.api.i18n.translate('__MSG__UNFOLLOW_USER__'),
+                    oae.api.i18n.translate('__MSG__UNFOLLOWING_USER_FAILED__'),
                     'error'
                 );
             }
