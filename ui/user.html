@@ -46,38 +46,36 @@
 
                 <div id="user-clip-right-container" class="oae-clip-container-right"><!-- --></div>
                 <div id="user-clip-right-template"><!--
-                    {if user.following.canFollow}
-                        {if user.following.isFollowing}
-                            <div class="oae-clip oae-clip-flipped oae-clip-secondary">
-                                <div class="oae-clip-fold">
-                                    <div class="oae-clip-fold-inner"></div>
-                                    <div class="oae-clip-fold-outer"></div>
-                                </div>
-                                <div class="oae-clip-content">
-                                    <button id="user-unfollow">
-                                        <div>
-                                            <i class="icon-pushpin pull-left"></i>
-                                            <h1>__MSG__UNFOLLOW__</h1>
-                                        </div>
-                                    </button>
-                                </div>
+                    {if user.following && user.following.isFollowing}
+                        <div class="oae-clip oae-clip-flipped oae-clip-secondary">
+                            <div class="oae-clip-fold">
+                                <div class="oae-clip-fold-inner"></div>
+                                <div class="oae-clip-fold-outer"></div>
                             </div>
-                        {else}
-                            <div class="oae-clip oae-clip-flipped oae-clip-secondary">
-                                <div class="oae-clip-fold">
-                                    <div class="oae-clip-fold-inner"></div>
-                                    <div class="oae-clip-fold-outer"></div>
-                                </div>
-                                <div class="oae-clip-content">
-                                    <button id="user-follow">
-                                        <div>
-                                            <i class="icon-pushpin pull-left"></i>
-                                            <h1>__MSG__FOLLOW__</h1>
-                                        </div>
-                                    </button>
-                                </div>
+                            <div class="oae-clip-content">
+                                <button id="user-unfollow">
+                                    <div>
+                                        <i class="icon-pushpin pull-left"></i>
+                                        <h1>__MSG__UNFOLLOW__</h1>
+                                    </div>
+                                </button>
                             </div>
-                        {/if}
+                        </div>
+                    {elseif user.following && user.following.canFollow}
+                        <div class="oae-clip oae-clip-flipped oae-clip-secondary">
+                            <div class="oae-clip-fold">
+                                <div class="oae-clip-fold-inner"></div>
+                                <div class="oae-clip-fold-outer"></div>
+                            </div>
+                            <div class="oae-clip-content">
+                                <button id="user-follow">
+                                    <div>
+                                        <i class="icon-pushpin pull-left"></i>
+                                        <h1>__MSG__FOLLOW__</h1>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
                     {/if}
                 --></div>
             </div>
