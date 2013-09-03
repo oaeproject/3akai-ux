@@ -168,7 +168,7 @@ i[class^="icon-"].large {
 
 i[class^="icon-"].large:before {
     font-size: 50px;
-    height: 55px;
+    height: 60px;
     padding-top: 5px;
     width: 60px;
 }
@@ -272,16 +272,16 @@ i[class^="icon-"].large:before {
        -moz-border-radius: 100px;
             border-radius: 100px;
     display: block;
+    height: 35px;
     margin-left: 65px;
     position: absolute;
     top: 128px;
+    width: 35px;
 }
 
 .oae-large-options-container .oae-large-options.checked + i:before {
     font-size: 24px;
-    height: 30px;
     padding-top: 5px;
-    width: 35px;
 }
 
 

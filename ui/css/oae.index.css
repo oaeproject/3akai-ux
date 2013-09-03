@@ -16,7 +16,11 @@
 #index-content {
     font-weight: 200;
     margin: 0 auto;
-    min-width: 878px;
+    max-width: 985px;
+}
+
+#index-container > div {
+    margin: 0 auto;
     max-width: 985px;
 }
 
@@ -29,13 +33,17 @@
     padding: 10px 20px;
 }
 
+#index-container .row {
+    margin-top: 30px;
+    margin-bottom: 0;
+}
+
 #index-container .index-search-container {
-    margin: 25px auto 50px;
     padding: 3% 0;
 }
 
 #index-container .index-search-container form,
-#index-container .index-search-container form .control-group {
+#index-container .index-search-container form .form-group {
     margin: 0;
 }
 
@@ -46,15 +54,17 @@
 
 #index-container .index-search-container input#index-search-query {
     height: 37px;
-    margin-right: 7px;
+    margin: 0 7px;
     border-color: transparent;
     -webkit-box-shadow: none;
        -moz-box-shadow: none;
             box-shadow: none;
+    width: 65%;
 }
 
-#index-container .index-search-container .control-label {
+#index-container .index-search-container label {
     padding-top: 0;
+    text-align: right;
 }
 
 #index-container .index-search-container button[type="submit"] {
@@ -96,11 +106,6 @@
     font-size: 19px;
     margin-top: 25px;
     width: 350px;
-}
-
-.index-bottom {
-    margin-top: 30px;
-    margin-bottom: 30px;
 }
 
 .index-bottom .index-bottom-slogan {
