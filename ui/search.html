@@ -26,18 +26,24 @@
 
             <!-- CLIPS -->
             <div>
-                <div id="search-clip-container">
-                    <div class="oae-clip">
+                <div id="search-clip-container" class="row">
+                    <div class="oae-clip col-md-8 col-sm-8 col-xs-8">
                         <div class="oae-clip-fold">
                             <div class="oae-clip-fold-inner"></div>
                             <div class="oae-clip-fold-outer"></div>
                         </div>
-                        <div class="oae-clip-content">
-                            <form id="search-form" class="form-search">
-                                <h1>__MSG__SEARCH_FOR__</h1>
-                                <label for="search-query" class="oae-aural-text">__MSG__SEARCH__</label>
-                                <input type="text" id="search-query" class="input-xxlarge search-query" title="__MSG__SEARCH_FOR_CONTENT_PEOPLE_GROUPS__" />
-                                <button type="submit" class="btn">__MSG__GO__</button>
+                        <div class="oae-clip-content clearfix">
+                            <form id="search-form" class="form-search form-inline col-md-12 col-sm-12 col-xs-12" role="search">
+                                <h1 class="text-right col-md-3 col-sm-3 col-xs-4">__MSG__SEARCH_FOR__</h1>
+                                <div class="col-md-8 col-sm-9 col-xs-8">
+                                    <div class="form-group col-md-10 col-sm-10 col-xs-10" style="">
+                                        <label for="search-query" class="oae-aural-text">__MSG__SEARCH__</label>
+                                        <input type="text" id="search-query" class="form-control search-query" title="__MSG__SEARCH_FOR_CONTENT_PEOPLE_GROUPS__">
+                                    </div>
+                                    <div class="form-group col-md-2 col-sm-2 col-xs-2" style="">
+                                        <button type="submit" class="btn">__MSG__GO__</button>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
