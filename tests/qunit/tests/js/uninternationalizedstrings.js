@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae.core', '/tests/qunit/js/util.js', 'qunitjs'], function($, oae, util) {
+require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util) {
 
     module("Uninternationalized Strings");
 
@@ -122,29 +122,39 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js', 'qunitjs'], function($
     var uninternationalizedStringsTest = function(testData) {
         // Check widgets for uninternationalized strings
         $.each(testData.widgetData, function(i, widget) {
-            asyncTest(widget.id, function() {
+            test(widget.id, function() {
                 var $div = $('<div></div>');
                 $div.html(widget.html);
                 checkElements($div);
                 checkAttrs($div);
-                start();
             });
         });
 
         // Check main HTML and macros for uninternationalized strings
-        $.each(testData.mainHTML, function(i, mainHTML) {
-            asyncTest(i, function() {
+        $.each(testData.mainHTML, function(page, mainHTML) {
+            // Ignore error pages.
+            if (/\/shared\/oae\/errors\//.test(page)) {
+                return;
+            }
+
+            // Test all other pages.
+            test(page, function() {
                 var $div = $('<div></div>');
                 $div.html(mainHTML);
                 checkElements($div);
                 checkAttrs($div);
-                start();
             });
         });
+
+        // Start consuming tests again
+        QUnit.start(2);
     };
 
-    util.loadTestData(uninternationalizedStringsTest);
-
+    
+    // Load up QUnit
     QUnit.load();
-    QUnit.start();
+
+    // Stop consuming QUnit test and load the widgets asynchronous
+    QUnit.stop();
+    util.loadTestData(uninternationalizedStringsTest);
 });

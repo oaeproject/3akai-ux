@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae.core', '/tests/qunit/js/util.js', 'qunitjs'], function($, oae, util) {
+require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util) {
 
     module("CSS Formatting");
 
@@ -94,31 +94,34 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js', 'qunitjs'], function($
     var cssFormattingTest = function(testData) {
         // Test that the main and UI CSS files are properly formatted
         $.each(testData.mainCSS, function(mainCSSPath, mainCSS) {
-            asyncTest(mainCSSPath, function() {
+            test(mainCSSPath, function() {
                 if (mainCSS) {
                     checkCSS(mainCSS);
                 } else {
                     ok(true, mainCSSPath + ' has no CSS to check.');
                 }
-                start();
             });
         });
 
         // Test that the widget CSS files are properly formatted
         $.each(testData.widgetData, function(widgetCSSPath, widget) {
-            asyncTest(widgetCSSPath, function() {
+            test(widgetCSSPath, function() {
                 if (widget.css) {
                     checkCSS(widget.css);
                 } else {
                     ok(true, widgetCSSPath + ' has no CSS to check.');
                 }
-                start();
             });
         });
+
+        // Start consuming tests again
+        QUnit.start(2);
     };
 
-    util.loadTestData(cssFormattingTest);
-
+    // Load up QUnit
     QUnit.load();
-    QUnit.start();
+
+    // Stop consuming QUnit test and load the widgets asynchronous
+    QUnit.stop();
+    util.loadTestData(cssFormattingTest);
 });

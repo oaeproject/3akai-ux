@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'oae.core', 'qunitjs', 'jquery.properties-parser'], function(exports, $, oae) {
+define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(exports, $, oae) {
 
     // By default, QUnit runs tests when load event is triggered on the window.
     // We're loading tests asynchronsly and set this property to false, then call QUnit.start() once everything is loaded. 
@@ -227,14 +227,17 @@ define(['exports', 'jquery', 'oae.core', 'qunitjs', 'jquery.properties-parser'],
          */
         var doBatchRequest = function(paths, _callback) {
             oae.api.util.staticBatch(paths, function(err, data) {
-                // Loop over the results
+                // For each bundle, extract the widget and bundle name and parse the properties
                 $.each(data, function(i, bundle) {
+                    var splitPath = i.split('/');
+                    var widgetName = splitPath[splitPath.length - 3];
+                    var bundleName = splitPath.pop().split('.')[0];
+
+                    // Some bundle files are empty though, so do a check
                     if (bundle) {
-                        // For each bundle, extract the widget and bundle name and parse the properties
-                        var splitPath = i.split('/');
-                        var widgetName = splitPath[splitPath.length - 3];
-                        var bundleName = splitPath.pop().split('.')[0];
                         testData.widgetData[widgetName].i18n[bundleName] = $.parseProperties(bundle);
+                    } else {
+                        testData.widgetData[widgetName].i18n[bundleName] = {};
                     }
                 });
 
@@ -250,22 +253,23 @@ define(['exports', 'jquery', 'oae.core', 'qunitjs', 'jquery.properties-parser'],
             if (widget.i18n) {
                 $.each(widget.i18n, function(ii, bundle) {
                     paths.push('/node_modules/' + widget.path + bundle.bundle);
-                    if (paths.length >= 100) {
-                        doBatchRequest(paths);
-                        paths = [];
-                    }
                 });
             }
         });
 
-        // Clean up the queue, if no batch request remaining return the results
-        if (paths.length) {
-            doBatchRequest(paths, function(err, data) {
+        /**
+         * Retrieves data in batches of 100 requests, calls itsself and fetches more data if needed
+         */
+        var startGettingData = function() {
+            if (paths.length === 0) {
                 callback(testData);
-            });
-        } else {
-            callback(testData);
-        }
+            } else {
+                var pathsToRetrieve = paths.splice(0, 100);
+                doBatchRequest(pathsToRetrieve, startGettingData);
+            }
+        };
+
+        startGettingData();
     };
 
     /**
@@ -373,7 +377,6 @@ define(['exports', 'jquery', 'oae.core', 'qunitjs', 'jquery.properties-parser'],
                                     loadMainJS(testData, function(testData) {
                                         loadAPIJS(testData, function(testData) {
                                             loadOAEPlugins(testData, function(testData) {
-                                                console.log(testData);
                                                 callback(testData);
                                             });
                                         });

@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae.core', '/tests/qunit/js/util.js', 'qunitjs'], function($, oae, util) {
+require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util) {
 
     module('WCAG 2.0 Compliance - 1.1.1 Non-text Content / Text Alternatives');
 
@@ -132,29 +132,30 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js', 'qunitjs'], function($
     var testWCAGCompliance = function(testData) {
         // Check the WCAG compliance of widgets
         $.each(testData.widgetData, function(widgetID, widget) {
-            asyncTest(widget.id, function() {
+            test(widget.id, function() {
                 var $div = $('<div></div>');
                 $div.html(widget.html);
-                checkElements($div, function() {
-                    start();
-                });
+                checkElements($div);
             });
         });
 
         // Check the WCAG compliance of the main HTML and macro files
         $.each(testData.mainHTML, function(mainHTMLPath, mainHTML) {
-            asyncTest(mainHTMLPath, function() {
+            test(mainHTMLPath, function() {
                 var $div = $('<div></div>');
                 $div.html(mainHTML);
-                checkElements($div, function() {
-                    start();
-                });
+                checkElements($div);
             });
         });
+
+        // Start consuming tests again
+        QUnit.start(2);
     };
 
-    util.loadTestData(testWCAGCompliance);
-
+    // Load up QUnit
     QUnit.load();
-    QUnit.start();
+
+    // Stop consuming QUnit test and load the widgets asynchronous
+    QUnit.stop();
+    util.loadTestData(testWCAGCompliance);
 });

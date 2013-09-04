@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae.core', '/tests/qunit/js/util.js', 'qunitjs'], function($, oae, util) {
+require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util) {
 
     module("Unused Translation Keys");
 
@@ -35,7 +35,7 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js', 'qunitjs'], function($
     var unusedTranslationKeysTest = function(testData) {
         // Loop over all main bundles
         $.each(testData.mainBundles, function(mainBundleKey, mainBundle) {
-            asyncTest(mainBundleKey, function() {
+            test(mainBundleKey, function() {
                 if (mainBundle && _.keys(mainBundle).length) {
                     // For each key in the main bundle, check if it's used in a widget or main HTML file
                     $.each(mainBundle, function(key, value) {
@@ -97,14 +97,13 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js', 'qunitjs'], function($
                 } else {
                     ok(true, 'No keys in \'' + mainBundleKey + '\'.');
                 }
-                start();
             });
         });
 
         // Check if keys in widgets are being used
         $.each(testData.widgetData, function(widgetID, widget) {
-            asyncTest(widgetID, function() {
-                if (_.keys(widget.i18n).length) {
+            test(widgetID, function() {
+                if (widget.i18n && _.keys(widget.i18n).length) {
                     $.each(widget.i18n, function(bundleKey, bundle) {
                         if (_.keys(bundle).length) {
                             $.each(bundle, function(key, value) {
@@ -125,13 +124,17 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js', 'qunitjs'], function($
                 } else {
                     ok(true, '\'' + widgetID + '\' does does not have any bundles.');
                 }
-                start();
             });
         });
+
+        // Start consuming tests again
+        QUnit.start(2);
     };
 
-    util.loadTestData(unusedTranslationKeysTest);
-
+    // Load up QUnit
     QUnit.load();
-    QUnit.start();
+
+    // Stop consuming QUnit test and load the widgets asynchronous
+    QUnit.stop();
+    util.loadTestData(unusedTranslationKeysTest);
 });

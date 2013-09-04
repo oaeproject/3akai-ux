@@ -32,7 +32,7 @@ module.exports = function(grunt) {
         },
         'target': process.env['DESTDIR'] || 'target',
         'qunit': {
-            'index': ['tests/qunit/tests/unit/*.html']
+            'files': ['tests/qunit/tests/*.html', '!tests/qunit/tests/untranslatedkeys.html', '!tests/qunit/tests/doubletranslated.html']
         },
         'lint': {
             'files': [
@@ -168,6 +168,7 @@ module.exports = function(grunt) {
     // Load tasks from npm modules
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks('grunt-git-describe');
     grunt.loadNpmTasks('grunt-ver');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
@@ -287,6 +288,19 @@ module.exports = function(grunt) {
 
     // Override the test task with the casperjs task
     grunt.registerTask('test', ['casperjs']);
+
+    // Wrap the qunit task
+    grunt.renameTask('qunit', 'contrib-qunit');
+    grunt.registerTask('qunit', function(host, protocol) {
+        host = host || 'localhost';
+        protocol = protocol || 'http';
+        var urls = _.map(grunt.file.expand(grunt.config.get('qunit.files')), function(file) {
+            return protocol + '://' + host + '/' + file;
+        });
+        var config = { 'options': { 'urls' : urls } };
+        grunt.config.set('contrib-qunit.all', config);
+        grunt.task.run('contrib-qunit');
+    });
 
     // Default task.
     grunt.registerTask('default', ['clean', 'copy', 'git-describe', 'requirejs', 'hashFiles', 'writeVersion', 'configNginx']);
