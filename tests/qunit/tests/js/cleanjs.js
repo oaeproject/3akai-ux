@@ -92,7 +92,7 @@ require(['oae.core', '/tests/qunit/js/util.js', 'jquery', '/shared/vendor/js/jsh
         // Check the API for clean javascript
         $.each(widgetData.apiJS, function(apiPath, apiJS) {
             test(apiPath, function() {
-                checkForConsoleLog(apiJS, ii);
+                checkForConsoleLog(apiJS, apiPath);
                 checkForAlert(apiJS);
                 JSHintfile(apiJS);
             });
