@@ -468,17 +468,17 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             };
 
             // Function that will be called when an invalid form field should be marked
-            // as invalid. In that case, we add an `error` class to the parent `control-group`
+            // as invalid. In that case, we add an `has-error` class to the parent `form-group`
             // element
             options.highlight = function($element) {
-                $($element).parents('.control-group').addClass('error');
+                $($element).parents('.form-group').addClass('has-error');
             };
 
             // Function that will be called when a form field should be marked no longer
-            // needs to be marked as invalid. In that case, we remove the `error` class from
-            // the parent `control-group` element
+            // needs to be marked as invalid. In that case, we remove the `has-error` class from
+            // the parent `form-group` element
             options.unhighlight = function($element) {
-                $($element).parents('.control-group').removeClass('error');
+                $($element).parents('.form-group').removeClass('has-error');
             };
 
             // We register the error placement handler. This will be called for each field that
@@ -492,7 +492,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                 $error.addClass('oae-error');
                 // Check if an error message placehold has been provided. If not, we default
                 // to a `help-block` display and insert it after the input field
-                var $helpPlaceholder = $('.help', $element.parents('.control-group'));
+                var $helpPlaceholder = $('.help', $element.parents('.form-group'));
                 if ($helpPlaceholder.length === 0) {
                     $error.addClass('help-block');
                     $error.insertAfter($element);
