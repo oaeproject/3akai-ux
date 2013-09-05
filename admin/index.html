@@ -345,23 +345,27 @@
 
         <div id="admin-confirmation-template"><!--
             <div class="modal" id="${modal.id|encodeForHTMLAttribute}" tabindex="-1" role="dialog" aria-labelledby="${modal.id|encodeForHTMLAttribute}-label" aria-hidden="true">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h3 id="${modal.id|encodeForHTMLAttribute}-label">${modal.title|encodeForHTML}</h3>
-                </div>
-                <div class="modal-body">
-                    <p>${modal.message|encodeForHTML}</p>
-                </div>
-                <div class="modal-footer">
-                    {if modal.cancel}
-                        <button class="btn" data-dismiss="modal" aria-hidden="true">${modal.cancel|encodeForHTML}</button>
-                    {/if}
-                    <button class="btn {if modal.confirmclass} ${modal.confirmclass|encodeForHTMLAttribute}{else} btn-primary{/if}" id="${modal.id|encodeForHTMLAttribute}-confirm"
-                        {for attr in modal.confirmdata}
-                            data-${attr_index}="${attr|encodeForHTMLAttribute}"
-                        {/for}
-                        >${modal.confirm|encodeForHTML}
-                    </button>
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3 id="${modal.id|encodeForHTMLAttribute}-label">${modal.title|encodeForHTML}</h3>
+                        </div>
+                        <div class="modal-body">
+                            <p>${modal.message|encodeForHTML}</p>
+                        </div>
+                        <div class="modal-footer">
+                            {if modal.cancel}
+                                <button class="btn" data-dismiss="modal" aria-hidden="true">${modal.cancel|encodeForHTML}</button>
+                            {/if}
+                            <button class="btn {if modal.confirmclass} ${modal.confirmclass|encodeForHTMLAttribute}{else} btn-primary{/if}" id="${modal.id|encodeForHTMLAttribute}-confirm"
+                                {for attr in modal.confirmdata}
+                                    data-${attr_index}="${attr|encodeForHTMLAttribute}"
+                                {/for}
+                                >${modal.confirm|encodeForHTML}
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         --></div>
