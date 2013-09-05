@@ -16,7 +16,7 @@
 define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $, _, i18nAPI) {
 
     /**
-     * Get a full content profile.
+     * Get a full content profile
      *
      * @param  {String}       contentId           Id of the content item we're trying to retrieve
      * @param  {Function}     callback            Standard callback method
@@ -298,7 +298,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     };
 
     /**
-     * Update a content item's metadata.
+     * Update a content item's metadata
      *
      * @param  {String}       contentId           Id of the content item we're trying to update
      * @param  {Object}       params              JSON object where the keys represent all of the profile field names we want to update and the values represent the new values for those fields
@@ -331,7 +331,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
     };
 
     /**
-     * Permanently delete a piece of content from the system.
+     * Permanently delete a piece of content from the system
      *
      * @param  {String}        contentId             Id of the content item we're trying to delete
      * @param  {Function}      [callback]            Standard callback method
