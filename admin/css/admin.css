@@ -114,24 +114,19 @@ td.jeditable-container:hover {
     background: linear-gradient(to bottom, #DDD 0%,#CCC 100%) !important; /* W3C */
 }
 
+td.jeditable-container form input {
+    height: 25px !important;
+}
+
 td form {
     margin: 0;
 }
 
 /* Module configuration */
 
-.admin-module-configuration-container input[type="checkbox"],
 .admin-module-configuration-container .admin-module-configuration-toggle-button i {
     float:left;
     margin-right:12px;
-}
-
-.admin-module-configuration-container .form-horizontal .control-label {
-    width: 225px;
-}
-
-.admin-module-configuration-container .form-horizontal .controls {
-    margin-left: 250px;
 }
 
 .admin-module-configuration-container h4 {
@@ -155,6 +150,9 @@ td form {
     max-width: none;
     padding: 12px;
 }
+.admin-container-striped form .form-group {
+    margin-left: 0;
+}
 
 /* Skinning configuration */
 
@@ -166,18 +164,6 @@ td form {
     font-size: 14px;
     margin-left: 20px;
     margin-top: 20px;
-}
-
-#admin-skinning-container .control-group {
-    margin-bottom: 0px;
-}
-
-#admin-skinning-container .control-label {
-    width: 350px;
-}
-
-#admin-skinning-container .controls {
-    margin-left: 370px;
 }
 
 #admin-skinning-container #admin-skinning-actions {
