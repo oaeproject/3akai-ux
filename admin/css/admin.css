@@ -47,7 +47,7 @@ body {
     font-size: 22px;
     font-weight: normal;
     margin: 0;
-    padding: 15px 0 0 80px;
+    padding: 23px 0 0 80px;
 }
 
 
@@ -184,9 +184,9 @@ td form {
 }
 
 #admin-footer-content {
-    background: url("/shared/oae/img/oae-logo-white.png") no-repeat scroll left 20px transparent;
+    background: url("/shared/oae/img/oae-logo-white.png") no-repeat scroll left 0 transparent;
     background-size: 70px;
-    min-height: 75px;
+    min-height: 50px;
 }
 
 #admin-footer-container ul {
