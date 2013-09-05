@@ -192,7 +192,7 @@ i[class^="icon-"].large:before {
  *                  <div class="oae-large-options well">
  *                      <input type="radio" id="oae-visibility-private" value="private" name="oae-visibility-group" class="pull-left" checked="checked" tabindex="0"/>
  *                      <i class="icon-oae-private large text-center"></i>
- *                      <span>__MSG__PARTICIPANTS_ONLY__</span>
+ *                      <span class="oae-threedots">__MSG__PARTICIPANTS_ONLY__</span>
  *                  </div>
  *                  <small>__MSG__GROUP_PRIVATE_DESCRIPTION__</small>
  *              </label>
@@ -203,7 +203,7 @@ i[class^="icon-"].large:before {
  *                  <div class="oae-large-options well">
  *                      <input type="radio" id="oae-visibility-loggedin" value="loggedin" name="oae-visibility-group" class="pull-left" tabindex="0"/>
  *                      <i class="icon-oae-loggedin large text-center"></i>
- *                      <span>${tenant}</span>
+ *                      <span class="oae-threedots">${tenant}</span>
  *                  </div>
  *                  <small>__MSG__GROUP_LOGGEDIN_DESCRIPTION__</small>
  *              </label>
@@ -214,7 +214,7 @@ i[class^="icon-"].large:before {
  *                  <div class="oae-large-options well">
  *                      <input type="radio" id="oae-visibility-public" value="public" name="oae-visibility-group" class="pull-left" tabindex="0"/>
  *                      <i class="icon-oae-public large text-center"></i>
- *                      <span>__MSG__PUBLIC__</span>
+ *                      <span class="oae-threedots">__MSG__PUBLIC__</span>
  *                  </div>
  *                  <small>__MSG__GROUP_PUBLIC_DESCRIPTION__</small>
  *              </label>
