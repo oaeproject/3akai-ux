@@ -16,13 +16,13 @@
 define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
 
     /**
-     * Creates a new user with an internal login strategy.
+     * Creates a new user with an internal login strategy
      *
-     * @param  {String}         username                        The username this user can login with.
-     * @param  {String}         password                        The password for this user.
+     * @param  {String}         username                        The username this user can login with
+     * @param  {String}         password                        The password for this user
      * @param  {String}         displayName                     The display name for the user
-     * @param  {Object}         [additionalOptions]             Additional optional parameters that need to be passed.
-     * @param  {String}         [additionalOptions.visibility]  The user's visibility setting. This can be public, loggedin or private.
+     * @param  {Object}         [additionalOptions]             Additional optional parameters that need to be passed
+     * @param  {String}         [additionalOptions.visibility]  The user's visibility setting. This can be public, loggedin or private
      * @param  {String}         [additionalOptions.email]       The user's email address
      * @param  {String}         [additionalOptions.locale]      The user's locale
      * @param  {String}         [additionalOptions.timezone]    The user's timezone
