@@ -13,14 +13,3 @@
  * permissions and limitations under the License.
  */
 
-#lhnavigation-container {
-    padding: 5px 10px;
-}
-
-#lhnavigation-page {
-    padding: 5px 25px 50px 25px;
-}
-
-#lhnavigation-navigation ul li a div {
-	padding-top: 8px;
-}
