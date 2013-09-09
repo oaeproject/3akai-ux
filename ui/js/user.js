@@ -143,15 +143,15 @@ require(['jquery', 'oae.core'], function($, oae) {
                 ]
             },
             {
-                'id': 'following',
+                'id': 'network',
                 'title': oae.api.i18n.translate('__MSG__NETWORK__'),
-                'icon': 'icon-puzzle-piece',
+                'icon': 'icon-random',
                 'layout': [
                     {
                         'width': 'span12',
                         'widgets': [
                             {
-                                'id': 'following',
+                                'id': 'network',
                                 'settings': {
                                     'principalId': userProfile.id
                                 }
@@ -172,40 +172,27 @@ require(['jquery', 'oae.core'], function($, oae) {
     // FOLLOW USER //
     /////////////////
 
+    /**
+     * Follow the user when the `follow` button is clicked
+     */
     $(document).on('click', '#user-follow', function() {
-        oae.api.following.follow(userProfile.id, function(err) {
+        oae.api.follow.follow(userProfile.id, function(err) {
             if (!err) {
                 // Show a success notification
                 oae.api.util.notification(
-                    oae.api.i18n.translate('__MSG__FOLLOW_USER__'),
-                    oae.api.i18n.translate('__MSG__FOLLOWING_USER_SUCCESS__')
+                    oae.api.i18n.translate('__MSG__FOLLOWING_SUCCEEDED__'),
+                    oae.api.i18n.translate('__MSG__FOLLOWING_YOU_ARE_NOW_FOLLOWING__', null, {
+                        'displayName': userProfile.displayName
+                    })
                 );
-                getUserProfile();
+                $('#user-follow-actions').hide();
             } else {
                 // Show an error notification
                 oae.api.util.notification(
-                    oae.api.i18n.translate('__MSG__FOLLOW_USER__'),
-                    oae.api.i18n.translate('__MSG__FOLLOWING_USER_FAILED__'),
-                    'error'
-                );
-            }
-        });
-    });
-
-    $(document).on('click', '#user-unfollow', function() {
-        oae.api.following.unfollow(userProfile.id, function(err) {
-            if (!err) {
-                // Show a success notification
-                oae.api.util.notification(
-                    oae.api.i18n.translate('__MSG__UNFOLLOW_USER__'),
-                    oae.api.i18n.translate('__MSG__UNFOLLOWING_USER_SUCCESS__')
-                );
-                getUserProfile();
-            } else {
-                // Show an error notification
-                oae.api.util.notification(
-                    oae.api.i18n.translate('__MSG__UNFOLLOW_USER__'),
-                    oae.api.i18n.translate('__MSG__UNFOLLOWING_USER_FAILED__'),
+                    oae.api.i18n.translate('__MSG__FOLLOWING_FAILED__'),
+                    oae.api.i18n.translate('__MSG__FOLLOWING_COULD_NOT_FOLLOW__', null, {
+                        'displayName': userProfile.displayName
+                    }),
                     'error'
                 );
             }

@@ -595,7 +595,11 @@
 -->
 {macro renderFollowingFollowSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount)}
     {if !objectCount}
-        __MSG__ACTIVITY_FOLLOWING_FOLLOW_1__
+        {if activity.object['oae:id'] === oae.data.me.id}
+            __MSG__ACTIVITY_FOLLOWING_FOLLOW_YOU__
+        {else}
+            __MSG__ACTIVITY_FOLLOWING_FOLLOW_1__
+        {/if}
     {elseif objectCount === 2}
         __MSG__ACTIVITY_FOLLOWING_FOLLOW_2__
     {else}

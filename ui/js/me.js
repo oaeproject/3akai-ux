@@ -105,15 +105,15 @@ require(['jquery','oae.core'], function($, oae) {
             ]
         },
         {
-            'id': 'following',
+            'id': 'network',
             'title': oae.api.i18n.translate('__MSG__MY_NETWORK__'),
-            'icon': 'icon-puzzle-piece',
+            'icon': 'icon-random',
             'layout': [
                 {
                     'width': 'span12',
                     'widgets': [
                         {
-                            'id': 'following',
+                            'id': 'network',
                             'settings': {
                                 'principalId': oae.data.me.id,
                                 'canManage': true

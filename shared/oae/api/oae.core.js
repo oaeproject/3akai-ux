@@ -38,7 +38,7 @@ define([
         'oae.api.content',
         'oae.api.comment',
         'oae.api.discussion',
-        'oae.api.following',
+        'oae.api.follow',
         'oae.api.group',
         'oae.api.i18n',
         'oae.api.l10n',
