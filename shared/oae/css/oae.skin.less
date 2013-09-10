@@ -704,6 +704,12 @@ div.oae-thumbnail {
     .background-gradient-two(@thumbnail-gradient1-color, @thumbnail-gradient2-color, 47%, 74%);
 }
 
+/* IE9 and IE10 need a background color on the link to be able to click the awesomefont icon */
+div.oae-thumbnail a {
+    background: rgba(0, 0, 0, 0.01);
+}
+
+
 /*********************************
  ** @section  Visibility toggle **
  *********************************/
