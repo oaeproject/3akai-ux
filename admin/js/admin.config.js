@@ -36,12 +36,17 @@ define(['exports', 'jquery', 'underscore', 'oae.core', '/admin/js/admin.skin.js'
             adminSkin.init(currentContext, configuration);
         });
         addBinding();
-    }
+    };
 
     /**
      * Render the available configuration modules and their configured values
      */
     var renderModules = function() {
+        console.log({
+            'schema': configurationSchema,
+            'configuration': configuration,
+            'context': currentContext
+        });
         oae.api.util.template().render($('#admin-modules-template'), {
             'schema': configurationSchema,
             'configuration': configuration,

@@ -141,7 +141,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
         // Create the JSON only containing the values that have changed to send to the server
         var data = {
             'oae-ui/skin/variables': JSON.stringify(getSkinChanges())
-        }
+        };
 
         // When we are on the tenant server itself, we don't have
         // to append the tenant alias to the endpoint

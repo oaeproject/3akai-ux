@@ -283,6 +283,15 @@
                                                         <input type="text" id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" value="${configValue.toString()|encodeForHTMLAttribute}" {if !tenantCanOverride} disabled="disabled"{/if}/>
                                                     </div>
                                                 </div>
+                                            {elseif element.type === "internationalizableText"}
+                                                {for i18n in schema['oae-principals'].user.elements.defaultLanguage.list}
+                                                    <div class="control-group">
+                                                        <label for="${configPath|encodeForHTMLAttribute}" class="control-label">${i18n.name} - ${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                        <div class="controls">
+                                                            <textarea type="text" id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" value="${configValue.toString()|encodeForHTMLAttribute}" {if !tenantCanOverride} disabled="disabled"{/if}></textarea>
+                                                        </div>
+                                                    </div>
+                                                {/for}
                                             {elseif element.type === "radio"}
                                                 <div class="control-group">
                                                     {for rbt in element.group}
