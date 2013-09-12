@@ -45,26 +45,29 @@ var contentUtil = function() {
      * @param  {[String]}   link       Optional URL to the link to create
      * @param  {Function}   callback   Standard callback function
      */
-    var createLink = function(link, callback) {
-        var linkToCreate = link || 'http://www.oaeproject.org';
-        var contentUrl = null;
+    var createLink = function(link, managers, viewers, callback) {
+        link = link || 'http://www.oaeproject.org';
+        managers = managers || [];
+        viewers = viewers || [];
+        var data = null;
 
-        casper.thenOpen('http://test.oae.com/me', function() {
-            casper.waitForSelector('#me-clip-container .oae-clip-content > button', function() {
-                casper.click('.oae-trigger-createlink');
-                casper.wait(1000, function() {
-                    casper.sendKeys('#createlink-link-dump', 'http://www.oaeproject.org');
-                    casper.evaluate(function() {
-                        document.getElementById('createlink-next').removeAttribute('disabled');
-                    });
-                    casper.click('#createlink-next');
-                    casper.click('button#createlink-create');
-                    casper.waitForSelector('#oae-notification-container .alert', function() {
-                        contentUrl = casper.getElementAttribute('#oae-notification-container .alert h4 + a', 'href');
-                        callback(contentUrl);
-                    });
-                });
-            });
+        //casper.start('http://test.oae.com/', function() {
+        casper.then(function() {
+            data = casper.evaluate(function(link, managers, viewers) {
+                return JSON.parse(__utils__.sendAJAX('/api/content/create', 'POST', {
+                    'resourceSubType': 'link',
+                    'displayName': link,
+                    'description': '',
+                    'visibility': 'public',
+                    'link': link,
+                    'managers': managers,
+                    'viewers': viewers
+                }, false));
+            }, link, managers, viewers);
+        });
+
+        casper.then(function() {
+            callback(data);
         });
     };
 
