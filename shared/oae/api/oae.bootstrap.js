@@ -45,6 +45,7 @@ requirejs.config({
         'jquery.timeago': 'vendor/js/jquery-plugins/jquery.timeago',
         'jquery.validate': 'vendor/js/jquery-plugins/jquery.validate',
         'jquery-ui': 'vendor/js/jquery-ui/jquery-ui.custom',
+        'markdown': 'vendor/js/markdown',
         'text': 'vendor/js/requirejs/require.text',
         'trimpath': 'vendor/js/trimpath',
         'underscore': 'vendor/js/underscore',

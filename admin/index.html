@@ -284,11 +284,20 @@
                                                     </div>
                                                 </div>
                                             {elseif element.type === "internationalizableText"}
+                                                {var defaultValue = configValue.default ? configValue.default.toString() : element.defaultValue.default}
+                                                <div class="control-group">
+                                                    <label for="${configPath|encodeForHTMLAttribute}/default" class="control-label">default - ${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                    <div class="controls">
+                                                        <textarea type="text" id="${configPath|encodeForHTMLAttribute}/default" name="${configPath|encodeForHTMLAttribute}/default" {if !tenantCanOverride} disabled="disabled"{/if}>${defaultValue|encodeForHTML}</textarea>
+                                                    </div>
+                                                </div>
+
                                                 {for i18n in schema['oae-principals'].user.elements.defaultLanguage.list}
+                                                    {var i18nValue = configValue[i18n.value] ? configValue[i18n.value].toString() : ''}
                                                     <div class="control-group">
-                                                        <label for="${configPath|encodeForHTMLAttribute}" class="control-label">${i18n.name} - ${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                        <label for="${configPath|encodeForHTMLAttribute}/${i18n.value}" class="control-label">${i18n.name} - ${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
                                                         <div class="controls">
-                                                            <textarea type="text" id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" value="${configValue.toString()|encodeForHTMLAttribute}" {if !tenantCanOverride} disabled="disabled"{/if}></textarea>
+                                                            <textarea type="text" id="${configPath|encodeForHTMLAttribute}/${i18n.value}" name="${configPath|encodeForHTMLAttribute}/${i18n.value}" {if !tenantCanOverride} disabled="disabled"{/if}>${i18nValue|encodeForHTML}</textarea>
                                                         </div>
                                                     </div>
                                                 {/for}

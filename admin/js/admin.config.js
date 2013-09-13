@@ -109,13 +109,37 @@ define(['exports', 'jquery', 'underscore', 'oae.core', '/admin/js/admin.skin.js'
         // Run over all the old config values to check which ones have been modified
         $.each(configuration[module], function(option, optionValues) {
             $.each(optionValues, function(element, elementValue) {
+
                 // Convert the value in case it's a checkbox
                 var configPath = module + '/' + option + '/' + element;
                 if (configurationSchema[module][option].elements[element].type === 'boolean') {
                     values[configPath] = values[configPath] ? true : false;
                 }
+
+                // Go one level deeper if it's an internationalizableText field
+                if (configurationSchema[module][option].elements[element].type === "internationalizableText") {
+                    // Loop over the list of available languages
+                    $.each(configurationSchema['oae-principals'].user.elements.defaultLanguage.list, function(i, i18n) {
+                        // Continue if the value has changed
+                        if (values[configPath + '/' + i18n.value] !== configuration[module][option][element][i18n.value]) {
+                            // We shouldn't submit empty values
+                            if (values[configPath + '/' + i18n.value] !== '') {
+                                data[configPath + '/' + i18n.value] = values[configPath + '/' + i18n.value];
+                                configuration[module][option][element][i18n.value] = values[configPath + '/' + i18n.value];
+                            }
+                        }
+                    });
+                    // Check if the default language changed
+                    if (values[configPath + '/default'] !== configuration[module][option][element].default) {
+                        console.log('value changed for default');
+                        data[configPath + '/default'] = values[configPath + '/default'];
+                        configuration[module][option][element].default = values[configPath + '/default'];
+                    }
+                }
+
                 // Check if the value has changed and overwrite if it has
-                if (values[configPath] !== elementValue) {
+                if ((values[configPath] !== elementValue) &&
+                    configurationSchema[module][option].elements[element].type !== "internationalizableText") {
                     data[configPath] = values[configPath];
                     configuration[module][option][element] = values[configPath];
                 }
