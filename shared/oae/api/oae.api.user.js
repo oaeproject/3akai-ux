@@ -61,6 +61,11 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             'publicAlias': additionalOptions.publicAlias
         };
 
+        // If the tenant requires the terms and conditions to be accepted add it on the data object
+        if (oae.api.config.getValue('oae-authentication', 'termsAndConditions', 'enabled') === true) {
+            data.acceptedTC = additionalOptions.acceptedTC;
+        }
+
         // Create the user
         $.ajax({
             'url': '/api/user/create',

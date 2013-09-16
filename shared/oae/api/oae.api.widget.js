@@ -495,7 +495,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
         var $widget = $('<div>').attr({
             'id': widgetId,
             'data-widget': widgetName
-        })
+        });
         $container.prepend($widget);
         // Load the widget
         loadWidgets($container, showSettings, widgetDataToPassIn, callback);
