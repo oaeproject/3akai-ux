@@ -4,6 +4,7 @@
 *.kpf
 *.swp
 Thumbs.db
+crowdin*
 dump.rdb
 target/
 node_modules/*
