@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
+define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, $, _, configAPI) {
 
     /**
      * Creates a new user with an internal login strategy
@@ -62,7 +62,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         };
 
         // If the tenant requires the terms and conditions to be accepted add it on the data object
-        if (oae.api.config.getValue('oae-authentication', 'termsAndConditions', 'enabled') === true) {
+        if (configAPI.getValue('oae-principals', 'termsAndConditions', 'enabled') === true) {
             data.acceptedTC = additionalOptions.acceptedTC;
         }
 
