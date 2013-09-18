@@ -49,7 +49,6 @@ requirejs.config({
         'text': 'vendor/js/requirejs/require.text',
         'trimpath': 'vendor/js/trimpath',
         'underscore': 'vendor/js/underscore',
-        'qunitjs': 'vendor/js/qunit',
 
         // OAE paths
         'bootstrap.modal': 'oae/js/bootstrap-plugins/bootstrap.modal',

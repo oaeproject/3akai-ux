@@ -24,7 +24,6 @@ define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(e
      * shouldn't test against errors
      *
      * @param  {String[]}    paths    The paths to the javascript files
-     *
      * @return {String[]}             Filtered list of javascript files that are OAE specific
      */
     var filterVendorScripts = function(paths) {
@@ -38,7 +37,7 @@ define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(e
      *
      * @param  {Object}      testData               The testdata containing all files to be tested (html, css, js, properties)
      * @param  {Function}    callback               Standard callback function
-     * @param  {Function}    callback.testData      The testdata containing all files to be tested (html, css, js, properties)
+     * @param  {Object}      callback.testData      The testdata containing all files to be tested (html, css, js, properties)
      */
     var loadWidgetJS = exports.loadWidgetJS = function(testData, callback) {
         var paths = [];
@@ -67,7 +66,7 @@ define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(e
      *
      * @param  {Object}      testData               The testdata containing all files to be tested (html, css, js, properties)
      * @param  {Function}    callback               Standard callback function
-     * @param  {Function}    callback.testData      The testdata containing all files to be tested (html, css, js, properties)
+     * @param  {Object}      callback.testData      The testdata containing all files to be tested (html, css, js, properties)
      */
     var loadMainJS = exports.loadMainJS = function(testData, callback) {
         var paths = [];
@@ -96,7 +95,7 @@ define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(e
      *
      * @param  {Object}      testData               The testdata containing all files to be tested (html, css, js, properties)
      * @param  {Function}    callback               Standard callback function
-     * @param  {Function}    callback.testData      The testdata containing all files to be tested (html, css, js, properties)
+     * @param  {Object}      callback.testData      The testdata containing all files to be tested (html, css, js, properties)
      */
     var loadAPIJS = exports.loadAPIJS = function(testData, callback) {
         // Create array of paths to request
@@ -118,7 +117,7 @@ define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(e
      *
      * @param  {Object}      testData               The testdata containing all files to be tested (html, css, js, properties)
      * @param  {Function}    callback               Standard callback function
-     * @param  {Function}    callback.testData      The testdata containing all files to be tested (html, css, js, properties)
+     * @param  {Object}      callback.testData      The testdata containing all files to be tested (html, css, js, properties)
      */
     var loadOAEPlugins = exports.loadOAEPlugins = function(testData, callback) {
         // Create array of paths to request
@@ -140,23 +139,25 @@ define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(e
      *
      * @param  {Object}      testData               The testdata containing all files to be tested (html, css, js, properties)
      * @param  {Function}    callback               Standard callback function
-     * @param  {Function}    callback.testData      The testdata containing all files to be tested (html, css, js, properties)
+     * @param  {Object}      callback.testData      The testdata containing all files to be tested (html, css, js, properties)
      */
     var loadWidgetCSS = exports.loadWidgetCSS = function(testData, callback) {
-        // Parse the HTML files and extract the CSS link
+        // Parse the HTML files and extract the CSS links
         var paths = [];
         $.each(testData.widgetData, function(i, widget) {
-            var regex = new RegExp(/<link\s+[^>]*(href\s*=\s*(['"]).*?\2)/);
-            var stylesheet = regex.exec(widget.html);
-            if (stylesheet) {
-                stylesheet = stylesheet[1].split('"')[1];
-                paths.push('/node_modules/' + widget.path + stylesheet);
-            }
+            var $html = $('<div/>').html(widget.html);
+            var $links = $html.find('link');
+            $.each($links, function(ii, link) {
+                paths.push('/node_modules/' + widget.path + $(link).attr('href'));
+            });
         });
+
+        console.log(paths);
 
         oae.api.util.staticBatch(paths, function(err, data) {
             $.each(data, function(i, css) {
                 var widgetName = i.split('/').pop().split('.')[0];
+                console.log(widgetName);
                 testData.widgetData[widgetName].css = css;
             });
             callback(testData);
@@ -168,7 +169,7 @@ define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(e
      *
      * @param  {Object}      testData               The testdata containing all files to be tested (html, css, js, properties)
      * @param  {Function}    callback               Standard callback function
-     * @param  {Function}    callback.testData      The testdata containing all files to be tested (html, css, js, properties)
+     * @param  {Object}      callback.testData      The testdata containing all files to be tested (html, css, js, properties)
      */
     var loadMainCSS = exports.loadMainCSS = function(testData, callback) {
         var paths = [];
@@ -197,7 +198,7 @@ define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(e
      *
      * @param  {Object}      testData               The testdata containing all files to be tested (html, css, js, properties)
      * @param  {Function}    callback               Standard callback function
-     * @param  {Function}    callback.testData      The testdata containing all files to be tested (html, css, js, properties)
+     * @param  {Object}      callback.testData      The testdata containing all files to be tested (html, css, js, properties)
      */
     var loadWidgetHTML = exports.loadWidgetHTML = function(testData, callback) {
         // Create array of paths to request
@@ -220,7 +221,7 @@ define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(e
      *
      * @param  {Object}      testData               The testdata containing all files to be tested (html, css, js, properties)
      * @param  {Function}    callback               Standard callback function
-     * @param  {Function}    callback.testData      The testdata containing all files to be tested (html, css, js, properties)
+     * @param  {Object}      callback.testData      The testdata containing all files to be tested (html, css, js, properties)
      */
     var loadMainHTML = exports.loadMainHTML = function(testData, callback) {
         // Create array of paths to request
@@ -242,7 +243,7 @@ define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(e
      *
      * @param  {Object}      testData               The testdata containing all files to be tested (html, css, js, properties)
      * @param  {Function}    callback               Standard callback function
-     * @param  {Function}    callback.testData      The testdata containing all files to be tested (html, css, js, properties)
+     * @param  {Object}      callback.testData      The testdata containing all files to be tested (html, css, js, properties)
      */
     var loadWidgetBundles = exports.loadWidgetBundles = function(testData, callback) {
 
@@ -304,7 +305,7 @@ define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(e
      *
      * @param  {Object}      testData               The testdata containing all files to be tested (html, css, js, properties)
      * @param  {Function}    callback               Standard callback function
-     * @param  {Function}    callback.testData      The testdata containing all files to be tested (html, css, js, properties)
+     * @param  {Object}      callback.testData      The testdata containing all files to be tested (html, css, js, properties)
      */
     var loadMainBundles = exports.loadMainBundles = function(testData, callback) {
         // Create array of paths to request

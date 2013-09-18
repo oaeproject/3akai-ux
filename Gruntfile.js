@@ -32,7 +32,7 @@ module.exports = function(grunt) {
         },
         'target': process.env['DESTDIR'] || 'target',
         'qunit': {
-            'files': ['tests/qunit/tests/*.html', '!tests/qunit/tests/untranslatedkeys.html', '!tests/qunit/tests/doubletranslated.html']
+            'files': ['tests/qunit/tests/*.html']
         },
         'lint': {
             'files': [
@@ -297,7 +297,7 @@ module.exports = function(grunt) {
         var urls = _.map(grunt.file.expand(grunt.config.get('qunit.files')), function(file) {
             return protocol + '://' + host + '/' + file;
         });
-        var config = { 'options': { 'urls' : urls } };
+        var config = {'options': {'urls': urls}};
         grunt.config.set('contrib-qunit.all', config);
         grunt.task.run('contrib-qunit');
     });
