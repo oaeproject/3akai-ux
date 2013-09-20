@@ -1047,6 +1047,39 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         };
 
         /**
+         * Sanitizes user input in a manner that it makes safe for the input that contains
+         * URL's to be placed inside of an HTML attribute.
+         *
+         * @param  {String}     [input]         The user input string that should be sanitized. If this is not provided, an empty string will be returned.
+         * @return {String}                     The sanitized user input, ready to be put inside of an HTML tag.
+         */
+        var encodeForHTMLWithURL = function(input) {
+            if (!input) {
+                return '';
+            } else {
+                // First sanitize the user's input
+                var sanitized = $.encoder.encodeForHTML(input);
+
+                // If the input contains links, we will replace them by using regular expressions
+                var replacedText = '';
+
+                //URLs starting with http://, https://, or ftp://
+                var replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+                replacedText = sanitized.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
+
+                //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+                var replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+                replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
+
+                //Change email addresses to mailto:: links.
+                var replacePattern3 = /(\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,6})/gim;
+                replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
+
+                return replacedText;
+            }
+        };
+
+        /**
          * Sanitizes user input in a manner that it makes safe for the input to be used
          * as a URL fragment
          *
@@ -1064,6 +1097,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         return {
             'encodeForHTML': encodeForHTML,
             'encodeForHTMLAttribute': encodeForHTMLAttribute,
+            'encodeForHTMLWithURL': encodeForHTMLWithURL,
             'encodeForURL': encodeForURL
         };
     };
