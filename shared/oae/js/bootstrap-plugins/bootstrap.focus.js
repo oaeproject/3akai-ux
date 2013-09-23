@@ -23,7 +23,7 @@ define(['jquery', 'bootstrap'], function($) {
     // Store the focussed element
     var focussedEl = null;
 
-    // When the modal is shown
+    // When the modal is shown we store the focussed element
     $('body').on('show.bs.modal', function(e) {
         focussedEl = document.activeElement || null;
     });
