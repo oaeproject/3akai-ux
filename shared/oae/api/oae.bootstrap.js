@@ -51,6 +51,7 @@ requirejs.config({
 
         // OAE paths
         'bootstrap.modal': 'oae/js/bootstrap-plugins/bootstrap.modal',
+        'bootstrap.focus': 'oae/js/bootstrap-plugins/bootstrap.focus',
         'jquery.browse-focus': 'oae/js/jquery-plugins/jquery.browse-focus',
         'jquery.clip': 'oae/js/jquery-plugins/jquery.clip',
         'jquery.dnd-upload': 'oae/js/jquery-plugins/jquery.dnd-upload',

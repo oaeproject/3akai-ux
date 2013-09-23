@@ -50,6 +50,7 @@ define([
          * OAE plugins
          */
         'bootstrap.modal',
+        'bootstrap.focus',
         'jquery.browse-focus',
         'jquery.clip',
         'jquery.dnd-upload',
