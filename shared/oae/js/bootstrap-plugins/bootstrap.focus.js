@@ -14,25 +14,23 @@
  */
 
 /**
- * Bootstrap plugin that takes care of focusing the clicked element
- * after a modal has been closed
+ * Bootstrap plugin that takes care of focusing the element that was clicked to launch the modal
  */
 
 define(['jquery', 'bootstrap'], function($) {
 
-    // Store the focused element
-    var focusedEl = null;
+    // Element that had focus when the modal was invoked
+    var $focusedEl = null;
 
-    // When the modal is shown we store the focused element
+    // When the modal is shown, we store the focused element
     $('body').on('show.bs.modal', function(e) {
-        focusedEl = document.activeElement || null;
+        $focusedEl = $(':focus');
     });
 
-    // When the modal is hidden, we need to refocus the clicked element
+    // When the modal is hidden, we need to re-focus the modal trigger
     $('body').on('hidden.bs.modal', function(e) {
-        if (focusedEl) {
-            $(focusedEl).focus();
-            focusedEl = null;
+        if ($focusedEl) {
+            $($focusedEl).focus();
         }
     });
 });
