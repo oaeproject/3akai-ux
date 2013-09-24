@@ -17,9 +17,9 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
     (function($) {
 
         /**
-         * Catches the `oae-update-picture` event and updates the associated thumbnail images
+         * Catches the `oae.changepic.update` event and updates the associated thumbnail images
          */
-        $(document).on('oae-update-picture', function(ev, data) {
+        $(document).on('oae.changepic.update', function(ev, data) {
             // Define the template
             var $template = $('<div id="thumbnail-template"><!--${renderThumbnail(entityData)}--></div>');
             // Render the template, passing in the updated data
