@@ -70,6 +70,11 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
         description = 'Put expression on a new line';
         doRegexTest(cssFile, regex, description);
 
+        // Test expression has ending semicolon
+        regex = /\n [^\*].*:.*[^;{\/\*]\n/gm;
+        description = 'Expression has an ending semicolon';
+        doRegexTest(cssFile, regex, description);
+
         // Test close brace is on a new line
         regex = /\S+\}/gm;
         description = 'Put close brace on a new line';
@@ -78,6 +83,16 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
         // Test expression has space after colon
         regex = /(\{|;)\s*\n\s+[\S]+:[\S]+/gm;
         description = 'Put space after expression colon';
+        doRegexTest(cssFile, regex, description);
+
+        // Test expression has only one space after colon
+        regex = /(\{|;)\s*\n\s+[\S]+:  +/gm;
+        description = 'Put only one space after expression colon';
+        doRegexTest(cssFile, regex, description);
+
+        // Test only one expression per line
+        regex = /\;.+:.*;?/gm;
+        description = 'Only one expression per line';
         doRegexTest(cssFile, regex, description);
 
         // Test expression is indented

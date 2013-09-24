@@ -17,9 +17,10 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
 
     module("Uninternationalized Strings");
 
-    // attributes to test for
+    // Attributes to test for
     var attrs = ['alt', 'title'];
 
+    // The following regular expressions are used to verify that a string is an i18n key or an untranslated string
     // Match keys with alphanumerical values
     var alpha = new RegExp('^(.*)[a-zA-z](.*)+$');
     // Match i18n messages (e.g. __MSG__I18N__)

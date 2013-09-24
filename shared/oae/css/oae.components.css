@@ -608,7 +608,7 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .oae-clip .oae-clip-content > button > div {
-    float: left
+    float: left;
 }
 
 .oae-clip .oae-clip-content > button > div:nth-child(2) > div {
