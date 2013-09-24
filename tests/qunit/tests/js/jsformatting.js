@@ -18,7 +18,7 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
     module("JavaScript Formatting");
 
     /**
-     * Test the CSS against a provided regular expression
+     * Test the JavaScript against a provided regular expression
      *
      * @param  {String}    path           The path to the `jsFile`
      * @param  {String}    jsFile         The actual content that should be tested
@@ -121,7 +121,7 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
     };
 
     /**
-     * Initializes the JavaScript Formatting module
+     * Initializes the JavaScript Formatting test
      *
      * @param  {Object}   testData    The testdata containing all files to be tested (html, css, js, properties)
      */
@@ -157,9 +157,6 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
         // Start consuming tests again
         QUnit.start(2);
     };
-
-    // Load up QUnit
-    QUnit.load();
 
     // Stop consuming QUnit test and load the widgets asynchronous
     QUnit.stop();

@@ -23,10 +23,10 @@ require(['oae.core', '/tests/qunit/js/util.js', 'jquery', '/shared/vendor/js/jsh
     /**
      * Checks for console.log('') statements in the code
      *
-     * @param  {String}   file        The contents of the file in the form of a string
+     * @param  {String}   jsFile        The contents of the file in the form of a string
      */
-    var checkForConsoleLog = function(file) {
-        var matches = consoleregex.exec(file);
+    var checkForConsoleLog = function(jsFile) {
+        var matches = consoleregex.exec(jsFile);
         if (matches && matches.length) {
             $.each(matches, function() {
                 ok(false, 'Found console.(log|warn|error|debug|trace)');
@@ -39,10 +39,10 @@ require(['oae.core', '/tests/qunit/js/util.js', 'jquery', '/shared/vendor/js/jsh
     /**
      * Checks for alert() statements in the code
      *
-     * @param  {String}   file    The contents of the file in the form of a string
+     * @param  {String}   jsFile    The contents of the file in the form of a string
      */
-    var checkForAlert = function(file) {
-        var matches = alertregex.exec(file);
+    var checkForAlert = function(jsFile) {
+        var matches = alertregex.exec(jsFile);
         if (matches && matches.length) {
             $.each(matches, function() {
                 ok(false, 'Found alert()');
@@ -55,10 +55,10 @@ require(['oae.core', '/tests/qunit/js/util.js', 'jquery', '/shared/vendor/js/jsh
     /**
      * Runs the file through JSHint
      *
-     * @param  {String}     file        The contents of the file in the form of a string
+     * @param  {String}     jsFile        The contents of the file in the form of a string
      */
-    var JSHintfile = function(data) {
-        var result = JSHINT(data, {
+    var JSHintfile = function(jsFile) {
+        var result = JSHINT(jsFile, {
             // http://www.jshint.com/options/
             'sub': true // ignore dot notation recommendations - ie ['userid'] should be .userid
         });
@@ -77,51 +77,41 @@ require(['oae.core', '/tests/qunit/js/util.js', 'jquery', '/shared/vendor/js/jsh
     /**
      * Initializes the clean JS Test module
      *
-     * @param  {Object}   widgetData    Object containing the manifests of all widgets in node_modules/oae-core.
+     * @param  {Object}   testData    Object containing the manifests of all widgets in node_modules/oae-core.
      */
-    var cleanJSTest = function(widgetData) {
-        // Check the widgets for clean javascript
-        $.each(widgetData.widgetData, function(widgetID, widget) {
-            test(widget.id, function() {
-                checkForConsoleLog(widget.js, widget.id);
-                checkForAlert(widget.js);
-                JSHintfile(widget.js);
+    var cleanJSTest = function(testData) {
+
+        /**
+         * Tests the given jsFile for `console.log` and `alert` and runs the file through JSHint.
+         *
+         * @param  {[type]}    testTitle    The title of the test
+         * @param  {[type]}    jsFile       The contents of the file in the form of a string
+         */
+        var runTest = function(testTitle, jsFile) {
+            test(testTitle, function() {
+                checkForConsoleLog(jsFile, testTitle);
+                checkForAlert(jsFile);
+                JSHintfile(jsFile);
             });
+        };
+
+        // Check the widgets for clean javascript
+        $.each(testData.widgetData, function(widgetID, widget) {
+            runTest(widget.id, widget.js);
         });
 
         // Check the API for clean javascript
-        $.each(widgetData.apiJS, function(apiPath, apiJS) {
-            test(apiPath, function() {
-                checkForConsoleLog(apiJS, apiPath);
-                checkForAlert(apiJS);
-                JSHintfile(apiJS);
-            });
-        });
+        $.each(testData.apiJS, runTest);
 
         // Check the main JavaScript files for clean javascript
-        $.each(widgetData.mainJS, function(jsPath, mainJS) {
-            test(jsPath, function() {
-                checkForConsoleLog(mainJS, jsPath);
-                checkForAlert(mainJS);
-                JSHintfile(mainJS);
-            });
-        });
+        $.each(testData.mainJS, runTest);
 
         // Check the OAE plugins JavaScript files for clean javascript
-        $.each(widgetData.oaePlugins, function(jsPath, oaePlugin) {
-            test(jsPath, function() {
-                checkForConsoleLog(oaePlugin, jsPath);
-                checkForAlert(oaePlugin);
-                JSHintfile(oaePlugin);
-            });
-        });
+        $.each(testData.oaePlugins, runTest);
 
         // Start consuming tests again
         QUnit.start(2);
     };
-
-    // Load up QUnit
-    QUnit.load();
 
     // Stop consuming QUnit test and load the widgets asynchronous
     QUnit.stop();

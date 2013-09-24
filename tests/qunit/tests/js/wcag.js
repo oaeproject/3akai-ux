@@ -18,7 +18,7 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
     module('WCAG 2.0 Compliance - 1.1.1 Non-text Content / Text Alternatives');
 
     /**
-     * Check elements for WCAG 2.0 compliance by running them through a set of tests
+     * Check elements for WCAG 2.0 compliance
      *
      * @param  {Object}      $elt        The element to check
      * @param  {Function}    callback    Standard callback function
@@ -101,9 +101,9 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
         });
 
         $.each($elt.find('div'), function(i, elt) {
-            needsChecking = true;
             var divHtml = $(elt).html();
-            if (divHtml.substr(0, 5) === '<!--\n' && divHtml.substr(divHtml.length - 4, divHtml.length) === '\n-->') {
+            if (divHtml.substr(0, 4) === '<!--' && divHtml.substr(divHtml.length - 3, divHtml.length) === '-->') {
+                needsChecking = true;
                 // this is a javascript template, check the elements in the template
                 var templateData = divHtml.substring(5, divHtml.length - 4);
 
@@ -133,27 +133,22 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
         // Check the WCAG compliance of widgets
         $.each(testData.widgetData, function(widgetID, widget) {
             test(widget.id, function() {
-                var $div = $('<div></div>');
-                $div.html(widget.html);
-                checkElements($div);
+                var $widget = $('<div>').html(widget.html);
+                checkElements($widget);
             });
         });
 
         // Check the WCAG compliance of the main HTML and macro files
         $.each(testData.mainHTML, function(mainHTMLPath, mainHTML) {
             test(mainHTMLPath, function() {
-                var $div = $('<div></div>');
-                $div.html(mainHTML);
-                checkElements($div);
+                var $main = $('<div>').html(mainHTML);
+                checkElements($main);
             });
         });
 
         // Start consuming tests again
         QUnit.start(2);
     };
-
-    // Load up QUnit
-    QUnit.load();
 
     // Stop consuming QUnit test and load the widgets asynchronous
     QUnit.stop();

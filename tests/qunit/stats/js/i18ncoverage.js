@@ -20,22 +20,22 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js', 'qunitjs'], function($
     /**
      * Generates an overview of the i18n coverage for the widget bundles
      *
-     * @param  {Object}   widgetData    The testdata containing all files to be tested (html, css, js, properties)
+     * @param  {Object}   testData    The testdata containing all files to be tested (html, css, js, properties)
      */
-    var checkWidgetBundles = function(widgetData) {
+    var checkWidgetBundles = function(testData) {
         // Loop over all the widgets to test each one
-        $.each(widgetData.widgetData, function(widgetID, widget) {
+        $.each(testData.widgetData, function(widgetID, widget) {
             if (widget.i18n) {
                 // Check how many keys aren't translated in each bundle by looking at what's in the default bundle
-                var totalDefaultKeys = _.keys(widget.i18n['default']).length;
                 var defaultBundle = widget.i18n['default'];
+                var totalDefaultKeys = _.keys(defaultBundle).length;
 
-                // Loop all widget bundles and verify that all keys that are in the default bundle are also present in the other bundles.
+                // Loop all widget bundles and verify that all keys that are in the default bundle are also present in the other bundles
                 $.each(widget.i18n, function(bundleID, widgetBundle) {
                     if (bundleID !== 'default') {
                         asyncTest(widget.id + ' - ' + bundleID + '.properties', function() {
                             var keysTranslated = 0;
-                            // Keep count of how many keys are translated in the bundle
+                            // Keep count of how many of the default keys are translated in the widget bundle
                             $.each(defaultBundle, function(defaultKey) {
                                 if (widgetBundle[defaultKey] !== undefined) {
                                     keysTranslated++;
@@ -59,23 +59,23 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js', 'qunitjs'], function($
     /**
      * Generates an overview of the i18n coverage for the main bundles
      *
-     * @param  {Object}   widgetData    The testdata containing all files to be tested (html, css, js, properties)
+     * @param  {Object}   testData    The testdata containing all files to be tested (html, css, js, properties)
      */
-    var checkMainBundles = function(widgetData) {
+    var checkMainBundles = function(testData) {
         // Check how many keys aren't translated in each bundle by looking at what's in the default bundle
         var totalDefaultKeys = 0;
         var defaultBundle = null;
 
         // Get the total default keys and cache the default bundle for use later
-        $.each(widgetData.mainBundles, function(bundlePath, bundle) {
+        $.each(testData.mainBundles, function(bundlePath, bundle) {
             if (bundlePath.split('/').pop() === 'default.properties') {
                 totalDefaultKeys = _.keys(bundle).length;
                 defaultBundle = bundle;
             }
         });
 
-        // Loop all main bundles and verify that all keys that are in the default bundle are also present in the other bundles.
-        $.each(widgetData.mainBundles, function(bundlePath, mainBundle) {
+        // Loop over all main bundles and verify that all keys that are in the default bundle are also present in the other bundles
+        $.each(testData.mainBundles, function(bundlePath, mainBundle) {
             if (bundlePath.split('/').pop() !== 'default.properties') {
                 asyncTest(bundlePath + '.properties', function() {
                     var keysTranslated = 0;
@@ -98,11 +98,10 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js', 'qunitjs'], function($
         });
     };
 
-    util.loadTestData(function(widgetData) {
-        checkMainBundles(widgetData);
-        checkWidgetBundles(widgetData);
+    util.loadTestData(function(testData) {
+        checkMainBundles(testData);
+        checkWidgetBundles(testData);
     });
 
-    QUnit.load();
     QUnit.start();
 });

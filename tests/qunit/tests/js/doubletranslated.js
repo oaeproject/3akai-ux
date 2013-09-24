@@ -69,9 +69,6 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
         QUnit.start(2);
     };
 
-   // Load up QUnit
-    QUnit.load();
-
     // Stop consuming QUnit test and load the widgets asynchronous
     QUnit.stop();
     util.loadTestData(doubleTranslationKeysTest);

@@ -102,7 +102,6 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
         if ($elt.find('*:not(:empty)').length) {
             // check all elements with no children that have text, filtering out any empties (post-trim)
             $.each($elt.find('*:not(:empty)').filter(function(index) {
-                //console.log($(this).children().length === 0 && $.trim($(this).text()) !== '');
                 return $(this).children().length === 0 && $.trim($(this).text()) !== '';
             }), function(i,elt) {
                 var tagText = $.trim($(elt).text());
@@ -115,7 +114,7 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
     };
 
     /**
-     * Initializes the uninternationalized Strings module
+     * Initializes the Uninternationalized Strings module
      *
      * @param  {Object}   testData    The testdata containing all files to be tested (html, css, js, properties)
      */
@@ -123,36 +122,31 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
         // Check widgets for uninternationalized strings
         $.each(testData.widgetData, function(i, widget) {
             test(widget.id, function() {
-                var $div = $('<div></div>');
-                $div.html(widget.html);
-                checkElements($div);
-                checkAttrs($div);
+                var $widget = $('<div>').html(widget.html);
+                checkElements($widget);
+                checkAttrs($widget);
             });
         });
 
         // Check main HTML and macros for uninternationalized strings
+        var mainHTMLBlacklist = ['/shared/oae/errors/noscript.html', '/shared/oae/errors/maintenance.html', '/shared/oae/errors/unavailable.html'];
         $.each(testData.mainHTML, function(page, mainHTML) {
-            // Ignore error pages.
-            if (/\/shared\/oae\/errors\//.test(page)) {
+            // Ignore blacklisted pages
+            if ($.inArray(page, mainHTMLBlacklist) > -1) {
                 return;
             }
 
-            // Test all other pages.
+            // Test all other pages
             test(page, function() {
-                var $div = $('<div></div>');
-                $div.html(mainHTML);
-                checkElements($div);
-                checkAttrs($div);
+                var $main = $('<div>').html(mainHTML);
+                checkElements($main);
+                checkAttrs($main);
             });
         });
 
         // Start consuming tests again
         QUnit.start(2);
     };
-
-    
-    // Load up QUnit
-    QUnit.load();
 
     // Stop consuming QUnit test and load the widgets asynchronous
     QUnit.stop();

@@ -20,7 +20,7 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
     var regex = new RegExp('__MSG__(.*?)__', 'gm');
 
     /**
-     * Checks whether all the keys found in the HTML string have a translation
+     * Checks whether all the keys found in the HTML string have at a minimum a default translation
      *
      * @param  {Object}     testData     The testdata containing all files to be tested (html, css, js, properties)
      * @param  {String}     html         The HTML to check for keys that don't have a translation
@@ -31,22 +31,19 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
             regex = new RegExp('__MSG__(.*?)__', 'gm');
             while (regex.test(html)) {
                 // Get the key from the match
-                var key = RegExp.lastMatch;
-                key = key.substring(7, key.length - 2);
+                var key = RegExp.$1;
 
-                // Checks if the key has been found at least in one of the i18n files.
+                // Checks if the key has been found at least in one of the i18n files
                 var hasi18n = false;
 
                 // If we're checking a widget check the widget bundles first
                 if (widgetID) {
                     // Check if the widget has i18n bundles
-                    if (_.keys(testData.widgetData[widgetID].i18n).length) {
+                    if (testData.widgetData[widgetID].i18n && _.keys(testData.widgetData[widgetID].i18n).length) {
                         // For each bundle in the widget, check if it's available
-                        $.each(testData.widgetData[widgetID].i18n, function(i, widgetBundle) {
-                            if (widgetBundle[key] !== undefined) {
-                                hasi18n = true;
-                            }
-                        });
+                        if (testData.widgetData[widgetID].i18n.default[key] !== undefined) {
+                            hasi18n = true;
+                        }
                     }
                 }
 
@@ -72,42 +69,42 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
     };
 
     /**
-     * Initializes the untranslated Keys module
+     * Initializes the untranslated Keys test
      *
      * @param  {Object}   testData    The testdata containing all files to be tested (html, css, js, properties)
      */
     var untranslatedKeysTest = function(testData) {
         // Test the widget HTML files for untranslated keys
-        $.each(testData.widgetData, function(i, widget) {
-            test(i, function() {
+        $.each(testData.widgetData, function(widgetIndex, widget) {
+            test(widgetIndex, function() {
                 checkKeys(testData, widget.html, widget.id);
             });
         });
 
         // Test the core HTML and macro files for untranslated keys
-        $.each(testData.mainHTML, function(ii, mainHTML) {
-            test(ii, function() {
+        $.each(testData.mainHTML, function(mainHTMLIndex, mainHTML) {
+            test(mainHTMLIndex, function() {
                 checkKeys(testData, mainHTML, null);
             });
         });
 
         // Test the widget JS files for untranslated keys
-        $.each(testData.widgetData, function(j, widget) {
-            test(j, function() {
+        $.each(testData.widgetData, function(widgetIndex, widget) {
+            test(widgetIndex, function() {
                 checkKeys(testData, widget.js, widget.id);
             });
         });
 
         // Test the main JS files for untranslated keys
-        $.each(testData.mainJS, function(jj, mainJS) {
-            test(jj, function() {
+        $.each(testData.mainJS, function(mainJSIndex, mainJS) {
+            test(mainJSIndex, function() {
                 checkKeys(testData, mainJS, null);
             });
         });
 
         // Test the API files for untranslated keys
-        $.each(testData.apiJS, function(jjj, apiJS) {
-            test(jjj, function() {
+        $.each(testData.apiJS, function(apiJSIndex, apiJS) {
+            test(apiJSIndex, function() {
                 checkKeys(testData, apiJS, null);
             });
         });
@@ -115,9 +112,6 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
         // Start consuming tests again
         QUnit.start(2);
     };
-
-    // Load up QUnit
-    QUnit.load();
 
     // Stop consuming QUnit test and load the widgets asynchronous
     QUnit.stop();

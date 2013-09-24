@@ -19,6 +19,7 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
 
     /**
      * Escapes provided string so that regexp metacharacters in it are used as literal characters.
+     *     e.g. `test?(string)` becomes `test\?\(string\)`
      *
      * @param  {String}    str    The string that will be escaped so it can be used as a regular expression
      * @return {String}           The escaped string
@@ -28,13 +29,21 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
     };
 
     /**
-     * Initializes the Untranslated Keys module and executes the tests
+     * Initializes the Unused Keys test
      *
      * @param  {Object}   testData    The testdata containing all files to be tested (html, css, js, properties)
      */
     var unusedTranslationKeysTest = function(testData) {
         // Loop over all main bundles
         $.each(testData.mainBundles, function(mainBundleKey, mainBundle) {
+            var runTest = function(filePath, testFile, key) {
+                var regex = new RegExp(escapeRegExp('__MSG__' + key + '__', 'gm'));
+                if (regex.test(testFile)) {
+                    return true;
+                }
+                return false;
+            };
+
             test(mainBundleKey, function() {
                 if (mainBundle && _.keys(mainBundle).length) {
                     // For each key in the main bundle, check if it's used in a widget or main HTML file
@@ -44,47 +53,28 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
 
                             // Check if key is used in the main HTML or macro files
                             $.each(testData.mainHTML, function(mainHTMLPath, mainHTML) {
-                                var regex = new RegExp(escapeRegExp('__MSG__' + key + '__', 'gm'));
-                                var used = regex.test(mainHTML);
-                                if (used) {
-                                    keyUsed = true;
-                                }
+                                keyUsed = runTest(mainHTMLPath, mainHTML, key) ? true : keyUsed;
                             });
 
                             // Check if the key is used in the widget HTML or JavaScript files
                             $.each(testData.widgetData, function(widgetID, widget) {
-                                var regex = new RegExp(escapeRegExp('__MSG__' + key + '__', 'gm'));
-                                var used = regex.test(widget.html) || regex.test(widget.js);
-                                if (used) {
-                                    keyUsed = true;
-                                }
+                                keyUsed = runTest(widgetID, widget.html, key) ? true : keyUsed;
+                                keyUsed = runTest(widgetID, widget.js, key) ? true : keyUsed;
                             });
 
                             // Check if key is used in the main JS files
                             $.each(testData.mainJS, function(mainJSPath, mainJS) {
-                                var regex = new RegExp(escapeRegExp('__MSG__' + key + '__', 'gm'));
-                                var used = regex.test(mainJS);
-                                if (used) {
-                                    keyUsed = true;
-                                }
+                                keyUsed = runTest(mainJSPath, mainJS, key) ? true : keyUsed;
                             });
 
                             // Check if key is used in the API files
                             $.each(testData.apiJS, function(apiJSPath, apiJS) {
-                                var regex = new RegExp(escapeRegExp('__MSG__' + key + '__', 'gm'));
-                                var used = regex.test(apiJS);
-                                if (used) {
-                                    keyUsed = true;
-                                }
+                                keyUsed = runTest(apiJSPath, apiJS, key) ? true : keyUsed;
                             });
 
                             // Check if key is used in the OAE plugin files
                             $.each(testData.oaePlugins, function(oaePluginPath, oaePlugin) {
-                                var regex = new RegExp(escapeRegExp('__MSG__' + key + '__', 'gm'));
-                                var used = regex.test(oaePlugin);
-                                if (used) {
-                                    keyUsed = true;
-                                }
+                                keyUsed = runTest(oaePluginPath, oaePlugin, key) ? true : keyUsed;
                             });
 
                             if (keyUsed) {
@@ -130,9 +120,6 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
         // Start consuming tests again
         QUnit.start(2);
     };
-
-    // Load up QUnit
-    QUnit.load();
 
     // Stop consuming QUnit test and load the widgets asynchronous
     QUnit.stop();

@@ -42,10 +42,10 @@ define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(e
     var loadWidgetJS = exports.loadWidgetJS = function(testData, callback) {
         var paths = [];
 
-        $.each(testData.widgetData, function(i, widget) {
+        $.each(testData.widgetData, function(widgetIndex, widget) {
             var $html = $('<div/>').html(widget.html);
             var $scripts = $html.find('script');
-            $.each($scripts, function(ii, script) {
+            $.each($scripts, function(scriptIndex, script) {
                 paths.push('/node_modules/' + widget.path + $(script).attr('src'));
             });
         });
@@ -70,10 +70,10 @@ define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(e
      */
     var loadMainJS = exports.loadMainJS = function(testData, callback) {
         var paths = [];
-        $.each(testData.mainHTML, function(i, mainHTML) {
+        $.each(testData.mainHTML, function(htmlIndex, mainHTML) {
             var $html = $('<div/>').html(mainHTML);
             var $scripts = $html.find('script');
-            $.each($scripts, function(ii, script) {
+            $.each($scripts, function(scriptIndex, script) {
                 paths.push($(script).attr('src'));
                 paths.push($(script).attr('data-loadmodule'));
                 paths.push($(script).attr('data-main'));
@@ -83,8 +83,8 @@ define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(e
         paths = filterVendorScripts(paths);
 
         oae.api.util.staticBatch($.unique(paths), function(err, data) {
-            $.each(data, function(i, js) {
-                testData.mainJS[i] = js;
+            $.each(data, function(jsIndex, js) {
+                testData.mainJS[jsIndex] = js;
             });
             callback(testData);
         });
@@ -100,13 +100,13 @@ define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(e
     var loadAPIJS = exports.loadAPIJS = function(testData, callback) {
         // Create array of paths to request
         var paths = [];
-        $.each(testData.apiJS, function(i) {
-            paths.push(i);
+        $.each(testData.apiJS, function(jsIndex) {
+            paths.push(jsIndex);
         });
 
         oae.api.util.staticBatch(paths, function(err, data) {
-            $.each(data, function(i, js) {
-                testData.apiJS[i] = js;
+            $.each(data, function(jsIndex, js) {
+                testData.apiJS[jsIndex] = js;
             });
             callback(testData);
         });
@@ -122,13 +122,13 @@ define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(e
     var loadOAEPlugins = exports.loadOAEPlugins = function(testData, callback) {
         // Create array of paths to request
         var paths = [];
-        $.each(testData.oaePlugins, function(i) {
-            paths.push(i);
+        $.each(testData.oaePlugins, function(pluginIndex) {
+            paths.push(pluginIndex);
         });
 
         oae.api.util.staticBatch(paths, function(err, data) {
-            $.each(data, function(i, js) {
-                testData.oaePlugins[i] = js;
+            $.each(data, function(jsIndex, js) {
+                testData.oaePlugins[jsIndex] = js;
             });
             callback(testData);
         });
@@ -144,21 +144,20 @@ define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(e
     var loadWidgetCSS = exports.loadWidgetCSS = function(testData, callback) {
         // Parse the HTML files and extract the CSS links
         var paths = [];
-        $.each(testData.widgetData, function(i, widget) {
+        $.each(testData.widgetData, function(widgetIndex, widget) {
             var $html = $('<div/>').html(widget.html);
             var $links = $html.find('link');
-            $.each($links, function(ii, link) {
+            $.each($links, function(linkIndex, link) {
                 paths.push('/node_modules/' + widget.path + $(link).attr('href'));
             });
         });
 
-        console.log(paths);
-
         oae.api.util.staticBatch(paths, function(err, data) {
-            $.each(data, function(i, css) {
-                var widgetName = i.split('/').pop().split('.')[0];
-                console.log(widgetName);
-                testData.widgetData[widgetName].css = css;
+            $.each(data, function(cssIndex, css) {
+                var widgetName = cssIndex.split('/').pop().split('.')[0];
+                if (testData.widgetData[widgetName]) {
+                    testData.widgetData[widgetName].css = css;
+                }
             });
             callback(testData);
         });
@@ -180,36 +179,35 @@ define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(e
         $.each(testData.mainHTML, function(htmlPath, mainHTML) {
             var $html = $('<div/>').html(mainHTML);
             var $links = $html.find('link');
-            $.each($links, function(ii, link) {
+            $.each($links, function(linkIndex, link) {
                 paths.push($(link).attr('href'));
             });
         });
 
         oae.api.util.staticBatch($.unique(paths), function(err, data) {
-            $.each(data, function(i, css) {
-                testData.mainCSS[i] = css;
+            $.each(data, function(cssIndex, css) {
+                testData.mainCSS[cssIndex] = css;
             });
             callback(testData);
         });
     };
 
     /**
-     * Load the widget html through a batch request
+     * Load the widget HTML through a batch request
      *
      * @param  {Object}      testData               The testdata containing all files to be tested (html, css, js, properties)
      * @param  {Function}    callback               Standard callback function
      * @param  {Object}      callback.testData      The testdata containing all files to be tested (html, css, js, properties)
      */
     var loadWidgetHTML = exports.loadWidgetHTML = function(testData, callback) {
-        // Create array of paths to request
         var paths = [];
-        $.each(testData.widgetData, function(i, widget) {
+        $.each(testData.widgetData, function(widgetIndex, widget) {
             paths.push('/node_modules/' + widget.path + widget.src);
         });
 
         oae.api.util.staticBatch(paths, function(err, data) {
-            $.each(data, function(i, html) {
-                var widgetName = i.split('/').pop().split('.')[0];
+            $.each(data, function(htmlIndex, html) {
+                var widgetName = htmlIndex.split('/').pop().split('.')[0];
                 testData.widgetData[widgetName].html = html;
             });
             callback(testData);
@@ -224,15 +222,14 @@ define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(e
      * @param  {Object}      callback.testData      The testdata containing all files to be tested (html, css, js, properties)
      */
     var loadMainHTML = exports.loadMainHTML = function(testData, callback) {
-        // Create array of paths to request
         var paths = [];
-        $.each(testData.mainHTML, function(i) {
-            paths.push(i);
+        $.each(testData.mainHTML, function(htmlIndex) {
+            paths.push(htmlIndex);
         });
 
         oae.api.util.staticBatch(paths, function(err, data) {
-            $.each(data, function(i, html) {
-                testData.mainHTML[i] = html;
+            $.each(data, function(htmlIndex, html) {
+                testData.mainHTML[htmlIndex] = html;
             });
             callback(testData);
         });
@@ -256,8 +253,8 @@ define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(e
         var doBatchRequest = function(paths, _callback) {
             oae.api.util.staticBatch(paths, function(err, data) {
                 // For each bundle, extract the widget and bundle name and parse the properties
-                $.each(data, function(i, bundle) {
-                    var splitPath = i.split('/');
+                $.each(data, function(bundleIndex, bundle) {
+                    var splitPath = bundleIndex.split('/');
                     var widgetName = splitPath[splitPath.length - 3];
                     var bundleName = splitPath.pop().split('.')[0];
 
@@ -269,17 +266,15 @@ define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(e
                     }
                 });
 
-                if ($.isFunction(_callback)) {
-                    _callback(err, data);
-                }
+                _callback(err, data);
             });
         };
 
         // Create an array of paths to request, group per 100 to avoid large GET requests
         var paths = [];
-        $.each(testData.widgetData, function(i, widget) {
+        $.each(testData.widgetData, function(widgetIndex, widget) {
             if (widget.i18n) {
-                $.each(widget.i18n, function(ii, bundle) {
+                $.each(widget.i18n, function(bundleIndex, bundle) {
                     paths.push('/node_modules/' + widget.path + bundle.bundle);
                 });
             }
@@ -308,15 +303,14 @@ define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(e
      * @param  {Object}      callback.testData      The testdata containing all files to be tested (html, css, js, properties)
      */
     var loadMainBundles = exports.loadMainBundles = function(testData, callback) {
-        // Create array of paths to request
         var paths = [];
-        $.each(testData.mainBundles, function(i) {
-            paths.push(i);
+        $.each(testData.mainBundles, function(bundleIndex) {
+            paths.push(bundleIndex);
         });
 
         oae.api.util.staticBatch(paths, function(err, data) {
-            $.each(data, function(i, bundle) {
-                testData.mainBundles[i] = $.parseProperties(bundle);
+            $.each(data, function(bundleIndex, bundle) {
+                testData.mainBundles[bundleIndex] = $.parseProperties(bundle);
             });
             callback(testData);
         });
@@ -348,16 +342,16 @@ define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(e
                 '/shared/oae/errors/noscript.html': null,
                 '/shared/oae/errors/notfound.html': null,
                 '/shared/oae/errors/unavailable.html': null,
+                '/shared/oae/macros/activity.html': null,
+                '/shared/oae/macros/autosuggest.html': null,
+                '/shared/oae/macros/list.html': null,
                 '/ui/content.html': null,
                 '/ui/discussion.html': null,
                 '/ui/group.html': null,
                 '/ui/index.html': null,
                 '/ui/me.html': null,
                 '/ui/search.html': null,
-                '/ui/user.html': null,
-                '/shared/oae/macros/activity.html': null,
-                '/shared/oae/macros/autosuggest.html': null,
-                '/shared/oae/macros/list.html': null
+                '/ui/user.html': null
             },
             'apiJS': {
                 '/shared/oae/api/oae.api.authentication.js': null,
