@@ -83,6 +83,12 @@
     <!-- The format of the data can be slightly different depending on its origin. This
          happens for example when a particular feed is compliant with a particular standard,
          like the activitystrea.ms standard for activity feeds. -->
+    {if entityData['oae:id']}
+        {var resourceId = entityData['oae:id']}
+    {elseif entityData.id}
+        {var resourceId = entityData.id}
+    {/if}
+
     {if customImage}
         {var thumbnailUrl = customImage}
     {elseif entityData.thumbnailUrl}
@@ -119,7 +125,7 @@
         {var visibility = entityData['oae:visibility']}
     {/if}
 
-    <div class="oae-thumbnail {if largeDefault} oae-thumbnail-large {/if} icon-oae-${resourceSubType} icon-oae-${resourceType}" data-id="${entityData['oae:id'] || entityData.id}">
+    <div class="oae-thumbnail {if largeDefault} oae-thumbnail-large {/if} icon-oae-${resourceSubType} icon-oae-${resourceType}" data-id="${resourceId}">
         {if profilePath && addLink !== false}<a href="${profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}">{/if}
         {if thumbnailUrl}
             <img src="${thumbnailUrl}" alt="${entityData.displayName|encodeForHTMLAttribute}" />
