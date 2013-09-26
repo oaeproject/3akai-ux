@@ -41,6 +41,11 @@ ul {
     -webkit-padding-start: 0;
 }
 
+label {
+    font-weight: normal;
+    margin-bottom: 7px !important;
+}
+
 /* DEFAULT LINK STYLE */
 
 a:hover, .btn-link:hover, a:focus, .btn-link:focus {
