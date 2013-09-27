@@ -139,8 +139,8 @@ i.icon-oae-public:before {
     display: inline-block;
     font-size: 15px;
     width: 18px;
-    height: 16px;
-    padding-top: 1px;
+    height: 18px;
+    padding-top: 2px;
     text-align: center;
 }
 
@@ -769,6 +769,11 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-tile .oae-thumbnail.oae-thumbnail-large:before {
     margin-top: -50px;
+    padding-top: 80px;
+}
+
+.oae-tile .oae-thumbnail img {
+    height: auto;
 }
 
 /* Tile metadata */
@@ -991,10 +996,15 @@ ul.oae-list.oae-list-grid > li {
     margin: 0 14px 24px 0;
 }
 
+ul.row.oae-list.oae-list-grid > li {
+    float: left;
+    margin: 0 0 7px;
+}
+
 ul.oae-list.oae-list-grid > li .oae-thumbnail,
 ul.oae-list.oae-list-grid > li.oae-list-actions {
     height: 162px;
-    width: 162px;
+    min-width: 162px;
 }
 
 /* Details and compact view */
