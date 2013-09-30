@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['jquery', 'oae.api.content'], function (jQuery) {
+define(['jquery'], function (jQuery) {
     (function() {
         $(document).on('drop', '.oae-dnd-upload', function(ev, data) {
             if (ev.originalEvent.dataTransfer && ev.originalEvent.dataTransfer.files.length) {
