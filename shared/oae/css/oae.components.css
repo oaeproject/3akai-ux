@@ -231,10 +231,13 @@ i[class^="icon-"].large:before {
 }
 
 .oae-large-options-container label small {
+    display: block;
+    margin: 0 0 35px;
     position: relative;
 }
 
 .oae-large-options-container label.checked small {
+    margin: 0;
     top: -35px;
 }
 
@@ -269,7 +272,7 @@ i[class^="icon-"].large:before {
     display: block;
     font-size: 13px;
     font-weight: bold;
-    margin-top: 7px;
+    margin-top: 15px;
 }
 
 .oae-large-options-container i.icon-ok {
@@ -1095,7 +1098,7 @@ ul.oae-list.oae-list-grid .oae-list-actions .btn i {
 }
 
 ul.oae-list.oae-list-grid .oae-list-actions ul {
-    bottom: 5px;
+    bottom: 2px;
     left: 0;
     padding: 7px;
     position: absolute;
@@ -1236,6 +1239,7 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
 
 .oae-list-options .oae-list-options-actions .btn i {
     font-size: 18px;
+    line-height: 1.2;
 }
 
 .oae-list-options .btn-group .btn i {

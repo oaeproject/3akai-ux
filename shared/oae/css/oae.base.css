@@ -51,6 +51,12 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     text-decoration: none;
 }
 
+/* DEFAULT BUTTON STYLE */
+
+.btn {
+    padding: 4px 12px;
+}
+
 /* NAVIGATION BAR
  * @see http://twitter.github.com/bootstrap/components.html#navs */
 
@@ -182,6 +188,14 @@ input[type="color"],
             border-radius: 4px;
 }
 
+.form-group:last-child {
+    margin-bottom: 0;
+}
+
+.form-control {
+    padding: 6px;
+}
+
 .form-horizontal input + .help-block,
 .form-horizontal select + .help-block,
 .form-horizontal textarea + .help-block,
@@ -204,6 +218,10 @@ input[type="color"],
 
 .has-error .form-control::-webkit-input-placeholder {
   color: #b94a48;
+}
+
+.radio, .checkbox {
+    padding-left: 0;
 }
 
 /* MODAL DIALOGS
@@ -264,6 +282,7 @@ input[type="color"],
     background-color: transparent;
     border-top: none;
     box-shadow: none;
+    margin-top: 0;
 }
 
 /* CLICKOVER DIALOGS
@@ -457,7 +476,6 @@ ul.as-list li.as-result-item em {
     background-color: inherit;
     color: inherit;
     font-style: normal;
-    font-weight: 600;
     padding: 0;
 }
 
@@ -525,4 +543,8 @@ ul.as-list li.as-result-item.active {
 
 .oae-main-content > div {
     clear: both;
+}
+
+.oae-main-content > .row {
+    margin: 0 5px 0 -5px;
 }
