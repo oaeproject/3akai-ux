@@ -41,7 +41,8 @@ var crowdinDir = rootDir + '/tools/crowdin';
 
 
 /**
- * Download the crowdin synchronization JAR file if it isn't available yet
+ * Download the crowdin synchronization JAR file. If the file is already in place, it will
+ * not be re-downloaded
  *
  * @param  {Function}     callback              Standard callback function
  */
