@@ -22,6 +22,7 @@
 body {
     margin-left: 30px;
     margin-right: 30px;
+    min-width: 300px;
     display: none;
 }
 
@@ -220,8 +221,20 @@ input[type="color"],
   color: #b94a48;
 }
 
+.has-error .control-label h4 {
+    color: #b94a48;
+}
+
 .radio, .checkbox {
     padding-left: 0;
+}
+
+.radio input[type="radio"],
+.radio-inline input[type="radio"],
+.checkbox input[type="checkbox"],
+.checkbox-inline input[type="checkbox"] {
+    margin-left: 0;
+    margin-right: 7px;
 }
 
 /* MODAL DIALOGS
@@ -231,6 +244,10 @@ input[type="color"],
     .modal-dialog {
         padding-top: 60px;
     }
+}
+
+.modal-dialog {
+    min-width: 300px;
 }
 
 .modal {

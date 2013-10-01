@@ -227,6 +227,7 @@ i[class^="icon-"].large:before {
  **/
 
 .oae-large-options-container label {
+    cursor: pointer;
     display: inline;
 }
 
