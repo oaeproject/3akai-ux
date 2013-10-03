@@ -381,7 +381,7 @@ div.oae-thumbnail a {
 }
 
 div.oae-thumbnail a,
-div.oae-thumbnail img {
+div.oae-thumbnail .oae-thumbnail-img {
     position: absolute;
     left: 0;
     top: 0;
