@@ -59,7 +59,7 @@ require(['oae.core', '/tests/qunit/js/util.js', 'jquery', '/shared/vendor/js/jsh
      */
     var JSHintfile = function(jsFile) {
         var result = JSHINT(jsFile, {
-            // http://www.jshint.com/options/
+            'eqeqeq': true, // use === and !== instead of == and !=
             'sub': true // ignore dot notation recommendations - ie ['userid'] should be .userid
         });
         if (result) {

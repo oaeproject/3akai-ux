@@ -292,7 +292,10 @@ module.exports = function(grunt) {
     // Wrap the qunit task
     grunt.renameTask('qunit', 'contrib-qunit');
     grunt.registerTask('qunit', function(host, protocol) {
-        host = host || 'localhost';
+        if (!host) {
+            return grunt.fail.fatal('Please provide a link to a running OAE instance. e.g. `grunt qunit:tenant1.oae.com`');
+        }
+
         protocol = protocol || 'http';
         var urls = _.map(grunt.file.expand(grunt.config.get('qunit.files')), function(file) {
             return protocol + '://' + host + '/' + file;

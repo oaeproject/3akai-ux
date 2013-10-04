@@ -91,14 +91,6 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
         description = 'Use literal notation';
         doRegexTest(path, jsFile, regex, description);
 
-        regex = /[^=!]==[^=]/gm;
-        description = 'Use \"===\" instead of \"==\"';
-        doRegexTest(path, jsFile, regex, description);
-
-        regex = /!=[^=]/gm;
-        description = 'Use \"!==\" instead of \"!=\"';
-        doRegexTest(path, jsFile, regex, description);
-
         regex = /^\s*const\s/gm;
         description = 'Use \"var <ALLCAPS>\" instead of \"const\"';
         doRegexTest(path, jsFile, regex, description);
