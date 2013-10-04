@@ -107,23 +107,21 @@
         --></div>
 
         <div id="admin-footer-template"><!--
-            <div class="row">
-                <div class="col-md-12" id="admin-footer-content">
-                    {if !oae.data.me.anon && (context.isGlobalAdminServer || context.isTenantOnGlobalAdminServer)}
-                        <ul class="list-inline">
-                            <li>
-                                <a href="/">Global administration</a>
-                            </li>
-                            {for tenant in tenants}
-                                {if tenant.alias}
-                                    <li>
-                                        <a href="/tenant/${tenant.alias|encodeForURL}">${tenant.displayName|encodeForHTML}</a>
-                                    </li>
-                                {/if}
-                            {/for}
-                        </ul>
-                    {/if}
-                </div>
+            <div class="row col-md-12" id="admin-footer-content">
+                {if !oae.data.me.anon && (context.isGlobalAdminServer || context.isTenantOnGlobalAdminServer)}
+                    <ul class="list-inline">
+                        <li>
+                            <a href="/">Global administration</a>
+                        </li>
+                        {for tenant in tenants}
+                            {if tenant.alias}
+                                <li>
+                                    <a href="/tenant/${tenant.alias|encodeForURL}">${tenant.displayName|encodeForHTML}</a>
+                                </li>
+                            {/if}
+                        {/for}
+                    </ul>
+                {/if}
             </div>
         --></div>
 
