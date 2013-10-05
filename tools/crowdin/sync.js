@@ -22,7 +22,7 @@ var argv = require('optimist')
 
     .demand('r')
     .alias('r', 'rootDir')
-    .describe('r', '3akai-ux root directory')
+    .describe('r', 'Absolute path to the 3akai-ux root directory')
     .argv;
 
 var _ = require('underscore');
@@ -79,19 +79,21 @@ var generateYaml = function() {
 };
 
 /**
- * Synchronize the translations in the current branch with the translations on crowdin. First,
- * the latest keys are uploaded to crowdin. Next, the latest translations are uploaded to crowdin.
- * Finally, the latest translations are downloaded from crowdin
+ * Synchronize the translations in the current branch with the translations on crowdin.
+ *
+ *  1. Upload the latest keys to crowdin
+ *  2. Upload the latest translations to crowdin
+ *  3. Download the latest translations from crowdin
  *
  * @param  {Function}     callback              Standard callback function
  */
-var synchronizeTranlsations = function(callback) {
+var synchronizeTranslations = function(callback) {
     // Upload the latest keys to crowdin
-    shelljs.exec(util.format('java -jar %s/crowdin-cli.jar upload sources', crowdinDir), {}, function() {
+    shelljs.exec(util.format('cd %s; java -jar crowdin-cli.jar upload sources', crowdinDir), {}, function() {
         // Upload the latest translations to crowdin
-        shelljs.exec(util.format('java -jar %s/crowdin-cli.jar upload translations', crowdinDir), {}, function() {
+        shelljs.exec(util.format('cd %s; java -jar crowdin-cli.jar upload translations', crowdinDir), {}, function() {
             // Download the latest translations from crowdin
-            shelljs.exec(util.format('java -jar %s/crowdin-cli.jar download', crowdinDir), {}, function() {
+            shelljs.exec(util.format('cd %s; java -jar crowdin-cli.jar download', crowdinDir), {}, function() {
                 callback();
             });
         });
@@ -174,12 +176,12 @@ var updateWidgetManifests = function(bundles) {
 };
 
 
-// 1. Download theq crowdin JAR
+// 1. Download the crowdin JAR file
 downloadCrowdinLibrary(function() {
     // 2. Generate the YAML file
     generateYaml();
     // 3. Synchronize the translations in the current branch with the translations on crowdin
-    synchronizeTranlsations(function() {
+    synchronizeTranslations(function() {
         // 4. Collect the available language bundles
         collectBundles(function(bundles) {
             // 5. Remove the bundles that don't have any translations in them
