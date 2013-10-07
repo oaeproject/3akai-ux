@@ -274,9 +274,10 @@ define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(e
         var paths = [];
         $.each(testData.widgetData, function(widgetIndex, widget) {
             if (widget.i18n) {
-                $.each(widget.i18n, function(bundleIndex, bundle) {
-                    paths.push('/node_modules/' + widget.path + bundle.bundle);
+                $.each(widget.i18n, function(bundleIndex) {
+                    paths.push('/node_modules/' + widget.path + 'bundles/' + widget.i18n[bundleIndex] + '.properties');
                 });
+                widget.i18n = _.object(widget.i18n, widget.i18n);
             }
         });
 
@@ -310,7 +311,11 @@ define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(e
 
         oae.api.util.staticBatch(paths, function(err, data) {
             $.each(data, function(bundleIndex, bundle) {
-                testData.mainBundles[bundleIndex] = $.parseProperties(bundle);
+                if (bundle) {
+                    testData.mainBundles[bundleIndex] = $.parseProperties(bundle);
+                } else {
+                    delete testData.mainBundles[bundleIndex];
+                }
             });
             callback(testData);
         });
