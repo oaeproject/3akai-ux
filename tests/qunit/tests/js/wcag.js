@@ -13,10 +13,16 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, util) {
+require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util) {
 
     module('WCAG 2.0 Compliance - 1.1.1 Non-text Content / Text Alternatives');
 
+    /**
+     * Check elements for WCAG 2.0 compliance
+     *
+     * @param  {Object}      $elt        The element to check
+     * @param  {Function}    callback    Standard callback function
+     */
     var checkElements = function($elt, callback) {
         // If there are no elements that need to be checked we show a success message in the end.
         var needsChecking = false;
@@ -95,9 +101,9 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
         });
 
         $.each($elt.find('div'), function(i, elt) {
-            needsChecking = true;
             var divHtml = $(elt).html();
-            if (divHtml.substr(0, 5) === '<!--\n' && divHtml.substr(divHtml.length - 4, divHtml.length) === '\n-->') {
+            if (divHtml.substr(0, 4) === '<!--' && divHtml.substr(divHtml.length - 3, divHtml.length) === '-->') {
+                needsChecking = true;
                 // this is a javascript template, check the elements in the template
                 var templateData = divHtml.substring(5, divHtml.length - 4);
 
@@ -120,57 +126,31 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
 
     /**
      * Check HTML pages and test for WCAG compliance
+     *
+     * @param  {Object}    testData    The testdata containing all files to be tested (html, css, js, properties)
      */
-    var testWCAGCompliance = function(widgetData) {
+    var testWCAGCompliance = function(testData) {
         // Check the WCAG compliance of widgets
-        $.each(widgetData.widgetData, function(i, widget) {
-            asyncTest(widget.id + '.html', function() {
-                var div = document.createElement('div');
-                div.innerHTML = widget.html;
-                $(div).find('script').remove();
-                $(div).find('link').remove();
-                $(div).find('meta').remove();
-                $(div).find('title').remove();
-                checkElements($(div), function() {
-                    start();
-                });
+        $.each(testData.widgetData, function(widgetID, widget) {
+            test(widget.id, function() {
+                var $widget = $('<div>').html(widget.html);
+                checkElements($widget);
             });
         });
 
-        // Check the WCAG compliance of the main HTML files
-        $.each(widgetData.mainHTML, function(i, mainHTML) {
-            asyncTest(i + '.html', function() {
-                var div = document.createElement('div');
-                div.innerHTML = mainHTML;
-                $(div).find('script').remove();
-                $(div).find('link').remove();
-                $(div).find('meta').remove();
-                $(div).find('title').remove();
-                checkElements($(div), function() {
-                    start();
-                });
+        // Check the WCAG compliance of the main HTML and macro files
+        $.each(testData.mainHTML, function(mainHTMLPath, mainHTML) {
+            test(mainHTMLPath, function() {
+                var $main = $('<div>').html(mainHTML);
+                checkElements($main);
             });
         });
 
-        // Check the WCAG compliance of the macro HTML files
-        $.each(widgetData.macroHTML, function(i, macroHTML) {
-            asyncTest(i + '.html', function() {
-                var div = document.createElement('div');
-                div.innerHTML = macroHTML;
-                $(div).find('script').remove();
-                $(div).find('link').remove();
-                $(div).find('meta').remove();
-                $(div).find('title').remove();
-                checkElements($(div), function() {
-                    start();
-                });
-            });
-        });
+        // Start consuming tests again
+        QUnit.start(2);
     };
 
-    util.loadWidgets(testWCAGCompliance);
-
-    QUnit.load();
-    QUnit.start();
-
+    // Stop consuming QUnit test and load the widgets asynchronous
+    QUnit.stop();
+    util.loadTestData(testWCAGCompliance);
 });
