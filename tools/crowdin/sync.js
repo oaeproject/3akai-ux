@@ -88,11 +88,16 @@ var generateYaml = function() {
  * @param  {Function}     callback              Standard callback function
  */
 var synchronizeTranslations = function(callback) {
-    // Upload the latest keys to crowdin
+    // Upload the latest set of available i18n keys to crowdin. This will add new keys to the list of keys
+    // to translate and will remove keys that have been removed in the codebase from the list of keys to
+    // translate
     shelljs.exec(util.format('cd %s; java -jar crowdin-cli.jar upload sources', crowdinDir), {}, function() {
-        // Upload the latest translations to crowdin
+        // Upload the latest translations to crowdin. This will update any translations that have been updated
+        // in the codebase directly on crowdin. This is done before downloading the translations from crowdin, as
+        // core development will end up updating the translations directly most of the time, and we want to avoid
+        // overriding those changes with the translations on crowdin
         shelljs.exec(util.format('cd %s; java -jar crowdin-cli.jar upload translations', crowdinDir), {}, function() {
-            // Download the latest translations from crowdin
+            // Download the latest updated translations from crowdin
             shelljs.exec(util.format('cd %s; java -jar crowdin-cli.jar download', crowdinDir), {}, function() {
                 callback();
             });
