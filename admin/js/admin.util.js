@@ -23,6 +23,18 @@ define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
     };
 
     /**
+     * Toggle internationalizable field container
+     */
+    var toggleInternationalizableFieldContainer = exports.toggleInternationalizableFieldContainer = function() {
+        // Define the target container
+        var $targetContainer = $('#' + $(this).attr('data-targetcontainer'));
+        // Hide all control groups in the target container
+        $targetContainer.find('.control-group').hide();
+        // Show the selected language control group in the target container
+        $targetContainer.find('div[data-id="' + $(this).val() + '"]').show();
+    };
+
+    /**
      * Shows a confirmation dialog to the user using predefined data
      * usage
      * showConfirmationModal({

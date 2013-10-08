@@ -284,23 +284,38 @@
                                                     </div>
                                                 </div>
                                             {elseif element.type === "internationalizableText"}
-                                                {var defaultValue = configValue.default ? configValue.default.toString() : element.defaultValue.default}
+                                                {var internationalizabletextContainerId = 'internationalizabletext-container-' + oae.api.util.generateId()}
                                                 <div class="control-group">
-                                                    <label for="${configPath|encodeForHTMLAttribute}/default" class="control-label">default - ${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                    <label for="${configPath|encodeForHTMLAttribute}-internationalizabletext-language-picker" class="control-label">Choose terms and conditions language to change</label>
                                                     <div class="controls">
-                                                        <textarea type="text" id="${configPath|encodeForHTMLAttribute}/default" name="${configPath|encodeForHTMLAttribute}/default" {if !tenantCanOverride} disabled="disabled"{/if}>${defaultValue|encodeForHTML}</textarea>
+                                                        <select class="internationalizabletext-language-picker" id="${configPath|encodeForHTMLAttribute}-internationalizabletext-language-picker" data-targetcontainer="${internationalizabletextContainerId}">
+                                                            <option value="default" data-toggle="${configPath|encodeForHTMLAttribute}-default-container">Default</option>
+                                                            {for i18n in schema['oae-principals'].user.elements.defaultLanguage.list}
+                                                                <option value="${i18n.value|encodeForHTMLAttribute}">${i18n.name|encodeForHTML}</option>
+                                                            {/for}
+                                                        </select>
                                                     </div>
                                                 </div>
 
-                                                {for i18n in schema['oae-principals'].user.elements.defaultLanguage.list}
-                                                    {var i18nValue = configValue[i18n.value] ? configValue[i18n.value].toString() : ''}
-                                                    <div class="control-group">
-                                                        <label for="${configPath|encodeForHTMLAttribute}/${i18n.value}" class="control-label">${i18n.name} - ${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                <div id="${internationalizabletextContainerId}">
+                                                    {var defaultLanguageValue = configValue.default ? configValue.default.toString() : element.defaultValue.default}
+                                                    <div data-id="default" class="control-group">
+                                                        <label for="${configPath|encodeForHTMLAttribute}/default" class="control-label">default - ${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
                                                         <div class="controls">
-                                                            <textarea type="text" id="${configPath|encodeForHTMLAttribute}/${i18n.value}" name="${configPath|encodeForHTMLAttribute}/${i18n.value}" {if !tenantCanOverride} disabled="disabled"{/if}>${i18nValue|encodeForHTML}</textarea>
+                                                            <textarea type="text" id="${configPath|encodeForHTMLAttribute}/default" name="${configPath|encodeForHTMLAttribute}/default" {if !tenantCanOverride} disabled="disabled"{/if}>${defaultLanguageValue|encodeForHTML}</textarea>
                                                         </div>
                                                     </div>
-                                                {/for}
+
+                                                    {for i18n in schema['oae-principals'].user.elements.defaultLanguage.list}
+                                                        {var i18nValue = configValue[i18n.value] ? configValue[i18n.value].toString() : ''}
+                                                        <div data-id="${i18n.value}" class="control-group hide">
+                                                            <label for="${configPath|encodeForHTMLAttribute}/${i18n.value}" class="control-label">${i18n.name} - ${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                            <div class="controls">
+                                                                <textarea type="text" id="${configPath|encodeForHTMLAttribute}/${i18n.value}" name="${configPath|encodeForHTMLAttribute}/${i18n.value}" {if !tenantCanOverride} disabled="disabled"{/if}>${i18nValue|encodeForHTML}</textarea>
+                                                            </div>
+                                                        </div>
+                                                    {/for}
+                                                </div>
                                             {elseif element.type === "radio"}
                                                 <div class="control-group">
                                                     {for rbt in element.group}

@@ -172,6 +172,8 @@ define(['exports', 'jquery', 'underscore', 'oae.core', '/admin/js/admin.skin.js'
         $(document).on('click', '.admin-module-configuration-toggle-button', adminUtil.toggleContainer);
         // Change config values
         $(document).on('submit', '.admin-module-configuration-form', updateConfiguration);
+        // Toggle internationalizable field containers
+        $(document).on('change', '.internationalizabletext-language-picker', adminUtil.toggleInternationalizableFieldContainer);
     };
 
 });
