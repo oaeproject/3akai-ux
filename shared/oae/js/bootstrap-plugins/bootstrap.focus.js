@@ -30,7 +30,7 @@ define(['jquery', 'bootstrap'], function($) {
     // When the modal is hidden, we need to re-focus the modal trigger
     $('body').on('hidden.bs.modal', function(e) {
         if ($focusedEl) {
-            $($focusedEl).focus();
+            $focusedEl.focus();
         }
     });
 });
