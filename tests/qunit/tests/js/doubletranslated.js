@@ -37,7 +37,7 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
             if (widget.i18n) {
                 test('Widget key already defined in global bundle - ' + widget.id, function() {
                     // Loop over all bundles in the widget
-                    $.each(widget.i18n, function(widgetBundleKey, widgetBundle) {
+                    $.each(widget.bundles, function(widgetBundleKey, widgetBundle) {
                         // Loop over all keys in the bundle
                         $.each(widgetBundle, function(i18nKey, widgetValue) {
                             // Check each global bundle to see if key is already defined

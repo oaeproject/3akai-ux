@@ -39,9 +39,9 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
                 // If we're checking a widget check the widget bundles first
                 if (widgetID) {
                     // Check if the widget has i18n bundles
-                    if (testData.widgetData[widgetID].i18n && _.keys(testData.widgetData[widgetID].i18n).length) {
+                    if (testData.widgetData[widgetID].i18n && testData.widgetData[widgetID].i18n.length) {
                         // For each bundle in the widget, check if it's available
-                        if (testData.widgetData[widgetID].i18n.default[key] !== undefined) {
+                        if (testData.widgetData[widgetID].bundles['default'][key] !== undefined) {
                             hasi18n = true;
                         }
                     }
