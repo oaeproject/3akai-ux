@@ -290,8 +290,8 @@
                                                     <div class="controls">
                                                         <select class="internationalizabletext-language-picker" id="${configPath|encodeForHTMLAttribute}-internationalizabletext-language-picker" data-targetcontainer="${internationalizabletextContainerId}">
                                                             <option value="default" data-toggle="${configPath|encodeForHTMLAttribute}-default-container">Default</option>
-                                                            {for i18n in schema['oae-principals'].user.elements.defaultLanguage.list}
-                                                                <option value="${i18n.value|encodeForHTMLAttribute}">${i18n.name|encodeForHTML}</option>
+                                                            {for language in schema['oae-principals'].user.elements.defaultLanguage.list}
+                                                                <option value="${language.value|encodeForHTMLAttribute}">${language.name|encodeForHTML}</option>
                                                             {/for}
                                                         </select>
                                                     </div>
@@ -306,12 +306,12 @@
                                                         </div>
                                                     </div>
 
-                                                    {for i18n in schema['oae-principals'].user.elements.defaultLanguage.list}
-                                                        {var i18nValue = configValue[i18n.value] ? configValue[i18n.value].toString() : ''}
-                                                        <div data-id="${i18n.value}" class="control-group hide">
-                                                            <label for="${configPath|encodeForHTMLAttribute}/${i18n.value}" class="control-label">${i18n.name} - ${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                    {for language in schema['oae-principals'].user.elements.defaultLanguage.list}
+                                                        {var i18nValue = configValue[language.value] ? configValue[language.value].toString() : ''}
+                                                        <div data-id="${language.value}" class="control-group hide">
+                                                            <label for="${configPath|encodeForHTMLAttribute}/${language.value}" class="control-label">${language.name} - ${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
                                                             <div class="controls">
-                                                                <textarea type="text" id="${configPath|encodeForHTMLAttribute}/${i18n.value}" name="${configPath|encodeForHTMLAttribute}/${i18n.value}" {if !tenantCanOverride} disabled="disabled"{/if}>${i18nValue|encodeForHTML}</textarea>
+                                                                <textarea type="text" id="${configPath|encodeForHTMLAttribute}/${language.value}" name="${configPath|encodeForHTMLAttribute}/${language.value}" {if !tenantCanOverride} disabled="disabled"{/if}>${i18nValue|encodeForHTML}</textarea>
                                                             </div>
                                                         </div>
                                                     {/for}

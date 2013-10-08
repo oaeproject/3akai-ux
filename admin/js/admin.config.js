@@ -113,6 +113,12 @@ define(['exports', 'jquery', 'underscore', 'oae.core', '/admin/js/admin.skin.js'
 
                 // Go one level deeper if it's an internationalizableText field
                 if (configurationSchema[module][option].elements[element].type === "internationalizableText") {
+                    // Check if the default language changed
+                    if (values[configPath + '/default'] !== configuration[module][option][element].default) {
+                        data[configPath + '/default'] = values[configPath + '/default'];
+                        configuration[module][option][element].default = values[configPath + '/default'];
+                    }
+
                     // Loop over the list of available languages
                     $.each(configurationSchema['oae-principals'].user.elements.defaultLanguage.list, function(i, i18n) {
                         // Continue if the value has changed
@@ -124,12 +130,6 @@ define(['exports', 'jquery', 'underscore', 'oae.core', '/admin/js/admin.skin.js'
                             }
                         }
                     });
-                    // Check if the default language changed
-                    if (values[configPath + '/default'] !== configuration[module][option][element].default) {
-                        console.log('value changed for default');
-                        data[configPath + '/default'] = values[configPath + '/default'];
-                        configuration[module][option][element].default = values[configPath + '/default'];
-                    }
                 }
 
                 // Check if the value has changed and overwrite if it has
