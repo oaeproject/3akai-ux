@@ -74,6 +74,8 @@ module.exports = function(grunt) {
                             '!node_modules/grunt*/**',
                             '!node_modules/oae-release-tools/**',
                             '!node_modules/optimist/**',
+                            '!node_modules/properties-parser/**',
+                            '!node_modules/readdirp/**',
                             '!node_modules/shelljs/**',
                             '!node_modules/underscore/**'
                         ],
@@ -102,7 +104,7 @@ module.exports = function(grunt) {
                         'name': 'oae.core',
                         'exclude': ['jquery']
                     }],
-                    'fileExclusionRegExp': /^(\.|<%= target %>|tests|tools|grunt|shelljs|underscore$|optimist|oae-release-tools)/,
+                    'fileExclusionRegExp': /^(\.|<%= target %>|tests|tools|grunt|optimist|properties-parser|readdirp|shelljs|underscore$|oae-release-tools)/,
                     'logLevel': 2
                 }
             }
