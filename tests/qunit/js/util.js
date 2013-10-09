@@ -275,20 +275,19 @@ define(['exports', 'jquery', 'oae.core', 'jquery.properties-parser'], function(e
         $.each(testData.widgetData, function(widgetIndex, widget) {
             if (widget.i18n) {
                 $.each(widget.i18n, function(bundleIndex) {
-                    paths.push('/node_modules/' + widget.path + 'bundles/' + widget.i18n[bundleIndex] + '.properties');
+                    paths.push('/node_modules/' + widget.path  + widget.i18n[bundleIndex]);
                 });
-                widget.i18n = _.object(widget.i18n, widget.i18n);
             }
         });
 
         /**
-         * Retrieves data in batches of 100 requests, calls itsself and fetches more data if needed
+         * Retrieves data in batches of 50 requests, calls itsself and fetches more data if needed
          */
         var startGettingData = function() {
             if (paths.length === 0) {
                 callback(testData);
             } else {
-                var pathsToRetrieve = paths.splice(0, 100);
+                var pathsToRetrieve = paths.splice(0, 50);
                 doBatchRequest(pathsToRetrieve, startGettingData);
             }
         };
