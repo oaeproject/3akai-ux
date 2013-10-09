@@ -370,9 +370,6 @@ div.oae-thumbnail {
     -webkit-border-radius: 4px;
        -moz-border-radius: 4px;
             border-radius: 4px;
-    -webkit-box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.35);
-       -moz-box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.35);
-            box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.35);
 }
 
 /* IE9 and IE10 need a background color on the link to be able to click the entire icon */
@@ -579,9 +576,6 @@ div.oae-thumbnail i[class^="icon-"] {
     -webkit-border-radius: 6px 0 6px 6px;
        -moz-border-radius: 6px 0 6px 6px;
             border-radius: 6px 0 6px 6px;
-    -webkit-box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
-       -moz-box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
-            box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
 }
 
 .oae-clip.oae-clip-flipped .oae-clip-content {
