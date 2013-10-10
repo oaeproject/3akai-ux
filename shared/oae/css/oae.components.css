@@ -379,6 +379,9 @@ div.oae-thumbnail a {
 
 div.oae-thumbnail a,
 div.oae-thumbnail img {
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
     position: absolute;
     left: 0;
     top: 0;
@@ -742,7 +745,9 @@ div.oae-thumbnail i[class^="icon-"] {
 
 /* Default thumbnail picture positioning */
 
-.oae-tile .oae-thumbnail {
+.oae-tile .oae-thumbnail,
+.oae-tile .oae-thumbnail a,
+.oae-tile .oae-thumbnail img {
     -webkit-border-radius: 0;
        -moz-border-radius: 0;
             border-radius: 0;
