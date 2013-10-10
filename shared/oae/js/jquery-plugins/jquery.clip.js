@@ -29,7 +29,7 @@ define(['jquery'], function (jQuery) {
             // clip actions available
             if ($('i.icon-caret-down, i.icon-caret-up', $clip).length > 0) {
                 // Show/hide the options
-                $('ul', $clip).toggle();
+                $('ul', $clip).toggle(250);
                 // Toggle the caret icons
                 $clip.find('i.icon-caret-down, i.icon-caret-up').toggleClass('icon-caret-down icon-caret-up');
             }
