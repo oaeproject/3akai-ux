@@ -79,9 +79,10 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 
 .nav-list .nav-header {
     text-transform: none;
-    font-weight: 600;
+    font-weight: 500;
     margin-bottom: 10px;
-    font-size: 12px;
+    margin-top: 10px;
+    font-size: 14px;
 }
 
 /* MEDIA OBJECTS
