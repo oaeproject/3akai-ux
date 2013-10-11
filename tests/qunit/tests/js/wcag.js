@@ -29,14 +29,7 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
 
         $.each($elt.find('a'), function(i, elt) {
             needsChecking = true;
-            if ($(elt).attr('id') !== 'topnavigation_user_options_name') {
-                ok($(elt).attr('title') || $(elt).text() || $(elt).find('*').text() || ($(elt).html() === '<!-- -->') || $(elt).find('img').attr('alt'), 'A tag has text or children that have text: ' + $('<div/>').html(elt).html());
-            }
-            if ($(elt).attr('title') && ($(elt).text() || $(elt).find('*').text())) {
-                if ($.trim($(elt).attr('title')) === $.trim($(elt).text()) || $.trim($(elt).attr('title')) === $.trim($(elt).find('*').text())) {
-                    ok(false, 'A tag has duplicate text and title attribute: ' + $('<div/>').html(elt).html());
-                }
-            }
+            ok($(elt).attr('title') || $(elt).text() || $(elt).find('*').text() || ($(elt).html() === '<!-- -->') || $(elt).find('img').attr('alt'), 'A tag has text or children that have text: ' + $('<div/>').html(elt).html());
         });
 
         $.each($elt.find('button'), function(i, elt) {
@@ -117,7 +110,7 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
         });
 
         if (!needsChecking) {
-            ok(true, 'No elements need checking.');
+            ok(true, 'No elements need checking');
         }
         if ($.isFunction(callback)) {
             callback();
@@ -131,7 +124,7 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
      */
     var testWCAGCompliance = function(testData) {
         // Check the WCAG compliance of widgets
-        $.each(testData.widgetData, function(widgetID, widget) {
+        $.each(testData.widgetData, function(widgetId, widget) {
             test(widget.id, function() {
                 var $widget = $('<div>').html(widget.html);
                 checkElements($widget);

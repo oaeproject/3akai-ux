@@ -24,9 +24,9 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
      *
      * @param  {Object}     testData     The testdata containing all files to be tested (html, css, js, properties)
      * @param  {String}     html         The HTML to check for keys that don't have a translation
-     * @param  {Boolean}    widgetID     null if not a widget, has widgetID if a widget is checked
+     * @param  {Boolean}    widgetId     null if not a widget, has widgetId if a widget is checked
      */
-    var checkKeys = function(testData, html, widgetID) {
+    var checkKeys = function(testData, html, widgetId) {
         if (regex.test(html)) {
             regex = new RegExp('__MSG__(.*?)__', 'gm');
             while (regex.test(html)) {
@@ -37,11 +37,11 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
                 var hasi18n = false;
 
                 // If we're checking a widget check the widget bundles first
-                if (widgetID) {
+                if (widgetId) {
                     // Check if the widget has i18n bundles
-                    if (testData.widgetData[widgetID].i18n && testData.widgetData[widgetID].i18n.length) {
+                    if (testData.widgetData[widgetId].i18n && _.keys(testData.widgetData[widgetId].i18n).length) {
                         // For each bundle in the widget, check if it's available
-                        if (testData.widgetData[widgetID].bundles['default'][key] !== undefined) {
+                        if (testData.widgetData[widgetId].i18n['default'][key] !== undefined) {
                             hasi18n = true;
                         }
                     }

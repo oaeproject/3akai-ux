@@ -57,9 +57,9 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
                             });
 
                             // Check if the key is used in the widget HTML or JavaScript files
-                            $.each(testData.widgetData, function(widgetID, widget) {
-                                keyUsed = runTest(widgetID, widget.html, key) ? true : keyUsed;
-                                keyUsed = runTest(widgetID, widget.js, key) ? true : keyUsed;
+                            $.each(testData.widgetData, function(widgetId, widget) {
+                                keyUsed = runTest(widgetId, widget.html, key) ? true : keyUsed;
+                                keyUsed = runTest(widgetId, widget.js, key) ? true : keyUsed;
                             });
 
                             // Check if key is used in the main JS files
@@ -91,28 +91,28 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
         });
 
         // Check if keys in widgets are being used
-        $.each(testData.widgetData, function(widgetID, widget) {
-            test(widgetID, function() {
-                if (widget.i18n && widget.i18n.length) {
-                    $.each(widget.bundles, function(bundleKey, bundle) {
+        $.each(testData.widgetData, function(widgetId, widget) {
+            test(widgetId, function() {
+                if (widget.i18n && _.keys(widget.i18n).length) {
+                    $.each(widget.i18n, function(bundleKey, bundle) {
                         if (_.keys(bundle).length) {
-                            $.each(bundle, function(key, value) {
-                                if (value) {
-                                    var regex = new RegExp(escapeRegExp('__MSG__' + key + '__', 'gm'));
+                            $.each(bundle, function(i18nKey, i18nValue) {
+                                if (i18nValue) {
+                                    var regex = new RegExp(escapeRegExp('__MSG__' + i18nKey + '__', 'gm'));
                                     var used = regex.test(widget.html) || regex.test(widget.js);
                                     if (used) {
-                                        ok(true, key + ' in \'' + widgetID + ' - ' + bundleKey + '.properties\' is used.');
+                                        ok(true, i18nKey + ' in \'' + widgetId + ' - ' + bundleKey + '.properties\' is used.');
                                     } else {
-                                        ok(false, key + ' in \'' + widgetID + ' - ' + bundleKey + '.properties\' is not being used.');
+                                        ok(false, i18nKey + ' in \'' + widgetId + ' - ' + bundleKey + '.properties\' is not being used.');
                                     }
                                 }
                             });
                         } else {
-                            ok(true, '\'' + widgetID + '\' does does not have any keys in \'' + bundleKey + '.properties\'.');
+                            ok(true, '\'' + widgetId + '\' does does not have any keys in \'' + bundleKey + '.properties\'.');
                         }
                     });
                 } else {
-                    ok(true, '\'' + widgetID + '\' does does not have any bundles.');
+                    ok(true, '\'' + widgetId + '\' does does not have any bundles.');
                 }
             });
         });

@@ -23,46 +23,65 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
      * @param {Object}    testData    The testdata containing all files to be tested (html, css, js, properties)
      */
     var doubleTranslationKeysTest = function(testData) {
-        var widgetKeys = {};
         var mainKeys = {};
+        var widgetKeys = {};
 
+        // Collect all of the keys used in the main bundles and keep track of the languages
+        // in which they are available
         $.each(testData.mainBundles, function(mainBundleKey, mainBundle) {
             $.each(mainBundle, function(key, value) {
-                mainKeys[key] = mainBundleKey;
+                mainKeys[key] = mainKeys[key] || [];
+                mainKeys[key].push(mainBundleKey);
             });
         });
 
-        // Check if widget keys are already defined in the global bundles
-        $.each(testData.widgetData, function(widgetID, widget) {
+        // Collect all of the keys used in the widget bundles and keep track of which widgets
+        // and which languages inside of those widgets they're being used in
+        $.each(testData.widgetData, function(widgetId, widget) {
             if (widget.i18n) {
-                test('Widget key already defined in global bundle - ' + widget.id, function() {
-                    // Loop over all bundles in the widget
-                    $.each(widget.bundles, function(widgetBundleKey, widgetBundle) {
-                        // Loop over all keys in the bundle
-                        $.each(widgetBundle, function(i18nKey, widgetValue) {
-                            // Check each global bundle to see if key is already defined
-                            if (mainKeys[i18nKey]) {
-                                // Key already exists in the main bundle
-                                QUnit.ok(false, i18nKey + ' already exists in main bundle' + mainKeys[i18nKey]);
-                            } else {
-                                // Key doesn't exist yet in the main bundle
-                                QUnit.ok(true, i18nKey + ' doesn\'t exist yet in the main bundles');
-                            }
-
-                            // Check if it was already defined by a previous widget
-                            if (widgetKeys[i18nKey] && widgetKeys[i18nKey] !== widgetID) {
-                                // Key already exists in another widget
-                                QUnit.ok(false, i18nKey + ' already exists in ' + widgetKeys[i18nKey]);
-                            } else {
-                                // Key doesn't exist yet in the main bundle
-                                QUnit.ok(true, i18nKey + ' doesn\'t exist yet in another widget');
-                            }
-
-                            widgetKeys[i18nKey] = widgetID;
-                        });
+                $.each(widget.i18n, function(widgetBundleKey, widgetBundle) {
+                    $.each(widgetBundle, function(i18nKey, i18nValue) {
+                        widgetKeys[i18nKey] = widgetKeys[i18nKey] || {};
+                        widgetKeys[i18nKey][widgetBundleKey] = widgetKeys[i18nKey][widgetBundleKey] || [];
+                        widgetKeys[i18nKey][widgetBundleKey].push(widgetId);
                     });
                 });
             }
+        });
+
+        $.each(testData.widgetData, function(widgetId, widget) {
+            test(widget.id, function() {
+                if (widget.i18n) {
+                    // Loop over all bundles in the widget
+                    $.each(widget.i18n, function(widgetBundleKey, widgetBundle) {
+                        // Loop over all keys in the bundle
+                        $.each(widgetBundle, function(i18nKey, i18nValue) {
+
+                            // Check if the widget key is already defined in the main bundle
+                            if (mainKeys[i18nKey] && _.contains(mainKeys[i18nKey], widgetBundleKey)) {
+                                // Key already exists in the main bundle
+                                ok(false, i18nKey + ' already exists in main bundle ' + widgetBundleKey);
+                            } else {
+                                // Key doesn't exist yet in the main bundle
+                                ok(true, i18nKey + ' doesn\'t exist yet in the main bundles');
+                            }
+
+                            // Check if the widget key is already defined in other widget bundles. We expect the collected
+                            // object to have at least 1 record for the current widget. When there is more than 1 record, the
+                            // key is being in multiple widgets
+                            if (widgetKeys[i18nKey][widgetBundleKey].length > 1) {
+                                // Key is used in a different widget bundle
+                                ok(false, i18nKey + ' is also being used in ' + _.without(widgetKeys[i18nKey][widgetBundleKey], widgetId) + ' - ' + widgetBundleKey);
+                            } else {
+                                // Key isn't used in a different widget bundle
+                                ok(true, i18nKey + ' is not being used in a different widget');
+                            }
+                        });
+                    });
+                }  else {
+                    ok(true, '\'' + widgetId + '\' does not have any bundles');
+                }
+            });
         });
 
         // Start consuming tests again.

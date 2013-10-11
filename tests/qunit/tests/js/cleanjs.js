@@ -17,7 +17,7 @@ require(['oae.core', '/tests/qunit/js/util.js', 'jquery', '/shared/vendor/js/jsh
 
     module("Clean JavaScript");
 
-    var consoleregex = new RegExp(/console\.(?:log|warn|error|debug|trace)/g);
+    var consoleregex = new RegExp(/console\.(?:log|debug|trace)/g);
     var alertregex = new RegExp(/alert\([.\s\S]*\)/g);
 
     /**
@@ -29,10 +29,10 @@ require(['oae.core', '/tests/qunit/js/util.js', 'jquery', '/shared/vendor/js/jsh
         var matches = consoleregex.exec(jsFile);
         if (matches && matches.length) {
             $.each(matches, function() {
-                ok(false, 'Found console.(log|warn|error|debug|trace)');
+                ok(false, 'Found console.(log|debug|trace)');
             });
         } else {
-            ok(true, 'No console.(log|warn|error|debug|trace) calls');
+            ok(true, 'No console.(log|debug|trace) calls');
         }
     };
 
@@ -96,7 +96,7 @@ require(['oae.core', '/tests/qunit/js/util.js', 'jquery', '/shared/vendor/js/jsh
         };
 
         // Check the widgets for clean javascript
-        $.each(testData.widgetData, function(widgetID, widget) {
+        $.each(testData.widgetData, function(widgetId, widget) {
             runTest(widget.id, widget.js);
         });
 

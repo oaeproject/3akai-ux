@@ -27,7 +27,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
      */
     var filterVendorScripts = function(paths) {
         return _.filter(paths, function(path) {
-            return (path.indexOf('/shared/vendor') !== 0);
+            return (path && path.indexOf('/shared/vendor') !== 0);
         });
     };
 
@@ -52,9 +52,9 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
         paths = filterVendorScripts(paths);
 
         oae.api.util.staticBatch(paths, function(err, data) {
-            $.each(data, function(path, js) {
+            $.each(data, function(widgetJSPath, widgetJS) {
                 var widgetName = widgetJSPath.split('/').pop().split('.')[0];
-                testData.widgetData[widgetName].js = js;
+                testData.widgetData[widgetName].js = widgetJS;
             });
             callback(testData);
         });
@@ -259,9 +259,9 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
 
                     // Some bundle files are empty though, so do a check
                     if (bundle) {
-                        testData.widgetData[widgetName].bundles[bundleName] = $.parseProperties(bundle);
+                        testData.widgetData[widgetName].i18n[bundleName] = $.parseProperties(bundle);
                     } else {
-                        testData.widgetData[widgetName].bundles[bundleName] = {};
+                        testData.widgetData[widgetName].i18n[bundleName] = {};
                     }
                 });
 
@@ -273,9 +273,8 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
         var paths = [];
         $.each(testData.widgetData, function(widgetIndex, widget) {
             if (widget.i18n) {
-                testData.widgetData[widget.id].bundles = {};
                 $.each(widget.i18n, function(bundleIndex, bundle) {
-                    paths.push('/node_modules/' + widget.path + 'bundles/' + bundle + '.properties');
+                    paths.push('/node_modules/' + widget.path + bundle);
                 });
             }
         });
