@@ -78,10 +78,11 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 }
 
 .nav-list .nav-header {
-    text-transform: none;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 500;
     margin-bottom: 10px;
-    font-size: 12px;
+    margin-top: 5px;
+    text-transform: none;
 }
 
 /* MEDIA OBJECTS
