@@ -608,7 +608,7 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .oae-clip .oae-clip-content > button > div {
-    float: left
+    float: left;
 }
 
 .oae-clip .oae-clip-content > button > div:nth-child(2) > div {
@@ -1181,7 +1181,7 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
 .oae-list-options .btn.oae-list-options-toggle:focus {
     background: none;
     border: none;
-    filter:none;
+    filter: none;
     padding: 1px 0;
     -webkit-box-shadow: none;
        -moz-box-shadow: none;

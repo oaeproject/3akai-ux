@@ -102,6 +102,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         document.title = require('oae.api.i18n').translate(title.join(' - '));
     };
 
+
     ////////////////////////////////
     // TRIMPATH TEMPLATE RENDERER //
     ////////////////////////////////
@@ -536,6 +537,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         };
     };
 
+
     ///////////////
     // CLICKOVER //
     ///////////////
@@ -606,6 +608,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         // flow to be incorrect
         $('.popover-title').remove();
     };
+
 
     /////////////////
     // AUTOSUGGEST //
@@ -998,6 +1001,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
      */
     var renderMath = exports.renderMath = function($element) {};
 
+
     //////////////
     // SECURITY //
     //////////////
@@ -1067,6 +1071,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             'encodeForURL': encodeForURL
         };
     };
+
 
     ///////////////
     // REDIRECTS //

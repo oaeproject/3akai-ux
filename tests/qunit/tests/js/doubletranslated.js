@@ -13,54 +13,63 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, util) {
+require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util) {
 
-        module("Double Translation Keys");
+    module("Double Translation Keys");
 
-        /**
-         * Initializes the double tranlsated keys test module
-         *
-         * @param  {Object}   widgetData    Object containing the manifests of all widgets in node_modules/oae-core.
-         */
-        var doubleTranslationKeysTest = function(widgetData) {
-            // Store each key in an object, if the same key is added twice it's considered a duplicate
-            var keys = {};
-            test('default.properties', function() {
-                $.each(widgetData.mainBundles['default'], function(keyName, mainKey) {
-                    if (keys[keyName]) {
-                        // The key exists already, test fails
-                        QUnit.ok(false, keyName + ' already exists in the global bundles');
-                    } else {
-                        keys[keyName] = 'default global' ;
-                        QUnit.ok(true, keyName + ' isn\'t used in any other widgets or in the default bundles');
-                    }
-                });
+    /**
+     * Checks for each widget if a key is already defined in one of the core bundles or in another widget
+     *
+     * @param {Object}    testData    The testdata containing all files to be tested (html, css, js, properties)
+     */
+    var doubleTranslationKeysTest = function(testData) {
+        var widgetKeys = {};
+        var mainKeys = {};
+
+        $.each(testData.mainBundles, function(mainBundleKey, mainBundle) {
+            $.each(mainBundle, function(key, value) {
+                mainKeys[key] = mainBundleKey;
             });
+        });
 
-            $.each(widgetData.widgetData, function(i, widget) {
-                test(widget.id, function() {
-                    if (widget.i18n && widget.i18n['default']) {
-                        $.each(widget.i18n, function(ii, widgetBundle) {
-                            $.each(widgetBundle, function(keyName, widgetKey) {
-                                if (keys[keyName] && keys[keyName] === 'default global') {
-                                    // The key exists already, test fails
-                                    QUnit.ok(false, keyName + ' in ' + ii + ' already exists in the ' + keys[keyName] + ' bundle');
-                                } else {
-                                    keys[keyName] = ii + ' ' + widget.id;
-                                    QUnit.ok(true, keyName + ' isn\'t used in any other widgets or in the default bundles');
-                                }
-                            });
+        // Check if widget keys are already defined in the global bundles
+        $.each(testData.widgetData, function(widgetID, widget) {
+            if (widget.i18n) {
+                test('Widget key already defined in global bundle - ' + widget.id, function() {
+                    // Loop over all bundles in the widget
+                    $.each(widget.i18n, function(widgetBundleKey, widgetBundle) {
+                        // Loop over all keys in the bundle
+                        $.each(widgetBundle, function(i18nKey, widgetValue) {
+                            // Check each global bundle to see if key is already defined
+                            if (mainKeys[i18nKey]) {
+                                // Key already exists in the main bundle
+                                QUnit.ok(false, i18nKey + ' already exists in main bundle' + mainKeys[i18nKey]);
+                            } else {
+                                // Key doesn't exist yet in the main bundle
+                                QUnit.ok(true, i18nKey + ' doesn\'t exist yet in the main bundles');
+                            }
+
+                            // Check if it was already defined by a previous widget
+                            if (widgetKeys[i18nKey] && widgetKeys[i18nKey] !== widgetID) {
+                                // Key already exists in another widget
+                                QUnit.ok(false, i18nKey + ' already exists in ' + widgetKeys[i18nKey]);
+                            } else {
+                                // Key doesn't exist yet in the main bundle
+                                QUnit.ok(true, i18nKey + ' doesn\'t exist yet in another widget');
+                            }
+
+                            widgetKeys[i18nKey] = widgetID;
                         });
-                    } else {
-                        QUnit.ok(true, 'This widget has no i18n keys');
-                    }
+                    });
                 });
-            });
-        };
+            }
+        });
 
-        util.loadWidgets(doubleTranslationKeysTest);
+        // Start consuming tests again.
+        QUnit.start(2);
+    };
 
-        QUnit.load();
-        QUnit.start();
-    }
-);
+    // Stop consuming QUnit test and load the widgets asynchronous
+    QUnit.stop();
+    util.loadTestData(doubleTranslationKeysTest);
+});
