@@ -28,6 +28,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         autoSuggest().init();
         // Load the OAE TrimPath Template macros
         template().init(callback);
+        // Set up Google Analytics
+        googleAnalytics().init();
     };
 
     /**
@@ -324,6 +326,35 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             'message': {'html': message},
             'transition': 'slideDown'
         }).show();
+    };
+
+    /**
+     *  Setup Google Analytics
+     */
+    var googleAnalytics = function() {
+
+        /**
+         * Initialize Google Analytics
+         */
+        var init = function() {
+
+            // Check if Google Analytics is enabled for tenant
+            if (configAPI.getValue('oae-google-analytics', 'google-analytics', 'enabled')) {
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+                var id = configAPI.getValue('oae-google-analytics', 'google-analytics', 'id');
+
+                ga('create', id, window.location.hostname);
+                ga('send', 'pageview');
+            }
+        };
+
+        return {
+            'init': init
+        };
     };
 
     /*!
