@@ -10,4 +10,4 @@ files:
 
   -
     source: '/node_modules/oae-*/**/bundles/default.properties'
-    translation: '%original_path%/%locale_with_underscore%.properties'
+    translation: '/%original_path%/%locale_with_underscore%.properties'
