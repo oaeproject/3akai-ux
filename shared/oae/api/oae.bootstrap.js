@@ -25,7 +25,6 @@ requirejs.config({
         // Vendor paths
         'bootstrap': 'vendor/js/bootstrap',
         'bootstrap.clickover': 'vendor/js/bootstrap-plugins/bootstrapx.clickover',
-        'flowplayer': 'vendor/js/flowplayer/flowplayer.min',
         'globalize': 'vendor/js/l10n/globalize',
         'jquery.autosuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest',
         'jquery.encoder': 'vendor/js/jquery-plugins/jquery.encoder',
