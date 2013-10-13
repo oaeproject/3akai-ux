@@ -20,84 +20,84 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
     /**
      * Check elements for WCAG 2.0 compliance
      *
-     * @param  {Object}      $elt        The element to check
+     * @param  {Object}      $el         The element to check
      * @param  {Function}    callback    Standard callback function
      */
-    var checkElements = function($elt, callback) {
-        // If there are no elements that need to be checked we show a success message in the end.
+    var checkElements = function($el, callback) {
+        // If there are no elements that need to be checked we show a success message in the end
         var needsChecking = false;
 
-        $.each($elt.find('a'), function(i, elt) {
+        $.each($el.find('a'), function(i, el) {
             needsChecking = true;
-            ok($(elt).attr('title') || $(elt).text() || $(elt).find('*').text() || ($(elt).html() === '<!-- -->') || $(elt).find('img').attr('alt'), 'A tag has text or children that have text: ' + $('<div/>').html(elt).html());
+            ok($(el).attr('title') || $(el).text() || $(el).find('*').text() || ($(el).html() === '<!-- -->') || $(el).find('img').attr('alt'), 'A tag has text or children that have text: ' + $('<div/>').html(el).html());
         });
 
-        $.each($elt.find('button'), function(i, elt) {
+        $.each($el.find('button'), function(i, el) {
             needsChecking = true;
-            ok(!($(elt).attr('title') && $(elt).text() && !$.trim($(elt).text())) && ($(elt).attr('title') || $(elt).find('img').attr('alt') || $.trim($(elt).text()) || $.trim($(elt).find('*').text()) || ($(elt).html() === '<!-- -->')), 'BUTTON tag has text or children that have text: ' + $('<div/>').html(elt).html());
+            ok(!($(el).attr('title') && $(el).text() && !$.trim($(el).text())) && ($(el).attr('title') || $(el).find('img').attr('alt') || $.trim($(el).text()) || $.trim($(el).find('*').text()) || ($(el).html() === '<!-- -->')), 'BUTTON tag has text or children that have text: ' + $('<div/>').html(el).html());
         });
 
-        $.each($elt.find('img'), function(i, elt) {
+        $.each($el.find('img'), function(i, el) {
             needsChecking = true;
             var parentTitle = false;
-            if ($(elt).parent().attr('title') && $(elt).parent().attr('title').length) {
+            if ($(el).parent().attr('title') && $(el).parent().attr('title').length) {
                 parentTitle = true;
             }
-            ok($(elt).attr('alt') || $(elt).prev('img').attr('src') === $(elt).attr('src') || parentTitle, 'IMG tag has ALT attribute:' + $('<div/>').html(elt).html());
+            ok($(el).attr('alt') || $(el).prev('img').attr('src') === $(el).attr('src') || parentTitle, 'IMG tag has ALT attribute:' + $('<div/>').html(el).html());
         });
 
-        $.each($elt.find('input[type="image"]'), function(i, elt) {
+        $.each($el.find('input[type="image"]'), function(i, el) {
             needsChecking = true;
-            ok($(elt).attr('alt'), 'INPUT img type tag has ALT attribute:' + $('<div/>').html(elt).html());
+            ok($(el).attr('alt'), 'INPUT img type tag has ALT attribute:' + $('<div/>').html(el).html());
         });
 
-        $.each($elt.find('applet'), function(i, elt) {
+        $.each($el.find('applet'), function(i, el) {
             needsChecking = true;
-            ok($(elt).attr('alt'), 'APPLET tag has ALT attribute: ' + $('<div/>').html(elt).html());
+            ok($(el).attr('alt'), 'APPLET tag has ALT attribute: ' + $('<div/>').html(el).html());
         });
 
-        $.each($elt.find('object'), function(i, elt) {
+        $.each($el.find('object'), function(i, el) {
             needsChecking = true;
-            ok($(elt).children().length > 0, 'OBJECT tag has contents: ' + $('<div/>').html(elt).html());
+            ok($(el).children().length > 0, 'OBJECT tag has contents: ' + $('<div/>').html(el).html());
         });
 
-        $.each($elt.find('area'), function(i, elt) {
+        $.each($el.find('area'), function(i, el) {
             needsChecking = true;
-            ok($(elt).attr('alt'), 'AREA tag has ALT attribute: ' + $('<div/>').html(elt).html());
+            ok($(el).attr('alt'), 'AREA tag has ALT attribute: ' + $('<div/>').html(el).html());
         });
 
-        $.each($elt.find('abbr'), function(i, elt) {
+        $.each($el.find('abbr'), function(i, el) {
             needsChecking = true;
-            ok($(elt).attr('title'), 'ABBR tag has TITLE attribute: ' + $('<div/>').html(elt).html());
+            ok($(el).attr('title'), 'ABBR tag has TITLE attribute: ' + $('<div/>').html(el).html());
         });
 
-        $.each($elt.find('textarea'), function(i, elt) {
+        $.each($el.find('textarea'), function(i, el) {
             needsChecking = true;
-            // check if textarea has an attached label element, otherwise it needs a title attribute
+            // Check if textarea has an attached label element, otherwise it needs a title attribute
             var hasLabel = false;
-            if ($(elt).attr('id')) {
-                var textareaId = $(elt).attr('id');
-                $.each($elt.find('label'), function(j, label) {
+            if ($(el).attr('id')) {
+                var textareaId = $(el).attr('id');
+                $.each($el.find('label'), function(j, label) {
                     if ($(label).attr('for') === textareaId) {
                         hasLabel = true;
                     }
                 });
             }
 
-            ok($(elt).attr('title') || hasLabel, 'TEXTAREA tag has TITLE attribute or LABEL element: ' + $('<div/>').html(elt).html());
-            ok(!$(elt).attr('alt'), 'TEXTAREA tag does not have ALT attribute: ' + $('<div/>').html(elt).html());
+            ok($(el).attr('title') || hasLabel, 'TEXTAREA tag has TITLE attribute or LABEL element: ' + $('<div/>').html(el).html());
+            ok(!$(el).attr('alt'), 'TEXTAREA tag does not have ALT attribute: ' + $('<div/>').html(el).html());
         });
 
-        $.each($elt.find('input, select'), function(i, elt) {
+        $.each($el.find('input, select'), function(i, el) {
             needsChecking = true;
-            ok(!$(elt).attr('alt'), 'INPUT/SELECT tag does not have ALT attribute: ' + $('<div/>').html(elt).html());
+            ok(!$(el).attr('alt'), 'INPUT/SELECT tag does not have ALT attribute: ' + $('<div/>').html(el).html());
         });
 
-        $.each($elt.find('div'), function(i, elt) {
-            var divHtml = $(elt).html();
+        $.each($el.find('div'), function(i, el) {
+            var divHtml = $(el).html();
             if (divHtml.substr(0, 4) === '<!--' && divHtml.substr(divHtml.length - 3, divHtml.length) === '-->') {
                 needsChecking = true;
-                // this is a javascript template, check the elements in the template
+                // This is a javascript template, check the elements in the template
                 var templateData = divHtml.substring(5, divHtml.length - 4);
 
                 // We need to empty out the SRC since otherwise we'll get unnecessary error messages
@@ -118,7 +118,7 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
     };
 
     /**
-     * Check HTML pages and test for WCAG compliance
+     * Check HTML for WCAG compliance
      *
      * @param  {Object}    testData    The testdata containing all files to be tested (html, css, js, properties)
      */

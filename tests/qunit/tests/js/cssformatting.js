@@ -18,7 +18,7 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
     module("CSS Formatting");
 
     /**
-     * Test the CSS against a provided regular expression
+     * Test a CSS file against a provided regular expression
      *
      * @param  {String}    cssFile        The CSS file to test
      * @param  {Object}    regex          The regular expression to test the CSS against
@@ -28,7 +28,6 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
         // Remove comments from file to test
         var testFile = cssFile.replace(/(\/\*([\s\S]*?)\*\/)|(\/\/(.*)$)/gm, '');
         var match = '';
-        var pass = true;
         var errorString = '';
         var count = 0;
 
@@ -37,12 +36,11 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
                 var beforeMatch = cssFile.substring(0, match.index);
                 var matchLine = beforeMatch.split(/\n/).length;
                 count++;
-                pass = false;
                 errorString = errorString + '\n\nLine: ' + matchLine + '\nString:\n' + match + '';
             }
         }
 
-        if (pass) {
+        if (count === 0) {
             ok(true, description);
         } else {
             ok(false, description + ', ' + count + ' error(s): ' + errorString);
@@ -50,7 +48,7 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
     };
 
     /**
-     * Prepares several regexes to test the CSS against and executes the test
+     * Test a CSS file for formatting issues
      *
      * @param  {String}    cssFile    The CSS file to be tested
      */
@@ -102,12 +100,12 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
     };
 
     /**
-     * Initializes the CSS Formatting test
+     * Initialize the CSS Formatting test
      *
      * @param  {Object}   testData    The testdata containing all files to be tested (html, css, js, properties)
      */
     var cssFormattingTest = function(testData) {
-        // Test that the main and UI CSS files are properly formatted
+        // Test that the main CSS files are properly formatted
         $.each(testData.mainCSS, function(mainCSSPath, mainCSS) {
             test(mainCSSPath, function() {
                 if (mainCSS) {

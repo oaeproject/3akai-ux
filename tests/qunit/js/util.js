@@ -22,8 +22,8 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
     /**
      * Filter all vendor scripts so they can be excluded from testing
      *
-     * @param  {String[]}    paths    Array of paths to javascript files
-     * @return {String[]}             List of javascript files from which the vendor scripts have been filtered
+     * @param  {String[]}    paths    Array of paths to JavaScript files
+     * @return {String[]}             List of JavaScript files from which the vendor scripts have been filtered
      */
     var filterVendorScripts = function(paths) {
         return _.filter(paths, function(path) {
@@ -32,7 +32,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
     };
 
     /**
-     * Load the widget javascript through a batch request
+     * Load the widget JavaScript through a batch request
      *
      * @param  {Object}      testData               The test data containing all files to be tested (html, css, js, properties)
      * @param  {Function}    callback               Standard callback function
@@ -61,7 +61,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
     };
 
     /**
-     * Load the main JS files through a batch request
+     * Load the main JavaScript files through a batch request
      *
      * @param  {Object}      testData               The test data containing all files to be tested (html, css, js, properties)
      * @param  {Function}    callback               Standard callback function
@@ -90,14 +90,13 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
     };
 
     /**
-     * Load the API JS files through a batch request
+     * Load the API JavaScript files through a batch request
      *
      * @param  {Object}      testData               The test data containing all files to be tested (html, css, js, properties)
      * @param  {Function}    callback               Standard callback function
      * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
      */
     var loadAPIJS = exports.loadAPIJS = function(testData, callback) {
-        // Create array of paths to request
         var paths = [];
         $.each(testData.apiJS, function(jsIndex) {
             paths.push(jsIndex);
@@ -112,14 +111,13 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
     };
 
     /**
-     * Load the OAE specific plugin JS files through a batch request
+     * Load the OAE specific plugin JavaScript files through a batch request
      *
      * @param  {Object}      testData               The test data containing all files to be tested (html, css, js, properties)
      * @param  {Function}    callback               Standard callback function
      * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
      */
     var loadOAEPlugins = exports.loadOAEPlugins = function(testData, callback) {
-        // Create array of paths to request
         var paths = [];
         $.each(testData.oaePlugins, function(pluginIndex) {
             paths.push(pluginIndex);
@@ -141,7 +139,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
      * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
      */
     var loadWidgetCSS = exports.loadWidgetCSS = function(testData, callback) {
-        // Parse the HTML files and extract the CSS links
+        // Parse the HTML files and extract the CSS files
         var paths = [];
         $.each(testData.widgetData, function(widgetIndex, widget) {
             var $html = $('<div/>').html(widget.html);
@@ -170,10 +168,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
      * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
      */
     var loadMainCSS = exports.loadMainCSS = function(testData, callback) {
-        var paths = [];
-        $.each(testData.mainCSS, function(cssPath) {
-            paths.push(cssPath);
-        });
+        var paths = _.keys(testData.mainCSS);
 
         $.each(testData.mainHTML, function(htmlPath, mainHTML) {
             var $html = $('<div/>').html(mainHTML);
@@ -214,17 +209,14 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
     };
 
     /**
-     * Load the widget html through a batch request
+     * Load the widget HTML through a batch request
      *
      * @param  {Object}      testData               The test data containing all files to be tested (html, css, js, properties)
      * @param  {Function}    callback               Standard callback function
      * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
      */
     var loadMainHTML = exports.loadMainHTML = function(testData, callback) {
-        var paths = [];
-        $.each(testData.mainHTML, function(htmlIndex) {
-            paths.push(htmlIndex);
-        });
+        var paths = _.keys(testData.mainHTML);
 
         oae.api.util.staticBatch(paths, function(err, data) {
             $.each(data, function(htmlIndex, html) {
@@ -243,33 +235,6 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
      */
     var loadWidgetBundles = exports.loadWidgetBundles = function(testData, callback) {
 
-        /**
-         * Executes a batch request for widget bundles and parses them
-         *
-         * @param  {String[]]}   paths       Array of paths to widget bundle files
-         * @param  {Function}    _callback   Standard callback function
-         */
-        var doBatchRequest = function(paths, _callback) {
-            oae.api.util.staticBatch(paths, function(err, data) {
-                // For each bundle, extract the widget and bundle name and parse the properties
-                $.each(data, function(bundleIndex, bundle) {
-                    var splitPath = bundleIndex.split('/');
-                    var widgetName = splitPath[splitPath.length - 3];
-                    var bundleName = splitPath.pop().split('.')[0];
-
-                    // Some bundle files are empty though, so do a check
-                    if (bundle) {
-                        testData.widgetData[widgetName].i18n[bundleName] = $.parseProperties(bundle);
-                    } else {
-                        testData.widgetData[widgetName].i18n[bundleName] = {};
-                    }
-                });
-
-                _callback(err, data);
-            });
-        };
-
-        // Create an array of paths to request, group per 100 to avoid large GET requests
         var paths = [];
         $.each(testData.widgetData, function(widgetIndex, widget) {
             if (widget.i18n) {
@@ -280,32 +245,46 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
         });
 
         /**
-         * Retrieves data in batches of 100 requests, calls itsself and fetches more data if needed
+         * Execute a batch request per 100 widget bundles to avoid large GET requests and parse them
+         *
+         * @param  {String[]]}   paths       Array of paths to widget bundle files
          */
-        var startGettingData = function() {
-            if (paths.length === 0) {
-                callback(testData);
-            } else {
-                var pathsToRetrieve = paths.splice(0, 100);
-                doBatchRequest(pathsToRetrieve, startGettingData);
-            }
+        var retrieveWidgetBundles = function(paths) {
+            var pathsToRetrieve = paths.splice(0, 100);
+            oae.api.util.staticBatch(pathsToRetrieve, function(err, data) {
+                // For each bundle, extract the widget and bundle name and parse the properties
+                $.each(data, function(bundleIndex, bundle) {
+                    var splitPath = bundleIndex.split('/');
+                    var widgetName = splitPath[splitPath.length - 3];
+                    var bundleName = splitPath.pop().split('.')[0];
+
+                    if (bundle) {
+                        testData.widgetData[widgetName].i18n[bundleName] = $.parseProperties(bundle);
+                    } else {
+                        testData.widgetData[widgetName].i18n[bundleName] = {};
+                    }
+                });
+
+                if (paths.length === 0) {
+                    callback(testData);
+                } else {
+                    retrieveWidgetBundles(paths);
+                }
+            });
         };
 
-        startGettingData();
+        retrieveWidgetBundles(paths);
     };
 
     /**
-     * Loads the main bundle files
+     * Load the main bundles through a batch request
      *
      * @param  {Object}      testData               The test data containing all files to be tested (html, css, js, properties)
      * @param  {Function}    callback               Standard callback function
      * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
      */
     var loadMainBundles = exports.loadMainBundles = function(testData, callback) {
-        var paths = [];
-        $.each(testData.mainBundles, function(bundleIndex) {
-            paths.push(bundleIndex);
-        });
+        var paths = _.keys(testData.mainBundles);
 
         oae.api.util.staticBatch(paths, function(err, data) {
             $.each(data, function(bundleIndex, bundle) {
@@ -316,10 +295,9 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
     };
 
     /**
-     * Loads the widget data
+     * Load the HTML, bundles, JavaScript and CSS for all core code and all widgets
      */
     var loadTestData = exports.loadTestData = function(callback) {
-        // Gather the widget and main test data
         var testData = {
             'widgetData': oae.api.widget.getWidgetManifests(),
             'mainBundles': {

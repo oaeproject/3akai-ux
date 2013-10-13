@@ -17,13 +17,15 @@ require(['oae.core', '/tests/qunit/js/util.js', 'jquery', '/shared/vendor/js/jsh
 
     module("Clean JavaScript");
 
+    // Regular expression that will be used to check for console.log, console.debug and console.trace statements
     var consoleregex = new RegExp(/console\.(?:log|debug|trace)/g);
+    // Regular expression that will be used to check fro alert statements
     var alertregex = new RegExp(/alert\([.\s\S]*\)/g);
 
     /**
-     * Checks for console.log('') statements in the code
+     * Check for console statements in the code
      *
-     * @param  {String}   jsFile        The contents of the file in the form of a string
+     * @param  {String}   jsFile        The contents of a JavaScript file
      */
     var checkForConsoleLog = function(jsFile) {
         var matches = consoleregex.exec(jsFile);
@@ -37,9 +39,9 @@ require(['oae.core', '/tests/qunit/js/util.js', 'jquery', '/shared/vendor/js/jsh
     };
 
     /**
-     * Checks for alert() statements in the code
+     * Check for alert statements in the code
      *
-     * @param  {String}   jsFile    The contents of the file in the form of a string
+     * @param  {String}   jsFile        The contents of a JavaScript file
      */
     var checkForAlert = function(jsFile) {
         var matches = alertregex.exec(jsFile);
@@ -53,14 +55,14 @@ require(['oae.core', '/tests/qunit/js/util.js', 'jquery', '/shared/vendor/js/jsh
     };
 
     /**
-     * Runs the file through JSHint
+     * Run a JavaScript file through JSHint
      *
-     * @param  {String}     jsFile        The contents of the file in the form of a string
+     * @param  {String}     jsFile        The contents of a JavaScript file
      */
     var JSHintfile = function(jsFile) {
         var result = JSHINT(jsFile, {
             'eqeqeq': true, // use === and !== instead of == and !=
-            'sub': true // ignore dot notation recommendations - ie ['userid'] should be .userid
+            'sub': true     // ignore dot notation recommendations - ie ['userid'] should be .userid
         });
         if (result) {
             ok(result, 'JSHint clean');
@@ -75,38 +77,38 @@ require(['oae.core', '/tests/qunit/js/util.js', 'jquery', '/shared/vendor/js/jsh
     };
 
     /**
-     * Initializes the clean JS Test module
+     * Initialize the clean JavaScript test
      *
-     * @param  {Object}   testData    Object containing the manifests of all widgets in node_modules/oae-core.
+     * @param  {Object}   testData    The test data containing all files to be tested (html, css, js, properties)
      */
     var cleanJSTest = function(testData) {
 
         /**
-         * Tests the given jsFile for `console.log` and `alert` and runs the file through JSHint.
+         * Test a JavaScript file for console and alert statements and run the file through JSHint
          *
-         * @param  {[type]}    testTitle    The title of the test
-         * @param  {[type]}    jsFile       The contents of the file in the form of a string
+         * @param  {String}    testTitle    The title of the test
+         * @param  {String}    jsFile       The contents of a JavaScript file
          */
         var runTest = function(testTitle, jsFile) {
             test(testTitle, function() {
-                checkForConsoleLog(jsFile, testTitle);
+                checkForConsoleLog(jsFile);
                 checkForAlert(jsFile);
                 JSHintfile(jsFile);
             });
         };
 
-        // Check the widgets for clean javascript
+        // Check the widgets for clean JavaScript
         $.each(testData.widgetData, function(widgetId, widget) {
             runTest(widget.id, widget.js);
         });
 
-        // Check the API for clean javascript
+        // Check the API for clean JavaScript
         $.each(testData.apiJS, runTest);
 
-        // Check the main JavaScript files for clean javascript
+        // Check the main JavaScript files for clean JavaScript
         $.each(testData.mainJS, runTest);
 
-        // Check the OAE plugins JavaScript files for clean javascript
+        // Check the OAE plugins JavaScript files for clean JavaScript
         $.each(testData.oaePlugins, runTest);
 
         // Start consuming tests again

@@ -17,7 +17,7 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
 
     module("Uninternationalized Strings");
 
-    // Attributes to test for
+    // Attributes to test for untranslated strings
     var attrs = ['alt', 'title'];
 
     // The following regular expressions are used to verify that a string is an i18n key or an untranslated string
@@ -43,48 +43,48 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
     /**
      * Test a string to make sure it is not a plain-text, non-internationalized string
      *
-     * @param   {String}    str     The string to test
-     * @return  {Boolean}   true    If the string is internationalized or a number, false otherwise
+     * @param  {String}    input     The string to test
+     * @return {Boolean}             True if the string is internationalized or a number, false otherwise
      */
-     var testString = function(str) {
+     var testString = function(input) {
          return (
                     (
-                        regex.test(str) ||
+                        regex.test(input) ||
                         (
-                            templateRegex.test(str) &&
+                            templateRegex.test(input) &&
                             !(
-                                regex.test(str) ||
-                                templateStartAlphaRegex.test(str) ||
-                                templateEndAlphaRegex.test(str) ||
-                                templateMiddleAlphaRegex.test(str)
+                                regex.test(input) ||
+                                templateStartAlphaRegex.test(input) ||
+                                templateEndAlphaRegex.test(input) ||
+                                templateMiddleAlphaRegex.test(input)
                             )
                         )
                     ) ||
                     // Allow numbers to be non-internationalized
-                    !alpha.test(str) ||
-                    urlRegex.test(str) ||
-                    requireRegex.test(str) ||
-                    metaRegex.test(str)
+                    !alpha.test(input) ||
+                    urlRegex.test(input) ||
+                    requireRegex.test(input) ||
+                    metaRegex.test(input)
                  );
      };
 
     /**
-     * Check the element against the global array of attributes for internationalized strings
+     * Check an element's attributes for uninternationalized strings
      *
-     * @param  {jQuery}    $elt    The element to check for attributes (and all its children)
+     * @param  {jQuery}    $el    The element (and all of its children) for which to check the attributes for uninternationalized strings
      */
-    var checkAttrs = function($elt) {
+    var checkAttrs = function($el) {
         $.each(attrs, function(i, val) {
-            if ($elt.find('[' + val + ']').length) {
+            if ($el.find('[' + val + ']').length) {
                 // Grab any element with the attribute, and filter out any empties
-                $.each($elt.find('[' + val + ']').filter(function(index) {
+                $.each($el.find('[' + val + ']').filter(function(index) {
                     if (typeof $(this).attr(val) === 'string') {
                         return $.trim($(this).attr(val)) !== '';
                     } else {
                         return false;
                     }
-                }), function(j, elt) {
-                    var attrText = $.trim($(elt).attr(val));
+                }), function(j, el) {
+                    var attrText = $.trim($(el).attr(val));
                     var pass = testString(attrText);
                     ok(pass, val.toUpperCase() + ' Text: ' + attrText);
                 });
@@ -95,17 +95,17 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
     };
 
     /**
-     * Check the element's text for internationalized strings
+     * Check an element's text for uninternationalized strings
      *
-     * @param  {jQuery}    $elt    The element to check (and all its children)
+     * @param  {jQuery}    $el    The element (and all its children) to check for uninternationalized strings
      */
-    var checkElements = function($elt) {
-        if ($elt.find('*:not(:empty)').length) {
+    var checkElements = function($el) {
+        if ($el.find('*:not(:empty)').length) {
             // check all elements with no children that have text, filtering out any empties (post-trim)
-            $.each($elt.find('*:not(:empty)').filter(function(index) {
+            $.each($el.find('*:not(:empty)').filter(function(index) {
                 return $(this).children().length === 0 && $.trim($(this).text()) !== '';
-            }), function(i,elt) {
-                var tagText = $.trim($(elt).text());
+            }), function(i, el) {
+                var tagText = $.trim($(el).text());
                 var pass = testString(tagText);
                 ok(pass, 'String: ' + tagText);
             });
@@ -115,7 +115,7 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
     };
 
     /**
-     * Initializes the Uninternationalized Strings module
+     * Initialize the Uninternationalized Strings test
      *
      * @param  {Object}   testData    The testdata containing all files to be tested (html, css, js, properties)
      */
@@ -129,7 +129,8 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
             });
         });
 
-        // Check main HTML and macros for uninternationalized strings
+        // Check main HTML and macros for uninternationalized strings. A set of static files
+        // is excluded from these checks
         var mainHTMLBlacklist = ['/shared/oae/errors/noscript.html', '/shared/oae/errors/maintenance.html', '/shared/oae/errors/unavailable.html'];
         $.each(testData.mainHTML, function(page, mainHTML) {
             // Ignore blacklisted pages

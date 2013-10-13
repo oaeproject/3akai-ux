@@ -18,10 +18,10 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
     module("JavaScript Formatting");
 
     /**
-     * Test the JavaScript against a provided regular expression
+     * Test a JavaScript file against a provided regular expression
      *
      * @param  {String}    path           The path to the `jsFile`
-     * @param  {String}    jsFile         The actual content that should be tested
+     * @param  {String}    jsFile         The content of the JavaScript file that should be tested
      * @param  {Object}    regex          The regular expression to test the JavaScript against
      * @param  {String}    description    The description of the test
      */
@@ -29,7 +29,6 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
         // Remove comments from file to test
         var testFile = jsFile.replace(/(\/\*([\s\S]*?)\*\/)|(\/\/(.*)$)/gm, '');
         var match = '';
-        var pass = true;
         var errorString = '';
         var count = 0;
 
@@ -38,12 +37,11 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
                 var beforeMatch = jsFile.substring(0, match.index);
                 var matchLine = beforeMatch.split(/\n/).length;
                 count++;
-                pass = false;
                 errorString = errorString + '\n\nPath: ' + path + '\nLine: ' + matchLine + '\nString:\n' + match + '';
             }
         }
 
-        if (pass) {
+        if (count === 0) {
             ok(true, description);
         } else {
             ok(false, description + ', ' + count + ' error(s): ' + errorString);
@@ -51,18 +49,12 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
     };
 
     /**
-     * Prepares several regexes to test the JavaScript against and executes the test
+     * Test a JavaScript file for formatting issues
      *
      * @param  {String}    path      The path to the `jsFile`
-     * @param  {String}    jsFile    The actual content that should be tested
+     * @param  {String}    jsFile    The content of the JavaScript file that should be tested
      */
     var checkJs = function(path, jsFile) {
-        // Ignore files that are provided by other vendors
-        if (/\/shared\/vendor\//.test(path)) {
-            expect(0);
-            return;
-        }
-
         var regex = /(?!\'.*)\".*\"(?!.*')/gm;
         var description = 'Double quotes should only be used within single quotes';
         doRegexTest(path, jsFile, regex, description);
@@ -113,7 +105,7 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
     };
 
     /**
-     * Initializes the JavaScript Formatting test
+     * Initialize the JavaScript Formatting test
      *
      * @param  {Object}   testData    The testdata containing all files to be tested (html, css, js, properties)
      */

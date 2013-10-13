@@ -20,11 +20,11 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
     var regex = new RegExp('__MSG__(.*?)__', 'gm');
 
     /**
-     * Checks whether all the keys found in the HTML string have at a minimum a default translation
+     * Check whether all the keys in a provided HTML string have at a minimum a default translation
      *
      * @param  {Object}     testData     The testdata containing all files to be tested (html, css, js, properties)
      * @param  {String}     html         The HTML to check for keys that don't have a translation
-     * @param  {Boolean}    widgetId     null if not a widget, has widgetId if a widget is checked
+     * @param  {String}     [widgetId]   Id of the widget that is being checked
      */
     var checkKeys = function(testData, html, widgetId) {
         if (regex.test(html)) {
@@ -33,8 +33,8 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
                 // Get the key from the match
                 var key = RegExp.$1;
 
-                // Checks if the key has been found at least in one of the i18n files
-                var hasi18n = false;
+                // Check if the key has been found at least in one of the i18n files
+                var hasI18n = false;
 
                 // If we're checking a widget check the widget bundles first
                 if (widgetId) {
@@ -42,34 +42,34 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
                     if (testData.widgetData[widgetId].i18n && _.keys(testData.widgetData[widgetId].i18n).length) {
                         // For each bundle in the widget, check if it's available
                         if (testData.widgetData[widgetId].i18n['default'][key] !== undefined) {
-                            hasi18n = true;
+                            hasI18n = true;
                         }
                     }
                 }
 
                 // If the widget bundle has no translation or the check is not for a widget, check the main bundles
-                if (!hasi18n) {
+                if (!hasI18n) {
                     $.each(testData.mainBundles, function(i, mainBundle) {
                         if (mainBundle[key] !== undefined) {
-                            hasi18n = true;
+                            hasI18n = true;
                         }
                     });
                 }
 
                 // If the key has been translated send an ok
-                if (hasi18n) {
-                    ok(true, '\'' + key + '\' is translated.');
+                if (hasI18n) {
+                    ok(true, '\'' + key + '\' is translated');
                 } else {
-                    ok(false, '\'' + key + '\' is not translated.');
+                    ok(false, '\'' + key + '\' is not translated');
                 }
             }
         } else {
-            ok(true, 'No keys to be translated.');
+            ok(true, 'No keys to be translated');
         }
     };
 
     /**
-     * Initializes the untranslated Keys test
+     * Initialize the Untranslated Keys test
      *
      * @param  {Object}   testData    The testdata containing all files to be tested (html, css, js, properties)
      */

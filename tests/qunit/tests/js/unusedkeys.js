@@ -21,15 +21,15 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
      * Escapes provided string so that regexp metacharacters in it are used as literal characters.
      *     e.g. `test?(string)` becomes `test\?\(string\)`
      *
-     * @param  {String}    str    The string that will be escaped so it can be used as a regular expression
-     * @return {String}           The escaped string
+     * @param  {String}    input    The string that will be escaped so it can be used as a regular expression
+     * @return {String}             The escaped string
      */
-    var escapeRegExp = function(str) {
-      return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+    var escapeRegExp = function(input) {
+      return input.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
     };
 
     /**
-     * Initializes the Unused Keys test
+     * Initialize the Unused Keys test
      *
      * @param  {Object}   testData    The testdata containing all files to be tested (html, css, js, properties)
      */
@@ -53,39 +53,39 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
 
                             // Check if key is used in the main HTML or macro files
                             $.each(testData.mainHTML, function(mainHTMLPath, mainHTML) {
-                                keyUsed = runTest(mainHTMLPath, mainHTML, key) ? true : keyUsed;
+                                keyUsed = runTest(mainHTMLPath, mainHTML, key) || keyUsed;
                             });
 
                             // Check if the key is used in the widget HTML or JavaScript files
                             $.each(testData.widgetData, function(widgetId, widget) {
-                                keyUsed = runTest(widgetId, widget.html, key) ? true : keyUsed;
-                                keyUsed = runTest(widgetId, widget.js, key) ? true : keyUsed;
+                                keyUsed = runTest(widgetId, widget.html, key) || keyUsed;
+                                keyUsed = runTest(widgetId, widget.js, key) || keyUsed;
                             });
 
                             // Check if key is used in the main JS files
                             $.each(testData.mainJS, function(mainJSPath, mainJS) {
-                                keyUsed = runTest(mainJSPath, mainJS, key) ? true : keyUsed;
+                                keyUsed = runTest(mainJSPath, mainJS, key) || keyUsed;
                             });
 
                             // Check if key is used in the API files
                             $.each(testData.apiJS, function(apiJSPath, apiJS) {
-                                keyUsed = runTest(apiJSPath, apiJS, key) ? true : keyUsed;
+                                keyUsed = runTest(apiJSPath, apiJS, key) || keyUsed;
                             });
 
                             // Check if key is used in the OAE plugin files
                             $.each(testData.oaePlugins, function(oaePluginPath, oaePlugin) {
-                                keyUsed = runTest(oaePluginPath, oaePlugin, key) ? true : keyUsed;
+                                keyUsed = runTest(oaePluginPath, oaePlugin, key) || keyUsed;
                             });
 
                             if (keyUsed) {
-                                ok(true, '\'' + key + '\' in \'' + mainBundleKey + '.properties\' is used.');
+                                ok(true, '\'' + key + '\' in \'' + mainBundleKey + '.properties\' is used');
                             } else {
-                                ok(false, '\'' + key + '\' in \'' + mainBundleKey + '.properties\' is not being used.');
+                                ok(false, '\'' + key + '\' in \'' + mainBundleKey + '.properties\' is not being used');
                             }
                         }
                     });
                 } else {
-                    ok(true, 'No keys in \'' + mainBundleKey + '\'.');
+                    ok(true, 'No keys in \'' + mainBundleKey + '\'');
                 }
             });
         });
@@ -101,18 +101,18 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
                                     var regex = new RegExp(escapeRegExp('__MSG__' + i18nKey + '__', 'gm'));
                                     var used = regex.test(widget.html) || regex.test(widget.js);
                                     if (used) {
-                                        ok(true, i18nKey + ' in \'' + widgetId + ' - ' + bundleKey + '.properties\' is used.');
+                                        ok(true, i18nKey + ' in \'' + widgetId + ' - ' + bundleKey + '.properties\' is used');
                                     } else {
-                                        ok(false, i18nKey + ' in \'' + widgetId + ' - ' + bundleKey + '.properties\' is not being used.');
+                                        ok(false, i18nKey + ' in \'' + widgetId + ' - ' + bundleKey + '.properties\' is not being used');
                                     }
                                 }
                             });
                         } else {
-                            ok(true, '\'' + widgetId + '\' does does not have any keys in \'' + bundleKey + '.properties\'.');
+                            ok(true, '\'' + widgetId + '\' does does not have any keys in \'' + bundleKey + '.properties\'');
                         }
                     });
                 } else {
-                    ok(true, '\'' + widgetId + '\' does does not have any bundles.');
+                    ok(true, '\'' + widgetId + '\' does does not have any bundles');
                 }
             });
         });

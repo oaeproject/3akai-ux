@@ -18,7 +18,8 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
     module("Double Translation Keys");
 
     /**
-     * Checks for each widget if a key is already defined in one of the core bundles or in another widget
+     * For each widget, check if a key is already defined in one of the core bundles or in another widget. In this
+     * case, they should be consolidated in a central place
      *
      * @param {Object}    testData    The testdata containing all files to be tested (html, css, js, properties)
      */
