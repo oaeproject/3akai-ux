@@ -82,6 +82,12 @@ define(['jquery'], function ($) {
             var $list = $(this).parents('.oae-list').parent();
             var $listOptionActions = $('.oae-list-options-actions', $list);
 
+            // If the list is defined in a tabbed structure the list container is higher up the DOM tree
+            if (!$listOptionActions.length) {
+                $list = $list.parents('.tab-content').parent();
+                $listOptionActions = $('.oae-list-options-actions', $list);
+            }
+
             // Hide the list options when no checkboxes are checked anymore. Show the list options
             // when at least 1 checkbox is checked
             var totalChecked = $('.oae-list input[type="checkbox"]:visible:checked', $list).length;
@@ -120,10 +126,11 @@ define(['jquery'], function ($) {
                 // Get the parent list item
                 var $checkedListItem = $(this).parents('li');
 
-                // Get the id and resourceType from the data attributes on the checkbox
+                // Get the id, tenant displayname and resourceType from the data attributes on the checkbox
                 var id = $(checked).attr('data-id');
                 var resourceType = $(checked).attr('data-resourceType');
                 var resourceSubType = $(checked).attr('data-resourceSubType');
+                var tenantDisplayName = $(checked).attr('data-tenant');
                 // Get the displayName and thumbnail image from the content of the list item
                 var displayName = $('h3:visible', $checkedListItem).text();
                 var thumbnailImage = $('img:visible', $checkedListItem).attr('src');
@@ -133,6 +140,9 @@ define(['jquery'], function ($) {
                     'displayName': displayName,
                     'resourceType': resourceType,
                     'resourceSubType': resourceSubType,
+                    'tenant': {
+                        'displayName': tenantDisplayName
+                    },
                     'thumbnailUrl': thumbnailImage
                 });
             });
