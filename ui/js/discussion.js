@@ -94,7 +94,7 @@ require(['jquery','oae.core'], function($, oae) {
      */
     var setUpTopic = function() {
         if (discussionProfile.description) {
-            var topic = oae.api.util.security().encodeForHTML(discussionProfile.description).replace(/\n/g, '<br/>');
+            var topic = oae.api.util.security().encodeForHTMLWithLinks(discussionProfile.description).replace(/\n/g, '<br/>');
             $('#discussion-topic').html(topic);
             $('#discussion-topic-container').show();
         }
