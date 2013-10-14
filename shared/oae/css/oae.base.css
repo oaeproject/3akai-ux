@@ -477,7 +477,7 @@ ul.as-list li.as-result-item.active {
 .oae-main-content.oae-branding-container {
     background-position: top center;
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: cover;
 }
 
 /* MAIN CONTENT DIV */
