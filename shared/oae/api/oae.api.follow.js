@@ -74,7 +74,7 @@ define(['exports', 'jquery'], function(exports, $) {
     /**
      * Get the list of users that a given user is following
      *
-     * @param  {String}      userId            User id for which to get the following list
+     * @param  {String}      userId            Id of the user for which to get the following list
      * @param  {Function}    callback          Standard callback function
      * @param  {Object}      callback.err      Error object containing error code and error message
      * @throws {Error}                         Error thrown when no user id has been provided
@@ -98,7 +98,7 @@ define(['exports', 'jquery'], function(exports, $) {
     /**
      * Get the list of users following a given user
      *
-     * @param  {String}      userId            User id of the user for which to get the list of followers
+     * @param  {String}      userId            Id of the user for which to get the list of followers
      * @param  {Function}    callback          Standard callback function
      * @param  {Object}      callback.err      Error object containing error code and error message
      * @throws {Error}                         Error thrown when no user id has been provided
