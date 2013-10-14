@@ -201,14 +201,8 @@
         {var resourceSubType = entityData['oae:resourceSubType']}
     {/if}
 
-    {if entityData.tenant}
-        {var tenant = entityData.tenant}
-    {elseif entityData['oae:tenant']}
-        {var tenant = entityData['oae:tenant']}
-    {/if}
-
     {if !oae.data.me.anon && showCheckbox !== false}
-        <input type="checkbox" class="pull-left" id="oae-list-${type}-${entityData.id}" data-id="${entityData.id}" data-resourceType="${resourceType}" data-resourceSubType="${resourceSubType}" data-tenant="${tenant.displayName}"/>
+        <input type="checkbox" class="pull-left" id="oae-list-${type}-${entityData.id}" data-id="${entityData.id}" data-resourceType="${resourceType}" data-resourceSubType="${resourceSubType}" />
         <label class="oae-aural-text" for="oae-list-${type}-${entityData.id}">${entityData.displayName|encodeForHTML}</label>
     {/if}
 {/macro}

@@ -1063,7 +1063,8 @@ ul.oae-list > li:first-child .oae-listitem {
  *   element is clicked. This bar contains all of the action that can be done on the selected list items, and
  *   can basically be anything.
  * - An `oae-list-selectall` class can be applied to the element that should be used to select/deselect all list
- *   items. This will be enabled automatically by the system.
+ *   items. This will be enabled automatically by the system. If the list options have any buttons that require the collection
+ *   of all selected items, the list options and the list should be wrapped in a `oae-list-container` div.
  * - The primary actions under `oae-list-options-actions` should be disabled by default, as they can only be clicked
  *   when at least one of the items in the corresponding list is checked.
  */
@@ -1181,18 +1182,6 @@ ul.oae-list > li:first-child .oae-listitem {
     margin-top: 10px;
 }
 
-ul.oae-list li.oae-list-actions div.oae-thumbnail {
-    background: none;
-    border-style: dashed;
-    border-width: 1px;
-    -webkit-box-shadow: none;
-       -moz-box-shadow: none;
-            box-shadow: none;
-    height: 150px;
-    margin: 5px;
-    width: 150px;
-}
-
 /* Grid view */
 
 ul.oae-list.oae-list-grid > li.oae-list-actions {
@@ -1202,11 +1191,22 @@ ul.oae-list.oae-list-grid > li.oae-list-actions {
             box-shadow: none;
 }
 
-ul.oae-list.oae-list-grid .oae-list-actions div.oae-thumbnail.oae-thumbnail-large:before {
-    font-size: 90px;
+ul.oae-list.oae-list-grid li.oae-list-actions div.oae-thumbnail {
+    background: none;
+    border-width: 1px;
+    border-style: dashed;
+    -webkit-box-shadow: none;
+       -moz-box-shadow: none;
+            box-shadow: none;
+    height: 150px;
+    margin: 5px;
+    width: 150px;
 }
 
-ul.oae-list.oae-list-grid .oae-list-actions div.oae-thumbnail:before,
+ul.oae-list.oae-list-grid .oae-list-actions div.oae-thumbnail:before {
+    margin-top: -40px;
+}
+
 ul.oae-list.oae-list-grid .oae-list-actions.oae-list-actions-multiple div.oae-thumbnail:before {
     margin-top: -60px;
 }
@@ -1216,12 +1216,16 @@ ul.oae-list.oae-list-grid .oae-list-actions .btn i {
 }
 
 ul.oae-list.oae-list-grid .oae-list-actions ul {
-    bottom: 5px;
+    bottom: 15px;
     left: 0;
     padding: 7px;
     position: absolute;
     right: 0;
     text-align: center;
+}
+
+ul.oae-list.oae-list-grid .oae-list-actions.oae-list-actions-multiple ul {
+    bottom: 5px;
 }
 
 /* Details and compact view */
@@ -1238,4 +1242,3 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
     display: inline;
     margin-right: 10px;
 }
-

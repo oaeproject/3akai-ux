@@ -21,8 +21,8 @@ define(['jquery'], function ($) {
          */
         $(document).on('click', '.oae-list-options-toggle', function() {
             // Get the list container, so we don't end up changing state in other lists
-            var $list = $(this).parents('.oae-list-options').parent();
-            var $listOptionActions = $('.oae-list-options-actions', $list);
+            var $listContainer = $(this).parents('.oae-list-container');
+            var $listOptionActions = $('.oae-list-options-actions', $listContainer);
             // Hide the list options if they are currently showing. Show the list options
             // if they are currently hidden
             if ($listOptionActions.is(':visible')) {
@@ -40,15 +40,15 @@ define(['jquery'], function ($) {
          */
         $(document).on('change', '.oae-list-selectall', function() {
             // Get the list container, so we don't end up changing state in other lists
-            var $list = $(this).parents('.oae-list-options').parent();
+            var $listContainer = $(this).parents('.oae-list-container');
             // Check or uncheck all checkboxes in the corresponding list
             var checked = $(this).is(':checked');
-            var $listCheckboxes = $('.oae-list input[type="checkbox"]', $list);
+            var $listCheckboxes = $('.oae-list input[type="checkbox"]', $listContainer);
             $listCheckboxes.prop('checked', checked);
             // Enable or disable the list option action buttons. We only change the state
             // when there is at least 1 item in the list that can be checked.
             if ($listCheckboxes.length > 0) {
-                $('.oae-list-options-actions > .btn', $list).prop('disabled', !checked);
+                $('.oae-list-options-actions > .btn', $listContainer).prop('disabled', !checked);
             }
         });
 
@@ -57,13 +57,13 @@ define(['jquery'], function ($) {
          */
         $(document).on('click', '.oae-list-options .btn-group button', function() {
             // Get the list container, so we don't end up changing state in other lists
-            var $list = $(this).parents('.oae-list-options').parent();
+            var $listContainer = $(this).parents('.oae-list-container');
             // Update the list view switch buttons
-            $('.oae-list-options .btn-group button', $list).removeClass('active');
+            $('.oae-list-options .btn-group button', $listContainer).removeClass('active');
             $(this).addClass('active');
             // Change the view type in the list itself
-            $('.oae-list', $list).removeClass('oae-list-grid oae-list-details oae-list-compact');
-            $('.oae-list', $list).addClass($(this).attr('data-type'));
+            $('.oae-list', $listContainer).removeClass('oae-list-grid oae-list-details oae-list-compact');
+            $('.oae-list', $listContainer).addClass($(this).attr('data-type'));
         });
 
         /**
@@ -79,24 +79,18 @@ define(['jquery'], function ($) {
             $('input[type="checkbox"]', $listItem).prop('checked', $(this).is(':checked'));
 
             // Get the list container, so we don't end up changing state in other lists
-            var $list = $(this).parents('.oae-list').parent();
-            var $listOptionActions = $('.oae-list-options-actions', $list);
-
-            // If the list is defined in a tabbed structure the list container is higher up the DOM tree
-            if (!$listOptionActions.length) {
-                $list = $list.parents('.tab-content').parent();
-                $listOptionActions = $('.oae-list-options-actions', $list);
-            }
+            var $listContainer = $(this).parents('.oae-list-container');
+            var $listOptionActions = $('.oae-list-options-actions', $listContainer);
 
             // Hide the list options when no checkboxes are checked anymore. Show the list options
             // when at least 1 checkbox is checked
-            var totalChecked = $('.oae-list input[type="checkbox"]:visible:checked', $list).length;
+            var totalChecked = $('.oae-list input[type="checkbox"]:visible:checked', $listContainer).length;
             if ((totalChecked > 0 && !$listOptionActions.is(':visible')) ||
                 (totalChecked === 0 && $listOptionActions.is(':visible'))) {
-                $('.oae-list-options-toggle', $list).click();
+                $('.oae-list-options-toggle', $listContainer).click();
             }
             // Enable or disable the list option action buttons
-            $('.oae-list-options-actions > .btn', $list).prop('disabled', (totalChecked === 0));
+            $('.oae-list-options-actions > .btn', $listContainer).prop('disabled', (totalChecked === 0));
         });
 
         /**
@@ -126,11 +120,10 @@ define(['jquery'], function ($) {
                 // Get the parent list item
                 var $checkedListItem = $(this).parents('li');
 
-                // Get the id, tenant displayname and resourceType from the data attributes on the checkbox
+                // Get the id and resource(Sub)Type from the data attributes on the checkbox
                 var id = $(checked).attr('data-id');
                 var resourceType = $(checked).attr('data-resourceType');
                 var resourceSubType = $(checked).attr('data-resourceSubType');
-                var tenantDisplayName = $(checked).attr('data-tenant');
                 // Get the displayName and thumbnail image from the content of the list item
                 var displayName = $('h3:visible', $checkedListItem).text();
                 var thumbnailImage = $('img:visible', $checkedListItem).attr('src');
@@ -140,9 +133,6 @@ define(['jquery'], function ($) {
                     'displayName': displayName,
                     'resourceType': resourceType,
                     'resourceSubType': resourceSubType,
-                    'tenant': {
-                        'displayName': tenantDisplayName
-                    },
                     'thumbnailUrl': thumbnailImage
                 });
             });

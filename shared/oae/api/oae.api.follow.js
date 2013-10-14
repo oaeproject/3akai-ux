@@ -18,10 +18,10 @@ define(['exports', 'jquery'], function(exports, $) {
     /**
      * Follow a user
      *
-     * @param  {String}      userId          User id of the user to follow
-     * @param  {Function}    callback        Standard callback function
-     * @param  {Object}      callback.err    Error object containing error code and error message
-     * @throws {Error}                       Error thrown when no user id has been provided
+     * @param  {String}      userId            Id of the user to follow
+     * @param  {Function}    [callback]        Standard callback function
+     * @param  {Object}      [callback.err]    Error object containing error code and error message
+     * @throws {Error}                         Error thrown when no user id has been provided
      */
     var follow = exports.follow = function(userId, callback) {
         if (!userId) {
@@ -46,10 +46,10 @@ define(['exports', 'jquery'], function(exports, $) {
     /**
      * Unfollow a user you are already following
      *
-     * @param  {String}      userId          User id of the user to unfollow
-     * @param  {Function}    callback        Standard callback function
-     * @param  {Object}      callback.err    Error object containing error code and error message
-     * @throws {Error}                       Error thrown when no user id has been provided
+     * @param  {String}      userId            Id of the user to unfollow
+     * @param  {Function}    [callback]        Standard callback function
+     * @param  {Object}      [callback.err]    Error object containing error code and error message
+     * @throws {Error}                         Error thrown when no user id has been provided
      */
     var unfollow = exports.unfollow = function(userId, callback) {
         if (!userId) {
@@ -74,10 +74,10 @@ define(['exports', 'jquery'], function(exports, $) {
     /**
      * Get the list of users that a given user is following
      *
-     * @param  {String}      userId          User id for which to get the following list
-     * @param  {Function}    callback        Standard callback function
-     * @param  {Object}      callback.err    Error object containing error code and error message
-     * @throws {Error}                       Error thrown when no user id has been provided
+     * @param  {String}      userId            User id for which to get the following list
+     * @param  {Function}    callback          Standard callback function
+     * @param  {Object}      callback.err      Error object containing error code and error message
+     * @throws {Error}                         Error thrown when no user id has been provided
      */
     var getFollowing = exports.getFollowing = function(userId, callback) {
         if (!userId) {
@@ -96,12 +96,12 @@ define(['exports', 'jquery'], function(exports, $) {
     };
 
     /**
-     * Get the list of users that a given user is followed by
+     * Get the list of users following a given user
      *
-     * @param  {String}      userId          User id of the user for which to get the list of followers
-     * @param  {Function}    callback        Standard callback function
-     * @param  {Object}      callback.err    Error object containing error code and error message
-     * @throws {Error}                       Error thrown when no user id has been provided
+     * @param  {String}      userId            User id of the user for which to get the list of followers
+     * @param  {Function}    callback          Standard callback function
+     * @param  {Object}      callback.err      Error object containing error code and error message
+     * @throws {Error}                         Error thrown when no user id has been provided
      */
     var getFollowers = exports.getFollowers = function(userId, callback) {
         if (!userId) {
@@ -118,5 +118,4 @@ define(['exports', 'jquery'], function(exports, $) {
             }
         });
     };
-
 });
