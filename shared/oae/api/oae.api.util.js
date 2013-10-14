@@ -1054,7 +1054,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         };
 
         /**
-         * Sanitizes user input in a manner that makes it safe for the input to be placed inside of an HTML tag. 
+         * Sanitizes user input in a manner that makes it safe for the input to be placed inside of an HTML tag.
          * This sanitizer will also recognise URLs inside of the provided input and will convert these into links.
          *
          * @param  {String}     [input]         The user input string that should be sanitized. If this is not provided, an empty string will be returned
@@ -1075,10 +1075,6 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                 // URLs starting with "www." (without // before it, or it'd re-link the ones done above).
                 var URLPattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
                 input = input.replace(URLPattern2, '$1<a href="http://$2" target="_blank" title="$2">$2</a>');
-
-                // Change email addresses to mailto:: links.
-                var URLPattern3 = /(\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,6})/gim;
-                input = input.replace(URLPattern3, '<a href="mailto:$1" title="$1">$1</a>');
 
                 return input;
             }
