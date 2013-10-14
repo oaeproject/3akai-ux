@@ -102,6 +102,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         document.title = require('oae.api.i18n').translate(title.join(' - '));
     };
 
+
     ////////////////////////////////
     // TRIMPATH TEMPLATE RENDERER //
     ////////////////////////////////
@@ -250,8 +251,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                 // parsed template to the template cache
                 try {
                     templateCache[templateId] = TrimPath.parseTemplate(templateContent, templateId);
-                } catch (err) {
-                    throw new Error('Parsing of template "' + templateId + '" failed: ' + err);
+                } catch (parseErr) {
+                    throw new Error('Parsing of template "' + templateId + '" failed: ' + parseErr);
                 }
             }
 
@@ -262,8 +263,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                 renderedHTML = templateCache[templateId].process(data, {'throwExceptions': true});
                 // Filter out comments from the rendered template
                 renderedHTML = renderedHTML.replace(/<!--(?:.|\n)*?-->/gm, '');
-            } catch (err) {
-                throw new Error('Rendering of template "' + templateId + '" failed: ' + err);
+            } catch (renderErr) {
+                throw new Error('Rendering of template "' + templateId + '" failed: ' + renderErr);
             }
 
             // If an output element has been provided, we can just render the renderer HTML,
@@ -536,6 +537,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         };
     };
 
+
     ///////////////
     // CLICKOVER //
     ///////////////
@@ -606,6 +608,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         // flow to be incorrect
         $('.popover-title').remove();
     };
+
 
     /////////////////
     // AUTOSUGGEST //
@@ -998,6 +1001,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
      */
     var renderMath = exports.renderMath = function($element) {};
 
+
     //////////////
     // SECURITY //
     //////////////
@@ -1067,6 +1071,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             'encodeForURL': encodeForURL
         };
     };
+
 
     ///////////////
     // REDIRECTS //

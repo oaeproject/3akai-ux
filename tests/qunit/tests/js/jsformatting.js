@@ -13,133 +13,136 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, util) {
+require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util) {
 
-        module("JavaScript Formatting");
+    module("JavaScript Formatting");
 
-        var doRegexTest = function(jsFile, regex, testString) {
-            // remove comments from file to test
-            var testFile = jsFile.replace(/(\/\*([\s\S]*?)\*\/)|(\/\/(.*)$)/gm, '');
-            var match = '';
-            var pass = true;
-            var errorString = '';
-            var count = 0;
+    /**
+     * Test a JavaScript file against a provided regular expression
+     *
+     * @param  {String}    path           The path to the `jsFile`
+     * @param  {String}    jsFile         The content of the JavaScript file that should be tested
+     * @param  {Object}    regex          The regular expression to test the JavaScript against
+     * @param  {String}    description    The description of the test
+     */
+    var doRegexTest = function(path, jsFile, regex, description) {
+        // Remove comments from file to test
+        var testFile = jsFile.replace(/(\/\*([\s\S]*?)\*\/)|(\/\/(.*)$)/gm, '');
+        var match = '';
+        var errorString = '';
+        var count = 0;
 
-            if (regex.test(testFile)) {
-                while ((match = regex.exec(jsFile)) !== null) {
-                    var beforeMatch = jsFile.substring(0, match.index);
-                    var matchLine = beforeMatch.split(/\n/).length;
-                    count++;
-                    pass = false;
-                    errorString = errorString + '\n\nLine: ' + matchLine + '\nString:\n' + match + '';
-                }
+        if (regex.test(testFile)) {
+            while ((match = regex.exec(jsFile)) !== null) {
+                var beforeMatch = jsFile.substring(0, match.index);
+                var matchLine = beforeMatch.split(/\n/).length;
+                count++;
+                errorString = errorString + '\n\nPath: ' + path + '\nLine: ' + matchLine + '\nString:\n' + match + '';
             }
+        }
 
-            if (pass) {
-                ok(true, testString);
-            } else {
-                ok(false, testString + ', ' + count + ' error(s): ' + errorString);
-            }
-        };
+        if (count === 0) {
+            ok(true, description);
+        } else {
+            ok(false, description + ', ' + count + ' error(s): ' + errorString);
+        }
+    };
 
-        var checkJs = function(jsFile) {
-            // test for double quotes in strings
-            var regex = /(?!\'.*)\".*\"(?!.*')/gm;
-            var testString = 'Double quotes should only be used within single quotes';
-            doRegexTest(jsFile, regex, testString);
+    /**
+     * Test a JavaScript file for formatting issues
+     *
+     * @param  {String}    path      The path to the `jsFile`
+     * @param  {String}    jsFile    The content of the JavaScript file that should be tested
+     */
+    var checkJs = function(path, jsFile) {
+        var regex = /(?!\'.*)\".*\"(?!.*')/gm;
+        var description = 'Double quotes should only be used within single quotes';
+        doRegexTest(path, jsFile, regex, description);
 
-            // test function declarations
-            regex = /^\s*function\s.*/gm;
-            testString = 'Use \"var <functionName> = function() {\"';
-            doRegexTest(jsFile, regex, testString);
+        regex = /^\s*function\s.*/gm;
+        description = 'Use \"var <functionName> = function() {\"';
+        doRegexTest(path, jsFile, regex, description);
 
-            // test opening braces
-            regex = /\)\s*$(\n|\r)^\s*\{.*/gm;
-            testString = 'Put opening braces on the same line as the statement';
-            doRegexTest(jsFile, regex, testString);
+        regex = /\)\s*$(\n|\r)^\s*\{.*/gm;
+        description = 'Put opening braces on the same line as the statement';
+        doRegexTest(path, jsFile, regex, description);
 
-            // test spaces before opening brace
-            regex = /.+\)(\s{0}|\s{2,})\{/gm;
-            testString = 'Use exactly one space before an opening brace';
-            doRegexTest(jsFile, regex, testString);
+        regex = /.+\)(\s{0}|\s{2,})\{/gm;
+        description = 'Use exactly one space before an opening brace';
+        doRegexTest(path, jsFile, regex, description);
 
-            // test no spaces after opening brace
-            regex = /.*\).*\{( |\t)+(\n|\r)/gm;
-            testString = 'Don\'t put whitespace after an opening brace';
-            doRegexTest(jsFile, regex, testString);
+        regex = /.*\).*\{( |\t)+(\n|\r)/gm;
+        description = 'Don\'t put whitespace after an opening brace';
+        doRegexTest(path, jsFile, regex, description);
 
-            // test no spaces after closing braces
-            regex = /.*\}( |\t)+(\n|\r)/gm;
-            testString = 'Don\'t put whitespace after a closing brace';
-            doRegexTest(jsFile, regex, testString);
+        regex = /.*\}( |\t)+(\n|\r)/gm;
+        description = 'Don\'t put whitespace after a closing brace';
+        doRegexTest(path, jsFile, regex, description);
 
-            // test literal notation
-            regex = /new\s+(Object|Array|Number|String|Boolean).*/gm;
-            testString = 'Use literal notation';
-            doRegexTest(jsFile, regex, testString);
+        regex = /new\s+(Object|Array|Number|String|Boolean).*/gm;
+        description = 'Use literal notation';
+        doRegexTest(path, jsFile, regex, description);
 
-            regex = /[^=!]==[^=]/gm;
-            testString = 'Use \"===\" instead of \"==\"';
-            doRegexTest(jsFile, regex, testString);
+        regex = /^\s*const\s/gm;
+        description = 'Use \"var <ALLCAPS>\" instead of \"const\"';
+        doRegexTest(path, jsFile, regex, description);
 
-            regex = /!=[^=]/gm;
-            testString = 'Use \"!==\" instead of \"!=\"';
-            doRegexTest(jsFile, regex, testString);
+        regex = /\.(live|die|bind|unbind)\(/gm;
+        description = 'Use \".on()\" and \".off()\" to attach event handlers';
+        doRegexTest(path, jsFile, regex, description);
 
-            regex = /^\s*const\s/gm;
-            testString = 'Use \"var <ALLCAPS>\" instead of \"const\"';
-            doRegexTest(jsFile, regex, testString);
+        regex = /\.prototype\..*=/gm;
+        description = 'Do not extend prototypes';
+        doRegexTest(path, jsFile, regex, description);
 
-            regex = /\.(live|die|bind|unbind)\(/gm;
-            testString = 'Use \".on()\" and \".off()\" to attach event handlers';
-            doRegexTest(jsFile, regex, testString);
+        regex = /(^|\s)(Object\.(freeze|preventExtensions|seal)|eval|((?!['"].*)(with)(?!.*['"])))(\s|$)/gm;
+        description = 'Avoid using Object.freeze, Object.preventExtensions, Object.seal, with, eval';
+        doRegexTest(path, jsFile, regex, description);
 
-            regex = /\.prototype\./gm;
-            testString = 'Do not extend prototypes';
-            doRegexTest(jsFile, regex, testString);
+        regex = /(^|\s)typeof(\s|$)/gm;
+        description = 'Use jquery or underscore for type checking';
+        doRegexTest(path, jsFile, regex, description);
+    };
 
-            regex = /(^|\s)(Object\.(freeze|preventExtensions|seal)|eval|((?!['"].*)(with)(?!.*['"])))(\s|$)/gm;
-            testString = 'Avoid using Object.freeze, Object.preventExtensions, Object.seal, with, eval';
-            doRegexTest(jsFile, regex, testString);
-
-            regex = /(^|\s)typeof(\s|$)/gm;
-            testString = 'Use jquery or underscore for type checking';
-            doRegexTest(jsFile, regex, testString);
-        };
-
-        /**
-         * Initializes the JavaScript Formatting module
-         * @param  {Object}   widgets    Object containing the manifests of all widgets in node_modules/oae-core.
-         */
-        var jsFormattingTest = function(widgetData) {
-            // Test that the main JavaScript files are properly formatted
-            $.each(widgetData.mainJS, function(i, mainJS) {
-                asyncTest(i + '.js', function() {
-                    checkJs(mainJS);
-                    start();
-                });
+    /**
+     * Initialize the JavaScript Formatting test
+     *
+     * @param  {Object}   testData    The testdata containing all files to be tested (html, css, js, properties)
+     */
+    var jsFormattingTest = function(testData) {
+        // Test that the main JavaScript files are properly formatted
+        $.each(testData.mainJS, function(mainJSPath, mainJS) {
+            test(mainJSPath, function() {
+                checkJs(mainJSPath, mainJS);
             });
+        });
 
-            // Test that the API JavaScript files are properly formatted
-            $.each(widgetData.apiJS, function(ii, apiJS) {
-                asyncTest(ii + '.js', function() {
-                    checkJs(apiJS);
-                    start();
-                });
+        // Test that the API JavaScript files are properly formatted
+        $.each(testData.apiJS, function(mainApiJSPath, apiJS) {
+            test(mainApiJSPath, function() {
+                checkJs(mainApiJSPath, apiJS);
             });
+        });
 
-            // Test that the widget JavaScript files are properly formatted
-            $.each(widgetData.widgetData, function(iii, widget) {
-                asyncTest(iii + '.js', function() {
-                    checkJs(widget.js);
-                    start();
-                });
+        // Test that the OAE specific plugin files are properly formatted
+        $.each(testData.oaePlugins, function(oaePluginJSPath, oaePluginJS) {
+            test(oaePluginJSPath, function() {
+                checkJs(oaePluginJSPath, oaePluginJS);
             });
-        };
+        });
 
-        util.loadWidgets(jsFormattingTest);
+        // Test that the widget JavaScript files are properly formatted
+        $.each(testData.widgetData, function(widgetJSPath, widget) {
+            test(widgetJSPath + ' - widget', function() {
+                checkJs(widgetJSPath + ' - widget', widget.js);
+            });
+        });
 
-        QUnit.load();
-        QUnit.start();
-    }
-);
+        // Start consuming tests again
+        QUnit.start(2);
+    };
+
+    // Stop consuming QUnit test and load the widgets asynchronous
+    QUnit.stop();
+    util.loadTestData(jsFormattingTest);
+});

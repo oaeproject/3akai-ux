@@ -608,7 +608,7 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .oae-clip .oae-clip-content > button > div {
-    float: left
+    float: left;
 }
 
 .oae-clip .oae-clip-content > button > div:nth-child(2) > div {
@@ -775,16 +775,20 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-tile h3,
 .oae-tile h3 a {
     font-size: 14px;
-    font-weight: bold;
+    font-weight: 600;
     line-height: 1.4;
     margin: 0;
 }
 
+.oae-tile h3 a:hover {
+    opacity: 0.75;
+}
+
 .oae-tile small {
     font-size: 12px;
-    font-style: italic;
     font-weight: normal;
     line-height: 1.5;
+    opacity: 0.8;
     text-transform: uppercase;
 }
 
@@ -903,7 +907,7 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-listitem small {
     line-height: 1;
     font-size: 11px;
-    font-style: italic;
+    opacity: 0.8;
     text-transform: uppercase;
 }
 
@@ -1177,7 +1181,7 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
 .oae-list-options .btn.oae-list-options-toggle:focus {
     background: none;
     border: none;
-    filter:none;
+    filter: none;
     padding: 1px 0;
     -webkit-box-shadow: none;
        -moz-box-shadow: none;
