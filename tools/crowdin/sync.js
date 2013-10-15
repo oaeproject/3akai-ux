@@ -182,11 +182,11 @@ var updateWidgetManifests = function(bundles) {
 
 
 // 1. Download the crowdin JAR file
-//downloadCrowdinLibrary(function() {
+downloadCrowdinLibrary(function() {
     // 2. Generate the YAML file
-//    generateYaml();
+    generateYaml();
     // 3. Synchronize the translations in the current branch with the translations on crowdin
-//    synchronizeTranslations(function() {
+    synchronizeTranslations(function() {
         // 4. Collect the available language bundles
         collectBundles(function(bundles) {
             // 5. Remove the bundles that don't have any translations in them
@@ -194,5 +194,5 @@ var updateWidgetManifests = function(bundles) {
             // 6. Update widget manifests to only include existing bundles
             updateWidgetManifests(bundles);
         });
-//    });
-//});
+    });
+});
