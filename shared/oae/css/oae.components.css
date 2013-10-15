@@ -780,10 +780,6 @@ div.oae-thumbnail i[class^="icon-"] {
     margin: 0;
 }
 
-.oae-tile h3 a:hover {
-    opacity: 0.75;
-}
-
 .oae-tile small {
     font-size: 12px;
     font-weight: normal;
