@@ -1069,7 +1069,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                 input = encodeForHTML(input);
 
                 // URLs starting with http://, https://, or ftp://
-                var URLPattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+                var URLPattern1 = /(\b(https?|ftp):\/\/[\-A-Z0-9+&@#\/%?=~_|!:,.;]*[\-A-Z0-9+&@#\/%=~_|])/gim;
                 input = input.replace(URLPattern1, '<a href="$1" target="_blank" title="$1">$1</a>');
 
                 // URLs starting with "www." (without // before it, or it'd re-link the ones done above).
