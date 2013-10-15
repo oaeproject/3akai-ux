@@ -26,10 +26,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         validation().init();
         // Set up the custom autosuggest listeners
         autoSuggest().init();
+        // Set up Google Analytics
+        googleAnalytics();
         // Load the OAE TrimPath Template macros
         template().init(callback);
-        // Set up Google Analytics
-        googleAnalytics().init();
     };
 
     /**
@@ -333,28 +333,23 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
      */
     var googleAnalytics = function() {
 
-        /**
-         * Initialize Google Analytics
-         */
-        var init = function() {
+        // Check if Google Analytics is enabled for tenant
+        if (configAPI.getValue('oae-google-analytics', 'google-analytics', 'enabled')) {
 
-            // Check if Google Analytics is enabled for tenant
-            if (configAPI.getValue('oae-google-analytics', 'google-analytics', 'enabled')) {
-                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-                })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+            // Google Analytics tracking code
+            // @see https://developers.google.com/analytics/devguides/
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-                var id = configAPI.getValue('oae-google-analytics', 'google-analytics', 'id');
+            // Retrieve the Google Analytics application ID from the admin configuration
+            var id = configAPI.getValue('oae-google-analytics', 'google-analytics', 'id');
 
-                ga('create', id, window.location.hostname);
-                ga('send', 'pageview');
-            }
-        };
-
-        return {
-            'init': init
-        };
+            // Add the OAE identifiers to the Google Analytics object
+            ga('create', id, window.location.hostname);
+            ga('send', 'pageview');
+        }
     };
 
     /*!
