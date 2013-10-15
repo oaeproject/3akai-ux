@@ -333,13 +333,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     };
 
     /**
-     *  Setup Google Analytics
+     *  Set up Google Analytics tracking, if it has been enabled for the current tenant
      */
     var googleAnalytics = function() {
-
-        // Check if Google Analytics is enabled for tenant
+        // Check if Google Analytics is enabled for the current tenant
         if (configAPI.getValue('oae-google-analytics', 'google-analytics', 'enabled')) {
-
             // Google Analytics tracking code
             // @see https://developers.google.com/analytics/devguides/
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -347,7 +345,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
             })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-            // Retrieve the Google Analytics application ID from the admin configuration
+            // Retrieve the Google Analytics application ID
             var id = configAPI.getValue('oae-google-analytics', 'google-analytics', 'id');
 
             // Add the OAE identifiers to the Google Analytics object
