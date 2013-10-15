@@ -13,544 +13,371 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'qunitjs'], function(exports, $) {
+define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser'], function(exports, $, _, oae) {
 
-    var tests = [];
-    var testResults = {};
-    var currentTest = false;
-
+    // By default, QUnit runs tests when the load event is triggered on the window.
+    // We're loading tests asynchronsly and therefore set this property to false, then call QUnit.start() once everything is loaded.
     QUnit.config.autostart = false;
 
     /**
-     * Takes in a stringified bundle and transforms it JSON
-     * @param  {String}   Bundle that has been read and passed as a String
+     * Filter all vendor scripts so they can be excluded from testing
+     *
+     * @param  {String[]}    paths    Array of paths to JavaScript files
+     * @return {String[]}             List of JavaScript files from which the vendor scripts have been filtered
      */
-    var changeToJSON = function(input) {
-        var json = {};
-        var inputLine = input.split(/\n/);
-        var i;
-        $.each(inputLine, function(i, line) {
-            if (line) {
-                var keyValuePair = inputLine[i].split(/\=/);
-                var key = $.trim(keyValuePair.shift());
-                var value = $.trim(keyValuePair.join('='));
-                json[key] = value;
+    var filterVendorScripts = function(paths) {
+        return _.filter(paths, function(path) {
+            return (path && path.indexOf('/shared/vendor') !== 0);
+        });
+    };
+
+    /**
+     * Load the widget JavaScript through a batch request
+     *
+     * @param  {Object}      testData               The test data containing all files to be tested (html, css, js, properties)
+     * @param  {Function}    callback               Standard callback function
+     * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
+     */
+    var loadWidgetJS = exports.loadWidgetJS = function(testData, callback) {
+        var paths = [];
+
+        $.each(testData.widgetData, function(widgetIndex, widget) {
+            var $html = $('<div/>').html(widget.html);
+            var $scripts = $html.find('script');
+            $.each($scripts, function(scriptIndex, script) {
+                paths.push('/node_modules/' + widget.path + $(script).attr('src'));
+            });
+        });
+
+        paths = filterVendorScripts(paths);
+
+        oae.api.util.staticBatch(paths, function(err, data) {
+            $.each(data, function(widgetJSPath, widgetJS) {
+                var widgetName = widgetJSPath.split('/').pop().split('.')[0];
+                testData.widgetData[widgetName].js = widgetJS;
+            });
+            callback(testData);
+        });
+    };
+
+    /**
+     * Load the main JavaScript files through a batch request
+     *
+     * @param  {Object}      testData               The test data containing all files to be tested (html, css, js, properties)
+     * @param  {Function}    callback               Standard callback function
+     * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
+     */
+    var loadMainJS = exports.loadMainJS = function(testData, callback) {
+        var paths = [];
+        $.each(testData.mainHTML, function(htmlIndex, mainHTML) {
+            var $html = $('<div/>').html(mainHTML);
+            var $scripts = $html.find('script');
+            $.each($scripts, function(scriptIndex, script) {
+                paths.push($(script).attr('src'));
+                paths.push($(script).attr('data-loadmodule'));
+                paths.push($(script).attr('data-main'));
+            });
+        });
+
+        paths = filterVendorScripts(paths);
+
+        oae.api.util.staticBatch($.unique(paths), function(err, data) {
+            $.each(data, function(jsIndex, js) {
+                testData.mainJS[jsIndex] = js;
+            });
+            callback(testData);
+        });
+    };
+
+    /**
+     * Load the API JavaScript files through a batch request
+     *
+     * @param  {Object}      testData               The test data containing all files to be tested (html, css, js, properties)
+     * @param  {Function}    callback               Standard callback function
+     * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
+     */
+    var loadAPIJS = exports.loadAPIJS = function(testData, callback) {
+        var paths = [];
+        $.each(testData.apiJS, function(jsIndex) {
+            paths.push(jsIndex);
+        });
+
+        oae.api.util.staticBatch(paths, function(err, data) {
+            $.each(data, function(jsIndex, js) {
+                testData.apiJS[jsIndex] = js;
+            });
+            callback(testData);
+        });
+    };
+
+    /**
+     * Load the OAE specific plugin JavaScript files through a batch request
+     *
+     * @param  {Object}      testData               The test data containing all files to be tested (html, css, js, properties)
+     * @param  {Function}    callback               Standard callback function
+     * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
+     */
+    var loadOAEPlugins = exports.loadOAEPlugins = function(testData, callback) {
+        var paths = [];
+        $.each(testData.oaePlugins, function(pluginIndex) {
+            paths.push(pluginIndex);
+        });
+
+        oae.api.util.staticBatch(paths, function(err, data) {
+            $.each(data, function(jsIndex, js) {
+                testData.oaePlugins[jsIndex] = js;
+            });
+            callback(testData);
+        });
+    };
+
+    /**
+     * Loads the widget CSS through a batch request
+     *
+     * @param  {Object}      testData               The test data containing all files to be tested (html, css, js, properties)
+     * @param  {Function}    callback               Standard callback function
+     * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
+     */
+    var loadWidgetCSS = exports.loadWidgetCSS = function(testData, callback) {
+        // Parse the HTML files and extract the CSS files
+        var paths = [];
+        $.each(testData.widgetData, function(widgetIndex, widget) {
+            var $html = $('<div/>').html(widget.html);
+            var $links = $html.find('link');
+            $.each($links, function(linkIndex, link) {
+                paths.push('/node_modules/' + widget.path + $(link).attr('href'));
+            });
+        });
+
+        oae.api.util.staticBatch(paths, function(err, data) {
+            $.each(data, function(cssIndex, css) {
+                var widgetName = cssIndex.split('/').pop().split('.')[0];
+                if (testData.widgetData[widgetName]) {
+                    testData.widgetData[widgetName].css = css;
+                }
+            });
+            callback(testData);
+        });
+    };
+
+    /**
+     * Load the main CSS files through a batch request
+     *
+     * @param  {Object}      testData               The test data containing all files to be tested (html, css, js, properties)
+     * @param  {Function}    callback               Standard callback function
+     * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
+     */
+    var loadMainCSS = exports.loadMainCSS = function(testData, callback) {
+        var paths = _.keys(testData.mainCSS);
+
+        $.each(testData.mainHTML, function(htmlPath, mainHTML) {
+            var $html = $('<div/>').html(mainHTML);
+            var $links = $html.find('link');
+            $.each($links, function(linkIndex, link) {
+                paths.push($(link).attr('href'));
+            });
+        });
+
+        oae.api.util.staticBatch($.unique(paths), function(err, data) {
+            $.each(data, function(cssIndex, css) {
+                testData.mainCSS[cssIndex] = css;
+            });
+            callback(testData);
+        });
+    };
+
+    /**
+     * Load the widget HTML through a batch request
+     *
+     * @param  {Object}      testData               The test data containing all files to be tested (html, css, js, properties)
+     * @param  {Function}    callback               Standard callback function
+     * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
+     */
+    var loadWidgetHTML = exports.loadWidgetHTML = function(testData, callback) {
+        var paths = [];
+        $.each(testData.widgetData, function(widgetIndex, widget) {
+            paths.push('/node_modules/' + widget.path + widget.src);
+        });
+
+        oae.api.util.staticBatch(paths, function(err, data) {
+            $.each(data, function(htmlIndex, html) {
+                var widgetName = htmlIndex.split('/').pop().split('.')[0];
+                testData.widgetData[widgetName].html = html;
+            });
+            callback(testData);
+        });
+    };
+
+    /**
+     * Load the widget HTML through a batch request
+     *
+     * @param  {Object}      testData               The test data containing all files to be tested (html, css, js, properties)
+     * @param  {Function}    callback               Standard callback function
+     * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
+     */
+    var loadMainHTML = exports.loadMainHTML = function(testData, callback) {
+        var paths = _.keys(testData.mainHTML);
+
+        oae.api.util.staticBatch(paths, function(err, data) {
+            $.each(data, function(htmlIndex, html) {
+                testData.mainHTML[htmlIndex] = html;
+            });
+            callback(testData);
+        });
+    };
+
+    /**
+     * Loads and parses all widget bundles through batch requests
+     *
+     * @param  {Object}      testData               The test data containing all files to be tested (html, css, js, properties)
+     * @param  {Function}    callback               Standard callback function
+     * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
+     */
+    var loadWidgetBundles = exports.loadWidgetBundles = function(testData, callback) {
+
+        var paths = [];
+        $.each(testData.widgetData, function(widgetIndex, widget) {
+            if (widget.i18n) {
+                $.each(widget.i18n, function(bundleIndex, bundle) {
+                    paths.push('/node_modules/' + widget.path + bundle);
+                });
             }
         });
-        return json;
-    };
-
-    /**
-     * [ description]
-     *
-     * @param  {[type]}   widgetData [description]
-     * @param  {Function} callback   [description]
-     *
-     * @return {[type]}              [description]
-     */
-    var loadWidgetCSS = exports.loadWidgetCSS = function(widgetData, callback) {
-        var widgetsToDo = 0;
-
-        var getCSS = function(widget) {
-            $.ajax({
-                dataType: 'text',
-                url: '/node_modules/oae-core/' + widget.id + '/css/' + widget.id + '.css',
-                success: function(data) {
-                    widget.css = data;
-                    widgetsToDo++;
-                    if (widgetsToDo !== _.keys(widgetData).length) {
-                        getCSS(widgetData[_.keys(widgetData)[widgetsToDo]]);
-                    } else {
-                        callback(widgetData);
-                    }
-                },
-                error: function() {
-                    widget.css = '';
-                    widgetsToDo++;
-                    if (widgetsToDo !== _.keys(widgetData).length) {
-                        getCSS(widgetData[_.keys(widgetData)[widgetsToDo]]);
-                    } else {
-                        callback(widgetData);
-                    }
-                }
-            });
-        };
-
-        getCSS(widgetData[_.keys(widgetData)[0]]);
-    };
-
-    /**
-     * [ description]
-     *
-     * @param  {[type]}   htmlData [description]
-     * @param  {Function} callback [description]
-     *
-     * @return {[type]}            [description]
-     */
-    var loadMainCSS = exports.loadMainCSS = function(cssData, callback) {
-        var cssToDo = 0;
-
-        var getCSS = function(filename) {
-            $.ajax({
-                dataType: 'text',
-                url: '/' + filename + '.css',
-                success: function(data) {
-                    cssData[filename] = data;
-                    cssToDo++;
-                    if (cssToDo === _.keys(cssData).length) {
-                        callback(cssData);
-                    }
-                }
-            });
-        };
-
-        $.each(cssData, function(i) {
-            getCSS(i);
-        });
-    };
-
-    /**
-     * [ description]
-     *
-     * @param  {[type]}   htmlData [description]
-     * @param  {Function} callback [description]
-     *
-     * @return {[type]}            [description]
-     */
-    var loadSharedCSS = exports.loadSharedCSS = function(cssData, callback) {
-        var cssToDo = 0;
-
-        var getCSS = function(filename) {
-            $.ajax({
-                dataType: 'text',
-                url: '/shared/oae/css/' + filename + '.css',
-                success: function(data) {
-                    cssData[filename] = data;
-                    cssToDo++;
-                    if (cssToDo === _.keys(cssData).length) {
-                        callback(cssData);
-                    }
-                }
-            });
-        };
-
-        $.each(cssData, function(i) {
-            getCSS(i);
-        });
-    };
-
-
-    /**
-     * [ description]
-     *
-     * @param  {[type]}   widgetData [description]
-     * @param  {Function} callback   [description]
-     *
-     * @return {[type]}              [description]
-     */
-    var loadWidgetJS = exports.loadWidgetJS = function(widgetData, callback) {
-        var widgetsToDo = 0;
-
-        var getJS = function(widget) {
-            $.ajax({
-                dataType: 'text',
-                url: '/node_modules/oae-core/' + widget.id + '/js/' + widget.id + '.js',
-                success: function(data) {
-                    widget.js = data;
-                    widgetsToDo++;
-                    if (widgetsToDo !== _.keys(widgetData).length) {
-                        getJS(widgetData[_.keys(widgetData)[widgetsToDo]]);
-                    } else {
-                        callback(widgetData);
-                    }
-                }
-            });
-        };
-
-        getJS(widgetData[_.keys(widgetData)[0]]);
-    };
-
-    /**
-     * [ description]
-     *
-     * @param  {[type]}   htmlData [description]
-     * @param  {Function} callback [description]
-     *
-     * @return {[type]}            [description]
-     */
-    var loadMainJS = exports.loadMainJS = function(jsData, callback) {
-        var jsToDo = 0;
-
-        var getJS = function(filename) {
-            $.ajax({
-                dataType: 'text',
-                url: '/' + filename + '.js',
-                success: function(data) {
-                    jsData[filename] = data;
-                    jsToDo++;
-                    if (jsToDo === _.keys(jsData).length) {
-                        callback(jsData);
-                    }
-                }
-            });
-        };
-
-        $.each(jsData, function(i) {
-            getJS(i);
-        });
-    };
-
-    /**
-     * [ description]
-     *
-     * @param  {[type]}   htmlData [description]
-     * @param  {Function} callback [description]
-     *
-     * @return {[type]}            [description]
-     */
-    var loadAPIJS = exports.loadAPIJS = function(jsData, callback) {
-        var jsToDo = 0;
-
-        var getJS = function(filename) {
-            $.ajax({
-                dataType: 'text',
-                url: '/shared/oae/api/' + filename + '.js',
-                success: function(data) {
-                    jsData[filename] = data;
-                    jsToDo++;
-                    if (jsToDo === _.keys(jsData).length) {
-                        callback(jsData);
-                    }
-                }
-            });
-        };
-
-        $.each(jsData, function(i) {
-            getJS(i);
-        });
-    };
-
-    /**
-     * [ description]
-     *
-     * @param  {[type]}   widgetData [description]
-     * @param  {Function} callback   [description]
-     *
-     * @return {[type]}              [description]
-     */
-    var loadWidgetHTML = exports.loadWidgetHTML = function(widgetData, callback) {
-        var widgetsToDo = 0;
-
-        var getHTML = function(widget) {
-            $.ajax({
-                dataType: 'text',
-                url: '/node_modules/oae-core/' + widget.id + '/' + widget.id + '.html',
-                success: function(data) {
-                    widget.html = data;
-                    widgetsToDo++;
-                    if (widgetsToDo !== _.keys(widgetData).length) {
-                        getHTML(widgetData[_.keys(widgetData)[widgetsToDo]]);
-                    } else {
-                        callback(widgetData);
-                    }
-                }
-            });
-        };
-
-        getHTML(widgetData[_.keys(widgetData)[0]]);
-    };
-
-    /**
-     * [ description]
-     *
-     * @param  {[type]}   htmlData [description]
-     * @param  {Function} callback [description]
-     *
-     * @return {[type]}            [description]
-     */
-    var loadMainHTML = exports.loadMainHTML = function(htmlData, callback) {
-        var htmlToDo = 0;
-
-        var getHTML = function(filename) {
-            $.ajax({
-                dataType: 'text',
-                url: '/ui/' + filename + '.html',
-                success: function(data) {
-                    htmlData[filename] = data;
-                    htmlToDo++;
-                    if (htmlToDo === _.keys(htmlData).length) {
-                        callback(htmlData);
-                    }
-                }
-            });
-        };
-
-        $.each(htmlData, function(i) {
-            getHTML(i);
-        });
-    };
-
-    /**
-     * [ description]
-     *
-     * @param  {[type]}   macroHTML [description]
-     * @param  {Function} callback  [description]
-     *
-     * @return {[type]}             [description]
-     */
-    var loadMacroHTML = exports.loadMacroHTML = function(macroHTML, callback) {
-        var htmlToDo = 0;
-
-        var getHTML = function(filename) {
-            $.ajax({
-                dataType: 'text',
-                url: '/shared/oae/macros/' + filename + '.html',
-                success: function(data) {
-                    macroHTML[filename] = data;
-                    htmlToDo++;
-                    if (htmlToDo === _.keys(macroHTML).length) {
-                        callback(macroHTML);
-                    }
-                }
-            });
-        };
-
-        $.each(macroHTML, function(i) {
-            getHTML(i);
-        });
-    };
-
-     /**
-      * Retrieves the bundle files from widgets
-      *
-      * @param  {[type]}   widgetData [description]
-      * @param  {Function} callback   [description]
-      *
-      * @return {[type]}              [description]
-      */
-    var loadWidgetBundles = exports.loadWidgetBundles = function(widgetData, callback) {
-        var widgetsToDo = 0;
 
         /**
-         * Gets the bundles for a widget
+         * Execute a batch request per 100 widget bundles to avoid large GET requests and parse them
+         *
+         * @param  {String[]]}   paths       Array of paths to widget bundle files
          */
-        var getBundles = function(widget) {
-            var bundlesToDo = 0;
+        var retrieveWidgetBundles = function(paths) {
+            var pathsToRetrieve = paths.splice(0, 100);
+            oae.api.util.staticBatch(pathsToRetrieve, function(err, data) {
+                // For each bundle, extract the widget and bundle name and parse the properties
+                $.each(data, function(bundleIndex, bundle) {
+                    var splitPath = bundleIndex.split('/');
+                    var widgetName = splitPath[splitPath.length - 3];
+                    var bundleName = splitPath.pop().split('.')[0];
 
-            /**
-             * Gets the individual bundles in a widget
-             */
-            var getBundle = function(key) {
-                $.ajax({
-                    dataType: 'text',
-                    url: '/node_modules/oae-core/' + widget.id + '/bundles/' + key + '.properties',
-                    success: function(data) {
-                        widget.i18n[key] = changeToJSON(data);
-                        bundlesToDo++;
-                        if (bundlesToDo === _.keys(widget.i18n).length) {
-                            widgetsToDo++;
-                            if (widgetsToDo !== _.keys(widgetData).length) {
-                                // If the next widget has no i18n properties, skip to the next until we get one that
-                                // does have properties files or we run out of widgets
-                                if ($.isEmptyObject(widgetData[_.keys(widgetData)[widgetsToDo]].i18n)) {
-                                    while ($.isEmptyObject(widgetData[_.keys(widgetData)[widgetsToDo]].i18n)) {
-                                        widgetsToDo++;
-                                    }
-                                }
-                                getBundles(widgetData[_.keys(widgetData)[widgetsToDo]]);
-                            } else {
-                                callback(widgetData);
-                            }
-                        }
-                    }
-                });
-            };
-
-            $.each(widget.i18n, function(i, bundle) {
-                getBundle(i);
-            });
-        };
-
-        getBundles(widgetData[_.keys(widgetData)[0]]);
-    };
-
-    /**
-     * [ description]
-     *
-     * @param  {[type]}   bundleData [description]
-     * @param  {Function} callback   [description]
-     *
-     * @return {[type]}              [description]
-     */
-    var loadMainBundles = exports.loadMainBundles = function(bundleData, callback) {
-        var bundlesToDo = 0;
-
-        /**
-         * Gets a global bundle
-         */
-        var getBundle = function(key) {
-            $.ajax({
-                dataType: 'text',
-                url: '/ui/bundles/' + key + '.properties',
-                success: function(data) {
-                    bundleData[key] = changeToJSON(data);
-                    bundlesToDo++;
-                    if (bundlesToDo === _.keys(bundleData).length) {
-                        callback(bundleData);
-                    }
-                }
-            });
-        };
-
-        $.each(bundleData, function(i) {
-            getBundle(i);
-        });
-    };
-
-    /**
-     * Loads the widget data
-     */
-    var loadWidgets = exports.loadWidgets = function(callback) {
-        $.ajax({
-            url: '/api/ui/widgets',
-            dataType: 'json',
-            success: function(data) {
-                // Caches the widget data (i18n, html and css)
-                var widgetData = {};
-
-                // Create an object per widget
-                $.each(data, function(i, widget) {
-                    widgetData[i] = {
-                        'id': i,
-                        'html': null,
-                        'i18n': {},
-                        'js': null
-                    };
-
-                    // Create an i18n object in the widget i18n property per bundle in the widget
-                    if (widget.i18n) {
-                        $.each(widget.i18n, function(ii, bundle) {
-                            widgetData[i].i18n[ii] = null;
-                        });
+                    if (bundle) {
+                        testData.widgetData[widgetName].i18n[bundleName] = $.parseProperties(bundle);
+                    } else {
+                        testData.widgetData[widgetName].i18n[bundleName] = {};
                     }
                 });
 
-                var mainBundles = {
-                    'ca_ES': null,
-                    'de_DE': null,
-                    'default': null,
-                    'en_GB': null,
-                    'en_US': null,
-                    'es_ES': null,
-                    'fr_FR': null,
-                    'it_IT': null,
-                    'nl_NL': null,
-                    'ru_RU': null,
-                    'zh_CN': null
-                };
+                if (paths.length === 0) {
+                    callback(testData);
+                } else {
+                    retrieveWidgetBundles(paths);
+                }
+            });
+        };
 
-                var mainHTML = {
-                    'shared/oae/errors/accessdenied': null,
-                    'shared/oae/errors/maintenance': null,
-                    'shared/oae/errors/noscript': null,
-                    'shared/oae/errors/notfound': null,
-                    'shared/oae/errors/unavailable': null,
-                    'content': null,
-                    'discussion': null,
-                    'group': null,
-                    'index': null,
-                    'me': null,
-                    'search': null,
-                    'user': null
-                };
+        retrieveWidgetBundles(paths);
+    };
 
-                var macroHTML = {
-                    'activity': null,
-                    'autosuggest': null,
-                    'list': null
-                };
+    /**
+     * Load the main bundles through a batch request
+     *
+     * @param  {Object}      testData               The test data containing all files to be tested (html, css, js, properties)
+     * @param  {Function}    callback               Standard callback function
+     * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
+     */
+    var loadMainBundles = exports.loadMainBundles = function(testData, callback) {
+        var paths = _.keys(testData.mainBundles);
 
-                var mainJS = {
-                    'shared/oae/errors/js/accessdenied': null,
-                    'ui/js/content': null,
-                    'ui/js/discussion': null,
-                    'ui/js/group': null,
-                    'ui/js/index': null,
-                    'ui/js/me': null,
-                    'shared/oae/errors/js/notfound': null,
-                    'ui/js/search': null,
-                    'shared/oae/errors/js/unavailable': null,
-                    'ui/js/user': null
-                };
+        oae.api.util.staticBatch(paths, function(err, data) {
+            $.each(data, function(bundleIndex, bundle) {
+                testData.mainBundles[bundleIndex] = $.parseProperties(bundle);
+            });
+            callback(testData);
+        });
+    };
 
-                var apiJS = {
-                    'oae.api.authentication': null,
-                    'oae.api.content': null,
-                    'oae.api.i18n': null,
-                    'oae.api.profile': null,
-                    'oae.api.widget': null,
-                    'oae.api.comment': null,
-                    'oae.api.discussion': null,
-                    'oae.api': null,
-                    'oae.api.user': null,
-                    'oae.bootstrap': null,
-                    'oae.api.config': null,
-                    'oae.api.group': null,
-                    'oae.api.l10n': null,
-                    'oae.api.util': null,
-                    'oae.core': null
-                };
+    /**
+     * Load the HTML, bundles, JavaScript and CSS for all core code and all widgets
+     */
+    var loadTestData = exports.loadTestData = function(callback) {
+        var testData = {
+            'widgetData': oae.api.widget.getWidgetManifests(),
+            'mainBundles': {
+                '/ui/bundles/ca_ES.properties': null,
+                '/ui/bundles/de_DE.properties': null,
+                '/ui/bundles/default.properties': null,
+                '/ui/bundles/es_ES.properties': null,
+                '/ui/bundles/fr_FR.properties': null,
+                '/ui/bundles/it_IT.properties': null,
+                '/ui/bundles/nl_NL.properties': null,
+                '/ui/bundles/pl_PL.properties': null,
+                '/ui/bundles/ru_RU.properties': null,
+                '/ui/bundles/zh_CN.properties': null
+            },
+            'mainHTML': {
+                '/shared/oae/errors/accessdenied.html': null,
+                '/shared/oae/errors/maintenance.html': null,
+                '/shared/oae/errors/noscript.html': null,
+                '/shared/oae/errors/notfound.html': null,
+                '/shared/oae/errors/unavailable.html': null,
+                '/shared/oae/macros/activity.html': null,
+                '/shared/oae/macros/autosuggest.html': null,
+                '/shared/oae/macros/list.html': null,
+                '/ui/content.html': null,
+                '/ui/discussion.html': null,
+                '/ui/group.html': null,
+                '/ui/index.html': null,
+                '/ui/me.html': null,
+                '/ui/search.html': null,
+                '/ui/user.html': null
+            },
+            'apiJS': {
+                '/shared/oae/api/oae.api.authentication.js': null,
+                '/shared/oae/api/oae.api.comment.js': null,
+                '/shared/oae/api/oae.api.config.js': null,
+                '/shared/oae/api/oae.api.content.js': null,
+                '/shared/oae/api/oae.api.discussion.js': null,
+                '/shared/oae/api/oae.api.follow.js': null,
+                '/shared/oae/api/oae.api.group.js': null,
+                '/shared/oae/api/oae.api.i18n.js': null,
+                '/shared/oae/api/oae.api.js': null,
+                '/shared/oae/api/oae.api.l10n.js': null,
+                '/shared/oae/api/oae.api.profile.js': null,
+                '/shared/oae/api/oae.api.user.js': null,
+                '/shared/oae/api/oae.api.util.js': null,
+                '/shared/oae/api/oae.api.widget.js': null,
+                '/shared/oae/api/oae.bootstrap.js': null,
+                '/shared/oae/api/oae.core.js': null,
+            },
+            'oaePlugins': {
+                '/shared/oae/js/bootstrap-plugins/bootstrap.modal.js': null,
+                '/shared/oae/js/jquery-plugins/jquery.browse-focus.js': null,
+                '/shared/oae/js/jquery-plugins/jquery.clip.js': null,
+                '/shared/oae/js/jquery-plugins/jquery.dnd-upload.js': null,
+                '/shared/oae/js/jquery-plugins/jquery.infinitescroll.js': null,
+                '/shared/oae/js/jquery-plugins/jquery.jeditable-focus.js': null,
+                '/shared/oae/js/jquery-plugins/jquery.list-options.js': null,
+            },
+            'mainJS': {},
+            'mainCSS': {
+                '/shared/oae/css/oae.base.css': null,
+                '/shared/oae/css/oae.components.css': null,
+                '/shared/oae/css/oae.core.css': null,
+                '/shared/oae/css/oae.skin.static.css': null
+            }
+        };
 
-                var mainCSS = {
-                    'ui/css/oae.discussion': null,
-                    'shared/oae/errors/css/oae.error': null,
-                    'ui/css/oae.index': null,
-                    'shared/oae/errors/css/oae.noscript': null,
-                    'ui/css/oae.search': null
-                };
-
-                var sharedCSS = {
-                    'oae.base': null,
-                    'oae.components': null,
-                    'oae.core': null,
-                    'oae.skin.static': null
-                };
-
-                // Load the main bundles
-                loadMainBundles(mainBundles, function(mainBundles) {
-                    // Load the widget bundles
-                    loadWidgetBundles(widgetData, function(widgetData) {
-                        // Load the main HTML
-                        loadMainHTML(mainHTML, function(mainHTML) {
-                            // Load the macro HTML
-                            loadMacroHTML(macroHTML, function(macroHTML) {
-                                // Load the widget HTML
-                                loadWidgetHTML(widgetData, function(widgetData) {
-                                    // Load the widget JavaScript
-                                    loadWidgetJS(widgetData, function(widgetData) {
-                                        // Load the main JS
-                                        loadMainJS(mainJS, function(mainJS) {
-                                            // Load the main CSS
-                                            loadMainCSS(mainCSS, function(mainCSS) {
-                                                // Load the shared CSS
-                                                loadSharedCSS(sharedCSS, function(sharedCSS) {
-                                                    // Load the widget CSS
-                                                    loadWidgetCSS(widgetData, function(widgetData) {
-                                                        // Load the API JS
-                                                        loadAPIJS(apiJS, function(apiJS) {
-                                                            callback({
-                                                                'widgetData': widgetData,
-                                                                'mainBundles': mainBundles,
-                                                                'mainHTML': mainHTML,
-                                                                'macroHTML': macroHTML,
-                                                                'mainJS': mainJS,
-                                                                'apiJS': apiJS,
-                                                                'mainCSS': mainCSS,
-                                                                'sharedCSS': sharedCSS
-                                                            });
-                                                        });
-                                                    });
-                                                });
+        // Load widget test data
+        loadWidgetBundles(testData, function(testData) {
+            loadWidgetHTML(testData, function(testData) {
+                loadWidgetCSS(testData, function(testData) {
+                    loadWidgetJS(testData, function(testData) {
+                        // Load main test data
+                        loadMainBundles(testData, function(testData) {
+                            loadMainHTML(testData, function(testData) {
+                                loadMainCSS(testData, function(testData) {
+                                    loadMainJS(testData, function(testData) {
+                                        loadAPIJS(testData, function(testData) {
+                                            loadOAEPlugins(testData, function(testData) {
+                                                callback(testData);
                                             });
                                         });
                                     });
@@ -559,72 +386,7 @@ define(['exports', 'jquery', 'qunitjs'], function(exports, $) {
                         });
                     });
                 });
-            }
-        });
-    };
-
-    /**
-     * QUnit calls this function when it has completed all of its tests
-     * We simply define the function and it gets called
-     */
-    QUnit.done = function(completed) {
-        var location = window.location.href.split('/');
-        location = location[location.length-1];
-        testDone({
-            'url': location,
-            'failed': completed.failed,
-            'passed': completed.passed,
-            'total': completed.total
-        });
-    };
-
-    var testDone = function(results) {
-        parent.$(parent.document).trigger('tests.qunit.done', results);
-    };
-
-    /**
-     * Run an individual test
-     *
-     * @param {Object} test The test to run, should be in format
-     * {url:'tests/mytest.html', title: 'My Test'}
-     */
-    var runTest = function(test) {
-        currentTest = test;
-        var $iframe = $('<iframe/>');
-        $('#tests-run-all-container').append($iframe);
-        $iframe.attr('src', test.url);
-        startTime = new Date();
-    };
-
-    /**
-     * runAllTests populates the tests array with any link in the index.html file
-     * that contains a test class. It will then kick off the first test.
-     */
-    var runAllTests = function() {
-
-        $(document).off('tests.qunit.done').on('tests.qunit.done', function(ev, results) {
-            testResults[results.url] = testResults[results.url] || {};
-            $.extend(testResults[results.url], results);
-            if (tests.length) {
-                runTest(tests.pop());
-            }
-        });
-
-        var $tests = $('a.test');
-        $.each($tests, function(i, val) {
-            tests.push({
-                'url': $(val).attr('href'),
-                'title': $(val).text()
             });
         });
-
-        tests.reverse();
-
-        $('#tests-run-all-container').empty();
-
-        runTest(tests.pop());
     };
-
-    $(document).on('click', '#tests_run_all', runAllTests);
-
 });

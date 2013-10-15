@@ -78,7 +78,8 @@ require(['jquery', 'oae.core'], function($, oae) {
      * Render the user's clip, containing the profile picture, display name and affiliation
      */
     var setUpClip = function() {
-        oae.api.util.template().render($('#user-clip-template'), {'user': userProfile}, $('#user-clip-container'));
+        oae.api.util.template().render($('#user-clip-left-template'), {'user': userProfile}, $('#user-clip-left-container'));
+        oae.api.util.template().render($('#user-clip-right-template'), {'user': userProfile}, $('#user-clip-right-container'));
     };
 
     /**
@@ -140,6 +141,24 @@ require(['jquery', 'oae.core'], function($, oae) {
                         ]
                     }
                 ]
+            },
+            {
+                'id': 'network',
+                'title': oae.api.i18n.translate('__MSG__NETWORK__'),
+                'icon': 'icon-random',
+                'layout': [
+                    {
+                        'width': 'span12',
+                        'widgets': [
+                            {
+                                'id': 'network',
+                                'settings': {
+                                    'principalId': userProfile.id
+                                }
+                            }
+                        ]
+                    }
+                ]
             }
         ];
         $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
@@ -147,6 +166,38 @@ require(['jquery', 'oae.core'], function($, oae) {
             $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
         });
     };
+
+
+    /////////////////
+    // FOLLOW USER //
+    /////////////////
+
+    /**
+     * Follow the user when the `follow` button is clicked
+     */
+    $(document).on('click', '#user-follow', function() {
+        oae.api.follow.follow(userProfile.id, function(err) {
+            if (!err) {
+                // Show a success notification
+                oae.api.util.notification(
+                    oae.api.i18n.translate('__MSG__FOLLOWING_SUCCEEDED__'),
+                    oae.api.i18n.translate('__MSG__FOLLOWING_YOU_ARE_NOW_FOLLOWING__', null, {
+                        'displayName': userProfile.displayName
+                    })
+                );
+                $('#user-follow-actions').hide();
+            } else {
+                // Show an error notification
+                oae.api.util.notification(
+                    oae.api.i18n.translate('__MSG__FOLLOWING_FAILED__'),
+                    oae.api.i18n.translate('__MSG__FOLLOWING_COULD_NOT_FOLLOW__', null, {
+                        'displayName': userProfile.displayName
+                    }),
+                    'error'
+                );
+            }
+        });
+    });
 
     getUserProfile();
 

@@ -28,6 +28,7 @@
     "grunt-cli": "latest",
     "grunt-contrib-clean": "latest",
     "grunt-contrib-copy": "latest",
+    "grunt-contrib-qunit": "latest",
     "grunt-contrib-requirejs": "latest",
     "grunt-ghost": "latest",
     "grunt-git-describe": "latest",
