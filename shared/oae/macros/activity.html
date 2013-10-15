@@ -84,7 +84,7 @@
     {elseif activityType === 'discussion-update-visibility'}
         ${renderDiscussionUpdateVisibilitySummary(activity, actor1, actor1URL, object1, object1URL, object1Tenant)}
     {elseif activityType === 'following-follow'}
-        ${renderFollowingFollowSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount)}
+        ${renderFollowingSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, object1, object1URL, object2, object2URL, objectCount)}
     {elseif activityType === 'group-add-member'}
         ${renderGroupAddMemberSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount, target1, target1URL)}
     {elseif activityType === 'group-create'}
@@ -587,23 +587,42 @@
  * @param  {Activity}     activity      Standard activity object as specified by the activitystrea.ms specification, representing the following-follow activity, for which to generate the activity summary
  * @param  {String}       actor1        Display name of the first actor on the activity
  * @param  {String}       actor1URL     Profile path for the first actor on the activity
+ * @param  {String}       actor2        Display name of the second actor on the activity
+ * @param  {String}       actor2URL     Profile path for the second actor on the activity
+ * @param  {Number}       actorCount    The total number of different actors on the activity
  * @param  {String}       object1       Display name of the first object on the activity
  * @param  {String}       object1URL    Profile path for the first object on the activity
  * @param  {String}       object2       Display name of the second object on the activity
  * @param  {String}       object2URL    Profile path for the second object on the activity
  * @param  {Number}       objectCount   The total number of different objects on the activity
 -->
-{macro renderFollowingFollowSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount)}
-    {if !objectCount}
-        {if activity.object['oae:id'] === oae.data.me.id}
-            __MSG__ACTIVITY_FOLLOWING_FOLLOW_YOU__
+{macro renderFollowingSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, object1, object1URL, object2, object2URL, objectCount)}
+    {if actorCount}
+        {if actorCount === 2}
+            {if activity.object['oae:id'] === oae.data.me.id}
+                __MSG__ACTIVITY_FOLLOWING_2_YOU__
+            {else}
+                __MSG__ACTIVITY_FOLLOWING_2_1__
+            {/if}
         {else}
-            __MSG__ACTIVITY_FOLLOWING_FOLLOW_1__
+            {if activity.object['oae:id'] === oae.data.me.id}
+                __MSG__ACTIVITY_FOLLOWING_2+_YOU__
+            {else}
+                __MSG__ACTIVITY_FOLLOWING_2+_1__
+            {/if}
         {/if}
-    {elseif objectCount === 2}
-        __MSG__ACTIVITY_FOLLOWING_FOLLOW_2__
+    {elseif objectCount}
+        {if objectCount === 2}
+            __MSG__ACTIVITY_FOLLOWING_1_2__
+        {else}
+            __MSG__ACTIVITY_FOLLOWING_1_2+__
+        {/if}
     {else}
-        __MSG__ACTIVITY_FOLLOWING_FOLLOW_2+__
+        {if activity.object['oae:id'] === oae.data.me.id}
+            __MSG__ACTIVITY_FOLLOWING_1_YOU__
+        {else}
+            __MSG__ACTIVITY_FOLLOWING_1_1__
+        {/if}
     {/if}
 {/macro}
 
