@@ -45,7 +45,11 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
             var $html = $('<div/>').html(widget.html);
             var $scripts = $html.find('script');
             $.each($scripts, function(scriptIndex, script) {
-                paths.push('/node_modules/' + widget.path + $(script).attr('src'));
+                var jsPath = $(script).attr('src');
+                // Only look at the widget JS files, not at libraries
+                if (jsPath.indexOf('js') === 0) {
+                    paths.push('/node_modules/' + widget.path + jsPath);
+                }
             });
         });
 
@@ -53,8 +57,14 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
 
         oae.api.util.staticBatch(paths, function(err, data) {
             $.each(data, function(widgetJSPath, widgetJS) {
-                var widgetName = widgetJSPath.split('/').pop().split('.')[0];
-                testData.widgetData[widgetName].js = widgetJS;
+                // Get the ID of the widget by looking at the directory the files are stored in
+                var widgetName = widgetJSPath.split('/')[3];
+                // If the JS Object is not defined yet define it
+                if (!testData.widgetData[widgetName].js) {
+                    testData.widgetData[widgetName].js = {};
+                }
+                // Add the widget JS into the object
+                testData.widgetData[widgetName].js[widgetJSPath] = widgetJS;
             });
             callback(testData);
         });
@@ -145,16 +155,24 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
             var $html = $('<div/>').html(widget.html);
             var $links = $html.find('link');
             $.each($links, function(linkIndex, link) {
-                paths.push('/node_modules/' + widget.path + $(link).attr('href'));
+                var cssPath = $(link).attr('href');
+                // Only look at the widget CSS files, not at libraries
+                if (cssPath.indexOf('css') === 0) {
+                    paths.push('/node_modules/' + widget.path + cssPath);
+                }
             });
         });
 
         oae.api.util.staticBatch(paths, function(err, data) {
             $.each(data, function(cssIndex, css) {
-                var widgetName = cssIndex.split('/').pop().split('.')[0];
-                if (testData.widgetData[widgetName]) {
-                    testData.widgetData[widgetName].css = css;
+                // Get the ID of the widget by looking at the directory the files are stored in
+                var widgetName = cssIndex.split('/')[3];
+                // If the CSS Object is not defined yet define it
+                if (!testData.widgetData[widgetName].css) {
+                    testData.widgetData[widgetName].css = {};
                 }
+                // Add the widget CSS into the Object
+                testData.widgetData[widgetName].css[cssIndex] = css;
             });
             callback(testData);
         });

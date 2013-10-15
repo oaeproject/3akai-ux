@@ -93,8 +93,8 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
         description = 'Only one expression per line';
         doRegexTest(cssFile, regex, description);
 
-        // Test expression is indented
-        regex = /(\{|;)\s*\n[a-z-A-Z0-9]+/gm;
+        // Test expression is indented with 4 spaces
+        regex = /(\{|;\n)\s{0,3}[a-z-A-Z0-9]+/gm;
         description = 'Indent expression 4 spaces';
         doRegexTest(cssFile, regex, description);
     };
@@ -118,13 +118,17 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
 
         // Test that the widget CSS files are properly formatted
         $.each(testData.widgetData, function(widgetCSSPath, widget) {
-            test(widgetCSSPath, function() {
-                if (widget.css) {
-                    checkCSS(widget.css);
-                } else {
+            if (widget.css) {
+                $.each(widget.css, function(widgetCSSIndex, widgetCSS) {
+                    test(widgetCSSIndex, function() {
+                        checkCSS(widgetCSS);
+                    });
+                });
+            } else {
+                test(widgetCSSPath, function() {
                     ok(true, widgetCSSPath + ' has no CSS to check.');
-                }
-            });
+                });
+            }
         });
 
         // Start consuming tests again

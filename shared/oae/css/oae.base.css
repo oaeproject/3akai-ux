@@ -154,11 +154,11 @@ input[type="file"] {
 
 input.search-query,
 .navbar-search .search-query {
-  font-family: inherit;
-  padding: 3px 5px;
-  -webkit-border-radius: 3px;
-     -moz-border-radius: 3px;
-          border-radius: 3px;
+    font-family: inherit;
+    padding: 3px 5px;
+    -webkit-border-radius: 3px;
+       -moz-border-radius: 3px;
+            border-radius: 3px;
 }
 
 .control-group select,
