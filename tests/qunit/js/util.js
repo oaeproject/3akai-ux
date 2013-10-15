@@ -353,6 +353,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 '/shared/oae/api/oae.api.config.js': null,
                 '/shared/oae/api/oae.api.content.js': null,
                 '/shared/oae/api/oae.api.discussion.js': null,
+                '/shared/oae/api/oae.api.follow.js': null,
                 '/shared/oae/api/oae.api.group.js': null,
                 '/shared/oae/api/oae.api.i18n.js': null,
                 '/shared/oae/api/oae.api.js': null,

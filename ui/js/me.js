@@ -103,6 +103,25 @@ require(['jquery','oae.core'], function($, oae) {
                     ]
                 }
             ]
+        },
+        {
+            'id': 'network',
+            'title': oae.api.i18n.translate('__MSG__MY_NETWORK__'),
+            'icon': 'icon-random',
+            'layout': [
+                {
+                    'width': 'span12',
+                    'widgets': [
+                        {
+                            'id': 'network',
+                            'settings': {
+                                'principalId': oae.data.me.id,
+                                'canManage': true
+                            }
+                        }
+                    ]
+                }
+            ]
         }
     ];
 

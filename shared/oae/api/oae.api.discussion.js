@@ -58,6 +58,9 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             throw new Error('A valid description topic should be provided');
         }
 
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
         var data = {
             'displayName': displayName,
             'description': description,
