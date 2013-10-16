@@ -317,9 +317,14 @@ i[class^="icon-"].large:before {
  * the thumbnail. These thumbnails will adjust in size to the space they have
  * been given by their container.
  *
+ * In order to handle externally provided thumbnails that don't have equal
+ * dimensions the image is set as the background on a div with appropriate aria
+ * role info. The thumbnail displayed in these cases will be "cropped" from the
+ * center of the provided image.
+ *
  *   e.g. <div class="oae-thumbnail icon-oae-user">
  *            <a href="${entityData.profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}">
- *                <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian"/>
+ *                <div style="background-image: url(/ui/img/dummy/profile-pic-john.png)" role="img" aria-label="John Librarian"/>
  *                <i class="icon-oae-public"></i>
  *            </a>
  *        </div>
@@ -381,13 +386,16 @@ div.oae-thumbnail a {
 }
 
 div.oae-thumbnail a,
-div.oae-thumbnail img {
+div.oae-thumbnail div {
     position: absolute;
     left: 0;
     top: 0;
-    min-width: 100%;
     height: 100%;
+    width: 100%;
     font-size: 12px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 div.oae-thumbnail:before {
