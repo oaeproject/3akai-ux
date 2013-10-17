@@ -291,8 +291,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
             // Set the link to the default and user locale language bundles
             widgetsToLoad[widgetName].bundles = {};
             if (widget.i18n) {
-                widgetsToLoad[widgetName].bundles['default'] = _.contains(widget.i18n, 'default') ? convertRelativeToAbsolutePath('bundles/default.properties', widgetsToLoad[widgetName].prefixPath) : null,
-                widgetsToLoad[widgetName].bundles[locale] = _.contains(widget.i18n, locale) ? convertRelativeToAbsolutePath('bundles/' + locale + '.properties', widgetsToLoad[widgetName].prefixPath) : null;
+                widgetsToLoad[widgetName].bundles['default'] = widget.i18n['default'] ? convertRelativeToAbsolutePath(widget.i18n['default'], widgetsToLoad[widgetName].prefixPath) : null;
+                widgetsToLoad[widgetName].bundles[locale] = widget.i18n[locale] ? convertRelativeToAbsolutePath(widget.i18n[locale], widgetsToLoad[widgetName].prefixPath) : null;
             }
             // Add the id of the widget to the instances that should be loaded for the current widget name
             widgetsToLoad[widgetName].instances = widgetsToLoad[widgetName].instances || [];

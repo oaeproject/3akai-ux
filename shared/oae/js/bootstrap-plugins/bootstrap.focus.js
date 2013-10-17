@@ -23,14 +23,14 @@ define(['jquery', 'bootstrap'], function($) {
     var $focusedEl = null;
 
     // When the modal is shown, we store the focused element
-    $('body').on('show.bs.modal', function(e) {
+    $('body').on('show.bs.modal', function() {
         $focusedEl = $(':focus');
     });
 
     // When the modal is hidden, we need to re-focus the modal trigger
-    $('body').on('hidden.bs.modal', function(e) {
+    $('body').on('hidden.bs.modal', function() {
         if ($focusedEl) {
-            $($focusedEl).focus();
+            $focusedEl.focus();
         }
     });
 });

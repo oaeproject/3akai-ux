@@ -158,16 +158,16 @@ var updateWidgetManifests = function(bundles) {
         var widgetManifest = require(entry.fullPath);
 
         // Get the list of bundles with translations for this widget
-        var widgetLanguages = [];
+        var widgetLanguages = {};
         _.each(bundles, function(bundle) {
             if (bundle.indexOf(entry.fullParentDir + '/') === 0) {
-                widgetLanguages.push(bundle.split('/').pop().split('.')[0]);
+                var language = bundle.split('/').pop().split('.')[0];
+                widgetLanguages[language] = 'bundles/' + language + '.properties';
             }
         });
-        widgetLanguages.sort();
 
         // Add the languages to the widget manifest file
-        if (widgetLanguages.length) {
+        if (_.keys(widgetLanguages).length) {
             widgetManifest['i18n'] = widgetLanguages;
         // If no languages are available for the current widget, the i18n property
         // is removed from the manifest file

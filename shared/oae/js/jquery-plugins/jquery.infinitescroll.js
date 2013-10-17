@@ -298,7 +298,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
             var removed = 0;
             $.each(items, function(i, item) {
                 $item = $('[data-id="' + item + '"]', $listContainer);
-                $item.fadeOut(false, function() {
+                $item.fadeOut(250, function() {
                     $(this).remove();
                     removed++;
                     if (removed === items.length) {
