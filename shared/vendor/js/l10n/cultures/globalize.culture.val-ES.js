@@ -1,5 +1,5 @@
 /*
- * Globalize Culture ca-ES
+ * Globalize Culture val-ES
  *
  * http://github.com/jquery/globalize
  *
