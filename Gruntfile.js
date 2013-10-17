@@ -32,7 +32,7 @@ module.exports = function(grunt) {
         },
         'target': process.env['DESTDIR'] || 'target',
         'qunit': {
-            'index': ['tests/qunit/tests/unit/*.html']
+            'files': ['tests/qunit/tests/*.html']
         },
         'lint': {
             'files': [
@@ -170,6 +170,7 @@ module.exports = function(grunt) {
     // Load tasks from npm modules
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks('grunt-git-describe');
     grunt.loadNpmTasks('grunt-ver');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
@@ -287,10 +288,27 @@ module.exports = function(grunt) {
         grunt.task.run('copyReleaseArtifacts:' + outputDir);
     });
 
-    // Override the test task with the casperjs task
-    grunt.registerTask('test', ['casperjs']);
+    // Wrap the QUnit task
+    grunt.renameTask('qunit', 'contrib-qunit');
+    grunt.registerTask('qunit', function(host) {
+        // Fall back to the `qunit-host` option
+        host = host || grunt.option('qunit-host');
+        if (!host) {
+            return grunt.fail.fatal('Please provide a link to a running OAE instance. e.g. `grunt qunit:tenant1.oae.com` or `grunt qunit --qunit-host tenant1.oae.com`');
+        }
 
-    // Default task.
+        var urls = _.map(grunt.file.expand(grunt.config.get('qunit.files')), function(file) {
+            return 'http://' + host + '/' + file;
+        });
+        var config = {'options': {'urls': urls}};
+        grunt.config.set('contrib-qunit.all', config);
+        grunt.task.run('contrib-qunit');
+    });
+
+    // Run the CasperJS and QUnit tests
+    grunt.registerTask('test', ['casperjs', 'qunit']);
+
+    // Default task for production build
     grunt.registerTask('default', ['clean', 'copy', 'git-describe', 'requirejs', 'hashFiles', 'writeVersion', 'configNginx']);
 };
 

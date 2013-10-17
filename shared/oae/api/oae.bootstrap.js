@@ -45,6 +45,7 @@ requirejs.config({
         'jquery.timeago': 'vendor/js/jquery-plugins/jquery.timeago',
         'jquery.validate': 'vendor/js/jquery-plugins/jquery.validate',
         'jquery-ui': 'vendor/js/jquery-ui/jquery-ui.custom',
+        'qunitjs': 'vendor/js/qunit',
         'text': 'vendor/js/requirejs/require.text',
         'trimpath': 'vendor/js/trimpath',
         'underscore': 'vendor/js/underscore',
@@ -67,6 +68,7 @@ requirejs.config({
         'oae.api.content': 'oae/api/oae.api.content',
         'oae.api.comment': 'oae/api/oae.api.comment',
         'oae.api.discussion': 'oae/api/oae.api.discussion',
+        'oae.api.follow': 'oae/api/oae.api.follow',
         'oae.api.group': 'oae/api/oae.api.group',
         'oae.api.i18n': 'oae/api/oae.api.i18n',
         'oae.api.l10n': 'oae/api/oae.api.l10n',
@@ -76,8 +78,7 @@ requirejs.config({
         'oae.api.widget': 'oae/api/oae.api.widget',
         'oae.bootstrap': 'oae/api/oae.bootstrap',
         'oae.core': 'oae/api/oae.core',
-        'pluginBuilder': 'oae/pluginBuilder',
-        'qunitjs': '/tests/qunit/js/qunit'
+        'pluginBuilder': 'oae/pluginBuilder'
     },
     'priority': ['jquery', 'underscore'],
     'shim': {

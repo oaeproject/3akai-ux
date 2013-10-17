@@ -23,8 +23,8 @@
 
             <!-- CLIP -->
             <div class="oae-clip-container">
-                <div id="user-clip-container" class="oae-clip-container-left"><!-- --></div>
-                <div id="user-clip-template"><!--
+                <div id="user-clip-left-container" class="oae-clip-container-left"><!-- --></div>
+                <div id="user-clip-left-template"><!--
                     <div class="oae-clip">
                         <div class="oae-clip-fold">
                             <div class="oae-clip-fold-inner"></div>
@@ -42,6 +42,26 @@
                             </button>
                         </div>
                     </div>
+                --></div>
+
+                <div id="user-clip-right-container" class="oae-clip-container-right"><!-- --></div>
+                <div id="user-clip-right-template"><!--
+                    {if user.following && user.following.canFollow}
+                        <div id="user-follow-actions" class="oae-clip oae-clip-flipped oae-clip-secondary">
+                            <div class="oae-clip-fold">
+                                <div class="oae-clip-fold-inner"></div>
+                                <div class="oae-clip-fold-outer"></div>
+                            </div>
+                            <div class="oae-clip-content">
+                                <button id="user-follow">
+                                    <div>
+                                        <i class="icon-bookmark pull-left"></i>
+                                        <h1>__MSG__FOLLOW__</h1>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    {/if}
                 --></div>
             </div>
 
