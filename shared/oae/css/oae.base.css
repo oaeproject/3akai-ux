@@ -85,6 +85,12 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     text-transform: none;
 }
 
+.nav-list > .active > a,
+.nav-list > .active > a:hover,
+.nav-list > .active > a:focus {
+    text-shadow: none;
+}
+
 /* MEDIA OBJECTS
  * @see http://twitter.github.com/bootstrap/components.html#media */
 
