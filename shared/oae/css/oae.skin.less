@@ -501,6 +501,10 @@ ul.as-selections.as-selections-focus {
 @lhnav-item-text-color: #999;
 /* Left hand navigation item hover text color */
 @lhnav-item-text-hover-color: #333;
+/* Left hand navigation item shadow color */
+@lhnav-item-text-shadow-color: none;
+/* Left hand navigation item selected shadow color */
+@lhnav-item-text-selected-shadow-color: none;
 /* Left hand navigation item selected text color */
 @lhnav-item-text-selected-color: #333;
 /* Left hand navigation item background color */
@@ -515,6 +519,7 @@ ul.as-selections.as-selections-focus {
 .nav > li.nav-header {
     color: @lhnav-item-text-color;
     background-color: @lhnav-item-background-color;
+    text-shadow: @lhnav-item-text-shadow-color;
 }
 
 .nav > li > a:hover,
@@ -531,6 +536,7 @@ ul.as-selections.as-selections-focus {
 .nav > li.active i {
     color: @lhnav-item-text-selected-color;
     background-color: @lhnav-item-background-selected-color;
+    text-shadow: @lhnav-item-text-selected-shadow-color;
 }
 
 
