@@ -1,0 +1,13 @@
+project_identifier: apereo-oae
+api_key: <%= apiKey %>
+base_path: <%= rootDir %>
+preserve_hierarchy: true
+
+files:
+  -
+    source: '/ui/bundles/default.properties'
+    translation: '/ui/bundles/%locale_with_underscore%.properties'
+
+  -
+    source: '/node_modules/oae-*/**/bundles/default.properties'
+    translation: '/%original_path%/%locale_with_underscore%.properties'

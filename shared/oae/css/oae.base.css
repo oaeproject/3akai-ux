@@ -78,10 +78,17 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 }
 
 .nav-list .nav-header {
-    text-transform: none;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 500;
     margin-bottom: 10px;
-    font-size: 12px;
+    margin-top: 5px;
+    text-transform: none;
+}
+
+.nav-list > .active > a,
+.nav-list > .active > a:hover,
+.nav-list > .active > a:focus {
+    text-shadow: none;
 }
 
 /* MEDIA OBJECTS
@@ -476,7 +483,7 @@ ul.as-list li.as-result-item.active {
 .oae-main-content.oae-branding-container {
     background-position: top center;
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: cover;
 }
 
 /* MAIN CONTENT DIV */

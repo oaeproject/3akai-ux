@@ -370,9 +370,6 @@ div.oae-thumbnail {
     -webkit-border-radius: 4px;
        -moz-border-radius: 4px;
             border-radius: 4px;
-    -webkit-box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.35);
-       -moz-box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.35);
-            box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.35);
 }
 
 /* IE9 and IE10 need a background color on the link to be able to click the entire icon */
@@ -382,6 +379,9 @@ div.oae-thumbnail a {
 
 div.oae-thumbnail a,
 div.oae-thumbnail img {
+    -webkit-border-radius: 3px;
+       -moz-border-radius: 3px;
+            border-radius: 3px;
     position: absolute;
     left: 0;
     top: 0;
@@ -579,9 +579,6 @@ div.oae-thumbnail i[class^="icon-"] {
     -webkit-border-radius: 6px 0 6px 6px;
        -moz-border-radius: 6px 0 6px 6px;
             border-radius: 6px 0 6px 6px;
-    -webkit-box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
-       -moz-box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
-            box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.3);
 }
 
 .oae-clip.oae-clip-flipped .oae-clip-content {
@@ -608,7 +605,7 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .oae-clip .oae-clip-content > button > div {
-    float: left
+    float: left;
 }
 
 .oae-clip .oae-clip-content > button > div:nth-child(2) > div {
@@ -748,7 +745,9 @@ div.oae-thumbnail i[class^="icon-"] {
 
 /* Default thumbnail picture positioning */
 
-.oae-tile .oae-thumbnail {
+.oae-tile .oae-thumbnail,
+.oae-tile .oae-thumbnail a,
+.oae-tile .oae-thumbnail img {
     -webkit-border-radius: 0;
        -moz-border-radius: 0;
             border-radius: 0;
@@ -775,16 +774,16 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-tile h3,
 .oae-tile h3 a {
     font-size: 14px;
-    font-weight: bold;
+    font-weight: 600;
     line-height: 1.4;
     margin: 0;
 }
 
 .oae-tile small {
     font-size: 12px;
-    font-style: italic;
     font-weight: normal;
     line-height: 1.5;
+    opacity: 0.8;
     text-transform: uppercase;
 }
 
@@ -903,7 +902,7 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-listitem small {
     line-height: 1;
     font-size: 11px;
-    font-style: italic;
+    opacity: 0.8;
     text-transform: uppercase;
 }
 
@@ -1007,100 +1006,6 @@ ul.oae-list > li:first-child .oae-listitem {
 
 
 /******************
- ** LIST ACTIONS **
- ******************/
-
-/**
- * The list actions are shown to the managers of a list and provide options to add new items to the
- * list or manage the items in the list. List actions are expected to be shown as the first item in
- * a list. In grid view, the list actions will be rendered as a tile that is similar to the other tiles in
- * the list and will contain the action buttons as well as the default thumbnail for the resource type.
- * In details and compact view, the list actions will only display the actions buttons.
- *
- * The following HTML structure should be used to create a list actions element:
- *
- *  <li class="oae-list-actions oae-list-actions-multiple">
- *      <div class="oae-thumbnail oae-thumbnail-large icon-oae-content"></div>
- *      <ul>
- *          <li>
- *              <button type="button" class="btn oae-trigger-upload">
- *                  <i class="icon-cloud-upload pull-left"></i>__MSG__UPLOAD__
- *              </button>
- *          </li>
- *      </ul>
- *   </li>
- *
- * Notes:
- *
- * - The most common way to use a list actions element is to prepend it into an infinite scroll list for managers
- *   of the list. This will then also avoid that the `empty` list message is shown to managers.
- * - When more than 1 action button needs to be shown in the list actions, the optional `oae-list-actions-multiple`
- *   class should be added to the `oae-list-actions` container.
- * - In grid view, icons inside of the action buttons will be hidden from the actions tile because of the limited
- *   available space. In details and compact view, the icons will be shown.
- * - The resource type icon shown in the list actions in grid view can be any of the `icon-oae-<resourceType>`
- *   icons outlines in the `Thumbnails` section.
- */
-
-/* Core list action styles */
-
-.oae-list-actions ul {
-    margin: 0px;
-}
-
-.oae-list-actions ul > li {
-    list-style-type: none;
-    margin-top: 10px;
-}
-
-.oae-list-actions div.oae-thumbnail {
-    background: none;
-}
-
-/* Grid view */
-
-ul.oae-list.oae-list-grid > li.oae-list-actions {
-    border-style: dashed;
-}
-
-ul.oae-list.oae-list-grid .oae-list-actions div.oae-thumbnail:before {
-    margin-top: -40px;
-}
-
-ul.oae-list.oae-list-grid .oae-list-actions.oae-list-actions-multiple div.oae-thumbnail:before {
-    margin-top: -60px;
-}
-
-ul.oae-list.oae-list-grid .oae-list-actions .btn i {
-    display: none;
-}
-
-ul.oae-list.oae-list-grid .oae-list-actions ul {
-    bottom: 5px;
-    left: 0;
-    padding: 7px;
-    position: absolute;
-    right: 0;
-    text-align: center;
-}
-
-/* Details and compact view */
-
-ul.oae-list:not(.oae-list-grid) .oae-list-actions {
-    height: 50px;
-}
-
-ul.oae-list:not(.oae-list-grid) .oae-list-actions div.oae-thumbnail {
-    display: none;
-}
-
-ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
-    display: inline;
-    margin-right: 10px;
-}
-
-
-/******************
  ** LIST OPTIONS **
  ******************/
 
@@ -1153,7 +1058,8 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
  *   element is clicked. This bar contains all of the action that can be done on the selected list items, and
  *   can basically be anything.
  * - An `oae-list-selectall` class can be applied to the element that should be used to select/deselect all list
- *   items. This will be enabled automatically by the system.
+ *   items. This will be enabled automatically by the system. If the list options have any buttons that require the collection
+ *   of all selected items, the list options and the list should be wrapped in a `oae-list-container` div.
  * - The primary actions under `oae-list-options-actions` should be disabled by default, as they can only be clicked
  *   when at least one of the items in the corresponding list is checked.
  */
@@ -1177,7 +1083,7 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
 .oae-list-options .btn.oae-list-options-toggle:focus {
     background: none;
     border: none;
-    filter:none;
+    filter: none;
     padding: 1px 0;
     -webkit-box-shadow: none;
        -moz-box-shadow: none;
@@ -1221,4 +1127,113 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
 
 .oae-list-options .btn-group .btn i {
     font-size: 12px;
+}
+
+
+/******************
+ ** LIST ACTIONS **
+ ******************/
+
+/**
+ * The list actions are shown to the managers of a list and provide options to add new items to the
+ * list or manage the items in the list. List actions are expected to be shown as the first item in
+ * a list. In grid view, the list actions will be rendered as a tile that is similar to the other tiles in
+ * the list and will contain the action buttons as well as the default thumbnail for the resource type.
+ * In details and compact view, the list actions will only display the actions buttons.
+ *
+ * The following HTML structure should be used to create a list actions element:
+ *
+ *  <li class="oae-list-actions oae-list-actions-multiple">
+ *      <div class="oae-thumbnail oae-thumbnail-large icon-oae-content"></div>
+ *      <ul>
+ *          <li>
+ *              <button type="button" class="btn oae-trigger-upload">
+ *                  <i class="icon-cloud-upload pull-left"></i>__MSG__UPLOAD__
+ *              </button>
+ *          </li>
+ *      </ul>
+ *   </li>
+ *
+ * Notes:
+ *
+ * - The most common way to use a list actions element is to prepend it into an infinite scroll list for managers
+ *   of the list. This will then also avoid that the `empty` list message is shown to managers.
+ * - When more than 1 action button needs to be shown in the list actions, the optional `oae-list-actions-multiple`
+ *   class should be added to the `oae-list-actions` container.
+ * - In grid view, icons inside of the action buttons will be hidden from the actions tile because of the limited
+ *   available space. In details and compact view, the icons will be shown.
+ * - The resource type icon shown in the list actions in grid view can be any of the `icon-oae-<resourceType>`
+ *   icons outlines in the `Thumbnails` section.
+ */
+
+/* Core list action styles */
+
+.oae-list-actions ul {
+    margin: 0px;
+}
+
+.oae-list-actions ul > li {
+    list-style-type: none;
+    margin-top: 10px;
+}
+
+/* Grid view */
+
+ul.oae-list.oae-list-grid > li.oae-list-actions {
+    border-style: solid;
+    -webkit-box-shadow: none;
+       -moz-box-shadow: none;
+            box-shadow: none;
+}
+
+ul.oae-list.oae-list-grid li.oae-list-actions div.oae-thumbnail {
+    background: none;
+    border-width: 1px;
+    border-style: dashed;
+    -webkit-box-shadow: none;
+       -moz-box-shadow: none;
+            box-shadow: none;
+    height: 150px;
+    margin: 5px;
+    width: 150px;
+}
+
+ul.oae-list.oae-list-grid .oae-list-actions div.oae-thumbnail:before {
+    margin-top: -40px;
+}
+
+ul.oae-list.oae-list-grid .oae-list-actions.oae-list-actions-multiple div.oae-thumbnail:before {
+    margin-top: -60px;
+}
+
+ul.oae-list.oae-list-grid .oae-list-actions .btn i {
+    display: none;
+}
+
+ul.oae-list.oae-list-grid .oae-list-actions ul {
+    bottom: 15px;
+    left: 0;
+    padding: 7px;
+    position: absolute;
+    right: 0;
+    text-align: center;
+}
+
+ul.oae-list.oae-list-grid .oae-list-actions.oae-list-actions-multiple ul {
+    bottom: 5px;
+}
+
+/* Details and compact view */
+
+ul.oae-list:not(.oae-list-grid) .oae-list-actions {
+    height: 50px;
+}
+
+ul.oae-list:not(.oae-list-grid) .oae-list-actions div.oae-thumbnail {
+    display: none;
+}
+
+ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
+    display: inline;
+    margin-right: 10px;
 }

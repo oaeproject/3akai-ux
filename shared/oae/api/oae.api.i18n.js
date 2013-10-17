@@ -216,7 +216,7 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'oae.api.l10n', '
             }
 
             // If the key hasn't been found, we return as is
-            console.error('No translation could be found for ' + match);
+            console.warn('No translation could be found for ' + match);
             return match;
         });
         return input;
