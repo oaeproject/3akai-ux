@@ -34,13 +34,13 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
      * @param  {Object}   testData    The testdata containing all files to be tested (html, css, js, properties)
      */
     var unusedTranslationKeysTest = function(testData) {
+
         /**
          * Runs a regular expression test on the provided file. If there is a match on an i18n key it returns true.
          *
-         * @param  {[type]}    filePath    The path of the file to test on
-         * @param  {[type]}    testFile    The file to test on
-         * @param  {[type]}    key         The i18n key to test for
-         *
+         * @param  {String}    filePath    The path of the file to test
+         * @param  {String}    testFile    The file to test on
+         * @param  {String}    key         The i18n key to test for
          * @return {Boolean}               Returns true if there was a match
          */
         var runTest = function(filePath, testFile, key) {

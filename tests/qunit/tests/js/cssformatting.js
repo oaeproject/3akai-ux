@@ -111,7 +111,7 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
                 if (mainCSS) {
                     checkCSS(mainCSS);
                 } else {
-                    ok(true, mainCSSPath + ' has no CSS to check.');
+                    ok(true, mainCSSPath + ' has no CSS to check');
                 }
             });
         });
@@ -126,7 +126,7 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
                 });
             } else {
                 test(widgetCSSPath, function() {
-                    ok(true, widgetCSSPath + ' has no CSS to check.');
+                    ok(true, widgetCSSPath + ' has no CSS to check');
                 });
             }
         });

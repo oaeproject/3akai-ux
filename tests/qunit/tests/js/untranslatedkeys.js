@@ -20,7 +20,7 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
     var regex = new RegExp('__MSG__(.*?)__', 'gm');
 
     /**
-     * Check whether all the keys in a provided HTML string have at a minimum a default translation
+     * Check whether all the keys in a provided string have at a minimum a default translation
      *
      * @param  {Object}     testData     The testdata containing all files to be tested (html, css, js, properties)
      * @param  {String}     file         The file to check for keys that don't have a translation
