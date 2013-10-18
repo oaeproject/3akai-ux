@@ -128,7 +128,7 @@
     <div class="oae-thumbnail {if largeDefault} oae-thumbnail-large {/if} icon-oae-${resourceSubType} icon-oae-${resourceType}" data-id="${resourceId}">
         {if profilePath && addLink !== false}<a href="${profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}">{/if}
         {if thumbnailUrl}
-            <img src="${thumbnailUrl}" alt="${entityData.displayName|encodeForHTMLAttribute}" />
+            <div role="img" aria-label="${entityData.displayName|encodeForHTMLAttribute}" style="background-image: url(${thumbnailUrl});"></div>
         {/if}
         {if addVisibilityIcon !== false && resourceType !== 'user'}
             <i class="icon-oae-${visibility}"></i>
