@@ -639,7 +639,7 @@ div.oae-thumbnail i[class^="icon-"] {
     font-weight: 600;
     max-width: 300px;
     min-height: 21px;
-    word-wrap: break-word;
+    word-wrap: nowrap;
 }
 
 .oae-clip .oae-clip-content h1.oae-threedots {
