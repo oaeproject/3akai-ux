@@ -27,19 +27,28 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
         // If there are no elements that need to be checked we show a success message in the end
         var needsChecking = false;
 
-        // All links should have text in it or in its children
+        /**
+         * All links should have text in it or in its children
+         * @see http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/H30
+         */
         $.each($el.find('a'), function(i, el) {
             needsChecking = true;
             ok($(el).attr('title') || $(el).text() || $(el).find('*').text() || ($(el).html() === '<!-- -->') || $(el).find('img').attr('alt'), 'A tag has text or children that have text: ' + $('<div/>').html(el).html());
         });
 
-        // All buttons should have text in it or in its children
+        /**
+         * All buttons should have text in it or in its children
+         * @see http://www.w3.org/TR/UNDERSTANDING-WCAG20/text-equiv-all.html
+         */
         $.each($el.find('button'), function(i, el) {
             needsChecking = true;
             ok(!($(el).attr('title') && $(el).text() && !$.trim($(el).text())) && ($(el).attr('title') || $(el).find('img').attr('alt') || $.trim($(el).text()) || $.trim($(el).find('*').text()) || ($(el).html() === '<!-- -->')), 'BUTTON tag has text or children that have text: ' + $('<div/>').html(el).html());
         });
 
-        // All images should have an `alt` attribute
+        /**
+         * All images should have an `alt` attribute
+         * @see http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/H37
+         */
         $.each($el.find('img'), function(i, el) {
             needsChecking = true;
             var parentTitle = false;
@@ -49,37 +58,55 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
             ok($(el).attr('alt') || $(el).prev('img').attr('src') === $(el).attr('src') || parentTitle, 'IMG tag has ALT attribute:' + $('<div/>').html(el).html());
         });
 
-        // All input fields of type image should have an `alt` attribute
+        /**
+         * All input fields of type image should have an `alt` attribute
+         * @see http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/H37
+         */
         $.each($el.find('input[type="image"]'), function(i, el) {
             needsChecking = true;
             ok($(el).attr('alt'), 'INPUT img type tag has ALT attribute:' + $('<div/>').html(el).html());
         });
 
-        // All `applet` tags should have an `alt` attribute
+        /**
+         * All `applet` tags should have an `alt` attribute
+         * @see http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/H35
+         */
         $.each($el.find('applet'), function(i, el) {
             needsChecking = true;
             ok($(el).attr('alt'), 'APPLET tag has ALT attribute: ' + $('<div/>').html(el).html());
         });
 
-        // All `object` tags should not be empty
+        /**
+         * All `object` tags should not be empty
+         * @see http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/H53
+         */
         $.each($el.find('object'), function(i, el) {
             needsChecking = true;
             ok($(el).children().length > 0, 'OBJECT tag has contents: ' + $('<div/>').html(el).html());
         });
 
-        // All `area` tags should have an `alt` attribute
+        /**
+         * All `area` tags should have an `alt` attribute
+         * @see http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/H24
+         */
         $.each($el.find('area'), function(i, el) {
             needsChecking = true;
             ok($(el).attr('alt'), 'AREA tag has ALT attribute: ' + $('<div/>').html(el).html());
         });
 
-        // All `abbr` tags should have a `title` attribute
+        /**
+         * All `abbr` tags should have a `title` attribute
+         * @see http://www.w3.org/TR/WCAG-TECHS/H28.html
+         */
         $.each($el.find('abbr'), function(i, el) {
             needsChecking = true;
             ok($(el).attr('title'), 'ABBR tag has TITLE attribute: ' + $('<div/>').html(el).html());
         });
 
-        // Every `textarea` element should have a label or a `title` attribute and no `alt` attribute
+        /**
+         * Every `textarea` element should have a label or a `title` attribute and no `alt` attribute
+         * @see http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/H44
+         */
         $.each($el.find('textarea'), function(i, el) {
             needsChecking = true;
             // Check if textarea has an attached label element, otherwise it needs a title attribute
@@ -97,7 +124,10 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
             ok(!$(el).attr('alt'), 'TEXTAREA tag does not have ALT attribute: ' + $('<div/>').html(el).html());
         });
 
-        // All `input` and `select` tags should not have an `alt` attribute
+        /**
+         * All `input` and `select` tags should not have an `alt` attribute
+         * @see http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/H44
+         */
         $.each($el.find('input, select'), function(i, el) {
             needsChecking = true;
             ok(!$(el).attr('alt'), 'INPUT/SELECT tag does not have ALT attribute: ' + $('<div/>').html(el).html());
