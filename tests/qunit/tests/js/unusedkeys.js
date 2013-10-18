@@ -34,16 +34,25 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
      * @param  {Object}   testData    The testdata containing all files to be tested (html, css, js, properties)
      */
     var unusedTranslationKeysTest = function(testData) {
+
+        /**
+         * Runs a regular expression test on the provided file. If there is a match on an i18n key it returns true.
+         *
+         * @param  {String}    filePath    The path of the file to test
+         * @param  {String}    testFile    The file to test on
+         * @param  {String}    key         The i18n key to test for
+         * @return {Boolean}               Returns true if there was a match
+         */
+        var runTest = function(filePath, testFile, key) {
+            var regex = new RegExp(escapeRegExp('__MSG__' + key + '__', 'gm'));
+            if (regex.test(testFile)) {
+                return true;
+            }
+            return false;
+        };
+
         // Loop over all main bundles
         $.each(testData.mainBundles, function(mainBundleKey, mainBundle) {
-            var runTest = function(filePath, testFile, key) {
-                var regex = new RegExp(escapeRegExp('__MSG__' + key + '__', 'gm'));
-                if (regex.test(testFile)) {
-                    return true;
-                }
-                return false;
-            };
-
             test(mainBundleKey, function() {
                 if (mainBundle && _.keys(mainBundle).length) {
                     // For each key in the main bundle, check if it's used in a widget or main HTML file
@@ -59,7 +68,9 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
                             // Check if the key is used in the widget HTML or JavaScript files
                             $.each(testData.widgetData, function(widgetId, widget) {
                                 keyUsed = runTest(widgetId, widget.html, key) || keyUsed;
-                                keyUsed = runTest(widgetId, widget.js, key) || keyUsed;
+                                $.each(widget.js, function(widgetJSIndex, widgetJS) {
+                                    keyUsed = runTest(widgetId, widgetJS, key) || keyUsed;
+                                });
                             });
 
                             // Check if key is used in the main JS files
@@ -78,9 +89,9 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
                             });
 
                             if (keyUsed) {
-                                ok(true, '\'' + key + '\' in \'' + mainBundleKey + '.properties\' is used');
+                                ok(true, '\'' + key + '\' in \'' + mainBundleKey + '\' is used');
                             } else {
-                                ok(false, '\'' + key + '\' in \'' + mainBundleKey + '.properties\' is not being used');
+                                ok(false, '\'' + key + '\' in \'' + mainBundleKey + '\' is not being used');
                             }
                         }
                     });
@@ -92,28 +103,30 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
 
         // Check if keys in widgets are being used
         $.each(testData.widgetData, function(widgetId, widget) {
-            test(widgetId, function() {
-                if (widget.i18n && _.keys(widget.i18n).length) {
-                    $.each(widget.i18n, function(bundleKey, bundle) {
-                        if (_.keys(bundle).length) {
-                            $.each(bundle, function(i18nKey, i18nValue) {
-                                if (i18nValue) {
-                                    var regex = new RegExp(escapeRegExp('__MSG__' + i18nKey + '__', 'gm'));
-                                    var used = regex.test(widget.html) || regex.test(widget.js);
-                                    if (used) {
-                                        ok(true, i18nKey + ' in \'' + widgetId + ' - ' + bundleKey + '.properties\' is used');
-                                    } else {
-                                        ok(false, i18nKey + ' in \'' + widgetId + ' - ' + bundleKey + '.properties\' is not being used');
+            $.each(widget.js, function(widgetJSIndex, widgetJS) {
+                test(widgetJSIndex, function() {
+                    if (widget.i18n && _.keys(widget.i18n).length) {
+                        $.each(widget.i18n, function(bundleKey, bundle) {
+                            if (_.keys(bundle).length) {
+                                $.each(bundle, function(i18nKey, i18nValue) {
+                                    if (i18nValue) {
+                                        var htmlUsed = runTest(widgetId, widget.html, i18nKey);
+                                        var jsUsed = runTest(widgetId, widgetJS, i18nKey);
+                                        if (htmlUsed || jsUsed) {
+                                            ok(true, i18nKey + ' in \'' + widgetId + ' - ' + bundleKey + '\' is used');
+                                        } else {
+                                            ok(false, i18nKey + ' in \'' + widgetId + ' - ' + bundleKey + '\' is not being used');
+                                        }
                                     }
-                                }
-                            });
-                        } else {
-                            ok(true, '\'' + widgetId + '\' does does not have any keys in \'' + bundleKey + '.properties\'');
-                        }
-                    });
-                } else {
-                    ok(true, '\'' + widgetId + '\' does does not have any bundles');
-                }
+                                });
+                            } else {
+                                ok(true, '\'' + widgetId + '\' does does not have any keys in \'' + bundleKey + '\'');
+                            }
+                        });
+                    } else {
+                        ok(true, '\'' + widgetId + '\' does does not have any bundles');
+                    }
+                });
             });
         });
 

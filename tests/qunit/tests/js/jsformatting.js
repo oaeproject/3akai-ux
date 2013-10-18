@@ -133,8 +133,10 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
 
         // Test that the widget JavaScript files are properly formatted
         $.each(testData.widgetData, function(widgetJSPath, widget) {
-            test(widgetJSPath + ' - widget', function() {
-                checkJs(widgetJSPath + ' - widget', widget.js);
+            $.each(widget.js, function(widgetJSIndex, widgetJS) {
+                test(widgetJSIndex, function() {
+                    checkJs(widgetJSIndex, widgetJS);
+                });
             });
         });
 
