@@ -29,7 +29,8 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
     var checkKeys = function(testData, file, widgetId) {
         if (regex.test(file)) {
             $.each(file.split(/\n/), function(index, line) {
-                if ($.trim(line).indexOf('*') === -1 && $.trim(line).indexOf('//') === -1) {
+                // Skip commented lines and this test
+                if (! line.match(/^\s*(\/\/|\*)/)) {
                     regex = new RegExp('__MSG__(.*?)__', 'gm');
                     while (regex.test(line)) {
                         // Get the key from the match
