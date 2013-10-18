@@ -39,9 +39,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
      * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
      */
     var loadWidgetJS = exports.loadWidgetJS = function(testData, callback) {
-        var paths = [];
-        // Maps the path of the file to the widget ID it's associated with
-        var pathDictionary = {};
+        var paths = {};
 
         $.each(testData.widgetData, function(widgetIndex, widget) {
             var $html = $('<div/>').html(widget.html);
@@ -50,22 +48,17 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 var jsPath = $(script).attr('src');
                 // Only look at the widget JS files, not at libraries
                 if (jsPath.indexOf('js') === 0) {
-                    pathDictionary['/node_modules/' + widget.path + jsPath] = widget.id;
+                    paths['/node_modules/' + widget.path + jsPath] = widget.id;
                 }
             });
         });
 
-        paths = filterVendorScripts(_.keys(pathDictionary));
-
-        oae.api.util.staticBatch(paths, function(err, data) {
+        oae.api.util.staticBatch(_.keys(paths), function(err, data) {
             $.each(data, function(widgetJSPath, widgetJS) {
                 // Get the ID of the widget from the path dictionary
-                var widgetName = pathDictionary[widgetJSPath];
-                // If the JS Object is not defined yet define it
-                if (!testData.widgetData[widgetName].js) {
-                    testData.widgetData[widgetName].js = {};
-                }
+                var widgetName = paths[widgetJSPath];
                 // Add the widget JS into the object
+                testData.widgetData[widgetName].js = testData.widgetData[widgetName].js || {};
                 testData.widgetData[widgetName].js[widgetJSPath] = widgetJS;
             });
             callback(testData);
@@ -152,9 +145,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
      */
     var loadWidgetCSS = exports.loadWidgetCSS = function(testData, callback) {
         // Parse the HTML files and extract the CSS files
-        var paths = [];
-        // Maps the path of the file to the widget ID it's associated with
-        var pathDictionary = {};
+        var paths = {};
 
         $.each(testData.widgetData, function(widgetIndex, widget) {
             var $html = $('<div/>').html(widget.html);
@@ -163,22 +154,17 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 var cssPath = $(link).attr('href');
                 // Only look at the widget CSS files, not at libraries
                 if (cssPath.indexOf('css') === 0) {
-                    pathDictionary['/node_modules/' + widget.path + cssPath] = widget.id;
+                    paths['/node_modules/' + widget.path + cssPath] = widget.id;
                 }
             });
         });
 
-        paths = filterVendorScripts(_.keys(pathDictionary));
-
-        oae.api.util.staticBatch(paths, function(err, data) {
+        oae.api.util.staticBatch(_.keys(paths), function(err, data) {
             $.each(data, function(cssIndex, css) {
                 // Get the ID of the widget by looking at the directory the files are stored in
-                var widgetName = pathDictionary[cssIndex];
-                // If the CSS Object is not defined yet define it
-                if (!testData.widgetData[widgetName].css) {
-                    testData.widgetData[widgetName].css = {};
-                }
+                var widgetName = paths[cssIndex];
                 // Add the widget CSS into the Object
+                testData.widgetData[widgetName].css = testData.widgetData[widgetName].css || {};
                 testData.widgetData[widgetName].css[cssIndex] = css;
             });
             callback(testData);
@@ -219,19 +205,15 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
      * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
      */
     var loadWidgetHTML = exports.loadWidgetHTML = function(testData, callback) {
-        var paths = [];
-        // Maps the path of the file to the widget ID it's associated with
-        var pathDictionary = {};
+        var paths = {};
 
         $.each(testData.widgetData, function(widgetIndex, widget) {
-            pathDictionary['/node_modules/' + widget.path + widget.src] = widget.id;
+            paths['/node_modules/' + widget.path + widget.src] = widget.id;
         });
 
-        paths = _.keys(pathDictionary);
-
-        oae.api.util.staticBatch(paths, function(err, data) {
+        oae.api.util.staticBatch(_.keys(paths), function(err, data) {
             $.each(data, function(htmlIndex, html) {
-                var widgetName = pathDictionary[htmlIndex];
+                var widgetName = paths[htmlIndex];
                 testData.widgetData[widgetName].html = html;
             });
             callback(testData);
