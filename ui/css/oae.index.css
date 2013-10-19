@@ -34,27 +34,18 @@
     padding: 3% 0;
 }
 
-#index-container .index-search-container form,
-#index-container .index-search-container form .control-group {
+#index-container .index-search-container form {
     margin: 0;
-}
-
-#index-container .index-search-container label {
-    font-size: 18px;
-    line-height: 2;
 }
 
 #index-container .index-search-container input#index-search-query {
     height: 37px;
+    margin-left: 80px;
     margin-right: 7px;
     border-color: transparent;
     -webkit-box-shadow: none;
        -moz-box-shadow: none;
             box-shadow: none;
-}
-
-#index-container .index-search-container .control-label {
-    padding-top: 0;
 }
 
 #index-container .index-search-container button[type="submit"] {
