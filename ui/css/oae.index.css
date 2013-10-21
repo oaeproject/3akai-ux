@@ -46,11 +46,6 @@
     margin: 0;
 }
 
-#index-container .index-search-container label {
-    font-size: 18px;
-    line-height: 2;
-}
-
 #index-container .index-search-container input#index-search-query {
     height: 37px;
     margin: 0 7px;
@@ -59,11 +54,6 @@
        -moz-box-shadow: none;
             box-shadow: none;
     width: 65%;
-}
-
-#index-container .index-search-container label {
-    padding-top: 0;
-    text-align: right;
 }
 
 #index-container .index-search-container button[type="submit"] {

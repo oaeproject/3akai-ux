@@ -340,9 +340,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         if (configAPI.getValue('oae-google-analytics', 'google-analytics', 'enabled')) {
             // Google Analytics tracking code
             // @see https://developers.google.com/analytics/devguides/
-            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+            (i[r].q=i[r].q||[]).push(arguments);};i[r].l=1*new Date();a=s.createElement(o);
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
             })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
             // Retrieve the Google Analytics application ID
@@ -883,7 +883,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                         // Prepend a thumbnail to the item to add to the list
                         var $thumbnail = $('<div>').addClass('oae-thumbnail icon-oae-' + originalData.resourceType);
                         if (originalData.thumbnailUrl) {
-                            $thumbnail.append($('<img>').attr('src', originalData.thumbnailUrl));
+                            $thumbnail.append($('<div>')
+                                .css('background-image', 'url("' + originalData.thumbnailUrl + '")')
+                                .attr('role', 'img')
+                                .attr('aria-label', security().encodeForHTMLAttribute(originalData.displayName))
+                            );
                         }
                         $elem.prepend($thumbnail);
                     }
@@ -1093,7 +1097,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                 input = encodeForHTML(input);
 
                 // URLs starting with http://, https://, or ftp://
-                var URLPattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+                var URLPattern1 = /(\b(https?|ftp):\/\/[\-A-Z0-9+&@#\/%?=~_|!:,.;]*[\-A-Z0-9+&@#\/%=~_|])/gim;
                 input = input.replace(URLPattern1, '<a href="$1" target="_blank" title="$1">$1</a>');
 
                 // URLs starting with "www." (without // before it, or it'd re-link the ones done above).

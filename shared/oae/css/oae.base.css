@@ -95,6 +95,12 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     text-transform: none;
 }
 
+.nav-list > .active > a,
+.nav-list > .active > a:hover,
+.nav-list > .active > a:focus {
+    text-shadow: none;
+}
+
 /* MEDIA OBJECTS
  * @see http://twitter.github.com/bootstrap/components.html#media */
 
@@ -161,11 +167,11 @@ input[type="file"] {
 
 input.search-query,
 .navbar-search .search-query {
-  font-family: inherit;
-  padding: 3px 5px;
-  -webkit-border-radius: 3px;
-     -moz-border-radius: 3px;
-          border-radius: 3px;
+    font-family: inherit;
+    padding: 3px 5px;
+    -webkit-border-radius: 3px;
+       -moz-border-radius: 3px;
+            border-radius: 3px;
 }
 
 select,
@@ -207,19 +213,19 @@ input[type="color"],
 }
 
 .has-error .form-control:-moz-placeholder {
-  color: #b94a48;
+    color: #b94a48;
 }
 
 .has-error .form-control::-moz-placeholder {
-  color: #b94a48;
+    color: #b94a48;
 }
 
 .has-error .form-control:-ms-input-placeholder {
-  color: #b94a48;
+    color: #b94a48;
 }
 
 .has-error .form-control::-webkit-input-placeholder {
-  color: #b94a48;
+    color: #b94a48;
 }
 
 .has-error .control-label h4 {
