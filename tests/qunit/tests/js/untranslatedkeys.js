@@ -20,49 +20,53 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
     var regex = new RegExp('__MSG__(.*?)__', 'gm');
 
     /**
-     * Check whether all the keys in a provided HTML string have at a minimum a default translation
+     * Check whether all the keys in a provided string have at a minimum a default translation
      *
      * @param  {Object}     testData     The testdata containing all files to be tested (html, css, js, properties)
-     * @param  {String}     html         The HTML to check for keys that don't have a translation
+     * @param  {String}     file         The file to check for keys that don't have a translation
      * @param  {String}     [widgetId]   Id of the widget that is being checked
      */
-    var checkKeys = function(testData, html, widgetId) {
-        if (regex.test(html)) {
-            regex = new RegExp('__MSG__(.*?)__', 'gm');
-            while (regex.test(html)) {
-                // Get the key from the match
-                var key = RegExp.$1;
+    var checkKeys = function(testData, file, widgetId) {
+        if (regex.test(file)) {
+            $.each(file.split(/\n/), function(index, line) {
+                if ($.trim(line).indexOf('*') === -1 && $.trim(line).indexOf('//') === -1) {
+                    regex = new RegExp('__MSG__(.*?)__', 'gm');
+                    while (regex.test(line)) {
+                        // Get the key from the match
+                        var key = RegExp.$1;
 
-                // Check if the key has been found at least in one of the i18n files
-                var hasI18n = false;
+                        // Check if the key has been found at least in one of the i18n files
+                        var hasI18n = false;
 
-                // If we're checking a widget check the widget bundles first
-                if (widgetId) {
-                    // Check if the widget has i18n bundles
-                    if (testData.widgetData[widgetId].i18n && _.keys(testData.widgetData[widgetId].i18n).length) {
-                        // For each bundle in the widget, check if it's available
-                        if (testData.widgetData[widgetId].i18n['default'][key] !== undefined) {
-                            hasI18n = true;
+                        // If we're checking a widget check the widget bundles first
+                        if (widgetId) {
+                            // Check if the widget has i18n bundles
+                            if (testData.widgetData[widgetId].i18n && _.keys(testData.widgetData[widgetId].i18n).length) {
+                                // For each bundle in the widget, check if it's available
+                                if (testData.widgetData[widgetId].i18n['default'][key] !== undefined) {
+                                    hasI18n = true;
+                                }
+                            }
+                        }
+
+                        // If the widget bundle has no translation or the check is not for a widget, check the main bundles
+                        if (!hasI18n) {
+                            $.each(testData.mainBundles, function(i, mainBundle) {
+                                if (mainBundle[key] !== undefined) {
+                                    hasI18n = true;
+                                }
+                            });
+                        }
+
+                        // If the key has been translated send an ok
+                        if (hasI18n) {
+                            ok(true, '\'' + key + '\' is translated');
+                        } else {
+                            ok(false, '\'' + key + '\' is not translated');
                         }
                     }
                 }
-
-                // If the widget bundle has no translation or the check is not for a widget, check the main bundles
-                if (!hasI18n) {
-                    $.each(testData.mainBundles, function(i, mainBundle) {
-                        if (mainBundle[key] !== undefined) {
-                            hasI18n = true;
-                        }
-                    });
-                }
-
-                // If the key has been translated send an ok
-                if (hasI18n) {
-                    ok(true, '\'' + key + '\' is translated');
-                } else {
-                    ok(false, '\'' + key + '\' is not translated');
-                }
-            }
+            });
         } else {
             ok(true, 'No keys to be translated');
         }
@@ -90,8 +94,10 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
 
         // Test the widget JS files for untranslated keys
         $.each(testData.widgetData, function(widgetIndex, widget) {
-            test(widgetIndex, function() {
-                checkKeys(testData, widget.js, widget.id);
+            $.each(widget.js, function(widgetJSIndex, widgetJS) {
+                test(widgetJSIndex, function() {
+                    checkKeys(testData, widget.id, widgetJSIndex);
+                });
             });
         });
 
