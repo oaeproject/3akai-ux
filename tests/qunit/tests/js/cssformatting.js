@@ -13,100 +13,129 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, util) {
+require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util) {
 
-        module("CSS Formatting");
+    module("CSS Formatting");
 
-        var doRegexTest = function(cssFile, regex, testString) {
-            // remove comments from file to test
-            var testFile = cssFile.replace(/(\/\*([\s\S]*?)\*\/)|(\/\/(.*)$)/gm, '');
-            var match = '';
-            var pass = true;
-            var errorString = '';
-            var count = 0;
+    /**
+     * Test a CSS file against a provided regular expression
+     *
+     * @param  {String}    cssFile        The CSS file to test
+     * @param  {Object}    regex          The regular expression to test the CSS against
+     * @param  {String}    description    The description of the test
+     */
+    var doRegexTest = function(cssFile, regex, description) {
+        // Remove comments from file to test
+        var testFile = cssFile.replace(/(\/\*([\s\S]*?)\*\/)|(\/\/(.*)$)/gm, '');
+        var match = '';
+        var errorString = '';
+        var count = 0;
 
-            if (regex.test(testFile)) {
-                while ((match = regex.exec(cssFile)) !== null) {
-                    var beforeMatch = cssFile.substring(0, match.index);
-                    var matchLine = beforeMatch.split(/\n/).length;
-                    count++;
-                    pass = false;
-                    errorString = errorString + '\n\nLine: ' + matchLine + '\nString:\n' + match + '';
-                }
+        if (regex.test(testFile)) {
+            while ((match = regex.exec(cssFile)) !== null) {
+                var beforeMatch = cssFile.substring(0, match.index);
+                var matchLine = beforeMatch.split(/\n/).length;
+                count++;
+                errorString = errorString + '\n\nLine: ' + matchLine + '\nString:\n' + match + '';
             }
+        }
 
-            if (pass) {
-                ok(true, testString);
-            } else {
-                ok(false, testString + ', ' + count + ' error(s): ' + errorString);
-            }
-        };
+        if (count === 0) {
+            ok(true, description);
+        } else {
+            ok(false, description + ', ' + count + ' error(s): ' + errorString);
+        }
+    };
 
-        var checkCSS = function(cssFile) {
-            // test space before brace character
-            var regex = /[a-zA-Z0-9]+\{/gm;
-            var testString = 'Use space before opening brace';
-            doRegexTest(cssFile, regex, testString);
+    /**
+     * Test a CSS file for formatting issues
+     *
+     * @param  {String}    cssFile    The CSS file to be tested
+     */
+    var checkCSS = function(cssFile) {
+        // Test space before brace character
+        var regex = /[a-zA-Z0-9]+\{/gm;
+        var description = 'Use space before opening brace';
+        doRegexTest(cssFile, regex, description);
 
-            // test opening brace is on selector line
-            regex = /^\s*\{/gm;
-            testString = 'Put opening brace on selector line';
-            doRegexTest(cssFile, regex, testString);
+        // Test opening brace is on selector line
+        regex = /^\s*\{/gm;
+        description = 'Put opening brace on selector line';
+        doRegexTest(cssFile, regex, description);
 
-            // test expression is on a new line
-            regex = /\{.+/gm;
-            testString = 'Put expression on a new line';
-            doRegexTest(cssFile, regex, testString);
+        // Test expression is on a new line
+        regex = /\{.+/gm;
+        description = 'Put expression on a new line';
+        doRegexTest(cssFile, regex, description);
 
-            // test close brace is on a new line
-            regex = /\S+\}/gm;
-            testString = 'Put close brace on a new line';
-            doRegexTest(cssFile, regex, testString);
+        // Test expression has ending semicolon
+        regex = /\n [^\*].*:.*[^;{\/\*]\n/gm;
+        description = 'Expression has an ending semicolon';
+        doRegexTest(cssFile, regex, description);
 
-            // test expression has space after colon
-            regex = /(\{|;)\s*\n\s+[\S]+:[\S]+/gm;
-            testString = 'Put space after expression colon';
-            doRegexTest(cssFile, regex, testString);
+        // Test close brace is on a new line
+        regex = /\S+\}/gm;
+        description = 'Put close brace on a new line';
+        doRegexTest(cssFile, regex, description);
 
-            // test expression is indented
-            regex = /(\{|;)\s*\n[a-z-A-Z0-9]+/gm;
-            testString = 'Indent expression 4 spaces';
-            doRegexTest(cssFile, regex, testString);
-        };
+        // Test expression has space after colon
+        regex = /(\{|;)\s*\n\s+[\S]+:[\S]+/gm;
+        description = 'Put space after expression colon';
+        doRegexTest(cssFile, regex, description);
 
-        /**
-         * Initializes the CSS Formatting module
-         * @param  {Object}   widgets    Object containing the manifests of all widgets in node_modules/oae-core.
-         */
-        var cssFormattingTest = function(widgetData) {
-            // Test that the main CSS files are properly formatted
-            $.each(widgetData.mainCSS, function(i, mainCSS) {
-                asyncTest(i + '.css', function() {
+        // Test expression has only one space after colon
+        regex = /(\{|;)\s*\n\s+[\S]+:  +/gm;
+        description = 'Put only one space after expression colon';
+        doRegexTest(cssFile, regex, description);
+
+        // Test only one expression per line
+        regex = /\;.+:.*;?/gm;
+        description = 'Only one expression per line';
+        doRegexTest(cssFile, regex, description);
+
+        // Test expression is indented with 4 spaces
+        regex = /(\{|;\n)\s{0,3}[a-z-A-Z0-9]+/gm;
+        description = 'Indent expression 4 spaces';
+        doRegexTest(cssFile, regex, description);
+    };
+
+    /**
+     * Initialize the CSS Formatting test
+     *
+     * @param  {Object}   testData    The testdata containing all files to be tested (html, css, js, properties)
+     */
+    var cssFormattingTest = function(testData) {
+        // Test that the main CSS files are properly formatted
+        $.each(testData.mainCSS, function(mainCSSPath, mainCSS) {
+            test(mainCSSPath, function() {
+                if (mainCSS) {
                     checkCSS(mainCSS);
-                    start();
-                });
+                } else {
+                    ok(true, mainCSSPath + ' has no CSS to check');
+                }
             });
+        });
 
-            // Test that the shared CSS files are properly formatted
-            $.each(widgetData.sharedCSS, function(ii, sharedCSS) {
-                asyncTest(ii + '.css', function() {
-                    checkCSS(sharedCSS);
-                    start();
+        // Test that the widget CSS files are properly formatted
+        $.each(testData.widgetData, function(widgetCSSPath, widget) {
+            if (widget.css) {
+                $.each(widget.css, function(widgetCSSIndex, widgetCSS) {
+                    test(widgetCSSIndex, function() {
+                        checkCSS(widgetCSS);
+                    });
                 });
-            });
-
-            // Test that the widget CSS files are properly formatted
-            $.each(widgetData.widgetData, function(iii, widget) {
-                asyncTest(iii + '.css', function() {
-                    checkCSS(widget.css);
-                    start();
+            } else {
+                test(widgetCSSPath, function() {
+                    ok(true, widgetCSSPath + ' has no CSS to check');
                 });
-            });
-        };
+            }
+        });
 
-        util.loadWidgets(cssFormattingTest);
+        // Start consuming tests again
+        QUnit.start(2);
+    };
 
-        QUnit.load();
-        QUnit.start();
-    }
-);
+    // Stop consuming QUnit test and load the widgets asynchronous
+    QUnit.stop();
+    util.loadTestData(cssFormattingTest);
+});

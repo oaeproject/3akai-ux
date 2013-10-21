@@ -13,111 +13,111 @@
  * permissions and limitations under the License.
  */
 
-require(['oae.core', '../js/util.js', 'qunitjs', 'jquery', '../js/jshint.js'], function(oae, util) {
+require(['oae.core', '/tests/qunit/js/util.js', 'jquery', '/shared/vendor/js/jshint.js'], function(oae, util) {
 
-        module("Clean JavaScript");
+    module("Clean JavaScript");
 
-        var consoleregex = new RegExp(/console\.(?:log|warn|error|debug|trace)/g);
-        var alertregex = new RegExp(/alert\([.\s\S]*\)/g);
+    // Regular expression that will be used to check for console.log, console.debug and console.trace statements
+    var consoleregex = new RegExp(/console\.(?:log|debug|trace)/g);
+    // Regular expression that will be used to check fro alert statements
+    var alertregex = new RegExp(/alert\([.\s\S]*\)/g);
 
-        /**
-         * Checks for console.log('') statements in the code
-         * @param  {String}   file        The contents of the file in the form of a string
-         * @param  {String}   filename    The path to the file
-         */
-        var checkForConsoleLog = function(file, filename) {
-            var matches = consoleregex.exec(file);
-            if (matches && matches.length) {
-                for (var i=0,j=matches.length; i<j; i++) {
-                    ok(false, 'found console.(log|warn|error|debug|trace)');
+    /**
+     * Check for console statements in the code
+     *
+     * @param  {String}   jsFile        The contents of a JavaScript file
+     */
+    var checkForConsoleLog = function(jsFile) {
+        var matches = consoleregex.exec(jsFile);
+        if (matches && matches.length) {
+            $.each(matches, function() {
+                ok(false, 'Found console.(log|debug|trace)');
+            });
+        } else {
+            ok(true, 'No console.(log|debug|trace) calls');
+        }
+    };
+
+    /**
+     * Check for alert statements in the code
+     *
+     * @param  {String}   jsFile        The contents of a JavaScript file
+     */
+    var checkForAlert = function(jsFile) {
+        var matches = alertregex.exec(jsFile);
+        if (matches && matches.length) {
+            $.each(matches, function() {
+                ok(false, 'Found alert()');
+            });
+        } else {
+            ok(true, 'No alert() found');
+        }
+    };
+
+    /**
+     * Run a JavaScript file through JSHint
+     *
+     * @param  {String}     jsFile        The contents of a JavaScript file
+     */
+    var JSHintfile = function(jsFile) {
+        var result = JSHINT(jsFile, {
+            'eqeqeq': true, // use === and !== instead of == and !=
+            'sub': true     // ignore dot notation recommendations - ie ['userid'] should be .userid
+        });
+        if (result) {
+            ok(result, 'JSHint clean');
+        } else {
+            $.each(JSHINT.errors, function(i) {
+                var error = JSHINT.errors[i];
+                if (error) {
+                    ok(false, 'JSHint error on line ' + error.line + ' character ' + error.character + ': ' + error.reason + ', ' + error.evidence);
                 }
-            } else {
-                ok(true, 'No console.(log|warn|error|debug|trace) calls');
-            }
-        };
+            });
+        }
+    };
+
+    /**
+     * Initialize the clean JavaScript test
+     *
+     * @param  {Object}   testData    The test data containing all files to be tested (html, css, js, properties)
+     */
+    var cleanJSTest = function(testData) {
 
         /**
-         * Checks for alert() statements in the code
-         * @param  {String}   file    The contents of the file in the form of a string
+         * Test a JavaScript file for console and alert statements and run the file through JSHint
+         *
+         * @param  {String}    testTitle    The title of the test
+         * @param  {String}    jsFile       The contents of a JavaScript file
          */
-        var checkForAlert = function(file) {
-            var matches = alertregex.exec(file);
-            if (matches && matches.length) {
-                for (var i=0,j=matches.length; i<j; i++) {
-                    ok(false, 'found alert()');
-                }
-            } else {
-                ok(true, 'No alert() found');
-            }
-        };
-
-        /**
-         * Runs the file through JSHint
-         * @param  {String}     file        The contents of the file in the form of a string
-         * @param  {Function}   callback    Function executed after checking for JSHint errors is complete
-         */
-        var JSHintfile = function(data, callback) {
-            var result = JSHINT(data, {
-                // http://www.jshint.com/options/
-                sub:true // ignore dot notation recommendations - ie ['userid'] should be .userid
-            });
-            if (result) {
-                ok(result, 'JSHint clean');
-            } else {
-                for (var i=0,j=JSHINT.errors.length; i<j; i++) {
-                    var error = JSHINT.errors[i];
-                    if (error) {
-                        console.log(error);
-                        ok(false, 'JSHint error on line ' + error.line + ' character ' + error.character + ': ' + error.reason + ', ' + error.evidence);
-                    }
-                }
-            }
-            callback();
-        };
-
-        /**
-         * Initializes the clean JS Test module
-         * @param  {Object}   widgetData    Object containing the manifests of all widgets in node_modules/oae-core.
-         */
-
-        var cleanJSTest = function(widgetData) {
-            // Check the widgets for clean javascript
-            $.each(widgetData.widgetData, function(i, widget) {
-                asyncTest(widget.id, function() {
-                    checkForConsoleLog(widget.js, widget.id);
-                    checkForAlert(widget.js);
-                    JSHintfile(widget.js, function() {
-                        start();
-                    });
-                });
-            });
-
-            // Check the API for clean javascript
-            $.each(widgetData.apiJS, function(ii, apiJS) {
-                asyncTest(ii, function() {
-                    checkForConsoleLog(apiJS, ii);
-                    checkForAlert(apiJS);
-                    JSHintfile(apiJS, function() {
-                        start();
-                    });
-                });
-            });
-
-            // Check the main JavaScript files for clean javascript
-            $.each(widgetData.mainJS, function(iii, mainJS) {
-                asyncTest(iii, function() {
-                    checkForConsoleLog(mainJS, iii);
-                    checkForAlert(mainJS);
-                    JSHintfile(mainJS, function() {
-                        start();
-                    });
-                });
+        var runTest = function(testTitle, jsFile) {
+            test(testTitle, function() {
+                checkForConsoleLog(jsFile);
+                checkForAlert(jsFile);
+                JSHintfile(jsFile);
             });
         };
 
-        util.loadWidgets(cleanJSTest);
+        // Check the widgets for clean JavaScript
+        $.each(testData.widgetData, function(widgetId, widget) {
+            $.each(widget.js, function(widgetJSIndex, widgetJS) {
+                runTest(widgetJSIndex, widgetJS);
+            });
+        });
 
-        QUnit.load();
-        QUnit.start();
-    }
-);
+        // Check the API for clean JavaScript
+        $.each(testData.apiJS, runTest);
+
+        // Check the main JavaScript files for clean JavaScript
+        $.each(testData.mainJS, runTest);
+
+        // Check the OAE plugins JavaScript files for clean JavaScript
+        $.each(testData.oaePlugins, runTest);
+
+        // Start consuming tests again
+        QUnit.start(2);
+    };
+
+    // Stop consuming QUnit test and load the widgets asynchronous
+    QUnit.stop();
+    util.loadTestData(cleanJSTest);
+});

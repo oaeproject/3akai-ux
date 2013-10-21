@@ -13,92 +13,132 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, util) {
+require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util) {
 
     module('WCAG 2.0 Compliance - 1.1.1 Non-text Content / Text Alternatives');
 
-    var checkElements = function($elt, callback) {
-        // If there are no elements that need to be checked we show a success message in the end.
+    /**
+     * Check elements for WCAG 2.0 compliance
+     *
+     * @param  {Object}      $el         The element to check
+     * @param  {Function}    callback    Standard callback function
+     */
+    var checkElements = function($el, callback) {
+        // If there are no elements that need to be checked we show a success message in the end
         var needsChecking = false;
 
-        $.each($elt.find('a'), function(i, elt) {
+        /**
+         * All links should have text in it or in its children
+         * @see http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/H30
+         */
+        $.each($el.find('a'), function(i, el) {
             needsChecking = true;
-            if ($(elt).attr('id') !== 'topnavigation_user_options_name') {
-                ok($(elt).attr('title') || $(elt).text() || $(elt).find('*').text() || ($(elt).html() === '<!-- -->') || $(elt).find('img').attr('alt'), 'A tag has text or children that have text: ' + $('<div/>').html(elt).html());
-            }
-            if ($(elt).attr('title') && ($(elt).text() || $(elt).find('*').text())) {
-                if ($.trim($(elt).attr('title')) === $.trim($(elt).text()) || $.trim($(elt).attr('title')) === $.trim($(elt).find('*').text())) {
-                    ok(false, 'A tag has duplicate text and title attribute: ' + $('<div/>').html(elt).html());
-                }
-            }
+            ok($(el).attr('title') || $(el).text() || $(el).find('*').text() || ($(el).html() === '<!-- -->') || $(el).find('img').attr('alt'), 'A tag has text or children that have text: ' + $('<div/>').html(el).html());
         });
 
-        $.each($elt.find('button'), function(i, elt) {
+        /**
+         * All buttons should have text in it or in its children
+         * @see http://www.w3.org/TR/UNDERSTANDING-WCAG20/text-equiv-all.html
+         */
+        $.each($el.find('button'), function(i, el) {
             needsChecking = true;
-            ok(!($(elt).attr('title') && $(elt).text() && !$.trim($(elt).text())) && ($(elt).attr('title') || $(elt).find('img').attr('alt') || $.trim($(elt).text()) || $.trim($(elt).find('*').text()) || ($(elt).html() === '<!-- -->')), 'BUTTON tag has text or children that have text: ' + $('<div/>').html(elt).html());
+            ok(!($(el).attr('title') && $(el).text() && !$.trim($(el).text())) && ($(el).attr('title') || $(el).find('img').attr('alt') || $.trim($(el).text()) || $.trim($(el).find('*').text()) || ($(el).html() === '<!-- -->')), 'BUTTON tag has text or children that have text: ' + $('<div/>').html(el).html());
         });
 
-        $.each($elt.find('img'), function(i, elt) {
+        /**
+         * All images should have an `alt` attribute
+         * @see http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/H37
+         */
+        $.each($el.find('img'), function(i, el) {
             needsChecking = true;
             var parentTitle = false;
-            if ($(elt).parent().attr('title') && $(elt).parent().attr('title').length) {
+            if ($(el).parent().attr('title') && $(el).parent().attr('title').length) {
                 parentTitle = true;
             }
-            ok($(elt).attr('alt') || $(elt).prev('img').attr('src') === $(elt).attr('src') || parentTitle, 'IMG tag has ALT attribute:' + $('<div/>').html(elt).html());
+            ok($(el).attr('alt') || $(el).prev('img').attr('src') === $(el).attr('src') || parentTitle, 'IMG tag has ALT attribute:' + $('<div/>').html(el).html());
         });
 
-        $.each($elt.find('input[type="image"]'), function(i, elt) {
+        /**
+         * All input fields of type image should have an `alt` attribute
+         * @see http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/H37
+         */
+        $.each($el.find('input[type="image"]'), function(i, el) {
             needsChecking = true;
-            ok($(elt).attr('alt'), 'INPUT img type tag has ALT attribute:' + $('<div/>').html(elt).html());
+            ok($(el).attr('alt'), 'INPUT img type tag has ALT attribute:' + $('<div/>').html(el).html());
         });
 
-        $.each($elt.find('applet'), function(i, elt) {
+        /**
+         * All `applet` tags should have an `alt` attribute
+         * @see http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/H35
+         */
+        $.each($el.find('applet'), function(i, el) {
             needsChecking = true;
-            ok($(elt).attr('alt'), 'APPLET tag has ALT attribute: ' + $('<div/>').html(elt).html());
+            ok($(el).attr('alt'), 'APPLET tag has ALT attribute: ' + $('<div/>').html(el).html());
         });
 
-        $.each($elt.find('object'), function(i, elt) {
+        /**
+         * All `object` tags should not be empty
+         * @see http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/H53
+         */
+        $.each($el.find('object'), function(i, el) {
             needsChecking = true;
-            ok($(elt).children().length > 0, 'OBJECT tag has contents: ' + $('<div/>').html(elt).html());
+            ok($(el).children().length > 0, 'OBJECT tag has contents: ' + $('<div/>').html(el).html());
         });
 
-        $.each($elt.find('area'), function(i, elt) {
+        /**
+         * All `area` tags should have an `alt` attribute
+         * @see http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/H24
+         */
+        $.each($el.find('area'), function(i, el) {
             needsChecking = true;
-            ok($(elt).attr('alt'), 'AREA tag has ALT attribute: ' + $('<div/>').html(elt).html());
+            ok($(el).attr('alt'), 'AREA tag has ALT attribute: ' + $('<div/>').html(el).html());
         });
 
-        $.each($elt.find('abbr'), function(i, elt) {
+        /**
+         * All `abbr` tags should have a `title` attribute
+         * @see http://www.w3.org/TR/WCAG-TECHS/H28.html
+         */
+        $.each($el.find('abbr'), function(i, el) {
             needsChecking = true;
-            ok($(elt).attr('title'), 'ABBR tag has TITLE attribute: ' + $('<div/>').html(elt).html());
+            ok($(el).attr('title'), 'ABBR tag has TITLE attribute: ' + $('<div/>').html(el).html());
         });
 
-        $.each($elt.find('textarea'), function(i, elt) {
+        /**
+         * Every `textarea` element should have a label or a `title` attribute and no `alt` attribute
+         * @see http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/H44
+         */
+        $.each($el.find('textarea'), function(i, el) {
             needsChecking = true;
-            // check if textarea has an attached label element, otherwise it needs a title attribute
+            // Check if textarea has an attached label element, otherwise it needs a title attribute
             var hasLabel = false;
-            if ($(elt).attr('id')) {
-                var textareaId = $(elt).attr('id');
-                $.each($elt.find('label'), function(j, label) {
+            if ($(el).attr('id')) {
+                var textareaId = $(el).attr('id');
+                $.each($el.find('label'), function(j, label) {
                     if ($(label).attr('for') === textareaId) {
                         hasLabel = true;
                     }
                 });
             }
 
-            ok($(elt).attr('title') || hasLabel, 'TEXTAREA tag has TITLE attribute or LABEL element: ' + $('<div/>').html(elt).html());
-            ok(!$(elt).attr('alt'), 'TEXTAREA tag does not have ALT attribute: ' + $('<div/>').html(elt).html());
+            ok($(el).attr('title') || hasLabel, 'TEXTAREA tag has TITLE attribute or LABEL element: ' + $('<div/>').html(el).html());
+            ok(!$(el).attr('alt'), 'TEXTAREA tag does not have ALT attribute: ' + $('<div/>').html(el).html());
         });
 
-        $.each($elt.find('input, select'), function(i, elt) {
+        /**
+         * All `input` and `select` tags should not have an `alt` attribute
+         * @see http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/H44
+         */
+        $.each($el.find('input, select'), function(i, el) {
             needsChecking = true;
-            ok(!$(elt).attr('alt'), 'INPUT/SELECT tag does not have ALT attribute: ' + $('<div/>').html(elt).html());
+            ok(!$(el).attr('alt'), 'INPUT/SELECT tag does not have ALT attribute: ' + $('<div/>').html(el).html());
         });
 
-        $.each($elt.find('div'), function(i, elt) {
-            needsChecking = true;
-            var divHtml = $(elt).html();
-            if (divHtml.substr(0, 5) === '<!--\n' && divHtml.substr(divHtml.length - 4, divHtml.length) === '\n-->') {
-                // this is a javascript template, check the elements in the template
+        // If a `div` element is handled and it contains a template the HTML of the template needs to be checked
+        $.each($el.find('div'), function(i, el) {
+            var divHtml = $(el).html();
+            if (divHtml.substr(0, 4) === '<!--' && divHtml.substr(divHtml.length - 3, divHtml.length) === '-->') {
+                needsChecking = true;
+                // This is a javascript template, check the elements in the template
                 var templateData = divHtml.substring(5, divHtml.length - 4);
 
                 // We need to empty out the SRC since otherwise we'll get unnecessary error messages
@@ -111,7 +151,7 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
         });
 
         if (!needsChecking) {
-            ok(true, 'No elements need checking.');
+            ok(true, 'No elements need checking');
         }
         if ($.isFunction(callback)) {
             callback();
@@ -119,58 +159,32 @@ require(['jquery', 'oae.core', '../js/util.js', 'qunitjs'], function($, oae, uti
     };
 
     /**
-     * Check HTML pages and test for WCAG compliance
+     * Check HTML for WCAG compliance
+     *
+     * @param  {Object}    testData    The testdata containing all files to be tested (html, css, js, properties)
      */
-    var testWCAGCompliance = function(widgetData) {
+    var testWCAGCompliance = function(testData) {
         // Check the WCAG compliance of widgets
-        $.each(widgetData.widgetData, function(i, widget) {
-            asyncTest(widget.id + '.html', function() {
-                var div = document.createElement('div');
-                div.innerHTML = widget.html;
-                $(div).find('script').remove();
-                $(div).find('link').remove();
-                $(div).find('meta').remove();
-                $(div).find('title').remove();
-                checkElements($(div), function() {
-                    start();
-                });
+        $.each(testData.widgetData, function(widgetId, widget) {
+            test(widget.id, function() {
+                var $widget = $('<div>').html(widget.html);
+                checkElements($widget);
             });
         });
 
-        // Check the WCAG compliance of the main HTML files
-        $.each(widgetData.mainHTML, function(i, mainHTML) {
-            asyncTest(i + '.html', function() {
-                var div = document.createElement('div');
-                div.innerHTML = mainHTML;
-                $(div).find('script').remove();
-                $(div).find('link').remove();
-                $(div).find('meta').remove();
-                $(div).find('title').remove();
-                checkElements($(div), function() {
-                    start();
-                });
+        // Check the WCAG compliance of the main HTML and macro files
+        $.each(testData.mainHTML, function(mainHTMLPath, mainHTML) {
+            test(mainHTMLPath, function() {
+                var $main = $('<div>').html(mainHTML);
+                checkElements($main);
             });
         });
 
-        // Check the WCAG compliance of the macro HTML files
-        $.each(widgetData.macroHTML, function(i, macroHTML) {
-            asyncTest(i + '.html', function() {
-                var div = document.createElement('div');
-                div.innerHTML = macroHTML;
-                $(div).find('script').remove();
-                $(div).find('link').remove();
-                $(div).find('meta').remove();
-                $(div).find('title').remove();
-                checkElements($(div), function() {
-                    start();
-                });
-            });
-        });
+        // Start consuming tests again
+        QUnit.start(2);
     };
 
-    util.loadWidgets(testWCAGCompliance);
-
-    QUnit.load();
-    QUnit.start();
-
+    // Stop consuming QUnit test and load the widgets asynchronous
+    QUnit.stop();
+    util.loadTestData(testWCAGCompliance);
 });

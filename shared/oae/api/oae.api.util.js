@@ -26,6 +26,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         validation().init();
         // Set up the custom autosuggest listeners
         autoSuggest().init();
+        // Set up Google Analytics
+        googleAnalytics();
         // Load the OAE TrimPath Template macros
         template().init(callback);
     };
@@ -36,7 +38,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
      * @param  {String[]}       paths               Array of paths that should be retrieved
      * @param  {Function}       callback            Standard callback function
      * @param  {Object}         callback.err        Error object containing error code and message
-     * @param  {Object}         callback.response   JSON Object where the keys are the paths to the requested files and values are the content of those static files. An element will be null when the static file could not be found.
+     * @param  {Object}         callback.response   JSON Object where the keys are the paths to the requested files and values are the content of those static files. An element will be null when the static file could not be found
      */
     var staticBatch = exports.staticBatch = function(paths, callback) {
         if (!paths || paths.length === 0) {
@@ -102,6 +104,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         document.title = require('oae.api.i18n').translate(title.join(' - '));
     };
 
+
     ////////////////////////////////
     // TRIMPATH TEMPLATE RENDERER //
     ////////////////////////////////
@@ -126,6 +129,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             },
             'encodeForHTMLAttribute': function(str) {
                 return security().encodeForHTMLAttribute(str);
+            },
+            'encodeForHTMLWithLinks': function(str) {
+                return security().encodeForHTMLWithLinks(str);
             },
             'encodeForURL': function(str) {
                 return security().encodeForURL(str);
@@ -250,8 +256,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                 // parsed template to the template cache
                 try {
                     templateCache[templateId] = TrimPath.parseTemplate(templateContent, templateId);
-                } catch (err) {
-                    throw new Error('Parsing of template "' + templateId + '" failed: ' + err);
+                } catch (parseErr) {
+                    throw new Error('Parsing of template "' + templateId + '" failed: ' + parseErr);
                 }
             }
 
@@ -262,8 +268,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                 renderedHTML = templateCache[templateId].process(data, {'throwExceptions': true});
                 // Filter out comments from the rendered template
                 renderedHTML = renderedHTML.replace(/<!--(?:.|\n)*?-->/gm, '');
-            } catch (err) {
-                throw new Error('Rendering of template "' + templateId + '" failed: ' + err);
+            } catch (renderErr) {
+                throw new Error('Rendering of template "' + templateId + '" failed: ' + renderErr);
             }
 
             // If an output element has been provided, we can just render the renderer HTML,
@@ -290,9 +296,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
      * This function is mostly just a wrapper around jQuery.bootstrap.notify.js and supports all of the options documented
      * at http://nijikokun.github.com/bootstrap-notify/.
      *
-     * @param  {String}     [title]       The notification title.
-     * @param  {String}     message       The notification message that will be shown underneath the title. The message should be sanitized by the caller to allow for HTML inside of the notification.
-     * @param  {String}     [type]        The notification type. The supported types are `success`, `error` and `info`, as defined in http://twitter.github.com/bootstrap/components.html#alerts. By default, the `success` type will be used.
+     * @param  {String}     [title]       The notification title
+     * @param  {String}     message       The notification message that will be shown underneath the title. The message should be sanitized by the caller to allow for HTML inside of the notification
+     * @param  {String}     [type]        The notification type. The supported types are `success`, `error` and `info`, as defined in http://twitter.github.com/bootstrap/components.html#alerts. By default, the `success` type will be used
      * @throws {Error}                    Error thrown when no message has been provided
      */
     var notification = exports.notification = function(title, message, type) {
@@ -324,6 +330,28 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             'message': {'html': message},
             'transition': 'slideDown'
         }).show();
+    };
+
+    /**
+     *  Set up Google Analytics tracking, if it has been enabled for the current tenant
+     */
+    var googleAnalytics = function() {
+        // Check if Google Analytics is enabled for the current tenant
+        if (configAPI.getValue('oae-google-analytics', 'google-analytics', 'enabled')) {
+            // Google Analytics tracking code
+            // @see https://developers.google.com/analytics/devguides/
+            (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+            (i[r].q=i[r].q||[]).push(arguments);};i[r].l=1*new Date();a=s.createElement(o);
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            // Retrieve the Google Analytics application ID
+            var id = configAPI.getValue('oae-google-analytics', 'google-analytics', 'id');
+
+            // Add the OAE identifiers to the Google Analytics object
+            ga('create', id, window.location.hostname);
+            ga('send', 'pageview');
+        }
     };
 
     /*!
@@ -415,7 +443,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          *
          * @param  {Element|String}     $form                           jQuery form element or jQuery selector for that form which we want to validate
          * @param  {Object}             [options]                       JSON object containing options to pass to the to the jquery validate plugin, as defined on http://docs.jquery.com/Plugins/Validation/validate#options
-         * @param  {Object}             [options.methods]               Extension to the jquery validate options, allowing to specify custom validators. The keys should be the validator identifiers. The value should be an object with a method key containing the validator function and a text key containing the validation message.
+         * @param  {Object}             [options.methods]               Extension to the jquery validate options, allowing to specify custom validators. The keys should be the validator identifiers. The value should be an object with a method key containing the validator function and a text key containing the validation message
          */
         var validate = function($form, options) {
             if (!$form) {
@@ -536,6 +564,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         };
     };
 
+
     ///////////////
     // CLICKOVER //
     ///////////////
@@ -557,10 +586,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
      * - options.onHidden: Function that will be executed when the clickover is hidden. This function can be useful to kill components in
      *                     the clickover, like infinite scrolls.
      *
-     * @param  {Element|String}     $element      jQuery element or jQuery selector for that element that represents the element that triggers the clickover. The clickover will be positioned relative to this element.
-     * @param  {Element|String}     $content      jQuery element or jQuery selector for the element that should be used as the content of the clickover.
-     * @param  {Object}             [options]     JSON Object containing options to pass to the BootstrapX clickover component. It supports all of the standard options documented at http://twitter.github.com/bootstrap/javascript.html#popovers and http://www.leecarmichael.com/bootstrapx-clickover/examples.html#.
-     * @return {Element}                          The root element of the generated clickover.
+     * @param  {Element|String}     $element      jQuery element or jQuery selector for that element that represents the element that triggers the clickover. The clickover will be positioned relative to this element
+     * @param  {Element|String}     $content      jQuery element or jQuery selector for the element that should be used as the content of the clickover
+     * @param  {Object}             [options]     JSON Object containing options to pass to the BootstrapX clickover component. It supports all of the standard options documented at http://twitter.github.com/bootstrap/javascript.html#popovers and http://www.leecarmichael.com/bootstrapx-clickover/examples.html#
+     * @return {Element}                          The root element of the generated clickover
      */
     var clickover = exports.clickover = function($trigger, $content, options) {
         if (!$trigger) {
@@ -606,6 +635,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         // flow to be incorrect
         $('.popover-title').remove();
     };
+
 
     /////////////////
     // AUTOSUGGEST //
@@ -853,7 +883,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                         // Prepend a thumbnail to the item to add to the list
                         var $thumbnail = $('<div>').addClass('oae-thumbnail icon-oae-' + originalData.resourceType);
                         if (originalData.thumbnailUrl) {
-                            $thumbnail.append($('<img>').attr('src', originalData.thumbnailUrl));
+                            $thumbnail.append($('<div>')
+                                .css('background-image', 'url("' + originalData.thumbnailUrl + '")')
+                                .attr('role', 'img')
+                                .attr('aria-label', security().encodeForHTMLAttribute(originalData.displayName))
+                            );
                         }
                         $elem.prepend($thumbnail);
                     }
@@ -933,7 +967,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         /**
          * Retrieve the selected items in an autosuggest field
          *
-         * @param  {Element|String}     $element                            jQuery element or jQuery selector for the container in which the auto suggest was initialized. Note that this will *not* be the same element as the one used to setup the auto suggest.
+         * @param  {Element|String}     $element                            jQuery element or jQuery selector for the container in which the auto suggest was initialized. Note that this will *not* be the same element as the one used to setup the auto suggest
          * @return {Object[]}           selectedItems                       Array of objects representing the selected autosuggest items
          * @return {String}             selectedItems[i].id                 Resource id of the selected item
          * @return {String}             selectedItems[i].displayName        Display name of the selected item
@@ -998,6 +1032,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
      */
     var renderMath = exports.renderMath = function($element) {};
 
+
     //////////////
     // SECURITY //
     //////////////
@@ -1016,8 +1051,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          * Sanitizes user input in a manner that makes it safe for the input to be placed
          * inside of an HTML tag.
          *
-         * @param  {String}     [input]         The user input string that should be sanitized. If this is not provided, an empty string will be returned.
-         * @return {String}                     The sanitized user input, ready to be put inside of an HTML tag.
+         * @param  {String}     [input]         The user input string that should be sanitized. If this is not provided, an empty string will be returned
+         * @return {String}                     The sanitized user input, ready to be put inside of an HTML tag
          */
         var encodeForHTML = function(input) {
             if (!input) {
@@ -1031,9 +1066,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          * Sanitizes user input in a manner that it makes safe for the input to be placed
          * inside of an HTML attribute.
          *
-         * @param  {String}     [input]         The user input string that should be sanitized. If this is not provided, an empty string will be returned.
-         * @param  {String}     [attribute]     The name of the HTML attribute to encode for.
-         * @return {String}                     The sanitized user input, ready to be put inside of an HTML attribute.
+         * @param  {String}     [input]         The user input string that should be sanitized. If this is not provided, an empty string will be returned
+         * @param  {String}     [attribute]     The name of the HTML attribute to encode for
+         * @return {String}                     The sanitized user input, ready to be put inside of an HTML attribute
          */
         var encodeForHTMLAttribute = function(input, attribute) {
             if (!input) {
@@ -1047,11 +1082,38 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         };
 
         /**
+         * Sanitizes user input in a manner that makes it safe for the input to be placed inside of an HTML tag.
+         * This sanitizer will also recognise URLs inside of the provided input and will convert these into links.
+         *
+         * @param  {String}     [input]         The user input string that should be sanitized. If this is not provided, an empty string will be returned
+         * @return {String}                     The sanitized user input, ready to be put inside of an HTML tag with all URLs converted to links
+         */
+        var encodeForHTMLWithLinks = function(input) {
+            if (!input) {
+                return '';
+            } else {
+
+                // First sanitize the user's input
+                input = encodeForHTML(input);
+
+                // URLs starting with http://, https://, or ftp://
+                var URLPattern1 = /(\b(https?|ftp):\/\/[\-A-Z0-9+&@#\/%?=~_|!:,.;]*[\-A-Z0-9+&@#\/%=~_|])/gim;
+                input = input.replace(URLPattern1, '<a href="$1" target="_blank" title="$1">$1</a>');
+
+                // URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+                var URLPattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+                input = input.replace(URLPattern2, '$1<a href="http://$2" target="_blank" title="$2">$2</a>');
+
+                return input;
+            }
+        };
+
+        /**
          * Sanitizes user input in a manner that it makes safe for the input to be used
          * as a URL fragment
          *
-         * @param  {String}     [input]         The user input string that should be sanitized. If this is not provided, an empty string will be returned.
-         * @return {String}                     The sanitized user input, ready to be used as a URL fragment.
+         * @param  {String}     [input]         The user input string that should be sanitized. If this is not provided, an empty string will be returned
+         * @return {String}                     The sanitized user input, ready to be used as a URL fragment
          */
         var encodeForURL = function(input) {
             if (!input) {
@@ -1064,9 +1126,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         return {
             'encodeForHTML': encodeForHTML,
             'encodeForHTMLAttribute': encodeForHTMLAttribute,
+            'encodeForHTMLWithLinks': encodeForHTMLWithLinks,
             'encodeForURL': encodeForURL
         };
     };
+
 
     ///////////////
     // REDIRECTS //
@@ -1111,7 +1175,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
 
         /**
          * Redirect the current user to the 502 page. This can be used when the user requests a page on a tenant
-         * that is currently not available.
+         * that is currently not available
          */
         var unavailable = function() {
             window.location = '/unavailable';
@@ -1119,7 +1183,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
 
         /**
          * Redirect the current user to the 503 page. This can be used when the user requests a page on a tenant
-         * that is currently undergoing maintenance.
+         * that is currently undergoing maintenance
          */
         var maintenance = function() {
             window.location = '/maintenance';
@@ -1137,7 +1201,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
 
     /**
      * Function that can be called once a specific page has finished checking for access by the content user, to avoid flickering when
-     * the user doesn't have access. This function will then show the page and set the page title.
+     * the user doesn't have access. This function will then show the page and set the page title
      */
     var showPage = exports.showPage = function() {
         $('body').show();
