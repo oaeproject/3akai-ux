@@ -377,9 +377,11 @@ div.oae-thumbnail {
             border-radius: 4px;
 }
 
-/* IE9 and IE10 need a background color on the link to be able to click the entire icon */
-div.oae-thumbnail a {
-    background: rgba(0, 0, 0, 0.01);
+div.oae-thumbnail:before {
+    display: inline-block;
+    font-size: 20px;
+    padding-top: 50%;
+    margin-top: -11px;
 }
 
 div.oae-thumbnail a,
@@ -387,13 +389,6 @@ div.oae-thumbnail div {
     -webkit-border-radius: 3px;
        -moz-border-radius: 3px;
             border-radius: 3px;
-}
-
-div.oae-thumbnail div {
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    font-size: 12px;
     height: 100%;
     left: 0;
     position: absolute;
@@ -401,11 +396,15 @@ div.oae-thumbnail div {
     width: 100%;
 }
 
-div.oae-thumbnail:before {
-    display: inline-block;
-    font-size: 20px;
-    padding-top: 50%;
-    margin-top: -11px;
+/* IE9 and IE10 need a background color on the link to be able to click the entire icon */
+div.oae-thumbnail a {
+    background: rgba(0, 0, 0, 0.01);
+}
+
+div.oae-thumbnail div {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 div.oae-thumbnail.oae-thumbnail-large:before {
