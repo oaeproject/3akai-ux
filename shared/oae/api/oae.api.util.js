@@ -883,7 +883,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                         // Prepend a thumbnail to the item to add to the list
                         var $thumbnail = $('<div>').addClass('oae-thumbnail icon-oae-' + originalData.resourceType);
                         if (originalData.thumbnailUrl) {
-                            $thumbnail.append($('<img>').attr('src', originalData.thumbnailUrl));
+                            $thumbnail.append($('<div>')
+                                .css('background-image', 'url("' + originalData.thumbnailUrl + '")')
+                                .attr('role', 'img')
+                                .attr('aria-label', security().encodeForHTMLAttribute(originalData.displayName))
+                            );
                         }
                         $elem.prepend($thumbnail);
                     }
