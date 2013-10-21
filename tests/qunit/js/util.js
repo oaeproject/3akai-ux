@@ -39,22 +39,27 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
      * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
      */
     var loadWidgetJS = exports.loadWidgetJS = function(testData, callback) {
-        var paths = [];
+        var paths = {};
 
         $.each(testData.widgetData, function(widgetIndex, widget) {
             var $html = $('<div/>').html(widget.html);
             var $scripts = $html.find('script');
             $.each($scripts, function(scriptIndex, script) {
-                paths.push('/node_modules/' + widget.path + $(script).attr('src'));
+                var jsPath = $(script).attr('src');
+                // Only look at the widget JS files, not at libraries
+                if (jsPath.indexOf('js') === 0) {
+                    paths['/node_modules/' + widget.path + jsPath] = widget.id;
+                }
             });
         });
 
-        paths = filterVendorScripts(paths);
-
-        oae.api.util.staticBatch(paths, function(err, data) {
+        oae.api.util.staticBatch(_.keys(paths), function(err, data) {
             $.each(data, function(widgetJSPath, widgetJS) {
-                var widgetName = widgetJSPath.split('/').pop().split('.')[0];
-                testData.widgetData[widgetName].js = widgetJS;
+                // Get the ID of the widget from the path dictionary
+                var widgetName = paths[widgetJSPath];
+                // Add the widget JS into the object
+                testData.widgetData[widgetName].js = testData.widgetData[widgetName].js || {};
+                testData.widgetData[widgetName].js[widgetJSPath] = widgetJS;
             });
             callback(testData);
         });
@@ -140,21 +145,27 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
      */
     var loadWidgetCSS = exports.loadWidgetCSS = function(testData, callback) {
         // Parse the HTML files and extract the CSS files
-        var paths = [];
+        var paths = {};
+
         $.each(testData.widgetData, function(widgetIndex, widget) {
             var $html = $('<div/>').html(widget.html);
             var $links = $html.find('link');
             $.each($links, function(linkIndex, link) {
-                paths.push('/node_modules/' + widget.path + $(link).attr('href'));
+                var cssPath = $(link).attr('href');
+                // Only look at the widget CSS files, not at libraries
+                if (cssPath.indexOf('css') === 0) {
+                    paths['/node_modules/' + widget.path + cssPath] = widget.id;
+                }
             });
         });
 
-        oae.api.util.staticBatch(paths, function(err, data) {
+        oae.api.util.staticBatch(_.keys(paths), function(err, data) {
             $.each(data, function(cssIndex, css) {
-                var widgetName = cssIndex.split('/').pop().split('.')[0];
-                if (testData.widgetData[widgetName]) {
-                    testData.widgetData[widgetName].css = css;
-                }
+                // Get the ID of the widget by looking at the directory the files are stored in
+                var widgetName = paths[cssIndex];
+                // Add the widget CSS into the Object
+                testData.widgetData[widgetName].css = testData.widgetData[widgetName].css || {};
+                testData.widgetData[widgetName].css[cssIndex] = css;
             });
             callback(testData);
         });
@@ -194,14 +205,15 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
      * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
      */
     var loadWidgetHTML = exports.loadWidgetHTML = function(testData, callback) {
-        var paths = [];
+        var paths = {};
+
         $.each(testData.widgetData, function(widgetIndex, widget) {
-            paths.push('/node_modules/' + widget.path + widget.src);
+            paths['/node_modules/' + widget.path + widget.src] = widget.id;
         });
 
-        oae.api.util.staticBatch(paths, function(err, data) {
+        oae.api.util.staticBatch(_.keys(paths), function(err, data) {
             $.each(data, function(htmlIndex, html) {
-                var widgetName = htmlIndex.split('/').pop().split('.')[0];
+                var widgetName = paths[htmlIndex];
                 testData.widgetData[widgetName].html = html;
             });
             callback(testData);
