@@ -886,7 +886,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                             $thumbnail.append($('<div>')
                                 .css('background-image', 'url("' + originalData.thumbnailUrl + '")')
                                 .attr('role', 'img')
-                                .attr('aria-label', oae.api.Util.encodeForHtmlAttribute(originalData.displayName))
+                                .attr('aria-label', security().encodeForHTMLAttribute(originalData.displayName))
                             );
                         }
                         $elem.prepend($thumbnail);
