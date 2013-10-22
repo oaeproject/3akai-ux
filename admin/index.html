@@ -284,20 +284,19 @@
                                                     </div>
                                                 </div>
                                             {elseif element.type === "internationalizableText"}
-                                                {var internationalizabletextContainerId = 'internationalizabletext-container-' + oae.api.util.generateId()}
-                                                <div class="control-group">
-                                                    <label for="${configPath|encodeForHTMLAttribute}-internationalizabletext-language-picker" class="control-label">Choose terms and conditions language to change</label>
-                                                    <div class="controls">
-                                                        <select class="internationalizabletext-language-picker" id="${configPath|encodeForHTMLAttribute}-internationalizabletext-language-picker" data-targetcontainer="${internationalizabletextContainerId}">
-                                                            <option value="default" data-toggle="${configPath|encodeForHTMLAttribute}-default-container">Default</option>
-                                                            {for language in schema['oae-principals'].user.elements.defaultLanguage.list}
-                                                                <option value="${language.value|encodeForHTMLAttribute}">${language.name|encodeForHTML}</option>
-                                                            {/for}
-                                                        </select>
+                                                <div class="admin-internationalizable-text-container">
+                                                    <div class="control-group">
+                                                        <label for="${configPath|encodeForHTMLAttribute}" class="control-label">Choose terms and conditions language to change</label>
+                                                        <div class="controls">
+                                                            <select class="admin-internationalizabletext-language-picker" id="${configPath|encodeForHTMLAttribute}">
+                                                                <option value="default">Default</option>
+                                                                {for language in schema['oae-principals'].user.elements.defaultLanguage.list}
+                                                                    <option value="${language.value|encodeForHTMLAttribute}">${language.name|encodeForHTML}</option>
+                                                                {/for}
+                                                            </select>
+                                                        </div>
                                                     </div>
-                                                </div>
 
-                                                <div id="${internationalizabletextContainerId}">
                                                     {var defaultLanguageValue = configValue.default ? configValue.default.toString() : element.defaultValue.default}
                                                     <div data-id="default" class="control-group">
                                                         <label for="${configPath|encodeForHTMLAttribute}/default" class="control-label">default - ${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>

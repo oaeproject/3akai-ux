@@ -27,9 +27,10 @@ define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
      */
     var toggleInternationalizableFieldContainer = exports.toggleInternationalizableFieldContainer = function() {
         // Define the target container
-        var $targetContainer = $('#' + $(this).attr('data-targetcontainer'));
-        // Hide all control groups in the target container
+        var $targetContainer = $(this).parents('.admin-internationalizable-text-container');
+        // Hide all control groups except the first one (language select) in the target container
         $targetContainer.find('.control-group').hide();
+        $targetContainer.find('.control-group:first-child').show();
         // Show the selected language control group in the target container
         $targetContainer.find('div[data-id="' + $(this).val() + '"]').show();
     };

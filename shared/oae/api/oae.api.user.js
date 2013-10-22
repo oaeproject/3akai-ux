@@ -166,15 +166,11 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
      * Get the Terms and Conditions
      *
      * @param  {Object}         params              Object representing the profile fields that need to be updated. The keys are the profile fields, the values are the profile field values
-     * @param  {Function}       [callback]          Standard callback method
-     * @param  {Object}         [callback.err]      Error object containing error code and error message
+     * @param  {Function}       callback            Standard callback method
+     * @param  {Object}         callback.err        Error object containing error code and error message
      * @throws {Error}                              Error thrown when no update parameters have been provided
      */
     var getTC = exports.getTC = function(callback) {
-        // Set a default callback function in case no callback function has been provided
-        callback = callback || function() {};
-
-        // Get the terms and conditions and render them on the page
         $.ajax({
             'url': '/api/user/termsAndConditions',
             'success': function(data) {
