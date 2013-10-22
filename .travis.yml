@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - 0.8
+  - 0.10
 
 branches:
   only:
@@ -9,6 +9,13 @@ branches:
 before_install:
   - sudo sed -e 's/^\(127\.0\.0\.1.*\)$/\1 admin.oae.com cam.oae.com/' --in-place /etc/hosts
   - sudo sed -e 's/^\(::1.*\)$/\1 admin.oae.com cam.oae.com/' --in-place /etc/hosts
+  - cd ../
+  - sudo apt-get install phantomjs
+  - git clone git://github.com/n1k0/casperjs.git
+  - cd casperjs
+  - git checkout 1.0.3
+  - sudo ln -sf `pwd`/bin/casperjs /usr/local/bin/casperjs
+  - cd ../3akai-ux
   - npm install -d
   - "echo '{\"NGINX_USER\": \"root\",\"NGINX_GROUP\": \"root\",\"NGINX_HOSTNAME\": \"admin.oae.com\",\"UX_HOME\": \"/home/travis/build/oaeproject/3akai-ux\",\"LOCAL_FILE_STORAGE_DIRECTORY\": \"/home/travis/build/oaeproject/files\"}' > nginx/nginx.json"
   - grunt configNginx
@@ -19,12 +26,6 @@ before_install:
   - sudo cp ./target/optimized/nginx/nginx.conf /etc/nginx/nginx.conf
   - sudo mkdir /usr/share/nginx/logs
   - sudo service nginx start
-  - cd ../
-  - sudo apt-get install phantomjs
-  - git clone git://github.com/n1k0/casperjs.git
-  - cd casperjs
-  - git checkout tags/1.0.2
-  - sudo ln -sf `pwd`/bin/casperjs /usr/local/bin/casperjs
   - cd ../
   - sudo sh -c "echo 'JVM_OPTS=\"\${JVM_OPTS} -Djava.net.preferIPv4Stack=false\"' >> /usr/local/cassandra/conf/cassandra-env.sh"
   - sudo service cassandra stop
