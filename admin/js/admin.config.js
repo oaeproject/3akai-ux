@@ -36,7 +36,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', '/admin/js/admin.skin.js'
             adminSkin.init(currentContext, configuration);
         });
         addBinding();
-    }
+    };
 
     /**
      * Render the available configuration modules and their configured values
@@ -104,13 +104,37 @@ define(['exports', 'jquery', 'underscore', 'oae.core', '/admin/js/admin.skin.js'
         // Run over all the old config values to check which ones have been modified
         $.each(configuration[module], function(option, optionValues) {
             $.each(optionValues, function(element, elementValue) {
+
                 // Convert the value in case it's a checkbox
                 var configPath = module + '/' + option + '/' + element;
                 if (configurationSchema[module][option].elements[element].type === 'boolean') {
                     values[configPath] = values[configPath] ? true : false;
                 }
+
+                // Go one level deeper if it's an internationalizableText field
+                if (configurationSchema[module][option].elements[element].type === "internationalizableText") {
+                    // Check if the default language changed
+                    if (values[configPath + '/default'] !== configuration[module][option][element].default) {
+                        data[configPath + '/default'] = values[configPath + '/default'];
+                        configuration[module][option][element].default = values[configPath + '/default'];
+                    }
+
+                    // Loop over the list of available languages
+                    $.each(configurationSchema['oae-principals'].user.elements.defaultLanguage.list, function(i, i18n) {
+                        // Continue if the value has changed
+                        if (values[configPath + '/' + i18n.value] !== configuration[module][option][element][i18n.value]) {
+                            // We shouldn't submit empty values
+                            if (values[configPath + '/' + i18n.value] !== '') {
+                                data[configPath + '/' + i18n.value] = values[configPath + '/' + i18n.value];
+                                configuration[module][option][element][i18n.value] = values[configPath + '/' + i18n.value];
+                            }
+                        }
+                    });
+                }
+
                 // Check if the value has changed and overwrite if it has
-                if (values[configPath] !== elementValue) {
+                if ((values[configPath] !== elementValue) &&
+                    configurationSchema[module][option].elements[element].type !== "internationalizableText") {
                     data[configPath] = values[configPath];
                     configuration[module][option][element] = values[configPath];
                 }
@@ -148,6 +172,8 @@ define(['exports', 'jquery', 'underscore', 'oae.core', '/admin/js/admin.skin.js'
         $(document).on('click', '.admin-module-configuration-toggle-button', adminUtil.toggleContainer);
         // Change config values
         $(document).on('submit', '.admin-module-configuration-form', updateConfiguration);
+        // Toggle internationalizable field containers
+        $(document).on('change', '.admin-internationalizabletext-language-picker', adminUtil.toggleInternationalizableFieldContainer);
     };
 
 });
