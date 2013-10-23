@@ -38,6 +38,7 @@ define([
         'oae.api.content',
         'oae.api.comment',
         'oae.api.discussion',
+        'oae.api.follow',
         'oae.api.group',
         'oae.api.i18n',
         'oae.api.l10n',
@@ -49,6 +50,7 @@ define([
         /**
          * OAE plugins
          */
+        'bootstrap.focus',
         'bootstrap.modal',
         'jquery.browse-focus',
         'jquery.clip',

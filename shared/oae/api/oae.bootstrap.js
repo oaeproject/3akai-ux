@@ -25,7 +25,6 @@ requirejs.config({
         // Vendor paths
         'bootstrap': 'vendor/js/bootstrap',
         'bootstrap.clickover': 'vendor/js/bootstrap-plugins/bootstrapx.clickover',
-        'flowplayer': 'vendor/js/flowplayer/flowplayer.min',
         'globalize': 'vendor/js/l10n/globalize',
         'jquery.autosuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest',
         'jquery.encoder': 'vendor/js/jquery-plugins/jquery.encoder',
@@ -45,11 +44,14 @@ requirejs.config({
         'jquery.timeago': 'vendor/js/jquery-plugins/jquery.timeago',
         'jquery.validate': 'vendor/js/jquery-plugins/jquery.validate',
         'jquery-ui': 'vendor/js/jquery-ui/jquery-ui.custom',
+        'markdown': 'vendor/js/markdown',
+        'qunitjs': 'vendor/js/qunit',
         'text': 'vendor/js/requirejs/require.text',
         'trimpath': 'vendor/js/trimpath',
         'underscore': 'vendor/js/underscore',
 
         // OAE paths
+        'bootstrap.focus': 'oae/js/bootstrap-plugins/bootstrap.focus',
         'bootstrap.modal': 'oae/js/bootstrap-plugins/bootstrap.modal',
         'jquery.browse-focus': 'oae/js/jquery-plugins/jquery.browse-focus',
         'jquery.clip': 'oae/js/jquery-plugins/jquery.clip',
@@ -66,6 +68,7 @@ requirejs.config({
         'oae.api.content': 'oae/api/oae.api.content',
         'oae.api.comment': 'oae/api/oae.api.comment',
         'oae.api.discussion': 'oae/api/oae.api.discussion',
+        'oae.api.follow': 'oae/api/oae.api.follow',
         'oae.api.group': 'oae/api/oae.api.group',
         'oae.api.i18n': 'oae/api/oae.api.i18n',
         'oae.api.l10n': 'oae/api/oae.api.l10n',
@@ -75,8 +78,7 @@ requirejs.config({
         'oae.api.widget': 'oae/api/oae.api.widget',
         'oae.bootstrap': 'oae/api/oae.bootstrap',
         'oae.core': 'oae/api/oae.core',
-        'pluginBuilder': 'oae/pluginBuilder',
-        'qunitjs': '/tests/qunit/js/qunit'
+        'pluginBuilder': 'oae/pluginBuilder'
     },
     'priority': ['jquery', 'underscore'],
     'shim': {

@@ -21,10 +21,10 @@
  * This module is intended to be referenced as a *plugin*, not a regular module. Do not depend on this directly, instead depend
  * on `oae.core`, which invokes this plugin, and also efficiently pre-loads many third-party dependencies.
  */
-define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.comment', 'oae.api.discussion', 'oae.api.group',
-        'oae.api.i18n', 'oae.api.l10n', 'oae.api.profile', 'oae.api.user', 'oae.api.util', 'oae.api.widget'],
+define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.comment', 'oae.api.discussion', 'oae.api.follow',
+        'oae.api.group', 'oae.api.i18n', 'oae.api.l10n', 'oae.api.profile', 'oae.api.user', 'oae.api.util', 'oae.api.widget'],
 
-    function(authenticationAPI, configAPI, contentAPI, commentAPI, discussionAPI, groupAPI, i18nAPI, l10nAPI, profileAPI, userAPI, utilAPI, widgetAPI) {
+    function(authenticationAPI, configAPI, contentAPI, commentAPI, discussionAPI, followAPI, groupAPI, i18nAPI, l10nAPI, profileAPI, userAPI, utilAPI, widgetAPI) {
 
         /*!
          * Object containing all of the available OAE API modules and their functions, as well as some
@@ -37,6 +37,7 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
                 'content': contentAPI,
                 'comment': commentAPI,
                 'discussion': discussionAPI,
+                'follow': followAPI,
                 'group': groupAPI,
                 'i18n': i18nAPI,
                 'l10n': l10nAPI,
@@ -96,6 +97,8 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
                                         throw new Error('Could not initialize the widgets API.');
                                     }
 
+                                    setUpTermsAndConditions();
+
                                     // The APIs have now fully initialized. All javascript that
                                     // depends on the initialized core APIs can now execute
                                     callback(oae);
@@ -112,6 +115,24 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
                     });
                 });
             });
+        };
+
+
+        //////////////////////////
+        // Terms and Conditions //
+        //////////////////////////
+
+        /**
+         * Triggers the Terms and Conditions widget if the Terms and Conditions
+         * need to be accepted before using the system.
+         */
+        var setUpTermsAndConditions = function() {
+            if (!oae.data.me.anon && oae.api.config.getValue('oae-principals', 'termsAndConditions', 'enabled') &&
+                (oae.data.me.needsToAcceptTC || oae.data.me.acceptedTC === 0)) {
+                // Insert the terms and conditions widget in settings mode
+                var termsandconditionsId = oae.api.util.generateId();
+                oae.api.widget.insertWidget('termsandconditions', termsandconditionsId, null, true);
+            }
         };
 
         return {
