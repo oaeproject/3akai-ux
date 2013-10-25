@@ -36,8 +36,7 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
                         // Get the key from the match
                         var key = RegExp.$1;
 
-                        // (.*?) is the key from the regex that does the
-                        // actual replacement, so ignore it
+                        // `(.*?)` is the key from the regex that does the actual replacement so ignore it
                         if ('(.*?)' === key) {
                             continue;
                         }
