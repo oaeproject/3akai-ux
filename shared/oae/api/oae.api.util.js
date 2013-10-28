@@ -81,7 +81,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             return url + '?oaeCacheBust=' + generateId();
         }
         return url + '&oaeCacheBust=' + generateId();
-    }
+    };
 
     /**
      * Determine whether or not HTML content consists of solely non-textual elements such as white-spaces,
