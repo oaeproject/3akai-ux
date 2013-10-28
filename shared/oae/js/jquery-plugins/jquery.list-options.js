@@ -53,6 +53,21 @@ define(['jquery'], function ($) {
         });
 
         /**
+         * Deselect all elements in the list
+         */
+        $(document).on('oae.list.deselectall', function() {
+            // Get the list container, so we don't end up changing state in other lists
+            var $listContainer = $('.oae-list-container:visible');
+            // Deselect all checkboxes in the list
+            var $listCheckboxes = $('.oae-list:visible input[type="checkbox"]', $listContainer);
+            $listCheckboxes.prop('checked', false);
+            // Uncheck the 'select all' checkbox
+            $('.oae-list-selectall', $listContainer).prop('checked', false);
+            // Disable all buttons in the list options
+            $('.oae-list-options-actions:visible > .btn', $listContainer).prop('disabled', true);
+        });
+
+        /**
          * Switch the view mode between grid view, details view and compact view
          */
         $(document).on('click', '.oae-list-options .btn-group button', function() {
