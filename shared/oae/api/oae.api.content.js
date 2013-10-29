@@ -35,7 +35,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
                 callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
@@ -64,7 +64,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
                 callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
@@ -111,7 +111,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
                 callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
@@ -177,7 +177,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
                 callback(null, JSON.parse(data));
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
@@ -216,7 +216,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
                 callback(null, JSON.parse(data));
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
@@ -259,7 +259,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
                 callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
@@ -292,7 +292,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
                 callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
@@ -325,7 +325,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
                 callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
@@ -353,7 +353,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
                 callback(null);
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
@@ -388,7 +388,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
                 callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
@@ -420,7 +420,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
                 callback(null);
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
@@ -456,7 +456,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
                 callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
@@ -491,7 +491,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
                 callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
@@ -522,7 +522,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
                 callback(null);
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
@@ -682,13 +682,4 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
         // Return the mime type description, translated into the user's language
         return i18nAPI.translate(mimeTypeObject.description);
     };
-
-    /**
-     * Get the filesize of a file as a human readable string. This will only be done for uploaded files,
-     * other content items will remain unchanged.
-     *
-     * @param  {Content}        contentObj          Content object for which to set the readable filesize information. This object will be modified to include the mimetype info.
-     */
-    var getFileSize = exports.getFileSize = function(contentObj) {};
-
 });

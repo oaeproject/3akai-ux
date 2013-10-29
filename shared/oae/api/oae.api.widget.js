@@ -44,7 +44,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
                 callback(null);
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };

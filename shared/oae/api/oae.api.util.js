@@ -52,7 +52,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                 callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
