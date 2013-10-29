@@ -221,5 +221,4 @@ define(['exports', 'jquery', 'oae.api.config', 'oae.api.util', 'oae.api.l10n', '
         });
         return input;
     };
-
 });

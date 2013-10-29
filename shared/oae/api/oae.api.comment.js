@@ -48,7 +48,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
                 callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
@@ -90,7 +90,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
                 callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
@@ -125,7 +125,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
                 callback(null, softDeleted);
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };

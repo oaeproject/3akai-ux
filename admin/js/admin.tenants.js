@@ -173,7 +173,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js'
                 callback(null);
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
@@ -199,7 +199,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js'
                 callback(null);
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
@@ -225,7 +225,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js'
                 callback(null);
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
@@ -407,7 +407,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js'
                 callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
