@@ -15,6 +15,8 @@ before_install:
   - cd casperjs
   - git checkout 1.0.3
   - sudo ln -sf `pwd`/bin/casperjs /usr/local/bin/casperjs
+  - casperjs --version
+  - phantomjs --version
   - cd ../3akai-ux
   - npm install -d
   - "echo '{\"NGINX_USER\": \"root\",\"NGINX_GROUP\": \"root\",\"NGINX_HOSTNAME\": \"admin.oae.com\",\"UX_HOME\": \"/home/travis/build/oaeproject/3akai-ux\",\"LOCAL_FILE_STORAGE_DIRECTORY\": \"/home/travis/build/oaeproject/files\"}' > nginx/nginx.json"
