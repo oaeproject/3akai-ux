@@ -52,7 +52,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                 callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
@@ -65,6 +65,22 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
      */
     var generateId = exports.generateId = function() {
         return 'oae-' + Math.round(Math.random() * 10000000) + '-' + Math.round(Math.random() * 10000000);
+    };
+
+    /**
+     * Add a cache busting property to a url
+     *
+     * @param  {String}     url  The url to add to
+     * @return {String}          The url with cache busting property added
+     */
+    var addCacheBust = exports.addCacheBust = function(url) {
+        var $url = $.url(url);
+        // If there are no params we'll get {:''}
+        // https://github.com/allmarkedup/purl/pull/56
+        if (_.isEmpty($url.param()) || $url.param()[''] === '') {
+            return url + '?oaeCacheBust=' + generateId();
+        }
+        return url + '&oaeCacheBust=' + generateId();
     };
 
     /**

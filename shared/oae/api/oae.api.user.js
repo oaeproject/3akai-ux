@@ -63,7 +63,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
 
         // If the tenant requires the terms and conditions to be accepted add it on the data object
         if (configAPI.getValue('oae-principals', 'termsAndConditions', 'enabled') === true) {
-            data.acceptedTC = additionalOptions.acceptedTC;
+            data.acceptedTC = true;
         }
 
         // Create the user
@@ -75,7 +75,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
                 callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
@@ -95,7 +95,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
                 callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
@@ -120,7 +120,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
                 callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
@@ -204,9 +204,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
                 callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
-
 });
