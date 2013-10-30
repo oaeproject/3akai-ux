@@ -110,7 +110,7 @@ require(['jquery','oae.core'], function($, oae) {
             'icon': 'icon-random',
             'layout': [
                 {
-                    'width': 'span12',
+                    'width': 'col-md-12',
                     'widgets': [
                         {
                             'id': 'network',

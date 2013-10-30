@@ -48,9 +48,9 @@
                     </div>
 
                     <div id="admin-views">
-                        <div id="admin-tenants-container" class="hide col-md-12"><!-- --></div>
-                        <div id="admin-modules-container" class="hide col-md-12"><!-- --></div>
-                        <div id="admin-skinning-container" class="hide col-md-12"><!-- --></div>
+                        <div id="admin-tenants-container" class="hide col-md-10"><!-- --></div>
+                        <div id="admin-modules-container" class="hide col-md-10"><!-- --></div>
+                        <div id="admin-skinning-container" class="hide col-md-10"><!-- --></div>
                     </div>
 
                     <div id="admin-error-container"><!-- --></div>
@@ -270,6 +270,38 @@
                                                     <div class="col-lg-9">
                                                         <input type="text" id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" value="${configValue.toString()|encodeForHTMLAttribute}" {if !tenantCanOverride} disabled="disabled"{/if} class="form-control"/>
                                                     </div>
+                                                </div>
+                                            {elseif element.type === "internationalizableText"}
+                                                <div class="admin-internationalizable-text-container">
+                                                    <div class="control-group">
+                                                        <label for="${configPath|encodeForHTMLAttribute}" class="control-label">Choose terms and conditions language to change</label>
+                                                        <div class="controls">
+                                                            <select class="admin-internationalizabletext-language-picker" id="${configPath|encodeForHTMLAttribute}">
+                                                                <option value="default">Default</option>
+                                                                {for language in schema['oae-principals'].user.elements.defaultLanguage.list}
+                                                                    <option value="${language.value|encodeForHTMLAttribute}">${language.name|encodeForHTML}</option>
+                                                                {/for}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    {var defaultLanguageValue = configValue.default ? configValue.default.toString() : element.defaultValue.default}
+                                                    <div data-id="default" class="control-group">
+                                                        <label for="${configPath|encodeForHTMLAttribute}/default" class="control-label">default - ${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                        <div class="controls">
+                                                            <textarea type="text" id="${configPath|encodeForHTMLAttribute}/default" name="${configPath|encodeForHTMLAttribute}/default" {if !tenantCanOverride} disabled="disabled"{/if}>${defaultLanguageValue|encodeForHTML}</textarea>
+                                                        </div>
+                                                    </div>
+
+                                                    {for language in schema['oae-principals'].user.elements.defaultLanguage.list}
+                                                        {var i18nValue = configValue[language.value] ? configValue[language.value].toString() : ''}
+                                                        <div data-id="${language.value}" class="control-group hide">
+                                                            <label for="${configPath|encodeForHTMLAttribute}/${language.value}" class="control-label">${language.name} - ${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                            <div class="controls">
+                                                                <textarea type="text" id="${configPath|encodeForHTMLAttribute}/${language.value}" name="${configPath|encodeForHTMLAttribute}/${language.value}" {if !tenantCanOverride} disabled="disabled"{/if}>${i18nValue|encodeForHTML}</textarea>
+                                                            </div>
+                                                        </div>
+                                                    {/for}
                                                 </div>
                                             {elseif element.type === "radio"}
                                                 <div class="form-group">

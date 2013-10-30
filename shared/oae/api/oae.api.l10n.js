@@ -150,12 +150,11 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'globalize'], funct
         if (!date) {
             throw new Error('A date must be provided');
         }
-        // Make sure that we are working with a valid date. The timeago plugin uses the browsers 
+        // Make sure that we are working with a valid date. The timeago plugin uses the browsers
         // timezone for time comparisons by relying on `new Date()` to get the current time. This
         // means that the provided date does not need to be localized to the user's timezone, as
         // it can then simply compare the current time and the date we pass in.
         date = parseDate(date, false);
         return $.timeago(date);
     };
-
 });

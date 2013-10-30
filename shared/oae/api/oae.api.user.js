@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
+define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, $, _, configAPI) {
 
     /**
      * Creates a new user with an internal login strategy
@@ -61,6 +61,11 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             'publicAlias': additionalOptions.publicAlias
         };
 
+        // If the tenant requires the terms and conditions to be accepted add it on the data object
+        if (configAPI.getValue('oae-principals', 'termsAndConditions', 'enabled') === true) {
+            data.acceptedTC = true;
+        }
+
         // Create the user
         $.ajax({
             'url': '/api/user/create',
@@ -70,7 +75,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
                 callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
@@ -90,7 +95,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
                 callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
@@ -115,7 +120,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
                 callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
             }
         });
     };
@@ -157,4 +162,50 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         });
     };
 
+    /**
+     * Get the Terms and Conditions
+     *
+     * @param  {Object}         params              Object representing the profile fields that need to be updated. The keys are the profile fields, the values are the profile field values
+     * @param  {Function}       callback            Standard callback method
+     * @param  {Object}         callback.err        Error object containing error code and error message
+     * @throws {Error}                              Error thrown when no update parameters have been provided
+     */
+    var getTC = exports.getTC = function(callback) {
+        $.ajax({
+            'url': '/api/user/termsAndConditions',
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.statusText});
+            }
+        });
+    };
+
+    /**
+     * Accept the Terms and Conditions
+     *
+     * @param  {Object}         params              Object representing the profile fields that need to be updated. The keys are the profile fields, the values are the profile field values
+     * @param  {Function}       [callback]          Standard callback method
+     * @param  {Object}         [callback.err]      Error object containing error code and error message
+     * @throws {Error}                              Error thrown when no update parameters have been provided
+     */
+    var acceptTC = exports.acceptTC = function(callback) {
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        // Get the current user to construct the endpoint url
+        var userId = require('oae.core').data.me.id;
+
+        $.ajax({
+            'url': '/api/user/' + userId + '/termsAndConditions',
+            'type': 'POST',
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
 });
