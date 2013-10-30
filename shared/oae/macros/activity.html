@@ -87,6 +87,8 @@
         ${renderFollowingSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, object1, object1URL, object2, object2URL, objectCount)}
     {elseif activityType === 'group-add-member'}
         ${renderGroupAddMemberSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount, target1, target1URL)}
+    {elseif activityType === 'group-change-member'}
+        ${renderGroupChangeMemberSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount, target1, target1URL)}
     {elseif activityType === 'group-create'}
         ${renderGroupCreateSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount)}
     {elseif activityType === 'group-join'}
@@ -651,6 +653,34 @@
         __MSG__ACTIVITY_GROUP_ADD_MEMBER_2__
     {else}
         __MSG__ACTIVITY_GROUP_ADD_MEMBER_2+__
+    {/if}
+{/macro}
+
+<!--
+ * Render the end-user friendly, internationalized summary of a group member role change activity.
+ *
+ * @param  {Activity}     activity      Standard activity object as specified by the activitystrea.ms specification, representing the group member change activity, for which to generate the activity summary
+ * @param  {String}       actor1        Display name of the first actor on the activity
+ * @param  {String}       actor1URL     Profile path for the first actor on the activity
+ * @param  {String}       object1       Display name of the first object on the activity
+ * @param  {String}       object1URL    Profile path for the first object on the activity
+ * @param  {String}       object2       Display name of the second object on the activity
+ * @param  {String}       object2URL    Profile path for the second object on the activity
+ * @param  {Number}       objectCount   The total number of different objects on the activity
+ * @param  {String}       target1       Display name of the first target on the activity
+ * @param  {String}       target1URL    Profile path for the first target on the activity
+-->
+{macro renderGroupChangeMemberSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount, target1, target1URL)}
+    {if !objectCount}
+        {if activity.object['oae:id'] === oae.data.me.id}
+            __MSG__ACTIVITY_GROUP_CHANGE_MEMBER_YOU__
+        {else}
+            __MSG__ACTIVITY_GROUP_CHANGE_MEMBER_1__
+        {/if}
+    {elseif objectCount === 2}
+        __MSG__ACTIVITY_GROUP_CHANGE_MEMBER_2__
+    {else}
+        __MSG__ACTIVITY_GROUP_CHANGE_MEMBER_2+__
     {/if}
 {/macro}
 
