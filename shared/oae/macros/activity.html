@@ -68,7 +68,9 @@
     {elseif activityType === 'content-share'}
         ${renderContentShareSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount, target1, target1URL, target2, target2URL, targetCount)}
     {elseif activityType === 'content-update'}
-         ${renderContentUpdateSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, object1, object1URL)}
+        ${renderContentUpdateSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, object1, object1URL)}
+    {elseif activityType === 'content-update-member-role'}
+        ${renderContentUpdateMemberRoleSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount, target1, target1URL)}
     {elseif activityType === 'content-update-visibility'}
         ${renderContentUpdateVisibilitySummary(activity, actor1, actor1URL, object1, object1URL, object1Tenant)}
     {elseif activityType === 'discussion-add-to-library'}
@@ -80,7 +82,9 @@
     {elseif activityType === 'discussion-share'}
         ${renderDiscussionShareSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount, target1, target1URL, target2, target2URL, targetCount)}
     {elseif activityType === 'discussion-update'}
-         ${renderDiscussionUpdateSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, object1, object1URL)}
+        ${renderDiscussionUpdateSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, object1, object1URL)}
+    {elseif activityType === 'discussion-update-member-role'}
+        ${renderDiscussionUpdateMemberRoleSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount, target1, target1URL)}
     {elseif activityType === 'discussion-update-visibility'}
         ${renderDiscussionUpdateVisibilitySummary(activity, actor1, actor1URL, object1, object1URL, object1Tenant)}
     {elseif activityType === 'following-follow'}
@@ -93,6 +97,8 @@
         ${renderGroupJoinSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, object1, object1URL)}
     {elseif activityType === 'group-update'}
         ${renderGroupUpdateSummary(activity, actor1, actor1URL, actor2, actor2URL, actorCount, object1, object1URL)}
+    {elseif activityType === 'group-update-member-role'}
+        ${renderGroupUpdateMemberRoleSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount, target1, target1URL)}
     {elseif activityType === 'group-update-visibility'}
         ${renderGroupUpdateVisibilitySummary(activity, actor1, actor1URL, object1, object1URL, object1Tenant)}
     <!-- Fall back on the default activity summary if no specific template is found for the activity type -->
@@ -359,6 +365,60 @@
 {/macro}
 
 <!--
+ * Render the end-user friendly, internationalized summary of a content member role update activity.
+ *
+ * @param  {Activity}     activity      Standard activity object as specified by the activitystrea.ms specification, representing the content member update activity, for which to generate the activity summary
+ * @param  {String}       actor1        Display name of the first actor on the activity
+ * @param  {String}       actor1URL     Profile path for the first actor on the activity
+ * @param  {String}       object1       Display name of the first object on the activity
+ * @param  {String}       object1URL    Profile path for the first object on the activity
+ * @param  {String}       object2       Display name of the second object on the activity
+ * @param  {String}       object2URL    Profile path for the second object on the activity
+ * @param  {Number}       objectCount   The total number of different objects on the activity
+ * @param  {String}       target1       Display name of the first target on the activity
+ * @param  {String}       target1URL    Profile path for the first target on the activity
+-->
+{macro renderContentUpdateMemberRoleSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount, target1, target1URL)}
+    {if activity.target['oae:resourceSubType'] === 'collabdoc'}
+        {if !objectCount}
+            {if activity.object['oae:id'] === oae.data.me.id}
+                __MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_COLLABDOC_YOU__
+            {else}
+                __MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_COLLABDOC_1__
+            {/if}
+        {elseif objectCount === 2}
+            __MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_COLLABDOC_2__
+        {else}
+            __MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_COLLABDOC_2+__
+        {/if}
+    {elseif activity.target['oae:resourceSubType'] === 'file'}
+        {if !objectCount}
+           {if activity.object['oae:id'] === oae.data.me.id}
+                __MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_FILE_YOU__
+            {else}
+                __MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_FILE_1__
+            {/if}
+        {elseif objectCount === 2}
+            __MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_FILE_2__
+        {else}
+            __MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_FILE_2+__
+        {/if}
+    {elseif activity.target['oae:resourceSubType'] === 'link'}
+        {if !objectCount}
+            {if activity.object['oae:id'] === oae.data.me.id}
+                __MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LINK_YOU__
+            {else}
+                __MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LINK_1__
+            {/if}
+        {elseif objectCount === 2}
+            __MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LINK_2__
+        {else}
+            __MSG__ACTIVITY_CONTENT_UPDATE_MEMBER_ROLE_LINK_2+__
+        {/if}
+    {/if}
+{/macro}
+
+<!--
  * Render the end-user friendly, internationalized summary of a content update activity.
  *
  * @param  {Activity}     activity      Standard activity object as specified by the activitystrea.ms specification, representing the content update activity, for which to generate the activity summary
@@ -540,6 +600,34 @@
 {/macro}
 
 <!--
+ * Render the end-user friendly, internationalized summary of a discussion member role update activity.
+ *
+ * @param  {Activity}     activity      Standard activity object as specified by the activitystrea.ms specification, representing the discussion member update activity, for which to generate the activity summary
+ * @param  {String}       actor1        Display name of the first actor on the activity
+ * @param  {String}       actor1URL     Profile path for the first actor on the activity
+ * @param  {String}       object1       Display name of the first object on the activity
+ * @param  {String}       object1URL    Profile path for the first object on the activity
+ * @param  {String}       object2       Display name of the second object on the activity
+ * @param  {String}       object2URL    Profile path for the second object on the activity
+ * @param  {Number}       objectCount   The total number of different objects on the activity
+ * @param  {String}       target1       Display name of the first target on the activity
+ * @param  {String}       target1URL    Profile path for the first target on the activity
+-->
+{macro renderDiscussionUpdateMemberRoleSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount, target1, target1URL)}
+    {if !objectCount}
+        {if activity.object['oae:id'] === oae.data.me.id}
+            __MSG__ACTIVITY_DISCUSSION_UPDATE_MEMBER_ROLE_YOU__
+        {else}
+            __MSG__ACTIVITY_DISCUSSION_UPDATE_MEMBER_ROLE_1__
+        {/if}
+    {elseif objectCount === 2}
+        __MSG__ACTIVITY_DISCUSSION_UPDATE_MEMBER_ROLE_2__
+    {else}
+        __MSG__ACTIVITY_DISCUSSION_UPDATE_MEMBER_ROLE_2+__
+    {/if}
+{/macro}
+
+<!--
  * Render the end-user friendly, internationalized summary of a discussion update activity.
  *
  * @param  {Activity}     activity      Standard activity object as specified by the activitystrea.ms specification, representing the discussion update activity, for which to generate the activity summary
@@ -651,6 +739,34 @@
         __MSG__ACTIVITY_GROUP_ADD_MEMBER_2__
     {else}
         __MSG__ACTIVITY_GROUP_ADD_MEMBER_2+__
+    {/if}
+{/macro}
+
+<!--
+ * Render the end-user friendly, internationalized summary of a group member role update activity.
+ *
+ * @param  {Activity}     activity      Standard activity object as specified by the activitystrea.ms specification, representing the group member update activity, for which to generate the activity summary
+ * @param  {String}       actor1        Display name of the first actor on the activity
+ * @param  {String}       actor1URL     Profile path for the first actor on the activity
+ * @param  {String}       object1       Display name of the first object on the activity
+ * @param  {String}       object1URL    Profile path for the first object on the activity
+ * @param  {String}       object2       Display name of the second object on the activity
+ * @param  {String}       object2URL    Profile path for the second object on the activity
+ * @param  {Number}       objectCount   The total number of different objects on the activity
+ * @param  {String}       target1       Display name of the first target on the activity
+ * @param  {String}       target1URL    Profile path for the first target on the activity
+-->
+{macro renderGroupUpdateMemberRoleSummary(activity, actor1, actor1URL, object1, object1URL, object2, object2URL, objectCount, target1, target1URL)}
+    {if !objectCount}
+        {if activity.object['oae:id'] === oae.data.me.id}
+            __MSG__ACTIVITY_GROUP_UPDATE_MEMBER_ROLE_YOU__
+        {else}
+            __MSG__ACTIVITY_GROUP_UPDATE_MEMBER_ROLE_1__
+        {/if}
+    {elseif objectCount === 2}
+        __MSG__ACTIVITY_GROUP_UPDATE_MEMBER_ROLE_2__
+    {else}
+        __MSG__ACTIVITY_GROUP_UPDATE_MEMBER_ROLE_2+__
     {/if}
 {/macro}
 
