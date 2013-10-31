@@ -10,7 +10,9 @@ before_install:
   - sudo sed -e 's/^\(127\.0\.0\.1.*\)$/\1 admin.oae.com cam.oae.com/' --in-place /etc/hosts
   - sudo sed -e 's/^\(::1.*\)$/\1 admin.oae.com cam.oae.com/' --in-place /etc/hosts
   - cd ../
-  - sudo apt-get install phantomjs
+  - wget https://phantomjs.googlecode.com/files/phantomjs-1.9.2-linux-i686.tar.bz2 
+  - tar xjf phantomjs-1.9.2-linux-i686.tar.bz2
+  - sudo ln -fs pwd/phantomjs-1.9.2-linux-i686/bin/phantomjs /usr/local/bin/phantomjs
   - git clone git://github.com/n1k0/casperjs.git
   - cd casperjs
   - git checkout 1.0.3
