@@ -6568,7 +6568,7 @@ button.close {
 }
 
 .hide {
-  display: none !important;
+  display: none;
 }
 
 .show {
