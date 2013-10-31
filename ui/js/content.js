@@ -78,7 +78,12 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         $('#content-preview-container').html('');
         // Based on the content type, insert a new preview widget and pass in the updated content profile data
         if (contentProfile.resourceSubType === 'file') {
-            oae.api.widget.insertWidget('filepreview', null, $('#content-preview-container'), null, contentProfile);
+            // Load document viewer when a PDF or Office document needs to be displayed
+            if (contentProfile.previews && contentProfile.previews.pageCount) {
+                oae.api.widget.insertWidget('documentpreview', null, $('#content-preview-container'), null, contentProfile);
+            } else {
+                oae.api.widget.insertWidget('filepreview', null, $('#content-preview-container'), null, contentProfile);
+            }
         } else if (contentProfile.resourceSubType === 'link') {
             oae.api.widget.insertWidget('linkpreview', null, $('#content-preview-container'), null, contentProfile);
         } else if (contentProfile.resourceSubType === 'collabdoc') {
