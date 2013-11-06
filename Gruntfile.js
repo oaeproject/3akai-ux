@@ -14,7 +14,6 @@
  */
 
 var _ = require('underscore');
-var shell = require('shelljs');
 var util = require('util');
 var vm = require('vm');
 
@@ -76,7 +75,6 @@ module.exports = function(grunt) {
                             '!node_modules/optimist/**',
                             '!node_modules/properties-parser/**',
                             '!node_modules/readdirp/**',
-                            '!node_modules/shelljs/**',
                             '!node_modules/underscore/**'
                         ],
                         'dest': '<%= target %>/original'
@@ -104,7 +102,7 @@ module.exports = function(grunt) {
                         'name': 'oae.core',
                         'exclude': ['jquery']
                     }],
-                    'fileExclusionRegExp': /^(\.|<%= target %>|tests|tools|grunt|optimist|properties-parser|readdirp|shelljs|underscore$|oae-release-tools)/,
+                    'fileExclusionRegExp': /^(\.|<%= target %>|tests|tools|grunt|optimist|properties-parser|readdirp|underscore$|oae-release-tools)/,
                     'logLevel': 2
                 }
             }
@@ -186,7 +184,7 @@ module.exports = function(grunt) {
     // Task to fill out the nginx config template
     grunt.registerTask('configNginx', function() {
         var infile = './nginx/nginx.json';
-        if (shell.test('-f', infile)) {
+        if (grunt.file.exists(infile)) {
             var nginxConf = require(infile);
             var template = grunt.file.read('./nginx/nginx.conf');
             grunt.config.set('nginxConf', nginxConf);
@@ -262,8 +260,17 @@ module.exports = function(grunt) {
             return grunt.log.writeln('Please provide a path where the release files should be copied to'.red);
         }
 
-        shell.mkdir('-p', outputDir);
-        shell.cp('-R', ['./' + grunt.config('target') + '/*', './README.md', './LICENSE', './COMMITTERS.txt'], outputDir);
+        config = {
+            'files': [
+                {
+                    'expand': true,
+                    'src': ['./<%= grunt.config("target") %>/*', './README.md', './LICENSE', './COMMITTERS.txt'],
+                    'dest': outputDir
+                }
+            ]
+        };
+        grunt.config.set('copy.release', config);
+        grunt.task.run('copy:release');
     });
 
     // Release task.
