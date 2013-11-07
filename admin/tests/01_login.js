@@ -16,8 +16,8 @@ casper.test.begin('Admin - Login', function(test) {
             // Do the login
             casper.click('form#admin-login-form button[type="submit"]');
             // Verify that an error label is shown
-            casper.test.assertExists('#username-error', 'Log in form successfully validated empty form - username');
-            casper.test.assertExists('#password-error', 'Log in form successfully validated empty form - password');
+            test.assertExists('#username-error', 'Log in form successfully validated empty form - username');
+            test.assertExists('#password-error', 'Log in form successfully validated empty form - password');
 
 
             // Fill form without username
@@ -27,7 +27,7 @@ casper.test.begin('Admin - Login', function(test) {
             }, false);
             // Do the login
             casper.click('form#admin-login-form button[type="submit"]');
-            casper.test.assertExists('#username-error', 'Log in form successfully validated empty username field');
+            test.assertExists('#username-error', 'Log in form successfully validated empty username field');
 
             // Fill form without password
             casper.fill('form#admin-login-form', {
@@ -36,7 +36,7 @@ casper.test.begin('Admin - Login', function(test) {
             }, false);
             // Do the login
             casper.click('form#admin-login-form button[type="submit"]');
-            casper.test.assertExists('#password-error', 'Log in form successfully validated empty password field');
+            test.assertExists('#password-error', 'Log in form successfully validated empty password field');
 
             // Fill form with incorrect user credentials
             casper.fill('form#admin-login-form', {
@@ -46,7 +46,7 @@ casper.test.begin('Admin - Login', function(test) {
             // Do the login
             casper.click('form#admin-login-form button[type="submit"]');
             casper.waitForSelector('#oae-notification-container .alert', function() {
-                casper.test.assertExists('#oae-notification-container .alert.alert-error', 'Log in form successfully validated incorrect user credentials');
+                test.assertExists('#oae-notification-container .alert.alert-error', 'Log in form successfully validated incorrect user credentials');
                 casper.click('#oae-notification-container .close');
             });
         });
@@ -58,7 +58,7 @@ casper.test.begin('Admin - Login', function(test) {
             casper.echo('Verify logging in to the administration interface', 'INFO');
             userUtil().doAdminLogIn(configUtil().adminUsername, configUtil().adminPassword);
             casper.waitForSelector('#admin-lhnav-container ul', function() {
-                casper.test.assertExists('#admin-header-user', 'Successfully logged in to the administration interface');
+                test.assertExists('#admin-header-user', 'Successfully logged in to the administration interface');
             });
         });
 
@@ -66,7 +66,7 @@ casper.test.begin('Admin - Login', function(test) {
         casper.then(function() {
             casper.echo('Verify logging out of the administration interface', 'INFO');
             userUtil().doAdminLogOut();
-            casper.test.assertExists('#admin-login-form', 'Successfully logged out of the administration interface');
+            test.assertExists('#admin-login-form', 'Successfully logged out of the administration interface');
         });
 
         // Verify form validation
@@ -77,6 +77,6 @@ casper.test.begin('Admin - Login', function(test) {
     });
 
     casper.run(function() {
-        this.test.done();
+        test.done();
     });
 });

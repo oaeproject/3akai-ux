@@ -1,2 +1,2 @@
 casper.echo('Clean up');
-casper.test.done();
+test.done();

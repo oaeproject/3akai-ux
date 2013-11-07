@@ -11,18 +11,14 @@ casper.test.begin('Prepare environment for tests', function(test) {
      * @param  {Number}    waitTimeout    Default wait timeout, for wait* family functions.
      */
     casper.options.onWaitTimeout = function(waitTimeout) {
-        casper.test.fail('Test timed out after ' + waitTimeout + ' ms');
+        test.fail('Test timed out after ' + waitTimeout + ' ms');
 
         // Log out of the system
-        casper.evaluate(function() {
-            require('oae.core').api.authentication.logout(function() {
-                window.location = '/';
-            });
-        });
+        userUtil().doLogOut();
 
         // Finish the current test to skip to the next one
         casper.then(function() {
-            casper.test.done();
+            test.done();
         });
     };
 
@@ -46,6 +42,6 @@ casper.test.begin('Prepare environment for tests', function(test) {
     });
 
     casper.run(function() {
-        casper.test.done();
+        test.done();
     });
 });
