@@ -21,7 +21,7 @@ casper.test.begin('Prepare environment for tests', function(test) {
         });
 
         // Finish the current test to skip to the next one
-        casper.then(function() {
+        casper.wait(1000, function() {
             test.done();
         });
     };
