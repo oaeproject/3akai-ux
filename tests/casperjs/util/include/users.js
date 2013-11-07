@@ -19,7 +19,7 @@ var userUtil = function() {
         var users = [];
         var me = null;
 
-        casper.start('http://test.oae.com/').repeat(toCreate, function() {
+        casper.start(configUtil().tenantUI).repeat(toCreate, function() {
             casper.wait(1000, function() {
                 me = casper.evaluate(function() {
                     return require('oae.core').data.me;
@@ -30,10 +30,10 @@ var userUtil = function() {
                 if (me && me.anon) {
                     var rndString = mainUtil().generateRandomString();
                     casper.then(function() {
-                        data = casper.evaluate(function(rndString) {
+                        data = casper.evaluate(function(rndString, password) {
                             return JSON.parse(__utils__.sendAJAX('/api/user/create', 'POST', {
                                 'username': 'user-' + rndString,
-                                'password': 'password',
+                                'password': password,
                                 'displayName': rndString,
                                 'visibility': 'public',
                                 'email': 'roy@example.com',
@@ -41,7 +41,7 @@ var userUtil = function() {
                                 'timezone': 'Europe/London',
                                 'publicAlias': 'Roy'
                             }, false));
-                        }, rndString);
+                        }, rndString, configUtil().defaultUserPassword);
                     });
 
                     casper.wait(1000, function() {

@@ -52,11 +52,11 @@ casper.test.begin('Admin - Login', function(test) {
         });
     };
 
-    casper.start('http://admin.oae.com', function() {
+    casper.start(configUtil().adminUI, function() {
         // Log in with admin user
         casper.then(function() {
             casper.echo('Verify logging in to the administration interface', 'INFO');
-            userUtil().doAdminLogIn('administrator', 'administrator');
+            userUtil().doAdminLogIn(configUtil().adminUsername, configUtil().adminPassword);
             casper.waitForSelector('#admin-lhnav-container ul', function() {
                 casper.test.assertExists('#admin-header-user', 'Successfully logged in to the administration interface');
             });
@@ -65,7 +65,7 @@ casper.test.begin('Admin - Login', function(test) {
         // Verify that the login was successfull
         casper.then(function() {
             casper.echo('Verify logging out of the administration interface', 'INFO');
-            userUtil().doAdminLogOut('administrator', 'administrator');
+            userUtil().doAdminLogOut();
             casper.test.assertExists('#admin-login-form', 'Successfully logged out of the administration interface');
         });
 

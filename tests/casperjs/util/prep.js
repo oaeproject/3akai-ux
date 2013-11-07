@@ -27,15 +27,15 @@ casper.test.begin('Prepare environment for tests', function(test) {
     };
 
     // Set up test tenant
-    casper.start('http://admin.oae.com', function() {
+    casper.start(configUtil().adminUI, function() {
         casper.waitForSelector('#admin-login-form', function() {
             casper.then(function() {
-                userUtil().doAdminLogIn('administrator', 'administrator');
+                userUtil().doAdminLogIn(configUtil().adminUsername, configUtil().adminPassword);
             });
 
             casper.then(function() {
-                adminUtil().createTenant('test', 'CasperJS Tenant', 'test.oae.com', function() {
-                    adminUtil().writeConfig('test', {
+                adminUtil().createTenant(configUtil().tenantAlias, configUtil().tenantDisplayname, configUtil().tenantHost, function() {
+                    adminUtil().writeConfig(configUtil().tenantAlias, {
                         'oae-principals/recaptcha/enabled': false
                     }, function() {
                         userUtil().doAdminLogOut();

@@ -18,7 +18,7 @@ var contentUtil = function() {
         var fileToUpload = file || 'tests/casperjs/data/balloons.jpg';
         var contentUrl = null;
 
-        casper.thenOpen('http://test.oae.com/me', function() {
+        casper.thenOpen(configUtil().tenantUI + '/me', function() {
             casper.waitForSelector('#me-clip-container .oae-clip-content > button', function() {
                 casper.click('#me-clip-container .oae-clip-content > button');
                 casper.click('.oae-trigger-upload');
@@ -51,7 +51,6 @@ var contentUtil = function() {
         viewers = viewers || [];
         var data = null;
 
-        //casper.start('http://test.oae.com/', function() {
         casper.then(function() {
             data = casper.evaluate(function(link, managers, viewers) {
                 return JSON.parse(__utils__.sendAJAX('/api/content/create', 'POST', {

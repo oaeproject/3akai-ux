@@ -75,10 +75,10 @@ casper.test.begin('Admin - Modules', function(test) {
         });
     };
 
-    casper.start('http://admin.oae.com', function() {
+    casper.start(configUtil().adminUI, function() {
         // Log in with admin user
         casper.then(function() {
-            userUtil().doAdminLogIn('administrator', 'administrator');
+            userUtil().doAdminLogIn(configUtil().adminUsername, configUtil().adminPassword);
         });
 
         // Verify tenant module settings

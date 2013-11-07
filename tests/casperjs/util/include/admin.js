@@ -3,10 +3,61 @@
  *
  * @return  {Object}    Returns an object with referenced utility functions
  */
-var adminUtil = function() {
+var adminUtil = function(alias) {
 
     /**
-     * Creates a new tenant with a random name and returns the ID in the callback
+     * Verify if a tenant has already been created.
+     *
+     * @param  {String}     alias                   The alias of the tenant
+     * @param  {Function}   callback                Standard callback function
+     * @param  {Boolean}    callback.tenantExists   `true` if the tenant already exists
+     */
+    var verifyTenantExists = function(alias, callback) {
+        tenants = casper.evaluate(function() {
+            return JSON.parse(__utils__.sendAJAX('/api/tenants', 'GET', null, false));
+        });
+
+        var tenantExists = false;
+        for (var i in tenants) {
+            if (tenants[i].alias === alias) {
+                tenantExists = true;
+            }
+        }
+
+        casper.then(function() {
+            callback(tenantExists);
+        });
+    };
+
+    /**
+     * Verify if an object of configuration values for a tenant has already been persisted.
+     *
+     * @param  {String}     alias                 The alias of the tenant
+     * @param  {Object}     configToStore         The configuration to check
+     * @param  {Function}   callback              Standard callback function
+     * @param  {Boolean}    callback.configSet    Standard callback function
+     */
+    var verifyConfigSet = function(alias, configToStore, callback) {
+        storedConfig = casper.evaluate(function(alias) {
+            return JSON.parse(__utils__.sendAJAX('/api/config/' + alias, 'GET', null, false));
+        }, alias);
+
+        var configSet = true;
+        for (var c in configToStore) {
+            var configKey = c.split('/');
+            if (storedConfig[configKey[0]][configKey[1]][configKey[2]] !== configToStore[c]) {
+                configSet = false;
+            }
+        }
+
+        casper.then(function() {
+            callback(configSet);
+        });
+    };
+
+    /**
+     * Creates a new tenant with a random name and returns the ID in the callback.
+     * If the tenant already exists the step will be skipped.
      *
      * @param  {String}     alias             The alias of the tenant
      * @param  {String}     displayName       The display name of the tenant
@@ -17,37 +68,52 @@ var adminUtil = function() {
      * @return {String}     tenantID    The ID of the generated tenant
      */
     var createTenant = function(alias, displayName, host, callback) {
-        var tenantID = '';
-        var rndString = mainUtil().generateRandomString();
-        alias = alias || rndString;
-        displayName = displayName || rndString + ' Tenant';
-        host = host || rndString + '.oae.com';
+        verifyTenantExists(alias, function(exists) {
+            // If the test tenant already exists continue
+            if (exists) {
+                casper.echo('The test tenant already exists.');
 
-        data = casper.evaluate(function(alias, displayName, host) {
-            return JSON.parse(__utils__.sendAJAX('/api/tenant/create', 'POST', {
-                'alias': alias,
-                'displayName': displayName,
-                'host': host
-            }, false));
-        }, alias, displayName, host);
-
-        casper.then(function() {
-            if (data) {
-                casper.echo('Created tenant ' + displayName + '.');
+                casper.then(function() {
+                    if (callback) {
+                        callback(alias);
+                    }
+                });
+            // If the test tenant doesn't exist yet create it and continue
             } else {
-                casper.echo('Did not create tenant ' + displayName + '. It probably already exists.', 'ERROR');
-            }
-        });
+                var tenantID = '';
+                var rndString = mainUtil().generateRandomString();
+                alias = alias || rndString;
+                displayName = displayName || rndString + ' Tenant';
+                host = host || rndString + '.oae.com';
 
-        casper.then(function() {
-            if (callback) {
-                callback(alias);
+                data = casper.evaluate(function(alias, displayName, host) {
+                    return JSON.parse(__utils__.sendAJAX('/api/tenant/create', 'POST', {
+                        'alias': alias,
+                        'displayName': displayName,
+                        'host': host
+                    }, false));
+                }, alias, displayName, host);
+
+                casper.then(function() {
+                    if (data) {
+                        casper.echo('Successfully created tenant ' + displayName + '.');
+                    } else {
+                        casper.echo('Could not create tenant ' + displayName + ', stopping test.', 'ERROR');
+                        casper.exit();
+                    }
+                });
+
+                casper.then(function() {
+                    if (callback) {
+                        callback(alias);
+                    }
+                });
             }
         });
     };
 
     /**
-     * Writes configuration values for a specific tenant
+     * Writes configuration values for a specific tenant.
      *
      * @param  {String}       tenantID          The ID of the tenant to save configuration of
      * @param  {Object}       config            The configuration changes that need to be made
@@ -59,14 +125,17 @@ var adminUtil = function() {
         }, tenantID, config);
 
         casper.then(function() {
-            if (data) {
-                casper.echo('Saved configuration for ' + tenantID + '.');
-            } else {
-                casper.echo('Could not save configuration for ' + tenantID + '. It was probably already configured.', 'ERROR');
-            }
-            if (callback) {
-                callback();
-            }
+            verifyConfigSet(tenantID, config, function(configSet) {
+                if (configSet) {
+                    casper.echo('Successfully saved the tenant configuration.');
+                    if (callback) {
+                        callback();
+                    }
+                } else {
+                    casper.echo('Could not save the tenant configuration, stopping test.', 'ERROR');
+                    casper.exit();
+                }
+            });
         });
     };
 

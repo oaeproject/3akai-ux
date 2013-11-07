@@ -142,7 +142,7 @@ casper.test.begin('Admin - Tenants', function(test) {
             casper.fill('form#createtenant-form', {
                 'alias': '',
                 'displayName': 'CasperJS',
-                'host': 'test.oae.com'
+                'host': configUtil().tenantHost
             }, false);
             // Submit the form
             casper.click('#createtenant-submit-button');
@@ -153,7 +153,7 @@ casper.test.begin('Admin - Tenants', function(test) {
             casper.fill('form#createtenant-form', {
                 'alias': 'test',
                 'displayName': '',
-                'host': 'test.oae.com'
+                'host': configUtil().tenantHost
             }, false);
             // Submit the form
             casper.click('#createtenant-submit-button');
@@ -173,10 +173,10 @@ casper.test.begin('Admin - Tenants', function(test) {
         });
     };
 
-    casper.start('http://admin.oae.com', function() {
+    casper.start(configUtil().adminUI, function() {
         // Log in with admin user
         casper.then(function() {
-            userUtil().doAdminLogIn('administrator', 'administrator');
+            userUtil().doAdminLogIn(configUtil().adminUsername, configUtil().adminPassword);
         });
 
         // Verify form validation

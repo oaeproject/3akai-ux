@@ -170,6 +170,7 @@ module.exports = function(grunt) {
                     includes: [
                         'tests/casperjs/util/include/admin.js',
                         'tests/casperjs/util/include/collabdocs.js',
+                        'tests/casperjs/util/include/config.js',
                         'tests/casperjs/util/include/content.js',
                         'tests/casperjs/util/include/discussions.js',
                         'tests/casperjs/util/include/follow.js',
@@ -325,7 +326,7 @@ module.exports = function(grunt) {
     });
 
     // Run the CasperJS and QUnit tests
-    grunt.registerTask('test', ['ghost', 'qunit']);
+    grunt.registerTask('test', ['qunit', 'ghost']);
 
 
     // Default task for production build
