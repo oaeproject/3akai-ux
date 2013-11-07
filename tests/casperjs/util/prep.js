@@ -14,7 +14,11 @@ casper.test.begin('Prepare environment for tests', function(test) {
         test.fail('Test timed out after ' + waitTimeout + ' ms');
 
         // Log out of the system
-        userUtil().doLogOut();
+        casper.evaluate(function() {
+            require('oae.core').api.authentication.logout(function() {
+                window.location = '/';
+            });
+        });
 
         // Finish the current test to skip to the next one
         casper.then(function() {
