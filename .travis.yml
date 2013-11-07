@@ -59,7 +59,7 @@ services:
   - redis-server
 
 script:
-  - grunt test --qunit-host cam.oae.com
+  - grunt test --qunit-host test.oae.com
 
 notifications:
   email:
