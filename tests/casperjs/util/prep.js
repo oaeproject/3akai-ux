@@ -1,7 +1,7 @@
 casper.test.begin('Prepare environment for tests', function(test) {
 
     // Override default waitTimeout before test fails
-    casper.options.waitTimeout = 10000;
+    casper.options.waitTimeout = 20000;
 
     /**
      * A function to be executed when a waitFor* function execution time exceeds the value of the waitTimeout option,
@@ -11,8 +11,6 @@ casper.test.begin('Prepare environment for tests', function(test) {
      * @param  {Number}    waitTimeout    Default wait timeout, for wait* family functions.
      */
     casper.options.onWaitTimeout = function(waitTimeout) {
-        test.fail('Test timed out after ' + waitTimeout + ' ms');
-
         // Log out of the system
         casper.evaluate(function() {
             require('oae.core').api.authentication.logout(function() {
@@ -22,6 +20,7 @@ casper.test.begin('Prepare environment for tests', function(test) {
 
         // Finish the current test to skip to the next one
         casper.wait(1000, function() {
+            test.fail('Test timed out after ' + waitTimeout + ' ms');
             test.done();
         });
     };

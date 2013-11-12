@@ -72,17 +72,17 @@ casper.test.begin('Admin - Tenants', function(test) {
      * @param  {String}    tenantID    The ID of the tenant to be renamed
      */
     var verifyRenameTenant = function(tenantID) {
-        casper.waitForSelector('.jeditable-container .jeditable-field[data-alias="' + tenantID + '"]', function() {
-            test.assertExists('.jeditable-container .jeditable-field[data-alias="' + tenantID + '"]', 'The editable tenant name field is present');
-            casper.click('.jeditable-container .jeditable-field[data-alias="' + tenantID + '"]');
+        casper.waitForSelector('.jeditable-container .jeditable-field[data-field="displayName"][data-alias="' + tenantID + '"]', function() {
+            test.assertExists('.jeditable-container .jeditable-field[data-field="displayName"][data-alias="' + tenantID + '"]', 'The editable tenant name field is present');
+            casper.click('.jeditable-container .jeditable-field[data-field="displayName"][data-alias="' + tenantID + '"]');
             // Submit the form
-            test.assertExists('.jeditable-container .jeditable-field[data-alias="' + tenantID + '"] form', 'The tenant name form is present after click');
-            casper.fill('.jeditable-container .jeditable-field[data-alias="' + tenantID + '"] form', {
+            test.assertExists('.jeditable-container .jeditable-field[data-field="displayName"][data-alias="' + tenantID + '"] form', 'The tenant name form is present after click');
+            casper.fill('.jeditable-container .jeditable-field[data-field="displayName"][data-alias="' + tenantID + '"] form', {
                 'value': 'New tenant name'
             }, false);
             casper.click('html');
-            casper.waitForSelector('.jeditable-container .jeditable-field[data-alias="' + tenantID + '"]', function() {
-                test.assertSelectorHasText('.jeditable-container .jeditable-field[data-alias="' + tenantID + '"]', 'New tenant name', 'The tenant name has been successfully changed');
+            casper.waitForSelector('.jeditable-container .jeditable-field[data-field="displayName"][data-alias="' + tenantID + '"]', function() {
+                test.assertSelectorHasText('.jeditable-container .jeditable-field[data-field="displayName"][data-alias="' + tenantID + '"]', 'New tenant name', 'The tenant name has been successfully changed');
             });
         });
     };

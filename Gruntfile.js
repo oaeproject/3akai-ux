@@ -180,7 +180,7 @@ module.exports = function(grunt) {
                     ],
                     // Adds tests from specified files before running the test suite
                     pre: ['tests/casperjs/util/prep.js'],
-                    // Adds tests from specified files after running the test suite
+                    // Don't stop casperjs after first test failure
                     failFast: false
                 }
             }

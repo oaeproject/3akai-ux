@@ -9,6 +9,7 @@ var configUtil = function(alias) {
         'adminPassword': 'administrator',
         'adminUsername': 'administrator',
         'defaultUserPassword': 'password',
+        'searchWaitTime': 2000,
         'tenantAlias': 'test',
         'tenantDisplayname': 'CasperJS Tenant',
         'tenantHost': 'test.oae.com',
