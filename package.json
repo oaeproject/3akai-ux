@@ -25,7 +25,6 @@
   },
   "devDependencies": {
     "grunt": "latest",
-    "grunt-casperjs": "latest",
     "grunt-cli": "latest",
     "grunt-contrib-clean": "latest",
     "grunt-contrib-copy": "latest",
