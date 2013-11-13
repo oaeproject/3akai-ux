@@ -79,9 +79,18 @@ define([
     ],
 
     function(oae, $) {
-
-        // Make caching the default behavior for $.getScript
-        $.ajaxSetup({'cache': true});
+        $.ajaxSetup({
+            // Make caching the default behavior for $.getScript
+            'cache': true,
+            // Catch 419 responses and trigger the terms and conditions widget
+            'complete': function(xhr, textStatus) {
+                if (xhr.status === 419) {
+                    // Insert the terms and conditions widget in settings mode
+                    var termsandconditionsId = oae.api.util.generateId();
+                    oae.api.widget.insertWidget('termsandconditions', termsandconditionsId, null, true);
+                }
+            }
+        });
         // Make sure that arrays passed in as arguments are properly encoded
         $.ajaxSettings.traditional = true;
 
