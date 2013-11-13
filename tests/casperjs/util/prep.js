@@ -1,7 +1,7 @@
 casper.test.begin('Prepare environment for tests', function(test) {
 
     // Override default waitTimeout before test fails
-    casper.options.waitTimeout = 20000;
+    casper.options.waitTimeout = configUtil().waitTimeout;
 
     /**
      * A function to be executed when a waitFor* function execution time exceeds the value of the waitTimeout option,

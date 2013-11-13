@@ -9,10 +9,11 @@ var configUtil = function(alias) {
         'adminPassword': 'administrator',
         'adminUsername': 'administrator',
         'defaultUserPassword': 'password',
-        'searchWaitTime': 2000,
+        'searchWaitTime': 3000,
         'tenantAlias': 'test',
         'tenantDisplayname': 'CasperJS Tenant',
         'tenantHost': 'test.oae.com',
-        'tenantUI': 'http://test.oae.com'
+        'tenantUI': 'http://test.oae.com',
+        'waitTimeout': 20000
     };
 };
