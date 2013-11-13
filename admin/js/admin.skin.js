@@ -149,7 +149,13 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
      */
     var revertSkin = function(revertedValues, callback) {
         var data = [];
-        var url = '/api/config/' + currentContext.alias + '/clear';
+
+        // When we are on the tenant server itself, we don't need
+        // to add the tenant alias to the endpoint
+        var url = '/api/config/clear';
+        if (currentContext.isTenantOnGlobalAdminServer) {
+            url = '/api/config/' + currentContext.alias + '/clear';
+        }
 
         $.each(revertedValues, function(propertyIndex, property) {
             data.push('oae-ui/skin/variables/' + property);
