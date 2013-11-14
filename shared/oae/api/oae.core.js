@@ -82,7 +82,7 @@ define([
         $.ajaxSetup({
             // Make caching the default behavior for $.getScript
             'cache': true,
-            // Catch 419 responses and trigger the terms and conditions widget
+            // Intercept 419 status indicating that the user has to accept the terms and conditions before continuing
             'complete': function(xhr, textStatus) {
                 if (xhr.status === 419) {
                     // Insert the terms and conditions widget in settings mode
