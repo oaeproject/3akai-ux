@@ -37,7 +37,6 @@
     "optimist": "latest",
     "properties-parser": "latest",
     "readdirp": "latest",
-    "shelljs": "latest",
     "underscore": "latest"
   },
   "bundleDependencies": [
