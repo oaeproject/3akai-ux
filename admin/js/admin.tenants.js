@@ -70,7 +70,6 @@ define(['exports', 'jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js'
      * Check if a host name is valid using the jquery.validate url regex
      *
      * @param  {String}    value    The string to be validated
-     *
      * @return {Boolean}            Returns true if the value is a valid host name
      */
     var checkValidHostname = function(value) {
