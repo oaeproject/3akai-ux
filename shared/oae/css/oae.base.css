@@ -114,6 +114,37 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     display: none;
 }
 
+/* OVERRIDES FOR FONTAWESOME STYLES */
+
+.icon-minus-sign:before {
+    margin-top: 1px;
+}
+
+.icon-ok:before {
+    margin-top: 6px;
+}
+
+.icon-remove:before {
+    margin-top: 1px;
+}
+
+.icon-share:before {
+    margin-top: 2px;
+}
+
+/* Not using 'before' since the spinner won't rotate properly */
+.icon-spin {
+    margin-top: 6px;
+}
+
+.icon-trash:before {
+    margin-top: 1px;
+}
+
+.icon-warning-sign:before {
+    margin-top: 5px;
+}
+
 /* DROPDOWN
  * @see http://twitter.github.com/bootstrap/components.html#dropdowns */
 
