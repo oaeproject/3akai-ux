@@ -185,12 +185,12 @@ module.exports = function(grunt) {
     grunt.registerTask('configNginx', function() {
         var infile = './nginx/nginx.json';
         if (grunt.file.exists(infile)) {
-            var nginxConf = require(infile);
+            var nginxConfig = require(infile);
             var template = grunt.file.read('./nginx/nginx.conf');
-            grunt.config.set('nginxConf', nginxConf);
-            var conf = grunt.template.process(template);
+            grunt.config.set('nginxConf', nginxConfig);
+            var config = grunt.template.process(template);
             var outfile = grunt.config('target') + '/optimized/nginx/nginx.conf';
-            grunt.file.write(outfile, conf);
+            grunt.file.write(outfile, config);
             grunt.log.writeln('nginx.conf rendered at '.green + outfile.green);
         } else {
             var msg = 'No ' + infile + ' found, not rendering nginx.conf template';
@@ -206,7 +206,7 @@ module.exports = function(grunt) {
         var oaeModules = grunt.file.expand({filter:'isDirectory'}, grunt.config('target') + '/optimized/node_modules/oae-*/*');
         oaeModules.forEach(function(module) {
             grunt.log.writeln(module);
-            var conf = {
+            var config = {
                 'folders': [ module + '/bundles' ],
                 'files': _hashFiles([module], ['json']),
                 'references': [
@@ -217,7 +217,7 @@ module.exports = function(grunt) {
                 ]
             };
             grunt.config.set('ver.' + module + '.basedir', module);
-            grunt.config.set('ver.' + module + '.phases', [conf]);
+            grunt.config.set('ver.' + module + '.phases', [config]);
             grunt.task.run('ver:' + module);
         });
 
@@ -260,7 +260,7 @@ module.exports = function(grunt) {
             return grunt.log.writeln('Please provide a path where the release files should be copied to'.red);
         }
 
-        config = {
+        var config = {
             'files': [
                 {
                     'expand': true,
