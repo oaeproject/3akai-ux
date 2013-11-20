@@ -22,6 +22,8 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
     var configuration = null;
     // Variable that will cache the default skin for the current tenant
     var defaultSkin = {};
+    // Variable that will cache the initial skin settings before changes
+    var initialSkin = {};
 
     /**
      * Initialize the skinning related functionality
@@ -66,6 +68,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
                         $.each(configSection.subsections, function(configSubsectionIndex, configSubsection) {
                             $.each(configSubsection.variables, function(variableIndex, variable) {
                                 variable.value = configuredSkin[variable.name] || variable.defaultValue;
+                                initialSkin[variable.name] = variable.value;
                                 defaultSkin[variable.name] = variable.defaultValue;
                             });
                         });
@@ -98,8 +101,8 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
         var changedValues = {};
         var revertedValues = [];
 
-        // Loop over the form input fields and match their value with their default value.
-        // If the default is equal to the selected value, the value was not changed and doesn't need to be returned.
+        // Loop over the form input fields and match their value with their initial value.
+        // If the initial is equal to the selected value, the value was not changed and doesn't need to be returned.
         $.each(formFields, function(i, input) {
             // Only add the configuration value to the `revertedValues` Object if it was reverted
             if ($(input).hasClass('reverted')) {
@@ -114,20 +117,20 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
 
                 // If the field is a color, match as colors
                 if (type === 'color') {
-                    // Get the default and form colors
-                    var defaultColor = defaultSkin[changedName];
+                    // Get the initial and form colors
+                    var initialColor = initialSkin[changedName];
                     var selectedColor = $(formFields[i]).val();
                     // If the default and form colors don't match, the value was changed and
                     // is added to the cached values to return
-                    if (!tinycolor.equals(defaultColor, selectedColor)) {
+                    if (!tinycolor.equals(initialColor, selectedColor)) {
                         changedValues[changedName] = selectedColor;
                     }
                 // The only other choice is an input field, handle as string
                 } else {
-                    // Get the default and form text
-                    var defaultSkinText = defaultSkin[changedName];
+                    // Get the initial and form text
+                    var initialSkinText = initialSkin[changedName];
                     var formValueText = $.trim($(formFields[i]).val());
-                    if (defaultSkinText !== formValueText) {
+                    if (initialSkinText !== formValueText) {
                         changedValues[changedName] = formValueText;
                     }
                 }
@@ -149,7 +152,13 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
      */
     var revertSkin = function(revertedValues, callback) {
         var data = [];
-        var url = '/api/config/' + currentContext.alias + '/clear';
+
+        // When we are on the tenant server itself, we don't need
+        // to add the tenant alias to the endpoint
+        var url = '/api/config/clear';
+        if (currentContext.isTenantOnGlobalAdminServer) {
+            url = '/api/config/' + currentContext.alias + '/clear';
+        }
 
         $.each(revertedValues, function(propertyIndex, property) {
             data.push('oae-ui/skin/variables/' + property);
