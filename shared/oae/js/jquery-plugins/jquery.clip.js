@@ -21,6 +21,19 @@
 
 define(['jquery'], function (jQuery) {
     (function($) {
+
+        /**
+         * Toggle a clip (from showing to hiding or vice versa)
+         *
+         * @param  {Object}  $clip  jQuery-wrapped clip to toggle
+         */
+        var toggleClip = function($clip) {
+            // Show/hide the options
+            $('ul', $clip).toggle();
+            // Toggle the caret icons
+            $clip.find('i.icon-caret-down, i.icon-caret-up').toggleClass('icon-caret-down icon-caret-up');
+        };
+
         // Add click event handler that toggles the action items of a clip
         $(document).on('click', '.oae-clip-content > button:not(:disabled)', function(ev) {
             var $clip = $(this).parent();
@@ -28,10 +41,27 @@ define(['jquery'], function (jQuery) {
             // that we're looking and the clip in view only mode or there are no
             // clip actions available
             if ($('i.icon-caret-down, i.icon-caret-up', $clip).length > 0) {
-                // Show/hide the options
-                $('ul', $clip).toggle();
-                // Toggle the caret icons
-                $clip.find('i.icon-caret-down, i.icon-caret-up').toggleClass('icon-caret-down icon-caret-up');
+                // Always toggle the clip
+                toggleClip($clip);
+                // If clip is now visible, clicking outside should close it
+                if ($('ul', $clip).is(':visible')) {
+                    $(document).on('click.closeClip', function(ev) {
+                        /**
+                         * Only close the clip if
+                         *    (a) click is outside of the clip itself, and
+                         *    (b) there is no modal shown on the page, and
+                         *    (c) the click wasn't on a modal element.
+                         * We need (c) in addition to (b) because the modal may be
+                         * hidden by the time this function is executed.
+                         */
+                        if (!$.contains($clip[0], ev.target) && ($('.modal.in').length === 0) && ($(ev.target).parents('.modal').length === 0)) {
+                            toggleClip($clip);
+                            $(document).off('click.closeClip');
+                        }
+                    });
+                } else {
+                    $(document).off('click.closeClip');
+                }
             }
         });
     })(jQuery);
