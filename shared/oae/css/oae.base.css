@@ -114,6 +114,18 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     display: none;
 }
 
+/* FONTAWESOME ICON OVERRIDES */
+
+.btn i.icon-share.pull-left,
+.btn i.icon-minus-sign.pull-left {
+    margin-top: 2px;
+}
+
+.btn i.icon-remove.pull-left,
+.btn i.icon-trash.pull-left {
+    margin-top: 1px;
+}
+
 /* DROPDOWN
  * @see http://twitter.github.com/bootstrap/components.html#dropdowns */
 
