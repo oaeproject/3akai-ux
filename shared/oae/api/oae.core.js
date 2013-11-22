@@ -63,12 +63,12 @@ define([
          * Third-party dependencies.
          */
         'bootstrap.clickover',
+        'bootstrap.notify',
         'globalize',
         'jquery.encoder',
         'jquery.fileSize',
         'jquery.form',
         'jquery.infinitescroll',
-        'jquery.notify',
         'jquery.parseurl',
         'jquery.properties-parser',
         'jquery.serializeObject',
