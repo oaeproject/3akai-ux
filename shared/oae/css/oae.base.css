@@ -117,13 +117,13 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 /* FONTAWESOME ICON OVERRIDES
  * @see http://fontawesome.io */
 
-.btn i.icon-remove.pull-left,
-.btn i.icon-trash.pull-left {
+.btn > i.icon-remove.pull-left,
+.btn > i.icon-trash.pull-left {
     margin-top: 1px;
 }
 
-.btn i.icon-minus-sign.pull-left,
-.btn i.icon-share.pull-left {
+.btn > i.icon-minus-sign.pull-left,
+.btn > i.icon-share.pull-left {
     margin-top: 2px;
 }
 
