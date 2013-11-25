@@ -268,23 +268,25 @@
                                     {if option && option_index !== "title"}
                                         <h4>${option.name|encodeForHTML}</h4>
                                         {for element in option.elements}
-                                            {if context.isGlobalAdminServer}
-                                                {var tenantCanOverride = true}
-                                            {elseif (context.isTenantOnGlobalAdminServer && element.tenantOverride === false) || element.tenantOverride === false}
+                                            {if element.tenantOverride === false && !context.isGlobalAdminServer}
                                                 {var tenantCanOverride = false}
+                                            {else}
+                                                {var tenantCanOverride = true}
                                             {/if}
+                                            ${console.log(tenantCanOverride)}
                                             {var configPath = module_index + '/' + option_index + '/' + element_index}
                                             {var configValue = configuration[module_index][option_index][element_index]}
                                             {if element.type === "boolean"}
                                                 <div class="control-group">
-                                                    <input type="checkbox" id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" {if configValue}checked="checked"{/if} class="admin-module-config-checkbox" {if !tenantCanOverride} disabled="disabled"{/if}/>
-                                                    <label for="${configPath|encodeForHTMLAttribute}">${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                    <input type="checkbox" id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" {if configValue}checked="checked"{/if} class="admin-module-config-checkbox pull-left" {if !tenantCanOverride} disabled="disabled"{/if}/>
+                                                    <label for="${configPath|encodeForHTMLAttribute}">${element.description|encodeForHTML} {if !tenantCanOverride} <i class="icon-lock"></i>{/if}</label>
                                                 </div>
                                             {elseif element.type === "text"}
                                                 <div class="control-group">
-                                                    <label for="${configPath|encodeForHTMLAttribute}" class="control-label">${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                    <label for="${configPath|encodeForHTMLAttribute}" class="control-label">${element.description|encodeForHTML}</label>
                                                     <div class="controls">
-                                                        <input type="text" id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" value="${configValue.toString()|encodeForHTMLAttribute}" {if !tenantCanOverride} disabled="disabled"{/if}/>
+                                                        <input type="text" id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" value="${configValue.toString()|encodeForHTMLAttribute}" {if !tenantCanOverride} disabled="disabled"{/if} class="pull-left"/>
+                                                        {if !tenantCanOverride} <i class="icon-lock"></i>{/if}
                                                     </div>
                                                 </div>
                                             {elseif element.type === "internationalizableText"}
@@ -303,18 +305,20 @@
 
                                                     {var defaultLanguageValue = configValue.default ? configValue.default.toString() : element.defaultValue.default}
                                                     <div data-id="default" class="control-group">
-                                                        <label for="${configPath|encodeForHTMLAttribute}/default" class="control-label">default - ${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                        <label for="${configPath|encodeForHTMLAttribute}/default" class="control-label">default - ${element.description|encodeForHTML}</label>
                                                         <div class="controls">
-                                                            <textarea type="text" id="${configPath|encodeForHTMLAttribute}/default" name="${configPath|encodeForHTMLAttribute}/default" {if !tenantCanOverride} disabled="disabled"{/if}>${defaultLanguageValue|encodeForHTML}</textarea>
+                                                            <textarea type="text" id="${configPath|encodeForHTMLAttribute}/default" name="${configPath|encodeForHTMLAttribute}/default" {if !tenantCanOverride} disabled="disabled"{/if} class="pull-left">${defaultLanguageValue|encodeForHTML}</textarea>
+                                                            {if !tenantCanOverride} <i class="icon-lock"></i>{/if}
                                                         </div>
                                                     </div>
 
                                                     {for language in schema['oae-principals'].user.elements.defaultLanguage.list}
                                                         {var i18nValue = configValue[language.value] ? configValue[language.value].toString() : ''}
                                                         <div data-id="${language.value}" class="control-group hide">
-                                                            <label for="${configPath|encodeForHTMLAttribute}/${language.value}" class="control-label">${language.name} - ${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                            <label for="${configPath|encodeForHTMLAttribute}/${language.value}" class="control-label">${language.name} - ${element.description|encodeForHTML}</label>
                                                             <div class="controls">
                                                                 <textarea type="text" id="${configPath|encodeForHTMLAttribute}/${language.value}" name="${configPath|encodeForHTMLAttribute}/${language.value}" {if !tenantCanOverride} disabled="disabled"{/if}>${i18nValue|encodeForHTML}</textarea>
+                                                                {if !tenantCanOverride}<i class="icon-lock"></i>{/if}
                                                             </div>
                                                         </div>
                                                     {/for}
@@ -323,20 +327,21 @@
                                                 <div class="control-group">
                                                     {for rbt in element.group}
                                                         <label class="radio">
-                                                            <input type="radio" id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" value="${rbt.value|encodeForHTMLAttribute}" {if configValue === rbt.value} checked="checked"{/if} {if !tenantCanOverride} disabled="disabled"{/if}>
-                                                            ${rbt.name|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}
+                                                            <input type="radio" id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" value="${rbt.value|encodeForHTMLAttribute}" {if configValue === rbt.value} checked="checked"{/if} {if !tenantCanOverride} disabled="disabled"{/if} class="pull-left">
+                                                            ${rbt.name|encodeForHTML} {if !tenantCanOverride}<i class="icon-lock"></i>{/if}
                                                         </label>
                                                     {/for}
                                                 </div>
                                             {elseif element.type === "list"}
                                                 <div class="control-group">
-                                                    <label for="${configPath|encodeForHTMLAttribute}" class="control-label">${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                    <label for="${configPath|encodeForHTMLAttribute}" class="control-label">${element.description|encodeForHTML}</label>
                                                     <div class="controls">
-                                                        <select id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" {if !tenantCanOverride} disabled="disabled"{/if}>
+                                                        <select id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" {if !tenantCanOverride} disabled="disabled"{/if} class="pull-left">
                                                             {for opt in element.list}
                                                                 <option value="${opt.value|encodeForHTMLAttribute}" {if configValue === opt.value} selected="selected"{/if}>${opt.name|encodeForHTML}</option>
                                                             {/for}
                                                         </select>
+                                                        {if !tenantCanOverride}<i class="icon-lock"></i>{/if}
                                                     </div>
                                                 </div>
                                             {/if}
