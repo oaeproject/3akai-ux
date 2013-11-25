@@ -86,10 +86,15 @@ define(['exports', 'jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js'
             // Check which field is being updated
             var field = $inlineEdit.attr('data-field');
             // If no value has been provided, an error message is shown and the field is reset
-            if (!value && field === 'displayName') {
-                oae.api.util.notification('Invalid tenant name.', 'Please enter a tenant name.', 'error');
-                return this.revert;
-            } else if ((!value || !checkValidHostname(value)) && field === 'host') {
+            if (!value) {
+                if (field === 'displayName') {
+                    oae.api.util.notification('Invalid tenant name.', 'Please enter a tenant name.', 'error');
+                    return this.revert;
+                } else if (field === 'host') {
+                    oae.api.util.notification('Invalid host name.', 'Please enter a host name.', 'error');
+                    return this.revert;
+                }
+            } else if (field === 'host' && !checkValidHostname(value)) {
                 oae.api.util.notification('Invalid host name.', 'Please enter a valid host name.', 'error');
                 return this.revert;
             } else {
