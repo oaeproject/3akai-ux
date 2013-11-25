@@ -68,10 +68,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     };
 
     /**
-     * Add a cache busting property to a url
+     * Add a cache busting parameter to a URL
      *
-     * @param  {String}     url  The url to add to
-     * @return {String}          The url with cache busting property added
+     * @param  {String}     url     The URL to add the cache busting parameter to
+     * @return {String}             The URL with a cache busting parameter added
      */
     var addCacheBust = exports.addCacheBust = function(url) {
         var $url = $.url(url);

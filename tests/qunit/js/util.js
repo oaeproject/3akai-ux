@@ -318,10 +318,12 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 '/ui/bundles/default.properties': null,
                 '/ui/bundles/es_ES.properties': null,
                 '/ui/bundles/fr_FR.properties': null,
+                '/ui/bundles/hi_IN.properties': null,
                 '/ui/bundles/it_IT.properties': null,
                 '/ui/bundles/nl_NL.properties': null,
                 '/ui/bundles/pl_PL.properties': null,
                 '/ui/bundles/ru_RU.properties': null,
+                '/ui/bundles/val_ES.properties': null,
                 '/ui/bundles/zh_CN.properties': null
             },
             'mainHTML': {

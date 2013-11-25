@@ -175,7 +175,12 @@
         {/if}
     {/if}
 
-    <h3 class="oae-threedots"><a href="${profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}">${entityData.displayName|encodeForHTML}</a></h3>
+    {if !profilePath}
+        <h3 class="oae-threedots"><span>${entityData.displayName|encodeForHTML}</span></h3>
+    {else}
+        <h3 class="oae-threedots"><a href="${profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}">${entityData.displayName|encodeForHTML}</a></h3>
+    {/if}
+
     {if metadata}
         <small class="oae-threedots">${metadata|encodeForHTML}</small>
     {/if}
