@@ -277,7 +277,6 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
      * (rather than clicking on revert button)
      */
     var checkForManualInputReversion = function() {
-console.log('checking input')
         if ($.trim($(this).val()) === $(this).attr('data-defaultvalue')) {
             $(this).addClass('reverted');
         } else {
