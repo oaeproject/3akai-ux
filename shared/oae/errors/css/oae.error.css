@@ -34,29 +34,33 @@
     font-style: italic;
 }
 
-#error-content #error-quote-container {
+#error-content .error-quote-container {
     padding: 20px;
     position: relative;
     width: 460px;
 }
 
-#error-content #error-quote-container #error-quote {
+#error-content .error-quote-container .error-quote {
     font-size: 25px;
-    font-weight: 600;
+    font-weight: 400;
     line-height: 1.3;
 }
 
-#error-content #error-quote-container .btn + span {
-    font-size: 13px;
+#error-content .error-quote-container .btn + span {
+    font-size: 14px;
     font-style: italic;
     margin-left: 7px;
 }
 
-#error-content #error-quote-container + div {
+#error-content .error-quote-container + div {
     margin: 10px 0 0 80px;
 }
 
-#error-content #error-quote-container:after {
+#error-content .error-quote-container.oae-quote-inverse + div {
+    padding-right: 90px;
+}
+
+#error-content .error-quote-container:after {
     border-style: solid;
     border-width: 0 27px 27px 0;
     border-bottom-color: transparent;
@@ -65,4 +69,11 @@
     content: "";
     left: 40px;
     position: absolute;
+}
+
+#error-content .error-quote-container.oae-quote-inverse:after {
+    border-width: 27px 27px 0 0;
+    border-right-color: transparent;
+    left: inherit;
+    right: 40px;
 }
