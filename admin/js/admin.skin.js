@@ -80,7 +80,8 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
                         'showAlpha': true,
                         'showButtons': false,
                         'showInitial': true,
-                        'showInput': true
+                        'showInput': true,
+                        'change': checkForManualColorReversion
                     });
                 }
             });
@@ -258,6 +259,33 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
     };
 
     /**
+     * Check to see if user has manually reverted to default color value
+     * (rather than clicking on revert button)
+     *
+     * @param  {Object}  selectedColor  Color that the user has selected
+     */
+    var checkForManualColorReversion = function(selectedColor) {
+        if (tinycolor.equals(selectedColor,$(this).attr('data-defaultvalue'))) {
+            $(this).addClass('reverted');
+        } else {
+            $(this).removeClass('reverted');
+        }
+    }
+
+    /**
+     * Check to see if user has manually reverted to default text value
+     * (rather than clicking on revert button)
+     */
+    var checkForManualInputReversion = function() {
+console.log('checking input')
+        if ($.trim($(this).val()) === $(this).attr('data-defaultvalue')) {
+            $(this).addClass('reverted');
+        } else {
+            $(this).removeClass('reverted');
+        }
+    }
+
+    /**
      * Revert a skin value back to its original value as defined in the
      * base less file. Therefore, this will not necessarily revert the
      * value back to its previous value.
@@ -282,6 +310,8 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
     var addBinding = function() {
         // Revert skin value
         $(document).on('click', '.admin-skinning-revert', revertSkinValue);
+        // Check for manual reversion
+        $(document).on('input', '#admin-skinning-form input[data-type!=color]', checkForManualInputReversion)
         // Change skin
         $(document).on('submit', '#admin-skinning-form', applySkinChanges);
     };
