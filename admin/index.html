@@ -273,13 +273,12 @@
                                             {else}
                                                 {var tenantCanOverride = true}
                                             {/if}
-                                            ${console.log(tenantCanOverride)}
                                             {var configPath = module_index + '/' + option_index + '/' + element_index}
                                             {var configValue = configuration[module_index][option_index][element_index]}
                                             {if element.type === "boolean"}
                                                 <div class="control-group">
                                                     <input type="checkbox" id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" {if configValue}checked="checked"{/if} class="admin-module-config-checkbox pull-left" {if !tenantCanOverride} disabled="disabled"{/if}/>
-                                                    <label for="${configPath|encodeForHTMLAttribute}">${element.description|encodeForHTML} {if !tenantCanOverride} <i class="icon-lock"></i>{/if}</label>
+                                                    <label for="${configPath|encodeForHTMLAttribute}">{if !tenantCanOverride}<div class="pull-left">{/if}${element.description|encodeForHTML} {if !tenantCanOverride}</div><i class="icon-lock"></i>{/if}</label>
                                                 </div>
                                             {elseif element.type === "text"}
                                                 <div class="control-group">
@@ -328,7 +327,7 @@
                                                     {for rbt in element.group}
                                                         <label class="radio">
                                                             <input type="radio" id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" value="${rbt.value|encodeForHTMLAttribute}" {if configValue === rbt.value} checked="checked"{/if} {if !tenantCanOverride} disabled="disabled"{/if} class="pull-left">
-                                                            ${rbt.name|encodeForHTML} {if !tenantCanOverride}<i class="icon-lock"></i>{/if}
+                                                            {if !tenantCanOverride}<div class="pull-left">{/if}${rbt.name|encodeForHTML} {if !tenantCanOverride}</div><i class="icon-lock"></i>{/if}
                                                         </label>
                                                     {/for}
                                                 </div>

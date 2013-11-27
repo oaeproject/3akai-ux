@@ -126,11 +126,6 @@ td form {
     margin-right: 12px;
 }
 
-.admin-module-configuration-container input[type="radio"][disabled],
-.admin-module-configuration-container input[type="checkbox"][disabled] {
-    margin-top: 8px;
-}
-
 .admin-module-configuration-container .form-horizontal .control-label {
     width: 225px;
 }
