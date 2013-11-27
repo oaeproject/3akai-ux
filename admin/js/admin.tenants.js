@@ -19,6 +19,8 @@ define(['exports', 'jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js'
     var currentContext = null;
     // Variable that will cache the list of available tenants
     var allTenants = null;
+    // Regex used to validate a URL. jQuery validate can't be used in combination with jEditable, so this regex has to be copied in here
+    var urlRegex = /^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i;
 
     /**
      * Initialize the tenant related functionality
@@ -65,6 +67,16 @@ define(['exports', 'jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js'
     };
 
     /**
+     * Check if a host name is valid using the jquery.validate URL regex
+     *
+     * @param  {String}    value    The string to be validated
+     * @return {Boolean}            Whether or not the provided value is a valid host name
+     */
+    var checkValidHostname = function(value) {
+        return urlRegex.test('http://' + value);
+    };
+
+    /**
      * Initializes jEditable fields in the tenant overview
      */
     var enableInlineEdit = function() {
@@ -80,6 +92,9 @@ define(['exports', 'jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js'
                 } else if (field === 'host') {
                     oae.api.util.notification('Invalid host name.', 'Please enter a host name.', 'error');
                 }
+                return this.revert;
+            } else if (field === 'host' && !checkValidHostname(value)) {
+                oae.api.util.notification('Invalid host name.', 'Please enter a valid host name.', 'error');
                 return this.revert;
             } else {
                 updateTenant($inlineEdit.attr('data-alias'), field, value);
