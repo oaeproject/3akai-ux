@@ -44,6 +44,7 @@ requirejs.config({
         'jquery.timeago': 'vendor/js/jquery-plugins/jquery.timeago',
         'jquery.validate': 'vendor/js/jquery-plugins/jquery.validate',
         'jquery-ui': 'vendor/js/jquery-ui/jquery-ui.custom',
+        'lazyload': 'vendor/js/lazyload',
         'markdown': 'vendor/js/markdown',
         'qunitjs': 'vendor/js/qunit',
         'text': 'vendor/js/requirejs/require.text',
