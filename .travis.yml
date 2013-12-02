@@ -64,7 +64,6 @@ before_install:
   - cd ../3akai-ux
 
 services:
-  - cassandra
   - elasticsearch
   - rabbitmq
   - redis-server
