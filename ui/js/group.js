@@ -102,38 +102,51 @@ require(['jquery', 'oae.core'], function($, oae) {
     var setUpNavigation = function() {
         // Structure that will be used to construct the left hand navigation
         var lhNavigation = [];
-        // Add the clips for smaller viewports
-        lhNavigation.push(        {
-            'icon': 'icon-cloud-upload',
-            'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
-            'trigger': 'oae.trigger.upload',
-            'class': 'hidden-md hidden-lg'
-        },
-        {
-            'icon': 'icon-plus-sign',
-            'title': oae.api.i18n.translate('__MSG__CREATE__'),
-            'class': 'hidden-md hidden-lg',
-            'children': [
-                {
-                    'icon': 'icon-link',
-                    'title': oae.api.i18n.translate('__MSG__LINK__'),
-                    'trigger': 'oae.trigger.createlink',
-                    'class': 'hidden-md hidden-lg'
-                },
-                {
-                    'icon': 'icon-edit',
-                    'title': oae.api.i18n.translate('__MSG__DOCUMENT__'),
-                    'trigger': 'oae.trigger.createcollabdoc',
-                    'class': 'hidden-md hidden-lg'
-                },
-                {
-                    'icon': 'icon-comments',
-                    'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
-                    'trigger': 'oae.trigger.creatediscussion',
-                    'class': 'hidden-md hidden-lg'
-                }
-            ]
-        });
+        // Add the upload and create clips for managers
+        if (groupProfile.isManager) {
+            lhNavigation.push({
+                'icon': 'icon-cloud-upload',
+                'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
+                'trigger': 'oae.trigger.upload',
+                'class': 'hidden-md hidden-lg'
+            },
+            {
+                'icon': 'icon-plus-sign',
+                'title': oae.api.i18n.translate('__MSG__CREATE__'),
+                'class': 'hidden-md hidden-lg',
+                'children': [
+                    {
+                        'icon': 'icon-link',
+                        'title': oae.api.i18n.translate('__MSG__LINK__'),
+                        'trigger': 'oae.trigger.createlink',
+                        'class': 'hidden-md hidden-lg'
+                    },
+                    {
+                        'icon': 'icon-edit',
+                        'title': oae.api.i18n.translate('__MSG__DOCUMENT__'),
+                        'trigger': 'oae.trigger.createcollabdoc',
+                        'class': 'hidden-md hidden-lg'
+                    },
+                    {
+                        'icon': 'icon-comments',
+                        'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
+                        'trigger': 'oae.trigger.creatediscussion',
+                        'class': 'hidden-md hidden-lg'
+                    }
+                ]
+            });
+        }
+
+        // Add the join clip when not a member and user can join
+        if (!groupProfile.isMember && groupProfile.canJoin) {
+            lhNavigation.push({
+                'icon': 'icon-pushpin',
+                'title': oae.api.i18n.translate('__MSG__JOIN_GROUP__'),
+                'trigger': 'oae.trigger.join',
+                'class': 'hidden-md hidden-lg'
+            });
+        }
+
         // Only show the recent activity to group members
         if (groupProfile.isMember) {
             lhNavigation.push({
@@ -294,7 +307,7 @@ require(['jquery', 'oae.core'], function($, oae) {
      * Join the current group.
      * If successful, a notification will be displayed and the page will be reloaded after 2 seconds.
      */
-    $('.group-join').on('click', function() {
+    var joinGroup = function() {
         // Disable the join buttons
         $('.group-join').prop('disabled', true);
 
@@ -323,7 +336,12 @@ require(['jquery', 'oae.core'], function($, oae) {
                 $('.group-join').prop('disabled', false);
             }
         });
-    });
+    };
+
+    // Bind to the join event
+    $(document).on('oae.trigger.join', joinGroup);
+    // Bind to the click on the join clip
+    $('.group-join').on('click', joinGroup);
 
 
     ////////////////
@@ -331,10 +349,6 @@ require(['jquery', 'oae.core'], function($, oae) {
     ////////////////
 
     $(document).on('oae.editgroup.done', function(ev, data) {
-        // TODO: Remove this once https://github.com/oaeproject/Hilary/issues/537 is fixed
-        data.isManager = groupProfile.isManager;
-        data.isMember = groupProfile.isMember;
-
         groupProfile = data;
         setUpClip();
     });
