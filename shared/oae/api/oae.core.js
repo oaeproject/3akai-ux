@@ -60,7 +60,7 @@ define([
         'jquery.update-picture',
 
         /*!
-         * Third-party dependencies.
+         * Third-party dependencies
          */
         'bootstrap.clickover',
         'bootstrap.notify',
