@@ -29,7 +29,45 @@ require(['jquery','oae.core'], function($, oae) {
     // Structure that will be used to construct the left hand navigation
     var lhNavigation = [
         {
+            'icon': 'icon-cloud-upload',
+            'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
+            'trigger': 'oae.trigger.upload',
+            'class': 'hidden-md hidden-lg'
+        },
+        {
+            'icon': 'icon-plus-sign',
+            'title': oae.api.i18n.translate('__MSG__CREATE__'),
+            'class': 'hidden-md hidden-lg',
+            'children': [
+                {
+                    'icon': 'icon-group',
+                    'title': oae.api.i18n.translate('__MSG__GROUP__'),
+                    'trigger': 'oae.trigger.creategroup',
+                    'class': 'hidden-md hidden-lg'
+                },
+                {
+                    'icon': 'icon-link',
+                    'title': oae.api.i18n.translate('__MSG__LINK__'),
+                    'trigger': 'oae.trigger.createlink',
+                    'class': 'hidden-md hidden-lg'
+                },
+                {
+                    'icon': 'icon-edit',
+                    'title': oae.api.i18n.translate('__MSG__DOCUMENT__'),
+                    'trigger': 'oae.trigger.createcollabdoc',
+                    'class': 'hidden-md hidden-lg'
+                },
+                {
+                    'icon': 'icon-comments',
+                    'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
+                    'trigger': 'oae.trigger.creatediscussion',
+                    'class': 'hidden-md hidden-lg'
+                }
+            ]
+        },
+        {
             'id': 'dashboard',
+            'default': true,
             'title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
             'icon': 'icon-dashboard',
             'layout': [

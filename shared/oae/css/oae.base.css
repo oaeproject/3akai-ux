@@ -575,12 +575,16 @@ ul.as-list li.as-result-item.active {
        -moz-box-shadow: 0 2px 4px #DBDBDB;
             box-shadow: 0 2px 4px #DBDBDB;
     padding: 10px;
-    min-height: 450px;
+    min-height: 550px;
     clear: both;
 }
 
 .oae-main-content > div {
     clear: both;
+}
+
+.oae-main-content > div:last-child {
+    overflow: hidden;
 }
 
 .oae-main-content > .row {

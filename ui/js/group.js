@@ -102,10 +102,43 @@ require(['jquery', 'oae.core'], function($, oae) {
     var setUpNavigation = function() {
         // Structure that will be used to construct the left hand navigation
         var lhNavigation = [];
+        // Add the clips for smaller viewports
+        lhNavigation.push(        {
+            'icon': 'icon-cloud-upload',
+            'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
+            'trigger': 'oae.trigger.upload',
+            'class': 'hidden-md hidden-lg'
+        },
+        {
+            'icon': 'icon-plus-sign',
+            'title': oae.api.i18n.translate('__MSG__CREATE__'),
+            'class': 'hidden-md hidden-lg',
+            'children': [
+                {
+                    'icon': 'icon-link',
+                    'title': oae.api.i18n.translate('__MSG__LINK__'),
+                    'trigger': 'oae.trigger.createlink',
+                    'class': 'hidden-md hidden-lg'
+                },
+                {
+                    'icon': 'icon-edit',
+                    'title': oae.api.i18n.translate('__MSG__DOCUMENT__'),
+                    'trigger': 'oae.trigger.createcollabdoc',
+                    'class': 'hidden-md hidden-lg'
+                },
+                {
+                    'icon': 'icon-comments',
+                    'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
+                    'trigger': 'oae.trigger.creatediscussion',
+                    'class': 'hidden-md hidden-lg'
+                }
+            ]
+        });
         // Only show the recent activity to group members
         if (groupProfile.isMember) {
             lhNavigation.push({
                 'id': 'activity',
+                'default': true,
                 'title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
                 'icon': 'icon-dashboard',
                 'layout': [
@@ -127,6 +160,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         lhNavigation.push(
             {
                 'id': 'library',
+                'default': true,
                 'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
                 'icon': 'icon-briefcase',
                 'layout': [

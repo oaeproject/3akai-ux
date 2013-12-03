@@ -525,6 +525,7 @@ ul.as-selections.as-selections-focus {
 @lhnav-item-background-selected-color: transparent;
 
 .nav > li > a,
+.nav > li > button,
 .nav > li i,
 .nav > li.nav-header {
     color: @lhnav-item-text-color;
@@ -534,7 +535,11 @@ ul.as-selections.as-selections-focus {
 .nav > li > a:hover,
 .nav > li > a:focus,
 .nav > li > a:hover i,
-.nav > li > a:focus i {
+.nav > li > a:focus i,
+.nav > li > button:hover,
+.nav > li > button:focus,
+.nav > li > button:hover i,
+.nav > li > button:focus i {
     color: @lhnav-item-text-hover-color;
     background-color: @lhnav-item-background-hover-color;
 }
@@ -542,6 +547,9 @@ ul.as-selections.as-selections-focus {
 .nav > li.active > a,
 .nav > li.active > a:hover,
 .nav > li.active > a:focus,
+.nav > li.active > button,
+.nav > li.active > button:hover,
+.nav > li.active > button:focus,
 .nav > li.active i {
     color: @lhnav-item-text-selected-color;
     background-color: @lhnav-item-background-selected-color;

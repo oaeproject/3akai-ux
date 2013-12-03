@@ -90,6 +90,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         var lhNavigation = [
             {
                 'id': 'library',
+                'default': true,
                 'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
                 'icon': 'icon-briefcase',
                 'layout': [
