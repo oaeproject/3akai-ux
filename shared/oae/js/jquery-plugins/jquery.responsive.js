@@ -13,6 +13,16 @@
  * permissions and limitations under the License.
  */
 
-#lhnavigation-container {
-    padding: 5px 10px;
-}
+define(['jquery'], function (jQuery) {
+    (function($) {
+
+        /**
+         * Toggle the left hand navigation
+         */
+        $(document).on('click', '.oae-lhnavigation-toggle', function(ev) {
+            $('.oae-lhnavigation > ul').toggleClass('hidden-xs hidden-sm');
+            $('.oae-page').toggleClass('oae-page-expanded');
+        });
+
+    })(jQuery);
+});

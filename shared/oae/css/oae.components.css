@@ -27,6 +27,43 @@ a.oae-plain-link:hover {
 }
 
 
+/***********
+ * LAYOUT **
+ ***********/
+
+.oae-lhnavigation {
+    margin-top: -5px;
+    min-width: 200px;
+    position: absolute;
+    z-index: 99;
+}
+
+.oae-lhnavigation ul li button {
+    text-align: left;
+    width: 100%;
+}
+
+.oae-lhnavigation ul li a div,
+.oae-lhnavigation ul li button div {
+    padding-top: 8px;
+}
+
+.oae-page {
+    min-width: 300px;
+    padding: 5px 25px 50px 25px;
+}
+
+.oae-page.oae-page-expanded {
+    min-width: 500px;
+    padding: 5px 25px 50px 200px;
+}
+
+@media (min-width: 992px) {
+    .oae-page {
+        padding: 5px 25px 50px 200px;
+    }
+}
+
 /******************
  * ACCESSIBILITY **
  ******************/

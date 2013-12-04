@@ -13,6 +13,9 @@
  * permissions and limitations under the License.
  */
 
-#lhnavigation-container {
-    padding: 5px 10px;
+/* Override left hand navigation media query */
+@media (min-width: 992px) {
+    .oae-page {
+        padding: 5px 25px 50px !important;
+    }
 }

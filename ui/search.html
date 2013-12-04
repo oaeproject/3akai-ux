@@ -49,8 +49,8 @@
 
             <!-- CONTENT -->
             <div id="search-content-container" class="row">
-                <div class="col-md-2">
-                    <ul id="search-refine-type" class="nav nav-list">
+                <div class="oae-lhnavigation">
+                    <ul id="search-refine-type" class="nav nav-list hidden-xs hidden-sm">
                         <li class="nav-header">__MSG__REFINE_SEARCH_BY_TYPE_COLON__</li>
                         <li>
                             <label class="checkbox"><input type="checkbox" data-type="user" /> __MSG__PEOPLE__</label>
@@ -66,7 +66,11 @@
                         </li>
                     </ul>
                 </div>
-                <div id="search-list-container" class="oae-list-container col-md-10">
+                <div id="search-list-container" class="oae-list-container oae-page col-xs-12 col-sm-12 col-md-12">
+                    <button type="button" class="oae-lhnavigation-toggle btn btn-link hidden-md hidden-lg">
+                        <i class="icon-align-justify"></i>
+                        <span class="oae-aural-text">__MSG__TOGGLE_NAVIGATION__</span>
+                    </button>
                     <div class="oae-list-options">
                         <div>
                             <button class="btn oae-list-options-toggle">

@@ -11,6 +11,8 @@
         <!-- CORE CSS -->
         <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
         <link rel="stylesheet" type="text/css" href="/api/ui/skin" />
+        <!-- PAGE CSS -->
+        <link rel="stylesheet" type="text/css" href="/ui/css/oae.content.css" />
 
     </head>
     <body>
@@ -59,7 +61,7 @@
                     </div>
                 --></div>
 
-                <div id="content-actions-clip-container" class="oae-clip-container-right"><!-- --></div>
+                <div id="content-actions-clip-container" class="oae-clip-container-right hidden-xs hidden-sm"><!-- --></div>
                 <div id="content-actions-clip-template"><!--
                     {if content.canShare}
                         <div class="oae-clip oae-clip-flipped">
@@ -95,10 +97,9 @@
                 --></div>
             </div>
 
-            <div class="row">
-                <div id="content-preview-container" class="col-md-12"><!-- --></div>
-                <div data-widget="comments" class="col-md-12"><!-- --></div>
-            </div>
+            <!-- NAVIGATION -->
+            <div data-widget="lhnavigation"><!-- --></div>
+
         </div>
 
         <!-- FOOTER -->

@@ -22,6 +22,57 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     // Variable used to cache the requested content profile
     var contentProfile = null;
 
+    /**
+     * Set up the left hand navigation with the content space page structure
+     */
+    var setUpNavigation = function(previewWidgetID) {
+        var lhNavigation = [
+            {
+                'id': 'content',
+                'default': true,
+                'title': oae.api.i18n.translate('__MSG__CONTENT__'),
+                'icon': 'icon-comments',
+                'class': 'hide',
+                'layout': [
+                    {
+                        'width': 'col-md-12',
+                        'widgets': [
+                            {
+                                'id': previewWidgetID,
+                                'settings': contentProfile
+                            }
+                        ]
+                    },
+                    {
+                        'width': 'col-md-12',
+                        'widgets': [
+                            {
+                                'id': 'comments'
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                'icon': 'icon-comments',
+                'title': oae.api.i18n.translate('__MSG__COMMENT__'),
+                'trigger': 'oae.trigger.comment.focus',
+                'class': 'hidden-md hidden-lg'
+            },
+            {
+                'icon': 'icon-share',
+                'title': oae.api.i18n.translate('__MSG__SHARE__'),
+                'trigger': 'oae.trigger.share',
+                'class': 'hidden-md hidden-lg'
+            }
+        ];
+
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, null]);
+        $(window).on('oae.ready.lhnavigation', function() {
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, null]);
+        });
+    };
+
 
     ////////////////////////////////////
     // CONTENT PROFILE INITIALIZATION //
@@ -49,8 +100,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             oae.api.util.setBrowserTitle(contentProfile.displayName);
             // Render the entity information and actions
             setUpClips();
-            // Show the content preview
-            setUpContentPreview();
+            // Set up the navigation
+            setUpNavigation(getPreviewWidgetId());
             // Set up the context event exchange
             setUpContext();
             // We can now unhide the page
@@ -71,23 +122,21 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     };
 
     /**
-     * Renders the content preview.
+     * Get the ID of the preview widget to use
      */
-    var setUpContentPreview = function() {
-        // Remove the old preview widget
-        $('#content-preview-container').html('');
+    var getPreviewWidgetId = function() {
         // Based on the content type, insert a new preview widget and pass in the updated content profile data
         if (contentProfile.resourceSubType === 'file') {
             // Load document viewer when a PDF or Office document needs to be displayed
             if (contentProfile.previews && contentProfile.previews.pageCount) {
-                oae.api.widget.insertWidget('documentpreview', null, $('#content-preview-container'), null, contentProfile);
+                return 'documentpreview';
             } else {
-                oae.api.widget.insertWidget('filepreview', null, $('#content-preview-container'), null, contentProfile);
+                return 'filepreview';
             }
         } else if (contentProfile.resourceSubType === 'link') {
-            oae.api.widget.insertWidget('linkpreview', null, $('#content-preview-container'), null, contentProfile);
+            return 'linkpreview';
         } else if (contentProfile.resourceSubType === 'collabdoc') {
-            oae.api.widget.insertWidget('etherpad', null, $('#content-preview-container'), null, contentProfile);
+            return 'etherpad';
         }
     };
 
@@ -124,10 +173,9 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     var refreshContentProfile = function(ev, updatedContent) {
         // Cache the content profile data
         contentProfile = updatedContent;
-        // Re-render the entity information
+        // Refresh the content profile elements
+        setUpNavigation(getPreviewWidgetId());
         setUpClips();
-        // Show the content preview
-        setUpContentPreview();
     };
 
     // Catches an event sent out when the content has been updated. This can be either when
@@ -230,9 +278,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
     $(document).on('oae.revisions.done', function(ev, restoredRevision, updatedContentProfile) {
         contentProfile = updatedContentProfile;
-        // Refresh the preview and clip
-        setUpContentPreview();
-        setUpClips();
+        // Refresh the content profile elements
+        refreshContentProfile(ev, updatedContentProfile);
     });
 
 
