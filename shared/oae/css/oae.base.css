@@ -78,6 +78,14 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     opacity: 0.8;
 }
 
+.nav-list > li > label {
+    padding: 0 15px;
+}
+
+.nav-list > li.nav-header {
+    padding: 0 15px;
+}
+
 .nav-list [class^="icon-"], .nav-list [class*=" icon-"] {
     display: inline-block;
     font-size: 1.5em;
