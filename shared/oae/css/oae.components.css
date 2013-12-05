@@ -33,10 +33,14 @@ a.oae-plain-link:hover {
 
 .oae-lhnavigation {
     margin-top: -5px;
-    max-width: 200px;
-    min-width: 200px;
+    overflow: hidden;
     position: absolute;
+    width: 200px;
     z-index: 99;
+}
+
+.oae-lhnavigation ul {
+    width: 200px;
 }
 
 .oae-lhnavigation ul li button {
@@ -61,7 +65,11 @@ a.oae-plain-link:hover {
 
 @media (min-width: 992px) {
     .oae-page {
-        padding: 5px 25px 50px 200px;
+        padding: 5px 25px 50px 200px !important;
+    }
+    .oae-lhnavigation {
+        opacity: 1 !important;
+        width: 200px !important;
     }
 }
 

@@ -27,19 +27,18 @@
             <!-- CLIPS -->
             <div class="oae-clip-container">
                 <div id="search-clip-container">
-                    <div class="oae-clip">
+                    <div class="oae-clip oae-clip col-xs-11 col-sm-7 col-md-6 col-lg-5">
                         <div class="oae-clip-fold">
                             <div class="oae-clip-fold-inner"></div>
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content clearfix">
-                            <form id="search-form" class="form-search form-inline" role="search">
-                                <div id="search-input-container" class="form-group">
-                                    <label for="search-query" class="oae-aural-text">__MSG__SEARCH__</label>
-                                    <input type="text" id="search-query" class="form-control search-query input-xxlarge" title="__MSG__SEARCH_FOR_CONTENT_PEOPLE_GROUPS__" />
-                                </div>
-                                <div id="search-submit-container" class="form-group">
-                                    <button type="submit" class="btn">__MSG__SEARCH__</button>
+                            <form id="search-form" class="form-search form-horizontal" role="search" aria-label="__MSG__SEARCH__">
+                                <div class="form-group">
+                                    <input type="text" id="search-query" class="form-control search-query form-control pull-left" title="__MSG__SEARCH_FOR_CONTENT_PEOPLE_GROUPS__" />
+                                    <button type="submit" id="search-search-icon" class="btn btn-link pull-left">
+                                        <i class="icon-search"><span class="oae-aural-text">__MSG__SEARCH__</span></i>
+                                    </button>
                                 </div>
                             </form>
                         </div>
