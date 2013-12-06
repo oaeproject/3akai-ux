@@ -750,18 +750,37 @@ div.oae-thumbnail i[class^="icon-"] {
     -webkit-border-radius: 6px;
        -moz-border-radius: 6px;
             border-radius: 6px;
+    display: block;
     font-size: 11px;
+    line-height: 23px;
+    margin-bottom: 10px;
     min-width: 70px;
     padding: 10px;
-    margin-bottom: 10px;
-    text-align: center;
+    text-align: left;
+    width: 100%;
 }
 
 .oae-clip .oae-clip-content > div > ul li button i {
-    display: block;
-    margin: 0 auto 3px;
+    display: inline-block;
+    float: left;
+    margin: 0 0 3px;
+    padding-right: 7px;
+    width: 30px;
 }
 
+@media (min-width: 992px) {
+    .oae-clip .oae-clip-content > div > ul li button {
+        display: inline-block;
+        text-align: center;
+        width: auto;
+    }
+
+    .oae-clip .oae-clip-content > div > ul li button i {
+        display: block;
+        float: none;
+        margin: 0 auto 3px;
+    }
+}
 
 /***********
  ** TILES **
