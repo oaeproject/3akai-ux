@@ -47,7 +47,7 @@ define(['jquery'], function (jQuery) {
                 // Animate the opacity and width
                 $('.oae-lhnavigation').animate({
                     'opacity': 1,
-                    'width': '200px'
+                    'width': '190px'
                 }, 250);
                 // Animate the padding of the page to 200px (width of the left hand nav)
                 $('.oae-page').animate({

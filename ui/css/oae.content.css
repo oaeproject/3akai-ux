@@ -15,6 +15,10 @@
 
 /* Override left hand navigation media query */
 @media (min-width: 992px) {
+    .oae-lhnavigation {
+        display: none;
+    }
+
     .oae-page {
         padding: 5px 25px 50px !important;
     }

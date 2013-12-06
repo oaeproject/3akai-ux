@@ -32,15 +32,16 @@ a.oae-plain-link:hover {
  ***********/
 
 .oae-lhnavigation {
+    margin-left: 10px;
     margin-top: -5px;
     overflow: hidden;
     position: absolute;
-    width: 200px;
+    width: 190px;
     z-index: 99;
 }
 
 .oae-lhnavigation ul {
-    width: 200px;
+    width: 190px;
 }
 
 .oae-lhnavigation ul li button {
@@ -69,7 +70,7 @@ a.oae-plain-link:hover {
     }
     .oae-lhnavigation {
         opacity: 1 !important;
-        width: 200px !important;
+        width: 190px !important;
     }
 }
 
@@ -595,7 +596,7 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-clip {
     float: left;
-    margin: -16px 10px 10px;
+    margin: -16px 10px 10px 18px;
     position: relative;
     z-index: 100;
 }

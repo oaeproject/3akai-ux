@@ -19,6 +19,10 @@
     padding: 15px;
 }
 
+#search-clip-container .oae-clip {
+    margin-left: 3px;
+}
+
 /* Search container */
 
 #search-content-container {
