@@ -3,6 +3,7 @@
     <head>
 
         <title>Open Academic Environment - Administration UI</title>
+        <meta name="viewport" content="width=device-width, user-scalable=yes">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
@@ -266,16 +267,16 @@
                                                 </div>
                                             {elseif element.type === "text"}
                                                 <div class="form-group">
-                                                    <label for="${configPath|encodeForHTMLAttribute}" class="control-label col-lg-3">${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
-                                                    <div class="col-lg-9">
+                                                    <label for="${configPath|encodeForHTMLAttribute}" class="control-label col-xs-12 col-sm-3 col-md-3">${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                    <div class="col-xs-12 col-sm-9 col-md-9">
                                                         <input type="text" id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" value="${configValue.toString()|encodeForHTMLAttribute}" {if !tenantCanOverride} disabled="disabled"{/if} class="form-control"/>
                                                     </div>
                                                 </div>
                                             {elseif element.type === "internationalizableText"}
                                                 <div class="admin-internationalizable-text-container">
                                                     <div class="form-group">
-                                                        <label for="${configPath|encodeForHTMLAttribute}" class="control-label col-lg-3">Choose terms and conditions language to change</label>
-                                                        <div class="col-lg-9">
+                                                        <label for="${configPath|encodeForHTMLAttribute}" class="control-label col-xs-12 col-sm-3 col-md-3">Choose terms and conditions language to change</label>
+                                                        <div class="col-xs-12 col-sm-9 col-md-9">
                                                             <select class="admin-internationalizabletext-language-picker form-control" id="${configPath|encodeForHTMLAttribute}">
                                                                 <option value="default">Default</option>
                                                                 {for language in schema['oae-principals'].user.elements.defaultLanguage.list}
@@ -287,8 +288,8 @@
 
                                                     {var defaultLanguageValue = configValue.default ? configValue.default.toString() : element.defaultValue.default}
                                                     <div data-id="default" class="form-group">
-                                                        <label for="${configPath|encodeForHTMLAttribute}/default" class="control-label col-lg-3">default - ${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
-                                                        <div class="col-lg-9">
+                                                        <label for="${configPath|encodeForHTMLAttribute}/default" class="control-label col-xs-12 col-sm-3 col-md-3">default - ${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                        <div class="col-xs-12 col-sm-9 col-md-9">
                                                             <textarea type="text" id="${configPath|encodeForHTMLAttribute}/default" class="form-control" name="${configPath|encodeForHTMLAttribute}/default" {if !tenantCanOverride} disabled="disabled"{/if}>${defaultLanguageValue|encodeForHTML}</textarea>
                                                         </div>
                                                     </div>
@@ -296,8 +297,8 @@
                                                     {for language in schema['oae-principals'].user.elements.defaultLanguage.list}
                                                         {var i18nValue = configValue[language.value] ? configValue[language.value].toString() : ''}
                                                         <div data-id="${language.value}" class="form-group hide">
-                                                            <label for="${configPath|encodeForHTMLAttribute}/${language.value}" class="control-label col-lg-3">${language.name} - ${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
-                                                            <div class="col-lg-9">
+                                                            <label for="${configPath|encodeForHTMLAttribute}/${language.value}" class="control-label col-xs-12 col-sm-3 col-md-3">${language.name} - ${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                            <div class="col-xs-12 col-sm-9 col-md-9">
                                                                 <textarea type="text" id="${configPath|encodeForHTMLAttribute}/${language.value}" class="form-control" name="${configPath|encodeForHTMLAttribute}/${language.value}" {if !tenantCanOverride} disabled="disabled"{/if}>${i18nValue|encodeForHTML}</textarea>
                                                             </div>
                                                         </div>
@@ -316,8 +317,8 @@
                                                 </div>
                                             {elseif element.type === "list"}
                                                 <div class="form-group">
-                                                    <label for="${configPath|encodeForHTMLAttribute}" class="control-label col-lg-3">${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
-                                                    <div class="col-lg-9">
+                                                    <label for="${configPath|encodeForHTMLAttribute}" class="control-label col-xs-12 col-sm-3 col-md-3">${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                    <div class="col-xs-12 col-sm-9 col-md-9">
                                                         <select id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" {if !tenantCanOverride} disabled="disabled"{/if} class="form-control">
                                                             {for opt in element.list}
                                                                 <option value="${opt.value|encodeForHTMLAttribute}" {if configValue === opt.value} selected="selected"{/if}>${opt.name|encodeForHTML}</option>
@@ -351,12 +352,12 @@
                         <div class="admin-container-striped">
                             {for variable in subsection.variables}
                                 <div class="form-group">
-                                    <label class="control-label col-lg-4" for="admin-skinning-${variable.name|encodeForHTMLAttribute}">${variable.description|encodeForHTML}</label>
-                                    <div class="col-lg-7">
+                                    <label class="control-label col-xs-12 col-sm-4 col-md-4" for="admin-skinning-${variable.name|encodeForHTMLAttribute}">${variable.description|encodeForHTML}</label>
+                                    <div class="col-xs-11 col-sm-7 col-md-7">
                                         <input type="text" id="admin-skinning-${variable.name|encodeForHTMLAttribute}" name="${variable.name|encodeForHTMLAttribute}" class="form-control input-xlarge" value="${variable.value|encodeForHTMLAttribute}" data-type="${variable.type|encodeForHTMLAttribute}" data-defaultvalue="${variable.defaultValue|encodeForHTMLAttribute}" />
                                     </div>
-                                    <div class="col-lg-1">
-                                        <button type="button" class="btn btn-link pull-right admin-skinning-revert" title="Revert to original value">
+                                    <div class="col-xs-1">
+                                        <button type="button" class="btn btn-link admin-skinning-revert" title="Revert to original value">
                                             <i class="icon-undo"><span class="oae-aural-text">Revert to original value</span></i>
                                         </button>
                                     </div>
