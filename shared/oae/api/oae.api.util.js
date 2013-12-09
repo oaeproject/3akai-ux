@@ -674,7 +674,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             'canGenerateNewSelections': false,
             'minChars': 2,
             'retrieveLimit': 10,
-            'url': '/api/search/general',
+            'url': '/api/search/share',
             'scroll': 117,
             'searchObjProps': 'id, displayName',
             'selectedItemProp': 'displayName',
