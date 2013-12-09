@@ -1289,6 +1289,7 @@ ul.oae-list.oae-list-grid li.oae-list-actions div.oae-thumbnail {
             box-shadow: none;
     height: 150px;
     margin: 5px;
+    min-width: 150px;
     width: 150px;
 }
 

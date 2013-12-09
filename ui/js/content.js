@@ -52,8 +52,11 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                         ]
                     }
                 ]
-            },
-            {
+            }
+        ];
+
+        if (!oae.data.me.anon) {
+            lhNavigation.push({
                 'icon': 'icon-comments',
                 'title': oae.api.i18n.translate('__MSG__COMMENT__'),
                 'trigger': 'oae.trigger.comment.focus',
@@ -64,8 +67,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                 'title': oae.api.i18n.translate('__MSG__SHARE__'),
                 'trigger': 'oae.trigger.share',
                 'class': 'hidden-md hidden-lg'
-            }
-        ];
+            });
+        }
 
         $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, null]);
         $(window).on('oae.ready.lhnavigation', function() {
