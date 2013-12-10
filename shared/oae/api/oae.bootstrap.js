@@ -25,6 +25,7 @@ requirejs.config({
         // Vendor paths
         'bootstrap': 'vendor/js/bootstrap',
         'bootstrap.clickover': 'vendor/js/bootstrap-plugins/bootstrapx.clickover',
+        'bootstrap.notify': 'vendor/js/bootstrap-plugins/bootstrap.notify',
         'globalize': 'vendor/js/l10n/globalize',
         'jquery.autosuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest',
         'jquery.encoder': 'vendor/js/jquery-plugins/jquery.encoder',
@@ -35,7 +36,6 @@ requirejs.config({
         'jquery.iframe-transport': 'vendor/js/jquery-plugins/jquery.iframe-transport',
         'jquery.jcrop': 'vendor/js/jquery-plugins/jcrop/jquery.Jcrop',
         'jquery.jeditable': 'vendor/js/jquery-plugins/jquery.jeditable.oae-edited',
-        'jquery.notify': 'vendor/js/jquery-plugins/jquery.bootstrap.notify',
         'jquery.oembed': 'vendor/js/jquery-plugins/jquery.oembed',
         'jquery.parseurl': 'vendor/js/jquery-plugins/jquery.parseurl.oae-edited',
         'jquery.properties-parser': 'vendor/js/jquery-plugins/jquery.properties-parser',
@@ -44,6 +44,7 @@ requirejs.config({
         'jquery.timeago': 'vendor/js/jquery-plugins/jquery.timeago',
         'jquery.validate': 'vendor/js/jquery-plugins/jquery.validate',
         'jquery-ui': 'vendor/js/jquery-ui/jquery-ui.custom',
+        'lazyload': 'vendor/js/lazyload',
         'markdown': 'vendor/js/markdown',
         'qunitjs': 'vendor/js/qunit',
         'text': 'vendor/js/requirejs/require.text',

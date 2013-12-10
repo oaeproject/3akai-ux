@@ -114,6 +114,19 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     display: none;
 }
 
+/* FONTAWESOME ICON OVERRIDES
+ * @see http://fontawesome.io */
+
+.btn > i.icon-remove.pull-left,
+.btn > i.icon-trash.pull-left {
+    margin-top: 1px;
+}
+
+.btn > i.icon-minus-sign.pull-left,
+.btn > i.icon-share.pull-left {
+    margin-top: 2px;
+}
+
 /* DROPDOWN
  * @see http://twitter.github.com/bootstrap/components.html#dropdowns */
 
@@ -276,7 +289,8 @@ input.search-query,
             border-radius: 0 0 4px 4px;
 }
 
-/* Bootstrap.notify overrides */
+/* BOOTSTRAP NOTIFY OVERRIDES
+ * @see https://github.com/goodybag/bootstrap-notify */
 
 .notifications {
     z-index: 9999;
