@@ -26,13 +26,13 @@ define(['jquery', 'bootstrap'], function($) {
     $.extend($.fn.modal.Constructor.prototype, {
         'lock': function() {
             // Set isShown to false. https://github.com/twitter/bootstrap/issues/1202#issuecomment-3698674
-            this.$element.data('modal').isShown = false;
+            this.$element.data('bs.modal').isShown = false;
             // Disable buttons that dismiss the modal
             $('#' + this.$element.attr('id') + ' [data-dismiss="modal"]').attr('disabled', 'disabled');
         },
         'unlock': function() {
             // Set isShown to true. https://github.com/twitter/bootstrap/issues/1202#issuecomment-3698674
-            this.$element.data('modal').isShown = true;
+            this.$element.data('bs.modal').isShown = true;
             // Enable buttons that dismiss the modal
             $('#' + this.$element.attr('id') + ' [data-dismiss="modal"]').removeAttr('disabled', 'disabled');
         }

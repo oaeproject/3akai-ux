@@ -1163,8 +1163,13 @@ ul.oae-list > li:first-child .oae-listitem {
 
 .oae-list-options > div {
     line-height: 30px;
-    margin-bottom: 15px;
+    margin: 0;
     clear: both;
+}
+
+.oae-list-options > div:first-child > * {
+    margin-bottom: 15px;
+    padding: 0;
 }
 
 .oae-list-options .oae-list-options-toggle,
@@ -1207,6 +1212,10 @@ ul.oae-list > li:first-child .oae-listitem {
 }
 
 /* Actions bar */
+
+.oae-list-options .oae-list-options-actions {
+    margin-bottom: 15px;
+}
 
 .oae-list-options .oae-list-options-actions > input,
 .oae-list-options .oae-list-options-actions > button {
@@ -1331,4 +1340,32 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions div.oae-thumbnail {
 ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
     display: inline;
     margin-right: 10px;
+}
+
+/* Responsive list overrides */
+
+@media (max-width: 480px) {
+    .oae-list-options-actions {
+        display: none !important;
+    }
+    .oae-list-options .oae-list-options-toggle i {
+        display: none !important;
+    }
+    .oae-listitem input[type="checkbox"],
+    .oae-list-grid-item input[type="checkbox"] {
+        display: none;
+    }
+}
+
+@media (max-width: 680px) {
+    .oae-page-expanded .oae-list-options-actions {
+        display: none !important;
+    }
+    .oae-page-expanded .oae-list-options .oae-list-options-toggle i {
+        display: none !important;
+    }
+    .oae-page-expanded .oae-listitem input[type="checkbox"],
+    .oae-page-expanded .oae-list-grid-item input[type="checkbox"] {
+        display: none;
+    }
 }
