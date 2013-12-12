@@ -45,8 +45,14 @@ var adminUtil = function(alias) {
         var configSet = true;
         for (var c in configToStore) {
             var configKey = c.split('/');
-            if (storedConfig[configKey[0]][configKey[1]][configKey[2]] !== configToStore[c]) {
-                configSet = false;
+            if (configKey.length > 3) {
+                if (storedConfig[configKey[0]][configKey[1]][configKey[2]][configKey[3]] !== configToStore[c]) {
+                    configSet = false;
+                }
+            } else {
+                if (storedConfig[configKey[0]][configKey[1]][configKey[2]] !== configToStore[c]) {
+                    configSet = false;
+                }
             }
         }
 

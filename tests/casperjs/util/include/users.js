@@ -1,6 +1,3 @@
-// Keeps track of the created users that are available for testing
-var createdUsers = [];
-
 /**
  * Utility functions for users
  *
@@ -39,7 +36,8 @@ var userUtil = function() {
                                 'email': 'roy@example.com',
                                 'locale': 'en_GB',
                                 'timezone': 'Europe/London',
-                                'publicAlias': 'Roy'
+                                'publicAlias': 'Roy',
+                                'acceptedTC': true
                             }, false));
                         }, rndString, configUtil().defaultUserPassword);
                     });
@@ -47,7 +45,6 @@ var userUtil = function() {
                     casper.wait(1000, function() {
                         if (data) {
                             data.username = 'user-' + rndString;
-                            createdUsers.push(data);
                             users.push(data);
                         } else {
                             casper.echo('Could not create user-' + rndString, 'ERROR');
@@ -136,7 +133,6 @@ var userUtil = function() {
 
     return {
         'createUsers': createUsers,
-        'createdUsers': createdUsers,
         'doAdminLogIn': doAdminLogIn,
         'doAdminLogOut': doAdminLogOut,
         'doLogIn': doLogIn,

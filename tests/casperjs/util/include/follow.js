@@ -1,6 +1,3 @@
-// Keeps track of the created users that are available for testing
-var createdUsers = [];
-
 /**
  * Utility functions for following users
  *
