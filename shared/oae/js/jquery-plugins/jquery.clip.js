@@ -23,12 +23,12 @@ define(['jquery'], function (jQuery) {
     (function($) {
 
         /**
-         * Toggle a clip (from showing to hiding or vice versa)
+         * Toggle clip visibility
          *
          * @param  {Object}  $clip  jQuery-wrapped clip to toggle
          */
         var toggleClip = function($clip) {
-            // Show/hide the options
+            // Toggle the clip options
             $('ul', $clip).toggle();
             // Toggle the caret icons
             $clip.find('i.icon-caret-down, i.icon-caret-up').toggleClass('icon-caret-down icon-caret-up');
