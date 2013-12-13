@@ -632,7 +632,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         // Cache the `onShown` callback if it has been provided, so the clickover's
         // root element can be passed into the `onShown` callback.
         if (options.onShown) {
-            showCallback = options.onShown;
+            var showCallback = options.onShown;
             options.onShown = function() {
                 showCallback(this.$tip);
             };
