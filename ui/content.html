@@ -33,7 +33,7 @@
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button {if !content.isManager} disabled {/if}>
+                            <button type="button" {if !content.isManager} disabled {/if}>
                                 ${renderThumbnail(content, true, false, false)}
                                 <div>
                                     <div>
@@ -70,7 +70,7 @@
                                 <div class="oae-clip-fold-outer"></div>
                             </div>
                             <div class="oae-clip-content">
-                                <button class="oae-trigger-share" data-id="${content.id}" data-resourceType="${content.resourceType}" data-resourceSubType="${content.resourceSubType}">
+                                <button type="button" class="oae-trigger-share" data-id="${content.id}" data-resourceType="${content.resourceType}" data-resourceSubType="${content.resourceSubType}">
                                     <div>
                                         <i class="icon-share pull-left"></i>
                                         <h1>__MSG__SHARE__</h1>
@@ -86,7 +86,7 @@
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button class="comments-focus-new-comment">
+                            <button type="button" class="comments-focus-new-comment">
                                 <div>
                                     <i class="icon-comments pull-left"></i>
                                     <h1>__MSG__COMMENT__</h1>
