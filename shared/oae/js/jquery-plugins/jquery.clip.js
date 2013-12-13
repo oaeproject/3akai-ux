@@ -31,38 +31,30 @@ define(['jquery'], function (jQuery) {
             // Toggle the clip options
             $('ul', $clip).toggle();
             // Toggle the caret icons
-            $clip.find('i.icon-caret-down, i.icon-caret-up').toggleClass('icon-caret-down icon-caret-up');
+            $('i.icon-caret-down, i.icon-caret-up', $clip).toggleClass('icon-caret-down icon-caret-up');
         };
 
-        // Add click event handler that toggles the action items of a clip
-        $(document).on('click', '.oae-clip-content > button:not(:disabled)', function(ev) {
-            var $clip = $(this).parent();
-            // Only do this in if a toggle icon is available. If not, this indicates
-            // that we're looking and the clip in view only mode or there are no
-            // clip actions available
-            if ($('i.icon-caret-down, i.icon-caret-up', $clip).length > 0) {
-                // Always toggle the clip
-                toggleClip($clip);
-                // If clip is now visible, clicking outside should close it
-                if ($('ul', $clip).is(':visible')) {
-                    $(document).on('click.closeClip', function(ev) {
-                        /**
-                         * Only close the clip if
-                         *    (a) click is outside of the clip itself, and
-                         *    (b) there is no modal shown on the page, and
-                         *    (c) the click wasn't on a modal element.
-                         * We need (c) in addition to (b) because the modal may be
-                         * hidden by the time this function is executed.
-                         */
-                        if (!$.contains($clip[0], ev.target) && ($('.modal.in').length === 0) && ($(ev.target).parents('.modal').length === 0)) {
-                            toggleClip($clip);
-                            $(document).off('click.closeClip');
-                        }
-                    });
-                } else {
-                    $(document).off('click.closeClip');
-                }
+        // Hook all clicks on document to close clips as appropriate
+        $(document).on('click', function(ev) {
+            // No changes to underlying clips if user is interacting with a modal
+            if ($('.modal.in').length || $(ev.target).parents('.modal').length) {
+                return;
             }
+
+            // Get any clips that were target of click
+            var $clip = $(ev.target).parents('.oae-clip-content');
+
+            // If target clip allows actions, and target was disclosure triangle,
+            // toggle the clip
+            if (($('i.icon-caret-down, i.icon-caret-up', $clip).length > 0) &&
+                ($(ev.target).parents('button:not(:disabled)').parent('.oae-clip-content').length > 0)) {
+                toggleClip($clip);
+            }
+
+            // Close any other open clips on page
+            $('.oae-clip-content').has('ul:visible').not($clip).each(function() {
+                toggleClip($(this));
+            });
         });
     })(jQuery);
 });
