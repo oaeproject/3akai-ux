@@ -27,6 +27,10 @@
     margin: 12px 0;
 }
 
+#error-content ul.unstyled li {
+    margin: 0;
+}
+
 #error-content .error-quote-container {
     background-image: url('/shared/oae/img/ie.png');
     background-repeat: no-repeat;
@@ -35,7 +39,6 @@
 
 #error-content .error-quote-container.oae-quote-inverse {
     background-image: none;
-    margin-right: 17px;
     width: 300px;
 }
 
