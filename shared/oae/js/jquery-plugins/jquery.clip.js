@@ -44,10 +44,11 @@ define(['jquery'], function (jQuery) {
             // Get any clips that were target of click
             var $clip = $(ev.target).parents('.oae-clip-content');
 
-            // If target clip allows actions, and target was disclosure triangle,
-            // toggle the clip
+            // If target clip allows actions and target was clip's button or one of
+            // its children, toggle the clip
             if (($('i.icon-caret-down, i.icon-caret-up', $clip).length > 0) &&
-                ($(ev.target).parents('button:not(:disabled)').parent('.oae-clip-content').length > 0)) {
+                (($(ev.target).is('.oae-clip-content > button:not(:disabled)')) ||
+                 ($(ev.target).parents('.oae-clip-content > button:not(:disabled)').length > 0))) {
                 toggleClip($clip);
             }
 
