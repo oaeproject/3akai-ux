@@ -22,6 +22,8 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
     var configuration = null;
     // Variable that will cache the default skin for the current tenant
     var defaultSkin = {};
+    // Variable that will cache the skin values before user requests changes
+    var initialSkin = {};
 
     /**
      * Initialize the skinning related functionality
@@ -61,12 +63,14 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
 
                     // For all of the values in the available skin variables, we check if the current tenant
                     // has a stored value that overrides the default value. If the tenant doesn't have a value
-                    // for a variable, the default value will be used
+                    // for a variable, the default value will be used. In all cases we cache the starting
+                    // value.
                     $.each(data.results, function(configSectionIndex, configSection) {
                         $.each(configSection.subsections, function(configSubsectionIndex, configSubsection) {
                             $.each(configSubsection.variables, function(variableIndex, variable) {
                                 variable.value = configuredSkin[variable.name] || variable.defaultValue;
                                 defaultSkin[variable.name] = variable.defaultValue;
+                                initialSkin[variable.name] = variable.value;
                             });
                         });
                     });
@@ -80,8 +84,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
                         'showAlpha': true,
                         'showButtons': false,
                         'showInitial': true,
-                        'showInput': true,
-                        'change': checkForManualColorReversion
+                        'showInput': true
                     });
                 }
             });
@@ -100,35 +103,38 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
         var revertedValues = [];
 
         // Loop over the form input fields and match their value with their default value.
-        // If the default is equal to the selected value, the value was not changed and doesn't need to be returned.
+        // If the initial value is equal to the selected value, the value was not changed
+        // and doesn't need to be returned.
         $.each(formFields, function(i, input) {
-            // Only add the configuration value to the `revertedValues` Object if it was reverted
-            if ($(input).hasClass('reverted')) {
-                // Get the ID and data type of the skin element
-                var revertedName = $(input).attr('name');
-                revertedValues.push(revertedName);
-            // Only add the configuration value to the `changedValues` Object if it has changed
-            } else {
-                // Get the ID and data type of the skin element
-                var changedName = $(input).attr('name');
-                var type = $(input).attr('data-type');
+            // Get the ID and data type of the skin element
+            var changedName = $(input).attr('name');
+            var type = $(input).attr('data-type');
 
-                // If the field is a color, match as colors
-                if (type === 'color') {
-                    // Get the default and form colors
-                    var defaultColor = defaultSkin[changedName];
-                    var selectedColor = $(formFields[i]).val();
-                    // If the default and form colors don't match, the value was changed and
-                    // is added to the cached values to return
-                    if (!tinycolor.equals(defaultColor, selectedColor)) {
+            // If the field is a color, match as colors
+            if (type === 'color') {
+                // Get the default, initial, and form colors
+                var defaultColor = defaultSkin[changedName];
+                var initialColor = initialSkin[changedName];
+                var selectedColor = $(formFields[i]).val();
+                // If the initial and form colors don't match, the value was changed and
+                // is added to the cached values to return
+                if (!tinycolor.equals(initialColor, selectedColor)) {
+                    if (tinycolor.equals(defaultColor, selectedColor)) {
+                        revertedValues.push(changedName);
+                    } else {
                         changedValues[changedName] = selectedColor;
                     }
-                // The only other choice is an input field, handle as string
-                } else {
-                    // Get the default and form text
-                    var defaultSkinText = defaultSkin[changedName];
-                    var formValueText = $.trim($(formFields[i]).val());
-                    if (defaultSkinText !== formValueText) {
+                }
+            // The only other choice is an input field, handle as string
+            } else {
+                // Get the default and form text
+                var initialSkinText = initialSkin[changedName];
+                var defaultSkinText = defaultSkin[changedName];
+                var formValueText = $.trim($(formFields[i]).val());
+                if (initialSkinText !== formValueText) {
+                    if (defaultSkinText === formValueText) {
+                        revertedValues.push(changedName);
+                    } else {
                         changedValues[changedName] = formValueText;
                     }
                 }
@@ -259,32 +265,6 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
     };
 
     /**
-     * Check to see if user has manually reverted to default color value
-     * (rather than clicking on revert button)
-     *
-     * @param  {Object}  selectedColor  Color that the user has selected
-     */
-    var checkForManualColorReversion = function(selectedColor) {
-        if (tinycolor.equals(selectedColor,$(this).attr('data-defaultvalue'))) {
-            $(this).addClass('reverted');
-        } else {
-            $(this).removeClass('reverted');
-        }
-    }
-
-    /**
-     * Check to see if user has manually reverted to default text value
-     * (rather than clicking on revert button)
-     */
-    var checkForManualInputReversion = function() {
-        if ($.trim($(this).val()) === $(this).attr('data-defaultvalue')) {
-            $(this).addClass('reverted');
-        } else {
-            $(this).removeClass('reverted');
-        }
-    }
-
-    /**
      * Revert a skin value back to its original value as defined in the
      * base less file. Therefore, this will not necessarily revert the
      * value back to its previous value.
@@ -299,8 +279,6 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
         } else {
             $input.val(defaultValue);
         }
-        // Add the `reverted` class
-        $input.addClass('reverted');
     };
 
     /**
@@ -309,8 +287,6 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
     var addBinding = function() {
         // Revert skin value
         $(document).on('click', '.admin-skinning-revert', revertSkinValue);
-        // Check for manual reversion
-        $(document).on('input', '#admin-skinning-form input[data-type!=color]', checkForManualInputReversion)
         // Change skin
         $(document).on('submit', '#admin-skinning-form', applySkinChanges);
     };
