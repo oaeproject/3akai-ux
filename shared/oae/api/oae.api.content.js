@@ -575,6 +575,10 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
             // The link type will be used for added links
             'description': '__MSG__LINK__'
         },
+        'markdown': {
+            'description': '__MSG__MARKDOWN__',
+            'regex': 'text/x-markdown'
+        },
         'other': {
             // The other type will be used for all unrecognized mimeTypes
             'description': '__MSG__OTHER_DOCUMENT__'
