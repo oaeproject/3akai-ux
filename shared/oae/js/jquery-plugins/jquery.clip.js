@@ -21,18 +21,41 @@
 
 define(['jquery'], function (jQuery) {
     (function($) {
-        // Add click event handler that toggles the action items of a clip
-        $(document).on('click', '.oae-clip-content > button:not(:disabled)', function(ev) {
-            var $clip = $(this).parent();
-            // Only do this in if a toggle icon is available. If not, this indicates
-            // that we're looking and the clip in view only mode or there are no
-            // clip actions available
-            if ($('i.icon-caret-down, i.icon-caret-up', $clip).length > 0) {
-                // Show/hide the options
-                $('ul', $clip).toggle();
-                // Toggle the caret icons
-                $clip.find('i.icon-caret-down, i.icon-caret-up').toggleClass('icon-caret-down icon-caret-up');
+
+        /**
+         * Toggle clip visibility
+         *
+         * @param  {Object}  $clip  jQuery-wrapped clip to toggle
+         */
+        var toggleClip = function($clip) {
+            // Toggle the clip options
+            $('ul', $clip).toggle();
+            // Toggle the caret icons
+            $('i.icon-caret-down, i.icon-caret-up', $clip).toggleClass('icon-caret-down icon-caret-up');
+        };
+
+        // Hook all clicks on document to close clips as appropriate
+        $(document).on('click', function(ev) {
+            // No changes to underlying clips if user is interacting with a modal
+            if ($('.modal.in').length || $(ev.target).parents('.modal').length) {
+                return;
             }
+
+            // Get any clips that were target of click
+            var $clip = $(ev.target).parents('.oae-clip-content');
+
+            // If target clip allows actions and target was clip's button or one of
+            // its children, toggle the clip
+            if (($('i.icon-caret-down, i.icon-caret-up', $clip).length > 0) &&
+                (($(ev.target).is('.oae-clip-content > button:not(:disabled)')) ||
+                 ($(ev.target).parents('.oae-clip-content > button:not(:disabled)').length > 0))) {
+                toggleClip($clip);
+            }
+
+            // Close any other open clips on page
+            $('.oae-clip-content').has('ul:visible').not($clip).each(function() {
+                toggleClip($(this));
+            });
         });
     })(jQuery);
 });

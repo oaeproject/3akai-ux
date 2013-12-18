@@ -367,6 +367,7 @@ i[class^="icon-"].large:before {
  */
 
 div.oae-thumbnail {
+    border: 1px solid;
     width: 100%;
     height: 100%;
     text-align: center;
@@ -625,9 +626,10 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .oae-clip .oae-clip-content > button div.oae-thumbnail {
+    border: none;
     height: 35px;
-    width: 35px;
     margin-right: 12px;
+    width: 35px;
 }
 
 .oae-clip .oae-clip-content h1 {
@@ -747,7 +749,6 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-list.oae-list-grid > li.oae-list-actions {
     position: relative;
     overflow: hidden;
-    border: 1px solid;
     -webkit-border-radius: 3px;
        -moz-border-radius: 3px;
             border-radius: 3px;
@@ -841,14 +842,6 @@ div.oae-thumbnail i[class^="icon-"] {
  * - The `oae-thumbnail` element, containing the preview image, is a standard
  *   `oae-thumbnail` element (See Thumbnail section for full overview).
  */
-
-.oae-tile,
-.oae-listitem,
-.oae-list.oae-list-grid > li.oae-list-actions {
-    -webkit-box-shadow: 0 0 2px 0 rgba(219, 219, 219, 0.8);
-       -moz-box-shadow: 0 0 2px 0 rgba(219, 219, 219, 0.8);
-            box-shadow: 0 0 2px 0 rgba(219, 219, 219, 0.8);
-}
 
 .oae-listitem {
     padding: 10px;
@@ -1191,6 +1184,7 @@ ul.oae-list > li:first-child .oae-listitem {
 
 ul.oae-list.oae-list-grid > li.oae-list-actions {
     border-style: solid;
+    border-width: 1px;
     -webkit-box-shadow: none;
        -moz-box-shadow: none;
             box-shadow: none;

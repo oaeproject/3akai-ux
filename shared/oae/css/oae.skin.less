@@ -716,6 +716,7 @@ ul.as-selections li.as-selection-item.as-ghost-item a.as-ghost-add i:hover {
 
 div.oae-thumbnail {
     .background-gradient-two(@thumbnail-gradient1-color, @thumbnail-gradient2-color, 47%, 74%);
+    border-color: @thumbnail-gradient2-color;
 }
 
 
@@ -906,6 +907,13 @@ div.oae-thumbnail {
     color: @clip-primary-hover-color;
 }
 
+.oae-clip button.btn-link:hover,
+.oae-clip button.btn-link:focus,
+.oae-clip button.btn-link:hover i,
+.oae-clip button.btn-link:focus i {
+    color: @link-hover-color;
+}
+
 .oae-clip ul li button:hover {
     background-color: @clip-primary-gradient2-color;
 }
@@ -951,6 +959,13 @@ div.oae-thumbnail {
 .oae-clip.oae-clip-secondary button:hover i,
 .oae-clip.oae-clip-secondary button:focus i {
     color: @clip-secondary-hover-color;
+}
+
+.oae-clip.oae-clip-secondary button.btn-link:hover,
+.oae-clip.oae-clip-secondary button.btn-link:focus,
+.oae-clip.oae-clip-secondary button.btn-link:hover i,
+.oae-clip.oae-clip-secondary button.btn-link:focus i {
+    color: @link-hover-color;
 }
 
 .oae-clip.oae-clip-secondary ul li button:hover {

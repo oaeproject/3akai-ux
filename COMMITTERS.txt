@@ -1,11 +1,23 @@
 The following people are active contributors on Apereo OAE front-end development:
 (alphabetic order)
 
+Mathieu Decoene - md623@cam.ac.uk
 D. Stuart Freeman - stuart.freeman@et.gatech.edu
 Simon Gaeremynck - sg555@cam.ac.uk
 Nicolaas Matthijs - nicolaas.matthijs@caret.cam.ac.uk
 Bert Pareyn - pareyn.bert@gmail.com
+Stephen Thomas - stephen.thomas@et.gatech.edu
 Branden Visser - mrvisser@gmail.com
+
+The following people are active contributors on translating Apereo OAE:
+
+Mark Breuker - mbreuker@loi.nl
+Toni Devís López - colomett@gmail.com
+Frédéric Dooremont - frederic.dooremont@univ-littoral.fr
+Udaya Ghattamaneni - udaya.ghattamaneni1@marist.edu
+Samuel Gutiérrez Jiménez-Peña - samuelgutierrezjimenez@gmail.com
+Yildiray Ogurol - ogurol@zmml.uni-bremen.de
+Harry Wang - harryjwang@gmail.com
 
 The following people are inactive / committed in the past:
 (alphabetic order)
