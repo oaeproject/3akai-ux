@@ -680,13 +680,15 @@ ul.as-selections li.as-selection-item.blur a.as-close {
 /* Ghost item hover border color */
 @as-item-ghost-hover-border-color: #BBB;
 
-ul.as-selections li.as-selection-item.as-ghost-item {
+ul.as-selections li.as-selection-item.as-ghost-item,
+ul.as-selections li.as-selection-item.as-ghost-item.selected {
     .background-gradient-two(@as-item-ghost-gradient1-color, @as-item-ghost-gradient2-color);
     color: @as-item-ghost-color;
     border-color: @as-item-ghost-border-color;
 }
 
-ul.as-selections li.as-selection-item.as-ghost-item:hover {
+ul.as-selections li.as-selection-item.as-ghost-item:hover,
+ul.as-selections li.as-selection-item.as-ghost-item.selected:hover {
     .background-gradient-two(@as-item-ghost-gradient1-color, @as-item-ghost-gradient2-color);
     color: @as-item-ghost-hover-color;
     border-color: @as-item-ghost-hover-border-color;
