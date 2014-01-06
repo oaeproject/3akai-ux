@@ -258,7 +258,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                 'accessUpdatedBody': oae.api.i18n.translate('__MSG__GROUP_ACCESS_SUCCESSFULLY_UPDATED__'),
                 'accessUpdatedTitle': oae.api.i18n.translate('__MSG__GROUP_ACCESS_UPDATED__'),
                 'membersTitle': oae.api.i18n.translate('__MSG__GROUP_MEMBERS__'),
-                'private': oae.api.i18n.translate('__MSG__PARTICIPANTS_ONLY__'),
+                'private': oae.api.i18n.translate('__MSG__MEMBERS_ONLY__'),
                 'loggedin': oae.api.util.security().encodeForHTML(groupProfile.tenant.displayName),
                 'public': oae.api.i18n.translate('__MSG__PUBLIC__'),
                 'privateDescription': oae.api.i18n.translate('__MSG__GROUP_PRIVATE_DESCRIPTION_PRESENT__'),

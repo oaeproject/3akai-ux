@@ -5,9 +5,8 @@
  * @param  {String}                 [metadata]      Line of metadata information that should be displayed underneath the entity name
  * @param  {Boolean}                [showCheckbox]  Whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
  * @param  {String}                 [customImage]   URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
- * @param  {Boolean}                [finite]        If we're rendering a finite amount of items
 -->
-{macro listItem(entityData, metadata, showCheckbox, customImage, finite)}
+{macro listItem(entityData, metadata, showCheckbox, customImage)}
     {if entityData}
         {if entityData.resourceType}
             {var resourceType = entityData.resourceType}
@@ -21,7 +20,7 @@
             {var visibility = entityData['oae:visibility']}
         {/if}
 
-        <li {if finite} class="col-xs-12 col-sm-4"{/if}>
+        <li>
             <!-- THUMBNAIL VIEW -->
             <div class="oae-list-grid-item">
                 <div class="oae-tile">
@@ -49,7 +48,7 @@
 
             <!-- COMPACT LIST VIEW -->
             <div class="oae-list-compact-item">
-                <div class="oae-listitem oae-listitem-compact clearfix">
+                <div class="oae-listitem oae-listitem-compact">
                     ${renderCheckbox(entityData, 'compact', showCheckbox)}
                     ${renderThumbnail(entityData, null, null, null, customImage)}
                     <div>

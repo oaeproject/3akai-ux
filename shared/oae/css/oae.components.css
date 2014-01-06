@@ -36,12 +36,12 @@ a.oae-plain-link:hover {
     margin-top: -5px;
     overflow: hidden;
     position: absolute;
-    width: 190px;
+    width: 210px;
     z-index: 99;
 }
 
 .oae-lhnavigation ul {
-    width: 190px;
+    width: 210px;
 }
 
 .oae-lhnavigation ul li button {
@@ -54,23 +54,35 @@ a.oae-plain-link:hover {
     padding-top: 8px;
 }
 
+.oae-lhnavigation-toggle {
+    position: relative;
+    z-index: 100;
+}
+
 .oae-page {
-    min-width: 300px;
+    min-width: 280px;
     padding: 5px 25px 50px 25px;
 }
 
 .oae-page.oae-page-expanded {
-    min-width: 500px;
-    padding: 5px 25px 50px 200px;
+    min-width: 480px;
+    padding: 5px 25px 50px 220px;
+}
+
+/* iPhone resolution */
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+    .oae-page {
+        padding: 5px 10px 50px;
+    }
 }
 
 @media (min-width: 992px) {
     .oae-page {
-        padding: 5px 25px 50px 200px !important;
+        padding: 5px 25px 50px 220px !important;
     }
     .oae-lhnavigation {
         opacity: 1 !important;
-        width: 190px !important;
+        width: 210px !important;
     }
 }
 
@@ -185,8 +197,8 @@ i.icon-oae-public:before {
     color: #313131;
     display: inline-block;
     font-size: 15px;
-    width: 18px;
-    height: 18px;
+    width: 19px;
+    height: 19px;
     padding-top: 2px;
     text-align: center;
 }
@@ -239,7 +251,7 @@ i[class^="icon-"].large:before {
  *                  <div class="oae-large-options well">
  *                      <input type="radio" id="oae-visibility-private" value="private" name="oae-visibility-group" class="pull-left" checked="checked" tabindex="0"/>
  *                      <i class="icon-oae-private large text-center"></i>
- *                      <span class="oae-threedots">__MSG__PARTICIPANTS_ONLY__</span>
+ *                      <span class="oae-threedots">__MSG__MEMBERS_ONLY__</span>
  *                  </div>
  *                  <small>__MSG__GROUP_PRIVATE_DESCRIPTION__</small>
  *              </label>
@@ -596,9 +608,9 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-clip {
     float: left;
-    margin: -16px 10px 10px 18px;
+    margin: -16px 10px 10px;
     position: relative;
-    z-index: 100;
+    z-index: 101;
 }
 
 /* Clip fold */
@@ -727,19 +739,20 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-clip .oae-clip-content small {
     clear: both;
-    display: block;
     font-size: 12px;
     line-height: 1;
+    max-width: 300px;
     font-weight: normal;
-    white-space: nowrap;
 }
 
 /* Clip actions */
 
 .oae-clip .oae-clip-content > div > ul {
+    display: none;
     list-style: none;
     margin: 0 10px;
-    display: none;
+    padding-bottom: 10px;
+    padding-left: 0;
 }
 
 .oae-clip .oae-clip-content > div > ul li {
@@ -753,7 +766,6 @@ div.oae-thumbnail i[class^="icon-"] {
     display: block;
     font-size: 11px;
     line-height: 23px;
-    margin-bottom: 10px;
     min-width: 70px;
     padding: 10px;
     text-align: left;
@@ -766,6 +778,20 @@ div.oae-thumbnail i[class^="icon-"] {
     margin: 0 0 3px;
     padding-right: 7px;
     width: 30px;
+}
+
+@media (max-width: 510px) {
+    .oae-clip .oae-clip-content h1,
+    .oae-clip .oae-clip-content small {
+        max-width: 140px;
+    }
+}
+
+@media (max-width: 350px) {
+    .oae-clip .oae-clip-content h1,
+    .oae-clip .oae-clip-content small {
+        max-width: 110px;
+    }
 }
 
 @media (min-width: 992px) {
@@ -1070,13 +1096,13 @@ ul.oae-list.oae-list-grid > li {
 
 ul.row.oae-list.oae-list-grid > li {
     float: left;
-    margin: 0 0 7px;
+    margin: 0 14px 7px 0;
 }
 
 ul.oae-list.oae-list-grid > li .oae-thumbnail,
 ul.oae-list.oae-list-grid > li.oae-list-actions {
     height: 162px;
-    min-width: 162px;
+    width: 162px;
 }
 
 /* Details and compact view */
@@ -1188,7 +1214,7 @@ ul.oae-list > li:first-child .oae-listitem {
 }
 
 .oae-list-options .oae-list-options-toggle h2 {
-    margin: 0;
+    margin: 9px 0 0;
     font-size: 20px;
     line-height: 1.2;
 }
@@ -1210,6 +1236,13 @@ ul.oae-list > li:first-child .oae-listitem {
 .oae-list-options form {
     margin-bottom: 0;
 }
+
+@media (min-width: 771px) {
+    .oae-list-options form input.search-query {
+        max-width: 400px;
+    }
+}
+
 
 /* Actions bar */
 

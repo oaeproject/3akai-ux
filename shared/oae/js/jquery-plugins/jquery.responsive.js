@@ -16,6 +16,10 @@
 define(['jquery'], function (jQuery) {
     (function($) {
 
+        // Padding is adjusted for mobile phones when the page is rendered
+        // This variable keeps track of what was chosen in CSS media queries.
+        var navPadding = '25px';
+
         /**
          * Toggle the left hand navigation with animation
          */
@@ -29,7 +33,7 @@ define(['jquery'], function (jQuery) {
                 }, 250);
                 // Animate the padding of the page to 25 pixels
                 $('.oae-page').animate({
-                    'padding-left': '25px'
+                    'padding-left': navPadding
                 }, 250, function() {
                     // Add the bootstrap and OAE helper classes
                     $('.oae-lhnavigation > ul').addClass('hidden-xs hidden-sm');
@@ -37,6 +41,7 @@ define(['jquery'], function (jQuery) {
                 });
             // If the left hand navigation is closed open it
             } else {
+                navPadding = $('.oae-page').css('padding-left');
                 // First set the opacity and width to 0 before animating it
                 $('.oae-lhnavigation').css({
                     'opacity': 0,
@@ -47,11 +52,11 @@ define(['jquery'], function (jQuery) {
                 // Animate the opacity and width
                 $('.oae-lhnavigation').animate({
                     'opacity': 1,
-                    'width': '190px'
+                    'width': '210px'
                 }, 250);
                 // Animate the padding of the page to 200px (width of the left hand nav)
                 $('.oae-page').animate({
-                    'padding-left': '200px'
+                    'padding-left': '220px'
                 }, 250, function() {
                     $('.oae-page').addClass('oae-page-expanded');
                 });

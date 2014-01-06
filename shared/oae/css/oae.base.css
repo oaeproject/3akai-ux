@@ -404,7 +404,7 @@ input[type="color"],
 .notifications.center > div,
 .notifications.bottom-center > div {
     margin: 0 auto;
-    max-width: 400px;
+    max-width: 600px;
     text-align: left;
     width: 100%;
     word-wrap: break-word;
