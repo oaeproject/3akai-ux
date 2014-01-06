@@ -3,7 +3,7 @@
     <head>
 
         <title>Open Academic Environment - Administration UI</title>
-        <meta name="viewport" content="width=device-width, user-scalable=yes">
+        <meta name="viewport" content="width=device-width, user-scalable=no">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
@@ -23,42 +23,40 @@
         <div id="admin-header-container"><!-- --></div>
 
         <div id="admin-content-container">
-            <div class="row">
-                <div id="admin-lhnav-container" class="col-md-2 hide"><!-- --></div>
-                <div id="admin-content" class="col-md-10">
-                    <!-- Login -->
-                    <div id="admin-login-container" class="hide">
-                        <h2>Sign in to the OAE Administration Panel</h2>
-                        <div>
-                            <div id="admin-login" class="admin-login-container col-md-5">
-                                <form id="admin-login-form" form method="POST" class="form-horizontal" role="form">
-                                    <div class="form-group">
-                                        <label for="admin-login-form-username" class="control-label">Username</label>
-                                        <input type="text" id="admin-login-form-username" name="username" class="form-control required"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="admin-login-form-password" class="control-label">Password</label>
-                                        <input type="password" id="admin-login-form-password" name="password" class="form-control required"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-primary">Sign in</button>
-                                    </div>
-                                </form>
-                            </div>
+            <div id="admin-lhnav-container" class="col-md-2 hide"><!-- --></div>
+            <div id="admin-content" class="col-md-10">
+                <!-- Login -->
+                <div id="admin-login-container" class="hide">
+                    <h2>Sign in to the OAE Administration Panel</h2>
+                    <div>
+                        <div id="admin-login" class="admin-login-container col-md-5">
+                            <form id="admin-login-form" form method="POST" class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <label for="admin-login-form-username" class="control-label">Username</label>
+                                    <input type="text" id="admin-login-form-username" name="username" class="form-control required"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-login-form-password" class="control-label">Password</label>
+                                    <input type="password" id="admin-login-form-password" name="password" class="form-control required"/>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">Sign in</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
-
-                    <div id="admin-views">
-                        <div id="admin-tenants-container" class="hide col-md-12"><!-- --></div>
-                        <div id="admin-modules-container" class="hide col-md-12"><!-- --></div>
-                        <div id="admin-skinning-container" class="hide col-md-12"><!-- --></div>
-                    </div>
-
-                    <div id="admin-error-container"><!-- --></div>
-                    <div id="admin-warning-container"><!-- --></div>
-                    <div id="admin-success-container"><!-- --></div>
-                    <div id="admin-confirmation-container"><!-- --></div>
                 </div>
+
+                <div id="admin-views">
+                    <div id="admin-tenants-container" class="hide col-sm-12"><!-- --></div>
+                    <div id="admin-modules-container" class="hide col-sm-12"><!-- --></div>
+                    <div id="admin-skinning-container" class="hide col-sm-12"><!-- --></div>
+                </div>
+
+                <div id="admin-error-container"><!-- --></div>
+                <div id="admin-warning-container"><!-- --></div>
+                <div id="admin-success-container"><!-- --></div>
+                <div id="admin-confirmation-container"><!-- --></div>
             </div>
         </div>
         <div id="admin-footer-container"><!-- --></div>
@@ -216,18 +214,24 @@
                             Create a new tenant
                         </button>
                         <div class="createtenant-container clearfix" style="display: none;">
-                            <form method="POST" id="createtenant-form" class="form-horizontal col-md-5" role="form">
+                            <form method="POST" id="createtenant-form" class="form-horizontal col-sm-7" role="form">
                                 <div class="form-group">
-                                    <label for="createtenant-alias" class="control-label">Alias:</label>
-                                    <input type="text" name="alias" id="createtenant-alias" placeholder="Alias" class="form-control required nospaces"/>
+                                    <label for="createtenant-alias" class="col-sm-3 control-label">Alias:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="alias" id="createtenant-alias" placeholder="Alias" class="form-control required nospaces"/>
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="createtenant-displayName" class="control-label">Name:</label>
-                                    <input type="text" name="displayName" id="createtenant-displayName" placeholder="Name" class="form-control required"/>
+                                    <label for="createtenant-displayName" class="col-sm-3 control-label">Name:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="displayName" id="createtenant-displayName" placeholder="Name" class="form-control required"/>
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="createtenant-host" class="control-label">Host:</label>
-                                    <input type="text" name="host" id="createtenant-host" placeholder="Host" class="form-control required url"/>
+                                    <label for="createtenant-host" class="col-sm-3 control-label">Host:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="host" id="createtenant-host" placeholder="Host" class="form-control required url"/>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <button type="submit" id="createtenant-submit-button" class="btn btn-primary">Create new tenant</button>

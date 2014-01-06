@@ -41,7 +41,12 @@ a.oae-plain-link:hover {
 }
 
 .oae-lhnavigation ul {
+    margin-top: 7px;
     width: 210px;
+}
+
+.oae-lhnavigation ul li.nav-header {
+    margin-top: 16px;
 }
 
 .oae-lhnavigation ul li button {

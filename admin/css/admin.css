@@ -17,7 +17,7 @@ body {
     padding: 0;
 }
 
-#admin-header-container, #admin-content-container {
+#admin-header-container {
     padding: 0 30px;
 }
 
@@ -55,6 +55,10 @@ body {
  ** CONTENT **
  *************/
 
+#admin-content {
+    margin-bottom: 100px;
+}
+
 #admin-content-container {
     padding-top: 20px;
     padding-bottom: 120px;
@@ -66,6 +70,10 @@ body {
     font-weight: normal;
     margin-top: 0px;
     margin-bottom: 20px;
+}
+
+.admin-container-striped form {
+    margin: 20px 0;
 }
 
 /* Tenant list */
@@ -124,6 +132,14 @@ td form {
 
 /* Module configuration */
 
+.admin-module-configuration-container {
+    margin: 0;
+}
+
+.admin-module-configuration-container form {
+    margin: 0 0 20px;
+}
+
 .admin-module-configuration-container .admin-module-configuration-toggle-button i {
     float:left;
     margin-right:12px;
@@ -131,7 +147,7 @@ td form {
 
 .admin-module-configuration-container h4 {
     margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 7px;
 }
 
 .admin-module-configuration-container h4 span,
@@ -140,10 +156,6 @@ td form {
     font-weight: normal;
 }
 
-
-.admin-container-striped form {
-    margin: 20px 0;
-}
 .admin-container-striped > div:nth-child(2n+1),
 .admin-container-striped > div:nth-child(2n+2) {
     border-top: 1px solid #DDD;
