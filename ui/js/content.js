@@ -176,6 +176,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     var refreshContentProfile = function(ev, updatedContent) {
         // Cache the content profile data
         contentProfile = updatedContent;
+        // Make sure the oae-page div is empty so the left hand nav reloads the content preview
+        $('.oae-page').empty();
         // Refresh the content profile elements
         setUpNavigation(getPreviewWidgetId());
         setUpClips();

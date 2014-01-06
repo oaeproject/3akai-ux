@@ -61,12 +61,12 @@ a.oae-plain-link:hover {
 
 .oae-page {
     min-width: 280px;
-    padding: 5px 25px 50px 25px;
+    padding: 5px 25px;
 }
 
 .oae-page.oae-page-expanded {
     min-width: 480px;
-    padding: 5px 25px 50px 220px;
+    padding: 5px 25px 5px 220px;
 }
 
 /* iPhone resolution */
@@ -78,7 +78,7 @@ a.oae-plain-link:hover {
 
 @media (min-width: 992px) {
     .oae-page {
-        padding: 5px 25px 50px 220px !important;
+        padding: 5px 25px 5px 220px !important;
     }
     .oae-lhnavigation {
         opacity: 1 !important;

@@ -340,7 +340,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         $notificationContainer.notify({
             'fadeOut': {
                 'enabled': true,
-                'delay': 500000
+                'delay': 5000
             },
             'type': type,
             'message': {'html': message},
