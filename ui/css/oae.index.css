@@ -60,7 +60,7 @@
     padding: 0px 19px;
 }
 
-#index-container #index-video-container {
+#index-container #index-video {
     position: relative;
     background: url('/ui/img/index-video-bg.png') no-repeat center 0px #ECEAE5;
     -webkit-border-radius: 3px;
@@ -70,9 +70,14 @@
        -moz-box-shadow: 0 0 7px #444;
             box-shadow: 0 0 7px #444;
     height: 290px;
+    padding: 0;
 }
 
-#index-container #index-video-container #index-video-launch {
+#index-container #index-video.index-video-mobile {
+    height: 130px;
+}
+
+#index-container #index-video #index-video-launch {
     position: absolute;
     opacity: 0.8;
     left: 0;
@@ -80,7 +85,7 @@
     height: 100%;
 }
 
-#index-container #index-video-container #index-video-launch i {
+#index-container #index-video #index-video-launch i {
     font-size: 70px;
 }
 
