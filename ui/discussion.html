@@ -12,6 +12,7 @@
         <!-- CORE CSS -->
         <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
         <link rel="stylesheet" type="text/css" href="/api/ui/skin" />
+
         <!-- PAGE CSS -->
         <link rel="stylesheet" type="text/css" href="/ui/css/oae.discussion.css" />
 
@@ -58,7 +59,7 @@
                 <div id="discussion-actions-clip-container" class="oae-clip-container-right"><!-- --></div>
                 <div id="discussion-actions-clip-template"><!--
                     {if discussion.canShare}
-                        <div class="oae-clip oae-clip-flipped">
+                        <div class="oae-clip oae-clip-flipped hidden-xs hidden-sm">
                             <div class="oae-clip-fold">
                                 <div class="oae-clip-fold-inner"></div>
                                 <div class="oae-clip-fold-outer"></div>
@@ -74,7 +75,7 @@
                         </div>
                     {/if}
 
-                    <div class="oae-clip oae-clip-secondary oae-clip-flipped">
+                    <div class="oae-clip oae-clip-secondary oae-clip-flipped hidden-xs hidden-sm">
                         <div class="oae-clip-fold">
                             <div class="oae-clip-fold-inner"></div>
                             <div class="oae-clip-fold-outer"></div>
@@ -91,15 +92,9 @@
                 --></div>
             </div>
 
+            <!-- NAVIGATION -->
+            <div data-widget="lhnavigation"><!-- --></div>
 
-            <div class="row">
-                <!-- DISCUSSION TOPIC -->
-                <div id="discussion-topic-container" class="col-md-12 hide">
-                    <div id="discussion-topic" class="well"><!-- --></div>
-                </div>
-                <!-- DISCUSSION -->
-                <div data-widget="comments" class="col-md-12"><!-- --></div>
-            </div>
         </div>
 
         <!-- FOOTER -->
