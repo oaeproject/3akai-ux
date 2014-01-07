@@ -34,7 +34,7 @@ before_install:
   - echo "deb http://debian.datastax.com/community stable main" | sudo tee -a /etc/apt/sources.list.d/dsc.sources.list
   - curl -L http://debian.datastax.com/debian/repo_key | sudo apt-key add -
   - sudo apt-get update
-  - sudo apt-get install -y -o Dpkg::Options::=--force-confnew cassandra=1.2.12 dsc12
+  - sudo apt-get install -y -o Dpkg::Options::=--force-confnew cassandra=1.2.13 dsc12
   - sudo sed -i 's/-Xss180k/-Xss256k/g' /etc/cassandra/cassandra-env.sh
   - sudo sh -c "echo 'JVM_OPTS=\"\${JVM_OPTS} -Djava.net.preferIPv4Stack=false\"' >> /etc/cassandra/cassandra-env.sh"
   - sudo service cassandra stop
