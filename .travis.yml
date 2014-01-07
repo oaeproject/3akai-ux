@@ -21,6 +21,7 @@ before_install:
   - npm install -d
   - "echo '{\"NGINX_USER\": \"root\",\"NGINX_GROUP\": \"root\",\"NGINX_HOSTNAME\": \"admin.oae.com\",\"UX_HOME\": \"/home/travis/build/oaeproject/3akai-ux\",\"LOCAL_FILE_STORAGE_DIRECTORY\": \"/home/travis/build/oaeproject/files\"}' > nginx/nginx.json"
   - grunt configNginx
+  - sudo apt-get update
   - sudo apt-get -y install python-software-properties
   - sudo add-apt-repository -y ppa:nginx/stable
   - sudo apt-get update
