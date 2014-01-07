@@ -66,7 +66,12 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                 'icon': 'icon-share',
                 'title': oae.api.i18n.translate('__MSG__SHARE__'),
                 'trigger': 'oae.trigger.share',
-                'class': 'hidden-md hidden-lg'
+                'class': 'oae-trigger-share hidden-md hidden-lg',
+                'data': {
+                    'data-id': contentProfile.id,
+                    'data-resourcetype': contentProfile.resourceType,
+                    'data-resourcesubtype': contentProfile.resourceSubType
+                }
             });
         }
 

@@ -34,15 +34,18 @@ a.oae-plain-link:hover {
 .oae-lhnavigation {
     margin-left: 10px;
     margin-top: -5px;
-    overflow: hidden;
     position: absolute;
     width: 210px;
     z-index: 99;
 }
 
-.oae-lhnavigation ul {
+.oae-lhnavigation > ul {
     margin-top: 7px;
     width: 210px;
+}
+
+.oae-lhnavigation .nav > li.hide {
+    display: none !important;
 }
 
 .oae-lhnavigation ul li.nav-header {

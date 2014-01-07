@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['jquery'], function (jQuery) {
+define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
     (function($) {
 
         // Padding is adjusted for mobile phones when the page is rendered
@@ -21,45 +21,68 @@ define(['jquery'], function (jQuery) {
         var navPadding = '25px';
 
         /**
+         * Open the left hand navigation
+         */
+        var openLeftHandNav = function() {
+            navPadding = $('.oae-page').css('padding-left');
+            // First set the opacity and width to 0 before animating it
+            $('.oae-lhnavigation').css({
+                'opacity': 0,
+                'width': 0
+            });
+            // Remove the bootstrap responsive hidden classes
+            $('.oae-lhnavigation > ul').removeClass('hidden-xs hidden-sm');
+            // Animate the opacity and width
+            $('.oae-lhnavigation').animate({
+                'opacity': 1,
+                'width': '210px'
+            }, 250);
+            // Animate the padding of the page to 200px (width of the left hand nav)
+            $('.oae-page').animate({
+                'padding-left': '220px'
+            }, 250, function() {
+                $('.oae-page').addClass('oae-page-expanded');
+            });
+        };
+
+        /**
+         * Close the left hand navigation
+         */
+        var closeLeftHandNav = function() {
+            // Animate the width and opacity to 0
+            $('.oae-lhnavigation').animate({
+                'opacity': 0,
+                'width': 0
+            }, 250);
+            // Animate the padding of the page to 25 pixels
+            $('.oae-page').animate({
+                'padding-left': '25px'
+            }, 250, function() {
+                // Add the bootstrap and OAE helper classes
+                $('.oae-lhnavigation > ul').addClass('hidden-xs hidden-sm');
+                $('.oae-page').removeClass('oae-page-expanded');
+            });
+        };
+
+        /**
+         * Close the left hand navigation when clicking a navigation link on a handheld device
+         */
+        $(document).on('click', '.oae-lhnavigation > ul > li:not(.collapse)', function() {
+            if (oaeUtil.isHandheldDevice()) {
+                closeLeftHandNav();
+            }
+        });
+
+        /**
          * Toggle the left hand navigation with animation
          */
         $(document).on('click', '.oae-lhnavigation-toggle', function(ev) {
             // If the left hand navigation is open close it
             if ($('.oae-page').hasClass('oae-page-expanded')) {
-                // Animate the width and opacity to 0
-                $('.oae-lhnavigation').animate({
-                    'opacity': 0,
-                    'width': 0
-                }, 250);
-                // Animate the padding of the page to 25 pixels
-                $('.oae-page').animate({
-                    'padding-left': navPadding
-                }, 250, function() {
-                    // Add the bootstrap and OAE helper classes
-                    $('.oae-lhnavigation > ul').addClass('hidden-xs hidden-sm');
-                    $('.oae-page').removeClass('oae-page-expanded');
-                });
+                closeLeftHandNav();
             // If the left hand navigation is closed open it
             } else {
-                navPadding = $('.oae-page').css('padding-left');
-                // First set the opacity and width to 0 before animating it
-                $('.oae-lhnavigation').css({
-                    'opacity': 0,
-                    'width': 0
-                });
-                // Remove the bootstrap responsive hidden classes
-                $('.oae-lhnavigation > ul').removeClass('hidden-xs hidden-sm');
-                // Animate the opacity and width
-                $('.oae-lhnavigation').animate({
-                    'opacity': 1,
-                    'width': '210px'
-                }, 250);
-                // Animate the padding of the page to 200px (width of the left hand nav)
-                $('.oae-page').animate({
-                    'padding-left': '220px'
-                }, 250, function() {
-                    $('.oae-page').addClass('oae-page-expanded');
-                });
+                openLeftHandNav();
             }
         });
 
