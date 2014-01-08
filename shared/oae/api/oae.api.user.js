@@ -61,7 +61,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
             'publicAlias': additionalOptions.publicAlias
         };
 
-        // If the tenant requires the terms and conditions to be accepted add it on the data object
+        // If the tenant requires the terms and conditions to be accepted, add it on the data object
         if (configAPI.getValue('oae-principals', 'termsAndConditions', 'enabled') === true) {
             data.acceptedTC = true;
         }
