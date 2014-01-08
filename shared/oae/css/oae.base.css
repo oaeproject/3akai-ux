@@ -34,6 +34,11 @@ body {
     }
 }
 
+/* MAKE SURE UNSUPPORTED HTML 5 TAGS ARE BLOCK ELEMENTS */
+footer, main {
+    display: block;
+}
+
 /* DEFAULT FONT AND TEXT STYLE */
 
 body, button, input, select, textarea, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
