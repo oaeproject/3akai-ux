@@ -680,10 +680,9 @@ ul.as-selections li.as-selection-item.blur a.as-close {
 /* Ghost item hover border color */
 @as-item-ghost-hover-border-color: #BBB;
 
-/*
- * The autosuggest plugin will add `selected` class if user backspaces over
- * a ghost item. Suppress those styles unless the item really is selected.
- */
+/* The autosuggest plugin will add the `selected` class to a ghost item when the user
+   hits backspace or escape just after the ghost item. Suppress those styles unless the
+   item really is selected */
 
 ul.as-selections li.as-selection-item.as-ghost-item,
 ul.as-selections li.as-selection-item.as-ghost-item.selected:not(.as-ghost-selected) {
