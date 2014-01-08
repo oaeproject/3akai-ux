@@ -187,7 +187,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
      */
     var saveSkin = function(nonDefaultValues, callback) {
         // Return straight away when no overrides have been provided
-        if (_.keys(nonDefaultValues.length) === 0) {
+        if (_.keys(nonDefaultValues).length === 0) {
             return callback();
         }
 
