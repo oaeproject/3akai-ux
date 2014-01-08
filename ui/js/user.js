@@ -95,7 +95,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                 'icon': 'icon-bookmark',
                 'title': oae.api.i18n.translate('__MSG__FOLLOW__'),
                 'trigger': 'oae.trigger.follow',
-                'class': 'hidden-md hidden-lg'
+                'class': 'oae-lhnavigation-border hidden-md hidden-lg'
             });
         }
 

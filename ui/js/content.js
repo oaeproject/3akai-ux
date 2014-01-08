@@ -60,13 +60,13 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                 'icon': 'icon-comments',
                 'title': oae.api.i18n.translate('__MSG__COMMENT__'),
                 'trigger': 'oae.trigger.comment.focus',
-                'class': 'hidden-md hidden-lg'
+                'class': 'oae-lhnavigation-border hidden-md hidden-lg'
             },
             {
                 'icon': 'icon-share',
                 'title': oae.api.i18n.translate('__MSG__SHARE__'),
                 'trigger': 'oae.trigger.share',
-                'class': 'oae-trigger-share hidden-md hidden-lg',
+                'class': 'oae-lhnavigation-border oae-trigger-share hidden-md hidden-lg',
                 'data': {
                     'data-id': contentProfile.id,
                     'data-resourcetype': contentProfile.resourceType,

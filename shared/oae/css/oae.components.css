@@ -40,7 +40,7 @@ a.oae-plain-link:hover {
 }
 
 .oae-lhnavigation > ul {
-    margin-top: 7px;
+    margin-top: 12px;
     width: 210px;
 }
 
@@ -49,10 +49,11 @@ a.oae-plain-link:hover {
 }
 
 .oae-lhnavigation ul li.nav-header {
-    margin-top: 16px;
+    margin-top: 10px;
 }
 
 .oae-lhnavigation ul li button {
+    padding: 0 12px 5px;
     text-align: left;
     width: 100%;
 }
@@ -60,6 +61,27 @@ a.oae-plain-link:hover {
 .oae-lhnavigation ul li a div,
 .oae-lhnavigation ul li button div {
     padding-top: 8px;
+}
+
+.oae-lhnavigation ul li {
+    margin: 3px 12px 0 0;
+}
+
+.oae-lhnavigation ul li.oae-lhnavigation-border {
+    border-bottom: 1px solid #eee;
+}
+
+.oae-lhnavigation ul li a {
+    padding: 0 12px 8px;
+}
+
+.oae-lhnavigation ul li button div.lhnavigation-caret-container {
+    padding-top: 0;
+    margin-right: -12px;
+}
+
+.oae-lhnavigation ul li button div.lhnavigation-caret-container [class^="icon-"] {
+    margin-right: 0;
 }
 
 .oae-lhnavigation-toggle {
@@ -1122,12 +1144,12 @@ ul.oae-list > li .oae-list-compact-item  {
 }
 
 ul.oae-list > li .oae-listitem {
-    margin-bottom: 0px;
+    margin-bottom: 0;
     margin-top: 10px;
 }
 
 ul.oae-list > li:first-child .oae-listitem {
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 
@@ -1222,7 +1244,7 @@ ul.oae-list > li:first-child .oae-listitem {
 }
 
 .oae-list-options .oae-list-options-toggle h2 {
-    margin: 9px 0 0;
+    margin: 8px 0 0;
     font-size: 20px;
     line-height: 1.2;
 }
@@ -1312,7 +1334,7 @@ ul.oae-list > li:first-child .oae-listitem {
 /* Core list action styles */
 
 .oae-list-actions ul {
-    margin: 0px;
+    margin: 0;
 }
 
 .oae-list-actions ul > li {

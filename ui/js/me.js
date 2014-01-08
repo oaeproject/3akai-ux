@@ -32,12 +32,12 @@ require(['jquery','oae.core'], function($, oae) {
             'icon': 'icon-cloud-upload',
             'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
             'trigger': 'oae.trigger.upload',
-            'class': 'hidden-md hidden-lg'
+            'class': 'oae-lhnavigation-border hidden-md hidden-lg'
         },
         {
             'icon': 'icon-plus-sign',
             'title': oae.api.i18n.translate('__MSG__CREATE__'),
-            'class': 'hidden-md hidden-lg',
+            'class': 'oae-lhnavigation-border hidden-md hidden-lg',
             'children': [
                 {
                     'icon': 'icon-group',
