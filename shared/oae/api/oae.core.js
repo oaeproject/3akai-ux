@@ -60,7 +60,7 @@ define([
         'jquery.update-picture',
 
         /*!
-         * Third-party dependencies.
+         * Third-party dependencies
          */
         'bootstrap.clickover',
         'bootstrap.notify',
@@ -95,6 +95,9 @@ define([
         });
         // Make sure that arrays passed in as arguments are properly encoded
         $.ajaxSettings.traditional = true;
+        // Tell IE9 that cross-domain requests are a possibility when Amazon S3 is enabled
+        // as the content storage strategy
+        $.support.cors = true;
 
         return oae;
     }
