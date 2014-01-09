@@ -35,6 +35,14 @@ define(['jquery'], function ($) {
         });
 
         /**
+         * Deselect the 'select all' checkboxes when the state changes
+         */
+        $(window).on('statechange', function() {
+            $('.oae-list-selectall').prop('checked', false);
+            $('.oae-list-options-actions > .btn').prop('disabled', true);
+        });
+
+        /**
          * Select or deselect all elements when clicking the select all checkbox in the
          * list options
          */
@@ -141,7 +149,7 @@ define(['jquery'], function ($) {
                 var resourceSubType = $(checked).attr('data-resourceSubType');
                 // Get the displayName and thumbnail image from the content of the list item
                 var displayName = $('h3:visible', $checkedListItem).text();
-                var thumbnailImage = $('img:visible', $checkedListItem).attr('src');
+                var thumbnailImage = $('div[role="img"]:visible', $checkedListItem).length ? ($('div[role="img"]:visible', $checkedListItem).css('background-image')).slice(4, -1) : null;
 
                 selectedItems.results.push({
                     'id': id,
