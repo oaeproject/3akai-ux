@@ -20,12 +20,38 @@ define(['jquery'], function (jQuery) {
          * Catch the keypress event for `enter` and `space` when an editable field has focus
          */
         $(document).on('focus', '.jeditable-field', function(ev) {
-            $(this).keypress(function(ev) {
-                var keyCode = parseInt(ev.which, 10);
-                if (keyCode === 13 || keyCode === 32) {
-                    $(this).trigger('click.editable');
+            $(document).off('keydown', '.jeditable-field').on('keydown', '.jeditable-field', function(ev) {
+                if ($(ev.target).hasClass('jeditable-field')) {
+                    // IE has a different way of dealing with `hidden` events bootstrap is sending out
+                    // which results in unexpected behaviour in combination with jquery.jeditable
+                    // Removing the tooltip from the jeditable field beforehand avoids the issue.
+                    $('[rel="tooltip"]').tooltip('destroy');
+                    $('.tooltip').hide().detach();
+
+                    var keyCode = parseInt(ev.which, 10);
+                    if (keyCode === 13 || keyCode === 32) {
+                        $(this).trigger('click.editable');
+                    }
                 }
             });
+        });
+
+        /**
+         * Catch the blur event for an editable field so the tooltip can be applied
+         */
+        $(document).on('blur', '.jeditable-field', function(ev) {
+            if ($(ev.target).hasClass('jeditable-field')) {
+                var that = this;
+                // IE has a different way of dealing with `hidden` events bootstrap is sending out
+                // which results in unexpected behaviour in combination with jquery.jeditable
+                // Removing the tooltip from the jeditable field beforehand avoids the issue.
+                // We need to reapply the tooltip when the jeditable field focus is lost
+                setTimeout(function() {
+                    $(that).tooltip({
+                        'animation': false
+                    });
+                }, 50);
+            }
         });
 
     })(jQuery);
