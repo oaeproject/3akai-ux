@@ -1,5 +1,5 @@
 /*!
- * Copyright 2013 Apereo Foundation (AF) Licensed under the
+ * Copyright 2014 Apereo Foundation (AF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -95,6 +95,9 @@ define([
         });
         // Make sure that arrays passed in as arguments are properly encoded
         $.ajaxSettings.traditional = true;
+        // Tell IE9 that cross-domain requests are a possibility when Amazon S3 is enabled
+        // as the content storage strategy
+        $.support.cors = true;
 
         return oae;
     }

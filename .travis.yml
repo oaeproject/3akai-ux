@@ -21,6 +21,7 @@ before_install:
   - npm install -d
   - "echo '{\"NGINX_USER\": \"root\",\"NGINX_GROUP\": \"root\",\"NGINX_HOSTNAME\": \"admin.oae.com\",\"UX_HOME\": \"/home/travis/build/oaeproject/3akai-ux\",\"LOCAL_FILE_STORAGE_DIRECTORY\": \"/home/travis/build/oaeproject/files\"}' > nginx/nginx.json"
   - grunt configNginx
+  - sudo apt-get update
   - sudo apt-get -y install python-software-properties
   - sudo add-apt-repository -y ppa:nginx/stable
   - sudo apt-get update
@@ -34,7 +35,7 @@ before_install:
   - echo "deb http://debian.datastax.com/community stable main" | sudo tee -a /etc/apt/sources.list.d/dsc.sources.list
   - curl -L http://debian.datastax.com/debian/repo_key | sudo apt-key add -
   - sudo apt-get update
-  - sudo apt-get install -y -o Dpkg::Options::=--force-confnew cassandra=1.2.12 dsc12
+  - sudo apt-get install -y -o Dpkg::Options::=--force-confnew cassandra=1.2.13 dsc12
   - sudo sed -i 's/-Xss180k/-Xss256k/g' /etc/cassandra/cassandra-env.sh
   - sudo sh -c "echo 'JVM_OPTS=\"\${JVM_OPTS} -Djava.net.preferIPv4Stack=false\"' >> /etc/cassandra/cassandra-env.sh"
   - sudo service cassandra stop
