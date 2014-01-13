@@ -268,7 +268,7 @@
                                     {if option && option_index !== "title"}
                                         <h4>${option.name|encodeForHTML}</h4>
                                         {for element in option.elements}
-                                            {if element.tenantOverride === false && !context.isGlobalAdminServer}
+                                            {if element.tenantOverride === false && !context.isGlobalAdminServer && !context.isTenantOnGlobalAdminServer}
                                                 {var tenantCanOverride = false}
                                             {else}
                                                 {var tenantCanOverride = true}
@@ -284,7 +284,7 @@
                                                 <div class="control-group">
                                                     <label for="${configPath|encodeForHTMLAttribute}" class="control-label">${element.description|encodeForHTML}</label>
                                                     <div class="controls">
-                                                        <input type="text" id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" value="${configValue.toString()|encodeForHTMLAttribute}" {if !tenantCanOverride} disabled="disabled"{/if} class="pull-left"/>
+                                                        <input type="text" id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" value="${configValue|encodeForHTMLAttribute}" {if !tenantCanOverride} disabled="disabled"{/if} class="pull-left"/>
                                                         {if !tenantCanOverride} <i class="icon-lock"></i>{/if}
                                                     </div>
                                                 </div>
