@@ -880,6 +880,24 @@ div.oae-thumbnail i[class^="icon-"] {
  *   can be floated on the left or right.
  */
 
+/* IE9 specific fallback for flexbox */
+.lt-10 .oae-listitem h3 {
+    max-width: 450px;
+}
+
+.lt-10 .oae-listitem > div:not(.oae-thumbnail) {
+    /*display: table-cell;*/
+}
+
+.lt-10 .oae-listitem.oae-listitem-compact > div:not(.oae-thumbnail) {
+    width: auto;
+}
+
+.lt-10 ul.oae-list > li .oae-list-details-item,
+.lt-10 ul.oae-list > li .oae-list-compact-item  {
+    display: table;
+}
+
 .oae-tile,
 .oae-list.oae-list-grid > li.oae-list-actions {
     position: relative;
@@ -1023,23 +1041,41 @@ div.oae-thumbnail i[class^="icon-"] {
 /* List item metadata */
 
 .oae-listitem > div:not(.oae-thumbnail) {
-    display: table-cell;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: -ms-flex;
+    display: flex;
     vertical-align: middle;
     height: 50px;
 }
 
 .oae-listitem.oae-listitem-compact > div:not(.oae-thumbnail) {
     height: 25px;
-    width: auto;
+    -webkit-flex-direction: row;
+       -moz-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+}
+
+.oae-list-details-item .oae-listitem > div:not(.oae-thumbnail) {
+    -webkit-flex-direction: column;
+       -moz-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
 }
 
 .oae-listitem h3 {
     display: inline-block;
+    -webkit-flex: 10;
+       -moz-flex: 10;
+        -ms-flex: 10;
+            flex: 10;
     font-size: 16px;
     font-weight: 500;
+    height: 25px;
     line-height: 25px;
     margin: 0;
-    max-width: 450px;
 }
 
 .oae-listitem small {
@@ -1051,8 +1087,13 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-listitem.oae-listitem-compact small {
     display: inline-block;
+    -webkit-flex: 2;
+       -moz-flex: 2;
+        -ms-flex: 2;
+            flex: 2;
     line-height: 25px;
     margin-left: 20px;
+    min-width: 100px;
 }
 
 /* List item actions */
@@ -1139,7 +1180,6 @@ ul.oae-list.oae-list-grid > li.oae-list-actions {
 
 ul.oae-list > li .oae-list-details-item,
 ul.oae-list > li .oae-list-compact-item  {
-    display: table;
     width: 100%;
 }
 
