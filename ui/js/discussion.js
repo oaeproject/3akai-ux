@@ -75,9 +75,12 @@ require(['jquery','oae.core'], function($, oae) {
             });
         }
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, null]);
+        // If the user is anonymous the discussion profile has no navigation
+        var hasNav = !oae.data.me.anon;
+
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, null, hasNav]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, null]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, null, hasNav]);
         });
     };
 

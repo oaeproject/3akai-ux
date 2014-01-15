@@ -175,9 +175,9 @@ require(['jquery', 'oae.core'], function($, oae) {
                 ]
             }
         );
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl, true]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl, true]);
         });
     };
 

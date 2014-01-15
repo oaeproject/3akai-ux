@@ -44,43 +44,43 @@ a.oae-plain-link:hover {
     width: 210px;
 }
 
-.oae-lhnavigation .nav > li.hide {
+.oae-lhnavigation > .nav > li.hide {
     display: none !important;
 }
 
-.oae-lhnavigation ul li.nav-header {
+.oae-lhnavigation > ul > li.nav-header {
     margin-top: 10px;
 }
 
-.oae-lhnavigation ul li button {
+.oae-lhnavigation > ul > li button {
     padding: 0 12px 5px;
     text-align: left;
     width: 100%;
 }
 
-.oae-lhnavigation ul li a div,
-.oae-lhnavigation ul li button div {
+.oae-lhnavigation > ul > li a div,
+.oae-lhnavigation > ul > li button div {
     padding-top: 8px;
 }
 
-.oae-lhnavigation ul li {
+.oae-lhnavigation > ul > li {
     margin: 3px 12px 0 0;
 }
 
-.oae-lhnavigation ul li.oae-lhnavigation-border {
+.oae-lhnavigation > ul > li.oae-lhnavigation-border {
     border-bottom: 1px solid #eee;
 }
 
-.oae-lhnavigation ul li a {
+.oae-lhnavigation > ul > li a {
     padding: 0 12px 8px;
 }
 
-.oae-lhnavigation ul li button div.lhnavigation-caret-container {
+.oae-lhnavigation > ul > li button div.lhnavigation-caret-container {
     padding-top: 0;
     margin-right: -12px;
 }
 
-.oae-lhnavigation ul li button div.lhnavigation-caret-container [class^="icon-"] {
+.oae-lhnavigation > ul > li button div.lhnavigation-caret-container [class^="icon-"] {
     margin-right: 0;
 }
 
@@ -505,7 +505,6 @@ div.oae-thumbnail a {
 }
 
 div.oae-thumbnail div {
-    background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -1411,6 +1410,10 @@ ul.oae-list.oae-list-grid .oae-list-actions div.oae-thumbnail:before {
 
 ul.oae-list.oae-list-grid .oae-list-actions.oae-list-actions-multiple div.oae-thumbnail:before {
     margin-top: -60px;
+}
+
+ul.oae-list.oae-list-grid .oae-list-actions .btn {
+    white-space: normal;
 }
 
 ul.oae-list.oae-list-grid .oae-list-actions .btn i {

@@ -496,6 +496,7 @@ ul.as-selections li.as-selection-item.as-fixed-item a.as-close {
 ul.as-selections li.as-selection-item.as-ghost-item {
     border: 1px dashed;
     cursor: pointer;
+    height: 38px;
 }
 
 ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected {

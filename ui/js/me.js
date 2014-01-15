@@ -167,9 +167,9 @@ require(['jquery','oae.core'], function($, oae) {
      * Set up the left hand navigation with the me space page structure
      */
     var setUpNavigation = function() {
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl, true]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl, true]);
         });
     };
 
