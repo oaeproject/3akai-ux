@@ -1,5 +1,5 @@
 /*!
- * Copyright 2013 Apereo Foundation (AF) Licensed under the
+ * Copyright 2014 Apereo Foundation (AF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -22,6 +22,8 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
     var configuration = null;
     // Variable that will cache the default skin for the current tenant
     var defaultSkin = {};
+    // Variable that will cache the current skin values
+    var activeSkin = {};
 
     /**
      * Initialize the skinning related functionality
@@ -67,6 +69,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
                             $.each(configSubsection.variables, function(variableIndex, variable) {
                                 variable.value = configuredSkin[variable.name] || variable.defaultValue;
                                 defaultSkin[variable.name] = variable.defaultValue;
+                                activeSkin[variable.name] = variable.value;
                             });
                         });
                     });
@@ -93,100 +96,109 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
      * @return {Object}    The skinning values that have been changed (i.e. are different to the default skin)
      */
     var getSkinChanges = function() {
-        // Get the form input fields
-        var formFields = $('#admin-skinning-form input');
-        var changedValues = {};
+        var nonDefaultValues = {};
         var revertedValues = [];
 
-        // Loop over the form input fields and match their value with their default value.
-        // If the default is equal to the selected value, the value was not changed and doesn't need to be returned.
-        $.each(formFields, function(i, input) {
-            // Only add the configuration value to the `revertedValues` Object if it was reverted
-            if ($(input).hasClass('reverted')) {
-                // Get the ID and data type of the skin element
-                var revertedName = $(input).attr('name');
-                revertedValues.push(revertedName);
-            // Only add the configuration value to the `changedValues` Object if it has changed
-            } else {
-                // Get the ID and data type of the skin element
-                var changedName = $(input).attr('name');
-                var type = $(input).attr('data-type');
+        // Loop over the form input fields to see which values need to be stored or reverted
+        $('#admin-skinning-form input').each(function(index, input) {
 
-                // If the field is a color, match as colors
-                if (type === 'color') {
-                    // Get the default and form colors
-                    var defaultColor = defaultSkin[changedName];
-                    var selectedColor = $(formFields[i]).val();
-                    // If the default and form colors don't match, the value was changed and
-                    // is added to the cached values to return
-                    if (!tinycolor.equals(defaultColor, selectedColor)) {
-                        changedValues[changedName] = selectedColor;
-                    }
-                // The only other choice is an input field, handle as string
-                } else {
-                    // Get the default and form text
-                    var defaultSkinText = defaultSkin[changedName];
-                    var formValueText = $.trim($(formFields[i]).val());
-                    if (defaultSkinText !== formValueText) {
-                        changedValues[changedName] = formValueText;
-                    }
+            // Get the ID and data type of the skin element
+            var name = $(input).attr('name');
+            var type = $(input).attr('data-type');
+
+            // Get the default, active, and new values
+            var defaultValue = defaultSkin[name];
+            var activeValue = activeSkin[name];
+            var newValue = $.trim($(input).val());
+
+            // If the field is a color, match as colors
+            if (type === 'color') {
+                // If the color is different to the default skin color, its name and
+                // current value are added to the non-default list
+                if (!tinycolor.equals(newValue, defaultValue)) {
+                    nonDefaultValues[name] = newValue;
+                // If the user changed a non-default color back to the default
+                // value, its name is added to the reverted list
+                } else if (!tinycolor.equals(activeValue, defaultValue)) {
+                    revertedValues.push(name);
+                }
+            // The only other choice is an input field, handle as string
+            } else {
+                // If the value is different to the default value, its name and current
+                // value are added to the non-default list
+                if (newValue !== defaultValue) {
+                    nonDefaultValues[name] = newValue;
+                // If the user changed a non-default value back to the default
+                // value, its name is added to the reverted list
+                } else if (activeValue !== defaultValue) {
+                    revertedValues.push(name);
                 }
             }
         });
 
         // Returns the object of skin values to be saved and reverted
         return {
-            'changedValues': changedValues,
+            'nonDefaultValues': nonDefaultValues,
             'revertedValues': revertedValues
         };
     };
 
     /**
-     * Revert skin values
-     *
-     * @param  {String[]}    revertedValues    Array of skin values to be reverted to the default
-     * @param  {Function}    callback          Standard callback function
+     * Update active skin values to match the entered values
      */
-    var revertSkin = function(revertedValues, callback) {
-        var data = [];
-        var url = '/api/config/' + currentContext.alias + '/clear';
+    var refreshActiveSkin = function() {
+        $('#admin-skinning-form input').each(function(input, input) {
+            activeSkin[$(input).attr('name')] = $.trim($(input).val());
+        });
+    };
 
-        $.each(revertedValues, function(propertyIndex, property) {
-            data.push('oae-ui/skin/variables/' + property);
+    /**
+     * Persist the new skin. All values that override default skin values will be saved as the
+     * skin overrides. All values that have been reverted back to the default value will be reverted.
+     */
+    var applySkinChanges = function() {
+        // Retrieve the skin changes
+        var skinChanges = getSkinChanges();
+
+        // Save the skin overrides
+        saveSkin(skinChanges.nonDefaultValues, function(saveSkinErr) {
+            // Revert the reverted skin values
+            revertSkin(skinChanges.revertedValues, function(revertSkinErr) {
+                // Show a success/error notification and update state
+                if (saveSkinErr || revertSkinErr) {
+                    oae.api.util.notification('Skin not saved.', 'The skin could not be saved.', 'error');
+                } else {
+                    refreshActiveSkin();
+                    oae.api.util.notification('Skin saved.', 'The skin has been successfully saved.');
+                }
+            });
         });
 
-        // Revert the skin values
-        $.ajax({
-            url: url,
-            type: 'POST',
-            data: {
-                'configFields': data
-            },
-            success: function() {
-                callback(false);
-            }, error: function() {
-                callback(true);
-            }
-        });
+        // Return false to avoid default form submit behavior
+        return false;
     };
 
     /**
      * Save the new skin values. The back-end requires us to send all skin values
      * that are different than the default values at once in a stringified JSON object.
      *
-     * @param  {String[]}    changedValues    Array of skin values to be changed
-     * @param  {Function}    callback         Standard callback function
+     * @param  {String[]}    nonDefaultValues   Array of skin values that override default skin values
+     * @param  {Function}    callback           Standard callback function
      */
-    var saveSkin = function(changedValues, callback) {
+    var saveSkin = function(nonDefaultValues, callback) {
+        // Return straight away when no overrides have been provided
+        if (_.keys(nonDefaultValues).length === 0) {
+            return callback();
+        }
+
         var data = {};
         // Create the JSON only containing the values that have changed to send to the server
-        $.each(changedValues, function(propertyChanged, change) {
+        $.each(nonDefaultValues, function(propertyChanged, change) {
             data['oae-ui/skin/variables/' + propertyChanged] = change;
         });
 
-        // When we are on the tenant server itself, we don't have
-        // to append the tenant alias to the endpoint
         var url = '/api/config';
+        // Append the tenant alias when we're not on the tenant server itself
         if (currentContext.isTenantOnGlobalAdminServer) {
             url += '/' + currentContext.alias;
         }
@@ -197,7 +209,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
             type: 'POST',
             data: data,
             success: function() {
-                callback(false);
+                callback();
             }, error: function() {
                 callback(true);
             }
@@ -205,50 +217,42 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
     };
 
     /**
-     * Persist skin changes if any values have been changed or reverted
+     * Revert all skin values that have been reverted/changed back to the default skin value
      *
-     * @return {Boolean}    Returns false to avoid default form submit behaviour
+     * @param  {String[]}    revertedValues    Array of skin values to be reverted to the default
+     * @param  {Function}    callback          Standard callback function
      */
-    var applySkinChanges = function() {
-        // Retrieve the skin changes
-        var skinChanges = getSkinChanges();
-        var toDo = 0;
-        var done = 0;
-        var hasError = false;
+    var revertSkin = function(revertedValues, callback) {
+        // Return straight away when no reverted values have been provided
+        if (revertedValues.length === 0) {
+            return callback();
+        }
 
-        /**
-         * Show a notification when all skin changes have been applied
-         *
-         * @param {Boolean}    err    True when an error occurred while saving the skin values
-         */
-        var skinChangesApplied = function(err) {
-            done++;
-            hasError = hasError || err;
-            if (done === toDo) {
-                // Finished applying all changes, show a notification message
-                if (!hasError) {
-                    oae.api.util.notification('Skin saved.', 'The skin has been successfully saved.');
-                } else {
-                    $('#admin-skinning-form input').removeClass('reverted');
-                    oae.api.util.notification('Skin not saved.', 'The skin could not be saved successfully.', 'error');
-                }
+        var data = [];
+        $.each(revertedValues, function(propertyIndex, property) {
+            data.push('oae-ui/skin/variables/' + property);
+        });
+
+        // When we are on the tenant server itself, we don't need
+        // to add the tenant alias to the endpoint
+        var url = '/api/config/clear';
+        if (currentContext.isTenantOnGlobalAdminServer) {
+            url = '/api/config/' + currentContext.alias + '/clear';
+        }
+
+        // Revert the skin values
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: {
+                'configFields': data
+            },
+            success: function() {
+                callback();
+            }, error: function() {
+                callback(true);
             }
-        };
-
-        // If values were changed save the skin
-        if (_.keys(skinChanges.changedValues).length) {
-            toDo++;
-            saveSkin(skinChanges.changedValues, skinChangesApplied);
-        }
-
-        // If values were reverted delete the configuration for them
-        if (skinChanges.revertedValues.length) {
-            toDo++;
-            revertSkin(skinChanges.revertedValues, skinChangesApplied);
-        }
-
-        // Return false to avoid default form submit behavior.
-        return false;
+        });
     };
 
     /**
@@ -258,16 +262,13 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
      */
     var revertSkinValue = function() {
         var $input = $('input', $(this).parent());
-        // The original value is stored in a data attribute on the input field
-        var defaultValue = $input.attr('data-defaultvalue');
+        var defaultValue = defaultSkin[$input.attr('name')];
         // If the variable is a color, we use the set method provided by jQuery spectrum
         if ($input.attr('data-type') === 'color') {
             $input.spectrum('set', defaultValue);
         } else {
             $input.val(defaultValue);
         }
-        // Add the `reverted` class
-        $input.addClass('reverted');
     };
 
     /**
