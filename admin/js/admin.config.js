@@ -42,10 +42,28 @@ define(['exports', 'jquery', 'underscore', 'oae.core', '/admin/js/admin.skin.js'
      * Render the available configuration modules and their configured values
      */
     var renderModules = function() {
+        var schema = [];
+
+        // Convert the configuration schema to an array as we can't sort a dictionary
+        _.each(configurationSchema, function(module, moduleName) {
+            schema.push({'module': module, 'moduleName': moduleName});
+        });
+
+        // Sort the array based on the module title.
+        schema = schema.sort(function(a, b) {
+            if (a.module.title > b.module.title) {
+                return 1;
+            }
+            if (a.module.title < b.module.title) {
+                return -1;
+            }
+            return 0;
+        });
         oae.api.util.template().render($('#admin-modules-template'), {
-            'schema': configurationSchema,
+            'schema': schema,
             'configuration': configuration,
-            'context': currentContext
+            'context': currentContext,
+            'languages': configurationSchema['oae-principals'].user.elements.defaultLanguage.list
         }, $('#admin-modules-container'));
     };
 
