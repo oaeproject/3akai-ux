@@ -1,5 +1,5 @@
 /*!
- * Copyright 2013 Apereo Foundation (AF) Licensed under the
+ * Copyright 2014 Apereo Foundation (AF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -632,7 +632,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         // Cache the `onShown` callback if it has been provided, so the clickover's
         // root element can be passed into the `onShown` callback.
         if (options.onShown) {
-            showCallback = options.onShown;
+            var showCallback = options.onShown;
             options.onShown = function() {
                 showCallback(this.$tip);
             };

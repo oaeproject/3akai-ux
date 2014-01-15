@@ -1,5 +1,5 @@
 /*!
- * Copyright 2013 Apereo Foundation (AF) Licensed under the
+ * Copyright 2014 Apereo Foundation (AF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -574,6 +574,10 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n'], function(exports, $,
         'link': {
             // The link type will be used for added links
             'description': '__MSG__LINK__'
+        },
+        'markdown': {
+            'description': '__MSG__MARKDOWN__',
+            'regex': 'text/x-markdown'
         },
         'other': {
             // The other type will be used for all unrecognized mimeTypes

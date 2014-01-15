@@ -1,5 +1,5 @@
 /*!
- * Copyright 2013 Apereo Foundation (AF) Licensed under the
+ * Copyright 2014 Apereo Foundation (AF) Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -61,7 +61,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
             'publicAlias': additionalOptions.publicAlias
         };
 
-        // If the tenant requires the terms and conditions to be accepted add it on the data object
+        // If the tenant requires the terms and conditions to be accepted, add it on the data object
         if (configAPI.getValue('oae-principals', 'termsAndConditions', 'enabled') === true) {
             data.acceptedTC = true;
         }
