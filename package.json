@@ -30,6 +30,7 @@
     "grunt-contrib-copy": "latest",
     "grunt-contrib-qunit": "latest",
     "grunt-contrib-requirejs": "latest",
+    "grunt-exec": "latest",
     "grunt-ghost": "latest",
     "grunt-git-describe": "latest",
     "grunt-ver": "git://github.com/oaeproject/grunt-ver.git#v0.2.3-hilary-0.2",
