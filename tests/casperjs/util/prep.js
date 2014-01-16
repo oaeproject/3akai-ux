@@ -3,6 +3,9 @@ casper.test.begin('Prepare environment for tests', function(test) {
     // Override default waitTimeout before test fails
     casper.options.waitTimeout = configUtil().waitTimeout;
 
+    // Set the default size of the viewport
+    casper.options.viewportSize = {'width': 1200, 'height': 800};
+
     /**
      * A function to be executed when a waitFor* function execution time exceeds the value of the waitTimeout option,
      * if any has been set. By default, on timeout the script will exit displaying an error,
