@@ -30,6 +30,14 @@ require(['jquery','oae.core'], function($, oae) {
         });
     };
 
+    /**
+     * Set up the product video button when on desktop, render the video in the page for mobile
+     */
+    var setUpProductVideo = function() {
+        oae.api.util.template().render($('#index-productvideo-template'), null, $('#index-video-container'));
+    };
+
     setUpSearch();
+    setUpProductVideo();
 
 });

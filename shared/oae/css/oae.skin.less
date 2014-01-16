@@ -426,7 +426,7 @@ ul.as-selections.as-selections-focus {
 /* Modal dialog title color */
 @modal-title-color: #777;
 
-.modal, .dropdown-menu, .popover {
+.modal .modal-dialog .modal-content, .dropdown-menu, .popover {
     /* Don't render the background gradient in IE, as the overflow hidden caused by it will
        result in autosuggest results being cut off. https://github.com/oaeproject/3akai-ux/pull/2909 */
     .background-gradient-two(@modal-gradient1-color, @modal-gradient2-color, @skipIE:true);
@@ -525,16 +525,22 @@ ul.as-selections.as-selections-focus {
 @lhnav-item-background-selected-color: transparent;
 
 .nav > li > a,
+.nav > li > button,
 .nav > li i,
 .nav > li.nav-header {
     color: @lhnav-item-text-color;
     background-color: @lhnav-item-background-color;
 }
 
+.nav > li:hover,
 .nav > li > a:hover,
 .nav > li > a:focus,
 .nav > li > a:hover i,
-.nav > li > a:focus i {
+.nav > li > a:focus i,
+.nav > li > button:hover,
+.nav > li > button:focus,
+.nav > li > button:hover i,
+.nav > li > button:focus i {
     color: @lhnav-item-text-hover-color;
     background-color: @lhnav-item-background-hover-color;
 }
@@ -542,6 +548,9 @@ ul.as-selections.as-selections-focus {
 .nav > li.active > a,
 .nav > li.active > a:hover,
 .nav > li.active > a:focus,
+.nav > li.active > button,
+.nav > li.active > button:hover,
+.nav > li.active > button:focus,
 .nav > li.active i {
     color: @lhnav-item-text-selected-color;
     background-color: @lhnav-item-background-selected-color;
@@ -741,16 +750,16 @@ div.oae-thumbnail {
     background-color: @visibility-toggle-background-color;
 }
 
-.oae-large-options-container label .oae-large-options.checked {
+.oae-large-options-container label.checked .oae-large-options {
     border-color: @visibility-toggle-selected1-color;
     background-color: @visibility-toggle-selected2-color;
 }
 
-.oae-large-options-container .oae-large-options.checked + i {
+.oae-large-options-container label.checked i.icon-ok {
     background-color: @visibility-toggle-selected1-color;
 }
 
-.oae-large-options-container .oae-large-options.checked + i:before {
+.oae-large-options-container label.checked i.icon-ok:before {
     color: @visibility-toggle-background-color;
 }
 

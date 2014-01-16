@@ -22,6 +22,68 @@ require(['jquery','oae.core'], function($, oae) {
     // Variable used to cache the requested discussion profile
     var discussionProfile = null;
 
+    /**
+     * Set up the left hand navigation with the content space page structure
+     */
+    var setUpNavigation = function() {
+        var lhNavigation = [
+            {
+                'id': 'discussion',
+                'default': true,
+                'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
+                'icon': 'icon-comments',
+                'class': 'hide',
+                'layout': [
+                    {
+                        'width': 'col-md-12',
+                        'widgets': [
+                            {
+                                'id': 'discussion',
+                                'settings': discussionProfile
+                            }
+                        ]
+                    },
+                    {
+                        'width': 'col-md-12',
+                        'widgets': [
+                            {
+                                'id': 'comments'
+                            }
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        if (!oae.data.me.anon) {
+            lhNavigation.push({
+                'icon': 'icon-comments',
+                'title': oae.api.i18n.translate('__MSG__COMMENT__'),
+                'trigger': 'oae.trigger.comment.focus',
+                'class': 'oae-lhnavigation-border hidden-md hidden-lg'
+            },
+            {
+                'icon': 'icon-share',
+                'title': oae.api.i18n.translate('__MSG__SHARE__'),
+                'trigger': 'oae.trigger.share',
+                'class': 'oae-lhnavigation-border oae-trigger-share hidden-md hidden-lg',
+                'data': {
+                    'data-id': discussionProfile.id,
+                    'data-resourcetype': discussionProfile.resourceType,
+                    'data-resourcesubtype': discussionProfile.resourceSubType
+                }
+            });
+        }
+
+        // If the user is anonymous the discussion profile has no navigation
+        var hasNav = !oae.data.me.anon;
+
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, null, hasNav]);
+        $(window).on('oae.ready.lhnavigation', function() {
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, null, hasNav]);
+        });
+    };
+
 
     ///////////////////////////////////////
     // DISCUSSION PROFILE INITIALIZATION //
@@ -49,8 +111,8 @@ require(['jquery','oae.core'], function($, oae) {
             oae.api.util.setBrowserTitle(discussionProfile.displayName);
             // Render the entity information
             setUpClips();
-            // Render the discussion topic
-            setUpTopic();
+            // Render the navigation
+            setUpNavigation();
             // Set up the context event exchange
             setUpContext();
             // We can now unhide the page
@@ -86,17 +148,6 @@ require(['jquery','oae.core'], function($, oae) {
         // Only show the actions to logged in users
         if (!oae.data.me.anon) {
             oae.api.util.template().render($('#discussion-actions-clip-template'), {'discussion': discussionProfile}, $('#discussion-actions-clip-container'));
-        }
-    };
-
-    /**
-     * Render the discussions's topic, if available
-     */
-    var setUpTopic = function() {
-        if (discussionProfile.description) {
-            var topic = oae.api.util.security().encodeForHTMLWithLinks(discussionProfile.description).replace(/\n/g, '<br/>');
-            $('#discussion-topic').html(topic);
-            $('#discussion-topic-container').show();
         }
     };
 

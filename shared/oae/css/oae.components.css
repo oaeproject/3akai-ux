@@ -27,6 +27,95 @@ a.oae-plain-link:hover {
 }
 
 
+/***********
+ * LAYOUT **
+ ***********/
+
+.oae-lhnavigation {
+    margin-left: 10px;
+    margin-top: -5px;
+    position: absolute;
+    width: 210px;
+    z-index: 99;
+}
+
+.oae-lhnavigation > ul {
+    margin-top: 12px;
+    width: 210px;
+}
+
+.oae-lhnavigation > .nav > li.hide {
+    display: none !important;
+}
+
+.oae-lhnavigation > ul > li.nav-header {
+    margin-top: 10px;
+}
+
+.oae-lhnavigation > ul > li button {
+    padding: 0 12px 5px;
+    text-align: left;
+    width: 100%;
+}
+
+.oae-lhnavigation > ul > li a div,
+.oae-lhnavigation > ul > li button div {
+    padding-top: 8px;
+}
+
+.oae-lhnavigation > ul > li {
+    margin: 3px 12px 0 0;
+}
+
+.oae-lhnavigation > ul > li.oae-lhnavigation-border {
+    border-bottom: 1px solid #eee;
+}
+
+.oae-lhnavigation > ul > li a {
+    padding: 0 12px 8px;
+}
+
+.oae-lhnavigation > ul > li button div.lhnavigation-caret-container {
+    padding-top: 0;
+    margin-right: -12px;
+}
+
+.oae-lhnavigation > ul > li button div.lhnavigation-caret-container [class^="icon-"] {
+    margin-right: 0;
+}
+
+.oae-lhnavigation-toggle {
+    position: relative;
+    z-index: 100;
+}
+
+.oae-page {
+    min-width: 280px;
+    padding: 5px 25px;
+}
+
+.oae-page.oae-page-expanded {
+    min-width: 480px;
+    padding: 5px 25px 5px 220px;
+}
+
+/* iPhone resolution */
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+    .oae-page {
+        padding: 5px 10px 50px;
+    }
+}
+
+@media (min-width: 992px) {
+    .oae-page {
+        padding: 5px 25px 5px 220px !important;
+    }
+    .oae-lhnavigation {
+        opacity: 1 !important;
+        width: 210px !important;
+    }
+}
+
 /******************
  * ACCESSIBILITY **
  ******************/
@@ -93,7 +182,7 @@ a.oae-plain-link:hover {
  *   e.g. <div class="oae-panel-primary">...</div>
  */
 .oae-panel-primary, .oae-panel-secondary, .oae-panel-tertiary {
-    padding: 15px;
+    padding: 15px 25px;
     -webkit-border-radius: 5px;
        -moz-border-radius: 5px;
             border-radius: 5px;
@@ -138,9 +227,9 @@ i.icon-oae-public:before {
     color: #313131;
     display: inline-block;
     font-size: 15px;
-    width: 18px;
-    height: 16px;
-    padding-top: 1px;
+    width: 19px;
+    height: 19px;
+    padding-top: 2px;
     text-align: center;
 }
 
@@ -168,7 +257,7 @@ i[class^="icon-"].large {
 
 i[class^="icon-"].large:before {
     font-size: 50px;
-    height: 55px;
+    height: 60px;
     padding-top: 5px;
     width: 60px;
 }
@@ -184,46 +273,62 @@ i[class^="icon-"].large:before {
  * Each toggle button will have an icon, a name and a description. One of the toggle buttons will
  * selected at any time.
  *
- * TODO: This component needs to be more generic so the tick is always displayed in the middle, independent
- * of the width of the large option. https://github.com/oaeproject/3akai-ux/issues/2980
  *
- * e.g. <div class="oae-large-options-container row-fluid">
- *          <label for="oae-visibility-private" class="span4 text-center">
- *              <div class="oae-large-options well pull-left text-center checked">
- *                  <input type="radio" id="oae-visibility-private" value="private" name="oae-visibility-group" class="pull-left" checked="checked"/>
- *                  <i class="icon-oae-private large text-center"></i>
- *                  <span>__MSG__PRIVATE__</span>
- *              </div>
- *              <i class="icon-ok hide"></i>
- *              <small>__MSG__GROUP_PRIVATE_DESCRIPTION__</small>
- *          </label>
- *          <label for="oae-visibility-loggedin" class="span4 text-center">
- *              <div class="oae-large-options well pull-left text-center">
- *                  <input type="radio" id="oae-visibility-loggedin" value="loggedin" name="oae-visibility-group" class="pull-left"/>
- *                  <i class="icon-oae-loggedin large text-center"></i>
- *                  <span>Cambridge University</span>
- *              </div>
- *              <i class="icon-ok hide"></i>
- *              <small>__MSG__GROUP_LOGGEDIN_DESCRIPTION__</small>
- *          </label>
- *          <label for="oae-visibility-public" class="span4 text-center">
- *              <div class="oae-large-options well pull-left text-center">
- *                  <input type="radio" id="oae-visibility-public" value="public" name="oae-visibility-group" class="pull-left"/>
- *                  <i class="icon-oae-public large text-center"></i>
- *                  <span>__MSG__PUBLIC__</span>
- *              </div>
- *              <i class="icon-ok hide"></i>
- *              <small>__MSG__GROUP_PUBLIC_DESCRIPTION__</small>
- *          </label>
+ * e.g. <div class="oae-large-options-container row">
+ *          <div class="col-md-4 text-center">
+ *              <label for="oae-visibility-private" class="checked">
+ *                  <i class="icon-ok hide"></i>
+ *                  <div class="oae-large-options well">
+ *                      <input type="radio" id="oae-visibility-private" value="private" name="oae-visibility-group" class="pull-left" checked="checked" tabindex="0"/>
+ *                      <i class="icon-oae-private large text-center"></i>
+ *                      <span class="oae-threedots">__MSG__MEMBERS_ONLY__</span>
+ *                  </div>
+ *                  <small>__MSG__GROUP_PRIVATE_DESCRIPTION__</small>
+ *              </label>
+ *          </div>
+ *          <div class="col-md-4 text-center">
+ *              <label for="oae-visibility-loggedin">
+ *                  <i class="icon-ok hide"></i>
+ *                  <div class="oae-large-options well">
+ *                      <input type="radio" id="oae-visibility-loggedin" value="loggedin" name="oae-visibility-group" class="pull-left" tabindex="0"/>
+ *                      <i class="icon-oae-loggedin large text-center"></i>
+ *                      <span class="oae-threedots">${tenant}</span>
+ *                  </div>
+ *                  <small>__MSG__GROUP_LOGGEDIN_DESCRIPTION__</small>
+ *              </label>
+ *          </div>
+ *          <div class="col-md-4 text-center">
+ *              <label for="oae-visibility-public">
+ *                  <i class="icon-ok hide"></i>
+ *                  <div class="oae-large-options well">
+ *                      <input type="radio" id="oae-visibility-public" value="public" name="oae-visibility-group" class="pull-left" tabindex="0"/>
+ *                      <i class="icon-oae-public large text-center"></i>
+ *                      <span class="oae-threedots">__MSG__PUBLIC__</span>
+ *                  </div>
+ *                  <small>__MSG__GROUP_PUBLIC_DESCRIPTION__</small>
+ *              </label>
+ *          </div>
  *      </div>
  *
  * Notes:
  *
- * - The selected button should have a `checked` class on the `oae-large-options` element
+ * - The selected button should have a `checked` class on the label element
  **/
 
 .oae-large-options-container label {
+    cursor: pointer;
+    display: inline;
+}
+
+.oae-large-options-container label small {
+    display: block;
+    margin: 0 0 35px;
     position: relative;
+}
+
+.oae-large-options-container label.checked small {
+    margin: 0;
+    top: -35px;
 }
 
 .oae-large-options-container .oae-large-options {
@@ -231,13 +336,15 @@ i[class^="icon-"].large:before {
        -moz-box-sizing: border-box;
             box-sizing: border-box;
     height: 150px;
-    margin: 0 10px 15px 0;
     padding-top: 13px;
     width: 100%;
 }
 
-.oae-large-options-container label:last-child .oae-large-options {
-    margin-right: 0;
+.oae-large-options-container label.checked .oae-large-options {
+    border: 8px solid;
+    padding-top: 6px;
+    position: relative;
+    top: -35px;
 }
 
 .oae-large-options-container .oae-large-options input {
@@ -255,35 +362,30 @@ i[class^="icon-"].large:before {
     display: block;
     font-size: 13px;
     font-weight: bold;
-    margin-top: 7px;
+    margin-top: 15px;
 }
 
-.oae-large-options-container .oae-large-options.checked {
-    border: 8px solid;
-    padding-top: 6px;
-}
-
-.oae-large-options-container .oae-large-options + i {
+.oae-large-options-container i.icon-ok {
     display: none;
 }
 
-.oae-large-options-container .oae-large-options.checked + i {
+.oae-large-options-container label.checked i.icon-ok {
     -webkit-border-radius: 100px;
        -moz-border-radius: 100px;
             border-radius: 100px;
     display: block;
-    margin-left: 65px;
-    position: absolute;
-    top: 128px;
-}
-
-.oae-large-options-container .oae-large-options.checked + i:before {
-    font-size: 24px;
-    height: 30px;
-    padding-top: 5px;
+    height: 35px;
+    margin: 0 auto;
+    position: relative;
+    top: 130px;
     width: 35px;
+    z-index: 1000;
 }
 
+.oae-large-options-container label.checked i.icon-ok:before {
+    font-size: 24px;
+    padding-top: 5px;
+}
 
 /************************
  ** SUCCESS/FAIL ICONS **
@@ -403,7 +505,6 @@ div.oae-thumbnail a {
 }
 
 div.oae-thumbnail div {
-    background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -530,7 +631,7 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .oae-clip-container .oae-clip-container-right {
-    margin-right: 55px;
+    margin-right: 10px;
     right: 0;
 }
 
@@ -538,7 +639,7 @@ div.oae-thumbnail i[class^="icon-"] {
     float: left;
     margin: -16px 10px 10px;
     position: relative;
-    z-index: 100;
+    z-index: 101;
 }
 
 /* Clip fold */
@@ -667,19 +768,20 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-clip .oae-clip-content small {
     clear: both;
-    display: block;
     font-size: 12px;
     line-height: 1;
+    max-width: 300px;
     font-weight: normal;
-    white-space: nowrap;
 }
 
 /* Clip actions */
 
 .oae-clip .oae-clip-content > div > ul {
+    display: none;
     list-style: none;
     margin: 0 10px;
-    display: none;
+    padding-bottom: 10px;
+    padding-left: 0;
 }
 
 .oae-clip .oae-clip-content > div > ul li {
@@ -690,18 +792,50 @@ div.oae-thumbnail i[class^="icon-"] {
     -webkit-border-radius: 6px;
        -moz-border-radius: 6px;
             border-radius: 6px;
+    display: block;
     font-size: 11px;
+    line-height: 23px;
     min-width: 70px;
     padding: 10px;
-    margin-bottom: 10px;
-    text-align: center;
+    text-align: left;
+    width: 100%;
 }
 
 .oae-clip .oae-clip-content > div > ul li button i {
-    display: block;
-    margin: 0 auto 3px;
+    display: inline-block;
+    float: left;
+    margin: 0 0 3px;
+    padding-right: 7px;
+    width: 30px;
 }
 
+@media (max-width: 510px) {
+    .oae-clip .oae-clip-content h1,
+    .oae-clip .oae-clip-content small {
+        max-width: 140px;
+    }
+}
+
+@media (max-width: 350px) {
+    .oae-clip .oae-clip-content h1,
+    .oae-clip .oae-clip-content small {
+        max-width: 110px;
+    }
+}
+
+@media (min-width: 992px) {
+    .oae-clip .oae-clip-content > div > ul li button {
+        display: inline-block;
+        text-align: center;
+        width: auto;
+    }
+
+    .oae-clip .oae-clip-content > div > ul li button i {
+        display: block;
+        float: none;
+        margin: 0 auto 3px;
+    }
+}
 
 /***********
  ** TILES **
@@ -745,6 +879,24 @@ div.oae-thumbnail i[class^="icon-"] {
  *   can be floated on the left or right.
  */
 
+/* IE9 specific fallback for flexbox */
+.lt-10 .oae-listitem h3 {
+    max-width: 450px;
+}
+
+.lt-10 .oae-listitem > div:not(.oae-thumbnail) {
+    /*display: table-cell;*/
+}
+
+.lt-10 .oae-listitem.oae-listitem-compact > div:not(.oae-thumbnail) {
+    width: auto;
+}
+
+.lt-10 ul.oae-list > li .oae-list-details-item,
+.lt-10 ul.oae-list > li .oae-list-compact-item  {
+    display: table;
+}
+
 .oae-tile,
 .oae-list.oae-list-grid > li.oae-list-actions {
     position: relative;
@@ -770,6 +922,11 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-tile .oae-thumbnail.oae-thumbnail-large:before {
     margin-top: -50px;
+    padding-top: 80px;
+}
+
+.oae-tile .oae-thumbnail img {
+    height: auto;
 }
 
 /* Tile metadata */
@@ -883,23 +1040,41 @@ div.oae-thumbnail i[class^="icon-"] {
 /* List item metadata */
 
 .oae-listitem > div:not(.oae-thumbnail) {
-    display: table-cell;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: -ms-flex;
+    display: flex;
     vertical-align: middle;
     height: 50px;
 }
 
 .oae-listitem.oae-listitem-compact > div:not(.oae-thumbnail) {
     height: 25px;
-    width: auto;
+    -webkit-flex-direction: row;
+       -moz-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+}
+
+.oae-list-details-item .oae-listitem > div:not(.oae-thumbnail) {
+    -webkit-flex-direction: column;
+       -moz-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
 }
 
 .oae-listitem h3 {
     display: inline-block;
+    -webkit-flex: 10;
+       -moz-flex: 10;
+        -ms-flex: 10;
+            flex: 10;
     font-size: 16px;
     font-weight: 500;
+    height: 25px;
     line-height: 25px;
     margin: 0;
-    max-width: 450px;
 }
 
 .oae-listitem small {
@@ -911,8 +1086,13 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-listitem.oae-listitem-compact small {
     display: inline-block;
+    -webkit-flex: 2;
+       -moz-flex: 2;
+        -ms-flex: 2;
+            flex: 2;
     line-height: 25px;
     margin-left: 20px;
+    min-width: 100px;
 }
 
 /* List item actions */
@@ -984,6 +1164,11 @@ ul.oae-list.oae-list-grid > li {
     margin: 0 14px 24px 0;
 }
 
+ul.row.oae-list.oae-list-grid > li {
+    float: left;
+    margin: 0 14px 7px 0;
+}
+
 ul.oae-list.oae-list-grid > li .oae-thumbnail,
 ul.oae-list.oae-list-grid > li.oae-list-actions {
     height: 162px;
@@ -994,17 +1179,16 @@ ul.oae-list.oae-list-grid > li.oae-list-actions {
 
 ul.oae-list > li .oae-list-details-item,
 ul.oae-list > li .oae-list-compact-item  {
-    display: table;
     width: 100%;
 }
 
 ul.oae-list > li .oae-listitem {
-    margin-bottom: 0px;
+    margin-bottom: 0;
     margin-top: 10px;
 }
 
 ul.oae-list > li:first-child .oae-listitem {
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 
@@ -1077,8 +1261,13 @@ ul.oae-list > li:first-child .oae-listitem {
 
 .oae-list-options > div {
     line-height: 30px;
-    margin-bottom: 15px;
+    margin: 0;
     clear: both;
+}
+
+.oae-list-options > div:first-child > * {
+    margin-bottom: 15px;
+    padding: 0;
 }
 
 .oae-list-options .oae-list-options-toggle,
@@ -1097,7 +1286,7 @@ ul.oae-list > li:first-child .oae-listitem {
 }
 
 .oae-list-options .oae-list-options-toggle h2 {
-    margin: 0;
+    margin: 8px 0 0;
     font-size: 20px;
     line-height: 1.2;
 }
@@ -1120,18 +1309,28 @@ ul.oae-list > li:first-child .oae-listitem {
     margin-bottom: 0;
 }
 
-.oae-list-options .form-search button[type="submit"] {
+.oae-list-options form.form-search button[type="submit"] {
     margin-left: -30px;
-    margin-top: 2px;
-    padding: 0;
+    margin-top: 7px;
+    padding: 0 10px 0 0;
     opacity: 0.6;
 }
 
-.oae-list-options form button[type="submit"] i {
+.oae-list-options form.form-search button[type="submit"] i {
     font-size: 18px;
 }
 
+@media (min-width: 771px) {
+    .oae-list-options form.form-search input.search-query {
+        max-width: 400px;
+    }
+}
+
 /* Actions bar */
+
+.oae-list-options .oae-list-options-actions {
+    margin-bottom: 15px;
+}
 
 .oae-list-options .oae-list-options-actions > input,
 .oae-list-options .oae-list-options-actions > button {
@@ -1140,6 +1339,7 @@ ul.oae-list > li:first-child .oae-listitem {
 
 .oae-list-options .oae-list-options-actions .btn i {
     font-size: 18px;
+    line-height: 1.2;
 }
 
 .oae-list-options .btn-group .btn i {
@@ -1186,7 +1386,7 @@ ul.oae-list > li:first-child .oae-listitem {
 /* Core list action styles */
 
 .oae-list-actions ul {
-    margin: 0px;
+    margin: 0;
 }
 
 .oae-list-actions ul > li {
@@ -1213,6 +1413,7 @@ ul.oae-list.oae-list-grid li.oae-list-actions div.oae-thumbnail {
             box-shadow: none;
     height: 150px;
     margin: 5px;
+    min-width: 150px;
     width: 150px;
 }
 
@@ -1222,6 +1423,10 @@ ul.oae-list.oae-list-grid .oae-list-actions div.oae-thumbnail:before {
 
 ul.oae-list.oae-list-grid .oae-list-actions.oae-list-actions-multiple div.oae-thumbnail:before {
     margin-top: -60px;
+}
+
+ul.oae-list.oae-list-grid .oae-list-actions .btn {
+    white-space: normal;
 }
 
 ul.oae-list.oae-list-grid .oae-list-actions .btn i {
@@ -1254,4 +1459,32 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions div.oae-thumbnail {
 ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
     display: inline;
     margin-right: 10px;
+}
+
+/* Responsive list overrides */
+
+@media (max-width: 480px) {
+    .oae-list-options-actions {
+        display: none !important;
+    }
+    .oae-list-options .oae-list-options-toggle i {
+        display: none !important;
+    }
+    .oae-listitem input[type="checkbox"],
+    .oae-list-grid-item input[type="checkbox"] {
+        display: none;
+    }
+}
+
+@media (max-width: 680px) {
+    .oae-page-expanded .oae-list-options-actions {
+        display: none !important;
+    }
+    .oae-page-expanded .oae-list-options .oae-list-options-toggle i {
+        display: none !important;
+    }
+    .oae-page-expanded .oae-listitem input[type="checkbox"],
+    .oae-page-expanded .oae-list-grid-item input[type="checkbox"] {
+        display: none;
+    }
 }

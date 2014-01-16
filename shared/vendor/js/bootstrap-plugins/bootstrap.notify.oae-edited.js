@@ -22,7 +22,7 @@ define(['jquery'], function (jQuery) {
   var Notification = function (element, options) {
     // Element collection
     this.$element = $(element);
-    this.$note    = $('<div class="alert"></div>');
+    this.$note    = $('<div class="alert alert-dismissable"></div>');
     this.options  = $.extend(true, {}, $.fn.notify.defaults, options);
     this._link    = null;
 
@@ -47,7 +47,7 @@ define(['jquery'], function (jQuery) {
           this.$note.text(this.options.message.text);
 
     if (this.options.closable)
-      this._link = $('<a class="close pull-right">&times;</a>'),
+      this._link = $('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times</button>'),
       $(this._link).on('click', $.proxy(Notification.onClose, this)),
       this.$note.prepend(this._link);
 
@@ -89,6 +89,6 @@ define(['jquery'], function (jQuery) {
     message: null,
     onClose: function () {},
     onClosed: function () {}
-  }
+  };
 })(window.jQuery);
 });
