@@ -112,6 +112,11 @@ require(['jquery','oae.core', 'jquery.history'], function($, oae) {
             'types': types,
             '_': Math.random()
         }, $('title').text(), url);
+
+        // Put focus on the search input field on desktop browsers
+        if (!oae.api.util.isHandheldDevice()) {
+            $('.search-query').focus();
+        }
     };
 
     /**
