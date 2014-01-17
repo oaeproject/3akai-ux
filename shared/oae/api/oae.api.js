@@ -97,6 +97,10 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
                                         throw new Error('Could not initialize the widgets API.');
                                     }
 
+                                    // Add a class to the HTML element that indicates the use of IE9.
+                                    addFallbackClass();
+
+                                    // Set up the terms and conditions widget
                                     setUpTermsAndConditions();
 
                                     // The APIs have now fully initialized. All javascript that
@@ -117,13 +121,22 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
             });
         };
 
+        /**
+         * Add a `.lt-10` class to the html element that can be used for CSS fallbacks in IE9
+         */
+        var addFallbackClass = function() {
+            if (!window.requestAnimationFrame) {
+                $('html').addClass('lt-10');
+            }
+        };
+
 
         //////////////////////////
         // Terms and Conditions //
         //////////////////////////
 
         /**
-         * Triggers the Terms and Conditions widget if the Terms and Conditions
+         * Trigger the Terms and Conditions widget if the Terms and Conditions
          * need to be accepted before using the system.
          */
         var setUpTermsAndConditions = function() {
