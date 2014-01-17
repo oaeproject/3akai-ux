@@ -67,6 +67,11 @@ require(['jquery','oae.core', 'jquery.history'], function($, oae) {
      * checked/unchecked.
      */
     var modifySearch = function() {
+        // If we're on a handheld device blur the search field after submitting
+        if (oae.api.util.isHandheldDevice()) {
+            $('.search-query').blur();
+        }
+
         // Get the query from the search form
         var query = $.trim($('#search-query').val());
 
@@ -87,6 +92,7 @@ require(['jquery','oae.core', 'jquery.history'], function($, oae) {
             'query': query,
             'types': types
         }, $('title').text(), url);
+
         return false;
     };
 
