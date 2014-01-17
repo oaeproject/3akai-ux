@@ -214,7 +214,7 @@
                             <i class="icon-plus pull-left" style="margin-right:12px;"></i>
                             Create a new tenant
                         </button>
-                        <div class="createtenant-container clearfix" style="display: none;">
+                        <div class="createtenant-container clearfix hide">
                             <form method="POST" id="createtenant-form" class="form-horizontal col-sm-7" role="form">
                                 <div class="form-group">
                                     <label for="createtenant-alias" class="col-sm-3 control-label">Alias:</label>
@@ -248,7 +248,7 @@
             <h2>Modules</h2>
             <div class="admin-container-striped">
                 {for item in schema}
-                    <div class="admin-module-configuration-container row">
+                    <div class="row admin-module-configuration-container">
                         <button type="button" title="Edit the ${item.title|encodeForHTMLAttribute}" class="admin-module-configuration-toggle-button btn">
                             <i class="icon-pencil"></i>
                             ${item.module.title|encodeForHTML}
