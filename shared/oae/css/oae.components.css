@@ -1267,6 +1267,11 @@ ul.oae-list > li:first-child .oae-listitem {
     padding: 0;
 }
 
+.oae-list-options .oae-list-options-title,
+.oae-list-options .btn.oae-list-options-title,
+.oae-list-options .btn.oae-list-options-title:hover,
+.oae-list-options .btn.oae-list-options-title:active,
+.oae-list-options .btn.oae-list-options-title:focus,
 .oae-list-options .oae-list-options-toggle,
 .oae-list-options .btn.oae-list-options-toggle,
 .oae-list-options .btn.oae-list-options-toggle:disabled,
@@ -1282,15 +1287,17 @@ ul.oae-list > li:first-child .oae-listitem {
             box-shadow: none;
 }
 
+.oae-list-options .oae-list-options-title h2,
 .oae-list-options .oae-list-options-toggle h2 {
     margin: 8px 0 0;
     font-size: 20px;
     line-height: 1.2;
 }
 
+.oae-list-options .oae-list-options-title h2 .badge,
 .oae-list-options .oae-list-options-toggle h2 .badge {
     margin-left: 5px;
-    top: -3px;
+    top: -4px;
 }
 
 .oae-list-options .oae-list-options-toggle:disabled {
@@ -1327,6 +1334,10 @@ ul.oae-list > li:first-child .oae-listitem {
 .oae-list-options .oae-list-options-actions .btn i {
     font-size: 18px;
     line-height: 1.2;
+}
+
+.oae-list-options .btn-group {
+    margin-top: 5px;
 }
 
 .oae-list-options .btn-group .btn i {
