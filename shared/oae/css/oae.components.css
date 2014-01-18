@@ -880,16 +880,16 @@ div.oae-thumbnail i[class^="icon-"] {
  */
 
 /* IE9 specific fallback for flexbox */
-.lt-10 .oae-listitem h3 {
+.ie-lt10 .oae-listitem h3 {
     max-width: 450px;
 }
 
-.lt-10 .oae-listitem.oae-listitem-compact > div:not(.oae-thumbnail) {
+.ie-lt10 .oae-listitem.oae-listitem-compact > div:not(.oae-thumbnail) {
     width: auto;
 }
 
-.lt-10 ul.oae-list > li .oae-list-details-item,
-.lt-10 ul.oae-list > li .oae-list-compact-item  {
+.ie-lt10 ul.oae-list > li .oae-list-details-item,
+.ie-lt10 ul.oae-list > li .oae-list-compact-item  {
     display: table;
 }
 
