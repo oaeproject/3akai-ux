@@ -58,6 +58,9 @@ require(['jquery', 'oae.core'], function($, oae) {
                 // Render the navigation
                 setUpNavigation();
             }
+
+            // Set up the group push notifications to update this group profile on the fly
+            setUpPushNotifications();
         });
     };
 
@@ -115,7 +118,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                             {
                                 'id': 'activity',
                                 'settings': {
-                                    'principalId': groupProfile.id,
+                                    'context': groupProfile,
                                     'canManage': groupProfile.isManager
                                 }
                             }
@@ -136,7 +139,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                             {
                                 'id': 'contentlibrary',
                                 'settings': {
-                                    'principalId': groupProfile.id,
+                                    'context': groupProfile,
                                     'canManage': groupProfile.isManager
                                 }
                             }
@@ -155,7 +158,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                             {
                                 'id': 'discussionslibrary',
                                 'settings': {
-                                    'principalId': groupProfile.id,
+                                    'context': groupProfile,
                                     'canManage': groupProfile.isManager
                                 }
                             }
@@ -174,7 +177,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                             {
                                 'id': 'members',
                                 'settings': {
-                                    'principalId': groupProfile.id,
+                                    'context': groupProfile,
                                     'canManage': groupProfile.isManager
                                 }
                             }
@@ -187,6 +190,28 @@ require(['jquery', 'oae.core'], function($, oae) {
         $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
         $(window).on('oae.ready.lhnavigation', function() {
             $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
+        });
+    };
+
+
+    //////////
+    // PUSH //
+    //////////
+
+    /**
+     * Subscribe to group activity push notifications, allowing for updating the group profile after the page load
+     */
+    var setUpPushNotifications = function() {
+        oae.api.push.subscribe(groupId, 'activity', groupProfile.signature, 'internal', false, function(activity) {
+            // The group has been updated
+            if (activity['oae:activityType'] === 'group-update' || activity['oae:activityType'] === 'group-update-visibility') {
+                activity.object.canJoin = groupProfile.canJoin;
+                activity.object.isManager = groupProfile.isManager;
+                activity.object.isMember = groupProfile.isMember;
+
+                groupProfile = activity.object;
+                oae.api.util.template().render($('#group-clip-template'), {'group': groupProfile}, $('#group-clip-container'));
+            }
         });
     };
 
@@ -297,14 +322,9 @@ require(['jquery', 'oae.core'], function($, oae) {
     ////////////////
 
     $(document).on('oae.editgroup.done', function(ev, data) {
-        // TODO: Remove this once https://github.com/oaeproject/Hilary/issues/537 is fixed
-        data.isManager = groupProfile.isManager;
-        data.isMember = groupProfile.isMember;
-
         groupProfile = data;
         setUpClip();
     });
-
 
     getGroupProfile();
 
