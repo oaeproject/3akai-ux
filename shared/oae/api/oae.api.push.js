@@ -26,7 +26,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
     var AGGREGATION_RULES = {
         'content-comment': ['target'],
         'content-create': ['actor'],
-        'content-share': ['actor', 'target'],
+        'content-share': ['actor'],
         'discussion-message': ['target']
     };
 
