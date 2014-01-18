@@ -29,12 +29,50 @@ require(['jquery','oae.core'], function($, oae) {
     // Structure that will be used to construct the left hand navigation
     var lhNavigation = [
         {
+            'icon': 'icon-cloud-upload',
+            'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
+            'trigger': 'oae.trigger.upload',
+            'class': 'oae-lhnavigation-border hidden-md hidden-lg'
+        },
+        {
+            'icon': 'icon-plus-sign',
+            'title': oae.api.i18n.translate('__MSG__CREATE__'),
+            'class': 'oae-lhnavigation-border hidden-md hidden-lg',
+            'children': [
+                {
+                    'icon': 'icon-group',
+                    'title': oae.api.i18n.translate('__MSG__GROUP__'),
+                    'trigger': 'oae.trigger.creategroup',
+                    'class': 'hidden-md hidden-lg'
+                },
+                {
+                    'icon': 'icon-link',
+                    'title': oae.api.i18n.translate('__MSG__LINK__'),
+                    'trigger': 'oae.trigger.createlink',
+                    'class': 'hidden-md hidden-lg'
+                },
+                {
+                    'icon': 'icon-edit',
+                    'title': oae.api.i18n.translate('__MSG__DOCUMENT__'),
+                    'trigger': 'oae.trigger.createcollabdoc',
+                    'class': 'hidden-md hidden-lg'
+                },
+                {
+                    'icon': 'icon-comments',
+                    'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
+                    'trigger': 'oae.trigger.creatediscussion',
+                    'class': 'hidden-md hidden-lg'
+                }
+            ]
+        },
+        {
             'id': 'dashboard',
+            'default': true,
             'title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
             'icon': 'icon-dashboard',
             'layout': [
                 {
-                    'width': 'span12',
+                    'width': 'col-md-12',
                     'widgets': [
                         {
                             'id': 'activity',
@@ -53,7 +91,7 @@ require(['jquery','oae.core'], function($, oae) {
             'icon': 'icon-briefcase',
             'layout': [
                 {
-                    'width': 'span12',
+                    'width': 'col-md-12',
                     'widgets': [
                         {
                             'id': 'contentlibrary',
@@ -72,7 +110,7 @@ require(['jquery','oae.core'], function($, oae) {
             'icon': 'icon-comments',
             'layout': [
                 {
-                    'width': 'span12',
+                    'width': 'col-md-12',
                     'widgets': [
                         {
                             'id': 'discussionslibrary',
@@ -91,7 +129,7 @@ require(['jquery','oae.core'], function($, oae) {
             'icon': 'icon-group',
             'layout': [
                 {
-                    'width': 'span12',
+                    'width': 'col-md-12',
                     'widgets': [
                         {
                             'id': 'memberships',
@@ -110,7 +148,7 @@ require(['jquery','oae.core'], function($, oae) {
             'icon': 'icon-random',
             'layout': [
                 {
-                    'width': 'span12',
+                    'width': 'col-md-12',
                     'widgets': [
                         {
                             'id': 'network',
@@ -129,9 +167,9 @@ require(['jquery','oae.core'], function($, oae) {
      * Set up the left hand navigation with the me space page structure
      */
     var setUpNavigation = function() {
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl, true]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl, true]);
         });
     };
 
@@ -168,8 +206,6 @@ require(['jquery','oae.core'], function($, oae) {
     /**
      * Re-render the me clip when the user profile has been updated. The updated
      * me object will be passed into the event
-     *
-     * TODO: verify this works when https://github.com/oaeproject/Hilary/issues/538 is merged.
      */
     $(document).on('oae.editprofile.done', function(ev, data) {
         oae.data.me = data;

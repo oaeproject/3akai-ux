@@ -87,14 +87,28 @@ require(['jquery', 'oae.core'], function($, oae) {
      */
     var setUpNavigation = function() {
         // Structure that will be used to construct the left hand navigation
-        var lhNavigation = [
+        var lhNavigation = [];
+
+        // Add the follow button if the user can be followed
+        if (userProfile.following && userProfile.following.canFollow) {
+            lhNavigation.push({
+                'icon': 'icon-bookmark',
+                'title': oae.api.i18n.translate('__MSG__FOLLOW__'),
+                'trigger': 'oae.trigger.follow',
+                'class': 'oae-lhnavigation-border hidden-md hidden-lg'
+            });
+        }
+
+        // Add the rest of the navigation
+        lhNavigation.push(
             {
                 'id': 'library',
+                'default': true,
                 'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
                 'icon': 'icon-briefcase',
                 'layout': [
                     {
-                        'width': 'span12',
+                        'width': 'col-md-12',
                         'widgets': [
                             {
                                 'id': 'contentlibrary',
@@ -112,7 +126,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                 'icon': 'icon-comments',
                 'layout': [
                     {
-                        'width': 'span12',
+                        'width': 'col-md-12',
                         'widgets': [
                             {
                                 'id': 'discussionslibrary',
@@ -130,7 +144,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                 'icon': 'icon-group',
                 'layout': [
                     {
-                        'width': 'span12',
+                        'width': 'col-md-12',
                         'widgets': [
                             {
                                 'id': 'memberships',
@@ -160,10 +174,10 @@ require(['jquery', 'oae.core'], function($, oae) {
                     }
                 ]
             }
-        ];
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
+        );
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl, true]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl, true]);
         });
     };
 
@@ -173,9 +187,9 @@ require(['jquery', 'oae.core'], function($, oae) {
     /////////////////
 
     /**
-     * Follow the user when the `follow` button is clicked
+     * Follow a user
      */
-    $(document).on('click', '#user-follow', function() {
+    var followUser = function() {
         oae.api.follow.follow(userProfile.id, function(err) {
             if (!err) {
                 // Show a success notification
@@ -185,7 +199,8 @@ require(['jquery', 'oae.core'], function($, oae) {
                         'displayName': userProfile.displayName
                     })
                 );
-                $('#user-follow-actions').hide();
+                $('#user-follow-actions').detach();
+                $('li[data-trigger="oae.trigger.follow"]').detach();
             } else {
                 // Show an error notification
                 oae.api.util.notification(
@@ -197,7 +212,12 @@ require(['jquery', 'oae.core'], function($, oae) {
                 );
             }
         });
-    });
+    };
+
+    // Follow the user when `oae.trigger.follow` is triggered
+    $(document).on('oae.trigger.follow', followUser);
+    // Follow the user when the `follow` button is clicked
+    $(document).on('click', '#user-follow', followUser);
 
     getUserProfile();
 
