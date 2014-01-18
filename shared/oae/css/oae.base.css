@@ -343,6 +343,11 @@ input[type="color"],
     margin-top: 0;
 }
 
+.modal-body form,
+.modal-body label h4 {
+    margin: 0;
+}
+
 .modal-footer {
     padding: 10px 25px 15px 15px;
     background-color: transparent;
