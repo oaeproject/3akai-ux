@@ -26,10 +26,9 @@ require(['jquery','oae.core'], function($, oae) {
      * Set up the left hand navigation with the content space page structure
      */
     var setUpNavigation = function() {
-        var lhNavigation = [
+        var lhNavPages = [
             {
                 'id': 'discussion',
-                'default': true,
                 'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
                 'icon': 'icon-comments',
                 'class': 'hide',
@@ -55,18 +54,18 @@ require(['jquery','oae.core'], function($, oae) {
             }
         ];
 
+        var lhNavActions = [];
+
         if (!oae.data.me.anon) {
-            lhNavigation.push({
+            lhNavActions.push({
                 'icon': 'icon-comments',
                 'title': oae.api.i18n.translate('__MSG__COMMENT__'),
-                'trigger': 'oae.trigger.comment.focus',
-                'class': 'oae-lhnavigation-border hidden-md hidden-lg'
+                'class': 'hidden-md hidden-lg comments-focus-new-comment oae-lhnavigation-border'
             },
             {
                 'icon': 'icon-share',
                 'title': oae.api.i18n.translate('__MSG__SHARE__'),
-                'trigger': 'oae.trigger.share',
-                'class': 'oae-lhnavigation-border oae-trigger-share hidden-md hidden-lg',
+                'class': 'hidden-md hidden-lg oae-lhnavigation-border oae-trigger-share',
                 'data': {
                     'data-id': discussionProfile.id,
                     'data-resourcetype': discussionProfile.resourceType,
@@ -78,9 +77,9 @@ require(['jquery','oae.core'], function($, oae) {
         // If the user is anonymous the discussion profile has no navigation
         var hasNav = !oae.data.me.anon;
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, null, hasNav]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, null, hasNav]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, null, hasNav]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, null, hasNav]);
         });
     };
 

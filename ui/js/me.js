@@ -26,13 +26,12 @@ require(['jquery','oae.core'], function($, oae) {
     // Set the browser title
     oae.api.util.setBrowserTitle(oae.data.me.displayName);
 
-    // Structure that will be used to construct the left hand navigation
-    var lhNavigation = [
-        {
+    // Structure that will be used to construct the left hand navigation actions
+    var lhNavActions = [
+    {
             'icon': 'icon-cloud-upload',
             'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
-            'trigger': 'oae.trigger.upload',
-            'class': 'oae-lhnavigation-border hidden-md hidden-lg'
+            'class': 'oae-trigger-upload oae-lhnavigation-border hidden-md hidden-lg'
         },
         {
             'icon': 'icon-plus-sign',
@@ -42,32 +41,31 @@ require(['jquery','oae.core'], function($, oae) {
                 {
                     'icon': 'icon-group',
                     'title': oae.api.i18n.translate('__MSG__GROUP__'),
-                    'trigger': 'oae.trigger.creategroup',
-                    'class': 'hidden-md hidden-lg'
+                    'class': 'oae-trigger-creategroup hidden-md hidden-lg'
                 },
                 {
                     'icon': 'icon-link',
                     'title': oae.api.i18n.translate('__MSG__LINK__'),
-                    'trigger': 'oae.trigger.createlink',
-                    'class': 'hidden-md hidden-lg'
+                    'class': 'oae-trigger-createlink hidden-md hidden-lg'
                 },
                 {
                     'icon': 'icon-edit',
                     'title': oae.api.i18n.translate('__MSG__DOCUMENT__'),
-                    'trigger': 'oae.trigger.createcollabdoc',
-                    'class': 'hidden-md hidden-lg'
+                    'class': 'oae-trigger-createcollabdoc hidden-md hidden-lg'
                 },
                 {
                     'icon': 'icon-comments',
                     'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
-                    'trigger': 'oae.trigger.creatediscussion',
-                    'class': 'hidden-md hidden-lg'
+                    'class': 'oae-trigger-creatediscussion hidden-md hidden-lg'
                 }
             ]
-        },
+        }
+    ];
+
+    // Structure that will be used to construct the left hand navigation pages
+    var lhNavPages = [
         {
             'id': 'dashboard',
-            'default': true,
             'title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
             'icon': 'icon-dashboard',
             'layout': [
@@ -167,9 +165,9 @@ require(['jquery','oae.core'], function($, oae) {
      * Set up the left hand navigation with the me space page structure
      */
     var setUpNavigation = function() {
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl, true]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, true]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl, true]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, true]);
         });
     };
 
