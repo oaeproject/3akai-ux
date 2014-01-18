@@ -79,6 +79,9 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
         // search does not need to provide a paging parameter
         var initialSearchDone = false;
 
+        // Variable that keeps track of whether or not the initial list was an empty list
+        var emptyList = false;
+
         ////////////////////////
         // Infinite scrolling //
         ////////////////////////
@@ -179,7 +182,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
          * Results that are already in the list will not be re-rendered.
          *
          * @param  {Object}     data         Post-processed server response
-         * @param  {Boolean}    [prepend]    true when we want to prepend the new items to the list, false when we want to append the new items to the list
+         * @param  {Boolean}    [prepend]    `true` when we want to prepend the new items to the list, `false` when we want to append the new items to the list
          */
         var renderList = function(data, prepend) {
             // Check if the infinite scroll instance still exists. It's possible that
@@ -215,12 +218,15 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
                 });
 
                 // Bring the filtered html back to templateOutput
-                templateOutput = $tmp.html();
+                templateOutput = $.trim($tmp.html());
 
+                // TODO: Remove empty item when items are appended/prepended
                 if (prepend) {
-                    // Prepend the HTML
-                    $listContainer.prepend(templateOutput);
+                    // Prepend and fade in the results. The `prepend` function cannot be
+                    // used as the entire list would otherwise be faded in
+                    $(templateOutput).hide().prependTo($listContainer).fadeIn('slow');
                 } else {
+                    // Append the results
                     $listContainer.append(templateOutput);
                 }
 
@@ -247,6 +253,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
                         canRequestMoreData = false;
                         if ($('li', $listContainer).length === 0) {
                             if (options.emptyListProcessor) {
+                                emptyList = true;
                                 options.emptyListProcessor();
                             }
                         }
@@ -277,12 +284,14 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
          * Function called to prepend items to the list. This will be used when UI caching needs
          * to be used
          *
-         * @param  {Object}       items       Array of items to be prepended
+         * @param  {Object}       items       Object containing the array of items to be prepended (e.g. `{'results': [<items]}`)
          */
         var prependItems = function(items) {
-            processList({
-                'results': items
-            }, true);
+            // In case the list was previously empty, we need to remove the "no results" message
+            if (emptyList) {
+                $listContainer.empty();
+            }
+            processList(items, true);
         };
 
         /**
