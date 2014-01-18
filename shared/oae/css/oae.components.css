@@ -1292,6 +1292,8 @@ ul.oae-list > li:first-child .oae-listitem {
     margin: 8px 0 0;
     font-size: 20px;
     line-height: 1.2;
+    text-align: left;
+    white-space: normal;
 }
 
 .oae-list-options .oae-list-options-title h2 .badge,
