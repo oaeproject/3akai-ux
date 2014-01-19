@@ -27,9 +27,60 @@ a.oae-plain-link:hover {
 }
 
 
-/***********
- * LAYOUT **
- ***********/
+/*************************
+ * LEFT HAND NAVIGATION **
+ ************************/
+
+/**
+ * The following example structure exists of the following:
+ *     - Navigation item that triggers the upload widget
+ *     - Navigation item that has children
+ *         - Child navigation item that triggers the creategroup widget
+ *     - Navigation item that shows the Dashboard page
+ *
+ * Note that items that trigger a widget don't have a page associated to it and can not be `active`.
+ *
+ * <div class="oae-lhnavigation">
+ *    <ul class="nav nav-list">
+ *       <li class="clearfix oae-trigger-upload oae-lhnavigation-border hidden-md hidden-lg">
+ *            <button type="button" class="btn btn-link" title="Upload">
+ *                <i class="icon-cloud-upload pull-left"></i>
+ *                <div>Upload</div>
+ *            </button>
+ *        </li>
+ *        <li class="clearfix collapse oae-lhnavigation-border hidden-md hidden-lg">
+ *            <button type="button" class="btn btn-link" title="Create">
+ *                <div class="lhnavigation-caret-container pull-right">
+ *                    <i class="icon-caret-left pull-right">
+ *                        <span class="oae-aural-text">Open navigation</span>
+ *                    </i>
+ *                    <i class="icon-caret-down pull-right hide">
+ *                        <span class="oae-aural-text">Close navigation</span>
+ *                    </i>
+ *                </div>
+ *                <i class="icon-plus-sign pull-left"></i>
+ *                <div>Create</div>
+ *            </button>
+ *            <ul class="nav nav-list lhnavigation-collapsed hide">
+ *                <li class="clearfix oae-trigger-creategroup hidden-md hidden-lg">
+ *                    <button type="button" class="btn btn-link" title="Group">
+ *                        <i class="icon-group pull-left"></i>
+ *                        <div>Group</div>
+ *                    </button>
+ *                </li>
+ *            </ul>
+ *        </li>
+ *        <li class="clearfix active" data-id="dashboard">
+ *            <a href="/me/dashboard" title="Recent activity">
+ *                <i class="icon-dashboard pull-left"></i>
+ *                <div>Recent activity</div>
+ *            </a>
+ *        </li>
+ *    </ul>
+ * </div>
+ */
+
+/* Left hand navigation */
 
 .oae-lhnavigation {
     margin-left: 10px;
@@ -39,48 +90,51 @@ a.oae-plain-link:hover {
     z-index: 99;
 }
 
-.oae-lhnavigation > ul {
+.oae-lhnavigation > ul.nav {
     margin-top: 12px;
     width: 210px;
 }
 
-.oae-lhnavigation > .nav > li.hide {
+.oae-lhnavigation > ul.nav > li.hide {
     display: none !important;
 }
 
-.oae-lhnavigation > ul > li.nav-header {
+.oae-lhnavigation > ul.nav > li.nav-header {
     margin-top: 10px;
 }
 
-.oae-lhnavigation > ul > li button {
+.oae-lhnavigation > ul.nav > li button {
     padding: 0 12px 5px;
     text-align: left;
     width: 100%;
 }
 
-.oae-lhnavigation > ul > li a div,
-.oae-lhnavigation > ul > li button div {
+.oae-lhnavigation > ul.nav > li a div,
+.oae-lhnavigation > ul.nav > li button div {
     padding-top: 8px;
 }
 
-.oae-lhnavigation > ul > li {
+.oae-lhnavigation > ul.nav > li {
     margin: 3px 12px 0 0;
 }
 
-.oae-lhnavigation > ul > li.oae-lhnavigation-border {
-    border-bottom: 1px solid #eee;
+.oae-lhnavigation > ul.nav > li.oae-lhnavigation-border {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
 }
 
-.oae-lhnavigation > ul > li a {
+.oae-lhnavigation > ul.nav > li a {
     padding: 0 12px 8px;
 }
 
-.oae-lhnavigation > ul > li button div.lhnavigation-caret-container {
+/* Left hand navigation toggle */
+
+.oae-lhnavigation > ul.nav > li button div.lhnavigation-caret-container {
     padding-top: 0;
     margin-right: -12px;
 }
 
-.oae-lhnavigation > ul > li button div.lhnavigation-caret-container [class^="icon-"] {
+.oae-lhnavigation > ul.nav > li button div.lhnavigation-caret-container [class^="icon-"] {
     margin-right: 0;
 }
 
@@ -88,6 +142,8 @@ a.oae-plain-link:hover {
     position: relative;
     z-index: 100;
 }
+
+/* Page content */
 
 .oae-page {
     min-width: 280px;
@@ -275,7 +331,7 @@ i[class^="icon-"].large:before {
  *
  *
  * e.g. <div class="oae-large-options-container row">
- *          <div class="col-md-4 text-center">
+ *          <div class="col-md-6 text-center">
  *              <label for="oae-visibility-private" class="checked">
  *                  <i class="icon-ok hide"></i>
  *                  <div class="oae-large-options well">
@@ -286,7 +342,7 @@ i[class^="icon-"].large:before {
  *                  <small>__MSG__GROUP_PRIVATE_DESCRIPTION__</small>
  *              </label>
  *          </div>
- *          <div class="col-md-4 text-center">
+ *          <div class="col-md-6 text-center">
  *              <label for="oae-visibility-loggedin">
  *                  <i class="icon-ok hide"></i>
  *                  <div class="oae-large-options well">
@@ -297,22 +353,12 @@ i[class^="icon-"].large:before {
  *                  <small>__MSG__GROUP_LOGGEDIN_DESCRIPTION__</small>
  *              </label>
  *          </div>
- *          <div class="col-md-4 text-center">
- *              <label for="oae-visibility-public">
- *                  <i class="icon-ok hide"></i>
- *                  <div class="oae-large-options well">
- *                      <input type="radio" id="oae-visibility-public" value="public" name="oae-visibility-group" class="pull-left" tabindex="0"/>
- *                      <i class="icon-oae-public large text-center"></i>
- *                      <span class="oae-threedots">__MSG__PUBLIC__</span>
- *                  </div>
- *                  <small>__MSG__GROUP_PUBLIC_DESCRIPTION__</small>
- *              </label>
- *          </div>
  *      </div>
  *
  * Notes:
  *
  * - The selected button should have a `checked` class on the label element
+ * - col-md-x defines the width of the column. The total of all columns should be 12.
  **/
 
 .oae-large-options-container label {
@@ -879,24 +925,6 @@ div.oae-thumbnail i[class^="icon-"] {
  *   can be floated on the left or right.
  */
 
-/* IE9 specific fallback for flexbox */
-.lt-10 .oae-listitem h3 {
-    max-width: 450px;
-}
-
-.lt-10 .oae-listitem > div:not(.oae-thumbnail) {
-    /*display: table-cell;*/
-}
-
-.lt-10 .oae-listitem.oae-listitem-compact > div:not(.oae-thumbnail) {
-    width: auto;
-}
-
-.lt-10 ul.oae-list > li .oae-list-details-item,
-.lt-10 ul.oae-list > li .oae-list-compact-item  {
-    display: table;
-}
-
 .oae-tile,
 .oae-list.oae-list-grid > li.oae-list-actions {
     position: relative;
@@ -999,6 +1027,20 @@ div.oae-thumbnail i[class^="icon-"] {
  * - The `oae-thumbnail` element, containing the preview image, is a standard
  *   `oae-thumbnail` element (See Thumbnail section for full overview).
  */
+
+/* IE9 specific fallback for flexbox */
+.ie-lt10 .oae-listitem h3 {
+    max-width: 450px;
+}
+
+.ie-lt10 .oae-listitem.oae-listitem-compact > div:not(.oae-thumbnail) {
+    width: auto;
+}
+
+.ie-lt10 ul.oae-list > li .oae-list-details-item,
+.ie-lt10 ul.oae-list > li .oae-list-compact-item  {
+    display: table;
+}
 
 .oae-listitem {
     padding: 10px;
@@ -1203,13 +1245,14 @@ ul.oae-list > li:first-child .oae-listitem {
  * Some example HTML for a list options view:
  *
  *  <div class="oae-list-options">
- *      <div>
- *          <button class="btn oae-list-options-toggle">
- *              <h2>__MSG__LIBRARY__ <i class="icon-caret-down"></i></h2>
+ *      <div class="row">
+ *          <button class="btn col-xs-12 col-sm-6 oae-list-options-toggle">
+ *              <h2 class="pull-left">__MSG__LIBRARY__ <i class="icon-caret-down"></i></h2>
  *          </button>
- *          <div class="pull-right">
- *              <form class="form-search" id="library_search_form">
- *                  <input type="text" class="search-query" placeholder="__MSG__NARROW_BY_KEYWORD__">
+ *          <div class="pull-right col-xs-12 col-sm-6">
+ *              <form id="library_search_form" class="form-search" role="search">
+ *                  <label for="search-query" class="control-label oae-aural-text">__MSG__NARROW_BY_KEYWORD__</label>
+ *                  <input type="text" class="search-query" placeholder="__MSG__NARROW_BY_KEYWORD__"/>
  *                  <button type="submit" class="btn btn-link">
  *                      <i class="icon-search"><span class="oae-aural-text">__MSG__SEARCH__</span></i>
  *                  </button>
@@ -1265,7 +1308,7 @@ ul.oae-list > li:first-child .oae-listitem {
     clear: both;
 }
 
-.oae-list-options > div:first-child > * {
+.oae-list-options > div:first-child {
     margin-bottom: 15px;
     padding: 0;
 }

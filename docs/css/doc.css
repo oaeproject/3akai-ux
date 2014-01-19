@@ -108,7 +108,8 @@ td form {
     padding: 8px 14px;
     word-break: break-word;
 }
-.bs-docs-sidenav > li > a > div {
+.bs-docs-sidenav > li > a > span {
+    display: block;
     margin-right: 22px;
 }
 .bs-docs-sidenav .icon-chevron-right {

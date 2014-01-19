@@ -22,7 +22,7 @@
 body {
     padding-left: 30px;
     padding-right: 30px;
-    min-width: 300px;
+    min-width: 400px;
     display: none;
 }
 
@@ -32,11 +32,6 @@ body {
         padding-left: 15px;
         padding-right: 15px;
     }
-}
-
-/* MAKE SURE UNSUPPORTED HTML 5 TAGS ARE BLOCK ELEMENTS */
-footer, main {
-    display: block;
 }
 
 /* DEFAULT FONT AND TEXT STYLE */
@@ -50,13 +45,9 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
 }
 
-ul {
-    -webkit-padding-start: 0;
-}
-
 label {
     font-weight: normal;
-    margin-bottom: 7px !important;
+    margin-bottom: 7px;
 }
 
 /* DEFAULT LINK STYLE */
@@ -75,7 +66,6 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
  * @see http://twitter.github.com/bootstrap/components.html#navs */
 
 .navbar-search {
-    /*display: inline;*/
     float: none;
 }
 
@@ -248,23 +238,23 @@ input[type="color"],
 }
 
 .has-error .form-control:-moz-placeholder {
-    color: #b94a48;
+    color: #B94A48;
 }
 
 .has-error .form-control::-moz-placeholder {
-    color: #b94a48;
+    color: #B94A48;
 }
 
 .has-error .form-control:-ms-input-placeholder {
-    color: #b94a48;
+    color: #B94A48;
 }
 
 .has-error .form-control::-webkit-input-placeholder {
-    color: #b94a48;
+    color: #B94A48;
 }
 
 .has-error .control-label h4 {
-    color: #b94a48;
+    color: #B94A48;
 }
 
 .radio, .checkbox {
@@ -282,6 +272,15 @@ input[type="color"],
 /* MODAL DIALOGS
  * @see http://twitter.github.com/bootstrap/javascript.html#modals */
 
+.modal-backdrop.in {
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+}
+
+.modal-dialog {
+    min-width: 300px;
+}
+
 @media screen and (min-width: 768px) {
     .modal-dialog {
         padding-top: 60px;
@@ -295,10 +294,6 @@ input[type="color"],
     }
 }
 
-.modal-dialog {
-    min-width: 300px;
-}
-
 .modal {
     -webkit-border-radius: 4px;
        -moz-border-radius: 4px;
@@ -307,11 +302,6 @@ input[type="color"],
     -webkit-box-shadow: 0 0 6px #000;
        -moz-box-shadow: 0 0 6px #000;
             box-shadow: 0 0 6px #000;
-}
-
-.modal-backdrop.in {
-    opacity: 0.8;
-    filter: alpha(opacity=80);
 }
 
 .modal .close[disabled]:hover {
@@ -343,12 +333,17 @@ input[type="color"],
     margin-top: 0;
 }
 
+.modal-body form,
+.modal-body label h4 {
+    margin: 0;
+}
+
 .modal-footer {
-    padding: 10px 25px 15px 15px;
     background-color: transparent;
     border-top: none;
     box-shadow: none;
     margin-top: 0;
+    padding: 10px 25px 15px 15px;
 }
 
 /* CLICKOVER DIALOGS
@@ -367,14 +362,14 @@ input[type="color"],
  * @see http://twitter.github.com/bootstrap/components.html#alerts
  * @see http://nijikokun.github.io/bootstrap-notify */
 
+.alert {
+    padding: 8px 35px 8px 14px;
+}
+
 .alert h4 {
     display: inline;
     font-size: 14px;
     margin-right: 5px;
-}
-
-.alert {
-    padding: 8px 35px 8px 14px;
 }
 
 .notifications .alert {
@@ -613,6 +608,7 @@ ul.as-list li.as-result-item.active {
     clear: both;
 }
 
+/* Allow the content to overflow the body when navigation is expanded on smaller viewports */
 .oae-main-content > div:last-child {
     overflow: hidden;
 }
