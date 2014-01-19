@@ -103,11 +103,14 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     /**
-     * Subscribe to discussion activity push notifications, allowing for updating the discussion profile after the page load
+     * Subscribe to discussion activity push notifications, allowing for updating the discussion profile when changes to the discussion
+     * are made by a different user after the initial page load
      */
     var setUpPushNotifications = function() {
         oae.api.push.subscribe(discussionId, 'activity', discussionProfile.signature, 'internal', false, function(activity) {
-            if (activity['oae:activityType'] === 'discussion-update' || activity['oae:activityType'] === 'discussion-update-visibility') {
+            var supportedActivities = ['discussion-update', 'discussion-update-visibility'];
+            // Only respond to push notifications caused by other users
+            if (activity.actor.id !== oae.data.me.id && _.contains(supportedActivities, activity['oae:activityType'])) {
                 activity.object.canShare = discussionProfile.canShare;
                 activity.object.canPost = discussionProfile.canPost;
                 activity.object.isManager = discussionProfile.isManager;

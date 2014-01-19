@@ -305,8 +305,12 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         };
     };
 
-    // This variable will be used to track which notifications have been shown already
-    var notificationIds = {};
+    ///////////////////
+    // NOTIFICATIONS //
+    ///////////////////
+
+    // Variable used to track which notifications have already been shown
+    var notificationIds = [];
 
     /**
      * Show a Growl-like notification message. A notification can have a title and a message, and will also have
@@ -318,7 +322,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
      * @param  {String}     [title]       The notification title
      * @param  {String}     message       The notification message that will be shown underneath the title. The message should be sanitized by the caller to allow for HTML inside of the notification
      * @param  {String}     [type]        The notification type. The supported types are `success`, `error` and `info`, as defined in http://twitter.github.com/bootstrap/components.html#alerts. By default, the `success` type will be used
-     * @param  {String}     [id]          Identifies this notification. This is usefull if you can trigger a notification twice due to something that is out of your control. If a second notification with the same id is triggered it will be ignored
+     * @param  {String}     [id]          Unique identifier for the notification, in case a notification can be triggered twice due to some reason. If a second notification with the same id is triggered it will be ignored
      * @throws {Error}                    Error thrown when no message has been provided
      */
     var notification = exports.notification = function(title, message, type, id) {
@@ -327,12 +331,12 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         }
 
         if (id) {
-            if (notificationIds[id]) {
-                // We've already triggered a notification with this ID, do not trigger another one
+            if (_.contains(notificationIds, id)) {
+                // A notification with this ID has been triggered already, do not trigger another one
                 return;
             }
 
-            notificationIds[id] = true;
+            notificationIds.push(id);
         }
 
         // Check if the notifications container has already been created.

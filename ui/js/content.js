@@ -113,15 +113,18 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     };
 
     /**
-     * Subscribe to content activity push notifications, allowing for updating the content profile after the page load
+     * Subscribe to content activity push notifications, allowing for updating the content profile when changes to the content
+     * are made by a different user after the initial page load
      */
     var setUpPushNotifications = function() {
         oae.api.push.subscribe(contentId, 'activity', contentProfile.signature, 'internal', false, function(activity) {
-            if (activity.actor.id !== oae.data.me.id && (activity['oae:activityType'] === 'content-update' || activity['oae:activityType'] === 'content-update-visibility' || activity['oae:activityType'] === 'content-revision' || activity['oae:activityType'] === 'previews-finished')) {
-                activity.object.canShare = contentProfile.canShare;
-                activity.object.isManager = contentProfile.isManager;
-
+            var supportedActivities = ['content-update', 'content-update-visibility', 'content-revision', 'previews-finished'];
+            // Only respond to push notifications caused by other users
+            if (activity.actor.id !== oae.data.me.id && _.contains(supportedActivities, activity['oae:activityType'])) {
                 var contentObj = activity.object;
+                contentObj.canShare = contentProfile.canShare;
+                contentObj.isManager = contentProfile.isManager;
+
                 $(document).trigger('oae.content.update', contentObj);
             }
         });
