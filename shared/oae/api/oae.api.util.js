@@ -310,7 +310,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
      * a close button for closing the notification. Notifications can be used as a confirmation message, error message, etc.
      *
      * This function is mostly just a wrapper around jQuery.bootstrap.notify.js and supports all of the options documented
-     * at http://nijikokun.github.com/bootstrap-notify/.
+     * at https://github.com/goodybag/bootstrap-notify.
      *
      * @param  {String}     [title]       The notification title
      * @param  {String}     message       The notification message that will be shown underneath the title. The message should be sanitized by the caller to allow for HTML inside of the notification

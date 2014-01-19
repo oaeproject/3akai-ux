@@ -1,7 +1,6 @@
 /**
- * bootstrap-notify.js v1.0.0
+ * bootstrap-notify.js v1.0
  * --
- * Copyright 2012 Nijiko Yonskai <nijikokun@gmail.com>
  * Copyright 2012 Goodybag, Inc.
  * --
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,61 +16,65 @@
  * limitations under the License.
  */
 
-define(['jquery'], function (jQuery) {
 (function ($) {
   var Notification = function (element, options) {
     // Element collection
-    this.$element = $(element);
-    this.$note    = $('<div class="alert alert-dismissable"></div>');
     this.options  = $.extend(true, {}, $.fn.notify.defaults, options);
-    this._link    = null;
+    this.$element = $(element);
+    this.$note    = $('<div class="alert"></div>');
+    if (this.options.closable) {
+        this.$note    = $('<div class="alert alert-dismissable"></div>');
+    }
 
     // Setup from options
-    if (this.options.transition)
-      if (this.options.transition === 'fade')
+    if(this.options.transition)
+      if(this.options.transition == 'fade')
         this.$note.addClass('in').addClass(this.options.transition);
       else this.$note.addClass(this.options.transition);
     else this.$note.addClass('fade').addClass('in');
 
-    if (this.options.type)
+    if(this.options.type)
       this.$note.addClass('alert-' + this.options.type);
     else this.$note.addClass('alert-success');
 
-    if (this.options.message)
-      if (typeof this.options.message === 'string')
-        this.$note.html(this.options.message);
-      else if (typeof this.options.message === 'object')
-        if (this.options.message.html)
+    if(!this.options.message && this.$element.data("message") !== '') // dom text
+      this.$note.html(this.$element.data("message"));
+    else
+      if(typeof this.options.message === 'object')
+        if(this.options.message.html)
           this.$note.html(this.options.message.html);
-        else if (this.options.message.text)
+        else if(this.options.message.text)
           this.$note.text(this.options.message.text);
+      else
+        this.$note.html(this.options.message);
 
-    if (this.options.closable)
-      this._link = $('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times</button>'),
-      $(this._link).on('click', $.proxy(Notification.onClose, this)),
-      this.$note.prepend(this._link);
+    if(this.options.closable)
+      var link = $('<a class="close pull-right" href="#">&times;</a>');
+      $(link).on('click', $.proxy(onClose, this));
+      this.$note.prepend(link);
 
     return this;
   };
 
-  Notification.onClose = function () {
+  var onClose = function() {
     this.options.onClose();
     $(this.$note).remove();
     this.options.onClosed();
+    return false;
   };
 
   Notification.prototype.show = function () {
-    if (this.options.fadeOut.enabled)
-      this.$note.delay(this.options.fadeOut.delay || 3000).fadeOut('slow', $.proxy(Notification.onClose, this));
+    if(this.options.fadeOut.enabled)
+      this.$note.delay(this.options.fadeOut.delay || 3000).fadeOut('slow', $.proxy(onClose, this));
 
     this.$element.append(this.$note);
     this.$note.alert();
   };
 
   Notification.prototype.hide = function () {
-    if (this.options.fadeOut.enabled)
-      this.$note.delay(this.options.fadeOut.delay || 3000).fadeOut('slow', $.proxy(Notification.onClose, this));
-    else Notification.onClose.call(this);
+    if(this.options.fadeOut.enabled)
+      this.$note.delay(this.options.fadeOut.delay || 3000).fadeOut('slow', $.proxy(onClose, this));
+    else onClose.call(this);
   };
 
   $.fn.notify = function (options) {
@@ -89,6 +92,5 @@ define(['jquery'], function (jQuery) {
     message: null,
     onClose: function () {},
     onClosed: function () {}
-  };
+  }
 })(window.jQuery);
-});
