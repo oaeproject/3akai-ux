@@ -94,7 +94,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             lhNavActions.push({
                 'icon': 'icon-bookmark',
                 'title': oae.api.i18n.translate('__MSG__FOLLOW__'),
-                'class': 'hidden-md hidden-lg oae-trigger-follow oae-lhnavigation-border'
+                'class': 'oae-trigger-follow oae-lhnavigation-border'
             });
         }
 

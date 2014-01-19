@@ -31,32 +31,32 @@ require(['jquery','oae.core'], function($, oae) {
     {
             'icon': 'icon-cloud-upload',
             'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
-            'class': 'oae-trigger-upload oae-lhnavigation-border hidden-md hidden-lg'
+            'class': 'oae-trigger-upload oae-lhnavigation-border'
         },
         {
             'icon': 'icon-plus-sign',
             'title': oae.api.i18n.translate('__MSG__CREATE__'),
-            'class': 'oae-lhnavigation-border hidden-md hidden-lg',
+            'class': 'oae-lhnavigation-border',
             'children': [
                 {
                     'icon': 'icon-group',
                     'title': oae.api.i18n.translate('__MSG__GROUP__'),
-                    'class': 'oae-trigger-creategroup hidden-md hidden-lg'
+                    'class': 'oae-trigger-creategroup'
                 },
                 {
                     'icon': 'icon-link',
                     'title': oae.api.i18n.translate('__MSG__LINK__'),
-                    'class': 'oae-trigger-createlink hidden-md hidden-lg'
+                    'class': 'oae-trigger-createlink'
                 },
                 {
                     'icon': 'icon-edit',
                     'title': oae.api.i18n.translate('__MSG__DOCUMENT__'),
-                    'class': 'oae-trigger-createcollabdoc hidden-md hidden-lg'
+                    'class': 'oae-trigger-createcollabdoc'
                 },
                 {
                     'icon': 'icon-comments',
                     'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
-                    'class': 'oae-trigger-creatediscussion hidden-md hidden-lg'
+                    'class': 'oae-trigger-creatediscussion'
                 }
             ]
         }

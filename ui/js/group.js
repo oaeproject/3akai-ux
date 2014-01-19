@@ -108,27 +108,27 @@ require(['jquery', 'oae.core'], function($, oae) {
             lhNavActions.push({
                 'icon': 'icon-cloud-upload',
                 'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
-                'class': 'hidden-md hidden-lg oae-lhnavigation-border oae-trigger-upload'
+                'class': 'oae-lhnavigation-border oae-trigger-upload'
             },
             {
                 'icon': 'icon-plus-sign',
                 'title': oae.api.i18n.translate('__MSG__CREATE__'),
-                'class': 'hidden-md hidden-lg oae-lhnavigation-border',
+                'class': 'oae-lhnavigation-border',
                 'children': [
                     {
                         'icon': 'icon-link',
                         'title': oae.api.i18n.translate('__MSG__LINK__'),
-                        'class': 'hidden-md hidden-lg oae-trigger-createlink'
+                        'class': 'oae-trigger-createlink'
                     },
                     {
                         'icon': 'icon-edit',
                         'title': oae.api.i18n.translate('__MSG__DOCUMENT__'),
-                        'class': 'hidden-md hidden-lg oae-trigger-createcollabdoc'
+                        'class': 'oae-trigger-createcollabdoc'
                     },
                     {
                         'icon': 'icon-comments',
                         'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
-                        'class': 'hidden-md hidden-lg oae-trigger-creatediscussion'
+                        'class': 'oae-trigger-creatediscussion'
                     }
                 ]
             });
@@ -139,7 +139,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             lhNavActions.push({
                 'icon': 'icon-pushpin',
                 'title': oae.api.i18n.translate('__MSG__JOIN_GROUP__'),
-                'class': 'hidden-md hidden-lg oae-group-join'
+                'class': 'oae-group-join'
             });
         }
 

@@ -60,12 +60,12 @@ require(['jquery','oae.core'], function($, oae) {
             lhNavActions.push({
                 'icon': 'icon-comments',
                 'title': oae.api.i18n.translate('__MSG__COMMENT__'),
-                'class': 'hidden-md hidden-lg comments-focus-new-comment oae-lhnavigation-border'
+                'class': 'comments-focus-new-comment oae-lhnavigation-border'
             },
             {
                 'icon': 'icon-share',
                 'title': oae.api.i18n.translate('__MSG__SHARE__'),
-                'class': 'hidden-md hidden-lg oae-lhnavigation-border oae-trigger-share',
+                'class': 'oae-lhnavigation-border oae-trigger-share',
                 'data': {
                     'data-id': discussionProfile.id,
                     'data-resourcetype': discussionProfile.resourceType,

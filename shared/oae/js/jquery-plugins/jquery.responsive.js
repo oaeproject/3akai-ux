@@ -67,7 +67,7 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
         /**
          * Close the left hand navigation when clicking a navigation link on a handheld device
          */
-        $(document).on('click', '.oae-lhnavigation > ul > li:not(.collapse)', function() {
+        $(document).on('click', '.oae-lhnavigation > ul > li:not(.oae-lhnavigation-action)', function() {
             if (oaeUtil.isHandheldDevice()) {
                 closeLeftHandNav();
             }
