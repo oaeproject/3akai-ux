@@ -55,6 +55,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             setUpContext();
             // We can now unhide the page
             oae.api.util.showPage();
+            // Setup the push notifications to update this content profile on the fly
+            setUpPushNotifications();
         });
     };
 
@@ -108,6 +110,32 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             }
         });
         $(document).trigger('oae.context.send', contentProfile);
+    };
+
+    /**
+     * Subscribe to content activity push notifications, allowing for updating the content profile when changes to the content
+     * are made by a different user after the initial page load
+     */
+    var setUpPushNotifications = function() {
+        oae.api.push.subscribe(contentId, 'activity', contentProfile.signature, 'internal', false, function(activity) {
+            var isSupportedUpdateActivity = _.contains(['content-update', 'content-update-visibility'], activity['oae:activityType']);
+            var isSupportedPreviewActivity = _.contains(['content-revision', 'content-restored-revision', 'previews-finished'], activity['oae:activityType']);
+            // Only respond to push notifications caused by other users
+            if (activity.actor.id === oae.data.me.id) {
+                return;
+            // Content preview activities should not trigger a content profile update when the content item is a collaborative
+            // document and the current user can manage the document. In this case, Etherpad will take care of the content preview
+            } else if (isSupportedPreviewActivity && contentProfile.resourceSubType === 'collabdoc' && contentProfile.isManager) {
+                return;
+            // Trigger a content profile update
+            } else if (isSupportedUpdateActivity || isSupportedPreviewActivity) {
+                var contentObj = activity.object;
+                contentObj.canShare = contentProfile.canShare;
+                contentObj.isManager = contentProfile.isManager;
+
+                $(document).trigger('oae.content.update', contentObj);
+            }
+        });
     };
 
 
