@@ -48,7 +48,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
     // messages that have been sent over the websocket. As websockets are asynchronous, we
     // have to keep track of this until a response has been received for a message as we can't
     // rely on the order of the responses coming in. Once an acknowledgement for a message has
-    // come in, its acknowledgement callback function will be removed from this map
+    // come in, its acknowledgement callback function will be executed and removed from this map
     var acknowledgementCallbacks = {};
 
     // Variable that keeps track of the message listeners that have registered for messages on a
