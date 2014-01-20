@@ -191,7 +191,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
      * @param  {String}     resourceId              Id of the resource on which channel to subscribe (e.g. user id, group id, content id, discussion id)
      * @param  {String}     streamType              Name of the stream type to subscribe to (e.g. `activity`, `message`)
      * @param  {String}     token                   Token used to authorize the subscription. This token will be available on the entity that represents the channel that's being subscribed to
-     * @param  {String}     [transformer]           The format in which the activity entities should be received (i.e. `internal` or `activitystreams`). Defaults to `internal`
+     * @param  {String}     [transformer]           The format in which the activity entities should be received. When `internal` is provided, the entities will be formatted as standard OAE entities. When `activitystreams` is provided, the entities will be formatted as defined by the activitystrea.ms specification. Defaults to `internal`
      * @param  {Boolean}    [performAggregation]    Whether or not messages should be aggregated before sending them to the callback. If no aggregation is required, each incoming message will be passed to the message callback as-is. Defaults to `false`
      * @param  {Function}   messageCallback         Function executed when a message on the provided channel and of the provided stream type arrives
      * @param  {Function}   [callback]              Standard callback function
@@ -372,7 +372,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
                 }
             });
 
-            // Change the timestamp on the aggregate to be the one on the current message. This ensure
+            // Change the timestamp on the aggregate to be the one on the current message. This ensures
             // that the timestamp is always the one from the latest activity that happened
             aggregateMessage.activity.published = newMessage.activity.published;
             newMessage = aggregateMessage;

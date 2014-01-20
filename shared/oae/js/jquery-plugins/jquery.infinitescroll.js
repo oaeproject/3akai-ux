@@ -79,9 +79,6 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
         // search does not need to provide a paging parameter
         var initialSearchDone = false;
 
-        // Variable that keeps track of whether or not the list is empty
-        var emptyList = false;
-
         ////////////////////////
         // Infinite scrolling //
         ////////////////////////
@@ -252,7 +249,6 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
                         canRequestMoreData = false;
                         if ($('li', $listContainer).length === 0) {
                             if (options.emptyListProcessor) {
-                                emptyList = true;
                                 options.emptyListProcessor();
                             }
                         }
@@ -287,7 +283,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
          */
         var prependItems = function(items) {
             // In case the list was previously empty, we need to remove the "no results" message
-            if (emptyList) {
+            if ($('li', $listContainer).length === 0) {
                 $listContainer.empty();
             }
             processList(items, true);
@@ -318,7 +314,6 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
                         } else {
                             if ($('li', $listContainer).length === 0) {
                                 if (options.emptyListProcessor) {
-                                    emptyList = true;
                                     options.emptyListProcessor();
                                 }
                             }

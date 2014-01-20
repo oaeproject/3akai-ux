@@ -305,11 +305,15 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         };
     };
 
+
     ///////////////////
     // NOTIFICATIONS //
     ///////////////////
 
-    // Variable used to track which notifications have already been shown
+    // Variable used to track which notifications have already been shown. For example, a notification could be shown for a
+    // push notification that indicated that a new comment has been made on a piece of content. However, when the current user
+    // is a manager of that piece of content, a top navigation push notification will also be received. This avoids a notification
+    // being shown for both
     var notificationIds = [];
 
     /**
