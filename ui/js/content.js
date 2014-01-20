@@ -118,7 +118,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      */
     var setUpPushNotifications = function() {
         oae.api.push.subscribe(contentId, 'activity', contentProfile.signature, 'internal', false, function(activity) {
-            var supportedActivities = ['content-update', 'content-update-visibility', 'content-revision', 'previews-finished'];
+            var supportedActivities = ['content-update', 'content-update-visibility', 'content-revision', 'content-restored-revision', 'previews-finished'];
             // Only respond to push notifications caused by other users
             if (activity.actor.id !== oae.data.me.id && _.contains(supportedActivities, activity['oae:activityType'])) {
                 var contentObj = activity.object;
