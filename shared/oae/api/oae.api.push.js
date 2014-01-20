@@ -52,20 +52,22 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
     var acknowledgementCallbacks = {};
 
     // Variable that keeps track of the message listeners that have registered for messages on a
-    // specific channel with a specific stream type, indicating whether or not the messages should
-    // be aggregated. When a message comes in, all of the provided callback functions need to be
-    // called.
+    // specific channel with a specific stream type for a specific format (`activitystreams` or
+    // `internal`), indicating whether or not the messages should be aggregated. When a message
+    // comes in, all of the provided callback functions need to be called.
     // The listeners for the subscriptions will be stored in the following way:
     //
     //   {
     //      '<channel>': {
-    //          '<streamType>': [
-    //              {
-    //                  'performAggregation': <true/false>,
-    //                  'messageCallback': <messageCallback>
-    //              },
-    //              ...
-    //          ],
+    //          '<streamType>': {
+    //              '<format>': [
+    //                  {
+    //                      'performAggregation': <true/false>,
+    //                      'messageCallback': <messageCallback>
+    //                  },
+    //                  ...
+    //              ]
+    //          },
     //          ...
     //      },
     //      ...
@@ -185,7 +187,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
     };
 
     /**
-     * Subscribe to all messages on a specific channel for a specific stream type
+     * Subscribe to all messages on a specific channel for a specific stream type and the specified format
      *
      * @param  {String}     resourceId              Id of the resource on which channel to subscribe (e.g. user id, group id, content id, discussion id)
      * @param  {String}     streamType              Name of the stream type to subscribe to (e.g. `activity`, `message`)
@@ -207,8 +209,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
 
         // Check if there is already a subscription for the provided channel and stream type.
         // If there is, we add an additional listener
-        if (subscriptions[resourceId] && subscriptions[resourceId][streamType]) {
-            subscriptions[resourceId][streamType].push({
+        if (subscriptions[resourceId] && subscriptions[resourceId][streamType] && subscriptions[resourceId][streamType][transformer]) {
+            subscriptions[resourceId][streamType][transformer].push({
                 'performAggregation': performAggregation,
                 'messageCallback': messageCallback
             });
@@ -217,7 +219,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
 
         // Register the listener
         subscriptions[resourceId] = subscriptions[resourceId] || {};
-        subscriptions[resourceId][streamType] = [{
+        subscriptions[resourceId][streamType] = subscriptions[resourceId][streamType] || {};
+        subscriptions[resourceId][streamType][transformer] = [{
             'performAggregation': performAggregation,
             'messageCallback': messageCallback
         }];
@@ -254,8 +257,9 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
     var notifySubscribers = function(message) {
         var listenersNeedingAggregations = [];
 
-        if (subscriptions[message.resourceId] && subscriptions[message.resourceId][message.streamType]) {
-            _.each(subscriptions[message.resourceId][message.streamType], function(listener) {
+        // Run through all subscription for the provided resource channel, stream type and format
+        if (subscriptions[message.resourceId] && subscriptions[message.resourceId][message.streamType] && subscriptions[message.resourceId][message.streamType][message.format]) {
+            _.each(subscriptions[message.resourceId][message.streamType][message.format], function(listener) {
                 // Check if the activity that is associated to the push notification requires
                 // aggregation. If it doesn't, it can be distributed to its subscribers straight away
                 if (listener.performAggregation) {
