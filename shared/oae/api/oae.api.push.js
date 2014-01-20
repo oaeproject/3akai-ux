@@ -104,14 +104,13 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
      * and authenticating. SockJS is used to provide a cross-browser and cross-domain communication
      * channel between the browser and the server (@see https://github.com/sockjs)
      *
-     * @param  {Boolean}    anon          Whether or not the user is currently authenticated
      * @param  {Function}   callback      Standard callback function
      * @param  {Object}     callback.err  Error object containing error code and message
      * @api private
      */
-    var init = exports.init = function(anon, callback) {
+    var init = exports.init = function(callback) {
         // Push notifications are only enabled for authenticated users
-        if (anon) {
+        if (require('oae.core').data.me.anon) {
             return callback();
         }
 
