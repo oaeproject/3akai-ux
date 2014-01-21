@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.validate', 'trimpath', 'jquery.autosuggest'], function(exports, require, $, _, configAPI) {
+define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.validate', 'trimpath', 'jquery.autosuggest', 'tinycon'], function(exports, require, $, _, configAPI) {
 
     /**
      * Initialize all utility functionality.
@@ -118,6 +118,12 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         //   `Open Academic Environment - Fragment 1 - Fragment 2`
         title.splice(0, 0, '__MSG__TITLE_PREFIX__');
         document.title = require('oae.api.i18n').translate(title.join(' - '));
+
+        // If we change the title we need to re-apply the label for those browsers that don't support the favicon
+        var me = require('oae.core').data.me;
+        if (!me.anon) {
+            setFavicon(me.notificationsUnread);
+        }
     };
 
 
@@ -368,6 +374,28 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             'transition': 'slideDown'
         }).show();
     };
+
+    /**
+     * Set a little label over the favicon. If the current browser does not support changing the favicon we will
+     * fallback to setting the number in brackets in the title.
+     *
+     * @param {Number}  nr   The number to set in the favicon or title
+     */
+    var setFavicon = exports.setFavicon = function(nr) {
+        Tinycon.setBubble(nr);
+    };
+
+    /*!
+     * Unfortunately the History.js plugin changes the browser title manually which overwrites the label if
+     * Tinycan had to fallback on title manipulation. When we detect a History.js change, we re-apply the
+     * label if required.
+     */
+    $(window).on('statechange', function() {
+        var me = require('oae.core').data.me;
+        if (!me.anon && me.notificationsUnread !== 0) {
+            setFavicon(me.notificationsUnread);
+        }
+    });
 
     /**
      *  Set up Google Analytics tracking, if it has been enabled for the current tenant
