@@ -22,9 +22,9 @@
  * on `oae.core`, which invokes this plugin, and also efficiently pre-loads many third-party dependencies.
  */
 define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.comment', 'oae.api.discussion', 'oae.api.follow',
-        'oae.api.group', 'oae.api.i18n', 'oae.api.l10n', 'oae.api.profile', 'oae.api.user', 'oae.api.util', 'oae.api.widget'],
+        'oae.api.group', 'oae.api.i18n', 'oae.api.l10n', 'oae.api.profile', 'oae.api.push', 'oae.api.user', 'oae.api.util', 'oae.api.widget'],
 
-    function(authenticationAPI, configAPI, contentAPI, commentAPI, discussionAPI, followAPI, groupAPI, i18nAPI, l10nAPI, profileAPI, userAPI, utilAPI, widgetAPI) {
+    function(authenticationAPI, configAPI, contentAPI, commentAPI, discussionAPI, followAPI, groupAPI, i18nAPI, l10nAPI, profileAPI, pushAPI, userAPI, utilAPI, widgetAPI) {
 
         /*!
          * Object containing all of the available OAE API modules and their functions, as well as some
@@ -42,6 +42,7 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
                 'i18n': i18nAPI,
                 'l10n': l10nAPI,
                 'profile': profileAPI,
+                'push': pushAPI,
                 'user': userAPI,
                 'util': utilAPI,
                 'widget': widgetAPI
@@ -72,20 +73,20 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
                 // Initialize the config API
                 oae.api.config.init(function(err) {
                     if (err) {
-                        throw new Error('Could not initialize the config API.');
+                        throw new Error('Could not initialize the config API');
                     }
 
                     // Initialize l10n
                     var userLocale = oae.data.me.locale ? oae.data.me.locale.locale : null;
                     oae.api.l10n.init(userLocale, function(err) {
                         if (err) {
-                            throw new Error('Could not initialize the l10n API.');
+                            throw new Error('Could not initialize the l10n API');
                         }
 
                         // Initialize i18n
                         oae.api.i18n.init(userLocale, function(err) {
                             if (err) {
-                                throw new Error('Could not initialize the i18n API.');
+                                throw new Error('Could not initialize the i18n API');
                             }
 
                             // Initialize utility API
@@ -94,7 +95,7 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
                                 // Initialize widgets API
                                 oae.api.widget.init(userLocale, function(err) {
                                     if (err) {
-                                        throw new Error('Could not initialize the widgets API.');
+                                        throw new Error('Could not initialize the widgets API');
                                     }
 
                                     // Add a `.ie-lt10` class to the html element that can be used for CSS fallbacks in IE9
@@ -115,6 +116,13 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
                                         // We can show the body as internationalization and
                                         // initial widget loading have finished
                                         $('body').show();
+
+                                        // Initialize websocket push API
+                                        oae.api.push.init(function(err) {
+                                            if (err) {
+                                                throw new Error('Could not initialize the push API');
+                                            }
+                                        });
                                     });
                                 });
                             });
