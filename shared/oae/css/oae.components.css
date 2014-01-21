@@ -150,7 +150,7 @@ a.oae-plain-link:hover {
     padding: 5px 25px;
 }
 
-.oae-page.oae-page-expanded {
+.oae-lhnavigation.oae-lhnav-expanded + .oae-page {
     min-width: 480px;
     padding: 5px 25px 5px 220px;
 }
@@ -1507,14 +1507,14 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
 }
 
 @media (max-width: 680px) {
-    .oae-page-expanded .oae-list-options-actions {
+    .oae-lhnavigation.oae-lhnav-expanded + .oae-page .oae-list-options-actions {
         display: none !important;
     }
-    .oae-page-expanded .oae-list-options .oae-list-options-toggle i {
+    .oae-lhnavigation.oae-lhnav-expanded + .oae-page .oae-list-options .oae-list-options-toggle i {
         display: none !important;
     }
-    .oae-page-expanded .oae-listitem input[type="checkbox"],
-    .oae-page-expanded .oae-list-grid-item input[type="checkbox"] {
+    .oae-lhnavigation.oae-lhnav-expanded + .oae-page .oae-listitem input[type="checkbox"],
+    .oae-lhnavigation.oae-lhnav-expanded + .oae-page .oae-list-grid-item input[type="checkbox"] {
         display: none;
     }
 }
