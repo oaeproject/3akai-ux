@@ -99,7 +99,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                             {
                                 'id': 'contentlibrary',
                                 'settings': {
-                                    'principalId': userProfile.id
+                                    'context': userProfile
                                 }
                             }
                         ]
@@ -117,7 +117,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                             {
                                 'id': 'discussionslibrary',
                                 'settings': {
-                                    'principalId': userProfile.id
+                                    'context': userProfile
                                 }
                             }
                         ]
@@ -135,7 +135,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                             {
                                 'id': 'memberships',
                                 'settings': {
-                                    'principalId': userProfile.id
+                                    'context': userProfile
                                 }
                             }
                         ]
@@ -153,7 +153,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                             {
                                 'id': 'network',
                                 'settings': {
-                                    'principalId': userProfile.id
+                                    'context': userProfile
                                 }
                             }
                         ]
