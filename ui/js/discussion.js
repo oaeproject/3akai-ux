@@ -23,7 +23,8 @@ require(['jquery','oae.core'], function($, oae) {
     var discussionProfile = null;
 
     /**
-     * Set up the left hand navigation with the content space page structure
+     * Set up the left hand navigation with the content space page structure.
+     * The discussion left hand navigation item will not be shown to the user and is only here to load the discussionprofile.
      */
     var setUpNavigation = function() {
         var lhNavPages = [
@@ -55,17 +56,17 @@ require(['jquery','oae.core'], function($, oae) {
         ];
 
         var lhNavActions = [];
-
+        // If the user is logged in the comment and share functionality should be added
         if (!oae.data.me.anon) {
             lhNavActions.push({
                 'icon': 'icon-comments',
                 'title': oae.api.i18n.translate('__MSG__COMMENT__'),
-                'class': 'comments-focus-new-comment oae-lhnavigation-border'
+                'class': 'comments-focus-new-comment'
             },
             {
                 'icon': 'icon-share',
                 'title': oae.api.i18n.translate('__MSG__SHARE__'),
-                'class': 'oae-lhnavigation-border oae-trigger-share',
+                'class': 'oae-trigger-share',
                 'data': {
                     'data-id': discussionProfile.id,
                     'data-resourcetype': discussionProfile.resourceType,
@@ -110,7 +111,7 @@ require(['jquery','oae.core'], function($, oae) {
             oae.api.util.setBrowserTitle(discussionProfile.displayName);
             // Render the entity information
             setUpClips();
-            // Render the navigation
+            // // Set up the page
             setUpNavigation();
             // Set up the context event exchange
             setUpContext();

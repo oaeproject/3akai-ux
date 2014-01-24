@@ -31,12 +31,11 @@ require(['jquery','oae.core'], function($, oae) {
     {
             'icon': 'icon-cloud-upload',
             'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
-            'class': 'oae-trigger-upload oae-lhnavigation-border'
+            'class': 'oae-trigger-upload'
         },
         {
             'icon': 'icon-plus-sign',
             'title': oae.api.i18n.translate('__MSG__CREATE__'),
-            'class': 'oae-lhnavigation-border',
             'children': [
                 {
                     'icon': 'icon-group',

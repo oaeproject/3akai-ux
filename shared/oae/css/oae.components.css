@@ -1305,7 +1305,7 @@ ul.oae-list > li:first-child .oae-listitem {
     clear: both;
 }
 
-.oae-list-options > div:first-child {
+.oae-list-options > div:first-child > * {
     margin-bottom: 15px;
     padding: 0;
 }

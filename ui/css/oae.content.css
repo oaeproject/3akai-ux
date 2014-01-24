@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-/* Override left hand navigation media query */
+/* The content page shouldn't have any left hand navigation when wider than 992 pixels */
 @media (min-width: 992px) {
     .oae-lhnavigation {
         display: none;

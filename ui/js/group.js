@@ -111,12 +111,11 @@ require(['jquery', 'oae.core'], function($, oae) {
             lhNavActions.push({
                 'icon': 'icon-cloud-upload',
                 'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
-                'class': 'oae-lhnavigation-border oae-trigger-upload'
+                'class': 'oae-trigger-upload'
             },
             {
                 'icon': 'icon-plus-sign',
                 'title': oae.api.i18n.translate('__MSG__CREATE__'),
-                'class': 'oae-lhnavigation-border',
                 'children': [
                     {
                         'icon': 'icon-link',
@@ -148,7 +147,6 @@ require(['jquery', 'oae.core'], function($, oae) {
 
         // Structure that will be used to construct the left hand navigation pages
         var lhNavPages = [];
-
         // Only show the recent activity to group members
         if (groupProfile.isMember) {
             lhNavPages.push({
@@ -358,8 +356,6 @@ require(['jquery', 'oae.core'], function($, oae) {
         });
     };
 
-    // Bind to the join event
-    $(document).on('oae.trigger.join', joinGroup);
     // Bind to the click on the join clip
     $(document).on('click', '.oae-group-join', joinGroup);
 
