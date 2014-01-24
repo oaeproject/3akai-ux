@@ -20,6 +20,9 @@
 define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
     (function($) {
 
+        var LHNAVIGATION_WIDTH = 210;
+        var LHNAVIGATION_PADDING = '25px';
+
         /**
          * Open the left hand navigation
          */
@@ -35,11 +38,11 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
             // Animate the opacity and width
             $('.oae-lhnavigation').animate({
                 'opacity': 1,
-                'width': '210px'
+                'width': LHNAVIGATION_WIDTH  + 'px'
             }, 250);
             // Animate the padding of the page to 200px (width of the left hand nav) + 20 pixels (margin)
             $('.oae-page').animate({
-                'padding-left': '220px'
+                'padding-left': (LHNAVIGATION_WIDTH + 10) + 'px'
             }, 250, function() {
                 $('.oae-lhnavigation').addClass('oae-lhnav-expanded');
             });
@@ -56,7 +59,7 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
             }, 250);
             // Animate the padding of the page to 25 pixels
             $('.oae-page').animate({
-                'padding-left': '25px'
+                'padding-left': LHNAVIGATION_PADDING
             }, 250, function() {
                 // Add the bootstrap and OAE helper classes
                 $('.oae-lhnavigation > ul').addClass('hidden-xs hidden-sm');

@@ -170,8 +170,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             });
         }
 
-        lhNavPages.push(
-            {
+        lhNavPages.push({
                 'id': 'library',
                 'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
                 'icon': 'icon-briefcase',
