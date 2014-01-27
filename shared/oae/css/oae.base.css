@@ -257,6 +257,10 @@ input[type="color"],
     color: #B94A48;
 }
 
+.has-error .btn.btn-link:not(:hover) {
+    color: #A94442;
+}
+
 .radio, .checkbox {
     padding-left: 0;
 }
