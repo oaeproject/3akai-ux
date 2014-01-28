@@ -1405,9 +1405,11 @@ ul.oae-list > li:first-child .oae-listitem {
     border: none;
     filter: none;
     padding: 1px 0;
+    text-align: left;
     -webkit-box-shadow: none;
        -moz-box-shadow: none;
             box-shadow: none;
+    white-space: normal;
 }
 
 .oae-list-options .oae-list-options-toggle h2 {
@@ -1418,6 +1420,7 @@ ul.oae-list > li:first-child .oae-listitem {
 
 .oae-list-options .oae-list-options-toggle h2 .badge {
     margin-left: 5px;
+    position: relative;
     top: -3px;
 }
 
