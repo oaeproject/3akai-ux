@@ -1266,4 +1266,35 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         return isHandheld;
     };
 
+    ///////////////////
+    // Accessibility //
+    ///////////////////
+
+    var fakeButtonSpaceKeypressHandler = function(e) {
+        // Intercept space key presses and trigger click events (as real buttons would)
+        if (e.which === " ".charCodeAt(0)) {
+            $(e.target).click();
+        }
+    };
+
+    /**
+     * Enables the use of 'fake' button elements under the specified element.
+     *
+     * Fake button elements are elements tagged with class oae-fake-btn and
+     * with role='button'. For example:
+     *
+     *     <span role='button' class='oae-fake-btn btn btn-link' tabindex='0'>Button Text</span>.
+     *
+     * Calling this function on an ancestor of a 'fake' button is required to
+     * handle user interactions as they would be with a real <button> element.
+     *
+     * Specifically, this implementation handles space key presses on fake
+     * buttons and triggers clicks on the fake button.
+     *
+     * @param {Element|String} An Element/jQuery collection/jQuery selector string. Fake buttons will be enabled under the element(s) specified.
+     */
+    var enableFakeButtonsUnder = exports.enableFakeButtonsUnder = function($elem) {
+        $($elem).on("keypress", ".oae-fake-btn[role=button]", fakeButtonSpaceKeypressHandler);
+    };
+
 });

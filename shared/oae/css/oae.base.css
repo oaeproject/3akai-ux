@@ -620,3 +620,14 @@ ul.as-list li.as-result-item.active {
 .oae-main-content > .row {
     margin: 0 5px 0 -5px;
 }
+
+
+/******************
+ ** FAKE BUTTONS **
+ ******************/
+
+/* Allow text to wrap in link-style fake buttons */
+.oae-fake-btn.btn.btn-link[role=button] {
+    display: inline;
+    white-space: normal;
+}
