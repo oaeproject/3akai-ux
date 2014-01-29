@@ -1,6 +1,8 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
+
+        <meta name="viewport" content="width=device-width, user-scalable=no">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <noscript>
@@ -20,47 +22,58 @@
         <div data-widget="topnavigation"><!-- --></div>
 
         <!-- BODY -->
-        <div id="index-container" class="oae-branding-container oae-main-content">
+        <main id="index-container" class="oae-branding-container oae-main-content" role="main">
             <div id="index-content">
-                <div class="row-fluid">
-                    <div class="span12 oae-panel-tertiary index-search-container">
-                        <form id="index-search-form" aria-label="__MSG__SEARCH_FOR_CONTENT_PEOPLE_GROUPS__" role="search" class="form-inline">
-                            <label for="index-search-query" class="oae-aural-text">__MSG__SEARCH__</label>
-                            <input type="text" id="index-search-query" class="input-xxlarge pull-left span9" title="__MSG__SEARCH_FOR_CONTENT_PEOPLE_GROUPS__">
-                            <button type="submit" class="btn btn-primary btn-large" title="__MSG__SEARCH__">__MSG__SEARCH__</button>
-                        </form>
-                    </div>
+                <div class="oae-panel-tertiary index-search-container row">
+                    <form id="index-search-form" class="form-horizontal" role="search" aria-label="__MSG__SEARCH_FOR_CONTENT_PEOPLE_GROUPS__">
+                        <div class="form-group">
+                            <input type="text" id="index-search-query" class="form-control search-query form-control pull-left" title="__MSG__SEARCH_FOR_CONTENT_PEOPLE_GROUPS__" placeholder="__MSG__SEARCH_FOR_CONTENT_PEOPLE_GROUPS__"/>
+                            <button type="submit" id="index-search-icon" class="btn btn-link pull-left">
+                                <i class="icon-search"><span class="oae-aural-text">__MSG__SEARCH__</span></i>
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                <div class="row-fluid">
-                    <div id="index-video-container" class="span7 text-center">
-                        <button type="button" id="index-video-launch" class="oae-trigger-productvideo btn btn-link" title="__MSG__PLAY_VIDEO__">
-                            <i class="icon-play-circle active"><span class="oae-aural-text">__MSG__PLAY_VIDEO__</span></i>
-                        </button>
-                    </div>
-                    <div class="span5 oae-panel-primary">
+                <div class="row">
+                    <div id="index-video-container" class="col-md-7 text-center"><!-- --></div>
+                    <div class="col-md-5 oae-panel-primary">
                         <h1 id="index-slogan">__MSG__SUPPORTING_ACADEMIC_COLLABORATION__</h1>
                         <p id="index-slogan-description">__MSG__A_POWERFULL_NEW_WAY_FOR_STUDENTS_AND_FACULTY_TO_CREATE_KNOWLEDGE_COLLABORATE_AND_CONNECT_WITH_THE_WORLD__</p>
                     </div>
                 </div>
-                <div class="row-fluid">
-                    <div class="span4 oae-panel-secondary index-bottom">
+                <div class="row">
+                    <div class="col-md-4 oae-panel-secondary index-bottom">
                         <i class="icon-edit pull-left"></i>
                         <h2 class="index-bottom-slogan">__MSG__AUTHORING_EXPERIENCE__</h2>
                         <p class="index-bottom-description">__MSG__RICH_COMPELLING_INTERACTIVE_CONTENT_AUTHORING__</p>
                     </div>
-                    <div class="span4 oae-panel-secondary index-bottom">
+                    <div class="col-md-4 oae-panel-secondary index-bottom">
                         <i class="icon-comments pull-left"></i>
                         <h2 class="index-bottom-slogan">__MSG__CHANNELS_OF_COMMUNICATION__</h2>
                         <p class="index-bottom-description">__MSG__PARTICIPATING_IN_DISCUSSIONS_AND_FEEDBACK_WITHIN_PERSONALIZED_NETWORKS__</p>
                     </div>
-                    <div class="span4 oae-panel-secondary index-bottom">
+                    <div class="col-md-4 oae-panel-secondary index-bottom">
                         <i class="icon-cloud-download pull-left"></i>
                         <h2 class="index-bottom-slogan">__MSG__ACCESS_TO_CONTENT__</h2>
                         <p class="index-bottom-description">__MSG__EXPANDED_ACCESS_TO_LEARNING_AND_RESEARCH_MATERIALS_BETTER_CONNECTS_LIBRARY_SERVICES__</p>
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
+
+        <div id="index-productvideo-template"><!--
+            {if !oae.api.util.isHandheldDevice()}
+                <div id="index-video">
+                    <button type="button" id="index-video-launch" class="oae-trigger-productvideo btn btn-link" title="__MSG__PLAY_VIDEO__">
+                        <i class="icon-play-circle active"><span class="oae-aural-text">__MSG__PLAY_VIDEO__</span></i>
+                    </button>
+                </div>
+            {else}
+                <div id="index-video" class="index-video-mobile">
+                    <iframe width="100%" height="100%" src="//www.youtube.com/embed/cfiM87Y0pWw?rel=0&autoplay=1&enablejsapi=1&controls=0&showinfo=0&modestbranding=1" frameborder="0" allowfullscreen></iframe>
+                </div>
+            {/if}
+        --></div>
 
         <!-- FOOTER -->
         <div data-widget="footer"><!-- --></div>
