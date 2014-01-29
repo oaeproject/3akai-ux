@@ -110,6 +110,15 @@ body {
     vertical-align: middle;
 }
 
+td.jeditable-container {
+    word-wrap: break-word;
+    hyphens: auto;
+    -o-hyphens: auto;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+}
+
 td.jeditable-container:hover {
     cursor: pointer;
     color: #666;
