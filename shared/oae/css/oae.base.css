@@ -352,7 +352,8 @@ input[type="color"],
         float: left;
     }
 
-    .modal-footer button.btn-primary, .modal-footer button.btn-danger {
+    .modal-footer button.btn-danger,
+    .modal-footer button.btn-primary {
         float: right;
     }
 }
