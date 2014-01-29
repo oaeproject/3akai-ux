@@ -23,13 +23,13 @@ require(['jquery','oae.core'], function($, oae) {
     var discussionProfile = null;
 
     /**
-     * Set up the left hand navigation with the content space page structure
+     * Set up the left hand navigation with the content space page structure.
+     * The discussion left hand navigation item will not be shown to the user and is only here to load the discussionprofile.
      */
     var setUpNavigation = function() {
-        var lhNavigation = [
+        var lhNavPages = [
             {
                 'id': 'discussion',
-                'default': true,
                 'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
                 'icon': 'icon-comments',
                 'class': 'hide',
@@ -55,18 +55,18 @@ require(['jquery','oae.core'], function($, oae) {
             }
         ];
 
+        var lhNavActions = [];
+        // If the user is logged in the comment and share functionality should be added
         if (!oae.data.me.anon) {
-            lhNavigation.push({
+            lhNavActions.push({
                 'icon': 'icon-comments',
                 'title': oae.api.i18n.translate('__MSG__COMMENT__'),
-                'trigger': 'oae.trigger.comment.focus',
-                'class': 'oae-lhnavigation-border hidden-md hidden-lg'
+                'class': 'comments-focus-new-comment'
             },
             {
                 'icon': 'icon-share',
                 'title': oae.api.i18n.translate('__MSG__SHARE__'),
-                'trigger': 'oae.trigger.share',
-                'class': 'oae-lhnavigation-border oae-trigger-share hidden-md hidden-lg',
+                'class': 'oae-trigger-share',
                 'data': {
                     'data-id': discussionProfile.id,
                     'data-resourcetype': discussionProfile.resourceType,
@@ -78,9 +78,9 @@ require(['jquery','oae.core'], function($, oae) {
         // If the user is anonymous the discussion profile has no navigation
         var hasNav = !oae.data.me.anon;
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, null, hasNav]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, null, hasNav]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, null, hasNav]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, null, hasNav]);
         });
     };
 
@@ -111,12 +111,14 @@ require(['jquery','oae.core'], function($, oae) {
             oae.api.util.setBrowserTitle(discussionProfile.displayName);
             // Render the entity information
             setUpClips();
-            // Render the navigation
+            // // Set up the page
             setUpNavigation();
             // Set up the context event exchange
             setUpContext();
             // We can now unhide the page
             oae.api.util.showPage();
+            // Set up the discussion push notifications
+            setUpPushNotifications();
         });
     };
 
@@ -149,6 +151,26 @@ require(['jquery','oae.core'], function($, oae) {
         if (!oae.data.me.anon) {
             oae.api.util.template().render($('#discussion-actions-clip-template'), {'discussion': discussionProfile}, $('#discussion-actions-clip-container'));
         }
+    };
+
+    /**
+     * Subscribe to discussion activity push notifications, allowing for updating the discussion profile when changes to the discussion
+     * are made by a different user after the initial page load
+     */
+    var setUpPushNotifications = function() {
+        oae.api.push.subscribe(discussionId, 'activity', discussionProfile.signature, 'internal', false, function(activity) {
+            var supportedActivities = ['discussion-update', 'discussion-update-visibility'];
+            // Only respond to push notifications caused by other users
+            if (activity.actor.id !== oae.data.me.id && _.contains(supportedActivities, activity['oae:activityType'])) {
+                activity.object.canShare = discussionProfile.canShare;
+                activity.object.canPost = discussionProfile.canPost;
+                activity.object.isManager = discussionProfile.isManager;
+
+                discussionProfile = activity.object;
+                setUpClips();
+                setUpTopic();
+            }
+        });
     };
 
 
@@ -214,11 +236,6 @@ require(['jquery','oae.core'], function($, oae) {
      * Re-render the discussion's clip and topic when the title or topic have been updated.
      */
     $(document).on('oae.editdiscussion.done', function(ev, data) {
-        // TODO: remove once https://github.com/oaeproject/Hilary/issues/519 is merged
-        data.canShare = discussionProfile.canShare;
-        data.canPost = discussionProfile.canPost;
-        data.isManager = discussionProfile.isManager;
-
         discussionProfile = data;
         setUpClips();
         setUpTopic();

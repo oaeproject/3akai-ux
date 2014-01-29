@@ -23,50 +23,48 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     var contentProfile = null;
 
     /**
-     * Set up the left hand navigation with the content space page structure
+     * Set up the left hand navigation with the content space page structure.
+     * The content left hand navigation item will not be shown to the user and is only here to load the contentprofile.
      */
-    var setUpNavigation = function(previewWidgetID) {
-        var lhNavigation = [
-            {
-                'id': 'content',
-                'default': true,
-                'title': oae.api.i18n.translate('__MSG__CONTENT__'),
-                'icon': 'icon-comments',
-                'class': 'hide',
-                'layout': [
-                    {
-                        'width': 'col-md-12',
-                        'widgets': [
-                            {
-                                'id': previewWidgetID,
-                                'settings': contentProfile
-                            }
-                        ]
-                    },
-                    {
-                        'width': 'col-md-12',
-                        'widgets': [
-                            {
-                                'id': 'comments'
-                            }
-                        ]
-                    }
-                ]
-            }
-        ];
+    var setUpNavigation = function() {
+        var lhNavPages = [{
+            'id': 'content',
+            'title': oae.api.i18n.translate('__MSG__CONTENT__'),
+            'icon': 'icon-comments',
+            'class': 'hide',
+            'layout': [
+                {
+                    'width': 'col-md-12',
+                    'widgets': [
+                        {
+                            'id': getPreviewWidgetId(),
+                            'settings': contentProfile
+                        }
+                    ]
+                },
+                {
+                    'width': 'col-md-12',
+                    'widgets': [
+                        {
+                            'id': 'comments'
+                        }
+                    ]
+                }
+            ]
+        }];
 
+        var lhNavActions = [];
+        // If the user is logged in the comment and share functionality should be added
         if (!oae.data.me.anon) {
-            lhNavigation.push({
+            lhNavActions.push({
                 'icon': 'icon-comments',
                 'title': oae.api.i18n.translate('__MSG__COMMENT__'),
-                'trigger': 'oae.trigger.comment.focus',
-                'class': 'oae-lhnavigation-border hidden-md hidden-lg'
+                'class': 'comments-focus-new-comment'
             },
             {
                 'icon': 'icon-share',
                 'title': oae.api.i18n.translate('__MSG__SHARE__'),
-                'trigger': 'oae.trigger.share',
-                'class': 'oae-lhnavigation-border oae-trigger-share hidden-md hidden-lg',
+                'class': 'oae-trigger-share',
                 'data': {
                     'data-id': contentProfile.id,
                     'data-resourcetype': contentProfile.resourceType,
@@ -78,9 +76,9 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         // If the user is anonymous the content profile has no navigation
         var hasNav = !oae.data.me.anon;
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, null, hasNav]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, null, hasNav]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, null, hasNav]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, null, hasNav]);
         });
     };
 
@@ -111,12 +109,14 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             oae.api.util.setBrowserTitle(contentProfile.displayName);
             // Render the entity information and actions
             setUpClips();
-            // Set up the navigation
-            setUpNavigation(getPreviewWidgetId());
+            // Set up the page
+            setUpNavigation();
             // Set up the context event exchange
             setUpContext();
             // We can now unhide the page
             oae.api.util.showPage();
+            // Setup the push notifications to update this content profile on the fly
+            setUpPushNotifications();
         });
     };
 
@@ -133,10 +133,10 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     };
 
     /**
-     * Get the ID of the preview widget to use
+     * Get the name of the preview widget to use for the current piece of content
      */
     var getPreviewWidgetId = function() {
-        // Based on the content type, insert a new preview widget and pass in the updated content profile data
+        // Based on the content type, return a content preview widget ID
         if (contentProfile.resourceSubType === 'file') {
             // Load document viewer when a PDF or Office document needs to be displayed
             if (contentProfile.previews && contentProfile.previews.pageCount) {
@@ -170,6 +170,32 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         $(document).trigger('oae.context.send', contentProfile);
     };
 
+    /**
+     * Subscribe to content activity push notifications, allowing for updating the content profile when changes to the content
+     * are made by a different user after the initial page load
+     */
+    var setUpPushNotifications = function() {
+        oae.api.push.subscribe(contentId, 'activity', contentProfile.signature, 'internal', false, function(activity) {
+            var isSupportedUpdateActivity = _.contains(['content-update', 'content-update-visibility'], activity['oae:activityType']);
+            var isSupportedPreviewActivity = _.contains(['content-revision', 'content-restored-revision', 'previews-finished'], activity['oae:activityType']);
+            // Only respond to push notifications caused by other users
+            if (activity.actor.id === oae.data.me.id) {
+                return;
+            // Content preview activities should not trigger a content profile update when the content item is a collaborative
+            // document and the current user can manage the document. In this case, Etherpad will take care of the content preview
+            } else if (isSupportedPreviewActivity && contentProfile.resourceSubType === 'collabdoc' && contentProfile.isManager) {
+                return;
+            // Trigger a content profile update
+            } else if (isSupportedUpdateActivity || isSupportedPreviewActivity) {
+                var contentObj = activity.object;
+                contentObj.canShare = contentProfile.canShare;
+                contentObj.isManager = contentProfile.isManager;
+
+                $(document).trigger('oae.content.update', contentObj);
+            }
+        });
+    };
+
 
     ////////////////////////
     // UPLOAD NEW VERSION //
@@ -187,7 +213,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         // Make sure the oae-page div is empty so the left hand nav reloads the content preview
         $('.oae-page').empty();
         // Refresh the content profile elements
-        setUpNavigation(getPreviewWidgetId());
+        setUpNavigation();
         setUpClips();
     };
 

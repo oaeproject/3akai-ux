@@ -13,42 +13,48 @@
  * permissions and limitations under the License.
  */
 
+/**
+ * Utility plugin that handles the responsive left hand navigation interactions.
+ *     - Ability to open and close the navigation using the `.oae-lhnavigation-toggle` class on desktop and mobile.
+ *     - Toggling the visiblity of the navigation uses animation to fade-in/fade-out on desktop and mobile.
+ *     - When a `page link` is clicked on a mobile device the navigation will close (does not apply on desktop). The navigation stays visible when an `action button` is clicked as this doesn't show a new page.
+ */
+
 define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
     (function($) {
 
-        // Padding is adjusted for mobile phones when the page is rendered
-        // This variable keeps track of what was chosen in CSS media queries.
-        var navPadding = '25px';
+        var LHNAVIGATION_WIDTH = 210;
+        var LHNAVIGATION_PADDING = '25px';
 
         /**
          * Open the left hand navigation
          */
-        var openLeftHandNav = function() {
-            navPadding = $('.oae-page').css('padding-left');
+        var openLhNav = function() {
             // First set the opacity and width to 0 before animating it
             $('.oae-lhnavigation').css({
                 'opacity': 0,
                 'width': 0
             });
-            // Remove the bootstrap responsive hidden classes
+            // Remove the bootstrap responsive hidden classes to show the left hand
+            // navigation when animating on smaller screens
             $('.oae-lhnavigation > ul').removeClass('hidden-xs hidden-sm');
             // Animate the opacity and width
             $('.oae-lhnavigation').animate({
                 'opacity': 1,
-                'width': '210px'
+                'width': LHNAVIGATION_WIDTH  + 'px'
             }, 250);
-            // Animate the padding of the page to 200px (width of the left hand nav)
+            // Animate the padding of the page to 200px (width of the left hand nav) + 20 pixels (margin)
             $('.oae-page').animate({
-                'padding-left': '220px'
+                'padding-left': (LHNAVIGATION_WIDTH + 10) + 'px'
             }, 250, function() {
-                $('.oae-page').addClass('oae-page-expanded');
+                $('.oae-lhnavigation').addClass('oae-lhnav-expanded');
             });
         };
 
         /**
          * Close the left hand navigation
          */
-        var closeLeftHandNav = function() {
+        var closeLhNav = function() {
             // Animate the width and opacity to 0
             $('.oae-lhnavigation').animate({
                 'opacity': 0,
@@ -56,33 +62,36 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
             }, 250);
             // Animate the padding of the page to 25 pixels
             $('.oae-page').animate({
-                'padding-left': '25px'
+                'padding-left': LHNAVIGATION_PADDING
             }, 250, function() {
                 // Add the bootstrap and OAE helper classes
                 $('.oae-lhnavigation > ul').addClass('hidden-xs hidden-sm');
-                $('.oae-page').removeClass('oae-page-expanded');
+                $('.oae-lhnavigation').removeClass('oae-lhnav-expanded');
             });
         };
 
         /**
-         * Close the left hand navigation when clicking a navigation link on a handheld device
+         * Close the left hand navigation when clicking a navigation link on a handheld device.
+         * Actions in the left hand navigation trigger a widget and shouldn't close the left hand navigation.
+         * If the user is on a desktop browser the left hand navigation should never close automatically.
          */
-        $(document).on('click', '.oae-lhnavigation > ul > li:not(.collapse)', function() {
+        $(document).on('click', '.oae-lhnavigation > ul > li:not(.oae-lhnavigation-action)', function() {
             if (oaeUtil.isHandheldDevice()) {
-                closeLeftHandNav();
+                closeLhNav();
             }
         });
 
         /**
-         * Toggle the left hand navigation with animation
+         * Toggle the left hand navigation with animation. The left hand navigation can only
+         * be toggled in small and extra small viewports.
          */
         $(document).on('click', '.oae-lhnavigation-toggle', function(ev) {
-            // If the left hand navigation is open close it
-            if ($('.oae-page').hasClass('oae-page-expanded')) {
-                closeLeftHandNav();
-            // If the left hand navigation is closed open it
+            // If the left hand navigation is open, close it
+            if ($('.oae-lhnavigation').hasClass('oae-lhnav-expanded')) {
+                closeLhNav();
+            // If the left hand navigation is closed, open it
             } else {
-                openLeftHandNav();
+                openLhNav();
             }
         });
 
