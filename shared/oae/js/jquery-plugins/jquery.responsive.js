@@ -52,7 +52,7 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
 
             // If the user focuses in on anything within the main page, we be cool and slide the nav
             // shut for them
-            $('.oae-page').on('focusin.oae-lhnav-toggle', function(event) {
+            $('.oae-page').on('focusin.oae-lhnav-toggle', function() {
                 closeLhNav();
             });
         };
