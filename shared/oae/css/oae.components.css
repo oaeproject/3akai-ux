@@ -537,12 +537,12 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .oae-clip {
+    /* Prevent flickering when collapsing the left hand navigation on iOs devices */
+    -webkit-backface-visibility: hidden;
     float: left;
     margin: -16px 10px 10px;
     position: relative;
     z-index: 101;
-    /* Prevent flickering when collapsing the left hand navigation on iOs devices */
-    -webkit-backface-visibility: hidden;
 }
 
 /* Clip fold */

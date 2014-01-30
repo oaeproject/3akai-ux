@@ -22,10 +22,11 @@
 
 define(['jquery', 'underscore', 'oae.api.util'], function (jQuery, _, oaeUtil) {
     (function($) {
+        // Time (in ms) it takes for the left hand nav opening/closing animation to finish.
         var LHNAVIGATION_ANIMATION_TIME = 250;
 
         /**
-         * Open the left hand navigation
+         * Open the left hand navigation. Throttle the function to prevent it from being triggered during animation.
          */
         var openLhNav = _.throttle(function() {
             // Remove the bootstrap responsive hidden classes to show the left hand
@@ -35,7 +36,7 @@ define(['jquery', 'underscore', 'oae.api.util'], function (jQuery, _, oaeUtil) {
         }, LHNAVIGATION_ANIMATION_TIME * 2);
 
         /**
-         * Close the left hand navigation
+         * Close the left hand navigation. Throttle the function to prevent it from being triggered during animation.
          */
         var closeLhNav = _.throttle(function() {
             $('.oae-lhnavigation').removeClass('oae-lhnav-expanded');
