@@ -541,6 +541,8 @@ div.oae-thumbnail i[class^="icon-"] {
     margin: -16px 10px 10px;
     position: relative;
     z-index: 101;
+    /* Prevent flickering when collapsing the left hand navigation on iOs devices */
+    -webkit-backface-visibility: hidden;
 }
 
 /* Clip fold */
@@ -883,6 +885,18 @@ div.oae-thumbnail i[class^="icon-"] {
     position: absolute;
     width: 210px;
     z-index: 99;
+    opacity: 0;
+    overflow: hidden;
+    -webkit-transition: width 250ms ease-in-out, opacity 250ms ease-in-out;
+       -moz-transition: width 250ms ease-in-out, opacity 250ms ease-in-out;
+        -ms-transition: width 250ms ease-in-out, opacity 250ms ease-in-out;
+            transition: width 250ms ease-in-out, opacity 250ms ease-in-out;
+    width: 0;
+}
+
+.oae-lhnavigation.oae-lhnav-expanded {
+    opacity: 1;
+    width: 210px;
 }
 
 .oae-lhnavigation > ul.nav {
@@ -941,13 +955,21 @@ div.oae-thumbnail i[class^="icon-"] {
 /* Page content */
 
 .oae-page {
+    /* Prevent flickering when collapsing the left hand navigation on iOs devices */
+    -webkit-backface-visibility: hidden;
     min-width: 280px;
     padding: 5px 25px;
+    -webkit-transition: -webkit-transform 250ms ease-in-out;
+       -moz-transition:    -moz-transform 250ms ease-in-out;
+        -ms-transition:     -ms-transform 250ms ease-in-out;
+            transition:         transform 250ms ease-in-out;
 }
 
 .oae-lhnavigation.oae-lhnav-expanded + .oae-page {
-    min-width: 480px;
-    padding: 5px 25px 5px 220px;
+    -webkit-transform: translateX(220px);
+       -moz-transform: translateX(220px);
+        -ms-transform: translateX(220px);
+            transform: translateX(220px);
 }
 
 /* iPhone resolution */

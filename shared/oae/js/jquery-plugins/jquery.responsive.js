@@ -20,55 +20,30 @@
  *     - When a `page link` is clicked on a mobile device the navigation will close (does not apply on desktop). The navigation stays visible when an `action button` is clicked as this doesn't show a new page.
  */
 
-define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
+define(['jquery', 'underscore', 'oae.api.util'], function (jQuery, _, oaeUtil) {
     (function($) {
-
-        var LHNAVIGATION_WIDTH = 210;
-        var LHNAVIGATION_PADDING = '25px';
+        var LHNAVIGATION_ANIMATION_TIME = 250;
 
         /**
          * Open the left hand navigation
          */
-        var openLhNav = function() {
-            // First set the opacity and width to 0 before animating it
-            $('.oae-lhnavigation').css({
-                'opacity': 0,
-                'width': 0
-            });
+        var openLhNav = _.throttle(function() {
             // Remove the bootstrap responsive hidden classes to show the left hand
             // navigation when animating on smaller screens
             $('.oae-lhnavigation > ul').removeClass('hidden-xs hidden-sm');
-            // Animate the opacity and width
-            $('.oae-lhnavigation').animate({
-                'opacity': 1,
-                'width': LHNAVIGATION_WIDTH  + 'px'
-            }, 250);
-            // Animate the padding of the page to 200px (width of the left hand nav) + 20 pixels (margin)
-            $('.oae-page').animate({
-                'padding-left': (LHNAVIGATION_WIDTH + 10) + 'px'
-            }, 250, function() {
-                $('.oae-lhnavigation').addClass('oae-lhnav-expanded');
-            });
-        };
+            $('.oae-lhnavigation').addClass('oae-lhnav-expanded');
+        }, LHNAVIGATION_ANIMATION_TIME * 2);
 
         /**
          * Close the left hand navigation
          */
-        var closeLhNav = function() {
-            // Animate the width and opacity to 0
-            $('.oae-lhnavigation').animate({
-                'opacity': 0,
-                'width': 0
-            }, 250);
-            // Animate the padding of the page to 25 pixels
-            $('.oae-page').animate({
-                'padding-left': LHNAVIGATION_PADDING
-            }, 250, function() {
-                // Add the bootstrap and OAE helper classes
+        var closeLhNav = _.throttle(function() {
+            $('.oae-lhnavigation').removeClass('oae-lhnav-expanded');
+            setTimeout(function() {
+                // Add the bootstrap and OAE helper classes when the collpasing animation is finished
                 $('.oae-lhnavigation > ul').addClass('hidden-xs hidden-sm');
-                $('.oae-lhnavigation').removeClass('oae-lhnav-expanded');
-            });
-        };
+            }, LHNAVIGATION_ANIMATION_TIME - 15);
+        }, LHNAVIGATION_ANIMATION_TIME * 2);
 
         /**
          * Close the left hand navigation when clicking a navigation link on a handheld device.
