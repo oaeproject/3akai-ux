@@ -26,24 +26,24 @@ define(['jquery', 'underscore', 'oae.api.util'], function (jQuery, _, oaeUtil) {
         var LHNAVIGATION_ANIMATION_TIME = 250;
 
         /**
-         * Open the left hand navigation. Throttle the function to prevent it from being triggered during animation.
+         * Toggle the left hand navigation. Throttle the function to prevent it from being triggered during animation.
+         * @param  {Boolean}   visible   Determines whether the left hand navigation should be shown (true) or hidden (false).
          */
-        var openLhNav = _.throttle(function() {
-            // Remove the bootstrap responsive hidden classes to show the left hand
-            // navigation when animating on smaller screens
-            $('.oae-lhnavigation > ul').removeClass('hidden-xs hidden-sm');
-            $('.oae-lhnavigation').addClass('oae-lhnav-expanded');
-        }, LHNAVIGATION_ANIMATION_TIME * 2);
+        var toggleLhNav = _.throttle(function(visible) {
+            var $lhNav = $('.oae-lhnavigation').addClass('oae-lhnav-collapsing').toggleClass('oae-lhnav-expanded', visible);
+            if (visible) {
+                // Remove the bootstrap responsive hidden classes to show the left hand
+                // navigation when animating on smaller screens
+                $('> ul', $lhNav).removeClass('hidden-xs hidden-sm');
+            }
 
-        /**
-         * Close the left hand navigation. Throttle the function to prevent it from being triggered during animation.
-         */
-        var closeLhNav = _.throttle(function() {
-            $('.oae-lhnavigation').removeClass('oae-lhnav-expanded');
             setTimeout(function() {
-                // Add the bootstrap and OAE helper classes when the collpasing animation is finished
-                $('.oae-lhnavigation > ul').addClass('hidden-xs hidden-sm');
-            }, LHNAVIGATION_ANIMATION_TIME - 15);
+                $lhNav.removeClass('oae-lhnav-collapsing');
+                if (!visible) {
+                    // Add the bootstrap and OAE helper classes once the closing animation is finished
+                    $('> ul', $lhNav).addClass('hidden-xs hidden-sm');
+                }
+            }, LHNAVIGATION_ANIMATION_TIME);
         }, LHNAVIGATION_ANIMATION_TIME * 2);
 
         /**
@@ -53,7 +53,7 @@ define(['jquery', 'underscore', 'oae.api.util'], function (jQuery, _, oaeUtil) {
          */
         $(document).on('click', '.oae-lhnavigation > ul > li:not(.oae-lhnavigation-action)', function() {
             if (oaeUtil.isHandheldDevice()) {
-                closeLhNav();
+                toggleLhNav(false);
             }
         });
 
@@ -62,13 +62,8 @@ define(['jquery', 'underscore', 'oae.api.util'], function (jQuery, _, oaeUtil) {
          * be toggled in small and extra small viewports.
          */
         $(document).on('click', '.oae-lhnavigation-toggle', function(ev) {
-            // If the left hand navigation is open, close it
-            if ($('.oae-lhnavigation').hasClass('oae-lhnav-expanded')) {
-                closeLhNav();
-            // If the left hand navigation is closed, open it
-            } else {
-                openLhNav();
-            }
+            // Open the left hand navigation if it's closed, otherwise close it.
+            toggleLhNav(!$('.oae-lhnavigation').hasClass('oae-lhnav-expanded'));
         });
 
     })(jQuery);

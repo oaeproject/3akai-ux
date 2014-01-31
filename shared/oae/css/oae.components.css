@@ -882,21 +882,23 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-lhnavigation {
     margin-left: 10px;
     margin-top: -5px;
-    position: absolute;
-    width: 210px;
-    z-index: 99;
     opacity: 0;
-    overflow: hidden;
-    -webkit-transition: width 250ms ease-in-out, opacity 250ms ease-in-out;
-       -moz-transition: width 250ms ease-in-out, opacity 250ms ease-in-out;
-        -ms-transition: width 250ms ease-in-out, opacity 250ms ease-in-out;
-            transition: width 250ms ease-in-out, opacity 250ms ease-in-out;
+    position: absolute;
     width: 0;
+    z-index: 99;
 }
 
 .oae-lhnavigation.oae-lhnav-expanded {
     opacity: 1;
     width: 210px;
+}
+
+.oae-lhnavigation.oae-lhnav-collapsing {
+    overflow: hidden;
+    -webkit-transition: width 250ms ease-in-out, opacity 250ms ease-in-out;
+       -moz-transition: width 250ms ease-in-out, opacity 250ms ease-in-out;
+        -ms-transition: width 250ms ease-in-out, opacity 250ms ease-in-out;
+            transition: width 250ms ease-in-out, opacity 250ms ease-in-out;
 }
 
 .oae-lhnavigation > ul.nav {
@@ -918,6 +920,10 @@ div.oae-thumbnail i[class^="icon-"] {
     width: 100%;
 }
 
+.oae-lhnavigation > ul.nav > li a {
+    padding: 0 12px 8px;
+}
+
 .oae-lhnavigation > ul.nav > li a div,
 .oae-lhnavigation > ul.nav > li button div {
     padding-top: 8px;
@@ -932,24 +938,20 @@ div.oae-thumbnail i[class^="icon-"] {
     border-bottom-width: 1px;
 }
 
-.oae-lhnavigation > ul.nav > li a {
-    padding: 0 12px 8px;
-}
-
 /* Left hand navigation toggle */
-
-.oae-lhnavigation > ul.nav > li button div.lhnavigation-caret-container {
-    padding-top: 0;
-    margin-right: -12px;
-}
-
-.oae-lhnavigation > ul.nav > li button div.lhnavigation-caret-container [class^="icon-"] {
-    margin-right: 0;
-}
 
 .oae-lhnavigation-toggle {
     position: relative;
     z-index: 100;
+}
+
+.oae-lhnavigation > ul.nav > li button div.lhnavigation-caret-container {
+    margin-right: -12px;
+    padding-top: 0;
+}
+
+.oae-lhnavigation > ul.nav > li button div.lhnavigation-caret-container [class^="icon-"] {
+    margin-right: 0;
 }
 
 /* Page content */
@@ -959,10 +961,6 @@ div.oae-thumbnail i[class^="icon-"] {
     -webkit-backface-visibility: hidden;
     min-width: 280px;
     padding: 5px 25px;
-    -webkit-transition: -webkit-transform 250ms ease-in-out;
-       -moz-transition:    -moz-transform 250ms ease-in-out;
-        -ms-transition:     -ms-transform 250ms ease-in-out;
-            transition:         transform 250ms ease-in-out;
 }
 
 .oae-lhnavigation.oae-lhnav-expanded + .oae-page {
@@ -970,6 +968,13 @@ div.oae-thumbnail i[class^="icon-"] {
        -moz-transform: translateX(220px);
         -ms-transform: translateX(220px);
             transform: translateX(220px);
+}
+
+.oae-lhnavigation.oae-lhnav-collapsing + .oae-page {
+    -webkit-transition: -webkit-transform 250ms ease-in-out;
+       -moz-transition:    -moz-transform 250ms ease-in-out;
+        -ms-transition:     -ms-transform 250ms ease-in-out;
+            transition:         transform 250ms ease-in-out;
 }
 
 /* iPhone resolution */
@@ -980,12 +985,20 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 @media (min-width: 992px) {
-    .oae-page {
-        padding: 5px 25px 5px 220px !important;
-    }
     .oae-lhnavigation {
         opacity: 1 !important;
         width: 210px !important;
+    }
+
+    .oae-page {
+        padding: 5px 25px 5px 220px !important;
+    }
+
+    .oae-lhnavigation.oae-lhnav-expanded + .oae-page {
+        -webkit-transform: none;
+           -moz-transform: none;
+            -ms-transform: none;
+                transform: none;
     }
 }
 
