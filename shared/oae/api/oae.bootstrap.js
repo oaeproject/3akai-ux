@@ -24,7 +24,7 @@ requirejs.config({
 
         // Vendor paths
         'bootstrap': 'vendor/js/bootstrap',
-        'bootstrap.clickover': 'vendor/js/bootstrap-plugins/bootstrapx.clickover',
+        'bootstrap.clickover': 'vendor/js/bootstrap-plugins/bootstrapx.clickover.oae-edited',
         'bootstrap.notify': 'vendor/js/bootstrap-plugins/bootstrap.notify.oae-edited',
         'globalize': 'vendor/js/l10n/globalize',
         'jquery.autosuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest',
