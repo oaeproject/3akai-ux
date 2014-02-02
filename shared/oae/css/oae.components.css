@@ -213,7 +213,7 @@ i[class^="icon-"].large:before {
  * Notes:
  *
  * - The selected button should have a `checked` class on the label element
- * - col-md-x defines the width of the column. The total of all columns should be 12.
+ * - `col-md-<x>` defines the width of the column. The sum of all column widths should be 12
  **/
 
 .oae-large-options-container label {
