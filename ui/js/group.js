@@ -57,7 +57,10 @@ require(['jquery', 'oae.core'], function($, oae) {
             } else {
                 // Render the navigation
                 setUpNavigation();
+                // Set up the group push notifications to update this group profile on the fly
+                setUpPushNotifications();
             }
+
         });
     };
 
@@ -108,12 +111,11 @@ require(['jquery', 'oae.core'], function($, oae) {
             lhNavActions.push({
                 'icon': 'icon-cloud-upload',
                 'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
-                'class': 'oae-lhnavigation-border oae-trigger-upload'
+                'class': 'oae-trigger-upload'
             },
             {
                 'icon': 'icon-plus-sign',
                 'title': oae.api.i18n.translate('__MSG__CREATE__'),
-                'class': 'oae-lhnavigation-border',
                 'children': [
                     {
                         'icon': 'icon-link',
@@ -139,13 +141,12 @@ require(['jquery', 'oae.core'], function($, oae) {
             lhNavActions.push({
                 'icon': 'icon-pushpin',
                 'title': oae.api.i18n.translate('__MSG__JOIN_GROUP__'),
-                'class': 'oae-group-join'
+                'class': 'group-join'
             });
         }
 
         // Structure that will be used to construct the left hand navigation pages
         var lhNavPages = [];
-
         // Only show the recent activity to group members
         if (groupProfile.isMember) {
             lhNavPages.push({
@@ -159,7 +160,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                             {
                                 'id': 'activity',
                                 'settings': {
-                                    'principalId': groupProfile.id,
+                                    'context': groupProfile,
                                     'canManage': groupProfile.isManager
                                 }
                             }
@@ -169,8 +170,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             });
         }
 
-        lhNavPages.push(
-            {
+        lhNavPages.push({
                 'id': 'library',
                 'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
                 'icon': 'icon-briefcase',
@@ -181,7 +181,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                             {
                                 'id': 'contentlibrary',
                                 'settings': {
-                                    'principalId': groupProfile.id,
+                                    'context': groupProfile,
                                     'canManage': groupProfile.isManager
                                 }
                             }
@@ -200,7 +200,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                             {
                                 'id': 'discussionslibrary',
                                 'settings': {
-                                    'principalId': groupProfile.id,
+                                    'context': groupProfile,
                                     'canManage': groupProfile.isManager
                                 }
                             }
@@ -219,7 +219,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                             {
                                 'id': 'members',
                                 'settings': {
-                                    'principalId': groupProfile.id,
+                                    'context': groupProfile,
                                     'canManage': groupProfile.isManager
                                 }
                             }
@@ -232,6 +232,25 @@ require(['jquery', 'oae.core'], function($, oae) {
         $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, true]);
         $(window).on('oae.ready.lhnavigation', function() {
             $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, true]);
+        });
+    };
+
+    /**
+     * Subscribe to group activity push notifications, allowing for updating the group profile when changes to the group
+     * are made by a different user after the initial page load
+     */
+    var setUpPushNotifications = function() {
+        oae.api.push.subscribe(groupId, 'activity', groupProfile.signature, 'internal', false, function(activity) {
+            var supportedActivities = ['group-update', 'group-update-visibility'];
+            // Only respond to push notifications caused by other users
+            if (activity.actor.id !== oae.data.me.id && _.contains(supportedActivities, activity['oae:activityType'])) {
+                activity.object.canJoin = groupProfile.canJoin;
+                activity.object.isManager = groupProfile.isManager;
+                activity.object.isMember = groupProfile.isMember;
+
+                groupProfile = activity.object;
+                setUpClip();
+            }
         });
     };
 
@@ -307,7 +326,7 @@ require(['jquery', 'oae.core'], function($, oae) {
      */
     var joinGroup = function() {
         // Disable the join buttons
-        $('.oae-group-join').prop('disabled', true);
+        $('.group-join').prop('disabled', true);
 
         // Join the group
         oae.api.group.joinGroup(groupProfile.id, function(err) {
@@ -331,15 +350,13 @@ require(['jquery', 'oae.core'], function($, oae) {
                 );
 
                 // Re-enable the join buttons.
-                $('.oae-group-join').prop('disabled', false);
+                $('.group-join').prop('disabled', false);
             }
         });
     };
 
-    // Bind to the join event
-    $(document).on('oae.trigger.join', joinGroup);
     // Bind to the click on the join clip
-    $(document).on('click', '.oae-group-join', joinGroup);
+    $(document).on('click', '.group-join', joinGroup);
 
 
     ////////////////
@@ -350,7 +367,6 @@ require(['jquery', 'oae.core'], function($, oae) {
         groupProfile = data;
         setUpClip();
     });
-
 
     getGroupProfile();
 

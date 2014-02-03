@@ -23,9 +23,30 @@ require(['jquery','oae.core'], function($, oae) {
     var discussionProfile = null;
 
     /**
-     * Set up the left hand navigation with the content space page structure
+     * Set up the left hand navigation with the content space page structure.
+     * The discussion left hand navigation item will not be shown to the user and is only here to load the discussionprofile.
      */
     var setUpNavigation = function() {
+        var lhNavActions = [];
+        // If the user is logged in the comment and share functionality should be added
+        if (!oae.data.me.anon) {
+            lhNavActions.push({
+                'icon': 'icon-comments',
+                'title': oae.api.i18n.translate('__MSG__COMMENT__'),
+                'class': 'comments-focus-new-comment'
+            },
+            {
+                'icon': 'icon-share',
+                'title': oae.api.i18n.translate('__MSG__SHARE__'),
+                'class': 'oae-trigger-share',
+                'data': {
+                    'data-id': discussionProfile.id,
+                    'data-resourcetype': discussionProfile.resourceType,
+                    'data-resourcesubtype': discussionProfile.resourceSubType
+                }
+            });
+        }
+
         var lhNavPages = [
             {
                 'id': 'discussion',
@@ -53,26 +74,6 @@ require(['jquery','oae.core'], function($, oae) {
                 ]
             }
         ];
-
-        var lhNavActions = [];
-
-        if (!oae.data.me.anon) {
-            lhNavActions.push({
-                'icon': 'icon-comments',
-                'title': oae.api.i18n.translate('__MSG__COMMENT__'),
-                'class': 'comments-focus-new-comment oae-lhnavigation-border'
-            },
-            {
-                'icon': 'icon-share',
-                'title': oae.api.i18n.translate('__MSG__SHARE__'),
-                'class': 'oae-lhnavigation-border oae-trigger-share',
-                'data': {
-                    'data-id': discussionProfile.id,
-                    'data-resourcetype': discussionProfile.resourceType,
-                    'data-resourcesubtype': discussionProfile.resourceSubType
-                }
-            });
-        }
 
         // If the user is anonymous the discussion profile has no navigation
         var hasNav = !oae.data.me.anon;
@@ -110,12 +111,14 @@ require(['jquery','oae.core'], function($, oae) {
             oae.api.util.setBrowserTitle(discussionProfile.displayName);
             // Render the entity information
             setUpClips();
-            // Render the navigation
+            // // Set up the page
             setUpNavigation();
             // Set up the context event exchange
             setUpContext();
             // We can now unhide the page
             oae.api.util.showPage();
+            // Set up the discussion push notifications
+            setUpPushNotifications();
         });
     };
 
@@ -148,6 +151,26 @@ require(['jquery','oae.core'], function($, oae) {
         if (!oae.data.me.anon) {
             oae.api.util.template().render($('#discussion-actions-clip-template'), {'discussion': discussionProfile}, $('#discussion-actions-clip-container'));
         }
+    };
+
+    /**
+     * Subscribe to discussion activity push notifications, allowing for updating the discussion profile when changes to the discussion
+     * are made by a different user after the initial page load
+     */
+    var setUpPushNotifications = function() {
+        oae.api.push.subscribe(discussionId, 'activity', discussionProfile.signature, 'internal', false, function(activity) {
+            var supportedActivities = ['discussion-update', 'discussion-update-visibility'];
+            // Only respond to push notifications caused by other users
+            if (activity.actor.id !== oae.data.me.id && _.contains(supportedActivities, activity['oae:activityType'])) {
+                activity.object.canShare = discussionProfile.canShare;
+                activity.object.canPost = discussionProfile.canPost;
+                activity.object.isManager = discussionProfile.isManager;
+
+                discussionProfile = activity.object;
+                setUpClips();
+                setUpTopic();
+            }
+        });
     };
 
 

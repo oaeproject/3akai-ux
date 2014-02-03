@@ -28,15 +28,14 @@ require(['jquery','oae.core'], function($, oae) {
 
     // Structure that will be used to construct the left hand navigation actions
     var lhNavActions = [
-    {
+        {
             'icon': 'icon-cloud-upload',
             'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
-            'class': 'oae-trigger-upload oae-lhnavigation-border'
+            'class': 'oae-trigger-upload'
         },
         {
             'icon': 'icon-plus-sign',
             'title': oae.api.i18n.translate('__MSG__CREATE__'),
-            'class': 'oae-lhnavigation-border',
             'children': [
                 {
                     'icon': 'icon-group',
@@ -75,7 +74,7 @@ require(['jquery','oae.core'], function($, oae) {
                         {
                             'id': 'activity',
                             'settings': {
-                                'principalId': oae.data.me.id,
+                                'context': oae.data.me,
                                 'canManage': true
                             }
                         }
@@ -94,7 +93,7 @@ require(['jquery','oae.core'], function($, oae) {
                         {
                             'id': 'contentlibrary',
                             'settings': {
-                                'principalId': oae.data.me.id,
+                                'context': oae.data.me,
                                 'canManage': true
                             }
                         }
@@ -113,7 +112,7 @@ require(['jquery','oae.core'], function($, oae) {
                         {
                             'id': 'discussionslibrary',
                             'settings': {
-                                'principalId': oae.data.me.id,
+                                'context': oae.data.me,
                                 'canManage': true
                             }
                         }
@@ -132,7 +131,7 @@ require(['jquery','oae.core'], function($, oae) {
                         {
                             'id': 'memberships',
                             'settings': {
-                                'principalId': oae.data.me.id,
+                                'context': oae.data.me,
                                 'canManage': true
                             }
                         }
@@ -151,7 +150,7 @@ require(['jquery','oae.core'], function($, oae) {
                         {
                             'id': 'network',
                             'settings': {
-                                'principalId': oae.data.me.id,
+                                'context': oae.data.me,
                                 'canManage': true
                             }
                         }

@@ -7,63 +7,74 @@ branches:
     - master
 
 before_install:
+  # Add admin.oae.com and test.oae.com to the hosts file
   - sudo sed -e 's/^\(127\.0\.0\.1.*\)$/\1 admin.oae.com test.oae.com/' --in-place /etc/hosts
   - sudo sed -e 's/^\(::1.*\)$/\1 admin.oae.com test.oae.com/' --in-place /etc/hosts
   - cd ../
-  - wget https://phantomjs.googlecode.com/files/phantomjs-1.9.2-linux-i686.tar.bz2
-  - tar xjf phantomjs-1.9.2-linux-i686.tar.bz2
-  - sudo ln -fs pwd/phantomjs-1.9.2-linux-i686/bin/phantomjs /usr/local/bin/phantomjs
-  - git clone git://github.com/n1k0/casperjs.git
-  - cd casperjs
-  - sudo ln -sf `pwd`/bin/casperjs /usr/local/bin/casperjs
-  - casperjs --version
-  - phantomjs --version
-  - cd ../3akai-ux
-  - npm install -d
-  - "echo '{\"NGINX_USER\": \"root\",\"NGINX_GROUP\": \"root\",\"NGINX_HOSTNAME\": \"admin.oae.com\",\"UX_HOME\": \"/home/travis/build/oaeproject/3akai-ux\",\"LOCAL_FILE_STORAGE_DIRECTORY\": \"/home/travis/build/oaeproject/files\"}' > nginx/nginx.json"
-  - grunt configNginx
-  - sudo apt-get update
-  - sudo apt-get -y install python-software-properties
-  - sudo add-apt-repository -y ppa:nginx/stable
-  - sudo apt-get update
-  - sudo apt-get install nginx-full
-  - sudo cp ./target/optimized/nginx/nginx.conf /etc/nginx/nginx.conf
-  - sudo mkdir /usr/share/nginx/logs
-  - sudo service nginx start
-  - cd ../
-
-  # Install cassandra 1.2 manually
-  - echo "deb http://debian.datastax.com/community stable main" | sudo tee -a /etc/apt/sources.list.d/dsc.sources.list
-  - curl -L http://debian.datastax.com/debian/repo_key | sudo apt-key add -
-  - sudo apt-get update
-  - sudo apt-get install -y -o Dpkg::Options::=--force-confnew cassandra=1.2.13 dsc12
-  - sudo sed -i 's/-Xss180k/-Xss256k/g' /etc/cassandra/cassandra-env.sh
-  - sudo sh -c "echo 'JVM_OPTS=\"\${JVM_OPTS} -Djava.net.preferIPv4Stack=false\"' >> /etc/cassandra/cassandra-env.sh"
-  - sudo service cassandra stop
-  - sudo service cassandra start
-  - sudo service cassandra status
 
   # Turn off unneeded services to free some memory
   - sudo service mysql stop
   - sudo service memcached stop
   - sudo service postgresql stop
 
-  # Install Hilary deps
+  # Create a couple of possible tenants in the hosts file
+  - sudo sed -e 's/^\(127\.0\.0\.1.*\)$/\1 admin.oae.com cam.oae.com/' --in-place /etc/hosts
+  - sudo sed -e 's/^\(::1.*\)$/\1 admin.oae.com cam.oae.com/' --in-place /etc/hosts
+
+  # Add any apt repos we might need
+  - echo "deb http://debian.datastax.com/community stable main" | sudo tee -a /etc/apt/sources.list.d/dsc.sources.list
+  - curl -L http://debian.datastax.com/debian/repo_key | sudo apt-key add -
+  - sudo add-apt-repository -y ppa:nginx/stable
+  - sudo apt-get update
+
+  # Hilary dependencies
   - sudo apt-get install -qq graphicsmagick
+  - sudo apt-get install -y -o Dpkg::Options::=--force-confnew cassandra=1.2.13 dsc12
+  - sudo sed -i 's/-Xss180k/-Xss256k/g' /etc/cassandra/cassandra-env.sh
+  - sudo sh -c "echo 'JVM_OPTS=\"\${JVM_OPTS} -Djava.net.preferIPv4Stack=false\"' >> /etc/cassandra/cassandra-env.sh"
+  - sudo service cassandra stop
+  - sudo service cassandra start
+  - sudo service cassandra status
+  - sudo apt-get install nginx-full
   - npm install -g grunt-cli
-  - git clone git://github.com/ether/etherpad-lite --branch master etherpad-lite
+
+  # Install etherpad-lite
+  - cd ..
+  - wget https://s3-eu-west-1.amazonaws.com/oae-testing/travisci/etherpad-lite.tar.gz
+  - tar -xzf etherpad-lite.tar.gz
   - cd etherpad-lite
-  - echo "13SirapH8t3kxUh5T5aqWXhXahMzoZRA" > APIKEY.txt
-  - ./bin/installDeps.sh
-  - "sed -i 's/defaultPadText\" : \".*\"/defaultPadText\" : \"\"/g' settings.json"
   - node src/node/server.js &
-  - git clone git://github.com/oaeproject/Hilary.git --branch master ../Hilary
+  - cd ..
+
+  # 3akai-ux dependencies
+  - wget https://phantomjs.googlecode.com/files/phantomjs-1.9.2-linux-i686.tar.bz2
+  - tar xjf phantomjs-1.9.2-linux-i686.tar.bz2
+  - sudo ln -fs pwd/phantomjs-1.9.2-linux-i686/bin/phantomjs /usr/local/bin/phantomjs
+  - git clone git://github.com/n1k0/casperjs.git
+  - cd casperjs
+  - sudo ln -sf `pwd`/bin/casperjs /usr/local/bin/casperjs
+
+  # Show the CasperJS and PhantomJS version for debugging purposes
+  - casperjs --version
+  - phantomjs --version
+
+  # Configure 3akai-ux / nginx
+  - cd ../3akai-ux
+  - npm install
+  - "echo '{\"NGINX_USER\": \"root\",\"NGINX_GROUP\": \"root\",\"NGINX_HOSTNAME\": \"admin.oae.com\",\"UX_HOME\": \"/home/travis/build/oaeproject/3akai-ux\",\"LOCAL_FILE_STORAGE_DIRECTORY\": \"/home/travis/build/oaeproject/files\"}' > nginx/nginx.json"
+  - grunt configNginx
+  - sudo cp ./target/optimized/nginx/nginx.conf /etc/nginx/nginx.conf
+  - sudo mkdir /usr/share/nginx/logs
+  - sudo service nginx start
+
+  # Install Hilary and create our test tenant
+  - git clone  --branch master --depth=1 git://github.com/oaeproject/Hilary.git ../Hilary
   - cd ../Hilary
-  - npm install -d
+  - npm install --production
   - node app.js &
   - sleep 20
 
-  # Position ourselves to start the test in "script" phase
+  # Position ourselves to start the tests
   - cd ../3akai-ux
 
 services:
