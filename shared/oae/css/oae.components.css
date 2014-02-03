@@ -517,6 +517,7 @@ div.oae-thumbnail i[class^="icon-"] {
  * - The `small` tag is used to show some additional clip metadata and is optional.
  * - When a clip should not be clickable (e.g. in non-manager mode of a page), the `disabled` attribute
  *   should be added to the button. This will hide any caret icons and will make the clip unclickable.
+ * - If a clip should not be visible on smaller viewports the `hidden-xs hidden-sm` classes should be applied.
  */
 
 /* Clip container */

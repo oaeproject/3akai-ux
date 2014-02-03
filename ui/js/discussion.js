@@ -23,12 +23,12 @@ require(['jquery','oae.core'], function($, oae) {
     var discussionProfile = null;
 
     /**
-     * Set up the left hand navigation with the content space page structure.
-     * The discussion left hand navigation item will not be shown to the user and is only here to load the discussionprofile.
+     * Set up the left hand navigation with the discussion space page structure.
+     * The discussion left hand navigation item will not be shown to the user and is only here to load the correct discussion profile.
      */
     var setUpNavigation = function() {
         var lhNavActions = [];
-        // If the user is logged in the comment and share functionality should be added
+        // If the user is logged in, the comment and share functionality should be added
         if (!oae.data.me.anon) {
             lhNavActions.push({
                 'icon': 'icon-comments',
@@ -75,7 +75,7 @@ require(['jquery','oae.core'], function($, oae) {
             }
         ];
 
-        // If the user is anonymous the discussion profile has no navigation
+        // If the user is anonymous, the discussion profile has no navigation
         var hasNav = !oae.data.me.anon;
 
         $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, null, hasNav]);
@@ -111,7 +111,7 @@ require(['jquery','oae.core'], function($, oae) {
             oae.api.util.setBrowserTitle(discussionProfile.displayName);
             // Render the entity information
             setUpClips();
-            // // Set up the page
+            // Set up the page
             setUpNavigation();
             // Set up the context event exchange
             setUpContext();
