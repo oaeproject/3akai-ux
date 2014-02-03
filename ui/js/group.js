@@ -141,7 +141,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             lhNavActions.push({
                 'icon': 'icon-pushpin',
                 'title': oae.api.i18n.translate('__MSG__JOIN_GROUP__'),
-                'class': 'oae-group-join'
+                'class': 'group-join'
             });
         }
 
@@ -326,7 +326,7 @@ require(['jquery', 'oae.core'], function($, oae) {
      */
     var joinGroup = function() {
         // Disable the join buttons
-        $('.oae-group-join').prop('disabled', true);
+        $('.group-join').prop('disabled', true);
 
         // Join the group
         oae.api.group.joinGroup(groupProfile.id, function(err) {
@@ -350,13 +350,13 @@ require(['jquery', 'oae.core'], function($, oae) {
                 );
 
                 // Re-enable the join buttons.
-                $('.oae-group-join').prop('disabled', false);
+                $('.group-join').prop('disabled', false);
             }
         });
     };
 
     // Bind to the click on the join clip
-    $(document).on('click', '.oae-group-join', joinGroup);
+    $(document).on('click', '.group-join', joinGroup);
 
 
     ////////////////
