@@ -27,6 +27,26 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * The content left hand navigation item will not be shown to the user and is only here to load the contentprofile.
      */
     var setUpNavigation = function() {
+        var lhNavActions = [];
+        // If the user is logged in the comment and share functionality should be added
+        if (!oae.data.me.anon) {
+            lhNavActions.push({
+                'icon': 'icon-comments',
+                'title': oae.api.i18n.translate('__MSG__COMMENT__'),
+                'class': 'comments-focus-new-comment'
+            },
+            {
+                'icon': 'icon-share',
+                'title': oae.api.i18n.translate('__MSG__SHARE__'),
+                'class': 'oae-trigger-share',
+                'data': {
+                    'data-id': contentProfile.id,
+                    'data-resourcetype': contentProfile.resourceType,
+                    'data-resourcesubtype': contentProfile.resourceSubType
+                }
+            });
+        }
+
         var lhNavPages = [{
             'id': 'content',
             'title': oae.api.i18n.translate('__MSG__CONTENT__'),
@@ -52,26 +72,6 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                 }
             ]
         }];
-
-        var lhNavActions = [];
-        // If the user is logged in the comment and share functionality should be added
-        if (!oae.data.me.anon) {
-            lhNavActions.push({
-                'icon': 'icon-comments',
-                'title': oae.api.i18n.translate('__MSG__COMMENT__'),
-                'class': 'comments-focus-new-comment'
-            },
-            {
-                'icon': 'icon-share',
-                'title': oae.api.i18n.translate('__MSG__SHARE__'),
-                'class': 'oae-trigger-share',
-                'data': {
-                    'data-id': contentProfile.id,
-                    'data-resourcetype': contentProfile.resourceType,
-                    'data-resourcesubtype': contentProfile.resourceSubType
-                }
-            });
-        }
 
         // If the user is anonymous the content profile has no navigation
         var hasNav = !oae.data.me.anon;

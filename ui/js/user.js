@@ -93,7 +93,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             lhNavActions.push({
                 'icon': 'icon-bookmark',
                 'title': oae.api.i18n.translate('__MSG__FOLLOW__'),
-                'class': 'oae-trigger-follow'
+                'class': 'user-follow'
             });
         }
 
@@ -200,7 +200,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                     })
                 );
                 $('#user-follow-actions').detach();
-                $('li.oae-trigger-follow').detach();
+                $('li.user-follow').detach();
             } else {
                 // Show an error notification
                 oae.api.util.notification(
@@ -215,7 +215,7 @@ require(['jquery', 'oae.core'], function($, oae) {
     };
 
     // Follow the user when the `follow` button is clicked
-    $(document).on('click', '.oae-trigger-follow', followUser);
+    $(document).on('click', '.user-follow', followUser);
 
     getUserProfile();
 

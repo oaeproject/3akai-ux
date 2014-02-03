@@ -1113,20 +1113,6 @@ div.oae-thumbnail i[class^="icon-"] {
  *   `oae-thumbnail` element (See Thumbnail section for full overview).
  */
 
-/* IE9 specific fallback for flexbox */
-.ie-lt10 .oae-listitem h3 {
-    max-width: 450px;
-}
-
-.ie-lt10 .oae-listitem.oae-listitem-compact > div:not(.oae-thumbnail) {
-    width: auto;
-}
-
-.ie-lt10 ul.oae-list > li .oae-list-details-item,
-.ie-lt10 ul.oae-list > li .oae-list-compact-item  {
-    display: table;
-}
-
 .oae-listitem {
     padding: 10px;
     margin-bottom: 10px;
@@ -1184,6 +1170,11 @@ div.oae-thumbnail i[class^="icon-"] {
             flex-direction: row;
 }
 
+/* IE9 specific fallback for flexbox */
+.ie-lt10 .oae-listitem.oae-listitem-compact > div:not(.oae-thumbnail) {
+    width: auto;
+}
+
 .oae-list-details-item .oae-listitem > div:not(.oae-thumbnail) {
     -webkit-flex-direction: column;
        -moz-flex-direction: column;
@@ -1202,6 +1193,11 @@ div.oae-thumbnail i[class^="icon-"] {
     height: 25px;
     line-height: 25px;
     margin: 0;
+}
+
+/* IE9 specific fallback for flexbox */
+.ie-lt10 .oae-listitem h3 {
+    max-width: 450px;
 }
 
 .oae-listitem small {
@@ -1307,6 +1303,12 @@ ul.oae-list.oae-list-grid > li.oae-list-actions {
 ul.oae-list > li .oae-list-details-item,
 ul.oae-list > li .oae-list-compact-item  {
     width: 100%;
+}
+
+/* IE9 specific fallback for flexbox */
+.ie-lt10 ul.oae-list > li .oae-list-details-item,
+.ie-lt10 ul.oae-list > li .oae-list-compact-item  {
+    display: table;
 }
 
 ul.oae-list > li .oae-listitem {
