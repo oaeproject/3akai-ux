@@ -47,33 +47,31 @@ require(['jquery','oae.core'], function($, oae) {
             });
         }
 
-        var lhNavPages = [
-            {
-                'id': 'discussion',
-                'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
-                'icon': 'icon-comments',
-                'class': 'hide',
-                'layout': [
-                    {
-                        'width': 'col-md-12',
-                        'widgets': [
-                            {
-                                'id': 'discussion',
-                                'settings': discussionProfile
-                            }
-                        ]
-                    },
-                    {
-                        'width': 'col-md-12',
-                        'widgets': [
-                            {
-                                'id': 'comments'
-                            }
-                        ]
-                    }
-                ]
-            }
-        ];
+        var lhNavPages = [{
+            'id': 'discussion',
+            'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
+            'icon': 'icon-comments',
+            'class': 'hide',
+            'layout': [
+                {
+                    'width': 'col-md-12',
+                    'widgets': [
+                        {
+                            'id': 'discussion',
+                            'settings': discussionProfile
+                        }
+                    ]
+                },
+                {
+                    'width': 'col-md-12',
+                    'widgets': [
+                        {
+                            'id': 'comments'
+                        }
+                    ]
+                }
+            ]
+        }];
 
         // If the user is anonymous, the discussion profile has no navigation
         var hasNav = !oae.data.me.anon;
