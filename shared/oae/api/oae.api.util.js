@@ -912,8 +912,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                 }
                 options.selectionAdded = function(elem) {
                     var $elem = $(elem);
-                    // Make sure that the item cannot overflow
-                    $elem.addClass('oae-threedots');
+                    // Wrap the element text in a 'oae-threedots' span element to prevent overflowing
+                    var textNode = $elem[0].lastChild;
+                    if (textNode instanceof Text) {
+                        $(textNode).wrap('<span class="oae-threedots"></span>');
+                    }
 
                     var originalData = $elem.data('originalData');
                     if (originalData.resourceType) {
