@@ -33,7 +33,3 @@
 /* Import the OAE Component Styles. These contain OAE specific re-usable styles that,
    combined with basic bootstrap, should make it easy to quickly put new widgets together */
 @import url('../../oae/css/oae.components.css');
-
-/* Import the Google, Facebook and Twitter login, as this will be needed on every
-   page because of the topnavigation */
-@import url('../../vendor/css/auth-buttons.css');
