@@ -100,6 +100,7 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
 
                                     // Add a `.ie-lt10` class to the html element that can be used for CSS fallbacks in IE9
                                     // We can feature detect IE9 by checking for the unsupported `requestAnimationFrame` function
+                                    // TODO: Once we drop support for IE9 this can be removed
                                     if (!window.requestAnimationFrame) {
                                         $('html').addClass('ie-lt10');
                                     }
