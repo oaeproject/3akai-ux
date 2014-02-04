@@ -24,9 +24,29 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
     /**
      * Set up the left hand navigation with the content space page structure.
-     * The content left hand navigation item will not be shown to the user and is only here to load the contentprofile.
+     * The content left hand navigation item will not be shown to the user and is only here to load the correct contentprofile widget.
      */
     var setUpNavigation = function() {
+        var lhNavActions = [];
+        // If the user is logged in, the comment and share functionality should be added
+        if (!oae.data.me.anon) {
+            lhNavActions.push({
+                'icon': 'icon-comments',
+                'title': oae.api.i18n.translate('__MSG__COMMENT__'),
+                'class': 'comments-focus-new-comment'
+            },
+            {
+                'icon': 'icon-share',
+                'title': oae.api.i18n.translate('__MSG__SHARE__'),
+                'class': 'oae-trigger-share',
+                'data': {
+                    'data-id': contentProfile.id,
+                    'data-resourcetype': contentProfile.resourceType,
+                    'data-resourcesubtype': contentProfile.resourceSubType
+                }
+            });
+        }
+
         var lhNavPages = [{
             'id': 'content',
             'title': oae.api.i18n.translate('__MSG__CONTENT__'),
@@ -53,27 +73,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             ]
         }];
 
-        var lhNavActions = [];
-        // If the user is logged in the comment and share functionality should be added
-        if (!oae.data.me.anon) {
-            lhNavActions.push({
-                'icon': 'icon-comments',
-                'title': oae.api.i18n.translate('__MSG__COMMENT__'),
-                'class': 'comments-focus-new-comment'
-            },
-            {
-                'icon': 'icon-share',
-                'title': oae.api.i18n.translate('__MSG__SHARE__'),
-                'class': 'oae-trigger-share',
-                'data': {
-                    'data-id': contentProfile.id,
-                    'data-resourcetype': contentProfile.resourceType,
-                    'data-resourcesubtype': contentProfile.resourceSubType
-                }
-            });
-        }
-
-        // If the user is anonymous the content profile has no navigation
+        // If the user is anonymous, the content profile has no navigation
         var hasNav = !oae.data.me.anon;
 
         $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, null, hasNav]);
@@ -134,9 +134,11 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
     /**
      * Get the name of the preview widget to use for the current piece of content
+     *
+     * @return {String}    The name of the widget to use to preview the content
      */
     var getPreviewWidgetId = function() {
-        // Based on the content type, return a content preview widget ID
+        // Based on the content type, return a content preview widget name
         if (contentProfile.resourceSubType === 'file') {
             // Load document viewer when a PDF or Office document needs to be displayed
             if (contentProfile.previews && contentProfile.previews.pageCount) {
