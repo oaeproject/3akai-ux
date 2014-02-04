@@ -44,14 +44,6 @@ define(['jquery', 'bootstrap'], function($) {
     if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
         $('body').on('show.bs.modal', function() {
 
-            // Position modal absolute and bump it down to the scrollPosition
-            $(this)
-                .css({
-                    position: 'absolute',
-                    marginTop: $(window).scrollTop() + 'px',
-                    bottom: 'auto'
-                });
-
             // Position backdrop absolute and make it span the entire page
             //
             // Also dirty, but we need to tap into the backdrop after Boostrap
@@ -68,11 +60,11 @@ define(['jquery', 'bootstrap'], function($) {
 
                 // Resize the backdrop to be the full height of the page
                 $('.modal-backdrop').css({
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: maxHeight + 'px'
+                    'position': 'absolute',
+                    'top': 0,
+                    'left': 0,
+                    'width': '100%',
+                    'height': maxHeight + 'px'
                 });
             }, 0);
         });
