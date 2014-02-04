@@ -538,8 +538,7 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .oae-clip {
-    /* Prevent flickering when collapsing the left hand navigation on iOs devices */
-    -webkit-backface-visibility: hidden;
+    -webkit-backface-visibility: hidden; /* Prevent flickering when collapsing the left hand navigation on iOs devices */
     float: left;
     margin: -16px 10px 10px;
     position: relative;
@@ -747,11 +746,15 @@ div.oae-thumbnail i[class^="icon-"] {
  ************************/
 
 /**
- * The left hand navigation component will take care of all left hand navigation and rendering the pages and widget sassociated to the items in it.
+ * The left hand navigation component will take care of all left hand navigation and rendering the pages and widgets associated to the items in it.
  * On a mobile device the left hand navigation will be collapsed by default. If the left hand navigation opens and the page width exceeds the width
  * of the device the content will be pushed off screen using `overflow: hidden` on the `.oae-page` container. When a list item is clicked that brings
  * the user to a new page the left hand navigation is closed automatically. When an `action button` is clicked the left hand navigation doesn't close.
  * When the page width is big enough to support content and left hand navigation to be shown the collapse icon is hidden and the navigation shown.
+ * When the list item is being expanded it will receive the '.oae-lhnav-expanded' class. This class is responsible for applying all properties
+ * '.oae-lhnavigation' and '.oae-page' need to be displayed in their expanded state.
+ * Whenever the list is being expanded or collapsed the '.oae-lhnav-collapsing' will be applied to enabled the css transitions, this helps us prevent
+ * having transitions when the animated properties would change outside of this context. This class is removed once the transitions have ended.
  *
  * The left hand navigation can consist of the following elements:
  *     - `Action buttons` are list items with a button that trigger a widget (e.g. trigger upload widget)
@@ -958,8 +961,7 @@ div.oae-thumbnail i[class^="icon-"] {
 /* Page content */
 
 .oae-page {
-    /* Prevent flickering when collapsing the left hand navigation on iOs devices */
-    -webkit-backface-visibility: hidden;
+    -webkit-backface-visibility: hidden; /* Prevent flickering when collapsing the left hand navigation on iOs devices */
     min-width: 280px;
     padding: 5px 25px;
 }
@@ -973,9 +975,9 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-lhnavigation.oae-lhnav-collapsing + .oae-page {
     -webkit-transition: -webkit-transform 250ms ease-in-out;
-       -moz-transition:    -moz-transform 250ms ease-in-out;
-        -ms-transition:     -ms-transform 250ms ease-in-out;
-            transition:         transform 250ms ease-in-out;
+       -moz-transition: -moz-transform 250ms ease-in-out;
+        -ms-transition: -ms-transform 250ms ease-in-out;
+            transition: transform 250ms ease-in-out;
 }
 
 /* iPhone resolution */
