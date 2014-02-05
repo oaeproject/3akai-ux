@@ -21,6 +21,8 @@ require(['jquery','oae.core'], function($, oae) {
 
     // Variable used to cache the requested discussion profile
     var discussionProfile = null;
+    // Variable used to cache the discussion's base URL
+    var baseUrl = '/discussion/' + $.url().segment(2) + '/' + $.url().segment(3);
 
     /**
      * Set up the left hand navigation with the discussion space page structure.
@@ -76,9 +78,9 @@ require(['jquery','oae.core'], function($, oae) {
         // If the user is anonymous, the discussion profile has no navigation
         var hasNav = !oae.data.me.anon;
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, null, hasNav]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, hasNav]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, null, hasNav]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, hasNav]);
         });
     };
 
