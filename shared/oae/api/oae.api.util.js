@@ -26,6 +26,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         validation().init();
         // Set up the custom autosuggest listeners
         autoSuggest().init();
+        // Set up Crazy Egg
+        crazyEgg();
         // Set up Google Analytics
         googleAnalytics();
         // Load the OAE TrimPath Template macros
@@ -370,11 +372,34 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     };
 
     /**
+     * Set up Cray Egg tracking, if it has been enabled for the current tenant
+     * @see https://www.crazyegg.com
+     */
+    var crazyEgg = function() {
+        // Check if Crazy Egg is enabled for the current tenant
+        if (configAPI.getValue('oae-tracking', 'crazy-egg', 'enabled')) {
+
+            // Retrieve the Crazy Egg url from the tenant configurations
+            var url = configAPI.getValue('oae-tracking', 'crazy-egg', 'url');
+
+            // Crazy Egg tracking code
+            setTimeout(function() {
+                var a = document.createElement('script');
+                var b = document.getElementsByTagName('script')[0];
+                a.src = document.location.protocol + '//' + url + '?' + Math.floor(new Date().getTime()/3600000);
+                a.async = true;
+                a.type = 'text/javascript';
+                b.parentNode.insertBefore(a,b)
+            }, 1);
+        }
+    };
+
+    /**
      *  Set up Google Analytics tracking, if it has been enabled for the current tenant
      */
     var googleAnalytics = function() {
         // Check if Google Analytics is enabled for the current tenant
-        if (configAPI.getValue('oae-google-analytics', 'google-analytics', 'enabled')) {
+        if (configAPI.getValue('oae-tracking', 'google-analytics', 'enabled')) {
             // Google Analytics tracking code
             // @see https://developers.google.com/analytics/devguides/
             (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
@@ -383,7 +408,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
             // Retrieve the Google Analytics application ID
-            var id = configAPI.getValue('oae-google-analytics', 'google-analytics', 'id');
+            var id = configAPI.getValue('oae-tracking', 'google-analytics', 'id');
 
             // Add the OAE identifiers to the Google Analytics object
             ga('create', id, window.location.hostname);
