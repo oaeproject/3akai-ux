@@ -201,11 +201,13 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * Empty the content preview container and insert the updated content preview widget
      */
     var refreshContentPreview = function() {
+        var $widgetContainer = $('.oae-page > .row .oae-lhnavigation-toggle + div');
+
         // Empty the preview container
-        $('.oae-page .row div:first-child').empty();
+        $widgetContainer.empty();
 
         // Insert the new updated content preview widget
-        oae.api.widget.insertWidget(getPreviewWidgetId(), null, $('.oae-page .row div:first-child'), null, contentProfile);
+        oae.api.widget.insertWidget(getPreviewWidgetId(), null, $widgetContainer, null, contentProfile);
     };
 
 
