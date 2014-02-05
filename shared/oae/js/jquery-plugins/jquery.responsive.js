@@ -14,10 +14,10 @@
  */
 
 /**
- * Utility plugin that handles the responsive left hand navigation interactions.
- *     - Ability to open and close the navigation using the `.oae-lhnavigation-toggle` class on desktop and mobile.
- *     - Toggling the visiblity of the navigation uses animation to fade-in/fade-out on desktop and mobile.
- *     - When a `page link` is clicked on a mobile device the navigation will close (does not apply on desktop). The navigation stays visible when an `action button` is clicked as this doesn't show a new page.
+ * Utility plugin that handles the responsive left hand navigation interactions. This plugin will support the
+ * opening and closing of the left hand navigation using the `.oae-lhnavigation-toggle` element using an animation.
+ * When a page link is clicked on a mobile device, the navigation will automatically close. The navigation will
+ * remain visible when an action button is clicked, as this doesn't render a new page.
  */
 
 define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
