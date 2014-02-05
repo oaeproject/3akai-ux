@@ -230,12 +230,11 @@ require(['jquery','oae.core'], function($, oae) {
     /////////////////////
 
     /**
-     * Re-render the discussion's clip and topic when the title or topic have been updated.
+     * Re-render the discussion's clip. The discussion topic will be handled by the discussion widget.
      */
     $(document).on('oae.editdiscussion.done', function(ev, data) {
         discussionProfile = data;
         setUpClips();
-        setUpTopic();
     });
 
 

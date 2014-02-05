@@ -197,6 +197,17 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         });
     };
 
+    /**
+     * Empty the content preview container and insert the updated content preview widget
+     */
+    var refreshContentPreview = function() {
+        // Empty the preview container
+        $('.oae-page .row div:first-child').empty();
+
+        // Insert the new updated content preview widget
+        oae.api.widget.insertWidget(getPreviewWidgetId(), null, $('.oae-page .row div:first-child'), null, contentProfile);
+    };
+
 
     ////////////////////////
     // UPLOAD NEW VERSION //
@@ -211,10 +222,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     var refreshContentProfile = function(ev, updatedContent) {
         // Cache the content profile data
         contentProfile = updatedContent;
-        // Make sure the oae-page div is empty so the left hand nav reloads the content preview
-        $('.oae-page').empty();
         // Refresh the content profile elements
-        setUpNavigation();
+        refreshContentPreview();
         setUpClips();
     };
 
