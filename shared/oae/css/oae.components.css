@@ -1307,8 +1307,8 @@ ul.oae-list > li .oae-list-compact-item  {
 }
 
 /* IE9 specific fallback for flexbox */
-.ie-lt10 ul.oae-list > li .oae-list-details-item,
-.ie-lt10 ul.oae-list > li .oae-list-compact-item  {
+.ie-lt10 ul.oae-list.oae-list-details > li .oae-list-details-item,
+.ie-lt10 ul.oae-list.oae-list-compact > li .oae-list-compact-item  {
     display: table;
 }
 

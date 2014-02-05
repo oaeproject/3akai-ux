@@ -21,6 +21,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
     // Variable used to cache the requested content profile
     var contentProfile = null;
+    // Variable used to cache the content's base URL
+    var baseUrl = '/content/' + $.url().segment(2) + '/' + $.url().segment(3);
 
     /**
      * Set up the left hand navigation with the content space page structure.
@@ -76,9 +78,9 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         // If the user is anonymous, the content profile has no navigation
         var hasNav = !oae.data.me.anon;
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, null, hasNav]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, hasNav]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, null, hasNav]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, hasNav]);
         });
     };
 
