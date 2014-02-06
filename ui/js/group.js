@@ -19,10 +19,11 @@ require(['jquery', 'oae.core'], function($, oae) {
     // The group id will then be `g:<tenantId>:<resourceId>`
     var groupId = 'g:' + $.url().segment(2) + ':' + $.url().segment(3);
 
-    // Variable used to cache the requested group's profile
-    var groupProfile = null;
     // Variable used to cache the group's base URL
     var baseUrl = '/group/' + $.url().segment(2) + '/' + $.url().segment(3);
+
+    // Variable used to cache the requested group's profile
+    var groupProfile = null;
 
 
     //////////////////////////////////
