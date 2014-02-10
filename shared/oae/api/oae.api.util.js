@@ -374,24 +374,16 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     /**
      * Set up Cray Egg tracking, if it has been enabled for the current tenant
      * @see https://www.crazyegg.com
-     * @see http://support.crazyegg.com
      */
     var crazyEgg = function() {
-        // Only initialize Crazy Egg when it's enabled
+        // Check if Crazy Egg is enabled for the current tenant
         if (configAPI.getValue('oae-tracking', 'crazy-egg', 'enabled')) {
 
             // Retrieve the Crazy Egg url from the tenant configurations
             var url = configAPI.getValue('oae-tracking', 'crazy-egg', 'url');
 
             // Crazy Egg tracking code
-            setTimeout(function() {
-                var a = document.createElement('script');
-                var b = document.getElementsByTagName('script')[0];
-                a.src = document.location.protocol + '//' + url + '?' + Math.floor(new Date().getTime() / 3600000);
-                a.async = true;
-                a.type = 'text/javascript';
-                b.parentNode.insertBefore(a,b);
-            }, 1);
+            require(['//' + url]);
         }
     };
 
