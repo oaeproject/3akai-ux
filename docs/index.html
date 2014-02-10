@@ -23,12 +23,12 @@
             </div>
         </div>
         <!-- CONTENT -->
-        <div id="doc-content-container">
+        <main id="doc-content-container" role="main">
             <div class="row">
                 <div id="doc-modules-container" class="col-sm-3"><!----></div>
                 <div id="doc-module-container" class="col-sm-9"><!----></div>
             </div>
-        </div>
+        </main>
 
         <div id="doc-modules-template"><!--
             {macro renderModules(title, type, modules)}
@@ -36,7 +36,7 @@
                 <ul class="nav nav-list bs-docs-sidenav">
                     {for module in modules}
                         <li data-id="${module}" data-type="${type}">
-                            <a href="/docs/${type}/${module}"><i class="icon-chevron-right pull-right"></i> <div>${module}</div></a>
+                            <a href="/docs/${type}/${module}"><i class="icon-chevron-right pull-right"></i> <span>${module}</span></a>
                         </li>
                     {/for}
                 </ul>
