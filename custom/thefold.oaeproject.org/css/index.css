@@ -21,7 +21,8 @@
     padding: 0 !important;
 }
 
-.oae-main-content.oae-branding-container {
+#index-container.oae-main-content.oae-branding-container {
+    background-color: transparent;
     background-image: none;
 }
 
@@ -36,7 +37,7 @@
 }
 
 .oae-main-content #index-content .index-search-container input#index-search-query {
-    background-color: #e6e5e2;
+    background-color: #E6E5E2;
     -webkit-box-shadow: 0 0 3px #999;
        -moz-box-shadow: 0 0 3px #999;
             box-shadow: 0 0 3px #999;
@@ -53,6 +54,7 @@
 }
 
 .oae-panel-primary {
+    background-color: #234A74;
     width: 66.66666666666666% !important;
 }
 
@@ -71,6 +73,29 @@
     width: 33.33333333333333% !important;
 }
 
+.oae-panel-tertiary {
+    background-color: transparent;
+}
+
+#index-container .oae-panel-secondary#index-video-container {
+    background-color: #C12127;
+    background-image: none;
+    -webkit-border-radius: 0;
+       -moz-border-radius: 0;
+            border-radius: 0;
+    -webkit-box-shadow: none;
+       -moz-box-shadow: none;
+            box-shadow: none;
+}
+
+.oae-panel-secondary#index-video-container a {
+    line-height: 1.6;
+}
+
+.oae-panel-secondary#index-video-container a .icon-play-circle {
+    margin-right: 7px;
+}
+
 .oae-main-content #index-content .row-fluid:last-child .oae-panel-secondary {
     background-color: #1a3762;
 }
@@ -83,14 +108,12 @@
     background-color: #cac8b5;
 }
 
-.oae-main-content #index-content .row-fluid:last-child .oae-panel-secondary:last-child {
-    background-color: #c12127;
-}
-
 /* Custom page CSS */
 
-#index-branding-container {
-    background-image: url('https://thefold.oaeproject.org/assets/thefold/branding.jpg'),linear-gradient(to bottom,rgba(0,116,167,0) 0,rgba(37,169,253,0) 100%);
+#index-branding-container.oae-main-content.oae-branding-container {
+    -webkit-border-radius: 0;
+       -moz-border-radius: 0;
+            border-radius: 0;
     height: 420px;
     max-width: 959px;
 }
