@@ -627,7 +627,7 @@ ul.as-list li.as-result-item.active {
  ******************/
 
 /* Allow text to wrap in link-style fake buttons */
-.oae-fake-btn.btn.btn-link[role=button] {
+span.btn[role=button] {
     display: inline;
     white-space: normal;
 }
