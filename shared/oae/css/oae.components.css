@@ -775,6 +775,7 @@ div.oae-thumbnail i[class^="icon-"] {
  *         - `Action buttons` do not render widgets into `.oae-page` but instead append them to the body or otherwise specified location by the widgets and expect the widgets to initialize themselves.
  *     - Every `row` in the `.oae-page` container needs the `.oae-lhnavigation-toggle` button to be able to toggle the left hand navigation.
  *         - Having the `.oae-lhnavigation-toggle` button in each row ensures the user can toggle the left hand navigation on every page.
+ *         - The `.oae-lhnavigation-toggle` button is hidden by default for anonymous users. If the `.oae-anon-toggle` class is added to `.oae-page` the button will be shown for anonymous users.
  *
  * - Example: Basic left hand navigation with an `action button` and a page `link`
  *     - The first item is an `action button` item that will trigger the `upload` widget.
@@ -947,6 +948,10 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-lhnavigation-toggle {
     position: relative;
     z-index: 100;
+}
+
+.oae-page.oae-anon-toggle .oae-lhnavigation-toggle.hide {
+    display: block;
 }
 
 .oae-lhnavigation > ul.nav > li button div.lhnavigation-caret-container {
@@ -1344,8 +1349,8 @@ ul.oae-list > li .oae-list-compact-item  {
 }
 
 /* IE9 specific fallback for flexbox */
-.ie-lt10 ul.oae-list > li .oae-list-details-item,
-.ie-lt10 ul.oae-list > li .oae-list-compact-item  {
+.ie-lt10 ul.oae-list.oae-list-details > li .oae-list-details-item,
+.ie-lt10 ul.oae-list.oae-list-compact > li .oae-list-compact-item  {
     display: table;
 }
 
