@@ -14,6 +14,7 @@
  */
 
 /* Top navigation overrides */
+
 #topnavigation-container .row-fluid {
     margin: 0 auto;
     max-width: 1280px;
@@ -25,6 +26,7 @@
 
 
 /* Default style overrides */
+
 .oae-main-content {
     -webkit-box-shadow: none;
        -moz-box-shadow: none;
@@ -66,7 +68,7 @@
 
 .oae-panel-primary {
     background-color: #234A74;
-    width: 66.66666666666666% !important;
+    width: 66.66% !important;
 }
 
 .oae-panel-primary,
@@ -81,7 +83,7 @@
 
 .oae-panel-secondary {
     background-color: #69c2b8;
-    width: 33.33333333333333% !important;
+    width: 33.33% !important;
 }
 
 .oae-panel-tertiary {
@@ -92,16 +94,12 @@
     background-color: #C12127;
 }
 
-.oae-panel-secondary#index-video-container a {
-    line-height: 1.6;
-}
-
-.oae-panel-secondary#index-video-container a .icon-play-circle {
-    margin-right: 7px;
+.oae-panel-secondary#index-video a {
+    margin-top: 20px;
 }
 
 .oae-main-content #index-content .row-fluid:last-child .oae-panel-secondary {
-    background-color: #1a3762;
+    background-color: #1A3762;
 }
 
 .oae-main-content #index-content .row-fluid:last-child .oae-panel-secondary .index-bottom-slogan {
@@ -109,7 +107,7 @@
 }
 
 .oae-main-content #index-content .row-fluid:last-child .oae-panel-secondary:first-child {
-    background-color: #cac8b5;
+    background-color: #CAC8B5;
 }
 
 /* Custom page CSS */
