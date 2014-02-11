@@ -77,15 +77,8 @@
     background-color: transparent;
 }
 
-#index-container .oae-panel-secondary#index-video-container {
+#index-container .oae-panel-secondary#index-video {
     background-color: #C12127;
-    background-image: none;
-    -webkit-border-radius: 0;
-       -moz-border-radius: 0;
-            border-radius: 0;
-    -webkit-box-shadow: none;
-       -moz-box-shadow: none;
-            box-shadow: none;
 }
 
 .oae-panel-secondary#index-video-container a {
