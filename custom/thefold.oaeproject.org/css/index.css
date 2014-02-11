@@ -13,6 +13,17 @@
  * permissions and limitations under the License.
  */
 
+/* Top navigation overrides */
+#topnavigation-container .row-fluid {
+    margin: 0 auto;
+    max-width: 1280px;
+}
+
+#topnavigation-container #topnavigation-search-form {
+    display: none;
+}
+
+
 /* Default style overrides */
 .oae-main-content {
     -webkit-box-shadow: none;
@@ -28,16 +39,16 @@
 
 .oae-main-content #index-content {
     margin: 0 auto;
-    max-width: 960px;
+    max-width: 1280px;
     padding: 0;
 }
 
 .oae-main-content #index-content .index-search-container {
-    margin: 0px auto 10px;
+    margin: -20px auto 10px;
 }
 
 .oae-main-content #index-content .index-search-container input#index-search-query {
-    background-color: #E6E5E2;
+    background-color: #FEFEFE;
     -webkit-box-shadow: 0 0 3px #999;
        -moz-box-shadow: 0 0 3px #999;
             box-shadow: 0 0 3px #999;
@@ -108,5 +119,5 @@
        -moz-border-radius: 0;
             border-radius: 0;
     height: 420px;
-    max-width: 959px;
+    max-width: 1280px;
 }
