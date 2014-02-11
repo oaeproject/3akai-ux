@@ -122,6 +122,7 @@ module.exports = function(grunt) {
 
                         // Rename and hash these files
                         'files': _hashFiles([
+                            '<%= target %>/optimized/custom',
                             '<%= target %>/optimized/shared',
                             '<%= target %>/optimized/ui',
                             '<%= target %>/optimized/admin',
@@ -134,6 +135,7 @@ module.exports = function(grunt) {
 
                         // Look for and replace references to the above (non-excluded) files and folders in these files
                         'references': [
+                            '<%= target %>/optimized/custom/**/*.html',
                             '<%= target %>/optimized/shared/**/*.html',
                             '<%= target %>/optimized/shared/**/*.js',
                             '<%= target %>/optimized/shared/**/*.css',
