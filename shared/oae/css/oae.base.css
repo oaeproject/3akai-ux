@@ -439,6 +439,7 @@ ul.as-selections {
     -webkit-border-radius: 4px;
        -moz-border-radius: 4px;
             border-radius: 4px;
+    padding: 4px;
 }
 
 ul.as-selections li.as-original {
