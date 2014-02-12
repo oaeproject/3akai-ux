@@ -161,6 +161,18 @@ require(['jquery','oae.core'], function($, oae) {
     $(document).trigger('oae.context.send', oae.data.me);
 
 
+    ////////////////////////////
+    // CHANGE PROFILE PICTURE //
+    ////////////////////////////
+
+    /**
+     * Cache the updated profile picture after it has been changed
+     */
+    $(document).on('oae.changepic.update', function(ev, data) {
+        oae.data.me.picture = data.picture;
+    });
+
+
     //////////////////
     // EDIT PROFILE //
     //////////////////
