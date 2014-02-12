@@ -274,6 +274,18 @@ require(['jquery', 'oae.core'], function($, oae) {
     });
 
 
+    ////////////////////
+    // CHANGE PICTURE //
+    ////////////////////
+
+    /**
+     * Cache the updated group profile after the profile picture has changed
+     */
+    $(document).on('oae.changepic.update', function(ev, data) {
+        groupProfile = data;
+    });
+
+
     ////////////////
     // JOIN GROUP //
     ////////////////
