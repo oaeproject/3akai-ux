@@ -64,13 +64,11 @@ before_install:
   - cd ../Hilary
   - npm install --production
   - node app.js &
-  - sleep 20
+  - cd ../3akai-ux
+  - ./checkserver.travis.sh
   - ADMIN_COOKIE=$(curl -s --cookie-jar - -d"username=administrator" -d"password=administrator"  -e "/" http://admin.oae.com/api/auth/login | grep connect.sess | cut -f 7)
   - curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d"alias=cam" -d"displayName=Cambridge" -d"host=cam.oae.com" http://admin.oae.com/api/tenant/create
   - curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d"oae-principals/recaptcha/enabled=false" http://admin.oae.com/api/config
-
-  # Position ourselves to start the tests
-  - cd ../3akai-ux
 
 services:
   - elasticsearch
