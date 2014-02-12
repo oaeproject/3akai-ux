@@ -13,8 +13,8 @@ before_install:
   - sudo service postgresql stop
 
   # Create a couple of possible tenants in the hosts file
-  - sudo sed -e 's/^\(127\.0\.0\.1.*\)$/\1 admin.oae.com cam.oae.com/' --in-place /etc/hosts
-  - sudo sed -e 's/^\(::1.*\)$/\1 admin.oae.com cam.oae.com/' --in-place /etc/hosts
+  - sudo sed -e 's/^\(127\.0\.0\.1.*\)$/\1 admin.oae.com test.oae.com/' --in-place /etc/hosts
+  - sudo sed -e 's/^\(::1.*\)$/\1 admin.oae.com test.oae.com/' --in-place /etc/hosts
 
   # Add any apt repos we might need
   - echo "deb http://debian.datastax.com/community stable main" | sudo tee -a /etc/apt/sources.list.d/dsc.sources.list
@@ -47,7 +47,6 @@ before_install:
   - sudo ln -fs pwd/phantomjs-1.9.2-linux-i686/bin/phantomjs /usr/local/bin/phantomjs
   - git clone git://github.com/n1k0/casperjs.git
   - cd casperjs
-  - git checkout 1.0.3
   - sudo ln -sf `pwd`/bin/casperjs /usr/local/bin/casperjs
 
   # Configure 3akai-ux / nginx
@@ -65,9 +64,6 @@ before_install:
   - npm install --production
   - node app.js &
   - sleep 20
-  - ADMIN_COOKIE=$(curl -s --cookie-jar - -d"username=administrator" -d"password=administrator"  -e "/" http://admin.oae.com/api/auth/login | grep connect.sess | cut -f 7)
-  - curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d"alias=cam" -d"displayName=Cambridge" -d"host=cam.oae.com" http://admin.oae.com/api/tenant/create
-  - curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d"oae-principals/recaptcha/enabled=false" http://admin.oae.com/api/config
 
   # Position ourselves to start the tests
   - cd ../3akai-ux
@@ -78,7 +74,7 @@ services:
   - redis-server
 
 script:
-  - grunt test --qunit-host cam.oae.com
+  - grunt test --qunit-host test.oae.com
 
 notifications:
   email:
