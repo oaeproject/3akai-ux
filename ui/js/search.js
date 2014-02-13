@@ -67,10 +67,9 @@ require(['jquery','oae.core', 'jquery.history'], function($, oae) {
      * checked/unchecked.
      */
     var modifySearch = function() {
-        // If we're on a handheld device blur the search field after submitting
-        if (oae.api.util.isHandheldDevice()) {
-            $('.search-query').blur();
-        }
+        // Make sure the keyboard is hidden on mobile devices
+        // This won't be noticable on desktop browsers
+        $('#search-clip-container .search-query').blur().focus();
 
         // Get the query from the search form
         var query = $.trim($('#search-query').val());
