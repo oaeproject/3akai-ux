@@ -371,23 +371,46 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
 
     /**
      *  Set up Google Analytics tracking, if it has been enabled for the current tenant
+     *  or the overall application
      */
     var googleAnalytics = function() {
-        // Check if Google Analytics is enabled for the current tenant
-        if (configAPI.getValue('oae-google-analytics', 'google-analytics', 'enabled')) {
-            // Google Analytics tracking code
-            // @see https://developers.google.com/analytics/devguides/
-            (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
-            (i[r].q=i[r].q||[]).push(arguments);};i[r].l=1*new Date();a=s.createElement(o);
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
-            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        // Check if Google Analytics is enabled
+        var masterEnabled = configAPI.getValue('oae-google-analytics', 'google-analytics', 'enabled');
+        var tenantEnabled = configAPI.getValue('oae-google-analytics', 'google-analytics', 'tenantEnabled');
+        if (masterEnabled || tenantEnabled ) {
 
-            // Retrieve the Google Analytics application ID
-            var id = configAPI.getValue('oae-google-analytics', 'google-analytics', 'id');
+            // Get all tracking IDs that are configured
+            var primaryId = masterEnabled && configAPI.getValue('oae-google-analytics', 'google-analytics', 'id');
+            var secondaryId = tenantEnabled && configAPI.getValue('oae-google-analytics', 'google-analytics', 'tenantId');
 
-            // Add the OAE identifiers to the Google Analytics object
-            ga('create', id, window.location.hostname);
-            ga('send', 'pageview');
+            // If only a tenant ID is available, promote it to master
+            if (!primaryId && secondaryId) {
+                primaryId = secondaryId;
+                secondaryId = false;
+            }
+
+            // If there's a valid ID, enable analytics
+            if (primaryId) {
+
+                // Google Analytics tracking code
+                // @see https://developers.google.com/analytics/devguides/
+                (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+                (i[r].q=i[r].q||[]).push(arguments);};i[r].l=1*new Date();a=s.createElement(o);
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
+                })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+                // Add the OAE identifiers to the Google Analytics object
+                ga('create', primaryId, window.location.hostname);
+                ga('send', 'pageview');
+
+                // See if there is a tenant-specific tracking ID as well
+                if (secondaryId) {
+                    // Add secondary tracker
+                    // @see https://developers.google.com/analytics/devguides/collection/analyticsjs/advanced#multipletrackers
+                    ga('create', secondaryId, 'auto', {'name': 'tenantTracker'});
+                    ga('tenantTracker.send', 'pageview');
+                }
+            }
         }
     };
 
