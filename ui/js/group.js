@@ -171,67 +171,68 @@ require(['jquery', 'oae.core'], function($, oae) {
         }
 
         lhNavPages.push({
-                'id': 'library',
-                'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
-                'icon': 'icon-briefcase',
-                'layout': [
-                    {
-                        'width': 'col-md-12',
-                        'widgets': [
-                            {
-                                'id': 'contentlibrary',
-                                'settings': {
-                                    'context': groupProfile,
-                                    'canManage': groupProfile.isManager
-                                }
+            'id': 'library',
+            'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
+            'icon': 'icon-briefcase',
+            'layout': [
+                {
+                    'width': 'col-md-12',
+                    'widgets': [
+                        {
+                            'id': 'contentlibrary',
+                            'settings': {
+                                'context': groupProfile,
+                                'canManage': groupProfile.isManager
                             }
-                        ]
-                    }
-                ]
-            },
-            {
-                'id': 'discussions',
-                'title': oae.api.i18n.translate('__MSG__DISCUSSIONS__'),
-                'icon': 'icon-comments',
-                'layout': [
-                    {
-                        'width': 'col-md-12',
-                        'widgets': [
-                            {
-                                'id': 'discussionslibrary',
-                                'settings': {
-                                    'context': groupProfile,
-                                    'canManage': groupProfile.isManager
-                                }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            'id': 'discussions',
+            'title': oae.api.i18n.translate('__MSG__DISCUSSIONS__'),
+            'icon': 'icon-comments',
+            'layout': [
+                {
+                    'width': 'col-md-12',
+                    'widgets': [
+                        {
+                            'id': 'discussionslibrary',
+                            'settings': {
+                                'context': groupProfile,
+                                'canManage': groupProfile.isManager
                             }
-                        ]
-                    }
-                ]
-            },
-            {
-                'id': 'members',
-                'title': oae.api.i18n.translate('__MSG__MEMBERS__'),
-                'icon': 'icon-user',
-                'layout': [
-                    {
-                        'width': 'col-md-12',
-                        'widgets': [
-                            {
-                                'id': 'members',
-                                'settings': {
-                                    'context': groupProfile,
-                                    'canManage': groupProfile.isManager
-                                }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            'id': 'members',
+            'title': oae.api.i18n.translate('__MSG__MEMBERS__'),
+            'icon': 'icon-user',
+            'layout': [
+                {
+                    'width': 'col-md-12',
+                    'widgets': [
+                        {
+                            'id': 'members',
+                            'settings': {
+                                'context': groupProfile,
+                                'canManage': groupProfile.isManager
                             }
-                        ]
-                    }
-                ]
-            }
-        );
+                        }
+                    ]
+                }
+            ]
+        });
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, true]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
+        $('.oae-page').addClass('oae-anon-toggle');
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, true]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
+            $('.oae-page').addClass('oae-anon-toggle');
         });
     };
 
@@ -313,6 +314,18 @@ require(['jquery', 'oae.core'], function($, oae) {
      */
     $(document).on('oae.manageaccess.done', function(ev) {
         setUpClip();
+    });
+
+
+    ////////////////////////////
+    // CHANGE PROFILE PICTURE //
+    ////////////////////////////
+
+    /**
+     * Cache the updated group picture after it has been changed
+     */
+    $(document).on('oae.changepic.update', function(ev, data) {
+        groupProfile.picture = data.picture;
     });
 
 

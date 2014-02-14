@@ -100,84 +100,84 @@ require(['jquery', 'oae.core'], function($, oae) {
         // Structure that will be used to construct the left hand navigation pages
         lhNavPages = [];
         // Add the rest of the navigation
-        lhNavPages.push(
-            {
-                'id': 'library',
-                'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
-                'icon': 'icon-briefcase',
-                'layout': [
-                    {
-                        'width': 'col-md-12',
-                        'widgets': [
-                            {
-                                'id': 'contentlibrary',
-                                'settings': {
-                                    'context': userProfile
-                                }
+        lhNavPages.push({
+            'id': 'library',
+            'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
+            'icon': 'icon-briefcase',
+            'layout': [
+                {
+                    'width': 'col-md-12',
+                    'widgets': [
+                        {
+                            'id': 'contentlibrary',
+                            'settings': {
+                                'context': userProfile
                             }
-                        ]
-                    }
-                ]
-            },
-            {
-                'id': 'discussions',
-                'title': oae.api.i18n.translate('__MSG__DISCUSSIONS__'),
-                'icon': 'icon-comments',
-                'layout': [
-                    {
-                        'width': 'col-md-12',
-                        'widgets': [
-                            {
-                                'id': 'discussionslibrary',
-                                'settings': {
-                                    'context': userProfile
-                                }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            'id': 'discussions',
+            'title': oae.api.i18n.translate('__MSG__DISCUSSIONS__'),
+            'icon': 'icon-comments',
+            'layout': [
+                {
+                    'width': 'col-md-12',
+                    'widgets': [
+                        {
+                            'id': 'discussionslibrary',
+                            'settings': {
+                                'context': userProfile
                             }
-                        ]
-                    }
-                ]
-            },
-            {
-                'id': 'groups',
-                'title': oae.api.i18n.translate('__MSG__GROUPS__'),
-                'icon': 'icon-group',
-                'layout': [
-                    {
-                        'width': 'col-md-12',
-                        'widgets': [
-                            {
-                                'id': 'memberships',
-                                'settings': {
-                                    'context': userProfile
-                                }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            'id': 'groups',
+            'title': oae.api.i18n.translate('__MSG__GROUPS__'),
+            'icon': 'icon-group',
+            'layout': [
+                {
+                    'width': 'col-md-12',
+                    'widgets': [
+                        {
+                            'id': 'memberships',
+                            'settings': {
+                                'context': userProfile
                             }
-                        ]
-                    }
-                ]
-            },
-            {
-                'id': 'network',
-                'title': oae.api.i18n.translate('__MSG__NETWORK__'),
-                'icon': 'icon-random',
-                'layout': [
-                    {
-                        'width': 'span12',
-                        'widgets': [
-                            {
-                                'id': 'network',
-                                'settings': {
-                                    'context': userProfile
-                                }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            'id': 'network',
+            'title': oae.api.i18n.translate('__MSG__NETWORK__'),
+            'icon': 'icon-random',
+            'layout': [
+                {
+                    'width': 'span12',
+                    'widgets': [
+                        {
+                            'id': 'network',
+                            'settings': {
+                                'context': userProfile
                             }
-                        ]
-                    }
-                ]
-            }
-        );
+                        }
+                    ]
+                }
+            ]
+        });
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, true]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
+        $('.oae-page').addClass('oae-anon-toggle');
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, true]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
+            $('.oae-page').addClass('oae-anon-toggle');
         });
     };
 

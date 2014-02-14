@@ -121,7 +121,9 @@ module.exports = function(grunt) {
                         ],
 
                         // Rename and hash these files
+                        // TODO: Remove /optimized/custom when we have configurable landing pages
                         'files': _hashFiles([
+                            '<%= target %>/optimized/custom',
                             '<%= target %>/optimized/shared',
                             '<%= target %>/optimized/ui',
                             '<%= target %>/optimized/admin',
@@ -133,7 +135,9 @@ module.exports = function(grunt) {
                         ]),
 
                         // Look for and replace references to the above (non-excluded) files and folders in these files
+                        // // TODO: Remove /optimized/custom when we have configurable landing pages
                         'references': [
+                            '<%= target %>/optimized/custom/**/*.html',
                             '<%= target %>/optimized/shared/**/*.html',
                             '<%= target %>/optimized/shared/**/*.js',
                             '<%= target %>/optimized/shared/**/*.css',
