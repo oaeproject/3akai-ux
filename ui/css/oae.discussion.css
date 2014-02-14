@@ -13,6 +13,13 @@
  * permissions and limitations under the License.
  */
 
-#discussion-topic {
-    margin: 80px 65px 40px 50px;
+/* The discussion page shouldn't have a left hand navigation when wider than 992 pixels */
+@media (min-width: 992px) {
+    .oae-lhnavigation {
+        display: none;
+    }
+
+    .oae-page {
+        padding: 5px 25px 50px !important;
+    }
 }

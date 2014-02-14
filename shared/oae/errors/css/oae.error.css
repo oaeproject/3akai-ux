@@ -17,15 +17,20 @@
     margin-top: 2%;
 }
 
-#error-content .row-fluid {
+#error-content .row {
     margin: 100px auto;
     max-width: 900px;
     padding: 50px 0;
 }
 
+#error-content .row div:first-child {
+    margin-bottom: 50px;
+}
+
 #error-content h1 {
     font-size: 100px;
     font-weight: 200;
+    line-height: .4;
     margin-top: 15px;
 }
 
@@ -35,9 +40,9 @@
 }
 
 #error-content #error-quote-container {
+    max-width: 500px;
     padding: 20px;
     position: relative;
-    width: 460px;
 }
 
 #error-content #error-quote-container #error-quote {
@@ -53,7 +58,7 @@
 }
 
 #error-content #error-quote-container + div {
-    margin: 10px 0 0 80px;
+    margin: -30px 0 0 80px;
 }
 
 #error-content #error-quote-container:after {
@@ -65,4 +70,12 @@
     content: "";
     left: 40px;
     position: absolute;
+}
+
+/* iPhone resolution */
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+    #error-content .row {
+        margin: 10px auto;
+        padding: 10px 0;
+    }
 }
