@@ -104,7 +104,8 @@ define(['exports', 'jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js'
             }
         }, {
             'tooltip': 'Click to edit name',
-            'select' : true
+            'select' : true,
+            'onblur': 'submit'
         });
     };
 

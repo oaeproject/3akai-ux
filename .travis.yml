@@ -7,6 +7,11 @@ branches:
     - master
 
 before_install:
+  # Add admin.oae.com and test.oae.com to the hosts file
+  - sudo sed -e 's/^\(127\.0\.0\.1.*\)$/\1 admin.oae.com test.oae.com/' --in-place /etc/hosts
+  - sudo sed -e 's/^\(::1.*\)$/\1 admin.oae.com test.oae.com/' --in-place /etc/hosts
+  - cd ../
+
   # Turn off unneeded services to free some memory
   - sudo service mysql stop
   - sudo service memcached stop
@@ -47,8 +52,11 @@ before_install:
   - sudo ln -fs pwd/phantomjs-1.9.2-linux-i686/bin/phantomjs /usr/local/bin/phantomjs
   - git clone git://github.com/n1k0/casperjs.git
   - cd casperjs
-  - git checkout 1.0.3
   - sudo ln -sf `pwd`/bin/casperjs /usr/local/bin/casperjs
+
+  # Show the CasperJS and PhantomJS version for debugging purposes
+  - casperjs --version
+  - phantomjs --version
 
   # Configure 3akai-ux / nginx
   - cd ../3akai-ux
@@ -80,7 +88,7 @@ services:
   - redis-server
 
 script:
-  - grunt test --qunit-host cam.oae.com
+  - grunt test --qunit-host test.oae.com
 
 notifications:
   email:

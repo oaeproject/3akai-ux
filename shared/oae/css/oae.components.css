@@ -1343,9 +1343,12 @@ ul.oae-list > li:first-child .oae-listitem {
  *              <h2 class="pull-left">__MSG__LIBRARY__ <i class="icon-caret-down"></i></h2>
  *          </button>
  *          <div class="pull-right col-xs-12 col-sm-6">
- *              <form id="library-search-form" class="form-search" role="search">
- *                  <label class="control-label oae-aural-text" for="library-search-query">__MSG__NARROW_BY_KEYWORD__</label>
- *                  <input type="text" id="library-search-query" class="form-control pull-right search-query" placeholder="__MSG__NARROW_BY_KEYWORD__"/>
+ *              <form id="library_search_form" class="form-search" role="search">
+ *                  <label for="search-query" class="control-label oae-aural-text">__MSG__NARROW_BY_KEYWORD__</label>
+ *                  <input type="text" class="search-query" placeholder="__MSG__NARROW_BY_KEYWORD__"/>
+ *                  <button type="submit" class="btn btn-link">
+ *                      <i class="icon-search"><span class="oae-aural-text">__MSG__SEARCH__</span></i>
+ *                  </button>
  *              </form>
  *          </div>
  *      </div>
@@ -1442,12 +1445,22 @@ ul.oae-list > li:first-child .oae-listitem {
     margin-bottom: 0;
 }
 
+.oae-list-options form.form-search button[type="submit"] {
+    margin-left: -30px;
+    margin-top: 7px;
+    padding: 0 10px 0 0;
+    opacity: 0.6;
+}
+
+.oae-list-options form.form-search button[type="submit"] i {
+    font-size: 18px;
+}
+
 @media (min-width: 771px) {
-    .oae-list-options form input.search-query {
+    .oae-list-options form.form-search input.search-query {
         max-width: 400px;
     }
 }
-
 
 /* Actions bar */
 

@@ -234,6 +234,10 @@ require(['jquery','oae.core'], function($, oae) {
      */
     $(document).on('oae.editdiscussion.done', function(ev, data) {
         discussionProfile = data;
+        // Make sure the oae-page div is empty so the left hand nav reloads the content preview
+        $('.oae-page').empty();
+
+        setUpNavigation();
         setUpClips();
     });
 
