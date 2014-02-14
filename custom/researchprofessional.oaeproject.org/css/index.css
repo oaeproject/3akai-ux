@@ -111,6 +111,10 @@
     color: #FFF;
 }
 
+.oae-main-content #index-content .row-fluid:last-child .oae-panel-secondary a {
+    word-wrap: break-word;
+}
+
 .oae-main-content #index-content .row-fluid:last-child .oae-panel-secondary:first-child {
     background-color: #76394E;
 }
