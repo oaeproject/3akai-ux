@@ -327,6 +327,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 '/ui/bundles/zh_CN.properties': null
             },
             'mainHTML': {
+                '/admin/index.html': null,
                 '/shared/oae/errors/accessdenied.html': null,
                 '/shared/oae/errors/maintenance.html': null,
                 '/shared/oae/errors/noscript.html': null,
@@ -370,7 +371,9 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 '/shared/oae/js/jquery-plugins/jquery.jeditable-focus.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.list-options.js': null,
             },
-            'mainJS': {},
+            'mainJS': {
+                '/admin/js/admin.js': null
+            },
             'mainCSS': {
                 '/shared/oae/css/oae.base.css': null,
                 '/shared/oae/css/oae.components.css': null,
