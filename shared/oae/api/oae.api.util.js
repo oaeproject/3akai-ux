@@ -411,7 +411,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          * Set the value of the favicon bubble. For browsers that don't support changing the favicon,
          * the count will be made available in the page title.
          *
-         * @param {Number}  count   The value that should be set in the favicon bubble
+         * @param  {Number}  count   The value that should be set in the favicon bubble
          */
         var setBubble = function(count) {
             Tinycon.setBubble(count);
