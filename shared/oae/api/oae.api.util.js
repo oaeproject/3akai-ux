@@ -460,11 +460,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          * ```
          * <form id='form_id' role='main'>
          *      <div class='control-group'>
-         *          <label for='firstName' class='control-label'>__MSG__FIRSTNAME__</label>
+         *          <label for='firstName' class='control-label'>__MSG__FIRSTNAME_COLON__</label>
          *          <input type='text' maxlength='255' id='firstName' name='firstName' class='required' placeholder='Hiroyuki'/>
          *      </div>
          *      <div class='control-group'>
-         *          <label for='lastName' class='control-label'>__MSG__LASTNAME__</label>
+         *          <label for='lastName' class='control-label'>__MSG__LASTNAME_COLON__</label>
          *          <span class="help"></span>
          *          <input type='text' maxlength='255' id='lastName' name='lastName' class='required' placeholder='Sakai'/>
          *      </div>

@@ -74,6 +74,24 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                         ]
                     }
                 ]
+            },
+            {
+                'id': 'adminusermanagement',
+                'title': oae.api.i18n.translate('__MSG__USER_MANAGEMENT__'),
+                'icon': 'icon-user',
+                'layout': [
+                    {
+                        'width': 'col-md-12',
+                        'widgets': [
+                            {
+                                'id': 'adminusermanagement',
+                                'settings': {
+                                    'context': currentContext
+                                }
+                            }
+                        ]
+                    }
+                ]
             }
         ];
         if (!currentContext.isGlobalAdminServer) {
