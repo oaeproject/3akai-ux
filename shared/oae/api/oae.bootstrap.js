@@ -49,6 +49,7 @@ requirejs.config({
         'qunitjs': 'vendor/js/qunit',
         'sockjs': 'vendor/js/sockjs',
         'text': 'vendor/js/requirejs/require.text',
+        'tinycon': 'vendor/js/tinycon',
         'trimpath': 'vendor/js/trimpath',
         'underscore': 'vendor/js/underscore',
 
