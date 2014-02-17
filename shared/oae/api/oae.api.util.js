@@ -404,7 +404,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                 ga('send', 'pageview');
 
                 // See if there is a tenant-specific tracking ID as well
-                if (secondaryId) {
+                if (secondaryId && (secondaryId !== primaryId)) {
                     // Add secondary tracker
                     // @see https://developers.google.com/analytics/devguides/collection/analyticsjs/advanced#multipletrackers
                     ga('create', secondaryId, 'auto', {'name': 'tenantTracker'});
