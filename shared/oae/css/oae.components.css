@@ -671,9 +671,10 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-clip .oae-clip-content small {
     clear: both;
     font-size: 12px;
+    font-weight: normal;
     line-height: 1;
     max-width: 300px;
-    font-weight: normal;
+    padding-bottom: 2px;
 }
 
 /* Clip actions */
