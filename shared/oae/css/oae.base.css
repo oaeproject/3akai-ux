@@ -26,6 +26,13 @@ body {
     display: none;
 }
 
+@media (max-width: 500px) {
+    body {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
 /* iPhone resolution */
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
     body {
