@@ -4,13 +4,19 @@
  * version: 1.0
  * ==========================================================
  *
- * Based on work from Twitter Bootstrap and 
+ * Based on work from Twitter Bootstrap and
  * from Popover library http://twitter.github.com/bootstrap/javascript.html#popover
  * from the great guys at Twitter.
  *
  * Untested with 2.1.0 but should worked with 2.0.x
  *
  * ========================================================== */
+
+/**
+ * OAE Edit - Fix notifications/share popover re-opening when icon is clicked
+ * @see https://github.com/oaeproject/3akai-ux/pull/3525
+ * @see https://github.com/lecar-red/bootstrapx-clickover/pull/47
+ */
 
 !function($) {
   "use strict"
@@ -40,14 +46,14 @@
       this.init( type, element, options );
 
       // setup our own handlers
-      this.$element.on( 'click', this.options.selector, $.proxy(this.clickery, this) );
+      this.$element.on( 'click touchstart', this.options.selector, $.proxy(this.clickery, this) );
 
       // soon add click hanlder to body to close this element
       // will need custom handler inside here
     }
     , clickery: function(e) {
       // clickery isn't only run by event handlers can be called by timeout or manually
-      // only run our click handler and  
+      // only run our click handler and
       // need to stop progration or body click handler would fire right away
       if (e) {
         e.preventDefault();
@@ -64,7 +70,7 @@
       // add a custom class
       this.options.class_name && this.tip().addClass(this.options.class_name);
 
-      // we could override this to provide show and hide hooks 
+      // we could override this to provide show and hide hooks
       this[ this.isShown() ? 'hide' : 'show' ]();
 
       // if shown add global click closer
@@ -84,9 +90,9 @@
 
         // first check for others that might be open
         // wanted to use 'click' but might accidently trigger other custom click handlers
-        // on clickover elements 
+        // on clickover elements
         !this.options.allow_multiple &&
-            $('[data-clickover-open=1]').each( function() { 
+            $('[data-clickover-open=1]').each( function() {
                 $(this).data('clickover') && $(this).data('clickover').clickery(); });
 
         // help us track elements w/ open clickovers using html5
@@ -98,8 +104,8 @@
 
         // trigger timeout hide
         if ( this.options.auto_close && this.options.auto_close > 0 ) {
-          this.attr.tid = 
-            setTimeout( $.proxy(this.clickery, this), this.options.auto_close );  
+          this.attr.tid =
+            setTimeout( $.proxy(this.clickery, this), this.options.auto_close );
         }
 
         // provide callback hooks for post shown event
@@ -111,7 +117,7 @@
 
         this.options.esc_close && $(document).unbind('keyup.clickery');
 
-        $('body').off( this.attr.click_event_ns ); 
+        $('body').off( this.attr.click_event_ns );
 
         if ( typeof this.attr.tid == "number" ) {
           clearTimeout(this.attr.tid);

@@ -24,7 +24,7 @@ before_install:
 
   # Hilary dependencies
   - sudo apt-get install -qq graphicsmagick
-  - sudo apt-get install -y -o Dpkg::Options::=--force-confnew cassandra=1.2.13 dsc12
+  - sudo apt-get install -y -o Dpkg::Options::=--force-confnew cassandra=1.2.15 dsc12
   - sudo sed -i 's/-Xss180k/-Xss256k/g' /etc/cassandra/cassandra-env.sh
   - sudo sh -c "echo 'JVM_OPTS=\"\${JVM_OPTS} -Djava.net.preferIPv4Stack=false\"' >> /etc/cassandra/cassandra-env.sh"
   - sudo service cassandra stop
@@ -64,13 +64,15 @@ before_install:
   - cd ../Hilary
   - npm install --production
   - node app.js &
-  - sleep 20
+
+  # Wait for Hilary to have started up
+  - cd ../3akai-ux
+  - ./tools/travis/checkHilaryStart.sh
+
+  # Create a test tenant
   - ADMIN_COOKIE=$(curl -s --cookie-jar - -d"username=administrator" -d"password=administrator"  -e "/" http://admin.oae.com/api/auth/login | grep connect.sess | cut -f 7)
   - curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d"alias=cam" -d"displayName=Cambridge" -d"host=cam.oae.com" http://admin.oae.com/api/tenant/create
   - curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d"oae-principals/recaptcha/enabled=false" http://admin.oae.com/api/config
-
-  # Position ourselves to start the tests
-  - cd ../3akai-ux
 
 services:
   - elasticsearch
