@@ -15,8 +15,8 @@
 
 /**
  * jQuery plugin that will detect the clips that are present on the page, and
- * will take care of making them active where necessary. This includes showing
- * and hiding the admin options and toggling the caret icons
+ * will take care of opening/collapsing them when clicked. When a user clicks
+ * outside of an opened clip, the clip will be collapsed as well.
  */
 
 define(['jquery'], function (jQuery) {

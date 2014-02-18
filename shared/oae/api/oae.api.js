@@ -90,7 +90,7 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
                             }
 
                             // Initialize utility API
-                            oae.api.util.init(function() {
+                            oae.api.util.init(oae.data.me, function() {
 
                                 // Initialize widgets API
                                 oae.api.widget.init(userLocale, function(err) {

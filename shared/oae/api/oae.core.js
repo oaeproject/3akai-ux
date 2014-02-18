@@ -78,6 +78,7 @@ define([
         'jquery.validate',
         'jquery-ui',
         'sockjs',
+        'tinycon',
         'underscore'
     ],
 

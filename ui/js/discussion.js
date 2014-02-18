@@ -19,10 +19,11 @@ require(['jquery','oae.core'], function($, oae) {
     // The discussion id will then be `d:<tenantId>:<resourceId>`
     var discussionId = 'd:' + $.url().segment(2) + ':' + $.url().segment(3);
 
-    // Variable used to cache the requested discussion profile
-    var discussionProfile = null;
     // Variable used to cache the discussion's base URL
     var baseUrl = '/discussion/' + $.url().segment(2) + '/' + $.url().segment(3);
+
+    // Variable used to cache the requested discussion profile
+    var discussionProfile = null;
 
     /**
      * Set up the left hand navigation with the discussion space page structure.

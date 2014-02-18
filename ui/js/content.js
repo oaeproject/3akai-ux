@@ -19,10 +19,11 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     // The content id will then be `c:<tenantId>:<resourceId>`
     var contentId = 'c:' + $.url().segment(2) + ':' + $.url().segment(3);
 
-    // Variable used to cache the requested content profile
-    var contentProfile = null;
     // Variable used to cache the content's base URL
     var baseUrl = '/content/' + $.url().segment(2) + '/' + $.url().segment(3);
+
+    // Variable used to cache the requested content profile
+    var contentProfile = null;
 
     /**
      * Set up the left hand navigation with the content space page structure.
@@ -198,7 +199,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     };
 
     /**
-     * Empty the content preview container and insert the updated content preview widget
+     * Refresh the content preview by emptying the existing content preview container and
+     * rendering a new one
      */
     var refreshContentPreview = function() {
         var $widgetContainer = $('.oae-page > .row .oae-lhnavigation-toggle + div');
