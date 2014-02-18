@@ -86,4 +86,4 @@ script:
 notifications:
   email:
     - oae-team@collab.sakaiproject.org
-  irc: "irc.freenode.org#sakai"
+  irc: "irc.freenode.org#oae"
