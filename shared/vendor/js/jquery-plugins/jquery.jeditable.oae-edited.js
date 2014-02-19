@@ -16,7 +16,7 @@
 
 /**
  * OAE edit - replace .html() with .text(), define jquery.jeditable-focus, remove setTimeouts from blur
- * https://github.com/davidchambers/jquery_jeditable/commit/3b65bc6df097dde79ca9f40f55babdbf9882c7a3
+ * @see https://github.com/davidchambers/jquery_jeditable/commit/3b65bc6df097dde79ca9f40f55babdbf9882c7a3
  */
 
 /**

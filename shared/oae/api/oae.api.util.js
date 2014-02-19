@@ -13,21 +13,24 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.validate', 'trimpath', 'jquery.autosuggest'], function(exports, require, $, _, configAPI) {
+define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.validate', 'trimpath', 'jquery.autosuggest', 'tinycon'], function(exports, require, $, _, configAPI) {
 
     /**
      * Initialize all utility functionality.
      *
+     * @param  {Object}     me                  Object representing the currently logged in user
      * @param  {Function}   callback            Standard callback function
      * @api private
      */
-    var init = exports.init = function(callback) {
+    var init = exports.init = function(me, callback) {
         // Set up custom validators
         validation().init();
         // Set up the custom autosuggest listeners
         autoSuggest().init();
         // Set up Google Analytics
         googleAnalytics();
+        // Set up the favicon bubble
+        favicon().init(me);
         // Load the OAE TrimPath Template macros
         template().init(callback);
     };
@@ -118,6 +121,13 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         //   `Open Academic Environment - Fragment 1 - Fragment 2`
         title.splice(0, 0, '__MSG__TITLE_PREFIX__');
         document.title = require('oae.api.i18n').translate(title.join(' - '));
+
+        // Re-apply the unread notifications favicon bubble for browsers that fall back
+        // to showing the unread count in the browser title rather than the favicon
+        var me = require('oae.core').data.me;
+        if (!me.anon) {
+            favicon().setBubble(me.notificationsUnread);
+        }
     };
 
 
@@ -367,6 +377,50 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             'message': {'html': message},
             'transition': 'slideDown'
         }).show();
+    };
+
+    /*!
+     * All functionality related to setting the favicon bubble
+     */
+    var favicon = exports.favicon = function() {
+
+        /**
+         * Initialize the favicon bubble functionality by setting the value of the bubble
+         * to be the unread notifications count of the current user.
+         *
+         * @param  {Object}     me          Object representing the currently logged in user
+         * @api private
+         */
+        var init = function(me) {
+            // Set the unread notifications count in the favicon bubble
+            if (!me.anon) {
+                setBubble(me.notificationsUnread);
+            }
+
+            // When History.js changes the browser title, we re-apply the unread notifications count
+            // in the favicon bubble for browsers that don't support changing the favicon
+            $(window).on('statechange', function() {
+                var me = require('oae.core').data.me;
+                if (!me.anon && me.notificationsUnread !== 0) {
+                    setBubble(me.notificationsUnread);
+                }
+            });
+        };
+
+        /**
+         * Set the value of the favicon bubble. For browsers that don't support changing the favicon,
+         * the count will be made available in the page title.
+         *
+         * @param  {Number}  count   The value that should be set in the favicon bubble
+         */
+        var setBubble = function(count) {
+            Tinycon.setBubble(count);
+        };
+
+        return {
+            'init': init,
+            'setBubble': setBubble
+        };
     };
 
     /**
