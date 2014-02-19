@@ -229,10 +229,6 @@ input[type="color"],
     padding: 6px;
 }
 
-select.form-control {
-    padding: 4px;
-}
-
 .form-horizontal input + .help-block,
 .form-horizontal select + .help-block,
 .form-horizontal textarea + .help-block,
@@ -259,6 +255,10 @@ select.form-control {
 
 .has-error .control-label h4 {
     color: #B94A48;
+}
+
+select.form-control {
+    padding: 4px;
 }
 
 .radio, .checkbox {
