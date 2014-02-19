@@ -20,17 +20,10 @@
 
 .background-image-with-gradient(@image, @gradient1, @gradient2, @skipIE:false) {
     background-color: mix(@gradient1, @gradient2, 50%);
-    background-image: url(@image) @gradient1;
+    background-image: url(@image);
     background-image: url(@image), -moz-linear-gradient(top, @gradient1 0%, @gradient2 100%);
     background-image: url(@image), -webkit-linear-gradient(top, @gradient1 0%, @gradient2 100%);
     background-image: url(@image), linear-gradient(to bottom, @gradient1 0%, @gradient2 100%);
-}
-
-/* IE9 */
-.background-image-with-gradient(@image, @gradient1, @gradient2, @skipIE:false) when not (@skipIE) {
-    @iegradient1: argb(@gradient1);
-    @iegradient2: argb(@gradient2);
-    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=@iegradient1, endColorstr=@iegradient2);
 }
 
 .background-gradient-two(@gradient1, @gradient2, @gradient1start:0%, @gradient2start:100%, @skipIE: false) {
