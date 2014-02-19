@@ -186,7 +186,8 @@ td form {
     margin: 0;
 }
 
-/* Override bootstrap box sizing for the spectrum plugin */
+/* Override bootstrap box sizing for the spectrum plugin
+   @see https://github.com/bgrins/spectrum/issues/175 */
 
 .sp-container *,
 .sp-container *:after,
