@@ -116,6 +116,11 @@ require(['jquery','oae.core', 'jquery.history'], function($, oae) {
         // Put focus on the search input field on desktop browsers
         if (!oae.api.util.isHandheldDevice()) {
             $('.search-query').focus();
+            // To put the cursor at the end of the query in the input field we reapply the value
+            // to the element. The default browser behaviour will put the cursor at the end.
+            if (query) {
+                $('.search-query').val(query);
+            }
         }
     };
 
