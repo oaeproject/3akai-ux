@@ -40,6 +40,7 @@ a.oae-plain-link:hover {
 .oae-aural-text {
     border: 0;
     clip: rect(0 0 0 0);
+    font-family: sans-serif;  /* avoid web fonts */
     height: 1px;
     margin: -1px;
     overflow: hidden;

@@ -21,7 +21,7 @@
 /* Import the Font Awesome Icon Set */
 @import url('../../vendor/css/font-awesome/css/font-awesome.css');
 /* Import the Open Sans font */
-@import url('../../vendor/css/opensans/css/opensans.css');
+@import url('//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700&subset=latin,cyrillic-ext,latin-ext,greek-ext');
 
 /* Import the JQuery AutoSuggest plugin CSS */
 @import url('../../vendor/css/jquery.autoSuggest.css');
