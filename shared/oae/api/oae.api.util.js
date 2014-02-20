@@ -370,46 +370,49 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     };
 
     /**
-     *  Set up Google Analytics tracking, if it has been enabled for the current tenant
-     *  or the overall application
+     *  Set up Google Analytics tracking, if it has been enabled for the entire OAE
+     *  or for the current tenant. A multi-tenant OAE installation can use Google
+     *  Analytics for all tenants, and an individual tenant can use a separate
+     *  Google Analytics accound for visits to its OAE instance. (For example,
+     *  an institution may wish to track OAE activity under it's own Google Analytics
+     *  account.)
      */
     var googleAnalytics = function() {
-        // Check if Google Analytics is enabled
-        var masterEnabled = configAPI.getValue('oae-google-analytics', 'google-analytics', 'enabled');
+        // Get the Google Analytics configuration
+        var globalEnabled = configAPI.getValue('oae-google-analytics', 'google-analytics', 'enabled');
+        var globalId = globalEnabled && configAPI.getValue('oae-google-analytics', 'google-analytics', 'id');
         var tenantEnabled = configAPI.getValue('oae-google-analytics', 'google-analytics', 'tenantEnabled');
-        if (masterEnabled || tenantEnabled ) {
+        var tenantId = tenantEnabled && configAPI.getValue('oae-google-analytics', 'google-analytics', 'tenantId');
 
-            // Get all tracking IDs that are configured
-            var primaryId = masterEnabled && configAPI.getValue('oae-google-analytics', 'google-analytics', 'id');
-            var secondaryId = tenantEnabled && configAPI.getValue('oae-google-analytics', 'google-analytics', 'tenantId');
+        // If either is enabled insert Google's tracking code
+        if (globalId || tenantId) {
+            // @see https://developers.google.com/analytics/devguides/collection/analyticsjs/
+            (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+            (i[r].q=i[r].q||[]).push(arguments);};i[r].l=1*new Date();a=s.createElement(o);
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        }
 
-            // If only a tenant ID is available, promote it to master
-            if (!primaryId && secondaryId) {
-                primaryId = secondaryId;
-                secondaryId = false;
-            }
+        // Handle global and tenant IDs separately since their setups differ
+        if (globalId) {
+            // Adding hostname lets Google Analytics determine which tenant
+            // is being accessed
+            ga('create', globalId, window.location.hostname);
+            ga('send', 'pageview');
+        }
 
-            // If there's a valid ID, enable analytics
-            if (primaryId) {
-
-                // Google Analytics tracking code
-                // @see https://developers.google.com/analytics/devguides/
-                (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
-                (i[r].q=i[r].q||[]).push(arguments);};i[r].l=1*new Date();a=s.createElement(o);
-                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
-                })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-                // Add the OAE identifiers to the Google Analytics object
-                ga('create', primaryId, window.location.hostname);
+        // Ignore tenantIds that are duplicates of the globalId
+        if (tenantId && (tenantId !== globalId)) {
+            // If there's no globalId, the tenant is primary
+            if (!globalId) {
+                ga('create', tenantId, 'auto');
                 ga('send', 'pageview');
 
-                // See if there is a tenant-specific tracking ID as well
-                if (secondaryId && (secondaryId !== primaryId)) {
-                    // Add secondary tracker
-                    // @see https://developers.google.com/analytics/devguides/collection/analyticsjs/advanced#multipletrackers
-                    ga('create', secondaryId, 'auto', {'name': 'tenantTracker'});
-                    ga('tenantTracker.send', 'pageview');
-                }
+            // Otherwise the tenant uses secondary tracking
+            } else {
+                // @see https://developers.google.com/analytics/devguides/collection/analyticsjs/advanced#multipletrackers
+                ga('create', tenantId, 'auto', {'name': 'tenantTracker'});
+                ga('tenantTracker.send', 'pageview');
             }
         }
     };
