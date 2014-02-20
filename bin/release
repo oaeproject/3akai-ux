@@ -75,9 +75,16 @@ ReleaseUtil.bumpPackageJsonVersion(packageJsonPath, packageJson.version, argv.v,
 ReleaseUtil.gitCommitVersionAndTag(argv.v, 8);
 
 // Optionally package up the release on the tag
-if (argv.p) {
+if (argv.p || argv.u) {
+    var packageCmd = 'bin/package -s';
+
+    // Pass along the upload arg if specified
+    if (argv.u) {
+        packageCmd += 'u';
+    }
+
     // Skip the tests and just use the version from package.json
-    CoreUtil.exec('bin/package -s', 'Error packaging up the distribution release', 9, true);
+    CoreUtil.exec(packageCmd, 'Error distributing the release', 9, true);
 }
 
 CoreUtil.logSuccess('Successfully released 3akai-ux '.text + argv.v.white + ' in your local repository'.text);
