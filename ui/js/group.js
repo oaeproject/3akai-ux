@@ -19,10 +19,11 @@ require(['jquery', 'oae.core'], function($, oae) {
     // The group id will then be `g:<tenantId>:<resourceId>`
     var groupId = 'g:' + $.url().segment(2) + ':' + $.url().segment(3);
 
-    // Variable used to cache the requested group's profile
-    var groupProfile = null;
     // Variable used to cache the group's base URL
     var baseUrl = '/group/' + $.url().segment(2) + '/' + $.url().segment(3);
+
+    // Variable used to cache the requested group's profile
+    var groupProfile = null;
 
 
     //////////////////////////////////
@@ -228,9 +229,11 @@ require(['jquery', 'oae.core'], function($, oae) {
             ]
         });
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, true]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
+        $('.oae-page').addClass('oae-anon-toggle');
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, true]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
+            $('.oae-page').addClass('oae-anon-toggle');
         });
     };
 
@@ -312,6 +315,18 @@ require(['jquery', 'oae.core'], function($, oae) {
      */
     $(document).on('oae.manageaccess.done', function(ev) {
         setUpClip();
+    });
+
+
+    ////////////////////////////
+    // CHANGE PROFILE PICTURE //
+    ////////////////////////////
+
+    /**
+     * Cache the updated group picture after it has been changed
+     */
+    $(document).on('oae.changepic.update', function(ev, data) {
+        groupProfile.picture = data.picture;
     });
 
 

@@ -213,7 +213,7 @@ i[class^="icon-"].large:before {
  * Notes:
  *
  * - The selected button should have a `checked` class on the label element
- * - col-md-x defines the width of the column. The total of all columns should be 12.
+ * - `col-md-<x>` defines the width of the column. The sum of all column widths should be 12
  **/
 
 .oae-large-options-container label {
@@ -610,7 +610,7 @@ div.oae-thumbnail i[class^="icon-"] {
     background: none;
     border: none;
     font-weight: 600;
-    padding: 14px 20px 14px 14px;
+    padding: 14px 20px 12px 14px;
     text-align: left;
 }
 
@@ -671,9 +671,9 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-clip .oae-clip-content small {
     clear: both;
     font-size: 12px;
-    line-height: 1;
-    max-width: 300px;
     font-weight: normal;
+    line-height: 1.3;
+    max-width: 300px;
 }
 
 /* Clip actions */
@@ -682,7 +682,7 @@ div.oae-thumbnail i[class^="icon-"] {
     display: none;
     list-style: none;
     margin: 0 10px;
-    padding-bottom: 10px;
+    padding-bottom: 5px;
     padding-left: 0;
 }
 
@@ -706,8 +706,7 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-clip .oae-clip-content > div > ul li button i {
     display: inline-block;
     float: left;
-    margin: 0 0 3px;
-    padding-right: 7px;
+    margin: 0 5px 3px 0;
     width: 30px;
 }
 
@@ -745,135 +744,85 @@ div.oae-thumbnail i[class^="icon-"] {
  ************************/
 
 /**
- * The left hand navigation component will take care of all left hand navigation and rendering the pages and widget sassociated to the items in it.
- * On a mobile device the left hand navigation will be collapsed by default. If the left hand navigation opens and the page width exceeds the width
- * of the device the content will be pushed off screen using `overflow: hidden` on the `.oae-page` container. When a list item is clicked that brings
- * the user to a new page the left hand navigation is closed automatically. When an `action button` is clicked the left hand navigation doesn't close.
- * When the page width is big enough to support content and left hand navigation to be shown the collapse icon is hidden and the navigation shown.
+ * The left hand navigation component allows for a page navigation to be defined. This component will automatically
+ * take care of the responsive behavior of the left hand navigation. On a mobile device, the left hand navigation
+ * will be collapsed by default. The left hand navigation can then be shown by clicking the left hand navigation toggle.
+ * On a larger screen, the left hand navigation will always be visible.
  *
- * The left hand navigation can consist of the following elements:
- *     - `Action buttons` are list items with a button that trigger a widget (e.g. trigger upload widget)
- *     - `Page links` are list items with a link to a page. When clicked the associated widgets are loaded into the .oae-page container and diplayed (e.g. show `My library`).
- *     - `Parent -> child`. A list of children for a specific list item (e.g. `Create` has children `Create group`, `Create document`, `Create link`, ...).
- *     - `Custom list items` when the left hand navigation needs to be customized (e.g. Search needs to be able to refine and requires a list of checkboxes for `people`, `groups`, `content` and `discussion`).
+ * Left hand navigation items can be grouped into collapsible sections. When a non-collapsible left hand navigation item
+ * is clicked on a mobile device, the left hand navigation will automatically be closed.
  *
- * Notes on the available elements:
- *     - `Actions buttons` are only shown on small viewports (defined by Bootstrap *-xs and *-sm @see http://getbootstrap.com/css/#grid) as they are meant to replace clip actions. Clips are not shown on smaller viewports.
- *     - When an `action button` is clicked a widget is lazyloaded and shown on the page. The widget will not be inserted into the `.oae-page` container. This implies that the triggered widget needs to be able to initialize itsself.
- *     - When a `page link` is clicked the associated page content is then rendered into the `.oae-page` container and widgets are initialized. If the requested page has been loaded already it is served from cache and no additional rendering is done.
- *     - When clicking the parent item, the list of children is toggled. When one of the children is clicked the appropriate action is taken (see `action button` or `page link`).
- *     - When a custom list item is clicked, the behavior will depend on what is defined for it. Although custom components are supported no default behavior is defined for them.
+ * @see `lhnavigation` widget for documentation on how to initialize a left hand navigation using JavaScript.
  *
- * Notes on the `.oae-page` container:
- *     - When a page link is clicked the `.oae-page` container will be filled with the associated page content for the clicked item.
- *         - If the page was already rendered it is not rendered again but shown from cache to the user.
- *         - `Action buttons` do not render widgets into `.oae-page` but instead append them to the body or otherwise specified location by the widgets and expect the widgets to initialize themselves.
- *     - Every `row` in the `.oae-page` container needs the `.oae-lhnavigation-toggle` button to be able to toggle the left hand navigation.
- *         - Having the `.oae-lhnavigation-toggle` button in each row ensures the user can toggle the left hand navigation on every page.
+ * e.g. <div class="oae-lhnavigation">
+ *          <ul class="nav nav-list">
+ *              <li class="clearfix oae-lhnavigation-border">
+ *                  <button type="button" class="btn btn-link" title="__MSG__UPLOAD__">
+ *                      <i class="icon-cloud-upload pull-left"></i>
+ *                      <div>__MSG__UPLOAD__</div>
+ *                  </button>
+ *              </li>
+ *              <li class="clearfix collapse oae-lhnavigation-border">
+ *                  <button type="button" class="btn btn-link" title="__MSG__CREATE__">
+ *                      <div class="lhnavigation-caret-container pull-right">
+ *                          <i class="icon-caret-left pull-right">
+ *                              <span class="oae-aural-text">__MSG__OPEN_NAVIGATION__</span>
+ *                          </i>
+ *                          <i class="icon-caret-down pull-right hide">
+ *                              <span class="oae-aural-text">__MSG__CLOSE_NAVIGATION__</span>
+ *                          </i>
+ *                      </div>
+ *                      <i class="icon-plus-sign pull-left"></i>
+ *                      <div>__MSG__CREATE__</div>
+ *                  </button>
+ *                  <ul class="nav nav-list lhnavigation-collapsed hide">
+ *                      <li class="clearfix">
+ *                          <button type="button" class="btn btn-link" title="__MSG__GROUP__">
+ *                              <i class="icon-group pull-left"></i>
+ *                              <div>__MSG__GROUP__</div>
+ *                          </button>
+ *                      </li>
+ *                  </ul>
+ *              </li>
+ *              <li class="clearfix active" data-id="dashboard">
+ *                  <a href="/me/dashboard" title="__MSG__RECENT_ACTIVITY__">
+ *                      <i class="icon-dashboard pull-left"></i>
+ *                      <div>__MSG__RECENT_ACTIVITY__</div>
+ *                  </a>
+ *              </li>
+ *          </ul>
+ *      </div>
+ *      <div class="col-xs-12 col-sm-12 col-md-12 oae-page">
+ *          <div class="row">
+ *              <button type="button" class="btn btn-link hidden-md hidden-lg oae-lhnavigation-toggle">
+ *                  <i class="icon-align-justify"></i>
+ *                  <span class="oae-aural-text">__MSG__TOGGLE_NAVIGATION__</span>
+ *              </button>
+ *          </div>
+ *      </div>
  *
- * - Example: Basic left hand navigation with an `action button` and a page `link`
- *     - The first item is an `action button` item that will trigger the `upload` widget.
- *     - The second item is a `page link` item that will render the `dashboard` page and all of its widgets into `.oae-page`.
- *         - Any subsequent clicks on other `page link` items will create a sibling element in the `.oae-page` container to easily keep track of the rendered pages.
- *     - `.oae-lhnavigation-border` is applied to `action buttons` to give the button a border-bottom.
- *     - `hidden-md hidden-lg` are applied to `action buttons` to ensure they are hidden on larger viewports.
+ * Notes:
  *
- * <div class="oae-lhnavigation">
- *     <ul class="nav nav-list">
- *        <li class="clearfix oae-trigger-upload oae-lhnavigation-border hidden-md hidden-lg">
- *             <button type="button" class="btn btn-link" title="__MSG__UPLOAD__">
- *                 <i class="icon-cloud-upload pull-left"></i>
- *                 <div>__MSG__UPLOAD__</div>
- *             </button>
- *         </li>
- *         <li class="clearfix active" data-id="dashboard">
- *             <a href="/me/dashboard" title="__MSG__RECENT_ACTIVITY__">
- *                 <i class="icon-dashboard pull-left"></i>
- *                 <div>__MSG__RECENT_ACTIVITY__</div>
- *             </a>
- *         </li>
- *     </ul>
- * </div>
- * <div class="oae-page col-xs-12 col-sm-12 col-md-12">
- *     <div class="row" data-id="dashboard">
- *         <button type="button" class="oae-lhnavigation-toggle btn btn-link hidden-md hidden-lg">
- *             <i class="icon-align-justify"></i>
- *             <span class="oae-aural-text">__MSG__TOGGLE_NAVIGATION__</span>
- *         </button>
- *     </div>
- * </div>
- *
- * - Example: Basic left hand navigation with a list of `action button` children and a `page link`
- *     - The first item in the list exposes the `action button` children when clicked. It's only shown on smaller viewports
- *     - The children are all action buttons which trigger a widget.
- *     - The second item in the top level list is a `page link` which behaves the same as the previous example
- *
- * <div class="oae-lhnavigation">
- *     <ul class="nav nav-list">
- *        <li class="clearfix collapse oae-lhnavigation-border hidden-md hidden-lg">
- *            <button type="button" class="btn btn-link" title="Create">
- *                <div class="lhnavigation-caret-container pull-right">
- *                    <i class="icon-caret-left pull-right">
- *                        <span class="oae-aural-text">Open navigation</span>
- *                    </i>
- *                    <i class="icon-caret-down pull-right hide">
- *                        <span class="oae-aural-text">Close navigation</span>
- *                    </i>
- *                </div>
- *                <i class="icon-plus-sign pull-left"></i>
- *                <div>Create</div>
- *            </button>
- *            <ul class="nav nav-list lhnavigation-collapsed hide">
- *                <li class="clearfix oae-trigger-creategroup hidden-md hidden-lg">
- *                    <button type="button" class="btn btn-link" title="Group">
- *                        <i class="icon-group pull-left"></i>
- *                        <div>Group</div>
- *                    </button>
- *                </li>
- *            </ul>
- *        </li>
- *         <li class="clearfix active" data-id="dashboard">
- *             <a href="/me/dashboard" title="__MSG__RECENT_ACTIVITY__">
- *                 <i class="icon-dashboard pull-left"></i>
- *                 <div>__MSG__RECENT_ACTIVITY__</div>
- *             </a>
- *         </li>
- *     </ul>
- * </div>
- * <div class="oae-page col-xs-12 col-sm-12 col-md-12">
- *     <div class="row" data-id="dashboard">
- *         <button type="button" class="oae-lhnavigation-toggle btn btn-link hidden-md hidden-lg">
- *             <i class="icon-align-justify"></i>
- *             <span class="oae-aural-text">__MSG__TOGGLE_NAVIGATION__</span>
- *         </button>
- *     </div>
- * </div>
- *
- * - Example: Custom hand navigation with a list of checkboxes (e.g. to refine a search)
- *     - The example shows a custom type of list items that lets users check boxes
- *     - Changing the value of the checkbox needs to be handled separately as it is a custom component.
- *     - The `.oae-page` container needs custom handling to show the appropriate content as the left hand navigation will not take care of it in this example.
- *     - A navigation header is added in this example to provide extra detail on the navigation items.
- *
- * <div class="oae-lhnavigation">
- *     <ul id="search-refine-type" class="nav nav-list hidden-xs hidden-sm">
- *         <li class="nav-header">__MSG__REFINE_YOUR_SEARCH_BY_TYPE__</li>
- *         <li><label class="checkbox"><input type="checkbox" data-type="user"><div>__MSG__PEOPLE__</div></label></li>
- *         <li><label class="checkbox"><input type="checkbox" data-type="group"><div>__MSG__GROUPS__</div></label></li>
- *         <li><label class="checkbox"><input type="checkbox" data-type="content"><div>__MSG__CONTENT__</div></label></li>
- *         <li><label class="checkbox"><input type="checkbox" data-type="discussion"><div>__MSG__DISCUSSIONS__</div></label></li>
- *     </ul>
- * </div>
- * <div class="oae-page col-xs-12 col-sm-12 col-md-12">
- *     <div class="row">
- *         <button type="button" class="oae-lhnavigation-toggle btn btn-link hidden-md hidden-lg">
- *             <i class="icon-align-justify"></i>
- *             <span class="oae-aural-text">__MSG__TOGGLE_NAVIGATION__</span>
- *         </button>
- *     </div>
- * </div>
- *
- * @see lhnavigation widget for documentation on how to initialize the left hand navigation and page using JavaScript.
+ * - Each left hand navigation item is an `li` list item. Usually, these list items will either contain a link
+ *   or a button, but can contain anything.
+ * - The list item that should be shown as the active list item should have an `active` class on the `li` list
+ *   item itself.
+ * - Any navigation item that should have a border below the item should have an `oae-lhnavigation-border` class
+ *   on the `li` list item.
+ * - When a left hand navigation item needs to be hidden on desktop devices, the classes `hidden-md hidden-lg`
+ *   should be added to the list item.
+ * - A collapsible left hand navigation item should have a `collapse` class on the list item. Inside of the button
+ *   containing the content of that list item, the `lhnavigation-caret-container` element is responsible for showing
+ *   and hiding the collapsed items. The collapse button should be followed by a list containing all of the
+ *   collapsible left hand navigation items. The `ul` element containing those collapsible items should have
+ *   a `lhnavigation-collapsed` class to make them collapsed by default.
+ * - The item responsible for opening and closing the left hand navigation on a mobile device should have the
+ *   `oae-lhnavigation-toggle` class. This toggle should have the `hidden-md hidden-lg` classes, as the toggle can
+ *   not be shown on desktop devices. This item should also be inside of a `oae-page` div, which is used for the
+ *   collapsing animation on mobile devices.
+ * - TODO: Remove this once a proper solution for https://github.com/oaeproject/3akai-ux/issues/3506 is in place
+ *   The `.oae-lhnavigation-toggle` button is hidden by default for anonymous users. If the `.oae-anon-toggle` class
+ *   is added to `.oae-page` the button will be shown for anonymous users.
  */
 
 /* Left hand navigation */
@@ -937,6 +886,10 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-lhnavigation-toggle {
     position: relative;
     z-index: 100;
+}
+
+.oae-page.oae-anon-toggle .oae-lhnavigation-toggle.hide {
+    display: block;
 }
 
 /* Page content */
@@ -1307,8 +1260,8 @@ ul.oae-list > li .oae-list-compact-item  {
 }
 
 /* IE9 specific fallback for flexbox */
-.ie-lt10 ul.oae-list > li .oae-list-details-item,
-.ie-lt10 ul.oae-list > li .oae-list-compact-item  {
+.ie-lt10 ul.oae-list.oae-list-details > li .oae-list-details-item,
+.ie-lt10 ul.oae-list.oae-list-compact > li .oae-list-compact-item  {
     display: table;
 }
 

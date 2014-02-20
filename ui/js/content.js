@@ -19,6 +19,9 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     // The content id will then be `c:<tenantId>:<resourceId>`
     var contentId = 'c:' + $.url().segment(2) + ':' + $.url().segment(3);
 
+    // Variable used to cache the content's base URL
+    var baseUrl = '/content/' + $.url().segment(2) + '/' + $.url().segment(3);
+
     // Variable used to cache the requested content profile
     var contentProfile = null;
 
@@ -73,12 +76,9 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             ]
         }];
 
-        // If the user is anonymous, the content profile has no navigation
-        var hasNav = !oae.data.me.anon;
-
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, null, hasNav]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, null, hasNav]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
         });
     };
 
@@ -198,6 +198,20 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         });
     };
 
+    /**
+     * Refresh the content preview by emptying the existing content preview container and
+     * rendering a new one
+     */
+    var refreshContentPreview = function() {
+        var $widgetContainer = $('.oae-page > .row .oae-lhnavigation-toggle + div');
+
+        // Empty the preview container
+        $widgetContainer.empty();
+
+        // Insert the new updated content preview widget
+        oae.api.widget.insertWidget(getPreviewWidgetId(), null, $widgetContainer, null, contentProfile);
+    };
+
 
     ////////////////////////
     // UPLOAD NEW VERSION //
@@ -212,10 +226,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     var refreshContentProfile = function(ev, updatedContent) {
         // Cache the content profile data
         contentProfile = updatedContent;
-        // Make sure the oae-page div is empty so the left hand nav reloads the content preview
-        $('.oae-page').empty();
         // Refresh the content profile elements
-        setUpNavigation();
+        refreshContentPreview();
         setUpClips();
     };
 
