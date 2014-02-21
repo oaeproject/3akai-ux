@@ -1224,8 +1224,29 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 /* IE9 specific fallback for flexbox */
-.ie-lt10 .oae-listitem h3 {
-    max-width: 450px;
+
+@media (min-width: 900px) {
+    .ie-lt10 .oae-listitem h3 {
+        max-width: 500px;
+    }
+}
+
+@media (min-width: 550px) and (max-width: 900px) {
+    .ie-lt10 .oae-listitem h3 {
+        max-width: 300px;
+    }
+}
+
+@media (min-width: 400px) and (max-width: 550px) {
+    .ie-lt10 .oae-listitem h3 {
+        max-width: 160px;
+    }
+}
+
+@media (max-width: 400px) {
+    .ie-lt10 .oae-listitem h3 {
+        max-width: 100px;
+    }
 }
 
 .oae-listitem small {
