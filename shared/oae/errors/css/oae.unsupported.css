@@ -13,7 +13,18 @@
  * permissions and limitations under the License.
  */
 
+.ie-lt10 .col-md-5 {
+    float: left;
+    width: 41%;
+}
+
+.ie-lt10 .col-md-7 {
+    float: left;
+    width: 58%;
+}
+
 #error-content h1 {
+    line-height: 1;
     font-size: 40px;
 }
 
@@ -24,11 +35,10 @@
 #error-content ul li {
     font-size: 18px;
     font-weight: 200;
-    margin: 12px 0;
 }
 
-#error-content ul.unstyled li {
-    margin: 0;
+#error-content ul.list-unstyled {
+    margin: 0 0 0 20px;
 }
 
 #error-content .error-quote-container {
@@ -43,6 +53,7 @@
 }
 
 #error-content .error-quote-container.oae-quote-inverse {
+    margin-bottom: 0 !important;
     margin-top: -15px;
 }
 

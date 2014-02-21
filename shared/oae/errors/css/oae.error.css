@@ -61,7 +61,7 @@
 }
 
 #error-content .error-quote-container.oae-quote-inverse + div {
-    margin: 10px 65px 10px 177px;
+    margin: 0px 65px 10px 100px;
 }
 
 #error-content .error-quote-container:after {
