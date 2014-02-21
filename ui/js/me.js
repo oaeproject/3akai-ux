@@ -162,9 +162,9 @@ require(['jquery','oae.core'], function($, oae) {
      * Set up the left hand navigation with the me space page structure
      */
     var setUpNavigation = function() {
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, true]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, true]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
         });
     };
 
@@ -192,6 +192,18 @@ require(['jquery','oae.core'], function($, oae) {
         }
     });
     $(document).trigger('oae.context.send', oae.data.me);
+
+
+    ////////////////////////////
+    // CHANGE PROFILE PICTURE //
+    ////////////////////////////
+
+    /**
+     * Cache the updated profile picture after it has been changed
+     */
+    $(document).on('oae.changepic.update', function(ev, data) {
+        oae.data.me.picture = data.picture;
+    });
 
 
     //////////////////

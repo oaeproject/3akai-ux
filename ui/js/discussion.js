@@ -19,6 +19,9 @@ require(['jquery','oae.core'], function($, oae) {
     // The discussion id will then be `d:<tenantId>:<resourceId>`
     var discussionId = 'd:' + $.url().segment(2) + ':' + $.url().segment(3);
 
+    // Variable used to cache the discussion's base URL
+    var baseUrl = '/discussion/' + $.url().segment(2) + '/' + $.url().segment(3);
+
     // Variable used to cache the requested discussion profile
     var discussionProfile = null;
 
@@ -73,12 +76,9 @@ require(['jquery','oae.core'], function($, oae) {
             ]
         }];
 
-        // If the user is anonymous, the discussion profile has no navigation
-        var hasNav = !oae.data.me.anon;
-
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, null, hasNav]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, null, hasNav]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
         });
     };
 
@@ -231,12 +231,11 @@ require(['jquery','oae.core'], function($, oae) {
     /////////////////////
 
     /**
-     * Re-render the discussion's clip and topic when the title or topic have been updated.
+     * Re-render the discussion's clip. The discussion topic will be handled by the discussion widget.
      */
     $(document).on('oae.editdiscussion.done', function(ev, data) {
         discussionProfile = data;
         setUpClips();
-        setUpTopic();
     });
 
 
