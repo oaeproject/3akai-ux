@@ -379,8 +379,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
      */
     var googleAnalytics = function() {
         // Get the Google Analytics configuration
-        var globalEnabled = configAPI.getValue('oae-google-analytics', 'google-analytics', 'enabled');
-        var globalId = globalEnabled && configAPI.getValue('oae-google-analytics', 'google-analytics', 'id');
+        var globalEnabled = configAPI.getValue('oae-google-analytics', 'google-analytics', 'globalEnabled');
+        var globalId = globalEnabled && configAPI.getValue('oae-google-analytics', 'google-analytics', 'globalId');
         var tenantEnabled = configAPI.getValue('oae-google-analytics', 'google-analytics', 'tenantEnabled');
         var tenantId = tenantEnabled && configAPI.getValue('oae-google-analytics', 'google-analytics', 'tenantId');
 
