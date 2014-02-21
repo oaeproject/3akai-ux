@@ -16,7 +16,11 @@
 #index-content {
     font-weight: 200;
     margin: 0 auto;
-    min-width: 878px;
+    max-width: 985px;
+}
+
+#index-container > div {
+    margin: 0 auto;
     max-width: 985px;
 }
 
@@ -29,31 +33,34 @@
     padding: 10px 20px;
 }
 
-#index-container .index-search-container {
-    margin: 25px auto 50px;
-    padding: 3% 0;
+#index-container .row {
+    margin: 30px 0 0;
 }
 
-#index-container .index-search-container form {
-    margin: 0;
+#index-container .index-search-container form,
+#index-container .index-search-container form .form-group {
+    margin: 12px 0;
 }
 
 #index-container .index-search-container input#index-search-query {
     height: 37px;
-    margin-left: 80px;
-    margin-right: 7px;
-    border-color: transparent;
-    -webkit-box-shadow: none;
-       -moz-box-shadow: none;
-            box-shadow: none;
+    padding: 0 30px 0 12px;
+}
+
+#index-container .index-search-container #index-search-icon {
+    margin-left: -27px;
+    margin-top: 1px;
+    padding: 0px;
+    opacity: 0.6;
 }
 
 #index-container .index-search-container button[type="submit"] {
     height: 37px;
+    margin-top: -3px;
     padding: 0px 19px;
 }
 
-#index-container #index-video-container {
+#index-container #index-video {
     position: relative;
     background: url('/ui/img/index-video-bg.png') no-repeat center 0px #ECEAE5;
     -webkit-border-radius: 3px;
@@ -63,9 +70,14 @@
        -moz-box-shadow: 0 0 7px #444;
             box-shadow: 0 0 7px #444;
     height: 290px;
+    padding: 0;
 }
 
-#index-container #index-video-container #index-video-launch {
+#index-container #index-video.index-video-mobile {
+    height: 130px;
+}
+
+#index-container #index-video #index-video-launch {
     position: absolute;
     opacity: 0.8;
     left: 0;
@@ -73,7 +85,7 @@
     height: 100%;
 }
 
-#index-container #index-video-container #index-video-launch i {
+#index-container #index-video #index-video-launch i {
     font-size: 70px;
 }
 
@@ -81,17 +93,12 @@
     font-size: 50px;
     line-height: 1;
     margin: 0;
+    word-wrap: break-word;
 }
 
 #index-container #index-slogan-description {
     font-size: 19px;
     margin-top: 25px;
-    width: 350px;
-}
-
-.index-bottom {
-    margin-top: 30px;
-    margin-bottom: 30px;
 }
 
 .index-bottom .index-bottom-slogan {
@@ -104,4 +111,20 @@
     font-size: 14px;
     margin-top: 25px;
     overflow: auto;
+}
+
+@media (max-width: 992px) {
+    #index-content .row:last-child {
+        margin-top: 0;
+    }
+
+    #index-container #index-slogan {
+        font-size: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    #index-container #index-slogan {
+        font-size: 34px;
+    }
 }

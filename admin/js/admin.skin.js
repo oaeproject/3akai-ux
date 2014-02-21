@@ -261,7 +261,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.spectrum'], funct
      * value back to its previous value.
      */
     var revertSkinValue = function() {
-        var $input = $('input', $(this).parent());
+        var $input = $('input', $(this).parents('.form-group'));
         var defaultValue = defaultSkin[$input.attr('name')];
         // If the variable is a color, we use the set method provided by jQuery spectrum
         if ($input.attr('data-type') === 'color') {

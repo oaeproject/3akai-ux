@@ -1,0 +1,66 @@
+/*!
+ * Copyright 2013 Apereo Foundation (AF) Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ *     http://opensource.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+.ie-lt10 .col-md-5 {
+    float: left;
+    width: 41%;
+}
+
+.ie-lt10 .col-md-7 {
+    float: left;
+    width: 58%;
+}
+
+#error-content h1 {
+    line-height: 1;
+    font-size: 40px;
+}
+
+#error-content ul {
+    margin-top: 40px;
+}
+
+#error-content ul li {
+    font-size: 18px;
+    font-weight: 200;
+}
+
+#error-content ul.list-unstyled {
+    margin: 0 0 0 20px;
+}
+
+#error-content .error-quote-container {
+    background-image: url('/shared/oae/img/ie.png');
+    background-repeat: no-repeat;
+    background-position: bottom right;
+}
+
+#error-content .error-quote-container.oae-quote-inverse {
+    background-image: none;
+    width: 300px;
+}
+
+#error-content .error-quote-container.oae-quote-inverse {
+    margin-bottom: 0 !important;
+    margin-top: -15px;
+}
+
+#error-content .error-quote-container.oae-quote-inverse p {
+    margin: 0;
+}
+
+#error-content .error-quote-container.oae-quote-inverse + div img {
+    margin-top: 15px;
+}
