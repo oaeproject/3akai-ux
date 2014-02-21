@@ -26,20 +26,53 @@ require(['jquery','oae.core'], function($, oae) {
     // Set the browser title
     oae.api.util.setBrowserTitle(oae.data.me.displayName);
 
-    // Structure that will be used to construct the left hand navigation
-    var lhNavigation = [
+    // Structure that will be used to construct the left hand navigation actions
+    var lhNavActions = [{
+        'icon': 'icon-cloud-upload',
+        'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
+        'class': 'oae-trigger-upload'
+    },
+    {
+        'icon': 'icon-plus-sign',
+        'title': oae.api.i18n.translate('__MSG__CREATE__'),
+        'children': [
+            {
+                'icon': 'icon-group',
+                'title': oae.api.i18n.translate('__MSG__GROUP__'),
+                'class': 'oae-trigger-creategroup'
+            },
+            {
+                'icon': 'icon-link',
+                'title': oae.api.i18n.translate('__MSG__LINK__'),
+                'class': 'oae-trigger-createlink'
+            },
+            {
+                'icon': 'icon-edit',
+                'title': oae.api.i18n.translate('__MSG__DOCUMENT__'),
+                'class': 'oae-trigger-createcollabdoc'
+            },
+            {
+                'icon': 'icon-comments',
+                'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
+                'class': 'oae-trigger-creatediscussion'
+            }
+        ]
+    }];
+
+    // Structure that will be used to construct the left hand navigation pages
+    var lhNavPages = [
         {
             'id': 'dashboard',
             'title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
             'icon': 'icon-dashboard',
             'layout': [
                 {
-                    'width': 'span12',
+                    'width': 'col-md-12',
                     'widgets': [
                         {
                             'id': 'activity',
                             'settings': {
-                                'principalId': oae.data.me.id,
+                                'context': oae.data.me,
                                 'canManage': true
                             }
                         }
@@ -53,12 +86,12 @@ require(['jquery','oae.core'], function($, oae) {
             'icon': 'icon-briefcase',
             'layout': [
                 {
-                    'width': 'span12',
+                    'width': 'col-md-12',
                     'widgets': [
                         {
                             'id': 'contentlibrary',
                             'settings': {
-                                'principalId': oae.data.me.id,
+                                'context': oae.data.me,
                                 'canManage': true
                             }
                         }
@@ -72,12 +105,12 @@ require(['jquery','oae.core'], function($, oae) {
             'icon': 'icon-comments',
             'layout': [
                 {
-                    'width': 'span12',
+                    'width': 'col-md-12',
                     'widgets': [
                         {
                             'id': 'discussionslibrary',
                             'settings': {
-                                'principalId': oae.data.me.id,
+                                'context': oae.data.me,
                                 'canManage': true
                             }
                         }
@@ -91,12 +124,12 @@ require(['jquery','oae.core'], function($, oae) {
             'icon': 'icon-group',
             'layout': [
                 {
-                    'width': 'span12',
+                    'width': 'col-md-12',
                     'widgets': [
                         {
                             'id': 'memberships',
                             'settings': {
-                                'principalId': oae.data.me.id,
+                                'context': oae.data.me,
                                 'canManage': true
                             }
                         }
@@ -110,12 +143,12 @@ require(['jquery','oae.core'], function($, oae) {
             'icon': 'icon-random',
             'layout': [
                 {
-                    'width': 'span12',
+                    'width': 'col-md-12',
                     'widgets': [
                         {
                             'id': 'network',
                             'settings': {
-                                'principalId': oae.data.me.id,
+                                'context': oae.data.me,
                                 'canManage': true
                             }
                         }
@@ -129,9 +162,9 @@ require(['jquery','oae.core'], function($, oae) {
      * Set up the left hand navigation with the me space page structure
      */
     var setUpNavigation = function() {
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
         });
     };
 
@@ -161,6 +194,18 @@ require(['jquery','oae.core'], function($, oae) {
     $(document).trigger('oae.context.send', oae.data.me);
 
 
+    ////////////////////////////
+    // CHANGE PROFILE PICTURE //
+    ////////////////////////////
+
+    /**
+     * Cache the updated profile picture after it has been changed
+     */
+    $(document).on('oae.changepic.update', function(ev, data) {
+        oae.data.me.picture = data.picture;
+    });
+
+
     //////////////////
     // EDIT PROFILE //
     //////////////////
@@ -168,8 +213,6 @@ require(['jquery','oae.core'], function($, oae) {
     /**
      * Re-render the me clip when the user profile has been updated. The updated
      * me object will be passed into the event
-     *
-     * TODO: verify this works when https://github.com/oaeproject/Hilary/issues/538 is merged.
      */
     $(document).on('oae.editprofile.done', function(ev, data) {
         oae.data.me = data;

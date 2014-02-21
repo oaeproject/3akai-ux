@@ -43,6 +43,7 @@ define([
         'oae.api.i18n',
         'oae.api.l10n',
         'oae.api.profile',
+        'oae.api.push',
         'oae.api.user',
         'oae.api.util',
         'oae.api.widget',
@@ -57,6 +58,7 @@ define([
         'jquery.dnd-upload',
         'jquery.infinitescroll',
         'jquery.list-options',
+        'jquery.responsive',
         'jquery.update-picture',
 
         /*!
@@ -75,6 +77,8 @@ define([
         'jquery.timeago',
         'jquery.validate',
         'jquery-ui',
+        'sockjs',
+        'tinycon',
         'underscore'
     ],
 
@@ -85,6 +89,8 @@ define([
             // Intercept 419 status indicating that the user has to accept the Terms and Conditions before continuing
             'complete': function(xhr, textStatus) {
                 if (xhr.status === 419) {
+                    // Update user status
+                    oae.data.me.needsToAcceptTC = true;
                     // Hide any modal that might be open as bootstrap doesn't support 2 modals at once
                     $('.modal').modal('hide');
                     // Insert the Terms and Conditions widget in settings mode

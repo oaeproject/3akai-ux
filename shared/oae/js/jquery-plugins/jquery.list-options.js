@@ -35,6 +35,14 @@ define(['jquery'], function ($) {
         });
 
         /**
+         * Deselect the 'select all' checkboxes when the state changes
+         */
+        $(window).on('statechange', function() {
+            $('.oae-list-selectall').prop('checked', false);
+            $('.oae-list-options-actions > .btn').prop('disabled', true);
+        });
+
+        /**
          * Select or deselect all elements when clicking the select all checkbox in the
          * list options
          */
@@ -141,7 +149,11 @@ define(['jquery'], function ($) {
                 var resourceSubType = $(checked).attr('data-resourceSubType');
                 // Get the displayName and thumbnail image from the content of the list item
                 var displayName = $('h3:visible', $checkedListItem).text();
-                var thumbnailImage = $('img:visible', $checkedListItem).attr('src');
+                var thumbnailImage = null;
+                if ($('div[role="img"]:visible', $checkedListItem).length === 1) {
+                    // The `background-image` property will return `url(http://tenant.oae.com/path/to/image)`. We can strip out the non url parts with a slice
+                    thumbnailImage = ($('div[role="img"]:visible', $checkedListItem).css('background-image')).slice(4, -1);
+                }
 
                 selectedItems.results.push({
                     'id': id,

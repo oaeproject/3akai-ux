@@ -19,8 +19,68 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     // The content id will then be `c:<tenantId>:<resourceId>`
     var contentId = 'c:' + $.url().segment(2) + ':' + $.url().segment(3);
 
+    // Variable used to cache the content's base URL
+    var baseUrl = '/content/' + $.url().segment(2) + '/' + $.url().segment(3);
+
     // Variable used to cache the requested content profile
     var contentProfile = null;
+
+    /**
+     * Set up the left hand navigation with the content space page structure.
+     * The content left hand navigation item will not be shown to the user and is only here to load the correct contentprofile widget.
+     */
+    var setUpNavigation = function() {
+        var lhNavActions = [];
+        // If the user is logged in, the comment and share functionality should be added
+        if (!oae.data.me.anon) {
+            lhNavActions.push({
+                'icon': 'icon-comments',
+                'title': oae.api.i18n.translate('__MSG__COMMENT__'),
+                'class': 'comments-focus-new-comment'
+            },
+            {
+                'icon': 'icon-share',
+                'title': oae.api.i18n.translate('__MSG__SHARE__'),
+                'class': 'oae-trigger-share',
+                'data': {
+                    'data-id': contentProfile.id,
+                    'data-resourcetype': contentProfile.resourceType,
+                    'data-resourcesubtype': contentProfile.resourceSubType
+                }
+            });
+        }
+
+        var lhNavPages = [{
+            'id': 'content',
+            'title': oae.api.i18n.translate('__MSG__CONTENT__'),
+            'icon': 'icon-comments',
+            'class': 'hide',
+            'layout': [
+                {
+                    'width': 'col-md-12',
+                    'widgets': [
+                        {
+                            'id': getPreviewWidgetId(),
+                            'settings': contentProfile
+                        }
+                    ]
+                },
+                {
+                    'width': 'col-md-12',
+                    'widgets': [
+                        {
+                            'id': 'comments'
+                        }
+                    ]
+                }
+            ]
+        }];
+
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
+        $(window).on('oae.ready.lhnavigation', function() {
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
+        });
+    };
 
 
     ////////////////////////////////////
@@ -49,12 +109,14 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             oae.api.util.setBrowserTitle(contentProfile.displayName);
             // Render the entity information and actions
             setUpClips();
-            // Show the content preview
-            setUpContentPreview();
+            // Set up the page
+            setUpNavigation();
             // Set up the context event exchange
             setUpContext();
             // We can now unhide the page
             oae.api.util.showPage();
+            // Setup the push notifications to update this content profile on the fly
+            setUpPushNotifications();
         });
     };
 
@@ -71,23 +133,23 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     };
 
     /**
-     * Renders the content preview.
+     * Get the name of the preview widget to use for the current piece of content
+     *
+     * @return {String}    The name of the widget to use to preview the content
      */
-    var setUpContentPreview = function() {
-        // Remove the old preview widget
-        $('#content-preview-container').html('');
-        // Based on the content type, insert a new preview widget and pass in the updated content profile data
+    var getPreviewWidgetId = function() {
+        // Based on the content type, return a content preview widget name
         if (contentProfile.resourceSubType === 'file') {
             // Load document viewer when a PDF or Office document needs to be displayed
             if (contentProfile.previews && contentProfile.previews.pageCount) {
-                oae.api.widget.insertWidget('documentpreview', null, $('#content-preview-container'), null, contentProfile);
+                return 'documentpreview';
             } else {
-                oae.api.widget.insertWidget('filepreview', null, $('#content-preview-container'), null, contentProfile);
+                return 'filepreview';
             }
         } else if (contentProfile.resourceSubType === 'link') {
-            oae.api.widget.insertWidget('linkpreview', null, $('#content-preview-container'), null, contentProfile);
+            return 'linkpreview';
         } else if (contentProfile.resourceSubType === 'collabdoc') {
-            oae.api.widget.insertWidget('etherpad', null, $('#content-preview-container'), null, contentProfile);
+            return 'etherpad';
         }
     };
 
@@ -110,6 +172,46 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         $(document).trigger('oae.context.send', contentProfile);
     };
 
+    /**
+     * Subscribe to content activity push notifications, allowing for updating the content profile when changes to the content
+     * are made by a different user after the initial page load
+     */
+    var setUpPushNotifications = function() {
+        oae.api.push.subscribe(contentId, 'activity', contentProfile.signature, 'internal', false, function(activity) {
+            var isSupportedUpdateActivity = _.contains(['content-update', 'content-update-visibility'], activity['oae:activityType']);
+            var isSupportedPreviewActivity = _.contains(['content-revision', 'content-restored-revision', 'previews-finished'], activity['oae:activityType']);
+            // Only respond to push notifications caused by other users
+            if (activity.actor.id === oae.data.me.id) {
+                return;
+            // Content preview activities should not trigger a content profile update when the content item is a collaborative
+            // document and the current user can manage the document. In this case, Etherpad will take care of the content preview
+            } else if (isSupportedPreviewActivity && contentProfile.resourceSubType === 'collabdoc' && contentProfile.isManager) {
+                return;
+            // Trigger a content profile update
+            } else if (isSupportedUpdateActivity || isSupportedPreviewActivity) {
+                var contentObj = activity.object;
+                contentObj.canShare = contentProfile.canShare;
+                contentObj.isManager = contentProfile.isManager;
+
+                $(document).trigger('oae.content.update', contentObj);
+            }
+        });
+    };
+
+    /**
+     * Refresh the content preview by emptying the existing content preview container and
+     * rendering a new one
+     */
+    var refreshContentPreview = function() {
+        var $widgetContainer = $('.oae-page > .row .oae-lhnavigation-toggle + div');
+
+        // Empty the preview container
+        $widgetContainer.empty();
+
+        // Insert the new updated content preview widget
+        oae.api.widget.insertWidget(getPreviewWidgetId(), null, $widgetContainer, null, contentProfile);
+    };
+
 
     ////////////////////////
     // UPLOAD NEW VERSION //
@@ -124,10 +226,9 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     var refreshContentProfile = function(ev, updatedContent) {
         // Cache the content profile data
         contentProfile = updatedContent;
-        // Re-render the entity information
+        // Refresh the content profile elements
+        refreshContentPreview();
         setUpClips();
-        // Show the content preview
-        setUpContentPreview();
     };
 
     // Catches an event sent out when the content has been updated. This can be either when
@@ -230,9 +331,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
     $(document).on('oae.revisions.done', function(ev, restoredRevision, updatedContentProfile) {
         contentProfile = updatedContentProfile;
-        // Refresh the preview and clip
-        setUpContentPreview();
-        setUpClips();
+        // Refresh the content profile elements
+        refreshContentProfile(ev, updatedContentProfile);
     });
 
 
