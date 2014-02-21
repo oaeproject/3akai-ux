@@ -1180,6 +1180,10 @@ div.oae-thumbnail i[class^="icon-"] {
     height: 25px;
 }
 
+.ie-lt10 .oae-listitem.oae-listitem-compact > div:not(.oae-thumbnail) {
+    display: block;
+}
+
 .oae-list-details-item .oae-listitem > div:not(.oae-thumbnail) {
     -webkit-flex-direction: column;
        -moz-flex-direction: column;
@@ -1188,7 +1192,7 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .oae-listitem .oae-threedots {
-    display: inline-block;
+    display: block;
     -webkit-flex: initial;
        -moz-flex: initial;
         -ms-flex: initial;
@@ -1205,12 +1209,6 @@ div.oae-thumbnail i[class^="icon-"] {
         -ms-flex: none;
             flex: none;
     margin: auto 0;
-}
-
-/* IE9 specific fallback for flexbox */
-.ie-lt10 .oae-listitem small,
-.ie-lt10 .oae-listitem .oae-listitem-actions {
-    float: right;
 }
 
 .oae-listitem .oae-listitem-actions {
@@ -1320,9 +1318,15 @@ ul.oae-list > li .oae-list-compact-item  {
 }
 
 /* IE9 specific fallback for flexbox */
-.ie-lt10 ul.oae-list > li .oae-list-details-item,
-.ie-lt10 ul.oae-list > li .oae-list-compact-item  {
+.ie-lt10 ul.oae-list.oae-list-grid > li > .oae-list-grid-item,
+.ie-lt10 ul.oae-list.oae-list-details > li > .oae-list-details-item,
+.ie-lt10 ul.oae-list.oae-list-compact > li > .oae-list-compact-item {
     display: table;
+}
+
+.ie-lt10 ul.oae-list.oae-list-details > li > .oae-list-details-item h3,
+.ie-lt10 ul.oae-list.oae-list-compact > li > .oae-list-compact-item h3 {
+    float: left;
 }
 
 ul.oae-list > li .oae-listitem {

@@ -269,6 +269,41 @@ input[type="color"],
     margin-right: 7px;
 }
 
+/* JEDITABLE
+ * @see http://www.appelsiini.net/projects/jeditable */
+
+.modal .jeditable-field form {
+    margin: 0 0 0 -1px;
+}
+
+.modal .jeditable-field form input {
+    background: transparent;
+    border: none;
+    margin-top: -4px;
+    outline: none;
+    padding: 0;
+    width: 370px !important;
+}
+
+/* Add an IE9 fallback for threedots */
+@media (min-width: 550px) {
+    .ie-lt10 .modal .jeditable-field {
+        max-width: 375px !important;
+    }
+}
+
+@media (min-width: 400px) and (max-width: 550px) {
+    .ie-lt10 .modal .jeditable-field {
+        max-width: 200px !important;
+    }
+}
+
+@media (max-width: 400px) {
+    .ie-lt10 .modal .jeditable-field {
+        max-width: 120px !important;
+    }
+}
+
 /* MODAL DIALOGS
  * @see http://twitter.github.com/bootstrap/javascript.html#modals */
 
