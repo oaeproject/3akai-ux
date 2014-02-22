@@ -1,0 +1,59 @@
+#!/usr/bin/env node
+
+var path = require('path');
+var util = require('util');
+
+var CoreUtil = require('oae-release-tools').CoreUtil;
+var UploadUtil = require('oae-release-tools').UploadUtil;
+
+
+
+//////////////////////
+// HANDLE ARGUMENTS //
+//////////////////////
+
+var argv = require('optimist')
+    .usage('Usage: $0 -b <bucket name> -p <package file path> -c <checksum file path> [-r <region=eu-west-1>]')
+
+    .alias('h', 'help')
+    .describe('h', 'Show this help information')
+
+    .alias('b', 'bucket')
+    .describe('b', 'The Amazon S3 bucket to which to upload the package and checksum files')
+    .default('b', 'oae-releases-travis')
+
+    .alias('r', 'region')
+    .describe('r', 'The Amazon region to which to upload the package and checksum files')
+    .default('r', 'eu-west-1')
+
+    .alias('p', 'package')
+    .describe('p', 'The location of the package file that should be uploaded to Amazon S3')
+
+    .alias('c', 'checksum')
+    .describe('c', 'The location of the checksum file that should be uploaded to Amazon S3')
+
+    .argv;
+
+// Display the help if requested
+if (argv.h) {
+    require('optimist').showHelp();
+    return process.exit(0);
+}
+
+// Validate the upload
+UploadUtil.validateUpload(argv.p, argv.c, 10);
+UploadUtil.upload(argv.b, argv.r, argv.p, argv.c, function(err) {
+    if (err) {
+        CoreUtil.logFail('Error uploading release artifacts to Amazon S3');
+        if (err instanceof Error) {
+            CoreUtil.logFail(err.stack);
+        } else {
+            // It's an AmazonS3 error message
+            CoreUtil.logFail(JSON.stringify(err, null, 2));
+        }
+
+        return process.exit(11);
+    }
+
+    CoreUtil.logSuccess('Successfully uploaded release artifacts to Amazon S3');
+});

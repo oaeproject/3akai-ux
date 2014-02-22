@@ -13,7 +13,7 @@ var PackageUtil = require('oae-release-tools').PackageUtil;
 //////////////////////
 
 var argv = require('optimist')
-    .usage('Usage: $0 [-s] [-v <force ui version>]')
+    .usage('Usage: $0 [-s] [-u] [--upload-bucket=<bucket name>] [--upload-region=<region name>] [-v <force ui version>]')
 
     .alias('h', 'help')
     .describe('h', 'Show this help information')
@@ -23,6 +23,15 @@ var argv = require('optimist')
 
     .alias('s', 'skip-tests')
     .describe('s', 'Skip the unit tests in the packaging process')
+
+    .alias('u', 'upload')
+    .describe('u', 'Upload the package and checksum to Amazon S3')
+
+    .describe('upload-bucket', 'The Amazon S3 bucket to which to upload the packaged release files')
+    .default('upload-bucket', 'oae-releases-travis')
+
+    .describe('upload-region', 'The Amazon S3 region to which to upload the packaged release files')
+    .default('upload-region', 'eu-west-1')
 
     .argv;
 
@@ -91,4 +100,8 @@ PackageUtil.saveBuildInfo(srcDir, uiVersion, systemInfo, 9);
 // Package the source directory into a tarball
 var packageFilename = util.format('3akai-ux-%s', uiVersion);
 var packageResult = PackageUtil.packageRelease(srcDir, '.', packageFilename, 10);
-PackageUtil.checksumPackage(packageResult.packagePath, 11);
+var checksumResult = PackageUtil.checksumPackage(packageResult.packagePath, 11);
+
+if (argv.u) {
+    CoreUtil.exec(util.format('bin/upload -b "%s" -p "%s" -c "%s" -r "%s"', argv['upload-bucket'], packageResult.packagePath, checksumResult.checksumPath, argv['upload-region']), 'Failed to upload release artifacts to Amazon S3', 12, true);
+}
