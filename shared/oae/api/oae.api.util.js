@@ -370,48 +370,44 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     };
 
     /**
-     *  Set up Google Analytics tracking, if it has been enabled for the entire OAE
-     *  or for the current tenant. A multi-tenant OAE installation can use Google
-     *  Analytics for all tenants, and an individual tenant can use a separate
-     *  Google Analytics accound for visits to its OAE instance. (For example,
-     *  an institution may wish to track OAE activity under it's own Google Analytics
-     *  account.)
+     * Set up Google Analytics tracking. A multi-tenant OAE installation can use Google
+     * Analytics for all tenants, and each individual tenant can use its own separate
+     * Google Analytics account for visits to the tenant. The latter is used for institutions
+     * that want to track OAE activity under their own Google Analytics account
      */
     var googleAnalytics = function() {
         // Get the Google Analytics configuration
         var globalEnabled = configAPI.getValue('oae-google-analytics', 'google-analytics', 'globalEnabled');
-        var globalId = globalEnabled && configAPI.getValue('oae-google-analytics', 'google-analytics', 'globalId');
+        var globalTrackingId = globalEnabled && configAPI.getValue('oae-google-analytics', 'google-analytics', 'globalTrackingId');
         var tenantEnabled = configAPI.getValue('oae-google-analytics', 'google-analytics', 'tenantEnabled');
-        var tenantId = tenantEnabled && configAPI.getValue('oae-google-analytics', 'google-analytics', 'tenantId');
+        var tenantTrackingId = tenantEnabled && configAPI.getValue('oae-google-analytics', 'google-analytics', 'tenantTrackingId');
 
-        // If either is enabled insert Google's tracking code
-        if (globalId || tenantId) {
-            // @see https://developers.google.com/analytics/devguides/collection/analyticsjs/
+        // Insert Google's tracking code if either global or tenant tracking is enabled
+        // @see https://developers.google.com/analytics/devguides/collection/analyticsjs/
+        if (globalTrackingId || tenantTrackingId) {
             (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
             (i[r].q=i[r].q||[]).push(arguments);};i[r].l=1*new Date();a=s.createElement(o);
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
             })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
         }
 
-        // Handle global and tenant IDs separately since their setups differ
-        if (globalId) {
-            // Adding hostname lets Google Analytics determine which tenant
-            // is being accessed
-            ga('create', globalId, window.location.hostname);
+        // Global OAE Google Analytics
+        if (globalTrackingId) {
+            // Add hostname to allow tracking of accessed tenant
+            ga('create', globalTrackingId, window.location.hostname);
             ga('send', 'pageview');
         }
 
-        // Ignore tenantIds that are duplicates of the globalId
-        if (tenantId && (tenantId !== globalId)) {
-            // If there's no globalId, the tenant is primary
-            if (!globalId) {
-                ga('create', tenantId, 'auto');
+        // Tenant specific Google Analytics
+        if (tenantTrackingId && (tenantTrackingId !== globalTrackingId)) {
+            // If there is no global tracking, the tenant uses primary tracking
+            if (!globalTrackingId) {
+                ga('create', tenantTrackingId, 'auto');
                 ga('send', 'pageview');
-
             // Otherwise the tenant uses secondary tracking
+            // @see https://developers.google.com/analytics/devguides/collection/analyticsjs/advanced#multipletrackers
             } else {
-                // @see https://developers.google.com/analytics/devguides/collection/analyticsjs/advanced#multipletrackers
-                ga('create', tenantId, 'auto', {'name': 'tenantTracker'});
+                ga('create', tenantTrackingId, 'auto', {'name': 'tenantTracker'});
                 ga('tenantTracker.send', 'pageview');
             }
         }
