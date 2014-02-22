@@ -7,7 +7,6 @@ var CoreUtil = require('oae-release-tools').CoreUtil;
 var PackageUtil = require('oae-release-tools').PackageUtil;
 
 
-
 //////////////////////
 // HANDLE ARGUMENTS //
 //////////////////////
@@ -40,7 +39,6 @@ if (argv.h) {
     require('optimist').showHelp();
     return process.exit(0);
 }
-
 
 
 ///////////////////////

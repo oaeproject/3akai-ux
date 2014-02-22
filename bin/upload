@@ -7,7 +7,6 @@ var CoreUtil = require('oae-release-tools').CoreUtil;
 var UploadUtil = require('oae-release-tools').UploadUtil;
 
 
-
 //////////////////////
 // HANDLE ARGUMENTS //
 //////////////////////
