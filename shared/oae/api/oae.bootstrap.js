@@ -54,7 +54,6 @@ requirejs.config({
         'underscore': 'vendor/js/underscore',
 
         // OAE paths
-        'bootstrap.focus': 'oae/js/bootstrap-plugins/bootstrap.focus',
         'bootstrap.modal': 'oae/js/bootstrap-plugins/bootstrap.modal',
         'jquery.browse-focus': 'oae/js/jquery-plugins/jquery.browse-focus',
         'jquery.clip': 'oae/js/jquery-plugins/jquery.clip',

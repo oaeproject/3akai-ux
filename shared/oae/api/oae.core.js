@@ -51,7 +51,6 @@ define([
         /**
          * OAE plugins
          */
-        'bootstrap.focus',
         'bootstrap.modal',
         'jquery.browse-focus',
         'jquery.clip',
