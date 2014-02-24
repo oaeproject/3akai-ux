@@ -6,6 +6,11 @@ branches:
   only:
     - master
 
+env:
+  global:
+    - secure: ZGZFOzCcdmPX4jHz4gFZZ4z6Egk9Xm+fQvm1I+2VBiSqwgknA0Tu9CVb+KlC1QgXh8vFHWSqR8eZtv5ar3t4ZE/YpwqFwIaMrg6o5o2SP5gecYTq61/Y7ngkYjXg0x4dJpkPNIXFGrNBtbMtuc21Jnva2HnbM0x2EU4rodV8Ji4=
+    - secure: ejmezhVBRcK/xH2tfdW1lHY5S10QQUNgJtkvCOucFfwTGnHKbwomXUICO4kc1xDDsr7DQJ5pjlUK2dcheESmVUAdyTDFXo2YPEnbkN+SSQ1TddklG5z5scrDrRwMTkQkAFO2pRInSRsnRLkk5lyrfNhemlT7hbr5BicsE5TlUA4=
+
 before_install:
   # Turn off unneeded services to free some memory
   - sudo service mysql stop
@@ -82,6 +87,9 @@ services:
 
 script:
   - grunt test --qunit-host cam.oae.com
+
+after_success:
+  - etc/scripts/travis-upload.sh
 
 notifications:
   email:
