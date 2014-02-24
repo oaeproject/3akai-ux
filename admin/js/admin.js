@@ -36,7 +36,7 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
         // Structure that will be used to construct the left hand navigation pages
         var lhNavPages = [
             {
-                'id': 'admintenants',
+                'id': 'tenants',
                 'title': oae.api.i18n.translate('__MSG__TENANTS__'),
                 'icon': 'icon-dashboard',
                 'layout': [
@@ -44,7 +44,7 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                         'width': 'col-md-12',
                         'widgets': [
                             {
-                                'id': 'admintenants',
+                                'id': 'tenants',
                                 'settings': {
                                     'context': currentContext,
                                     'tenants': allTenants
@@ -55,7 +55,7 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                 ]
             },
             {
-                'id': 'adminmodules',
+                'id': 'modules',
                 'title': oae.api.i18n.translate('__MSG__MODULES__'),
                 'icon': 'icon-cogs',
                 'layout': [
@@ -63,7 +63,7 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                         'width': 'col-md-12',
                         'widgets': [
                             {
-                                'id': 'adminmodules',
+                                'id': 'modules',
                                 'settings': {
                                     'configuration': configuration,
                                     'configurationSchema': configurationSchema,
@@ -74,9 +74,11 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                         ]
                     }
                 ]
-            },
-            {
-                'id': 'adminusermanagement',
+            }
+        ];
+        if (!currentContext.isGlobalAdminServer) {
+            lhNavPages.push({
+                'id': 'usermanagement',
                 'title': oae.api.i18n.translate('__MSG__USER_MANAGEMENT__'),
                 'icon': 'icon-user',
                 'layout': [
@@ -84,7 +86,7 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                         'width': 'col-md-12',
                         'widgets': [
                             {
-                                'id': 'adminusermanagement',
+                                'id': 'usermanagement',
                                 'settings': {
                                     'context': currentContext
                                 }
@@ -92,11 +94,8 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                         ]
                     }
                 ]
-            }
-        ];
-        if (!currentContext.isGlobalAdminServer) {
-            lhNavPages.push({
-                'id': 'adminskinning',
+            }, {
+                'id': 'skinning',
                 'title': oae.api.i18n.translate('__MSG__SKINNING__'),
                 'icon': 'icon-tint',
                 'layout': [
@@ -104,7 +103,7 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                         'width': 'col-md-12',
                         'widgets': [
                             {
-                                'id': 'adminskinning',
+                                'id': 'skinning',
                                 'settings': {
                                     'configuration': configuration,
                                     'context': currentContext,

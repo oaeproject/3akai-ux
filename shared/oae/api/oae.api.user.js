@@ -26,6 +26,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
      * @param  {String}         [additionalOptions.email]       The user's email address
      * @param  {String}         [additionalOptions.locale]      The user's locale
      * @param  {String}         [additionalOptions.timezone]    The user's timezone
+     * @param  {String}         [additionalOptions.tenant]      The tenant alias. Only needs to be provided when creating a user from the global administration tenant
      * @param  {String}         [additionalOptions.publicAlias] The publically-available alias for users to see when the user's display name is protected
      * @param  {String}         recaptchaChallenge              The identifier of the recaptcha challenge that has been presented to the user
      * @param  {String}         recaptchaResponse               The response for the presented recaptcha challenge
@@ -66,9 +67,15 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
             data.acceptedTC = true;
         }
 
+        var url = '/api/user/create';
+        // If the additional data specifies a tenant we change the URL to include the tenant
+        if (additionalOptions.tenant) {
+            url = '/api/user/' + additionalOptions.tenant + '/create';
+        }
+
         // Create the user
         $.ajax({
-            'url': '/api/user/create',
+            'url': url,
             'type': 'POST',
             'data': data,
             'success': function(data) {

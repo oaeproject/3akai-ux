@@ -64,12 +64,10 @@ body {
     padding-bottom: 120px;
 }
 
-#admin-content h2 {
+#admin-content-container h2 {
     font-size: 25px;
-    color: #0088CC;
     font-weight: normal;
     margin-top: 0px;
-    margin-bottom: 20px;
 }
 
 .admin-container-striped form {
