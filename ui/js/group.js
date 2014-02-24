@@ -140,6 +140,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                                 'id': 'contentlibrary',
                                 'settings': {
                                     'context': groupProfile,
+                                    'canAdd': groupProfile.isMember,
                                     'canManage': groupProfile.isManager
                                 }
                             }
@@ -159,6 +160,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                                 'id': 'discussionslibrary',
                                 'settings': {
                                     'context': groupProfile,
+                                    'canAdd': groupProfile.isMember,
                                     'canManage': groupProfile.isManager
                                 }
                             }
