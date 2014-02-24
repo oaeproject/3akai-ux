@@ -91,8 +91,8 @@ require(['jquery', 'oae.core'], function($, oae) {
         oae.api.util.template().render($('#group-clip-template'), {'group': groupProfile}, $('#group-clip-container'));
 
         // Only show the create and upload clips to managers
-        if (groupProfile.isManager) {
-            $('#group-manager-actions').show();
+        if (groupProfile.isMember) {
+            $('#group-member-actions').show();
         // Show the join clip to non-members when the group is joinable
         } else if (!groupProfile.isMember && groupProfile.canJoin) {
             $('#group-join-actions').show();
