@@ -24,8 +24,8 @@ requirejs.config({
 
         // Vendor paths
         'bootstrap': 'vendor/js/bootstrap',
-        'bootstrap.clickover': 'vendor/js/bootstrap-plugins/bootstrapx.clickover',
-        'bootstrap.notify': 'vendor/js/bootstrap-plugins/bootstrap.notify',
+        'bootstrap.clickover': 'vendor/js/bootstrap-plugins/bootstrapx.clickover.oae-edited',
+        'bootstrap.notify': 'vendor/js/bootstrap-plugins/bootstrap.notify.oae-edited',
         'globalize': 'vendor/js/l10n/globalize',
         'jquery.autosuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest',
         'jquery.encoder': 'vendor/js/jquery-plugins/jquery.encoder',
@@ -49,6 +49,7 @@ requirejs.config({
         'qunitjs': 'vendor/js/qunit',
         'sockjs': 'vendor/js/sockjs',
         'text': 'vendor/js/requirejs/require.text',
+        'tinycon': 'vendor/js/tinycon',
         'trimpath': 'vendor/js/trimpath',
         'underscore': 'vendor/js/underscore',
 
@@ -61,6 +62,7 @@ requirejs.config({
         'jquery.infinitescroll': 'oae/js/jquery-plugins/jquery.infinitescroll',
         'jquery.jeditable-focus': 'oae/js/jquery-plugins/jquery.jeditable-focus',
         'jquery.list-options': 'oae/js/jquery-plugins/jquery.list-options',
+        'jquery.responsive': 'oae/js/jquery-plugins/jquery.responsive',
         'jquery.update-picture': 'oae/js/jquery-plugins/jquery.update-picture',
 
         // OAE API modules

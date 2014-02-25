@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
 
+        <meta name="viewport" content="width=device-width, user-scalable=no">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <noscript>
@@ -21,7 +22,7 @@
         <div data-widget="topnavigation"><!-- --></div>
 
         <!-- BODY -->
-        <div class="oae-main-content">
+        <main class="oae-main-content" role="main">
 
             <!-- CLIPS -->
             <div class="oae-clip-container">
@@ -39,7 +40,7 @@
                                     <div>
                                         <h1 class="oae-threedots">${group.displayName|encodeForHTML}</h1>
                                         <i class="icon-caret-down"></i>
-                                        <small>__MSG__GROUP__</small>
+                                        <small class="oae-threedots">__MSG__GROUP__</small>
                                     </div>
                                 </div>
                             </button>
@@ -54,58 +55,60 @@
                     </div>
                 --></div>
 
-                <div id="group-join-actions" class="oae-clip-container-right hide">
-                    <div class="oae-clip oae-clip-secondary oae-clip-flipped">
-                        <div class="oae-clip-fold">
-                            <div class="oae-clip-fold-inner"></div>
-                            <div class="oae-clip-fold-outer"></div>
-                        </div>
-                        <div class="oae-clip-content">
-                            <button type="button" class="group-join">
-                                <div>
-                                    <i class="icon-pushpin pull-left"></i>
-                                    <h1>__MSG__JOIN_GROUP__</h1>
-                                </div>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="group-member-actions" class="oae-clip-container-right hide">
-                    <div class="oae-clip oae-clip-flipped oae-dnd-upload">
-                        <div class="oae-clip-fold">
-                            <div class="oae-clip-fold-inner"></div>
-                            <div class="oae-clip-fold-outer"></div>
-                        </div>
-                        <div class="oae-clip-content">
-                            <button type="button" class="oae-trigger-upload">
-                                <div>
-                                    <i class="icon-cloud-upload pull-left"></i>
-                                    <h1>__MSG__UPLOAD__</h1>
-                                </div>
-                            </button>
+                <div class="hidden-xs hidden-sm">
+                    <div id="group-join-actions" class="oae-clip-container-right hide">
+                        <div class="oae-clip oae-clip-secondary oae-clip-flipped">
+                            <div class="oae-clip-fold">
+                                <div class="oae-clip-fold-inner"></div>
+                                <div class="oae-clip-fold-outer"></div>
+                            </div>
+                            <div class="oae-clip-content">
+                                <button type="button" class="group-join">
+                                    <div>
+                                        <i class="icon-pushpin pull-left"></i>
+                                        <h1>__MSG__JOIN_GROUP__</h1>
+                                    </div>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="oae-clip oae-clip-secondary oae-clip-flipped">
-                        <div class="oae-clip-fold">
-                            <div class="oae-clip-fold-inner"></div>
-                            <div class="oae-clip-fold-outer"></div>
+                    <div id="group-member-actions" class="oae-clip-container-right hide">
+                        <div class="oae-clip oae-clip-flipped oae-dnd-upload">
+                            <div class="oae-clip-fold">
+                                <div class="oae-clip-fold-inner"></div>
+                                <div class="oae-clip-fold-outer"></div>
+                            </div>
+                            <div class="oae-clip-content">
+                                <button type="button" class="oae-trigger-upload">
+                                    <div>
+                                        <i class="icon-cloud-upload pull-left"></i>
+                                        <h1>__MSG__UPLOAD__</h1>
+                                    </div>
+                                </button>
+                            </div>
                         </div>
-                        <div class="oae-clip-content">
-                            <button>
+
+                        <div class="oae-clip oae-clip-secondary oae-clip-flipped">
+                            <div class="oae-clip-fold">
+                                <div class="oae-clip-fold-inner"></div>
+                                <div class="oae-clip-fold-outer"></div>
+                            </div>
+                            <div class="oae-clip-content">
+                                <button>
+                                    <div>
+                                        <i class="icon-plus-sign pull-left"></i>
+                                        <h1>__MSG__CREATE__</h1>
+                                        <i class="icon-caret-down"></i>
+                                    </div>
+                                </button>
                                 <div>
-                                    <i class="icon-plus-sign pull-left"></i>
-                                    <h1>__MSG__CREATE__</h1>
-                                    <i class="icon-caret-down"></i>
+                                    <ul>
+                                        <li><button class="oae-trigger-createlink"><i class="icon-link"></i>__MSG__LINK__</button></li>
+                                        <li><button class="oae-trigger-createcollabdoc"><i class="icon-edit"></i>__MSG__DOCUMENT__</button></li>
+                                        <li><button class="oae-trigger-creatediscussion"><i class="icon-comments"></i>__MSG__DISCUSSION__</button></li>
+                                    </ul>
                                 </div>
-                            </button>
-                            <div>
-                                <ul>
-                                    <li><button class="oae-trigger-createlink"><i class="icon-link"></i>__MSG__LINK__</button></li>
-                                    <li><button class="oae-trigger-createcollabdoc"><i class="icon-edit"></i>__MSG__DOCUMENT__</button></li>
-                                    <li><button class="oae-trigger-creatediscussion"><i class="icon-comments"></i>__MSG__DISCUSSION__</button></li>
-                                </ul>
                             </div>
                         </div>
                     </div>
@@ -123,9 +126,10 @@
                     </div>
                 </div>
             </div>
+
             <!-- GROUP CONTENT -->
             <div data-widget="lhnavigation"><!-- --></div>
-        </div>
+        </main>
 
         <!-- FOOTER -->
         <div data-widget="footer"><!-- --></div>

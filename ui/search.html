@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
 
+        <meta name="viewport" content="width=device-width, user-scalable=no">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <noscript>
@@ -22,21 +23,24 @@
         <div data-widget="topnavigation"><!-- --></div>
 
         <!-- BODY -->
-        <div class="oae-main-content">
+        <main class="oae-main-content" role="main">
 
             <!-- CLIPS -->
-            <div>
+            <div class="oae-clip-container">
                 <div id="search-clip-container">
-                    <div class="oae-clip">
+                    <div class="col-xs-11 col-sm-7 col-md-6 col-lg-5 oae-clip">
                         <div class="oae-clip-fold">
                             <div class="oae-clip-fold-inner"></div>
                             <div class="oae-clip-fold-outer"></div>
                         </div>
-                        <div class="oae-clip-content">
-                            <form id="search-form" class="form-search">
-                                <label for="search-query" class="oae-aural-text">__MSG__SEARCH__</label>
-                                <input type="text" id="search-query" class="input-xxlarge search-query" title="__MSG__SEARCH_FOR_CONTENT_PEOPLE_GROUPS__" />
-                                <button type="submit" class="btn">__MSG__SEARCH__</button>
+                        <div class="clearfix oae-clip-content">
+                            <form id="search-form" class="form-search form-horizontal" role="search" aria-label="__MSG__SEARCH__">
+                                <div class="form-group">
+                                    <input type="text" id="search-query" class="form-control search-query form-control pull-left" title="__MSG__SEARCH_FOR_CONTENT_PEOPLE_GROUPS__" />
+                                    <button type="submit" id="search-search-icon" class="btn btn-link pull-left" title="__MSG__SEARCH_FOR_CONTENT_PEOPLE_GROUPS__">
+                                        <i class="icon-search"><span class="oae-aural-text">__MSG__SEARCH__</span></i>
+                                    </button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -44,68 +48,79 @@
             </div>
 
             <!-- CONTENT -->
-            <div id="search-content-container" class="row-fluid">
-                <div class="span2">
-                    <ul id="search-refine-type" class="nav nav-list">
+            <div id="search-content-container" class="row">
+                <div class="oae-lhnavigation">
+                    <ul id="search-refine-type" class="nav nav-list hidden-xs hidden-sm">
                         <li class="nav-header">__MSG__REFINE_SEARCH_BY_TYPE_COLON__</li>
                         <li>
-                            <label class="checkbox"><input type="checkbox" data-type="user" /> __MSG__PEOPLE__</label>
+                            <label class="checkbox"><input type="checkbox" data-type="user" /><div>__MSG__PEOPLE__</div></label>
                         </li>
                         <li>
-                            <label class="checkbox"><input type="checkbox" data-type="group" /> __MSG__GROUPS__</label>
+                            <label class="checkbox"><input type="checkbox" data-type="group" /><div>__MSG__GROUPS__</div></label>
                         </li>
                         <li>
-                            <label class="checkbox"><input type="checkbox" data-type="content" /> __MSG__CONTENT__</label>
+                            <label class="checkbox"><input type="checkbox" data-type="content" /><div>__MSG__CONTENT__</div></label>
                         </li>
                         <li>
-                            <label class="checkbox"><input type="checkbox" data-type="discussion" /> __MSG__DISCUSSIONS__</label>
+                            <label class="checkbox"><input type="checkbox" data-type="discussion" /><div>__MSG__DISCUSSIONS__</div></label>
                         </li>
                     </ul>
                 </div>
-                <div id="search-list-container" class="span10 oae-list-container">
-                    <div class="oae-list-options">
-                        <div>
-                            <button class="btn oae-list-options-toggle">
-                                <h2>__MSG__SEARCH_RESULTS__ <span id="search-total-results" class="badge"></span></h2>
-                            </button>
-                            <div class="btn-group pull-right">
-                                <button class="btn" data-type="oae-list-compact">
-                                    <i class="icon-list"></i>
-                                    <span class="oae-aural-text">__MSG__LIST_VIEW__</span>
-                                </button>
-                                <button class="btn" data-type="oae-list-details">
-                                    <i class="icon-th-list"></i>
-                                    <span class="oae-aural-text">__MSG__EXPANDED_LIST_VIEW__</span>
-                                </button>
-                                <button class="btn active" data-type="oae-list-grid">
-                                    <i class="icon-th-large"></i>
-                                    <span class="oae-aural-text">__MSG__GRID_VIEW__</span>
-                                </button>
+                <div class="col-xs-12 col-sm-12 col-md-12 oae-page">
+                    <div class="row oae-list-container">
+                        <button type="button" class="btn btn-link hidden-md hidden-lg oae-lhnavigation-toggle">
+                            <i class="icon-align-justify"></i>
+                            <span class="oae-aural-text">__MSG__TOGGLE_NAVIGATION__</span>
+                        </button>
+                        <div class="col-md-12">
+                            <div class="oae-list-options">
+                                <div class="row">
+                                    <button class="btn col-xs-6 oae-list-options-toggle">
+                                        <h2 class="pull-left">__MSG__SEARCH_RESULTS__ <span id="search-total-results" class="badge"></span></h2>
+                                    </button>
+                                    <div class="oae-list-options-actions">
+                                        <div class="col-xs-6">
+                                            <div class="btn-group pull-right">
+                                                <button class="btn" data-type="oae-list-compact">
+                                                    <i class="icon-list"></i>
+                                                    <span class="oae-aural-text">__MSG__LIST_VIEW__</span>
+                                                </button>
+                                                <button class="btn" data-type="oae-list-details">
+                                                    <i class="icon-th-list"></i>
+                                                    <span class="oae-aural-text">__MSG__EXPANDED_LIST_VIEW__</span>
+                                                </button>
+                                                <button class="btn active" data-type="oae-list-grid">
+                                                    <i class="icon-th-large"></i>
+                                                    <span class="oae-aural-text">__MSG__GRID_VIEW__</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                            <ul class="oae-list oae-list-grid"><!-- --></ul>
                         </div>
+
+                        <div id="search-noresults-template"><!--
+                            <div class="alert alert-info">
+                                {if query}
+                                    {var query = oae.api.util.security().encodeForHTML(query)}
+                                    __MSG__SEARCH_QUERY_EMPTY__
+                                {else}
+                                    __MSG__SEARCH_EMPTY__
+                                {/if}
+                            </div>
+                        --></div>
+
+                        <div id="search-template"><!--
+                            {for result in results}
+                                ${listItem(result, null, false)}
+                            {/for}
+                        --></div>
                     </div>
-                    <ul class="oae-list oae-list-grid"><!-- --></ul>
-
-                    <div id="search-noresults-template"><!--
-                        <div class="alert alert-info">
-                            {if query}
-                                {var query = oae.api.util.security().encodeForHTML(query)}
-                                __MSG__SEARCH_QUERY_EMPTY__
-                            {else}
-                                __MSG__SEARCH_EMPTY__
-                            {/if}
-                        </div>
-                    --></div>
-
-                    <div id="search-template"><!--
-                        {for result in results}
-                            ${listItem(result, null, false)}
-                        {/for}
-                    --></div>
-
                 </div>
             </div>
-        </div>
+        </main>
 
         <!-- FOOTER -->
         <div data-widget="footer"><!-- --></div>

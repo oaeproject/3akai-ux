@@ -19,10 +19,11 @@ require(['jquery', 'oae.core'], function($, oae) {
     // The group id will then be `g:<tenantId>:<resourceId>`
     var groupId = 'g:' + $.url().segment(2) + ':' + $.url().segment(3);
 
-    // Variable used to cache the requested group's profile
-    var groupProfile = null;
     // Variable used to cache the group's base URL
     var baseUrl = '/group/' + $.url().segment(2) + '/' + $.url().segment(3);
+
+    // Variable used to cache the requested group's profile
+    var groupProfile = null;
 
 
     //////////////////////////////////
@@ -103,17 +104,59 @@ require(['jquery', 'oae.core'], function($, oae) {
      * Set up the left hand navigation with the group space page structure
      */
     var setUpNavigation = function() {
-        // Structure that will be used to construct the left hand navigation
-        var lhNavigation = [];
+        // Structure that will be used to construct the left hand navigation actions
+        var lhNavActions = [];
+
+        // Add the upload and create clips for managers
+        if (groupProfile.isManager) {
+            lhNavActions.push({
+                'icon': 'icon-cloud-upload',
+                'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
+                'class': 'oae-trigger-upload'
+            },
+            {
+                'icon': 'icon-plus-sign',
+                'title': oae.api.i18n.translate('__MSG__CREATE__'),
+                'children': [
+                    {
+                        'icon': 'icon-link',
+                        'title': oae.api.i18n.translate('__MSG__LINK__'),
+                        'class': 'oae-trigger-createlink'
+                    },
+                    {
+                        'icon': 'icon-edit',
+                        'title': oae.api.i18n.translate('__MSG__DOCUMENT__'),
+                        'class': 'oae-trigger-createcollabdoc'
+                    },
+                    {
+                        'icon': 'icon-comments',
+                        'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
+                        'class': 'oae-trigger-creatediscussion'
+                    }
+                ]
+            });
+        }
+
+        // Add the join clip when not a member and user can join
+        if (!groupProfile.isMember && groupProfile.canJoin) {
+            lhNavActions.push({
+                'icon': 'icon-pushpin',
+                'title': oae.api.i18n.translate('__MSG__JOIN_GROUP__'),
+                'class': 'group-join'
+            });
+        }
+
+        // Structure that will be used to construct the left hand navigation pages
+        var lhNavPages = [];
         // Only show the recent activity to group members
         if (groupProfile.isMember) {
-            lhNavigation.push({
+            lhNavPages.push({
                 'id': 'activity',
                 'title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
                 'icon': 'icon-dashboard',
                 'layout': [
                     {
-                        'width': 'span12',
+                        'width': 'col-md-12',
                         'widgets': [
                             {
                                 'id': 'activity',
@@ -127,71 +170,72 @@ require(['jquery', 'oae.core'], function($, oae) {
                 ]
             });
         }
-        lhNavigation.push(
-            {
-                'id': 'library',
-                'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
-                'icon': 'icon-briefcase',
-                'layout': [
-                    {
-                        'width': 'span12',
-                        'widgets': [
-                            {
-                                'id': 'contentlibrary',
-                                'settings': {
-                                    'context': groupProfile,
-                                    'canAdd': groupProfile.isMember,
-                                    'canManage': groupProfile.isManager
-                                }
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                'id': 'discussions',
-                'title': oae.api.i18n.translate('__MSG__DISCUSSIONS__'),
-                'icon': 'icon-comments',
-                'layout': [
-                    {
-                        'width': 'span12',
-                        'widgets': [
-                            {
-                                'id': 'discussionslibrary',
-                                'settings': {
-                                    'context': groupProfile,
-                                    'canAdd': groupProfile.isMember,
-                                    'canManage': groupProfile.isManager
-                                }
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                'id': 'members',
-                'title': oae.api.i18n.translate('__MSG__MEMBERS__'),
-                'icon': 'icon-user',
-                'layout': [
-                    {
-                        'width': 'span12',
-                        'widgets': [
-                            {
-                                'id': 'members',
-                                'settings': {
-                                    'context': groupProfile,
-                                    'canManage': groupProfile.isManager
-                                }
-                            }
-                        ]
-                    }
-                ]
-            }
-        );
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
+        lhNavPages.push({
+            'id': 'library',
+            'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
+            'icon': 'icon-briefcase',
+            'layout': [
+                {
+                    'width': 'col-md-12',
+                    'widgets': [
+                        {
+                            'id': 'contentlibrary',
+                            'settings': {
+                                'context': groupProfile,
+                                'canAdd': groupProfile.isMember,
+                                'canManage': groupProfile.isManager
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            'id': 'discussions',
+            'title': oae.api.i18n.translate('__MSG__DISCUSSIONS__'),
+            'icon': 'icon-comments',
+            'layout': [
+                {
+                    'width': 'col-md-12',
+                    'widgets': [
+                        {
+                            'id': 'discussionslibrary',
+                            'settings': {
+                                'context': groupProfile,
+                                'canAdd': groupProfile.isMember,
+                                'canManage': groupProfile.isManager
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            'id': 'members',
+            'title': oae.api.i18n.translate('__MSG__MEMBERS__'),
+            'icon': 'icon-user',
+            'layout': [
+                {
+                    'width': 'col-md-12',
+                    'widgets': [
+                        {
+                            'id': 'members',
+                            'settings': {
+                                'context': groupProfile,
+                                'canManage': groupProfile.isManager
+                            }
+                        }
+                    ]
+                }
+            ]
+        });
+
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
+        $('.oae-page').addClass('oae-anon-toggle');
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
+            $('.oae-page').addClass('oae-anon-toggle');
         });
     };
 
@@ -235,7 +279,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                 'accessUpdatedBody': oae.api.i18n.translate('__MSG__GROUP_ACCESS_SUCCESSFULLY_UPDATED__'),
                 'accessUpdatedTitle': oae.api.i18n.translate('__MSG__GROUP_ACCESS_UPDATED__'),
                 'membersTitle': oae.api.i18n.translate('__MSG__GROUP_MEMBERS__'),
-                'private': oae.api.i18n.translate('__MSG__PARTICIPANTS_ONLY__'),
+                'private': oae.api.i18n.translate('__MSG__MEMBERS_ONLY__'),
                 'loggedin': oae.api.util.security().encodeForHTML(groupProfile.tenant.displayName),
                 'public': oae.api.i18n.translate('__MSG__PUBLIC__'),
                 'privateDescription': oae.api.i18n.translate('__MSG__GROUP_PRIVATE_DESCRIPTION_PRESENT__'),
@@ -296,7 +340,7 @@ require(['jquery', 'oae.core'], function($, oae) {
      * Join the current group.
      * If successful, a notification will be displayed and the page will be reloaded after 2 seconds.
      */
-    $('.group-join').on('click', function() {
+    var joinGroup = function() {
         // Disable the join buttons
         $('.group-join').prop('disabled', true);
 
@@ -325,7 +369,10 @@ require(['jquery', 'oae.core'], function($, oae) {
                 $('.group-join').prop('disabled', false);
             }
         });
-    });
+    };
+
+    // Bind to the click on the join clip
+    $(document).on('click', '.group-join', joinGroup);
 
 
     ////////////////

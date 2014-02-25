@@ -90,7 +90,7 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
                             }
 
                             // Initialize utility API
-                            oae.api.util.init(function() {
+                            oae.api.util.init(oae.data.me, function() {
 
                                 // Initialize widgets API
                                 oae.api.widget.init(userLocale, function(err) {
@@ -98,6 +98,14 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
                                         throw new Error('Could not initialize the widgets API');
                                     }
 
+                                    // Add a `.ie-lt10` class to the html element that can be used for CSS fallbacks in IE9
+                                    // We can feature detect IE9 by checking for the unsupported `requestAnimationFrame` function
+                                    // TODO: Once we drop support for IE9 this can be removed
+                                    if (!window.requestAnimationFrame) {
+                                        $('html').addClass('ie-lt10');
+                                    }
+
+                                    // Set up the terms and conditions widget
                                     setUpTermsAndConditions();
 
                                     // The APIs have now fully initialized. All javascript that
@@ -131,7 +139,7 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
         //////////////////////////
 
         /**
-         * Triggers the Terms and Conditions widget if the Terms and Conditions
+         * Trigger the Terms and Conditions widget if the Terms and Conditions
          * need to be accepted before using the system.
          */
         var setUpTermsAndConditions = function() {
