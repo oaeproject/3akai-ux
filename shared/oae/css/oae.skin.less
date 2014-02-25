@@ -771,6 +771,8 @@ div.oae-thumbnail {
 
 /* Tile banner text color */
 @tile-text-color: #FFF;
+/* Tile banner muted text color */
+@tile-muted-text-color: #CCC;
 /* Tile banner background color */
 @tile-background-color: rgba(0, 0, 0, 0.8);
 
@@ -782,6 +784,9 @@ div.oae-thumbnail {
     color: @tile-text-color;
 }
 
+.oae-tile > .oae-tile-metadata small {
+    color: @tile-muted-text-color
+}
 
 /**************************
  ** @section  List items **
