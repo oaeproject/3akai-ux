@@ -37,17 +37,19 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                 'icon': 'icon-comments',
                 'title': oae.api.i18n.translate('__MSG__COMMENT__'),
                 'class': 'comments-focus-new-comment'
-            },
-            {
-                'icon': 'icon-share',
-                'title': oae.api.i18n.translate('__MSG__SHARE__'),
-                'class': 'oae-trigger-share',
-                'data': {
-                    'data-id': contentProfile.id,
-                    'data-resourcetype': contentProfile.resourceType,
-                    'data-resourcesubtype': contentProfile.resourceSubType
-                }
             });
+            if (contentProfile.canShare) {
+                lhNavActions.push({
+                    'icon': 'icon-share',
+                    'title': oae.api.i18n.translate('__MSG__SHARE__'),
+                    'class': 'oae-trigger-share',
+                    'data': {
+                        'data-id': contentProfile.id,
+                        'data-resourcetype': contentProfile.resourceType,
+                        'data-resourcesubtype': contentProfile.resourceSubType
+                    }
+                });
+            }
         }
 
         var lhNavPages = [{
