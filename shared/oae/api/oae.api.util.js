@@ -513,12 +513,12 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          * them appropriately and giving all of the required aria roles for accessibility. This function is mostly just a wrapper around
          * jquery.validate, and supports all of the options supported by jquery.validate (see http://bassistance.de/jquery-plugins/jquery-plugin-validation/)
          *
-         * In order for forms to have the appropriate validation styles, each label and control should be wrapped in an element with a `control-group` class.
+         * In order for forms to have the appropriate validation styles, each label and control should be wrapped in an element with a `form-group` class.
          * The label should have a `control-label` class. All input fields should be accompanied by a label, mostly for accessibility purposes.
          * More information on creating forms (including horizontal forms) can be found at http://twitter.github.com/bootstrap/base-css.html#forms
          *
          * Validation messages will by default be displayed underneath the input field. If a custom position for the validation needs to provided,
-         * a placeholder element with the class `help` should be created inside of the `control-group` element.
+         * a placeholder element with the class `help` should be created inside of the `form-group` element.
          *
          * Metadata can be added directly onto the HTML fields to tell jquery.validate which validation rules to use. These should be added as a class onto
          * the input field. The available ones are:
@@ -535,14 +535,14 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          *
          * ```
          * <form id='form_id' role='main'>
-         *      <div class='control-group'>
+         *      <div class='form-group'>
          *          <label for='firstName' class='control-label'>__MSG__FIRSTNAME__</label>
-         *          <input type='text' maxlength='255' id='firstName' name='firstName' class='required' placeholder='Hiroyuki'/>
+         *          <input type='text' maxlength='255' id='firstName' name='firstName' class='form-control required' placeholder='Hiroyuki'/>
          *      </div>
-         *      <div class='control-group'>
+         *      <div class='form-group'>
          *          <label for='lastName' class='control-label'>__MSG__LASTNAME__</label>
          *          <span class="help"></span>
-         *          <input type='text' maxlength='255' id='lastName' name='lastName' class='required' placeholder='Sakai'/>
+         *          <input type='text' maxlength='255' id='lastName' name='lastName' class='form-control required' placeholder='Sakai'/>
          *      </div>
          * </div>
          * ```
@@ -658,7 +658,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             }
             // Make sure the form is a jQuery element
             $form = $($form);
-            // The Bootstrap `error` class will be set on the element that has the `control-group` class.
+            // The Bootstrap `error` class will be set on the element that has the `form-group` class.
             // When clearing validation, we remove this `error` class. We also remove the actual error
             // messages from the dom
             $form.find('.oae-error').remove();
