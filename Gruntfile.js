@@ -325,23 +325,40 @@ module.exports = function(grunt) {
                 },
 
                 /*!
-                 * Second, hash the bundles and JS directories
+                 * Second, hash the bundles directories of the widgets
                  */
                 {
                     'folders': [
-                        util.format('%s/bundles', module),
-                        util.format('%s/js', module)
+                        util.format('%s/bundles', module)
                     ],
                     'references': moduleReferences.slice()
                 },
 
                 /*!
-                 * Third, hash the remainder of the files (CSS and HTML)
+                 * Third, hash the remainder of the files (CSS, HTML and JS)
+                 *
+                 * TODO:
+                 *
+                 * Hashing JS files only once in this way is rather unstable. There is an issue such
+                 * that if one JS file references another, and that other JS file changes, the hash
+                 * of the JS file that references it will not get updated. Either the hashing cycle
+                 * needs to happen a safe number of times (e.g., hashing 3 times may secure JS
+                 * reference chains of depth 3), or there should be a better strategy to catch changes
+                 * in JS files. Directory hashing on the js/ directory does not work because it
+                 * results in all strings of "js" to be replaced in the widget files, which catches
+                 * things like: /shared/vendor/js/... for example, thus breaking those references.
+                 *
+                 * At this time there is no known manifestation of this issue in widgets, but it
+                 * needs to be addressed before chains of JS files using require.js is possible in
+                 * widgets.
+                 *
+                 * See https://github.com/oaeproject/3akai-ux/issues/3551 for more information.
                  */
                 {
                     'files': [
                         util.format('%s/**/*.css', module),
-                        util.format('%s/**/*.html', module)
+                        util.format('%s/**/*.html', module),
+                        util.format('%s/**/*.js', module)
                     ],
                     'references': moduleReferences.slice()
                 }
