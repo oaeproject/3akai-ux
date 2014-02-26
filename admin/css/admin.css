@@ -110,6 +110,10 @@ body {
     vertical-align: middle;
 }
 
+td.jeditable-container {
+    word-wrap: break-word;
+}
+
 td.jeditable-container:hover {
     cursor: pointer;
     color: #666;
