@@ -50,9 +50,9 @@ define(['jquery', 'underscore', 'oae.api.util'], function (jQuery, _, oaeUtil) {
         }, LHNAVIGATION_ANIMATION_TIME + 20);
 
         /**
-         * Close the left hand navigation using animation when clicking a navigation link on a handheld device.
-         * Actions in the left hand navigation trigger a widget and shouldn't close the left hand navigation.
-         * If the user is on a desktop browser the left hand navigation should never close.
+         * Close the left hand navigation when clicking a navigation link, but not an action link (e.g., Share)
+         * as that opens a widget that intends to overlay the left hand menu. Only toggle the navigation when
+         * the user is using a mobile device.
          */
         $(document).on('click', '.oae-lhnavigation > ul > li:not(.oae-lhnavigation-action)', function() {
             if (oaeUtil.isHandheldDevice()) {
