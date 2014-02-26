@@ -24,7 +24,7 @@ requirejs.config({
 
         // Vendor paths
         'bootstrap': 'vendor/js/bootstrap',
-        'bootstrap.clickover': 'vendor/js/bootstrap-plugins/bootstrapx.clickover',
+        'bootstrap.clickover': 'vendor/js/bootstrap-plugins/bootstrapx.clickover.oae-edited',
         'bootstrap.notify': 'vendor/js/bootstrap-plugins/bootstrap.notify.oae-edited',
         'globalize': 'vendor/js/l10n/globalize',
         'jquery.autosuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest',
@@ -47,7 +47,9 @@ requirejs.config({
         'lazyload': 'vendor/js/lazyload',
         'markdown': 'vendor/js/markdown',
         'qunitjs': 'vendor/js/qunit',
+        'sockjs': 'vendor/js/sockjs',
         'text': 'vendor/js/requirejs/require.text',
+        'tinycon': 'vendor/js/tinycon',
         'trimpath': 'vendor/js/trimpath',
         'underscore': 'vendor/js/underscore',
 
@@ -75,6 +77,7 @@ requirejs.config({
         'oae.api.i18n': 'oae/api/oae.api.i18n',
         'oae.api.l10n': 'oae/api/oae.api.l10n',
         'oae.api.profile': 'oae/api/oae.api.profile',
+        'oae.api.push': 'oae/api/oae.api.push',
         'oae.api.user': 'oae/api/oae.api.user',
         'oae.api.util': 'oae/api/oae.api.util',
         'oae.api.widget': 'oae/api/oae.api.widget',

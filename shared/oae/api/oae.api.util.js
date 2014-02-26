@@ -13,21 +13,24 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.validate', 'trimpath', 'jquery.autosuggest'], function(exports, require, $, _, configAPI) {
+define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.validate', 'trimpath', 'jquery.autosuggest', 'tinycon'], function(exports, require, $, _, configAPI) {
 
     /**
      * Initialize all utility functionality.
      *
+     * @param  {Object}     me                  Object representing the currently logged in user
      * @param  {Function}   callback            Standard callback function
      * @api private
      */
-    var init = exports.init = function(callback) {
+    var init = exports.init = function(me, callback) {
         // Set up custom validators
         validation().init();
         // Set up the custom autosuggest listeners
         autoSuggest().init();
         // Set up Google Analytics
         googleAnalytics();
+        // Set up the favicon bubble
+        favicon().init(me);
         // Load the OAE TrimPath Template macros
         template().init(callback);
     };
@@ -118,6 +121,13 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         //   `Open Academic Environment - Fragment 1 - Fragment 2`
         title.splice(0, 0, '__MSG__TITLE_PREFIX__');
         document.title = require('oae.api.i18n').translate(title.join(' - '));
+
+        // Re-apply the unread notifications favicon bubble for browsers that fall back
+        // to showing the unread count in the browser title rather than the favicon
+        var me = require('oae.core').data.me;
+        if (!me.anon) {
+            favicon().setBubble(me.notificationsUnread);
+        }
     };
 
 
@@ -305,21 +315,42 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         };
     };
 
+
+    ///////////////////
+    // NOTIFICATIONS //
+    ///////////////////
+
+    // Variable used to track which notifications have already been shown. For example, a notification could be shown for a
+    // push notification that indicated that a new comment has been made on a piece of content. However, when the current user
+    // is a manager of that piece of content, a top navigation push notification will also be received. This avoids a notification
+    // being shown for both
+    var notificationIds = [];
+
     /**
      * Show a Growl-like notification message. A notification can have a title and a message, and will also have
      * a close button for closing the notification. Notifications can be used as a confirmation message, error message, etc.
      *
      * This function is mostly just a wrapper around jQuery.bootstrap.notify.js and supports all of the options documented
-     * at http://nijikokun.github.com/bootstrap-notify/.
+     * at https://github.com/goodybag/bootstrap-notify.
      *
      * @param  {String}     [title]       The notification title
      * @param  {String}     message       The notification message that will be shown underneath the title. The message should be sanitized by the caller to allow for HTML inside of the notification
      * @param  {String}     [type]        The notification type. The supported types are `success`, `error` and `info`, as defined in http://twitter.github.com/bootstrap/components.html#alerts. By default, the `success` type will be used
+     * @param  {String}     [id]          Unique identifier for the notification, in case a notification can be triggered twice due to some reason. If a second notification with the same id is triggered it will be ignored
      * @throws {Error}                    Error thrown when no message has been provided
      */
-    var notification = exports.notification = function(title, message, type) {
+    var notification = exports.notification = function(title, message, type, id) {
         if (!message) {
             throw new Error('A valid notification message should be provided');
+        }
+
+        if (id) {
+            if (_.contains(notificationIds, id)) {
+                // A notification with this ID has been triggered already, do not trigger another one
+                return;
+            }
+
+            notificationIds.push(id);
         }
 
         // Check if the notifications container has already been created.
@@ -348,25 +379,91 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         }).show();
     };
 
+    /*!
+     * All functionality related to setting the favicon bubble
+     */
+    var favicon = exports.favicon = function() {
+
+        /**
+         * Initialize the favicon bubble functionality by setting the value of the bubble
+         * to be the unread notifications count of the current user.
+         *
+         * @param  {Object}     me          Object representing the currently logged in user
+         * @api private
+         */
+        var init = function(me) {
+            // Set the unread notifications count in the favicon bubble
+            if (!me.anon) {
+                setBubble(me.notificationsUnread);
+            }
+
+            // When History.js changes the browser title, we re-apply the unread notifications count
+            // in the favicon bubble for browsers that don't support changing the favicon
+            $(window).on('statechange', function() {
+                var me = require('oae.core').data.me;
+                if (!me.anon && me.notificationsUnread !== 0) {
+                    setBubble(me.notificationsUnread);
+                }
+            });
+        };
+
+        /**
+         * Set the value of the favicon bubble. For browsers that don't support changing the favicon,
+         * the count will be made available in the page title.
+         *
+         * @param  {Number}  count   The value that should be set in the favicon bubble
+         */
+        var setBubble = function(count) {
+            Tinycon.setBubble(count);
+        };
+
+        return {
+            'init': init,
+            'setBubble': setBubble
+        };
+    };
+
     /**
-     *  Set up Google Analytics tracking, if it has been enabled for the current tenant
+     * Set up Google Analytics tracking. A multi-tenant OAE installation can use Google
+     * Analytics for all tenants, and each individual tenant can use its own separate
+     * Google Analytics account for visits to the tenant. The latter is used for institutions
+     * that want to track OAE activity under their own Google Analytics account
      */
     var googleAnalytics = function() {
-        // Check if Google Analytics is enabled for the current tenant
-        if (configAPI.getValue('oae-google-analytics', 'google-analytics', 'enabled')) {
-            // Google Analytics tracking code
-            // @see https://developers.google.com/analytics/devguides/
+        // Get the Google Analytics configuration
+        var globalEnabled = configAPI.getValue('oae-google-analytics', 'google-analytics', 'globalEnabled');
+        var globalTrackingId = globalEnabled && configAPI.getValue('oae-google-analytics', 'google-analytics', 'globalTrackingId');
+        var tenantEnabled = configAPI.getValue('oae-google-analytics', 'google-analytics', 'tenantEnabled');
+        var tenantTrackingId = tenantEnabled && configAPI.getValue('oae-google-analytics', 'google-analytics', 'tenantTrackingId');
+
+        // Insert Google's tracking code if either global or tenant tracking is enabled
+        // @see https://developers.google.com/analytics/devguides/collection/analyticsjs/
+        if (globalTrackingId || tenantTrackingId) {
             (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
             (i[r].q=i[r].q||[]).push(arguments);};i[r].l=1*new Date();a=s.createElement(o);
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
             })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        }
 
-            // Retrieve the Google Analytics application ID
-            var id = configAPI.getValue('oae-google-analytics', 'google-analytics', 'id');
-
-            // Add the OAE identifiers to the Google Analytics object
-            ga('create', id, window.location.hostname);
+        // Global OAE Google Analytics
+        if (globalTrackingId) {
+            // Add hostname to allow tracking of accessed tenant
+            ga('create', globalTrackingId, window.location.hostname);
             ga('send', 'pageview');
+        }
+
+        // Tenant specific Google Analytics
+        if (tenantTrackingId && (tenantTrackingId !== globalTrackingId)) {
+            // If there is no global tracking, the tenant uses primary tracking
+            if (!globalTrackingId) {
+                ga('create', tenantTrackingId, 'auto');
+                ga('send', 'pageview');
+            // Otherwise the tenant uses secondary tracking
+            // @see https://developers.google.com/analytics/devguides/collection/analyticsjs/advanced#multipletrackers
+            } else {
+                ga('create', tenantTrackingId, 'auto', {'name': 'tenantTracker'});
+                ga('tenantTracker.send', 'pageview');
+            }
         }
     };
 
@@ -416,12 +513,12 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          * them appropriately and giving all of the required aria roles for accessibility. This function is mostly just a wrapper around
          * jquery.validate, and supports all of the options supported by jquery.validate (see http://bassistance.de/jquery-plugins/jquery-plugin-validation/)
          *
-         * In order for forms to have the appropriate validation styles, each label and control should be wrapped in an element with a `control-group` class.
+         * In order for forms to have the appropriate validation styles, each label and control should be wrapped in an element with a `form-group` class.
          * The label should have a `control-label` class. All input fields should be accompanied by a label, mostly for accessibility purposes.
          * More information on creating forms (including horizontal forms) can be found at http://twitter.github.com/bootstrap/base-css.html#forms
          *
          * Validation messages will by default be displayed underneath the input field. If a custom position for the validation needs to provided,
-         * a placeholder element with the class `help` should be created inside of the `control-group` element.
+         * a placeholder element with the class `help` should be created inside of the `form-group` element.
          *
          * Metadata can be added directly onto the HTML fields to tell jquery.validate which validation rules to use. These should be added as a class onto
          * the input field. The available ones are:
@@ -438,14 +535,14 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          *
          * ```
          * <form id='form_id' role='main'>
-         *      <div class='control-group'>
+         *      <div class='form-group'>
          *          <label for='firstName' class='control-label'>__MSG__FIRSTNAME__</label>
-         *          <input type='text' maxlength='255' id='firstName' name='firstName' class='required' placeholder='Hiroyuki'/>
+         *          <input type='text' maxlength='255' id='firstName' name='firstName' class='form-control required' placeholder='Hiroyuki'/>
          *      </div>
-         *      <div class='control-group'>
+         *      <div class='form-group'>
          *          <label for='lastName' class='control-label'>__MSG__LASTNAME__</label>
          *          <span class="help"></span>
-         *          <input type='text' maxlength='255' id='lastName' name='lastName' class='required' placeholder='Sakai'/>
+         *          <input type='text' maxlength='255' id='lastName' name='lastName' class='form-control required' placeholder='Sakai'/>
          *      </div>
          * </div>
          * ```
@@ -561,7 +658,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             }
             // Make sure the form is a jQuery element
             $form = $($form);
-            // The Bootstrap `error` class will be set on the element that has the `control-group` class.
+            // The Bootstrap `error` class will be set on the element that has the `form-group` class.
             // When clearing validation, we remove this `error` class. We also remove the actual error
             // messages from the dom
             $form.find('.oae-error').remove();
@@ -1229,18 +1326,18 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     ////////////////
 
     /**
-     * Check if the current userAgent is a mobile browser (handheld device)
+     * Check if the current browser is a browser on a mobile handheld device
      *
-     * @return  {Boolean}    check   Returns true if the user is using a mobile browser, returns false if the user uses a desktop
+     * @return {Boolean}   `true` when using a mobile browser, `false` when using a desktop browser
      */
     var isHandheldDevice = exports.isHandheldDevice = function() {
         var isHandheld = false;
 
-        (function(a) {
+        _.each([navigator.userAgent || navigator.vendor || window.opera], function(a) {
             if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(a) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0, 4))) {
                 isHandheld = true;
             }
-        })(navigator.userAgent || navigator.vendor || window.opera);
+        });
 
         return isHandheld;
     };
