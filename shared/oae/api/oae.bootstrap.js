@@ -24,7 +24,6 @@ requirejs.config({
 
         // Vendor paths
         'bootstrap': 'vendor/js/bootstrap',
-        'bootstrap.clickover': 'vendor/js/bootstrap-plugins/bootstrapx.clickover.oae-edited',
         'bootstrap.notify': 'vendor/js/bootstrap-plugins/bootstrap.notify.oae-edited',
         'globalize': 'vendor/js/l10n/globalize',
         'jquery.autosuggest': 'vendor/js/jquery-plugins/jquery.autoSuggest',
@@ -56,6 +55,7 @@ requirejs.config({
         // OAE paths
         'bootstrap.focus': 'oae/js/bootstrap-plugins/bootstrap.focus',
         'bootstrap.modal': 'oae/js/bootstrap-plugins/bootstrap.modal',
+        'bootstrap.popover': 'oae/js/bootstrap-plugins/bootstrap.popover',
         'jquery.browse-focus': 'oae/js/jquery-plugins/jquery.browse-focus',
         'jquery.clip': 'oae/js/jquery-plugins/jquery.clip',
         'jquery.dnd-upload': 'oae/js/jquery-plugins/jquery.dnd-upload',
@@ -86,11 +86,6 @@ requirejs.config({
         'pluginBuilder': 'oae/pluginBuilder'
     },
     'priority': ['jquery', 'underscore'],
-    'shim': {
-        'bootstrap.clickover': {
-            'deps': ['bootstrap']
-        }
-    },
     'waitSeconds': 30
 });
 
