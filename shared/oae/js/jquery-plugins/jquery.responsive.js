@@ -14,17 +14,17 @@
  */
 
 /**
- * Utility plugin that handles the responsive left hand navigation interactions.
- *     - Ability to open and close the navigation using the `.oae-lhnavigation-toggle` class on desktop and mobile.
- *     - Toggling the visiblity of the navigation uses animation to fade-in/fade-out on desktop and mobile.
- *     - When a `page link` is clicked on a mobile device the navigation will close (does not apply on desktop). The navigation stays visible when an `action button` is clicked as this doesn't show a new page.
+ * Utility plugin that handles the responsive left hand navigation interactions. This plugin will support the
+ * opening and closing of the left hand navigation using the `.oae-lhnavigation-toggle` element using an animation.
+ * When a page link is clicked on a mobile device, the navigation will automatically close. The navigation will
+ * remain visible when an action button is clicked, as this doesn't render a new page.
  */
 
 define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
     (function($) {
 
         var LHNAVIGATION_WIDTH = 210;
-        var LHNAVIGATION_PADDING = '25px';
+        var LHNAVIGATION_PADDING = 25;
 
         /**
          * Open the left hand navigation
@@ -62,7 +62,7 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
             }, 250);
             // Animate the padding of the page to 25 pixels
             $('.oae-page').animate({
-                'padding-left': LHNAVIGATION_PADDING
+                'padding-left': LHNAVIGATION_PADDING + 'px'
             }, 250, function() {
                 // Add the bootstrap and OAE helper classes
                 $('.oae-lhnavigation > ul').addClass('hidden-xs hidden-sm');
@@ -71,15 +71,10 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
         };
 
         /**
-         * Close the left hand navigation when clicking a navigation link on a handheld device.
-         * Actions in the left hand navigation trigger a widget and shouldn't close the left hand navigation.
-         * If the user is on a desktop browser the left hand navigation should never close automatically.
+         * Close the left hand navigation when clicking a navigation link, but not an action link (e.g., Share)
+         * as that opens a widget that intends to overlay the left hand menu.
          */
-        $(document).on('click', '.oae-lhnavigation > ul > li:not(.oae-lhnavigation-action)', function() {
-            if (oaeUtil.isHandheldDevice()) {
-                closeLhNav();
-            }
-        });
+        $(document).on('click', '.oae-lhnavigation > ul > li:not(.oae-lhnavigation-action)', closeLhNav);
 
         /**
          * Toggle the left hand navigation with animation. The left hand navigation can only
