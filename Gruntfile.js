@@ -228,6 +228,7 @@ module.exports = function(grunt) {
                         ],
                         'references': _replacementReferences([
                             'admin',
+                            'custom',
                             'docs',
                             'node_modules/oae-*',
                             'ui'
