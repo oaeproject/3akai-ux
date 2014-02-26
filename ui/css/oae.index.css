@@ -113,6 +113,11 @@
     overflow: auto;
 }
 
+/* Top navigation search is redundant on index page */
+#topnavigation-search-form {
+    display: none;
+}
+
 @media (max-width: 992px) {
     #index-content .row:last-child {
         margin-top: 0;
