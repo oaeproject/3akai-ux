@@ -277,10 +277,6 @@ input[type="color"],
     filter: alpha(opacity=80);
 }
 
-div.modal-backdrop.fade.in {
-    position: fixed !important; /* @see https://github.com/twbs/bootstrap/issues/9023 */
-}
-
 .modal {
     -webkit-border-radius: 4px;
        -moz-border-radius: 4px;
