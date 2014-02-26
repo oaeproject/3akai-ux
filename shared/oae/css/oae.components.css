@@ -713,7 +713,7 @@ div.oae-thumbnail i[class^="icon-"] {
 @media (max-width: 510px) {
     .oae-clip .oae-clip-content h1,
     .oae-clip .oae-clip-content small {
-        max-width: 140px;
+        max-width: 185px;
     }
 }
 
