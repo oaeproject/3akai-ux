@@ -39,7 +39,7 @@ require(['jquery','oae.core'], function($, oae) {
                         {
                             'id': 'activity',
                             'settings': {
-                                'principalId': oae.data.me.id,
+                                'context': oae.data.me,
                                 'canManage': true
                             }
                         }
@@ -58,7 +58,7 @@ require(['jquery','oae.core'], function($, oae) {
                         {
                             'id': 'contentlibrary',
                             'settings': {
-                                'principalId': oae.data.me.id,
+                                'context': oae.data.me,
                                 'canManage': true
                             }
                         }
@@ -77,7 +77,7 @@ require(['jquery','oae.core'], function($, oae) {
                         {
                             'id': 'discussionslibrary',
                             'settings': {
-                                'principalId': oae.data.me.id,
+                                'context': oae.data.me,
                                 'canManage': true
                             }
                         }
@@ -96,7 +96,7 @@ require(['jquery','oae.core'], function($, oae) {
                         {
                             'id': 'memberships',
                             'settings': {
-                                'principalId': oae.data.me.id,
+                                'context': oae.data.me,
                                 'canManage': true
                             }
                         }
@@ -115,7 +115,7 @@ require(['jquery','oae.core'], function($, oae) {
                         {
                             'id': 'network',
                             'settings': {
-                                'principalId': oae.data.me.id,
+                                'context': oae.data.me,
                                 'canManage': true
                             }
                         }
@@ -161,6 +161,18 @@ require(['jquery','oae.core'], function($, oae) {
     $(document).trigger('oae.context.send', oae.data.me);
 
 
+    ////////////////////////////
+    // CHANGE PROFILE PICTURE //
+    ////////////////////////////
+
+    /**
+     * Cache the updated profile picture after it has been changed
+     */
+    $(document).on('oae.changepic.update', function(ev, data) {
+        oae.data.me.picture = data.picture;
+    });
+
+
     //////////////////
     // EDIT PROFILE //
     //////////////////
@@ -168,8 +180,6 @@ require(['jquery','oae.core'], function($, oae) {
     /**
      * Re-render the me clip when the user profile has been updated. The updated
      * me object will be passed into the event
-     *
-     * TODO: verify this works when https://github.com/oaeproject/Hilary/issues/538 is merged.
      */
     $(document).on('oae.editprofile.done', function(ev, data) {
         oae.data.me = data;

@@ -305,6 +305,17 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         };
     };
 
+
+    ///////////////////
+    // NOTIFICATIONS //
+    ///////////////////
+
+    // Variable used to track which notifications have already been shown. For example, a notification could be shown for a
+    // push notification that indicated that a new comment has been made on a piece of content. However, when the current user
+    // is a manager of that piece of content, a top navigation push notification will also be received. This avoids a notification
+    // being shown for both
+    var notificationIds = [];
+
     /**
      * Show a Growl-like notification message. A notification can have a title and a message, and will also have
      * a close button for closing the notification. Notifications can be used as a confirmation message, error message, etc.
@@ -315,11 +326,21 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
      * @param  {String}     [title]       The notification title
      * @param  {String}     message       The notification message that will be shown underneath the title. The message should be sanitized by the caller to allow for HTML inside of the notification
      * @param  {String}     [type]        The notification type. The supported types are `success`, `error` and `info`, as defined in http://twitter.github.com/bootstrap/components.html#alerts. By default, the `success` type will be used
+     * @param  {String}     [id]          Unique identifier for the notification, in case a notification can be triggered twice due to some reason. If a second notification with the same id is triggered it will be ignored
      * @throws {Error}                    Error thrown when no message has been provided
      */
-    var notification = exports.notification = function(title, message, type) {
+    var notification = exports.notification = function(title, message, type, id) {
         if (!message) {
             throw new Error('A valid notification message should be provided');
+        }
+
+        if (id) {
+            if (_.contains(notificationIds, id)) {
+                // A notification with this ID has been triggered already, do not trigger another one
+                return;
+            }
+
+            notificationIds.push(id);
         }
 
         // Check if the notifications container has already been created.
@@ -349,24 +370,46 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     };
 
     /**
-     *  Set up Google Analytics tracking, if it has been enabled for the current tenant
+     * Set up Google Analytics tracking. A multi-tenant OAE installation can use Google
+     * Analytics for all tenants, and each individual tenant can use its own separate
+     * Google Analytics account for visits to the tenant. The latter is used for institutions
+     * that want to track OAE activity under their own Google Analytics account
      */
     var googleAnalytics = function() {
-        // Check if Google Analytics is enabled for the current tenant
-        if (configAPI.getValue('oae-google-analytics', 'google-analytics', 'enabled')) {
-            // Google Analytics tracking code
-            // @see https://developers.google.com/analytics/devguides/
+        // Get the Google Analytics configuration
+        var globalEnabled = configAPI.getValue('oae-google-analytics', 'google-analytics', 'globalEnabled');
+        var globalTrackingId = globalEnabled && configAPI.getValue('oae-google-analytics', 'google-analytics', 'globalTrackingId');
+        var tenantEnabled = configAPI.getValue('oae-google-analytics', 'google-analytics', 'tenantEnabled');
+        var tenantTrackingId = tenantEnabled && configAPI.getValue('oae-google-analytics', 'google-analytics', 'tenantTrackingId');
+
+        // Insert Google's tracking code if either global or tenant tracking is enabled
+        // @see https://developers.google.com/analytics/devguides/collection/analyticsjs/
+        if (globalTrackingId || tenantTrackingId) {
             (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
             (i[r].q=i[r].q||[]).push(arguments);};i[r].l=1*new Date();a=s.createElement(o);
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
             })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        }
 
-            // Retrieve the Google Analytics application ID
-            var id = configAPI.getValue('oae-google-analytics', 'google-analytics', 'id');
-
-            // Add the OAE identifiers to the Google Analytics object
-            ga('create', id, window.location.hostname);
+        // Global OAE Google Analytics
+        if (globalTrackingId) {
+            // Add hostname to allow tracking of accessed tenant
+            ga('create', globalTrackingId, window.location.hostname);
             ga('send', 'pageview');
+        }
+
+        // Tenant specific Google Analytics
+        if (tenantTrackingId && (tenantTrackingId !== globalTrackingId)) {
+            // If there is no global tracking, the tenant uses primary tracking
+            if (!globalTrackingId) {
+                ga('create', tenantTrackingId, 'auto');
+                ga('send', 'pageview');
+            // Otherwise the tenant uses secondary tracking
+            // @see https://developers.google.com/analytics/devguides/collection/analyticsjs/advanced#multipletrackers
+            } else {
+                ga('create', tenantTrackingId, 'auto', {'name': 'tenantTracker'});
+                ga('tenantTracker.send', 'pageview');
+            }
         }
     };
 
