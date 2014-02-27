@@ -122,8 +122,8 @@ td form {
 
 .admin-module-configuration-container input[type="checkbox"],
 .admin-module-configuration-container .admin-module-configuration-toggle-button i {
-    float:left;
-    margin-right:12px;
+    float: left;
+    margin-right: 12px;
 }
 
 .admin-module-configuration-container .form-horizontal .control-label {
@@ -154,6 +154,17 @@ td form {
     border-top: 1px solid #DDD;
     max-width: none;
     padding: 12px;
+}
+
+.admin-container-striped input + i.icon-lock,
+.admin-container-striped textarea + i.icon-lock,
+.admin-container-striped select + i.icon-lock {
+    display: inline-block;
+    margin: 3px 0 0 12px;
+}
+
+.admin-container-striped label i.icon-lock {
+    margin-left: 8px;
 }
 
 /* Skinning configuration */

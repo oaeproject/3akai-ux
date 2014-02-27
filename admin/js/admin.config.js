@@ -68,6 +68,33 @@ define(['exports', 'jquery', 'underscore', 'oae.core', '/admin/js/admin.skin.js'
     };
 
     /**
+     * Parse the configuration schema by removing any modules and options that don't have any configuration associated to them.
+     *
+     * @param  {Object}    data    The configuration schema
+     * @return {Object}            The parsed configuration schema with empty modules and options removed
+     */
+    var parseSchema = function(data) {
+        // Remove all options that don't have any configuration associated to them
+        $.each(data, function(moduleKey, module) {
+            $.each(module, function(optionKey, option) {
+                if (option.elements && !_.keys(option.elements).length) {
+                    delete data[moduleKey][optionKey];
+                }
+            });
+        });
+
+        // Remove all modules that don't have any configuration left at all
+        $.each(data, function(moduleKey, module) {
+            if (_.keys(module).length === 1) {
+                delete data[moduleKey];
+            }
+        });
+
+        // Return the parsed configuration schema
+        return data;
+    };
+
+    /**
      * Gets the configuration schema and the configuration for the current tenant.
      *
      * @param  {Function}    callback        Standard callback function
@@ -77,7 +104,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', '/admin/js/admin.skin.js'
         $.ajax({
             'url': '/api/config/schema',
             'success': function(data) {
-                configurationSchema = data;
+                configurationSchema = parseSchema(data);
 
                 // Remove the OAE UI module from the schema to avoid it being rendered
                 // as a module, because skinning will be handled in a separate page
