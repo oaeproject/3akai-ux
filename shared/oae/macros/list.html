@@ -3,7 +3,7 @@
  *
  * @param  {String}     id                          The DOM ID to apply to the list options element
  * @param  {String}     title                       The title of the header
- * @param  {Boolean}    [showSearch]                Whether or not the search text-box should appear. Default: `false`
+ * @param  {Boolean}    [showSearch]                Whether or not the search text-box should appear. Default: `true`
  * @param  {Object[]}   [actions]                   A list of objects that represent actions that can be performed in the header
  * @param  {String}     [actions[i].icon]           The icon class that represents the action (e.g., icon-remove)
  * @param  {String}     [actions[i].label]          The label of the action
@@ -12,7 +12,7 @@
  * @param  {Boolean}    [showViewOptions]           Whether or not the view options should be displayed. Default: `true`
 -->
 {macro listOptionsHeader(id, title, _showSearch, _actions, _showViewOptions)}
-    {var showSearch = (_showSearch === true)}
+    {var showSearch = (_showSearch !== false)}
     {var actions = _actions || []}
     {var showViewOptions = (_showViewOptions !== false)}
     {var showNavToggle = (actions.length > 0 || showViewOptions)}

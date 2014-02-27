@@ -112,6 +112,8 @@ require(['jquery','oae.core', 'jquery.history'], function($, oae) {
             'types': types,
             '_': Math.random()
         }, $('title').text(), url);
+
+        oae.api.util.template().render($('#search-header-template'), null, $('#search-header'));
     };
 
     /**

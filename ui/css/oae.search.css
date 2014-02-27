@@ -29,6 +29,13 @@
     padding: 5px 10px;
 }
 
+/* Search header */
+
+#search-list-options .oae-list-options-toggle h2 i.icon-caret-down,
+#search-list-options .oae-list-options-toggle h2 i.icon-caret-up {
+    display: none;
+}
+
 /* Search form */
 
 #search-form {
