@@ -52,7 +52,7 @@ require(['jquery','oae.core', 'jquery.history'], function($, oae) {
             'includeExternal': !oae.api.config.getValue('oae-tenants', 'tenantprivacy', 'tenantprivate')
         }, '#search-template', {
             'postRenderer': function(data) {
-                $('#search-total-results').text(data.total);
+                $('#search-list-options-badge').text(data.total);
             },
             'emptyListProcessor': function() {
                 oae.api.util.template().render($('#search-noresults-template'), {

@@ -10,11 +10,13 @@
  * @param  {String}     [actions[i].trigger]        The trigger to invoke on the DOM when the action is invoked
  * @param  {String}     [actions[i].data]           Additional data attributes to apply to the option (e.g., `{'resourceType': 'content'}` would result in an attribute data-resourceType="content")
  * @param  {Boolean}    [showViewOptions]           Whether or not the view options should be displayed. Default: `true`
+ * @param  {Boolean}    [showBadge]                 Whether or not to show the badge icon to the right of the title. Default: `false`
 -->
-{macro listOptionsHeader(id, title, _showSearch, _actions, _showViewOptions)}
+{macro listOptionsHeader(id, title, _showSearch, _actions, _showViewOptions, _showBadge)}
     {var showSearch = (_showSearch !== false)}
     {var actions = _actions || []}
     {var showViewOptions = (_showViewOptions !== false)}
+    {var showBadge = (_showBadge === true)}
     {var showNavToggle = (actions.length > 0 || showViewOptions)}
 
     <div id="${id}" class="oae-list-options">
@@ -23,6 +25,9 @@
             <${titleContainerTagName} class="btn oae-list-options-toggle col-xs-12 col-sm-6">
                 <h2 class="pull-left">
                     ${title}
+                    {if showBadge}
+                        <span id="${id}-badge" class="badge"></span>
+                    {/if}
                     {if showNavToggle}
                         <i class="icon-caret-down"></i>
                     {/if}
