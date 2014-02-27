@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <meta name="viewport" content="width=device-width, user-scalable=no">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <noscript>
@@ -10,7 +11,7 @@
         <!-- CORE CSS -->
         <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
         <link rel="stylesheet" type="text/css" href="/api/ui/skin" />
-        
+
         <!-- PAGE CSS -->
         <link href="/docs/css/doc.css" type="text/css" rel="stylesheet"/>
     </head>
@@ -22,12 +23,12 @@
             </div>
         </div>
         <!-- CONTENT -->
-        <div id="doc-content-container">
-            <div class="row-fluid">
-                <div id="doc-modules-container" class="span3"><!----></div>
-                <div id="doc-module-container" class="span9"><!----></div>
+        <main id="doc-content-container" role="main">
+            <div class="row">
+                <div id="doc-modules-container" class="col-sm-3"><!----></div>
+                <div id="doc-module-container" class="col-sm-9"><!----></div>
             </div>
-        </div>
+        </main>
 
         <div id="doc-modules-template"><!--
             {macro renderModules(title, type, modules)}
@@ -35,7 +36,7 @@
                 <ul class="nav nav-list bs-docs-sidenav">
                     {for module in modules}
                         <li data-id="${module}" data-type="${type}">
-                            <a href="/docs/${type}/${module}"><i class="icon-chevron-right pull-right"></i> ${module}</a>
+                            <a href="/docs/${type}/${module}"><i class="icon-chevron-right pull-right"></i> <span>${module}</span></a>
                         </li>
                     {/for}
                 </ul>

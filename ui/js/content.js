@@ -19,8 +19,72 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     // The content id will then be `c:<tenantId>:<resourceId>`
     var contentId = 'c:' + $.url().segment(2) + ':' + $.url().segment(3);
 
+    // Variable used to cache the content's base URL
+    var baseUrl = '/content/' + $.url().segment(2) + '/' + $.url().segment(3);
+
     // Variable used to cache the requested content profile
     var contentProfile = null;
+
+    /**
+     * Set up the left hand navigation with the content space page structure.
+     * The content left hand navigation item will not be shown to the user and
+     * is only used to load the correct content preview widget
+     */
+    var setUpNavigation = function() {
+        var lhNavActions = [];
+        // All logged in users that can see the content can comment
+        if (!oae.data.me.anon) {
+            lhNavActions.push({
+                'icon': 'icon-comments',
+                'title': oae.api.i18n.translate('__MSG__COMMENT__'),
+                'class': 'comments-focus-new-comment'
+            });
+        }
+        // Only offer share to users that are allowed to share the piece of content
+        if (contentProfile.canShare) {
+            lhNavActions.push({
+                'icon': 'icon-share',
+                'title': oae.api.i18n.translate('__MSG__SHARE__'),
+                'class': 'oae-trigger-share',
+                'data': {
+                    'data-id': contentProfile.id,
+                    'data-resourcetype': contentProfile.resourceType,
+                    'data-resourcesubtype': contentProfile.resourceSubType
+                }
+            });
+        }
+
+        var lhNavPages = [{
+            'id': 'content',
+            'title': oae.api.i18n.translate('__MSG__CONTENT__'),
+            'icon': 'icon-comments',
+            'class': 'hide',
+            'layout': [
+                {
+                    'width': 'col-md-12',
+                    'widgets': [
+                        {
+                            'id': getPreviewWidgetId(),
+                            'settings': contentProfile
+                        }
+                    ]
+                },
+                {
+                    'width': 'col-md-12',
+                    'widgets': [
+                        {
+                            'id': 'comments'
+                        }
+                    ]
+                }
+            ]
+        }];
+
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
+        $(window).on('oae.ready.lhnavigation', function() {
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
+        });
+    };
 
 
     ////////////////////////////////////
@@ -49,8 +113,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             oae.api.util.setBrowserTitle(contentProfile.displayName);
             // Render the entity information and actions
             setUpClips();
-            // Show the content preview
-            setUpContentPreview();
+            // Set up the page
+            setUpNavigation();
             // Set up the context event exchange
             setUpContext();
             // We can now unhide the page
@@ -73,23 +137,23 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     };
 
     /**
-     * Renders the content preview.
+     * Get the name of the preview widget to use for the current piece of content
+     *
+     * @return {String}    The name of the widget to use to preview the content
      */
-    var setUpContentPreview = function() {
-        // Remove the old preview widget
-        $('#content-preview-container').html('');
-        // Based on the content type, insert a new preview widget and pass in the updated content profile data
+    var getPreviewWidgetId = function() {
+        // Based on the content type, return a content preview widget name
         if (contentProfile.resourceSubType === 'file') {
             // Load document viewer when a PDF or Office document needs to be displayed
             if (contentProfile.previews && contentProfile.previews.pageCount) {
-                oae.api.widget.insertWidget('documentpreview', null, $('#content-preview-container'), null, contentProfile);
+                return 'documentpreview';
             } else {
-                oae.api.widget.insertWidget('filepreview', null, $('#content-preview-container'), null, contentProfile);
+                return 'filepreview';
             }
         } else if (contentProfile.resourceSubType === 'link') {
-            oae.api.widget.insertWidget('linkpreview', null, $('#content-preview-container'), null, contentProfile);
+            return 'linkpreview';
         } else if (contentProfile.resourceSubType === 'collabdoc') {
-            oae.api.widget.insertWidget('etherpad', null, $('#content-preview-container'), null, contentProfile);
+            return 'etherpad';
         }
     };
 
@@ -138,6 +202,20 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         });
     };
 
+    /**
+     * Refresh the content preview by emptying the existing content preview container and
+     * rendering a new one
+     */
+    var refreshContentPreview = function() {
+        var $widgetContainer = $('.oae-page > .row .oae-lhnavigation-toggle + div');
+
+        // Empty the preview container
+        $widgetContainer.empty();
+
+        // Insert the new updated content preview widget
+        oae.api.widget.insertWidget(getPreviewWidgetId(), null, $widgetContainer, null, contentProfile);
+    };
+
 
     ////////////////////////
     // UPLOAD NEW VERSION //
@@ -152,10 +230,9 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     var refreshContentProfile = function(ev, updatedContent) {
         // Cache the content profile data
         contentProfile = updatedContent;
-        // Re-render the entity information
+        // Refresh the content profile elements
+        refreshContentPreview();
         setUpClips();
-        // Show the content preview
-        setUpContentPreview();
     };
 
     // Catches an event sent out when the content has been updated. This can be either when
@@ -258,9 +335,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
     $(document).on('oae.revisions.done', function(ev, restoredRevision, updatedContentProfile) {
         contentProfile = updatedContentProfile;
-        // Refresh the preview and clip
-        setUpContentPreview();
-        setUpClips();
+        // Refresh the content profile elements
+        refreshContentProfile(ev, updatedContentProfile);
     });
 
 
