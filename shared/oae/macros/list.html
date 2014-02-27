@@ -1,4 +1,80 @@
 <!--
+ * Render a list options header for the title of list options
+ *
+ * @param  {String}     id                          The DOM ID to apply to the list options element
+ * @param  {String}     title                       The title of the header
+ * @param  {Boolean}    [showSearch]                Whether or not the search text-box should appear. Default: `false`
+ * @param  {Object[]}   [actions]                   A list of objects that represent actions that can be performed in the header
+ * @param  {String}     [actions[i].icon]           The icon class that represents the action (e.g., icon-remove)
+ * @param  {String}     [actions[i].label]          The label of the action
+ * @param  {String}     [actions[i].trigger]        The trigger to invoke on the DOM when the action is invoked
+ * @param  {String}     [actions[i].data]           Additional data attributes to apply to the option (e.g., `{'resourceType': 'content'}` would result in an attribute data-resourceType="content")
+ * @param  {Boolean}    [showViewOptions]           Whether or not the view options should be displayed. Default: `true`
+-->
+{macro listOptionsHeader(id, title, _showSearch, _actions, _showViewOptions)}
+    {var showSearch = (_showSearch === true)}
+    {var actions = _actions || []}
+    {var showViewOptions = (_showViewOptions !== false)}
+    {var showNavToggle = (actions.length > 0 || showViewOptions)}
+
+    <div id="${id}" class="oae-list-options">
+        <div class="row">
+            {var titleContainerTagName = (showNavToggle) ? 'button' : 'div'}
+            <${titleContainerTagName} class="btn oae-list-options-toggle col-xs-12 col-sm-6">
+                <h2 class="pull-left">
+                    ${title}
+                    {if showNavToggle}
+                        <i class="icon-caret-down"></i>
+                    {/if}
+                </h2>
+            </${titleContainerTagName}>
+            {if showSearch}
+                <div class="pull-right col-xs-12 col-sm-6">
+                    <form class="form-search" role="search">
+                        <label for="${id}-search-query" class="control-label oae-aural-text">__MSG__NARROW_BY_KEYWORD__</label>
+                        <input type="text" id="${id}-search-query" class="form-control pull-right search-query" placeholder="__MSG__NARROW_BY_KEYWORD__"/>
+                    </form>
+                </div>
+            {/if}
+        </div>
+        {if showNavToggle}
+            <div class="oae-list-options-actions clearfix hide">
+                {if actions.length > 0}
+                    <input type="checkbox" id="${id}-selectall" class="oae-list-selectall" />
+                    <label for="${id}-selectall" class="oae-aural-text">__MSG__SELECT_ALL__</label>
+                    {for action in actions}
+                        {var dataAttrs}
+                        {eval}
+                            // Convert each key-value pair into: key="value"
+                            dataAttrs = _.map(action.data, function(value, key) { return 'data-' + key + '="' + value + '"'; }).join(' ');
+                        {/eval}
+                        <button type="button" class="btn ${action.trigger}" disabled="disabled" ${dataAttrs}>
+                            <i class="${action.icon} pull-left"></i>${action.label}
+                        </button>
+                    {/for}
+                {/if}
+                {if showViewOptions}
+                    <div class="btn-group pull-right">
+                        <button class="btn" data-type="oae-list-compact">
+                            <i class="icon-list"></i>
+                            <span class="oae-aural-text">__MSG__LIST_VIEW__</span>
+                        </button>
+                        <button class="btn" data-type="oae-list-details">
+                            <i class="icon-th-list"></i>
+                            <span class="oae-aural-text">__MSG__EXPANDED_LIST_VIEW__</span>
+                        </button>
+                        <button class="btn active" data-type="oae-list-grid">
+                            <i class="icon-th-large"></i>
+                            <span class="oae-aural-text">__MSG__GRID_VIEW__</span>
+                        </button>
+                    </div>
+                {/if}
+            </div>
+        {/if}
+    </div>
+{/macro}
+
+<!--
  * Render a list item representing a user, group or piece of content
  *
  * @param  {User|Group|Content}     entityData      Standard object representing a user, group or content item or a search result for a user, group or content item as returned by Hilary
