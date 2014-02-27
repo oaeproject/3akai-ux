@@ -93,7 +93,7 @@ a.oae-plain-link:hover {
  *   e.g. <div class="oae-panel-primary">...</div>
  */
 .oae-panel-primary, .oae-panel-secondary, .oae-panel-tertiary {
-    padding: 15px;
+    padding: 15px 25px;
     -webkit-border-radius: 5px;
        -moz-border-radius: 5px;
             border-radius: 5px;
@@ -138,9 +138,9 @@ i.icon-oae-public:before {
     color: #313131;
     display: inline-block;
     font-size: 15px;
-    width: 18px;
-    height: 16px;
-    padding-top: 1px;
+    width: 19px;
+    height: 19px;
+    padding-top: 2px;
     text-align: center;
 }
 
@@ -168,7 +168,7 @@ i[class^="icon-"].large {
 
 i[class^="icon-"].large:before {
     font-size: 50px;
-    height: 55px;
+    height: 60px;
     padding-top: 5px;
     width: 60px;
 }
@@ -184,46 +184,52 @@ i[class^="icon-"].large:before {
  * Each toggle button will have an icon, a name and a description. One of the toggle buttons will
  * selected at any time.
  *
- * TODO: This component needs to be more generic so the tick is always displayed in the middle, independent
- * of the width of the large option. https://github.com/oaeproject/3akai-ux/issues/2980
  *
- * e.g. <div class="oae-large-options-container row-fluid">
- *          <label for="oae-visibility-private" class="span4 text-center">
- *              <div class="oae-large-options well pull-left text-center checked">
- *                  <input type="radio" id="oae-visibility-private" value="private" name="oae-visibility-group" class="pull-left" checked="checked"/>
- *                  <i class="icon-oae-private large text-center"></i>
- *                  <span>__MSG__PRIVATE__</span>
- *              </div>
- *              <i class="icon-ok hide"></i>
- *              <small>__MSG__GROUP_PRIVATE_DESCRIPTION__</small>
- *          </label>
- *          <label for="oae-visibility-loggedin" class="span4 text-center">
- *              <div class="oae-large-options well pull-left text-center">
- *                  <input type="radio" id="oae-visibility-loggedin" value="loggedin" name="oae-visibility-group" class="pull-left"/>
- *                  <i class="icon-oae-loggedin large text-center"></i>
- *                  <span>Cambridge University</span>
- *              </div>
- *              <i class="icon-ok hide"></i>
- *              <small>__MSG__GROUP_LOGGEDIN_DESCRIPTION__</small>
- *          </label>
- *          <label for="oae-visibility-public" class="span4 text-center">
- *              <div class="oae-large-options well pull-left text-center">
- *                  <input type="radio" id="oae-visibility-public" value="public" name="oae-visibility-group" class="pull-left"/>
- *                  <i class="icon-oae-public large text-center"></i>
- *                  <span>__MSG__PUBLIC__</span>
- *              </div>
- *              <i class="icon-ok hide"></i>
- *              <small>__MSG__GROUP_PUBLIC_DESCRIPTION__</small>
- *          </label>
+ * e.g. <div class="oae-large-options-container row">
+ *          <div class="col-md-6 text-center">
+ *              <label for="oae-visibility-private" class="checked">
+ *                  <i class="icon-ok hide"></i>
+ *                  <div class="oae-large-options well">
+ *                      <input type="radio" id="oae-visibility-private" value="private" name="oae-visibility-group" class="pull-left" checked="checked" tabindex="0"/>
+ *                      <i class="icon-oae-private large text-center"></i>
+ *                      <span class="oae-threedots">__MSG__MEMBERS_ONLY__</span>
+ *                  </div>
+ *                  <small>__MSG__GROUP_PRIVATE_DESCRIPTION__</small>
+ *              </label>
+ *          </div>
+ *          <div class="col-md-6 text-center">
+ *              <label for="oae-visibility-loggedin">
+ *                  <i class="icon-ok hide"></i>
+ *                  <div class="oae-large-options well">
+ *                      <input type="radio" id="oae-visibility-loggedin" value="loggedin" name="oae-visibility-group" class="pull-left" tabindex="0"/>
+ *                      <i class="icon-oae-loggedin large text-center"></i>
+ *                      <span class="oae-threedots">${tenant}</span>
+ *                  </div>
+ *                  <small>__MSG__GROUP_LOGGEDIN_DESCRIPTION__</small>
+ *              </label>
+ *          </div>
  *      </div>
  *
  * Notes:
  *
- * - The selected button should have a `checked` class on the `oae-large-options` element
+ * - The selected button should have a `checked` class on the label element
+ * - `col-md-<x>` defines the width of the column. The sum of all column widths should be 12
  **/
 
 .oae-large-options-container label {
+    cursor: pointer;
+    display: inline;
+}
+
+.oae-large-options-container label small {
+    display: block;
+    margin: 0 0 35px;
     position: relative;
+}
+
+.oae-large-options-container label.checked small {
+    margin: 0;
+    top: -35px;
 }
 
 .oae-large-options-container .oae-large-options {
@@ -231,13 +237,15 @@ i[class^="icon-"].large:before {
        -moz-box-sizing: border-box;
             box-sizing: border-box;
     height: 150px;
-    margin: 0 10px 15px 0;
     padding-top: 13px;
     width: 100%;
 }
 
-.oae-large-options-container label:last-child .oae-large-options {
-    margin-right: 0;
+.oae-large-options-container label.checked .oae-large-options {
+    border: 8px solid;
+    padding-top: 6px;
+    position: relative;
+    top: -35px;
 }
 
 .oae-large-options-container .oae-large-options input {
@@ -255,35 +263,30 @@ i[class^="icon-"].large:before {
     display: block;
     font-size: 13px;
     font-weight: bold;
-    margin-top: 7px;
+    margin-top: 15px;
 }
 
-.oae-large-options-container .oae-large-options.checked {
-    border: 8px solid;
-    padding-top: 6px;
-}
-
-.oae-large-options-container .oae-large-options + i {
+.oae-large-options-container i.icon-ok {
     display: none;
 }
 
-.oae-large-options-container .oae-large-options.checked + i {
+.oae-large-options-container label.checked i.icon-ok {
     -webkit-border-radius: 100px;
        -moz-border-radius: 100px;
             border-radius: 100px;
     display: block;
-    margin-left: 65px;
-    position: absolute;
-    top: 128px;
-}
-
-.oae-large-options-container .oae-large-options.checked + i:before {
-    font-size: 24px;
-    height: 30px;
-    padding-top: 5px;
+    height: 35px;
+    margin: 0 auto;
+    position: relative;
+    top: 130px;
     width: 35px;
+    z-index: 1000;
 }
 
+.oae-large-options-container label.checked i.icon-ok:before {
+    font-size: 24px;
+    padding-top: 5px;
+}
 
 /************************
  ** SUCCESS/FAIL ICONS **
@@ -403,7 +406,6 @@ div.oae-thumbnail a {
 }
 
 div.oae-thumbnail div {
-    background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -515,6 +517,7 @@ div.oae-thumbnail i[class^="icon-"] {
  * - The `small` tag is used to show some additional clip metadata and is optional.
  * - When a clip should not be clickable (e.g. in non-manager mode of a page), the `disabled` attribute
  *   should be added to the button. This will hide any caret icons and will make the clip unclickable.
+ * - If a clip should not be visible on smaller viewports the `hidden-xs hidden-sm` classes should be applied.
  */
 
 /* Clip container */
@@ -530,7 +533,7 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .oae-clip-container .oae-clip-container-right {
-    margin-right: 55px;
+    margin-right: 10px;
     right: 0;
 }
 
@@ -538,7 +541,7 @@ div.oae-thumbnail i[class^="icon-"] {
     float: left;
     margin: -16px 10px 10px;
     position: relative;
-    z-index: 100;
+    z-index: 101;
 }
 
 /* Clip fold */
@@ -607,7 +610,7 @@ div.oae-thumbnail i[class^="icon-"] {
     background: none;
     border: none;
     font-weight: 600;
-    padding: 14px 20px 14px 14px;
+    padding: 14px 20px 12px 14px;
     text-align: left;
 }
 
@@ -667,19 +670,20 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-clip .oae-clip-content small {
     clear: both;
-    display: block;
     font-size: 12px;
-    line-height: 1;
     font-weight: normal;
-    white-space: nowrap;
+    line-height: 1.3;
+    max-width: 300px;
 }
 
 /* Clip actions */
 
 .oae-clip .oae-clip-content > div > ul {
+    display: none;
     list-style: none;
     margin: 0 10px;
-    display: none;
+    padding-bottom: 5px;
+    padding-left: 0;
 }
 
 .oae-clip .oae-clip-content > div > ul li {
@@ -690,16 +694,231 @@ div.oae-thumbnail i[class^="icon-"] {
     -webkit-border-radius: 6px;
        -moz-border-radius: 6px;
             border-radius: 6px;
+    display: block;
     font-size: 11px;
+    line-height: 23px;
     min-width: 70px;
     padding: 10px;
-    margin-bottom: 10px;
-    text-align: center;
+    text-align: left;
+    width: 100%;
 }
 
 .oae-clip .oae-clip-content > div > ul li button i {
+    display: inline-block;
+    float: left;
+    margin: 0 5px 3px 0;
+    width: 30px;
+}
+
+@media (max-width: 510px) {
+    .oae-clip .oae-clip-content h1,
+    .oae-clip .oae-clip-content small {
+        max-width: 140px;
+    }
+}
+
+@media (max-width: 350px) {
+    .oae-clip .oae-clip-content h1,
+    .oae-clip .oae-clip-content small {
+        max-width: 110px;
+    }
+}
+
+@media (min-width: 992px) {
+    .oae-clip .oae-clip-content > div > ul li button {
+        display: inline-block;
+        text-align: center;
+        width: auto;
+    }
+
+    .oae-clip .oae-clip-content > div > ul li button i {
+        display: block;
+        float: none;
+        margin: 0 auto 3px;
+    }
+}
+
+
+/*************************
+ * LEFT HAND NAVIGATION **
+ ************************/
+
+/**
+ * The left hand navigation component allows for a page navigation to be defined. This component will automatically
+ * take care of the responsive behavior of the left hand navigation. On a mobile device, the left hand navigation
+ * will be collapsed by default. The left hand navigation can then be shown by clicking the left hand navigation toggle.
+ * On a larger screen, the left hand navigation will always be visible.
+ *
+ * Left hand navigation items can be grouped into collapsible sections. When a non-collapsible left hand navigation item
+ * is clicked on a mobile device, the left hand navigation will automatically be closed.
+ *
+ * @see `lhnavigation` widget for documentation on how to initialize a left hand navigation using JavaScript.
+ *
+ * e.g. <div class="oae-lhnavigation">
+ *          <ul class="nav nav-list">
+ *              <li class="clearfix oae-lhnavigation-border">
+ *                  <button type="button" class="btn btn-link" title="__MSG__UPLOAD__">
+ *                      <i class="icon-cloud-upload pull-left"></i>
+ *                      <div>__MSG__UPLOAD__</div>
+ *                  </button>
+ *              </li>
+ *              <li class="clearfix collapse oae-lhnavigation-border">
+ *                  <button type="button" class="btn btn-link" title="__MSG__CREATE__">
+ *                      <div class="lhnavigation-caret-container pull-right">
+ *                          <i class="icon-caret-left pull-right">
+ *                              <span class="oae-aural-text">__MSG__OPEN_NAVIGATION__</span>
+ *                          </i>
+ *                          <i class="icon-caret-down pull-right hide">
+ *                              <span class="oae-aural-text">__MSG__CLOSE_NAVIGATION__</span>
+ *                          </i>
+ *                      </div>
+ *                      <i class="icon-plus-sign pull-left"></i>
+ *                      <div>__MSG__CREATE__</div>
+ *                  </button>
+ *                  <ul class="nav nav-list lhnavigation-collapsed hide">
+ *                      <li class="clearfix">
+ *                          <button type="button" class="btn btn-link" title="__MSG__GROUP__">
+ *                              <i class="icon-group pull-left"></i>
+ *                              <div>__MSG__GROUP__</div>
+ *                          </button>
+ *                      </li>
+ *                  </ul>
+ *              </li>
+ *              <li class="clearfix active" data-id="dashboard">
+ *                  <a href="/me/dashboard" title="__MSG__RECENT_ACTIVITY__">
+ *                      <i class="icon-dashboard pull-left"></i>
+ *                      <div>__MSG__RECENT_ACTIVITY__</div>
+ *                  </a>
+ *              </li>
+ *          </ul>
+ *      </div>
+ *      <div class="col-xs-12 col-sm-12 col-md-12 oae-page">
+ *          <div class="row">
+ *              <button type="button" class="btn btn-link hidden-md hidden-lg oae-lhnavigation-toggle">
+ *                  <i class="icon-align-justify"></i>
+ *                  <span class="oae-aural-text">__MSG__TOGGLE_NAVIGATION__</span>
+ *              </button>
+ *          </div>
+ *      </div>
+ *
+ * Notes:
+ *
+ * - Each left hand navigation item is an `li` list item. Usually, these list items will either contain a link
+ *   or a button, but can contain anything.
+ * - The list item that should be shown as the active list item should have an `active` class on the `li` list
+ *   item itself.
+ * - Any navigation item that should have a border below the item should have an `oae-lhnavigation-border` class
+ *   on the `li` list item.
+ * - When a left hand navigation item needs to be hidden on desktop devices, the classes `hidden-md hidden-lg`
+ *   should be added to the list item.
+ * - A collapsible left hand navigation item should have a `collapse` class on the list item. Inside of the button
+ *   containing the content of that list item, the `lhnavigation-caret-container` element is responsible for showing
+ *   and hiding the collapsed items. The collapse button should be followed by a list containing all of the
+ *   collapsible left hand navigation items. The `ul` element containing those collapsible items should have
+ *   a `lhnavigation-collapsed` class to make them collapsed by default.
+ * - The item responsible for opening and closing the left hand navigation on a mobile device should have the
+ *   `oae-lhnavigation-toggle` class. This toggle should have the `hidden-md hidden-lg` classes, as the toggle can
+ *   not be shown on desktop devices. This item should also be inside of a `oae-page` div, which is used for the
+ *   collapsing animation on mobile devices.
+ * - TODO: Remove this once a proper solution for https://github.com/oaeproject/3akai-ux/issues/3506 is in place
+ *   The `.oae-lhnavigation-toggle` button is hidden by default for anonymous users. If the `.oae-anon-toggle` class
+ *   is added to `.oae-page` the button will be shown for anonymous users.
+ */
+
+/* Left hand navigation */
+
+.oae-lhnavigation {
+    margin-left: 10px;
+    margin-top: -5px;
+    position: absolute;
+    width: 210px;
+    z-index: 99;
+}
+
+.oae-lhnavigation > ul.nav {
+    margin-top: 12px;
+    width: 210px;
+}
+
+.oae-lhnavigation > ul.nav > li.hide {
+    display: none !important;
+}
+
+.oae-lhnavigation > ul.nav > li.nav-header {
+    margin-top: 10px;
+}
+
+.oae-lhnavigation > ul.nav > li button {
+    padding: 0 12px 5px;
+    text-align: left;
+    width: 100%;
+}
+
+.oae-lhnavigation > ul.nav > li a div,
+.oae-lhnavigation > ul.nav > li button div {
+    padding-top: 8px;
+}
+
+.oae-lhnavigation > ul.nav > li {
+    margin: 3px 12px 0 0;
+}
+
+.oae-lhnavigation > ul.nav > li.oae-lhnavigation-border {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
+.oae-lhnavigation > ul.nav > li a {
+    padding: 0 12px 8px;
+}
+
+/* Left hand navigation toggle */
+
+.oae-lhnavigation > ul.nav > li button div.lhnavigation-caret-container {
+    padding-top: 0;
+    margin-right: -12px;
+}
+
+.oae-lhnavigation > ul.nav > li button div.lhnavigation-caret-container [class^="icon-"] {
+    margin-right: 0;
+}
+
+.oae-lhnavigation-toggle {
+    position: relative;
+    z-index: 100;
+}
+
+.oae-page.oae-anon-toggle .oae-lhnavigation-toggle.hide {
     display: block;
-    margin: 0 auto 3px;
+}
+
+/* Page content */
+
+.oae-page {
+    min-width: 280px;
+    padding: 5px 25px;
+}
+
+.oae-lhnavigation.oae-lhnav-expanded + .oae-page {
+    min-width: 480px;
+    padding: 5px 25px 5px 220px;
+}
+
+/* iPhone resolution */
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+    .oae-page {
+        padding: 5px 10px 50px;
+    }
+}
+
+@media (min-width: 992px) {
+    .oae-page {
+        padding: 5px 25px 5px 220px !important;
+    }
+    .oae-lhnavigation {
+        opacity: 1 !important;
+        width: 210px !important;
+    }
 }
 
 
@@ -770,6 +989,11 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-tile .oae-thumbnail.oae-thumbnail-large:before {
     margin-top: -50px;
+    padding-top: 80px;
+}
+
+.oae-tile .oae-thumbnail img {
+    height: auto;
 }
 
 /* Tile metadata */
@@ -794,7 +1018,6 @@ div.oae-thumbnail i[class^="icon-"] {
     font-size: 12px;
     font-weight: normal;
     line-height: 1.5;
-    opacity: 0.8;
     text-transform: uppercase;
 }
 
@@ -883,22 +1106,50 @@ div.oae-thumbnail i[class^="icon-"] {
 /* List item metadata */
 
 .oae-listitem > div:not(.oae-thumbnail) {
-    display: table-cell;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: -ms-flex;
+    display: flex;
     vertical-align: middle;
     height: 50px;
 }
 
 .oae-listitem.oae-listitem-compact > div:not(.oae-thumbnail) {
     height: 25px;
+    -webkit-flex-direction: row;
+       -moz-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+}
+
+/* IE9 specific fallback for flexbox */
+.ie-lt10 .oae-listitem.oae-listitem-compact > div:not(.oae-thumbnail) {
     width: auto;
+}
+
+.oae-list-details-item .oae-listitem > div:not(.oae-thumbnail) {
+    -webkit-flex-direction: column;
+       -moz-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
 }
 
 .oae-listitem h3 {
     display: inline-block;
+    -webkit-flex: 10;
+       -moz-flex: 10;
+        -ms-flex: 10;
+            flex: 10;
     font-size: 16px;
     font-weight: 500;
+    height: 25px;
     line-height: 25px;
     margin: 0;
+}
+
+/* IE9 specific fallback for flexbox */
+.ie-lt10 .oae-listitem h3 {
     max-width: 450px;
 }
 
@@ -911,8 +1162,13 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-listitem.oae-listitem-compact small {
     display: inline-block;
+    -webkit-flex: 2;
+       -moz-flex: 2;
+        -ms-flex: 2;
+            flex: 2;
     line-height: 25px;
     margin-left: 20px;
+    min-width: 100px;
 }
 
 /* List item actions */
@@ -984,6 +1240,11 @@ ul.oae-list.oae-list-grid > li {
     margin: 0 14px 24px 0;
 }
 
+ul.row.oae-list.oae-list-grid > li {
+    float: left;
+    margin: 0 14px 7px 0;
+}
+
 ul.oae-list.oae-list-grid > li .oae-thumbnail,
 ul.oae-list.oae-list-grid > li.oae-list-actions {
     height: 162px;
@@ -994,17 +1255,22 @@ ul.oae-list.oae-list-grid > li.oae-list-actions {
 
 ul.oae-list > li .oae-list-details-item,
 ul.oae-list > li .oae-list-compact-item  {
-    display: table;
     width: 100%;
 }
 
+/* IE9 specific fallback for flexbox */
+.ie-lt10 ul.oae-list.oae-list-details > li .oae-list-details-item,
+.ie-lt10 ul.oae-list.oae-list-compact > li .oae-list-compact-item  {
+    display: table;
+}
+
 ul.oae-list > li .oae-listitem {
-    margin-bottom: 0px;
+    margin-bottom: 0;
     margin-top: 10px;
 }
 
 ul.oae-list > li:first-child .oae-listitem {
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 
@@ -1019,13 +1285,14 @@ ul.oae-list > li:first-child .oae-listitem {
  * Some example HTML for a list options view:
  *
  *  <div class="oae-list-options">
- *      <div>
- *          <button class="btn oae-list-options-toggle">
- *              <h2>__MSG__LIBRARY__ <i class="icon-caret-down"></i></h2>
+ *      <div class="row">
+ *          <button class="btn col-xs-12 col-sm-6 oae-list-options-toggle">
+ *              <h2 class="pull-left">__MSG__LIBRARY__ <i class="icon-caret-down"></i></h2>
  *          </button>
- *          <div class="pull-right">
- *              <form class="form-search" id="library_search_form">
- *                  <input type="text" class="search-query" placeholder="__MSG__NARROW_BY_KEYWORD__">
+ *          <div class="pull-right col-xs-12 col-sm-6">
+ *              <form id="library-search-form" class="form-search" role="search">
+ *                  <label class="control-label oae-aural-text" for="library-search-query">__MSG__NARROW_BY_KEYWORD__</label>
+ *                  <input type="text" id="library-search-query" class="form-control pull-right search-query" placeholder="__MSG__NARROW_BY_KEYWORD__"/>
  *              </form>
  *          </div>
  *      </div>
@@ -1074,8 +1341,13 @@ ul.oae-list > li:first-child .oae-listitem {
 
 .oae-list-options > div {
     line-height: 30px;
-    margin-bottom: 15px;
+    margin: 0;
     clear: both;
+}
+
+.oae-list-options > div:first-child > * {
+    margin-bottom: 15px;
+    padding: 0;
 }
 
 .oae-list-options .oae-list-options-toggle,
@@ -1094,7 +1366,7 @@ ul.oae-list > li:first-child .oae-listitem {
 }
 
 .oae-list-options .oae-list-options-toggle h2 {
-    margin: 0;
+    margin: 8px 0 0;
     font-size: 20px;
     line-height: 1.2;
 }
@@ -1117,7 +1389,18 @@ ul.oae-list > li:first-child .oae-listitem {
     margin-bottom: 0;
 }
 
+@media (min-width: 771px) {
+    .oae-list-options form input.search-query {
+        max-width: 400px;
+    }
+}
+
+
 /* Actions bar */
+
+.oae-list-options .oae-list-options-actions {
+    margin-bottom: 15px;
+}
 
 .oae-list-options .oae-list-options-actions > input,
 .oae-list-options .oae-list-options-actions > button {
@@ -1126,6 +1409,7 @@ ul.oae-list > li:first-child .oae-listitem {
 
 .oae-list-options .oae-list-options-actions .btn i {
     font-size: 18px;
+    line-height: 1.2;
 }
 
 .oae-list-options .btn-group .btn i {
@@ -1172,7 +1456,7 @@ ul.oae-list > li:first-child .oae-listitem {
 /* Core list action styles */
 
 .oae-list-actions ul {
-    margin: 0px;
+    margin: 0;
 }
 
 .oae-list-actions ul > li {
@@ -1199,6 +1483,7 @@ ul.oae-list.oae-list-grid li.oae-list-actions div.oae-thumbnail {
             box-shadow: none;
     height: 150px;
     margin: 5px;
+    min-width: 150px;
     width: 150px;
 }
 
@@ -1208,6 +1493,10 @@ ul.oae-list.oae-list-grid .oae-list-actions div.oae-thumbnail:before {
 
 ul.oae-list.oae-list-grid .oae-list-actions.oae-list-actions-multiple div.oae-thumbnail:before {
     margin-top: -60px;
+}
+
+ul.oae-list.oae-list-grid .oae-list-actions .btn {
+    white-space: normal;
 }
 
 ul.oae-list.oae-list-grid .oae-list-actions .btn i {
@@ -1240,4 +1529,32 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions div.oae-thumbnail {
 ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
     display: inline;
     margin-right: 10px;
+}
+
+/* Responsive list overrides */
+
+@media (max-width: 480px) {
+    .oae-list-options-actions {
+        display: none !important;
+    }
+    .oae-list-options .oae-list-options-toggle i {
+        display: none !important;
+    }
+    .oae-listitem input[type="checkbox"],
+    .oae-list-grid-item input[type="checkbox"] {
+        display: none;
+    }
+}
+
+@media (max-width: 680px) {
+    .oae-lhnavigation.oae-lhnav-expanded + .oae-page .oae-list-options-actions {
+        display: none !important;
+    }
+    .oae-lhnavigation.oae-lhnav-expanded + .oae-page .oae-list-options .oae-list-options-toggle i {
+        display: none !important;
+    }
+    .oae-lhnavigation.oae-lhnav-expanded + .oae-page .oae-listitem input[type="checkbox"],
+    .oae-lhnavigation.oae-lhnav-expanded + .oae-page .oae-list-grid-item input[type="checkbox"] {
+        display: none;
+    }
 }

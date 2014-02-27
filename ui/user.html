@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
 
+        <meta name="viewport" content="width=device-width, user-scalable=no">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <noscript>
@@ -19,7 +20,7 @@
         <div data-widget="topnavigation"><!-- --></div>
 
         <!-- BODY -->
-        <div class="oae-main-content">
+        <main class="oae-main-content" role="main">
 
             <!-- CLIP -->
             <div class="oae-clip-container">
@@ -36,7 +37,7 @@
                                 <div>
                                     <div>
                                         <h1 class="oae-threedots">${user.displayName|encodeForHTML}</h1>
-                                        <small>${user.tenant.displayName|encodeForHTML}</small>
+                                        <small class="oae-threedots">${user.tenant.displayName|encodeForHTML}</small>
                                     </div>
                                 </div>
                             </button>
@@ -47,13 +48,13 @@
                 <div id="user-clip-right-container" class="oae-clip-container-right"><!-- --></div>
                 <div id="user-clip-right-template"><!--
                     {if user.following && user.following.canFollow}
-                        <div id="user-follow-actions" class="oae-clip oae-clip-flipped oae-clip-secondary">
+                        <div id="user-follow-actions" class="hidden-xs hidden-sm oae-clip oae-clip-flipped oae-clip-secondary">
                             <div class="oae-clip-fold">
                                 <div class="oae-clip-fold-inner"></div>
                                 <div class="oae-clip-fold-outer"></div>
                             </div>
                             <div class="oae-clip-content">
-                                <button type="button" id="user-follow">
+                                <button type="button" class="user-follow">
                                     <div>
                                         <i class="icon-bookmark pull-left"></i>
                                         <h1>__MSG__FOLLOW__</h1>
@@ -67,7 +68,7 @@
 
             <!-- CONTENT -->
             <div data-widget="lhnavigation"><!-- --></div>
-        </div>
+        </main>
 
         <!-- FOOTER -->
         <div data-widget="footer"><!-- --></div>

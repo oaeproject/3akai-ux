@@ -20,15 +20,23 @@
 /* FULL-WIDTH LAYOUT */
 
 body {
-    margin-left: 30px;
-    margin-right: 30px;
-    min-width: 920px;
+    padding-left: 30px;
+    padding-right: 30px;
+    min-width: 400px;
     display: none;
+}
+
+/* iPhone resolution */
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+    body {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
 }
 
 /* DEFAULT FONT AND TEXT STYLE */
 
-body, button, input, select, textarea {
+body, button, input, select, textarea, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-family: 'Open Sans', arial, helvetica, sans-serif;
     line-height: 1.5;
 }
@@ -37,22 +45,28 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
 }
 
+label {
+    font-weight: normal;
+    margin-bottom: 7px;
+}
+
 /* DEFAULT LINK STYLE */
 
 a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     text-decoration: none;
 }
 
+/* DEFAULT BUTTON STYLE */
+
+.btn {
+    padding: 4px 12px;
+}
+
 /* NAVIGATION BAR
  * @see http://twitter.github.com/bootstrap/components.html#navs */
 
 .navbar-search {
-    display: inline;
     float: none;
-}
-
-.navbar-search .search-query:focus {
-    width: 250px;
 }
 
 /* NAVIGATION LIST
@@ -61,11 +75,18 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 .nav-list > li > a {
     padding-top: 8px;
     padding-bottom: 8px;
-    margin-bottom: 4px;
 }
 
 .nav > li > a:active {
     opacity: 0.8;
+}
+
+.nav-list > li > label {
+    padding: 0 15px;
+}
+
+.nav-list > li.nav-header {
+    padding: 0 15px;
 }
 
 .nav-list [class^="icon-"], .nav-list [class*=" icon-"] {
@@ -147,6 +168,7 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 
 .dropdown-menu form {
     margin-bottom: 5px;
+    margin-top: 5px;
 }
 
 /* FORMS
@@ -155,9 +177,6 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 textarea,
 input[type="text"],
 input[type="password"] {
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
     min-height: 30px;
 }
 
@@ -180,37 +199,83 @@ input.search-query,
             border-radius: 3px;
 }
 
-.control-group select,
-.control-group textarea,
-.control-group input[type="text"],
-.control-group input[type="password"],
-.control-group input[type="datetime"],
-.control-group input[type="datetime-local"],
-.control-group input[type="date"],
-.control-group input[type="month"],
-.control-group input[type="time"],
-.control-group input[type="week"],
-.control-group input[type="number"],
-.control-group input[type="email"],
-.control-group input[type="url"],
-.control-group input[type="search"],
-.control-group input[type="tel"],
-.control-group input[type="color"],
-.control-group .uneditable-input {
+select,
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input {
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+}
+
+.form-group:last-child {
     margin-bottom: 0;
+}
+
+.form-control {
+    padding: 6px;
 }
 
 .form-horizontal input + .help-block,
 .form-horizontal select + .help-block,
 .form-horizontal textarea + .help-block,
 .form-horizontal .uneditable-input + .help-block,
-.form-horizontal .input-prepend + .help-block,
-.form-horizontal .input-append + .help-block {
+.form-horizontal .input-group + .help-block {
     margin-top: 3px;
+}
+
+.has-error .form-control:-moz-placeholder {
+    color: #B94A48;
+}
+
+.has-error .form-control::-moz-placeholder {
+    color: #B94A48;
+}
+
+.has-error .form-control:-ms-input-placeholder {
+    color: #B94A48;
+}
+
+.has-error .form-control::-webkit-input-placeholder {
+    color: #B94A48;
+}
+
+.has-error .control-label h4 {
+    color: #B94A48;
+}
+
+.radio, .checkbox {
+    padding-left: 0;
+}
+
+.radio input[type="radio"],
+.radio-inline input[type="radio"],
+.checkbox input[type="checkbox"],
+.checkbox-inline input[type="checkbox"] {
+    margin-left: 0;
+    margin-right: 7px;
 }
 
 /* MODAL DIALOGS
  * @see http://twitter.github.com/bootstrap/javascript.html#modals */
+
+.modal-backdrop.in {
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+}
 
 .modal {
     -webkit-border-radius: 4px;
@@ -220,6 +285,23 @@ input.search-query,
     -webkit-box-shadow: 0 0 6px #000;
        -moz-box-shadow: 0 0 6px #000;
             box-shadow: 0 0 6px #000;
+}
+
+.modal-dialog {
+    min-width: 300px;
+}
+
+@media screen and (min-width: 768px) {
+    .modal-dialog {
+        padding-top: 60px;
+    }
+}
+
+@media only screen and (max-device-width : 1024px) {
+    .modal-dialog {
+        margin-top: 0;
+        padding-top: 30px;
+    }
 }
 
 .modal .close[disabled]:hover {
@@ -236,6 +318,8 @@ input.search-query,
 .modal-header h3 {
     font-size: 16px;
     font-weight: 200;
+    margin-bottom: 0;
+    margin-top: 5px;
 }
 
 .modal-body {
@@ -249,11 +333,17 @@ input.search-query,
     margin-top: 0;
 }
 
+.modal-body form,
+.modal-body label h4 {
+    margin: 0;
+}
+
 .modal-footer {
-    padding: 10px 25px 15px 15px;
     background-color: transparent;
     border-top: none;
     box-shadow: none;
+    margin-top: 0;
+    padding: 10px 25px 15px 15px;
 }
 
 /* CLICKOVER DIALOGS
@@ -272,10 +362,14 @@ input.search-query,
  * @see http://twitter.github.com/bootstrap/components.html#alerts
  * @see http://nijikokun.github.io/bootstrap-notify */
 
+.alert {
+    padding: 8px 35px 8px 14px;
+}
+
 .alert h4 {
     display: inline;
-    margin-right: 5px;
     font-size: 14px;
+    margin-right: 5px;
 }
 
 .notifications .alert {
@@ -310,7 +404,7 @@ input.search-query,
 .notifications.center > div,
 .notifications.bottom-center > div {
     margin: 0 auto;
-    max-width: 400px;
+    max-width: 600px;
     text-align: left;
     width: 100%;
     word-wrap: break-word;
@@ -370,7 +464,6 @@ ul.as-selections li.as-selection-item {
        -moz-box-shadow: none;
             box-shadow: none;
     font-family: inherit;
-    height: 30px;
     line-height: 30px;
     margin-bottom: 3px;
     margin-right: 5px;
@@ -398,6 +491,7 @@ ul.as-selections li.as-selection-item.as-fixed-item a.as-close {
 ul.as-selections li.as-selection-item.as-ghost-item {
     border: 1px dashed;
     cursor: pointer;
+    height: 38px;
 }
 
 ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected {
@@ -425,10 +519,6 @@ ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected a.as-close
 
 /* Suggested list items */
 
-.modal .as-results {
-    position: fixed;
-}
-
 ul.as-list {
     color: inherit;
     font-family: inherit;
@@ -449,7 +539,6 @@ ul.as-list li.as-result-item em {
     background-color: inherit;
     color: inherit;
     font-style: normal;
-    font-weight: 600;
     padding: 0;
 }
 
@@ -511,10 +600,19 @@ ul.as-list li.as-result-item.active {
        -moz-box-shadow: 0 2px 4px #DBDBDB;
             box-shadow: 0 2px 4px #DBDBDB;
     padding: 10px;
-    min-height: 450px;
+    min-height: 550px;
     clear: both;
 }
 
 .oae-main-content > div {
     clear: both;
+}
+
+/* Allow the content to overflow the body when navigation is expanded on smaller viewports */
+.oae-main-content > div:last-child {
+    overflow: hidden;
+}
+
+.oae-main-content > .row {
+    margin: 0 5px 0 -5px;
 }

@@ -19,8 +19,72 @@ require(['jquery','oae.core'], function($, oae) {
     // The discussion id will then be `d:<tenantId>:<resourceId>`
     var discussionId = 'd:' + $.url().segment(2) + ':' + $.url().segment(3);
 
+    // Variable used to cache the discussion's base URL
+    var baseUrl = '/discussion/' + $.url().segment(2) + '/' + $.url().segment(3);
+
     // Variable used to cache the requested discussion profile
     var discussionProfile = null;
+
+    /**
+     * Set up the left hand navigation with the discussion space page structure.
+     * The discussion left hand navigation item will not be shown to the user and
+     * is only used to load the discussion topic
+     */
+    var setUpNavigation = function() {
+        var lhNavActions = [];
+        // All logged in users that can see the content can comment
+        if (!oae.data.me.anon) {
+            lhNavActions.push({
+                'icon': 'icon-comments',
+                'title': oae.api.i18n.translate('__MSG__COMMENT__'),
+                'class': 'comments-focus-new-comment'
+            });
+        }
+        // Only offer share to users that are allowed to share the discussion
+        if (discussionProfile.canShare) {
+            lhNavActions.push({
+                'icon': 'icon-share',
+                'title': oae.api.i18n.translate('__MSG__SHARE__'),
+                'class': 'oae-trigger-share',
+                'data': {
+                    'data-id': discussionProfile.id,
+                    'data-resourcetype': discussionProfile.resourceType,
+                    'data-resourcesubtype': discussionProfile.resourceSubType
+                }
+            });
+        }
+
+        var lhNavPages = [{
+            'id': 'discussion',
+            'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
+            'icon': 'icon-comments',
+            'class': 'hide',
+            'layout': [
+                {
+                    'width': 'col-md-12',
+                    'widgets': [
+                        {
+                            'id': 'discussion',
+                            'settings': discussionProfile
+                        }
+                    ]
+                },
+                {
+                    'width': 'col-md-12',
+                    'widgets': [
+                        {
+                            'id': 'comments'
+                        }
+                    ]
+                }
+            ]
+        }];
+
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
+        $(window).on('oae.ready.lhnavigation', function() {
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
+        });
+    };
 
 
     ///////////////////////////////////////
@@ -49,8 +113,8 @@ require(['jquery','oae.core'], function($, oae) {
             oae.api.util.setBrowserTitle(discussionProfile.displayName);
             // Render the entity information
             setUpClips();
-            // Render the discussion topic
-            setUpTopic();
+            // Set up the page
+            setUpNavigation();
             // Set up the context event exchange
             setUpContext();
             // We can now unhide the page
@@ -88,17 +152,6 @@ require(['jquery','oae.core'], function($, oae) {
         // Only show the actions to logged in users
         if (!oae.data.me.anon) {
             oae.api.util.template().render($('#discussion-actions-clip-template'), {'discussion': discussionProfile}, $('#discussion-actions-clip-container'));
-        }
-    };
-
-    /**
-     * Render the discussions's topic, if available
-     */
-    var setUpTopic = function() {
-        if (discussionProfile.description) {
-            var topic = oae.api.util.security().encodeForHTMLWithLinks(discussionProfile.description).replace(/\n/g, '<br/>');
-            $('#discussion-topic').html(topic);
-            $('#discussion-topic-container').show();
         }
     };
 
@@ -182,12 +235,11 @@ require(['jquery','oae.core'], function($, oae) {
     /////////////////////
 
     /**
-     * Re-render the discussion's clip and topic when the title or topic have been updated.
+     * Re-render the discussion's clip. The discussion topic will be handled by the discussion widget.
      */
     $(document).on('oae.editdiscussion.done', function(ev, data) {
         discussionProfile = data;
         setUpClips();
-        setUpTopic();
     });
 
 
