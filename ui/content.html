@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
 
+        <meta name="viewport" content="width=device-width, user-scalable=no">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <noscript>
@@ -11,6 +12,8 @@
         <!-- CORE CSS -->
         <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
         <link rel="stylesheet" type="text/css" href="/api/ui/skin" />
+        <!-- PAGE CSS -->
+        <link rel="stylesheet" type="text/css" href="/ui/css/oae.content.css" />
 
     </head>
     <body>
@@ -19,7 +22,7 @@
         <div data-widget="topnavigation"><!-- --></div>
 
         <!-- BODY -->
-        <div class="oae-main-content">
+        <main class="oae-main-content" role="main">
 
             <!-- CLIPS -->
             <div class="oae-clip-container">
@@ -37,7 +40,7 @@
                                     <div>
                                         <h1 class="oae-threedots">${content.displayName|encodeForHTML}</h1>
                                         <i class="icon-caret-down"></i>
-                                        <small>${oae.api.content.getMimeTypeDescription(content)}</small>
+                                        <small class="oae-threedots">${oae.api.content.getMimeTypeDescription(content)}</small>
                                     </div>
                                 </div>
                             </button>
@@ -59,7 +62,7 @@
                     </div>
                 --></div>
 
-                <div id="content-actions-clip-container" class="oae-clip-container-right"><!-- --></div>
+                <div id="content-actions-clip-container" class="hidden-xs hidden-sm oae-clip-container-right"><!-- --></div>
                 <div id="content-actions-clip-template"><!--
                     {if content.canShare}
                         <div class="oae-clip oae-clip-flipped">
@@ -95,9 +98,10 @@
                 --></div>
             </div>
 
-            <div id="content-preview-container"><!-- --></div>
-            <div data-widget="comments"><!-- --></div>
-        </div>
+            <!-- NAVIGATION -->
+            <div data-widget="lhnavigation"><!-- --></div>
+
+        </main>
 
         <!-- FOOTER -->
         <div data-widget="footer"><!-- --></div>

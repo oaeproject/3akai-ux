@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
 
+        <meta name="viewport" content="width=device-width, user-scalable=no">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <noscript>
@@ -19,7 +20,7 @@
         <div data-widget="topnavigation"><!-- --></div>
 
         <!-- BODY -->
-        <div class="oae-main-content">
+        <main class="oae-main-content" role="main">
 
             <!-- CLIPS -->
             <div class="oae-clip-container">
@@ -37,7 +38,7 @@
                                     <div>
                                         <h1 class="oae-threedots">${oae.data.me.displayName|encodeForHTML}</h1>
                                         <i class="icon-caret-down"></i>
-                                        <small>${oae.data.me.tenant.displayName|encodeForHTML}</small>
+                                        <small class="oae-threedots">${oae.data.me.tenant.displayName|encodeForHTML}</small>
                                     </div>
                                 </div>
                             </button>
@@ -52,7 +53,7 @@
                     </div>
                 --></div>
 
-                <div class="oae-clip-container-right">
+                <div class="hidden-xs hidden-sm oae-clip-container-right">
                     <div class="oae-clip oae-clip-flipped oae-dnd-upload">
                         <div class="oae-clip-fold">
                             <div class="oae-clip-fold-inner"></div>
@@ -96,7 +97,7 @@
 
             <!-- CONTENT -->
             <div data-widget="lhnavigation"><!-- --></div>
-        </div>
+        </main>
 
         <!-- FOOTER -->
         <div data-widget="footer"><!-- --></div>

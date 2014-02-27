@@ -3,6 +3,7 @@
     <head>
 
         <title>Open Academic Environment - Administration UI</title>
+        <meta name="viewport" content="width=device-width, user-scalable=no">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
@@ -21,56 +22,49 @@
 
         <div id="admin-header-container"><!-- --></div>
 
-        <div id="admin-content-container">
-            <div class="row-fluid">
-                <div id="admin-lhnav-container" class="span2 hide"><!-- --></div>
-                <div id="admin-content" class="span10">
-                    <!-- Login -->
-                    <div id="admin-login-container" class="hide">
-                        <h2>Sign in to the OAE Administration Panel</h2>
-                        <div>
-                            <div id="admin-login" class="admin-login-container">
-                                <form id="admin-login-form" form method="POST" class="form-horizontal">
-                                    <div class="control-group">
-                                        <label for="admin-login-form-username" class="control-label">Username</label>
-                                        <div class="controls">
-                                            <input type="text" id="admin-login-form-username" name="username" class="required"/>
-                                        </div>
-                                    </div>
-                                    <div class="control-group">
-                                        <label for="admin-login-form-password" class="control-label">Password</label>
-                                        <div class="controls">
-                                            <input type="password" id="admin-login-form-password" name="password" class="required"/>
-                                        </div>
-                                    </div>
-                                    <div class="control-group">
-                                        <div class="controls">
-                                            <button type="submit" class="btn btn-primary">Sign in</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
+        <main id="admin-content-container" role="main">
+            <div id="admin-lhnav-container" class="col-md-2 hide"><!-- --></div>
+            <div id="admin-content" class="col-md-10">
+                <!-- Login -->
+                <div id="admin-login-container" class="hide">
+                    <h2>Sign in to the OAE Administration Panel</h2>
+                    <div>
+                        <div id="admin-login" class="admin-login-container col-md-5">
+                            <form id="admin-login-form" form method="POST" class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <label for="admin-login-form-username" class="control-label">Username</label>
+                                    <input type="text" id="admin-login-form-username" name="username" class="form-control required"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-login-form-password" class="control-label">Password</label>
+                                    <input type="password" id="admin-login-form-password" name="password" class="form-control required"/>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">Sign in</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
-
-                    <div id="admin-views">
-                        <div id="admin-tenants-container" class="hide"><!-- --></div>
-                        <div id="admin-modules-container" class="hide"><!-- --></div>
-                        <div id="admin-skinning-container" class="hide"><!-- --></div>
-                    </div>
-
-                    <div id="admin-error-container"><!-- --></div>
-                    <div id="admin-warning-container"><!-- --></div>
-                    <div id="admin-success-container"><!-- --></div>
-                    <div id="admin-confirmation-container"><!-- --></div>
                 </div>
+
+                <div id="admin-views">
+                    <div id="admin-tenants-container" class="hide col-sm-12"><!-- --></div>
+                    <div id="admin-modules-container" class="hide col-sm-12"><!-- --></div>
+                    <div id="admin-skinning-container" class="hide col-sm-12"><!-- --></div>
+                </div>
+
+                <div id="admin-error-container"><!-- --></div>
+                <div id="admin-warning-container"><!-- --></div>
+                <div id="admin-success-container"><!-- --></div>
+                <div id="admin-confirmation-container"><!-- --></div>
             </div>
-        </div>
+        </main>
+
         <div id="admin-footer-container"><!-- --></div>
 
         <div id="admin-header-template"><!--
-            <div class="row-fluid">
-                <div class="span12" id="admin-header-content">
+            <div class="row">
+                <div class="col-md-12" id="admin-header-content">
                     {if !oae.data.me.anon}
                         <div id="admin-header-user" class="pull-right">
                             <button type="button" class="btn btn-inverse" id="admin-header-user-logout">Log out</button>
@@ -113,23 +107,21 @@
         --></div>
 
         <div id="admin-footer-template"><!--
-            <div class="row-fluid">
-                <div class="span12" id="admin-footer-content">
-                    {if !oae.data.me.anon && (context.isGlobalAdminServer || context.isTenantOnGlobalAdminServer)}
-                        <ul class="inline">
-                            <li>
-                                <a href="/">Global administration</a>
-                            </li>
-                            {for tenant in tenants}
-                                {if tenant.alias}
-                                    <li>
-                                        <a href="/tenant/${tenant.alias|encodeForURL}">${tenant.displayName|encodeForHTML}</a>
-                                    </li>
-                                {/if}
-                            {/for}
-                        </ul>
-                    {/if}
-                </div>
+            <div class="row col-md-12" id="admin-footer-content">
+                {if !oae.data.me.anon && (context.isGlobalAdminServer || context.isTenantOnGlobalAdminServer)}
+                    <ul class="list-inline">
+                        <li>
+                            <a href="/">Global administration</a>
+                        </li>
+                        {for tenant in tenants}
+                            {if tenant.alias}
+                                <li>
+                                    <a href="/tenant/${tenant.alias|encodeForURL}">${tenant.displayName|encodeForHTML}</a>
+                                </li>
+                            {/if}
+                        {/for}
+                    </ul>
+                {/if}
             </div>
         --></div>
 
@@ -222,30 +214,28 @@
                             <i class="icon-plus pull-left" style="margin-right:12px;"></i>
                             Create a new tenant
                         </button>
-                        <div class="createtenant-container" style="display: none;">
-                            <form method="POST" id="createtenant-form" class="form-horizontal">
-                                <div class="control-group">
-                                    <label for="createtenant-alias" class="control-label">Alias:</label>
-                                    <div class="controls">
-                                        <input type="text" name="alias" id="createtenant-alias" placeholder="Alias" class="required nospaces"/>
+                        <div class="createtenant-container clearfix hide">
+                            <form method="POST" id="createtenant-form" class="form-horizontal col-sm-7" role="form">
+                                <div class="form-group">
+                                    <label for="createtenant-alias" class="col-sm-3 control-label">Alias:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="alias" id="createtenant-alias" placeholder="Alias" class="form-control required nospaces"/>
                                     </div>
                                 </div>
-                                <div class="control-group">
-                                    <label for="createtenant-displayName" class="control-label">Name:</label>
-                                    <div class="controls">
-                                        <input type="text" name="displayName" id="createtenant-displayName" placeholder="Name" class="required"/>
+                                <div class="form-group">
+                                    <label for="createtenant-displayName" class="col-sm-3 control-label">Name:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="displayName" id="createtenant-displayName" placeholder="Name" class="form-control required"/>
                                     </div>
                                 </div>
-                                <div class="control-group">
-                                    <label for="createtenant-host" class="control-label">Host:</label>
-                                    <div class="controls">
-                                        <input type="text" name="host" id="createtenant-host" placeholder="Host" class="required url"/>
+                                <div class="form-group">
+                                    <label for="createtenant-host" class="col-sm-3 control-label">Host:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="host" id="createtenant-host" placeholder="Host" class="form-control required url"/>
                                     </div>
                                 </div>
-                                <div class="control-group">
-                                    <div class="controls">
-                                        <button type="submit" id="createtenant-submit-button" class="btn btn-primary">Create new tenant</button>
-                                    </div>
+                                <div class="form-group">
+                                    <button type="submit" id="createtenant-submit-button" class="btn btn-primary">Create new tenant</button>
                                 </div>
                             </form>
                         </div>
@@ -255,15 +245,16 @@
         --></div>
 
         <div id="admin-modules-template"><!--
+            <h2>Modules</h2>
             <div class="admin-container-striped">
                 {for item in schema}
-                    <div class="admin-module-configuration-container">
-                        <button type="button" title="Edit the ${item.module.title|encodeForHTMLAttribute}" class="admin-module-configuration-toggle-button btn">
+                    <div class="row admin-module-configuration-container">
+                        <button type="button" title="Edit the ${item.title|encodeForHTMLAttribute}" class="admin-module-configuration-toggle-button btn">
                             <i class="icon-pencil"></i>
                             ${item.module.title|encodeForHTML}
                         </button>
                         <div class="admin-module-configuration-container" style="display:none;">
-                            <form class="form-horizontal admin-module-configuration-form" data-module="${item.moduleName}">
+                            <form class="form-horizontal admin-module-configuration-form col-md-12" data-module="${item.moduleName}" role="form">
                                 {for option in item.module}
                                     {if option && option_index !== "title"}
                                         <h4>${option.name|encodeForHTML}</h4>
@@ -272,23 +263,26 @@
                                             {var configPath = item.moduleName + '/' + option_index + '/' + element_index}
                                             {var configValue = configuration[item.moduleName][option_index][element_index]}
                                             {if element.type === "boolean"}
-                                                <div class="control-group">
-                                                    <input type="checkbox" id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" {if configValue}checked="checked"{/if} class="admin-module-config-checkbox" {if !tenantCanOverride} disabled="disabled"{/if}/>
-                                                    <label for="${configPath|encodeForHTMLAttribute}">${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                <div class="form-group">
+                                                    <div class="checkbox">
+                                                        <label for="${configPath|encodeForHTMLAttribute}">
+                                                            <input type="checkbox" id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" {if configValue}checked="checked"{/if} class="admin-module-config-checkbox" {if !tenantCanOverride} disabled="disabled"{/if}/>${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             {elseif element.type === "text"}
-                                                <div class="control-group">
-                                                    <label for="${configPath|encodeForHTMLAttribute}" class="control-label">${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
-                                                    <div class="controls">
-                                                        <input type="text" id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" value="${configValue.toString()|encodeForHTMLAttribute}" {if !tenantCanOverride} disabled="disabled"{/if}/>
+                                                <div class="form-group">
+                                                    <label for="${configPath|encodeForHTMLAttribute}" class="control-label col-xs-12 col-sm-3 col-md-3">${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                    <div class="col-xs-12 col-sm-9 col-md-9">
+                                                        <input type="text" id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" value="${configValue.toString()|encodeForHTMLAttribute}" {if !tenantCanOverride} disabled="disabled"{/if} class="form-control"/>
                                                     </div>
                                                 </div>
                                             {elseif element.type === "internationalizableText"}
                                                 <div class="admin-internationalizable-text-container">
-                                                    <div class="control-group">
-                                                        <label for="${configPath|encodeForHTMLAttribute}" class="control-label">Choose terms and conditions language to change</label>
-                                                        <div class="controls">
-                                                            <select class="admin-internationalizabletext-language-picker" id="${configPath|encodeForHTMLAttribute}">
+                                                    <div class="form-group">
+                                                        <label for="${configPath|encodeForHTMLAttribute}" class="control-label col-xs-12 col-sm-3 col-md-3">Choose language to change</label>
+                                                        <div class="col-xs-12 col-sm-9 col-md-9">
+                                                            <select class="admin-internationalizabletext-language-picker form-control" id="${configPath|encodeForHTMLAttribute}">
                                                                 <option value="default">Default</option>
                                                                 {for language in languages}
                                                                     <option value="${language.value|encodeForHTMLAttribute}">${language.name|encodeForHTML}</option>
@@ -298,37 +292,39 @@
                                                     </div>
 
                                                     {var defaultLanguageValue = configValue.default ? configValue.default.toString() : element.defaultValue.default}
-                                                    <div data-id="default" class="control-group">
-                                                        <label for="${configPath|encodeForHTMLAttribute}/default" class="control-label">default - ${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
-                                                        <div class="controls">
-                                                            <textarea type="text" id="${configPath|encodeForHTMLAttribute}/default" name="${configPath|encodeForHTMLAttribute}/default" {if !tenantCanOverride} disabled="disabled"{/if}>${defaultLanguageValue|encodeForHTML}</textarea>
+                                                    <div data-id="default" class="form-group">
+                                                        <label for="${configPath|encodeForHTMLAttribute}/default" class="control-label col-xs-12 col-sm-3 col-md-3">default - ${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                        <div class="col-xs-12 col-sm-9 col-md-9">
+                                                            <textarea type="text" id="${configPath|encodeForHTMLAttribute}/default" class="form-control" name="${configPath|encodeForHTMLAttribute}/default" {if !tenantCanOverride} disabled="disabled"{/if}>${defaultLanguageValue|encodeForHTML}</textarea>
                                                         </div>
                                                     </div>
 
                                                     {for language in languages}
                                                         {var i18nValue = configValue[language.value] ? configValue[language.value].toString() : ''}
-                                                        <div data-id="${language.value}" class="control-group hide">
-                                                            <label for="${configPath|encodeForHTMLAttribute}/${language.value}" class="control-label">${language.name} - ${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
-                                                            <div class="controls">
-                                                                <textarea type="text" id="${configPath|encodeForHTMLAttribute}/${language.value}" name="${configPath|encodeForHTMLAttribute}/${language.value}" {if !tenantCanOverride} disabled="disabled"{/if}>${i18nValue|encodeForHTML}</textarea>
+                                                        <div data-id="${language.value}" class="form-group hide">
+                                                            <label for="${configPath|encodeForHTMLAttribute}/${language.value}" class="control-label col-xs-12 col-sm-3 col-md-3">${language.name} - ${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                            <div class="col-xs-12 col-sm-9 col-md-9">
+                                                                <textarea type="text" id="${configPath|encodeForHTMLAttribute}/${language.value}" class="form-control" name="${configPath|encodeForHTMLAttribute}/${language.value}" {if !tenantCanOverride} disabled="disabled"{/if}>${i18nValue|encodeForHTML}</textarea>
                                                             </div>
                                                         </div>
                                                     {/for}
                                                 </div>
                                             {elseif element.type === "radio"}
-                                                <div class="control-group">
+                                                <div class="form-group">
                                                     {for rbt in element.group}
-                                                        <label class="radio">
-                                                            <input type="radio" id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" value="${rbt.value|encodeForHTMLAttribute}" {if configValue === rbt.value} checked="checked"{/if} {if !tenantCanOverride} disabled="disabled"{/if}>
-                                                            ${rbt.name|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}
-                                                        </label>
+                                                        <div class="radio">
+                                                            <label>
+                                                                <input type="radio" id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" value="${rbt.value|encodeForHTMLAttribute}" {if configValue === rbt.value} checked="checked"{/if} {if !tenantCanOverride} disabled="disabled"{/if}>
+                                                                ${rbt.name|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}
+                                                            </label>
+                                                        </div>
                                                     {/for}
                                                 </div>
                                             {elseif element.type === "list"}
-                                                <div class="control-group">
-                                                    <label for="${configPath|encodeForHTMLAttribute}" class="control-label">${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
-                                                    <div class="controls">
-                                                        <select id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" {if !tenantCanOverride} disabled="disabled"{/if}>
+                                                <div class="form-group">
+                                                    <label for="${configPath|encodeForHTMLAttribute}" class="control-label col-xs-12 col-sm-3 col-md-3">${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
+                                                    <div class="col-xs-12 col-sm-9 col-md-9">
+                                                        <select id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" {if !tenantCanOverride} disabled="disabled"{/if} class="form-control">
                                                             {for opt in element.list}
                                                                 <option value="${opt.value|encodeForHTMLAttribute}" {if configValue === opt.value} selected="selected"{/if}>${opt.name|encodeForHTML}</option>
                                                             {/for}
@@ -360,10 +356,12 @@
                         {/if}
                         <div class="admin-container-striped">
                             {for variable in subsection.variables}
-                                <div class="control-group">
-                                    <label class="control-label" for="admin-skinning-${variable.name|encodeForHTMLAttribute}">${variable.description|encodeForHTML}</label>
-                                    <div class="controls">
-                                        <input type="text" id="admin-skinning-${variable.name|encodeForHTMLAttribute}" name="${variable.name|encodeForHTMLAttribute}" class="input-xlarge" value="${variable.value|encodeForHTMLAttribute}" data-type="${variable.type|encodeForHTMLAttribute}" />
+                                <div class="form-group">
+                                    <label class="control-label col-xs-12 col-sm-4 col-md-4" for="admin-skinning-${variable.name|encodeForHTMLAttribute}">${variable.description|encodeForHTML}</label>
+                                    <div class="col-xs-11 col-sm-7 col-md-7">
+                                        <input type="text" id="admin-skinning-${variable.name|encodeForHTMLAttribute}" name="${variable.name|encodeForHTMLAttribute}" class="form-control input-xlarge" value="${variable.value|encodeForHTMLAttribute}" data-type="${variable.type|encodeForHTMLAttribute}" />
+                                    </div>
+                                    <div class="col-xs-1">
                                         <button type="button" class="btn btn-link pull-right admin-skinning-revert" title="Revert to original value">
                                             <i class="icon-undo"><span class="oae-aural-text">Revert to original value</span></i>
                                         </button>
@@ -383,22 +381,27 @@
 
         <div id="admin-confirmation-template"><!--
             <div class="modal" id="${modal.id|encodeForHTMLAttribute}" tabindex="-1" role="dialog" aria-labelledby="${modal.id|encodeForHTMLAttribute}-label" aria-hidden="true">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h3 id="${modal.id|encodeForHTMLAttribute}-label">${modal.title|encodeForHTML}</h3>
-                </div>
-                <div class="modal-body">
-                    <p>${modal.message|encodeForHTML}</p>
-                </div>
-                <div class="modal-footer">
-                    {if modal.cancel}
-                        <button class="btn" data-dismiss="modal" aria-hidden="true">${modal.cancel|encodeForHTML}</button>
-                    {/if}
-                    <button class="btn {if modal.confirmclass} ${modal.confirmclass|encodeForHTMLAttribute}{else} btn-primary{/if}" id="${modal.id|encodeForHTMLAttribute}-confirm"
-                        {for attr in modal.confirmdata}
-                            data-${attr_index}="${attr|encodeForHTMLAttribute}"
-                        {/for}
-                        >${modal.confirm|encodeForHTML}</button>
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3 id="${modal.id|encodeForHTMLAttribute}-label">${modal.title|encodeForHTML}</h3>
+                        </div>
+                        <div class="modal-body">
+                            <p>${modal.message|encodeForHTML}</p>
+                        </div>
+                        <div class="modal-footer">
+                            {if modal.cancel}
+                                <button class="btn" data-dismiss="modal" aria-hidden="true">${modal.cancel|encodeForHTML}</button>
+                            {/if}
+                            <button class="btn {if modal.confirmclass} ${modal.confirmclass|encodeForHTMLAttribute}{else} btn-primary{/if}" id="${modal.id|encodeForHTMLAttribute}-confirm"
+                                {for attr in modal.confirmdata}
+                                    data-${attr_index}="${attr|encodeForHTMLAttribute}"
+                                {/for}
+                                >${modal.confirm|encodeForHTML}
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         --></div>
