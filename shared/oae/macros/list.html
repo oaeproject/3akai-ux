@@ -1,7 +1,6 @@
 <!--
  * Render a list options header for the title of list options
  *
- * @param  {String}     id                          The DOM ID to apply to the list options element
  * @param  {String}     title                       The title of the header
  * @param  {Boolean}    [showSearch]                Whether or not the search text-box should appear. Default: `true`
  * @param  {Object[]}   [actions]                   A list of objects that represent actions that can be performed in the header
@@ -12,32 +11,38 @@
  * @param  {Boolean}    [showViewOptions]           Whether or not the view options should be displayed. Default: `true`
  * @param  {Boolean}    [showBadge]                 Whether or not to show the badge icon to the right of the title. Default: `false`
 -->
-{macro listOptionsHeader(id, title, _showSearch, _actions, _showViewOptions, _showBadge)}
+{macro listOptionsHeader(title, _showSearch, _actions, _showViewOptions, _showBadge)}
     {var showSearch = (_showSearch !== false)}
     {var actions = _actions || []}
     {var showViewOptions = (_showViewOptions !== false)}
     {var showBadge = (_showBadge === true)}
     {var showNavToggle = (actions.length > 0 || showViewOptions)}
 
-    <div id="${id}" class="oae-list-options">
+    <div class="oae-list-options">
         <div class="row">
-            {var titleContainerTagName = (showNavToggle) ? 'button' : 'div'}
-            <${titleContainerTagName} class="btn oae-list-options-toggle col-xs-12 col-sm-6">
-                <h2 class="pull-left">
-                    ${title}
-                    {if showBadge}
-                        <span id="${id}-badge" class="badge"></span>
-                    {/if}
-                    {if showNavToggle}
-                        <i class="icon-caret-down"></i>
-                    {/if}
-                </h2>
-            </${titleContainerTagName}>
+            <div class="col-xs-12 col-sm-6">
+                <button type="button" class="oae-lhnavigation-toggle btn btn-link pull-left{if oae.data.me.anon} hide{else} hidden-md hidden-lg{/if}">
+                    <i class="icon-align-justify"></i>
+                    <span class="oae-aural-text">__MSG__TOGGLE_NAVIGATION__</span>
+                </button>
+                {var titleContainerTagName = (showNavToggle) ? 'button' : 'div'}
+                <${titleContainerTagName} class="btn oae-list-options-toggle">
+                    <h2 class="pull-left">
+                        ${title}
+                        {if showBadge}
+                            <span id="oae-list-options-badge" class="badge"></span>
+                        {/if}
+                        {if showNavToggle}
+                            <i class="icon-caret-down"></i>
+                        {/if}
+                    </h2>
+                </${titleContainerTagName}>
+            </div>
             {if showSearch}
                 <div class="pull-right col-xs-12 col-sm-6">
                     <form class="form-search" role="search">
-                        <label for="${id}-search-query" class="control-label oae-aural-text">__MSG__NARROW_BY_KEYWORD__</label>
-                        <input type="text" id="${id}-search-query" class="form-control pull-right search-query" placeholder="__MSG__NARROW_BY_KEYWORD__"/>
+                        <label for="oae-list-options-search-query" class="control-label oae-aural-text">__MSG__NARROW_BY_KEYWORD__</label>
+                        <input type="text" id="oae-list-options-search-query" class="form-control pull-right search-query" placeholder="__MSG__NARROW_BY_KEYWORD__"/>
                     </form>
                 </div>
             {/if}
@@ -45,8 +50,8 @@
         {if showNavToggle}
             <div class="oae-list-options-actions clearfix hide">
                 {if actions.length > 0}
-                    <input type="checkbox" id="${id}-selectall" class="oae-list-selectall" />
-                    <label for="${id}-selectall" class="oae-aural-text">__MSG__SELECT_ALL__</label>
+                    <input type="checkbox" id="oae-list-options-selectall" class="oae-list-selectall" />
+                    <label for="oae-list-options-selectall" class="oae-aural-text">__MSG__SELECT_ALL__</label>
                     {for action in actions}
                         {var dataAttrs}
                         {eval}

@@ -13,8 +13,48 @@
  * permissions and limitations under the License.
  */
 
-define(['jquery'], function ($) {
+define(['jquery', 'oae.api.util', 'jquery.history'], function ($, oaeUtil) {
     (function() {
+
+        /**
+         * Updates the History.js state to contain a search query from the list options header search
+         * field (if any). This implicitly triggers the `window` event `statechange` such that consumers
+         * of the list options header functionality can perform the operations needed to execute the
+         * user search.
+         *
+         * After the search has completed, the search query will be available with History.js. For
+         * example:
+         *
+         * ```javascript
+         *  // Subscribes to the event that is invoked when the user has performed a search with the
+         *  // list options header
+         *  $(window).on('statechange', function() {
+         *      // Fetches the query from the History.js module
+         *      var query = History.getState().data.query
+         *
+         *      // Finally, do something with the query (e.g., invoke a search and update the DOM)
+         *  });
+         * ```
+         */
+        $(document).on('submit', '.oae-list-options .form-search', function(ev) {
+            var query = $('#oae-list-options-search-query', $(this)).val();
+
+            // Push the new query to a new History.js state. We make sure to take the
+            // existing state data parameters with us and construct a new URL based on
+            // the existing base URL, allowing for page refreshing and bookmarking.
+            var newState = $.extend({}, History.getState().data, {
+                'query': query
+            });
+
+            // We cannot rely on the "current" url as that can be different depending on the browser.
+            // Most browsers will display `/me/library`, IE9 will be display `/me#library` however.
+            // The cleanUrl in the History.js state will always be `/me/library`.
+            var url = $.url(History.getState().cleanUrl).attr('path') + '?q=' + oaeUtil.security().encodeForURL(query);
+            History.pushState(newState, $('title').text(), url);
+
+            // Avoid submitting the search form
+            ev.preventDefault();
+        });
 
         /**
          * Show or hide the list options when clicking the page title toggle
@@ -170,7 +210,6 @@ define(['jquery'], function ($) {
             } else {
                 $(document).trigger('oae.list.sendSelection', selectedItems);
             }
-
         });
 
     })();
