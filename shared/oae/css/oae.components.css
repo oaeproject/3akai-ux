@@ -792,14 +792,6 @@ div.oae-thumbnail i[class^="icon-"] {
  *              </li>
  *          </ul>
  *      </div>
- *      <div class="col-xs-12 col-sm-12 col-md-12 oae-page">
- *          <div class="row">
- *              <button type="button" class="btn btn-link hidden-md hidden-lg oae-lhnavigation-toggle">
- *                  <i class="icon-align-justify"></i>
- *                  <span class="oae-aural-text">__MSG__TOGGLE_NAVIGATION__</span>
- *              </button>
- *          </div>
- *      </div>
  *
  * Notes:
  *
@@ -819,7 +811,8 @@ div.oae-thumbnail i[class^="icon-"] {
  * - The item responsible for opening and closing the left hand navigation on a mobile device should have the
  *   `oae-lhnavigation-toggle` class. This toggle should have the `hidden-md hidden-lg` classes, as the toggle can
  *   not be shown on desktop devices. This item should also be inside of a `oae-page` div, which is used for the
- *   collapsing animation on mobile devices.
+ *   collapsing animation on mobile devices. Note that the oae-lhnavigation-toggle item resides in the listOptionsHeader
+ *   macros as that is where it is currently visually appropriate.
  * - TODO: Remove this once a proper solution for https://github.com/oaeproject/3akai-ux/issues/3506 is in place
  *   The `.oae-lhnavigation-toggle` button is hidden by default for anonymous users. If the `.oae-anon-toggle` class
  *   is added to `.oae-page` the button will be shown for anonymous users.
