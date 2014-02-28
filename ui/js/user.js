@@ -24,10 +24,11 @@ require(['jquery', 'oae.core'], function($, oae) {
         window.location = '/me';
     }
 
-    // Variable used to cache the requested user's profile
-    var userProfile = null;
     // Variable used to cache the user's base URL
     var baseUrl = '/user/' + $.url().segment(2) + '/' + $.url().segment(3);
+
+    // Variable used to cache the requested user's profile
+    var userProfile = null;
 
     /**
      * Get the user's basic profile and set up the screen. If the user
@@ -173,9 +174,11 @@ require(['jquery', 'oae.core'], function($, oae) {
             ]
         });
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, true]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
+        $('.oae-page').addClass('oae-anon-toggle');
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, true]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
+            $('.oae-page').addClass('oae-anon-toggle');
         });
     };
 
