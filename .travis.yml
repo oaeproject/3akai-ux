@@ -8,8 +8,8 @@ branches:
 
 env:
   global:
-    - secure: ZGZFOzCcdmPX4jHz4gFZZ4z6Egk9Xm+fQvm1I+2VBiSqwgknA0Tu9CVb+KlC1QgXh8vFHWSqR8eZtv5ar3t4ZE/YpwqFwIaMrg6o5o2SP5gecYTq61/Y7ngkYjXg0x4dJpkPNIXFGrNBtbMtuc21Jnva2HnbM0x2EU4rodV8Ji4=
-    - secure: ejmezhVBRcK/xH2tfdW1lHY5S10QQUNgJtkvCOucFfwTGnHKbwomXUICO4kc1xDDsr7DQJ5pjlUK2dcheESmVUAdyTDFXo2YPEnbkN+SSQ1TddklG5z5scrDrRwMTkQkAFO2pRInSRsnRLkk5lyrfNhemlT7hbr5BicsE5TlUA4=
+    - secure: Amuv0dlhrdLdzoFN6WlOKETpYY5FdwtqroaFuVh1Gt6l01cPgOwDxR775xN1SQhv/3FlaxuwS8Zm+cMK/Q8QSPRgdwUiRDV0BcD603aOj9HxT06/yNmjSj6bClIR9DTfc2NhwdG5cNMur54Dvrtk6ZZet2GYJoEsfFtE0v9Gq9M=
+    - secure: DHt20YWVkb6wOdVcsBJ/zW2IyZVdVLBCiMlAhqdIREkZ5IpV5v9BV4/RzykiOQilDBPhqZp1Dd5XGDaNXqXNvnibO+3NxvY3VQX0o/uFs2Ig1AGzf1iKf3GyfObLtN5r8I58todT3jjO1vNwHQM3xHWwFa9qAeOclM/tyKdkJks=
 
 before_install:
   # Turn off unneeded services to free some memory

@@ -769,8 +769,10 @@ div.oae-thumbnail {
  ** @section  Tiles **
  *********************/
 
-/* Tile banner text color */
-@tile-text-color: #FFF;
+/* Tile banner title color */
+@tile-title-color: #FFF;
+/* Tile banner description color */
+@tile-description-color: #CCC;
 /* Tile banner background color */
 @tile-background-color: rgba(0, 0, 0, 0.8);
 
@@ -779,9 +781,12 @@ div.oae-thumbnail {
 }
 
 .oae-tile > .oae-tile-metadata, .oae-tile h3, .oae-tile h3 a {
-    color: @tile-text-color;
+    color: @tile-title-color;
 }
 
+.oae-tile > .oae-tile-metadata small {
+    color: @tile-description-color
+}
 
 /**************************
  ** @section  List items **
@@ -882,9 +887,9 @@ div.oae-thumbnail {
 
 /* @subsection  Primary clip */
 
-/* Primary clip text color */
+/* Primary clip title color */
 @clip-primary-title-color: #DBDBDB;
-/* Primary clip text hover color */
+/* Primary clip title hover color */
 @clip-primary-hover-color: #FFF;
 /* Primary clip description color */
 @clip-primary-description-color: #999;
