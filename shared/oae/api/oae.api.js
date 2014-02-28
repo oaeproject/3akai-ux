@@ -105,6 +105,12 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
                                         $('html').addClass('ie-lt10');
                                     }
 
+                                    // Add a `.mobile` class to the html element that can be used by mobile devices by
+                                    // checking the user agent
+                                    if (oae.api.util.isHandheldDevice()) {
+                                        $('html').addClass('mobile');
+                                    }
+
                                     // Set up the terms and conditions widget
                                     setUpTermsAndConditions();
 
