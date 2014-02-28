@@ -19,7 +19,7 @@ define(['jquery'], function ($) {
         /**
          * Show or hide the list options when clicking the page title toggle
          */
-        $(document).on('click', '.oae-list-options-toggle', function() {
+        $(document).on('click', 'button.oae-list-options-toggle', function() {
             // Get the list container, so we don't end up changing state in other lists
             var $listContainer = $(this).parents('.oae-list-container');
             var $listOptionActions = $('.oae-list-options-actions', $listContainer);
