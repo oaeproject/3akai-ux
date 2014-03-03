@@ -568,26 +568,18 @@ ul.as-list li.as-result-item.active {
 /* INSTITUTION LOGO */
 
 .oae-institutional-logo,
-.oae-institutional-smalllogo {
+.oae-institutional-logo-small {
     display: block;
+    height: 40px;
+    margin-top: 15px;
     width: 100%;
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
 }
 
-.oae-institutional-logo {
-    height: 40px;
-    margin-top: 15px;
-}
-
-.oae-institutional-smalllogo {
-    height: 24px;
-    margin-top: 24px;
-}
-
 .oae-institutional-logo:hover,
-.oae-institutional-snalllogo:hover {
+.oae-institutional-logo-small:hover {
     opacity: 0.4;
 }
 
