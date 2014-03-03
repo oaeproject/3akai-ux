@@ -745,7 +745,7 @@ div.oae-thumbnail i[class^="icon-"] {
 
 /**
  * The left hand navigation component allows for a page navigation to be defined. This component will automatically
- * take care of the responsive behavior of the left hand navigation. On a mobile device, the left hand navigation
+ * take care of the responsive behavior of the left hand navigation. On narrow viewports, the left hand navigation
  * will be collapsed by default. The left hand navigation can then be shown by clicking the left hand navigation toggle.
  * On a larger screen, the left hand navigation will always be visible.
  *
@@ -755,7 +755,7 @@ div.oae-thumbnail i[class^="icon-"] {
  * @see `lhnavigation` widget for documentation on how to initialize a left hand navigation using JavaScript.
  *
  * e.g. <div class="oae-lhnavigation">
- *          <ul class="nav nav-list">
+ *          <ul class="nav nav-list hidden-xs hidden-sm">
  *              <li class="clearfix oae-lhnavigation-border">
  *                  <button type="button" class="btn btn-link" title="__MSG__UPLOAD__">
  *                      <i class="icon-cloud-upload pull-left"></i>
@@ -809,10 +809,10 @@ div.oae-thumbnail i[class^="icon-"] {
  *   collapsible left hand navigation items. The `ul` element containing those collapsible items should have
  *   a `lhnavigation-collapsed` class to make them collapsed by default.
  * - The item responsible for opening and closing the left hand navigation on a mobile device should have the
- *   `oae-lhnavigation-toggle` class. This toggle should have the `hidden-md hidden-lg` classes, as the toggle can
- *   not be shown on desktop devices. This item should also be inside of a `oae-page` div, which is used for the
- *   collapsing animation on mobile devices. Note that the oae-lhnavigation-toggle item resides in the listOptionsHeader
- *   macros as that is where it is currently visually appropriate.
+ *   `oae-lhnavigation-toggle` class. This toggle should have the `hidden-md hidden-lg` classes, as the toggle should
+ *   not be shown on wide viewports (e.g., desktop computers). This item should also be inside of a `oae-page` div,
+ *   which is used for the collapsing animation on narrow viewports. Note that the `oae-lhnavigation-toggle` item
+ *   resides in the `listOptionsHeader` macro.
  * - TODO: Remove this once a proper solution for https://github.com/oaeproject/3akai-ux/issues/3506 is in place
  *   The `.oae-lhnavigation-toggle` button is hidden by default for anonymous users. If the `.oae-anon-toggle` class
  *   is added to `.oae-page` the button will be shown for anonymous users.
@@ -877,7 +877,7 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .oae-lhnavigation-toggle {
-    padding: 9px 12px 0 4px;
+    padding: 9px 12px 0 0;
     position: relative;
     z-index: 100;
 }

@@ -16,7 +16,7 @@
     {var actions = _actions || []}
     {var showViewOptions = (_showViewOptions !== false)}
     {var showBadge = (_showBadge === true)}
-    {var showNavToggle = (actions.length > 0 || showViewOptions)}
+    {var showActionsToggle = (actions.length > 0 || showViewOptions)}
 
     <div class="oae-list-options">
         <div class="row">
@@ -25,14 +25,14 @@
                     <i class="icon-align-justify"></i>
                     <span class="oae-aural-text">__MSG__TOGGLE_NAVIGATION__</span>
                 </button>
-                {var titleContainerTagName = (showNavToggle) ? 'button' : 'div'}
-                <${titleContainerTagName} class="btn oae-list-options-toggle">
+                {var titleContainerTagName = (showActionsToggle) ? 'button' : 'div'}
+                <${titleContainerTagName} class="oae-list-options-toggle{if showActionsToggle} btn{/if}">
                     <h2 class="pull-left">
                         ${title}
                         {if showBadge}
-                            <span id="oae-list-options-badge" class="badge"></span>
+                            <span id="oae-list-options-badge" class="oae-list-options-badge"></span>
                         {/if}
-                        {if showNavToggle}
+                        {if showActionsToggle}
                             <i class="icon-caret-down"></i>
                         {/if}
                     </h2>
@@ -47,7 +47,7 @@
                 </div>
             {/if}
         </div>
-        {if showNavToggle}
+        {if showActionsToggle}
             <div class="oae-list-options-actions clearfix hide">
                 {if actions.length > 0}
                     <input type="checkbox" id="oae-list-options-selectall" class="oae-list-selectall" />
@@ -55,7 +55,7 @@
                     {for action in actions}
                         {var dataAttrs}
                         {eval}
-                            // Convert each key-value pair into: key="value"
+                            // Convert each key-value pair into: data-key="value"
                             dataAttrs = _.map(action.data, function(value, key) { return 'data-' + key + '="' + value + '"'; }).join(' ');
                         {/eval}
                         <button type="button" class="btn ${action.trigger}" disabled="disabled" ${dataAttrs}>
