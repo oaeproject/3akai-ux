@@ -58,7 +58,7 @@
 }
 
 #error-content #error-quote-container + div {
-    margin: -30px 0 0 80px;
+    margin: -40px 0 0 80px;
 }
 
 #error-content #error-quote-container:after {
@@ -72,6 +72,18 @@
     position: absolute;
 }
 
+@media (max-width: 480px) {
+    #error-content #error-quote-container .btn + span {
+        display: block;
+        margin-top: 7px;
+    }
+
+    #error-content #error-quote-container + div {
+        margin: -30px 0 0;
+        text-align: center;
+    }
+}
+
 @media (max-width: 991px) {
     #error-content .row {
         margin: 40px auto;
@@ -83,11 +95,6 @@
 
     #error-content #error-quote-container {
         margin: 0 auto 50px;
-    }
-
-    #error-content #error-quote-container .btn + span {
-        display: block;
-        margin-top: 7px;
     }
 
     #error-content #error-quote-container + div {

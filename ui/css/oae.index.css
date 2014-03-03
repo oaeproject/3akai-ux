@@ -25,6 +25,7 @@
 
 #index-content .row > div {
     padding-left: 0;
+    padding-right: 10px;
 }
 
 #index-content .row > div:last-child {
@@ -46,12 +47,16 @@
 }
 
 #index-container .row {
-    margin: 30px 0 0;
+    margin: 30px 0 -5px;
+}
+
+#index-container .index-search-container {
+    margin-bottom: 40px;
 }
 
 #index-container .index-search-container form,
 #index-container .index-search-container form .form-group {
-    margin: 12px 0;
+    margin: 12px 5px;
 }
 
 #index-container .index-search-container input#index-search-query {
@@ -135,12 +140,17 @@
         padding-right: 0;
     }
 
+    #index-container .index-search-container {
+        margin-bottom: 30px;
+    }
+
     #index-content .row:last-child {
         margin-top: 0;
     }
 
     #index-container #index-slogan {
         font-size: 40px;
+        line-height: 1.2;
     }
 
     #index-container #index-video-container {

@@ -93,7 +93,7 @@ a.oae-plain-link:hover {
  *   e.g. <div class="oae-panel-primary">...</div>
  */
 .oae-panel-primary, .oae-panel-secondary, .oae-panel-tertiary {
-    padding: 15px 25px;
+    padding: 15px;
     -webkit-border-radius: 5px;
        -moz-border-radius: 5px;
             border-radius: 5px;
