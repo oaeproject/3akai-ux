@@ -20,7 +20,7 @@
 
     <div class="oae-list-options">
         <div class="row">
-            <div class="col-xs-12 col-sm-6">
+            <div class="col-xs-12{if showSearch} col-sm-6{/if}">
                 <button type="button" class="oae-lhnavigation-toggle btn btn-link pull-left{if oae.data.me.anon} hide{else} hidden-md hidden-lg{/if}">
                     <i class="icon-align-justify"></i>
                     <span class="oae-aural-text">__MSG__TOGGLE_NAVIGATION__</span>
@@ -30,19 +30,19 @@
                     <h2 class="pull-left">
                         ${title}
                         {if showBadge}
-                            <span id="oae-list-options-badge" class="oae-list-options-badge"></span>
-                        {/if}
-                        {if showActionsToggle}
+                            <span class="oae-list-options-badge badge"></span>
+                        {elseif showActionsToggle}
                             <i class="icon-caret-down"></i>
                         {/if}
                     </h2>
                 </${titleContainerTagName}>
             </div>
             {if showSearch}
+                {var searchQueryId = oae.api.util.generateId()}
                 <div class="pull-right col-xs-12 col-sm-6">
                     <form class="form-search" role="search">
-                        <label for="oae-list-options-search-query" class="control-label oae-aural-text">__MSG__NARROW_BY_KEYWORD__</label>
-                        <input type="text" id="oae-list-options-search-query" class="form-control pull-right search-query" placeholder="__MSG__NARROW_BY_KEYWORD__"/>
+                        <label for="${searchQueryId}" class="control-label oae-aural-text">__MSG__NARROW_BY_KEYWORD__</label>
+                        <input type="text" id="${searchQueryId}" class="oae-list-options-search-query form-control pull-right search-query" placeholder="__MSG__NARROW_BY_KEYWORD__"/>
                     </form>
                 </div>
             {/if}
@@ -50,8 +50,9 @@
         {if showActionsToggle}
             <div class="oae-list-options-actions clearfix hide">
                 {if actions.length > 0}
-                    <input type="checkbox" id="oae-list-options-selectall" class="oae-list-selectall" />
-                    <label for="oae-list-options-selectall" class="oae-aural-text">__MSG__SELECT_ALL__</label>
+                    {var selectAllId = oae.api.util.generateId()}
+                    <input type="checkbox" id="${selectAllId}" class="oae-list-selectall" />
+                    <label for="${selectAllId}" class="oae-aural-text">__MSG__SELECT_ALL__</label>
                     {for action in actions}
                         {var dataAttrs}
                         {eval}

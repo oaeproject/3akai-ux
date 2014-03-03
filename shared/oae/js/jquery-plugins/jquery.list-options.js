@@ -37,7 +37,7 @@ define(['jquery', 'oae.api.util', 'jquery.history'], function ($, oaeUtil) {
          * ```
          */
         $(document).on('submit', '.oae-list-options .form-search', function(ev) {
-            var query = $('#oae-list-options-search-query', $(this)).val();
+            var query = $('.oae-list-options-search-query', $(this)).val();
 
             // Push the new query to a new History.js state. We make sure to take the
             // existing state data parameters with us and construct a new URL based on
