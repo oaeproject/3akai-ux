@@ -439,6 +439,7 @@ ul.as-selections {
        -moz-border-radius: 4px;
             border-radius: 4px;
     padding: 4px;
+    width: 100%;
 }
 
 ul.as-selections li.as-original {
@@ -467,9 +468,14 @@ ul.as-selections li.as-selection-item {
     line-height: 30px;
     margin-bottom: 3px;
     margin-right: 5px;
-    max-width: 400px;
+    max-width: 100%;
     text-shadow: none;
-    width: 100%;
+    width: auto;
+}
+
+ul.as-selections li.as-selection-item span {
+    max-width: 75%;
+    width: auto;
 }
 
 ul.as-selections li.as-selection-item .oae-thumbnail {
@@ -492,7 +498,7 @@ ul.as-selections li.as-selection-item.as-fixed-item a.as-close {
 ul.as-selections li.as-selection-item.as-ghost-item {
     border: 1px dashed;
     cursor: pointer;
-    height: 38px;
+    height: 37px;
 }
 
 ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected {

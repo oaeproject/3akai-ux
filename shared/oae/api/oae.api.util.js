@@ -991,7 +991,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                     // Wrap the element text in a 'oae-threedots' span element to prevent overflowing
                     var textNode = $elem[0].lastChild;
                     if (textNode instanceof Text) {
-                        $(textNode).wrap('<span class="oae-threedots"></span>');
+                        $(textNode).wrap('<span class="pull-left oae-threedots"></span>');
                     }
 
                     var originalData = $elem.data('originalData');
