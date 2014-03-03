@@ -438,6 +438,7 @@ ul.as-selections {
     -webkit-border-radius: 4px;
        -moz-border-radius: 4px;
             border-radius: 4px;
+    padding: 4px;
 }
 
 ul.as-selections li.as-original {
@@ -457,8 +458,8 @@ ul.as-selections li.as-original input:focus {
 
 ul.as-selections li.as-selection-item {
     -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
-             border-radius: 3px;
+       -moz-border-radius: 3px;
+            border-radius: 3px;
     -webkit-box-shadow: none;
        -moz-box-shadow: none;
             box-shadow: none;
@@ -468,6 +469,7 @@ ul.as-selections li.as-selection-item {
     margin-right: 5px;
     max-width: 400px;
     text-shadow: none;
+    width: 100%;
 }
 
 ul.as-selections li.as-selection-item .oae-thumbnail {
