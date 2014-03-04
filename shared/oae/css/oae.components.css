@@ -1084,6 +1084,11 @@ div.oae-thumbnail i[class^="icon-"] {
             border-radius: 3px;
 }
 
+/* IE9 specific fallback for flexbox */
+.ie-lt10 .oae-listitem {
+    overflow: hidden;
+}
+
 .oae-listitem.oae-listitem-compact {
     min-height: 27px;
 }
@@ -1098,7 +1103,6 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 /* List item thumbnail */
-
 .oae-listitem .oae-thumbnail {
     float: left;
     height: 50px;
@@ -1112,28 +1116,32 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 /* List item metadata */
-
 .oae-listitem > div:not(.oae-thumbnail) {
     display: -webkit-flex;
     display: -moz-flex;
     display: -ms-flexbox;
     display: -ms-flex;
     display: flex;
-    vertical-align: middle;
     height: 50px;
+    vertical-align: middle;
+}
+
+/* IE9 specific fallback for flexbox */
+.ie-lt10 .oae-listitem > div:not(.oae-thumbnail) {
+    display: table-cell;
+    vertical-align: middle;
 }
 
 .oae-listitem.oae-listitem-compact > div:not(.oae-thumbnail) {
-    height: 25px;
     -webkit-flex-direction: row;
        -moz-flex-direction: row;
         -ms-flex-direction: row;
             flex-direction: row;
+    height: 25px;
 }
 
-/* IE9 specific fallback for flexbox */
 .ie-lt10 .oae-listitem.oae-listitem-compact > div:not(.oae-thumbnail) {
-    width: auto;
+    display: block;
 }
 
 .oae-list-details-item .oae-listitem > div:not(.oae-thumbnail) {
@@ -1143,12 +1151,31 @@ div.oae-thumbnail i[class^="icon-"] {
             flex-direction: column;
 }
 
-.oae-listitem h3 {
+.oae-listitem .oae-threedots {
+    display: block;
+    -webkit-flex: initial;
+       -moz-flex: initial;
+        -ms-flex: initial;
+            flex: initial;
+    margin: auto 20px auto 0;
+}
+
+.oae-listitem small,
+.oae-listitem small.oae-threedots,
+.oae-listitem .oae-listitem-actions {
     display: inline-block;
-    -webkit-flex: 10;
-       -moz-flex: 10;
-        -ms-flex: 10;
-            flex: 10;
+    -webkit-flex: none;
+       -moz-flex: none;
+        -ms-flex: none;
+            flex: none;
+    margin: auto 0;
+}
+
+.oae-listitem .oae-listitem-actions {
+    margin-left: auto;
+}
+
+.oae-listitem h3 {
     font-size: 16px;
     font-weight: 500;
     height: 25px;
@@ -1157,35 +1184,40 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 /* IE9 specific fallback for flexbox */
-.ie-lt10 .oae-listitem h3 {
-    max-width: 450px;
+
+@media (min-width: 900px) {
+    .ie-lt10 .oae-listitem h3 {
+        max-width: 500px;
+    }
+}
+
+@media (min-width: 550px) and (max-width: 900px) {
+    .ie-lt10 .oae-listitem h3 {
+        max-width: 300px;
+    }
+}
+
+@media (min-width: 400px) and (max-width: 550px) {
+    .ie-lt10 .oae-listitem h3 {
+        max-width: 160px;
+    }
+}
+
+@media (max-width: 400px) {
+    .ie-lt10 .oae-listitem h3 {
+        max-width: 100px;
+    }
 }
 
 .oae-listitem small {
-    line-height: 1;
     font-size: 11px;
+    line-height: 25px;
+    max-width: 120px;
     opacity: 0.8;
     text-transform: uppercase;
 }
 
-.oae-listitem.oae-listitem-compact small {
-    display: inline-block;
-    -webkit-flex: 2;
-       -moz-flex: 2;
-        -ms-flex: 2;
-            flex: 2;
-    line-height: 25px;
-    margin-left: 20px;
-    min-width: 100px;
-}
-
 /* List item actions */
-
-.oae-listitem .oae-listitem-actions {
-    width: 100%;
-    text-align: right;
-}
-
 .oae-listitem .oae-listitem-actions i {
     font-size: 18px;
 }
@@ -1203,12 +1235,14 @@ div.oae-thumbnail i[class^="icon-"] {
  * The HTML for a list item has been abstracted into a globally available TrimPath template that
  * can be used when rendering list view items:
  *
- *   `${listItem(entityData, [metadata], [showCheckbox])}`
+ *   `${listItem(entityData, [metadata], [showCheckbox], [customImage], [renderListItemActions])}`
  *
  * - `entityData` is an object representing a user, group or content item or a search result for a user, group
  *    or content item
  * - `metadata` (optional) is a line of metadata information that should be displayed underneath the entity name
  * - `showCheckbox` (optional) will determine whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
+ * - `customImage` (optional) is a URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
+ * - `renderListItemActions` (optional) is a macro that will render list item actions in the compact view
  *
  * The output from this macro represents a single list (li) item, and should be wrapped in a list container (ul)
  * element with an `oae-list` class. In order to show the grid view, an `oae-list-grid` class should be added to
@@ -1267,9 +1301,15 @@ ul.oae-list > li .oae-list-compact-item  {
 }
 
 /* IE9 specific fallback for flexbox */
-.ie-lt10 ul.oae-list.oae-list-details > li .oae-list-details-item,
-.ie-lt10 ul.oae-list.oae-list-compact > li .oae-list-compact-item  {
+.ie-lt10 ul.oae-list.oae-list-grid > li > .oae-list-grid-item,
+.ie-lt10 ul.oae-list.oae-list-details > li > .oae-list-details-item,
+.ie-lt10 ul.oae-list.oae-list-compact > li > .oae-list-compact-item {
     display: table;
+}
+
+.ie-lt10 ul.oae-list.oae-list-details > li > .oae-list-details-item h3,
+.ie-lt10 ul.oae-list.oae-list-compact > li > .oae-list-compact-item h3 {
+    float: left;
 }
 
 ul.oae-list > li .oae-listitem {
