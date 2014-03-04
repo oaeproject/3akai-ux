@@ -133,14 +133,15 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
     };
 
     /**
-     * Update the current user's basic profile
+     * Update a user's basic profile
      *
+     * @param  {String}         [_userId]           Optional user id of the profile you wish to update
      * @param  {Object}         params              Object representing the profile fields that need to be updated. The keys are the profile fields, the values are the profile field values
      * @param  {Function}       [callback]          Standard callback method
      * @param  {Object}         [callback.err]      Error object containing error code and error message
      * @throws {Error}                              Error thrown when no update parameters have been provided
      */
-    var updateUser = exports.updateUser = function(params, callback) {
+    var updateUser = exports.updateUser = function(_userId, params, callback) {
         if (!params || _.keys(params).length === 0) {
             throw new Error('At least 1 parameter should be provided');
         }
@@ -149,7 +150,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
         callback = callback || function() {};
 
         // Get the current user to construct the endpoint url.
-        var userId = require('oae.core').data.me.id;
+        var userId = _userId || require('oae.core').data.me.id;
 
         // Update all places that are showing the current user's display name
         if (params['displayName']) {
