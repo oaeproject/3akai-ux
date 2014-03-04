@@ -26,6 +26,14 @@ a.oae-plain-link:hover {
     text-decoration: underline;
 }
 
+/**
+ * Style that can be used to hide items on a mobile device
+ *   e.g. <span class="oae-hide-on-mobile">Drag files here to upload</span>
+ */
+.mobile .oae-hide-on-mobile {
+    display: none !important;
+}
+
 
 /******************
  * ACCESSIBILITY **
