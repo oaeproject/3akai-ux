@@ -112,6 +112,16 @@ require(['jquery','oae.core', 'jquery.history'], function($, oae) {
             'types': types,
             '_': Math.random()
         }, $('title').text(), url);
+
+        // Put focus on the search input field on desktop browsers
+        if (!oae.api.util.isHandheldDevice()) {
+            $('#search-query').focus();
+            // Put the cursor at the end of the search query
+            if (query) {
+                var len = $('#search-query').val().length;
+                $('#search-query')[0].setSelectionRange(len, len);
+            }
+        }
     };
 
     /**
