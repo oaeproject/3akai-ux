@@ -175,6 +175,13 @@ a:hover, .btn-link:hover {
     background-color: @button-default-gradient2-color;
 }
 
+.btn:not(.btn-link):hover,
+.btn:not(.btn-link):focus,
+.btn:not(.btn-link):active,
+.btn:not(.btn-link).active {
+    background-position: 0 -15px;
+    background-repeat: no-repeat;
+}
 
 /* @subsection  Primary button */
 
