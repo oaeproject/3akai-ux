@@ -49,6 +49,12 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
             }, 250, function() {
                 $('.oae-lhnavigation').addClass('oae-lhnav-expanded');
             });
+
+            // If the user focuses in on anything within the main page, we be cool and slide the nav
+            // shut for them
+            $('.oae-page').on('focusin.oae-lhnav-toggle', function() {
+                closeLhNav();
+            });
         };
 
         /**
@@ -68,6 +74,9 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
                 $('.oae-lhnavigation > ul').addClass('hidden-xs hidden-sm');
                 $('.oae-lhnavigation').removeClass('oae-lhnav-expanded');
             });
+
+            // When the menu is closed, remove the page-focus auto-close listener
+            $('.oae-page').off('focusin.oae-lhnav-toggle');
         };
 
         /**
