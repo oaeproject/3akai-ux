@@ -27,6 +27,15 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
         var LHNAVIGATION_PADDING = 25;
 
         /**
+         * Determines whether or not the left-hand nav is expanded.
+         *
+         * @return {Boolean}    `true` if the left-hand nav is expanded, `false` otherwise
+         */
+        var isLhNavExpanded = function() {
+            return $('.oae-lhnavigation').hasClass('oae-lhnav-expanded');
+        };
+
+        /**
          * Open the left hand navigation
          */
         var openLhNav = function() {
@@ -49,12 +58,6 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
             }, 250, function() {
                 $('.oae-lhnavigation').addClass('oae-lhnav-expanded');
             });
-
-            // If the user focuses in on anything within the main page, we be cool and slide the nav
-            // shut for them
-            $('.oae-page').on('focusin.oae-lhnav-toggle', function() {
-                closeLhNav();
-            });
         };
 
         /**
@@ -74,9 +77,6 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
                 $('.oae-lhnavigation > ul').addClass('hidden-xs hidden-sm');
                 $('.oae-lhnavigation').removeClass('oae-lhnav-expanded');
             });
-
-            // When the menu is closed, remove the page-focus auto-close listener
-            $('.oae-page').off('focusin.oae-lhnav-toggle');
         };
 
         /**
@@ -91,11 +91,21 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
          */
         $(document).on('click', '.oae-lhnavigation-toggle', function(ev) {
             // If the left hand navigation is open, close it
-            if ($('.oae-lhnavigation').hasClass('oae-lhnav-expanded')) {
+            if (isLhNavExpanded()) {
                 closeLhNav();
             // If the left hand navigation is closed, open it
             } else {
                 openLhNav();
+            }
+        });
+
+        /**
+         * If the user focuses in on anything within the main page while the left-hand nav is
+         * open, we close it for them
+         */
+        $(document).on('focusin', '.oae-page', function() {
+            if (isLhNavExpanded()) {
+                closeLhNav();
             }
         });
 
