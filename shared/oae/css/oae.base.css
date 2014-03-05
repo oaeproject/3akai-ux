@@ -569,13 +569,13 @@ ul.as-list li.as-result-item.active {
 
 .oae-institutional-logo,
 .oae-institutional-logo-small {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
     display: block;
     height: 40px;
     margin-top: 15px;
     width: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
 }
 
 .oae-institutional-logo:hover,
@@ -600,9 +600,9 @@ ul.as-list li.as-result-item.active {
     -webkit-box-shadow: 0 2px 4px #DBDBDB;
        -moz-box-shadow: 0 2px 4px #DBDBDB;
             box-shadow: 0 2px 4px #DBDBDB;
-    padding: 10px;
-    min-height: 550px;
     clear: both;
+    min-height: 550px;
+    padding: 10px;
 }
 
 .oae-main-content > div {
