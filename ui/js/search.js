@@ -53,6 +53,7 @@ require(['jquery','oae.core', 'jquery.history'], function($, oae) {
         }, '#search-template', {
             'postRenderer': function(data) {
                 $('.oae-list-options-badge').text(data.total);
+                $('.oae-list-options-badge').show();
             },
             'emptyListProcessor': function() {
                 oae.api.util.template().render($('#search-noresults-template'), {

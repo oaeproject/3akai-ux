@@ -62,6 +62,10 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     padding: 4px 12px;
 }
 
+.btn > [class^="icon-"], .btn > [class*=" icon-"] {
+    line-height: 1;
+}
+
 /* NAVIGATION BAR
  * @see http://twitter.github.com/bootstrap/components.html#navs */
 

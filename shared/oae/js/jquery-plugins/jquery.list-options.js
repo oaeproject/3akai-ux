@@ -17,10 +17,28 @@ define(['jquery', 'oae.api.util', 'jquery.history'], function ($, oaeUtil) {
     (function() {
 
         /**
+         * Show or hide the list options when clicking the page title toggle
+         */
+        $(document).on('click', '.oae-list-options-toggle', function() {
+            // Get the list container, so we don't end up changing state in other lists
+            var $listContainer = $(this).parents('.oae-list-container');
+            var $listOptionActions = $('.oae-list-options-actions', $listContainer);
+            // Hide the list options if they are currently showing. Show the list options
+            // if they are currently hidden
+            if ($listOptionActions.is(':visible')) {
+                $listOptionActions.slideUp(200);
+            } else {
+                $listOptionActions.slideDown(200);
+            }
+            // Toggle the caret icon in the page title
+            $(this).find('i').toggleClass('icon-caret-down icon-caret-up');
+        });
+
+        /**
          * Updates the History.js state to contain a search query from the list options header search
-         * field (if any). This implicitly triggers the `window` event `statechange` such that consumers
+         * field (if any). This implicitly triggers the `window` `statechange` event such that consumers
          * of the list options header functionality can perform the operations needed to execute the
-         * user search.
+         * user's search.
          *
          * After the search has completed, the search query will be available with History.js. For
          * example:
@@ -54,24 +72,6 @@ define(['jquery', 'oae.api.util', 'jquery.history'], function ($, oaeUtil) {
 
             // Avoid submitting the search form
             ev.preventDefault();
-        });
-
-        /**
-         * Show or hide the list options when clicking the page title toggle
-         */
-        $(document).on('click', '.oae-list-options-toggle', function() {
-            // Get the list container, so we don't end up changing state in other lists
-            var $listContainer = $(this).parents('.oae-list-container');
-            var $listOptionActions = $('.oae-list-options-actions', $listContainer);
-            // Hide the list options if they are currently showing. Show the list options
-            // if they are currently hidden
-            if ($listOptionActions.is(':visible')) {
-                $listOptionActions.slideUp(200);
-            } else {
-                $listOptionActions.slideDown(200);
-            }
-            // Toggle the caret icon in the page title
-            $(this).find('i').toggleClass('icon-caret-down icon-caret-up');
         });
 
         /**
