@@ -1457,6 +1457,7 @@ ul.oae-list > li:first-child .oae-listitem {
 
 .oae-list-actions ul {
     margin: 0;
+    padding: 0;
 }
 
 .oae-list-actions ul > li {
