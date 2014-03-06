@@ -14,12 +14,16 @@
  */
 
 /**
- * Bootstrap plugin that adds the ability to lock down a modal. Users will not be able
- * to dismiss a modal once `lock` has been called.
- *     e.g. $('#widget-modal').modal('lock');
- * The modal can then also be unlocked, which will re-enable all buttons and keys that
- * dismiss the modal.
- *     e.g. $('#widget-modal').modal('unlock');
+ * Bootstrap plugin that adds minor enhancements to modal dialogs
+ *
+ * 1. Adds the ability to lock down a modal. Users will not be able
+ *    to dismiss a modal once `lock` has been called.
+ *       e.g. $('#widget-modal').modal('lock');
+ *    The modal can then also be unlocked, which will re-enable all buttons and keys that
+ *     dismiss the modal.
+ *       e.g. $('#widget-modal').modal('unlock');
+ * 2. Watches DOM for insertion of modals (e.g. by widgets) so
+ *    other components can set up event listeners.
  */
 
 define(['jquery', 'bootstrap'], function($) {
@@ -37,4 +41,19 @@ define(['jquery', 'bootstrap'], function($) {
             $('#' + this.$element.attr('id') + ' [data-dismiss="modal"]').removeAttr('disabled', 'disabled');
         }
     });
+
+    var modalInserted = function(ev) {
+        if (ev.animationName === 'modalInserted') {
+            // Trigger a regular jQuery event for other components to catch
+            $(document).trigger('inserted.bs.modal', ev.target)
+        }
+    };
+
+    document.addEventListener('webkitAnimationStart', modalInserted, false);
+    document.addEventListener('MSAnimationStart', modalInserted, false);
+    document.addEventListener('msAnimationStart', modalInserted, false);
+    document.addEventListener('oAnimationStart', modalInserted, false);
+    document.addEventListener('oanimationStart', modalInserted, false);
+    document.addEventListener('animationStart', modalInserted, false);
+
 });
