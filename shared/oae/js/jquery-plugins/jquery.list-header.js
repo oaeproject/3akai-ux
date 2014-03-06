@@ -19,7 +19,7 @@ define(['jquery', 'oae.api.util', 'jquery.history'], function ($, oaeUtil) {
         /**
          * Show or hide the list header actions when clicking the header toggle
          */
-        $(document).on('click', '.oae-list-header-toggle', function() {
+        $(document).on('click', 'button.oae-list-header-toggle', function() {
             // Get the list container, so we don't end up changing state in other lists
             var $listContainer = $(this).parents('.oae-list-container');
             var $listHeaderActions = $('.oae-list-header-actions', $listContainer);
@@ -152,7 +152,7 @@ define(['jquery', 'oae.api.util', 'jquery.history'], function ($, oaeUtil) {
             var totalChecked = $('.oae-list input[type="checkbox"]:visible:checked', $listContainer).length;
             if ((totalChecked > 0 && !$listHeaderActions.is(':visible')) ||
                 (totalChecked === 0 && $listHeaderActions.is(':visible'))) {
-                $('.oae-list-header-toggle', $listContainer).click();
+                $('button.oae-list-header-toggle', $listContainer).click();
             }
 
             // Enable or disable the list header action buttons

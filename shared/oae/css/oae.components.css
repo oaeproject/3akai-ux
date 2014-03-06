@@ -1302,7 +1302,7 @@ ul.oae-list > li:first-child .oae-listitem {
 }
 
 .oae-list-header > div:first-child > * {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     padding: 0;
 }
 
@@ -1316,6 +1316,8 @@ ul.oae-list > li:first-child .oae-listitem {
     border: none;
     filter: none;
     padding: 1px 0;
+    text-align: left;
+    white-space: normal;
     -webkit-box-shadow: none;
        -moz-box-shadow: none;
             box-shadow: none;
@@ -1353,11 +1355,15 @@ ul.oae-list > li:first-child .oae-listitem {
     }
 }
 
+/* Search container */
+.oae-list-header .oae-list-header-search {
+    margin-top: 4px;
+}
 
 /* Actions bar */
 
 .oae-list-header .oae-list-header-actions {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .oae-list-header .oae-list-header-actions > input,
