@@ -52,7 +52,7 @@ require(['jquery','oae.core', 'jquery.history'], function($, oae) {
             'includeExternal': !oae.api.config.getValue('oae-tenants', 'tenantprivacy', 'tenantprivate')
         }, '#search-template', {
             'postRenderer': function(data) {
-                $('.oae-list-options-badge').text(data.total).show();
+                $('.oae-list-header-badge').text(data.total).show();
             },
             'emptyListProcessor': function() {
                 oae.api.util.template().render($('#search-noresults-template'), {
@@ -113,7 +113,7 @@ require(['jquery','oae.core', 'jquery.history'], function($, oae) {
             '_': Math.random()
         }, $('title').text(), url);
 
-        oae.api.util.template().render($('#search-list-options-template'), null, $('#search-list-options'));
+        oae.api.util.template().render($('#search-list-header-template'), null, $('#search-list-header'));
     };
 
     /**
