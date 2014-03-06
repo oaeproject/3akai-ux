@@ -1265,7 +1265,7 @@ ul.oae-list > li:first-child .oae-listitem {
  *****************/
 
 /**
- * The list header is shown as the title of a group of list items, providing a title for the list, as well
+ * The list header is shown as the header for a group of list items, providing a title for the list, as well
  * as possibly a list search form, list actions, view mode switching, etc.
  *
  * The HTML for a list header has been abstracted into a globally available TrimPath template that can be
