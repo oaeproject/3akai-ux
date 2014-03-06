@@ -76,9 +76,9 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 /* NAVIGATION BAR
  * @see http://twitter.github.com/bootstrap/components.html#navs */
 
-.navbar-search {
+/*.navbar-search {
     float: none;
-}
+}*/
 
 /* NAVIGATION LIST
  * @see http://twitter.github.com/bootstrap/components.html#navs */
@@ -202,7 +202,7 @@ input[type="file"] {
 }
 
 input.search-query,
-.navbar-search .search-query {
+/*.navbar-search .search-query*/ {
     font-family: inherit;
     padding: 3px 5px;
     -webkit-border-radius: 3px;
