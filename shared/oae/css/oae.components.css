@@ -1441,14 +1441,12 @@ ul.oae-list.oae-list-grid li.oae-list-actions div.oae-thumbnail {
             box-shadow: none;
     height: 138px;
     margin: 5px;
-    min-width: 138px;
     width: 138px;
 }
 
 @media (min-width: 992px) {
     ul.oae-list.oae-list-grid li.oae-list-actions div.oae-thumbnail {
         height: 150px;
-        min-width: 150px;
         width: 150px;
     }
 }
