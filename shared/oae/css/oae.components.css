@@ -676,6 +676,27 @@ div.oae-thumbnail i[class^="icon-"] {
     max-width: 300px;
 }
 
+@media (max-width: 510px) {
+    .oae-clip .oae-clip-content h1,
+    .oae-clip .oae-clip-content small {
+        max-width: 185px;
+    }
+}
+
+@media (min-width: 992px) {
+    .oae-clip .oae-clip-content > div > ul li button {
+        display: inline-block;
+        text-align: center;
+        width: auto;
+    }
+
+    .oae-clip .oae-clip-content > div > ul li button i {
+        display: block;
+        float: none;
+        margin: 0 auto 3px;
+    }
+}
+
 /* Clip actions */
 
 .oae-clip .oae-clip-content > div > ul {
@@ -709,35 +730,6 @@ div.oae-thumbnail i[class^="icon-"] {
     margin: 0 5px 3px 0;
     width: 30px;
 }
-
-@media (max-width: 510px) {
-    .oae-clip .oae-clip-content h1,
-    .oae-clip .oae-clip-content small {
-        max-width: 185px;
-    }
-}
-
-@media (max-width: 350px) {
-    .oae-clip .oae-clip-content h1,
-    .oae-clip .oae-clip-content small {
-        max-width: 110px;
-    }
-}
-
-@media (min-width: 992px) {
-    .oae-clip .oae-clip-content > div > ul li button {
-        display: inline-block;
-        text-align: center;
-        width: auto;
-    }
-
-    .oae-clip .oae-clip-content > div > ul li button i {
-        display: block;
-        float: none;
-        margin: 0 auto 3px;
-    }
-}
-
 
 /*************************
  * LEFT HAND NAVIGATION **
