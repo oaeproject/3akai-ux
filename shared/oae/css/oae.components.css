@@ -345,8 +345,7 @@ i[class^="icon-"].large:before {
  *
  *   `${renderThumbnail(entityData, [addVisibilityIcon], [large])}`
  *
- * An explanation of the parameters for the thumbnail macro can be found in
- * `shared/oae/macros/list.html`.
+ * An explanation of the parameters for the thumbnail macro can be found in `shared/oae/macros/list.html`.
  *
  * Notes:
  *
@@ -658,7 +657,7 @@ div.oae-thumbnail i[class^="icon-"] {
     margin-left: 5px;
     line-height: 16px;
     position: relative;
-    top: 2px;
+    top: 3px;
 }
 
 .oae-clip .oae-clip-content > button h1.oae-threedots + i.icon-caret-down,
@@ -880,9 +879,9 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .oae-lhnavigation-toggle {
-    padding: 6px 12px 4px 0;
+    padding: 3px 12px 4px 0;
     position: relative;
-    top: 3px;
+    top: 6px;
     z-index: 100;
 }
 
@@ -1280,10 +1279,9 @@ ul.oae-list > li:first-child .oae-listitem {
  * The HTML for list options has been abstracted into a globally available TrimPath template
  * that can be used when rendering list view items:
  *
- *   `${listOptionsHeader(title, showSearch, actions, showViewOptions, showBadge)}`
+ *   `${listOptionsHeader(title, showSearch, actions, showViewOptions)}`
  *
- * An explanation of the parameters for the list options header macro can be found in
- * `shared/oae/macros/list.html`.
+ * An explanation of the parameters for the list options header macro can be found in `shared/oae/macros/list.html`.
  *
  * The output of this macro represents all that is needed to render the list options template
  * on a page. To enable the user interactions of the template it is necessary to include the
@@ -1330,6 +1328,7 @@ ul.oae-list > li:first-child .oae-listitem {
 .oae-list-options .oae-list-options-toggle h2 .badge {
     margin-left: 5px;
     margin-right: 5px;
+    position: relative;
     top: -3px;
 }
 

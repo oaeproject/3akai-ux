@@ -61,7 +61,15 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     padding: 4px 12px;
 }
 
-.btn > [class^="icon-"], .btn > [class*=" icon-"] {
+.btn:not(.btn-link):hover,
+.btn:not(.btn-link):focus,
+.btn:not(.btn-link):active,
+.btn:not(.btn-link).active {
+    background-position: 0 -15px;
+    background-repeat: no-repeat;
+}
+
+.btn:not(.btn-link) > [class^="icon-"], .btn:not(.btn-link) > [class*=" icon-"] {
     line-height: 1;
 }
 

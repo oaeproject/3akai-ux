@@ -81,6 +81,7 @@ require(['jquery','oae.core'], function($, oae) {
         }];
 
         // Only show the left-hand navigation toggle if there is something available in it
+        // TODO: Remove this once the lhnav toggle is no longer required on discussion profiles
         var showLhNavToggle = (lhNavActions.length > 0);
 
         $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, showLhNavToggle]);
