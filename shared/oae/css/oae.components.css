@@ -806,7 +806,7 @@ div.oae-thumbnail i[class^="icon-"] {
  *   `oae-lhnavigation-toggle` class. This toggle should have the `hidden-md hidden-lg` classes, as the toggle should
  *   not be shown on wide viewports (e.g., desktop computers). This item should also be inside of a `oae-page` div,
  *   which is used for the collapsing animation on narrow viewports. Note that the `oae-lhnavigation-toggle` item
- *   resides in the `listOptionsHeader` macro.
+ *   resides in the `listHeader` macro.
  * - TODO: Remove this once a proper solution for https://github.com/oaeproject/3akai-ux/issues/3506 is in place
  *   The `.oae-lhnavigation-toggle` button is hidden by default for anonymous users. If the `.oae-anon-toggle` class
  *   is added to `.oae-page` the button will be shown for anonymous users.
@@ -1260,48 +1260,48 @@ ul.oae-list > li:first-child .oae-listitem {
 }
 
 
-/******************
- ** LIST OPTIONS **
- ******************/
+/*****************
+ ** LIST HEADER **
+ *****************/
 
 /**
- * The list options can be shown at the top of a list, providing a title for the list, as well
+ * The list header is shown as the title of a group of list items, providing a title for the list, as well
  * as possibly a list search form, list actions, view mode switching, etc.
  *
- * The HTML for list options has been abstracted into a globally available TrimPath template
- * that can be used when rendering list view items:
+ * The HTML for a list header has been abstracted into a globally available TrimPath template that can be
+ * used when rendering list items:
  *
- *   `${listOptionsHeader(title, showSearch, actions, showViewOptions)}`
+ *   `${listHeader(title, showSearch, actions, showViewOptions)}`
  *
- * An explanation of the parameters for the list options header macro can be found in `shared/oae/macros/list.html`.
+ * An explanation of the parameters for the list header macro can be found in `shared/oae/macros/list.html`.
  *
- * The output of this macro represents all that is needed to render the list options template
+ * The output of this macro represents all that is needed to render the list header template
  * on a page. To enable the user interactions of the template it is necessary to include the
- * `shared/oae/js/jquery-plugins/jquery.list-options.js` module on the page as well.
+ * `shared/oae/js/jquery-plugins/jquery.list-header.js` module on the page as well.
  */
 
-.oae-list-options {
+.oae-list-header {
     border-bottom: 1px solid #EEE;
     margin-bottom: 20px;
 }
 
-.oae-list-options > div {
+.oae-list-header > div {
     line-height: 30px;
     margin: 0;
     clear: both;
 }
 
-.oae-list-options > div:first-child > * {
+.oae-list-header > div:first-child > * {
     margin-bottom: 15px;
     padding: 0;
 }
 
-.oae-list-options .oae-list-options-toggle,
-.oae-list-options .btn.oae-list-options-toggle,
-.oae-list-options .btn.oae-list-options-toggle:disabled,
-.oae-list-options .btn.oae-list-options-toggle:hover,
-.oae-list-options .btn.oae-list-options-toggle:active,
-.oae-list-options .btn.oae-list-options-toggle:focus {
+.oae-list-header .oae-list-header-toggle,
+.oae-list-header .btn.oae-list-header-toggle,
+.oae-list-header .btn.oae-list-header-toggle:disabled,
+.oae-list-header .btn.oae-list-header-toggle:hover,
+.oae-list-header .btn.oae-list-header-toggle:active,
+.oae-list-header .btn.oae-list-header-toggle:focus {
     background: none;
     border: none;
     filter: none;
@@ -1311,34 +1311,34 @@ ul.oae-list > li:first-child .oae-listitem {
             box-shadow: none;
 }
 
-.oae-list-options .oae-list-options-toggle h2 {
+.oae-list-header .oae-list-header-toggle h2 {
     margin: 8px 0 0;
     font-size: 20px;
     line-height: 1.2;
 }
 
-.oae-list-options .oae-list-options-toggle h2 .badge {
+.oae-list-header .oae-list-header-toggle h2 .badge {
     margin-left: 5px;
     margin-right: 5px;
     position: relative;
     top: -3px;
 }
 
-.oae-list-options .oae-list-options-toggle:disabled {
+.oae-list-header .oae-list-header-toggle:disabled {
     cursor: auto;
 }
 
-.oae-list-options .oae-list-options-toggle:disabled .icon-caret-down,
-.oae-list-options .oae-list-options-toggle:disabled .icon-caret-up {
+.oae-list-header .oae-list-header-toggle:disabled .icon-caret-down,
+.oae-list-header .oae-list-header-toggle:disabled .icon-caret-up {
     display: none;
 }
 
-.oae-list-options form {
+.oae-list-header form {
     margin-bottom: 0;
 }
 
 @media (min-width: 771px) {
-    .oae-list-options form input.search-query {
+    .oae-list-header form input.search-query {
         max-width: 400px;
     }
 }
@@ -1346,20 +1346,20 @@ ul.oae-list > li:first-child .oae-listitem {
 
 /* Actions bar */
 
-.oae-list-options .oae-list-options-actions {
+.oae-list-header .oae-list-header-actions {
     margin-bottom: 15px;
 }
 
-.oae-list-options .oae-list-options-actions > input,
-.oae-list-options .oae-list-options-actions > button {
+.oae-list-header .oae-list-header-actions > input,
+.oae-list-header .oae-list-header-actions > button {
     margin-right: 7px;
 }
 
-.oae-list-options .oae-list-options-actions .btn i {
+.oae-list-header .oae-list-header-actions .btn i {
     font-size: 18px;
 }
 
-.oae-list-options .btn-group .btn i {
+.oae-list-header .btn-group .btn i {
     font-size: 12px;
 }
 
@@ -1482,10 +1482,10 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
 /* Responsive list overrides */
 
 @media (max-width: 480px) {
-    .oae-list-options-actions {
+    .oae-list-header-actions {
         display: none !important;
     }
-    .oae-list-options .oae-list-options-toggle i {
+    .oae-list-header .oae-list-header-toggle i {
         display: none !important;
     }
     .oae-listitem input[type="checkbox"],
@@ -1495,10 +1495,10 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
 }
 
 @media (max-width: 680px) {
-    .oae-lhnavigation.oae-lhnav-expanded + .oae-page .oae-list-options-actions {
+    .oae-lhnavigation.oae-lhnav-expanded + .oae-page .oae-list-header-actions {
         display: none !important;
     }
-    .oae-lhnavigation.oae-lhnav-expanded + .oae-page .oae-list-options .oae-list-options-toggle i {
+    .oae-lhnavigation.oae-lhnav-expanded + .oae-page .oae-list-header .oae-list-header-toggle i {
         display: none !important;
     }
     .oae-lhnavigation.oae-lhnav-expanded + .oae-page .oae-listitem input[type="checkbox"],
