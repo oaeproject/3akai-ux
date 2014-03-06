@@ -685,20 +685,6 @@ div.oae-thumbnail i[class^="icon-"] {
     }
 }
 
-@media (min-width: 992px) {
-    .oae-clip .oae-clip-content > div > ul li button {
-        display: inline-block;
-        text-align: center;
-        width: auto;
-    }
-
-    .oae-clip .oae-clip-content > div > ul li button i {
-        display: block;
-        float: none;
-        margin: 0 auto 3px;
-    }
-}
-
 /* Clip actions */
 
 .oae-clip .oae-clip-content > div > ul {
@@ -731,6 +717,20 @@ div.oae-thumbnail i[class^="icon-"] {
     float: left;
     margin: 0 5px 3px 0;
     width: 30px;
+}
+
+@media (min-width: 992px) {
+    .oae-clip .oae-clip-content > div > ul li button {
+        display: inline-block;
+        text-align: center;
+        width: auto;
+    }
+
+    .oae-clip .oae-clip-content > div > ul li button i {
+        display: block;
+        float: none;
+        margin: 0 auto 3px;
+    }
 }
 
 /*************************
