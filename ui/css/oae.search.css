@@ -47,7 +47,7 @@
 }
 
 @media (max-width: 480px) {
-    .oae-list-options-actions {
+    .oae-list-header-actions {
         display: none !important;
     }
 }
