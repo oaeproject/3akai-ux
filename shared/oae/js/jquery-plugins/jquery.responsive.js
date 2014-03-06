@@ -91,6 +91,17 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
         });
 
         /**
+         * Close the lhnav when a modal box changes state. Bootstrap events
+         * don't bubble to the document, so we have to trigger on the modals
+         * themselves and we have to catch new modals that are dynamically
+         * inserted.
+         */
+        $('.modal').on('show.bs.modal hide.bs.modal', closeLhNav);
+        $(document).on('inserted.bs.modal', function(ev, modal) {
+            $(modal).on('show.bs.modal hide.bs.modal', closeLhNav);
+        })
+
+        /**
          * Dismiss the keyboard on a mobile device when a search form is submitted. This won't be
          * noticable on desktop browsers.
          *
