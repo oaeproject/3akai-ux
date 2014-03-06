@@ -22,13 +22,13 @@ define(['jquery', 'oae.api.util', 'jquery.history'], function ($, oaeUtil) {
         $(document).on('click', '.oae-list-header-toggle', function() {
             // Get the list container, so we don't end up changing state in other lists
             var $listContainer = $(this).parents('.oae-list-container');
-            var $listOptionActions = $('.oae-list-header-actions', $listContainer);
+            var $listHeaderActions = $('.oae-list-header-actions', $listContainer);
 
             // Toggle the visibility of the list header actions
-            if ($listOptionActions.is(':visible')) {
-                $listOptionActions.slideUp(200);
+            if ($listHeaderActions.is(':visible')) {
+                $listHeaderActions.slideUp(200);
             } else {
-                $listOptionActions.slideDown(200);
+                $listHeaderActions.slideDown(200);
             }
 
             // Toggle the caret icon in the list header
@@ -145,13 +145,13 @@ define(['jquery', 'oae.api.util', 'jquery.history'], function ($, oaeUtil) {
 
             // Get the list container, so we don't end up changing state in other lists
             var $listContainer = $(this).parents('.oae-list-container');
-            var $listOptionActions = $('.oae-list-header-actions', $listContainer);
+            var $listHeaderActions = $('.oae-list-header-actions', $listContainer);
 
             // Hide the list header actions when no checkboxes are checked anymore. Show the list header
             // actions when at least 1 checkbox is checked
             var totalChecked = $('.oae-list input[type="checkbox"]:visible:checked', $listContainer).length;
-            if ((totalChecked > 0 && !$listOptionActions.is(':visible')) ||
-                (totalChecked === 0 && $listOptionActions.is(':visible'))) {
+            if ((totalChecked > 0 && !$listHeaderActions.is(':visible')) ||
+                (totalChecked === 0 && $listHeaderActions.is(':visible'))) {
                 $('.oae-list-header-toggle', $listContainer).click();
             }
 
