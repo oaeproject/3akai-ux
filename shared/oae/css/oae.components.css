@@ -1223,18 +1223,28 @@ ul.oae-list:not(.oae-list-compact) > li > .oae-list-compact-item {
 
 ul.oae-list.oae-list-grid > li {
     float: left;
-    margin: 0 14px 24px 0;
+    margin: 0 10px 15px 0;
 }
 
-ul.row.oae-list.oae-list-grid > li {
-    float: left;
-    margin: 0 14px 7px 0;
+@media (min-width: 992px) {
+    ul.oae-list.oae-list-grid > li {
+        margin-bottom: 24px;
+        margin-right: 14px;
+    }
 }
 
 ul.oae-list.oae-list-grid > li .oae-thumbnail,
 ul.oae-list.oae-list-grid > li.oae-list-actions {
-    height: 162px;
-    width: 162px;
+    height: 150px;
+    width: 150px;
+}
+
+@media (min-width: 992px) {
+    ul.oae-list.oae-list-grid > li .oae-thumbnail,
+    ul.oae-list.oae-list-grid > li.oae-list-actions {
+        height: 162px;
+        width: 162px;
+    }
 }
 
 /* Details and compact view */
@@ -1429,10 +1439,16 @@ ul.oae-list.oae-list-grid li.oae-list-actions div.oae-thumbnail {
     -webkit-box-shadow: none;
        -moz-box-shadow: none;
             box-shadow: none;
-    height: 150px;
+    height: 138px;
     margin: 5px;
-    min-width: 150px;
-    width: 150px;
+    width: 138px;
+}
+
+@media (min-width: 992px) {
+    ul.oae-list.oae-list-grid li.oae-list-actions div.oae-thumbnail {
+        height: 150px;
+        width: 150px;
+    }
 }
 
 ul.oae-list.oae-list-grid .oae-list-actions div.oae-thumbnail:before {
