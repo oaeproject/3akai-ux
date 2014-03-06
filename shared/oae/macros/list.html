@@ -1,4 +1,106 @@
 <!--
+ * Render a configurable header with controls that are useful for controlling items rendered in the "list items"
+ * macros.
+ *
+ * If any `actions` are passed in or `showViewOptions` is `true`, the header provides the option for a user to
+ * click on it to expand the list actions panel which contains the "select all" button, actions and view options.
+ * The "select all" button is used to select and deselect the list items that are rendered with the `listItem`
+ *
+ * The macro also provides a "badge" that is intended to display a number that represents how many items are in
+ * the list. This badge can be accessed on the DOM with CSS class `oae-list-options-badge` and a number can be
+ * inserted text into it. For example, to set the badge number to `15`, we can write:
+ *
+ *  `$('.oae-list-options-badge').text(15)`
+ *
+ * @param  {String}     title                       The title of the header
+ * @param  {Boolean}    [showSearch]                Whether or not a search box should show. The search box is accessible on the DOM with CSS class `oae-list-selectall`. Default: `true`
+ * @param  {Object[]}   [actions]                   A list of objects that represent action buttons that can be performed in the header
+ * @param  {String}     [actions[i].icon]           The icon class that represents the action (e.g., `icon-remove`)
+ * @param  {String}     [actions[i].label]          The label of the action
+ * @param  {String}     [actions[i].trigger]        CSS class added to the action button that can be used to trigger widgets
+ * @param  {String}     [actions[i].data]           Additional data attributes to apply to the option (e.g., `{'resourceType': 'content'}` would result in an attribute `data-resourceType="content"`)
+ * @param  {Boolean}    [showViewOptions]           Whether or not the view options should be displayed. Default: `true`
+-->
+{macro listOptionsHeader(title, _showSearch, _actions, _showViewOptions)}
+    {var showSearch = (_showSearch !== false)}
+    {var actions = _actions || []}
+    {var showViewOptions = (_showViewOptions !== false)}
+    {var showActionsToggle = (actions.length > 0 || showViewOptions)}
+
+    <div class="oae-list-options">
+        <div class="row">
+            <div class="col-xs-12{if showSearch} col-sm-6{/if}">
+                <button type="button" class="oae-lhnavigation-toggle btn btn-link pull-left hidden-md hidden-lg">
+                    <i class="icon-reorder"></i>
+                    <span class="oae-aural-text">__MSG__TOGGLE_NAVIGATION__</span>
+                </button>
+
+                {if showActionsToggle}
+                    <button class="oae-list-options-toggle btn">
+                {else}
+                    <div class="oae-list-options-toggle">
+                {/if}
+
+                    <h2 class="pull-left">
+                        ${title}
+                        <span class="oae-list-options-badge badge hide"></span>
+                        {if showActionsToggle}
+                            <i class="icon-caret-down"></i>
+                        {/if}
+                    </h2>
+
+                {if showActionsToggle}
+                    </button>
+                {else}
+                    </div>
+                {/if}
+
+            </div>
+            {if showSearch}
+                {var searchQueryId = oae.api.util.generateId()}
+                <div class="pull-right col-xs-12 col-sm-6">
+                    <form class="form-search" role="search">
+                        <label for="${searchQueryId}" class="control-label oae-aural-text">__MSG__NARROW_BY_KEYWORD__</label>
+                        <input type="text" id="${searchQueryId}" class="oae-list-options-search-query form-control pull-right search-query" placeholder="__MSG__NARROW_BY_KEYWORD__"/>
+                    </form>
+                </div>
+            {/if}
+        </div>
+        {if showActionsToggle}
+            <div class="oae-list-options-actions clearfix hide">
+                {if actions.length > 0}
+                    {var selectAllId = oae.api.util.generateId()}
+                    <input type="checkbox" id="${selectAllId}" class="oae-list-selectall" />
+                    <label for="${selectAllId}" class="oae-aural-text">__MSG__SELECT_ALL__</label>
+                    {for action in actions}
+                        <button type="button" class="btn ${action.trigger}" disabled="disabled" ${%_.map(action.data, function(value, key) { return 'data-' + key + '="' + value + '"'; }).join(' ')%}>
+                            <i class="${action.icon} pull-left"></i>
+                            <span>${action.label}</span>
+                        </button>
+                    {/for}
+                {/if}
+                {if showViewOptions}
+                    <div class="btn-group pull-right">
+                        <button class="btn" data-type="oae-list-compact">
+                            <i class="icon-list"></i>
+                            <span class="oae-aural-text">__MSG__LIST_VIEW__</span>
+                        </button>
+                        <button class="btn" data-type="oae-list-details">
+                            <i class="icon-th-list"></i>
+                            <span class="oae-aural-text">__MSG__EXPANDED_LIST_VIEW__</span>
+                        </button>
+                        <button class="btn active" data-type="oae-list-grid">
+                            <i class="icon-th-large"></i>
+                            <span class="oae-aural-text">__MSG__GRID_VIEW__</span>
+                        </button>
+                    </div>
+                {/if}
+            </div>
+        {/if}
+    </div>
+{/macro}
+
+<!--
  * Render a list item representing a user, group or piece of content
  *
  * @param  {User|Group|Content}     entityData      Standard object representing a user, group or content item or a search result for a user, group or content item as returned by Hilary

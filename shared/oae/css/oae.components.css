@@ -345,13 +345,8 @@ i[class^="icon-"].large:before {
  *
  *   `${renderThumbnail(entityData, [addVisibilityIcon], [large])}`
  *
- * - `entityData` is a standard object representing a user, group or content item or a search result for a user, group
- *    or content item as returned by Hilary. Alternatively, a string representing the resourceType or resourceSubType
- *    (i.e., 'user', 'group', 'content', 'file', 'link', 'collabdoc') can be passed in for an empty/anonymous
- *    entity thumbnail.
- * - `addVisibilityIcon` (optional) will determine whether or not the visibility icon should be shown. By default,
- *    the visibility icon will be shown. However, users will not never show a visibility icon.
- * - `large` (optional) determines whether or not a large default thumbnail icon should used. By default, a small icon will be used.
+ * An explanation of the parameters for the thumbnail macro can be found in
+ * `shared/oae/macros/list.html`.
  *
  * Notes:
  *
@@ -753,7 +748,7 @@ div.oae-thumbnail i[class^="icon-"] {
 
 /**
  * The left hand navigation component allows for a page navigation to be defined. This component will automatically
- * take care of the responsive behavior of the left hand navigation. On a mobile device, the left hand navigation
+ * take care of the responsive behavior of the left hand navigation. On narrow viewports, the left hand navigation
  * will be collapsed by default. The left hand navigation can then be shown by clicking the left hand navigation toggle.
  * On a larger screen, the left hand navigation will always be visible.
  *
@@ -763,7 +758,7 @@ div.oae-thumbnail i[class^="icon-"] {
  * @see `lhnavigation` widget for documentation on how to initialize a left hand navigation using JavaScript.
  *
  * e.g. <div class="oae-lhnavigation">
- *          <ul class="nav nav-list">
+ *          <ul class="nav nav-list hidden-xs hidden-sm">
  *              <li class="clearfix oae-lhnavigation-border">
  *                  <button type="button" class="btn btn-link" title="__MSG__UPLOAD__">
  *                      <i class="icon-cloud-upload pull-left"></i>
@@ -800,14 +795,6 @@ div.oae-thumbnail i[class^="icon-"] {
  *              </li>
  *          </ul>
  *      </div>
- *      <div class="col-xs-12 col-sm-12 col-md-12 oae-page">
- *          <div class="row">
- *              <button type="button" class="btn btn-link hidden-md hidden-lg oae-lhnavigation-toggle">
- *                  <i class="icon-align-justify"></i>
- *                  <span class="oae-aural-text">__MSG__TOGGLE_NAVIGATION__</span>
- *              </button>
- *          </div>
- *      </div>
  *
  * Notes:
  *
@@ -825,9 +812,10 @@ div.oae-thumbnail i[class^="icon-"] {
  *   collapsible left hand navigation items. The `ul` element containing those collapsible items should have
  *   a `lhnavigation-collapsed` class to make them collapsed by default.
  * - The item responsible for opening and closing the left hand navigation on a mobile device should have the
- *   `oae-lhnavigation-toggle` class. This toggle should have the `hidden-md hidden-lg` classes, as the toggle can
- *   not be shown on desktop devices. This item should also be inside of a `oae-page` div, which is used for the
- *   collapsing animation on mobile devices.
+ *   `oae-lhnavigation-toggle` class. This toggle should have the `hidden-md hidden-lg` classes, as the toggle should
+ *   not be shown on wide viewports (e.g., desktop computers). This item should also be inside of a `oae-page` div,
+ *   which is used for the collapsing animation on narrow viewports. Note that the `oae-lhnavigation-toggle` item
+ *   resides in the `listOptionsHeader` macro.
  * - TODO: Remove this once a proper solution for https://github.com/oaeproject/3akai-ux/issues/3506 is in place
  *   The `.oae-lhnavigation-toggle` button is hidden by default for anonymous users. If the `.oae-anon-toggle` class
  *   is added to `.oae-page` the button will be shown for anonymous users.
@@ -892,7 +880,9 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .oae-lhnavigation-toggle {
+    padding: 6px 12px 4px 0;
     position: relative;
+    top: 3px;
     z-index: 100;
 }
 
@@ -1205,10 +1195,7 @@ div.oae-thumbnail i[class^="icon-"] {
  *
  *   `${listItem(entityData, [metadata], [showCheckbox])}`
  *
- * - `entityData` is an object representing a user, group or content item or a search result for a user, group
- *    or content item
- * - `metadata` (optional) is a line of metadata information that should be displayed underneath the entity name
- * - `showCheckbox` (optional) will determine whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
+ * An explanation of the parameters for the list item macro can be found in `shared/oae/macros/list.html`.
  *
  * The output from this macro represents a single list (li) item, and should be wrapped in a list container (ul)
  * element with an `oae-list` class. In order to show the grid view, an `oae-list-grid` class should be added to
@@ -1290,56 +1277,17 @@ ul.oae-list > li:first-child .oae-listitem {
  * The list options can be shown at the top of a list, providing a title for the list, as well
  * as possibly a list search form, list actions, view mode switching, etc.
  *
- * Some example HTML for a list options view:
+ * The HTML for list options has been abstracted into a globally available TrimPath template
+ * that can be used when rendering list view items:
  *
- *  <div class="oae-list-options">
- *      <div class="row">
- *          <button class="btn col-xs-12 col-sm-6 oae-list-options-toggle">
- *              <h2 class="pull-left">__MSG__LIBRARY__ <i class="icon-caret-down"></i></h2>
- *          </button>
- *          <div class="pull-right col-xs-12 col-sm-6">
- *              <form id="library-search-form" class="form-search" role="search">
- *                  <label class="control-label oae-aural-text" for="library-search-query">__MSG__NARROW_BY_KEYWORD__</label>
- *                  <input type="text" id="library-search-query" class="form-control pull-right search-query" placeholder="__MSG__NARROW_BY_KEYWORD__"/>
- *              </form>
- *          </div>
- *      </div>
- *      <div class="oae-list-options-actions hide">
- *          <input type="checkbox" id="library-selectall" class="oae-list-selectall" />
- *          <label for="library-selectall" class="oae-aural-text">__MSG__SELECT_ALL__</label>
- *          <button type="button" class="btn" disabled="disabled"><i class="icon-share pull-left"></i>__MSG__SHARE__</button>
- *          <button type="button" class="btn" disabled="disabled"><i class="icon-remove pull-left"></i>__MSG__DELETE__</button>
- *          <div class="btn-group pull-right">
- *              <button class="btn" data-type="oae-list-compact">
- *                  <i class="icon-list"></i>
- *                  <span class="oae-aural-text">__MSG__LIST_VIEW__</span>
- *              </button>
- *              <button class="btn" data-type="oae-list-details">
- *                  <i class="icon-th-list"></i>
- *                  <span class="oae-aural-text">__MSG__EXPANDED_LIST_VIEW__</span>
- *              </button>
- *              <button class="btn active" data-type="oae-list-grid">
- *                  <i class="icon-th-large"></i>
- *                  <span class="oae-aural-text">__MSG__GRID_VIEW__</span>
- *              </button>
- *          </div>
- *      </div>
- *  </div>
+ *   `${listOptionsHeader(title, showSearch, actions, showViewOptions, showBadge)}`
  *
- * Notes:
+ * An explanation of the parameters for the list options header macro can be found in
+ * `shared/oae/macros/list.html`.
  *
- * - The `oae-list-options-toggle` item is used to show the title of the list, and will also be used to toggle
- *   the actions bar. This will be enabled automatically by the system. If a list needs to be shown in view-only
- *   mode, this element should be set to disabled, in which case the dropdown icon will disappear and the toggle
- *   will no longer work.
- * - The `oae-list-options-actions` div represents the action bar that will be toggled when the `oae-list-options-toggle`
- *   element is clicked. This bar contains all of the action that can be done on the selected list items, and
- *   can basically be anything.
- * - An `oae-list-selectall` class can be applied to the element that should be used to select/deselect all list
- *   items. This will be enabled automatically by the system. If the list options have any buttons that require the collection
- *   of all selected items, the list options and the list should be wrapped in a `oae-list-container` div.
- * - The primary actions under `oae-list-options-actions` should be disabled by default, as they can only be clicked
- *   when at least one of the items in the corresponding list is checked.
+ * The output of this macro represents all that is needed to render the list options template
+ * on a page. To enable the user interactions of the template it is necessary to include the
+ * `shared/oae/js/jquery-plugins/jquery.list-options.js` module on the page as well.
  */
 
 .oae-list-options {
@@ -1381,6 +1329,7 @@ ul.oae-list > li:first-child .oae-listitem {
 
 .oae-list-options .oae-list-options-toggle h2 .badge {
     margin-left: 5px;
+    margin-right: 5px;
     top: -3px;
 }
 
@@ -1417,7 +1366,6 @@ ul.oae-list > li:first-child .oae-listitem {
 
 .oae-list-options .oae-list-options-actions .btn i {
     font-size: 18px;
-    line-height: 1.2;
 }
 
 .oae-list-options .btn-group .btn i {
