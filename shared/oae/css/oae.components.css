@@ -894,12 +894,13 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 /* iPhone resolution */
-@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+@media (max-width: 480px) {
     .oae-page {
         padding: 5px 10px 50px;
     }
 }
 
+/* Desktop resolution */
 @media (min-width: 992px) {
     .oae-page {
         padding: 5px 25px 5px 220px !important;

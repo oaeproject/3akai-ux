@@ -300,15 +300,10 @@ input[type="color"],
 
 .modal-dialog {
     min-width: 300px;
+    padding-top: 60px;
 }
 
-@media screen and (min-width: 768px) {
-    .modal-dialog {
-        padding-top: 60px;
-    }
-}
-
-@media only screen and (max-device-width : 1024px) {
+@media (max-width: 768px) {
     .modal-dialog {
         margin-top: 0;
         padding-top: 30px;
