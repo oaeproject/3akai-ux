@@ -87,7 +87,7 @@
     position: absolute;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 479px) {
     #error-content #error-quote-container .btn + span {
         display: block;
         margin-top: 7px;
