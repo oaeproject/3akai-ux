@@ -31,7 +31,7 @@
 
     <div class="oae-list-header">
         <div class="row">
-            <div class="col-xs-12{if showSearch} col-sm-6{/if}">
+            <div class="col-xs-12{if showSearch} col-sm-8{/if}">
                 <button type="button" class="oae-lhnavigation-toggle btn btn-link pull-left hidden-md hidden-lg">
                     <i class="icon-reorder"></i>
                     <span class="oae-aural-text">__MSG__TOGGLE_NAVIGATION__</span>
@@ -60,7 +60,7 @@
             </div>
             {if showSearch}
                 {var searchQueryId = oae.api.util.generateId()}
-                <div class="pull-right col-xs-12 col-sm-6">
+                <div class="oae-list-header-search pull-right col-xs-12 col-sm-4">
                     <form class="form-search" role="search">
                         <label for="${searchQueryId}" class="control-label oae-aural-text">__MSG__NARROW_BY_KEYWORD__</label>
                         <input type="text" id="${searchQueryId}" class="oae-list-header-search-query form-control pull-right search-query" placeholder="__MSG__NARROW_BY_KEYWORD__"/>
