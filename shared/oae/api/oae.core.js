@@ -57,7 +57,8 @@ define([
         'jquery.clip',
         'jquery.dnd-upload',
         'jquery.infinitescroll',
-        'jquery.list-options',
+        'jquery.list-header',
+        'jquery.responsive',
         'jquery.update-picture',
 
         /*!
@@ -77,6 +78,7 @@ define([
         'jquery.validate',
         'jquery-ui',
         'sockjs',
+        'tinycon',
         'underscore'
     ],
 

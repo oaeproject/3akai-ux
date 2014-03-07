@@ -14,10 +14,10 @@
  */
 
 body {
-    margin: 0;
+    padding: 0;
 }
 
-#admin-header-container, #admin-content-container {
+#admin-header-container {
     padding: 0 30px;
 }
 
@@ -30,7 +30,7 @@ body {
 }
 
 #admin-header-container #admin-header-content {
-    background: url('/shared/oae/img/oae-logo.png') no-repeat left center transparent;
+    background: url('/shared/oae/img/oae-logo.png') no-repeat 15px center transparent;
     background-size: 60px;
     min-height: 70px;
 }
@@ -47,13 +47,17 @@ body {
     font-size: 22px;
     font-weight: normal;
     margin: 0;
-    padding: 15px 0 0 80px;
+    padding: 18px 0 0 80px;
 }
 
 
 /*************
  ** CONTENT **
  *************/
+
+#admin-content {
+    margin-bottom: 100px;
+}
 
 #admin-content-container {
     padding-top: 20px;
@@ -66,6 +70,10 @@ body {
     font-weight: normal;
     margin-top: 0px;
     margin-bottom: 20px;
+}
+
+.admin-container-striped form {
+    margin: 20px 0;
 }
 
 /* Tenant list */
@@ -102,6 +110,10 @@ body {
     vertical-align: middle;
 }
 
+td.jeditable-container {
+    word-wrap: break-word;
+}
+
 td.jeditable-container:hover {
     cursor: pointer;
     color: #666;
@@ -114,29 +126,32 @@ td.jeditable-container:hover {
     background: linear-gradient(to bottom, #DDD 0%,#CCC 100%) !important; /* W3C */
 }
 
+td.jeditable-container form input {
+    height: 25px !important;
+}
+
 td form {
     margin: 0;
 }
 
 /* Module configuration */
 
-.admin-module-configuration-container input[type="checkbox"],
+.admin-module-configuration-container {
+    margin: 0;
+}
+
+.admin-module-configuration-container form {
+    margin: 0 0 20px;
+}
+
 .admin-module-configuration-container .admin-module-configuration-toggle-button i {
     float:left;
     margin-right:12px;
 }
 
-.admin-module-configuration-container .form-horizontal .control-label {
-    width: 225px;
-}
-
-.admin-module-configuration-container .form-horizontal .controls {
-    margin-left: 250px;
-}
-
 .admin-module-configuration-container h4 {
     margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 7px;
 }
 
 .admin-module-configuration-container h4 span,
@@ -145,15 +160,14 @@ td form {
     font-weight: normal;
 }
 
-
-.admin-container-striped form {
-    margin: 20px 0;
-}
 .admin-container-striped > div:nth-child(2n+1),
 .admin-container-striped > div:nth-child(2n+2) {
     border-top: 1px solid #DDD;
     max-width: none;
     padding: 12px;
+}
+.admin-container-striped form .form-group {
+    margin-left: 0;
 }
 
 /* Skinning configuration */
@@ -168,20 +182,27 @@ td form {
     margin-top: 20px;
 }
 
-#admin-skinning-container .control-group {
-    margin-bottom: 0px;
-}
-
-#admin-skinning-container .control-label {
-    width: 350px;
-}
-
-#admin-skinning-container .controls {
-    margin-left: 370px;
-}
-
 #admin-skinning-container #admin-skinning-actions {
     margin-top: 30px;
+}
+
+#admin-skinning-form .form-group {
+    margin: 0;
+}
+
+/* Override bootstrap box sizing for the spectrum plugin
+   @see https://github.com/bgrins/spectrum/issues/175 */
+
+.sp-container *,
+.sp-container *:after,
+.sp-container *:before {
+    -webkit-box-sizing: content-box;
+       -moz-box-sizing: content-box;
+            box-sizing: content-box;
+}
+
+.sp-input-container .sp-input {
+    background-color: #FFF;
 }
 
 /************
@@ -198,13 +219,13 @@ td form {
 }
 
 #admin-footer-content {
-    background: url("/shared/oae/img/oae-logo-white.png") no-repeat scroll left 20px transparent;
+    background: url("/shared/oae/img/oae-logo-white.png") no-repeat scroll 15px center transparent;
     background-size: 70px;
-    min-height: 75px;
+    min-height: 80px;
 }
 
 #admin-footer-container ul {
-    margin: 30px 0 10px 50px;
+    margin: 30px 0 0 50px;
 }
 
 #admin-footer-container ul li {
