@@ -43,7 +43,7 @@
                     <div class="oae-list-header-toggle">
                 {/if}
 
-                    <h2 class="pull-left">
+                    <h2>
                         ${title}
                         <span class="oae-list-header-badge badge hide"></span>
                         {if showActionsToggle}
@@ -60,7 +60,7 @@
             </div>
             {if showSearch}
                 {var searchQueryId = oae.api.util.generateId()}
-                <div class="oae-list-header-search pull-right col-xs-12 col-sm-4">
+                <div class="col-xs-12 col-sm-4 oae-list-header-search">
                     <form class="form-search" role="search">
                         <label for="${searchQueryId}" class="control-label oae-aural-text">__MSG__NARROW_BY_KEYWORD__</label>
                         <input type="text" id="${searchQueryId}" class="oae-list-header-search-query form-control pull-right search-query" placeholder="__MSG__NARROW_BY_KEYWORD__"/>
