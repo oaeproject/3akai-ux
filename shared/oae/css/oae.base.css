@@ -73,13 +73,6 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     line-height: 1;
 }
 
-/* NAVIGATION BAR
- * @see http://twitter.github.com/bootstrap/components.html#navs */
-
-.navbar-search {
-    float: none;
-}
-
 /* NAVIGATION LIST
  * @see http://twitter.github.com/bootstrap/components.html#navs */
 
@@ -201,8 +194,7 @@ input[type="file"] {
     line-height: 1;
 }
 
-input.search-query,
-.navbar-search .search-query {
+input.search-query {
     font-family: inherit;
     padding: 3px 5px;
     -webkit-border-radius: 3px;
