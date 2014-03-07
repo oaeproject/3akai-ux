@@ -1443,7 +1443,7 @@ ul.oae-list.oae-list-grid li.oae-list-actions div.oae-thumbnail {
     background: none;
     border-width: 1px;
     border-style: dashed;
-    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+    filter: none;
     -webkit-box-shadow: none;
        -moz-box-shadow: none;
             box-shadow: none;
