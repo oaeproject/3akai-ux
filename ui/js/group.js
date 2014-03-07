@@ -108,7 +108,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         var lhNavActions = [];
 
         // Add the upload and create clips for managers
-        if (groupProfile.isManager) {
+        if (groupProfile.isMember) {
             lhNavActions.push({
                 'icon': 'icon-cloud-upload',
                 'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
