@@ -32,8 +32,13 @@ require(['jquery','oae.core', 'jquery.history'], function($, oae) {
         }
 
         // Get the current search query from the History.js data object
+        // and preset the focus on the input
         var query = History.getState().data.query;
-        $('.search-query').val(query);
+        $('.search-query').val(query).focus();
+        if (query) {
+            var len = $('#search-query').val().length;
+            $('#search-query')[0].setSelectionRange(len, len);
+        }
 
         // Reset the type checkboxes to make sure that none of them stay checked incorrectly
         // when hitting the back and forward buttons
@@ -112,16 +117,6 @@ require(['jquery','oae.core', 'jquery.history'], function($, oae) {
             'types': types,
             '_': Math.random()
         }, $('title').text(), url);
-
-        // Put focus on the search input field on desktop browsers
-        if (!oae.api.util.isHandheldDevice()) {
-            $('#search-query').focus();
-            // Put the cursor at the end of the search query
-            if (query) {
-                var len = $('#search-query').val().length;
-                $('#search-query')[0].setSelectionRange(len, len);
-            }
-        }
     };
 
     /**
