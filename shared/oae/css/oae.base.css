@@ -285,10 +285,10 @@ input[type="color"],
     margin-top: -4px;
     outline: none;
     padding: 0;
-    width: 370px !important;
 }
 
 /* Add an IE9 fallback for threedots */
+
 @media (min-width: 550px) {
     .ie-lt10 .modal .jeditable-field {
         max-width: 375px !important;
@@ -565,7 +565,7 @@ ul.as-list {
 
 ul.as-list li.as-result-item {
     border: none;
-    padding: 6px 12px 3px;
+    padding: 6px 12px;
 }
 
 ul.as-list, ul.as-list li.as-result-item {
@@ -647,11 +647,6 @@ ul.as-list li.as-result-item.active {
 
 .oae-main-content > div {
     clear: both;
-}
-
-/* Allow the content to overflow the body when navigation is expanded on smaller viewports */
-.oae-main-content > div:last-child {
-    overflow: hidden;
 }
 
 .oae-main-content > .row {

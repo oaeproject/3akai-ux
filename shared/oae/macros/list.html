@@ -104,13 +104,13 @@
 <!--
  * Render a list item representing a user, group or piece of content
  *
- * @param  {User|Group|Content}     entityData      Standard object representing a user, group or content item or a search result for a user, group or content item as returned by Hilary
- * @param  {String}                 [metadata]                Line of metadata information that should be displayed underneath the entity name
- * @param  {Boolean}                [showCheckbox]            Whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
- * @param  {String}                 [customImage]             URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
- * @param  {Function}               [renderListItemActions]   Function that renders list item actions
+ * @param  {User|Group|Content}     entityData          Standard object representing a user, group or content item or a search result for a user, group or content item as returned by Hilary
+ * @param  {String}                 [metadata]          Line of metadata information that should be displayed underneath the entity name
+ * @param  {Boolean}                [showCheckbox]      Whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
+ * @param  {String}                 [customImage]       URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
+ * @param  {Function}               [listItemActions]   Macro that renders list item actions
 -->
-{macro listItem(entityData, metadata, showCheckbox, customImage, renderListItemActions)}
+{macro listItem(entityData, metadata, showCheckbox, customImage, listItemActions)}
     {if entityData}
         {if entityData.resourceType}
             {var resourceType = entityData.resourceType}
@@ -131,7 +131,7 @@
                     ${renderThumbnail(entityData, false, true, null, customImage)}
                     <div class="oae-tile-metadata">
                         {if resourceType !== 'user'}
-                            <i class="icon-oae-${visibility} pull-right"></i>
+                            <i class="icon-oae-${visibility}"></i>
                         {/if}
                         ${renderMetadata(entityData, metadata)}
                     </div>
@@ -144,6 +144,11 @@
                 <div class="oae-listitem">
                     ${renderCheckbox(entityData, 'details', showCheckbox)}
                     ${renderThumbnail(entityData, null, null, null, customImage)}
+                    {if listItemActions}
+                        <div class="oae-listitem-actions">
+                            ${listItemActions()}
+                        </div>
+                    {/if}
                     <div>
                         ${renderMetadata(entityData, metadata)}
                     </div>
@@ -152,12 +157,12 @@
 
             <!-- COMPACT LIST VIEW -->
             <div class="oae-list-compact-item">
-                <div class="oae-listitem oae-listitem-compact">
+                <div class="oae-listitem">
                     ${renderCheckbox(entityData, 'compact', showCheckbox)}
                     ${renderThumbnail(entityData, null, null, null, customImage)}
-                    {if renderListItemActions}
-                        <div class="oae-listitem-actions pull-right">
-                            ${renderListItemActions()}
+                    {if listItemActions}
+                        <div class="oae-listitem-actions">
+                            ${listItemActions()}
                         </div>
                     {/if}
                     <div>
