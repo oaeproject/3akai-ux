@@ -69,5 +69,15 @@ define(['jquery', 'underscore', 'oae.api.util'], function (jQuery, _, oaeUtil) {
             toggleLhNav(!$('.oae-lhnavigation').hasClass('oae-lhnav-expanded'));
         });
 
+        /**
+         * Dismiss the keyboard on a mobile device when a search form is submitted. This won't be
+         * noticable on desktop browsers.
+         *
+         * @see https://github.com/oaeproject/3akai-ux/issues/3401
+         */
+        $(document).on('submit', 'form[role="search"]', function() {
+            $(this).find('.search-query').blur().focus();
+        });
+
     })(jQuery);
 });
