@@ -23,15 +23,13 @@
     padding: 50px 0;
 }
 
-#error-content .row div:first-child {
-    margin-bottom: 50px;
-}
-
 #error-content h1 {
     font-size: 100px;
     font-weight: 200;
     line-height: .4;
+    margin-bottom: 30px;
     margin-top: 15px;
+    text-align: center;
 }
 
 #error-content h1 span {
@@ -41,14 +39,20 @@
 
 #error-content #error-quote-container {
     max-width: 500px;
-    padding: 20px;
     position: relative;
+    margin-bottom: 50px;
 }
 
 #error-content #error-quote-container #error-quote {
     font-size: 25px;
     font-weight: 600;
     line-height: 1.3;
+}
+
+#error-content #error-quote-container #error-quote-author {
+    padding-left: 75px;
+    text-align: none;
+    margin-top: 3px;
 }
 
 #error-content #error-quote-container .btn + span {
@@ -61,12 +65,12 @@
     margin: -40px 0 0 80px;
 }
 
-#error-content #error-quote-container:after {
+#error-content #error-quote-container .oae-panel-tertiary:after {
     border-style: solid;
     border-width: 0 27px 27px 0;
     border-bottom-color: transparent;
     border-left-color: transparent;
-    bottom: -27px;
+    bottom: -3px;
     content: "";
     left: 40px;
     position: absolute;
@@ -89,7 +93,7 @@
         margin: 40px auto;
     }
 
-    #error-content .row div:first-child {
+    #error-content #error-quote-container .oae-panel-tertiary {
         text-align: center;
     }
 
