@@ -369,7 +369,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 '/shared/oae/js/jquery-plugins/jquery.dnd-upload.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.infinitescroll.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.jeditable-focus.js': null,
-                '/shared/oae/js/jquery-plugins/jquery.list-options.js': null,
+                '/shared/oae/js/jquery-plugins/jquery.list-header.js': null,
             },
             'mainJS': {
                 '/admin/js/admin.js': null
