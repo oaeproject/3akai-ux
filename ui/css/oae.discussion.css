@@ -24,11 +24,6 @@
     }
 }
 
-/* Hide the action clips for anonymous users */
-.anon #discussion-actions-clip-container {
-    display: none !important;
-}
-
 /* Hide the lhnavigation toggle for anonymous users */
 .anon .oae-lhnavigation-toggle {
     display: none !important;
