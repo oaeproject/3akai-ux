@@ -703,16 +703,20 @@ div.oae-thumbnail i[class^="icon-"] {
     -webkit-border-radius: 6px;
        -moz-border-radius: 6px;
             border-radius: 6px;
-    /* Box sizing needed to workaround IE9 bug in calculating container size */
-       -moz-box-sizing: content-box;
-            box-sizing: content-box;
     display: block;
     font-size: 11px;
     line-height: 23px;
-    min-width: 50px; /* doesn't include padding (see above) */
+    min-width: 70px;
     padding: 10px;
     text-align: left;
     width: 100%;
+}
+
+/* Box sizing tweak needed to workaround IE9 bug in calculating container size */
+.ie-lt10 .oae-clip .oae-clip-content > div > ul li button {
+    -moz-box-sizing: content-box;
+         box-sizing: content-box;
+    min-width: 50px; /* doesn't include padding with content-box */
 }
 
 .oae-clip .oae-clip-content > div > ul li button i {
