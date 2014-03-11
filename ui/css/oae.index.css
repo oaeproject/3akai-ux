@@ -59,7 +59,7 @@
     margin: 12px 5px;
 }
 
-#index-container .index-search-container input#index-search-query {
+#index-container .index-search-container #index-search-query {
     height: 37px;
     padding: 0 30px 0 12px;
 }
@@ -164,6 +164,25 @@
 
     .oae-panel-secondary {
         margin: 15px 0 0;
+    }
+}
+
+/* Hide search placeholder on mobile devices */
+@media (max-width: 767px) {
+    #index-container .index-search-container #index-search-query:-moz-placeholder {
+        color: transparent;
+    }
+
+    #index-container .index-search-container #index-search-query::-moz-placeholder {
+        color: transparent;
+    }
+
+    #index-container .index-search-container #index-search-query:-ms-input-placeholder {
+        color: transparent;
+    }
+
+    #index-container .index-search-container #index-search-query::-webkit-input-placeholder {
+        color: transparent;
     }
 }
 
