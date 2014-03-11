@@ -47,7 +47,7 @@ body {
     font-size: 22px;
     font-weight: normal;
     margin: 0;
-    padding: 18px 0 0 80px;
+    padding: 18px 0 18px 80px;
 }
 
 
@@ -60,14 +60,14 @@ body {
 }
 
 #admin-content-container {
+    margin-right: 15px;
     padding-top: 20px;
     padding-bottom: 120px;
 }
 
-#admin-content-container h2 {
-    font-size: 25px;
-    font-weight: normal;
-    margin-top: 0px;
+/* Allow the content to overflow the body when navigation is expanded on smaller viewports */
+#admin-content-container > div:first-child {
+    overflow: hidden;
 }
 
 .admin-container-striped form {
@@ -175,7 +175,6 @@ td form {
 
 #admin-footer-container {
     background: #3B3B3B;
-    min-width: 1100px;
     bottom: 0;
     padding: 0 30px;
     position: fixed;
@@ -189,13 +188,15 @@ td form {
 }
 
 #admin-footer-container ul {
-    margin: 30px 0 0 50px;
+    margin: 30px 0 30px 50px;
 }
 
 #admin-footer-container ul li {
-   margin-left: 50px;
+    margin-left: 50px;
+    padding: 0;
 }
 
-#admin-footer-container ul, #admin-footer-container ul li a {
+#admin-footer-container ul,
+#admin-footer-container ul li a {
     color: #EEE;
 }
