@@ -38,21 +38,8 @@
 #error-content h1 {
     font-size: 26px;
     font-style: italic;
+    margin-bottom: 20px;
 }
-
-/*#error-content h1 {
-
-    line-height: .4;
-    margin-bottom: 30px;
-    margin-top: 15px;
-    text-align: center;
-}
-
-#error-content h1 + div {
-
-    margin-bottom: 30px;
-    text-align: center;
-}*/
 
 #error-content #error-quote-container {
     max-width: 500px;
