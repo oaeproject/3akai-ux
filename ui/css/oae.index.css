@@ -20,7 +20,7 @@
 }
 
 #index-content .row:last-child {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 #index-content .row > div {
@@ -158,20 +158,17 @@
     }
 
     .oae-panel-primary,
-    .oae-panel-secondary,
     .oae-panel-tertiary {
         margin: 25px 0 0;
+    }
+
+    .oae-panel-secondary {
+        margin: 15px 0 0;
     }
 }
 
 @media (max-width: 480px) {
     #index-container #index-slogan {
         font-size: 34px;
-    }
-
-    .oae-panel-primary,
-    .oae-panel-secondary,
-    .oae-panel-tertiary {
-        margin: 25px 0 0;
     }
 }
