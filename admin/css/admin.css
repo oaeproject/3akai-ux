@@ -76,16 +76,6 @@ body {
 
 /* Tenant list */
 
-.table-striped td.admin-tenants-visit {
-    width: 20px;
-}
-
-.table-striped td.admin-tenants-visit i {
-    font-size: 18px;
-    position: relative;
-    top: 2px;
-}
-
 .table-striped tbody tr:nth-child(2n+1) td,
 .table-striped tbody tr:nth-child(2n+1) th,
 .admin-container-striped > div:nth-child(2n+1) {
@@ -108,55 +98,7 @@ body {
     vertical-align: middle;
 }
 
-td.jeditable-container {
-    word-wrap: break-word;
-}
-
-td.jeditable-container:hover {
-    cursor: pointer;
-    color: #666;
-    background: #3B3B3B !important; /* Old browsers */
-    background: -moz-linear-gradient(top, #DDD 0%, #CCC 100%) !important; /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#DDD), color-stop(100%,#CCC)) !important; /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #DDD 0%,#CCC 100%) !important; /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #DDD 0%,#CCC 100%) !important; /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #DDD 0%,#CCC 100%) !important; /* IE10+ */
-    background: linear-gradient(to bottom, #DDD 0%,#CCC 100%) !important; /* W3C */
-}
-
-td.jeditable-container form input {
-    height: 25px !important;
-}
-
-td form {
-    margin: 0;
-}
-
 /* Module configuration */
-
-.admin-module-configuration-container {
-    margin: 0;
-}
-
-.admin-module-configuration-container form {
-    margin: 0 0 20px;
-}
-
-.admin-module-configuration-container .admin-module-configuration-toggle-button i {
-    float: left;
-    margin-right: 12px;
-}
-
-.admin-module-configuration-container h4 {
-    margin-top: 20px;
-    margin-bottom: 7px;
-}
-
-.admin-module-configuration-container h4 span,
-.admin-module-configuration-container label span {
-    font-size: 14px;
-    font-weight: normal;
-}
 
 .admin-container-striped > div:nth-child(2n+1),
 .admin-container-striped > div:nth-child(2n+2) {
