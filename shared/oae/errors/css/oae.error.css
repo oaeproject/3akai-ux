@@ -23,24 +23,40 @@
     padding: 50px 0;
 }
 
-#error-content h1 {
-    font-size: 100px;
+#error-content #error-code,
+#error-content h1  {
     font-weight: 200;
+    text-align: center;
+}
+
+#error-content #error-code {
+    line-height: 0.7;
+    font-size: 100px;
+
+}
+
+#error-content h1 {
+    font-size: 26px;
+    font-style: italic;
+}
+
+/*#error-content h1 {
+
     line-height: .4;
     margin-bottom: 30px;
     margin-top: 15px;
     text-align: center;
 }
 
-#error-content h1 span {
-    font-size: 26px;
-    font-style: italic;
-}
+#error-content h1 + div {
+
+    margin-bottom: 30px;
+    text-align: center;
+}*/
 
 #error-content #error-quote-container {
     max-width: 500px;
     position: relative;
-    margin-bottom: 50px;
 }
 
 #error-content #error-quote-container #error-quote {
@@ -50,9 +66,9 @@
 }
 
 #error-content #error-quote-container #error-quote-author {
-    padding-left: 75px;
-    text-align: none;
-    margin-top: 3px;
+    padding-left: 80px;
+    text-align: left;
+    margin-top: 6px;
 }
 
 #error-content #error-quote-container .btn + span {
@@ -70,7 +86,7 @@
     border-width: 0 27px 27px 0;
     border-bottom-color: transparent;
     border-left-color: transparent;
-    bottom: -3px;
+    bottom: 0;
     content: "";
     left: 40px;
     position: absolute;
@@ -80,11 +96,6 @@
     #error-content #error-quote-container .btn + span {
         display: block;
         margin-top: 7px;
-    }
-
-    #error-content #error-quote-container + div {
-        margin: -30px 0 0;
-        text-align: center;
     }
 }
 
@@ -98,7 +109,7 @@
     }
 
     #error-content #error-quote-container {
-        margin: 0 auto 50px;
+        margin: 0 auto;
     }
 
     #error-content #error-quote-container + div {
