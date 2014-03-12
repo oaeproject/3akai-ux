@@ -712,10 +712,11 @@ div.oae-thumbnail i[class^="icon-"] {
     width: 100%;
 }
 
-/* Box sizing tweak needed to workaround IE9 bug in calculating container size */
+/* Box sizing tweak needed to workaround IE9 bug in calculating container size
+   @see https://github.com/oaeproject/3akai-ux/pull/3601 */
 .ie-lt10 .oae-clip .oae-clip-content > div > ul li button {
     box-sizing: content-box;
-    min-width: 50px; /* doesn't include padding with content-box */
+    min-width: 50px;
 }
 
 .oae-clip .oae-clip-content > div > ul li button i {
