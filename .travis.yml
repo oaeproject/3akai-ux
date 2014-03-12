@@ -6,6 +6,11 @@ branches:
   only:
     - master
 
+env:
+  global:
+    - secure: Amuv0dlhrdLdzoFN6WlOKETpYY5FdwtqroaFuVh1Gt6l01cPgOwDxR775xN1SQhv/3FlaxuwS8Zm+cMK/Q8QSPRgdwUiRDV0BcD603aOj9HxT06/yNmjSj6bClIR9DTfc2NhwdG5cNMur54Dvrtk6ZZet2GYJoEsfFtE0v9Gq9M=
+    - secure: DHt20YWVkb6wOdVcsBJ/zW2IyZVdVLBCiMlAhqdIREkZ5IpV5v9BV4/RzykiOQilDBPhqZp1Dd5XGDaNXqXNvnibO+3NxvY3VQX0o/uFs2Ig1AGzf1iKf3GyfObLtN5r8I58todT3jjO1vNwHQM3xHWwFa9qAeOclM/tyKdkJks=
+
 before_install:
   # Add admin.oae.com and test.oae.com to the hosts file
   - sudo sed -e 's/^\(127\.0\.0\.1.*\)$/\1 admin.oae.com test.oae.com/' --in-place /etc/hosts
@@ -17,14 +22,10 @@ before_install:
   - sudo service memcached stop
   - sudo service postgresql stop
 
-  # Create a couple of possible tenants in the hosts file
-  - sudo sed -e 's/^\(127\.0\.0\.1.*\)$/\1 admin.oae.com cam.oae.com/' --in-place /etc/hosts
-  - sudo sed -e 's/^\(::1.*\)$/\1 admin.oae.com cam.oae.com/' --in-place /etc/hosts
-
   # Add any apt repos we might need
   - echo "deb http://debian.datastax.com/community stable main" | sudo tee -a /etc/apt/sources.list.d/dsc.sources.list
   - curl -L http://debian.datastax.com/debian/repo_key | sudo apt-key add -
-  - sudo add-apt-repository -y ppa:nginx/stable
+  - sudo add-apt-repository -y ppa:oae/deps
   - sudo apt-get update
 
   # Hilary dependencies
@@ -35,7 +36,7 @@ before_install:
   - sudo service cassandra stop
   - sudo service cassandra start
   - sudo service cassandra status
-  - sudo apt-get install nginx-full
+  - sudo apt-get install nginx
   - npm install -g grunt-cli
 
   # Install etherpad-lite
@@ -82,6 +83,11 @@ before_install:
   - curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d"alias=cam" -d"displayName=Cambridge" -d"host=cam.oae.com" http://admin.oae.com/api/tenant/create
   - curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d"oae-principals/recaptcha/enabled=false" http://admin.oae.com/api/config
 
+addons:
+  hosts:
+    - cam.oae.com
+    - admin.oae.com
+
 services:
   - elasticsearch
   - rabbitmq
@@ -90,7 +96,10 @@ services:
 script:
   - grunt test --qunit-host test.oae.com
 
+after_success:
+  - etc/scripts/travis-upload.sh
+
 notifications:
   email:
     - oae-team@collab.sakaiproject.org
-  irc: "irc.freenode.org#sakai"
+  irc: "irc.freenode.org#oae"

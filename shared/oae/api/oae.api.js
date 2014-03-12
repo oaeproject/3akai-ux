@@ -90,7 +90,7 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
                             }
 
                             // Initialize utility API
-                            oae.api.util.init(function() {
+                            oae.api.util.init(oae.data.me, function() {
 
                                 // Initialize widgets API
                                 oae.api.widget.init(userLocale, function(err) {
@@ -103,6 +103,11 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
                                     // TODO: Once we drop support for IE9 this can be removed
                                     if (!window.requestAnimationFrame) {
                                         $('html').addClass('ie-lt10');
+                                    }
+
+                                    // Add a `mobile` class to the html element when the user is using a mobile device
+                                    if (oae.api.util.isHandheldDevice()) {
+                                        $('html').addClass('mobile');
                                     }
 
                                     // Set up the terms and conditions widget
