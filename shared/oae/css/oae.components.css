@@ -712,6 +712,13 @@ div.oae-thumbnail i[class^="icon-"] {
     width: 100%;
 }
 
+/* Box sizing tweak needed to workaround IE9 bug in calculating container size */
+.ie-lt10 .oae-clip .oae-clip-content > div > ul li button {
+    -moz-box-sizing: content-box;
+         box-sizing: content-box;
+    min-width: 50px; /* doesn't include padding with content-box */
+}
+
 .oae-clip .oae-clip-content > div > ul li button i {
     display: inline-block;
     float: left;
