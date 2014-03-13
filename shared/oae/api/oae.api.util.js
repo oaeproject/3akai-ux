@@ -117,14 +117,16 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         if (_.isString(title)) {
             title = [title];
         }
+
+        var me = require('oae.core').data.me;
+
         // Render the page title with the following format
         //   `Open Academic Environment - Fragment 1 - Fragment 2`
-        title.splice(0, 0, '__MSG__TITLE_PREFIX__');
+        title.splice(0, 0, me.tenant.displayName);
         document.title = require('oae.api.i18n').translate(title.join(' - '));
 
         // Re-apply the unread notifications favicon bubble for browsers that fall back
         // to showing the unread count in the browser title rather than the favicon
-        var me = require('oae.core').data.me;
         if (!me.anon) {
             favicon().setBubble(me.notificationsUnread);
         }
