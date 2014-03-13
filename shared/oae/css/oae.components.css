@@ -1101,7 +1101,7 @@ div.oae-thumbnail i[class^="icon-"] {
        -moz-flex: initial;
         -ms-flex: initial;
             flex: initial;
-    min-width: 15%;
+    min-width: 50px;
 }
 
 /* List item thumbnail */
