@@ -651,6 +651,11 @@ ul.as-list li.as-result-item.active {
     clear: both;
 }
 
+/* Allow the content to overflow the body when navigation is expanded on smaller viewports */
+.oae-main-content > div:last-child {
+    overflow: hidden;
+}
+
 .oae-main-content > .row {
     margin: 0 5px 0 -5px;
 }

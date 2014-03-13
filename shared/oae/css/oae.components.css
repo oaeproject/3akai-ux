@@ -1036,7 +1036,7 @@ div.oae-thumbnail i[class^="icon-"] {
  *          <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian" />
  *          <i class="icon-oae-private"></i>
  *      </div>
- *      <div>
+ *      <div class="oae-listitem-metadata">
  *          <h3 class="oae-threedots"><a href="/user/u:cambridge:PPTBPgxSdf">John Librarian</a></h3>
  *          <small class="oae-threedots">Professor</small>
  *      </div>
@@ -1050,12 +1050,13 @@ div.oae-thumbnail i[class^="icon-"] {
  * - A list item is available in an expanded size and a compact size. By default, the larger expanded
  *   view will be used. In order to use the smaller compact view, the item should be embedded in a
  *   `div` with class `oae-list-compact-item`
+ * - A metadata block can be added that contains main list item textual content as well as additional
+ *   metadata in the form of an optional `small` tag
  * - A checkbox can be added to the list item for management purposes. This checkbox should have an
  *   accompanying `oae-aural-text` label for accessibility purposes.
  * - An action bar can be added to the list item by adding an `oae-listitem-actions` div to the list
  *   item. This action bar can contain one or multiple action buttons.
  * - The `oae-thumbnail`, `oae-listitem-actions` and checkbox are all optional.
- * - The `small` element used to add some additional metadata is optional as well.
  * - The `oae-thumbnail` element, containing the preview image, is a standard
  *   `oae-thumbnail` element (See Thumbnail section for full overview).
  */
@@ -1063,7 +1064,6 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-listitem {
     padding: 10px;
     margin-bottom: 10px;
-    min-height: 50px;
     border: 1px solid;
     -webkit-border-radius: 3px;
        -moz-border-radius: 3px;
@@ -1072,6 +1072,10 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .modal li .oae-listitem {
   background-color: #FFF;
+}
+
+.oae-list-details-item > .oae-listitem {
+    min-height: 50px;
 }
 
 .oae-list-compact-item > .oae-listitem {
@@ -1091,71 +1095,41 @@ div.oae-thumbnail i[class^="icon-"] {
     line-height: 1.5;
 }
 
+.oae-listitem > div.oae-listitem-metadata .oae-threedots {
+    display: block;
+    -webkit-flex: initial;
+       -moz-flex: initial;
+        -ms-flex: initial;
+            flex: initial;
+    min-width: 50px;
+}
+
 /* List item thumbnail */
 
-.oae-listitem .oae-thumbnail {
+.oae-listitem > div.oae-thumbnail {
     float: left;
     height: 50px;
     width: 50px;
     margin-right: 15px;
 }
 
-.oae-list-compact-item > .oae-listitem .oae-thumbnail {
+.oae-list-compact-item > .oae-listitem > div.oae-thumbnail {
     height: 25px;
     width: 25px;
 }
 
 /* List item metadata */
 
-.oae-listitem > div:not(.oae-thumbnail) {
+.oae-listitem > div.oae-listitem-metadata {
     display: -webkit-flex;
     display: -moz-flex;
     display: -ms-flexbox;
     display: -ms-flex;
     display: flex;
-    height: 50px;
     vertical-align: middle;
 }
 
-.oae-list-compact-item > .oae-listitem > div:not(.oae-thumbnail) {
-    -webkit-flex-direction: row;
-       -moz-flex-direction: row;
-        -ms-flex-direction: row;
-            flex-direction: row;
-    height: 25px;
-}
-
-.oae-list-details-item > .oae-listitem > div:not(.oae-thumbnail) {
-    -webkit-flex-direction: column;
-       -moz-flex-direction: column;
-        -ms-flex-direction: column;
-            flex-direction: column;
-}
-
-.oae-listitem .oae-threedots {
-    display: block;
-    -webkit-flex: initial;
-       -moz-flex: initial;
-        -ms-flex: initial;
-            flex: initial;
-    margin: auto 20px auto 0;
-}
-
-.oae-listitem .oae-listitem-actions {
-    display: inline-block;
-    -webkit-flex: none;
-       -moz-flex: none;
-        -ms-flex: none;
-            flex: none;
-}
-
-.oae-listitem small,
-.oae-listitem small.oae-threedots,
-.oae-listitem .oae-listitem-actions {
-    margin: auto 0;
-}
-
-.oae-listitem h3 {
+.oae-listitem > div.oae-listitem-metadata > h3 {
     font-size: 16px;
     font-weight: 500;
     height: 25px;
@@ -1163,29 +1137,81 @@ div.oae-thumbnail i[class^="icon-"] {
     margin: 0;
 }
 
-.oae-listitem small {
-    color: #888;
-    font-size: 11px;
+.oae-listitem > div.oae-listitem-metadata > small {
+    font-size: 12px;
     line-height: 27px;
     text-transform: uppercase;
 }
 
-/* List item actions */
-
-.oae-listitem .oae-listitem-actions {
-    float: right;
-    margin-left: auto;
+/* Details view stacks the h3/small in the metadata vertically */
+.oae-list-details-item > .oae-listitem > div.oae-listitem-metadata {
+    -webkit-flex-direction: column;
+       -moz-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    height: 50px;
 }
 
-.oae-listitem .oae-listitem-actions i {
+/* Compact view lines up the h3/small in the metadata horizontally */
+.oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata {
+    -webkit-flex-direction: row;
+       -moz-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    height: 25px;
+}
+
+/* Give space between the listitem header and the extra metadata that is next to it */
+.oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > h3 {
+    margin-right: 15px;
+}
+
+/* List item actions */
+
+.oae-listitem > div.oae-listitem-actions {
+    display: inline-block;
+    -webkit-flex: none;
+       -moz-flex: none;
+        -ms-flex: none;
+            flex: none;
+    float: right;
+}
+
+/* Actions can be either an icon or a button with an icon. Style them consistently */
+.oae-listitem > div.oae-listitem-actions > i,
+.oae-listitem > div.oae-listitem-actions > .btn {
     font-size: 18px;
 }
 
-.oae-listitem .oae-listitem-actions .btn {
-    padding-top: 2px;
+/* Center the actions panel vertically */
+.oae-list-details-item > .oae-listitem > div.oae-listitem-actions {
+    margin-top: 12px;
 }
 
-.oae-list-compact-item > .oae-listitem .oae-listitem-actions .form-group {
+.oae-list-details-item > .oae-listitem > div.oae-listitem-actions > i,
+.oae-list-details-item > .oae-listitem > div.oae-listitem-actions > .btn {
+    margin-top: -4px;
+
+    /* Horizontal padding will likely be overriden for more narrow contexts. We provide
+       reasonable default for scenarios where we aren't concerned about horizontal
+       restrictions */
+    padding: 4px 12px;
+}
+
+.oae-list-compact-item > .oae-listitem > div.oae-listitem-actions > i,
+.oae-list-compact-item > .oae-listitem > div.oae-listitem-actions > .btn {
+    margin-top: -6px;
+
+    /* Horizontal padding will likely be overriden for more narrow contexts. We provide
+       reasonable default for scenarios where we aren't concerned about horizontal
+       restrictions */
+    padding: 6px;
+}
+
+/* Compact view can have a .form-group. Currently it's an adhoc implementation of
+   something needed in the manageaccess widget that may need to be fleshed out
+   more for details view */
+.oae-list-compact-item > .oae-listitem div.oae-listitem-actions .form-group {
     display: inline-block;
     margin-bottom: 0;
 }
@@ -1196,40 +1222,45 @@ div.oae-thumbnail i[class^="icon-"] {
     overflow: hidden;
 }
 
-.ie-lt10 .oae-listitem > div:not(.oae-thumbnail) {
+.ie-lt10 .oae-list-compact-item > .oae-listitem {
+    padding-bottom: 4px;
+}
+
+.ie-lt10 .oae-listitem > div.oae-listitem-metadata,
+.ie-lt10 .oae-listitem > div.oae-listitem-actions {
     display: block;
     vertical-align: middle;
     width: auto; 
 }
 
-.ie-lt10 .oae-listitem .oae-listitem-actions {
+.ie-lt10 .oae-listitem > div.oae-listitem-actions {
     float: right;
 }
 
 @media (min-width: 900px) {
-    .ie-lt10 .oae-list-compact-item .oae-listitem h3,
-    .ie-lt10 .oae-list-compact-item .oae-listitem small {
+    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > h3,
+    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > small {
         max-width: 500px;
     }
 }
 
 @media (min-width: 550px) and (max-width: 900px) {
-    .ie-lt10 .oae-list-compact-item .oae-listitem h3,
-    .ie-lt10 .oae-list-compact-item .oae-listitem small {
+    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > h3,
+    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > small {
         max-width: 300px;
     }
 }
 
 @media (min-width: 400px) and (max-width: 550px) {
-    .ie-lt10 .oae-list-compact-item .oae-listitem h3,
-    .ie-lt10 .oae-list-compact-item .oae-listitem small {
+    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > h3,
+    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > small {
         max-width: 160px;
     }
 }
 
 @media (max-width: 400px) {
-    .ie-lt10 .oae-list-compact-item .oae-listitem h3,
-    .ie-lt10 .oae-list-compact-item .oae-listitem small {
+    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > h3,
+    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > small {
         max-width: 100px;
     }
 }
@@ -1495,6 +1526,9 @@ ul.oae-list > li:first-child .oae-listitem {
 
 .oae-list-actions ul > li {
     list-style-type: none;
+}
+
+.oae-list-actions.oae-list-actions-multiple ul > li {
     margin-bottom: 8px;
 }
 
