@@ -34,6 +34,13 @@ a.oae-plain-link:hover {
     display: none !important;
 }
 
+/**
+ * Style that can be used to hide items from anonymous users
+ *   e.g. <textarea class="oae-hide-when-anonymous"></textarea>
+ */
+.anon .oae-hide-when-anonymous {
+    display: none !important;
+}
 
 /******************
  * ACCESSIBILITY **
@@ -712,6 +719,13 @@ div.oae-thumbnail i[class^="icon-"] {
     width: 100%;
 }
 
+/* Box sizing tweak needed to workaround IE9 bug in calculating container size
+   @see https://github.com/oaeproject/3akai-ux/pull/3601 */
+.ie-lt10 .oae-clip .oae-clip-content > div > ul li button {
+    box-sizing: content-box;
+    min-width: 50px;
+}
+
 .oae-clip .oae-clip-content > div > ul li button i {
     display: inline-block;
     float: left;
@@ -807,9 +821,6 @@ div.oae-thumbnail i[class^="icon-"] {
  *   not be shown on wide viewports (e.g., desktop computers). This item should also be inside of a `oae-page` div,
  *   which is used for the collapsing animation on narrow viewports. Note that the `oae-lhnavigation-toggle` item
  *   resides in the `listHeader` macro.
- * - TODO: Remove this once a proper solution for https://github.com/oaeproject/3akai-ux/issues/3506 is in place
- *   The `.oae-lhnavigation-toggle` button is hidden by default for anonymous users. If the `.oae-anon-toggle` class
- *   is added to `.oae-page` the button will be shown for anonymous users.
  */
 
 /* Left hand navigation */
@@ -875,10 +886,6 @@ div.oae-thumbnail i[class^="icon-"] {
     position: relative;
     top: 6px;
     z-index: 100;
-}
-
-.oae-page.oae-anon-toggle .oae-lhnavigation-toggle.hide {
-    display: block;
 }
 
 /* Page content */
