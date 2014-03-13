@@ -71,11 +71,10 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
         };
 
         /**
-         * Close the left hand navigation when clicking a navigation link, but not on search
-         * refinement options or an action link (e.g., Share) as that opens a widget that intends
-         * to overlay the left hand menu.
+         * Close the left hand navigation when the user selects items that have requested
+         * closing
          */
-        $(document).on('click', '.oae-lhnavigation > ul:not(#search-refine-type) > li:not(.oae-lhnavigation-action)', closeLhNav);
+        $(document).on('click', '.oae-lhnavigation > ul > li[data-close-nav]', closeLhNav);
 
         /**
          * Toggle the left hand navigation with animation. The left hand navigation can only
@@ -90,17 +89,6 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
                 openLhNav();
             }
         });
-
-        /**
-         * Close the lhnav when a modal box changes state. Bootstrap events
-         * don't bubble to the document, so we have to trigger on the modals
-         * themselves and we have to catch new modals that are dynamically
-         * inserted.
-         */
-        $('.modal').on('show.bs.modal hide.bs.modal', closeLhNav);
-        $(document).on('inserted.bs.modal', function(ev, modal) {
-            $(modal).on('show.bs.modal hide.bs.modal', closeLhNav);
-        })
 
         /**
          * Dismiss the keyboard on a mobile device when a search form is submitted. This won't be
