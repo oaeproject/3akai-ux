@@ -103,7 +103,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         // Add the rest of the navigation
         lhNavPages.push({
             'id': 'library',
-            'close': true,
+            'closeNav': true,
             'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
             'icon': 'icon-briefcase',
             'layout': [
@@ -122,7 +122,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         },
         {
             'id': 'discussions',
-            'close': true,
+            'closeNav': true,
             'title': oae.api.i18n.translate('__MSG__DISCUSSIONS__'),
             'icon': 'icon-comments',
             'layout': [
@@ -141,7 +141,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         },
         {
             'id': 'groups',
-            'close': true,
+            'closeNav': true,
             'title': oae.api.i18n.translate('__MSG__GROUPS__'),
             'icon': 'icon-group',
             'layout': [
@@ -160,7 +160,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         },
         {
             'id': 'network',
-            'close': true,
+            'closeNav': true,
             'title': oae.api.i18n.translate('__MSG__NETWORK__'),
             'icon': 'icon-random',
             'layout': [
