@@ -110,6 +110,12 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
                                         $('html').addClass('mobile');
                                     }
 
+                                    // Add an `anon` class to the html element when the user is anonymous
+                                    // This allows for hiding elements that anonymous users shouldn't see through CSS
+                                    if (oae.data.me.anon) {
+                                        $('html').addClass('anon');
+                                    }
+
                                     // Set up the terms and conditions widget
                                     setUpTermsAndConditions();
 

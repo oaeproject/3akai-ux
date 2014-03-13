@@ -32,7 +32,7 @@ require(['jquery','oae.core'], function($, oae) {
      */
     var setUpNavigation = function() {
         var lhNavActions = [];
-        // All logged in users that can see the content can comment
+        // All logged in users that can see the discussion can comment
         if (!oae.data.me.anon) {
             lhNavActions.push({
                 'icon': 'icon-comments',
@@ -153,10 +153,7 @@ require(['jquery','oae.core'], function($, oae) {
      */
     var setUpClips = function() {
         oae.api.util.template().render($('#discussion-clip-template'), {'discussion': discussionProfile}, $('#discussion-clip-container'));
-        // Only show the actions to logged in users
-        if (!oae.data.me.anon) {
-            oae.api.util.template().render($('#discussion-actions-clip-template'), {'discussion': discussionProfile}, $('#discussion-actions-clip-container'));
-        }
+        oae.api.util.template().render($('#discussion-actions-clip-template'), {'discussion': discussionProfile}, $('#discussion-actions-clip-container'));
     };
 
     /**
