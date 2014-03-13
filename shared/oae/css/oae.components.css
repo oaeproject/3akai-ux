@@ -1349,17 +1349,6 @@ ul.oae-list > li:first-child .oae-listitem {
     margin-bottom: 0;
 }
 
-.oae-list-options form.form-search button[type="submit"] {
-    margin-left: -30px;
-    margin-top: 7px;
-    padding: 0 10px 0 0;
-    opacity: 0.6;
-}
-
-.oae-list-options form.form-search button[type="submit"] i {
-    font-size: 18px;
-}
-
 @media (min-width: 771px) {
     .oae-list-header form input.search-query {
         max-width: 400px;
