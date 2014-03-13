@@ -7,12 +7,12 @@
  * The "select all" button is used to select and deselect the list items that are rendered with the `listItem`
  *
  * The macro also provides a "badge" that is intended to display a number that represents how many items are in
- * the list. This badge can be accessed on the DOM with CSS class `oae-list-options-badge` and a number can be
+ * the list. This badge can be accessed on the DOM with CSS class `oae-list-header-badge` and a number can be
  * inserted text into it. Note that the badge will be hidden by default to avoid showing an empty badge, and
  * needs to be explicitly shown by the code setting the badge content. For example, to set the badge number to `15`,
  * we can write:
  *
- *  `$('.oae-list-options-badge').text(15).show()`
+ *  `$('.oae-list-header-badge').text(15).show()`
  *
  * @param  {String}     title                       The title of the header
  * @param  {Boolean}    [showSearch]                Whether or not a search box should show. The search box is accessible on the DOM with CSS class `oae-list-selectall`. Default: `true`
@@ -23,29 +23,29 @@
  * @param  {String}     [actions[i].data]           Additional data attributes to apply to the option (e.g., `{'resourceType': 'content'}` would result in an attribute `data-resourceType="content"`)
  * @param  {Boolean}    [showViewOptions]           Whether or not the view options should be displayed. Default: `true`
 -->
-{macro listOptionsHeader(title, _showSearch, _actions, _showViewOptions)}
+{macro listHeader(title, _showSearch, _actions, _showViewOptions)}
     {var showSearch = (_showSearch !== false)}
     {var actions = _actions || []}
     {var showViewOptions = (_showViewOptions !== false)}
     {var showActionsToggle = (actions.length > 0 || showViewOptions)}
 
-    <div class="oae-list-options">
+    <div class="oae-list-header">
         <div class="row">
-            <div class="col-xs-12{if showSearch} col-sm-6{/if}">
+            <div class="col-xs-12{if showSearch} col-sm-8{/if}">
                 <button type="button" class="oae-lhnavigation-toggle btn btn-link pull-left hidden-md hidden-lg">
                     <i class="icon-reorder"></i>
                     <span class="oae-aural-text">__MSG__TOGGLE_NAVIGATION__</span>
                 </button>
 
                 {if showActionsToggle}
-                    <button class="oae-list-options-toggle btn">
+                    <button class="oae-list-header-toggle btn">
                 {else}
-                    <div class="oae-list-options-toggle">
+                    <div class="oae-list-header-toggle">
                 {/if}
 
-                    <h2 class="pull-left">
+                    <h2>
                         ${title}
-                        <span class="oae-list-options-badge badge hide"></span>
+                        <span class="oae-list-header-badge badge hide"></span>
                         {if showActionsToggle}
                             <i class="icon-caret-down"></i>
                         {/if}
@@ -60,16 +60,17 @@
             </div>
             {if showSearch}
                 {var searchQueryId = oae.api.util.generateId()}
-                <div class="pull-right col-xs-12 col-sm-6">
+                <div class="col-xs-12 col-sm-4 oae-list-header-search">
                     <form class="form-search" role="search">
                         <label for="${searchQueryId}" class="control-label oae-aural-text">__MSG__NARROW_BY_KEYWORD__</label>
-                        <input type="text" id="${searchQueryId}" class="oae-list-options-search-query form-control pull-right search-query" placeholder="__MSG__NARROW_BY_KEYWORD__"/>
+                        <input type="text" id="${searchQueryId}" class="oae-list-header-search-query form-control pull-right search-query" name="search-query" placeholder="__MSG__NARROW_BY_KEYWORD__"/>
+                        <button type="submit" class="oae-aural-text">__MSG__SEARCH__</button>
                     </form>
                 </div>
             {/if}
         </div>
         {if showActionsToggle}
-            <div class="oae-list-options-actions clearfix hide">
+            <div class="oae-list-header-actions clearfix hide">
                 {if actions.length > 0}
                     {var selectAllId = oae.api.util.generateId()}
                     <input type="checkbox" id="${selectAllId}" class="oae-list-selectall" />

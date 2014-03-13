@@ -175,10 +175,8 @@ require(['jquery', 'oae.core'], function($, oae) {
         });
 
         $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
-        $('.oae-page').addClass('oae-anon-toggle');
         $(window).on('oae.ready.lhnavigation', function() {
             $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
-            $('.oae-page').addClass('oae-anon-toggle');
         });
     };
 

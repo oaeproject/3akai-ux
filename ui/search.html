@@ -28,7 +28,7 @@
             <!-- CLIPS -->
             <div class="oae-clip-container">
                 <div id="search-clip-container">
-                    <div class="col-xs-11 col-sm-7 col-md-6 col-lg-5 oae-clip">
+                    <div class="oae-clip">
                         <div class="oae-clip-fold">
                             <div class="oae-clip-fold-inner"></div>
                             <div class="oae-clip-fold-outer"></div>
@@ -48,51 +48,51 @@
             </div>
 
             <!-- CONTENT -->
-            <div id="search-content-container" class="row">
-                <div class="oae-lhnavigation">
-                    <ul id="search-refine-type" class="nav nav-list hidden-xs hidden-sm">
-                        <li class="nav-header">__MSG__REFINE_SEARCH_BY_TYPE_COLON__</li>
-                        <li>
-                            <label class="checkbox"><input type="checkbox" data-type="user" /><div>__MSG__PEOPLE__</div></label>
-                        </li>
-                        <li>
-                            <label class="checkbox"><input type="checkbox" data-type="group" /><div>__MSG__GROUPS__</div></label>
-                        </li>
-                        <li>
-                            <label class="checkbox"><input type="checkbox" data-type="content" /><div>__MSG__CONTENT__</div></label>
-                        </li>
-                        <li>
-                            <label class="checkbox"><input type="checkbox" data-type="discussion" /><div>__MSG__DISCUSSIONS__</div></label>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-xs-12 col-sm-12 col-md-12 oae-page">
-                    <div class="row oae-list-container">
-                        <div class="col-md-12">
-                            <div id="search-list-options"><!-- --></div>
+            <div>
+                <div id="search-content-container" class="row">
+                    <div class="oae-lhnavigation">
+                        <ul id="search-refine-type" class="nav nav-list hidden-xs hidden-sm">
+                            <li class="nav-header">__MSG__REFINE_SEARCH_BY_TYPE_COLON__</li>
+                            <li>
+                                <label class="checkbox"><input type="checkbox" data-type="user" /><div>__MSG__PEOPLE__</div></label>
+                            </li>
+                            <li>
+                                <label class="checkbox"><input type="checkbox" data-type="group" /><div>__MSG__GROUPS__</div></label>
+                            </li>
+                            <li>
+                                <label class="checkbox"><input type="checkbox" data-type="content" /><div>__MSG__CONTENT__</div></label>
+                            </li>
+                            <li>
+                                <label class="checkbox"><input type="checkbox" data-type="discussion" /><div>__MSG__DISCUSSIONS__</div></label>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="oae-page">
+                        <div class="oae-list-container">
+                            <div id="search-list-header"><!-- --></div>
                             <ul class="oae-list oae-list-grid"><!-- --></ul>
+
+                            <div id="search-list-header-template"><!--
+                                ${listHeader('__MSG__SEARCH_RESULTS__', false, null, false)}
+                            --></div>
+
+                            <div id="search-noresults-template"><!--
+                                <div class="alert alert-info">
+                                    {if query}
+                                        {var query = oae.api.util.security().encodeForHTML(query)}
+                                        __MSG__SEARCH_QUERY_EMPTY__
+                                    {else}
+                                        __MSG__SEARCH_EMPTY__
+                                    {/if}
+                                </div>
+                            --></div>
+
+                            <div id="search-template"><!--
+                                {for result in results}
+                                    ${listItem(result, null, false)}
+                                {/for}
+                            --></div>
                         </div>
-
-                        <div id="search-list-options-template"><!--
-                            ${listOptionsHeader('__MSG__SEARCH_RESULTS__', false, null, false)}
-                        --></div>
-
-                        <div id="search-noresults-template"><!--
-                            <div class="alert alert-info">
-                                {if query}
-                                    {var query = oae.api.util.security().encodeForHTML(query)}
-                                    __MSG__SEARCH_QUERY_EMPTY__
-                                {else}
-                                    __MSG__SEARCH_EMPTY__
-                                {/if}
-                            </div>
-                        --></div>
-
-                        <div id="search-template"><!--
-                            {for result in results}
-                                ${listItem(result, null, false)}
-                            {/for}
-                        --></div>
                     </div>
                 </div>
             </div>
