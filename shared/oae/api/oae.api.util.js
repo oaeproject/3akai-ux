@@ -719,6 +719,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         // to the provided options
         options = options || {};
         var defaultOptions = {
+            'container': 'body',
             'global_close': true,
             'html': true,
             'placement': 'bottom',
@@ -937,7 +938,6 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                 // function that will render the thumbnail image, displayName and some metadata for each suggested item
                 if (!options.formatList) {
                     options.formatList = function(data, elem) {
-                        $(elem).addClass('oae-list-details-item');
                         return elem.html(template().render($('#autosuggest-suggested-template', $autosuggestTemplates), {'data': data}));
                     };
                 }
