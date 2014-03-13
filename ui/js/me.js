@@ -63,6 +63,7 @@ require(['jquery','oae.core'], function($, oae) {
     var lhNavPages = [
         {
             'id': 'dashboard',
+            'close': true,
             'title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
             'icon': 'icon-dashboard',
             'layout': [
@@ -82,6 +83,7 @@ require(['jquery','oae.core'], function($, oae) {
         },
         {
             'id': 'library',
+            'close': true,
             'title': oae.api.i18n.translate('__MSG__MY_LIBRARY__'),
             'icon': 'icon-briefcase',
             'layout': [
@@ -101,6 +103,7 @@ require(['jquery','oae.core'], function($, oae) {
         },
         {
             'id': 'discussions',
+            'close': true,
             'title': oae.api.i18n.translate('__MSG__MY_DISCUSSIONS__'),
             'icon': 'icon-comments',
             'layout': [
@@ -120,6 +123,7 @@ require(['jquery','oae.core'], function($, oae) {
         },
         {
             'id': 'groups',
+            'close': true,
             'title': oae.api.i18n.translate('__MSG__MY_GROUPS__'),
             'icon': 'icon-group',
             'layout': [
@@ -139,6 +143,7 @@ require(['jquery','oae.core'], function($, oae) {
         },
         {
             'id': 'network',
+            'close': true,
             'title': oae.api.i18n.translate('__MSG__MY_NETWORK__'),
             'icon': 'icon-random',
             'layout': [
