@@ -1032,9 +1032,11 @@ div.oae-thumbnail i[class^="icon-"] {
  *  <div class="oae-listitem">
  *      <input type="checkbox" class="pull-left" id="oae-list-details-u:cambridge:PPTBPgxSdf" data-id="u:cambridge:PPTBPgxSdf" />
  *      <label class="oae-aural-text" for="oae-list-details-u:cambridge:PPTBPgxSdf">John Librarian</label>
- *      <div class="oae-thumbnail icon-oae-user pull-left">
- *          <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian" />
- *          <i class="icon-oae-private"></i>
+ *      <div class="oae-listitem-primary-thumbnail">
+ *          <div class="oae-thumbnail icon-oae-user pull-left">
+ *              <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian" />
+ *              <i class="icon-oae-private"></i>
+ *          </div>
  *      </div>
  *      <div class="oae-listitem-metadata">
  *          <h3 class="oae-threedots"><a href="/user/u:cambridge:PPTBPgxSdf">John Librarian</a></h3>
@@ -1056,9 +1058,13 @@ div.oae-thumbnail i[class^="icon-"] {
  *   accompanying `oae-aural-text` label for accessibility purposes.
  * - An action bar can be added to the list item by adding an `oae-listitem-actions` div to the list
  *   item. This action bar can contain one or multiple action buttons.
- * - The `oae-thumbnail`, `oae-listitem-actions` and checkbox are all optional.
- * - The `oae-thumbnail` element, containing the preview image, is a standard
- *   `oae-thumbnail` element (See Thumbnail section for full overview).
+ * - The `oae-listitem-primary-thumbnail`, `oae-listitem-actions` and checkbox are all optional
+ * - The `oae-listitem-primary-thumbnail` element, containing the preview image, contains a standard
+ *   `oae-thumbnail` element (See Thumbnail section for full overview on `oae-thumbnail` components)
+ * - The standard `oae-thumbnail` element can be placed anywhere inside a listitem. By default it is
+ *   an appropriate size for details view, and in compact view it is shrunk to half the size. There
+ *   is a lot of alignment that depends on the vertical dimensions of the oae-listitem so it is not
+ *   recommended to make any `oae-thumbnail` element taller within `oae-listitem`
  */
 
 .oae-listitem {
@@ -1104,18 +1110,23 @@ div.oae-thumbnail i[class^="icon-"] {
     min-width: 50px;
 }
 
-/* List item thumbnail */
+/* List item thumbnails */
 
-.oae-listitem > div.oae-thumbnail {
-    float: left;
+.oae-listitem .oae-thumbnail {
     height: 50px;
     width: 50px;
-    margin-right: 15px;
 }
 
-.oae-list-compact-item > .oae-listitem > div.oae-thumbnail {
+.oae-list-compact-item > .oae-listitem .oae-thumbnail {
     height: 25px;
     width: 25px;
+}
+
+/* List item primary thumbnail */
+
+.oae-listitem > div.oae-listitem-primary-thumbnail {
+    float: left;
+    margin-right: 15px;
 }
 
 /* List item metadata */
@@ -1198,9 +1209,13 @@ div.oae-thumbnail i[class^="icon-"] {
     padding: 4px 12px;
 }
 
+.oae-list-compact-item > .oae-listitem > div.oae-listitem-actions {
+    height: 25px;
+}
+
 .oae-list-compact-item > .oae-listitem > div.oae-listitem-actions > i,
 .oae-list-compact-item > .oae-listitem > div.oae-listitem-actions > .btn {
-    margin-top: -6px;
+    margin-top: -5px;
 
     /* Horizontal padding will likely be overriden for more narrow contexts. We provide
        reasonable default for scenarios where we aren't concerned about horizontal
@@ -1223,7 +1238,7 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .ie-lt10 .oae-list-compact-item > .oae-listitem {
-    padding-bottom: 4px;
+    padding-bottom: 10px;
 }
 
 .ie-lt10 .oae-listitem > div.oae-listitem-metadata,

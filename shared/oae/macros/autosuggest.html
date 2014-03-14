@@ -11,7 +11,9 @@
 <div id="autosuggest-suggested-template"><!--
     <div class="oae-list-details-item">
         <div class="clearfix oae-listitem">
-            ${renderThumbnail(data, false, false, false)}
+            <div class="oae-listitem-primary-thumbnail">
+                ${renderThumbnail(data, false, false, false)}
+            </div>
             <div class="oae-listitem-metadata">
                 <h3 class="oae-threedots">${data.displayName}</h3>
                 {if data.resourceType === 'user'}

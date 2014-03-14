@@ -143,7 +143,9 @@
             <div class="oae-list-details-item">
                 <div class="oae-listitem">
                     ${renderCheckbox(entityData, 'details', showCheckbox)}
-                    ${renderThumbnail(entityData, null, null, null, customImage)}
+                    <div class="oae-listitem-primary-thumbnail">
+                        ${renderThumbnail(entityData, null, null, null, customImage)}
+                    </div>
                     {if listItemActions}
                         <div class="oae-listitem-actions">
                             ${listItemActions()}
@@ -159,7 +161,9 @@
             <div class="oae-list-compact-item">
                 <div class="oae-listitem">
                     ${renderCheckbox(entityData, 'compact', showCheckbox)}
-                    ${renderThumbnail(entityData, null, null, null, customImage)}
+                    <div class="oae-listitem-primary-thumbnail">
+                        ${renderThumbnail(entityData, null, null, null, customImage)}
+                    </div>
                     {if listItemActions}
                         <div class="oae-listitem-actions">
                             ${listItemActions()}
