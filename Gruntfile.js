@@ -14,6 +14,7 @@
  */
 
 var _ = require('underscore');
+var shell = require('shelljs');
 var util = require('util');
 var vm = require('vm');
 
@@ -102,7 +103,7 @@ module.exports = function(grunt) {
                         'name': 'oae.core',
                         'exclude': ['jquery']
                     }],
-                    'fileExclusionRegExp': /^(\.|<%= target %>|tests|tools|grunt|optimist|properties-parser|readdirp|underscore$|oae-release-tools)/,
+                    'fileExclusionRegExp': /^(\.|<%= target %>|tests|tools|grunt|optimist|properties-parser|readdirp|underscore$|shelljs$|oae-release-tools)/,
                     'logLevel': 2
                 }
             }
@@ -111,50 +112,129 @@ module.exports = function(grunt) {
             'oae': {
                 'basedir': '<%= target %>/optimized',
                 'phases': [
+
+                    /*!
+                     * In the first phase, we hash all the bundle and culture folders and replace
+                     * their references in just the shared JS files as those are the only places
+                     * we have references to them.
+                     */
                     {
-                        // Rename and hash these folders
                         'folders': [
                             '<%= target %>/optimized/shared/bundles',
                             '<%= target %>/optimized/ui/bundles',
                             '<%= target %>/optimized/admin/bundles',
                             '<%= target %>/optimized/shared/vendor/js/l10n/cultures'
                         ],
+                        'references': _replacementReferences(['shared'], ['js'])
+                    },
 
-                        // Rename and hash these files
-                        // TODO: Remove /optimized/custom when we have configurable landing pages
+                    /*!
+                     * In the second phase, we hash just files that are not going to have
+                     * references to other hashed files. That's basically everything except
+                     * JS and CSS files so those file extensions are excluded. Additionally,
+                     * the following types of files are excluded:
+                     *
+                     *  * We do not hash HTML files because they aren't cached
+                     *  * We do not hash the JSON files (e.g., manifest.json)
+                     *  * We do not hash the favicon (ico) because it is a browser standard file
+                     *  * We do not hash less files because they are programmatically access
+                     *  * We exclude the directories that have already been hashed (bundles and cultures)
+                     *
+                     * TODO: Remove "custom" when there is a proper landing page customization strategy
+                     */
+                    {
                         'files': _hashFiles([
-                            '<%= target %>/optimized/custom',
-                            '<%= target %>/optimized/shared',
-                            '<%= target %>/optimized/ui',
                             '<%= target %>/optimized/admin',
-                            '<%= target %>/optimized/docs'
-                        ], ['html', 'json', 'ico', 'less'], [
+                            '<%= target %>/optimized/custom',
+                            '<%= target %>/optimized/docs',
+                            '<%= target %>/optimized/shared',
+                            '<%= target %>/optimized/ui'
+                        ], ['css', 'html', 'ico', 'js', 'json', 'less'], [
                             '!<%= target %>/optimized/shared/vendor/js/l10n/cultures.*/**',
-                            '!<%= target %>/optimized/ui/bundles.*/**',
-                            '<%= target %>/optimized/shared/oae/macros/*.html'
+                            '!<%= target %>/optimized/ui/bundles.*/**'
                         ]),
+                        'references': _replacementReferences([
+                            'admin',
+                            'custom',
+                            'docs',
+                            'node_modules/oae-*',
+                            'shared',
+                            'ui'
+                        ], ['css', 'html', 'js'], [
+                            '<%= target %>/optimized/shared/oae/macros/*.html'
+                        ])
+                    },
 
-                        // Look for and replace references to the above (non-excluded) files and folders in these files
-                        // // TODO: Remove /optimized/custom when we have configurable landing pages
-                        'references': [
-                            '<%= target %>/optimized/custom/**/*.html',
-                            '<%= target %>/optimized/shared/**/*.html',
+                    /*!
+                     * In the third phase, we hash the macros and apply any replacements to the JS
+                     * files in the shared directory.
+                     */
+                    {
+                        'files': ['<%= target %>/optimized/shared/oae/macros/*.html'],
+                        'references': ['<%= target %>/optimized/shared/**/*.js']
+                    },
+
+                    /*!
+                     * In the fourth phase, we hash JavaScript, CSS, HTML (macro) files of the /shared
+                     * directory and replace all HTML and JS files with them. CSS files don't
+                     * need replacement because a CSS file will never references another CSS
+                     * or JavaScript (@import statements are inlined). Here we don't worry about
+                     * JS-to-JS references because those are aliased inside oae.bootstrap.js
+                     *
+                     * TODO: Remove "custom" when there is a proper landing page customization strategy
+                     */
+                    {
+                        'files': [
                             '<%= target %>/optimized/shared/**/*.js',
                             '<%= target %>/optimized/shared/**/*.css',
-                            '<%= target %>/optimized/ui/**/*.html',
-                            '<%= target %>/optimized/ui/**/*.js',
-                            '<%= target %>/optimized/ui/**/*.css',
-                            '<%= target %>/optimized/admin/**/*.html',
-                            '<%= target %>/optimized/admin/**/*.js',
+                            '!<%= target %>/optimized/shared/vendor/js/l10n/cultures.*/**'
+                        ],
+                        'references': _replacementReferences([
+                            'admin',
+                            'custom',
+                            'docs',
+                            'node_modules/oae-*',
+                            'shared',
+                            'ui'
+                        ], ['html', 'js'], [
+                            '<%= target %>/optimized/shared/oae/macros/*.html'
+                        ])
+                    },
+
+                    /*!
+                     * In the fifth phase, we hash the JS directories of all the actual UIs like
+                     * /admin, /ui etc... We need to hash the directory because there are JS-to-JS
+                     * references that can't be reliably processed such that hashes are created
+                     * after inline replacement of paths have occurred. By hashing the directory we
+                     * ensure that all JS files are invalidated as a group and so don't wind up with
+                     * indirect references that don't properly update a hash.
+                     *
+                     * We also hash the CSS files and perform the necessary replacements.
+                     *
+                     * TODO: Remove "custom" when there is a proper landing page customization strategy
+                     */
+                    {
+                        'folders': [
+                            '<%= target %>/optimized/admin/js',
+                            '<%= target %>/optimized/custom/js',
+                            '<%= target %>/optimized/docs/js',
+                            '<%= target %>/optimized/ui/js'
+                        ],
+                        'files': [
                             '<%= target %>/optimized/admin/**/*.css',
-                            '<%= target %>/optimized/docs/**/*.html',
-                            '<%= target %>/optimized/docs/**/*.js',
                             '<%= target %>/optimized/docs/**/*.css',
-                            '<%= target %>/optimized/node_modules/oae-*/**/*.html',
-                            '<%= target %>/optimized/node_modules/oae-*/**/*.js',
-                            '<%= target %>/optimized/node_modules/oae-*/**/*.css',
-                            '<%= target %>/optimized/node_modules/oae-*/**/*.json'
-                        ]
+                            '<%= target %>/optimized/custom/**/*.css',
+                            '<%= target %>/optimized/ui/**/*.css'
+                        ],
+                        'references': _replacementReferences([
+                            'admin',
+                            'custom',
+                            'docs',
+                            'node_modules/oae-*',
+                            'ui'
+                        ], ['html', 'js'], [
+                            '<%= target %>/optimized/shared/oae/macros/*.html'
+                        ])
                     }
                 ],
                 'version': '<%= target %>/optimized/hashes.json'
@@ -202,31 +282,97 @@ module.exports = function(grunt) {
         }
     });
 
+    // Task to place an update slug on the oae.bootstrap.js file so that it always gets a new hash in a
+    // build. This is needed because we do post-hash updates on the file to update module references and
+    // if module reference hashes change, it's possible the oae.bootstrap.js file won't get a new hash
+    // as a result
+    grunt.registerTask('touchBootstrap', function() {
+        // Just place a comment in the file with the current timestamp
+        util.format('\n// Date Built: %d', Date.now()).toEnd(util.format('%s/optimized/shared/oae/api/oae.bootstrap.js', grunt.config('target')));
+    });
+
     // Task to hash files
     grunt.registerTask('hashFiles', function() {
         this.requires('requirejs');
+        this.requires('touchBootstrap');
 
-        // Add the modules as phases to ver:oae
+        // Add a new ver task for each module that needs to be optimized
         var oaeModules = grunt.file.expand({filter:'isDirectory'}, grunt.config('target') + '/optimized/node_modules/oae-*/*');
         oaeModules.forEach(function(module) {
             grunt.log.writeln(module);
-            var config = {
-                'folders': [ module + '/bundles' ],
-                'files': _hashFiles([module], ['json']),
-                'references': [
-                    module + '/**/*.html',
-                    module + '/**/*.js',
-                    module + '/**/*.css',
-                    module + '/*.json'
-                ]
-            };
-            grunt.config.set('ver.' + module + '.basedir', module);
-            grunt.config.set('ver.' + module + '.phases', [config]);
-            grunt.task.run('ver:' + module);
+
+            var moduleReferences = [
+                util.format('%s/**/*.css', module),
+                util.format('%s/**/*.html', module),
+                util.format('%s/**/*.js', module),
+                util.format('%s/**/*.json', module)
+            ];
+
+            var phases = [
+
+                /*!
+                 * First, hash all files that do not have references to other files. That's
+                 * basically everything except HTML, JS, CSS files. Additionally, we
+                 * don't hash the following:
+                 *
+                 *  * properties files aren't hashed, because the bundles directory itself
+                 *    is hashed
+                 *  * JSON files (manifest.json) aren't hashed because it needs to have a
+                 *    deterministic name
+                 */
+                {
+                    'files': _hashFiles([module], ['css', 'html', 'js', 'json', 'properties']),
+                    'references': moduleReferences.slice()
+                },
+
+                /*!
+                 * Second, hash the bundles directories of the widgets
+                 */
+                {
+                    'folders': [
+                        util.format('%s/bundles', module)
+                    ],
+                    'references': moduleReferences.slice()
+                },
+
+                /*!
+                 * Third, hash the remainder of the files (CSS, HTML and JS)
+                 *
+                 * TODO:
+                 *
+                 * Hashing JS files only once in this way is rather unstable. There is an issue such
+                 * that if one JS file references another, and that other JS file changes, the hash
+                 * of the JS file that references it will not get updated. Either the hashing cycle
+                 * needs to happen a safe number of times (e.g., hashing 3 times may secure JS
+                 * reference chains of depth 3), or there should be a better strategy to catch changes
+                 * in JS files. Directory hashing on the js/ directory does not work because it
+                 * results in all strings of "js" to be replaced in the widget files, which catches
+                 * things like: /shared/vendor/js/... for example, thus breaking those references.
+                 *
+                 * At this time there is no known manifestation of this issue in widgets, but it
+                 * needs to be addressed before chains of JS files using require.js is possible in
+                 * widgets.
+                 *
+                 * See https://github.com/oaeproject/3akai-ux/issues/3551 for more information.
+                 */
+                {
+                    'files': [
+                        util.format('%s/**/*.css', module),
+                        util.format('%s/**/*.html', module),
+                        util.format('%s/**/*.js', module)
+                    ],
+                    'references': moduleReferences.slice()
+                }
+            ];
+
+            grunt.config.set(util.format('ver.%s.basedir', module), module);
+            grunt.config.set(util.format('ver.%s.phases', module), phases);
+            grunt.task.run(util.format('ver:%s', module));
         });
 
         grunt.task.run('ver:oae');
         grunt.task.run('updateBootstrapPaths');
+
     });
 
     // Task to update the paths in oae.bootstrap to the hashed versions
@@ -320,7 +466,28 @@ module.exports = function(grunt) {
     grunt.registerTask('test', ['casperjs', 'qunit']);
 
     // Default task for production build
-    grunt.registerTask('default', ['clean', 'copy', 'git-describe', 'requirejs', 'hashFiles', 'writeVersion', 'configNginx']);
+    grunt.registerTask('default', ['clean', 'copy', 'git-describe', 'requirejs', 'touchBootstrap', 'hashFiles', 'writeVersion', 'configNginx']);
+};
+
+/**
+ * Generate the standard replacement references for the given resource directories, and also
+ * include the provided "extra" replacement files.
+ *
+ * @param  {String[]}   dirs            The directory names (located in <target>/optimized) whose resource paths should be replaced
+ * @param  {String[]}   includeExts     The file extensions that should have replacement performed
+ * @param  {String[]}   extra           Additional replacements to perform
+ * @return {String[]}                   The full derived list of all resources that replacement should be performed
+ */
+var _replacementReferences = function(dirs, includeExts, extra) {
+    var replacements = (_.isArray(extra)) ? extra.slice() : [];
+
+    _.each(dirs, function(dir) {
+        _.each(includeExts, function(ext) {
+            replacements.push(util.format('<%= target %>/optimized/%s/**/*.%s', dir, ext));
+        });
+    });
+
+    return replacements;
 };
 
 /**

@@ -14,10 +14,10 @@
  */
 
 /**
- * Utility plugin that handles the responsive left hand navigation interactions.
- *     - Ability to open and close the navigation using the `.oae-lhnavigation-toggle` class on desktop and mobile.
- *     - Toggling the visiblity of the navigation uses animation to fade-in/fade-out on desktop and mobile.
- *     - When a `page link` is clicked on a mobile device the navigation will close (does not apply on desktop). The navigation stays visible when an `action button` is clicked as this doesn't show a new page.
+ * Utility plugin that handles the responsive left hand navigation interactions. This plugin will support the
+ * opening and closing of the left hand navigation using the `.oae-lhnavigation-toggle` element using an animation.
+ * When a page link is clicked on a mobile device, the navigation will automatically close. The navigation will
+ * remain visible when an action button is clicked, as this doesn't render a new page.
  */
 
 define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
@@ -71,15 +71,10 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
         };
 
         /**
-         * Close the left hand navigation using animation when clicking a navigation link on a handheld device.
-         * Actions in the left hand navigation trigger a widget and shouldn't close the left hand navigation.
-         * If the user is on a desktop browser the left hand navigation should never close.
+         * Close the left hand navigation when clicking a navigation link, but not an action link (e.g., Share)
+         * as that opens a widget that intends to overlay the left hand menu.
          */
-        $(document).on('click', '.oae-lhnavigation > ul > li:not(.oae-lhnavigation-action)', function() {
-            if (oaeUtil.isHandheldDevice()) {
-                closeLhNav();
-            }
-        });
+        $(document).on('click', '.oae-lhnavigation > ul > li:not(.oae-lhnavigation-action)', closeLhNav);
 
         /**
          * Toggle the left hand navigation with animation. The left hand navigation can only
@@ -93,6 +88,16 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
             } else {
                 openLhNav();
             }
+        });
+
+        /**
+         * Dismiss the keyboard on a mobile device when a search form is submitted. This won't be
+         * noticable on desktop browsers.
+         *
+         * @see https://github.com/oaeproject/3akai-ux/issues/3401
+         */
+        $(document).on('submit', 'form[role="search"]', function() {
+            $(this).find('.search-query').blur().focus();
         });
 
     })(jQuery);
