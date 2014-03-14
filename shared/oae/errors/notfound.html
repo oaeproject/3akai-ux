@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <meta name="viewport" content="width=device-width, user-scalable=no">
+        <meta name="viewport" content="width=device-width">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <noscript>
@@ -24,14 +24,17 @@
             <div id="error-content">
                 <div class="row oae-panel-primary">
                     <div class="col-md-offset-1 col-md-3">
-                        <h1>__MSG__404__<br/> <span>__MSG__PAGE_NOT_FOUND__</span></h1>
+                        <div id="error-code">__MSG__404__</div>
+                        <h1>__MSG__PAGE_NOT_FOUND__</h1>
                     </div>
                     <div class="col-md-8">
-                        <div class="oae-panel-tertiary error-quote-container">
-                            <p class="error-quote">&quot;__MSG__QUOTE_NOT_FOUND__&quot;</p>
-                            <a href="/search" class="btn btn-primary">__MSG__SEARCH__</a> <span>__MSG__SEARCH_FOR_CONTENT_PEOPLE_GROUPS__</span>
+                        <div class="error-quote-container">
+                            <div class="oae-panel-tertiary">
+                                <p class="error-quote">&quot;__MSG__QUOTE_NOT_FOUND__&quot;</p>
+                                <a href="/search" class="btn btn-primary">__MSG__SEARCH__</a> <span>__MSG__SEARCH_FOR_CONTENT_PEOPLE_GROUPS__</span>
+                            </div>
+                            <div id="error-quote-author">__MSG__QUOTED_NOT_FOUND__</div>
                         </div>
-                        <div>__MSG__QUOTED_NOT_FOUND__</div>
                     </div>
                 </div>
             </div>

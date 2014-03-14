@@ -13,54 +13,33 @@
  * permissions and limitations under the License.
  */
 
-.ie-lt10 .col-md-5 {
-    float: left;
-    width: 41%;
+.oae-panel-primary {
+    background: none;
 }
 
-.ie-lt10 .col-md-7 {
-    float: left;
-    width: 58%;
+.oae-panel-tertiary {
+    margin-top: 30px;
 }
 
-#error-content h1 {
+.unsupported-column-1,
+.unsupported-column-2 {
+    float: left;
+    padding: 0 20px;
+    width: 50%;
+}
+
+#error-content .unsupported-column-1 h1 {
     line-height: 1;
     font-size: 40px;
 }
 
-#error-content ul {
-    margin-top: 40px;
+#error-content .unsupported-column-2 h1 {
+    margin-top: 0;
 }
 
-#error-content ul li {
+#error-content .unsupported-column-1 ul li {
+    margin-left: -20px;
     font-size: 18px;
     font-weight: 200;
 }
 
-#error-content ul.list-unstyled {
-    margin: 0 0 0 20px;
-}
-
-#error-content .error-quote-container {
-    background-image: url('/shared/oae/img/ie.png');
-    background-repeat: no-repeat;
-    background-position: bottom right;
-}
-
-#error-content .error-quote-container.oae-quote-inverse {
-    background-image: none;
-    width: 300px;
-}
-
-#error-content .error-quote-container.oae-quote-inverse {
-    margin-bottom: 0 !important;
-    margin-top: -15px;
-}
-
-#error-content .error-quote-container.oae-quote-inverse p {
-    margin: 0;
-}
-
-#error-content .error-quote-container.oae-quote-inverse + div img {
-    margin-top: 15px;
-}

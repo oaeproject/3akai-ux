@@ -91,9 +91,9 @@ require(['jquery', 'oae.core'], function($, oae) {
     var setUpClip = function() {
         oae.api.util.template().render($('#group-clip-template'), {'group': groupProfile}, $('#group-clip-container'));
 
-        // Only show the create and upload clips to managers
-        if (groupProfile.isManager) {
-            $('#group-manager-actions').show();
+        // Only show the create and upload clips to group members
+        if (groupProfile.isMember) {
+            $('#group-member-actions').show();
         // Show the join clip to non-members when the group is joinable
         } else if (!groupProfile.isMember && groupProfile.canJoin) {
             $('#group-join-actions').show();
@@ -108,7 +108,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         var lhNavActions = [];
 
         // Add the upload and create clips for managers
-        if (groupProfile.isManager) {
+        if (groupProfile.isMember) {
             lhNavActions.push({
                 'icon': 'icon-cloud-upload',
                 'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
@@ -183,6 +183,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                             'id': 'contentlibrary',
                             'settings': {
                                 'context': groupProfile,
+                                'canAdd': groupProfile.isMember,
                                 'canManage': groupProfile.isManager
                             }
                         }
@@ -202,6 +203,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                             'id': 'discussionslibrary',
                             'settings': {
                                 'context': groupProfile,
+                                'canAdd': groupProfile.isMember,
                                 'canManage': groupProfile.isManager
                             }
                         }
@@ -230,10 +232,8 @@ require(['jquery', 'oae.core'], function($, oae) {
         });
 
         $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
-        $('.oae-page').addClass('oae-anon-toggle');
         $(window).on('oae.ready.lhnavigation', function() {
             $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
-            $('.oae-page').addClass('oae-anon-toggle');
         });
     };
 
