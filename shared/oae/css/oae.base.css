@@ -605,9 +605,15 @@ ul.as-list li.as-result-item.active {
     -webkit-box-shadow: 0 2px 4px #DBDBDB;
        -moz-box-shadow: 0 2px 4px #DBDBDB;
             box-shadow: 0 2px 4px #DBDBDB;
-    clear: both;
-    min-height: 550px;
     padding: 10px;
+    min-height: 450px;
+    clear: both;
+}
+
+@media (max-width: 991px) {
+    .oae-main-content {
+        min-height: 520px; /* Slightly increase the minimum height on smaller screens to take clip actions in the left hand navigation into account */
+    }
 }
 
 .oae-main-content > div {

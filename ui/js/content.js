@@ -134,10 +134,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      */
     var setUpClips = function() {
         oae.api.util.template().render($('#content-clip-template'), {'content': contentProfile}, $('#content-clip-container'));
-        // Only show the actions to logged in users
-        if (!oae.data.me.anon) {
-            oae.api.util.template().render($('#content-actions-clip-template'), {'content': contentProfile}, $('#content-actions-clip-container'));
-        }
+        oae.api.util.template().render($('#content-actions-clip-template'), {'content': contentProfile}, $('#content-actions-clip-container'));
     };
 
     /**
