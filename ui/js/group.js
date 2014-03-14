@@ -108,7 +108,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         var lhNavActions = [];
 
         // Add the upload and create clips for managers
-        if (groupProfile.isManager) {
+        if (groupProfile.isMember) {
             lhNavActions.push({
                 'icon': 'icon-cloud-upload',
                 'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
@@ -232,10 +232,8 @@ require(['jquery', 'oae.core'], function($, oae) {
         });
 
         $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
-        $('.oae-page').addClass('oae-anon-toggle');
         $(window).on('oae.ready.lhnavigation', function() {
             $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
-            $('.oae-page').addClass('oae-anon-toggle');
         });
     };
 
