@@ -1101,7 +1101,7 @@ div.oae-thumbnail i[class^="icon-"] {
        -moz-flex: initial;
         -ms-flex: initial;
             flex: initial;
-    min-width: 50px;
+    min-width: 100px;
 }
 
 /* List item thumbnail */
@@ -1130,7 +1130,7 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .oae-listitem > div.oae-listitem-metadata > h3 {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 500;
     height: 25px;
     line-height: 25px;
@@ -1179,7 +1179,8 @@ div.oae-thumbnail i[class^="icon-"] {
 
 /* Actions can be either an icon or a button with an icon. Style them consistently */
 .oae-listitem > div.oae-listitem-actions > i,
-.oae-listitem > div.oae-listitem-actions > .btn {
+.oae-listitem > div.oae-listitem-actions > .btn,
+.oae-listitem > div.oae-listitem-actions > .btn i {
     font-size: 18px;
 }
 
@@ -1230,7 +1231,7 @@ div.oae-thumbnail i[class^="icon-"] {
 .ie-lt10 .oae-listitem > div.oae-listitem-actions {
     display: block;
     vertical-align: middle;
-    width: auto; 
+    width: auto;
 }
 
 .ie-lt10 .oae-listitem > div.oae-listitem-actions {
@@ -1528,10 +1529,6 @@ ul.oae-list > li:first-child .oae-listitem {
     list-style-type: none;
 }
 
-.oae-list-actions.oae-list-actions-multiple ul > li {
-    margin-bottom: 8px;
-}
-
 /* Grid view */
 
 ul.oae-list.oae-list-grid > li.oae-list-actions {
@@ -1591,6 +1588,10 @@ ul.oae-list.oae-list-grid .oae-list-actions.oae-list-actions-multiple ul {
     bottom: -2px;
 }
 
+ul.oae-list.oae-list-grid .oae-list-actions.oae-list-actions-multiple ul > li {
+    margin-bottom: 8px;
+}
+
 /* Details and compact view */
 
 ul.oae-list:not(.oae-list-grid) .oae-list-actions div.oae-thumbnail {
@@ -1599,6 +1600,7 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions div.oae-thumbnail {
 
 ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
     display: inline-block;
+    margin-bottom: 10px;
     margin-right: 10px;
 }
 
