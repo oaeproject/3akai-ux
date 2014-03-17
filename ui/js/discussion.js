@@ -37,7 +37,8 @@ require(['jquery','oae.core'], function($, oae) {
             lhNavActions.push({
                 'icon': 'icon-comments',
                 'title': oae.api.i18n.translate('__MSG__COMMENT__'),
-                'class': 'comments-focus-new-comment'
+                'class': 'comments-focus-new-comment',
+                'closeNav': true
             });
         }
         // Only offer share to users that are allowed to share the discussion
@@ -56,9 +57,9 @@ require(['jquery','oae.core'], function($, oae) {
 
         var lhNavPages = [{
             'id': 'discussion',
-            'closeNav': true,
             'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
             'icon': 'icon-comments',
+            'closeNav': true,
             'class': 'hide',
             'layout': [
                 {

@@ -71,10 +71,10 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
         };
 
         /**
-         * Close the left hand navigation when the user selects items that have requested
-         * closing
+         * Close the left hand navigation when the user selects items that should be closed
+         * when clicked.
          */
-        $(document).on('click', '.oae-lhnavigation > ul > li[data-close-nav]', closeLhNav);
+        $(document).on('click', '.oae-lhnavigation > ul li[data-close-nav]', closeLhNav);
 
         /**
          * Toggle the left hand navigation with animation. The left hand navigation can only

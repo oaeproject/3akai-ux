@@ -112,6 +112,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             lhNavActions.push({
                 'icon': 'icon-cloud-upload',
                 'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
+                'closeNav': true,
                 'class': 'oae-trigger-upload'
             },
             {
@@ -121,16 +122,19 @@ require(['jquery', 'oae.core'], function($, oae) {
                     {
                         'icon': 'icon-link',
                         'title': oae.api.i18n.translate('__MSG__LINK__'),
+                        'closeNav': true,
                         'class': 'oae-trigger-createlink'
                     },
                     {
                         'icon': 'icon-edit',
                         'title': oae.api.i18n.translate('__MSG__DOCUMENT__'),
+                        'closeNav': true,
                         'class': 'oae-trigger-createcollabdoc'
                     },
                     {
                         'icon': 'icon-comments',
                         'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
+                        'closeNav': true,
                         'class': 'oae-trigger-creatediscussion'
                     }
                 ]
@@ -152,9 +156,9 @@ require(['jquery', 'oae.core'], function($, oae) {
         if (groupProfile.isMember) {
             lhNavPages.push({
                 'id': 'activity',
-                'closeNav': true,
                 'title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
                 'icon': 'icon-dashboard',
+                'closeNav': true,
                 'layout': [
                     {
                         'width': 'col-md-12',
@@ -174,9 +178,9 @@ require(['jquery', 'oae.core'], function($, oae) {
 
         lhNavPages.push({
             'id': 'library',
-            'closeNav': true,
             'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
             'icon': 'icon-briefcase',
+            'closeNav': true,
             'layout': [
                 {
                     'width': 'col-md-12',
@@ -195,9 +199,9 @@ require(['jquery', 'oae.core'], function($, oae) {
         },
         {
             'id': 'discussions',
-            'closeNav': true,
             'title': oae.api.i18n.translate('__MSG__DISCUSSIONS__'),
             'icon': 'icon-comments',
+            'closeNav': true,
             'layout': [
                 {
                     'width': 'col-md-12',
@@ -216,9 +220,9 @@ require(['jquery', 'oae.core'], function($, oae) {
         },
         {
             'id': 'members',
-            'closeNav': true,
             'title': oae.api.i18n.translate('__MSG__MEMBERS__'),
             'icon': 'icon-user',
+            'closeNav': true,
             'layout': [
                 {
                     'width': 'col-md-12',
