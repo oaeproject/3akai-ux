@@ -660,7 +660,7 @@ div.oae-thumbnail i[class^="icon-"] {
     display: none;
 }
 
-.oae-clip .oae-clip-content small {
+.oae-clip .oae-clip-content > button small {
     clear: both;
     font-size: 12px;
     font-weight: normal;
@@ -669,8 +669,8 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 @media (max-width: 510px) {
-    .oae-clip .oae-clip-content h1,
-    .oae-clip .oae-clip-content small {
+    .oae-clip .oae-clip-content > button h1,
+    .oae-clip .oae-clip-content > button small {
         max-width: 185px;
     }
 }
@@ -985,6 +985,11 @@ div.oae-thumbnail i[class^="icon-"] {
     padding: 7px;
 }
 
+/* The visibility icon of the tile should be aligned to the right */
+.oae-tile > .oae-tile-metadata > i {
+    float: right;
+}
+
 .oae-tile h3,
 .oae-tile h3 a {
     font-size: 14px;
@@ -1014,14 +1019,14 @@ div.oae-thumbnail i[class^="icon-"] {
  *
  * The following HTML structure should be used to create a list item:
  *
- *  <div class="oae-listitem oae-listitem-compact">
+ *  <div class="oae-listitem">
  *      <input type="checkbox" class="pull-left" id="oae-list-details-u:cambridge:PPTBPgxSdf" data-id="u:cambridge:PPTBPgxSdf" />
  *      <label class="sr-only" for="oae-list-details-u:cambridge:PPTBPgxSdf">John Librarian</label>
  *      <div class="oae-thumbnail icon-oae-user pull-left">
  *          <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian" />
  *          <i class="icon-oae-private"></i>
  *      </div>
- *      <div>
+ *      <div class="oae-listitem-metadata">
  *          <h3 class="oae-threedots"><a href="/user/u:cambridge:PPTBPgxSdf">John Librarian</a></h3>
  *          <small class="oae-threedots">Professor</small>
  *      </div>
@@ -1033,14 +1038,15 @@ div.oae-thumbnail i[class^="icon-"] {
  * Notes:
  *
  * - A list item is available in an expanded size and a compact size. By default, the larger expanded
- *   view will be used. In order to use the smaller compact view, the class `oae-listitem-compact`
- *   should be added to the `oae-listitem` element.
+ *   view will be used. In order to use the smaller compact view, the item should be embedded in a
+ *   `div` with class `oae-list-compact-item`
+ * - A metadata block can be added that contains main list item textual content as well as additional
+ *   metadata in the form of an optional `small` tag
  * - A checkbox can be added to the list item for management purposes. This checkbox should have an
  *   accompanying `sr-only` label for accessibility purposes.
  * - An action bar can be added to the list item by adding an `oae-listitem-actions` div to the list
  *   item. This action bar can contain one or multiple action buttons.
  * - The `oae-thumbnail`, `oae-listitem-actions` and checkbox are all optional.
- * - The `small` element used to add some additional metadata is optional as well.
  * - The `oae-thumbnail` element, containing the preview image, is a standard
  *   `oae-thumbnail` element (See Thumbnail section for full overview).
  */
@@ -1048,14 +1054,21 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-listitem {
     padding: 10px;
     margin-bottom: 10px;
-    min-height: 50px;
     border: 1px solid;
     -webkit-border-radius: 3px;
        -moz-border-radius: 3px;
             border-radius: 3px;
 }
 
-.oae-listitem.oae-listitem-compact {
+.modal li .oae-listitem {
+    background-color: #FFF;
+}
+
+.oae-list-details-item > .oae-listitem {
+    min-height: 50px;
+}
+
+.oae-list-compact-item > .oae-listitem {
     min-height: 27px;
 }
 
@@ -1064,101 +1077,181 @@ div.oae-thumbnail i[class^="icon-"] {
     margin-top: 20px;
 }
 
-.oae-listitem.oae-listitem-compact input[type="checkbox"].pull-left {
+.oae-list-compact-item > .oae-listitem input[type="checkbox"].pull-left {
     margin-top: 6px;
+}
+
+.oae-list-compact-item > .oae-listitem .icon-warning-sign {
+    line-height: 1.5;
+}
+
+.oae-listitem > div.oae-listitem-metadata .oae-threedots {
+    display: block;
+    -webkit-flex: initial;
+       -moz-flex: initial;
+        -ms-flex: initial;
+            flex: initial;
+    min-width: 100px;
 }
 
 /* List item thumbnail */
 
-.oae-listitem .oae-thumbnail {
+.oae-listitem > div.oae-thumbnail {
     float: left;
     height: 50px;
     width: 50px;
     margin-right: 15px;
 }
 
-.oae-listitem.oae-listitem-compact .oae-thumbnail {
+.oae-list-compact-item > .oae-listitem > div.oae-thumbnail {
     height: 25px;
     width: 25px;
 }
 
 /* List item metadata */
 
-.oae-listitem > div:not(.oae-thumbnail) {
+.oae-listitem > div.oae-listitem-metadata {
     display: -webkit-flex;
     display: -moz-flex;
     display: -ms-flexbox;
     display: -ms-flex;
     display: flex;
     vertical-align: middle;
-    height: 50px;
 }
 
-.oae-listitem.oae-listitem-compact > div:not(.oae-thumbnail) {
-    height: 25px;
-    -webkit-flex-direction: row;
-       -moz-flex-direction: row;
-        -ms-flex-direction: row;
-            flex-direction: row;
-}
-
-/* IE9 specific fallback for flexbox */
-.ie-lt10 .oae-listitem.oae-listitem-compact > div:not(.oae-thumbnail) {
-    width: auto;
-}
-
-.oae-list-details-item .oae-listitem > div:not(.oae-thumbnail) {
-    -webkit-flex-direction: column;
-       -moz-flex-direction: column;
-        -ms-flex-direction: column;
-            flex-direction: column;
-}
-
-.oae-listitem h3 {
-    display: inline-block;
-    -webkit-flex: 10;
-       -moz-flex: 10;
-        -ms-flex: 10;
-            flex: 10;
-    font-size: 16px;
+.oae-listitem > div.oae-listitem-metadata > h3 {
+    font-size: 15px;
     font-weight: 500;
     height: 25px;
     line-height: 25px;
     margin: 0;
 }
 
-/* IE9 specific fallback for flexbox */
-.ie-lt10 .oae-listitem h3 {
-    max-width: 450px;
-}
-
-.oae-listitem small {
-    line-height: 1;
-    font-size: 11px;
-    opacity: 0.8;
+.oae-listitem > div.oae-listitem-metadata > small {
+    font-size: 12px;
+    line-height: 27px;
     text-transform: uppercase;
 }
 
-.oae-listitem.oae-listitem-compact small {
-    display: inline-block;
-    -webkit-flex: 2;
-       -moz-flex: 2;
-        -ms-flex: 2;
-            flex: 2;
-    line-height: 25px;
-    margin-left: 20px;
-    min-width: 100px;
+/* Details view stacks the h3/small in the metadata vertically */
+.oae-list-details-item > .oae-listitem > div.oae-listitem-metadata {
+    -webkit-flex-direction: column;
+       -moz-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    height: 50px;
+}
+
+/* Compact view lines up the h3/small in the metadata horizontally */
+.oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata {
+    -webkit-flex-direction: row;
+       -moz-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    height: 25px;
+}
+
+/* Give space between the listitem header and the extra metadata that is next to it */
+.oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > h3 {
+    margin-right: 15px;
 }
 
 /* List item actions */
 
-.oae-listitem .oae-listitem-actions {
-    width: 100%;
-    text-align: right;
+.oae-listitem > div.oae-listitem-actions {
+    display: inline-block;
+    -webkit-flex: none;
+       -moz-flex: none;
+        -ms-flex: none;
+            flex: none;
+    float: right;
 }
 
-.oae-listitem .oae-listitem-actions i {
+/* Actions can be either an icon or a button with an icon. Style them consistently */
+.oae-listitem > div.oae-listitem-actions > i,
+.oae-listitem > div.oae-listitem-actions > .btn,
+.oae-listitem > div.oae-listitem-actions > .btn i {
     font-size: 18px;
+}
+
+/* Center the actions panel vertically */
+.oae-list-details-item > .oae-listitem > div.oae-listitem-actions {
+    margin-top: 12px;
+}
+
+.oae-list-details-item > .oae-listitem > div.oae-listitem-actions > i,
+.oae-list-details-item > .oae-listitem > div.oae-listitem-actions > .btn {
+    margin-top: -4px;
+    /* Horizontal padding will likely be overriden for more narrow contexts. We provide
+       reasonable default for scenarios where we aren't concerned about horizontal
+       restrictions */
+    padding: 4px 12px;
+}
+
+.oae-list-compact-item > .oae-listitem > div.oae-listitem-actions > i,
+.oae-list-compact-item > .oae-listitem > div.oae-listitem-actions > .btn {
+    margin-top: -6px;
+    /* Horizontal padding will likely be overriden for more narrow contexts. We provide
+       reasonable default for scenarios where we aren't concerned about horizontal
+       restrictions */
+    padding: 6px;
+}
+
+/* Compact view can have a .form-group. Currently it's an adhoc implementation of
+   something needed in the manageaccess widget that may need to be fleshed out
+   more for details view */
+.oae-list-compact-item > .oae-listitem div.oae-listitem-actions .form-group {
+    display: inline-block;
+    margin-bottom: 0;
+}
+
+/* IE9 specific fallback for flexbox */
+
+.ie-lt10 .oae-listitem {
+    overflow: hidden;
+}
+
+.ie-lt10 .oae-list-compact-item > .oae-listitem {
+    padding-bottom: 4px;
+}
+
+.ie-lt10 .oae-listitem > div.oae-listitem-metadata,
+.ie-lt10 .oae-listitem > div.oae-listitem-actions {
+    display: block;
+    vertical-align: middle;
+    width: auto;
+}
+
+.ie-lt10 .oae-listitem > div.oae-listitem-actions {
+    float: right;
+}
+
+@media (min-width: 900px) {
+    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > h3,
+    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > small {
+        max-width: 500px;
+    }
+}
+
+@media (min-width: 550px) and (max-width: 900px) {
+    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > h3,
+    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > small {
+        max-width: 300px;
+    }
+}
+
+@media (min-width: 400px) and (max-width: 550px) {
+    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > h3,
+    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > small {
+        max-width: 160px;
+    }
+}
+
+@media (max-width: 400px) {
+    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > h3,
+    .ie-lt10 .oae-list-compact-item > .oae-listitem > div.oae-listitem-metadata > small {
+        max-width: 100px;
+    }
 }
 
 
@@ -1174,7 +1267,7 @@ div.oae-thumbnail i[class^="icon-"] {
  * The HTML for a list item has been abstracted into a globally available TrimPath template that
  * can be used when rendering list view items:
  *
- *   `${listItem(entityData, [metadata], [showCheckbox])}`
+ *   `${listItem(entityData, [metadata], [showCheckbox], [customImage], [renderListItemActions])}`
  *
  * An explanation of the parameters for the list item macro can be found in `shared/oae/macros/list.html`.
  *
@@ -1213,11 +1306,13 @@ ul.oae-list:not(.oae-list-compact) > li > .oae-list-compact-item {
 
 ul.oae-list.oae-list-grid > li {
     float: left;
+    height: 161px;
     margin: 0 10px 15px 0;
 }
 
 @media (min-width: 992px) {
     ul.oae-list.oae-list-grid > li {
+        height: 170px;
         margin-bottom: 24px;
         margin-right: 14px;
     }
@@ -1245,9 +1340,13 @@ ul.oae-list > li .oae-list-compact-item  {
 }
 
 /* IE9 specific fallback for flexbox */
-.ie-lt10 ul.oae-list.oae-list-details > li .oae-list-details-item,
+
 .ie-lt10 ul.oae-list.oae-list-compact > li .oae-list-compact-item  {
     display: table;
+}
+
+.ie-lt10 ul.oae-list.oae-list-compact > li > .oae-list-compact-item h3 {
+    float: left;
 }
 
 ul.oae-list > li .oae-listitem {
@@ -1416,7 +1515,6 @@ ul.oae-list > li:first-child .oae-listitem {
 
 .oae-list-actions ul > li {
     list-style-type: none;
-    margin-top: 10px;
 }
 
 /* Grid view */
@@ -1475,21 +1573,22 @@ ul.oae-list.oae-list-grid .oae-list-actions ul {
 }
 
 ul.oae-list.oae-list-grid .oae-list-actions.oae-list-actions-multiple ul {
-    bottom: 5px;
+    bottom: -2px;
+}
+
+ul.oae-list.oae-list-grid .oae-list-actions.oae-list-actions-multiple ul > li {
+    margin-bottom: 8px;
 }
 
 /* Details and compact view */
-
-ul.oae-list:not(.oae-list-grid) .oae-list-actions {
-    height: 50px;
-}
 
 ul.oae-list:not(.oae-list-grid) .oae-list-actions div.oae-thumbnail {
     display: none;
 }
 
 ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
-    display: inline;
+    display: inline-block;
+    margin-bottom: 10px;
     margin-right: 10px;
 }
 
