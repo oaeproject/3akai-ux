@@ -152,6 +152,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         if (groupProfile.isMember) {
             lhNavPages.push({
                 'id': 'activity',
+                'closeNav': true,
                 'title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
                 'icon': 'icon-dashboard',
                 'layout': [
@@ -173,6 +174,7 @@ require(['jquery', 'oae.core'], function($, oae) {
 
         lhNavPages.push({
             'id': 'library',
+            'closeNav': true,
             'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
             'icon': 'icon-briefcase',
             'layout': [
@@ -193,6 +195,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         },
         {
             'id': 'discussions',
+            'closeNav': true,
             'title': oae.api.i18n.translate('__MSG__DISCUSSIONS__'),
             'icon': 'icon-comments',
             'layout': [
@@ -213,6 +216,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         },
         {
             'id': 'members',
+            'closeNav': true,
             'title': oae.api.i18n.translate('__MSG__MEMBERS__'),
             'icon': 'icon-user',
             'layout': [

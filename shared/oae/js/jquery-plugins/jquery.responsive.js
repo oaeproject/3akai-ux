@@ -71,10 +71,10 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
         };
 
         /**
-         * Close the left hand navigation when clicking a navigation link, but not an action link (e.g., Share)
-         * as that opens a widget that intends to overlay the left hand menu.
+         * Close the left hand navigation when the user selects items that have requested
+         * closing
          */
-        $(document).on('click', '.oae-lhnavigation > ul > li:not(.oae-lhnavigation-action)', closeLhNav);
+        $(document).on('click', '.oae-lhnavigation > ul > li[data-close-nav]', closeLhNav);
 
         /**
          * Toggle the left hand navigation with animation. The left hand navigation can only
