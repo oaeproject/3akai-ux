@@ -719,6 +719,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         // to the provided options
         options = options || {};
         var defaultOptions = {
+            'container': 'body',
             'global_close': true,
             'html': true,
             'placement': 'bottom',
@@ -772,7 +773,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             'minChars': 2,
             'retrieveLimit': 10,
             'url': '/api/search/general',
-            'scroll': 117,
+            'scroll': 190,
             'searchObjProps': 'id, displayName',
             'selectedItemProp': 'displayName',
             'selectedValuesProp': 'id'
