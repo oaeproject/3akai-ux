@@ -1040,7 +1040,7 @@ div.oae-thumbnail i[class^="icon-"] {
  *      <input type="checkbox" class="pull-left" id="oae-list-details-u:cambridge:PPTBPgxSdf" data-id="u:cambridge:PPTBPgxSdf" />
  *      <label class="oae-aural-text" for="oae-list-details-u:cambridge:PPTBPgxSdf">John Librarian</label>
  *      <div class="oae-listitem-primary-thumbnail">
- *          <div class="oae-thumbnail icon-oae-user pull-left">
+ *          <div class="oae-thumbnail icon-oae-user">
  *              <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian" />
  *              <i class="icon-oae-private"></i>
  *          </div>
