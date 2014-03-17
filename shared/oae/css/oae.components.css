@@ -34,6 +34,13 @@ a.oae-plain-link:hover {
     display: none !important;
 }
 
+/**
+ * Style that can be used to hide items from anonymous users
+ *   e.g. <textarea class="oae-hide-when-anonymous"></textarea>
+ */
+.anon .oae-hide-when-anonymous {
+    display: none !important;
+}
 
 /******************
  * ACCESSIBILITY **
@@ -101,7 +108,7 @@ a.oae-plain-link:hover {
  *   e.g. <div class="oae-panel-primary">...</div>
  */
 .oae-panel-primary, .oae-panel-secondary, .oae-panel-tertiary {
-    padding: 15px 25px;
+    padding: 15px;
     -webkit-border-radius: 5px;
        -moz-border-radius: 5px;
             border-radius: 5px;
@@ -712,6 +719,13 @@ div.oae-thumbnail i[class^="icon-"] {
     width: 100%;
 }
 
+/* Box sizing tweak needed to workaround IE9 bug in calculating container size
+   @see https://github.com/oaeproject/3akai-ux/pull/3601 */
+.ie-lt10 .oae-clip .oae-clip-content > div > ul li button {
+    box-sizing: content-box;
+    min-width: 50px;
+}
+
 .oae-clip .oae-clip-content > div > ul li button i {
     display: inline-block;
     float: left;
@@ -807,9 +821,6 @@ div.oae-thumbnail i[class^="icon-"] {
  *   not be shown on wide viewports (e.g., desktop computers). This item should also be inside of a `oae-page` div,
  *   which is used for the collapsing animation on narrow viewports. Note that the `oae-lhnavigation-toggle` item
  *   resides in the `listHeader` macro.
- * - TODO: Remove this once a proper solution for https://github.com/oaeproject/3akai-ux/issues/3506 is in place
- *   The `.oae-lhnavigation-toggle` button is hidden by default for anonymous users. If the `.oae-anon-toggle` class
- *   is added to `.oae-page` the button will be shown for anonymous users.
  */
 
 /* Left hand navigation */
@@ -875,10 +886,6 @@ div.oae-thumbnail i[class^="icon-"] {
     position: relative;
     top: 6px;
     z-index: 100;
-}
-
-.oae-page.oae-anon-toggle .oae-lhnavigation-toggle.hide {
-    display: block;
 }
 
 /* Page content */
@@ -1107,7 +1114,7 @@ div.oae-thumbnail i[class^="icon-"] {
        -moz-flex: initial;
         -ms-flex: initial;
             flex: initial;
-    min-width: 50px;
+    min-width: 100px;
 }
 
 /* List item thumbnails */
@@ -1141,7 +1148,7 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .oae-listitem > div.oae-listitem-metadata > h3 {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 500;
     height: 25px;
     line-height: 25px;
@@ -1190,7 +1197,8 @@ div.oae-thumbnail i[class^="icon-"] {
 
 /* Actions can be either an icon or a button with an icon. Style them consistently */
 .oae-listitem > div.oae-listitem-actions > i,
-.oae-listitem > div.oae-listitem-actions > .btn {
+.oae-listitem > div.oae-listitem-actions > .btn,
+.oae-listitem > div.oae-listitem-actions > .btn i {
     font-size: 18px;
 }
 
@@ -1245,7 +1253,7 @@ div.oae-thumbnail i[class^="icon-"] {
 .ie-lt10 .oae-listitem > div.oae-listitem-actions {
     display: block;
     vertical-align: middle;
-    width: auto; 
+    width: auto;
 }
 
 .ie-lt10 .oae-listitem > div.oae-listitem-actions {
@@ -1543,10 +1551,6 @@ ul.oae-list > li:first-child .oae-listitem {
     list-style-type: none;
 }
 
-.oae-list-actions.oae-list-actions-multiple ul > li {
-    margin-bottom: 8px;
-}
-
 /* Grid view */
 
 ul.oae-list.oae-list-grid > li.oae-list-actions {
@@ -1606,6 +1610,10 @@ ul.oae-list.oae-list-grid .oae-list-actions.oae-list-actions-multiple ul {
     bottom: -2px;
 }
 
+ul.oae-list.oae-list-grid .oae-list-actions.oae-list-actions-multiple ul > li {
+    margin-bottom: 8px;
+}
+
 /* Details and compact view */
 
 ul.oae-list:not(.oae-list-grid) .oae-list-actions div.oae-thumbnail {
@@ -1614,6 +1622,7 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions div.oae-thumbnail {
 
 ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
     display: inline-block;
+    margin-bottom: 10px;
     margin-right: 10px;
 }
 
