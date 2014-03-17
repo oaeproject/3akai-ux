@@ -27,7 +27,7 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
         var LHNAVIGATION_PADDING = 25;
 
         /**
-         * Determines whether or not the left-hand nav is expanded.
+         * Determine whether or not the left-hand nav is expanded
          *
          * @return {Boolean}    `true` if the left-hand nav is expanded, `false` otherwise
          */
@@ -100,8 +100,8 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
         });
 
         /**
-         * If the user focuses in on anything within the main page while the left-hand nav is
-         * open, we close it for them
+         * Close the left hand navigation when anything within the main page receives focus
+         * whilst the left hand navigation is still open.
          */
         $(document).on('focusin', '.oae-page', function() {
             if (isLhNavExpanded()) {
