@@ -47,23 +47,6 @@ a.oae-plain-link:hover {
  ******************/
 
 /**
- * Used for accessibility purposes as it allows to put text content
- * for items that might not have text content (e.g. icons) or create
- * additional clues for screenreader users
- *   e.g. <button class="oae-icon oae-icon-home"><span class="oae-aural-text">Additional information</span></button>
- */
-.oae-aural-text {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-}
-
-/**
  * Style that can be used to fake focus on an element. This can for example
  * be used when a hidden element needs to provide visual feedback on a different element.
  */
@@ -122,18 +105,18 @@ a.oae-plain-link:hover {
  * These icons are used consistently to indicate the visibility setting for an entity
  * in the system. The available visibility privacy options are `private`, `loggedin` and
  * `public`.
- *   e.g. <i class="icon-oae-private"><span class="oae-aural-text">__MSG__PRIVATE__</span></i>
- *        <i class="icon-oae-loggedin"><span class="oae-aural-text">__MSG__LOGGED_IN__</span></i>
- *        <i class="icon-oae-public"><span class="oae-aural-text">__MSG__PUBLIC__</span></i>
+ *   e.g. <i class="icon-oae-private"><span class="sr-only">__MSG__PRIVATE__</span></i>
+ *        <i class="icon-oae-loggedin"><span class="sr-only">__MSG__LOGGED_IN__</span></i>
+ *        <i class="icon-oae-public"><span class="sr-only">__MSG__PUBLIC__</span></i>
  *
  * Large icons can be rendered by adding the `large` class to the icon.
- *   e.g. <i class="icon-oae-private large"><span class="oae-aural-text">__MSG__PRIVATE__</span></i>
- *        <i class="icon-oae-loggedin large"><span class="oae-aural-text">__MSG__LOGGED_IN__</span></i>
- *        <i class="icon-oae-public large"><span class="oae-aural-text">__MSG__PUBLIC__</span></i>
+ *   e.g. <i class="icon-oae-private large"><span class="sr-only">__MSG__PRIVATE__</span></i>
+ *        <i class="icon-oae-loggedin large"><span class="sr-only">__MSG__LOGGED_IN__</span></i>
+ *        <i class="icon-oae-public large"><span class="sr-only">__MSG__PUBLIC__</span></i>
  *
  * Note:
  *
- * - The `oae-aural-text` span is added in for accessibility purposes, but can be left out when necessary.
+ * - The `sr-only` span is added in for accessibility purposes, but can be left out when necessary.
  */
 
 i.icon-oae-private,
@@ -774,10 +757,10 @@ div.oae-thumbnail i[class^="icon-"] {
  *                  <button type="button" class="btn btn-link" title="__MSG__CREATE__">
  *                      <div class="lhnavigation-caret-container pull-right">
  *                          <i class="icon-caret-left pull-right">
- *                              <span class="oae-aural-text">__MSG__OPEN_NAVIGATION__</span>
+ *                              <span class="sr-only">__MSG__OPEN_NAVIGATION__</span>
  *                          </i>
  *                          <i class="icon-caret-down pull-right hide">
- *                              <span class="oae-aural-text">__MSG__CLOSE_NAVIGATION__</span>
+ *                              <span class="sr-only">__MSG__CLOSE_NAVIGATION__</span>
  *                          </i>
  *                      </div>
  *                      <i class="icon-plus-sign pull-left"></i>
@@ -1038,7 +1021,7 @@ div.oae-thumbnail i[class^="icon-"] {
  *
  *  <div class="oae-listitem">
  *      <input type="checkbox" class="pull-left" id="oae-list-details-u:cambridge:PPTBPgxSdf" data-id="u:cambridge:PPTBPgxSdf" />
- *      <label class="oae-aural-text" for="oae-list-details-u:cambridge:PPTBPgxSdf">John Librarian</label>
+ *      <label class="sr-only" for="oae-list-details-u:cambridge:PPTBPgxSdf">John Librarian</label>
  *      <div class="oae-thumbnail icon-oae-user pull-left">
  *          <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian" />
  *          <i class="icon-oae-private"></i>
@@ -1060,7 +1043,7 @@ div.oae-thumbnail i[class^="icon-"] {
  * - A metadata block can be added that contains main list item textual content as well as additional
  *   metadata in the form of an optional `small` tag
  * - A checkbox can be added to the list item for management purposes. This checkbox should have an
- *   accompanying `oae-aural-text` label for accessibility purposes.
+ *   accompanying `sr-only` label for accessibility purposes.
  * - An action bar can be added to the list item by adding an `oae-listitem-actions` div to the list
  *   item. This action bar can contain one or multiple action buttons.
  * - The `oae-thumbnail`, `oae-listitem-actions` and checkbox are all optional.
@@ -1078,7 +1061,7 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .modal li .oae-listitem {
-  background-color: #FFF;
+    background-color: #FFF;
 }
 
 .oae-list-details-item > .oae-listitem {
@@ -1199,7 +1182,6 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-list-details-item > .oae-listitem > div.oae-listitem-actions > i,
 .oae-list-details-item > .oae-listitem > div.oae-listitem-actions > .btn {
     margin-top: -4px;
-
     /* Horizontal padding will likely be overriden for more narrow contexts. We provide
        reasonable default for scenarios where we aren't concerned about horizontal
        restrictions */
@@ -1209,7 +1191,6 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-list-compact-item > .oae-listitem > div.oae-listitem-actions > i,
 .oae-list-compact-item > .oae-listitem > div.oae-listitem-actions > .btn {
     margin-top: -6px;
-
     /* Horizontal padding will likely be overriden for more narrow contexts. We provide
        reasonable default for scenarios where we aren't concerned about horizontal
        restrictions */
