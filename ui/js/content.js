@@ -56,6 +56,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
         var lhNavPages = [{
             'id': 'content',
+            'closeNav': true,
             'title': oae.api.i18n.translate('__MSG__CONTENT__'),
             'icon': 'icon-comments',
             'class': 'hide',
