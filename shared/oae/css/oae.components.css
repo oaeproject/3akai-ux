@@ -1037,20 +1037,19 @@ div.oae-thumbnail i[class^="icon-"] {
  *      </div>
  *  </div>
  *
- * As can be seen, the list item is made up of a few main components:
+ * A list item can be made up of a few main components:
  *
  *  * A checkbox (optional). If included, the checkbox can be used to select the list item, usually to
  *    perform bulk actions on a list of entities. This checkbox should have an accompanying `sr-only`
  *    label for accessibility purposes
  *  * A primary thumbnail (optional). The primary thumbnail contains a standard thumbnail component and
  *    is intended to depict a preview of the entity that the list item represents. For example, if the
- *    list item represents a content item in a list of content, it is intended to represent a thumbnail
+ *    list item represents a content item in a list of content items, it is intended to represent a thumbnail
  *    of the content preview. Other `oae-thumbnail` items can be added into the list item and it will
  *    be sized appropriately, however additional layout styling will probably be necessary to make it
  *    display the way you need it
- *  * A metadata block (required). The metadata block contains both a prominent name of the entity (the
- *    `h3`) and a brief optional secondary description of it such as a content type or tenant (the
- *    `small`)
+ *  * A metadata block (required). The metadata block contains both the display name of the entity (`h3`
+ *    element) and an optional secondary description of it such as a content type or tenant (`small` element)
  *  * An actions block (optional). The actions block contains icons and buttons that represent
  *    individual actions that can be performed on the entity that is represented by the list item
  *
