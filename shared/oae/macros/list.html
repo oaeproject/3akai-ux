@@ -34,7 +34,7 @@
             <div class="col-xs-12{if showSearch} col-sm-8{/if}">
                 <button type="button" class="oae-lhnavigation-toggle btn btn-link pull-left hidden-md hidden-lg">
                     <i class="icon-reorder"></i>
-                    <span class="oae-aural-text">__MSG__TOGGLE_NAVIGATION__</span>
+                    <span class="sr-only">__MSG__TOGGLE_NAVIGATION__</span>
                 </button>
 
                 {if showActionsToggle}
@@ -62,9 +62,9 @@
                 {var searchQueryId = oae.api.util.generateId()}
                 <div class="col-xs-12 col-sm-4 oae-list-header-search">
                     <form class="form-search" role="search">
-                        <label for="${searchQueryId}" class="control-label oae-aural-text">__MSG__NARROW_BY_KEYWORD__</label>
+                        <label for="${searchQueryId}" class="control-label sr-only">__MSG__NARROW_BY_KEYWORD__</label>
                         <input type="text" id="${searchQueryId}" class="oae-list-header-search-query form-control pull-right search-query" name="search-query" placeholder="__MSG__NARROW_BY_KEYWORD__"/>
-                        <button type="submit" class="oae-aural-text">__MSG__SEARCH__</button>
+                        <button type="submit" class="sr-only">__MSG__SEARCH__</button>
                     </form>
                 </div>
             {/if}
@@ -74,7 +74,7 @@
                 {if actions.length > 0}
                     {var selectAllId = oae.api.util.generateId()}
                     <input type="checkbox" id="${selectAllId}" class="oae-list-selectall" />
-                    <label for="${selectAllId}" class="oae-aural-text">__MSG__SELECT_ALL__</label>
+                    <label for="${selectAllId}" class="sr-only">__MSG__SELECT_ALL__</label>
                     {for action in actions}
                         <button type="button" class="btn ${action.trigger}" disabled="disabled" ${%_.map(action.data, function(value, key) { return 'data-' + key + '="' + value + '"'; }).join(' ')%}>
                             <i class="${action.icon} pull-left"></i>${action.label}
@@ -85,15 +85,15 @@
                     <div class="btn-group pull-right">
                         <button class="btn" data-type="oae-list-compact">
                             <i class="icon-list"></i>
-                            <span class="oae-aural-text">__MSG__LIST_VIEW__</span>
+                            <span class="sr-only">__MSG__LIST_VIEW__</span>
                         </button>
                         <button class="btn" data-type="oae-list-details">
                             <i class="icon-th-list"></i>
-                            <span class="oae-aural-text">__MSG__EXPANDED_LIST_VIEW__</span>
+                            <span class="sr-only">__MSG__EXPANDED_LIST_VIEW__</span>
                         </button>
                         <button class="btn active" data-type="oae-list-grid">
                             <i class="icon-th-large"></i>
-                            <span class="oae-aural-text">__MSG__GRID_VIEW__</span>
+                            <span class="sr-only">__MSG__GRID_VIEW__</span>
                         </button>
                     </div>
                 {/if}
@@ -105,13 +105,14 @@
 <!--
  * Render a list item representing a user, group or piece of content
  *
- * @param  {User|Group|Content}     entityData      Standard object representing a user, group or content item or a search result for a user, group or content item as returned by Hilary
- * @param  {String}                 [metadata]      Line of metadata information that should be displayed underneath the entity name
- * @param  {Boolean}                [showCheckbox]  Whether or not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
- * @param  {String}                 [customImage]   URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
- * @param  {Boolean}                [addLink]       Whether or not a link to the entity profile should be placed on the image. By default, a link will be set
+ * @param  {User|Group|Content}     entityData          Standard object representing a user, group or content item or a search result for a user, group or content item as returned by Hilary
+ * @param  {String}                 [metadata]          Line of metadata information that should be displayed underneath the entity name
+ * @param  {Boolean}                [showCheckbox]      Whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
+ * @param  {String}                 [customImage]       URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
+ * @param  {Function}               [listItemActions]   Macro that renders list item actions
+ * @param  {Boolean}                [addLink]           Whether or not a link to the entity profile should be placed on the image. By default, a link will be set
 -->
-{macro listItem(entityData, metadata, showCheckbox, customImage, addLink)}
+{macro listItem(entityData, metadata, showCheckbox, customImage, listItemActions, addLink)}
     {if entityData}
         {if entityData.resourceType}
             {var resourceType = entityData.resourceType}
@@ -125,14 +126,14 @@
             {var visibility = entityData['oae:visibility']}
         {/if}
 
-        <li>
+        <li data-id="${entityData.id}">
             <!-- THUMBNAIL VIEW -->
             <div class="oae-list-grid-item">
                 <div class="oae-tile">
                     ${renderThumbnail(entityData, false, true, addLink, customImage)}
                     <div class="oae-tile-metadata">
                         {if resourceType !== 'user'}
-                            <i class="icon-oae-${visibility} pull-right"></i>
+                            <i class="icon-oae-${visibility}"></i>
                         {/if}
                         ${renderMetadata(entityData, metadata, addLink)}
                     </div>
@@ -145,7 +146,12 @@
                 <div class="oae-listitem">
                     ${renderCheckbox(entityData, 'details', showCheckbox)}
                     ${renderThumbnail(entityData, null, null, addLink, customImage)}
-                    <div>
+                    {if listItemActions}
+                        <div class="oae-listitem-actions">
+                            ${listItemActions()}
+                        </div>
+                    {/if}
+                    <div class="oae-listitem-metadata">
                         ${renderMetadata(entityData, metadata, addLink)}
                     </div>
                 </div>
@@ -153,10 +159,15 @@
 
             <!-- COMPACT LIST VIEW -->
             <div class="oae-list-compact-item">
-                <div class="oae-listitem oae-listitem-compact">
+                <div class="oae-listitem">
                     ${renderCheckbox(entityData, 'compact', showCheckbox)}
                     ${renderThumbnail(entityData, null, null, addLink, customImage)}
-                    <div>
+                    {if listItemActions}
+                        <div class="oae-listitem-actions">
+                            ${listItemActions()}
+                        </div>
+                    {/if}
+                    <div class="oae-listitem-metadata">
                         ${renderMetadata(entityData, metadata, addLink)}
                     </div>
                 </div>
@@ -269,7 +280,7 @@
         {var tenant = entityData['oae:tenant']}
     {/if}
 
-    {if !metadata}
+    {if !metadata && metadata !== false}
         {if resourceType === 'user'}
             {var metadata = tenant.displayName}
         {elseif resourceType === 'group'}
@@ -282,7 +293,7 @@
     {/if}
 
     {if !profilePath || addLink === false}
-        <h3 class="oae-threedots"><span>${entityData.displayName|encodeForHTML}</span></h3>
+        <h3 class="oae-threedots"><span class="jeditable-field oae-threedots" rel="tooltip" data-placement="right" data-original-title="__MSG__CLICK_TO_RENAME__" tabindex="0">${entityData.displayName|encodeForHTML}</span></h3>
     {else}
         <h3 class="oae-threedots"><a href="${profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}">${entityData.displayName|encodeForHTML}</a></h3>
     {/if}
@@ -314,6 +325,6 @@
 
     {if !oae.data.me.anon && showCheckbox !== false}
         <input type="checkbox" class="pull-left" id="oae-list-${type}-${entityData.id}" data-id="${entityData.id}" data-resourceType="${resourceType}" data-resourceSubType="${resourceSubType}" />
-        <label class="oae-aural-text" for="oae-list-${type}-${entityData.id}">${entityData.displayName|encodeForHTML}</label>
+        <label class="sr-only" for="oae-list-${type}-${entityData.id}">${entityData.displayName|encodeForHTML}</label>
     {/if}
 {/macro}
