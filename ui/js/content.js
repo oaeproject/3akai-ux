@@ -27,18 +27,23 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
     /**
      * Set up the left hand navigation with the content space page structure.
-     * The content left hand navigation item will not be shown to the user and is only here to load the correct contentprofile widget.
+     * The content left hand navigation item will not be shown to the user and
+     * is only used to load the correct content preview widget
      */
     var setUpNavigation = function() {
         var lhNavActions = [];
-        // If the user is logged in, the comment and share functionality should be added
+        // All logged in users that can see the content can comment
         if (!oae.data.me.anon) {
             lhNavActions.push({
                 'icon': 'icon-comments',
                 'title': oae.api.i18n.translate('__MSG__COMMENT__'),
-                'class': 'comments-focus-new-comment'
-            },
-            {
+                'class': 'comments-focus-new-comment',
+                'closeNav': true
+            });
+        }
+        // Only offer share to users that are allowed to share the piece of content
+        if (contentProfile.canShare) {
+            lhNavActions.push({
                 'icon': 'icon-share',
                 'title': oae.api.i18n.translate('__MSG__SHARE__'),
                 'class': 'oae-trigger-share',
@@ -54,6 +59,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             'id': 'content',
             'title': oae.api.i18n.translate('__MSG__CONTENT__'),
             'icon': 'icon-comments',
+            'closeNav': true,
             'class': 'hide',
             'layout': [
                 {
@@ -76,9 +82,13 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             ]
         }];
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
+        // Only show the left-hand navigation toggle if there is something available in it
+        // TODO: Remove this once the lhnav toggle is no longer required on content profiles
+        var showLhNavToggle = (lhNavActions.length > 0);
+
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, showLhNavToggle]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, showLhNavToggle]);
         });
     };
 
@@ -126,10 +136,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      */
     var setUpClips = function() {
         oae.api.util.template().render($('#content-clip-template'), {'content': contentProfile}, $('#content-clip-container'));
-        // Only show the actions to logged in users
-        if (!oae.data.me.anon) {
-            oae.api.util.template().render($('#content-actions-clip-template'), {'content': contentProfile}, $('#content-actions-clip-container'));
-        }
+        oae.api.util.template().render($('#content-actions-clip-template'), {'content': contentProfile}, $('#content-actions-clip-container'));
     };
 
     /**

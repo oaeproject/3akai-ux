@@ -19,6 +19,19 @@
     max-width: 985px;
 }
 
+#index-content .row:last-child {
+    margin-bottom: 30px;
+}
+
+#index-content .row > div {
+    padding-left: 0;
+    padding-right: 10px;
+}
+
+#index-content .row > div:last-child {
+    padding-right: 0;
+}
+
 #index-container > div {
     margin: 0 auto;
     max-width: 985px;
@@ -34,15 +47,19 @@
 }
 
 #index-container .row {
-    margin: 30px 0 0;
+    margin: 30px 0 -5px;
+}
+
+#index-container .index-search-container {
+    margin-bottom: 40px;
 }
 
 #index-container .index-search-container form,
 #index-container .index-search-container form .form-group {
-    margin: 12px 0;
+    margin: 12px 5px;
 }
 
-#index-container .index-search-container input#index-search-query {
+#index-container .index-search-container #index-search-query {
     height: 37px;
     padding: 0 30px 0 12px;
 }
@@ -58,6 +75,10 @@
     height: 37px;
     margin-top: -3px;
     padding: 0px 19px;
+}
+
+#index-container #index-video-container {
+    padding-left: 0;
 }
 
 #index-container #index-video {
@@ -113,13 +134,55 @@
     overflow: auto;
 }
 
-@media (max-width: 992px) {
+@media (max-width: 991px) {
+    #index-content .row > div {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    #index-container .index-search-container {
+        margin-bottom: 30px;
+    }
+
     #index-content .row:last-child {
         margin-top: 0;
     }
 
     #index-container #index-slogan {
         font-size: 40px;
+        line-height: 1.2;
+    }
+
+    #index-container #index-video-container {
+        padding-right: 0;
+    }
+
+    .oae-panel-primary,
+    .oae-panel-tertiary {
+        margin: 25px 0 0;
+    }
+
+    .oae-panel-secondary {
+        margin: 15px 0 0;
+    }
+}
+
+/* Hide search placeholder on mobile devices */
+@media (max-width: 767px) {
+    #index-container .index-search-container #index-search-query:-moz-placeholder {
+        color: transparent;
+    }
+
+    #index-container .index-search-container #index-search-query::-moz-placeholder {
+        color: transparent;
+    }
+
+    #index-container .index-search-container #index-search-query:-ms-input-placeholder {
+        color: transparent;
+    }
+
+    #index-container .index-search-container #index-search-query::-webkit-input-placeholder {
+        color: transparent;
     }
 }
 
