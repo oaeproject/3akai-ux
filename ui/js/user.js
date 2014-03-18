@@ -105,6 +105,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             'id': 'library',
             'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
             'icon': 'icon-briefcase',
+            'closeNav': true,
             'layout': [
                 {
                     'width': 'col-md-12',
@@ -123,6 +124,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             'id': 'discussions',
             'title': oae.api.i18n.translate('__MSG__DISCUSSIONS__'),
             'icon': 'icon-comments',
+            'closeNav': true,
             'layout': [
                 {
                     'width': 'col-md-12',
@@ -141,6 +143,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             'id': 'groups',
             'title': oae.api.i18n.translate('__MSG__GROUPS__'),
             'icon': 'icon-group',
+            'closeNav': true,
             'layout': [
                 {
                     'width': 'col-md-12',
@@ -159,6 +162,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             'id': 'network',
             'title': oae.api.i18n.translate('__MSG__NETWORK__'),
             'icon': 'icon-random',
+            'closeNav': true,
             'layout': [
                 {
                     'width': 'span12',
