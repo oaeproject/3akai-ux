@@ -1054,24 +1054,27 @@ div.oae-thumbnail i[class^="icon-"] {
  *      </div>
  *  </div>
  *
+ * As can be seen, the list item is made up of a few main components:
+ *
+ *  * A checkbox (optional). If included, the checkbox can be used to select the list item, usually to
+ *    perform bulk actions on a list of entities
+ *  * A primary thumbnail (optional). The primary thumbnail contains a standard thumbnail component and
+ *    is intended to depict a preview of the entity that the list item represents. For example, if the
+ *    list item represents a content item in a list of content, it is intended to represent a thumbnail
+ *    of the content preview. Other `oae-thumbnail` items can be added into the list item and it will
+ *    be sized appropriately, however additional layout styling will probably be necessary to make it
+ *    display the way you need it
+ *  * A metadata block (required). The metadata block contains both a prominent name of the entity (the
+ *    `h3`) and a brief optional secondary description of it such as a content type or tenant (the
+ *    `small`)
+ *  * An actions block (optional). The actions block contains icons and buttons that represent
+ *    individual actions that can be performed on the entity that is represented by the list item
+ *
  * Notes:
  *
  * - A list item is available in an expanded size and a compact size. By default, the larger expanded
  *   view will be used. In order to use the smaller compact view, the item should be embedded in a
  *   `div` with class `oae-list-compact-item`
- * - A metadata block can be added that contains main list item textual content as well as additional
- *   metadata in the form of an optional `small` tag
- * - A checkbox can be added to the list item for management purposes. This checkbox should have an
- *   accompanying `oae-aural-text` label for accessibility purposes.
- * - An action bar can be added to the list item by adding an `oae-listitem-actions` div to the list
- *   item. This action bar can contain one or multiple action buttons.
- * - The `oae-listitem-primary-thumbnail`, `oae-listitem-actions` and checkbox are all optional
- * - The `oae-listitem-primary-thumbnail` element, containing the preview image, contains a standard
- *   `oae-thumbnail` element (See Thumbnail section for full overview on `oae-thumbnail` components)
- * - The standard `oae-thumbnail` element can be placed anywhere inside a listitem. By default it is
- *   an appropriate size for details view, and in compact view it is shrunk to half the size. There
- *   is a lot of alignment that depends on the vertical dimensions of the oae-listitem so it is not
- *   recommended to make any `oae-thumbnail` element taller within `oae-listitem`
  */
 
 .oae-listitem {
