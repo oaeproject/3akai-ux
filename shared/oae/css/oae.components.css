@@ -1040,7 +1040,8 @@ div.oae-thumbnail i[class^="icon-"] {
  * As can be seen, the list item is made up of a few main components:
  *
  *  * A checkbox (optional). If included, the checkbox can be used to select the list item, usually to
- *    perform bulk actions on a list of entities
+ *    perform bulk actions on a list of entities. This checkbox should have an accompanying `sr-only`
+ *    label for accessibility purposes
  *  * A primary thumbnail (optional). The primary thumbnail contains a standard thumbnail component and
  *    is intended to depict a preview of the entity that the list item represents. For example, if the
  *    list item represents a content item in a list of content, it is intended to represent a thumbnail
