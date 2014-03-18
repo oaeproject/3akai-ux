@@ -74,10 +74,8 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                         ]
                     }
                 ]
-            }
-        ];
-        if (!currentContext.isGlobalAdminServer) {
-            lhNavPages.push({
+            },
+            {
                 'id': 'usermanagement',
                 'title': oae.api.i18n.translate('__MSG__USER_MANAGEMENT__'),
                 'icon': 'icon-user',
@@ -94,7 +92,11 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                         ]
                     }
                 ]
-            }, {
+            }
+        ];
+
+        if (!currentContext.isGlobalAdminServer) {
+            lhNavPages.push({
                 'id': 'skinning',
                 'title': oae.api.i18n.translate('__MSG__SKINNING__'),
                 'icon': 'icon-tint',
@@ -104,6 +106,27 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                         'widgets': [
                             {
                                 'id': 'skinning',
+                                'settings': {
+                                    'configuration': configuration,
+                                    'context': currentContext,
+                                    'tenants': allTenants
+                                }
+                            }
+                        ]
+                    }
+                ]
+            });
+        } else {
+            lhNavPages.push({
+                'id': 'maintenance',
+                'title': oae.api.i18n.translate('__MSG__MAINTENANCE__'),
+                'icon': 'icon-wrench',
+                'layout': [
+                    {
+                        'width': 'col-md-12',
+                        'widgets': [
+                            {
+                                'id': 'maintenance',
                                 'settings': {
                                     'configuration': configuration,
                                     'context': currentContext,

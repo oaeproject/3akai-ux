@@ -17,6 +17,8 @@
 @import url('../../vendor/css/bootstrap.css');
 /* Import the JQuery Bootstrap Notify plugin CSS */
 @import url('../../vendor/css/jquery.bootstrap.notify.css');
+/* Import the Bootstrap DatePicker plugin CSS */
+@import url('../../vendor/css/bootstrap-datepicker.css');
 
 /* Import the Font Awesome Icon Set */
 @import url('../../vendor/css/font-awesome/css/font-awesome.css');
