@@ -1619,3 +1619,47 @@ ul.oae-list:not(.oae-list-grid) .oae-list-actions ul > li {
         display: none;
     }
 }
+
+/************************
+ ** MODAL ENHANCEMENTS **
+ ************************/
+
+/**
+ * Animation that triggers when modal inserted into DOM (e.g. by widget) using
+ * an otherwise harmless animatable property
+ */
+
+@-webkit-keyframes modalInserted {
+    from { outline-color: #FFF; }
+    to { outline-color: #000; }
+}
+@-moz-keyframes modalInserted {
+    from { outline-color: #FFF; }
+    to { outline-color: #000; }
+}
+@-ms-keyframes modalInserted {
+    from { outline-color: #FFF; }
+    to { outline-color: #000; }
+}
+@-o-keyframes modalInserted {
+    from { outline-color: #FFF; }
+    to { outline-color: #000; }
+}
+@keyframes modalInserted {
+    from { outline-color: #FFF; }
+    to { outline-color: #000; }
+}
+
+/* Apply animation to any `.modal` on insertion */
+body .modal {
+    -webkit-animation-duration: 0.001s;
+       -moz-animation-duration: 0.001s;
+        -ms-animation-duration: 0.001s;
+         -o-animation-duration: 0.001s;
+            animation-duration: 0.001s;
+    -webkit-animation-name: modalInserted;
+       -moz-animation-name: modalInserted;
+        -ms-animation-name: modalInserted;
+         -o-animation-name: modalInserted;
+            animation-name: modalInserted;
+}
