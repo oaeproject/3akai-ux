@@ -1060,7 +1060,7 @@ div.oae-thumbnail i[class^="icon-"] {
             border-radius: 3px;
 }
 
-.modal li .oae-listitem {
+.modal .well li .oae-listitem {
     background-color: #FFF;
 }
 
