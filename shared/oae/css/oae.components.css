@@ -1022,9 +1022,11 @@ div.oae-thumbnail i[class^="icon-"] {
  *  <div class="oae-listitem">
  *      <input type="checkbox" class="pull-left" id="oae-list-details-u:cambridge:PPTBPgxSdf" data-id="u:cambridge:PPTBPgxSdf" />
  *      <label class="sr-only" for="oae-list-details-u:cambridge:PPTBPgxSdf">John Librarian</label>
- *      <div class="oae-thumbnail icon-oae-user pull-left">
- *          <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian" />
- *          <i class="icon-oae-private"></i>
+ *      <div class="oae-listitem-primary-thumbnail">
+ *          <div class="oae-thumbnail icon-oae-user">
+ *              <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian" />
+ *              <i class="icon-oae-private"></i>
+ *          </div>
  *      </div>
  *      <div class="oae-listitem-metadata">
  *          <h3 class="oae-threedots"><a href="/user/u:cambridge:PPTBPgxSdf">John Librarian</a></h3>
@@ -1035,20 +1037,27 @@ div.oae-thumbnail i[class^="icon-"] {
  *      </div>
  *  </div>
  *
+ * A list item can be made up of a few main components:
+ *
+ *  * A checkbox (optional). If included, the checkbox can be used to select the list item, usually to
+ *    perform bulk actions on a list of entities. This checkbox should have an accompanying `sr-only`
+ *    label for accessibility purposes
+ *  * A primary thumbnail (optional). The primary thumbnail contains a standard thumbnail component and
+ *    is intended to depict a preview of the entity that the list item represents. For example, if the
+ *    list item represents a content item in a list of content items, it is intended to represent a thumbnail
+ *    of the content preview. Other `oae-thumbnail` items can be added into the list item and it will
+ *    be sized appropriately, however additional layout styling will probably be necessary to make it
+ *    display the way you need it
+ *  * A metadata block (required). The metadata block contains both the display name of the entity (`h3`
+ *    element) and an optional secondary description of it such as a content type or tenant (`small` element)
+ *  * An actions block (optional). The actions block contains icons and buttons that represent
+ *    individual actions that can be performed on the entity that is represented by the list item
+ *
  * Notes:
  *
  * - A list item is available in an expanded size and a compact size. By default, the larger expanded
  *   view will be used. In order to use the smaller compact view, the item should be embedded in a
  *   `div` with class `oae-list-compact-item`
- * - A metadata block can be added that contains main list item textual content as well as additional
- *   metadata in the form of an optional `small` tag
- * - A checkbox can be added to the list item for management purposes. This checkbox should have an
- *   accompanying `sr-only` label for accessibility purposes.
- * - An action bar can be added to the list item by adding an `oae-listitem-actions` div to the list
- *   item. This action bar can contain one or multiple action buttons.
- * - The `oae-thumbnail`, `oae-listitem-actions` and checkbox are all optional.
- * - The `oae-thumbnail` element, containing the preview image, is a standard
- *   `oae-thumbnail` element (See Thumbnail section for full overview).
  */
 
 .oae-listitem {
@@ -1094,18 +1103,23 @@ div.oae-thumbnail i[class^="icon-"] {
     min-width: 100px;
 }
 
-/* List item thumbnail */
+/* List item thumbnails */
 
-.oae-listitem > div.oae-thumbnail {
-    float: left;
+.oae-listitem .oae-thumbnail {
     height: 50px;
     width: 50px;
-    margin-right: 15px;
 }
 
-.oae-list-compact-item > .oae-listitem > div.oae-thumbnail {
+.oae-list-compact-item > .oae-listitem .oae-thumbnail {
     height: 25px;
     width: 25px;
+}
+
+/* List item primary thumbnail */
+
+.oae-listitem > div.oae-listitem-primary-thumbnail {
+    float: left;
+    margin-right: 15px;
 }
 
 /* List item metadata */
@@ -1188,9 +1202,14 @@ div.oae-thumbnail i[class^="icon-"] {
     padding: 4px 12px;
 }
 
+.oae-list-compact-item > .oae-listitem > div.oae-listitem-actions {
+    height: 25px;
+}
+
 .oae-list-compact-item > .oae-listitem > div.oae-listitem-actions > i,
 .oae-list-compact-item > .oae-listitem > div.oae-listitem-actions > .btn {
-    margin-top: -6px;
+    margin-top: -5px;
+
     /* Horizontal padding will likely be overriden for more narrow contexts. We provide
        reasonable default for scenarios where we aren't concerned about horizontal
        restrictions */
@@ -1212,7 +1231,7 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .ie-lt10 .oae-list-compact-item > .oae-listitem {
-    padding-bottom: 4px;
+    padding-bottom: 10px;
 }
 
 .ie-lt10 .oae-listitem > div.oae-listitem-metadata,

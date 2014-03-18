@@ -388,6 +388,7 @@ input[type="color"],
  * @see https://github.com/lecar-red/bootstrapx-clickover
  * @see http://twitter.github.io/bootstrap/javascript.html#popovers */
 
+/* Bootstrap applies a pretty small default max-width, make the default a bit wider */
 .popover {
     max-width: 500px;
 }
