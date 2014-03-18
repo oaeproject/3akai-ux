@@ -229,12 +229,18 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      *
      * @param  {Object}         ev                      jQuery event object
      * @param  {Content}        updatedContent          Content profile of the updated content item
+     * @param  {Boolean}        [refreshPreview]        `true` to force the content preview to refresh
      */
-    var refreshContentProfile = function(ev, updatedContent) {
+    var refreshContentProfile = function(ev, updatedContent, refreshPreview) {
         // Cache the content profile data
         contentProfile = updatedContent;
-        // Refresh the content profile elements
-        refreshContentPreview();
+        // Only refresh the content preview when it's not an image as
+        // images are previewed without having to be processed first
+        // or if refreshing the preview is forced
+        if (contentProfile.mime.substring(0, 6) !== 'image/' || refreshPreview) {
+            refreshContentPreview();
+        }
+        // Refresh the content clips
         setUpClips();
     };
 
@@ -242,6 +248,12 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     // a new version has been uploaded or the preview has finished generating.
     $(document).on('oae.content.update', refreshContentProfile);
 
+    $(document).on('oae.content.newversion', function(ev, updatedContent) {
+        // Cache the content profile data
+        contentProfile = updatedContent;
+        // Refresh the content preview
+        refreshContentPreview();
+    });
 
     ///////////////////
     // MANAGE ACCESS //
@@ -339,7 +351,18 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     $(document).on('oae.revisions.done', function(ev, restoredRevision, updatedContentProfile) {
         contentProfile = updatedContentProfile;
         // Refresh the content profile elements
-        refreshContentProfile(ev, updatedContentProfile);
+        refreshContentProfile(ev, updatedContentProfile, true);
+    });
+
+
+    ////////////////////////
+    // UPLOAD NEW VERSION //
+    ////////////////////////
+
+    $(document).on('oae.uploadnewversion.done', function(ev, updatedContentProfile) {
+        contentProfile = updatedContentProfile;
+        // Refresh the content profile elements
+        refreshContentProfile(ev, updatedContentProfile, true);
     });
 
 
