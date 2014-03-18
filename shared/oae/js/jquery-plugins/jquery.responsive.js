@@ -27,6 +27,15 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
         var LHNAVIGATION_PADDING = 25;
 
         /**
+         * Determine whether or not the left-hand nav is expanded
+         *
+         * @return {Boolean}    `true` if the left-hand nav is expanded, `false` otherwise
+         */
+        var isLhNavExpanded = function() {
+            return $('.oae-lhnavigation').hasClass('oae-lhnav-expanded');
+        };
+
+        /**
          * Open the left hand navigation
          */
         var openLhNav = function() {
@@ -71,15 +80,10 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
         };
 
         /**
-         * Close the left hand navigation using animation when clicking a navigation link on a handheld device.
-         * Actions in the left hand navigation trigger a widget and shouldn't close the left hand navigation.
-         * If the user is on a desktop browser the left hand navigation should never close.
+         * Close the left hand navigation when the user selects items that should be closed
+         * when clicked.
          */
-        $(document).on('click', '.oae-lhnavigation > ul > li:not(.oae-lhnavigation-action)', function() {
-            if (oaeUtil.isHandheldDevice()) {
-                closeLhNav();
-            }
-        });
+        $(document).on('click', '.oae-lhnavigation > ul li[data-close-nav]', closeLhNav);
 
         /**
          * Toggle the left hand navigation with animation. The left hand navigation can only
@@ -87,12 +91,32 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
          */
         $(document).on('click', '.oae-lhnavigation-toggle', function(ev) {
             // If the left hand navigation is open, close it
-            if ($('.oae-lhnavigation').hasClass('oae-lhnav-expanded')) {
+            if (isLhNavExpanded()) {
                 closeLhNav();
             // If the left hand navigation is closed, open it
             } else {
                 openLhNav();
             }
+        });
+
+        /**
+         * Close the left hand navigation when anything within the main page receives focus
+         * whilst the left hand navigation is still open.
+         */
+        $(document).on('focusin', '.oae-page', function() {
+            if (isLhNavExpanded()) {
+                closeLhNav();
+            }
+        });
+
+        /**
+         * Dismiss the keyboard on a mobile device when a search form is submitted. This won't be
+         * noticable on desktop browsers.
+         *
+         * @see https://github.com/oaeproject/3akai-ux/issues/3401
+         */
+        $(document).on('submit', 'form[role="search"]', function() {
+            $(this).find('.search-query').blur().focus();
         });
 
     })(jQuery);

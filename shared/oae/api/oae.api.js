@@ -98,11 +98,23 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
                                         throw new Error('Could not initialize the widgets API');
                                     }
 
-                                    // Add a `.ie-lt10` class to the html element that can be used for CSS fallbacks in IE9
+                                    // Add a `.ie-lt10` class to the html element that can be used for CSS fallbacks in IE9.
                                     // We can feature detect IE9 by checking for the unsupported `requestAnimationFrame` function
                                     // TODO: Once we drop support for IE9 this can be removed
                                     if (!window.requestAnimationFrame) {
                                         $('html').addClass('ie-lt10');
+                                    }
+
+                                    // Add a `.mobile` class to the html element when the user is using a mobile device.
+                                    // This allows for showing/hiding elements on a mobile device through CSS
+                                    if (oae.api.util.isHandheldDevice()) {
+                                        $('html').addClass('mobile');
+                                    }
+
+                                    // Add a `.anon` class to the html element when the user is anonymous.
+                                    // This allows for showing/hiding elements for anonymous users through CSS
+                                    if (oae.data.me.anon) {
+                                        $('html').addClass('anon');
                                     }
 
                                     // Set up the terms and conditions widget
