@@ -24,19 +24,22 @@
             <div id="error-content">
                 <div class="row oae-panel-primary">
                     <div class="col-md-offset-1 col-md-3">
-                        <h1>__MSG__401__<br/> <span>__MSG__ACCESS_DENIED__</span></h1>
+                        <div id="error-code">__MSG__401__</div>
+                        <h1>__MSG__ACCESS_DENIED__</h1>
                     </div>
                     <div class="col-md-8">
-                        <div id="error-quote-container" class="oae-panel-tertiary">
-                            <p id="error-quote">"__MSG__QUOTE_ACCESS_DENIED__"</p>
-                            <p id="error-signin" class="hide">
-                                <button class="btn btn-primary">__MSG__SIGN_IN__</button> <span>__MSG__YOU_MAY_NOT_HAVE_ACCESS_TO_VIEW_THE_PAGE_LOGGED_OUT__</span>
-                            </p>
-                            <p>
-                                <a href="/search" class="btn btn-primary">__MSG__SEARCH__</a> <span>__MSG__SEARCH_FOR_CONTENT_PEOPLE_GROUPS__</span>
-                            </p>
+                        <div id="error-quote-container">
+                            <div class="oae-panel-tertiary">
+                                <p id="error-quote">&quot;__MSG__QUOTE_ACCESS_DENIED__&quot;</p>
+                                <p id="error-signin" class="hide">
+                                    <button class="btn btn-primary">__MSG__SIGN_IN__</button> <span>__MSG__YOU_MAY_NOT_HAVE_ACCESS_TO_VIEW_THE_PAGE_LOGGED_OUT__</span>
+                                </p>
+                                <p>
+                                    <a href="/search" class="btn btn-primary">__MSG__SEARCH__</a> <span>__MSG__SEARCH_FOR_CONTENT_PEOPLE_GROUPS__</span>
+                                </p>
+                            </div>
+                            <div id="error-quote-author">__MSG__QUOTED_ACCESS_DENIED__</div>
                         </div>
-                        <div>__MSG__QUOTED_ACCESS_DENIED__</div>
                     </div>
                 </div>
             </div>
