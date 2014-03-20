@@ -101,9 +101,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     /**
      * Change the browser title for a particular page. The browser's title has the following structure
      *
-     * Open Academic Environment - Document 1 [- Page 1]
+     * Tenant name - Document 1 [- Page 1]
      *
-     * Where the first part will be fixed.
+     * Where the first part will be fixed to the tenant name.
      *
      * @param  {String|String[]}     title       The new page title or an array of strings representing the fragments of the page title
      * @throws {Error}                           Error thrown when no page title has been provided
