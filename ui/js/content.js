@@ -37,7 +37,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             lhNavActions.push({
                 'icon': 'icon-comments',
                 'title': oae.api.i18n.translate('__MSG__COMMENT__'),
-                'class': 'comments-focus-new-comment'
+                'class': 'comments-focus-new-comment',
+                'closeNav': true
             });
         }
         // Only offer share to users that are allowed to share the piece of content
@@ -58,6 +59,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             'id': 'content',
             'title': oae.api.i18n.translate('__MSG__CONTENT__'),
             'icon': 'icon-comments',
+            'closeNav': true,
             'class': 'hide',
             'layout': [
                 {
@@ -134,10 +136,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      */
     var setUpClips = function() {
         oae.api.util.template().render($('#content-clip-template'), {'content': contentProfile}, $('#content-clip-container'));
-        // Only show the actions to logged in users
-        if (!oae.data.me.anon) {
-            oae.api.util.template().render($('#content-actions-clip-template'), {'content': contentProfile}, $('#content-actions-clip-container'));
-        }
+        oae.api.util.template().render($('#content-actions-clip-template'), {'content': contentProfile}, $('#content-actions-clip-container'));
     };
 
     /**
