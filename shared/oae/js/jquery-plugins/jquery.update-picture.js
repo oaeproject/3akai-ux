@@ -22,19 +22,21 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
         $(document).on('oae.changepic.update', function(ev, data) {
             // Define the template
             var $template = $('<div id="thumbnail-template"><!--${renderThumbnail(entityData)}--></div>');
-            // Render the template, passing in the updated data and extract the image
-            var result = $($.trim(oaeUtil.template().render($template, {
+            // Render a thumbnail and extract the image from it. Not all thumbnails on the page should be
+            // encapsulated in a link so we render a thumbnail and extract the image from it to insert into
+            // already existing thumbnail elements in the DOM.
+            var thumbnailImage = $($.trim(oaeUtil.template().render($template, {
                 'entityData': data
-            }))).find('[role="img"]');
+            }))).find('[role="img"]')[0].outerHTML;
 
-            // For each thumbnail, render the updated image
-            $.each($('.oae-thumbnail[data-id="' + data.id + '"]'), function(i, picture) {
-                // If the thumbnail links to the user's profile, render the image inside of the link
-                if ($(picture).find('a').length) {
-                    $($(picture).find('a')).html(result[0].outerHTML);
-                // Otherwise render it inside of the oae-thumbnail directly
+            // For each thumbnail in the DOM, render the updated thumbnail image
+            $('.oae-thumbnail[data-id="' + data.id + '"]').each(function(i, picture) {
+                // If the thumbnail to update links to the user's profile, render the image inside of the anchor tag inside of `oae-thumbnail`
+                if ($(picture).has('a').length) {
+                    $($(picture).has('a')).html(thumbnailImage);
+                // If the thumbnail to update doesn't link to the user's profile, render the image directly into `oae-thumbnail`
                 } else {
-                    $(picture).html(result[0].outerHTML);
+                    $(picture).html(thumbnailImage);
                 }
             });
         });
