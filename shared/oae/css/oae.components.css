@@ -1209,7 +1209,6 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-list-compact-item > .oae-listitem > div.oae-listitem-actions > i,
 .oae-list-compact-item > .oae-listitem > div.oae-listitem-actions > .btn {
     margin-top: -5px;
-
     /* Horizontal padding will likely be overriden for more narrow contexts. We provide
        reasonable default for scenarios where we aren't concerned about horizontal
        restrictions */
