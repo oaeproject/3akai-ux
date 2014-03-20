@@ -384,23 +384,13 @@ input[type="color"],
     padding: 10px 25px 15px 15px;
 }
 
-/* Horizontal buttons on big screens, we can go relatively low as the buttons should only stack on very small screens */
-@media (min-width: 321px) {
-    .modal-footer button.btn-link {
-        float: left;
-    }
-
-    .modal-footer button.btn-danger,
-    .modal-footer button.btn-primary {
-        float: right;
-    }
+.modal-footer button.btn-link {
+    float: left;
 }
 
-/* Vertical buttons on small screens, we can go relatively low as the buttons should only stack on very small screens */
-@media (max-width: 321px) {
-    .modal-footer {
-        text-align: center;
-    }
+.modal-footer button.btn-danger,
+.modal-footer button.btn-primary {
+    float: right;
 }
 
 /* CLICKOVER DIALOGS
