@@ -721,6 +721,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         // to the provided options
         options = options || {};
         var defaultOptions = {
+            'container': 'body',
             'global_close': true,
             'html': true,
             'placement': 'bottom',
@@ -774,7 +775,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             'minChars': 2,
             'retrieveLimit': 10,
             'url': '/api/search/general',
-            'scroll': 117,
+            'scroll': 190,
             'searchObjProps': 'id, displayName',
             'selectedItemProp': 'displayName',
             'selectedValuesProp': 'id'
@@ -1054,7 +1055,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                 }
 
                 // Add a label to the autosuggest input field for accessibility
-                $('.as-input', $list).before('<label class="oae-aural-text" for="' + $('.as-input', $list).attr('id') + '">' + options.startText + '</label>');
+                $('.as-input', $list).before('<label class="sr-only" for="' + $('.as-input', $list).attr('id') + '">' + options.startText + '</label>');
 
                 // Trigger the callback function
                 if (_.isFunction(callback)) {
