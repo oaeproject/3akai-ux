@@ -202,6 +202,10 @@ a:hover, .btn-link:hover {
     background-color: @button-primary-gradient2-color;
 }
 
+.btn.btn-primary [class^=icon-],
+.btn.btn-primary [class*=" icon-"] {
+    color: @button-primary-text-color;
+}
 
 /* @subsection  Success button */
 
@@ -799,6 +803,8 @@ div.oae-thumbnail {
 
 /* List item border color */
 @listitem-border-color: #EEEDEB;
+/* List item description color */
+@listitem-description-color: #888;
 
 .oae-tile,
 .oae-listitem,
@@ -806,6 +812,9 @@ div.oae-thumbnail {
     border-color: @listitem-border-color;
 }
 
+.oae-listitem small {
+    color: @listitem-description-color;
+}
 
 /**********************
  ** @section  Panels **

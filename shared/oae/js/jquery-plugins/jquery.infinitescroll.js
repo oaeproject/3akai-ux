@@ -364,7 +364,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
             // Create the loading animation element
             var $loader = $('<i />').addClass('icon-spinner icon-spin');
             // Create a text element that will be used for accessibility purposes
-            var $a11yHelper = $('<span />').text(oaeI18n.translate('__MSG__LOADING__')).addClass('oae-aural-text');
+            var $a11yHelper = $('<span />').text(oaeI18n.translate('__MSG__LOADING__')).addClass('sr-only');
             // Add the accessibility helper to the loading animation and add the loading
             // animation to the loader container
             $loader.append($a11yHelper);
