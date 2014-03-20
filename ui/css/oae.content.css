@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-/* The content page shouldn't have any left hand navigation when wider than 992 pixels */
+/* The content page shouldn't have a left hand navigation when wider than 992 pixels */
 @media (min-width: 992px) {
     .oae-lhnavigation {
         display: none;
@@ -22,4 +22,9 @@
     .oae-page {
         padding: 5px 25px 50px !important;
     }
+}
+
+/* Hide the lhnavigation toggle for anonymous users */
+.anon .oae-lhnavigation-toggle {
+    display: none !important;
 }

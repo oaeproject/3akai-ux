@@ -1,0 +1,121 @@
+/*!
+ * Copyright 2014 Apereo Foundation (AF) Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ *     http://opensource.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+/* Top navigation overrides */
+
+#topnavigation-container .row-fluid {
+    margin: 0 auto;
+    max-width: 1280px;
+}
+
+#topnavigation-container #topnavigation-search-form {
+    display: none;
+}
+
+
+/* Default style overrides */
+
+.oae-main-content {
+    -webkit-box-shadow: none;
+       -moz-box-shadow: none;
+            box-shadow: none;
+    padding: 0 !important;
+}
+
+#index-container.oae-main-content.oae-branding-container {
+    background-color: transparent;
+    background-image: none;
+}
+
+.oae-main-content #index-content {
+    margin: 0 auto;
+    max-width: 1280px;
+    padding: 0;
+}
+
+.oae-main-content #index-content .index-search-container {
+    margin: -20px auto 10px;
+}
+
+.oae-main-content #index-content .index-search-container input#index-search-query {
+    background-color: #FEFEFE;
+    -webkit-box-shadow: 0 0 3px #999;
+       -moz-box-shadow: 0 0 3px #999;
+            box-shadow: 0 0 3px #999;
+}
+
+.oae-main-content #index-content #index-slogan {
+    width: 350px;
+}
+
+.oae-main-content #index-content .index-bottom .index-bottom-slogan {
+    color: #000;
+    line-height: 1.4;
+    margin-bottom: 12px;
+}
+
+.oae-panel-primary {
+    background-color: #234A74;
+    width: 66.66% !important;
+}
+
+.oae-panel-primary,
+.oae-panel-secondary {
+    -webkit-border-radius: 0;
+       -moz-border-radius: 0;
+            border-radius: 0;
+    height: 290px;
+    margin: 0 !important;
+    padding: 40px;
+}
+
+.oae-panel-secondary {
+    background-color: #69c2b8;
+    width: 33.33% !important;
+}
+
+.oae-panel-tertiary {
+    background-color: transparent;
+}
+
+#index-container .oae-panel-secondary#index-video {
+    background-color: #C12127;
+}
+
+.oae-panel-secondary#index-video a {
+    margin-top: 20px;
+}
+
+.oae-main-content #index-content .row-fluid:last-child .oae-panel-secondary {
+    background-color: #1A3762;
+}
+
+.oae-main-content #index-content .row-fluid:last-child .oae-panel-secondary .index-bottom-slogan {
+    color: #FFF;
+}
+
+.oae-main-content #index-content .row-fluid:last-child .oae-panel-secondary:first-child {
+    background-color: #CAC8B5;
+}
+
+/* Custom page CSS */
+
+#index-branding-container.oae-main-content.oae-branding-container {
+    -webkit-border-radius: 0;
+       -moz-border-radius: 0;
+            border-radius: 0;
+    height: 420px;
+    max-width: 1280px;
+}

@@ -19,10 +19,11 @@ require(['jquery', 'oae.core'], function($, oae) {
     // The group id will then be `g:<tenantId>:<resourceId>`
     var groupId = 'g:' + $.url().segment(2) + ':' + $.url().segment(3);
 
-    // Variable used to cache the requested group's profile
-    var groupProfile = null;
     // Variable used to cache the group's base URL
     var baseUrl = '/group/' + $.url().segment(2) + '/' + $.url().segment(3);
+
+    // Variable used to cache the requested group's profile
+    var groupProfile = null;
 
 
     //////////////////////////////////
@@ -90,9 +91,9 @@ require(['jquery', 'oae.core'], function($, oae) {
     var setUpClip = function() {
         oae.api.util.template().render($('#group-clip-template'), {'group': groupProfile}, $('#group-clip-container'));
 
-        // Only show the create and upload clips to managers
-        if (groupProfile.isManager) {
-            $('#group-manager-actions').show();
+        // Only show the create and upload clips to group members
+        if (groupProfile.isMember) {
+            $('#group-member-actions').show();
         // Show the join clip to non-members when the group is joinable
         } else if (!groupProfile.isMember && groupProfile.canJoin) {
             $('#group-join-actions').show();
@@ -107,10 +108,11 @@ require(['jquery', 'oae.core'], function($, oae) {
         var lhNavActions = [];
 
         // Add the upload and create clips for managers
-        if (groupProfile.isManager) {
+        if (groupProfile.isMember) {
             lhNavActions.push({
                 'icon': 'icon-cloud-upload',
                 'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
+                'closeNav': true,
                 'class': 'oae-trigger-upload'
             },
             {
@@ -120,16 +122,19 @@ require(['jquery', 'oae.core'], function($, oae) {
                     {
                         'icon': 'icon-link',
                         'title': oae.api.i18n.translate('__MSG__LINK__'),
+                        'closeNav': true,
                         'class': 'oae-trigger-createlink'
                     },
                     {
                         'icon': 'icon-edit',
                         'title': oae.api.i18n.translate('__MSG__DOCUMENT__'),
+                        'closeNav': true,
                         'class': 'oae-trigger-createcollabdoc'
                     },
                     {
                         'icon': 'icon-comments',
                         'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
+                        'closeNav': true,
                         'class': 'oae-trigger-creatediscussion'
                     }
                 ]
@@ -141,7 +146,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             lhNavActions.push({
                 'icon': 'icon-pushpin',
                 'title': oae.api.i18n.translate('__MSG__JOIN_GROUP__'),
-                'class': 'oae-group-join'
+                'class': 'group-join'
             });
         }
 
@@ -153,6 +158,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                 'id': 'activity',
                 'title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
                 'icon': 'icon-dashboard',
+                'closeNav': true,
                 'layout': [
                     {
                         'width': 'col-md-12',
@@ -171,67 +177,71 @@ require(['jquery', 'oae.core'], function($, oae) {
         }
 
         lhNavPages.push({
-                'id': 'library',
-                'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
-                'icon': 'icon-briefcase',
-                'layout': [
-                    {
-                        'width': 'col-md-12',
-                        'widgets': [
-                            {
-                                'id': 'contentlibrary',
-                                'settings': {
-                                    'context': groupProfile,
-                                    'canManage': groupProfile.isManager
-                                }
+            'id': 'library',
+            'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
+            'icon': 'icon-briefcase',
+            'closeNav': true,
+            'layout': [
+                {
+                    'width': 'col-md-12',
+                    'widgets': [
+                        {
+                            'id': 'contentlibrary',
+                            'settings': {
+                                'context': groupProfile,
+                                'canAdd': groupProfile.isMember,
+                                'canManage': groupProfile.isManager
                             }
-                        ]
-                    }
-                ]
-            },
-            {
-                'id': 'discussions',
-                'title': oae.api.i18n.translate('__MSG__DISCUSSIONS__'),
-                'icon': 'icon-comments',
-                'layout': [
-                    {
-                        'width': 'col-md-12',
-                        'widgets': [
-                            {
-                                'id': 'discussionslibrary',
-                                'settings': {
-                                    'context': groupProfile,
-                                    'canManage': groupProfile.isManager
-                                }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            'id': 'discussions',
+            'title': oae.api.i18n.translate('__MSG__DISCUSSIONS__'),
+            'icon': 'icon-comments',
+            'closeNav': true,
+            'layout': [
+                {
+                    'width': 'col-md-12',
+                    'widgets': [
+                        {
+                            'id': 'discussionslibrary',
+                            'settings': {
+                                'context': groupProfile,
+                                'canAdd': groupProfile.isMember,
+                                'canManage': groupProfile.isManager
                             }
-                        ]
-                    }
-                ]
-            },
-            {
-                'id': 'members',
-                'title': oae.api.i18n.translate('__MSG__MEMBERS__'),
-                'icon': 'icon-user',
-                'layout': [
-                    {
-                        'width': 'col-md-12',
-                        'widgets': [
-                            {
-                                'id': 'members',
-                                'settings': {
-                                    'context': groupProfile,
-                                    'canManage': groupProfile.isManager
-                                }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            'id': 'members',
+            'title': oae.api.i18n.translate('__MSG__MEMBERS__'),
+            'icon': 'icon-user',
+            'closeNav': true,
+            'layout': [
+                {
+                    'width': 'col-md-12',
+                    'widgets': [
+                        {
+                            'id': 'members',
+                            'settings': {
+                                'context': groupProfile,
+                                'canManage': groupProfile.isManager
                             }
-                        ]
-                    }
-                ]
-            }
-        );
+                        }
+                    ]
+                }
+            ]
+        });
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, true]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, true]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
         });
     };
 
@@ -316,6 +326,18 @@ require(['jquery', 'oae.core'], function($, oae) {
     });
 
 
+    ////////////////////////////
+    // CHANGE PROFILE PICTURE //
+    ////////////////////////////
+
+    /**
+     * Cache the updated group picture after it has been changed
+     */
+    $(document).on('oae.changepic.update', function(ev, data) {
+        groupProfile.picture = data.picture;
+    });
+
+
     ////////////////
     // JOIN GROUP //
     ////////////////
@@ -326,7 +348,7 @@ require(['jquery', 'oae.core'], function($, oae) {
      */
     var joinGroup = function() {
         // Disable the join buttons
-        $('.oae-group-join').prop('disabled', true);
+        $('.group-join').prop('disabled', true);
 
         // Join the group
         oae.api.group.joinGroup(groupProfile.id, function(err) {
@@ -350,13 +372,13 @@ require(['jquery', 'oae.core'], function($, oae) {
                 );
 
                 // Re-enable the join buttons.
-                $('.oae-group-join').prop('disabled', false);
+                $('.group-join').prop('disabled', false);
             }
         });
     };
 
     // Bind to the click on the join clip
-    $(document).on('click', '.oae-group-join', joinGroup);
+    $(document).on('click', '.group-join', joinGroup);
 
 
     ////////////////

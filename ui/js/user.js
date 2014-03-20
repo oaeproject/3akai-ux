@@ -24,10 +24,11 @@ require(['jquery', 'oae.core'], function($, oae) {
         window.location = '/me';
     }
 
-    // Variable used to cache the requested user's profile
-    var userProfile = null;
     // Variable used to cache the user's base URL
     var baseUrl = '/user/' + $.url().segment(2) + '/' + $.url().segment(3);
+
+    // Variable used to cache the requested user's profile
+    var userProfile = null;
 
     /**
      * Get the user's basic profile and set up the screen. If the user
@@ -93,91 +94,93 @@ require(['jquery', 'oae.core'], function($, oae) {
             lhNavActions.push({
                 'icon': 'icon-bookmark',
                 'title': oae.api.i18n.translate('__MSG__FOLLOW__'),
-                'class': 'oae-trigger-follow'
+                'class': 'user-follow'
             });
         }
 
         // Structure that will be used to construct the left hand navigation pages
         lhNavPages = [];
         // Add the rest of the navigation
-        lhNavPages.push(
-            {
-                'id': 'library',
-                'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
-                'icon': 'icon-briefcase',
-                'layout': [
-                    {
-                        'width': 'col-md-12',
-                        'widgets': [
-                            {
-                                'id': 'contentlibrary',
-                                'settings': {
-                                    'context': userProfile
-                                }
+        lhNavPages.push({
+            'id': 'library',
+            'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
+            'icon': 'icon-briefcase',
+            'closeNav': true,
+            'layout': [
+                {
+                    'width': 'col-md-12',
+                    'widgets': [
+                        {
+                            'id': 'contentlibrary',
+                            'settings': {
+                                'context': userProfile
                             }
-                        ]
-                    }
-                ]
-            },
-            {
-                'id': 'discussions',
-                'title': oae.api.i18n.translate('__MSG__DISCUSSIONS__'),
-                'icon': 'icon-comments',
-                'layout': [
-                    {
-                        'width': 'col-md-12',
-                        'widgets': [
-                            {
-                                'id': 'discussionslibrary',
-                                'settings': {
-                                    'context': userProfile
-                                }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            'id': 'discussions',
+            'title': oae.api.i18n.translate('__MSG__DISCUSSIONS__'),
+            'icon': 'icon-comments',
+            'closeNav': true,
+            'layout': [
+                {
+                    'width': 'col-md-12',
+                    'widgets': [
+                        {
+                            'id': 'discussionslibrary',
+                            'settings': {
+                                'context': userProfile
                             }
-                        ]
-                    }
-                ]
-            },
-            {
-                'id': 'groups',
-                'title': oae.api.i18n.translate('__MSG__GROUPS__'),
-                'icon': 'icon-group',
-                'layout': [
-                    {
-                        'width': 'col-md-12',
-                        'widgets': [
-                            {
-                                'id': 'memberships',
-                                'settings': {
-                                    'context': userProfile
-                                }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            'id': 'groups',
+            'title': oae.api.i18n.translate('__MSG__GROUPS__'),
+            'icon': 'icon-group',
+            'closeNav': true,
+            'layout': [
+                {
+                    'width': 'col-md-12',
+                    'widgets': [
+                        {
+                            'id': 'memberships',
+                            'settings': {
+                                'context': userProfile
                             }
-                        ]
-                    }
-                ]
-            },
-            {
-                'id': 'network',
-                'title': oae.api.i18n.translate('__MSG__NETWORK__'),
-                'icon': 'icon-random',
-                'layout': [
-                    {
-                        'width': 'span12',
-                        'widgets': [
-                            {
-                                'id': 'network',
-                                'settings': {
-                                    'context': userProfile
-                                }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            'id': 'network',
+            'title': oae.api.i18n.translate('__MSG__NETWORK__'),
+            'icon': 'icon-random',
+            'closeNav': true,
+            'layout': [
+                {
+                    'width': 'span12',
+                    'widgets': [
+                        {
+                            'id': 'network',
+                            'settings': {
+                                'context': userProfile
                             }
-                        ]
-                    }
-                ]
-            }
-        );
+                        }
+                    ]
+                }
+            ]
+        });
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, true]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, true]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
         });
     };
 
@@ -200,7 +203,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                     })
                 );
                 $('#user-follow-actions').detach();
-                $('li.oae-trigger-follow').detach();
+                $('li.user-follow').detach();
             } else {
                 // Show an error notification
                 oae.api.util.notification(
@@ -215,7 +218,7 @@ require(['jquery', 'oae.core'], function($, oae) {
     };
 
     // Follow the user when the `follow` button is clicked
-    $(document).on('click', '.oae-trigger-follow', followUser);
+    $(document).on('click', '.user-follow', followUser);
 
     getUserProfile();
 

@@ -1,12 +1,117 @@
 <!--
+ * Render a configurable list header with controls that are useful for controlling items rendered in the `listItem`
+ * macro.
+ *
+ * If any `actions` are passed in or `showViewOptions` is `true`, the header provides the option for a user to
+ * click on it to expand the list actions panel which contains the "select all" button, actions and view options.
+ * The "select all" button is used to select and deselect the list items that are rendered with the `listItem`
+ *
+ * The macro also provides a "badge" that is intended to display a number that represents how many items are in
+ * the list. This badge can be accessed on the DOM with CSS class `oae-list-header-badge` and a number can be
+ * inserted text into it. Note that the badge will be hidden by default to avoid showing an empty badge, and
+ * needs to be explicitly shown by the code setting the badge content. For example, to set the badge number to `15`,
+ * we can write:
+ *
+ *  `$('.oae-list-header-badge').text(15).show()`
+ *
+ * @param  {String}     title                       The title of the header
+ * @param  {Boolean}    [showSearch]                Whether or not a search box should show. The search box is accessible on the DOM with CSS class `oae-list-selectall`. Default: `true`
+ * @param  {Object[]}   [actions]                   A list of objects that represent action buttons that can be performed in the header
+ * @param  {String}     [actions[i].icon]           The icon class that represents the action (e.g., `icon-remove`)
+ * @param  {String}     [actions[i].label]          The label of the action
+ * @param  {String}     [actions[i].trigger]        CSS class added to the action button that can be used to trigger widgets
+ * @param  {String}     [actions[i].data]           Additional data attributes to apply to the option (e.g., `{'resourceType': 'content'}` would result in an attribute `data-resourceType="content"`)
+ * @param  {Boolean}    [showViewOptions]           Whether or not the view options should be displayed. Default: `true`
+-->
+{macro listHeader(title, _showSearch, _actions, _showViewOptions)}
+    {var showSearch = (_showSearch !== false)}
+    {var actions = _actions || []}
+    {var showViewOptions = (_showViewOptions !== false)}
+    {var showActionsToggle = (actions.length > 0 || showViewOptions)}
+
+    <div class="oae-list-header">
+        <div class="row">
+            <div class="col-xs-12{if showSearch} col-sm-8{/if}">
+                <button type="button" class="oae-lhnavigation-toggle btn btn-link pull-left hidden-md hidden-lg">
+                    <i class="icon-reorder"></i>
+                    <span class="sr-only">__MSG__TOGGLE_NAVIGATION__</span>
+                </button>
+
+                {if showActionsToggle}
+                    <button class="oae-list-header-toggle btn">
+                {else}
+                    <div class="oae-list-header-toggle">
+                {/if}
+
+                    <h2>
+                        ${title}
+                        <span class="oae-list-header-badge badge hide"></span>
+                        {if showActionsToggle}
+                            <i class="icon-caret-down"></i>
+                        {/if}
+                    </h2>
+
+                {if showActionsToggle}
+                    </button>
+                {else}
+                    </div>
+                {/if}
+
+            </div>
+            {if showSearch}
+                {var searchQueryId = oae.api.util.generateId()}
+                <div class="col-xs-12 col-sm-4 oae-list-header-search">
+                    <form class="form-search" role="search">
+                        <label for="${searchQueryId}" class="control-label sr-only">__MSG__NARROW_BY_KEYWORD__</label>
+                        <input type="text" id="${searchQueryId}" class="oae-list-header-search-query form-control pull-right search-query" name="search-query" placeholder="__MSG__NARROW_BY_KEYWORD__"/>
+                        <button type="submit" class="sr-only">__MSG__SEARCH__</button>
+                    </form>
+                </div>
+            {/if}
+        </div>
+        {if showActionsToggle}
+            <div class="oae-list-header-actions clearfix hide">
+                {if actions.length > 0}
+                    {var selectAllId = oae.api.util.generateId()}
+                    <input type="checkbox" id="${selectAllId}" class="oae-list-selectall" />
+                    <label for="${selectAllId}" class="sr-only">__MSG__SELECT_ALL__</label>
+                    {for action in actions}
+                        <button type="button" class="btn ${action.trigger}" disabled="disabled" ${%_.map(action.data, function(value, key) { return 'data-' + key + '="' + value + '"'; }).join(' ')%}>
+                            <i class="${action.icon} pull-left"></i>${action.label}
+                        </button>
+                    {/for}
+                {/if}
+                {if showViewOptions}
+                    <div class="btn-group pull-right">
+                        <button class="btn" data-type="oae-list-compact">
+                            <i class="icon-list"></i>
+                            <span class="sr-only">__MSG__LIST_VIEW__</span>
+                        </button>
+                        <button class="btn" data-type="oae-list-details">
+                            <i class="icon-th-list"></i>
+                            <span class="sr-only">__MSG__EXPANDED_LIST_VIEW__</span>
+                        </button>
+                        <button class="btn active" data-type="oae-list-grid">
+                            <i class="icon-th-large"></i>
+                            <span class="sr-only">__MSG__GRID_VIEW__</span>
+                        </button>
+                    </div>
+                {/if}
+            </div>
+        {/if}
+    </div>
+{/macro}
+
+<!--
  * Render a list item representing a user, group or piece of content
  *
- * @param  {User|Group|Content}     entityData      Standard object representing a user, group or content item or a search result for a user, group or content item as returned by Hilary
- * @param  {String}                 [metadata]      Line of metadata information that should be displayed underneath the entity name
- * @param  {Boolean}                [showCheckbox]  Whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
- * @param  {String}                 [customImage]   URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
+ * @param  {User|Group|Content}     entityData          Standard object representing a user, group or content item or a search result for a user, group or content item as returned by Hilary
+ * @param  {String}                 [metadata]          Line of metadata information that should be displayed underneath the entity name
+ * @param  {Boolean}                [showCheckbox]      Whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
+ * @param  {String}                 [customImage]       URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
+ * @param  {Function}               [listItemActions]   Macro that renders list item actions
 -->
-{macro listItem(entityData, metadata, showCheckbox, customImage)}
+{macro listItem(entityData, metadata, showCheckbox, customImage, listItemActions)}
     {if entityData}
         {if entityData.resourceType}
             {var resourceType = entityData.resourceType}
@@ -20,14 +125,14 @@
             {var visibility = entityData['oae:visibility']}
         {/if}
 
-        <li>
+        <li data-id="${entityData.id}">
             <!-- THUMBNAIL VIEW -->
             <div class="oae-list-grid-item">
                 <div class="oae-tile">
                     ${renderThumbnail(entityData, false, true, null, customImage)}
                     <div class="oae-tile-metadata">
                         {if resourceType !== 'user'}
-                            <i class="icon-oae-${visibility} pull-right"></i>
+                            <i class="icon-oae-${visibility}"></i>
                         {/if}
                         ${renderMetadata(entityData, metadata)}
                     </div>
@@ -39,8 +144,15 @@
             <div class="oae-list-details-item">
                 <div class="oae-listitem">
                     ${renderCheckbox(entityData, 'details', showCheckbox)}
-                    ${renderThumbnail(entityData, null, null, null, customImage)}
-                    <div>
+                    <div class="oae-listitem-primary-thumbnail">
+                        ${renderThumbnail(entityData, null, null, null, customImage)}
+                    </div>
+                    {if listItemActions}
+                        <div class="oae-listitem-actions">
+                            ${listItemActions()}
+                        </div>
+                    {/if}
+                    <div class="oae-listitem-metadata">
                         ${renderMetadata(entityData, metadata)}
                     </div>
                 </div>
@@ -48,10 +160,17 @@
 
             <!-- COMPACT LIST VIEW -->
             <div class="oae-list-compact-item">
-                <div class="oae-listitem oae-listitem-compact">
+                <div class="oae-listitem">
                     ${renderCheckbox(entityData, 'compact', showCheckbox)}
-                    ${renderThumbnail(entityData, null, null, null, customImage)}
-                    <div>
+                    <div class="oae-listitem-primary-thumbnail">
+                        ${renderThumbnail(entityData, null, null, null, customImage)}
+                    </div>
+                    {if listItemActions}
+                        <div class="oae-listitem-actions">
+                            ${listItemActions()}
+                        </div>
+                    {/if}
+                    <div class="oae-listitem-metadata">
                         ${renderMetadata(entityData, metadata)}
                     </div>
                 </div>
@@ -163,7 +282,7 @@
         {var tenant = entityData['oae:tenant']}
     {/if}
 
-    {if !metadata}
+    {if !metadata && metadata !== false}
         {if resourceType === 'user'}
             {var metadata = tenant.displayName}
         {elseif resourceType === 'group'}
@@ -176,7 +295,7 @@
     {/if}
 
     {if !profilePath}
-        <h3 class="oae-threedots"><span>${entityData.displayName|encodeForHTML}</span></h3>
+        <h3 class="oae-threedots"><span class="jeditable-field oae-threedots" rel="tooltip" data-placement="right" data-original-title="__MSG__CLICK_TO_RENAME__" tabindex="0">${entityData.displayName|encodeForHTML}</span></h3>
     {else}
         <h3 class="oae-threedots"><a href="${profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}">${entityData.displayName|encodeForHTML}</a></h3>
     {/if}
@@ -208,6 +327,6 @@
 
     {if !oae.data.me.anon && showCheckbox !== false}
         <input type="checkbox" class="pull-left" id="oae-list-${type}-${entityData.id}" data-id="${entityData.id}" data-resourceType="${resourceType}" data-resourceSubType="${resourceSubType}" />
-        <label class="oae-aural-text" for="oae-list-${type}-${entityData.id}">${entityData.displayName|encodeForHTML}</label>
+        <label class="sr-only" for="oae-list-${type}-${entityData.id}">${entityData.displayName|encodeForHTML}</label>
     {/if}
 {/macro}
