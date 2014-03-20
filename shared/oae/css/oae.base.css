@@ -287,7 +287,7 @@ input.search-query {
     }
 }
 
-@media (min-width: 480px) and (max-width: 767) {
+@media (min-width: 480px) and (max-width: 767px) {
     .ie-lt10 .modal .jeditable-field {
         max-width: 270px !important;
     }
