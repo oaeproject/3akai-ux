@@ -28,6 +28,15 @@ define(['jquery', 'underscore', 'oae.api.util'], function (jQuery, _, oaeUtil) {
         var LHNAVIGATION_ANIMATION_TIME = 250;
 
         /**
+         * Determine whether or not the left-hand nav is expanded
+         *
+         * @return {Boolean}    `true` if the left-hand nav is expanded, `false` otherwise
+         */
+        var isLhNavExpanded = function() {
+            return $('.oae-lhnavigation').hasClass('oae-lhnav-expanded');
+        };
+
+        /**
          * Toggle the left hand navigation. Throttle the function to prevent it from being triggered during animation.
          *
          * @param  {Boolean}   showNav   True when the left hand navigation should be shown, false when the left hand navigation should be hidden.
@@ -50,15 +59,10 @@ define(['jquery', 'underscore', 'oae.api.util'], function (jQuery, _, oaeUtil) {
         }, LHNAVIGATION_ANIMATION_TIME + 20);
 
         /**
-         * Close the left hand navigation when clicking a navigation link, but not an action link (e.g., Share)
-         * as that opens a widget that intends to overlay the left hand menu. Only toggle the navigation when
-         * the user is using a mobile device.
+         * Close the left hand navigation when the user selects items that should be closed
+         * when clicked.
          */
-        $(document).on('click', '.oae-lhnavigation > ul > li:not(.oae-lhnavigation-action)', function() {
-            if (oaeUtil.isHandheldDevice()) {
-                toggleLhNav(false);
-            }
-        });
+        $(document).on('click', '.oae-lhnavigation > ul li[data-close-nav]', function() {toggleLhNav(false);});
 
         /**
          * Toggle the left hand navigation with animation. The left hand navigation can only
@@ -67,6 +71,16 @@ define(['jquery', 'underscore', 'oae.api.util'], function (jQuery, _, oaeUtil) {
         $(document).on('click', '.oae-lhnavigation-toggle', function(ev) {
             // Open the left hand navigation if it's closed, otherwise close it.
             toggleLhNav(!$('.oae-lhnavigation').hasClass('oae-lhnav-expanded'));
+        });
+
+        /**
+         * Close the left hand navigation when anything within the main page receives focus
+         * whilst the left hand navigation is still open.
+         */
+        $(document).on('focusin', '.oae-page', function() {
+            if (isLhNavExpanded()) {
+                toggleLhNav(false);
+            }
         });
 
         /**
