@@ -655,7 +655,7 @@ ul.as-list li.as-result-item.active {
     }
 }
 
-@media (max-width: 992px) {
+@media (max-width: 991px) {
     .oae-main-content {
         min-height: 520px; /* Slightly increase the minimum height on smaller screens to take clip actions in the left hand navigation into account */
     }
