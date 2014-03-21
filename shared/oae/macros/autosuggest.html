@@ -1,7 +1,7 @@
 <!-- SELECTED ITEMS -->
 <div id="autosuggest-selected-template"><!--
     <li class="as-selection-item as-ghost-item {if ghostItem.selected} as-ghost-selected {/if}" id="as-selection-ghost-${index}" data-value="${ghostItem[options.selectedValuesProp]}">
-        <a class="as-ghost-add"><i class="icon-plus"><span class="oae-aural-text">__MSG__ADD__</span></i></a>
+        <a class="as-ghost-add"><i class="icon-plus"><span class="sr-only">__MSG__ADD__</span></i></a>
         <a class="as-close">&times;</a>
         ${ghostItem[options.selectedItemProp]}
     </li>
@@ -9,15 +9,19 @@
 
 <!-- SUGGESTED ITEMS -->
 <div id="autosuggest-suggested-template"><!--
-    <div class="oae-listitem oae-listitem-compact">
-        ${renderThumbnail(data, false, false, false)}
-        <div>
-            <h3 class="oae-threedots">${data.displayName}</h3>
-            {if data.resourceType === 'user'}
-                <small class="oae-threedots">${data.tenant.displayName|encodeForHTML}</small>
-            {elseif data.resourceType === 'group'}
-                <small class="oae-threedots">__MSG__GROUP__</small>
-            {/if}
+    <div class="oae-list-details-item">
+        <div class="clearfix oae-listitem">
+            <div class="oae-listitem-primary-thumbnail">
+                ${renderThumbnail(data, false, false, false)}
+            </div>
+            <div class="oae-listitem-metadata">
+                <h3 class="oae-threedots">${data.displayName}</h3>
+                {if data.resourceType === 'user'}
+                    <small class="oae-threedots">${data.tenant.displayName|encodeForHTML}</small>
+                {elseif data.resourceType === 'group'}
+                    <small class="oae-threedots">__MSG__GROUP__</small>
+                {/if}
+            </div>
         </div>
     </div>
 --></div>
