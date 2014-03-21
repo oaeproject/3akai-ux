@@ -40,3 +40,7 @@ grunt test
 ```
 
 Note that Hilary and its dependencies should be installed and running on your system before the tests can be run successfully.
+
+## Local Development
+
+By default 3akai-ux uses the Open Sans font family available from Google's Web Font CDN. When developing locally without a live Internet connection, that CDN will be inaccessible. To ensure maximum visual fidelity, those fonts can be installed as system fonts in the local machine. Download the entire collection from [Google](http://www.google.com/fonts#UsePlace:use/Collection:Open+Sans).
