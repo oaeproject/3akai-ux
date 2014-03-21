@@ -13,10 +13,55 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery','oae.core'], function($, oae) {
+/**
+ * Initialize the Youtube video. The Youtube API will call this function when the page has
+ * finished downloading the JavaScript for the player API.
+ */
+var onYouTubeIframeAPIReady = function() {
+    player = new YT.Player('index-video', {
+        height: '290px',
+        width: '100%',
+        videoId: 'cfiM87Y0pWw',
+        playerVars: {
+            'autoplay': 0,
+            'controls': 0,
+            'showinfo': 0,
+            'modestbranding': 1
+        },
+        events: {
+          'onReady': onPlayerReady
+        }
+    });
+};
+
+/**
+ * Hide the video image and start playing the product video
+ */
+var playProductVideo = function() {
+    $('#index-video-launch-container').hide();
+    $('#index-video').show();
+
+    // iOS doesn't support programmatic start of the video
+    if (!/(iPad|iPhone|iPod)/g.test(navigator.userAgent)) {
+        player.playVideo();
+    }
+};
+
+/**
+ * Show the play button and attache the play handler. The Youtube API will call this function
+ * when the video has loaded and the onReady event fires.
+ */
+var onPlayerReady = function() {
+    $('#index-video-launch i').show(500);
+    $('#index-video-launch').on('click', playProductVideo);
+};
+
+require(['jquery','oae.core', '//www.youtube.com/iframe_api'], function($, oae) {
 
     // Set the page title
     oae.api.util.setBrowserTitle('__MSG__WELCOME__');
+
+    var player = null;
 
     /**
      * Set up the main search form. When the form is submitted, the user will be
@@ -30,14 +75,6 @@ require(['jquery','oae.core'], function($, oae) {
         });
     };
 
-    /**
-     * Set up the product video button when on desktop, render the video in the page for mobile
-     */
-    var setUpProductVideo = function() {
-        oae.api.util.template().render($('#index-productvideo-template'), null, $('#index-video-container'));
-    };
-
     setUpSearch();
-    setUpProductVideo();
 
 });
