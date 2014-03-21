@@ -13,25 +13,66 @@
  * permissions and limitations under the License.
  */
 
-define(['jquery'], function ($) {
+define(['jquery', 'oae.api.util', 'jquery.history'], function ($, oaeUtil) {
     (function() {
 
         /**
-         * Show or hide the list options when clicking the page title toggle
+         * Show or hide the list header actions when clicking the header toggle
          */
-        $(document).on('click', '.oae-list-options-toggle', function() {
+        $(document).on('click', 'button.oae-list-header-toggle', function() {
             // Get the list container, so we don't end up changing state in other lists
             var $listContainer = $(this).parents('.oae-list-container');
-            var $listOptionActions = $('.oae-list-options-actions', $listContainer);
-            // Hide the list options if they are currently showing. Show the list options
-            // if they are currently hidden
-            if ($listOptionActions.is(':visible')) {
-                $listOptionActions.slideUp(200);
+            var $listHeaderActions = $('.oae-list-header-actions', $listContainer);
+
+            // Toggle the visibility of the list header actions
+            if ($listHeaderActions.is(':visible')) {
+                $listHeaderActions.slideUp(200);
             } else {
-                $listOptionActions.slideDown(200);
+                $listHeaderActions.slideDown(200);
             }
-            // Toggle the caret icon in the page title
+
+            // Toggle the caret icon in the list header
             $(this).find('i').toggleClass('icon-caret-down icon-caret-up');
+        });
+
+        /**
+         * Updates the History.js state to contain a search query from the list header search field
+         * (if any). This implicitly triggers the `window` `statechange` event such that consumers
+         * of the list header functionality can perform the operations needed to execute the user's
+         * search.
+         *
+         * After the search has completed, the search query will be available with History.js. For
+         * example:
+         *
+         * ```javascript
+         *  // Subscribes to the event that is invoked when the user has performed a search with the
+         *  // list header
+         *  $(window).on('statechange', function() {
+         *      // Fetches the query from the History.js module
+         *      var query = History.getState().data.query
+         *
+         *      // Finally, do something with the query (e.g., invoke a search and update the DOM)
+         *  });
+         * ```
+         */
+        $(document).on('submit', '.oae-list-header .form-search', function(ev) {
+            var query = $('.oae-list-header-search-query', $(this)).val();
+
+            // Push the new query to a new History.js state. We make sure to take the
+            // existing state data parameters with us and construct a new URL based on
+            // the existing base URL, allowing for page refreshing and bookmarking.
+            var newState = $.extend({}, History.getState().data, {
+                'query': query
+            });
+
+            // We cannot rely on the "current" url as that can be different depending on the browser.
+            // Most browsers will display `/me/library`, IE9 will be display `/me#library` however.
+            // The cleanUrl in the History.js state will always be `/me/library`.
+            var url = $.url(History.getState().cleanUrl).attr('path') + '?q=' + oaeUtil.security().encodeForURL(query);
+            History.pushState(newState, $('title').text(), url);
+
+            // Avoid submitting the search form
+            ev.preventDefault();
         });
 
         /**
@@ -39,12 +80,12 @@ define(['jquery'], function ($) {
          */
         $(window).on('statechange', function() {
             $('.oae-list-selectall').prop('checked', false);
-            $('.oae-list-options-actions > .btn').prop('disabled', true);
+            $('.oae-list-header-actions > .btn').prop('disabled', true);
         });
 
         /**
          * Select or deselect all elements when clicking the select all checkbox in the
-         * list options
+         * list header actions container
          */
         $(document).on('change', '.oae-list-selectall', function() {
             // Get the list container, so we don't end up changing state in other lists
@@ -56,7 +97,7 @@ define(['jquery'], function ($) {
             // Enable or disable the list option action buttons. We only change the state
             // when there is at least 1 item in the list that can be checked.
             if ($listCheckboxes.length > 0) {
-                $('.oae-list-options-actions > .btn', $listContainer).prop('disabled', !checked);
+                $('.oae-list-header-actions > .btn', $listContainer).prop('disabled', !checked);
             }
         });
 
@@ -71,18 +112,18 @@ define(['jquery'], function ($) {
             $listCheckboxes.prop('checked', false);
             // Uncheck the 'select all' checkbox
             $('.oae-list-selectall', $listContainer).prop('checked', false);
-            // Disable all buttons in the list options
-            $('.oae-list-options-actions:visible > .btn', $listContainer).prop('disabled', true);
+            // Disable all buttons in the list header actions container
+            $('.oae-list-header-actions:visible > .btn', $listContainer).prop('disabled', true);
         });
 
         /**
          * Switch the view mode between grid view, details view and compact view
          */
-        $(document).on('click', '.oae-list-options .btn-group button', function() {
+        $(document).on('click', '.oae-list-header .btn-group button', function() {
             // Get the list container, so we don't end up changing state in other lists
             var $listContainer = $(this).parents('.oae-list-container');
             // Update the list view switch buttons
-            $('.oae-list-options .btn-group button', $listContainer).removeClass('active');
+            $('.oae-list-header .btn-group button', $listContainer).removeClass('active');
             $(this).addClass('active');
             // Change the view type in the list itself
             $('.oae-list', $listContainer).removeClass('oae-list-grid oae-list-details oae-list-compact');
@@ -91,9 +132,10 @@ define(['jquery'], function ($) {
 
         /**
          * When a checkbox is checked/unchecked, we make sure that its corresponding checkbox in the
-         * other views are checked as well. When at least 1 list item is checked, the list options
-         * are shown and the list option action buttons are enabled. When no checkboxes are checked
-         * in the list, the list options are hidden and the list option actions buttons are disabled.
+         * other views are checked as well. When at least 1 list item is checked, the list header
+         * actions are shown and the list header action buttons are enabled. When no checkboxes are
+         * checked in the list, the list header action container collapses and the list header action
+         * buttons are disabled.
          */
         $(document).on('click', '.oae-list input[type="checkbox"]', function() {
             // Get the list item the checkbox corresponds to and make sure the other views have the
@@ -103,17 +145,18 @@ define(['jquery'], function ($) {
 
             // Get the list container, so we don't end up changing state in other lists
             var $listContainer = $(this).parents('.oae-list-container');
-            var $listOptionActions = $('.oae-list-options-actions', $listContainer);
+            var $listHeaderActions = $('.oae-list-header-actions', $listContainer);
 
-            // Hide the list options when no checkboxes are checked anymore. Show the list options
-            // when at least 1 checkbox is checked
+            // Hide the list header actions when no checkboxes are checked anymore. Show the list header
+            // actions when at least 1 checkbox is checked
             var totalChecked = $('.oae-list input[type="checkbox"]:visible:checked', $listContainer).length;
-            if ((totalChecked > 0 && !$listOptionActions.is(':visible')) ||
-                (totalChecked === 0 && $listOptionActions.is(':visible'))) {
-                $('.oae-list-options-toggle', $listContainer).click();
+            if ((totalChecked > 0 && !$listHeaderActions.is(':visible')) ||
+                (totalChecked === 0 && $listHeaderActions.is(':visible'))) {
+                $('button.oae-list-header-toggle', $listContainer).click();
             }
-            // Enable or disable the list option action buttons
-            $('.oae-list-options-actions > .btn', $listContainer).prop('disabled', (totalChecked === 0));
+
+            // Enable or disable the list header action buttons
+            $('.oae-list-header-actions > .btn', $listContainer).prop('disabled', (totalChecked === 0));
         });
 
         /**
@@ -170,7 +213,6 @@ define(['jquery'], function ($) {
             } else {
                 $(document).trigger('oae.list.sendSelection', selectedItems);
             }
-
         });
 
     })();

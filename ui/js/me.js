@@ -26,15 +26,54 @@ require(['jquery','oae.core'], function($, oae) {
     // Set the browser title
     oae.api.util.setBrowserTitle(oae.data.me.displayName);
 
-    // Structure that will be used to construct the left hand navigation
-    var lhNavigation = [
+    // Structure that will be used to construct the left hand navigation actions
+    var lhNavActions = [{
+        'icon': 'icon-cloud-upload',
+        'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
+        'closeNav': true,
+        'class': 'oae-trigger-upload'
+    },
+    {
+        'icon': 'icon-plus-sign',
+        'title': oae.api.i18n.translate('__MSG__CREATE__'),
+        'children': [
+            {
+                'icon': 'icon-group',
+                'title': oae.api.i18n.translate('__MSG__GROUP__'),
+                'closeNav': true,
+                'class': 'oae-trigger-creategroup'
+            },
+            {
+                'icon': 'icon-link',
+                'title': oae.api.i18n.translate('__MSG__LINK__'),
+                'closeNav': true,
+                'class': 'oae-trigger-createlink'
+            },
+            {
+                'icon': 'icon-edit',
+                'title': oae.api.i18n.translate('__MSG__DOCUMENT__'),
+                'closeNav': true,
+                'class': 'oae-trigger-createcollabdoc'
+            },
+            {
+                'icon': 'icon-comments',
+                'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
+                'closeNav': true,
+                'class': 'oae-trigger-creatediscussion'
+            }
+        ]
+    }];
+
+    // Structure that will be used to construct the left hand navigation pages
+    var lhNavPages = [
         {
             'id': 'dashboard',
             'title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
             'icon': 'icon-dashboard',
+            'closeNav': true,
             'layout': [
                 {
-                    'width': 'span12',
+                    'width': 'col-md-12',
                     'widgets': [
                         {
                             'id': 'activity',
@@ -51,9 +90,10 @@ require(['jquery','oae.core'], function($, oae) {
             'id': 'library',
             'title': oae.api.i18n.translate('__MSG__MY_LIBRARY__'),
             'icon': 'icon-briefcase',
+            'closeNav': true,
             'layout': [
                 {
-                    'width': 'span12',
+                    'width': 'col-md-12',
                     'widgets': [
                         {
                             'id': 'contentlibrary',
@@ -70,9 +110,10 @@ require(['jquery','oae.core'], function($, oae) {
             'id': 'discussions',
             'title': oae.api.i18n.translate('__MSG__MY_DISCUSSIONS__'),
             'icon': 'icon-comments',
+            'closeNav': true,
             'layout': [
                 {
-                    'width': 'span12',
+                    'width': 'col-md-12',
                     'widgets': [
                         {
                             'id': 'discussionslibrary',
@@ -89,9 +130,10 @@ require(['jquery','oae.core'], function($, oae) {
             'id': 'groups',
             'title': oae.api.i18n.translate('__MSG__MY_GROUPS__'),
             'icon': 'icon-group',
+            'closeNav': true,
             'layout': [
                 {
-                    'width': 'span12',
+                    'width': 'col-md-12',
                     'widgets': [
                         {
                             'id': 'memberships',
@@ -108,9 +150,10 @@ require(['jquery','oae.core'], function($, oae) {
             'id': 'network',
             'title': oae.api.i18n.translate('__MSG__MY_NETWORK__'),
             'icon': 'icon-random',
+            'closeNav': true,
             'layout': [
                 {
-                    'width': 'span12',
+                    'width': 'col-md-12',
                     'widgets': [
                         {
                             'id': 'network',
@@ -129,9 +172,9 @@ require(['jquery','oae.core'], function($, oae) {
      * Set up the left hand navigation with the me space page structure
      */
     var setUpNavigation = function() {
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavigation, baseUrl]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
         });
     };
 

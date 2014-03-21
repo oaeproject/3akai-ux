@@ -71,9 +71,15 @@ body {
 
 /* Institutional logo */
 @institutional-logo-url: '/shared/oae/img/oae-logo.png';
+/* Small institutional logo */
+@institutional-logo-small-url: '/shared/oae/img/oae-logo-small.png';
 
 .oae-institutional-logo {
     background-image: url(@institutional-logo-url);
+}
+
+.oae-institutional-logo-small {
+    background-image: url(@institutional-logo-small-url);
 }
 
 
@@ -169,7 +175,6 @@ a:hover, .btn-link:hover {
     background-color: @button-default-gradient2-color;
 }
 
-
 /* @subsection  Primary button */
 
 /* Primary button text color */
@@ -197,6 +202,10 @@ a:hover, .btn-link:hover {
     background-color: @button-primary-gradient2-color;
 }
 
+.btn.btn-primary [class^=icon-],
+.btn.btn-primary [class*=" icon-"] {
+    color: @button-primary-text-color;
+}
 
 /* @subsection  Success button */
 
@@ -358,7 +367,8 @@ input[type="search"],
 input[type="tel"],
 input[type="color"],
 .uneditable-input,
-ul.as-selections {
+ul.as-selections,
+#recaptcha_image img {
     border-color: @form-border-color;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
        -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -419,7 +429,7 @@ ul.as-selections.as-selections-focus {
 /* Modal dialog title color */
 @modal-title-color: #777;
 
-.modal, .dropdown-menu, .popover {
+.modal .modal-dialog .modal-content, .dropdown-menu, .popover {
     /* Don't render the background gradient in IE, as the overflow hidden caused by it will
        result in autosuggest results being cut off. https://github.com/oaeproject/3akai-ux/pull/2909 */
     .background-gradient-two(@modal-gradient1-color, @modal-gradient2-color, @skipIE:true);
@@ -516,18 +526,26 @@ ul.as-selections.as-selections-focus {
 @lhnav-item-background-hover-color: transparent;
 /* Left hand navigation item selected background color */
 @lhnav-item-background-selected-color: transparent;
+/* Left hand navigation actions border color */
+@lhnav-item-border-color: #EEE;
 
 .nav > li > a,
+.nav > li > button,
 .nav > li i,
 .nav > li.nav-header {
     color: @lhnav-item-text-color;
     background-color: @lhnav-item-background-color;
 }
 
+.nav > li:hover,
 .nav > li > a:hover,
 .nav > li > a:focus,
 .nav > li > a:hover i,
-.nav > li > a:focus i {
+.nav > li > a:focus i,
+.nav > li > button:hover,
+.nav > li > button:focus,
+.nav > li > button:hover i,
+.nav > li > button:focus i {
     color: @lhnav-item-text-hover-color;
     background-color: @lhnav-item-background-hover-color;
 }
@@ -535,6 +553,9 @@ ul.as-selections.as-selections-focus {
 .nav > li.active > a,
 .nav > li.active > a:hover,
 .nav > li.active > a:focus,
+.nav > li.active > button,
+.nav > li.active > button:hover,
+.nav > li.active > button:focus,
 .nav > li.active > a i,
 .nav > li.active > a:hover i,
 .nav > li.active > a:focus i {
@@ -542,6 +563,9 @@ ul.as-selections.as-selections-focus {
     background-color: @lhnav-item-background-selected-color;
 }
 
+.nav > li.oae-lhnavigation-border {
+    border-bottom: @lhnav-item-border-color;
+}
 
 /*********************************
  ** @section  Tabs **
@@ -736,16 +760,16 @@ div.oae-thumbnail {
     background-color: @visibility-toggle-background-color;
 }
 
-.oae-large-options-container label .oae-large-options.checked {
+.oae-large-options-container label.checked .oae-large-options {
     border-color: @visibility-toggle-selected1-color;
     background-color: @visibility-toggle-selected2-color;
 }
 
-.oae-large-options-container .oae-large-options.checked + i {
+.oae-large-options-container label.checked i.icon-ok {
     background-color: @visibility-toggle-selected1-color;
 }
 
-.oae-large-options-container .oae-large-options.checked + i:before {
+.oae-large-options-container label.checked i.icon-ok:before {
     color: @visibility-toggle-background-color;
 }
 
@@ -754,8 +778,10 @@ div.oae-thumbnail {
  ** @section  Tiles **
  *********************/
 
-/* Tile banner text color */
-@tile-text-color: #FFF;
+/* Tile banner title color */
+@tile-title-color: #FFF;
+/* Tile banner description color */
+@tile-description-color: #CCC;
 /* Tile banner background color */
 @tile-background-color: rgba(0, 0, 0, 0.8);
 
@@ -764,9 +790,12 @@ div.oae-thumbnail {
 }
 
 .oae-tile > .oae-tile-metadata, .oae-tile h3, .oae-tile h3 a {
-    color: @tile-text-color;
+    color: @tile-title-color;
 }
 
+.oae-tile > .oae-tile-metadata small {
+    color: @tile-description-color
+}
 
 /**************************
  ** @section  List items **
@@ -774,6 +803,8 @@ div.oae-thumbnail {
 
 /* List item border color */
 @listitem-border-color: #EEEDEB;
+/* List item description color */
+@listitem-description-color: #888;
 
 .oae-tile,
 .oae-listitem,
@@ -781,6 +812,9 @@ div.oae-thumbnail {
     border-color: @listitem-border-color;
 }
 
+.oae-listitem small {
+    color: @listitem-description-color;
+}
 
 /**********************
  ** @section  Panels **
@@ -867,9 +901,9 @@ div.oae-thumbnail {
 
 /* @subsection  Primary clip */
 
-/* Primary clip text color */
+/* Primary clip title color */
 @clip-primary-title-color: #DBDBDB;
-/* Primary clip text hover color */
+/* Primary clip title hover color */
 @clip-primary-hover-color: #FFF;
 /* Primary clip description color */
 @clip-primary-description-color: #999;
