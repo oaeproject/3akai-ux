@@ -249,7 +249,7 @@
             <div class="admin-container-striped">
                 {for item in schema}
                     <div class="row admin-module-configuration-container">
-                        <button type="button" title="Edit the ${item.title|encodeForHTMLAttribute}" class="admin-module-configuration-toggle-button btn">
+                        <button type="button" title="Edit the ${item.module.title|encodeForHTMLAttribute}" class="admin-module-configuration-toggle-button btn">
                             <i class="icon-pencil"></i>
                             ${item.module.title|encodeForHTML}
                         </button>
