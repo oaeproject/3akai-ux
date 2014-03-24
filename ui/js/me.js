@@ -181,6 +181,8 @@ require(['jquery','oae.core'], function($, oae) {
      */
     var setUpClip = function() {
         oae.api.util.template().render($('#me-clip-template'), null, $('#me-clip-container'));
+        // Set up the drag and drop upload clip
+        oae.api.util.enableDragAndDropUpload($('#me-dnd-upload-clip'));
     };
 
     /**
