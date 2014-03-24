@@ -1458,6 +1458,8 @@ ul.oae-list > li:first-child .oae-listitem {
 .oae-list-header .oae-list-header-toggle h2 .badge {
     margin-left: 5px;
     margin-right: 5px;
+    padding-top: 3px;
+    padding-bottom: 3px;
     position: relative;
     top: -3px;
 }
