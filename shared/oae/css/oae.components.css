@@ -402,6 +402,13 @@ div.oae-thumbnail div {
     background-size: cover;
 }
 
+/* Center the thumbnail for users and groups */
+div.oae-thumbnail.icon-oae-user div,
+div.oae-thumbnail.icon-oae-group div {
+    background-position: center;
+}
+
+
 div.oae-thumbnail.oae-thumbnail-large:before {
     font-size: 50px;
     margin-top: -25px;
@@ -409,7 +416,8 @@ div.oae-thumbnail.oae-thumbnail-large:before {
 
 /* Default entity thumbnails */
 
-div.oae-thumbnail.icon-oae-content:before, div.oae-thumbnail.icon-oae-file:before {
+div.oae-thumbnail.icon-oae-content:before,
+div.oae-thumbnail.icon-oae-file:before {
     content: "\f016";
 }
 
