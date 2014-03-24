@@ -403,8 +403,8 @@ div.oae-thumbnail div {
 }
 
 /* Center the thumbnail for users and groups */
-div.oae-thumbnail.icon-oae-user div,
-div.oae-thumbnail.icon-oae-group div {
+div.oae-thumbnail.icon-oae-group div,
+div.oae-thumbnail.icon-oae-user div {
     background-position: center;
 }
 
