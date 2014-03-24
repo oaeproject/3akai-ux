@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.validate', 'trimpath', 'jquery.autosuggest', 'tinycon'], function(exports, require, $, _, configAPI) {
+define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.validate', 'trimpath', 'jquery.autosuggest', 'tinycon', 'jquery.fileupload'], function(exports, require, $, _, configAPI) {
 
     /**
      * Initialize all utility functionality.
@@ -1341,6 +1341,53 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         });
 
         return isHandheld;
+    };
+
+
+    ///////////////////
+    // DRAG AND DROP //
+    ///////////////////
+
+    /**
+     * Enable drag and drop on an element. Triggers the upload widget by default but can be overridden
+     * by specifying a callback which passes the dropped files back.
+     *
+     * @param  {[type]}     $dropZone                The drop zone for files and folders
+     * @param  {Function}   [callback]               Standard callback function
+     * @param  {Object}     [callback.data]          The data object retrieved from the native drop event
+     * @param  {File[]}     [callback.data.files]    The File objects for the files that were dropped
+     */
+    var enableDragAndDropUpload = exports.enableDragAndDropUpload = function($dropZone, callback) {
+        $dropZone.fileupload({
+            'dropZone': $dropZone,
+            'add': function() {}, // Avoid default form submit behaviour
+            'drop': function(ev, data) {
+                // Determine if there were valid files dropped
+                var isValidDrop = false;
+                $.each(data.files, function(i, file) {
+                    if (file.size !== 0) {
+                        isValidDrop = true;
+                        return false;
+                    }
+                });
+
+                // If no valid files have been dropped, return without further action
+                if (!isValidDrop) {
+                    return;
+                }
+
+                // If valid files were dropped and a callback is specified, execute it
+                if ($.isFunction(callback)) {
+                    return callback(data);
+                }
+
+                // The default behaviour after dropping files is to trigger the upload widget and
+                // send along the dropped files
+                $(document).trigger('oae.trigger.upload', {
+                    'data': data
+                });
+            }
+        });
     };
 
 });

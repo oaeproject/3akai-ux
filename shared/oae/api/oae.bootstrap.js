@@ -58,7 +58,6 @@ requirejs.config({
         'bootstrap.modal': 'oae/js/bootstrap-plugins/bootstrap.modal',
         'jquery.browse-focus': 'oae/js/jquery-plugins/jquery.browse-focus',
         'jquery.clip': 'oae/js/jquery-plugins/jquery.clip',
-        'jquery.dnd-upload': 'oae/js/jquery-plugins/jquery.dnd-upload',
         'jquery.infinitescroll': 'oae/js/jquery-plugins/jquery.infinitescroll',
         'jquery.jeditable-focus': 'oae/js/jquery-plugins/jquery.jeditable-focus',
         'jquery.list-header': 'oae/js/jquery-plugins/jquery.list-header',
