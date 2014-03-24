@@ -54,6 +54,7 @@ define([
         'bootstrap.focus',
         'bootstrap.modal',
         'jquery.browse-focus',
+        'jquery.cancel-zoom',
         'jquery.clip',
         'jquery.dnd-upload',
         'jquery.infinitescroll',

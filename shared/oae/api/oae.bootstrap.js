@@ -57,6 +57,7 @@ requirejs.config({
         'bootstrap.focus': 'oae/js/bootstrap-plugins/bootstrap.focus',
         'bootstrap.modal': 'oae/js/bootstrap-plugins/bootstrap.modal',
         'jquery.browse-focus': 'oae/js/jquery-plugins/jquery.browse-focus',
+        'jquery.cancel-zoom': 'oae/js/jquery-plugins/jquery.cancel-zoom',
         'jquery.clip': 'oae/js/jquery-plugins/jquery.clip',
         'jquery.dnd-upload': 'oae/js/jquery-plugins/jquery.dnd-upload',
         'jquery.infinitescroll': 'oae/js/jquery-plugins/jquery.infinitescroll',
