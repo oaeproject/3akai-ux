@@ -1098,7 +1098,8 @@ div.oae-thumbnail i[class^="icon-"] {
     display: block;
     -webkit-flex: initial;
        -moz-flex: initial;
-        -ms-flex: initial;
+        /* IE10 seems to require this to be explicit :( */
+        -ms-flex: 0 1 auto;
             flex: initial;
     min-width: 100px;
 }
