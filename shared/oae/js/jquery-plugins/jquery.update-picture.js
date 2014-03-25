@@ -22,12 +22,23 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
         $(document).on('oae.changepic.update', function(ev, data) {
             // Define the template
             var $template = $('<div id="thumbnail-template"><!--${renderThumbnail(entityData)}--></div>');
-            // Render the template, passing in the updated data
-            var result = oaeUtil.template().render($template, {
+            // Render a thumbnail and extract the image from it. Not all thumbnails on the page should be
+            // encapsulated in a link so we render a thumbnail and extract the image from it to insert into
+            // already existing thumbnail elements in the DOM.
+            var thumbnailImage = $($.trim(oaeUtil.template().render($template, {
                 'entityData': data
+            }))).find('[role="img"]')[0].outerHTML;
+
+            // For each thumbnail in the DOM, render the updated thumbnail image
+            $('.oae-thumbnail[data-id="' + data.id + '"]').each(function(i, picture) {
+                // If the thumbnail to update links to the user's profile, render the image inside of the anchor tag inside of `oae-thumbnail`
+                if ($(picture).has('a').length) {
+                    $($(picture).has('a')).html(thumbnailImage);
+                // If the thumbnail to update doesn't link to the user's profile, render the image directly into `oae-thumbnail`
+                } else {
+                    $(picture).html(thumbnailImage);
+                }
             });
-            // Replace the thumbnails with the updated html
-            $('.oae-thumbnail[data-id="' + data.id + '"]').replaceWith(result);
         });
 
     })(jQuery);
