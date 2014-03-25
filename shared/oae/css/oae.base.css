@@ -500,6 +500,10 @@ ul.as-selections li.as-original input:focus {
     width: 150px;
 }
 
+ul.as-selections li.as-original input::-ms-clear {
+    display: none;
+}
+
 ul.as-selections li.as-selection-item {
     -webkit-border-radius: 3px;
         -moz-border-radius: 3px;
