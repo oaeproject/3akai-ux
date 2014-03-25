@@ -264,6 +264,10 @@ input[type="color"],
     padding-left: 0;
 }
 
+select.form-control {
+    padding: 4px;
+}
+
 .radio input[type="radio"],
 .radio-inline input[type="radio"],
 .checkbox input[type="checkbox"],
@@ -453,12 +457,12 @@ input[type="color"],
  * @see http://twitter.github.com/bootstrap/components.html#labels-badges */
 
 .badge {
-    font-weight: 600;
     -webkit-border-radius: 3px;
        -moz-border-radius: 3px;
             border-radius: 3px;
-    padding-left: 6px;
-    padding-right: 6px;
+    font-weight: 600;
+    line-height: 0.8;
+    padding: 5px 6px;
 }
 
 .label-important, .badge-important {

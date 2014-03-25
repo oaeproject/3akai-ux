@@ -1114,6 +1114,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                         selectedItems.push({
                             'id': id,
                             'displayName': selectionData.displayName,
+                            'profilePath': selectionData.profilePath,
                             'resourceType': selectionData.resourceType,
                             'thumbnailUrl': selectionData.thumbnailUrl,
                             'visibility': selectionData.visibility
