@@ -126,7 +126,7 @@
             {var visibility = entityData['oae:visibility']}
         {/if}
 
-        <li data-id="${entityData.id}" {if additionalClasses} class="${additionalClasses}" {/if}>
+        <li data-id="${entityData.id}" {if additionalClasses} class="${additionalClasses}"{/if}>
             <!-- THUMBNAIL VIEW -->
             <div class="oae-list-grid-item">
                 <div class="oae-tile">
@@ -327,7 +327,7 @@
     {/if}
 
     {if !oae.data.me.anon && showCheckbox !== false}
-        <input type="checkbox" class="{if type !== 'grid'} pull-left {/if}" id="oae-list-${type}-${entityData.id}" data-id="${entityData.id}" data-resourceType="${resourceType}" data-resourceSubType="${resourceSubType}" />
+        <input type="checkbox" class="{if type !== 'grid'} pull-left{/if}" id="oae-list-${type}-${entityData.id}" data-id="${entityData.id}" data-resourceType="${resourceType}" data-resourceSubType="${resourceSubType}" />
         <label class="sr-only" for="oae-list-${type}-${entityData.id}">${entityData.displayName|encodeForHTML}</label>
     {/if}
 {/macro}
