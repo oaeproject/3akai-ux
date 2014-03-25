@@ -9,6 +9,10 @@
 
 Documentation on how to install and configure OAE can be found in the [back-end repository](https://github.com/oaeproject/Hilary).
 
+## Local Development
+
+By default 3akai-ux uses the Open Sans font family available from Google's Web Font CDN. When developing locally without a live Internet connection, that CDN will be inaccessible. To ensure maximum visual fidelity, those fonts can be installed as system fonts in the local machine. Download the entire collection from [Google](http://www.google.com/fonts#UsePlace:use/Collection:Open+Sans).
+
 ## Widget development
 
 Documentation on how to create custom OAE widgets and an overview of the available widgets can be found at the [Widget Library](http://oae-widgets.sakaiproject.org/)
