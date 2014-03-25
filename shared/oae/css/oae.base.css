@@ -652,6 +652,13 @@ ul.as-list li.as-result-item.active {
     clear: both;
 }
 
+@media (max-width: 480px) {
+    .oae-main-content {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
 @media (max-width: 991px) {
     .oae-main-content {
         min-height: 520px; /* Slightly increase the minimum height on smaller screens to take clip actions in the left hand navigation into account */
