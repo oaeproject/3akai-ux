@@ -771,6 +771,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         var defaultOptions = {
             'canGenerateNewSelections': false,
             'minChars': 2,
+            'neverSubmit': true,
             'retrieveLimit': 10,
             'url': '/api/search/general',
             'scroll': 190,

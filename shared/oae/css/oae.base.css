@@ -388,6 +388,15 @@ select.form-control {
     padding: 10px 25px 15px 15px;
 }
 
+.modal-footer button.btn-link {
+    float: left;
+}
+
+.modal-footer button.btn-danger,
+.modal-footer button.btn-primary {
+    float: right;
+}
+
 /* CLICKOVER DIALOGS
  * @see https://github.com/lecar-red/bootstrapx-clickover
  * @see http://twitter.github.io/bootstrap/javascript.html#popovers */
