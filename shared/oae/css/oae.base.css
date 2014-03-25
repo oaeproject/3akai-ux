@@ -333,16 +333,9 @@ select.form-control {
     min-width: 300px;
 }
 
-@media screen and (min-width: 768px) {
+@media (min-width: 992px) {
     .modal-dialog {
         padding-top: 60px;
-    }
-}
-
-@media only screen and (max-device-width : 1024px) {
-    .modal-dialog {
-        margin-top: 0;
-        padding-top: 30px;
     }
 }
 

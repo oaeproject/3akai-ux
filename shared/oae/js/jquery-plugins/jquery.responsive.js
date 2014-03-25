@@ -52,9 +52,9 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
                 'opacity': 1,
                 'width': LHNAVIGATION_WIDTH  + 'px'
             }, 250);
-            // Animate the padding of the page to 200px (width of the left hand nav) + 20 pixels (margin)
+            // Animate the padding of the page to 210px (width of the left hand nav) + 15 pixels (padding)
             $('.oae-page').animate({
-                'padding-left': (LHNAVIGATION_WIDTH + 10) + 'px'
+                'padding-left': (LHNAVIGATION_WIDTH + 15) + 'px'
             }, 250, function() {
                 $('.oae-lhnavigation').addClass('oae-lhnav-expanded');
             });
