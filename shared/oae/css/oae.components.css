@@ -536,7 +536,6 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .oae-clip {
-    -webkit-backface-visibility: hidden; /* Prevent flickering when collapsing the left hand navigation on iOs devices */
     float: left;
     margin: -16px 10px 10px;
     position: relative;
