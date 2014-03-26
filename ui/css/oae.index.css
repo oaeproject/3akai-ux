@@ -84,23 +84,6 @@
     word-wrap: break-word;
 }
 
-#index-container #index-slogan-description {
-    font-size: 19px;
-    margin-top: 25px;
-}
-
-.index-bottom .index-bottom-slogan {
-    font-size: 19px;
-    line-height: 1;
-    margin: 0;
-}
-
-.index-bottom .index-bottom-description {
-    font-size: 14px;
-    margin-top: 25px;
-    overflow: auto;
-}
-
 #index-video-launch-container {
     position: relative;
     background: url('/ui/img/index-video-bg.png') no-repeat center 0px #ECEAE5;
@@ -124,6 +107,23 @@
 
 #index-video-launch-container #index-video-launch i {
     font-size: 70px;
+}
+
+#index-container #index-slogan-description {
+    font-size: 19px;
+    margin-top: 25px;
+}
+
+.index-bottom .index-bottom-slogan {
+    font-size: 19px;
+    line-height: 1;
+    margin: 0;
+}
+
+.index-bottom .index-bottom-description {
+    font-size: 14px;
+    margin-top: 25px;
+    overflow: auto;
 }
 
 @media (max-width: 991px) {
