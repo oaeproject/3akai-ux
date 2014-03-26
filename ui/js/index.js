@@ -31,13 +31,23 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     /**
-     * Set up the product video button when on desktop, render the video in the page for mobile
+     * Set up the product video and play it. On mobile devices the video won't automatically
+     * play because of restrictions.
      */
-    var setUpProductVideo = function() {
-        oae.api.util.template().render($('#index-productvideo-template'), null, $('#index-video-container'));
+    var playProductVideo = function() {
+        oae.api.util.template().render($('#index-video-template'), null, $('#index-video'));
+        $('#index-video-launch-container').hide();
+        $('#index-video').show();
+    };
+
+    /**
+     * Add binding to various elements on the index page
+     */
+    var addBinding = function() {
+        $('#index-video-launch').on('click', playProductVideo);
     };
 
     setUpSearch();
-    setUpProductVideo();
+    addBinding();
 
 });
