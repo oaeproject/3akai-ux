@@ -210,7 +210,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * rendering a new one
      */
     var refreshContentPreview = function() {
-        var $widgetContainer = $('.oae-page > .row .oae-lhnavigation-toggle + div');
+        var $widgetContainer = $('#lhnavigation-page-' + getPreviewWidgetId());
 
         // Empty the preview container
         $widgetContainer.empty();
