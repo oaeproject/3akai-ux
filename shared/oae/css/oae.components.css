@@ -1191,8 +1191,8 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-listitem > div.oae-listitem-actions > .btn,
 .oae-listitem > div.oae-listitem-actions > .btn i {
     border-width: 0;
-    font-size: 18px;
     display: inline-block;
+    font-size: 18px;
     height: 100%;
 }
 
