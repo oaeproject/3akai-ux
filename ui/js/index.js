@@ -34,10 +34,10 @@ require(['jquery','oae.core'], function($, oae) {
      * Set up the product video and play it. On mobile devices the video won't automatically
      * play because of restrictions.
      */
-    var playProductVideo = function() {
-        oae.api.util.template().render($('#index-video-template'), null, $('#index-video'));
-        $('#index-video-launch-container').hide();
-        $('#index-video').show();
+    var setUpProductVideo = function() {
+        $('#index-video-launch').on('click', function() {
+            oae.api.util.template().render($('#index-video-template'), null, $('#index-video-container'));
+        });
     };
 
     /**
@@ -48,6 +48,6 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     setUpSearch();
-    addBinding();
+    setUpProductVideo();
 
 });

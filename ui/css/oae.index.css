@@ -77,14 +77,7 @@
     padding: 0px 19px;
 }
 
-#index-container #index-slogan {
-    font-size: 50px;
-    line-height: 1;
-    margin: 0;
-    word-wrap: break-word;
-}
-
-#index-video-launch-container {
+#index-video-container {
     position: relative;
     background: url('/ui/img/index-video-bg.png') no-repeat center 0px #ECEAE5;
     -webkit-border-radius: 3px;
@@ -97,7 +90,7 @@
     padding: 0;
 }
 
-#index-video-launch-container #index-video-launch {
+#index-video-container #index-video-launch {
     position: absolute;
     opacity: 0.8;
     left: 0;
@@ -105,8 +98,15 @@
     height: 100%;
 }
 
-#index-video-launch-container #index-video-launch i {
+#index-video-container #index-video-launch i {
     font-size: 70px;
+}
+
+#index-container #index-slogan {
+    font-size: 50px;
+    line-height: 1;
+    margin: 0;
+    word-wrap: break-word;
 }
 
 #index-container #index-slogan-description {
