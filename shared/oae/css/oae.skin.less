@@ -341,6 +341,41 @@ a:hover, .btn-link:hover {
     color: @button-icon-hover-color;
 }
 
+/* @subsection  Authentication buttons */
+
+/* CAS authentication button background color*/
+@button-cas-background-color: #153F51;
+/* CAS authentication button hover background color */
+@button-cas-hover-background-color: #305A6C;
+/* CAS authentication text color */
+@button-cas-text-color: #FFF;
+/* Shibboleth authentication button background color */
+@button-shibboleth-background-color: #FF7220;
+/* Shibboleth authentication button hover background color */
+@button-shibboleth-hover-background-color: #FF8822;
+/* Shibboleth authentication text color */
+@button-shibboleth-text-color: #FFF;
+
+.nav > li a.btn-cas,
+.nav > li a.btn-cas:hover {
+    color: @button-cas-text-color;
+    background-color: @button-cas-background-color;
+    background-image: none;
+}
+.nav > li a.btn-cas:hover {
+    background-color: @button-cas-hover-background-color;
+}
+
+.nav > li a.btn-shibboleth,
+.nav > li a.btn-shibboleth:hover {
+    color: @button-shibboleth-text-color;
+    background-color: @button-shibboleth-background-color;
+    background-image: none;
+}
+.nav > li a.btn-shibboleth:hover {
+    background-color: @button-shibboleth-hover-background-color;
+}
+
 
 /*********************
  ** @section  Forms **
