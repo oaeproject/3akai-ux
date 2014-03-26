@@ -62,29 +62,9 @@ if (!argv.s) {
     CoreUtil.logWarn('Skipping unit tests because of -s parameter');
 }
 
-/*!
- * Find the 3akai-ux version. If not specified explicitly in the command with a -v parameter, it will be derived
- * using a combination of the package.json version and the closest matching tag using git describe:
- *
- *  git describe --always --tag --match=<package.json version>
- *
- * And the result being:
- *
- *  <closest relevant tag>-<number of commits since the tag>-<current commit hash>
- */
-var uiVersion = argv.v;
-if (!uiVersion) {
-    var describe = CoreUtil.gitDescribe(packageJson.version, 7);
-    uiVersion = describe.tag;
-
-    if (describe.commits) {
-        uiVersion += '-' + describe.commits;
-    }
-
-    if (describe.hash) {
-        uiVersion += '-' + describe.hash;
-    }
-}
+// Find the 3akai-ux version. If not specified explicitly in the command with a -v parameter, it will be derived
+// using a combination of the package.json version and the closest matching tag using git describe
+var uiVersion = argv.v || CoreUtil.gitVersion(packageJson.version, 7);
 
 CoreUtil.logSuccess('Resolved UI version to be '.text + uiVersion.white);
 
