@@ -934,6 +934,16 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                     }
                 };
 
+// Function called when suggestions are added to the list. The
+// first time this function is called, scroll the window up so
+// that more of the suggestions are visible above the the pop-up
+// mobile keyboard. This function should only execute once, and
+// it is debounced to avoid animation while the user is busy
+// typing.
+options.resultsComplete = _.once(_.debounce(function(param) {
+    $('html, body').animate({scrollTop:$('ul.as-selections input').offset().top-15});
+}, 400));
+
                 // If no custom suggest list item formatting function is provided, we use the standard formatting
                 // function that will render the thumbnail image, displayName and some metadata for each suggested item
                 if (!options.formatList) {
@@ -1054,6 +1064,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
 
                 // Add a label to the autosuggest input field for accessibility
                 $('.as-input', $list).before('<label class="sr-only" for="' + $('.as-input', $list).attr('id') + '">' + options.startText + '</label>');
+
+// Disable zooming on mobile browsers
+$('.as-input', $list).cancelZoom();
 
                 // Trigger the callback function
                 if (_.isFunction(callback)) {
