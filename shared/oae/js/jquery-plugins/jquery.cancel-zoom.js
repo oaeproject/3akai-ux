@@ -27,7 +27,7 @@ define(['jquery'], function (jQuery) {
     var cancelZoom = function() {
         var viewport,
             content,
-            unzoomedScale,
+            initialScale,
             maxScale = ',maximum-scale=',
             maxScaleRegex = /,*maximum\-scale\=\d*\.*\d*/;
 
@@ -40,14 +40,16 @@ define(['jquery'], function (jQuery) {
         content = viewport.content;
 
         // TODO: Figure out how to deal cleanly with Android, since Android
-        // sets `screen.width` to physical pixels rather than device
-        // independent pixels; this only works for iOS.
-        unzoomedScale = screen.width / 400; /* 400 from max-width of OAE pages */
+        // might set `screen.width` to physical pixels rather than device
+        // independent pixels.
+        // TODO: Handle orientation change events,
+        // e.g. `window.matchMedia("(orientation: portrait)").addListener`
+        initialScale = screen.width / $('body').outerWidth();
 
         var changeViewport = function(event) {
             viewport.content = content + (event.type == 'blur' ?
                 (content.match(maxScaleRegex, '') ? '' : maxScale + 10) :
-                maxScale + unzoomedScale);
+                maxScale + initialScale);
         }
 
         this.addEventListener('focus', changeViewport, true);
