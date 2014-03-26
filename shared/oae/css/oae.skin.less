@@ -20,17 +20,10 @@
 
 .background-image-with-gradient(@image, @gradient1, @gradient2, @skipIE:false) {
     background-color: mix(@gradient1, @gradient2, 50%);
-    background-image: url(@image) @gradient1;
+    background-image: url(@image);
     background-image: url(@image), -moz-linear-gradient(top, @gradient1 0%, @gradient2 100%);
     background-image: url(@image), -webkit-linear-gradient(top, @gradient1 0%, @gradient2 100%);
     background-image: url(@image), linear-gradient(to bottom, @gradient1 0%, @gradient2 100%);
-}
-
-/* IE9 */
-.background-image-with-gradient(@image, @gradient1, @gradient2, @skipIE:false) when not (@skipIE) {
-    @iegradient1: argb(@gradient1);
-    @iegradient2: argb(@gradient2);
-    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=@iegradient1, endColorstr=@iegradient2);
 }
 
 .background-gradient-two(@gradient1, @gradient2, @gradient1start:0%, @gradient2start:100%, @skipIE: false) {
@@ -78,9 +71,15 @@ body {
 
 /* Institutional logo */
 @institutional-logo-url: '/shared/oae/img/oae-logo.png';
+/* Small institutional logo */
+@institutional-logo-small-url: '/shared/oae/img/oae-logo-small.png';
 
 .oae-institutional-logo {
     background-image: url(@institutional-logo-url);
+}
+
+.oae-institutional-logo-small {
+    background-image: url(@institutional-logo-small-url);
 }
 
 
@@ -176,7 +175,6 @@ a:hover, .btn-link:hover {
     background-color: @button-default-gradient2-color;
 }
 
-
 /* @subsection  Primary button */
 
 /* Primary button text color */
@@ -204,6 +202,10 @@ a:hover, .btn-link:hover {
     background-color: @button-primary-gradient2-color;
 }
 
+.btn.btn-primary [class^=icon-],
+.btn.btn-primary [class*=" icon-"] {
+    color: @button-primary-text-color;
+}
 
 /* @subsection  Success button */
 
@@ -554,7 +556,9 @@ ul.as-selections.as-selections-focus {
 .nav > li.active > button,
 .nav > li.active > button:hover,
 .nav > li.active > button:focus,
-.nav > li.active i {
+.nav > li.active > a i,
+.nav > li.active > a:hover i,
+.nav > li.active > a:focus i {
     color: @lhnav-item-text-selected-color;
     background-color: @lhnav-item-background-selected-color;
 }
@@ -774,8 +778,10 @@ div.oae-thumbnail {
  ** @section  Tiles **
  *********************/
 
-/* Tile banner text color */
-@tile-text-color: #FFF;
+/* Tile banner title color */
+@tile-title-color: #FFF;
+/* Tile banner description color */
+@tile-description-color: #CCC;
 /* Tile banner background color */
 @tile-background-color: rgba(0, 0, 0, 0.8);
 
@@ -784,9 +790,12 @@ div.oae-thumbnail {
 }
 
 .oae-tile > .oae-tile-metadata, .oae-tile h3, .oae-tile h3 a {
-    color: @tile-text-color;
+    color: @tile-title-color;
 }
 
+.oae-tile > .oae-tile-metadata small {
+    color: @tile-description-color
+}
 
 /**************************
  ** @section  List items **
@@ -794,6 +803,8 @@ div.oae-thumbnail {
 
 /* List item border color */
 @listitem-border-color: #EEEDEB;
+/* List item description color */
+@listitem-description-color: #888;
 
 .oae-tile,
 .oae-listitem,
@@ -801,6 +812,9 @@ div.oae-thumbnail {
     border-color: @listitem-border-color;
 }
 
+.oae-listitem small {
+    color: @listitem-description-color;
+}
 
 /**********************
  ** @section  Panels **
@@ -887,9 +901,9 @@ div.oae-thumbnail {
 
 /* @subsection  Primary clip */
 
-/* Primary clip text color */
+/* Primary clip title color */
 @clip-primary-title-color: #DBDBDB;
-/* Primary clip text hover color */
+/* Primary clip title hover color */
 @clip-primary-hover-color: #FFF;
 /* Primary clip description color */
 @clip-primary-description-color: #999;

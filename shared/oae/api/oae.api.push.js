@@ -302,8 +302,14 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
         aggregates[resourceId] = aggregates[resourceId] || {};
         aggregates[resourceId][streamType] = aggregates[resourceId][streamType] || {};
 
-        // Only aggregate activities of the same activity type (e.g. `content-create`)
         var activityType = newMessage.activity['oae:activityType'];
+
+        // Only aggregate activities if there are rules defined for that type
+        if (!AGGREGATION_RULES[activityType]) {
+            return callback(newMessage);
+        }
+
+        // Only aggregate activities of the same activity type (e.g. `content-create`)
         aggregates[resourceId][streamType][activityType] = aggregates[resourceId][streamType][activityType] || {};
 
         // Generate the aggregation key used to determine which activities should be aggregated

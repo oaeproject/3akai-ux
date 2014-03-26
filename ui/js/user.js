@@ -24,10 +24,11 @@ require(['jquery', 'oae.core'], function($, oae) {
         window.location = '/me';
     }
 
-    // Variable used to cache the requested user's profile
-    var userProfile = null;
     // Variable used to cache the user's base URL
     var baseUrl = '/user/' + $.url().segment(2) + '/' + $.url().segment(3);
+
+    // Variable used to cache the requested user's profile
+    var userProfile = null;
 
     /**
      * Get the user's basic profile and set up the screen. If the user
@@ -104,6 +105,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             'id': 'library',
             'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
             'icon': 'icon-briefcase',
+            'closeNav': true,
             'layout': [
                 {
                     'width': 'col-md-12',
@@ -122,6 +124,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             'id': 'discussions',
             'title': oae.api.i18n.translate('__MSG__DISCUSSIONS__'),
             'icon': 'icon-comments',
+            'closeNav': true,
             'layout': [
                 {
                     'width': 'col-md-12',
@@ -140,6 +143,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             'id': 'groups',
             'title': oae.api.i18n.translate('__MSG__GROUPS__'),
             'icon': 'icon-group',
+            'closeNav': true,
             'layout': [
                 {
                     'width': 'col-md-12',
@@ -158,6 +162,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             'id': 'network',
             'title': oae.api.i18n.translate('__MSG__NETWORK__'),
             'icon': 'icon-random',
+            'closeNav': true,
             'layout': [
                 {
                     'width': 'span12',
