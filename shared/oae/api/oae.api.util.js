@@ -771,6 +771,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         var defaultOptions = {
             'canGenerateNewSelections': false,
             'minChars': 2,
+            'neverSubmit': true,
             'retrieveLimit': 10,
             'url': '/api/search/general',
             'scroll': 190,
@@ -1113,6 +1114,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                         selectedItems.push({
                             'id': id,
                             'displayName': selectionData.displayName,
+                            'profilePath': selectionData.profilePath,
                             'resourceType': selectionData.resourceType,
                             'thumbnailUrl': selectionData.thumbnailUrl,
                             'visibility': selectionData.visibility

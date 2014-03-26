@@ -74,11 +74,11 @@ define(['jquery', 'underscore', 'oae.api.util'], function (jQuery, _, oaeUtil) {
         });
 
         /**
-         * Close the left hand navigation when anything within the main page receives focus
-         * whilst the left hand navigation is still open.
+         * Close the left hand navigation when anything within the main page, except for the
+         * `oae-lhnavigation-toggle`, receives focus whilst the left hand navigation is still open.
          */
-        $(document).on('focusin', '.oae-page', function() {
-            if (isLhNavExpanded()) {
+        $(document).on('focusin', '.oae-page', function(ev) {
+            if (isLhNavExpanded() && !$(ev.target).hasClass('oae-lhnavigation-toggle')) {
                 toggleLhNav(false);
             }
         });
