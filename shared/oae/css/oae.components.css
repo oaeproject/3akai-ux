@@ -214,57 +214,56 @@ i[class^="icon-"].large:before {
  * - `col-md-<x>` defines the width of the column. The sum of all column widths should be 12
  **/
 
+.oae-large-options-container {
+    margin-top: -35px;
+    padding: 0 10px;
+}
+
+.oae-large-options-container > div {
+    padding: 35px 7px 0 7px;
+}
+
 .oae-large-options-container label {
     cursor: pointer;
     display: inline;
-}
-
-.oae-large-options-container label small {
-    display: block;
-    margin: 0 0 35px;
-    position: relative;
-}
-
-.oae-large-options-container label.checked small {
     margin: 0;
-    top: -35px;
 }
 
-.oae-large-options-container .oae-large-options {
+.oae-large-options-container label .oae-large-options {
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
             box-sizing: border-box;
     height: 150px;
+    margin-bottom: 17px;
     padding-top: 13px;
     width: 100%;
 }
 
 .oae-large-options-container label.checked .oae-large-options {
     border: 8px solid;
+    margin-top: -35px;
     padding-top: 6px;
-    position: relative;
-    top: -35px;
 }
 
-.oae-large-options-container .oae-large-options input {
+.oae-large-options-container label .oae-large-options input {
     position: absolute;
     z-index: -1; /* Adding a z-index of -1 hides the element from the view but still allows for focus of the element */
 }
 
-.oae-large-options-container .oae-large-options i.icon-oae-private:before,
-.oae-large-options-container .oae-large-options i.icon-oae-loggedin:before,
-.oae-large-options-container .oae-large-options i.icon-oae-public:before {
+.oae-large-options-container label .oae-large-options i.icon-oae-private:before,
+.oae-large-options-container label .oae-large-options i.icon-oae-loggedin:before,
+.oae-large-options-container label .oae-large-options i.icon-oae-public:before {
     margin-top: 6px;
 }
 
-.oae-large-options-container .oae-large-options span {
+.oae-large-options-container label .oae-large-options span {
     display: block;
     font-size: 13px;
     font-weight: bold;
     margin-top: 15px;
 }
 
-.oae-large-options-container i.icon-ok {
+.oae-large-options-container label i.icon-ok {
     display: none;
 }
 
