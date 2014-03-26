@@ -23,7 +23,13 @@ define(['jquery'], function($) {
      */
     var hidePopover = function($popover) {
         $popover.popover('hide');
-        $popover = null;
+
+        // If we're hiding the current popover that means that all previous popovers are closed
+        // as well and we reset to the initial state
+        if ($popover[0] === $currentPopover[0]) {
+            $currentPopover = null;
+            $prevPopover = null;
+        }
     };
 
     /**
@@ -35,14 +41,6 @@ define(['jquery'], function($) {
     $(document).on('shown.bs.popover', function(ev) {
         $prevPopover = $currentPopover;
         $currentPopover = $(ev.target);
-        console.log($prevPopover, $currentPopover);
-    });
-
-    /**
-     * Reset the `$currentPopover` when a popover is closed
-     */
-    $(document).on('hidden.bs.popover', function() {
-        $currentPopover = null;
     });
 
     /**
@@ -51,13 +49,10 @@ define(['jquery'], function($) {
      * @param  {Event}    ev    Standard jQuery click event
      */
     $(document).on('click', function(ev) {
-        //console.log($currentPopover, !$.contains($currentPopover[0], ev.target), ev.target !== $currentPopover[0], !$.contains($('.popover')[0], ev.target));
-        // If the popover was clicked or the trigger ignore the click
+        // If the popover was clicked or the trigger ignore the click, otherwise close the popover
         if ($currentPopover && !$.contains($currentPopover[0], ev.target) && ev.target !== $currentPopover[0] && !$.contains($('.popover')[0], ev.target)) {
-            console.log('hide current popover');
             hidePopover($currentPopover);
-        } else if ($prevPopover && $prevPopover[0] !== $currentPopover) {
-            console.log('hide prev popover');
+        } else if ($prevPopover && $prevPopover[0]) {
             hidePopover($prevPopover);
         }
     });
@@ -70,7 +65,7 @@ define(['jquery'], function($) {
     $(document).on('keyup', function(ev) {
         var keyCode = parseInt(ev.which, 10);
         if (keyCode === 27 && $currentPopover) {
-            hidePopover();
+            hidePopover($currentPopover);
         }
     });
 });
