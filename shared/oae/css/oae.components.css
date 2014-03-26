@@ -214,57 +214,56 @@ i[class^="icon-"].large:before {
  * - `col-md-<x>` defines the width of the column. The sum of all column widths should be 12
  **/
 
+.oae-large-options-container {
+    margin-top: -35px;
+    padding: 0 10px;
+}
+
+.oae-large-options-container > div {
+    padding: 35px 7px 0 7px;
+}
+
 .oae-large-options-container label {
     cursor: pointer;
     display: inline;
-}
-
-.oae-large-options-container label small {
-    display: block;
-    margin: 0 0 35px;
-    position: relative;
-}
-
-.oae-large-options-container label.checked small {
     margin: 0;
-    top: -35px;
 }
 
-.oae-large-options-container .oae-large-options {
+.oae-large-options-container label .oae-large-options {
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
             box-sizing: border-box;
     height: 150px;
+    margin-bottom: 17px;
     padding-top: 13px;
     width: 100%;
 }
 
 .oae-large-options-container label.checked .oae-large-options {
     border: 8px solid;
+    margin-top: -35px;
     padding-top: 6px;
-    position: relative;
-    top: -35px;
 }
 
-.oae-large-options-container .oae-large-options input {
+.oae-large-options-container label .oae-large-options input {
     position: absolute;
     z-index: -1; /* Adding a z-index of -1 hides the element from the view but still allows for focus of the element */
 }
 
-.oae-large-options-container .oae-large-options i.icon-oae-private:before,
-.oae-large-options-container .oae-large-options i.icon-oae-loggedin:before,
-.oae-large-options-container .oae-large-options i.icon-oae-public:before {
+.oae-large-options-container label .oae-large-options i.icon-oae-private:before,
+.oae-large-options-container label .oae-large-options i.icon-oae-loggedin:before,
+.oae-large-options-container label .oae-large-options i.icon-oae-public:before {
     margin-top: 6px;
 }
 
-.oae-large-options-container .oae-large-options span {
+.oae-large-options-container label .oae-large-options span {
     display: block;
     font-size: 13px;
     font-weight: bold;
     margin-top: 15px;
 }
 
-.oae-large-options-container i.icon-ok {
+.oae-large-options-container label i.icon-ok {
     display: none;
 }
 
@@ -402,6 +401,12 @@ div.oae-thumbnail div {
     background-size: cover;
 }
 
+/* Center the thumbnail for users and groups */
+div.oae-thumbnail.icon-oae-group div,
+div.oae-thumbnail.icon-oae-user div {
+    background-position: center;
+}
+
 div.oae-thumbnail.oae-thumbnail-large:before {
     font-size: 50px;
     margin-top: -25px;
@@ -409,7 +414,8 @@ div.oae-thumbnail.oae-thumbnail-large:before {
 
 /* Default entity thumbnails */
 
-div.oae-thumbnail.icon-oae-content:before, div.oae-thumbnail.icon-oae-file:before {
+div.oae-thumbnail.icon-oae-content:before,
+div.oae-thumbnail.icon-oae-file:before {
     content: "\f016";
 }
 
@@ -534,6 +540,13 @@ div.oae-thumbnail i[class^="icon-"] {
     margin: -16px 10px 10px;
     position: relative;
     z-index: 101;
+}
+
+/* iPhone resolution */
+@media (max-width: 480px) {
+    .oae-clip {
+        margin-left: 15px;
+    }
 }
 
 /* Clip fold */
@@ -809,7 +822,7 @@ div.oae-thumbnail i[class^="icon-"] {
 /* Left hand navigation */
 
 .oae-lhnavigation {
-    margin-left: 10px;
+    margin-left: 15px;
     margin-top: -5px;
     position: absolute;
     width: 210px;
@@ -874,26 +887,20 @@ div.oae-thumbnail i[class^="icon-"] {
 /* Page content */
 
 .oae-page {
-    min-width: 280px;
+    min-width: 275px;
     padding: 5px 25px;
 }
 
 .oae-lhnavigation.oae-lhnav-expanded + .oae-page {
     min-width: 480px;
-    padding: 5px 25px 5px 220px;
-}
-
-/* iPhone resolution */
-@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
-    .oae-page {
-        padding: 5px 10px 50px;
-    }
+    padding: 5px 25px 5px 225px;
 }
 
 @media (min-width: 992px) {
     .oae-page {
-        padding: 5px 25px 5px 220px !important;
+        padding: 5px 25px 5px 225px !important;
     }
+
     .oae-lhnavigation {
         opacity: 1 !important;
         width: 210px !important;
@@ -1098,7 +1105,8 @@ div.oae-thumbnail i[class^="icon-"] {
     display: block;
     -webkit-flex: initial;
        -moz-flex: initial;
-        -ms-flex: initial;
+        /* IE10 seems to require this to be explicit :( */
+        -ms-flex: 0 1 auto;
             flex: initial;
     min-width: 100px;
 }
@@ -1130,7 +1138,6 @@ div.oae-thumbnail i[class^="icon-"] {
     display: -ms-flexbox;
     display: -ms-flex;
     display: flex;
-    vertical-align: middle;
 }
 
 .oae-listitem > div.oae-listitem-metadata > h3 {
@@ -1181,6 +1188,11 @@ div.oae-thumbnail i[class^="icon-"] {
     float: right;
 }
 
+.oae-listitem > div.oae-listitem-actions > i,
+.oae-listitem > div.oae-listitem-actions > .btn {
+    margin-top: -4px;
+}
+
 /* Actions can be either an icon or a button with an icon. Style them consistently */
 .oae-listitem > div.oae-listitem-actions > i,
 .oae-listitem > div.oae-listitem-actions > .btn,
@@ -1195,7 +1207,6 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-list-details-item > .oae-listitem > div.oae-listitem-actions > i,
 .oae-list-details-item > .oae-listitem > div.oae-listitem-actions > .btn {
-    margin-top: -4px;
     /* Horizontal padding will likely be overriden for more narrow contexts. We provide
        reasonable default for scenarios where we aren't concerned about horizontal
        restrictions */
@@ -1204,11 +1215,11 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-list-compact-item > .oae-listitem > div.oae-listitem-actions {
     height: 25px;
+    margin-top: -4px;
 }
 
 .oae-list-compact-item > .oae-listitem > div.oae-listitem-actions > i,
 .oae-list-compact-item > .oae-listitem > div.oae-listitem-actions > .btn {
-    margin-top: -5px;
     /* Horizontal padding will likely be overriden for more narrow contexts. We provide
        reasonable default for scenarios where we aren't concerned about horizontal
        restrictions */
@@ -1218,9 +1229,24 @@ div.oae-thumbnail i[class^="icon-"] {
 /* Compact view can have a .form-group. Currently it's an adhoc implementation of
    something needed in the manageaccess widget that may need to be fleshed out
    more for details view */
-.oae-list-compact-item > .oae-listitem div.oae-listitem-actions .form-group {
+.oae-list-compact-item > .oae-listitem > div.oae-listitem-actions .form-group {
     display: inline-block;
-    margin-bottom: 0;
+}
+
+@media (max-width: 480px) {
+    /* Reduce horizontal padding for details listitem actions on mobile devices */
+    .oae-list-details-item > .oae-listitem > div.oae-listitem-actions > i,
+    .oae-list-details-item > .oae-listitem > div.oae-listitem-actions > .btn {
+        padding-left: 6px;
+        padding-right: 6px;
+    }
+}
+
+/* Action icon adjustments */
+
+/* The remove icon is comically large compared to the others. Reduce its size */
+.oae-list-compact-item > .oae-listitem > div.oae-listitem-actions i.icon-remove {
+    font-size: 16px;
 }
 
 /* IE9 specific fallback for flexbox */
@@ -1324,16 +1350,7 @@ ul.oae-list:not(.oae-list-compact) > li > .oae-list-compact-item {
 
 ul.oae-list.oae-list-grid > li {
     float: left;
-    height: 161px;
     margin: 0 10px 15px 0;
-}
-
-@media (min-width: 992px) {
-    ul.oae-list.oae-list-grid > li {
-        height: 170px;
-        margin-bottom: 24px;
-        margin-right: 14px;
-    }
 }
 
 ul.oae-list.oae-list-grid > li .oae-thumbnail,
@@ -1343,6 +1360,10 @@ ul.oae-list.oae-list-grid > li.oae-list-actions {
 }
 
 @media (min-width: 992px) {
+    ul.oae-list.oae-list-grid > li {
+        margin-right: 14px;
+    }
+
     ul.oae-list.oae-list-grid > li .oae-thumbnail,
     ul.oae-list.oae-list-grid > li.oae-list-actions {
         height: 162px;
@@ -1439,6 +1460,8 @@ ul.oae-list > li:first-child .oae-listitem {
 .oae-list-header .oae-list-header-toggle h2 .badge {
     margin-left: 5px;
     margin-right: 5px;
+    padding-top: 3px;
+    padding-bottom: 3px;
     position: relative;
     top: -3px;
 }
