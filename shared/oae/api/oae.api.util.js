@@ -1376,7 +1376,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
      * Enable drag and drop on an element. Triggers the upload widget by default but can be overridden
      * by specifying a callback which passes the dropped files back.
      *
-     * @param  {[type]}     $dropZone                The drop zone for files and folders
+     * @param  {jQuery}     $dropZone                The drop zone for files and folders
      * @param  {Function}   [callback]               Standard callback function
      * @param  {Object}     [callback.data]          The data object retrieved from the native drop event
      * @param  {File[]}     [callback.data.files]    The File objects for the files that were dropped
