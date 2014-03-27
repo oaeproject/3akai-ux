@@ -753,11 +753,9 @@ div.oae-thumbnail i[class^="icon-"] {
  * of the device the content will be pushed off screen using `overflow: hidden` on the `.oae-page` container. When a list item is clicked that brings
  * the user to a new page the left hand navigation is closed automatically. When an `action button` is clicked the left hand navigation doesn't close.
  * When the page width is big enough to support content and left hand navigation to be shown the collapse icon is hidden and the navigation shown.
- * When the list item is being expanded it will receive the '.oae-lhnav-expanded' class. This class is responsible for applying all properties
- * '.oae-lhnavigation' and '.oae-page' need to be displayed in their expanded state.
- * Whenever the list is being expanded or collapsed the '.oae-lhnav-collapsing' will be applied to enable the css transitions, this helps us prevent
- * having transitions when the animated properties would change outside of this context. This class is removed once the transitions have ended.
- *
+ * When the list item is being expanded it will receive the `.oae-lhnav-expanded` class. This class is responsible for applying all properties
+ * `.oae-lhnavigation` and `.oae-page` need to be displayed in their expanded state.
+ * 
  * The left hand navigation can consist of the following elements:
  *     - `Action buttons` are list items with a button that trigger a widget (e.g. trigger upload widget)
  *     - `Page links` are list items with a link to a page. When clicked the associated widgets are loaded into the .oae-page container and diplayed (e.g. show `My library`).
@@ -786,7 +784,7 @@ div.oae-thumbnail i[class^="icon-"] {
  *     - `.oae-lhnavigation-border` is applied to `action buttons` to give the button a border-bottom.
  *     - `hidden-md hidden-lg` are applied to `action buttons` to ensure they are hidden on larger viewports.
  *
- * <div class="oae-lhnavigation hidden-xs hidden-sm">
+ * <div class="oae-lhnavigation">
  *     <ul class="nav nav-list">
  *        <li class="clearfix oae-trigger-upload oae-lhnavigation-border hidden-md hidden-lg">
  *             <button type="button" class="btn btn-link" title="__MSG__UPLOAD__">
@@ -831,8 +829,6 @@ div.oae-thumbnail i[class^="icon-"] {
  *   not be shown on wide viewports (e.g., desktop computers). This item should also be inside of a `oae-page` div,
  *   which is used for the collapsing animation on narrow viewports. Note that the `oae-lhnavigation-toggle` item
  *   resides in the `listHeader` macro.
- * - Whenever the list is being expanded or collapsed the '.oae-lhnav-collapsing' will be applied to enable the css transitions, this helps us prevent
- *   having transitions when the animated properties would change outside of this context. This class is removed once the transitions have ended.
  * - TODO: Remove this once a proper solution for https://github.com/oaeproject/3akai-ux/issues/3506 is in place
  *   The `.oae-lhnavigation-toggle` button is hidden by default for anonymous users. If the `.oae-anon-toggle` class
  *   is added to `.oae-page` the button will be shown for anonymous users.
