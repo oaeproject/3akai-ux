@@ -878,8 +878,9 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .oae-lhnavigation-toggle {
-    padding: 3px 12px 4px 0;
+    padding: 20px 12px 4px 20px;
     position: relative;
+    margin: -17px 0 0 -20px;
     top: 6px;
     z-index: 100;
 }
