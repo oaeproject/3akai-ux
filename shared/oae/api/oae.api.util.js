@@ -779,6 +779,12 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             'selectedValuesProp': 'id'
         };
 
+/**
+ * Variable to keep track of whether the input has been repositioned
+ * to counteract mobile browser behavior
+ */
+var inputRepositioned = false;
+
         /**
          * Initialize the autosuggest functionality by binding a custom listeners
          * that will be responsible for marking the autosuggest container as if it
@@ -937,12 +943,15 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
 // Function called when suggestions are added to the list. The
 // first time this function is called, scroll the window up so
 // that more of the suggestions are visible above the the pop-up
-// mobile keyboard. This function should only execute once, and
-// it is debounced to avoid animation while the user is busy
-// typing.
-options.resultsComplete = _.once(_.debounce(function(param) {
-    $('html, body').animate({scrollTop:$('ul.as-selections input').offset().top-15});
-}, 400));
+// mobile keyboard. This function should only execute once per
+// focus event, and it is debounced to avoid animation while the
+// user is typing.
+options.resultsComplete = _.debounce(function(param) {
+    if (!inputRepositioned) {
+        $('html, body').animate({scrollTop:$('ul.as-selections input').offset().top-15}, 'fast');
+        inputRepositioned = true;
+    }
+}, 400);
 
                 // If no custom suggest list item formatting function is provided, we use the standard formatting
                 // function that will render the thumbnail image, displayName and some metadata for each suggested item
@@ -961,6 +970,8 @@ options.resultsComplete = _.once(_.debounce(function(param) {
                     selectionRemoved = options.selectionRemoved;
                 }
                 options.selectionRemoved = function(elem) {
+// Reset the logic that will reposition the input when new results are available
+inputRepositioned = false;
                     var isFixed = false;
                     // Check if the removed element was one of the fixed elements in the preFill objects
                     var originalData = $(elem).data('originalData');
@@ -998,6 +1009,8 @@ options.resultsComplete = _.once(_.debounce(function(param) {
                     selectionAdded = options.selectionAdded;
                 }
                 options.selectionAdded = function(elem) {
+// Reset the logic that will reposition the input when new results are available
+inputRepositioned = false;
                     var $elem = $(elem);
                     // Make sure that the item cannot overflow
                     $elem.addClass('oae-threedots');
