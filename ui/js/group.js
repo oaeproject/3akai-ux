@@ -94,6 +94,8 @@ require(['jquery', 'oae.core'], function($, oae) {
         // Only show the create and upload clips to group members
         if (groupProfile.isMember) {
             $('#group-member-actions').show();
+            // Set up the drag and drop upload clip
+            oae.api.util.enableDragAndDropUpload($('#group-dnd-upload-clip'));
         // Show the join clip to non-members when the group is joinable
         } else if (!groupProfile.isMember && groupProfile.canJoin) {
             $('#group-join-actions').show();
