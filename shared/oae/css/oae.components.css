@@ -826,7 +826,7 @@ div.oae-thumbnail i[class^="icon-"] {
     margin-top: -5px;
     position: absolute;
     width: 210px;
-    z-index: 99;
+    z-index: 1;
 }
 
 .oae-lhnavigation > ul.nav {
@@ -840,6 +840,10 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-lhnavigation > ul.nav > li.nav-header {
     margin-top: 10px;
+}
+
+.oae-lhnavigation > ul.nav > li a {
+    padding: 0 12px 8px;
 }
 
 .oae-lhnavigation > ul.nav > li button {
@@ -860,10 +864,6 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-lhnavigation > ul.nav > li.oae-lhnavigation-border {
     border-bottom-style: solid;
     border-bottom-width: 1px;
-}
-
-.oae-lhnavigation > ul.nav > li a {
-    padding: 0 12px 8px;
 }
 
 /* Left hand navigation toggle */
@@ -887,26 +887,42 @@ div.oae-thumbnail i[class^="icon-"] {
 /* Page content */
 
 .oae-page {
+    background-color: #FFF;
+    margin-left: 225px;
+    min-height: 500px;
     min-width: 275px;
-    padding: 5px 25px;
+    padding: 5px 25px 5px 0;
+    position: relative;
+    z-index: 2;
 }
 
 .oae-lhnavigation.oae-lhnav-expanded + .oae-page {
     min-width: 480px;
-    padding: 5px 25px 5px 225px;
 }
 
-@media (min-width: 992px) {
+/* Left-hand navigation collapsed view */
+@media (max-width: 991px) {
     .oae-page {
-        padding: 5px 25px 5px 225px !important;
+        margin-left: 0;
+        padding-left: 25px;
+        -webkit-transform: translate(0, 0);
+           -moz-transform: translate(0, 0);
+            -ms-transform: translate(0, 0);
+                transform: translate(0, 0);
+        -webkit-transition: -webkit-transform 250ms ease-in-out;
+           -moz-transition: -moz-transform 250ms ease-in-out;
+            -ms-transition: -ms-transform 250ms ease-in-out;
+                transition: transform 250ms ease-in-out;
     }
 
-    .oae-lhnavigation {
-        opacity: 1 !important;
-        width: 210px !important;
+    .oae-lhnavigation.oae-lhnav-expanded + .oae-page {
+        min-width: 480px;
+        -webkit-transform: translate(225px, 0);
+           -moz-transform: translate(225px, 0);
+            -ms-transform: translate(225px, 0);
+                transform: translate(225px, 0);
     }
 }
-
 
 /***********
  ** TILES **
