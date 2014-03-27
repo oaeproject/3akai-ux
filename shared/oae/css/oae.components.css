@@ -293,16 +293,16 @@ i[class^="fa"].large:before {
 /* These icons are used in situations where checks for success/failure are done */
 
 
-[class^="fa"].fa-check,
+i[class^="fa"].fa-check,
 [class*=" fa-"].fa-check,
-[class^="fa"].fa-check:hover,
+i[class^="fa"].fa-check:hover,
 [class*=" fa-"].fa-check:hover {
     color: #468847;
 }
 
-[class^="fa"].fa-exclamation-triangle,
+i[class^="fa"].fa-exclamation-triangle,
 [class*=" fa-"].fa-exclamation-triangle,
-[class^="fa"].fa-exclamation-triangle:hover,
+i[class^="fa"].fa-exclamation-triangle:hover,
 [class*=" fa-"].fa-exclamation-triangle:hover {
     color: #DD2222;
 }
@@ -874,7 +874,7 @@ div.oae-thumbnail i[class^="fa"] {
     margin-right: -12px;
 }
 
-.oae-lhnavigation > ul.nav > li button div.lhnavigation-caret-container [class^="fa"] {
+.oae-lhnavigation > ul.nav > li button div.lhnavigation-caret-container i[class^="fa"] {
     margin-right: 0;
 }
 

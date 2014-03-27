@@ -69,7 +69,7 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     background-repeat: no-repeat;
 }
 
-.btn:not(.btn-link) > [class^="fa"], .btn:not(.btn-link) > [class*=" fa-"] {
+.btn:not(.btn-link) > i[class^="fa"], .btn:not(.btn-link) > [class*=" fa-"] {
     line-height: 1;
 }
 
@@ -93,7 +93,7 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     padding: 0 15px;
 }
 
-.nav-list [class^="fa"], .nav-list [class*=" fa-"] {
+.nav-list i[class^="fa"], .nav-list [class*=" fa-"] {
     display: inline-block;
     font-size: 1.5em;
     margin-right: 10px;
@@ -131,24 +131,24 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 
 /* ICONS */
 
-[class^="fa"], [class*=" fa-"] {
+i[class^="fa"], [class*=" fa-"] {
     font-size: 22px;
 }
 
-.hide[class^="fa"], .hide[class*=" fa-"] {
+.hidei[class^="fa"], .hide[class*=" fa-"] {
     display: none;
 }
 
 /* FONTAWESOME ICON OVERRIDES
  * @see http://fontawesome.io */
 
-.btn > i.fa fa-times.pull-left,
-.btn > i.fa fa-trash-o.pull-left {
+.btn > i.fa-times.pull-left,
+.btn > i.fa-trash-o.pull-left {
     margin-top: 1px;
 }
 
-.btn > i.fa fa-minus-circle.pull-left,
-.btn > i.fa fa-share-square-o.pull-left {
+.btn > i.fa-minus-circle.pull-left,
+.btn > i.fa-share-square-o.pull-left {
     margin-top: 2px;
 }
 

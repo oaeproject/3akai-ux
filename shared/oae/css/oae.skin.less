@@ -107,12 +107,12 @@ body {
 body, button, input, select, textarea,
 .btn > i, a.oae-plain-link,
 .popover-content, .popover-content button:not(.btn),
-h1 [class^="fa"], h1 [class*=" fa-"],
-h2 [class^="fa"], h2 [class*=" fa-"],
-h3 [class^="fa"], h3 [class*=" fa-"],
-h4 [class^="fa"], h4 [class*=" fa-"],
-h5 [class^="fa"], h5 [class*=" fa-"],
-h6 [class^="fa"], h6 [class*=" fa-"] {
+h1 i[class^="fa"], h1 [class*=" fa-"],
+h2 i[class^="fa"], h2 [class*=" fa-"],
+h3 i[class^="fa"], h3 [class*=" fa-"],
+h4 i[class^="fa"], h4 [class*=" fa-"],
+h5 i[class^="fa"], h5 [class*=" fa-"],
+h6 i[class^="fa"], h6 [class*=" fa-"] {
     color: @text-color;
 }
 
@@ -326,18 +326,18 @@ a:hover, .btn-link:hover {
 /* Icon button hover color */
 @button-icon-hover-color: #555;
 
-[class^="fa"], [class*=" fa-"],
-.btn.btn-link [class^="fa"], .btn.btn-link [class*=" fa-"] {
+i[class^="fa"], [class*=" fa-"],
+.btn.btn-link i[class^="fa"], .btn.btn-link [class*=" fa-"] {
    color: @button-icon-color;
 }
 
-[class^="fa"].active, [class*=" fa-"].active,
-[class^="fa"]:hover, [class*=" fa-"]:hover,
-[class^="fa"]:focus, [class*=" fa-"]:focus,
-[class^="fa"].selected, [class*=" fa-"].selected,
-.btn-link [class^="fa"].active, .btn-link:hover [class*=" fa-"].active,
-.btn-link:hover [class^="fa"], .btn-link:hover [class*=" fa-"],
-.btn-link:focus [class^="fa"], .btn-link:focus [class*=" fa-"] {
+i[class^="fa"].active, [class*=" fa-"].active,
+i[class^="fa"]:hover, [class*=" fa-"]:hover,
+i[class^="fa"]:focus, [class*=" fa-"]:focus,
+i[class^="fa"].selected, [class*=" fa-"].selected,
+.btn-link i[class^="fa"].active, .btn-link:hover [class*=" fa-"].active,
+.btn-link:hover i[class^="fa"], .btn-link:hover [class*=" fa-"],
+.btn-link:focus i[class^="fa"], .btn-link:focus [class*=" fa-"] {
     color: @button-icon-hover-color;
 }
 
