@@ -786,7 +786,7 @@ div.oae-thumbnail i[class^="icon-"] {
  *     - `.oae-lhnavigation-border` is applied to `action buttons` to give the button a border-bottom.
  *     - `hidden-md hidden-lg` are applied to `action buttons` to ensure they are hidden on larger viewports.
  *
- * <div class="oae-lhnavigation">
+ * <div class="oae-lhnavigation hidden-xs hidden-sm">
  *     <ul class="nav nav-list">
  *        <li class="clearfix oae-trigger-upload oae-lhnavigation-border hidden-md hidden-lg">
  *             <button type="button" class="btn btn-link" title="__MSG__UPLOAD__">
@@ -845,23 +845,9 @@ div.oae-thumbnail i[class^="icon-"] {
 .oae-lhnavigation {
     margin-left: 15px;
     margin-top: -5px;
-    opacity: 0;
     position: absolute;
-    width: 0;
-    z-index: 99;
-}
-
-.oae-lhnavigation.oae-lhnav-expanded {
-    opacity: 1;
     width: 210px;
-}
-
-.oae-lhnavigation.oae-lhnav-collapsing {
-    overflow: hidden;
-    -webkit-transition: width 250ms ease-in-out, opacity 250ms ease-in-out;
-       -moz-transition: width 250ms ease-in-out, opacity 250ms ease-in-out;
-        -ms-transition: width 250ms ease-in-out, opacity 250ms ease-in-out;
-            transition: width 250ms ease-in-out, opacity 250ms ease-in-out;
+    z-index: 1;
 }
 
 .oae-lhnavigation > ul.nav {
@@ -914,48 +900,46 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-page {
     -webkit-backface-visibility: hidden; /* Prevent flickering when collapsing the left hand navigation on iOs devices */
+    background-color: #FFF;
+    min-height: 500px;
     min-width: 275px;
-    padding: 5px 25px;
+    padding: 5px 25px 5px 0;
+    position: relative;
+    -webkit-transform: translate(0, 0);
+       -moz-transform: translate(0, 0);
+        -ms-transform: translate(0, 0);
+            transform: translate(0, 0);
+    -webkit-transition: transform 250ms ease-in-out;
+       -moz-transition: transform 250ms ease-in-out;
+        -ms-transition: transform 250ms ease-in-out;
+            transition: transform 250ms ease-in-out;
+    z-index: 2;
 }
 
 .oae-lhnavigation.oae-lhnav-expanded + .oae-page {
+    -webkit-transform: translate(225px, 0);
+       -moz-transform: translate(225px, 0);
+        -ms-transform: translate(225px, 0);
+            transform: translate(225px, 0);
     min-width: 480px;
-    padding: 5px 25px 5px 225px;
-}
-
-.oae-lhnavigation.oae-lhnav-collapsing + .oae-page {
-   -webkit-transition: padding 250ms ease-in-out;
-       -moz-transition: padding 250ms ease-in-out;
-        -ms-transition: padding 250ms ease-in-out;
-            transition: padding 250ms ease-in-out;
 }
 
 /* iPhone resolution */
-@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+@media (max-width: 991px) {
     .oae-page {
-        padding: 5px 10px 50px;
+        margin-left: 0;
+        padding-left: 25px;
     }
 }
 
 @media (min-width: 992px) {
     .oae-page {
-        padding: 5px 25px 5px 225px !important;
+        margin-left: 225px;
     }
 
     .oae-lhnavigation {
-        opacity: 1 !important;
-        width: 210px !important;
-    }
-
-    .oae-page {
-        padding: 5px 25px 5px 220px !important;
-    }
-
-    .oae-lhnavigation.oae-lhnav-expanded + .oae-page {
-        -webkit-transform: none;
-           -moz-transform: none;
-            -ms-transform: none;
-                transform: none;
+        opacity: 1;
+        width: 210px;
     }
 }
 
