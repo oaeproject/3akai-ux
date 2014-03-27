@@ -32,7 +32,7 @@ define(['jquery'], function (jQuery) {
             maxScaleRegex = /,*maximum\-scale\=\d*\.*\d*/;
 
         // `this` should be a focusable DOM Element
-        if(!this.addEventListener || !document.querySelector || !screen) {
+        if(!this.addEventListener || !document.querySelector) {
             return;
         }
 
