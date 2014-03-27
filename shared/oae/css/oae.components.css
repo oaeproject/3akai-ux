@@ -159,12 +159,12 @@ i.fa-oae-public:before {
 
 /* Large visibility icons */
 
-i[class^="fa-"].large {
+i[class^="fa"].large {
     width: 60px;
     height: 60px;
 }
 
-i[class^="fa-"].large:before {
+i[class^="fa"].large:before {
     font-size: 50px;
     height: 60px;
     padding-top: 5px;
@@ -263,24 +263,25 @@ i[class^="fa-"].large:before {
     margin-top: 15px;
 }
 
-.oae-large-options-container label i.fa fa-check {
+.oae-large-options-container label i.fa-check {
     display: none;
 }
 
-.oae-large-options-container label.checked i.fa fa-check {
+.oae-large-options-container label.checked i.fa-check {
     -webkit-border-radius: 100px;
        -moz-border-radius: 100px;
             border-radius: 100px;
     display: block;
     height: 35px;
     margin: 0 auto;
+    padding-top: 6px;
     position: relative;
     top: 130px;
     width: 35px;
     z-index: 1000;
 }
 
-.oae-large-options-container label.checked i.fa fa-check:before {
+.oae-large-options-container label.checked i.fa-check:before {
     font-size: 24px;
     padding-top: 5px;
 }
@@ -292,17 +293,17 @@ i[class^="fa-"].large:before {
 /* These icons are used in situations where checks for success/failure are done */
 
 
-[class^="fa-"].fa fa-check,
-[class*=" fa-"].fa fa-check,
-[class^="fa-"].fa fa-check:hover,
-[class*=" fa-"].fa fa-check:hover {
+[class^="fa"].fa-check,
+[class*=" fa-"].fa-check,
+[class^="fa"].fa-check:hover,
+[class*=" fa-"].fa-check:hover {
     color: #468847;
 }
 
-[class^="fa-"].fa fa-exclamation-triangle,
-[class*=" fa-"].fa fa-exclamation-triangle,
-[class^="fa-"].fa fa-exclamation-triangle:hover,
-[class*=" fa-"].fa fa-exclamation-triangle:hover {
+[class^="fa"].fa-exclamation-triangle,
+[class*=" fa-"].fa-exclamation-triangle,
+[class^="fa"].fa-exclamation-triangle:hover,
+[class*=" fa-"].fa-exclamation-triangle:hover {
     color: #DD2222;
 }
 
@@ -441,7 +442,7 @@ div.oae-thumbnail.fa-oae-user:before {
 
 /* Visibility icon positioning */
 
-div.oae-thumbnail i[class^="fa-"] {
+div.oae-thumbnail i[class^="fa"] {
     position: absolute;
     bottom: -8px;
     right: -8px;
@@ -873,7 +874,7 @@ div.oae-thumbnail i[class^="fa-"] {
     margin-right: -12px;
 }
 
-.oae-lhnavigation > ul.nav > li button div.lhnavigation-caret-container [class^="fa-"] {
+.oae-lhnavigation > ul.nav > li button div.lhnavigation-caret-container [class^="fa"] {
     margin-right: 0;
 }
 

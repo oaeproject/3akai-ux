@@ -107,12 +107,12 @@ body {
 body, button, input, select, textarea,
 .btn > i, a.oae-plain-link,
 .popover-content, .popover-content button:not(.btn),
-h1 [class^="fa-"], h1 [class*=" fa-"],
-h2 [class^="fa-"], h2 [class*=" fa-"],
-h3 [class^="fa-"], h3 [class*=" fa-"],
-h4 [class^="fa-"], h4 [class*=" fa-"],
-h5 [class^="fa-"], h5 [class*=" fa-"],
-h6 [class^="fa-"], h6 [class*=" fa-"] {
+h1 [class^="fa"], h1 [class*=" fa-"],
+h2 [class^="fa"], h2 [class*=" fa-"],
+h3 [class^="fa"], h3 [class*=" fa-"],
+h4 [class^="fa"], h4 [class*=" fa-"],
+h5 [class^="fa"], h5 [class*=" fa-"],
+h6 [class^="fa"], h6 [class*=" fa-"] {
     color: @text-color;
 }
 
@@ -326,18 +326,18 @@ a:hover, .btn-link:hover {
 /* Icon button hover color */
 @button-icon-hover-color: #555;
 
-[class^="fa-"], [class*=" fa-"],
-.btn.btn-link [class^="fa-"], .btn.btn-link [class*=" fa-"] {
+[class^="fa"], [class*=" fa-"],
+.btn.btn-link [class^="fa"], .btn.btn-link [class*=" fa-"] {
    color: @button-icon-color;
 }
 
-[class^="fa-"].active, [class*=" fa-"].active,
-[class^="fa-"]:hover, [class*=" fa-"]:hover,
-[class^="fa-"]:focus, [class*=" fa-"]:focus,
-[class^="fa-"].selected, [class*=" fa-"].selected,
-.btn-link [class^="fa-"].active, .btn-link:hover [class*=" fa-"].active,
-.btn-link:hover [class^="fa-"], .btn-link:hover [class*=" fa-"],
-.btn-link:focus [class^="fa-"], .btn-link:focus [class*=" fa-"] {
+[class^="fa"].active, [class*=" fa-"].active,
+[class^="fa"]:hover, [class*=" fa-"]:hover,
+[class^="fa"]:focus, [class*=" fa-"]:focus,
+[class^="fa"].selected, [class*=" fa-"].selected,
+.btn-link [class^="fa"].active, .btn-link:hover [class*=" fa-"].active,
+.btn-link:hover [class^="fa"], .btn-link:hover [class*=" fa-"],
+.btn-link:focus [class^="fa"], .btn-link:focus [class*=" fa-"] {
     color: @button-icon-hover-color;
 }
 
@@ -800,11 +800,11 @@ div.oae-thumbnail {
     background-color: @visibility-toggle-selected2-color;
 }
 
-.oae-large-options-container label.checked i.fa fa-check {
+.oae-large-options-container label.checked i.fa-check {
     background-color: @visibility-toggle-selected1-color;
 }
 
-.oae-large-options-container label.checked i.fa fa-check:before {
+.oae-large-options-container label.checked i.fa-check:before {
     color: @visibility-toggle-background-color;
 }
 
