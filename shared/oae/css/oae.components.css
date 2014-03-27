@@ -759,7 +759,7 @@ div.oae-thumbnail i[class^="icon-"] {
  * @see `lhnavigation` widget for documentation on how to initialize a left hand navigation using JavaScript.
  *
  * e.g. <div class="oae-lhnavigation">
- *          <ul class="nav nav-list hidden-xs hidden-sm">
+ *          <ul class="nav nav-list">
  *              <li class="clearfix oae-lhnavigation-border">
  *                  <button type="button" class="btn btn-link" title="__MSG__UPLOAD__">
  *                      <i class="icon-cloud-upload pull-left"></i>
