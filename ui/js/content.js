@@ -37,7 +37,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             lhNavActions.push({
                 'icon': 'icon-comments',
                 'title': oae.api.i18n.translate('__MSG__COMMENT__'),
-                'class': 'comments-focus-new-comment'
+                'class': 'comments-focus-new-comment',
+                'closeNav': true
             });
         }
         // Only offer share to users that are allowed to share the piece of content
@@ -58,6 +59,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             'id': 'content',
             'title': oae.api.i18n.translate('__MSG__CONTENT__'),
             'icon': 'icon-comments',
+            'closeNav': true,
             'class': 'hide',
             'layout': [
                 {
