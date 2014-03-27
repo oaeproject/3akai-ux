@@ -27,31 +27,40 @@ define(['jquery'], function (jQuery) {
     var cancelZoom = function() {
         var viewport,
             content,
-            initialScale,
             maxScale = ',maximum-scale=',
             maxScaleRegex = /,*maximum\-scale\=\d*\.*\d*/;
 
-        // `this` should be a focusable DOM Element
-        if(!this.addEventListener || !document.querySelector) {
+        // Make sure `this` is a focusable DOM Element and
+        // essential objects are present
+        if(!this.addEventListener || !document.querySelector || (window.orientation === undefined)) {
             return;
         }
 
+        // Initialize variables
         viewport = document.querySelector('meta[name="viewport"]');
         content = viewport.content;
 
-        // TODO: Figure out how to deal cleanly with Android, since Android
-        // might set `screen.width` to physical pixels rather than device
-        // independent pixels.
-        // TODO: Handle orientation change events,
-        // e.g. `window.matchMedia("(orientation: portrait)").addListener`
-        initialScale = screen.width / $('body').outerWidth();
+        /**
+         * Change the viewport in response to focus or blur
+         */
+        var changeViewport = function() {
+            // Get the width of the screen in device-independent pixels
+            var w = screen.width;
 
-        var changeViewport = function(event) {
+            // On iOS only, screen.width doesn't account for orientation
+            // TODO: Switch to using oae.api.util.isIos() when that's merged
+            if (/safari/i.test(navigator.userAgent) &&
+                /(iphone|ipad|ipod)/i.test(navigator.userAgent) &&
+                Math.abs(window.orientation) === 90) {
+                w = screen.height;
+            }
+            var initialScale = w / $('body').outerWidth();
             viewport.content = content + (event.type == 'blur' ?
                 (content.match(maxScaleRegex, '') ? '' : maxScale + 10) :
                 maxScale + initialScale);
         }
 
+        // Listen for focus and blur events
         this.addEventListener('focus', changeViewport, true);
         this.addEventListener('blur', changeViewport, false);
     };
