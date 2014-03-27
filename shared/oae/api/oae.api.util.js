@@ -946,12 +946,15 @@ var inputRepositioned = false;
 // mobile keyboard. This function should only execute once per
 // focus event, and it is debounced to avoid animation while the
 // user is typing.
-options.resultsComplete = _.debounce(function(param) {
-    if (!inputRepositioned) {
-        $('html, body').animate({scrollTop:$('ul.as-selections input').offset().top-15}, 'fast');
-        inputRepositioned = true;
-    }
-}, 400);
+// TODO: Better conditional (e.g. exclude tablets?)
+if (isHandheldDevice()) {
+    options.resultsComplete = _.debounce(function() {
+        if (!inputRepositioned) {
+            $('html, body').animate({scrollTop:$('ul.as-selections input').offset().top-15}, 'fast');
+            inputRepositioned = true;
+        }
+    }, 400);
+}
 
                 // If no custom suggest list item formatting function is provided, we use the standard formatting
                 // function that will render the thumbnail image, displayName and some metadata for each suggested item
@@ -1079,7 +1082,10 @@ inputRepositioned = false;
                 $('.as-input', $list).before('<label class="sr-only" for="' + $('.as-input', $list).attr('id') + '">' + options.startText + '</label>');
 
 // Disable zooming on mobile browsers
-$('.as-input', $list).cancelZoom();
+// TODO: Better conditional (e.g. exclude tablets?)
+if (isHandheldDevice()) {
+    $('.as-input', $list).cancelZoom();
+}
 
                 // Trigger the callback function
                 if (_.isFunction(callback)) {
