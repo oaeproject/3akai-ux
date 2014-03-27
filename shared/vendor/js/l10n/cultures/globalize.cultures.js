@@ -8869,8 +8869,8 @@ Globalize.addCultureInfo( "tg-Cyrl-TJ", "default", {
 	}
 });
 
-Globalize.addCultureInfo( "fa fa-IR", "default", {
-	name: "fa fa-IR",
+Globalize.addCultureInfo( "fa-IR", "default", {
+	name: "fa-IR",
 	englishName: "Persian",
 	nativeName: "فارسى (ایران)",
 	language: "fa",

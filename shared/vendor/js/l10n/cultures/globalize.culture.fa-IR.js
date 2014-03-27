@@ -1,5 +1,5 @@
 /*
- * Globalize Culture fa fa-IR
+ * Globalize Culture fa-IR
  *
  * http://github.com/jquery/globalize
  *
@@ -25,8 +25,8 @@ if ( typeof require !== "undefined"
 	Globalize = window.Globalize;
 }
 
-Globalize.addCultureInfo( "fa fa-IR", "default", {
-	name: "fa fa-IR",
+Globalize.addCultureInfo( "fa-IR", "default", {
+	name: "fa-IR",
 	englishName: "Persian",
 	nativeName: "فارسى (ایران)",
 	language: "fa",

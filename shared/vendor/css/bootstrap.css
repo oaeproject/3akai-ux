@@ -2749,7 +2749,7 @@ input[type="button"].btn-block {
   content: "\e006";
 }
 
-.glyphfa fa-star-o:before {
+.glyphicon-star-empty:before {
   content: "\e007";
 }
 
@@ -2773,23 +2773,23 @@ input[type="button"].btn-block {
   content: "\e012";
 }
 
-.glyphfa fa-check:before {
+.glyphicon-ok:before {
   content: "\e013";
 }
 
-.glyphfa fa-times:before {
+.glyphicon-remove:before {
   content: "\e014";
 }
 
-.glyphfa fa-search-plus:before {
+.glyphicon-zoom-in:before {
   content: "\e015";
 }
 
-.glyphfa fa-search-minus:before {
+.glyphicon-zoom-out:before {
   content: "\e016";
 }
 
-.glyphfa fa-power-off:before {
+.glyphicon-off:before {
   content: "\e017";
 }
 
@@ -2801,7 +2801,7 @@ input[type="button"].btn-block {
   content: "\e019";
 }
 
-.glyphfa fa-trash-o:before {
+.glyphicon-trash:before {
   content: "\e020";
 }
 
@@ -2813,7 +2813,7 @@ input[type="button"].btn-block {
   content: "\e022";
 }
 
-.glyphfa fa-clock-o:before {
+.glyphicon-time:before {
   content: "\e023";
 }
 
@@ -2821,15 +2821,15 @@ input[type="button"].btn-block {
   content: "\e024";
 }
 
-.glyphfa fa-arrow-circle-o-down-alt:before {
+.glyphicon-download-alt:before {
   content: "\e025";
 }
 
-.glyphfa fa-arrow-circle-o-down:before {
+.glyphicon-download:before {
   content: "\e026";
 }
 
-.glyphfa fa-arrow-circle-o-up:before {
+.glyphicon-upload:before {
   content: "\e027";
 }
 
@@ -2837,7 +2837,7 @@ input[type="button"].btn-block {
   content: "\e028";
 }
 
-.glyphfa fa-play-circle-o:before {
+.glyphicon-play-circle:before {
   content: "\e029";
 }
 
@@ -2949,19 +2949,19 @@ input[type="button"].btn-block {
   content: "\e056";
 }
 
-.glyphfa fa-outdent:before {
+.glyphicon-indent-left:before {
   content: "\e057";
 }
 
-.glyphfa fa-indent:before {
+.glyphicon-indent-right:before {
   content: "\e058";
 }
 
-.glyphfa fa-video-camera:before {
+.glyphicon-facetime-video:before {
   content: "\e059";
 }
 
-.glyphfa fa-picture-o:before {
+.glyphicon-picture:before {
   content: "\e060";
 }
 
@@ -2977,19 +2977,19 @@ input[type="button"].btn-block {
   content: "\e064";
 }
 
-.glyphfa fa-pencil-square-o:before {
+.glyphicon-edit:before {
   content: "\e065";
 }
 
-.glyphfa fa-share-square-o:before {
+.glyphicon-share:before {
   content: "\e066";
 }
 
-.glyphfa fa-check-square-o:before {
+.glyphicon-check:before {
   content: "\e067";
 }
 
-.glyphfa fa-arrows (4.0.2):before {
+.glyphicon-move:before {
   content: "\e068";
 }
 
@@ -3041,43 +3041,43 @@ input[type="button"].btn-block {
   content: "\e080";
 }
 
-.glyphfa fa-plus-circle:before {
+.glyphicon-plus-sign:before {
   content: "\e081";
 }
 
-.glyphfa fa-minus-circle:before {
+.glyphicon-minus-sign:before {
   content: "\e082";
 }
 
-.glyphfa fa-times-circle:before {
+.glyphicon-remove-sign:before {
   content: "\e083";
 }
 
-.glyphfa fa-check-circle:before {
+.glyphicon-ok-sign:before {
   content: "\e084";
 }
 
-.glyphfa fa-question-circle:before {
+.glyphicon-question-sign:before {
   content: "\e085";
 }
 
-.glyphfa fa-info-circle:before {
+.glyphicon-info-sign:before {
   content: "\e086";
 }
 
-.glyphfa fa-crosshairs:before {
+.glyphicon-screenshot:before {
   content: "\e087";
 }
 
-.glyphfa fa-times-circle-o:before {
+.glyphicon-remove-circle:before {
   content: "\e088";
 }
 
-.glyphfa fa-check-circle-o:before {
+.glyphicon-ok-circle:before {
   content: "\e089";
 }
 
-.glyphfa fa-ban:before {
+.glyphicon-ban-circle:before {
   content: "\e090";
 }
 
@@ -3097,19 +3097,19 @@ input[type="button"].btn-block {
   content: "\e094";
 }
 
-.glyphfa fa-share:before {
+.glyphicon-share-alt:before {
   content: "\e095";
 }
 
-.glyphfa fa-expand (4.0.2):before {
+.glyphicon-resize-full:before {
   content: "\e096";
 }
 
-.glyphfa fa-compress (4.0.2):before {
+.glyphicon-resize-small:before {
   content: "\e097";
 }
 
-.glyphfa fa-exclamation-circle:before {
+.glyphicon-exclamation-sign:before {
   content: "\e101";
 }
 
@@ -3125,15 +3125,15 @@ input[type="button"].btn-block {
   content: "\e104";
 }
 
-.glyphfa fa-eye:before {
+.glyphicon-eye-open:before {
   content: "\e105";
 }
 
-.glyphfa fa-eye-slash:before {
+.glyphicon-eye-close:before {
   content: "\e106";
 }
 
-.glyphfa fa-exclamation-triangle:before {
+.glyphicon-warning-sign:before {
   content: "\e107";
 }
 
@@ -3173,7 +3173,7 @@ input[type="button"].btn-block {
   content: "\e116";
 }
 
-.glyphfa fa-folder:before {
+.glyphicon-folder-close:before {
   content: "\e117";
 }
 
@@ -3181,15 +3181,15 @@ input[type="button"].btn-block {
   content: "\e118";
 }
 
-.glyphfa fa-arrows-v (4.0.2):before {
+.glyphicon-resize-vertical:before {
   content: "\e119";
 }
 
-.glyphfa fa-arrows-h (4.0.2):before {
+.glyphicon-resize-horizontal:before {
   content: "\e120";
 }
 
-.glyphfa fa-hdd-o (4.0.1):before {
+.glyphicon-hdd:before {
   content: "\e121";
 }
 
@@ -3197,7 +3197,7 @@ input[type="button"].btn-block {
   content: "\e122";
 }
 
-.glyphfa fa-bell-o:before {
+.glyphicon-bell:before {
   content: "\e123";
 }
 
@@ -3213,35 +3213,35 @@ input[type="button"].btn-block {
   content: "\e126";
 }
 
-.glyphfa fa-hand-o-right:before {
+.glyphicon-hand-right:before {
   content: "\e127";
 }
 
-.glyphfa fa-hand-o-left:before {
+.glyphicon-hand-left:before {
   content: "\e128";
 }
 
-.glyphfa fa-hand-o-up:before {
+.glyphicon-hand-up:before {
   content: "\e129";
 }
 
-.glyphfa fa-hand-o-down:before {
+.glyphicon-hand-down:before {
   content: "\e130";
 }
 
-.glyphfa fa-arrow-circle-right:before {
+.glyphicon-circle-arrow-right:before {
   content: "\e131";
 }
 
-.glyphfa fa-arrow-circle-left:before {
+.glyphicon-circle-arrow-left:before {
   content: "\e132";
 }
 
-.glyphfa fa-arrow-circle-up:before {
+.glyphicon-circle-arrow-up:before {
   content: "\e133";
 }
 
-.glyphfa fa-arrow-circle-down:before {
+.glyphicon-circle-arrow-down:before {
   content: "\e134";
 }
 
@@ -3265,11 +3265,11 @@ input[type="button"].btn-block {
   content: "\e139";
 }
 
-.glyphfa fa-arrows-alt (4.0.2):before {
+.glyphicon-fullscreen:before {
   content: "\e140";
 }
 
-.glyphfa fa-tachometer:before {
+.glyphicon-dashboard:before {
   content: "\e141";
 }
 
@@ -3277,7 +3277,7 @@ input[type="button"].btn-block {
   content: "\e142";
 }
 
-.glyphfa fa-heart-o:before {
+.glyphicon-heart-empty:before {
   content: "\e143";
 }
 
@@ -3289,7 +3289,7 @@ input[type="button"].btn-block {
   content: "\e145";
 }
 
-.glyphfa fa-thumb-tack:before {
+.glyphicon-pushpin:before {
   content: "\e146";
 }
 
@@ -3305,27 +3305,27 @@ input[type="button"].btn-block {
   content: "\e150";
 }
 
-.glyphfa fa-sort-alpha-asc:before {
+.glyphicon-sort-by-alphabet:before {
   content: "\e151";
 }
 
-.glyphfa fa-sort-alpha-desc:before {
+.glyphicon-sort-by-alphabet-alt:before {
   content: "\e152";
 }
 
-.glyphfa fa-sort-numeric-asc:before {
+.glyphicon-sort-by-order:before {
   content: "\e153";
 }
 
-.glyphfa fa-sort-numeric-desc:before {
+.glyphicon-sort-by-order-alt:before {
   content: "\e154";
 }
 
-.glyphfa fa-sort-amount-asc:before {
+.glyphicon-sort-by-attributes:before {
   content: "\e155";
 }
 
-.glyphfa fa-sort-amount-desc:before {
+.glyphicon-sort-by-attributes-alt:before {
   content: "\e156";
 }
 
@@ -3333,15 +3333,15 @@ input[type="button"].btn-block {
   content: "\e157";
 }
 
-.glyphfa fa-caret-square-o-right:before {
+.glyphicon-expand:before {
   content: "\e158";
 }
 
-.glyphfa fa-caret-square-o-down-down:before {
+.glyphicon-collapse-down:before {
   content: "\e159";
 }
 
-.glyphfa fa-caret-square-o-down-up:before {
+.glyphicon-collapse-up:before {
   content: "\e160";
 }
 
@@ -3365,7 +3365,7 @@ input[type="button"].btn-block {
   content: "\e165";
 }
 
-.glyphfa fa-floppy-o:before {
+.glyphicon-save:before {
   content: "\e166";
 }
 
@@ -3373,7 +3373,7 @@ input[type="button"].btn-block {
   content: "\e167";
 }
 
-.glyphfa fa-floppy-od:before {
+.glyphicon-saved:before {
   content: "\e168";
 }
 
@@ -3417,7 +3417,7 @@ input[type="button"].btn-block {
   content: "\e178";
 }
 
-.glyphfa fa-scissorslery:before {
+.glyphicon-cutlery:before {
   content: "\e179";
 }
 
@@ -3477,7 +3477,7 @@ input[type="button"].btn-block {
   content: "\e193";
 }
 
-.glyphfa fa-files-oright-mark:before {
+.glyphicon-copyright-mark:before {
   content: "\e194";
 }
 
