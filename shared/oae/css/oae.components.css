@@ -611,7 +611,8 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .oae-clip .oae-clip-content > button,
-.oae-clip .oae-clip-content ul li button {
+.oae-clip .oae-clip-content ul li button,
+.oae-clip .oae-clip-content ul li a {
     background: none;
     border: none;
     font-weight: 600;
@@ -699,10 +700,11 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .oae-clip .oae-clip-content > div > ul li {
-    display: inline;
+    display: inline-table;
 }
 
-.oae-clip .oae-clip-content > div > ul li button {
+.oae-clip .oae-clip-content > div > ul li button,
+.oae-clip .oae-clip-content > div > ul li a {
     -webkit-border-radius: 6px;
        -moz-border-radius: 6px;
             border-radius: 6px;
@@ -717,12 +719,14 @@ div.oae-thumbnail i[class^="icon-"] {
 
 /* Box sizing tweak needed to workaround IE9 bug in calculating container size
    @see https://github.com/oaeproject/3akai-ux/pull/3601 */
-.ie-lt10 .oae-clip .oae-clip-content > div > ul li button {
+.ie-lt10 .oae-clip .oae-clip-content > div > ul li button,
+.ie-lt10 .oae-clip .oae-clip-content > div > ul li a {
     box-sizing: content-box;
     min-width: 50px;
 }
 
-.oae-clip .oae-clip-content > div > ul li button i {
+.oae-clip .oae-clip-content > div > ul li button i,
+.oae-clip .oae-clip-content > div > ul li a i {
     display: inline-block;
     float: left;
     margin: 0 5px 3px 0;
@@ -730,13 +734,15 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 @media (min-width: 992px) {
-    .oae-clip .oae-clip-content > div > ul li button {
-        display: inline-block;
+    .oae-clip .oae-clip-content > div > ul li button,
+    .oae-clip .oae-clip-content > div > ul li a {
+        display: inline-table;
         text-align: center;
         width: auto;
     }
 
-    .oae-clip .oae-clip-content > div > ul li button i {
+    .oae-clip .oae-clip-content > div > ul li button i,
+    .oae-clip .oae-clip-content > div > ul li a i {
         display: block;
         float: none;
         margin: 0 auto 3px;

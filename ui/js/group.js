@@ -92,9 +92,6 @@ require(['jquery', 'oae.core'], function($, oae) {
         // Only show the create and upload clips to group members
         if (groupProfile.isMember) {
             $('#group-member-actions').show();
-        // Show the join clip to non-members when the group is joinable
-        } else if (!groupProfile.isMember && groupProfile.canJoin) {
-            $('#group-join-actions').show();
         }
     };
 
