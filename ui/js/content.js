@@ -22,6 +22,10 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     // Variable used to cache the content's base URL
     var baseUrl = '/content/' + $.url().segment(2) + '/' + $.url().segment(3);
 
+    // Cache the current widget ID that is used to render the preview so we can refer to the
+    // container later
+    var currentPreviewWidgetID = null;
+
     // Variable used to cache the requested content profile
     var contentProfile = null;
 
@@ -149,13 +153,17 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         if (contentProfile.resourceSubType === 'file') {
             // Load document viewer when a PDF or Office document needs to be displayed
             if (contentProfile.previews && contentProfile.previews.pageCount) {
+                currentPreviewWidgetID = 'documentpreview';
                 return 'documentpreview';
             } else {
+                currentPreviewWidgetID = 'filepreview';
                 return 'filepreview';
             }
         } else if (contentProfile.resourceSubType === 'link') {
+            currentPreviewWidgetID = 'linkpreview';
             return 'linkpreview';
         } else if (contentProfile.resourceSubType === 'collabdoc') {
+            currentPreviewWidgetID = 'etherpad';
             return 'etherpad';
         }
     };
@@ -210,13 +218,13 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * rendering a new one
      */
     var refreshContentPreview = function() {
-        var $widgetContainer = $('.oae-page > .row .oae-lhnavigation-toggle + div');
+        var $widgetContainer = $('#lhnavigation-page-' + currentPreviewWidgetID).parent();
 
-        // Empty the preview container
-        $widgetContainer.empty();
+        // Add the new widget container just like the left hand navigation would do when it initializes
+        $widgetContainer.html('<div id="lhnavigation-page-'+ getPreviewWidgetId() + '" data-widget="${'+ getPreviewWidgetId() + '}"></div>');
 
         // Insert the new updated content preview widget
-        oae.api.widget.insertWidget(getPreviewWidgetId(), null, $widgetContainer, null, contentProfile);
+        oae.api.widget.insertWidget(getPreviewWidgetId(), null, $('#lhnavigation-page-'+ getPreviewWidgetId(), $widgetContainer), null, contentProfile);
     };
 
 
