@@ -51,7 +51,7 @@ var deleteKeysFromGlobal = function() {
         bundle = bundle.split(/\n/g);
         // Loop over every line and, if the key doesn't match add it to the new bundle file we're writing
         _.each(bundle, function(key) {
-            if (key && key.indexOf(i18nKey) !== 0) {
+            if (key && key.split('=')[0].trim() !== i18nKey) {
                 newBundle += key + '\n';
             }
         });
