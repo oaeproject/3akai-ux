@@ -34,7 +34,7 @@
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button type="button" {if !group.isManager} disabled {/if}>
+                            <button type="button">
                                 ${renderThumbnail(group, true, false, false)}
                                 <div>
                                     <div>
@@ -46,9 +46,18 @@
                             </button>
                             <div>
                                 <ul>
-                                    <li><button class="oae-trigger-changepic"><i class="icon-camera"></i>__MSG__CHANGE_PICTURE__</button></li>
-                                    <li><button class="group-trigger-manageaccess"><i class="icon-user"></i>__MSG__MANAGE_ACCESS__</button></li>
-                                    <li><button class="group-trigger-editgroup"><i class="icon-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
+                                    {if group.isManager}
+                                        <li><button class="oae-trigger-changepic"><i class="icon-camera"></i>__MSG__CHANGE_PICTURE__</button></li>
+                                        <li><button class="group-trigger-manageaccess"><i class="icon-user"></i>__MSG__MANAGE_ACCESS__</button></li>
+                                        <li><button class="group-trigger-editgroup"><i class="icon-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
+                                    {else}
+                                        <li><button class="group-trigger-aboutgroup"><i class="icon-info-sign"></i>__MSG__ABOUT__</button></li>
+                                    {/if}
+                                    {if group.isMember}
+                                        <li><button class="group-unfollow"><i class="icon-bookmark-empty"></i>__MSG__UNFOLLOW__</button></li>
+                                    {elseif !oae.data.me.anon && group.joinable === 'yes'}
+                                        <li><button class="group-follow"><i class="icon-bookmark"></i>__MSG__FOLLOW__</button></li>
+                                    {/if}
                                 </ul>
                             </div>
                         </div>
@@ -56,23 +65,6 @@
                 --></div>
 
                 <div class="hidden-xs hidden-sm">
-                    <div id="group-join-actions" class="oae-clip-container-right hide">
-                        <div class="oae-clip oae-clip-secondary oae-clip-flipped">
-                            <div class="oae-clip-fold">
-                                <div class="oae-clip-fold-inner"></div>
-                                <div class="oae-clip-fold-outer"></div>
-                            </div>
-                            <div class="oae-clip-content">
-                                <button type="button" class="group-join">
-                                    <div>
-                                        <i class="icon-pushpin pull-left"></i>
-                                        <h1>__MSG__JOIN_GROUP__</h1>
-                                    </div>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
                     <div id="group-member-actions" class="oae-clip-container-right hide">
                         <div class="oae-clip oae-clip-flipped oae-dnd-upload">
                             <div class="oae-clip-fold">

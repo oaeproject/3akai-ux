@@ -86,14 +86,6 @@ require(['jquery', 'oae.core'], function($, oae) {
     var setUpNavigation = function() {
         // Structure that will be used to construct the left hand navigation actions
         var lhNavActions = [];
-        // Add the follow button if the user can be followed
-        if (userProfile.following && userProfile.following.canFollow) {
-            lhNavActions.push({
-                'icon': 'icon-bookmark',
-                'title': oae.api.i18n.translate('__MSG__FOLLOW__'),
-                'class': 'user-follow'
-            });
-        }
 
         // Structure that will be used to construct the left hand navigation pages
         lhNavPages = [];
@@ -182,9 +174,9 @@ require(['jquery', 'oae.core'], function($, oae) {
     };
 
 
-    /////////////////
-    // FOLLOW USER //
-    /////////////////
+    /////////////////////
+    // (UN)FOLLOW USER //
+    /////////////////////
 
     /**
      * Follow a user
@@ -213,7 +205,7 @@ require(['jquery', 'oae.core'], function($, oae) {
     };
 
     /**
-     * Follow a user
+     * Unfollow a user
      */
     var unFollowUser = function() {
         oae.api.follow.unfollow(userProfile.id, function(err) {
