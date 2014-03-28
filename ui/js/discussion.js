@@ -66,7 +66,7 @@ require(['jquery','oae.core'], function($, oae) {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'discussion',
+                            'name': 'discussion',
                             'settings': discussionProfile
                         }
                     ]
@@ -75,7 +75,7 @@ require(['jquery','oae.core'], function($, oae) {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'comments'
+                            'name': 'comments'
                         }
                     ]
                 }

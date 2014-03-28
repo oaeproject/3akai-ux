@@ -111,7 +111,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'contentlibrary',
+                            'name': 'contentlibrary',
                             'settings': {
                                 'context': userProfile
                             }
@@ -130,7 +130,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'discussionslibrary',
+                            'name': 'discussionslibrary',
                             'settings': {
                                 'context': userProfile
                             }
@@ -149,7 +149,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'memberships',
+                            'name': 'memberships',
                             'settings': {
                                 'context': userProfile
                             }
@@ -165,10 +165,10 @@ require(['jquery', 'oae.core'], function($, oae) {
             'closeNav': true,
             'layout': [
                 {
-                    'width': 'span12',
+                    'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'network',
+                            'name': 'network',
                             'settings': {
                                 'context': userProfile
                             }
