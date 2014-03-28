@@ -35,7 +35,7 @@
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button type="button" {if !discussion.isManager} disabled {/if}>
+                            <button type="button">
                                 ${renderThumbnail(discussion, true, false, false)}
                                 <div>
                                     <div>
@@ -47,9 +47,21 @@
                             </button>
                             <div>
                                 <ul>
-                                    <li><button class="discussion-trigger-manageaccess"><i class="icon-lock"></i>__MSG__MANAGE_ACCESS__</button></li>
-                                    <li><button class="oae-trigger-editdiscussion"><i class="icon-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
-                                    <li><button class="oae-trigger-deleteresource"><i class="icon-trash"></i>__MSG__DELETE__</button></li>
+                                    {if !oae.data.me.anon && discussion.canShare}
+                                        <li><button class="oae-trigger-share"><i class="icon-share"></i>__MSG__SHARE__</button></li>
+                                    {/if}
+                                    {if discussion.isManager}
+                                        <li><button class="discussion-trigger-manageaccess"><i class="icon-lock"></i>__MSG__MANAGE_ACCESS__</button></li>
+                                        <li><button class="oae-trigger-editdiscussion"><i class="icon-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
+                                        <li><button class="oae-trigger-deleteresource"><i class="icon-trash"></i>__MSG__DELETE__</button></li>
+                                    {else}
+                                        {if !discussion.isMember && !oae.data.me.anon && discussion.canShare}
+                                            <li><button class="discussion-follow"><i class="icon-bookmark"></i>__MSG__FOLLOW__</button></li>
+                                        {elseif discussion.isMember}
+                                            <li><button class="discussion-unfollow"><i class="icon-bookmark-empty"></i>__MSG__UNFOLLOW__</button></li>
+                                        {/if}
+                                        <li><button class="discussion-trigger-aboutdiscussion"><i class="icon-info-sign"></i>__MSG__ABOUT__</button></li>
+                                    {/if}
                                 </ul>
                             </div>
                         </div>
@@ -58,23 +70,6 @@
 
                 <div id="discussion-actions-clip-container" class="oae-clip-container-right oae-hide-when-anonymous"><!-- --></div>
                 <div id="discussion-actions-clip-template"><!--
-                    {if discussion.canShare}
-                        <div class="hidden-xs hidden-sm oae-clip oae-clip-flipped">
-                            <div class="oae-clip-fold">
-                                <div class="oae-clip-fold-inner"></div>
-                                <div class="oae-clip-fold-outer"></div>
-                            </div>
-                            <div class="oae-clip-content">
-                                <button type="button" class="oae-trigger-share" data-id="${discussion.id}" data-resourceType="${discussion.resourceType}">
-                                    <div>
-                                        <i class="icon-share pull-left"></i>
-                                        <h1>__MSG__SHARE__</h1>
-                                    </div>
-                                </button>
-                            </div>
-                        </div>
-                    {/if}
-
                     <div class="hidden-xs hidden-sm oae-clip oae-clip-secondary oae-clip-flipped">
                         <div class="oae-clip-fold">
                             <div class="oae-clip-fold-inner"></div>
