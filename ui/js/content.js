@@ -210,7 +210,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * Refresh the content preview by emptying the existing content preview container and
      * rendering a new one
      */
-    var refreshContentPreview = function(previousPreviewWidget) {
+    var refreshContentPreview = function() {
         // Empty the preview container
         var $widgetContainer = $('#lhnavigation-widget-content-preview');
         $widgetContainer.empty();
