@@ -57,7 +57,7 @@ require(['jquery','oae.core'], function($, oae) {
 
         var lhNavPages = [{
             'id': 'discussion',
-            'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
+            'title': discussionProfile.displayName,
             'icon': 'icon-comments',
             'closeNav': true,
             'class': 'hide',
@@ -86,9 +86,9 @@ require(['jquery','oae.core'], function($, oae) {
         // TODO: Remove this once the lhnav toggle is no longer required on discussion profiles
         var showLhNavToggle = (lhNavActions.length > 0);
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, showLhNavToggle]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, null, showLhNavToggle]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, showLhNavToggle]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, null, showLhNavToggle]);
         });
     };
 
