@@ -66,7 +66,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': getPreviewWidgetId(),
+                            'id': 'content-preview',
+                            'name': getPreviewWidgetId(),
                             'settings': contentProfile
                         }
                     ]
@@ -75,7 +76,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'comments'
+                            'name': 'comments'
                         }
                     ]
                 }
@@ -210,9 +211,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * rendering a new one
      */
     var refreshContentPreview = function() {
-        var $widgetContainer = $('.oae-page > .row .oae-lhnavigation-toggle + div');
-
         // Empty the preview container
+        var $widgetContainer = $('#lhnavigation-widget-content-preview');
         $widgetContainer.empty();
 
         // Insert the new updated content preview widget
@@ -337,7 +337,6 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     ///////////////
 
     $(document).on('oae.revisions.done', function(ev, restoredRevision, updatedContentProfile) {
-        contentProfile = updatedContentProfile;
         // Refresh the content profile elements
         refreshContentProfile(ev, updatedContentProfile);
     });

@@ -164,7 +164,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                         'width': 'col-md-12',
                         'widgets': [
                             {
-                                'id': 'activity',
+                                'name': 'activity',
                                 'settings': {
                                     'context': groupProfile,
                                     'canManage': groupProfile.isManager
@@ -186,7 +186,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'contentlibrary',
+                            'name': 'contentlibrary',
                             'settings': {
                                 'context': groupProfile,
                                 'canAdd': groupProfile.isMember,
@@ -207,7 +207,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'discussionslibrary',
+                            'name': 'discussionslibrary',
                             'settings': {
                                 'context': groupProfile,
                                 'canAdd': groupProfile.isMember,
@@ -228,7 +228,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'members',
+                            'name': 'members',
                             'settings': {
                                 'context': groupProfile,
                                 'canManage': groupProfile.isManager
