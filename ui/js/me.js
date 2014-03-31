@@ -23,9 +23,6 @@ require(['jquery','oae.core'], function($, oae) {
     // Variable used to cache the current page's base URL
     var baseUrl = '/me';
 
-    // Set the browser title
-    oae.api.util.setBrowserTitle(oae.data.me.displayName);
-
     // Structure that will be used to construct the left hand navigation actions
     var lhNavActions = [{
         'icon': 'icon-cloud-upload',
