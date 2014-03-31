@@ -13,47 +13,43 @@
  * permissions and limitations under the License.
  */
 
+
 /* Top navigation overrides */
 
-#topnavigation-container .row-fluid {
+#topnavigation-container .row {
     margin: 0 auto;
     max-width: 1280px;
 }
 
-#topnavigation-container #topnavigation-search-form {
-    display: none;
+#topnavigation-container #topnavigation-search-form,
+#topnavigation-container .topnavigation-search-button {
+    display: none !important;
 }
-
 
 /* Default style overrides */
 
-.oae-main-content {
-    -webkit-box-shadow: none;
-       -moz-box-shadow: none;
-            box-shadow: none;
-    padding: 0 !important;
+.oae-main-content #index-content {
+    max-width: 1280px;
+}
+
+.oae-main-content #index-content .index-search-container {
+    margin: 0 auto 10px;
+}
+
+.oae-main-content #index-content .index-search-container form {
+    margin: 0 50px !important;
 }
 
 #index-container.oae-main-content.oae-branding-container {
     background-color: transparent;
     background-image: none;
-}
-
-.oae-main-content #index-content {
+    -webkit-box-shadow: none;
+       -moz-box-shadow: none;
+            box-shadow: none;
+    height: 420px;
     margin: 0 auto;
     max-width: 1280px;
-    padding: 0;
-}
-
-.oae-main-content #index-content .index-search-container {
-    margin: -20px auto 10px;
-}
-
-.oae-main-content #index-content .index-search-container input#index-search-query {
-    background-color: #FEFEFE;
-    -webkit-box-shadow: 0 0 3px #999;
-       -moz-box-shadow: 0 0 3px #999;
-            box-shadow: 0 0 3px #999;
+    padding: 0 !important;
 }
 
 .oae-main-content #index-content #index-slogan {
@@ -66,6 +62,15 @@
     margin-bottom: 12px;
 }
 
+.oae-panel-primary,
+.oae-panel-secondary {
+    -webkit-border-radius: 0;
+       -moz-border-radius: 0;
+            border-radius: 0;
+    height: 220px;
+    padding: 40px;
+}
+
 .oae-panel-primary {
     background-color: #006B91;
     height: 250px !important;
@@ -76,19 +81,25 @@
     height: 250px;
 }
 
-.oae-panel-primary,
-.oae-panel-secondary {
-    -webkit-border-radius: 0;
-       -moz-border-radius: 0;
-            border-radius: 0;
-    height: 220px;
-    margin: 0 !important;
-    padding: 40px;
-}
-
 .oae-panel-secondary {
     background-color: #1D386E;
-    width: 33.33% !important;
+}
+
+#index-content .row {
+    margin: 0;
+}
+
+#index-content .row:last-child {
+    margin-bottom: 30px;
+}
+
+#index-content .row > div {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#index-content .row:first-child + .row > div {
+    padding: 40px;
 }
 
 .oae-panel-tertiary {
@@ -103,28 +114,48 @@
     margin-top: 20px;
 }
 
-.oae-main-content #index-content .row-fluid:last-child .oae-panel-secondary {
+.oae-main-content #index-content .row:last-child > div .oae-panel-secondary {
     background-color: #e9b351;
 }
 
-.oae-main-content #index-content .row-fluid:last-child .oae-panel-secondary .index-bottom-slogan {
+.oae-main-content #index-content .row:last-child > div .oae-panel-secondary .index-bottom-slogan {
     color: #FFF;
 }
 
-.oae-main-content #index-content .row-fluid:last-child .oae-panel-secondary a {
+.oae-main-content #index-content .row:last-child > div .oae-panel-secondary a {
     word-wrap: break-word;
 }
 
-.oae-main-content #index-content .row-fluid:last-child .oae-panel-secondary:first-child {
+.oae-main-content #index-content .row:last-child > div:first-child .oae-panel-secondary {
     background-color: #76394E;
+}
+
+@media (max-width: 991px) {
+    .oae-main-content {
+        min-height: 420px;
+    }
+    .oae-panel-primary,
+    .oae-panel-secondary {
+        margin: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .oae-panel-primary {
+        width: 100% !important;
+    }
+
+    .oae-panel-primary + .oae-panel-secondary,
+    .oae-panel-primary,
+    .oae-panel-secondary {
+        height: auto !important;
+    }
 }
 
 /* Custom page CSS */
 
-#index-branding-container.oae-main-content.oae-branding-container {
+.oae-main-content #index-content #index-branding-container {
     -webkit-border-radius: 0;
        -moz-border-radius: 0;
             border-radius: 0;
-    height: 420px;
-    max-width: 1280px;
 }
