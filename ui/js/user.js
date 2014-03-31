@@ -45,8 +45,6 @@ require(['jquery', 'oae.core'], function($, oae) {
 
             // Cache the user profile data
             userProfile = profile;
-            // Set the browser title
-            oae.api.util.setBrowserTitle(userProfile.displayName);
             // Render the entity information
             setUpClip();
             // Render the navigation
@@ -178,9 +176,9 @@ require(['jquery', 'oae.core'], function($, oae) {
             ]
         });
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, userProfile.displayName]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, userProfile.displayName]);
         });
     };
 

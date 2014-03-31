@@ -57,7 +57,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
         var lhNavPages = [{
             'id': 'content',
-            'title': oae.api.i18n.translate('__MSG__CONTENT__'),
+            'title': contentProfile.displayName,
             'icon': 'icon-comments',
             'closeNav': true,
             'class': 'hide',
@@ -87,9 +87,9 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         // TODO: Remove this once the lhnav toggle is no longer required on content profiles
         var showLhNavToggle = (lhNavActions.length > 0);
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, showLhNavToggle]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, null, showLhNavToggle]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, showLhNavToggle]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, null, showLhNavToggle]);
         });
     };
 
@@ -116,8 +116,6 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
             // Cache the content profile data
             contentProfile = profile;
-            // Set the browser title
-            oae.api.util.setBrowserTitle(contentProfile.displayName);
             // Render the entity information and actions
             setUpClips();
             // Set up the page
