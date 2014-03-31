@@ -45,8 +45,6 @@ require(['jquery', 'oae.core'], function($, oae) {
 
             // Cache the user profile data
             userProfile = profile;
-            // Set the browser title
-            oae.api.util.setBrowserTitle(userProfile.displayName);
             // Render the entity information
             setUpClip();
             // Render the navigation

@@ -45,8 +45,6 @@ require(['jquery', 'oae.core'], function($, oae) {
 
             // Cache the group profile data
             groupProfile = profile;
-            // Set the browser title
-            oae.api.util.setBrowserTitle(groupProfile.displayName);
             // Render the entity information
             setUpClip();
             // Set up the context event exchange

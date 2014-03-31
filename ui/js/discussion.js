@@ -115,8 +115,6 @@ require(['jquery','oae.core'], function($, oae) {
 
             // Cache the discussion profile data
             discussionProfile = profile;
-            // Set the browser title
-            oae.api.util.setBrowserTitle(discussionProfile.displayName);
             // Render the entity information
             setUpClips();
             // Set up the page
