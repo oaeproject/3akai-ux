@@ -32,13 +32,8 @@ require(['jquery','oae.core', 'jquery.history'], function($, oae) {
         }
 
         // Get the current search query from the History.js data object
-        // and preset the focus on the input
         var query = History.getState().data.query;
-        $('.search-query').val(query).focus();
-        if (query) {
-            var len = $('#search-query').val().length;
-            $('#search-query')[0].setSelectionRange(len, len);
-        }
+        $('.search-query').val(query);
 
         // Reset the type checkboxes to make sure that none of them stay checked incorrectly
         // when hitting the back and forward buttons
