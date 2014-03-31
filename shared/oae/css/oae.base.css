@@ -237,8 +237,8 @@ input[type="color"],
 .form-horizontal textarea + .help-block,
 .form-horizontal .uneditable-input + .help-block,
 .form-horizontal .input-group + .help-block {
-    margin-top: 3px;
     margin-bottom: 0;
+    margin-top: 3px;
 }
 
 .has-error .form-control:-moz-placeholder {
