@@ -330,7 +330,7 @@ select.form-control {
 }
 
 .modal-dialog {
-    min-width: 300px;
+    min-width: 380px;
 }
 
 @media (min-width: 992px) {

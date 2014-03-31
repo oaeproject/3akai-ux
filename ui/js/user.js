@@ -45,8 +45,6 @@ require(['jquery', 'oae.core'], function($, oae) {
 
             // Cache the user profile data
             userProfile = profile;
-            // Set the browser title
-            oae.api.util.setBrowserTitle(userProfile.displayName);
             // Render the entity information
             setUpClip();
             // Render the navigation
@@ -111,7 +109,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'contentlibrary',
+                            'name': 'contentlibrary',
                             'settings': {
                                 'context': userProfile
                             }
@@ -130,7 +128,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'discussionslibrary',
+                            'name': 'discussionslibrary',
                             'settings': {
                                 'context': userProfile
                             }
@@ -149,7 +147,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'memberships',
+                            'name': 'memberships',
                             'settings': {
                                 'context': userProfile
                             }
@@ -165,10 +163,10 @@ require(['jquery', 'oae.core'], function($, oae) {
             'closeNav': true,
             'layout': [
                 {
-                    'width': 'span12',
+                    'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'network',
+                            'name': 'network',
                             'settings': {
                                 'context': userProfile
                             }
@@ -178,9 +176,9 @@ require(['jquery', 'oae.core'], function($, oae) {
             ]
         });
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, userProfile.displayName]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, userProfile.displayName]);
         });
     };
 
