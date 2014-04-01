@@ -1346,5 +1346,4 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
 
         return isHandheld;
     };
-
 });
