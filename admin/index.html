@@ -83,7 +83,7 @@
             <ul class="nav nav-list">
                 <li data-id="tenants">
                     <a title="Tenant configuration" href="?view=tenants">
-                        <i class="icon-dashboard"></i>
+                        <i class="fa fa-tachometer"></i>
                         {if context.isGlobalAdminServer}
                             Tenants
                         {else}
@@ -93,13 +93,13 @@
                 </li>
                 <li data-id="modules">
                     <a title="Module configuration" href="?view=modules">
-                        <i class="icon-cogs"></i> Modules
+                        <i class="fa fa-cogs"></i> Modules
                     </a>
                 </li>
                 {if !context.isGlobalAdminServer}
                     <li data-id="skinning">
                         <a title="Skinning configuration" href="?view=skinning">
-                            <i class="icon-tint"></i> Skinning
+                            <i class="fa fa-tint"></i> Skinning
                         </a>
                     </li>
                 {/if}
@@ -160,7 +160,7 @@
                         {if tenant.alias}
                             <tr>
                                 {if context.isGlobalAdminServer}
-                                    <td><a href="/tenant/${tenant.alias|encodeForURL}" title="Edit ${tenant.displayName|encodeForHTMLAttribute}"><i class="icon-pencil"></i></a></td>
+                                    <td><a href="/tenant/${tenant.alias|encodeForURL}" title="Edit ${tenant.displayName|encodeForHTMLAttribute}"><i class="fa fa-pencil"></i></a></td>
                                 {/if}
                                 <td>${tenant.alias|encodeForHTML}</td>
                                 {if oae.data.me.isGlobalAdmin}
@@ -170,7 +170,7 @@
                                 {/if}
                                 {if oae.data.me.isGlobalAdmin}
                                     <td class="admin-tenants-visit">
-                                        <a href="//${tenant.host}" title="Visit ${tenant.displayName|encodeForHTMLAttribute}" target="_blank"><i class="icon-external-link admin-tenants-visit"></i></a>
+                                        <a href="//${tenant.host}" title="Visit ${tenant.displayName|encodeForHTMLAttribute}" target="_blank"><i class="fa fa-external-link admin-tenants-visit"></i></a>
                                     </td>
                                     <td class="jeditable-container">
                                        <div class="jeditable-field" data-alias="${tenant.alias|encodeForHTMLAttribute}" data-field="host">${tenant.host|encodeForHTML}</div>
@@ -211,7 +211,7 @@
                 <div class="admin-container-striped">
                     <div>
                         <button id="createtenant-toggle-button" type="button" class="btn">
-                            <i class="icon-plus pull-left" style="margin-right:12px;"></i>
+                            <i class="fa fa-plus pull-left" style="margin-right:12px;"></i>
                             Create a new tenant
                         </button>
                         <div class="createtenant-container clearfix hide">
@@ -250,7 +250,7 @@
                 {for item in schema}
                     <div class="row admin-module-configuration-container">
                         <button type="button" title="Edit the ${item.title|encodeForHTMLAttribute}" class="admin-module-configuration-toggle-button btn">
-                            <i class="icon-pencil"></i>
+                            <i class="fa fa-pencil"></i>
                             ${item.module.title|encodeForHTML}
                         </button>
                         <div class="admin-module-configuration-container" style="display:none;">
@@ -363,7 +363,7 @@
                                     </div>
                                     <div class="col-xs-1">
                                         <button type="button" class="btn btn-link pull-right admin-skinning-revert" title="Revert to original value">
-                                            <i class="icon-undo"><span class="sr-only">Revert to original value</span></i>
+                                            <i class="fa fa-undo"><span class="sr-only">Revert to original value</span></i>
                                         </button>
                                     </div>
                                 </div>

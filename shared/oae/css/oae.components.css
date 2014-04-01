@@ -105,31 +105,31 @@ a.oae-plain-link:hover {
  * These icons are used consistently to indicate the visibility setting for an entity
  * in the system. The available visibility privacy options are `private`, `loggedin` and
  * `public`.
- *   e.g. <i class="icon-oae-private"><span class="sr-only">__MSG__PRIVATE__</span></i>
- *        <i class="icon-oae-loggedin"><span class="sr-only">__MSG__LOGGED_IN__</span></i>
- *        <i class="icon-oae-public"><span class="sr-only">__MSG__PUBLIC__</span></i>
+ *   e.g. <i class="fa fa-oae-private"><span class="sr-only">__MSG__PRIVATE__</span></i>
+ *        <i class="fa fa-oae-loggedin"><span class="sr-only">__MSG__LOGGED_IN__</span></i>
+ *        <i class="fa fa-oae-public"><span class="sr-only">__MSG__PUBLIC__</span></i>
  *
  * Large icons can be rendered by adding the `large` class to the icon.
- *   e.g. <i class="icon-oae-private large"><span class="sr-only">__MSG__PRIVATE__</span></i>
- *        <i class="icon-oae-loggedin large"><span class="sr-only">__MSG__LOGGED_IN__</span></i>
- *        <i class="icon-oae-public large"><span class="sr-only">__MSG__PUBLIC__</span></i>
+ *   e.g. <i class="fa fa-oae-private large"><span class="sr-only">__MSG__PRIVATE__</span></i>
+ *        <i class="fa fa-oae-loggedin large"><span class="sr-only">__MSG__LOGGED_IN__</span></i>
+ *        <i class="fa fa-oae-public large"><span class="sr-only">__MSG__PUBLIC__</span></i>
  *
  * Note:
  *
  * - The `sr-only` span is added in for accessibility purposes, but can be left out when necessary.
  */
 
-i.icon-oae-private,
-i.icon-oae-loggedin,
-i.icon-oae-public {
+i.fa-oae-private,
+i.fa-oae-loggedin,
+i.fa-oae-public {
     font-size: 18px;
     width: 18px;
     height: 18px;
 }
 
-i.icon-oae-private:before,
-i.icon-oae-loggedin:before,
-i.icon-oae-public:before {
+i.fa-oae-private:before,
+i.fa-oae-loggedin:before,
+i.fa-oae-public:before {
     -webkit-border-radius: 500px;
        -moz-border-radius: 500px;
             border-radius: 500px;
@@ -142,29 +142,29 @@ i.icon-oae-public:before {
     text-align: center;
 }
 
-i.icon-oae-private:before {
+i.fa-oae-private:before {
     background-color: #FFBC78;
     content: "\f023";
 }
 
-i.icon-oae-loggedin:before {
+i.fa-oae-loggedin:before {
     background-color: #C4E6FF;
     content: "\f041";
 }
 
-i.icon-oae-public:before {
+i.fa-oae-public:before {
     background-color: #A6E0AB;
     content: "\f0ac";
 }
 
 /* Large visibility icons */
 
-i[class^="icon-"].large {
+i[class^="fa"].large {
     width: 60px;
     height: 60px;
 }
 
-i[class^="icon-"].large:before {
+i[class^="fa"].large:before {
     font-size: 50px;
     height: 60px;
     padding-top: 5px;
@@ -186,10 +186,10 @@ i[class^="icon-"].large:before {
  * e.g. <div class="oae-large-options-container row">
  *          <div class="col-md-6 text-center">
  *              <label for="oae-visibility-private" class="checked">
- *                  <i class="icon-ok hide"></i>
+ *                  <i class="fa fa-check hide"></i>
  *                  <div class="oae-large-options well">
  *                      <input type="radio" id="oae-visibility-private" value="private" name="oae-visibility-group" class="pull-left" checked="checked" tabindex="0"/>
- *                      <i class="icon-oae-private large text-center"></i>
+ *                      <i class="fa fa-oae-private large text-center"></i>
  *                      <span class="oae-threedots">__MSG__MEMBERS_ONLY__</span>
  *                  </div>
  *                  <small>__MSG__GROUP_PRIVATE_DESCRIPTION__</small>
@@ -197,10 +197,10 @@ i[class^="icon-"].large:before {
  *          </div>
  *          <div class="col-md-6 text-center">
  *              <label for="oae-visibility-loggedin">
- *                  <i class="icon-ok hide"></i>
+ *                  <i class="fa fa-check hide"></i>
  *                  <div class="oae-large-options well">
  *                      <input type="radio" id="oae-visibility-loggedin" value="loggedin" name="oae-visibility-group" class="pull-left" tabindex="0"/>
- *                      <i class="icon-oae-loggedin large text-center"></i>
+ *                      <i class="fa fa-oae-loggedin large text-center"></i>
  *                      <span class="oae-threedots">${tenant}</span>
  *                  </div>
  *                  <small>__MSG__GROUP_LOGGEDIN_DESCRIPTION__</small>
@@ -250,9 +250,9 @@ i[class^="icon-"].large:before {
     z-index: -1; /* Adding a z-index of -1 hides the element from the view but still allows for focus of the element */
 }
 
-.oae-large-options-container label .oae-large-options i.icon-oae-private:before,
-.oae-large-options-container label .oae-large-options i.icon-oae-loggedin:before,
-.oae-large-options-container label .oae-large-options i.icon-oae-public:before {
+.oae-large-options-container label .oae-large-options i.fa-oae-private:before,
+.oae-large-options-container label .oae-large-options i.fa-oae-loggedin:before,
+.oae-large-options-container label .oae-large-options i.fa-oae-public:before {
     margin-top: 6px;
 }
 
@@ -263,24 +263,25 @@ i[class^="icon-"].large:before {
     margin-top: 15px;
 }
 
-.oae-large-options-container label i.icon-ok {
+.oae-large-options-container label i.fa-check {
     display: none;
 }
 
-.oae-large-options-container label.checked i.icon-ok {
+.oae-large-options-container label.checked i.fa-check {
     -webkit-border-radius: 100px;
        -moz-border-radius: 100px;
             border-radius: 100px;
     display: block;
     height: 35px;
     margin: 0 auto;
+    padding-top: 6px;
     position: relative;
     top: 130px;
     width: 35px;
     z-index: 1000;
 }
 
-.oae-large-options-container label.checked i.icon-ok:before {
+.oae-large-options-container label.checked i.fa-check:before {
     font-size: 24px;
     padding-top: 5px;
 }
@@ -292,17 +293,17 @@ i[class^="icon-"].large:before {
 /* These icons are used in situations where checks for success/failure are done */
 
 
-[class^="icon-"].icon-ok,
-[class*=" icon-"].icon-ok,
-[class^="icon-"].icon-ok:hover,
-[class*=" icon-"].icon-ok:hover {
+i[class^="fa"].fa-check,
+[class*=" fa-"].fa-check,
+i[class^="fa"].fa-check:hover,
+[class*=" fa-"].fa-check:hover {
     color: #468847;
 }
 
-[class^="icon-"].icon-warning-sign,
-[class*=" icon-"].icon-warning-sign,
-[class^="icon-"].icon-warning-sign:hover,
-[class*=" icon-"].icon-warning-sign:hover {
+i[class^="fa"].fa-exclamation-triangle,
+[class*=" fa-"].fa-exclamation-triangle,
+i[class^="fa"].fa-exclamation-triangle:hover,
+[class*=" fa-"].fa-exclamation-triangle:hover {
     color: #DD2222;
 }
 
@@ -322,10 +323,10 @@ i[class^="icon-"].large:before {
  * role info. The thumbnail displayed in these cases will be "cropped" from the
  * center of the provided image.
  *
- *   e.g. <div class="oae-thumbnail icon-oae-user">
+ *   e.g. <div class="oae-thumbnail fa-oae-user">
  *            <a href="${entityData.profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}">
  *                <div style="background-image: url(/ui/img/dummy/profile-pic-john.png)" role="img" aria-label="John Librarian"/>
- *                <i class="icon-oae-public"></i>
+ *                <i class="fa fa-oae-public"></i>
  *            </a>
  *        </div>
  *
@@ -340,13 +341,13 @@ i[class^="icon-"].large:before {
  *
  * - The actual thumbnail image is optional, and if no image is specified the
  *   thumbnail will show a default entity thumbnail. In order to do this,
- *   `icon-oae-user` should be added to the `oae-thumbnail` div for users,
- *   `icon-oae-group` should be added to the `oae-thumbnail` div for groups,
- *   `icon-oae-discussion` should be added to the `oae-thumbnail` div for discussions,
- *   `icon-oae-content` should be added to the `oae-thumbnail` div for generic content,
- *   `icon-oae-file` should be added to the `oae-thumbnail` div for uploaded files,
- *   `icon-oae-link` should be added to the `oae-thumbnail` div for links and
- *   `icon-oae-collabdoc` should be added to the `oae-thumbnail` div for collaborative documents.
+ *   `fa-oae-user` should be added to the `oae-thumbnail` div for users,
+ *   `fa-oae-group` should be added to the `oae-thumbnail` div for groups,
+ *   `fa-oae-discussion` should be added to the `oae-thumbnail` div for discussions,
+ *   `fa-oae-content` should be added to the `oae-thumbnail` div for generic content,
+ *   `fa-oae-file` should be added to the `oae-thumbnail` div for uploaded files,
+ *   `fa-oae-link` should be added to the `oae-thumbnail` div for links and
+ *   `fa-oae-collabdoc` should be added to the `oae-thumbnail` div for collaborative documents.
  *   Even when an image is provided, the entity icon class can still be added as
  *   it will be used when the image cannot be downloaded.
  * - For large thumbnails (> 100px width/height), the `oae-thumbnail-large` class
@@ -354,7 +355,7 @@ i[class^="icon-"].large:before {
  *   thumbnail to be larger.
  * - An optional visibility icon can be added to the thumbnail as well and will
  *   automatically be positioned correctly. The available visibility icons are
- *   `icon-oae-private`, `icon-oae-loggedin` and `icon-oae-public` (See Visibility
+ *   `fa-oae-private`, `fa-oae-loggedin` and `fa-oae-public` (See Visibility
  *   icons section).
  * - The link inside of the thumbnail can be used to link to the entity's profile page.
  *   This link is optional and can be left out.
@@ -402,8 +403,8 @@ div.oae-thumbnail div {
 }
 
 /* Center the thumbnail for users and groups */
-div.oae-thumbnail.icon-oae-group div,
-div.oae-thumbnail.icon-oae-user div {
+div.oae-thumbnail.fa-oae-group div,
+div.oae-thumbnail.fa-oae-user div {
     background-position: center;
 }
 
@@ -414,34 +415,34 @@ div.oae-thumbnail.oae-thumbnail-large:before {
 
 /* Default entity thumbnails */
 
-div.oae-thumbnail.icon-oae-content:before,
-div.oae-thumbnail.icon-oae-file:before {
+div.oae-thumbnail.fa-oae-content:before,
+div.oae-thumbnail.fa-oae-file:before {
     content: "\f016";
 }
 
-div.oae-thumbnail.icon-oae-link:before {
+div.oae-thumbnail.fa-oae-link:before {
     content: "\f0c1";
 }
 
-div.oae-thumbnail.icon-oae-collabdoc:before {
+div.oae-thumbnail.fa-oae-collabdoc:before {
     content: "\f044";
 }
 
-div.oae-thumbnail.icon-oae-discussion:before {
+div.oae-thumbnail.fa-oae-discussion:before {
     content: "\f086";
 }
 
-div.oae-thumbnail.icon-oae-group:before {
+div.oae-thumbnail.fa-oae-group:before {
     content: "\f0c0";
 }
 
-div.oae-thumbnail.icon-oae-user:before {
+div.oae-thumbnail.fa-oae-user:before {
     content: "\f007";
 }
 
 /* Visibility icon positioning */
 
-div.oae-thumbnail i[class^="icon-"] {
+div.oae-thumbnail i[class^="fa"] {
     position: absolute;
     bottom: -8px;
     right: -8px;
@@ -469,23 +470,23 @@ div.oae-thumbnail i[class^="icon-"] {
  *              </div>
  *              <div class="oae-clip-content">
  *                  <button>
- *                      <div class="oae-thumbnail icon-oae-user">
+ *                      <div class="oae-thumbnail fa-oae-user">
  *                          <img src="/url/to/picture" alt="John Doe"/>
- *                          <i class="icon-oae-public"></i>
+ *                          <i class="fa fa-oae-public"></i>
  *                      </div>
  *                      <div>
  *                          <div>
  *                              <h1 class="oae-threedots">John Doe</h1>
- *                              <i class="icon-caret-down"></i>
+ *                              <i class="fa fa-caret-down"></i>
  *                              <small>Job Title</small>
  *                          </div>
  *                      </div>
  *                  </button>
  *                  <div>
  *                      <ul>
- *                          <li><button><i class="icon-user"></i>Action 1</button></li>
- *                          <li><button><i class="icon-envelope"></i>Action 2</button></li>
- *                          <li><button type="button"><i class="icon-wrench"></i>Action 3</button></li>
+ *                          <li><button><i class="fa fa-user"></i>Action 1</button></li>
+ *                          <li><button><i class="fa fa-envelope"></i>Action 2</button></li>
+ *                          <li><button type="button"><i class="fa fa-wrench"></i>Action 3</button></li>
  *                      </ul>
  *                  </div>
  *              </div>
@@ -510,7 +511,7 @@ div.oae-thumbnail i[class^="icon-"] {
  *   The thumbnail image is optional and can be left out as well.
  * - An optional `oae-threedots` class can be added to the `h1` elements in case a maximum width needs to be
  *   enforced.
- * - The `icon-caret-down` element is optional. If it is not provided, the clip will be shown in view
+ * - The `fa-caret-down` element is optional. If it is not provided, the clip will be shown in view
  *   only mode. If it is provided, the clip will be toggleable and the action menu will be shown when clicked.
  * - The `small` tag is used to show some additional clip metadata and is optional.
  * - When a clip should not be clickable (e.g. in non-manager mode of a page), the `disabled` attribute
@@ -655,21 +656,21 @@ div.oae-thumbnail i[class^="icon-"] {
     float: left;
 }
 
-.oae-clip .oae-clip-content > button i.icon-caret-down,
-.oae-clip .oae-clip-content > button i.icon-caret-up {
+.oae-clip .oae-clip-content > button i.fa-caret-down,
+.oae-clip .oae-clip-content > button i.fa-caret-up {
     margin-left: 5px;
     line-height: 16px;
     position: relative;
     top: 3px;
 }
 
-.oae-clip .oae-clip-content > button h1.oae-threedots + i.icon-caret-down,
-.oae-clip .oae-clip-content > button h1.oae-threedots + i.icon-caret-up {
+.oae-clip .oae-clip-content > button h1.oae-threedots + i.fa-caret-down,
+.oae-clip .oae-clip-content > button h1.oae-threedots + i.fa-caret-up {
     margin-left: 10px;
 }
 
-.oae-clip .oae-clip-content > button:disabled i.icon-caret-down,
-.oae-clip .oae-clip-content > button:disabled i.icon-caret-up {
+.oae-clip .oae-clip-content > button:disabled i.fa-caret-down,
+.oae-clip .oae-clip-content > button:disabled i.fa-caret-up {
     display: none;
 }
 
@@ -762,27 +763,27 @@ div.oae-thumbnail i[class^="icon-"] {
  *          <ul class="nav nav-list">
  *              <li class="clearfix oae-lhnavigation-border">
  *                  <button type="button" class="btn btn-link" title="__MSG__UPLOAD__">
- *                      <i class="icon-cloud-upload pull-left"></i>
+ *                      <i class="fa fa-cloud-upload pull-left"></i>
  *                      <div>__MSG__UPLOAD__</div>
  *                  </button>
  *              </li>
  *              <li class="clearfix collapse oae-lhnavigation-border">
  *                  <button type="button" class="btn btn-link" title="__MSG__CREATE__">
  *                      <div class="lhnavigation-caret-container pull-right">
- *                          <i class="icon-caret-left pull-right">
+ *                          <i class="fa fa-caret-left pull-right">
  *                              <span class="sr-only">__MSG__OPEN_NAVIGATION__</span>
  *                          </i>
- *                          <i class="icon-caret-down pull-right hide">
+ *                          <i class="fa fa-caret-down pull-right hide">
  *                              <span class="sr-only">__MSG__CLOSE_NAVIGATION__</span>
  *                          </i>
  *                      </div>
- *                      <i class="icon-plus-sign pull-left"></i>
+ *                      <i class="fa fa-plus-circle pull-left"></i>
  *                      <div>__MSG__CREATE__</div>
  *                  </button>
  *                  <ul class="nav nav-list lhnavigation-collapsed hide">
  *                      <li class="clearfix">
  *                          <button type="button" class="btn btn-link" title="__MSG__GROUP__">
- *                              <i class="icon-group pull-left"></i>
+ *                              <i class="fa fa-users pull-left"></i>
  *                              <div>__MSG__GROUP__</div>
  *                          </button>
  *                      </li>
@@ -790,7 +791,7 @@ div.oae-thumbnail i[class^="icon-"] {
  *              </li>
  *              <li class="clearfix active" data-id="dashboard">
  *                  <a href="/me/dashboard" title="__MSG__RECENT_ACTIVITY__">
- *                      <i class="icon-dashboard pull-left"></i>
+ *                      <i class="fa fa-tachometer pull-left"></i>
  *                      <div>__MSG__RECENT_ACTIVITY__</div>
  *                  </a>
  *              </li>
@@ -873,7 +874,7 @@ div.oae-thumbnail i[class^="icon-"] {
     margin-right: -12px;
 }
 
-.oae-lhnavigation > ul.nav > li button div.lhnavigation-caret-container [class^="icon-"] {
+.oae-lhnavigation > ul.nav > li button div.lhnavigation-caret-container i[class^="fa"] {
     margin-right: 0;
 }
 
@@ -940,12 +941,12 @@ div.oae-thumbnail i[class^="icon-"] {
  *
  *  <div class="oae-tile">
  *      <a href="/user/u:cambridge:PPTBPgxSdf" title="John Librarian">
- *          <div class="oae-thumbnail oae-thumbnail-large icon-oae-user">
+ *          <div class="oae-thumbnail oae-thumbnail-large fa-oae-user">
  *              <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian" />
  *          </div>
  *      </a>
  *      <div class="oae-tile-metadata">
- *          <i class="icon-oae-public pull-left"></i>
+ *          <i class="fa fa-oae-public pull-left"></i>
  *          <h3 class="oae-threedots">
  *              <a href="/user/u:cambridge:PPTBPgxSdf">John Librarian</a>
  *          </h3>
@@ -1047,9 +1048,9 @@ div.oae-thumbnail i[class^="icon-"] {
  *      <input type="checkbox" class="pull-left" id="oae-list-details-u:cambridge:PPTBPgxSdf" data-id="u:cambridge:PPTBPgxSdf" />
  *      <label class="sr-only" for="oae-list-details-u:cambridge:PPTBPgxSdf">John Librarian</label>
  *      <div class="oae-listitem-primary-thumbnail">
- *          <div class="oae-thumbnail icon-oae-user">
+ *          <div class="oae-thumbnail fa-oae-user">
  *              <img src="/ui/img/dummy/profile-pic-john.png" alt="John Librarian" />
- *              <i class="icon-oae-private"></i>
+ *              <i class="fa fa-oae-private"></i>
  *          </div>
  *      </div>
  *      <div class="oae-listitem-metadata">
@@ -1057,7 +1058,7 @@ div.oae-thumbnail i[class^="icon-"] {
  *          <small class="oae-threedots">Professor</small>
  *      </div>
  *      <div class="oae-listitem-actions">
- *          <button class="btn btn-link" title="Share"><i class="icon-share"></i></button>
+ *          <button class="btn btn-link" title="Share"><i class="fa fa-share-square-o"></i></button>
  *      </div>
  *  </div>
  *
@@ -1203,7 +1204,7 @@ div.oae-thumbnail i[class^="icon-"] {
 
 /* Actions can be either an icon, an icon with spin, or a button with an icon. Style them consistently, and
    if removing or modifying something, be sure to test with different permutations of a regular icon (e.g.,
-   icon-ok class), an icon with spin (e.g., icon-spinner + icon-spin classes) and a button icon */
+   fa fa-check class), an icon with spin (e.g., fa-spinner + fa-spin classes) and a button icon */
 .oae-listitem > div.oae-listitem-actions > i,
 .oae-listitem > div.oae-listitem-actions > .btn,
 .oae-listitem > div.oae-listitem-actions > .btn i {
@@ -1247,7 +1248,7 @@ div.oae-thumbnail i[class^="icon-"] {
 /* Action icon adjustments */
 
 /* The remove icon is comically large compared to the others. Reduce its size */
-.oae-list-compact-item > .oae-listitem > div.oae-listitem-actions i.icon-remove {
+.oae-list-compact-item > .oae-listitem > div.oae-listitem-actions i.fa fa-times {
     font-size: 16px;
 }
 
@@ -1472,8 +1473,8 @@ ul.oae-list > li:first-child .oae-listitem {
     cursor: auto;
 }
 
-.oae-list-header .oae-list-header-toggle:disabled .icon-caret-down,
-.oae-list-header .oae-list-header-toggle:disabled .icon-caret-up {
+.oae-list-header .oae-list-header-toggle:disabled .fa-caret-down,
+.oae-list-header .oae-list-header-toggle:disabled .fa-caret-up {
     display: none;
 }
 
@@ -1527,11 +1528,11 @@ ul.oae-list > li:first-child .oae-listitem {
  * The following HTML structure should be used to create a list actions element:
  *
  *  <li class="oae-list-actions oae-list-actions-multiple">
- *      <div class="oae-thumbnail oae-thumbnail-large icon-oae-content"></div>
+ *      <div class="oae-thumbnail oae-thumbnail-large fa-oae-content"></div>
  *      <ul>
  *          <li>
  *              <button type="button" class="btn oae-trigger-upload">
- *                  <i class="icon-cloud-upload pull-left"></i>__MSG__UPLOAD__
+ *                  <i class="fa fa-cloud-upload pull-left"></i>__MSG__UPLOAD__
  *              </button>
  *          </li>
  *      </ul>
@@ -1545,7 +1546,7 @@ ul.oae-list > li:first-child .oae-listitem {
  *   class should be added to the `oae-list-actions` container.
  * - In grid view, icons inside of the action buttons will be hidden from the actions tile because of the limited
  *   available space. In details and compact view, the icons will be shown.
- * - The resource type icon shown in the list actions in grid view can be any of the `icon-oae-<resourceType>`
+ * - The resource type icon shown in the list actions in grid view can be any of the `fa-oae-<resourceType>`
  *   icons outlines in the `Thumbnails` section.
  */
 

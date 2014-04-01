@@ -107,12 +107,12 @@ body {
 body, button, input, select, textarea,
 .btn > i, a.oae-plain-link,
 .popover-content, .popover-content button:not(.btn),
-h1 [class^="icon-"], h1 [class*=" icon-"],
-h2 [class^="icon-"], h2 [class*=" icon-"],
-h3 [class^="icon-"], h3 [class*=" icon-"],
-h4 [class^="icon-"], h4 [class*=" icon-"],
-h5 [class^="icon-"], h5 [class*=" icon-"],
-h6 [class^="icon-"], h6 [class*=" icon-"] {
+h1 i[class^="fa"], h1 [class*=" fa-"],
+h2 i[class^="fa"], h2 [class*=" fa-"],
+h3 i[class^="fa"], h3 [class*=" fa-"],
+h4 i[class^="fa"], h4 [class*=" fa-"],
+h5 i[class^="fa"], h5 [class*=" fa-"],
+h6 i[class^="fa"], h6 [class*=" fa-"] {
     color: @text-color;
 }
 
@@ -202,8 +202,8 @@ a:hover, .btn-link:hover {
     background-color: @button-primary-gradient2-color;
 }
 
-.btn.btn-primary [class^=icon-],
-.btn.btn-primary [class*=" icon-"] {
+.btn.btn-primary [class^=fa-],
+.btn.btn-primary [class*=" fa-"] {
     color: @button-primary-text-color;
 }
 
@@ -326,18 +326,18 @@ a:hover, .btn-link:hover {
 /* Icon button hover color */
 @button-icon-hover-color: #555;
 
-[class^="icon-"], [class*=" icon-"],
-.btn.btn-link [class^="icon-"], .btn.btn-link [class*=" icon-"] {
+i[class^="fa"], [class*=" fa-"],
+.btn.btn-link i[class^="fa"], .btn.btn-link [class*=" fa-"] {
    color: @button-icon-color;
 }
 
-[class^="icon-"].active, [class*=" icon-"].active,
-[class^="icon-"]:hover, [class*=" icon-"]:hover,
-[class^="icon-"]:focus, [class*=" icon-"]:focus,
-[class^="icon-"].selected, [class*=" icon-"].selected,
-.btn-link [class^="icon-"].active, .btn-link:hover [class*=" icon-"].active,
-.btn-link:hover [class^="icon-"], .btn-link:hover [class*=" icon-"],
-.btn-link:focus [class^="icon-"], .btn-link:focus [class*=" icon-"] {
+i[class^="fa"].active, [class*=" fa-"].active,
+i[class^="fa"]:hover, [class*=" fa-"]:hover,
+i[class^="fa"]:focus, [class*=" fa-"]:focus,
+i[class^="fa"].selected, [class*=" fa-"].selected,
+.btn-link i[class^="fa"].active, .btn-link:hover [class*=" fa-"].active,
+.btn-link:hover i[class^="fa"], .btn-link:hover [class*=" fa-"],
+.btn-link:focus i[class^="fa"], .btn-link:focus [class*=" fa-"] {
     color: @button-icon-hover-color;
 }
 
@@ -800,11 +800,11 @@ div.oae-thumbnail {
     background-color: @visibility-toggle-selected2-color;
 }
 
-.oae-large-options-container label.checked i.icon-ok {
+.oae-large-options-container label.checked i.fa-check {
     background-color: @visibility-toggle-selected1-color;
 }
 
-.oae-large-options-container label.checked i.icon-ok:before {
+.oae-large-options-container label.checked i.fa-check:before {
     color: @visibility-toggle-background-color;
 }
 

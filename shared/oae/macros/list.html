@@ -17,7 +17,7 @@
  * @param  {String}     title                       The title of the header
  * @param  {Boolean}    [showSearch]                Whether or not a search box should show. The search box is accessible on the DOM with CSS class `oae-list-selectall`. Default: `true`
  * @param  {Object[]}   [actions]                   A list of objects that represent action buttons that can be performed in the header
- * @param  {String}     [actions[i].icon]           The icon class that represents the action (e.g., `icon-remove`)
+ * @param  {String}     [actions[i].icon]           The icon class that represents the action (e.g., `fa fa-times`)
  * @param  {String}     [actions[i].label]          The label of the action
  * @param  {String}     [actions[i].trigger]        CSS class added to the action button that can be used to trigger widgets
  * @param  {String}     [actions[i].data]           Additional data attributes to apply to the option (e.g., `{'resourceType': 'content'}` would result in an attribute `data-resourceType="content"`)
@@ -33,7 +33,7 @@
         <div class="row">
             <div class="col-xs-12{if showSearch} col-sm-8{/if}">
                 <button type="button" class="oae-lhnavigation-toggle btn btn-link pull-left hidden-md hidden-lg">
-                    <i class="icon-reorder"></i>
+                    <i class="fa fa-bars"></i>
                     <span class="sr-only">__MSG__TOGGLE_NAVIGATION__</span>
                 </button>
 
@@ -47,7 +47,7 @@
                         ${title}
                         <span class="oae-list-header-badge badge hide"></span>
                         {if showActionsToggle}
-                            <i class="icon-caret-down"></i>
+                            <i class="fa fa-caret-down"></i>
                         {/if}
                     </h2>
 
@@ -84,15 +84,15 @@
                 {if showViewOptions}
                     <div class="btn-group pull-right">
                         <button class="btn" data-type="oae-list-compact">
-                            <i class="icon-list"></i>
+                            <i class="fa fa-list"></i>
                             <span class="sr-only">__MSG__LIST_VIEW__</span>
                         </button>
                         <button class="btn" data-type="oae-list-details">
-                            <i class="icon-th-list"></i>
+                            <i class="fa fa-th-list"></i>
                             <span class="sr-only">__MSG__EXPANDED_LIST_VIEW__</span>
                         </button>
                         <button class="btn active" data-type="oae-list-grid">
-                            <i class="icon-th-large"></i>
+                            <i class="fa fa-th-large"></i>
                             <span class="sr-only">__MSG__GRID_VIEW__</span>
                         </button>
                     </div>
@@ -133,7 +133,7 @@
                     ${renderThumbnail(entityData, false, true, null, customImage)}
                     <div class="oae-tile-metadata">
                         {if resourceType !== 'user'}
-                            <i class="icon-oae-${visibility}"></i>
+                            <i class="fa fa-oae-${visibility}"></i>
                         {/if}
                         ${renderMetadata(entityData, metadata)}
                     </div>
@@ -245,13 +245,13 @@
         {var visibility = entityData['oae:visibility']}
     {/if}
 
-    <div class="oae-thumbnail {if largeDefault} oae-thumbnail-large {/if} icon-oae-${resourceSubType} icon-oae-${resourceType}" data-id="${resourceId}">
+    <div class="oae-thumbnail {if largeDefault} oae-thumbnail-large {/if} fa fa-oae-${resourceSubType} fa-oae-${resourceType}" data-id="${resourceId}">
         {if profilePath && addLink !== false}<a href="${profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}">{/if}
         {if thumbnailUrl}
             <div role="img" aria-label="${entityData.displayName|encodeForHTMLAttribute}" style="background-image: url('${thumbnailUrl}');"></div>
         {/if}
         {if addVisibilityIcon !== false && resourceType !== 'user'}
-            <i class="icon-oae-${visibility}"></i>
+            <i class="fa fa-oae-${visibility}"></i>
         {/if}
         {if profilePath && addLink !== false}</a>{/if}
     </div>

@@ -32,7 +32,7 @@ define(['jquery', 'oae.api.util', 'jquery.history'], function ($, oaeUtil) {
             }
 
             // Toggle the caret icon in the list header
-            $(this).find('i').toggleClass('icon-caret-down icon-caret-up');
+            $(this).find('i').toggleClass('fa-caret-down fa-caret-up');
         });
 
         /**
