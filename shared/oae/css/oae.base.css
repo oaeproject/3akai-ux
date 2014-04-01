@@ -408,7 +408,6 @@ select.form-control {
 }
 
 /* CLICKOVER DIALOGS
- * @see https://github.com/lecar-red/bootstrapx-clickover
  * @see http://twitter.github.io/bootstrap/javascript.html#popovers */
 
 /* Bootstrap applies a pretty small default max-width, make the default a bit wider */
