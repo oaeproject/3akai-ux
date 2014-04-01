@@ -148,8 +148,6 @@
     min-height: 420px;
 }
 
-/* Media queries */
-
 @media (max-width: 991px) {
     .oae-main-content #index-content #index-branding-container {
         min-height: 340px;
