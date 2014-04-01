@@ -304,6 +304,10 @@ select.form-control {
     padding: 0;
 }
 
+.modal .jeditable-field form input::-ms-clear {
+    display: none;
+}
+
 /* Add an IE9 fallback for threedots */
 
 @media (min-width: 550px) {
