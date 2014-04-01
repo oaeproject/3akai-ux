@@ -93,7 +93,9 @@ module.exports = function(grunt) {
                     'optimize': 'uglify',
                     'preserveLicenseComments': false,
                     'optimizeCss': 'standard',
-                    'cssImportIgnore': null,
+                    // TODO: Replace this with a saner value
+                    // @see https://github.com/jrburke/r.js/pull/653
+                    'cssImportIgnore': '//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700&subset=latin,cyrillic-ext,latin-ext,greek-ext',
                     'inlineText': true,
                     'useStrict': false,
                     'pragmas': {},
