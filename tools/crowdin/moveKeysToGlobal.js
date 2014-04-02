@@ -65,12 +65,35 @@ var sortKeys = function(a, b) {
 var addKeysToGlobal = function() {
     // For each key found we need to add it to the global bundle
     _.each(widgetI18n, function(key, bundlePath) {
+        // Create the bundle file if it doesn't exist yet
+        if (!fs.existsSync(widgetDir + '../../../ui/bundles/' + bundlePath)) {
+            fs.openSync(widgetDir + '../../../ui/bundles/' + bundlePath, 'w');
+        }
         // Read the global bundle
         var globalBundle = fs.readFileSync(widgetDir + '../../../ui/bundles/' + bundlePath, 'utf-8');
         // Split the file on new lines
         globalBundle = globalBundle.split(/\n/g);
-        // Add the key to the global bundle
-        globalBundle.push(key);
+
+        // If the key is already in the global bundle we need to replace it, keep track of
+        // the index the key has in the `globalBundle` array
+        var replaceKey = null;
+        // Loop over the global bundle, if the key matches the key we need to add, set
+        // `replaceKey` to the index the key has in the `globalBundle` to be able to replace
+        // it later
+        for (var i = 0; i < globalBundle.length; i++) {
+            if (globalBundle[i].split('=')[0].trim() === key.split('=')[0].trim()) {
+                replaceKey = i;
+                break;
+            }
+        }
+        // If the key was already in the global bundle it needs to be replaced
+        if (replaceKey) {
+            globalBundle.splice(_.indexOf(globalBundle, globalBundle[replaceKey]), 1, key);
+        // If the key wasn't already in the global bundle it needs to be added
+        } else {
+            globalBundle.push(key);
+        }
+
         // Sort the bundle
         globalBundle.sort(sortKeys);
         // Remove empty lines

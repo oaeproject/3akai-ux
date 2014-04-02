@@ -71,12 +71,35 @@ var sortKeys = function(a, b) {
 var addKeysToOtherWidget = function() {
     // For each key found we need to add it to the widget bundle
     _.each(widgetI18n, function(key, bundlePath) {
+        // Create the bundle file if it doesn't exist yet
+        if (!fs.existsSync(otherWidgetBundlesDir + '/' + bundlePath)) {
+            fs.openSync(otherWidgetBundlesDir + '/' + bundlePath, 'w');
+        }
         // Read the widget bundle
         var otherWidgetBundle = fs.readFileSync(otherWidgetBundlesDir + '/' + bundlePath, 'utf-8');
         // Split the file on new lines
         otherWidgetBundle = otherWidgetBundle.split(/\n/g);
-        // Add the key to the widget bundle
-        otherWidgetBundle.push(key);
+
+        // If the key is already in the other widget's bundle we need to replace it, keep track of
+        // the index the key has in the `otherWidgetBundle` array
+        var replaceKey = null;
+        // Loop over the other widget's bundle, if the key matches the key we need to add, set
+        // `replaceKey` to the index the key has in the `otherWidgetBundle` to be able to replace
+        // it later
+        for (var i = 0; i < otherWidgetBundle.length; i++) {
+            if (otherWidgetBundle[i].split('=')[0].trim() === key.split('=')[0].trim()) {
+                replaceKey = i;
+                break;
+            }
+        }
+        // If the key was already in the other widget's bundle it needs to be replaced
+        if (replaceKey) {
+            otherWidgetBundle.splice(_.indexOf(otherWidgetBundle, otherWidgetBundle[replaceKey]), 1, key);
+        // If the key wasn't already in the other widget's bundle it needs to be added
+        } else {
+            otherWidgetBundle.push(key);
+        }
+
         // Sort the bundle
         otherWidgetBundle.sort(sortKeys);
         // Remove empty lines
