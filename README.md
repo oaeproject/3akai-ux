@@ -15,7 +15,7 @@ By default 3akai-ux uses the Open Sans font family available from Google's Web F
 
 ## Widget development
 
-Documentation on how to create custom OAE widgets can be found in the [Widget Wiki](https://github.com/oaeproject/3akai-ux/wiki/Widget-Development-%5BWIP%5D)
+Documentation (WIP) on how to create custom OAE widgets can be found on the [Widget Wiki](https://github.com/oaeproject/3akai-ux/wiki/Widget-Development-%5BWIP%5D)
 
 ## Functional tests
 
