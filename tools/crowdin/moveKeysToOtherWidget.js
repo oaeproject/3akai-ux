@@ -19,7 +19,7 @@
  */
 
 var argv = require('optimist')
-    .usage('Usage: $0 -w <Widget root dir> -k <i18n key>')
+    .usage('Usage: $0 -w <Widget root dir> -o <widget dir to move to> -k <i18n key>')
 
     .demand('k')
     .alias('k', 'i18nKey')
