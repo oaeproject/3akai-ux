@@ -51,6 +51,20 @@ var globalBundles = {};
 var globalI18n = {};
 
 /**
+ * Sort keys alphabetically based on the part before the `=`
+ *
+ * @see Array#sort
+ */
+var sortKeys = function(a, b) {
+    if (a.split('=')[0] < b.split('=')[0]) {
+        return -1;
+    } else if (b.split('=')[0] < a.split('=')[0]) {
+        return 1;
+    }
+    return 0;
+};
+
+/**
  * Add the key to the widget bundles
  */
 var addKeysToWidget = function() {
@@ -63,7 +77,7 @@ var addKeysToWidget = function() {
         // Add the key to the widget bundle
         widgetBundle.push(key);
         // Sort the bundle
-        widgetBundle.sort();
+        widgetBundle.sort(sortKeys);
         // Remove empty lines
         var newWidgetBundle = '';
         _.each(widgetBundle, function(key) {
@@ -71,6 +85,9 @@ var addKeysToWidget = function() {
                 newWidgetBundle += key + '\n';
             }
         });
+        // Add an extra new line at the end of the file as Crowdin will also do this and we don't
+        // want the diff
+        newWidgetBundle += '\n';
         // Write the bundle
         fs.writeFileSync(widgetBundlesDir + '/' + bundlePath, newWidgetBundle, 'utf-8');
     });
@@ -90,6 +107,9 @@ var deleteKeysFromGlobal = function() {
                 newBundle += key + '\n';
             }
         });
+        // Add an extra new line at the end of the file as Crowdin will also do this and we don't
+        // want the diff
+        newBundle += '\n';
         fs.writeFileSync(globalBundlesDir + bundlePath, newBundle, 'utf-8');
     });
 };
