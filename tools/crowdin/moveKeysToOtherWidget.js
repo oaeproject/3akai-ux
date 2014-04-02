@@ -14,8 +14,8 @@
  */
 
 /**
- * Provided with a translation key and a widget path this script will extract all the keys
- * from the widget bundle and add them to the global bundles.
+ * Provided with a translation, a widget path to move a key from and a widget path to move a key to
+ * this script will extract all the keys from the widget bundle and add them to the other widget's bundles.
  */
 
 var argv = require('optimist')
@@ -23,11 +23,15 @@ var argv = require('optimist')
 
     .demand('k')
     .alias('k', 'i18nKey')
-    .describe('k', 'i18n key to move to global bundles (e.g. `ACCESS_DENIED`)')
+    .describe('k', 'i18n key to move to widget bundles (e.g. `UPLOADING_FILE`)')
 
     .demand('w')
     .alias('w', 'widgetDir')
     .describe('w', 'Absolute path to the widget root directory')
+
+    .demand('o')
+    .alias('o', 'otherWidgetDir')
+    .describe('o', 'Absolute path to the widget root directory to move the key to')
     .argv;
 
 var _ = require('underscore');
@@ -38,11 +42,13 @@ var i18nKey = argv.i18nKey;
 // Extract the widget root directory
 var widgetDir = argv.widgetDir;
 var widgetBundlesDir = widgetDir + '/bundles';
+var otherWidgetDir = argv.otherWidgetDir;
+var otherWidgetBundlesDir = otherWidgetDir + '/bundles';
 
 // Keep track of the i18n bundles for the widget
 var widgetBundles = {};
 
-// Keep track of the translations to move to the global bundles
+// Keep track of the translations to move to the other widget bundles
 var widgetI18n = {};
 
 /**
@@ -60,36 +66,36 @@ var sortKeys = function(a, b) {
 };
 
 /**
- * Add the key to the global bundles
+ * Add the key to the other widget bundles
  */
-var addKeysToGlobal = function() {
-    // For each key found we need to add it to the global bundle
+var addKeysToOtherWidget = function() {
+    // For each key found we need to add it to the widget bundle
     _.each(widgetI18n, function(key, bundlePath) {
-        // Read the global bundle
-        var globalBundle = fs.readFileSync(widgetDir + '../../../ui/bundles/' + bundlePath, 'utf-8');
+        // Read the widget bundle
+        var otherWidgetBundle = fs.readFileSync(otherWidgetBundlesDir + '/' + bundlePath, 'utf-8');
         // Split the file on new lines
-        globalBundle = globalBundle.split(/\n/g);
-        // Add the key to the global bundle
-        globalBundle.push(key);
+        otherWidgetBundle = otherWidgetBundle.split(/\n/g);
+        // Add the key to the widget bundle
+        otherWidgetBundle.push(key);
         // Sort the bundle
-        globalBundle.sort(sortKeys);
+        otherWidgetBundle.sort(sortKeys);
         // Remove empty lines
-        var newGlobalBundle = '';
-        _.each(globalBundle, function(key) {
+        var newWidgetBundle = '';
+        _.each(otherWidgetBundle, function(key) {
             if (key) {
-                newGlobalBundle += key + '\n';
+                newWidgetBundle += key + '\n';
             }
         });
         // Add an extra new line at the end of the file as Crowdin will also do this and we don't
         // want the diff
-        newGlobalBundle += '\n';
+        newWidgetBundle += '\n';
         // Write the bundle
-        fs.writeFileSync(widgetDir + '../../../ui/bundles/' + bundlePath, newGlobalBundle, 'utf-8');
+        fs.writeFileSync(otherWidgetBundlesDir + '/' + bundlePath, newWidgetBundle, 'utf-8');
     });
 };
 
 /**
- * Delete the key from the widget bundles as it will be moved to the global bundles
+ * Delete the key from the widget bundles
  */
 var deleteKeysFromWidget = function() {
     _.each(widgetBundles, function(bundle, bundlePath) {
@@ -110,7 +116,7 @@ var deleteKeysFromWidget = function() {
 };
 
 /**
- * Get the key to move to the global bundle from the widget bundles
+ * Get the key to move to the other widget bundle from the widget bundles
  */
 var getKeysToMove = function() {
     _.each(widgetBundles, function(bundle, bundlePath) {
@@ -126,7 +132,7 @@ var getKeysToMove = function() {
 };
 
 /**
- * Read all the available bundles for the provided widget and extract the keys to move to the global bundle
+ * Read all the available bundles for the provided widget and extract the keys to move to the other widget bundle
  */
 var readWidgetBundles = function() {
     var availableWidgetBundles = fs.readdirSync(widgetBundlesDir);
@@ -141,4 +147,4 @@ var readWidgetBundles = function() {
 readWidgetBundles();
 getKeysToMove();
 deleteKeysFromWidget();
-addKeysToGlobal();
+addKeysToOtherWidget();

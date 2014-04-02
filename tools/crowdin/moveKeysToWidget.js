@@ -15,11 +15,7 @@
 
 /**
  * Provided with a translation key and a widget path this script will extract all the keys
- * from the widget bundle and add them to the global bundles. The following steps are taken:
- *     - Read the available bundles for the widget
- *     - Cache the key and delete it from the bundles for the widget
- *     - For every key from the widget bundles add it to the global bundle
- *         - Only add it if it's not already there
+ * from the global bundles and add them to the widget bundles.
  */
 
 var argv = require('optimist')
