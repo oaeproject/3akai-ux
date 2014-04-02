@@ -73,14 +73,9 @@ before_install:
   - cd ../3akai-ux
   - ./tools/travis/checkHilaryStart.sh
 
-  # Create a test tenant
-  - ADMIN_COOKIE=$(curl -s --cookie-jar - -d"username=administrator" -d"password=administrator"  -e "/" http://admin.oae.com/api/auth/login | grep connect.sess | cut -f 7)
-  - curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d"alias=cam" -d"displayName=Cambridge" -d"host=cam.oae.com" http://admin.oae.com/api/tenant/create
-  - curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d"oae-principals/recaptcha/enabled=false" http://admin.oae.com/api/config
-
 addons:
   hosts:
-    - cam.oae.com
+    - test.oae.com
     - admin.oae.com
 
 services:
