@@ -23,13 +23,11 @@ require(['jquery','oae.core'], function($, oae) {
     // Variable used to cache the current page's base URL
     var baseUrl = '/me';
 
-    // Set the browser title
-    oae.api.util.setBrowserTitle(oae.data.me.displayName);
-
     // Structure that will be used to construct the left hand navigation actions
     var lhNavActions = [{
         'icon': 'icon-cloud-upload',
         'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
+        'closeNav': true,
         'class': 'oae-trigger-upload'
     },
     {
@@ -39,21 +37,25 @@ require(['jquery','oae.core'], function($, oae) {
             {
                 'icon': 'icon-group',
                 'title': oae.api.i18n.translate('__MSG__GROUP__'),
+                'closeNav': true,
                 'class': 'oae-trigger-creategroup'
             },
             {
                 'icon': 'icon-link',
                 'title': oae.api.i18n.translate('__MSG__LINK__'),
+                'closeNav': true,
                 'class': 'oae-trigger-createlink'
             },
             {
                 'icon': 'icon-edit',
                 'title': oae.api.i18n.translate('__MSG__DOCUMENT__'),
+                'closeNav': true,
                 'class': 'oae-trigger-createcollabdoc'
             },
             {
                 'icon': 'icon-comments',
                 'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
+                'closeNav': true,
                 'class': 'oae-trigger-creatediscussion'
             }
         ]
@@ -65,12 +67,13 @@ require(['jquery','oae.core'], function($, oae) {
             'id': 'dashboard',
             'title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
             'icon': 'icon-dashboard',
+            'closeNav': true,
             'layout': [
                 {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'activity',
+                            'name': 'activity',
                             'settings': {
                                 'context': oae.data.me,
                                 'canManage': true
@@ -84,12 +87,13 @@ require(['jquery','oae.core'], function($, oae) {
             'id': 'library',
             'title': oae.api.i18n.translate('__MSG__MY_LIBRARY__'),
             'icon': 'icon-briefcase',
+            'closeNav': true,
             'layout': [
                 {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'contentlibrary',
+                            'name': 'contentlibrary',
                             'settings': {
                                 'context': oae.data.me,
                                 'canManage': true
@@ -103,12 +107,13 @@ require(['jquery','oae.core'], function($, oae) {
             'id': 'discussions',
             'title': oae.api.i18n.translate('__MSG__MY_DISCUSSIONS__'),
             'icon': 'icon-comments',
+            'closeNav': true,
             'layout': [
                 {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'discussionslibrary',
+                            'name': 'discussionslibrary',
                             'settings': {
                                 'context': oae.data.me,
                                 'canManage': true
@@ -122,12 +127,13 @@ require(['jquery','oae.core'], function($, oae) {
             'id': 'groups',
             'title': oae.api.i18n.translate('__MSG__MY_GROUPS__'),
             'icon': 'icon-group',
+            'closeNav': true,
             'layout': [
                 {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'memberships',
+                            'name': 'memberships',
                             'settings': {
                                 'context': oae.data.me,
                                 'canManage': true
@@ -141,12 +147,13 @@ require(['jquery','oae.core'], function($, oae) {
             'id': 'network',
             'title': oae.api.i18n.translate('__MSG__MY_NETWORK__'),
             'icon': 'icon-random',
+            'closeNav': true,
             'layout': [
                 {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'network',
+                            'name': 'network',
                             'settings': {
                                 'context': oae.data.me,
                                 'canManage': true

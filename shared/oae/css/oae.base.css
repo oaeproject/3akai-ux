@@ -237,6 +237,7 @@ input[type="color"],
 .form-horizontal textarea + .help-block,
 .form-horizontal .uneditable-input + .help-block,
 .form-horizontal .input-group + .help-block {
+    margin-bottom: 0;
     margin-top: 3px;
 }
 
@@ -260,8 +261,16 @@ input[type="color"],
     color: #B94A48;
 }
 
+.has-error a:not(:hover) {
+    color: #A94442;
+}
+
 .radio, .checkbox {
     padding-left: 0;
+}
+
+select.form-control {
+    padding: 4px;
 }
 
 .radio input[type="radio"],
@@ -270,6 +279,53 @@ input[type="color"],
 .checkbox-inline input[type="checkbox"] {
     margin-left: 0;
     margin-right: 7px;
+}
+
+.form-horizontal .control-label,
+.form-horizontal .radio,
+.form-horizontal .checkbox,
+.form-horizontal .radio-inline,
+.form-horizontal .checkbox-inline {
+    margin-bottom: 3px;
+}
+
+/* JEDITABLE
+ * @see http://www.appelsiini.net/projects/jeditable */
+
+.modal .jeditable-field form {
+    margin: 0 0 0 -1px;
+}
+
+.modal .jeditable-field form input {
+    background: transparent;
+    border: none;
+    margin-top: -4px;
+    outline: none;
+    padding: 0;
+}
+
+.modal .jeditable-field form input::-ms-clear {
+    display: none;
+}
+
+/* Add an IE9 fallback for threedots */
+
+@media (min-width: 550px) {
+    .ie-lt10 .modal .jeditable-field {
+        max-width: 375px !important;
+    }
+}
+
+@media (min-width: 400px) and (max-width: 550px) {
+    .ie-lt10 .modal .jeditable-field {
+        max-width: 200px !important;
+    }
+}
+
+@media (max-width: 400px) {
+    .ie-lt10 .modal .jeditable-field {
+        max-width: 120px !important;
+    }
 }
 
 /* MODAL DIALOGS
@@ -291,19 +347,12 @@ input[type="color"],
 }
 
 .modal-dialog {
-    min-width: 300px;
+    min-width: 380px;
 }
 
-@media screen and (min-width: 768px) {
+@media (min-width: 992px) {
     .modal-dialog {
         padding-top: 60px;
-    }
-}
-
-@media only screen and (max-device-width : 1024px) {
-    .modal-dialog {
-        margin-top: 0;
-        padding-top: 30px;
     }
 }
 
@@ -349,10 +398,20 @@ input[type="color"],
     padding: 10px 25px 15px 15px;
 }
 
+.modal-footer button.btn-link {
+    float: left;
+}
+
+.modal-footer button.btn-danger,
+.modal-footer button.btn-primary {
+    float: right;
+}
+
 /* CLICKOVER DIALOGS
  * @see https://github.com/lecar-red/bootstrapx-clickover
  * @see http://twitter.github.io/bootstrap/javascript.html#popovers */
 
+/* Bootstrap applies a pretty small default max-width, make the default a bit wider */
 .popover {
     max-width: 500px;
 }
@@ -417,12 +476,12 @@ input[type="color"],
  * @see http://twitter.github.com/bootstrap/components.html#labels-badges */
 
 .badge {
-    font-weight: 600;
     -webkit-border-radius: 3px;
        -moz-border-radius: 3px;
             border-radius: 3px;
-    padding-left: 6px;
-    padding-right: 6px;
+    font-weight: 600;
+    line-height: 0.8;
+    padding: 5px 6px;
 }
 
 .label-important, .badge-important {
@@ -460,6 +519,10 @@ ul.as-selections li.as-original input:focus {
     width: 150px;
 }
 
+ul.as-selections li.as-original input::-ms-clear {
+    display: none;
+}
+
 ul.as-selections li.as-selection-item {
     -webkit-border-radius: 3px;
         -moz-border-radius: 3px;
@@ -495,7 +558,7 @@ ul.as-selections li.as-selection-item.as-fixed-item a.as-close {
 ul.as-selections li.as-selection-item.as-ghost-item {
     border: 1px dashed;
     cursor: pointer;
-    height: 38px;
+    height: 37px;
 }
 
 ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected {
@@ -524,13 +587,14 @@ ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected a.as-close
 /* Suggested list items */
 
 ul.as-list {
+    background-color: #FFF;
     color: inherit;
     font-family: inherit;
 }
 
 ul.as-list li.as-result-item {
     border: none;
-    padding: 6px 12px 3px;
+    padding: 6px 12px;
 }
 
 ul.as-list, ul.as-list li.as-result-item {
@@ -547,6 +611,7 @@ ul.as-list li.as-result-item em {
 }
 
 ul.as-list li.as-result-item .oae-listitem {
+    background-color: transparent;
     border: none;
     -webkit-box-shadow: none;
        -moz-box-shadow: none;
@@ -608,6 +673,13 @@ ul.as-list li.as-result-item.active {
     padding: 10px;
     min-height: 450px;
     clear: both;
+}
+
+@media (max-width: 480px) {
+    .oae-main-content {
+        padding-left: 0;
+        padding-right: 0;
+    }
 }
 
 @media (max-width: 991px) {

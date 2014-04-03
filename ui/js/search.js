@@ -15,9 +15,6 @@
 
 require(['jquery','oae.core', 'jquery.history'], function($, oae) {
 
-    // Set the browser title
-    oae.api.util.setBrowserTitle(oae.api.i18n.translate('__MSG__SEARCH__'));
-
     // Variable that will be used to keep track of the current
     // infinite scroll instance
     var infinityScroll = false;
@@ -34,6 +31,13 @@ require(['jquery','oae.core', 'jquery.history'], function($, oae) {
         // Get the current search query from the History.js data object
         var query = History.getState().data.query;
         $('.search-query').val(query);
+
+        // Set the browser title
+        var browserTitle = [oae.api.i18n.translate('__MSG__SEARCH__')];
+        if (query) {
+            browserTitle.push(query);
+        }
+        oae.api.util.setBrowserTitle(browserTitle);
 
         // Reset the type checkboxes to make sure that none of them stay checked incorrectly
         // when hitting the back and forward buttons

@@ -111,9 +111,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     /**
      * Change the browser title for a particular page. The browser's title has the following structure
      *
-     * Open Academic Environment - Document 1 [- Page 1]
+     * <Tenant name> - Document 1 [- Page 1]
      *
-     * Where the first part will be fixed.
+     * Where the first part will be the name of the current tenant
      *
      * @param  {String|String[]}     title       The new page title or an array of strings representing the fragments of the page title
      * @throws {Error}                           Error thrown when no page title has been provided
@@ -127,14 +127,16 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         if (_.isString(title)) {
             title = [title];
         }
+
+        var me = require('oae.core').data.me;
+
         // Render the page title with the following format
-        //   `Open Academic Environment - Fragment 1 - Fragment 2`
-        title.splice(0, 0, '__MSG__TITLE_PREFIX__');
+        //   <Tenant name> - Fragment 1 - Fragment 2`
+        title.splice(0, 0, me.tenant.displayName);
         document.title = require('oae.api.i18n').translate(title.join(' - '));
 
         // Re-apply the unread notifications favicon bubble for browsers that fall back
         // to showing the unread count in the browser title rather than the favicon
-        var me = require('oae.core').data.me;
         if (!me.anon) {
             favicon().setBubble(me.notificationsUnread);
         }
@@ -732,6 +734,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         // to the provided options
         options = options || {};
         var defaultOptions = {
+            'container': 'body',
             'global_close': true,
             'html': true,
             'placement': 'bottom',
@@ -783,9 +786,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         var defaultOptions = {
             'canGenerateNewSelections': false,
             'minChars': 2,
+            'neverSubmit': true,
             'retrieveLimit': 10,
             'url': '/api/search/general',
-            'scroll': 117,
+            'scroll': 190,
             'searchObjProps': 'id, displayName',
             'selectedItemProp': 'displayName',
             'selectedValuesProp': 'id'
@@ -1065,7 +1069,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                 }
 
                 // Add a label to the autosuggest input field for accessibility
-                $('.as-input', $list).before('<label class="oae-aural-text" for="' + $('.as-input', $list).attr('id') + '">' + options.startText + '</label>');
+                $('.as-input', $list).before('<label class="sr-only" for="' + $('.as-input', $list).attr('id') + '">' + options.startText + '</label>');
 
                 // Trigger the callback function
                 if (_.isFunction(callback)) {
@@ -1125,6 +1129,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                         selectedItems.push({
                             'id': id,
                             'displayName': selectionData.displayName,
+                            'profilePath': selectionData.profilePath,
                             'resourceType': selectionData.resourceType,
                             'thumbnailUrl': selectionData.thumbnailUrl,
                             'visibility': selectionData.visibility
@@ -1354,5 +1359,4 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
 
         return isHandheld;
     };
-
 });
