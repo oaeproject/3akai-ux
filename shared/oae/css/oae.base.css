@@ -237,6 +237,7 @@ input[type="color"],
 .form-horizontal textarea + .help-block,
 .form-horizontal .uneditable-input + .help-block,
 .form-horizontal .input-group + .help-block {
+    margin-bottom: 0;
     margin-top: 3px;
 }
 
@@ -260,6 +261,10 @@ input[type="color"],
     color: #B94A48;
 }
 
+.has-error a:not(:hover) {
+    color: #A94442;
+}
+
 .radio, .checkbox {
     padding-left: 0;
 }
@@ -276,6 +281,14 @@ select.form-control {
     margin-right: 7px;
 }
 
+.form-horizontal .control-label,
+.form-horizontal .radio,
+.form-horizontal .checkbox,
+.form-horizontal .radio-inline,
+.form-horizontal .checkbox-inline {
+    margin-bottom: 3px;
+}
+
 /* JEDITABLE
  * @see http://www.appelsiini.net/projects/jeditable */
 
@@ -289,6 +302,10 @@ select.form-control {
     margin-top: -4px;
     outline: none;
     padding: 0;
+}
+
+.modal .jeditable-field form input::-ms-clear {
+    display: none;
 }
 
 /* Add an IE9 fallback for threedots */
