@@ -1,7 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <title>__MSG__OAE__</title>
         <meta name="viewport" content="width=device-width">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -15,73 +14,11 @@
     </head>
     <body>
 
-        <div id="admin-header-container"><!-- --></div>
+        <div data-widget="header"><!-- --></div>
 
-        <main id="admin-content-container" role="main">
+        <main id="admin-content-container" class="oae-main-content" role="main">
             <div data-widget="lhnavigation"><!-- --></div>
-
-            <div id="admin-content" class="col-md-10">
-                <!-- Login -->
-                <div id="admin-login-container" class="hide">
-                    <h2>__MSG__SIGN_IN_TO_THE_OAE_ADMIN_PANEL__</h2>
-                    <div>
-                        <div id="admin-login" class="admin-login-container col-md-5">
-                            <form id="admin-login-form" form method="POST" class="form-horizontal" role="form">
-                                <div class="form-group">
-                                    <label for="admin-login-form-username" class="control-label">__MSG__USERNAME__</label>
-                                    <input type="text" id="admin-login-form-username" name="username" class="form-control required"/>
-                                </div>
-                                <div class="form-group">
-                                    <label for="admin-login-form-password" class="control-label">__MSG__PASSWORD__</label>
-                                    <input type="password" id="admin-login-form-password" name="password" class="form-control required"/>
-                                </div>
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-primary">__MSG__SIGN_IN__</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </main>
-
-        <div id="admin-footer-container"><!-- --></div>
-
-        <div id="admin-header-template"><!--
-            <div class="row">
-                <div class="col-md-12" id="admin-header-content">
-                    {if !oae.data.me.anon}
-                        <div id="admin-header-user" class="pull-right">
-                            <button type="button" class="btn btn-inverse" id="admin-header-user-logout">Log out</button>
-                        </div>
-                    {/if}
-                    {if context.isGlobalAdminServer}
-                        <h1>Global administration UI</h1>
-                    {else}
-                        <h1>${context.displayName|encodeForHTML}</h1>
-                    {/if}
-                </div>
-            </div>
-        --></div>
-
-        <div id="admin-footer-template"><!--
-            <div class="row col-md-12" id="admin-footer-content">
-                {if !oae.data.me.anon && (context.isGlobalAdminServer || context.isTenantOnGlobalAdminServer)}
-                    <ul class="list-inline">
-                        <li>
-                            <a href="/">Global administration</a>
-                        </li>
-                        {for tenant in tenants}
-                            {if tenant.alias}
-                                <li>
-                                    <a href="/tenant/${tenant.alias|encodeForURL}">${tenant.displayName|encodeForHTML}</a>
-                                </li>
-                            {/if}
-                        {/for}
-                    </ul>
-                {/if}
-            </div>
-        --></div>
 
         <!-- Hidden form that will be submitted for logging a global admin onto a tenant.
              This is done through a hidden form as this will be a cross-domain request -->

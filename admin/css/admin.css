@@ -17,39 +17,6 @@ body {
     padding: 0;
 }
 
-#admin-header-container {
-    padding: 0 30px;
-}
-
-/************
- ** HEADER **
- ************/
-
-#admin-header-container {
-    background-color: #FFF;
-}
-
-#admin-header-container #admin-header-content {
-    background: url('/shared/oae/img/oae-logo.png') no-repeat 15px center transparent;
-    background-size: 60px;
-    min-height: 70px;
-}
-
-#admin-header-container #admin-header-user {
-    margin: 20px 0 20px;
-}
-
-#admin-header-container #admin-header-user #admin-header-user-logout {
-    margin-left: 12px;
-}
-
-#admin-header-container h1 {
-    font-size: 22px;
-    font-weight: normal;
-    margin: 0;
-    padding: 18px 0 18px 80px;
-}
-
 
 /*************
  ** CONTENT **
@@ -57,17 +24,6 @@ body {
 
 #admin-content {
     margin-bottom: 100px;
-}
-
-#admin-content-container {
-    margin-right: 15px;
-    padding-top: 20px;
-    padding-bottom: 120px;
-}
-
-/* Allow the content to overflow the body when navigation is expanded on smaller viewports */
-#admin-content-container > div:first-child {
-    overflow: hidden;
 }
 
 .admin-container-striped form {
@@ -111,43 +67,28 @@ body {
 }
 
 
-/************
- ** FOOTER **
- ************/
-
-#admin-footer-container {
-    background: #3B3B3B;
-    bottom: 0;
-    padding: 0 30px;
-    position: fixed;
-    width: 100%;
-}
-
-#admin-footer-content {
-    background: url("/shared/oae/img/oae-logo-white.png") no-repeat scroll 15px center transparent;
-    background-size: 70px;
-    min-height: 80px;
-}
-
-#admin-footer-container ul {
-    margin: 30px 0 30px 50px;
-}
-
-#admin-footer-container ul li {
-    margin-left: 50px;
-    padding: 0;
-}
-
-#admin-footer-container ul,
-#admin-footer-container ul li a {
-    color: #EEE;
-}
-
-
 /***************
  ** OVERRIDES **
  ***************/
 
+.oae-main-content#admin-content-container {
+    background-color: transparent;
+    -webkit-box-shadow: none;
+       -moz-box-shadow: none;
+            box-shadow: none;
+}
+
 .oae-page {
     background-color: #ECEAE5;
+}
+
+/* The anonymous administration page shouldn't have a left hand navigation when wider than 992 pixels */
+@media (min-width: 992px) {
+    .anon .oae-lhnavigation {
+        display: none;
+    }
+
+    .anon .oae-page {
+        margin-left: 25px;
+    }
 }

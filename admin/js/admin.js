@@ -34,70 +34,92 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
      */
     var initializeNavigation = function() {
         // Structure that will be used to construct the left hand navigation pages
-        var lhNavPages = [
-            {
-                'id': 'tenants',
-                'icon': 'icon-dashboard',
-                'title': oae.api.i18n.translate('__MSG__TENANTS__'),
-                'layout': [
-                    {
-                        'width': 'col-md-12',
-                        'widgets': [
-                            {
-                                'name': 'tenants',
-                                'settings': {
-                                    'context': currentContext,
-                                    'tenants': allTenants
+        var lhNavPages = null;
+        if (!oae.data.me.anon) {
+            lhNavPages = [
+                {
+                    'id': 'tenants',
+                    'icon': 'icon-dashboard',
+                    'closeNav': true,
+                    'title': oae.api.i18n.translate('__MSG__TENANTS__'),
+                    'layout': [
+                        {
+                            'width': 'col-md-12',
+                            'widgets': [
+                                {
+                                    'name': 'tenants',
+                                    'settings': {
+                                        'context': currentContext,
+                                        'tenants': allTenants
+                                    }
                                 }
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                'id': 'modules',
-                'icon': 'icon-cogs',
-                'title': oae.api.i18n.translate('__MSG__MODULES__'),
-                'layout': [
-                    {
-                        'width': 'col-md-12',
-                        'widgets': [
-                            {
-                                'name': 'modules',
-                                'settings': {
-                                    'configuration': configuration,
-                                    'configurationSchema': configurationSchema,
-                                    'context': currentContext,
-                                    'tenants': allTenants
+                            ]
+                        }
+                    ]
+                },
+                {
+                    'id': 'modules',
+                    'icon': 'icon-cogs',
+                    'closeNav': true,
+                    'title': oae.api.i18n.translate('__MSG__MODULES__'),
+                    'layout': [
+                        {
+                            'width': 'col-md-12',
+                            'widgets': [
+                                {
+                                    'name': 'modules',
+                                    'settings': {
+                                        'configuration': configuration,
+                                        'configurationSchema': configurationSchema,
+                                        'context': currentContext,
+                                        'tenants': allTenants
+                                    }
                                 }
-                            }
-                        ]
-                    }
-                ]
-            }
-        ];
+                            ]
+                        }
+                    ]
+                }
+            ];
 
-        if (!currentContext.isGlobalAdminServer) {
-            lhNavPages.push({
-                'id': 'skinning',
-                'icon': 'icon-tint',
-                'title': oae.api.i18n.translate('__MSG__SKINNING__'),
+            if (!currentContext.isGlobalAdminServer) {
+                lhNavPages.push({
+                    'id': 'skinning',
+                    'icon': 'icon-tint',
+                    'closeNav': true,
+                    'title': oae.api.i18n.translate('__MSG__SKINNING__'),
+                    'layout': [
+                        {
+                            'width': 'col-md-12',
+                            'widgets': [
+                                {
+                                    'name': 'skinning',
+                                    'settings': {
+                                        'configuration': configuration,
+                                        'context': currentContext,
+                                        'tenants': allTenants
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                });
+            }
+        } else {
+            lhNavPages = [{
+                'id': 'login',
+                'class': 'hide',
+                'title': oae.api.i18n.translate('__MSG__SIGN_IN__'),
                 'layout': [
                     {
                         'width': 'col-md-12',
                         'widgets': [
                             {
-                                'name': 'skinning',
-                                'settings': {
-                                    'configuration': configuration,
-                                    'context': currentContext,
-                                    'tenants': allTenants
-                                }
+                                'name': 'login'
                             }
                         ]
                     }
                 ]
-            });
+            }];
         }
 
         var baseURL = '/';
@@ -108,43 +130,6 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
         $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, null, baseURL]);
         $(window).on('oae.ready.lhnavigation', function() {
             $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, null, baseURL]);
-        });
-    };
-
-
-    //////////////////////
-    // LOGIN AND LOGOUT //
-    //////////////////////
-
-    /**
-     * Show the login form and set up the login validation
-     */
-    var setUpLogin = function() {
-        $('#admin-login-container').show();
-        oae.api.util.validation().validate($('#admin-login-form'), {'submitHandler': login});
-    };
-
-    /**
-     * Set up the log in handler
-     */
-    var login = function() {
-        oae.api.authentication.localLogin($('#admin-login-form-username').val(), $('#admin-login-form-password').val(), function(err) {
-            if (err) {
-                // Show the error message
-                oae.api.util.notification('Login failed.', 'Invalid username or password.', 'error');
-            } else {
-                window.location.reload(true);
-            }
-        });
-        return false;
-    };
-
-    /**
-     * Set up the log out button
-     */
-    var logout = function() {
-        oae.api.authentication.logout(function() {
-            window.location.reload(true);
         });
     };
 
@@ -176,6 +161,10 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
      * @param  {Function}    callback        Standard callback function
      */
     var loadConfiguration = function(callback) {
+        if (oae.data.me.anon) {
+            return callback();
+        }
+
         // Get the config schema
         $.ajax({
             'url': '/api/config/schema',
@@ -244,28 +233,31 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
     };
 
     /**
-     * Initializes the header and set the document title
+     * The `oae.context.get` or `oae.context.get.<widgetname>` event can be sent by widgets
+     * to get hold of the current context (i.e. content profile). In the first case, a
+     * `oae.context.send` event will be sent out as a broadcast to all widgets listening
+     * for the context event. In the second case, a `oae.context.send.<widgetname>` event
+     * will be sent out and will only be caught by that particular widget. In case the widget
+     * has put in its context request before the profile was loaded, we also broadcast it out straight away.
      */
-    var initializeHeader = function() {
-        oae.api.util.template().render($('#admin-header-template'), {'context': currentContext}, $('#admin-header-container'));
-
-        // Set the page title
-        if (currentContext.isGlobalAdminServer) {
-            oae.api.util.setBrowserTitle('Global Administration');
-        } else {
-            oae.api.util.setBrowserTitle('Tenant Administration');
-        }
-    };
-
-    /**
-     * Initializes the footer and render the available tenants in the footer
-     */
-    var initializeFooter = function() {
-        // Render the footer
-        oae.api.util.template().render($('#admin-footer-template'), {
-            'context': currentContext,
-            'tenants': allTenants
-        }, $('#admin-footer-container'));
+    var setUpContext = function() {
+        $(document).on('oae.context.get', function(ev, widgetId) {
+            if (widgetId) {
+                $(document).trigger('oae.context.send.' + widgetId, {
+                    'currentContext': currentContext,
+                    'allTenants': allTenants
+                });
+            } else {
+                $(document).trigger('oae.context.send', {
+                    'currentContext': currentContext,
+                    'allTenants': allTenants
+                });
+            }
+        });
+        $(document).trigger('oae.context.send', {
+            'currentContext': currentContext,
+            'allTenants': allTenants
+        });
     };
 
     /**
@@ -280,21 +272,14 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
 
         // Determine the tenant for which we want to see the admin UI
         getCurrentContext(function() {
-            // Render the header and the footer
-            initializeHeader();
-            initializeFooter();
+            // set up the context event
+            setUpContext();
 
-            if (oae.data.me.anon) {
-                setUpLogin();
-            } else {
-                // We're logged in, bind the logout handler
-                $(document).on('click', '#admin-header-user-logout', logout);
-                // Load the configuration and configuration schema
-                loadConfiguration(function() {
-                    // Initialize left hand navigation
-                    initializeNavigation();
-                });
-            }
+            // Load the configuration and configuration schema
+            loadConfiguration(function() {
+                // Initialize left hand navigation
+                initializeNavigation();
+            });
         });
     };
 
