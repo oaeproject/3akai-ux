@@ -14,11 +14,15 @@
  */
 
 /**
- * Sort the i18n keys alphabetically for all bundles in a provided directory
+ * Delete the provided i18n key from all bundles in a provided directory
  */
 
 var argv = require('optimist')
-    .usage('Usage: $0 -b <bundlesDir>')
+    .usage('Usage: $0 -k <i18nKey> -b <bundlesDir>')
+
+    .demand('k')
+    .alias('k', 'i18nKey')
+    .describe('k', 'i18n key to delete from the bundles (e.g. `UPLOADING_FILE`)')
 
     .demand('b')
     .alias('b', 'bundlesDir')
@@ -27,11 +31,14 @@ var argv = require('optimist')
 
 var util = require('./util');
 
+// Extract the i18nKey from the provided command line parameter
+var i18nKey = argv.i18nKey;
+
 // Extract the bundles directory
 var bundlesDir = argv.bundlesDir;
 
 util.readBundles(bundlesDir, function(err, bundles) {
-    util.sortBundles(bundles, function(err, bundles) {
-        util.writeBundles(bundles, bundlesDir, function(err, bundles) {});
+    util.deleteKeyFromBundles(bundles, i18nKey, function(err, bundles) {
+        util.writeBundles(bundles, bundlesDir, function(err) {});
     });
 });
