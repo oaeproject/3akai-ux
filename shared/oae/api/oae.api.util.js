@@ -189,7 +189,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          */
         var init = function(callback) {
             // Load the activity summary and lists macros through the RequireJS Text plugin
-            require(['text!/shared/oae/macros/activity.html', 'text!/shared/oae/macros/list.html'], function(listMacro, activityMacro) {
+            require(['text!/shared/oae/macros/list.html'], function(listMacro, activityMacro) {
                 // Translate and cache the macros. We require the i18n API here to avoid creating
                 // a cyclic dependency
                 var i18nAPI = require('oae.api.i18n');
