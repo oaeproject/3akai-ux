@@ -47,7 +47,7 @@ body {
     font-size: 22px;
     font-weight: normal;
     margin: 0;
-    padding: 18px 0 0 80px;
+    padding: 18px 0 18px 80px;
 }
 
 
@@ -60,16 +60,14 @@ body {
 }
 
 #admin-content-container {
+    margin-right: 15px;
     padding-top: 20px;
     padding-bottom: 120px;
 }
 
-#admin-content h2 {
-    font-size: 25px;
-    color: #0088CC;
-    font-weight: normal;
-    margin-top: 0px;
-    margin-bottom: 20px;
+/* Allow the content to overflow the body when navigation is expanded on smaller viewports */
+#admin-content-container > div:first-child {
+    overflow: hidden;
 }
 
 .admin-container-striped form {
@@ -77,16 +75,6 @@ body {
 }
 
 /* Tenant list */
-
-.table-striped td.admin-tenants-visit {
-    width: 20px;
-}
-
-.table-striped td.admin-tenants-visit i {
-    font-size: 18px;
-    position: relative;
-    top: 2px;
-}
 
 .table-striped tbody tr:nth-child(2n+1) td,
 .table-striped tbody tr:nth-child(2n+1) th,
@@ -110,55 +98,7 @@ body {
     vertical-align: middle;
 }
 
-td.jeditable-container {
-    word-wrap: break-word;
-}
-
-td.jeditable-container:hover {
-    cursor: pointer;
-    color: #666;
-    background: #3B3B3B !important; /* Old browsers */
-    background: -moz-linear-gradient(top, #DDD 0%, #CCC 100%) !important; /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#DDD), color-stop(100%,#CCC)) !important; /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #DDD 0%,#CCC 100%) !important; /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #DDD 0%,#CCC 100%) !important; /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #DDD 0%,#CCC 100%) !important; /* IE10+ */
-    background: linear-gradient(to bottom, #DDD 0%,#CCC 100%) !important; /* W3C */
-}
-
-td.jeditable-container form input {
-    height: 25px !important;
-}
-
-td form {
-    margin: 0;
-}
-
 /* Module configuration */
-
-.admin-module-configuration-container {
-    margin: 0;
-}
-
-.admin-module-configuration-container form {
-    margin: 0 0 20px;
-}
-
-.admin-module-configuration-container .admin-module-configuration-toggle-button i {
-    float:left;
-    margin-right:12px;
-}
-
-.admin-module-configuration-container h4 {
-    margin-top: 20px;
-    margin-bottom: 7px;
-}
-
-.admin-module-configuration-container h4 span,
-.admin-module-configuration-container label span {
-    font-size: 14px;
-    font-weight: normal;
-}
 
 .admin-container-striped > div:nth-child(2n+1),
 .admin-container-striped > div:nth-child(2n+2) {
@@ -170,40 +110,6 @@ td form {
     margin-left: 0;
 }
 
-/* Skinning configuration */
-
-#admin-skinning-container h3 {
-    font-size: 16px;
-}
-
-#admin-skinning-container h4 {
-    font-size: 14px;
-    margin-left: 20px;
-    margin-top: 20px;
-}
-
-#admin-skinning-container #admin-skinning-actions {
-    margin-top: 30px;
-}
-
-#admin-skinning-form .form-group {
-    margin: 0;
-}
-
-/* Override bootstrap box sizing for the spectrum plugin
-   @see https://github.com/bgrins/spectrum/issues/175 */
-
-.sp-container *,
-.sp-container *:after,
-.sp-container *:before {
-    -webkit-box-sizing: content-box;
-       -moz-box-sizing: content-box;
-            box-sizing: content-box;
-}
-
-.sp-input-container .sp-input {
-    background-color: #FFF;
-}
 
 /************
  ** FOOTER **
@@ -211,7 +117,6 @@ td form {
 
 #admin-footer-container {
     background: #3B3B3B;
-    min-width: 1100px;
     bottom: 0;
     padding: 0 30px;
     position: fixed;
@@ -225,13 +130,24 @@ td form {
 }
 
 #admin-footer-container ul {
-    margin: 30px 0 0 50px;
+    margin: 30px 0 30px 50px;
 }
 
 #admin-footer-container ul li {
-   margin-left: 50px;
+    margin-left: 50px;
+    padding: 0;
 }
 
-#admin-footer-container ul, #admin-footer-container ul li a {
+#admin-footer-container ul,
+#admin-footer-container ul li a {
     color: #EEE;
+}
+
+
+/***************
+ ** OVERRIDES **
+ ***************/
+
+.oae-page {
+    background-color: #ECEAE5;
 }

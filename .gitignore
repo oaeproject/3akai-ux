@@ -12,6 +12,7 @@ nginx/nginx.*
 
 node_modules/*
 !node_modules/oae-core
+!node_modules/oae-admin
 
 target/
 
