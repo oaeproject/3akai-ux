@@ -341,7 +341,8 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 '/ui/index.html': null,
                 '/ui/me.html': null,
                 '/ui/search.html': null,
-                '/ui/user.html': null
+                '/ui/user.html': null,
+                '/admin/index.html': null
             },
             'apiJS': {
                 '/shared/oae/api/oae.api.authentication.js': null,
