@@ -17,6 +17,11 @@
     margin-top: 2%;
 }
 
+#error-content {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
 #error-content .row {
     margin: 100px auto;
     max-width: 900px;

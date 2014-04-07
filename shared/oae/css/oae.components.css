@@ -761,7 +761,7 @@ div.oae-thumbnail i[class^="icon-"] {
  * @see `lhnavigation` widget for documentation on how to initialize a left hand navigation using JavaScript.
  *
  * e.g. <div class="oae-lhnavigation">
- *          <ul class="nav nav-list hidden-xs hidden-sm">
+ *          <ul class="nav nav-list">
  *              <li class="clearfix oae-lhnavigation-border">
  *                  <button type="button" class="btn btn-link" title="__MSG__UPLOAD__">
  *                      <i class="icon-cloud-upload pull-left"></i>
@@ -828,7 +828,7 @@ div.oae-thumbnail i[class^="icon-"] {
     margin-top: -5px;
     position: absolute;
     width: 210px;
-    z-index: 99;
+    z-index: 1;
 }
 
 .oae-lhnavigation > ul.nav {
@@ -842,6 +842,10 @@ div.oae-thumbnail i[class^="icon-"] {
 
 .oae-lhnavigation > ul.nav > li.nav-header {
     margin-top: 10px;
+}
+
+.oae-lhnavigation > ul.nav > li a {
+    padding: 0 12px 8px;
 }
 
 .oae-lhnavigation > ul.nav > li button {
@@ -864,10 +868,6 @@ div.oae-thumbnail i[class^="icon-"] {
     border-bottom-width: 1px;
 }
 
-.oae-lhnavigation > ul.nav > li a {
-    padding: 0 12px 8px;
-}
-
 /* Left hand navigation toggle */
 
 .oae-lhnavigation > ul.nav > li button div.lhnavigation-caret-container {
@@ -880,8 +880,9 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .oae-lhnavigation-toggle {
-    padding: 3px 12px 4px 0;
+    padding: 20px 12px 4px 20px;
     position: relative;
+    margin: -17px 0 0 -20px;
     top: 6px;
     z-index: 100;
 }
@@ -889,26 +890,42 @@ div.oae-thumbnail i[class^="icon-"] {
 /* Page content */
 
 .oae-page {
+    background-color: #FFF;
+    margin-left: 225px;
+    min-height: 500px;
     min-width: 275px;
-    padding: 5px 25px;
+    padding: 5px 25px 5px 0;
+    position: relative;
+    z-index: 2;
 }
 
 .oae-lhnavigation.oae-lhnav-expanded + .oae-page {
     min-width: 480px;
-    padding: 5px 25px 5px 225px;
 }
 
-@media (min-width: 992px) {
+/* Left-hand navigation collapsed view */
+@media (max-width: 991px) {
     .oae-page {
-        padding: 5px 25px 5px 225px !important;
+        margin-left: 0;
+        padding-left: 25px;
+        -webkit-transform: translate(0, 0);
+           -moz-transform: translate(0, 0);
+            -ms-transform: translate(0, 0);
+                transform: translate(0, 0);
+        -webkit-transition: -webkit-transform 250ms ease-in-out;
+           -moz-transition: -moz-transform 250ms ease-in-out;
+            -ms-transition: -ms-transform 250ms ease-in-out;
+                transition: transform 250ms ease-in-out;
     }
 
-    .oae-lhnavigation {
-        opacity: 1 !important;
-        width: 210px !important;
+    .oae-lhnavigation.oae-lhnav-expanded + .oae-page {
+        min-width: 480px;
+        -webkit-transform: translate(225px, 0);
+           -moz-transform: translate(225px, 0);
+            -ms-transform: translate(225px, 0);
+                transform: translate(225px, 0);
     }
 }
-
 
 /***********
  ** TILES **
