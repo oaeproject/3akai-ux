@@ -90,7 +90,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         // Add the follow button if the user can be followed
         if (userProfile.following && userProfile.following.canFollow) {
             lhNavActions.push({
-                'icon': 'icon-bookmark',
+                'icon': 'fa fa-bookmark',
                 'title': oae.api.i18n.translate('__MSG__FOLLOW__'),
                 'class': 'user-follow'
             });
@@ -102,7 +102,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         lhNavPages.push({
             'id': 'library',
             'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
-            'icon': 'icon-briefcase',
+            'icon': 'fa fa-briefcase',
             'closeNav': true,
             'layout': [
                 {
@@ -121,7 +121,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         {
             'id': 'discussions',
             'title': oae.api.i18n.translate('__MSG__DISCUSSIONS__'),
-            'icon': 'icon-comments',
+            'icon': 'fa fa-comments',
             'closeNav': true,
             'layout': [
                 {
@@ -140,7 +140,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         {
             'id': 'groups',
             'title': oae.api.i18n.translate('__MSG__GROUPS__'),
-            'icon': 'icon-group',
+            'icon': 'fa fa-users',
             'closeNav': true,
             'layout': [
                 {
@@ -159,7 +159,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         {
             'id': 'network',
             'title': oae.api.i18n.translate('__MSG__NETWORK__'),
-            'icon': 'icon-random',
+            'icon': 'fa fa-random',
             'closeNav': true,
             'layout': [
                 {

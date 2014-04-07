@@ -25,35 +25,35 @@ require(['jquery','oae.core'], function($, oae) {
 
     // Structure that will be used to construct the left hand navigation actions
     var lhNavActions = [{
-        'icon': 'icon-cloud-upload',
+        'icon': 'fa fa-cloud-upload',
         'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
         'closeNav': true,
         'class': 'oae-trigger-upload'
     },
     {
-        'icon': 'icon-plus-sign',
+        'icon': 'fa fa-plus-circle',
         'title': oae.api.i18n.translate('__MSG__CREATE__'),
         'children': [
             {
-                'icon': 'icon-group',
+                'icon': 'fa fa-users',
                 'title': oae.api.i18n.translate('__MSG__GROUP__'),
                 'closeNav': true,
                 'class': 'oae-trigger-creategroup'
             },
             {
-                'icon': 'icon-link',
+                'icon': 'fa fa-link',
                 'title': oae.api.i18n.translate('__MSG__LINK__'),
                 'closeNav': true,
                 'class': 'oae-trigger-createlink'
             },
             {
-                'icon': 'icon-edit',
+                'icon': 'fa fa-pencil-square-o',
                 'title': oae.api.i18n.translate('__MSG__DOCUMENT__'),
                 'closeNav': true,
                 'class': 'oae-trigger-createcollabdoc'
             },
             {
-                'icon': 'icon-comments',
+                'icon': 'fa fa-comments',
                 'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
                 'closeNav': true,
                 'class': 'oae-trigger-creatediscussion'
@@ -66,7 +66,7 @@ require(['jquery','oae.core'], function($, oae) {
         {
             'id': 'dashboard',
             'title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
-            'icon': 'icon-dashboard',
+            'icon': 'fa fa-tachometer',
             'closeNav': true,
             'layout': [
                 {
@@ -86,7 +86,7 @@ require(['jquery','oae.core'], function($, oae) {
         {
             'id': 'library',
             'title': oae.api.i18n.translate('__MSG__MY_LIBRARY__'),
-            'icon': 'icon-briefcase',
+            'icon': 'fa fa-briefcase',
             'closeNav': true,
             'layout': [
                 {
@@ -106,7 +106,7 @@ require(['jquery','oae.core'], function($, oae) {
         {
             'id': 'discussions',
             'title': oae.api.i18n.translate('__MSG__MY_DISCUSSIONS__'),
-            'icon': 'icon-comments',
+            'icon': 'fa fa-comments',
             'closeNav': true,
             'layout': [
                 {
@@ -126,7 +126,7 @@ require(['jquery','oae.core'], function($, oae) {
         {
             'id': 'groups',
             'title': oae.api.i18n.translate('__MSG__MY_GROUPS__'),
-            'icon': 'icon-group',
+            'icon': 'fa fa-users',
             'closeNav': true,
             'layout': [
                 {
@@ -146,7 +146,7 @@ require(['jquery','oae.core'], function($, oae) {
         {
             'id': 'network',
             'title': oae.api.i18n.translate('__MSG__MY_NETWORK__'),
-            'icon': 'icon-random',
+            'icon': 'fa fa-random',
             'closeNav': true,
             'layout': [
                 {
