@@ -48,7 +48,7 @@
                             <div>
                                 <ul>
                                     {if !oae.data.me.anon && discussion.canShare}
-                                        <li><button class="oae-trigger-share"><i class="icon-share"></i>__MSG__SHARE__</button></li>
+                                        <li><button class="oae-trigger-share" data-id="${discussion.id}" data-resourceType="${discussion.resourceType}"><i class="icon-share"></i>__MSG__SHARE__</button></li>
                                     {/if}
                                     {if discussion.isManager}
                                         <li><button class="discussion-trigger-manageaccess"><i class="icon-lock"></i>__MSG__MANAGE_ACCESS__</button></li>

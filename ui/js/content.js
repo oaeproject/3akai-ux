@@ -303,10 +303,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         return {
             'contextProfile': contentProfile,
             'messages': getManageAccessMessages(),
-            'roles': {
-                'viewer': oae.api.i18n.translate('__MSG__CAN_VIEW__'),
-                'manager': oae.api.i18n.translate('__MSG__CAN_MANAGE__')
-            },
+            'roles': getContentRoles(),
             'api': {
                 'getMembersURL': '/api/content/'+ contentProfile.id + '/members',
                 'setMembers': oae.api.content.updateMembers,
@@ -314,6 +311,25 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             }
         };
     };
+
+    /**
+     * Get the roles members can have on the content
+     *
+     * @return {Object}     Describes the roles a member of the content item can have
+     */
+    var getContentRoles = function() {
+        return {
+            'viewer': oae.api.i18n.translate('__MSG__CAN_VIEW__'),
+            'manager': oae.api.i18n.translate('__MSG__CAN_MANAGE__')
+        };
+    };
+
+    /**
+     * Get the available roles for the content
+     */
+    $(document).on('oae.context.getroles', function(ev, widgetId) {
+        $(document).trigger('oae.context.sendroles.' + widgetId, getContentRoles());
+    });
 
     /**
      * Triggers the manageaccess widget and passes in context data

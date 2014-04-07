@@ -49,7 +49,7 @@
                                     {if !oae.data.me.anon}
                                         <li><a href="${content.downloadPath}"><i class="icon-download"></i>__MSG__DOWNLOAD__</a></li>
                                         {if content.canShare}
-                                            <li><button class="oae-trigger-share"><i class="icon-share"></i>__MSG__SHARE__</button></li>
+                                            <li><button class="oae-trigger-share" data-id="${content.id}" data-resourceType="${content.resourceType}" data-resourceSubType="${content.resourceSubType}"><i class="icon-share"></i>__MSG__SHARE__</button></li>
                                         {/if}
                                     {/if}
                                     {if content.isManager}

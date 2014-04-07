@@ -204,10 +204,7 @@ require(['jquery','oae.core'], function($, oae) {
                 'loggedinDescription': oae.api.i18n.translate('__MSG__DISCUSSION_LOGGEDIN_DESCRIPTION__', null, {'tenant': oae.api.util.security().encodeForHTML(discussionProfile.tenant.displayName)}),
                 'publicDescription': oae.api.i18n.translate('__MSG__DISCUSSION_PUBLIC_DESCRIPTION__')
             },
-            'roles': {
-                'member': oae.api.i18n.translate('__MSG__CAN_VIEW__'),
-                'manager': oae.api.i18n.translate('__MSG__CAN_MANAGE__')
-            },
+            'roles': getDiscussionRoles(),
             'api': {
                 'getMembersURL': '/api/discussion/'+ discussionProfile.id + '/members',
                 'setMembers': oae.api.discussion.updateMembers,
@@ -215,6 +212,25 @@ require(['jquery','oae.core'], function($, oae) {
             }
         };
     };
+
+    /**
+     * Get the roles members can have on the discussion
+     *
+     * @return {Object}     Describes the roles a member of the discussion item can have
+     */
+    var getDiscussionRoles = function() {
+        return {
+            'member': oae.api.i18n.translate('__MSG__CAN_VIEW__'),
+            'manager': oae.api.i18n.translate('__MSG__CAN_MANAGE__')
+        };
+    };
+
+    /**
+     * Get the available roles for the discussion
+     */
+    $(document).on('oae.context.getroles', function(ev, widgetId) {
+        $(document).trigger('oae.context.sendroles.' + widgetId, getDiscussionRoles());
+    });
 
     /**
      * Triggers the manageaccess widget and passes in context data
