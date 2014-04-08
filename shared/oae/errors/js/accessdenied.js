@@ -37,11 +37,15 @@ require(['jquery','oae.core'], function($, oae) {
             'redirectUrl': redirectUrl
         }, $('#error-signin-container'));
 
-        // Trigger the sign in dropdown when the user clicks the sign in dropdown trigger
-        $(document).on('click', '#error-signin-dropdown', function(ev) {
-            $('#topnavigation-signin').click();
-            return false;
-        });
+        // When local authentication, any external non-institutional authentication strategies (`facebook`, `google`, `twitter`)
+        // or more than 1 external institutional authentication strategies are enabled, the sign in dropdown in the top navigation
+        // widget should be opened when clicking the `Sign In` button
+        if (!singleInstitutionalAuth) {
+            $(document).on('click', '#error-signin-dropdown', function() {
+                $('#topnavigation-signin').click();
+                return false;
+            });
+        }
     }
 
 });
