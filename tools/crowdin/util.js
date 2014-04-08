@@ -49,7 +49,7 @@ var readBundles = exports.readBundles = function(bundlesDir, callback) {
 /**
  * Write bundles to a given directory
  *
- * @param  {Object}      bundles          Object containing bundles
+ * @param  {Object}      bundles          Object containing bundles in the form of {'Bundle 1 name': 'stringified bundle 1', 'Bundle 2 name': 'stringified bundle 2'}
  * @param  {String}      path             The path to write the bundles to
  * @param  {Function}    callback         Standard callback function
  * @param  {Object}      callback.err     Error object containing error code and message
@@ -73,7 +73,7 @@ var writeBundles = exports.writeBundles = function(bundles, path, callback) {
 /**
  * Get the translations for a specific key in a given bundles object
  *
- * @param  {Object}      bundles                     Object containing bundles
+ * @param  {Object}      bundles                     Object containing bundles in the form of {'Bundle 1 name': 'stringified bundle 1', 'Bundle 2 name': 'stringified bundle 2'}
  * @param  {String}      key                         The key to retrieve for every language bundle
  * @param  {Function}    callback                    Standard callback function
  * @param  {Object}      callback.i18nEntries        Object containing the key and translation for every language it's available in. Returns in the form {'Bundle 1 name': 'key=translation', 'Bundle 2 name': 'key=translation'}
@@ -96,7 +96,7 @@ var getKeyFromBundles = exports.getKeyFromBundles = function(bundles, key, callb
 /**
  * Add the translations for a specific key to the provided bundles
  *
- * @param  {Object}      bundles             Object containing bundles
+ * @param  {Object}      bundles             Object containing bundles in the form of {'Bundle 1 name': 'stringified bundle 1', 'Bundle 2 name': 'stringified bundle 2'}
  * @param  {Object}      i18nEntries         Object containing the key and translation for every language it's available in
  * @param  {Function}    callback            Standard callback function
  * @param  {Object}      callback.bundles    Object containing the bundles where the given key is added to. Returns in the form of {'Bundle 1 name': 'stringified bundle 1', 'Bundle 2 name': 'stringified bundle 2'}
@@ -135,7 +135,7 @@ var addKeyToBundles = exports.addKeyToBundles = function(bundles, i18nEntries, c
 /**
  * Delete a given key from the provided bundles
  *
- * @param  {Object}      bundles             Object containing bundles
+ * @param  {Object}      bundles             Object containing bundles in the form of {'Bundle 1 name': 'stringified bundle 1', 'Bundle 2 name': 'stringified bundle 2'}
  * @param  {String}      key                 The key to delete from the bundles
  * @param  {Function}    callback            Standard callback function
  * @param  {Object}      callback.bundles    Object containing the bundles with the provided key removed. Returns in the form of {'Bundle 1 name': 'stringified bundle 1', 'Bundle 2 name': 'stringified bundle 2'}
@@ -176,7 +176,7 @@ var _sortKeys = function(a, b) {
 /**
  * Sort the given bundles alphabetically
  *
- * @param  {Object}      bundles             Object containing bundles
+ * @param  {Object}      bundles             Object containing bundles in the form of {'Bundle 1 name': 'stringified bundle 1', 'Bundle 2 name': 'stringified bundle 2'}
  * @param  {Function}    callback            Standard callback function
  * @param  {Object}      callback.bundles    Object containing the sorted bundles. Returns in the form of {'Bundle 1 name': 'stringified bundle 1', 'Bundle 2 name': 'stringified bundle 2'}
  */
