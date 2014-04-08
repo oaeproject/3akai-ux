@@ -37,8 +37,19 @@ var i18nKey = argv.i18nKey;
 // Extract the bundles directory
 var bundlesDir = argv.bundlesDir;
 
+// Read the bundles that hold the key to delete
 util.readBundles(bundlesDir, function(err, bundles) {
-    util.deleteKeyFromBundles(bundles, i18nKey, function(err, bundles) {
-        util.writeBundles(bundles, bundlesDir, function(err) {});
+    if (err) {
+        return console.log('Error reading the bundles that hold the key to delete');
+    }
+    // Delete the key
+    util.deleteKeyFromBundles(bundles, i18nKey, function(bundles) {
+        // Write the bundles with the key removed
+        util.writeBundles(bundles, bundlesDir, function(err) {
+            if (err) {
+                return console.log('Error writing the bundles with the key removed');
+            }
+            console.log('Done deleting ' + i18nKey + ' from ' + bundlesDir);
+        });
     });
 });

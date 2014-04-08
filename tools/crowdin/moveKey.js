@@ -14,8 +14,7 @@
  */
 
 /**
- * Provided with a translation, a widget path to move a key from and a widget path to move a key to
- * this script will extract all the keys from the widget bundle and add them to the other widget's bundles.
+ * Move a provided i18n key from a bundle directory to a different bundle directory
  */
 
 var argv = require('optimist')
@@ -27,11 +26,11 @@ var argv = require('optimist')
 
     .demand('f')
     .alias('f', 'moveFromDir')
-    .describe('f', 'Absolute path to the bundles directory where the key to move lives')
+    .describe('f', 'Absolute path to the bundles directory from which to move the i18n key')
 
     .demand('t')
     .alias('t', 'moveToDir')
-    .describe('t', 'Absolute path to the bundles directory to move the key to')
+    .describe('t', 'Absolute path to the bundles directory to which to move the i18n key')
     .argv;
 
 var util = require('./util');
@@ -39,7 +38,7 @@ var util = require('./util');
 // Extract the key to move
 var i18nKey = argv.i18nKey;
 
-// Extract the directory to move the key from
+// Extract the directory from which to move the key
 var moveFromDir = argv.moveFromDir;
 
 // Extract the directory to move the key to
@@ -47,18 +46,32 @@ var moveToDir = argv.moveToDir;
 
 // Read the bundles that hold the key to move
 util.readBundles(moveFromDir, function(err, fromBundles) {
-    // Get the key to move from those bundles
-    util.getKeyFromBundles(fromBundles, i18nKey, function(err, keysToMove) {
-        // Delete the key to move from those bundles
-        util.deleteKeyFromBundles(fromBundles, i18nKey, function(err, bundles) {
-            // Write the new bundles without the key that is moved
+    if (err) {
+        return console.log('Error reading the bundles that hold the key to move');
+    }
+    // Get the key to move
+    util.getKeyFromBundles(fromBundles, i18nKey, function(keysToMove) {
+        // Delete the key from the bundles from which the key is being moved
+        util.deleteKeyFromBundles(fromBundles, i18nKey, function(bundles) {
+            // Write the bundles with the key removed
             util.writeBundles(bundles, moveFromDir, function(err, bundles) {
-                // Read the bundles that hold the key to move
+                if (err) {
+                    return console.log('Error writing the bundles with the key removed');
+                }
+                // Read the bundles to which the key should be moved
                 util.readBundles(moveToDir, function(err, bundles) {
-                    // Add the key to move to the other bundles
-                    util.addKeyToBundles(bundles, keysToMove, function(err, bundles) {
-                        // Write the other bundles
-                        util.writeBundles(bundles, moveToDir, function(err, bundles) {});
+                    if (err) {
+                        return console.log('Error reading the bundles to which the key should be moved');
+                    }
+                    // Add the key to the bundles to which the key needs to be moved
+                    util.addKeyToBundles(bundles, keysToMove, function(bundles) {
+                        // Write the bundles to which the key has been moved
+                        util.writeBundles(bundles, moveToDir, function(err) {
+                            if (err) {
+                                return console.log('Error writing the bundles to which the key has been moved');
+                            }
+                            console.log('Done moving ' + i18nKey + ' from ' + moveFromDir + ' to ' + moveToDir);
+                        });
                     });
                 });
             });

@@ -30,8 +30,19 @@ var util = require('./util');
 // Extract the bundles directory
 var bundlesDir = argv.bundlesDir;
 
+// Read the bundles to sort
 util.readBundles(bundlesDir, function(err, bundles) {
-    util.sortBundles(bundles, function(err, bundles) {
-        util.writeBundles(bundles, bundlesDir, function(err, bundles) {});
+    if (err) {
+        return console.log('Error reading the bundles to sort');
+    }
+    // Sort the bundles
+    util.sortBundles(bundles, function(bundles) {
+        // Write the sorted bundles
+        util.writeBundles(bundles, bundlesDir, function(err) {
+            if (err) {
+                return console.log('Error writing the sorted bundles');
+            }
+            console.log('Done sorting ' + bundlesDir);
+        });
     });
 });
