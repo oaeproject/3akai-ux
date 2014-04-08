@@ -892,7 +892,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                     options.extraParams += '&resourceTypes=' + resourceType;
                 });
                 // Add the parameter that specifies whether or not results from other tenants need to be included as well
-                options.extraParams += '&includeExternal=' + (!configAPI.getValue('oae-tenants', 'tenantprivacy', 'tenantprivate'));
+                options.extraParams += '&scope=_interact';
 
                 // By default, the autosuggest component will only show results in the suggested items that actually match the query
                 // on one of the fields specified in the `searchObjProps` parameter. However, as we rely on the REST endpoint to do
