@@ -22,7 +22,7 @@ require(['jquery','oae.core'], function($, oae) {
 
         // When only a single external institutional authentication strategy (`cas`, `googleApps`, `shibboleth`)
         // is enabled, the Sign In button should send the user directly to the sign in page. Alternatively, the sign
-        // in dropdown in the top navigation should be enabled when clicking the Sign In button
+        // in dropdown in the top navigation should be opened when clicking the Sign In button
         var enabledStrategies = oae.api.authentication.getEnabledStrategies();
         var singleInstitutionalAuth = null;
         if (_.keys(enabledStrategies).length === 1 && _.contains(['cas', 'googleApps', 'shibboleth'], _.keys(enabledStrategies)[0])) {
