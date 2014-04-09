@@ -137,24 +137,4 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'globalize'], funct
         // When a certain number of decimal places is required, we pass in n<Number of decimal places>
         return Globalize.format(number, decimalPlaces !== null ? 'n' + decimalPlaces : 'n');
     };
-
-    /**
-     * Function that will take a date and convert it into a localized time ago string.
-     * The user's locale does not come into play in this since we're expressing how long ago something happened.
-     *
-     * @param  {Date|Number}    date        Javascript date object or milliseconds since epoch that needs to be converted into a time ago string
-     * @return {String}                     Converted localized time ago string
-     * @throws {Error}                      Error thrown when no date has been provided
-     */
-    var timeAgo = exports.timeAgo = function(date) {
-        if (!date) {
-            throw new Error('A date must be provided');
-        }
-        // Make sure that we are working with a valid date. The timeago plugin uses the browsers
-        // timezone for time comparisons by relying on `new Date()` to get the current time. This
-        // means that the provided date does not need to be localized to the user's timezone, as
-        // it can then simply compare the current time and the date we pass in.
-        date = parseDate(date, false);
-        return $.timeago(date);
-    };
 });
