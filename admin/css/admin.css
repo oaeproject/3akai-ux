@@ -82,6 +82,10 @@ body {
     background-color: #ECEAE5;
 }
 
+.oae-list-header {
+    border-color: #DDD;
+}
+
 /* The anonymous administration page shouldn't have a left hand navigation when wider than 992 pixels */
 @media (min-width: 992px) {
     .anon .oae-lhnavigation {
