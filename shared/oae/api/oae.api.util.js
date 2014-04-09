@@ -1348,12 +1348,12 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     };
 
     /**
-     * Check if the current browser is iOS (Mobile Safari)
+     * Check if the current browser is mobile Safari (iOS)
      *
      * @return {Boolean}   `true` when using iOS, `false` otherwise
      */
     var isIos = exports.isIos = function() {
-        return /safari/i.test(navigator.userAgent) && /(iphone|ipad|ipod)/i.test(navigator.userAgent);
+        return (/safari/i).test(navigator.userAgent) && (/(iphone|ipad|ipod)/i).test(navigator.userAgent);
     };
 
 });
