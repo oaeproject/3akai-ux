@@ -1353,10 +1353,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     /////////////////////////
 
     /**
-     * Which events are triggered when user modifies `<input>` or `<textarea>`
-     * content. IE9 Doesn't reliably trigger the `input` event when characters
-     * are removed, so for that browser alone, any of a set of other events
-     * must be substituted.
+     * Return the appropriate events for input or textarea element modifications
+     * depending on the browser. IE9 Doesn't reliably trigger the `input` event
+     * when characters are removed, so for that browser alone, any of a set of
+     * other events must be substituted.
      *
      * TODO: Replace all calls to this function with the string `"input"`
      *       when IE9 support is removed.
