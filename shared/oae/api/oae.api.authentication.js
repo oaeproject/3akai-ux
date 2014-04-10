@@ -44,7 +44,7 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
         }
 
         // Google Apps authentication
-        if (configAPI.getValue('oae-authentication', 'facebook', 'enabled') && configAPI.getValue('oae-authentication', 'google', 'hostedDomain')) {
+        if (configAPI.getValue('oae-authentication', 'google', 'enabled') && configAPI.getValue('oae-authentication', 'google', 'hostedDomain')) {
             enabledStrategies['googleApps'] = {'url': '/api/auth/google'};
         }
 
