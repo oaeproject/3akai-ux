@@ -45,8 +45,6 @@ require(['jquery', 'oae.core'], function($, oae) {
 
             // Cache the group profile data
             groupProfile = profile;
-            // Set the browser title
-            oae.api.util.setBrowserTitle(groupProfile.displayName);
             // Render the entity information
             setUpClip();
             // Set up the context event exchange
@@ -164,7 +162,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                         'width': 'col-md-12',
                         'widgets': [
                             {
-                                'id': 'activity',
+                                'name': 'activity',
                                 'settings': {
                                     'context': groupProfile,
                                     'canManage': groupProfile.isManager
@@ -186,7 +184,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'contentlibrary',
+                            'name': 'contentlibrary',
                             'settings': {
                                 'context': groupProfile,
                                 'canAdd': groupProfile.isMember,
@@ -207,7 +205,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'discussionslibrary',
+                            'name': 'discussionslibrary',
                             'settings': {
                                 'context': groupProfile,
                                 'canAdd': groupProfile.isMember,
@@ -228,7 +226,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'members',
+                            'name': 'members',
                             'settings': {
                                 'context': groupProfile,
                                 'canManage': groupProfile.isManager
@@ -239,9 +237,9 @@ require(['jquery', 'oae.core'], function($, oae) {
             ]
         });
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, groupProfile.displayName]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, groupProfile.displayName]);
         });
     };
 

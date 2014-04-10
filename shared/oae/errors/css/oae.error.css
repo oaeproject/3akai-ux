@@ -18,6 +18,11 @@
     min-height: inherit;
 }
 
+#error-content {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
 #error-content .row {
     margin: 50px auto;
     max-width: 900px;
@@ -60,6 +65,9 @@
     padding-left: 80px;
     text-align: left;
     margin-top: 6px;
+}
+#error-content #error-quote-container form {
+    display: inline;
 }
 
 #error-content .error-quote-container + div {
