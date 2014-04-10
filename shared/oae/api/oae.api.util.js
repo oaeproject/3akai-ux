@@ -1326,9 +1326,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     };
 
 
-    ////////////////
-    // RESPONSIVE //
-    ////////////////
+    ////////////////////////////
+    // BROWSER-SPECIFIC TESTS //
+    ////////////////////////////
 
     /**
      * Check if the current browser is a browser on a mobile handheld device
@@ -1346,4 +1346,14 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
 
         return isHandheld;
     };
+
+    /**
+     * Check if the current browser is mobile Safari (iOS)
+     *
+     * @return {Boolean}   `true` when using iOS, `false` otherwise
+     */
+    var isIos = exports.isIos = function() {
+        return (/safari/i).test(navigator.userAgent) && (/(iphone|ipad|ipod)/i).test(navigator.userAgent);
+    };
+
 });
