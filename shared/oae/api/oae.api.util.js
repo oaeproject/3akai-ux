@@ -460,7 +460,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
 
             // Add event handler to track jQuery AJAX errors
             $(document).ajaxError(function(evt, request, settings, err) {
-                ga('send', 'event', 'Ajax Error', 'log', settings.url + ' => ' + err);
+                ga('send', 'event', 'Ajax Error', 'log', settings.type + ' ' + settings.url + ' => ' + err);
             });
         }
 
