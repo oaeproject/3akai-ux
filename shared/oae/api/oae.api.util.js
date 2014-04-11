@@ -452,6 +452,16 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             // Add hostname to allow tracking of accessed tenant
             ga('create', globalTrackingId, window.location.hostname);
             ga('send', 'pageview');
+
+            // Add event handler to track JavaScript errors
+            window.addEventListener('error', function(e) {
+                ga('send', 'event', 'JavaScript Error', 'log', e.message + ' [' + e.filename + ':  ' + e.lineno + ']');
+            });
+
+            // Add event handler to track jQuery AJAX errors
+            $(document).ajaxError(function(e, request, settings) {
+                ga('send', 'event', 'Ajax Error', 'log', settings.url + ' => ' + e.result);
+            });
         }
 
         // Tenant specific Google Analytics
