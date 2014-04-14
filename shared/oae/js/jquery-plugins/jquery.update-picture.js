@@ -29,16 +29,8 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
                 'entityData': data
             }))).find('[role="img"]')[0].outerHTML;
 
-            // For each thumbnail in the DOM, render the updated thumbnail image
-            $('.oae-thumbnail[data-id="' + data.id + '"]').each(function(i, picture) {
-                // If the thumbnail to update links to the user's profile, render the image inside of the anchor tag inside of `oae-thumbnail`
-                if ($(picture).has('a').length) {
-                    $($(picture).has('a')).html(thumbnailImage);
-                // If the thumbnail to update doesn't link to the user's profile, render the image directly into `oae-thumbnail`
-                } else {
-                    $(picture).html(thumbnailImage);
-                }
-            });
+            // Updated the thumbnail images in the DOM
+            $('.oae-thumbnail[data-id="' + data.id + '"] [role="img"]').replaceWith(thumbnailImage);
         });
 
     })(jQuery);
