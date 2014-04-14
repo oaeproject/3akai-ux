@@ -454,13 +454,13 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             ga('send', 'pageview');
 
             // Add event handler to track JavaScript errors
-            window.addEventListener('error', function(evt) {
-                ga('send', 'event', 'JavaScript Error', 'log', evt.message + ' [' + evt.filename + ':  ' + evt.lineno + ']');
+            window.addEventListener('error', function(ev) {
+                ga('send', 'event', 'JavaScript Error', 'log', ev.message + ' [' + ev.filename + ':  ' + ev.lineno + ']');
             });
 
             // Add event handler to track jQuery AJAX errors
-            $(document).ajaxError(function(evt, request, settings, err) {
-                ga('send', 'event', 'Ajax Error', 'log', settings.type + ' ' + settings.url + ' => ' + err);
+            $(document).ajaxError(function(ev, request, settings, err) {
+                ga('send', 'event', 'Ajax Error', 'log', settings.type + ' ' + settings.url + ' => ' + err + ' (' + request.status + ')');
             });
         }
 
