@@ -53,7 +53,7 @@ require(['jquery','oae.core', 'jquery.history'], function($, oae) {
             'limit': 12,
             'q': query,
             'resourceTypes': types,
-            'includeExternal': !oae.api.config.getValue('oae-tenants', 'tenantprivacy', 'tenantprivate')
+            'scope': '_network'
         }, '#search-template', {
             'postRenderer': function(data) {
                 $('.oae-list-header-badge').text(data.total).show();
