@@ -57,7 +57,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
         var lhNavPages = [{
             'id': 'content',
-            'title': oae.api.i18n.translate('__MSG__CONTENT__'),
+            'title': contentProfile.displayName,
             'icon': 'icon-comments',
             'closeNav': true,
             'class': 'hide',
@@ -66,7 +66,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': getPreviewWidgetId(),
+                            'id': 'content-preview',
+                            'name': getPreviewWidgetId(),
                             'settings': contentProfile
                         }
                     ]
@@ -75,7 +76,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'comments'
+                            'name': 'comments'
                         }
                     ]
                 }
@@ -86,9 +87,9 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         // TODO: Remove this once the lhnav toggle is no longer required on content profiles
         var showLhNavToggle = (lhNavActions.length > 0);
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, showLhNavToggle]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, null, showLhNavToggle]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, showLhNavToggle]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, null, showLhNavToggle]);
         });
     };
 
@@ -115,8 +116,6 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
             // Cache the content profile data
             contentProfile = profile;
-            // Set the browser title
-            oae.api.util.setBrowserTitle(contentProfile.displayName);
             // Render the entity information and actions
             setUpClips();
             // Set up the page
@@ -210,9 +209,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * rendering a new one
      */
     var refreshContentPreview = function() {
-        var $widgetContainer = $('.oae-page > .row .oae-lhnavigation-toggle + div');
-
         // Empty the preview container
+        var $widgetContainer = $('#lhnavigation-widget-content-preview');
         $widgetContainer.empty();
 
         // Insert the new updated content preview widget
@@ -337,7 +335,6 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     ///////////////
 
     $(document).on('oae.revisions.done', function(ev, restoredRevision, updatedContentProfile) {
-        contentProfile = updatedContentProfile;
         // Refresh the content profile elements
         refreshContentProfile(ev, updatedContentProfile);
     });

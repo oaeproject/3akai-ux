@@ -101,9 +101,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     /**
      * Change the browser title for a particular page. The browser's title has the following structure
      *
-     * Open Academic Environment - Document 1 [- Page 1]
+     * <Tenant name> - Document 1 [- Page 1]
      *
-     * Where the first part will be fixed.
+     * Where the first part will be the name of the current tenant
      *
      * @param  {String|String[]}     title       The new page title or an array of strings representing the fragments of the page title
      * @throws {Error}                           Error thrown when no page title has been provided
@@ -117,14 +117,16 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         if (_.isString(title)) {
             title = [title];
         }
+
+        var me = require('oae.core').data.me;
+
         // Render the page title with the following format
-        //   `Open Academic Environment - Fragment 1 - Fragment 2`
-        title.splice(0, 0, '__MSG__TITLE_PREFIX__');
+        //   <Tenant name> - Fragment 1 - Fragment 2`
+        title.splice(0, 0, me.tenant.displayName);
         document.title = require('oae.api.i18n').translate(title.join(' - '));
 
         // Re-apply the unread notifications favicon bubble for browsers that fall back
         // to showing the unread count in the browser title rather than the favicon
-        var me = require('oae.core').data.me;
         if (!me.anon) {
             favicon().setBubble(me.notificationsUnread);
         }
@@ -771,6 +773,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         var defaultOptions = {
             'canGenerateNewSelections': false,
             'minChars': 2,
+            'neverSubmit': true,
             'retrieveLimit': 10,
             'url': '/api/search/general',
             'scroll': 190,
@@ -889,7 +892,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                     options.extraParams += '&resourceTypes=' + resourceType;
                 });
                 // Add the parameter that specifies whether or not results from other tenants need to be included as well
-                options.extraParams += '&includeExternal=' + (!configAPI.getValue('oae-tenants', 'tenantprivacy', 'tenantprivate'));
+                options.extraParams += '&scope=_interact';
 
                 // By default, the autosuggest component will only show results in the suggested items that actually match the query
                 // on one of the fields specified in the `searchObjProps` parameter. However, as we rely on the REST endpoint to do
@@ -1113,6 +1116,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                         selectedItems.push({
                             'id': id,
                             'displayName': selectionData.displayName,
+                            'profilePath': selectionData.profilePath,
                             'resourceType': selectionData.resourceType,
                             'thumbnailUrl': selectionData.thumbnailUrl,
                             'visibility': selectionData.visibility
@@ -1322,9 +1326,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     };
 
 
-    ////////////////
-    // RESPONSIVE //
-    ////////////////
+    ////////////////////////////
+    // BROWSER-SPECIFIC TESTS //
+    ////////////////////////////
 
     /**
      * Check if the current browser is a browser on a mobile handheld device
@@ -1341,6 +1345,15 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         });
 
         return isHandheld;
+    };
+
+    /**
+     * Check if the current browser is mobile Safari (iOS)
+     *
+     * @return {Boolean}   `true` when using iOS, `false` otherwise
+     */
+    var isIos = exports.isIos = function() {
+        return (/safari/i).test(navigator.userAgent) && (/(iphone|ipad|ipod)/i).test(navigator.userAgent);
     };
 
 });

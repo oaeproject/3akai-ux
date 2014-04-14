@@ -105,13 +105,14 @@
 <!--
  * Render a list item representing a user, group or piece of content
  *
- * @param  {User|Group|Content}     entityData          Standard object representing a user, group or content item or a search result for a user, group or content item as returned by Hilary
- * @param  {String}                 [metadata]          Line of metadata information that should be displayed underneath the entity name
- * @param  {Boolean}                [showCheckbox]      Whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
- * @param  {String}                 [customImage]       URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
- * @param  {Function}               [listItemActions]   Macro that renders list item actions
+ * @param  {User|Group|Content}     entityData              Standard object representing a user, group or content item or a search result for a user, group or content item as returned by Hilary
+ * @param  {String}                 [metadata]              Line of metadata information that should be displayed underneath the entity name
+ * @param  {Boolean}                [showCheckbox]          Whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
+ * @param  {String}                 [customImage]           URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
+ * @param  {Function}               [listItemActions]       Macro that renders list item actions
+ * @param  {String}                 [additionalClasses]     Additional CSS classes separated by spaces to apply to the generated list items
 -->
-{macro listItem(entityData, metadata, showCheckbox, customImage, listItemActions)}
+{macro listItem(entityData, metadata, showCheckbox, customImage, listItemActions, additionalClasses)}
     {if entityData}
         {if entityData.resourceType}
             {var resourceType = entityData.resourceType}
@@ -125,7 +126,7 @@
             {var visibility = entityData['oae:visibility']}
         {/if}
 
-        <li data-id="${entityData.id}">
+        <li data-id="${entityData.id}" {if additionalClasses} class="${additionalClasses}"{/if}>
             <!-- THUMBNAIL VIEW -->
             <div class="oae-list-grid-item">
                 <div class="oae-tile">
@@ -326,7 +327,7 @@
     {/if}
 
     {if !oae.data.me.anon && showCheckbox !== false}
-        <input type="checkbox" class="pull-left" id="oae-list-${type}-${entityData.id}" data-id="${entityData.id}" data-resourceType="${resourceType}" data-resourceSubType="${resourceSubType}" />
+        <input type="checkbox" class="{if type !== 'grid'} pull-left{/if}" id="oae-list-${type}-${entityData.id}" data-id="${entityData.id}" data-resourceType="${resourceType}" data-resourceSubType="${resourceSubType}" />
         <label class="sr-only" for="oae-list-${type}-${entityData.id}">${entityData.displayName|encodeForHTML}</label>
     {/if}
 {/macro}
