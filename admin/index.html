@@ -274,7 +274,7 @@
                                                 <div class="form-group">
                                                     <label for="${configPath|encodeForHTMLAttribute}" class="control-label col-xs-12 col-sm-3 col-md-3">${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
                                                     <div class="col-xs-12 col-sm-9 col-md-9">
-                                                        <input type="text" id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" value="${configValue.toString()|encodeForHTMLAttribute}" {if !tenantCanOverride} disabled="disabled"{/if} class="form-control"/>
+                                                        <input type="text" id="${configPath|encodeForHTMLAttribute}" name="${configPath|encodeForHTMLAttribute}" {if configValue} value="${configValue.toString()|encodeForHTMLAttribute}"{/if} {if !tenantCanOverride} disabled="disabled"{/if} class="form-control"/>
                                                     </div>
                                                 </div>
                                             {elseif element.type === "internationalizableText"}
@@ -300,7 +300,7 @@
                                                     </div>
 
                                                     {for language in languages}
-                                                        {var i18nValue = configValue[language.value] ? configValue[language.value].toString() : ''}
+                                                        {var i18nValue = configValue && configValue[language.value] ? configValue[language.value].toString() : ''}
                                                         <div data-id="${language.value}" class="form-group hide">
                                                             <label for="${configPath|encodeForHTMLAttribute}/${language.value}" class="control-label col-xs-12 col-sm-3 col-md-3">${language.name} - ${element.description|encodeForHTML} {if !tenantCanOverride} <span class="text-warning">(Tenant override disabled)</span>{/if}</label>
                                                             <div class="col-xs-12 col-sm-9 col-md-9">
