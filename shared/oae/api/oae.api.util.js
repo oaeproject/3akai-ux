@@ -160,7 +160,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
      */
     var template = exports.template = function() {
 
-        // Custom Trimpath modifiers, used for security related escaping purposes
+        // Custom Trimpath modifiers, used for security related escaping
+        // purposes and path replacements
         var trimpathModifiers = {
             'encodeForHTML': function(str) {
                 return security().encodeForHTML(str);
