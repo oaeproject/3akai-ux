@@ -22,12 +22,15 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
         $(document).on('oae.changepic.update', function(ev, data) {
             // Define the template
             var $template = $('<div id="thumbnail-template"><!--${renderThumbnail(entityData)}--></div>');
-            // Render the template, passing in the updated data
-            var result = oaeUtil.template().render($template, {
+            // Render a thumbnail and extract the image from it. Not all thumbnails on the page should be
+            // encapsulated in a link so we render a thumbnail and extract the image from it to insert into
+            // already existing thumbnail elements in the DOM.
+            var thumbnailImage = $($.trim(oaeUtil.template().render($template, {
                 'entityData': data
-            });
-            // Replace the thumbnails with the updated html
-            $('.oae-thumbnail[data-id="' + data.id + '"]').replaceWith(result);
+            }))).find('[role="img"]')[0].outerHTML;
+
+            // Updated the thumbnail images in the DOM
+            $('.oae-thumbnail[data-id="' + data.id + '"] [role="img"]').replaceWith(thumbnailImage);
         });
 
     })(jQuery);
