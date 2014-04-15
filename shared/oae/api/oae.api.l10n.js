@@ -139,22 +139,29 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'globalize'], funct
     };
 
     /**
-     * Function that will take a date and convert it into a localized time ago string.
-     * The user's locale does not come into play in this since we're expressing how long ago something happened.
+     * Apply timeago to all `oae-timeago` elements inside of the specified container. the function is automatically called
+     * when specifying the output container when rendering a template and when using the infinite scroll plugin. It's expected
+     * that the `title` attribute is set to the date in milliseconds from epoch. This function will take care of converting it
+     * to the right date format for `$.timeago`.
      *
-     * @param  {Date|Number}    date        Javascript date object or milliseconds since epoch that needs to be converted into a time ago string
-     * @return {String}                     Converted localized time ago string
-     * @throws {Error}                      Error thrown when no date has been provided
+     * @param  {String|jQuery}    $container    jQuery object or String selector of the container where the timeago elements are contained in
+     * @throws {Error}                          Error thrown when no container has been provided
      */
-    var timeAgo = exports.timeAgo = function(date) {
-        if (!date) {
-            throw new Error('A date must be provided');
+    var timeAgo = exports.timeAgo = function($container) {
+        if (!$container) {
+            throw new Error('A container must be provided');
         }
-        // Make sure that we are working with a valid date. The timeago plugin uses the browsers
-        // timezone for time comparisons by relying on `new Date()` to get the current time. This
-        // means that the provided date does not need to be localized to the user's timezone, as
-        // it can then simply compare the current time and the date we pass in.
-        date = parseDate(date, false);
-        return $.timeago(date);
+
+        // Parse the date property in the title
+        $('.oae-timeago', $($container)).each(function(i, el) {
+            // Make sure that we are working with a valid date. The timeago plugin uses the browsers
+            // timezone for time comparisons by relying on `new Date()` to get the current time. This
+            // means that the provided date does not need to be localized to the user's timezone, as
+            // it can then simply compare the current time and the date we pass in.
+            // Apply timeago to every `oae-timeago` element in the container
+            var date = parseDate($(el).prop('title'), false);
+            $(el).prop('title', Globalize.format(date, 'D') + ' ' + Globalize.format(date, 'T'));
+        });
+        $('.oae-timeago').timeago();
     };
 });
