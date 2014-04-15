@@ -465,6 +465,16 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             // Add hostname to allow tracking of accessed tenant
             ga('create', globalTrackingId, window.location.hostname);
             ga('send', 'pageview');
+
+            // Add event handler to track JavaScript errors
+            window.addEventListener('error', function(ev) {
+                ga('send', 'event', 'JavaScript Error', 'log', ev.message + ' [' + ev.filename + ':  ' + ev.lineno + ']');
+            });
+
+            // Add event handler to track jQuery AJAX errors
+            $(document).ajaxError(function(ev, request, settings, err) {
+                ga('send', 'event', 'Ajax Error', 'log', settings.type + ' ' + settings.url + ' => ' + err + ' (' + request.status + ')');
+            });
         }
 
         // Tenant specific Google Analytics
@@ -905,7 +915,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                     options.extraParams += '&resourceTypes=' + resourceType;
                 });
                 // Add the parameter that specifies whether or not results from other tenants need to be included as well
-                options.extraParams += '&includeExternal=' + (!configAPI.getValue('oae-tenants', 'tenantprivacy', 'tenantprivate'));
+                options.extraParams += '&scope=_interact';
 
                 // By default, the autosuggest component will only show results in the suggested items that actually match the query
                 // on one of the fields specified in the `searchObjProps` parameter. However, as we rely on the REST endpoint to do
@@ -1339,9 +1349,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     };
 
 
-    ////////////////
-    // RESPONSIVE //
-    ////////////////
+    ////////////////////////////
+    // BROWSER-SPECIFIC TESTS //
+    ////////////////////////////
 
     /**
      * Check if the current browser is a browser on a mobile handheld device
@@ -1359,4 +1369,14 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
 
         return isHandheld;
     };
+
+    /**
+     * Check if the current browser is mobile Safari (iOS)
+     *
+     * @return {Boolean}   `true` when using iOS, `false` otherwise
+     */
+    var isIos = exports.isIos = function() {
+        return (/safari/i).test(navigator.userAgent) && (/(iphone|ipad|ipod)/i).test(navigator.userAgent);
+    };
+
 });
