@@ -71,6 +71,16 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     };
 
     /**
+     * Replaces the given profilePath with a link to `/me` if the profilePath matches the logged in user's profilePath
+     *
+     * @param  {String}    profilePath    The profilePath to replace with `/me` if it matches the current logged in user's profilePath
+     * @return {String}                   Returns either `/me` or the passed in profilePath string
+     */
+    var replaceProfilePath = exports.replaceProfilePath = function(profilePath) {
+        return profilePath === require('oae.core').data.me.profilePath ? '/me' : profilePath;
+    };
+
+    /**
      * Add a cache busting parameter to a URL
      *
      * @param  {String}     url     The URL to add the cache busting parameter to
@@ -150,7 +160,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
      */
     var template = exports.template = function() {
 
-        // Custom Trimpath modifiers, used for security related escaping purposes
+        // Custom Trimpath modifiers, used for security related escaping
+        // purposes and path replacements
         var trimpathModifiers = {
             'encodeForHTML': function(str) {
                 return security().encodeForHTML(str);
@@ -163,6 +174,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             },
             'encodeForURL': function(str) {
                 return security().encodeForURL(str);
+            },
+            'replaceProfilePath': function(str) {
+                return replaceProfilePath(str);
             }
         };
 
