@@ -40,16 +40,16 @@ var bundlesDir = argv.bundlesDir;
 // Read the bundles that hold the key to delete
 util.readBundles(bundlesDir, function(err, bundles) {
     if (err) {
-        return console.log('Error reading the bundles that hold the key to delete');
+        return console.error('Error reading the bundles that hold the key to delete', err);
     }
     // Delete the key
     util.deleteKeyFromBundles(bundles, i18nKey, function(bundles) {
-        // Write the bundles with the key removed
+        // Save the bundles with the key removed
         util.writeBundles(bundles, bundlesDir, function(err) {
             if (err) {
-                return console.log('Error writing the bundles with the key removed');
+                return console.error('Error saving the bundles with the key removed', err);
             }
-            console.log('Done deleting ' + i18nKey + ' from ' + bundlesDir);
+            console.log('Finished deleting ' + i18nKey + ' from ' + bundlesDir);
         });
     });
 });

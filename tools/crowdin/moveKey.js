@@ -33,6 +33,8 @@ var argv = require('optimist')
     .describe('t', 'Absolute path to the bundles directory to which to move the i18n key')
     .argv;
 
+var _ = require('underscore');
+
 var util = require('./util');
 
 // Extract the key to move
@@ -47,30 +49,36 @@ var moveToDir = argv.moveToDir;
 // Read the bundles that hold the key to move
 util.readBundles(moveFromDir, function(err, fromBundles) {
     if (err) {
-        return console.log('Error reading the bundles that hold the key to move');
+        return console.error('Error reading the bundles that hold the key to move', err);
     }
-    // Get the key to move
-    util.getKeyFromBundles(fromBundles, i18nKey, function(keysToMove) {
-        // Delete the key from the bundles from which the key is being moved
-        util.deleteKeyFromBundles(fromBundles, i18nKey, function(bundles) {
-            // Write the bundles with the key removed
-            util.writeBundles(bundles, moveFromDir, function(err, bundles) {
-                if (err) {
-                    return console.log('Error writing the bundles with the key removed');
-                }
-                // Read the bundles to which the key should be moved
-                util.readBundles(moveToDir, function(err, bundles) {
-                    if (err) {
-                        return console.log('Error reading the bundles to which the key should be moved');
-                    }
-                    // Add the key to the bundles to which the key needs to be moved
-                    util.addKeyToBundles(bundles, keysToMove, function(bundles) {
-                        // Write the bundles to which the key has been moved
-                        util.writeBundles(bundles, moveToDir, function(err) {
-                            if (err) {
-                                return console.log('Error writing the bundles to which the key has been moved');
-                            }
-                            console.log('Done moving ' + i18nKey + ' from ' + moveFromDir + ' to ' + moveToDir);
+    // Read the bundles to which the key should be moved
+    util.readBundles(moveToDir, function(err, toBundles) {
+        if (err) {
+            return console.error('Error reading the bundles to which the key should be moved', err);
+        }
+        // Check if the key is already defined in the bundles to move the key to
+        util.getKeyFromBundles(toBundles, i18nKey, function(i18nKeysPresent) {
+            if (!_.isEmpty(i18nKeysPresent)) {
+                return console.error('Error moving key. The key "' + i18nKey + '" is already defined in "' + moveToDir + '". Run `node tools/crowdin/deleteKey.js -k ' + i18nKey + ' -b ' + moveToDir + '` to delete the key first and try again.');
+            }
+            // Get the key to move
+            util.getKeyFromBundles(fromBundles, i18nKey, function(keysToMove) {
+                // Delete the key from the bundles from which the key is being moved
+                util.deleteKeyFromBundles(fromBundles, i18nKey, function(fromBundles) {
+                    // Save the bundles with the key removed
+                    util.writeBundles(fromBundles, moveFromDir, function(err, fromBundles) {
+                        if (err) {
+                            return console.error('Error saving the bundles with the key removed', err);
+                        }
+                        // Add the key to the bundles to which the key needs to be moved
+                        util.addKeyToBundles(toBundles, keysToMove, function(toBundles) {
+                            // Save the bundles to which the key has been moved
+                            util.writeBundles(toBundles, moveToDir, function(err) {
+                                if (err) {
+                                    return console.error('Error saving the bundles to which the key has been moved', err);
+                                }
+                                console.log('Finished moving ' + i18nKey + ' from ' + moveFromDir + ' to ' + moveToDir);
+                            });
                         });
                     });
                 });

@@ -21,8 +21,8 @@ var fs = require('fs');
  *
  * @param  {String}      bundlesDir             Absolute path to the bundles directory
  * @param  {Function}    callback               Standard callback function
- * @param  {Object}      callback.err           Error object containing error code and message
- * @param  {Object}      callback.allBundles    Object containing bundles found on the path. Returns in the form of {'Bundle 1 name': 'stringified bundle 1', 'Bundle 2 name': 'stringified bundle 2'}
+ * @param  {Object}      callback.err           Error object
+ * @param  {Object}      callback.allBundles    Object containing bundles found on the path. Returns in the form of {'default.properties': '401=401\n404=404\nACCESS_DENIED=Access denied', 'es_ES.properties': '401=401\n404=404\nACCESS_DENIED=Acceso denegado'}
  */
 var readBundles = exports.readBundles = function(bundlesDir, callback) {
     var availableBundles = null;
@@ -42,17 +42,16 @@ var readBundles = exports.readBundles = function(bundlesDir, callback) {
             return callback(err);
         }
     });
-
     callback(null, allBundles);
 };
 
 /**
  * Write bundles to a given directory
  *
- * @param  {Object}      bundles          Object containing bundles in the form of {'Bundle 1 name': 'stringified bundle 1', 'Bundle 2 name': 'stringified bundle 2'}
+ * @param  {Object}      bundles          Object containing bundles in the form of {'default.properties': '401=401\n404=404\nACCESS_DENIED=Access denied', 'es_ES.properties': '401=401\n404=404\nACCESS_DENIED=Acceso denegado'}
  * @param  {String}      path             The path to write the bundles to
  * @param  {Function}    callback         Standard callback function
- * @param  {Object}      callback.err     Error object containing error code and message
+ * @param  {Object}      callback.err     Error object
  */
 var writeBundles = exports.writeBundles = function(bundles, path, callback) {
     _.each(bundles, function(bundle, bundleName) {
@@ -73,7 +72,7 @@ var writeBundles = exports.writeBundles = function(bundles, path, callback) {
 /**
  * Get the translations for a specific key in a given bundles object
  *
- * @param  {Object}      bundles                     Object containing bundles in the form of {'Bundle 1 name': 'stringified bundle 1', 'Bundle 2 name': 'stringified bundle 2'}
+ * @param  {Object}      bundles                     Object containing bundles in the form of {'default.properties': '401=401\n404=404\nACCESS_DENIED=Access denied', 'es_ES.properties': '401=401\n404=404\nACCESS_DENIED=Acceso denegado'}
  * @param  {String}      key                         The key to retrieve for every language bundle
  * @param  {Function}    callback                    Standard callback function
  * @param  {Object}      callback.i18nEntries        Object containing the key and translation for every language it's available in. Returns in the form {'Bundle 1 name': 'key=translation', 'Bundle 2 name': 'key=translation'}
@@ -83,9 +82,9 @@ var getKeyFromBundles = exports.getKeyFromBundles = function(bundles, key, callb
     _.each(bundles, function(bundle, bundlePath) {
         bundle = bundle.split(/\n/g);
         // Loop over every line and, if the key matches the key we need to move, cache it in the `i18nEntries` variable
-        _.each(bundle, function(k) {
-            if (k && k.split('=')[0].trim() === key) {
-                i18nEntries[bundlePath] = k;
+        _.each(bundle, function(i18nEntry) {
+            if (i18nEntry && i18nEntry.split('=')[0].trim() === key) {
+                i18nEntries[bundlePath] = i18nEntry;
             }
         });
     });
@@ -96,10 +95,10 @@ var getKeyFromBundles = exports.getKeyFromBundles = function(bundles, key, callb
 /**
  * Add the translations for a specific key to the provided bundles
  *
- * @param  {Object}      bundles             Object containing bundles in the form of {'Bundle 1 name': 'stringified bundle 1', 'Bundle 2 name': 'stringified bundle 2'}
+ * @param  {Object}      bundles             Object containing bundles in the form of {'default.properties': '401=401\n404=404\nACCESS_DENIED=Access denied', 'es_ES.properties': '401=401\n404=404\nACCESS_DENIED=Acceso denegado'}
  * @param  {Object}      i18nEntries         Object containing the key and translation for every language it's available in
  * @param  {Function}    callback            Standard callback function
- * @param  {Object}      callback.bundles    Object containing the bundles where the given key is added to. Returns in the form of {'Bundle 1 name': 'stringified bundle 1', 'Bundle 2 name': 'stringified bundle 2'}
+ * @param  {Object}      callback.bundles    Object containing the bundles where the given key is added to. Returns in the form of {'default.properties': '401=401\n404=404\nACCESS_DENIED=Access denied', 'es_ES.properties': '401=401\n404=404\nACCESS_DENIED=Acceso denegado'}
  */
 var addKeyToBundles = exports.addKeyToBundles = function(bundles, i18nEntries, callback) {
     _.each(bundles, function(bundle, bundlePath) {
@@ -135,19 +134,19 @@ var addKeyToBundles = exports.addKeyToBundles = function(bundles, i18nEntries, c
 /**
  * Delete a given key from the provided bundles
  *
- * @param  {Object}      bundles             Object containing bundles in the form of {'Bundle 1 name': 'stringified bundle 1', 'Bundle 2 name': 'stringified bundle 2'}
+ * @param  {Object}      bundles             Object containing bundles in the form of {'default.properties': '401=401\n404=404\nACCESS_DENIED=Access denied', 'es_ES.properties': '401=401\n404=404\nACCESS_DENIED=Acceso denegado'}
  * @param  {String}      key                 The key to delete from the bundles
  * @param  {Function}    callback            Standard callback function
- * @param  {Object}      callback.bundles    Object containing the bundles with the provided key removed. Returns in the form of {'Bundle 1 name': 'stringified bundle 1', 'Bundle 2 name': 'stringified bundle 2'}
+ * @param  {Object}      callback.bundles    Object containing the bundles with the provided key removed. Returns in the form of {'default.properties': '401=401\n404=404\nACCESS_DENIED=Access denied', 'es_ES.properties': '401=401\n404=404\nACCESS_DENIED=Acceso denegado'}
  */
 var deleteKeyFromBundles = exports.deleteKeyFromBundles = function(bundles, key, callback) {
     _.each(bundles, function(bundle, bundlePath) {
         var newBundle = '';
         bundle = bundle.split(/\n/g);
         // Loop over every line and, if the key doesn't match add it to the new bundle file we're writing
-        _.each(bundle, function(k) {
-            if (k && k.split('=')[0].trim() !== key) {
-                newBundle += k + '\n';
+        _.each(bundle, function(i18nEntry) {
+            if (i18nEntry && i18nEntry.split('=')[0].trim() !== key) {
+                newBundle += i18nEntry + '\n';
             }
         });
         bundles[bundlePath] = newBundle;
@@ -176,9 +175,9 @@ var _sortKeys = function(a, b) {
 /**
  * Sort the given bundles alphabetically
  *
- * @param  {Object}      bundles             Object containing bundles in the form of {'Bundle 1 name': 'stringified bundle 1', 'Bundle 2 name': 'stringified bundle 2'}
+ * @param  {Object}      bundles             Object containing bundles in the form of {'default.properties': '401=401\n404=404\nACCESS_DENIED=Access denied', 'es_ES.properties': '401=401\n404=404\nACCESS_DENIED=Acceso denegado'}
  * @param  {Function}    callback            Standard callback function
- * @param  {Object}      callback.bundles    Object containing the sorted bundles. Returns in the form of {'Bundle 1 name': 'stringified bundle 1', 'Bundle 2 name': 'stringified bundle 2'}
+ * @param  {Object}      callback.bundles    Object containing the sorted bundles. Returns in the form of {'default.properties': '401=401\n404=404\nACCESS_DENIED=Access denied', 'es_ES.properties': '401=401\n404=404\nACCESS_DENIED=Acceso denegado'}
  */
 var sortBundles = exports.sortBundles = function(bundles, callback) {
     _.each(bundles, function(keys, bundleName) {

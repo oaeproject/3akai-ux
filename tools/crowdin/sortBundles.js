@@ -33,16 +33,16 @@ var bundlesDir = argv.bundlesDir;
 // Read the bundles to sort
 util.readBundles(bundlesDir, function(err, bundles) {
     if (err) {
-        return console.log('Error reading the bundles to sort');
+        return console.error('Error reading the bundles to sort', err);
     }
     // Sort the bundles
     util.sortBundles(bundles, function(bundles) {
-        // Write the sorted bundles
+        // Save the sorted bundles
         util.writeBundles(bundles, bundlesDir, function(err) {
             if (err) {
-                return console.log('Error writing the sorted bundles');
+                return console.error('Error saving the sorted bundles', err);
             }
-            console.log('Done sorting ' + bundlesDir);
+            console.log('Finished sorting ' + bundlesDir);
         });
     });
 });
