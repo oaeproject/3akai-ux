@@ -18,55 +18,6 @@ body {
 }
 
 
-/*************
- ** CONTENT **
- *************/
-
-#admin-content {
-    margin-bottom: 100px;
-}
-
-.admin-container-striped form {
-    margin: 20px 0;
-}
-
-/* Tenant list */
-
-.table-striped tbody tr:nth-child(2n+1) td,
-.table-striped tbody tr:nth-child(2n+1) th,
-.admin-container-striped > div:nth-child(2n+1) {
-    background: #F8F8F8; /* Old browsers */
-    background: -moz-linear-gradient(top, #F8F8F8 0%, #F0f0f0 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#F8F8F8), color-stop(100%,#F0f0f0)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #F8F8F8 0%,#F0f0f0 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #F8F8F8 0%,#F0f0f0 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #F8F8F8 0%,#F0f0f0 100%); /* IE10+ */
-    background: linear-gradient(to bottom, #F8F8F8 0%,#F0f0f0 100%); /* W3C */
-    max-width: 150px;
-    vertical-align: middle;
-}
-
-.table-striped tbody tr:nth-child(2n+2) td,
-.table-striped tbody tr:nth-child(2n+2) th,
-.admin-container-striped > div:nth-child(2n+2) {
-    background-color: #FFF;
-    max-width: 150px;
-    vertical-align: middle;
-}
-
-/* Module configuration */
-
-.admin-container-striped > div:nth-child(2n+1),
-.admin-container-striped > div:nth-child(2n+2) {
-    border-top: 1px solid #DDD;
-    max-width: none;
-    padding: 12px;
-}
-.admin-container-striped form .form-group {
-    margin-left: 0;
-}
-
-
 /***************
  ** OVERRIDES **
  ***************/
@@ -86,7 +37,7 @@ body {
     border-color: #DDD;
 }
 
-/* The anonymous administration page shouldn't have a left hand navigation when wider than 992 pixels */
+/* The Administration UI login page shouldn't have a left hand navigation */
 @media (min-width: 992px) {
     .anon .oae-lhnavigation {
         display: none;

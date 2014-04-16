@@ -14,19 +14,11 @@
     </head>
     <body>
 
-        <div data-widget="header"><!-- --></div>
+        <div data-widget="adminheader"><!-- --></div>
 
         <main id="admin-content-container" class="oae-main-content" role="main">
             <div data-widget="lhnavigation"><!-- --></div>
         </main>
-
-        <!-- Hidden form that will be submitted for logging a global admin onto a tenant.
-             This is done through a hidden form as this will be a cross-domain request -->
-        <form id="admin-tenant-login-form" class="hide" method="post">
-            <input type="hidden" name="expires" id="admin-tenant-login-form-expires" />
-            <input type="hidden" name="signature" id="admin-tenant-login-form-signature" />
-            <input type="hidden" name="userId" id="admin-tenant-login-form-userid" />
-        </form>
 
         <!-- JAVASCRIPT -->
         <script data-main="/shared/oae/api/oae.bootstrap.js" data-loadmodule="/admin/js/admin.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>

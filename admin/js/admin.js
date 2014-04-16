@@ -19,7 +19,7 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
     var currentContext = null;
     // Variable that will cache the list of available tenants
     var allTenants = null;
-    // Variable that will cache the config schema
+    // Variable that will cache the configuration schema
     var configurationSchema = null;
     // Variable that will cache the configuration for the current tenant
     var configuration = null;
@@ -35,13 +35,28 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
     var initializeNavigation = function() {
         // Structure that will be used to construct the left hand navigation pages
         var lhNavPages = null;
-        if (!oae.data.me.anon) {
+        if (oae.data.me.anon) {
+            lhNavPages = [{
+                'id': 'adminlogin',
+                'title': oae.api.i18n.translate('__MSG__SIGN_IN__'),
+                'layout': [
+                    {
+                        'width': 'col-md-12',
+                        'widgets': [
+                            {
+                                'name': 'adminlogin'
+                            }
+                        ]
+                    }
+                ]
+            }];
+        } else {
             lhNavPages = [
                 {
                     'id': 'tenants',
                     'icon': 'icon-dashboard',
                     'closeNav': true,
-                    'title': oae.api.i18n.translate('__MSG__TENANTS__'),
+                    'title': currentContext.isGlobalAdminServer ? oae.api.i18n.translate('__MSG__TENANTS__') : oae.api.i18n.translate('__MSG__TENANT__'),
                     'layout': [
                         {
                             'width': 'col-md-12',
@@ -104,22 +119,6 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                     ]
                 });
             }
-        } else {
-            lhNavPages = [{
-                'id': 'login',
-                'class': 'hide',
-                'title': oae.api.i18n.translate('__MSG__SIGN_IN__'),
-                'layout': [
-                    {
-                        'width': 'col-md-12',
-                        'widgets': [
-                            {
-                                'name': 'login'
-                            }
-                        ]
-                    }
-                ]
-            }];
         }
 
         var baseURL = '/';
@@ -137,67 +136,6 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
     ////////////////////
     // INITIALIZATION //
     ////////////////////
-
-    /**
-     * Get all of the available tenants and cache them. This can only be run on the global admin tenant,
-     * as there is no endpoint that allows for fetching the full list of available tenants from a user
-     * tenant
-     *
-     * @param  {Function}    callback        Standard callback function
-     */
-    var getTenants = function(callback) {
-        $.ajax({
-            url: '/api/tenants',
-            success: function(data) {
-                allTenants = data;
-                callback();
-            }
-        });
-    };
-
-    /**
-     * Gets the configuration schema and the configuration for the current tenant.
-     *
-     * @param  {Function}    callback        Standard callback function
-     */
-    var loadConfiguration = function(callback) {
-        if (oae.data.me.anon) {
-            return callback();
-        }
-
-        // Get the config schema
-        $.ajax({
-            'url': '/api/config/schema',
-            'success': function(data) {
-                configurationSchema = data;
-
-                // Remove the OAE UI module from the schema to avoid it being rendered
-                // as a module, because skinning will be handled in a separate page
-                delete configurationSchema['oae-ui'];
-
-                // Get the tenant configuration values
-                var url = '/api/config';
-                if (currentContext.isTenantOnGlobalAdminServer) {
-                    url += '/' + currentContext.alias;
-                }
-
-                // We explicitly cache bust this request, as the caching headers will be
-                // set to cache the config feed for 15 minutes. This is done because the
-                // endpoint is used on tenants by end-users, as we don't want to re-fetch the
-                // config feed on every page load for every user. However, we don't want to serve
-                // cached configs to the administrator in the administration UI, as that could
-                // cause configuration changes not to appear immediately.
-                $.ajax({
-                    'url': url,
-                    'cache': false,
-                    'success': function(data) {
-                        configuration = data;
-                        callback();
-                    }
-                });
-            }
-        });
-    };
 
     /**
      * Determine whether or not we're currently on the global admin server and whether or not we need the UI for
@@ -233,8 +171,64 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
     };
 
     /**
+     * Get all of the available tenants and cache them. This can only be run on the global admin tenant,
+     * as there is no endpoint that allows for fetching the full list of available tenants from a user
+     * tenant
+     *
+     * @param  {Function}    callback        Standard callback function
+     */
+    var getTenants = function(callback) {
+        $.ajax({
+            url: '/api/tenants',
+            success: function(data) {
+                allTenants = data;
+                callback();
+            }
+        });
+    };
+
+    /**
+     * Get the configuration schema and the configuration for the current tenant.
+     *
+     * @param  {Function}    callback        Standard callback function
+     */
+    var loadConfiguration = function(callback) {
+        // Get the config schema
+        $.ajax({
+            'url': '/api/config/schema',
+            'success': function(data) {
+                configurationSchema = data;
+
+                // Remove the OAE UI module from the schema to avoid it being rendered
+                // as a module, because skinning will be handled in a separate page
+                delete configurationSchema['oae-ui'];
+
+                // Get the tenant configuration values
+                var url = '/api/config';
+                if (currentContext.isTenantOnGlobalAdminServer) {
+                    url += '/' + currentContext.alias;
+                }
+
+                // We explicitly cache bust this request, as the caching headers will be
+                // set to cache the config feed for 15 minutes. This is done because the
+                // endpoint is used on tenants by end-users, as we don't want to re-fetch the
+                // config feed on every page load for every user. However, we don't want to serve
+                // cached configs to the administrator in the administration UI, as that could
+                // cause configuration changes not to appear immediately.
+                $.ajax({
+                    'url': url,
+                    'cache': false,
+                    'success': function(data) {
+                        configuration = data;
+                    }
+                });
+            }
+        });
+    };
+
+    /**
      * The `oae.context.get` or `oae.context.get.<widgetname>` event can be sent by widgets
-     * to get hold of the current context (i.e. content profile). In the first case, a
+     * to get hold of the current context (i.e. global tenant). In the first case, a
      * `oae.context.send` event will be sent out as a broadcast to all widgets listening
      * for the context event. In the second case, a `oae.context.send.<widgetname>` event
      * will be sent out and will only be caught by that particular widget. In case the widget
@@ -261,7 +255,7 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
     };
 
     /**
-     * Initializes the admin UI
+     * Initialize the admin UI
      */
     var initializeAdminUI = function() {
         // Redirect to the 'Access denied' page if the user is logged in
@@ -274,12 +268,12 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
         getCurrentContext(function() {
             // set up the context event
             setUpContext();
-
+            // Set up the navigation
+            initializeNavigation();
             // Load the configuration and configuration schema
-            loadConfiguration(function() {
-                // Initialize left hand navigation
-                initializeNavigation();
-            });
+            if (!oae.data.me.anon) {
+                loadConfiguration();
+            }
         });
     };
 

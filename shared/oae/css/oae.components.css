@@ -97,6 +97,43 @@ a.oae-plain-link:hover {
             border-radius: 5px;
 }
 
+
+/********************
+ ** STRIPED TABLES **
+ ********************/
+
+table.oae-table-striped tbody tr:nth-child(2n+1) td,
+table.oae-table-striped tbody tr:nth-child(2n+1) th,
+div.oae-table-striped > div:nth-child(2n+1) {
+    background: #F8F8F8;
+    max-width: 150px;
+    vertical-align: middle;
+}
+
+table.oae-table-striped tbody tr:nth-child(2n+2) td,
+table.oae-table-striped tbody tr:nth-child(2n+2) th,
+div.oae-table-striped > div:nth-child(2n+2) {
+    background-color: #FFF;
+    max-width: 150px;
+    vertical-align: middle;
+}
+
+div.oae-table-striped > div:nth-child(2n+1),
+div.oae-table-striped > div:nth-child(2n+2) {
+    border-top: 1px solid #DDD;
+    max-width: none;
+    padding: 12px;
+}
+
+div.oae-table-striped form {
+    margin: 20px 0;
+}
+
+div.oae-table-striped form .form-group {
+    margin-left: 0;
+}
+
+
 /**********************
  ** VISIBILITY ICONS **
  **********************/
