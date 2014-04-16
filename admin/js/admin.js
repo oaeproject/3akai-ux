@@ -96,6 +96,9 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                 }
             ];
 
+            // Only expose the skinning functionality when the admin is looking at a tenant.
+            // The global tenant does not require skinning as the values wouldn't flow through
+            // to the tenants appropriately if both of them have skinning values stored.
             if (!currentContext.isGlobalAdminServer) {
                 lhNavPages.push({
                     'id': 'skinning',
@@ -220,6 +223,8 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                     'cache': false,
                     'success': function(data) {
                         configuration = data;
+                        // Set up the navigation
+                        initializeNavigation();
                     }
                 });
             }
@@ -266,13 +271,16 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
 
         // Determine the tenant for which we want to see the admin UI
         getCurrentContext(function() {
-            // set up the context event
+            // Set up the context event
             setUpContext();
-            // Set up the navigation
-            initializeNavigation();
-            // Load the configuration and configuration schema
+
             if (!oae.data.me.anon) {
+                // Load the configuration and configuration schema
+                // and set up the navigation
                 loadConfiguration();
+            } else {
+                // Set up the navigation
+                initializeNavigation();
             }
         });
     };

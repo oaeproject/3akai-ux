@@ -327,6 +327,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 '/ui/bundles/zh_CN.properties': null
             },
             'mainHTML': {
+                '/admin/index.html': null,
                 '/shared/oae/errors/accessdenied.html': null,
                 '/shared/oae/errors/maintenance.html': null,
                 '/shared/oae/errors/noscript.html': null,
@@ -341,8 +342,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 '/ui/index.html': null,
                 '/ui/me.html': null,
                 '/ui/search.html': null,
-                '/ui/user.html': null,
-                '/admin/index.html': null
+                '/ui/user.html': null
             },
             'apiJS': {
                 '/shared/oae/api/oae.api.authentication.js': null,
