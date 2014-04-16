@@ -71,12 +71,13 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     };
 
     /**
-     * Replaces the given profilePath with a link to `/me` if the profilePath matches the logged in user's profilePath
+     * Replace the given profilePath with a link to `/me` if the profilePath matches the logged in user's profilePath. This avoids
+     * the back button problems caused by the redirect to `/me` when linking to the current user's profilePath directly.
      *
      * @param  {String}    profilePath    The profilePath to replace with `/me` if it matches the current logged in user's profilePath
      * @return {String}                   Returns either `/me` or the passed in profilePath string
      */
-    var replaceProfilePath = exports.replaceProfilePath = function(profilePath) {
+    var profilePath = exports.profilePath = function(profilePath) {
         return profilePath === require('oae.core').data.me.profilePath ? '/me' : profilePath;
     };
 
@@ -160,8 +161,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
      */
     var template = exports.template = function() {
 
-        // Custom Trimpath modifiers, used for security related escaping
-        // purposes and path replacements
+        // Custom Trimpath modifiers, used for string template utilities
         var trimpathModifiers = {
             'encodeForHTML': function(str) {
                 return security().encodeForHTML(str);
@@ -175,8 +175,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             'encodeForURL': function(str) {
                 return security().encodeForURL(str);
             },
-            'replaceProfilePath': function(str) {
-                return replaceProfilePath(str);
+            'profilePath': function(str) {
+                return profilePath(str);
             }
         };
 
