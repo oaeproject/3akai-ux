@@ -165,15 +165,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'globalize'], funct
                 $(this).attr('datetime', datetime.toISOString());
             }
 
-            // Convert to date object for calculations
-            datetime = new Date(datetime);
-
-            // Convert to UTC for localization by transformDateTime
-            var locale = require('oae.core').data.me.locale;
-            datetime.setTime(datetime.getTime() - (locale.timezone.offset * 60 * 60 * 1000));
-
             // Set the element title and apply timeago
-            $(this).attr('title', transformDateTime(datetime, false)).timeago();
+            $(this).attr('title', transformDateTime(datetime, false, false)).timeago();
         });
     };
 });
