@@ -1160,21 +1160,6 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     };
 
 
-    ////////////////////
-    // MATH RENDERING //
-    ////////////////////
-
-    /**
-     * Using MathJax behind the scenes, find all mathematical function (LaTeX) declarations and render them
-     * appropriately. Mathemetical are defined by wrapping them in $$.
-     *
-     * Example: $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
-     *
-     * @param  {Element|String}     [$element]        jQuery element or jQuery selector for that element in which we should look for Mathematical formulas and render them. If this is not provided, the body element will be used.
-     */
-    var renderMath = exports.renderMath = function($element) {};
-
-
     //////////////
     // SECURITY //
     //////////////
