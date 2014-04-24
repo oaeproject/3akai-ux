@@ -320,6 +320,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                 // Make sure that the provided output is a jQuery object
                 $output = $($output);
                 $output.html(renderedHTML);
+                // Apply timeago to the `oae-timeago` elements in the output container
+                require('oae.api.l10n').timeAgo($output);
             } else {
                 return renderedHTML;
             }

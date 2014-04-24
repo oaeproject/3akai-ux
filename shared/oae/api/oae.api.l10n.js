@@ -81,15 +81,16 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'globalize'], funct
      * e.g. 2/20/2012
      *
      * @param  {Date|Number}    date        Javascript date object or milliseconds since epoch that needs to be converted into a localized date string
+     * @param  {Boolean}        [localize]  Whether or not the date should be adjusted to the user's timezone. By default, the date will be adjusted to the user's timezone
      * @return {String}                     Converted localized date
      * @throws {Error}                      Error thrown when no date has been provided
      */
-    var transformDate = exports.transformDate = function(date) {
+    var transformDate = exports.transformDate = function(date, localize) {
         if (!date) {
             throw new Error('A date must be provided');
         }
         // Make sure that we are working with a valid date adjusted to the user's timezone
-        date = parseDate(date);
+        date = parseDate(date, localize);
         // Convert the date to a localized date string
         return Globalize.format(date, 'd');
     };
@@ -102,15 +103,16 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'globalize'], funct
      *
      * @param  {Date|Number}    date        Javascript date object or milliseconds since epoch that needs to be converted into a localized date string
      * @param  {Boolean}        useShort    Whether or not to use the short version (2/20/2012 3:35 PM) or the long version (Monday, February 20, 2012 3:35 PM). By default, the long version will be used
+     * @param  {Boolean}        [localize]  Whether or not the date should be adjusted to the user's timezone. By default, the date will be adjusted to the user's timezone
      * @return {String}                     Converted localized date and time
      * @throws {Error}                      Error thrown when no date has been provided
      */
-    var transformDateTime = exports.transformDateTime = function(date, useShort) {
+    var transformDateTime = exports.transformDateTime = function(date, useShort, localize) {
         if (!date) {
             throw new Error('A date must be provided');
         }
         // Make sure that we are working with a valid date adjusted to the user's timezone
-        date = parseDate(date);
+        date = parseDate(date, localize);
         // Convert the date to a localized date and time string
         if (useShort) {
             return Globalize.format(date, 'd') + ' ' + Globalize.format(date, 't');
@@ -139,22 +141,32 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'globalize'], funct
     };
 
     /**
-     * Function that will take a date and convert it into a localized time ago string.
-     * The user's locale does not come into play in this since we're expressing how long ago something happened.
+     * Apply timeago to all `time` elements inside of the specified container. The function is automatically called
+     * when when rendering a template with a specified output container and when using the infinite scroll plugin. It's expected
+     * that the `datetime` attribute is set to the date in milliseconds from epoch or ISO 8601 format. This function sets up
+     * the markup for `$.timeago` and applies the plugin to the elements.
      *
-     * @param  {Date|Number}    date        Javascript date object or milliseconds since epoch that needs to be converted into a time ago string
-     * @return {String}                     Converted localized time ago string
-     * @throws {Error}                      Error thrown when no date has been provided
+     * @param  {Element|String}  $template      jQuery element representing the HTML element that contains the template or jQuery selector for the template container
+     * @throws {Error}                          Error thrown when no template has been provided
      */
-    var timeAgo = exports.timeAgo = function(date) {
-        if (!date) {
-            throw new Error('A date must be provided');
+    var timeAgo = exports.timeAgo = function($template) {
+        if (!$template) {
+            throw new Error('A valid template must be provided');
         }
-        // Make sure that we are working with a valid date. The timeago plugin uses the browsers
-        // timezone for time comparisons by relying on `new Date()` to get the current time. This
-        // means that the provided date does not need to be localized to the user's timezone, as
-        // it can then simply compare the current time and the date we pass in.
-        date = parseDate(date, false);
-        return $.timeago(date);
+
+        // Set up all the <time> elements for timeago
+        $('time[datetime]', $($template)).each(function() {
+            // Actual time is stored in datetime attribute
+            var datetime = $(this).attr('datetime');
+
+            // If datetime is raw milliseconds, convert it to ISO 8601 format
+            if (parseInt(datetime,10) === +datetime) {
+                datetime = new Date(+datetime);
+                $(this).attr('datetime', datetime.toISOString());
+            }
+
+            // Set the element title and apply timeago
+            $(this).attr('title', transformDateTime(datetime, false, false)).timeago();
+        });
     };
 });
