@@ -406,12 +406,10 @@
             </div>
         --></div>
 
-        <!-- Hidden form that will be submitted for logging a global admin onto a tenant.
-             This is done through a hidden form as this will be a cross-domain request -->
+        <!-- Hidden form that will be submitted for logging a global admin onto a tenant. This is
+             done through a hidden form as it will be a cross-domain request. The form data is
+             filled in dynamically with the signed tenant login data -->
         <form id="admin-tenant-login-form" class="hide" method="post">
-            <input type="hidden" name="expires" id="admin-tenant-login-form-expires" />
-            <input type="hidden" name="signature" id="admin-tenant-login-form-signature" />
-            <input type="hidden" name="userId" id="admin-tenant-login-form-userid" />
         </form>
 
         <!-- JAVASCRIPT -->
