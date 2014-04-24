@@ -46,19 +46,27 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'globalize'], funct
     };
 
     /**
-     * Utility function that will make sure that a passed in date is a valid Date object. If desired, this function
+     * Utility function that will convert a passed in date to a valid Date object. If desired, this function
      * will also adjust the date to the timezone set in the user's account preferences
      *
-     * @param  {Date|Number}    date        Javascript date object or milliseconds since epoch that needs to be converted into a date
-     * @param  {Boolean}        [localize]  Whether or not the date should be adjusted to the user's timezone. By default, the date will be adjusted to the user's timezone
-     * @return {Date}                       Parsed date object, adjusted to the current user's timezone if desired
+     * @param  {Date|Number|String}    date        Javascript date object, milliseconds since epoch or date in ISO 8601 format that needs to be converted into a date object
+     * @param  {Boolean}               [localize]  Whether or not the date should be adjusted to the user's timezone. By default, the date will be adjusted to the user's timezone
+     * @return {Date}                              Parsed date object, adjusted to the current user's timezone if desired
      * @api private
      */
     var parseDate = function(date, localize) {
-        // If a millisecond since epoch has been provided, we convert it to a date
+        // If a milliseconds since epoch has been provided, we convert it to a date
         if (_.isNumber(date)) {
             date = new Date(date);
+        // If a string is provided, it can either be a milliseconds since epoch string or
+        // an ISO 8601 formatted string
         } else if (_.isString(date)) {
+            // If the provided date is an ISO 8601 formatted string, we convert it to
+            // milliseconds since epoch using the native date parse function
+            if (parseInt(date, 10) !== +date) {
+                date = Date.parse(date);
+            }
+            // Convert the date into a date object
             date = new Date(parseInt(date, 10));
         }
 
@@ -66,7 +74,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'globalize'], funct
         if (localize !== false) {
             var locale = require('oae.core').data.me.locale;
             if (locale) {
-                // The offset represent the number of hours offset between GMT and the user's timezone
+                // The offset represents the number of hours offset between GMT and the user's timezone
                 var offset = locale.timezone.offset;
                 date.setTime(date.getTime() + (offset * 60 * 60 * 1000));
             }
@@ -139,22 +147,33 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'globalize'], funct
     };
 
     /**
-     * Function that will take a date and convert it into a localized time ago string.
-     * The user's locale does not come into play in this since we're expressing how long ago something happened.
+     * Apply timeago to all `time` elements inside of the specified container. This function is automatically called
+     * when when rendering a template with a specified output container and when using the infinite scroll plugin. It's expected
+     * that the `datetime` attribute is set to the date in milliseconds from epoch or ISO 8601 format. This function sets up
+     * the markup for `$.timeago` and applies the plugin to the elements.
      *
-     * @param  {Date|Number}    date        Javascript date object or milliseconds since epoch that needs to be converted into a time ago string
-     * @return {String}                     Converted localized time ago string
-     * @throws {Error}                      Error thrown when no date has been provided
+     * @param  {Element|String}  $container     jQuery element representing the HTML container element in which timeago should be applied or jQuery selector for that container
+     * @throws {Error}                          Error thrown when no container has been provided
      */
-    var timeAgo = exports.timeAgo = function(date) {
-        if (!date) {
-            throw new Error('A date must be provided');
+    var timeAgo = exports.timeAgo = function($container) {
+        if (!$container) {
+            throw new Error('A valid container must be provided');
         }
-        // Make sure that we are working with a valid date. The timeago plugin uses the browsers
-        // timezone for time comparisons by relying on `new Date()` to get the current time. This
-        // means that the provided date does not need to be localized to the user's timezone, as
-        // it can then simply compare the current time and the date we pass in.
-        date = parseDate(date, false);
-        return $.timeago(date);
+
+        // Make sure that the provided template is a jQuery object
+        $container = $($container);
+
+        // Set up all <time> elements for timeago
+        $('time[datetime]', $container).each(function() {
+            var $timeEl = $(this);
+            // Convert the `datetime` attribute value to a valid value
+            // @see http://html5doctor.com/the-time-element/
+            var date = parseDate($timeEl.attr('datetime'), false);
+            $(this).attr('datetime', date.toISOString());
+            // Set the element title to provide a tooltip with a more detailed date
+            $timeEl.attr('title', transformDateTime(date, false));
+            // Apply timeago
+            $timeEl.timeago();
+        });
     };
 });
