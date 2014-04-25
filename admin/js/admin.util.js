@@ -44,7 +44,7 @@ define(['exports', 'jquery', 'oae.core'], function(exports, $, oae) {
      *     'message' (required): 'You cannot undo this operation. Are you sure you want to delete this tenant?',
      *     'cancel': 'Cancel',
      *     'confirm' (required): 'Yes, delete tenant',
-     *     'confirmclass': (optional): 'danger' (for possible values see http://twitter.github.com/bootstrap/base-css.html#buttons)
+     *     'confirmclass': (optional): 'danger' (for possible values see http://getbootstrap.com/css/#buttons)
      *     'confirmed' (required): function() {
      *         // Add handling for confirmation
      *         // Hide the dialog when done (optionally show a success message)

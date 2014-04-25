@@ -74,7 +74,7 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 }
 
 /* NAVIGATION LIST
- * @see http://twitter.github.com/bootstrap/components.html#navs */
+ * @see http://getbootstrap.com/components/#nav */
 
 .nav-list > li > a {
     padding-top: 8px;
@@ -117,7 +117,7 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 }
 
 /* MEDIA OBJECTS
- * @see http://twitter.github.com/bootstrap/components.html#media */
+ * @see http://getbootstrap.com/components/#media */
 
 .media, .media .media {
     font-size: 13px;
@@ -153,7 +153,7 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 }
 
 /* DROPDOWN
- * @see http://twitter.github.com/bootstrap/components.html#dropdowns */
+ * @see http://getbootstrap.com/components/#dropdowns */
 
 .dropdown-menu {
     padding: 10px;
@@ -176,17 +176,19 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 }
 
 /* FORMS
- * http://twitter.github.com/bootstrap/base-css.html#forms */
+ * http://getbootstrap.com/css/#forms */
+
+.form-control {
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+    padding: 6px;
+}
 
 textarea,
 input[type="text"],
 input[type="password"] {
     min-height: 30px;
-}
-
-input[type="radio"],
-input[type="checkbox"] {
-    margin-top: 3px;
 }
 
 input[type="file"] {
@@ -202,40 +204,13 @@ input.search-query {
             border-radius: 3px;
 }
 
-select,
-textarea,
-input[type="text"],
-input[type="password"],
-input[type="datetime"],
-input[type="datetime-local"],
-input[type="date"],
-input[type="month"],
-input[type="time"],
-input[type="week"],
-input[type="number"],
-input[type="email"],
-input[type="url"],
-input[type="search"],
-input[type="tel"],
-input[type="color"],
-.uneditable-input {
-    -webkit-border-radius: 4px;
-       -moz-border-radius: 4px;
-            border-radius: 4px;
-}
-
 .form-group:last-child {
     margin-bottom: 0;
-}
-
-.form-control {
-    padding: 6px;
 }
 
 .form-horizontal input + .help-block,
 .form-horizontal select + .help-block,
 .form-horizontal textarea + .help-block,
-.form-horizontal .uneditable-input + .help-block,
 .form-horizontal .input-group + .help-block {
     margin-bottom: 0;
     margin-top: 3px;
@@ -267,10 +242,6 @@ input[type="color"],
 
 .radio, .checkbox {
     padding-left: 0;
-}
-
-select.form-control {
-    padding: 4px;
 }
 
 .radio input[type="radio"],
@@ -329,7 +300,7 @@ select.form-control {
 }
 
 /* MODAL DIALOGS
- * @see http://twitter.github.com/bootstrap/javascript.html#modals */
+ * @see http://getbootstrap.com/javascript/#modals */
 
 .modal-backdrop.in {
     opacity: 0.8;
@@ -409,7 +380,7 @@ select.form-control {
 
 /* CLICKOVER DIALOGS
  * @see https://github.com/lecar-red/bootstrapx-clickover
- * @see http://twitter.github.io/bootstrap/javascript.html#popovers */
+ * @see http://getbootstrap.com/javascript/#popovers */
 
 /* Bootstrap applies a pretty small default max-width, make the default a bit wider */
 .popover {
@@ -421,7 +392,7 @@ select.form-control {
 }
 
 /* NOTIFICATIONS
- * @see http://twitter.github.com/bootstrap/components.html#alerts
+ * @see http://getbootstrap.com/components/#alerts
  * @see http://nijikokun.github.io/bootstrap-notify */
 
 .alert {
@@ -473,7 +444,7 @@ select.form-control {
 }
 
 /* BADGES
- * @see http://twitter.github.com/bootstrap/components.html#labels-badges */
+ * @see http://getbootstrap.com/components/#badges */
 
 .badge {
     -webkit-border-radius: 3px;
