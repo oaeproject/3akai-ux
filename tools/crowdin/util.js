@@ -76,7 +76,7 @@ var writeBundles = exports.writeBundles = function(bundles, path, callback) {
     if (errors.length > 0) {
         callback(errors);
     } else {
-        callback(null);
+        callback();
     }
 };
 
