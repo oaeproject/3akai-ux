@@ -193,13 +193,13 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             // document and the current user can manage the document. In this case, Etherpad will take care of the content preview
             } else if (isSupportedPreviewActivity && contentProfile.resourceSubType === 'collabdoc' && contentProfile.isManager) {
                 return;
-            // The push notifications is a recognized activity
+            // The push notification is a recognized activity
             } else if (isSupportedUpdateActivity || isSupportedPreviewActivity) {
                 var contentObj = activity.object;
                 contentObj.canShare = contentProfile.canShare;
                 contentObj.isManager = contentProfile.isManager;
 
-                // Cache the previous content profile for comparisons
+                // Cache the previous content profile
                 var previousContentProfile = contentProfile;
                 // Cache the updated content profile
                 contentProfile = contentObj;
@@ -209,8 +209,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
                 // Refresh the content preview when the push notification was a recognized preview activity. However, when the notification
                 // is of the type `previews-finished` and the content item is an image, the content preview is not refreshed. In that case,
-                // the original image will be embedded as the preview already and refreshing it would cause flickering.
-                // Alternatively, the content preview is also refreshed when the content item is a link and the URL has changed.
+                // the original image will already be embedded as the preview and refreshing it would cause flickering.
+                // Alternatively, the content preview is also refreshed when the content item is a link and the URL has been changed
                 if ((isSupportedPreviewActivity && !(activity['oae:activityType'] === 'previews-finished' && contentProfile.resourceSubType === 'file' && contentProfile.mime.substring(0, 6) === 'image/')) ||
                     (activity['oae:activityType'] === 'content-update' && contentProfile.resourceSubType === 'link' && contentProfile.link !== previousContentProfile.link)) {
                     refreshContentPreview();
