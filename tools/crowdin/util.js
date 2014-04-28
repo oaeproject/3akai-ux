@@ -22,7 +22,7 @@ var fs = require('fs');
  * @param  {String}      bundlesDir             Absolute path to the bundles directory
  * @param  {Function}    callback               Standard callback function
  * @param  {Object}      callback.err           Error object
- * @param  {Object}      callback.allBundles    Object containing bundles found on the path. Returns in the form of {'default.properties': '401=401\n404=404\nACCESS_DENIED=Access denied', 'es_ES.properties': '401=401\n404=404\nACCESS_DENIED=Acceso denegado'}
+ * @param  {Object}      callback.allBundles    Object containing parsed bundles found on the path. Returns in the form of {'default.properties': ['401=401', '404=404', 'ACCESS_DENIED=Access denied'], 'es_ES.properties': ['401=401', '404=404', 'ACCESS_DENIED=Acceso denegado']}
  */
 var readBundles = exports.readBundles = function(bundlesDir, callback) {
     var availableBundles = null;
@@ -34,45 +34,56 @@ var readBundles = exports.readBundles = function(bundlesDir, callback) {
     var allBundles = {};
 
     // Loop over all available bundles on the path
+    var errors = [];
     _.each(availableBundles, function(bundleName) {
         // Read the i18n bundle
         try {
-            allBundles[bundleName] = fs.readFileSync(bundlesDir + '/' + bundleName, 'utf-8');
+            var bundle = fs.readFileSync(bundlesDir + '/' + bundleName, 'utf-8');
+            allBundles[bundleName] = bundle.split(/\n/g);
         } catch (err) {
-            return callback(err);
+            errors.push(err);
         }
     });
-    callback(null, allBundles);
+
+    if (errors.length > 0) {
+        callback(errors);
+    } else {
+        callback(null, allBundles);
+    }
 };
 
 /**
  * Write bundles to a given directory
  *
- * @param  {Object}      bundles          Object containing bundles in the form of {'default.properties': '401=401\n404=404\nACCESS_DENIED=Access denied', 'es_ES.properties': '401=401\n404=404\nACCESS_DENIED=Acceso denegado'}
+ * @param  {Object}      bundles          Object containing parsed bundles in the form of {'default.properties': ['401=401', '404=404', 'ACCESS_DENIED=Access denied'], 'es_ES.properties': ['401=401', '404=404', 'ACCESS_DENIED=Acceso denegado']}
  * @param  {String}      path             The path to write the bundles to
  * @param  {Function}    callback         Standard callback function
  * @param  {Object}      callback.err     Error object
  */
 var writeBundles = exports.writeBundles = function(bundles, path, callback) {
+    var errors = [];
     _.each(bundles, function(bundle, bundleName) {
-        // Add a new line to the end of the bundle as Crowdin will do this automatically
-        // and we don't want the diff every time we run our scripts
-        bundle += '\n';
+        // Convert the entries array to an entries string
+        var bundleString = bundle.join('\n');
         // Write the bundle
         try {
-            fs.writeFileSync(path + '/' + bundleName, bundle, 'utf-8');
+            fs.writeFileSync(path + '/' + bundleName, bundleString, 'utf-8');
         } catch (err) {
-            return callback(err);
+            errors.push(err);
         }
     });
 
-    callback(null);
+    if (errors.length > 0) {
+        callback(errors);
+    } else {
+        callback(null);
+    }
 };
 
 /**
  * Get the translations for a specific key in a given bundles object
  *
- * @param  {Object}      bundles                     Object containing bundles in the form of {'default.properties': '401=401\n404=404\nACCESS_DENIED=Access denied', 'es_ES.properties': '401=401\n404=404\nACCESS_DENIED=Acceso denegado'}
+ * @param  {Object}      bundles                     Object containing parsed bundles in the form of {'default.properties': ['401=401', '404=404', 'ACCESS_DENIED=Access denied'], 'es_ES.properties': ['401=401', '404=404', 'ACCESS_DENIED=Acceso denegado']}
  * @param  {String}      key                         The key to retrieve for every language bundle
  * @param  {Function}    callback                    Standard callback function
  * @param  {Object}      callback.i18nEntries        Object containing the key and translation for every language it's available in. Returns in the form {'Bundle 1 name': 'key=translation', 'Bundle 2 name': 'key=translation'}
@@ -80,7 +91,6 @@ var writeBundles = exports.writeBundles = function(bundles, path, callback) {
 var getKeyFromBundles = exports.getKeyFromBundles = function(bundles, key, callback) {
     var i18nEntries = {};
     _.each(bundles, function(bundle, bundlePath) {
-        bundle = bundle.split(/\n/g);
         // Loop over every line and, if the key matches the key we need to move, cache it in the `i18nEntries` variable
         _.each(bundle, function(i18nEntry) {
             if (i18nEntry && i18nEntry.split('=')[0].trim() === key) {
@@ -95,58 +105,55 @@ var getKeyFromBundles = exports.getKeyFromBundles = function(bundles, key, callb
 /**
  * Add the translations for a specific key to the provided bundles
  *
- * @param  {Object}      bundles             Object containing bundles in the form of {'default.properties': '401=401\n404=404\nACCESS_DENIED=Access denied', 'es_ES.properties': '401=401\n404=404\nACCESS_DENIED=Acceso denegado'}
+ * @param  {Object}      bundles             Object containing parsed bundles in the form of {'default.properties': ['401=401', '404=404', 'ACCESS_DENIED=Access denied'], 'es_ES.properties': ['401=401', '404=404', 'ACCESS_DENIED=Acceso denegado']}
  * @param  {Object}      i18nEntries         Object containing the key and translation for every language it's available in
  * @param  {Function}    callback            Standard callback function
- * @param  {Object}      callback.bundles    Object containing the bundles where the given key is added to. Returns in the form of {'default.properties': '401=401\n404=404\nACCESS_DENIED=Access denied', 'es_ES.properties': '401=401\n404=404\nACCESS_DENIED=Acceso denegado'}
+ * @param  {Object}      callback.err        Error object
+ * @param  {Object}      callback.bundles    Object containing the bundles where the given key is added to. Returns in the form of {'default.properties': ['401=401', '404=404', 'ACCESS_DENIED=Access denied'], 'es_ES.properties': ['401=401', '404=404', 'ACCESS_DENIED=Acceso denegado']}
  */
 var addKeyToBundles = exports.addKeyToBundles = function(bundles, i18nEntries, callback) {
+    // Make sure that the key isn't already present in one of the bundles to move the key to
+    // to avoid accidentally removing an existing translation
+    var exists = [];
     _.each(bundles, function(bundle, bundlePath) {
-        bundle = bundle.split(/\n/g);
-        // If the key is already in the other widget's bundle we need to replace it, keep track of
-        // the index the key has in the `bundle` array
-        var replaceKey = null;
-        // Loop over the widget's bundle, if the key matches the key we need to add, set
-        // `replaceKey` to the index the key has in the `bundle` to be able to replace
-        // it later
-        for (var i = 0; i < bundle.length; i++) {
-            if (i18nEntries[bundlePath] && bundle[i].split('=')[0].trim() === i18nEntries[bundlePath].split('=')[0].trim()) {
-                replaceKey = i;
-                break;
+        _.each(bundle, function(i18nEntry) {
+            if (i18nEntries[bundlePath] && i18nEntries[bundlePath].split('=')[0].trim() === i18nEntry.split('=')[0].trim()) {
+                exists.push(bundlePath);
             }
-        }
-        // If the key was already in the other widget's bundle it needs to be replaced
-        if (replaceKey) {
-            bundle.splice(_.indexOf(bundle, bundle[replaceKey]), 1, i18nEntries[bundlePath]);
-        // If the key wasn't already in the other widget's bundle it needs to be added
-        } else {
-            bundle.push(i18nEntries[bundlePath]);
-        }
-
-        // Sort the bundle in the bundle alphabetically
-        bundle.sort(_sortKeys);
-        bundles[bundlePath] = _.compact(bundle).join('\n');
+        });
     });
 
-    callback(bundles);
+    if (exists.length > 0) {
+        return callback(new Error('The key to add is already present in ' + exists))
+    }
+
+    // Add the entry to the different bundles
+    _.each(bundles, function(bundle, bundlePath) {
+        if (i18nEntries[bundlePath]) {
+            bundle.push(i18nEntries[bundlePath]);
+        }
+    });
+
+    sortBundles(bundles, function(bundles) {
+        callback(null, bundles);
+    });
 };
 
 /**
  * Delete a given key from the provided bundles
  *
- * @param  {Object}      bundles             Object containing bundles in the form of {'default.properties': '401=401\n404=404\nACCESS_DENIED=Access denied', 'es_ES.properties': '401=401\n404=404\nACCESS_DENIED=Acceso denegado'}
+ * @param  {Object}      bundles             Object containing parsed bundles in the form of {'default.properties': ['401=401', '404=404', 'ACCESS_DENIED=Access denied'], 'es_ES.properties': ['401=401', '404=404', 'ACCESS_DENIED=Acceso denegado']}
  * @param  {String}      key                 The key to delete from the bundles
  * @param  {Function}    callback            Standard callback function
- * @param  {Object}      callback.bundles    Object containing the bundles with the provided key removed. Returns in the form of {'default.properties': '401=401\n404=404\nACCESS_DENIED=Access denied', 'es_ES.properties': '401=401\n404=404\nACCESS_DENIED=Acceso denegado'}
+ * @param  {Object}      callback.bundles    Object containing the bundles with the provided key removed. Returns in the form of {'default.properties': ['401=401', '404=404', 'ACCESS_DENIED=Access denied'], 'es_ES.properties': ['401=401', '404=404', 'ACCESS_DENIED=Acceso denegado']}
  */
 var deleteKeyFromBundles = exports.deleteKeyFromBundles = function(bundles, key, callback) {
     _.each(bundles, function(bundle, bundlePath) {
-        var newBundle = '';
-        bundle = bundle.split(/\n/g);
+        var newBundle = [];
         // Loop over every line and, if the key doesn't match add it to the new bundle file we're writing
         _.each(bundle, function(i18nEntry) {
-            if (i18nEntry && i18nEntry.split('=')[0].trim() !== key) {
-                newBundle += i18nEntry + '\n';
+            if (_.isString(i18nEntry) && i18nEntry.split('=')[0].trim() !== key) {
+                newBundle.push(i18nEntry);
             }
         });
         bundles[bundlePath] = newBundle;
@@ -175,17 +182,21 @@ var _sortKeys = function(a, b) {
 /**
  * Sort the given bundles alphabetically
  *
- * @param  {Object}      bundles             Object containing bundles in the form of {'default.properties': '401=401\n404=404\nACCESS_DENIED=Access denied', 'es_ES.properties': '401=401\n404=404\nACCESS_DENIED=Acceso denegado'}
+ * @param  {Object}      bundles             Object containing parsed bundles in the form of {'default.properties': ['401=401', '404=404', 'ACCESS_DENIED=Access denied'], 'es_ES.properties': ['401=401', '404=404', 'ACCESS_DENIED=Acceso denegado']}
  * @param  {Function}    callback            Standard callback function
- * @param  {Object}      callback.bundles    Object containing the sorted bundles. Returns in the form of {'default.properties': '401=401\n404=404\nACCESS_DENIED=Access denied', 'es_ES.properties': '401=401\n404=404\nACCESS_DENIED=Acceso denegado'}
+ * @param  {Object}      callback.bundles    Object containing the sorted bundles. Returns in the form of {'default.properties': ['401=401', '404=404', 'ACCESS_DENIED=Access denied'], 'es_ES.properties': ['401=401', '404=404', 'ACCESS_DENIED=Acceso denegado']}
  */
 var sortBundles = exports.sortBundles = function(bundles, callback) {
-    _.each(bundles, function(keys, bundleName) {
-        keys = keys.split(/\n/g);
+    _.each(bundles, function(i18nEntries, bundleName) {
+        // Remove all empty lines from the bundle
+        i18nEntries = _.compact(i18nEntries);
         // Sort the keys in the bundle alphabetically
-        keys.sort(_sortKeys);
-        // Join the keys by a new line and assign them back to the original object
-        bundles[bundleName] = _.compact(keys).join('\n');
+        i18nEntries = i18nEntries.sort(_sortKeys);
+        // Add 2 new lines to the end of the bundle as Crowdin will do this automatically
+        // and we don't want the diff every time we run our scripts
+        i18nEntries.push('');
+        i18nEntries.push('');
+        bundles[bundleName] = i18nEntries;
     });
 
     callback(bundles);

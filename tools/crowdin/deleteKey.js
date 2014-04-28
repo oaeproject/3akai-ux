@@ -31,7 +31,7 @@ var argv = require('optimist')
 
 var util = require('./util');
 
-// Extract the i18nKey from the provided command line parameter
+// Extract the i18n key from the provided command line parameter
 var i18nKey = argv.i18nKey;
 
 // Extract the bundles directory
