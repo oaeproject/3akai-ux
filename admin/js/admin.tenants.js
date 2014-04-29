@@ -388,33 +388,37 @@ define(['exports', 'jquery', 'underscore', 'oae.core', '/admin/js/admin.util.js'
      */
     var loginOnTenantHandler = function() {
         var tenantAlias = $(this).attr('data-alias');
-        getToken(tenantAlias, function(err, token) {
+        getSignedTenantRequestInfo(tenantAlias, function(err, requestInfo) {
             if (err) {
-                oae.api.util.notification('Token error.', 'Could not retrieve a token to log onto the tenant.', 'error');
+                oae.api.util.notification('Tenant login error.', 'Could not retrieve a signed request to log onto the tenant.', 'error');
             } else {
                 // Fill in our hidden form and submit it. This is done because we are
                 // dealing with a cross-domain request. The action should have the tenant URL.
                 var $form = $('#admin-tenant-login-form');
-                $form.attr('action', '//' + token.host + '/api/auth/signed');
-                $('#admin-tenant-login-form-expires', $form).val(token.expires);
-                $('#admin-tenant-login-form-signature', $form).val(token.signature);
-                $('#admin-tenant-login-form-userid', $form).val(token.userId);
+                $form.attr('action', requestInfo.url);
+                $.each(requestInfo.body, function(name, value) {
+                    $form.append($('<input type="hidden" />').attr('name', name).val(value));
+                });
+
                 $form.submit();
             }
         });
     };
 
     /**
-     * Retrieves a signed token that can be used to log onto a tenant.
+     * Retrieves a signed authentication request that will authenticate the global admin user
+     * to a user tenant
      *
-     * @param  {String}     tenantAlias     The tenant alias of the tenant to log onto
-     * @param  {Function}   callback        Standard callback function
-     * @param  {Object}     callback.err    Error object containing error code and message
-     * @param  {Object}     callback.token  A token that can be used to log onto the specified tenant
+     * @param  {String}     tenantAlias                 The tenant alias of the tenant to log onto
+     * @param  {Function}   callback                    Standard callback function
+     * @param  {Object}     callback.err                Error object containing error code and message
+     * @param  {Object}     callback.requestInfo        The signed data for the authentication request
+     * @param  {String}     callback.requestInfo.url    The URL to which to POST the authentication request
+     * @param  {Object}     callback.requestInfo.data   The data to include as the POST body for the authentication request
      */
-    var getToken = function(tenantAlias, callback) {
+    var getSignedTenantRequestInfo = function(tenantAlias, callback) {
         $.ajax({
-            'url': '/api/auth/signed',
+            'url': '/api/auth/signed/tenant',
             'data': {
                 'tenant': tenantAlias
             },
