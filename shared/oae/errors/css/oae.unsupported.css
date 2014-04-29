@@ -13,28 +13,31 @@
  * permissions and limitations under the License.
  */
 
-.oae-panel-primary {
-    background: none;
+.row {
+    width: 900px;
 }
 
-.oae-panel-tertiary {
-    margin-top: 30px;
+.oae-panel-primary {
+    background: none;
 }
 
 .unsupported-column-1,
 .unsupported-column-2 {
     float: left;
     padding: 0 20px;
-    width: 50%;
+    width: 45%;
 }
 
 #error-content .unsupported-column-1 h1 {
-    line-height: 1;
     font-size: 40px;
+    line-height: 1;
+    margin-top: 0;
+    text-align: left;
 }
 
 #error-content .unsupported-column-2 h1 {
     margin-top: 0;
+    text-align: left;
 }
 
 #error-content .unsupported-column-1 ul li {
