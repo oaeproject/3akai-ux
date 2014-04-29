@@ -71,6 +71,17 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     };
 
     /**
+     * Replace the given profilePath with a link to `/me` if the profilePath matches the logged in user's profilePath. This avoids
+     * the back button problems caused by the redirect to `/me` when linking to the current user's profilePath directly.
+     *
+     * @param  {String}    profilePath    The profilePath to replace with `/me` if it matches the current logged in user's profilePath
+     * @return {String}                   Returns either `/me` or the passed in profilePath string
+     */
+    var profilePath = exports.profilePath = function(profilePath) {
+        return profilePath === require('oae.core').data.me.profilePath ? '/me' : profilePath;
+    };
+
+    /**
      * Add a cache busting parameter to a URL
      *
      * @param  {String}     url     The URL to add the cache busting parameter to
@@ -150,7 +161,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
      */
     var template = exports.template = function() {
 
-        // Custom Trimpath modifiers, used for security related escaping purposes
+        // Custom Trimpath modifiers, used for string template utilities
         var trimpathModifiers = {
             'encodeForHTML': function(str) {
                 return security().encodeForHTML(str);
@@ -163,6 +174,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             },
             'encodeForURL': function(str) {
                 return security().encodeForURL(str);
+            },
+            'profilePath': function(str) {
+                return profilePath(str);
             }
         };
 
@@ -306,6 +320,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                 // Make sure that the provided output is a jQuery object
                 $output = $($output);
                 $output.html(renderedHTML);
+                // Apply timeago to the `oae-timeago` elements in the output container
+                require('oae.api.l10n').timeAgo($output);
             } else {
                 return renderedHTML;
             }
@@ -452,6 +468,16 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             // Add hostname to allow tracking of accessed tenant
             ga('create', globalTrackingId, window.location.hostname);
             ga('send', 'pageview');
+
+            // Add event handler to track JavaScript errors
+            window.addEventListener('error', function(ev) {
+                ga('send', 'event', 'JavaScript Error', 'log', ev.message + ' [' + ev.filename + ':  ' + ev.lineno + ']');
+            });
+
+            // Add event handler to track jQuery AJAX errors
+            $(document).ajaxError(function(ev, request, settings, err) {
+                ga('send', 'event', 'Ajax Error', 'log', settings.type + ' ' + settings.url + ' => ' + err + ' (' + request.status + ')');
+            });
         }
 
         // Tenant specific Google Analytics
@@ -892,7 +918,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                     options.extraParams += '&resourceTypes=' + resourceType;
                 });
                 // Add the parameter that specifies whether or not results from other tenants need to be included as well
-                options.extraParams += '&includeExternal=' + (!configAPI.getValue('oae-tenants', 'tenantprivacy', 'tenantprivate'));
+                options.extraParams += '&scope=_interact';
 
                 // By default, the autosuggest component will only show results in the suggested items that actually match the query
                 // on one of the fields specified in the `searchObjProps` parameter. However, as we rely on the REST endpoint to do
@@ -1136,21 +1162,6 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     };
 
 
-    ////////////////////
-    // MATH RENDERING //
-    ////////////////////
-
-    /**
-     * Using MathJax behind the scenes, find all mathematical function (LaTeX) declarations and render them
-     * appropriately. Mathemetical are defined by wrapping them in $$.
-     *
-     * Example: $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
-     *
-     * @param  {Element|String}     [$element]        jQuery element or jQuery selector for that element in which we should look for Mathematical formulas and render them. If this is not provided, the body element will be used.
-     */
-    var renderMath = exports.renderMath = function($element) {};
-
-
     //////////////
     // SECURITY //
     //////////////
@@ -1326,9 +1337,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     };
 
 
-    ////////////////
-    // RESPONSIVE //
-    ////////////////
+    ////////////////////////////
+    // BROWSER-SPECIFIC TESTS //
+    ////////////////////////////
 
     /**
      * Check if the current browser is a browser on a mobile handheld device
@@ -1346,4 +1357,14 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
 
         return isHandheld;
     };
+
+    /**
+     * Check if the current browser is mobile Safari (iOS)
+     *
+     * @return {Boolean}   `true` when using iOS, `false` otherwise
+     */
+    var isIos = exports.isIos = function() {
+        return (/safari/i).test(navigator.userAgent) && (/(iphone|ipad|ipod)/i).test(navigator.userAgent);
+    };
+
 });

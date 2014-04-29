@@ -323,7 +323,7 @@ i[class^="icon-"].large:before {
  * center of the provided image.
  *
  *   e.g. <div class="oae-thumbnail icon-oae-user">
- *            <a href="${entityData.profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}">
+ *            <a href="${entityData.profilePath|profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}">
  *                <div style="background-image: url(/ui/img/dummy/profile-pic-john.png)" role="img" aria-label="John Librarian"/>
  *                <i class="icon-oae-public"></i>
  *            </a>
