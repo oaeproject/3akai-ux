@@ -86,8 +86,7 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                                     'settings': {
                                         'configuration': configuration,
                                         'configurationSchema': configurationSchema,
-                                        'context': currentContext,
-                                        'tenants': allTenants
+                                        'context': currentContext
                                     }
                                 }
                             ]
@@ -113,8 +112,7 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                                     'name': 'skinning',
                                     'settings': {
                                         'configuration': configuration,
-                                        'context': currentContext,
-                                        'tenants': allTenants
+                                        'context': currentContext
                                     }
                                 }
                             ]
@@ -243,19 +241,16 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
         $(document).on('oae.context.get', function(ev, widgetId) {
             if (widgetId) {
                 $(document).trigger('oae.context.send.' + widgetId, {
-                    'currentContext': currentContext,
-                    'allTenants': allTenants
+                    'currentContext': currentContext
                 });
             } else {
                 $(document).trigger('oae.context.send', {
-                    'currentContext': currentContext,
-                    'allTenants': allTenants
+                    'currentContext': currentContext
                 });
             }
         });
         $(document).trigger('oae.context.send', {
-            'currentContext': currentContext,
-            'allTenants': allTenants
+            'currentContext': currentContext
         });
     };
 
