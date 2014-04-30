@@ -327,6 +327,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 '/ui/bundles/zh_CN.properties': null
             },
             'mainHTML': {
+                '/admin/index.html': null,
                 '/shared/oae/errors/accessdenied.html': null,
                 '/shared/oae/errors/maintenance.html': null,
                 '/shared/oae/errors/noscript.html': null,
