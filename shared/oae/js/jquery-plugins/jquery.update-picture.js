@@ -31,8 +31,8 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
             var newThumbnailImage = $(newThumbnail).find('[role="img"]')[0].outerHTML;
 
             // Update all thumbnail images for the current entity
-            $('.oae-thumbnail[data-id="' + data.id + '"]').each(function() {
-                var $thumbnail = $(this);
+            $('.oae-thumbnail[data-id="' + data.id + '"]').each(function(index, thumbnail) {
+                var $thumbnail = $(thumbnail);
                 // When the thumbnail contains a link, the new thumbnail should replace
                 // the content of that link
                 if ($thumbnail.has('a').length > 0) {
