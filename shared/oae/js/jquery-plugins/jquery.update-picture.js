@@ -17,20 +17,32 @@ define(['jquery', 'oae.api.util'], function (jQuery, oaeUtil) {
     (function($) {
 
         /**
-         * Catches the `oae.changepic.update` event and updates the associated thumbnail images
+         * Catch the `oae.changepic.update` event and update the associated thumbnail images
          */
         $(document).on('oae.changepic.update', function(ev, data) {
-            // Define the template
+            // Define the template using the `renderThumbnail` macro
             var $template = $('<div id="thumbnail-template"><!--${renderThumbnail(entityData)}--></div>');
-            // Render a thumbnail and extract the image from it. Not all thumbnails on the page should be
-            // encapsulated in a link so we render a thumbnail and extract the image from it to insert into
-            // already existing thumbnail elements in the DOM.
-            var thumbnailImage = $($.trim(oaeUtil.template().render($template, {
+            // Render the thumbnail and extract the image from it. Not all thumbnails on the page should be
+            // encapsulated in a link, so we render a thumbnail and extract the image from it to insert into
+            // already existing thumbnail elements in the DOM
+            var newThumbnail = $.trim(oaeUtil.template().render($template, {
                 'entityData': data
-            }))).find('[role="img"]')[0].outerHTML;
+            }));
+            var newThumbnailImage = $(newThumbnail).find('[role="img"]')[0].outerHTML;
 
-            // Updated the thumbnail images in the DOM
-            $('.oae-thumbnail[data-id="' + data.id + '"] [role="img"]').replaceWith(thumbnailImage);
+            // Update all thumbnail images for the current entity
+            $('.oae-thumbnail[data-id="' + data.id + '"]').each(function() {
+                var $thumbnail = $(this);
+                // When the thumbnail contains a link, the new thumbnail should replace
+                // the content of that link
+                if ($thumbnail.has('a').length > 0) {
+                    $('a', $thumbnail).html(newThumbnailImage);
+                // Otherwise, the new thumbnail needs to become the content of the root
+                // thumbnail element
+                } else {
+                    $thumbnail.html(newThumbnailImage);
+                }
+            });
         });
 
     })(jQuery);
