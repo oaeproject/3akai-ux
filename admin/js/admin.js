@@ -123,10 +123,12 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
         }
 
         var baseURL = '/';
-        if (!currentContext.isGlobalAdminServer && !currentContext.isTenantOnGlobalAdminServer) {
-            baseURL = '/admin';
-        } else if (currentContext.isTenantOnGlobalAdminServer) {
+        // Individual tenant on the global admininstration UI
+        if (currentContext.isTenantOnGlobalAdminServer) {
             baseURL = '/tenant/' + currentContext.alias;
+        // Administration UI on a user tenant
+        } else if (!currentContext.isGlobalAdminServer) {
+            baseURL = '/admin';
         }
 
         $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, null, baseURL]);
@@ -223,7 +225,6 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                     'cache': false,
                     'success': function(data) {
                         configuration = data;
-                        // Set up the navigation
                         callback();
                     }
                 });

@@ -130,7 +130,8 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
                                         // initial widget loading have finished
                                         $('body').show();
 
-                                        // Initialize websocket push API if we're on a regular tenant
+                                        // Initialize websocket push API, unless we're on the
+                                        // global admin tenant
                                         if (oae.data.me.tenant.alias !== 'admin') {
                                             oae.api.push.init(function(err) {
                                                 if (err) {
