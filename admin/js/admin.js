@@ -95,7 +95,7 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                 }
             ];
 
-            // Only expose the skinning functionality when the admin is looking at a tenant.
+            // Only expose the skinning functionality when the admin is looking at an individual tenant.
             // The global tenant does not require skinning as the values wouldn't flow through
             // to the tenants appropriately if both of them have skinning values stored.
             if (!currentContext.isGlobalAdminServer) {
@@ -123,7 +123,9 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
         }
 
         var baseURL = '/';
-        if (!currentContext.isGlobalAdminServer) {
+        if (!currentContext.isGlobalAdminServer && !currentContext.isTenantOnGlobalAdminServer) {
+            baseURL = '/admin';
+        } else if (currentContext.isTenantOnGlobalAdminServer) {
             baseURL = '/tenant/' + currentContext.alias;
         }
 
@@ -222,7 +224,7 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                     'success': function(data) {
                         configuration = data;
                         // Set up the navigation
-                        initializeNavigation();
+                        callback();
                     }
                 });
             }
@@ -231,7 +233,7 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
 
     /**
      * The `oae.context.get` or `oae.context.get.<widgetname>` event can be sent by widgets
-     * to get hold of the current context (i.e. global tenant). In the first case, a
+     * to get hold of the current context (regular or global tenant). In the first case, a
      * `oae.context.send` event will be sent out as a broadcast to all widgets listening
      * for the context event. In the second case, a `oae.context.send.<widgetname>` event
      * will be sent out and will only be caught by that particular widget. In case the widget
@@ -272,7 +274,7 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
             if (!oae.data.me.anon) {
                 // Load the configuration and configuration schema
                 // and set up the navigation
-                loadConfiguration();
+                loadConfiguration(initializeNavigation);
             } else {
                 // Set up the navigation
                 initializeNavigation();

@@ -18,6 +18,42 @@ body {
 }
 
 
+/********************
+ ** STRIPED TABLES **
+ ********************/
+
+table.admin-table-striped tbody tr:nth-child(2n+1) td,
+table.admin-table-striped tbody tr:nth-child(2n+1) th,
+div.admin-table-striped > div:nth-child(2n+1) {
+    background: #F8F8F8;
+    max-width: 150px;
+    vertical-align: middle;
+}
+
+table.admin-table-striped tbody tr:nth-child(2n+2) td,
+table.admin-table-striped tbody tr:nth-child(2n+2) th,
+div.admin-table-striped > div:nth-child(2n+2) {
+    background-color: #FFF;
+    max-width: 150px;
+    vertical-align: middle;
+}
+
+div.admin-table-striped > div:nth-child(2n+1),
+div.admin-table-striped > div:nth-child(2n+2) {
+    border-top: 1px solid #DDD;
+    max-width: none;
+    padding: 12px;
+}
+
+div.admin-table-striped form {
+    margin: 20px 0;
+}
+
+div.admin-table-striped form .form-group {
+    margin-left: 0;
+}
+
+
 /***************
  ** OVERRIDES **
  ***************/
@@ -29,6 +65,7 @@ body {
             box-shadow: none;
 }
 
+body,
 .oae-page {
     background-color: #ECEAE5;
 }
