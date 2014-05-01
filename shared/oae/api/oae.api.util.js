@@ -1187,7 +1187,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             if (!input) {
                 return '';
             } else {
-                return $.encoder.encodeForHTML(input);
+                return $.encoder.encodeForHTML(input.toString());
             }
         };
 
@@ -1206,7 +1206,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                 // If no attribute name is provided, we provide a dummy attribute
                 // name as this is required by the jQuery plugin
                 attribute = attribute || 'tmp';
-                return $.encoder.encodeForHTMLAttribute(attribute, input, true);
+                return $.encoder.encodeForHTMLAttribute(attribute, input.toString(), true);
             }
         };
 
@@ -1223,7 +1223,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             } else {
 
                 // First sanitize the user's input
-                input = encodeForHTML(input);
+                input = encodeForHTML(input.toString());
 
                 // URLs starting with http://, https://, or ftp://
                 var URLPattern1 = /(\b(https?|ftp):\/\/[\-A-Z0-9+&@#\/%?=~_|!:,.;]*[\-A-Z0-9+&@#\/%=~_|])/gim;
@@ -1248,7 +1248,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             if (!input) {
                 return '';
             } else {
-                return $.encoder.encodeForURL(input);
+                return $.encoder.encodeForURL(input.toString());
             }
         };
 
