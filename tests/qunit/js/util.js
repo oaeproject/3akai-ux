@@ -376,7 +376,9 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 '/shared/oae/js/jquery-plugins/jquery.responsive.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.update-picture.js': null
             },
-            'mainJS': {},
+            'mainJS': {
+                '/admin/js/admin.js': null
+            },
             'mainCSS': {
                 '/shared/oae/css/oae.base.css': null,
                 '/shared/oae/css/oae.components.css': null,
