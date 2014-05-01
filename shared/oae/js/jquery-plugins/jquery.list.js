@@ -186,7 +186,7 @@ define(['jquery', 'oae.api.util', 'jquery.history'], function ($, oaeUtil) {
                 // Get the parent list item
                 var $checkedListItem = $(this).parents('li');
 
-                // Get the id and resource(Sub)Type from the data attributes on the checkbox
+                // Get the id, resourceType and resourceSubType from the data attributes on the checkbox
                 var id = $(checked).attr('data-id');
                 var resourceType = $(checked).attr('data-resourceType');
                 var resourceSubType = $(checked).attr('data-resourceSubType');
@@ -194,8 +194,14 @@ define(['jquery', 'oae.api.util', 'jquery.history'], function ($, oaeUtil) {
                 var displayName = $('h3:visible', $checkedListItem).text();
                 var thumbnailImage = null;
                 if ($('div[role="img"]:visible', $checkedListItem).length === 1) {
-                    // The `background-image` property will return `url(http://tenant.oae.com/path/to/image)`. We can strip out the non url parts with a slice
-                    thumbnailImage = ($('div[role="img"]:visible', $checkedListItem).css('background-image')).slice(4, -1);
+                    // The `background-image` property can return in the following ways:
+                    //   * `url(http://tenant.oae.com/path/to/image)`
+                    //   * `url('http://tenant.oae.com/path/to/image')`
+                    //   * `url("http://tenant.oae.com/path/to/image")`
+                    // In order to extract the URL, we grab what's between the brackets and remove all quotes
+                    // @see http://stackoverflow.com/questions/20857404/regex-to-extract-url-from-css-background-styling
+                    var thumbnailImageCSS = $('div[role="img"]:visible', $checkedListItem).css('background-image');
+                    thumbnailImage = thumbnailImageCSS.match(/\((.*?)\)/)[1].replace(/('|")/g,'');
                 }
 
                 selectedItems.results.push({
