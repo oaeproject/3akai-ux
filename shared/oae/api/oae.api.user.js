@@ -26,16 +26,16 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
      * @param  {String}         [additionalOptions.email]       The user's email address
      * @param  {String}         [additionalOptions.locale]      The user's locale
      * @param  {String}         [additionalOptions.timezone]    The user's timezone
-     * @param  {String}         [additionalOptions.tenant]      The tenant alias. Only needs to be provided when creating a user from the global administration tenant
      * @param  {String}         [additionalOptions.publicAlias] The publically-available alias for users to see when the user's display name is protected
      * @param  {String}         recaptchaChallenge              The identifier of the recaptcha challenge that has been presented to the user
      * @param  {String}         recaptchaResponse               The response for the presented recaptcha challenge
+     * @param  {String}         [tenantAlias]                   The tenant alias. Only needs to be provided when creating a user from the global administration tenant
      * @param  {Function}       [callback]                      Standard callback method
      * @param  {Object}         [callback.err]                  Error object containing error code and error message
      * @param  {User}           [callback.response]             A User object representing the created user
      * @throws {Error}                                          Error thrown when not all of the required parameters have been provided
      */
-    var createUser = exports.createUser = function(username, password, displayName, additionalOptions, recaptchaChallenge, recaptchaResponse, callback) {
+    var createUser = exports.createUser = function(username, password, displayName, additionalOptions, recaptchaChallenge, recaptchaResponse, tenantAlias, callback) {
         if (!username) {
             throw new Error('A username should be provided');
         } else if (!password) {
@@ -68,9 +68,9 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
         }
 
         var url = '/api/user/create';
-        // If the additional data specifies a tenant we change the URL to include the tenant
-        if (additionalOptions.tenant) {
-            url = '/api/user/' + additionalOptions.tenant + '/create';
+        // If a tenant alias is specified we change the URL to include the tenant
+        if (tenantAlias) {
+            url = '/api/user/' + tenantAlias + '/create';
         }
 
         // Create the user
