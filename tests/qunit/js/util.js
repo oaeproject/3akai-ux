@@ -368,7 +368,6 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 '/shared/oae/js/bootstrap-plugins/bootstrap.modal.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.browse-focus.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.clip.js': null,
-                '/shared/oae/js/jquery-plugins/jquery.dnd-upload.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.infinitescroll.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.jeditable-focus.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.list-header.js': null,

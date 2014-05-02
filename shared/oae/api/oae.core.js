@@ -55,7 +55,6 @@ define([
         'bootstrap.modal',
         'jquery.browse-focus',
         'jquery.clip',
-        'jquery.dnd-upload',
         'jquery.infinitescroll',
         'jquery.list-header',
         'jquery.responsive',
