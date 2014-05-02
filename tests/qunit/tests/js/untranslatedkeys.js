@@ -100,11 +100,17 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
 
         // Test the widget JS files for untranslated keys
         $.each(testData.widgetData, function(widgetIndex, widget) {
-            $.each(widget.js, function(widgetJSIndex, widgetJS) {
-                test(widgetJSIndex, function() {
-                    checkKeys(testData, widget.id, widgetJSIndex);
+            if (widget.js) {
+                $.each(widget.js, function(widgetJSIndex, widgetJS) {
+                    test(widgetJSIndex, function() {
+                        checkKeys(testData, widget.id, widgetJSIndex);
+                    });
                 });
-            });
+            } else {
+                test(widget.id, function() {
+                    ok(true, 'No JavaScript associated to ' + widget.id);
+                });
+            }
         });
 
         // Test the main JS files for untranslated keys
