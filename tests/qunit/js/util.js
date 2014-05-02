@@ -167,7 +167,6 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 // Get the ID of the widget by looking at the directory the files are stored in
                 var widgetName = paths[cssIndex];
                 // Add the widget CSS to the widget's CSS object
-                testData.widgetData[widgetName].css = testData.widgetData[widgetName].css || {};
                 testData.widgetData[widgetName].css[cssIndex] = css;
             });
             callback(testData);
