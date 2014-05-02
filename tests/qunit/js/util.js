@@ -150,6 +150,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
 
         $.each(testData.widgetData, function(widgetName, widget) {
             testData.widgetData[widgetName].css = {};
+
             var $html = $('<div/>').html(widget.html);
             var $links = $html.find('link');
             $.each($links, function(linkIndex, link) {
