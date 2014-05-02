@@ -99,15 +99,9 @@ require(['oae.core', '/tests/qunit/js/util.js', 'jquery', '/shared/vendor/js/jsh
 
         // Check the widgets for clean JavaScript
         $.each(testData.widgetData, function(widgetId, widget) {
-            if (widget.js) {
-                $.each(widget.js, function(widgetJSIndex, widgetJS) {
-                    runTest(widgetJSIndex, widgetJS);
-                });
-            } else {
-                test(widgetId, function() {
-                    ok(true, 'No JavaScript associated to ' + widgetId);
-                });
-            }
+            $.each(widget.js, function(widgetJSIndex, widgetJS) {
+                runTest(widgetJSIndex, widgetJS);
+            });
         });
 
         // Check the API for clean JavaScript

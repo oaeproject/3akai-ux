@@ -44,13 +44,19 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
         $.each(testData.widgetData, function(widgetIndex, widget) {
             var $html = $('<div/>').html(widget.html);
             var $scripts = $html.find('script');
+            var hasJS = false;
             $.each($scripts, function(scriptIndex, script) {
                 var jsPath = $(script).attr('src');
                 // Only look at the widget JS files, not at libraries
                 if (jsPath.indexOf('js') === 0) {
                     paths['/node_modules/' + widget.path + jsPath] = widget.id;
+                    hasJS = true;
                 }
             });
+            // If no javascript file is associated, add an empty one
+            if (!hasJS) {
+                testData.widgetData[widgetIndex].js = '';
+            }
         });
 
         oae.api.util.staticBatch(_.keys(paths), function(err, data) {
@@ -150,13 +156,19 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
         $.each(testData.widgetData, function(widgetIndex, widget) {
             var $html = $('<div/>').html(widget.html);
             var $links = $html.find('link');
+            var hasCSS = false;
             $.each($links, function(linkIndex, link) {
                 var cssPath = $(link).attr('href');
                 // Only look at the widget CSS files, not at libraries
                 if (cssPath.indexOf('css') === 0) {
                     paths['/node_modules/' + widget.path + cssPath] = widget.id;
+                    hasCSS = true;
                 }
             });
+            // If no CSS file is associated, add an empty one
+            if (!hasCSS) {
+                testData.widgetData[widgetIndex].css = '';
+            }
         });
 
         oae.api.util.staticBatch(_.keys(paths), function(err, data) {

@@ -68,11 +68,9 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
                             // Check if the key is used in the widget HTML or JavaScript files
                             $.each(testData.widgetData, function(widgetId, widget) {
                                 keyUsed = runTest(widgetId, widget.html, key) || keyUsed;
-                                if (widget.js) {
-                                    $.each(widget.js, function(widgetJSIndex, widgetJS) {
-                                        keyUsed = runTest(widgetId, widgetJS, key) || keyUsed;
-                                    });
-                                }
+                                $.each(widget.js, function(widgetJSIndex, widgetJS) {
+                                    keyUsed = runTest(widgetId, widgetJS, key) || keyUsed;
+                                });
                             });
 
                             // Check if key is used in the main JS files
@@ -105,37 +103,31 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
 
         // Check if keys in widgets are being used
         $.each(testData.widgetData, function(widgetId, widget) {
-            if (widget.js) {
-                $.each(widget.js, function(widgetJSIndex, widgetJS) {
-                    test(widgetJSIndex, function() {
-                        if (widget.i18n && _.keys(widget.i18n).length) {
-                            $.each(widget.i18n, function(bundleKey, bundle) {
-                                if (_.keys(bundle).length) {
-                                    $.each(bundle, function(i18nKey, i18nValue) {
-                                        if (i18nValue) {
-                                            var htmlUsed = runTest(widgetId, widget.html, i18nKey);
-                                            var jsUsed = runTest(widgetId, widgetJS, i18nKey);
-                                            if (htmlUsed || jsUsed) {
-                                                ok(true, i18nKey + ' in \'' + widgetId + ' - ' + bundleKey + '\' is used');
-                                            } else {
-                                                ok(false, i18nKey + ' in \'' + widgetId + ' - ' + bundleKey + '\' is not being used');
-                                            }
+            $.each(widget.js, function(widgetJSIndex, widgetJS) {
+                test(widgetJSIndex, function() {
+                    if (widget.i18n && _.keys(widget.i18n).length) {
+                        $.each(widget.i18n, function(bundleKey, bundle) {
+                            if (_.keys(bundle).length) {
+                                $.each(bundle, function(i18nKey, i18nValue) {
+                                    if (i18nValue) {
+                                        var htmlUsed = runTest(widgetId, widget.html, i18nKey);
+                                        var jsUsed = runTest(widgetId, widgetJS, i18nKey);
+                                        if (htmlUsed || jsUsed) {
+                                            ok(true, i18nKey + ' in \'' + widgetId + ' - ' + bundleKey + '\' is used');
+                                        } else {
+                                            ok(false, i18nKey + ' in \'' + widgetId + ' - ' + bundleKey + '\' is not being used');
                                         }
-                                    });
-                                } else {
-                                    ok(true, '\'' + widgetId + '\' does not have any keys in \'' + bundleKey + '\'');
-                                }
-                            });
-                        } else {
-                            ok(true, '\'' + widgetId + '\' does not have any bundles');
-                        }
-                    });
+                                    }
+                                });
+                            } else {
+                                ok(true, '\'' + widgetId + '\' does does not have any keys in \'' + bundleKey + '\'');
+                            }
+                        });
+                    } else {
+                        ok(true, '\'' + widgetId + '\' does does not have any bundles');
+                    }
                 });
-            } else {
-                test(widget.id, function() {
-                    ok(true, 'No JavaScript associated to ' + widget.id);
-                });
-            }
+            });
         });
 
         // Start consuming tests again
