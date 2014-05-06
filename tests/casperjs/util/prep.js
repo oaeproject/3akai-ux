@@ -22,7 +22,7 @@ casper.test.begin('Prepare environment for tests', function(test) {
         });
 
         // Finish the current test to skip to the next one
-        casper.wait(1000, function() {
+        casper.wait(configUtil().modalWaitTime, function() {
             test.fail('Test timed out after ' + waitTimeout + ' ms');
             test.done();
         });
@@ -30,7 +30,7 @@ casper.test.begin('Prepare environment for tests', function(test) {
 
     // Set up test tenant
     casper.start(configUtil().adminUI, function() {
-        casper.waitForSelector('#admin-login-form', function() {
+        casper.waitForSelector('#adminlogin-form', function() {
             casper.then(function() {
                 userUtil().doAdminLogIn(configUtil().adminUsername, configUtil().adminPassword);
             });

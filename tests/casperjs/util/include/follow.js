@@ -15,7 +15,7 @@ var followUtil = function() {
         casper.thenEvaluate(function(userId) {
             require('oae.core').api.follow.follow(userId);
         }, userId);
-        casper.wait(1000, callback);
+        casper.wait(configUtil().modalWaitTime, callback);
     };
 
     /**
@@ -28,7 +28,7 @@ var followUtil = function() {
         casper.thenEvaluate(function(userId) {
             require('oae.core').api.follow.unfollow(userId);
         }, userId);
-        casper.wait(1000, callback);
+        casper.wait(configUtil().modalWaitTime, callback);
     };
 
     return {

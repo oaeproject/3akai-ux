@@ -17,7 +17,7 @@ var userUtil = function() {
         var me = null;
 
         casper.start(configUtil().tenantUI).repeat(toCreate, function() {
-            casper.wait(1000, function() {
+            casper.wait(configUtil().modalWaitTime, function() {
                 me = casper.evaluate(function() {
                     return require('oae.core').data.me;
                 });
@@ -42,7 +42,7 @@ var userUtil = function() {
                         }, rndString, configUtil().defaultUserPassword);
                     });
 
-                    casper.wait(1000, function() {
+                    casper.wait(configUtil().modalWaitTime, function() {
                         if (data) {
                             data.username = 'user-' + rndString;
                             users.push(data);
@@ -93,26 +93,26 @@ var userUtil = function() {
      * @param  {String}    password    The password of the user to log in
      */
     var doAdminLogIn = function(username, password) {
-        casper.waitForSelector('#admin-login-form', function() {
-            casper.wait(2000, function() {
+        casper.waitForSelector('#adminlogin-form', function() {
+            casper.wait(configUtil().searchWaitTime, function() {
                 // Fill sign in form
-                casper.fill('form#admin-login-form', {
+                casper.fill('form#adminlogin-form', {
                     'username': username,
                     'password': password
                 }, false);
                 // Do the login
-                casper.click('form#admin-login-form button[type="submit"]');
+                casper.click('form#adminlogin-form button[type="submit"]');
             });
         });
 
-        casper.waitForSelector('#admin-header-user');
+        casper.waitForSelector('#adminheader-content #adminheader-logout');
     };
 
     /**
      * Logs out the current user
      */
     var doLogOut = function() {
-        casper.wait(1000, function() {
+        casper.wait(configUtil().modalWaitTime, function() {
             casper.thenEvaluate(function() {
                 require('oae.core').api.authentication.logout(function() {
                     window.location = '/';
@@ -126,7 +126,7 @@ var userUtil = function() {
      */
     var doAdminLogOut = function() {
         casper.then(function() {
-            casper.click('#admin-header-user-logout');
+            casper.click('#adminheader-content #adminheader-logout');
             casper.wait(2000);
         });
     };

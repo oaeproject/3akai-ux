@@ -22,7 +22,7 @@ var contentUtil = function() {
             casper.waitForSelector('#me-clip-container .oae-clip-content > button', function() {
                 casper.click('#me-clip-container .oae-clip-content > button');
                 casper.click('.oae-trigger-upload');
-                casper.wait(1000, function() {
+                casper.wait(configUtil().modalWaitTime, function() {
                     casper.click('#me-clip-container .oae-clip-content > button');
                 });
             });
@@ -81,7 +81,7 @@ var contentUtil = function() {
 
             // TODO: We need a way to know when the uploadnewversion widget has bootstrapped itself
             // There is currently no way to determine this from casper, so we do a simple wait
-            casper.wait(3000, function() {
+            casper.wait(configUtil().searchWaitTime, function() {
                 casper.waitForSelector('form#uploadnewversion-form', function() {
                     casper.fill('form#uploadnewversion-form', {
                         'file': 'tests/casperjs/data/apereo.jpg'
