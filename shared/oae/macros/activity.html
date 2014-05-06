@@ -11,13 +11,13 @@
         {if activity.actor['oae:collection'].length > 1}
             {var actorCount = activity.actor['oae:collection'].length}
             {var actor2 = oae.api.util.security().encodeForHTML(activity.actor['oae:collection'][1].displayName)}
-            {var actor2URL = oae.api.util.security().encodeForHTML(activity.actor['oae:collection'][1]['oae:profilePath'])}
+            {var actor2URL = oae.api.util.security().encodeForHTML(oae.api.util.profilePath(activity.actor['oae:collection'][1]['oae:profilePath']))}
         {/if}
     {else}
         {var actor1Obj = activity.actor}
     {/if}
     {var actor1 = oae.api.util.security().encodeForHTML(actor1Obj.displayName)}
-    {var actor1URL = oae.api.util.security().encodeForHTML(actor1Obj['oae:profilePath'])}
+    {var actor1URL = oae.api.util.security().encodeForHTML(oae.api.util.profilePath(actor1Obj['oae:profilePath']))}
 
     <!-- Prepare the object-related variables that will be present in the i18n keys -->
     {if activity.object['oae:collection']}
@@ -25,13 +25,13 @@
         {if activity.object['oae:collection'].length > 1}
             {var objectCount = activity.object['oae:collection'].length}
             {var object2 = oae.api.util.security().encodeForHTML(activity.object['oae:collection'][1].displayName)}
-            {var object2URL = oae.api.util.security().encodeForHTML(activity.object['oae:collection'][1]['oae:profilePath'])}
+            {var object2URL = oae.api.util.security().encodeForHTML(oae.api.util.profilePath(activity.object['oae:collection'][1]['oae:profilePath']))}
         {/if}
     {else}
         {var object1Obj = activity.object}
     {/if}
     {var object1 = oae.api.util.security().encodeForHTML(object1Obj.displayName)}
-    {var object1URL = oae.api.util.security().encodeForHTML(object1Obj['oae:profilePath'])}
+    {var object1URL = oae.api.util.security().encodeForHTML(oae.api.util.profilePath(object1Obj['oae:profilePath']))}
     {if object1Obj['oae:tenant']}
         {var object1Tenant = oae.api.util.security().encodeForHTML(object1Obj['oae:tenant'].displayName)}
     {/if}
@@ -43,13 +43,13 @@
             {if activity.target['oae:collection'].length > 1}
                 {var targetCount = activity.target['oae:collection'].length}
                 {var target2 = oae.api.util.security().encodeForHTML(activity.target['oae:collection'][1].displayName)}
-                {var target2URL = oae.api.util.security().encodeForHTML(activity.target['oae:collection'][1]['oae:profilePath'])}
+                {var target2URL = oae.api.util.security().encodeForHTML(oae.api.util.profilePath(activity.target['oae:collection'][1]['oae:profilePath']))}
             {/if}
         {else}
             {var target1Obj = activity.target}
         {/if}
         {var target1 = oae.api.util.security().encodeForHTML(target1Obj.displayName)}
-        {var target1URL = oae.api.util.security().encodeForHTML(target1Obj['oae:profilePath'])}
+        {var target1URL = oae.api.util.security().encodeForHTML(oae.api.util.profilePath(target1Obj['oae:profilePath']))}
     {/if}
 
     <!-- Depending on the activity type, we render a different template that is specific to that activity,

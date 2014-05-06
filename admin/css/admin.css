@@ -17,221 +17,70 @@ body {
     padding: 0;
 }
 
-#admin-header-container {
-    padding: 0 30px;
-}
 
-/************
- ** HEADER **
- ************/
+/********************
+ ** STRIPED TABLES **
+ ********************/
 
-#admin-header-container {
-    background-color: #FFF;
-}
-
-#admin-header-container #admin-header-content {
-    background: url('/shared/oae/img/oae-logo.png') no-repeat 15px center transparent;
-    background-size: 60px;
-    min-height: 70px;
-}
-
-#admin-header-container #admin-header-user {
-    margin: 20px 0 20px;
-}
-
-#admin-header-container #admin-header-user #admin-header-user-logout {
-    margin-left: 12px;
-}
-
-#admin-header-container h1 {
-    font-size: 22px;
-    font-weight: normal;
-    margin: 0;
-    padding: 18px 0 0 80px;
-}
-
-
-/*************
- ** CONTENT **
- *************/
-
-#admin-content {
-    margin-bottom: 100px;
-}
-
-#admin-content-container {
-    padding-top: 20px;
-    padding-bottom: 120px;
-}
-
-#admin-content h2 {
-    font-size: 25px;
-    color: #0088CC;
-    font-weight: normal;
-    margin-top: 0px;
-    margin-bottom: 20px;
-}
-
-.admin-container-striped form {
-    margin: 20px 0;
-}
-
-/* Tenant list */
-
-.table-striped td.admin-tenants-visit {
-    width: 20px;
-}
-
-.table-striped td.admin-tenants-visit i {
-    font-size: 18px;
-    position: relative;
-    top: 2px;
-}
-
-.table-striped tbody tr:nth-child(2n+1) td,
-.table-striped tbody tr:nth-child(2n+1) th,
-.admin-container-striped > div:nth-child(2n+1) {
-    background: #F8F8F8; /* Old browsers */
-    background: -moz-linear-gradient(top, #F8F8F8 0%, #F0f0f0 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#F8F8F8), color-stop(100%,#F0f0f0)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #F8F8F8 0%,#F0f0f0 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #F8F8F8 0%,#F0f0f0 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #F8F8F8 0%,#F0f0f0 100%); /* IE10+ */
-    background: linear-gradient(to bottom, #F8F8F8 0%,#F0f0f0 100%); /* W3C */
+table.admin-table-striped tbody tr:nth-child(2n+1) td,
+table.admin-table-striped tbody tr:nth-child(2n+1) th,
+div.admin-table-striped > div:nth-child(2n+1) {
+    background: #F8F8F8;
     max-width: 150px;
     vertical-align: middle;
 }
 
-.table-striped tbody tr:nth-child(2n+2) td,
-.table-striped tbody tr:nth-child(2n+2) th,
-.admin-container-striped > div:nth-child(2n+2) {
+table.admin-table-striped tbody tr:nth-child(2n+2) td,
+table.admin-table-striped tbody tr:nth-child(2n+2) th,
+div.admin-table-striped > div:nth-child(2n+2) {
     background-color: #FFF;
     max-width: 150px;
     vertical-align: middle;
 }
 
-td.jeditable-container {
-    word-wrap: break-word;
-}
-
-td.jeditable-container:hover {
-    cursor: pointer;
-    color: #666;
-    background: #3B3B3B !important; /* Old browsers */
-    background: -moz-linear-gradient(top, #DDD 0%, #CCC 100%) !important; /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#DDD), color-stop(100%,#CCC)) !important; /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #DDD 0%,#CCC 100%) !important; /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #DDD 0%,#CCC 100%) !important; /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #DDD 0%,#CCC 100%) !important; /* IE10+ */
-    background: linear-gradient(to bottom, #DDD 0%,#CCC 100%) !important; /* W3C */
-}
-
-td.jeditable-container form input {
-    height: 25px !important;
-}
-
-td form {
-    margin: 0;
-}
-
-/* Module configuration */
-
-.admin-module-configuration-container {
-    margin: 0;
-}
-
-.admin-module-configuration-container form {
-    margin: 0 0 20px;
-}
-
-.admin-module-configuration-container .admin-module-configuration-toggle-button i {
-    float:left;
-    margin-right:12px;
-}
-
-.admin-module-configuration-container h4 {
-    margin-top: 20px;
-    margin-bottom: 7px;
-}
-
-.admin-module-configuration-container h4 span,
-.admin-module-configuration-container label span {
-    font-size: 14px;
-    font-weight: normal;
-}
-
-.admin-container-striped > div:nth-child(2n+1),
-.admin-container-striped > div:nth-child(2n+2) {
+div.admin-table-striped > div:nth-child(2n+1),
+div.admin-table-striped > div:nth-child(2n+2) {
     border-top: 1px solid #DDD;
     max-width: none;
     padding: 12px;
 }
-.admin-container-striped form .form-group {
+
+div.admin-table-striped form {
+    margin: 20px 0;
+}
+
+div.admin-table-striped form .form-group {
     margin-left: 0;
 }
 
-/* Skinning configuration */
 
-#admin-skinning-container h3 {
-    font-size: 16px;
+/***************
+ ** OVERRIDES **
+ ***************/
+
+.oae-main-content#admin-content-container {
+    background-color: transparent;
+    -webkit-box-shadow: none;
+       -moz-box-shadow: none;
+            box-shadow: none;
 }
 
-#admin-skinning-container h4 {
-    font-size: 14px;
-    margin-left: 20px;
-    margin-top: 20px;
+body,
+.oae-page {
+    background-color: #ECEAE5;
 }
 
-#admin-skinning-container #admin-skinning-actions {
-    margin-top: 30px;
+.oae-list-header {
+    border-color: #DDD;
 }
 
-#admin-skinning-form .form-group {
-    margin: 0;
-}
+/* The Administration UI login page shouldn't have a left hand navigation */
+@media (min-width: 992px) {
+    .anon .oae-lhnavigation {
+        display: none;
+    }
 
-/* Override bootstrap box sizing for the spectrum plugin
-   @see https://github.com/bgrins/spectrum/issues/175 */
-
-.sp-container *,
-.sp-container *:after,
-.sp-container *:before {
-    -webkit-box-sizing: content-box;
-       -moz-box-sizing: content-box;
-            box-sizing: content-box;
-}
-
-.sp-input-container .sp-input {
-    background-color: #FFF;
-}
-
-/************
- ** FOOTER **
- ************/
-
-#admin-footer-container {
-    background: #3B3B3B;
-    min-width: 1100px;
-    bottom: 0;
-    padding: 0 30px;
-    position: fixed;
-    width: 100%;
-}
-
-#admin-footer-content {
-    background: url("/shared/oae/img/oae-logo-white.png") no-repeat scroll 15px center transparent;
-    background-size: 70px;
-    min-height: 80px;
-}
-
-#admin-footer-container ul {
-    margin: 30px 0 0 50px;
-}
-
-#admin-footer-container ul li {
-   margin-left: 50px;
-}
-
-#admin-footer-container ul, #admin-footer-container ul li a {
-    color: #EEE;
+    .anon .oae-page {
+        margin-left: 25px;
+    }
 }

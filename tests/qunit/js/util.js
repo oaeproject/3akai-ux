@@ -41,14 +41,16 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
     var loadWidgetJS = exports.loadWidgetJS = function(testData, callback) {
         var paths = {};
 
-        $.each(testData.widgetData, function(widgetIndex, widget) {
+        $.each(testData.widgetData, function(widgetName, widget) {
+            testData.widgetData[widgetName].js = {};
+
             var $html = $('<div/>').html(widget.html);
             var $scripts = $html.find('script');
             $.each($scripts, function(scriptIndex, script) {
                 var jsPath = $(script).attr('src');
                 // Only look at the widget JS files, not at libraries
                 if (jsPath.indexOf('js') === 0) {
-                    paths['/node_modules/' + widget.path + jsPath] = widget.id;
+                    paths['/node_modules/' + widget.path + jsPath] = widgetName;
                 }
             });
         });
@@ -57,8 +59,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
             $.each(data, function(widgetJSPath, widgetJS) {
                 // Get the ID of the widget from the path dictionary
                 var widgetName = paths[widgetJSPath];
-                // Add the widget JS into the object
-                testData.widgetData[widgetName].js = testData.widgetData[widgetName].js || {};
+                // Add the widget JS to the widget's JS object
                 testData.widgetData[widgetName].js[widgetJSPath] = widgetJS;
             });
             callback(testData);
@@ -147,14 +148,16 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
         // Parse the HTML files and extract the CSS files
         var paths = {};
 
-        $.each(testData.widgetData, function(widgetIndex, widget) {
+        $.each(testData.widgetData, function(widgetName, widget) {
+            testData.widgetData[widgetName].css = {};
+
             var $html = $('<div/>').html(widget.html);
             var $links = $html.find('link');
             $.each($links, function(linkIndex, link) {
                 var cssPath = $(link).attr('href');
                 // Only look at the widget CSS files, not at libraries
                 if (cssPath.indexOf('css') === 0) {
-                    paths['/node_modules/' + widget.path + cssPath] = widget.id;
+                    paths['/node_modules/' + widget.path + cssPath] = widgetName;
                 }
             });
         });
@@ -163,8 +166,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
             $.each(data, function(cssIndex, css) {
                 // Get the ID of the widget by looking at the directory the files are stored in
                 var widgetName = paths[cssIndex];
-                // Add the widget CSS into the Object
-                testData.widgetData[widgetName].css = testData.widgetData[widgetName].css || {};
+                // Add the widget CSS to the widget's CSS object
                 testData.widgetData[widgetName].css[cssIndex] = css;
             });
             callback(testData);
@@ -327,6 +329,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 '/ui/bundles/zh_CN.properties': null
             },
             'mainHTML': {
+                '/admin/index.html': null,
                 '/shared/oae/errors/accessdenied.html': null,
                 '/shared/oae/errors/maintenance.html': null,
                 '/shared/oae/errors/noscript.html': null,
