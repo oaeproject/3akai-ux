@@ -12,16 +12,36 @@ env:
     - secure: DHt20YWVkb6wOdVcsBJ/zW2IyZVdVLBCiMlAhqdIREkZ5IpV5v9BV4/RzykiOQilDBPhqZp1Dd5XGDaNXqXNvnibO+3NxvY3VQX0o/uFs2Ig1AGzf1iKf3GyfObLtN5r8I58todT3jjO1vNwHQM3xHWwFa9qAeOclM/tyKdkJks=
 
 before_install:
+  # Add DataStax apt repo for Cassandra
+  - curl -L http://debian.datastax.com/debian/repo_key | sudo apt-key add -
+  - echo "deb http://debian.datastax.com/community stable main" | sudo tee -a /etc/apt/sources.list.d/dsc.sources.list
+
+  # Add ElasticSearch apt repo
+  - curl -L http://packages.elasticsearch.org/GPG-KEY-elasticsearch | sudo apt-key add -
+  - echo "deb http://packages.elasticsearch.org/elasticsearch/0.90/debian stable main" | sudo tee -a /etc/apt/sources.list.d/elasticsearch.sources.list
+
+  # Add PPA repos for miscellaneous dependencies
+  - sudo add-apt-repository -y ppa:oae/deps
+  - sudo apt-get update
+
+  # Install cassandra 1.2 manually
+  - sudo apt-get install -y -o Dpkg::Options::=--force-confnew cassandra=1.2.16
+  - sudo sed -i 's/-Xss180k/-Xss256k/g' /etc/cassandra/cassandra-env.sh
+  - sudo sh -c "echo 'JVM_OPTS=\"\${JVM_OPTS} -Djava.net.preferIPv4Stack=false\"' >> /etc/cassandra/cassandra-env.sh"
+  - sudo service cassandra stop
+  - sudo service cassandra start
+  - sudo service cassandra status
+
+  # Install elasticsearch 0.90 manually
+  - sudo apt-get install -y --force-yes -o Dpkg::Options::=--force-confnew elasticsearch=0.90.13
+  - sudo service elasticsearch restart
+  - sleep 5
+  - sudo service elasticsearch status
+
   # Turn off unneeded services to free some memory
   - sudo service mysql stop
   - sudo service memcached stop
   - sudo service postgresql stop
-
-  # Add any apt repos we might need
-  - echo "deb http://debian.datastax.com/community stable main" | sudo tee -a /etc/apt/sources.list.d/dsc.sources.list
-  - curl -L http://debian.datastax.com/debian/repo_key | sudo apt-key add -
-  - sudo add-apt-repository -y ppa:oae/deps
-  - sudo apt-get update
 
   # Hilary dependencies
   - sudo apt-get install -qq graphicsmagick
