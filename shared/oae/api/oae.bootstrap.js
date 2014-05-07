@@ -62,7 +62,7 @@ requirejs.config({
         'jquery.dnd-upload': 'oae/js/jquery-plugins/jquery.dnd-upload',
         'jquery.infinitescroll': 'oae/js/jquery-plugins/jquery.infinitescroll',
         'jquery.jeditable-focus': 'oae/js/jquery-plugins/jquery.jeditable-focus',
-        'jquery.list-header': 'oae/js/jquery-plugins/jquery.list-header',
+        'jquery.list': 'oae/js/jquery-plugins/jquery.list',
         'jquery.responsive': 'oae/js/jquery-plugins/jquery.responsive',
         'jquery.update-picture': 'oae/js/jquery-plugins/jquery.update-picture',
 

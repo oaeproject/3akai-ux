@@ -1418,7 +1418,7 @@ ul.oae-list > li:first-child .oae-listitem {
  *
  * The output of this macro represents all that is needed to render the list header template
  * on a page. To enable the user interactions of the template it is necessary to include the
- * `shared/oae/js/jquery-plugins/jquery.list-header.js` module on the page as well.
+ * `shared/oae/js/jquery-plugins/jquery.list.js` module on the page as well.
  */
 
 .oae-list-header {
