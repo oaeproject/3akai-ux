@@ -118,17 +118,11 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
 
         // Test that the widget CSS files are properly formatted
         $.each(testData.widgetData, function(widgetCSSPath, widget) {
-            if (widget.css) {
-                $.each(widget.css, function(widgetCSSIndex, widgetCSS) {
-                    test(widgetCSSIndex, function() {
-                        checkCSS(widgetCSS);
-                    });
+            $.each(widget.css, function(widgetCSSIndex, widgetCSS) {
+                test(widgetCSSIndex, function() {
+                    checkCSS(widgetCSS);
                 });
-            } else {
-                test(widgetCSSPath, function() {
-                    ok(true, widgetCSSPath + ' has no CSS to check');
-                });
-            }
+            });
         });
 
         // Start consuming tests again
