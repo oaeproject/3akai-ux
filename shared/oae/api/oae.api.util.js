@@ -353,7 +353,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
      *
      * @param  {String}     [title]       The notification title
      * @param  {String}     message       The notification message that will be shown underneath the title. The message should be sanitized by the caller to allow for HTML inside of the notification
-     * @param  {String}     [type]        The notification type. The supported types are `success`, `error` and `info`, as defined in http://twitter.github.com/bootstrap/components.html#alerts. By default, the `success` type will be used
+     * @param  {String}     [type]        The notification type. The supported types are `success`, `error` and `info`, as defined in http://getbootstrap.com/components/#alerts. By default, the `success` type will be used
      * @param  {String}     [id]          Unique identifier for the notification, in case a notification can be triggered twice due to some reason. If a second notification with the same id is triggered it will be ignored
      * @throws {Error}                    Error thrown when no message has been provided
      */
@@ -543,7 +543,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          *
          * In order for forms to have the appropriate validation styles, each label and control should be wrapped in an element with a `form-group` class.
          * The label should have a `control-label` class. All input fields should be accompanied by a label, mostly for accessibility purposes.
-         * More information on creating forms (including horizontal forms) can be found at http://twitter.github.com/bootstrap/base-css.html#forms
+         * More information on creating forms (including horizontal forms) can be found at http://getbootstrap.com/css/#forms
          *
          * Validation messages will by default be displayed underneath the input field. If a custom position for the validation needs to provided,
          * a placeholder element with the class `help` should be created inside of the `form-group` element.
@@ -729,7 +729,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
      *
      * @param  {Element|String}     $element      jQuery element or jQuery selector for that element that represents the element that triggers the clickover. The clickover will be positioned relative to this element
      * @param  {Element|String}     $content      jQuery element or jQuery selector for the element that should be used as the content of the clickover
-     * @param  {Object}             [options]     JSON Object containing options to pass to the BootstrapX clickover component. It supports all of the standard options documented at http://twitter.github.com/bootstrap/javascript.html#popovers and http://www.leecarmichael.com/bootstrapx-clickover/examples.html#
+     * @param  {Object}             [options]     JSON Object containing options to pass to the BootstrapX clickover component. It supports all of the standard options documented at http://getbootstrap.com/javascript/#popovers and http://www.leecarmichael.com/bootstrapx-clickover/examples.html#
      * @return {Element}                          The root element of the generated clickover
      */
     var clickover = exports.clickover = function($trigger, $content, options) {
