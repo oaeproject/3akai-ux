@@ -130,12 +130,15 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
                                         // initial widget loading have finished
                                         $('body').show();
 
-                                        // Initialize websocket push API
-                                        oae.api.push.init(function(err) {
-                                            if (err) {
-                                                throw new Error('Could not initialize the push API');
-                                            }
-                                        });
+                                        // Initialize websocket push API, unless we're on the
+                                        // global admin tenant
+                                        if (oae.data.me.tenant.alias !== 'admin') {
+                                            oae.api.push.init(function(err) {
+                                                if (err) {
+                                                    throw new Error('Could not initialize the push API');
+                                                }
+                                            });
+                                        }
                                     });
                                 });
                             });

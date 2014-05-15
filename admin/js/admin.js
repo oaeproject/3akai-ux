@@ -13,12 +13,16 @@
  * permissions and limitations under the License.
  */
 
-require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.tenants.js', '/admin/js/admin.config.js', 'jquery.history'], function($, _, oae, adminTenants, adminConfig) {
+require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, oae) {
 
     // Variable that will be used to keep track of the current tenant
     var currentContext = null;
     // Variable that will cache the list of available tenants
     var allTenants = null;
+    // Variable that will cache the configuration schema
+    var configurationSchema = null;
+    // Variable that will cache the configuration for the current tenant
+    var configuration = null;
 
 
     /////////////////
@@ -29,95 +33,107 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.tenants.js', '/adm
      * Initializes the left hand navigation
      */
     var initializeNavigation = function() {
-        oae.api.util.template().render($('#admin-lhnav-template'), {'context': currentContext}, $('#admin-lhnav-container'));
-        $('#admin-lhnav-container').show();
+        // Structure that will be used to construct the left hand navigation pages
+        var lhNavPages = null;
+        if (oae.data.me.anon) {
+            lhNavPages = [{
+                'id': 'adminlogin',
+                'title': oae.api.i18n.translate('__MSG__SIGN_IN__'),
+                'layout': [
+                    {
+                        'width': 'col-md-12',
+                        'widgets': [
+                            {
+                                'name': 'adminlogin'
+                            }
+                        ]
+                    }
+                ]
+            }];
+        } else {
+            lhNavPages = [
+                {
+                    'id': 'tenants',
+                    'icon': 'icon-dashboard',
+                    'closeNav': true,
+                    'title': currentContext.isGlobalAdminServer ? oae.api.i18n.translate('__MSG__TENANTS__') : oae.api.i18n.translate('__MSG__TENANT__'),
+                    'layout': [
+                        {
+                            'width': 'col-md-12',
+                            'widgets': [
+                                {
+                                    'name': 'tenants',
+                                    'settings': {
+                                        'context': currentContext,
+                                        'tenants': allTenants
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    'id': 'modules',
+                    'icon': 'icon-cogs',
+                    'closeNav': true,
+                    'title': oae.api.i18n.translate('__MSG__MODULES__'),
+                    'layout': [
+                        {
+                            'width': 'col-md-12',
+                            'widgets': [
+                                {
+                                    'name': 'modules',
+                                    'settings': {
+                                        'configuration': configuration,
+                                        'configurationSchema': configurationSchema,
+                                        'context': currentContext
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ];
 
-        // Extract the currently selected view from the URL by parsing the URL fragment that's
-        // inside of the current History.js hash. The expected URL structure is `...?view=<view>`.
-        // It is not possible to use cleaner `/view` URLs, as the admin UI can be found at `/` and
-        // `/tenant/<tenantAlias>` on the global admin server and `/admin` on the tenant servers.
-        var selectedView = $.url().param().view;
-        // When the page loads, the History.js state data object will either be empty (when having
-        // followed a link or entering the URL directly) or will contain the previous state data when
-        // refreshing the page. This is why we use the URL to determine the initial state. We want
-        // to replace the initial state with all of the required state data for the requested URL so
-        // we have the correct state data in all circumstances. Calling the `replaceState` function
-        // will automatically trigger the statechange event, which will take care of showing the correct view.
-        // However, as the page can already have the History.js state data when only doing a page refresh,
-        // we need to add a random number to make sure that History.js recognizes this as a new state and
-        // triggers the `statechange` event.
-        var url = $.url(History.getState().hash).attr('path');
-        if (selectedView) {
-            url += '?view=' + selectedView;
-        }
-        History.replaceState({
-            'view': selectedView,
-            '_': Math.random()
-        }, $('title').text(), url);
-    };
-
-    /**
-     * Every time an item in the left hand navigation is clicked, we push a new state using
-     * History.js, containing the id of the view that should be shown next.
-     */
-    var selectView = function() {
-        // Push the state, This will trigger the statechange event, which will then
-        // take care of showing of the selected view
-        History.pushState({
-            'view': $(this).attr('data-id')
-        }, $('title').text(), $('a', $(this)).attr('href'));
-        return false;
-    };
-
-    /**
-     * Switches the view when a left hand navigation link is clicked or when the page loads.
-     * Defaults to the Tenant configuration page when no or an invalid view querystring parameter is provided.
-     */
-    var switchView = function() {
-        var view = History.getState().data.view || 'tenants';
-        // Hide the previous view
-        $('#admin-views > div').hide();
-        // Select the corresponding item in the left hand navigation
-        $('#admin-lhnav-container li').removeClass('active');
-        $('#admin-lhnav-container li[data-id="' + view + '"]').addClass('active');
-        // Show the corresponding view
-        $('#admin-views > #admin-' + view + '-container').show();
-    };
-
-
-    //////////////////////
-    // LOGIN AND LOGOUT //
-    //////////////////////
-
-    /**
-     * Show the login form and set up the login validation
-     */
-    var setUpLogin = function() {
-        $('#admin-login-container').show();
-        oae.api.util.validation().validate($('#admin-login-form'), {'submitHandler': login});
-    };
-
-    /**
-     * Set up the log in handler
-     */
-    var login = function() {
-        oae.api.authentication.localLogin($('#admin-login-form-username').val(), $('#admin-login-form-password').val(), function(err) {
-            if (err) {
-                // Show the error message
-                oae.api.util.notification('Login failed.', 'Invalid username or password.', 'error');
-            } else {
-                window.location.reload(true);
+            // Only expose the skinning functionality when the admin is looking at an individual tenant.
+            // The global tenant does not require skinning as the values wouldn't flow through
+            // to the tenants appropriately if both of them have skinning values stored.
+            if (!currentContext.isGlobalAdminServer) {
+                lhNavPages.push({
+                    'id': 'skinning',
+                    'icon': 'icon-tint',
+                    'closeNav': true,
+                    'title': oae.api.i18n.translate('__MSG__SKINNING__'),
+                    'layout': [
+                        {
+                            'width': 'col-md-12',
+                            'widgets': [
+                                {
+                                    'name': 'skinning',
+                                    'settings': {
+                                        'configuration': configuration,
+                                        'context': currentContext
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                });
             }
-        });
-        return false;
-    };
+        }
 
-    /**
-     * Set up the log out button
-     */
-    var logout = function() {
-        oae.api.authentication.logout(function() {
-            window.location.reload(true);
+        var baseURL = '/';
+        // Individual tenant on the global admininstration UI
+        if (currentContext.isTenantOnGlobalAdminServer) {
+            baseURL = '/tenant/' + currentContext.alias;
+        // Administration UI on a user tenant
+        } else if (!currentContext.isGlobalAdminServer) {
+            baseURL = '/admin';
+        }
+
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, null, baseURL]);
+        $(window).on('oae.ready.lhnavigation', function() {
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, null, baseURL]);
         });
     };
 
@@ -177,32 +193,72 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.tenants.js', '/adm
     };
 
     /**
-     * Add binding to the core admin UI functionality
+     * Get the configuration schema and the configuration for the current tenant.
+     *
+     * @param  {Function}    callback        Standard callback function
      */
-    var addBinding = function() {
-        // Logout
-        $(document).on('click', '#admin-header-user-logout', logout);
-        // Left hand navigation switching
-        $(document).on('click', '#admin-lhnav-container ul li', selectView);
-        $(window).on('statechange', switchView);
+    var loadConfiguration = function(callback) {
+        // Get the config schema
+        $.ajax({
+            'url': '/api/config/schema',
+            'success': function(data) {
+                configurationSchema = data;
+
+                // Remove the OAE UI module from the schema to avoid it being rendered
+                // as a module, because skinning will be handled in a separate page
+                delete configurationSchema['oae-ui'];
+
+                // Get the tenant configuration values
+                var url = '/api/config';
+                if (currentContext.isTenantOnGlobalAdminServer) {
+                    url += '/' + currentContext.alias;
+                }
+
+                // We explicitly cache bust this request, as the caching headers will be
+                // set to cache the config feed for 15 minutes. This is done because the
+                // endpoint is used on tenants by end-users, as we don't want to re-fetch the
+                // config feed on every page load for every user. However, we don't want to serve
+                // cached configs to the administrator in the administration UI, as that could
+                // cause configuration changes not to appear immediately.
+                $.ajax({
+                    'url': url,
+                    'cache': false,
+                    'success': function(data) {
+                        configuration = data;
+                        callback();
+                    }
+                });
+            }
+        });
     };
 
     /**
-     * Initializes the header and set the document title
+     * The `oae.context.get` or `oae.context.get.<widgetname>` event can be sent by widgets
+     * to get hold of the current context (regular or global tenant). In the first case, a
+     * `oae.context.send` event will be sent out as a broadcast to all widgets listening
+     * for the context event. In the second case, a `oae.context.send.<widgetname>` event
+     * will be sent out and will only be caught by that particular widget. In case the widget
+     * has put in its context request before the profile was loaded, we also broadcast it out straight away.
      */
-    var initializeHeader = function() {
-        oae.api.util.template().render($('#admin-header-template'), {'context': currentContext}, $('#admin-header-container'));
-
-        // Set the page title
-        if (currentContext.isGlobalAdminServer) {
-            oae.api.util.setBrowserTitle('Global Administration');
-        } else {
-            oae.api.util.setBrowserTitle('Tenant Administration');
-        }
+    var setUpContext = function() {
+        $(document).on('oae.context.get', function(ev, widgetId) {
+            if (widgetId) {
+                $(document).trigger('oae.context.send.' + widgetId, {
+                    'currentContext': currentContext
+                });
+            } else {
+                $(document).trigger('oae.context.send', {
+                    'currentContext': currentContext
+                });
+            }
+        });
+        $(document).trigger('oae.context.send', {
+            'currentContext': currentContext
+        });
     };
 
     /**
-     * Initializes the admin UI
+     * Initialize the admin UI
      */
     var initializeAdminUI = function() {
         // Redirect to the 'Access denied' page if the user is logged in
@@ -213,27 +269,20 @@ require(['jquery', 'underscore', 'oae.core', '/admin/js/admin.tenants.js', '/adm
 
         // Determine the tenant for which we want to see the admin UI
         getCurrentContext(function() {
+            // Set up the context event
+            setUpContext();
 
-            // Render the header and the footer
-            initializeHeader();
-
-            // Initialize the tenants related functionality
-            adminTenants.init(currentContext, allTenants);
-
-            if (oae.data.me.anon) {
-                setUpLogin();
+            if (!oae.data.me.anon) {
+                // Load the configuration and configuration schema
+                // and set up the navigation
+                loadConfiguration(initializeNavigation);
             } else {
-                // Initialize left hand navigation
+                // Set up the navigation
                 initializeNavigation();
-
-                // Initialize the config related functionality. This will also initialize the
-                // skinning functionality
-                adminConfig.init(currentContext);
             }
         });
     };
 
-    addBinding();
     initializeAdminUI();
 
 });

@@ -71,6 +71,17 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     };
 
     /**
+     * Replace the given profilePath with a link to `/me` if the profilePath matches the logged in user's profilePath. This avoids
+     * the back button problems caused by the redirect to `/me` when linking to the current user's profilePath directly.
+     *
+     * @param  {String}    profilePath    The profilePath to replace with `/me` if it matches the current logged in user's profilePath
+     * @return {String}                   Returns either `/me` or the passed in profilePath string
+     */
+    var profilePath = exports.profilePath = function(profilePath) {
+        return profilePath === require('oae.core').data.me.profilePath ? '/me' : profilePath;
+    };
+
+    /**
      * Add a cache busting parameter to a URL
      *
      * @param  {String}     url     The URL to add the cache busting parameter to
@@ -150,7 +161,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
      */
     var template = exports.template = function() {
 
-        // Custom Trimpath modifiers, used for security related escaping purposes
+        // Custom Trimpath modifiers, used for string template utilities
         var trimpathModifiers = {
             'encodeForHTML': function(str) {
                 return security().encodeForHTML(str);
@@ -163,6 +174,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             },
             'encodeForURL': function(str) {
                 return security().encodeForURL(str);
+            },
+            'profilePath': function(str) {
+                return profilePath(str);
             }
         };
 
@@ -306,6 +320,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                 // Make sure that the provided output is a jQuery object
                 $output = $($output);
                 $output.html(renderedHTML);
+                // Apply timeago to the `oae-timeago` elements in the output container
+                require('oae.api.l10n').timeAgo($output);
             } else {
                 return renderedHTML;
             }
@@ -337,7 +353,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
      *
      * @param  {String}     [title]       The notification title
      * @param  {String}     message       The notification message that will be shown underneath the title. The message should be sanitized by the caller to allow for HTML inside of the notification
-     * @param  {String}     [type]        The notification type. The supported types are `success`, `error` and `info`, as defined in http://twitter.github.com/bootstrap/components.html#alerts. By default, the `success` type will be used
+     * @param  {String}     [type]        The notification type. The supported types are `success`, `error` and `info`, as defined in http://getbootstrap.com/components/#alerts. By default, the `success` type will be used
      * @param  {String}     [id]          Unique identifier for the notification, in case a notification can be triggered twice due to some reason. If a second notification with the same id is triggered it will be ignored
      * @throws {Error}                    Error thrown when no message has been provided
      */
@@ -452,6 +468,16 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             // Add hostname to allow tracking of accessed tenant
             ga('create', globalTrackingId, window.location.hostname);
             ga('send', 'pageview');
+
+            // Add event handler to track JavaScript errors
+            window.addEventListener('error', function(ev) {
+                ga('send', 'event', 'JavaScript Error', 'log', ev.message + ' [' + ev.filename + ':  ' + ev.lineno + ']');
+            });
+
+            // Add event handler to track jQuery AJAX errors
+            $(document).ajaxError(function(ev, request, settings, err) {
+                ga('send', 'event', 'Ajax Error', 'log', settings.type + ' ' + settings.url + ' => ' + err + ' (' + request.status + ')');
+            });
         }
 
         // Tenant specific Google Analytics
@@ -517,7 +543,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          *
          * In order for forms to have the appropriate validation styles, each label and control should be wrapped in an element with a `form-group` class.
          * The label should have a `control-label` class. All input fields should be accompanied by a label, mostly for accessibility purposes.
-         * More information on creating forms (including horizontal forms) can be found at http://twitter.github.com/bootstrap/base-css.html#forms
+         * More information on creating forms (including horizontal forms) can be found at http://getbootstrap.com/css/#forms
          *
          * Validation messages will by default be displayed underneath the input field. If a custom position for the validation needs to provided,
          * a placeholder element with the class `help` should be created inside of the `form-group` element.
@@ -703,7 +729,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
      *
      * @param  {Element|String}     $element      jQuery element or jQuery selector for that element that represents the element that triggers the clickover. The clickover will be positioned relative to this element
      * @param  {Element|String}     $content      jQuery element or jQuery selector for the element that should be used as the content of the clickover
-     * @param  {Object}             [options]     JSON Object containing options to pass to the BootstrapX clickover component. It supports all of the standard options documented at http://twitter.github.com/bootstrap/javascript.html#popovers and http://www.leecarmichael.com/bootstrapx-clickover/examples.html#
+     * @param  {Object}             [options]     JSON Object containing options to pass to the BootstrapX clickover component. It supports all of the standard options documented at http://getbootstrap.com/javascript/#popovers and http://www.leecarmichael.com/bootstrapx-clickover/examples.html#
      * @return {Element}                          The root element of the generated clickover
      */
     var clickover = exports.clickover = function($trigger, $content, options) {
@@ -892,7 +918,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                     options.extraParams += '&resourceTypes=' + resourceType;
                 });
                 // Add the parameter that specifies whether or not results from other tenants need to be included as well
-                options.extraParams += '&includeExternal=' + (!configAPI.getValue('oae-tenants', 'tenantprivacy', 'tenantprivate'));
+                options.extraParams += '&scope=_interact';
 
                 // By default, the autosuggest component will only show results in the suggested items that actually match the query
                 // on one of the fields specified in the `searchObjProps` parameter. However, as we rely on the REST endpoint to do
@@ -1136,21 +1162,6 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     };
 
 
-    ////////////////////
-    // MATH RENDERING //
-    ////////////////////
-
-    /**
-     * Using MathJax behind the scenes, find all mathematical function (LaTeX) declarations and render them
-     * appropriately. Mathemetical are defined by wrapping them in $$.
-     *
-     * Example: $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
-     *
-     * @param  {Element|String}     [$element]        jQuery element or jQuery selector for that element in which we should look for Mathematical formulas and render them. If this is not provided, the body element will be used.
-     */
-    var renderMath = exports.renderMath = function($element) {};
-
-
     //////////////
     // SECURITY //
     //////////////
@@ -1176,7 +1187,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             if (!input) {
                 return '';
             } else {
-                return $.encoder.encodeForHTML(input);
+                return $.encoder.encodeForHTML(input.toString());
             }
         };
 
@@ -1195,7 +1206,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                 // If no attribute name is provided, we provide a dummy attribute
                 // name as this is required by the jQuery plugin
                 attribute = attribute || 'tmp';
-                return $.encoder.encodeForHTMLAttribute(attribute, input, true);
+                return $.encoder.encodeForHTMLAttribute(attribute, input.toString(), true);
             }
         };
 
@@ -1212,7 +1223,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             } else {
 
                 // First sanitize the user's input
-                input = encodeForHTML(input);
+                input = encodeForHTML(input.toString());
 
                 // URLs starting with http://, https://, or ftp://
                 var URLPattern1 = /(\b(https?|ftp):\/\/[\-A-Z0-9+&@#\/%?=~_|!:,.;]*[\-A-Z0-9+&@#\/%=~_|])/gim;
@@ -1237,7 +1248,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             if (!input) {
                 return '';
             } else {
-                return $.encoder.encodeForURL(input);
+                return $.encoder.encodeForURL(input.toString());
             }
         };
 
@@ -1326,9 +1337,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     };
 
 
-    ////////////////
-    // RESPONSIVE //
-    ////////////////
+    ////////////////////////////
+    // BROWSER-SPECIFIC TESTS //
+    ////////////////////////////
 
     /**
      * Check if the current browser is a browser on a mobile handheld device
@@ -1345,5 +1356,34 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         });
 
         return isHandheld;
+    };
+
+    /**
+     * Check if the current browser is mobile Safari (iOS)
+     *
+     * @return {Boolean}   `true` when using iOS, `false` otherwise
+     */
+    var isIos = exports.isIos = function() {
+        return (/safari/i).test(navigator.userAgent) && (/(iphone|ipad|ipod)/i).test(navigator.userAgent);
+    };
+
+
+    /////////////////////////
+    // BROWSER WORKAROUNDS //
+    /////////////////////////
+
+    /**
+     * Return the appropriate events for form element modifications depending
+     * on the browser. IE9 Doesn't reliably trigger the `input` event when
+     * characters are removed, so for that browser alone, any of a set of
+     * other events must be substituted.
+     *
+     * TODO: Replace all calls to this function with the string `"change input"`
+     *       when IE9 support is removed.
+     *
+     * @return {String}   event(s) which can fire when user changes content
+     */
+    var getFormChangeEventNames = exports.getFormChangeEventNames = function() {
+        return $('html').hasClass('ie-lt10') ? 'change keyup paste cut' : 'change input';
     };
 });

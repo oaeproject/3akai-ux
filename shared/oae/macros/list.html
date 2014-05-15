@@ -246,7 +246,7 @@
     {/if}
 
     <div class="oae-thumbnail {if largeDefault} oae-thumbnail-large {/if} icon-oae-${resourceSubType} icon-oae-${resourceType}" data-id="${resourceId}">
-        {if profilePath && addLink !== false}<a href="${profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}">{/if}
+        {if profilePath && addLink !== false}<a href="${profilePath|profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}">{/if}
         {if thumbnailUrl}
             <div role="img" aria-label="${entityData.displayName|encodeForHTMLAttribute}" style="background-image: url('${thumbnailUrl}');"></div>
         {/if}
@@ -298,7 +298,7 @@
     {if !profilePath}
         <h3 class="oae-threedots"><span class="jeditable-field oae-threedots" rel="tooltip" data-placement="right" data-original-title="__MSG__CLICK_TO_RENAME__" tabindex="0">${entityData.displayName|encodeForHTML}</span></h3>
     {else}
-        <h3 class="oae-threedots"><a href="${profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}">${entityData.displayName|encodeForHTML}</a></h3>
+        <h3 class="oae-threedots"><a href="${profilePath|profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}">${entityData.displayName|encodeForHTML}</a></h3>
     {/if}
 
     {if metadata}
