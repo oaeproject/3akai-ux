@@ -1373,17 +1373,17 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     /////////////////////////
 
     /**
-     * Return the appropriate events for input or textarea element modifications
-     * depending on the browser. IE9 Doesn't reliably trigger the `input` event
-     * when characters are removed, so for that browser alone, any of a set of
+     * Return the appropriate events for form element modifications depending
+     * on the browser. IE9 Doesn't reliably trigger the `input` event when
+     * characters are removed, so for that browser alone, any of a set of
      * other events must be substituted.
      *
-     * TODO: Replace all calls to this function with the string `"input"`
+     * TODO: Replace all calls to this function with the string `"change input"`
      *       when IE9 support is removed.
      *
      * @return {String}   event(s) which can fire when user changes content
      */
-    var getInputChangeEventNames = exports.getInputChangeEventNames = function() {
-        return $('html').hasClass('ie-lt10') ? 'change keyup paste cut' : 'input';
+    var getFormChangeEventNames = exports.getFormChangeEventNames = function() {
+        return $('html').hasClass('ie-lt10') ? 'change keyup paste cut' : 'change input';
     };
 });
