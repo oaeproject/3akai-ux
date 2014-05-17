@@ -123,11 +123,11 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
                                 }
                             });
                         } else {
-                            ok(true, '\'' + widgetId + '\' does does not have any keys in \'' + bundleKey + '\'');
+                            ok(true, '\'' + widgetId + '\' does not have any keys in \'' + bundleKey + '\'');
                         }
                     });
                 } else {
-                    ok(true, '\'' + widgetId + '\' does does not have any bundles');
+                    ok(true, '\'' + widgetId + '\' does not have any bundles');
                 }
             });
         });

@@ -114,7 +114,7 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                 }
             ];
 
-            // Only expose the maintenance functionality when the admin is looking at all tenants.
+            // Only expose the maintenance functionality when the admin is looking at the global admin tenant.
             // The maintenance functionality impacts system wide resources and is not implemented
             // for individual tenants.
             if (currentContext.isGlobalAdminServer) {

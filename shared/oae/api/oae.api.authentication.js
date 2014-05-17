@@ -171,21 +171,20 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
     /**
      * Change the password of the currently logged in user
      *
-     * @param  {String}         [_userId]             The ID of the user to change the password for. If not provided the currently logged in user's ID will be used
      * @param  {String}         currentPassword       The user's current password
      * @param  {String}         newPassword           The user's new password
      * @param  {Function}       [callback]            Standard callback method
      * @param  {Object}         [callback.err]        Error object containing error code and error message
      * @throws {Error}                                Error thrown when no new or current password has been provided
      */
-    var changePassword = exports.changePassword = function(_userId, currentPassword, newPassword, callback) {
-        if (!currentPassword && !(_userId && !currentPassword)) {
+    var changePassword = exports.changePassword = function(currentPassword, newPassword, callback) {
+        if (!currentPassword) {
             throw new Error('A valid current password should be provided');
         } else if (!newPassword) {
             throw new Error('A valid new password should be provided');
         }
 
-        var userId = _userId || require('oae.core').data.me.id;
+        var userId = require('oae.core').data.me.id;
 
         $.ajax({
             'url': '/api/user/' + userId + '/password',

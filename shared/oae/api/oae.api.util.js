@@ -688,10 +688,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             $form = $($form);
             // The Bootstrap `error` class will be set on the element that has the `form-group` class.
             // When clearing validation, we remove this `error` class. We also remove the actual error
-            // messages from the dom and remove the `has-error` class from the `form-group`.
+            // messages from the dom
             $form.find('.oae-error').remove();
             $form.find('.error').removeClass('error');
-            $form.find('.has-error').removeClass('has-error');
             // When a field is invalid, the aria-invalid attribute on the field will be set to true, and
             // the aria-describedby attribute will be set to point to the validation message. When clearing
             // validation, we remove both of these

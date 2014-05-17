@@ -25,17 +25,15 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
      * @param  {String}         [additionalOptions.visibility]  The user's visibility setting. This can be public, loggedin or private
      * @param  {String}         [additionalOptions.email]       The user's email address
      * @param  {String}         [additionalOptions.locale]      The user's locale
-     * @param  {String}         [additionalOptions.timezone]    The user's timezone
      * @param  {String}         [additionalOptions.publicAlias] The publically-available alias for users to see when the user's display name is protected
      * @param  {String}         recaptchaChallenge              The identifier of the recaptcha challenge that has been presented to the user
      * @param  {String}         recaptchaResponse               The response for the presented recaptcha challenge
-     * @param  {String}         [tenantAlias]                   The tenant alias. Only needs to be provided when creating a user from the global administration tenant
      * @param  {Function}       [callback]                      Standard callback method
      * @param  {Object}         [callback.err]                  Error object containing error code and error message
      * @param  {User}           [callback.response]             A User object representing the created user
      * @throws {Error}                                          Error thrown when not all of the required parameters have been provided
      */
-    var createUser = exports.createUser = function(username, password, displayName, additionalOptions, recaptchaChallenge, recaptchaResponse, tenantAlias, callback) {
+    var createUser = exports.createUser = function(username, password, displayName, additionalOptions, recaptchaChallenge, recaptchaResponse, callback) {
         if (!username) {
             throw new Error('A username should be provided');
         } else if (!password) {
@@ -58,7 +56,6 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
             'visibility': additionalOptions.visibility,
             'email': additionalOptions.email,
             'locale': additionalOptions.locale,
-            'timezone': additionalOptions.timezone,
             'publicAlias': additionalOptions.publicAlias
         };
 
@@ -67,15 +64,9 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
             data.acceptedTC = true;
         }
 
-        var url = '/api/user/create';
-        // If a tenant alias is specified we change the URL to include the tenant
-        if (tenantAlias) {
-            url = '/api/user/' + tenantAlias + '/create';
-        }
-
         // Create the user
         $.ajax({
-            'url': url,
+            'url': '/api/user/create',
             'type': 'POST',
             'data': data,
             'success': function(data) {
@@ -133,14 +124,14 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
     };
 
     /**
-     * Update a user's basic profile
+     * Update the current user's basic profile
      *
-     * @param  {String}         [_userId]           Optional user ID of the user profile you wish to update
+     * @param  {Object}         params              Object representing the profile fields that need to be updated. The keys are the profile fields, the values are the profile field values
      * @param  {Function}       [callback]          Standard callback method
      * @param  {Object}         [callback.err]      Error object containing error code and error message
      * @throws {Error}                              Error thrown when no update parameters have been provided
      */
-    var updateUser = exports.updateUser = function(_userId, params, callback) {
+    var updateUser = exports.updateUser = function(params, callback) {
         if (!params || _.keys(params).length === 0) {
             throw new Error('At least 1 parameter should be provided');
         }
@@ -148,8 +139,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
-        // If a user ID is provided update that user, otherwise update the current user
-        var userId = _userId || require('oae.core').data.me.id;
+        // Get the current user to construct the endpoint url.
+        var userId = require('oae.core').data.me.id;
 
         // Update all places that are showing the current user's display name
         if (params['displayName']) {

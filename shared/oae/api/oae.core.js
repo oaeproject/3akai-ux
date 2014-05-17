@@ -33,6 +33,7 @@ define([
          * libraries are already included in the `oae.core` dependency and individual libraries will not be loaded
          * on the client when requested.
          */
+        'oae.api.admin',
         'oae.api.authentication',
         'oae.api.config',
         'oae.api.content',
