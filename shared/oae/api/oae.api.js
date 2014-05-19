@@ -158,8 +158,7 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
          * need to be accepted before using the system.
          */
         var setUpTermsAndConditions = function() {
-            if (!oae.data.me.anon && oae.api.config.getValue('oae-principals', 'termsAndConditions', 'enabled') &&
-                (oae.data.me.needsToAcceptTC || oae.data.me.acceptedTC === 0)) {
+            if (oae.data.me.needsToAcceptTC) {
                 // Insert the terms and conditions widget in settings mode
                 var termsandconditionsId = oae.api.util.generateId();
                 oae.api.widget.insertWidget('termsandconditions', termsandconditionsId, null, true);
