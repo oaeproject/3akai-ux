@@ -1,13 +1,12 @@
-
 .DS_STORE
 .project
 .idea
 *.kpf
+*.log
 *.swp
 
 Thumbs.db
 dump.rdb
-npm-debug.log
 
 nginx/nginx.*
 !nginx/nginx.conf
@@ -20,5 +19,3 @@ target/
 
 tools/crowdin/*.jar
 tools/crowdin/*.yaml
-
-npm-debug.log

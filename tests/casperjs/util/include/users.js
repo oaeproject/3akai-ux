@@ -12,7 +12,7 @@ var userUtil = function() {
      * @return {User[]}                 An array of created users
      */
     var createUsers = function(numToCreate, callback) {
-        var toCreate = numToCreate || 4;
+        var toCreate = numToCreate;
         var users = [];
         var me = null;
 

@@ -247,10 +247,10 @@ module.exports = function(grunt) {
         },
         'ghost': {
             'dist': {
-                'filesSrc': ['node_modules/oae-admin/*/tests/*.js', 'node_modules/oae-core/*/tests/*.js'],
+                'filesSrc': ['node_modules/oae-*/*/tests/*.js'],
                 // CasperJS test command options
                 'options': {
-                    // Specifies files to be included for each test file
+                    // Specify the files to be included in each test
                     'includes': [
                         'tests/casperjs/util/include/admin.js',
                         'tests/casperjs/util/include/collabdocs.js',
@@ -262,17 +262,15 @@ module.exports = function(grunt) {
                         'tests/casperjs/util/include/users.js',
                         'tests/casperjs/util/include/util.js'
                     ],
-                    // Adds tests from specified files before running the test suite
+                    // Prepare te testing environment before starting the tests
                     'pre': ['tests/casperjs/util/prep.js'],
                     // Don't stop casperjs after first test failure
-                    'failFast': false,
-                    // Prints list of filepaths
-                    'printFilePaths': true
+                    'failFast': false
                 }
             }
         },
         'exec': {
-            'rundIndividualCasperFile': {
+            'runCasperTest': {
                 cmd: function(path) {
                     var includes = grunt.config('ghost').dist.options.includes;
                     var pre = grunt.config('ghost').dist.options.pre;
@@ -530,7 +528,7 @@ module.exports = function(grunt) {
             return grunt.fail.fatal('Please provide a path to a CasperJS test file. e.g. `grunt test-file --path node_modules/oae-core/accountpreferences/tests/accountpreferences.js`');
         }
 
-        grunt.task.run('exec:rundIndividualCasperFile:' + path);
+        grunt.task.run('exec:runCasperTest:' + path);
     });
 
 

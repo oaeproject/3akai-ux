@@ -236,17 +236,36 @@ require(['jquery','oae.core'], function($, oae) {
     /////////////////////
 
     /**
-     * Re-render the discussion's clip. The discussion topic will be handled by the discussion widget.
+     * Refresh the discussion preview by emptying the existing discussion preview container and
+     * rendering a new one
      */
-    $(document).on('oae.editdiscussion.done', function(ev, data) {
-        discussionProfile = data;
-        // Make sure the oae-page div is empty so the left hand nav reloads the content preview
-        $('.oae-page').empty();
+    var refreshDiscussionPreview = function() {
+        // Empty the preview container
+        var $widgetContainer = $('#lhnavigation-widget-discussion');
+        $widgetContainer.empty();
 
-        setUpNavigation();
+        // Insert the new updated discussion preview widget
+        oae.api.widget.insertWidget('discussion', null, $widgetContainer, null, discussionProfile);
+    };
+
+    /**
+     * Refresh the discussion profile by updating the clips and discussion preview
+     *
+     * @param  {Discussion}        updatedDiscussion          Discussion profile of the updated discussion item
+     */
+    var refreshDiscussionProfile = function(updatedDiscussion) {
+        // Cache the discussion profile data
+        discussionProfile = updatedDiscussion;
+        // Refresh the discussion preview
+        refreshDiscussionPreview();
+        // Refresh the clips
         setUpClips();
-    });
+    };
 
+    // Catch the event sent out when the discussion item has been updated
+    $(document).on('oae.editdiscussion.done', function(ev, updatedDiscussion) {
+        refreshDiscussionProfile(updatedDiscussion);
+    });
 
     getDiscussionProfile();
 
