@@ -45,7 +45,7 @@ before_install:
   - sudo ln -fs pwd/phantomjs-1.9.2-linux-i686/bin/phantomjs /usr/local/bin/phantomjs
   - git clone git://github.com/n1k0/casperjs.git
   - cd casperjs
-  - git checkout 1.0.3
+  - git checkout 1.1-beta3
   - sudo ln -sf `pwd`/bin/casperjs /usr/local/bin/casperjs
 
   # Show the CasperJS and PhantomJS version for debugging purposes
