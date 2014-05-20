@@ -16,12 +16,8 @@ before_install:
   - curl -L http://debian.datastax.com/debian/repo_key | sudo apt-key add -
   - echo "deb http://debian.datastax.com/community stable main" | sudo tee -a /etc/apt/sources.list.d/dsc.sources.list
 
-  # Add ElasticSearch apt repo
-  - curl -L http://packages.elasticsearch.org/GPG-KEY-elasticsearch | sudo apt-key add -
-  - echo "deb http://packages.elasticsearch.org/elasticsearch/0.90/debian stable main" | sudo tee -a /etc/apt/sources.list.d/elasticsearch.sources.list
-
   # Add PPA repos for miscellaneous dependencies
-  - sudo add-apt-repository -y ppa:oae/deps
+  - echo 'yes' | sudo add-apt-repository ppa:oae/deps
   - sudo apt-get update
 
   # Install cassandra 1.2 manually
@@ -32,43 +28,44 @@ before_install:
   - sudo service cassandra start
   - sudo service cassandra status
 
-  # Install elasticsearch 0.90 manually
-  - sudo apt-get install -y --force-yes -o Dpkg::Options::=--force-confnew elasticsearch=0.90.13
-  - sudo service elasticsearch restart
-  - sleep 5
-  - sudo service elasticsearch status
-
   # Turn off unneeded services to free some memory
   - sudo service mysql stop
   - sudo service memcached stop
   - sudo service postgresql stop
 
+  # We must ensure phantomjs is not available so the travis build will include it in node_modules when deploying
+  - sudo rm -rf /usr/local/phantomjs
+
   # Hilary dependencies
-  - sudo apt-get install -qq graphicsmagick
-  - sudo apt-get install nginx
   - npm install -g grunt-cli
 
   # Install etherpad-lite
-  - cd ..
-  - wget https://s3-eu-west-1.amazonaws.com/oae-testing/travisci/etherpad-lite.tar.gz
-  - tar -xzf etherpad-lite.tar.gz
-  - cd etherpad-lite
-  - node src/node/server.js &
-  - cd ..
+  - sudo apt-get install etherpad-lite
+  - cd /opt/etherpad
+  - sudo touch APIKEY.txt
+  - sudo chmod -R 777 .
 
-  # 3akai-ux dependencies
-  - wget https://phantomjs.googlecode.com/files/phantomjs-1.9.2-linux-i686.tar.bz2
-  - tar xjf phantomjs-1.9.2-linux-i686.tar.bz2
-  - sudo ln -fs pwd/phantomjs-1.9.2-linux-i686/bin/phantomjs /usr/local/bin/phantomjs
-  - git clone git://github.com/n1k0/casperjs.git
-  - cd casperjs
-  - sudo ln -sf `pwd`/bin/casperjs /usr/local/bin/casperjs
+  # Create a keyspace that we can start etherpad up into. There is a chicken-and-egg problem by having unit tests drop/create and have
+  # etherpad be available, so we just create a separate keyspace for it
+  - "echo \"CREATE KEYSPACE etherpad WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};\" > /tmp/.create_etherpad_keyspace.cql3"
+  - cqlsh -3 -f /tmp/.create_etherpad_keyspace.cql3
 
-  # Show the CasperJS and PhantomJS version for debugging purposes
-  - casperjs --version
-  - phantomjs --version
+  # Configure etherpad to talk to Cassandra
+  - "sed -i 's/dbType\" : \"dirty/dbType\" : \"cassandra/g' settings.json"
+  - "sed -i 's/\"filename\" : \"var\\/dirty.db\"/\"hosts\": [ \"localhost:9160\" ], \"keyspace\": \"etherpad\", \"cfName\": \"Etherpad\", \"user\": \"\", \"pass\": \"\", \"timeout\": 3000, \"replication\": \"1\", \"strategyClass\": \"SimpleStrategy\", \"cqlVersion\": \"2.0.0\"/g' settings.json"
+  - "sed -i 's/defaultPadText\" : \".*\"/defaultPadText\" : \"\"/g' settings.json"
 
-  # Configure 3akai-ux / nginx
+  - echo "13SirapH8t3kxUh5T5aqWXhXahMzoZRA" > APIKEY.txt
+  - node src/node/server.js &> /dev/null &
+
+  # Install Hilary
+  - cd ~/build/oaeproject
+  - git clone  --branch master --depth=1 git://github.com/oaeproject/Hilary.git
+  - cd ./Hilary
+  - npm install --production
+  - node app.js | node_modules/.bin/bunyan -l error &
+
+  # Configure 3akai-ux/nginx
   - cd ../3akai-ux
   - npm install
   - "echo '{\"NGINX_USER\": \"root\",\"NGINX_GROUP\": \"root\",\"NGINX_HOSTNAME\": \"admin.oae.com\",\"UX_HOME\": \"/home/travis/build/oaeproject/3akai-ux\",\"LOCAL_FILE_STORAGE_DIRECTORY\": \"/home/travis/build/oaeproject/files\"}' > nginx/nginx.json"
@@ -77,14 +74,11 @@ before_install:
   - sudo mkdir /usr/share/nginx/logs
   - sudo service nginx start
 
-  # Install Hilary and create our test tenant
-  - git clone  --branch master --depth=1 git://github.com/oaeproject/Hilary.git ../Hilary
-  - cd ../Hilary
-  - npm install --production
-  - node app.js &
+  # Show the CasperJS and PhantomJS version for debugging purposes
+  - casperjs --version
+  - phantomjs --version
 
-  # Wait for Hilary to have started up
-  - cd ../3akai-ux
+  # Wait for Hilary to have started up to start the tests in "script" phase
   - ./tools/travis/checkHilaryStart.sh
 
 addons:
