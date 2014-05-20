@@ -365,13 +365,16 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 '/shared/oae/api/oae.core.js': null,
             },
             'oaePlugins': {
+                '/shared/oae/js/bootstrap-plugins/bootstrap.focus.js': null,
                 '/shared/oae/js/bootstrap-plugins/bootstrap.modal.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.browse-focus.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.clip.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.dnd-upload.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.infinitescroll.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.jeditable-focus.js': null,
-                '/shared/oae/js/jquery-plugins/jquery.list-header.js': null,
+                '/shared/oae/js/jquery-plugins/jquery.list.js': null,
+                '/shared/oae/js/jquery-plugins/jquery.responsive.js': null,
+                '/shared/oae/js/jquery-plugins/jquery.update-picture.js': null
             },
             'mainJS': {},
             'mainCSS': {

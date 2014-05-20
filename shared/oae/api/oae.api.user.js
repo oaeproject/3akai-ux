@@ -25,7 +25,6 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
      * @param  {String}         [additionalOptions.visibility]  The user's visibility setting. This can be public, loggedin or private
      * @param  {String}         [additionalOptions.email]       The user's email address
      * @param  {String}         [additionalOptions.locale]      The user's locale
-     * @param  {String}         [additionalOptions.timezone]    The user's timezone
      * @param  {String}         [additionalOptions.publicAlias] The publically-available alias for users to see when the user's display name is protected
      * @param  {String}         recaptchaChallenge              The identifier of the recaptcha challenge that has been presented to the user
      * @param  {String}         recaptchaResponse               The response for the presented recaptcha challenge
@@ -57,7 +56,6 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
             'visibility': additionalOptions.visibility,
             'email': additionalOptions.email,
             'locale': additionalOptions.locale,
-            'timezone': additionalOptions.timezone,
             'publicAlias': additionalOptions.publicAlias
         };
 

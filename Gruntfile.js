@@ -371,7 +371,8 @@ module.exports = function(grunt) {
                 },
 
                 /*!
-                 * Third, hash the remainder of the files (CSS, HTML and JS)
+                 * Third, hash just the JS files and CSS files so their references can be updated in
+                 * the HTML files.
                  *
                  * TODO:
                  *
@@ -384,19 +385,40 @@ module.exports = function(grunt) {
                  * results in all strings of "js" to be replaced in the widget files, which catches
                  * things like: /shared/vendor/js/... for example, thus breaking those references.
                  *
-                 * At this time there is no known manifestation of this issue in widgets, but it
-                 * needs to be addressed before chains of JS files using require.js is possible in
-                 * widgets.
+                 * In this replacement phase, we are only replacing references in HTML files, since
+                 * any references to these files by non-HTML files will otherwise result in less
+                 * obvious issues that can only be caught with meticulous cache-upgrade testing which
+                 * is difficult to get right and very time consuming.
                  *
                  * See https://github.com/oaeproject/3akai-ux/issues/3551 for more information.
                  */
                 {
                     'files': [
                         util.format('%s/**/*.css', module),
-                        util.format('%s/**/*.html', module),
                         util.format('%s/**/*.js', module)
                     ],
-                    'references': moduleReferences.slice()
+                    'references': [util.format('%s/**/*.html', module)]
+                },
+
+                /*!
+                 * Fourth, now that references for all other files have been replaced, finally
+                 * hash the HTML files of the widget, replacing the reference in the `manifest.json`
+                 * file, as that is the only place the optimization workflow has accounted for them
+                 * to be referenced.
+                 *
+                 * This optimization phase is intentionally only accounting for the setup that the
+                 * `manifest.json` file is the only reference to a widget HTML file. If a situation
+                 * arises that the `manifest.json` is not the only file that references an HTML file
+                 * (e.g., a JS file referencing an HTML widget macro file), then there are indirect
+                 * cache invalidation issues that will almost certainly start happeningf if the macro
+                 * file is updated and gets a new hash, but the JS file is not. By limiting this to
+                 * the `manifest.json` for now, we can more explicitly visit this issue when it is
+                 * obvious in testing, rather than it becoming an intermittent production cache issue
+                 * first.
+                 */
+                {
+                    'files': [util.format('%s/**/*.html', module)],
+                    'references': [util.format('%s/**/*.json', module)]
                 }
             ];
 
