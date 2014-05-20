@@ -28,6 +28,9 @@ before_install:
   - sudo service cassandra start
   - sudo service cassandra status
 
+  # Install nginx
+  - sudo apt-get install nginx
+
   # Turn off unneeded services to free some memory
   - sudo service mysql stop
   - sudo service memcached stop
