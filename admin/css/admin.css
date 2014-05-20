@@ -45,8 +45,9 @@ div.admin-table-striped > div:nth-child(2n+2) {
     padding: 12px;
 }
 
-div.admin-table-striped form {
-    margin: 20px 0;
+div.admin-table-striped button + div > form,
+div.admin-table-striped button + div > div {
+    margin: 12px 0 0;
 }
 
 div.admin-table-striped form .form-group {

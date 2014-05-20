@@ -186,6 +186,56 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     };
 
     /**
+     * Reindex the search index
+     *
+     * @param  {Function}       [callback]              Standard callback method
+     * @param  {Object}         [callback.err]          Error object containing error code and error message
+     */
+    var reindexSearch = exports.reindexSearch = function(callback) {
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        $.ajax({
+            'url': '/api/search/reindexAll',
+            'type': 'POST',
+            'success': function() {
+                callback(null);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
+     * Reprocess previews
+     *
+     * @param  {Object}         reprocessParameters     Parameters that determine what content item previews need to be reprocessed
+     * @param  {Function}       [callback]              Standard callback method
+     * @param  {Object}         [callback.err]          Error object containing error code and error message
+     */
+    var reprocessPreviews = exports.reprocessPreviews = function(reprocessParameters, callback) {
+        if (!reprocessParameters || _.isEmpty(reprocessParameters)) {
+            throw new Error('Valid reprocess parameters should be provided');
+        }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        $.ajax({
+            'type': 'POST',
+            'url': '/api/content/reprocessPreviews',
+            'data': reprocessParameters,
+            'success': function() {
+                callback(null);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
      * Update a user's basic profile
      *
      * @param  {String}         userId              Optional user ID of the user profile you wish to update
