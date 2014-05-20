@@ -86,20 +86,22 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     /**
      * Creates a new user with an internal login strategy
      *
-     * @param  {String}         username                        The username this user can login with
-     * @param  {String}         password                        The password for this user
-     * @param  {String}         displayName                     The display name for the user
-     * @param  {Object}         [additionalOptions]             Additional optional parameters that need to be passed
-     * @param  {String}         [additionalOptions.visibility]  The user's visibility setting. This can be public, loggedin or private
-     * @param  {String}         [additionalOptions.email]       The user's email address
-     * @param  {String}         [additionalOptions.locale]      The user's locale
-     * @param  {String}         [additionalOptions.timezone]    The user's timezone
-     * @param  {String}         [additionalOptions.publicAlias] The publically-available alias for users to see when the user's display name is protected
-     * @param  {String}         [tenantAlias]                   The alias of the tenant to create the user on. Only needs to be provided when creating a user from the global administration tenant
-     * @param  {Function}       [callback]                      Standard callback method
-     * @param  {Object}         [callback.err]                  Error object containing error code and error message
-     * @param  {User}           [callback.response]             A User object representing the created user
-     * @throws {Error}                                          Error thrown when not all of the required parameters have been provided
+     * @param  {String}         username                            The username this user can login with
+     * @param  {String}         password                            The password for this user
+     * @param  {String}         displayName                         The display name for the user
+     * @param  {Object}         [additionalOptions]                 Additional optional parameters that need to be passed
+     * @param  {String}         [additionalOptions.visibility]      The user's visibility setting. This can be public, loggedin or private
+     * @param  {String}         [additionalOptions.email]           The user's email address
+     * @param  {String}         [additionalOptions.locale]          The user's locale
+     * @param  {String}         [additionalOptions.timezone]        The user's timezone
+     * @param  {String}         [additionalOptions.publicAlias]     The publically-available alias for users to see when the user's display name is protected
+     * @param  {Boolean}        [additionalOptions.isGlobalAdmin]   Whether or not the new user should be a global admin
+     * @param  {Boolean}        [additionalOptions.isTenantAdmin]   Whether or not the new user should be a tenant admin
+     * @param  {String}         [tenantAlias]                       The alias of the tenant to create the user on. Only needs to be provided when creating a user from the global administration tenant
+     * @param  {Function}       [callback]                          Standard callback method
+     * @param  {Object}         [callback.err]                      Error object containing error code and error message
+     * @param  {User}           [callback.response]                 A User object representing the created user
+     * @throws {Error}                                              Error thrown when not all of the required parameters have been provided
      */
     var createUser = exports.createUser = function(username, password, displayName, additionalOptions, tenantAlias, callback) {
         if (!username) {
@@ -124,6 +126,8 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             'locale': additionalOptions.locale,
             'timezone': additionalOptions.timezone,
             'publicAlias': additionalOptions.publicAlias,
+            'isGlobalAdmin': additionalOptions.isGlobalAdmin,
+            'isTenantAdmin': additionalOptions.isTenantAdmin,
             'acceptedTC': true
         };
 
