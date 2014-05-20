@@ -36,11 +36,21 @@ before_install:
   - sudo service memcached stop
   - sudo service postgresql stop
 
-  # We must ensure phantomjs is not available so the travis build will include it in node_modules when deploying
-  - sudo rm -rf /usr/local/phantomjs
-
   # Hilary dependencies
   - npm install -g grunt-cli
+
+  # 3akai-ux dependencies
+  - wget https://phantomjs.googlecode.com/files/phantomjs-1.9.2-linux-i686.tar.bz2
+  - tar xjf phantomjs-1.9.2-linux-i686.tar.bz2
+  - sudo ln -fs pwd/phantomjs-1.9.2-linux-i686/bin/phantomjs /usr/local/bin/phantomjs
+  - git clone git://github.com/n1k0/casperjs.git
+  - cd casperjs
+  - git checkout 1.0.3
+  - sudo ln -sf `pwd`/bin/casperjs /usr/local/bin/casperjs
+
+  # Show the CasperJS and PhantomJS version for debugging purposes
+  - casperjs --version
+  - phantomjs --version
 
   # Install etherpad-lite
   - sudo apt-get install etherpad-lite
@@ -76,10 +86,6 @@ before_install:
   - sudo cp ./target/optimized/nginx/nginx.conf /etc/nginx/nginx.conf
   - sudo mkdir /usr/share/nginx/logs
   - sudo service nginx start
-
-  # Show the CasperJS and PhantomJS version for debugging purposes
-  - casperjs --version
-  - phantomjs --version
 
   # Wait for Hilary to have started up to start the tests in "script" phase
   - ./tools/travis/checkHilaryStart.sh
