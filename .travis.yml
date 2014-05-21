@@ -18,6 +18,7 @@ before_install:
 
   # Add PPA repos for miscellaneous dependencies
   - echo 'yes' | sudo add-apt-repository ppa:oae/deps
+  - echo 'yes' | sudo add-apt-repository ppa:coolwanglu/pdf2htmlex
   - sudo apt-get update
 
   # Install cassandra 1.2 manually
@@ -37,6 +38,7 @@ before_install:
   - sudo service postgresql stop
 
   # Hilary dependencies
+  - sudo apt-get install -qq graphicsmagick libreoffice pdftk chrpath pdf2htmlex
   - npm install -g grunt-cli
 
   # 3akai-ux dependencies
