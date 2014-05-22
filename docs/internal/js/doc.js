@@ -148,11 +148,11 @@ require(['jquery', 'oae.core', 'jquery.history'], function($, oae) {
             modules.backend.sort();
 
             // Extract the currently selected module from the URL by parsing the URL fragment that's
-            // inside of the current History.js hash. The expected URL structure is `/docs/module/<moduleId>/<apiFunction>`.
+            // inside of the current History.js hash. The expected URL structure is `/docs/internal/module/<moduleId>/<apiFunction>`.
             var initialState = $.url(History.getState().hash);
-            var type = initialState.segment(2) || 'frontend';
-            var moduleToLoad = initialState.segment(3) || modules[type][0];
-            var apiFunction = initialState.segment(4);
+            var type = initialState.segment(3) || 'frontend';
+            var moduleToLoad = initialState.segment(4) || modules[type][0];
+            var apiFunction = initialState.segment(5);
 
             // Render the left hand navigation
             renderNavigation(modules, moduleToLoad);
