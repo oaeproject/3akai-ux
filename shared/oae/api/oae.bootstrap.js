@@ -84,7 +84,10 @@ requirejs.config({
         'oae.api.widget': 'oae/api/oae.api.widget',
         'oae.bootstrap': 'oae/api/oae.bootstrap',
         'oae.core': 'oae/api/oae.core',
-        'pluginBuilder': 'oae/pluginBuilder'
+        'pluginBuilder': 'oae/pluginBuilder',
+
+        // OAE activity view wrapper
+        'activityadapter': '../node_modules/oae-bundles/activityadapter/js/activityadapter'
     },
     'priority': ['jquery', 'underscore'],
     'shim': {
