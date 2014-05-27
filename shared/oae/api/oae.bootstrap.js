@@ -66,6 +66,7 @@ requirejs.config({
         'jquery.responsive': 'oae/js/jquery-plugins/jquery.responsive',
         'jquery.update-picture': 'oae/js/jquery-plugins/jquery.update-picture',
         'activityadapter': 'oae/js/activityadapter',
+        'mimetypes': 'oae/js/mimetypes',
 
         // OAE API modules
         'oae.api': 'oae/api/oae.api',

@@ -117,11 +117,15 @@ var _expose = function(exports, _) {
         that.id = entity.id,
         that.profilePath = entity['oae:profilePath'] || entity.profilePath;
         that.thumbnailUrl = (entity.image && entity.image.url) ? entity.image.url : null;
+        that.wideImageUrl = (entity['oae:wideImage'] && entity['oae:wideImage'].url) ? entity['oae:wideImage'].url : null;
         that.resourceType = entity.objectType;
         that.resourceSubType = entity['oae:resourceSubType'] || entity.resourceSubType;
         that.visibility = entity['oae:visibility'];
         that.displayName = entity.displayName;
         that.tenant = entity['oae:tenant'] || entity.tenant;
+        if (entity['oae:mimeType']) {
+            that.mime = entity['oae:mimeType'];
+        }
         return that;
     };
 
