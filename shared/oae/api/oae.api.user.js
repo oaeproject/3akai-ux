@@ -21,7 +21,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
      * @param  {String}         username                        The username this user can login with
      * @param  {String}         password                        The password for this user
      * @param  {String}         displayName                     The display name for the user
-     * @param  {Object}         [additionalOptions]             Additional optional parameters that need to be passed
+     * @param  {Object}         [additionalOptions]             Additional optional parameters that need to be passed in
      * @param  {String}         [additionalOptions.visibility]  The user's visibility setting. This can be public, loggedin or private
      * @param  {String}         [additionalOptions.email]       The user's email address
      * @param  {String}         [additionalOptions.locale]      The user's locale
@@ -139,7 +139,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
-        // Get the current user to construct the endpoint url.
+        // Get the current user to construct the endpoint URL
         var userId = require('oae.core').data.me.id;
 
         // Update all places that are showing the current user's display name

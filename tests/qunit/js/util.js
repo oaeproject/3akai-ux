@@ -22,8 +22,8 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
     /**
      * Filter all vendor files so they can be excluded from testing
      *
-     * @param  {String[]}    paths    Array of paths to files
-     * @return {String[]}             List of files from which the vendor scripts have been filtered
+     * @param  {String[]}    paths    Array of file paths to check for exclusion
+     * @return {String[]}             List of files from which the vendor files have been filtered
      */
     var filterVendorFiles = function(paths) {
         return _.filter(paths, function(path) {
