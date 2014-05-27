@@ -65,6 +65,7 @@ requirejs.config({
         'jquery.list': 'oae/js/jquery-plugins/jquery.list',
         'jquery.responsive': 'oae/js/jquery-plugins/jquery.responsive',
         'jquery.update-picture': 'oae/js/jquery-plugins/jquery.update-picture',
+        'activityadapter': 'oae/js/activityadapter',
 
         // OAE API modules
         'oae.api': 'oae/api/oae.api',
@@ -84,10 +85,7 @@ requirejs.config({
         'oae.api.widget': 'oae/api/oae.api.widget',
         'oae.bootstrap': 'oae/api/oae.bootstrap',
         'oae.core': 'oae/api/oae.core',
-        'pluginBuilder': 'oae/pluginBuilder',
-
-        // OAE activity view wrapper
-        'activityadapter': '../node_modules/oae-bundles/activityadapter/js/activityadapter'
+        'pluginBuilder': 'oae/pluginBuilder'
     },
     'priority': ['jquery', 'underscore'],
     'shim': {
