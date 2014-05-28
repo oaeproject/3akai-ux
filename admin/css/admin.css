@@ -58,6 +58,11 @@ div.admin-table-striped .admin-table-striped-content-container > div {
     margin: 0;
 }
 
+div.admin-table-striped .admin-table-striped-content-container > form .checkbox:first-child,
+div.admin-table-striped .admin-table-striped-content-container > form .checkbox:first-child h5 {
+    margin-top: 0;
+}
+
 div.admin-table-striped .admin-table-striped-content-container h4 {
     margin: 0 0 7px;
 }
