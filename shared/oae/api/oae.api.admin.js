@@ -365,12 +365,19 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     /**
      * Reprocess content previews
      *
-     * @param  {Object}         reprocessParameters     Parameters that determine what content item previews need to be reprocessed
-     * @param  {Function}       [callback]              Standard callback method
-     * @param  {Object}         [callback.err]          Error object containing error code and error message
-     * @throws {Error}                                  Error thrown when no valid content reprocessing parameters have been provided
+     * @param  {Object}      reprocessParameters                              Parameters that determine what content item previews need to be reprocessed
+     * @param  {String[]}    [reprocessParameters.revision_mime]              An array of mimetypes to be reprocessed (e.g., `application/pdf`)
+     * @param  {String[]}    [reprocessParameters.content_resourceSubType]    An array of content types to be reprocessed. Can be either of `collabdoc`, `file` or `link`
+     * @param  {String[]}    [reprocessParameters.revision_previewStatus]     An array of preview statuses that need to be reprocessed. Can be either `error` or `ignored`
+     * @param  {Date}        [reprocessParameters.revision_createdAfter]      A Date from which content previews after need to be reprocessed
+     * @param  {Date}        [reprocessParameters.revision_createdBefore]     A Date from wich content previews before need to be reprocessed.
+     * @param  {String[]}    [reprocessParameters.revision_createdBy]         An Array of IDs of users to reprocess all content previews for
+     * @param  {Function}    [callback]                                       Standard callback method
+     * @param  {Object}      [callback.err]                                   Error object containing error code and error message
+     * @throws {Error}                                                        Error thrown when no valid content reprocessing parameters have been provided
      */
     var reprocessPreviews = exports.reprocessPreviews = function(reprocessParameters, callback) {
+        console.log(reprocessParameters);
         if (!reprocessParameters || _.isEmpty(reprocessParameters)) {
             throw new Error('Valid reprocess parameters should be provided');
         }
