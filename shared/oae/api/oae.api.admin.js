@@ -57,6 +57,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     /**
      * Create a new global admin user with an internal login strategy
      *
+     * @param  {String}         [tenantAlias]                       The alias of the tenant to create the global admin on
      * @param  {String}         username                            The username this user can login with
      * @param  {String}         password                            The password for this user
      * @param  {String}         displayName                         The display name for the user
@@ -159,7 +160,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
 
         // Create the user
         $.ajax({
-            'url': '/api/auth/createTenantAdminUser',
+            'url': url,
             'type': 'POST',
             'data': data,
             'success': function(data) {
