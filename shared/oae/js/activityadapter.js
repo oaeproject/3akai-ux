@@ -15,14 +15,21 @@
 
 
 /*
+ * This module exposes logic that allows one to adapt a set of activities formatted
+ * in the activitystrea.ms format into a slightly friendlier format that can be used
+ * to render activity streams in the UI, emails, etc..
+ *
  * The code in this module deviates from the default backend and/or frontend code-style
  * as it needs to run in both. 
  */
 
-var _expose = function(exports, _) {
+// Ensure that all this logic works in the backend
+if (typeof define !== 'function') { var define = require('amdefine')(module) }
+
+define(['exports', 'underscore'], function(exports, _) {
 
     /**
-     * Adapts a set of activities in activitystrea.ms format to a simpler view model
+     * Adapt a set of activities in activitystrea.ms format to a simpler view model
      *
      * @param  {User}                   me          The currently loggedin user
      * @param  {Activity[]}             activities  The set of activities to adapt
@@ -35,7 +42,7 @@ var _expose = function(exports, _) {
     };
 
     /**
-     * Adapts a single activity in activitystrea.ms format to a simpler view model
+     * Adapt a single activity in activitystrea.ms format to a simpler view model
      *
      * @param  {User}                   me              The currently loggedin user
      * @param  {Activity}               activity        The activity to adapt
@@ -48,10 +55,10 @@ var _expose = function(exports, _) {
         // Generate an i18nable summary for this activity
         var summary = _generateSummary(me, activity);
 
-        // Generate the primary thumbnail
+        // Generate the primary author thumbnail
         var primaryThumbnail = _generatePrimaryThumbnail(activity);
 
-        // Generate the thumbnails that go into the big preview row
+        // Generate the activity preview items
         var thumbnails = _generateThumbnails(activity);
 
         // Construct the adapted activity
@@ -63,7 +70,7 @@ var _expose = function(exports, _) {
     ////////////
     
     /**
-     * A model that outputs activities such that they can easily be consumed by various sources
+     * A model that represents an activitystrea.ms activity into an easily consumable format
      *
      * @param {Activity}                    activity            The original activity in activitystrea.ms format
      * @param {ActivityViewSummary}         summary             The summary object for this activity
@@ -92,19 +99,10 @@ var _expose = function(exports, _) {
      * @param  {Object}     properties      Any properties that can be used in the i18n value
      */
     var ActivityViewSummary = function(i18nKey, properties) {
-        var i18nArguments = {};
-        _.each(properties, function(val, key) {
-            if (key !== 'actor1Obj' && key !== 'actor2Obj' &&
-                key !== 'object1Obj' && key !== 'object2Obj' &&
-                key !== 'target1Obj' && key !== 'target2Obj' &&
-                val) {
-                i18nArguments[key] = val;
-            }
-        });
-        var that = {};
-        that.i18nKey = i18nKey;
-        that.i18nArguments = i18nArguments;
-        return that;
+        return {
+            'i18nKey': i18nKey,
+            'i18nArguments': properties
+        };
     };
 
     /**
@@ -135,11 +133,10 @@ var _expose = function(exports, _) {
     //////////////////////////
 
     /**
-     * Prepares an activity (in-place) in such a way that:
-     *  - actors with an image are at the top
-     *  - object with an image are at the top
-     *  - targets with an image are at the top
-     *  - only the latest 2 comments (and their parents, if any) are at the top
+     * Prepare an activity (in-place) in such a way that:
+     *  - actors with an image are ordered first
+     *  - objects with an image are ordered first
+     *  - targets with an image are ordered first
      *
      * @param  {Activity}   activity    The activity to prepare
      * @api private
@@ -148,17 +145,17 @@ var _expose = function(exports, _) {
         // Sort the entity collections based on whether or not they have a thumbnail
         if (activity.actor['oae:collection']) {
             // Reverse the items so the item that was changed last is shown first
-            activity.actor['oae:collection'].reverse().sort(sortEntityCollection);
+            activity.actor['oae:collection'].reverse().sort(_sortEntityCollection);
         }
 
         if (activity.object && activity.object['oae:collection']) {
             // Reverse the items so the item that was changed last is shown first
-            activity.object['oae:collection'].reverse().sort(sortEntityCollection);
+            activity.object['oae:collection'].reverse().sort(_sortEntityCollection);
         }
 
         if (activity.target && activity.target['oae:collection']) {
             // Reverse the items so the item that was changed last is shown first
-            activity.target['oae:collection'].reverse().sort(sortEntityCollection);
+            activity.target['oae:collection'].reverse().sort(_sortEntityCollection);
         }
 
         // For comments, we process the comments into an ordered tree that contains the latest
@@ -173,13 +170,13 @@ var _expose = function(exports, _) {
             var originalComments = comments.slice();
 
             // Sort the comments based on the created timestamp
-            comments.sort(sortComments);
+            comments.sort(_sortComments);
             // Convert these comments into an ordered tree that also includes the comments they were
             // replies to, if any
-            comments = constructCommentTree(comments);
+            comments = _constructCommentTree(comments);
             // Check if any of the comments that were part of the original activity have not made it
             // into the ordered tree
-            var hasAllComments = includesAllComments(originalComments, comments);
+            var hasAllComments = _includesAllComments(originalComments, comments);
 
             // Prepare each comment
             _.each(comments, function(comment) {
@@ -198,8 +195,9 @@ var _expose = function(exports, _) {
      * preference to these for UI rendering purposes.
      *
      * @see Array#sort
+     * @private
      */
-    var sortEntityCollection = function(a, b) {
+    var _sortEntityCollection = function(a, b) {
         if (a.image && !b.image) {
             return -1;
         } else if (!a.image && b.image) {
@@ -213,8 +211,9 @@ var _expose = function(exports, _) {
      * ordered from new to old.
      *
      * @see Array#sort
+     * @private
      */
-    var sortComments = function(a, b) {
+    var _sortComments = function(a, b) {
         // Threadkeys will have the following format, primarily to allow for proper thread ordering:
         //  - Top level comments: <createdTimeStamp>|
         //  - Reply: <parentCreatedTimeStamp>#<createdTimeStamp>|
@@ -231,8 +230,9 @@ var _expose = function(exports, _) {
      *
      * @param  {Comment[]}   comments   The array of latest comments to turn into an ordered tree
      * @return {Comment[]}              The ordered tree of comments with an `oae:level` property for each comment, representing the level at which they should be rendered
+     * @api private
      */
-    var constructCommentTree = function(comments) {
+    var _constructCommentTree = function(comments) {
         var orderedTree = [];
 
         // If the comment is a reply to a different comment, we add that comment to the ordered tree as well,
@@ -274,8 +274,9 @@ var _expose = function(exports, _) {
      * @param  {Comment[]}      originalComments        List of orginal comments on the activity
      * @param  {Comment[]}      orderedComments         Ordered list of comments containing the latest comments only with the comments they were replies to, if any
      * @return {Boolean}                                Whether or not all of the comments from the original activity are included in the ordered tree
+     * @api private
      */
-    var includesAllComments = function(originalComments, orderedComments) {
+    var _includesAllComments = function(originalComments, orderedComments) {
         var hasAllComments = true;
         _.each(originalComments, function(comment) {
             var inOrderedComments = _.findWhere(orderedComments, {'oae:id': comment['oae:id']});
@@ -292,7 +293,7 @@ var _expose = function(exports, _) {
     ////////////////
 
     /**
-     * Gets the primary thumbnail for an activity. This is usually the actor
+     * Get the primary thumbnail for an activity. This is usually the actor
      * or in case of an aggregated activity, the first in the collection of actors
      *
      * @param  {Activity}                   activity    The activity for which to return the primary thumbnail
@@ -370,72 +371,59 @@ var _expose = function(exports, _) {
         var properties = {};
 
         // Prepare the actor-related variables that will be present in the i18n keys
-        properties.actor1 = null;
-        properties.actor1Obj = null;
-        properties.actor1URL = null;
-        properties.actor2 = null;
-        properties.actor2Url = null;
+        var actor1Obj = null;
         properties.actorCount = 1;
         if (activity.actor['oae:collection']) {
-            properties.actor1Obj = activity.actor['oae:collection'][0];
+            actor1Obj = activity.actor['oae:collection'][0];
             if (activity.actor['oae:collection'].length > 1) {
                 properties.actorCount = activity.actor['oae:collection'].length;
                 properties.actor2 = encodeForHTML(activity.actor['oae:collection'][1].displayName);
                 properties.actor2URL = encodeForHTML(activity.actor['oae:collection'][1]['oae:profilePath']);
             }
         } else {
-            properties.actor1Obj = activity.actor;
+            actor1Obj = activity.actor;
         }
         properties.actorCountMinusOne = properties.actorCount - 1;
-        properties.actor1 = encodeForHTML(properties.actor1Obj.displayName);
-        properties.actor1URL = encodeForHTML(properties.actor1Obj['oae:profilePath']);
+        properties.actor1 = encodeForHTML(actor1Obj.displayName);
+        properties.actor1URL = encodeForHTML(actor1Obj['oae:profilePath']);
 
 
         // Prepare the object-related variables that will be present in the i18n keys
-        properties.object1 = null;
-        properties.object1Obj = null;
-        properties.object1URL = null;
-        properties.object2 = null;
-        properties.object2Url = null;
+        var object1Obj = null;
         properties.objectCount = 1;
-        properties.object1Tenant = null;
         if (activity.object['oae:collection']) {
-            properties.object1Obj = activity.object['oae:collection'][0];
+            object1Obj = activity.object['oae:collection'][0];
             if (activity.object['oae:collection'].length > 1) {
                 properties.objectCount = activity.object['oae:collection'].length;
                 properties.object2 = encodeForHTML(activity.object['oae:collection'][1].displayName);
                 properties.object2URL = encodeForHTML(activity.object['oae:collection'][1]['oae:profilePath']);
             }
         } else {
-            properties.object1Obj = activity.object;
+            object1Obj = activity.object;
         }
         properties.objectCountMinusOne = properties.objectCount - 1;
-        properties.object1 = encodeForHTML(properties.object1Obj.displayName);
-        properties.object1URL = encodeForHTML(properties.object1Obj['oae:profilePath']);
-        if (properties.object1Obj['oae:tenant']) {
-            properties.object1Tenant = encodeForHTML(properties.object1Obj['oae:tenant'].displayName);
+        properties.object1 = encodeForHTML(object1Obj.displayName);
+        properties.object1URL = encodeForHTML(object1Obj['oae:profilePath']);
+        if (object1Obj['oae:tenant']) {
+            properties.object1Tenant = encodeForHTML(object1Obj['oae:tenant'].displayName);
         }
 
         // Prepare the target-related variables that will be present in the i18n keys
-        properties.target1 = null;
-        properties.target1Obj = null;
-        properties.target1URL = null;
-        properties.target2 = null;
-        properties.target2Url = null;
+        var target1Obj = null;
         properties.targetCount = 1;
         if (activity.target) {
             if (activity.target['oae:collection']) {
-                properties.target1Obj = activity.target['oae:collection'][0];
+                target1Obj = activity.target['oae:collection'][0];
                 if (activity.target['oae:collection'].length > 1) {
                     properties.targetCount = activity.target['oae:collection'].length;
                     properties.target2 = encodeForHTML(activity.target['oae:collection'][1].displayName);
                     properties.target2URL = encodeForHTML(activity.target['oae:collection'][1]['oae:profilePath']);
                 }
             } else {
-                properties.target1Obj = activity.target;
+                target1Obj = activity.target;
             }
-            properties.target1 = encodeForHTML(properties.target1Obj.displayName);
-            properties.target1URL = encodeForHTML(properties.target1Obj['oae:profilePath']);
+            properties.target1 = encodeForHTML(target1Obj.displayName);
+            properties.target1URL = encodeForHTML(target1Obj['oae:profilePath']);
             properties.targetCountMinusOne = properties.targetCount - 1;
         }
 
@@ -1189,16 +1177,4 @@ var _expose = function(exports, _) {
         }
         return new ActivityViewSummary(i18nKey, properties);
     };
-};
-
-// TODO: Replace with something like https://github.com/jrburke/amdefine
-(function() {
-    if (typeof define !== 'function') {
-        // This gets executed in the backend
-        var _ = require('underscore');
-        _expose(module.exports, _);
-    } else {
-        // This gets executed in the browser
-        define(['exports', 'underscore'], _expose);
-    }
-})();
+});

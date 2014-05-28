@@ -19,7 +19,10 @@
  * as it needs to run in both. 
  */
 
-var _expose = function(exports, _) {
+// Ensure that all this logic works in the backend
+if (typeof define !== 'function') { var define = require('amdefine')(module) }
+
+define(['exports', 'underscore'], function(exports, _) {
 
     /*!
      * Constant that holds regular expressions for the different mimeTypes that might be returned by the
@@ -172,16 +175,4 @@ var _expose = function(exports, _) {
 
         return mimeTypeObject.description;
     };
-};
-
-// TODO: Replace with something like https://github.com/jrburke/amdefine
-(function() {
-    if (typeof define !== 'function') {
-        // This gets executed in the backend
-        var _ = require('underscore');
-        _expose(module.exports, _);
-    } else {
-        // This gets executed in the browser
-        define(['exports', 'underscore'], _expose);
-    }
-})();
+});

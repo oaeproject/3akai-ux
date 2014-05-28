@@ -21,6 +21,7 @@
     }
   ],
   "dependencies": {
+    "amdefine": "latest",
     "oae-core": ""
   },
   "devDependencies": {
