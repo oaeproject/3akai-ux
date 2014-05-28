@@ -123,7 +123,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
 
         // Create the global administrator
         $.ajax({
-            'url': '/api/auth/createGlobalAdminUser',
+            'url': '/api/user/createGlobalAdminUser',
             'type': 'POST',
             'data': data,
             'success': function(data) {
@@ -174,10 +174,10 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             'publicAlias': additionalOptions.publicAlias
         };
 
-        var url = '/api/auth/createTenantAdminUser';
+        var url = '/api/user/createTenantAdminUser';
         // If a tenant alias is specified we change the URL to include the tenant
         if (tenantAlias) {
-            url = '/api/auth/' + tenantAlias + '/createTenantAdminUser';
+            url = '/api/user/' + tenantAlias + '/createTenantAdminUser';
         }
 
         // Create the tenant administrator
