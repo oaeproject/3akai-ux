@@ -1316,7 +1316,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          * that is currently undergoing maintenance
          */
         var maintenance = function() {
-            window.location = '/maintenance';
+            window.location = '/servermaintenance';
         };
 
         return {
