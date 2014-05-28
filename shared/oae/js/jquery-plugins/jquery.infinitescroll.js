@@ -218,9 +218,17 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
                 templateOutput = $.trim($tmp.html());
 
                 if (prepend) {
+                    // If the first item is an `oae-list-actions` item add it after the
+                    // list actions.
+                    var $listActions = $listContainer.find('.oae-list-actions');
+                    if ($listActions.length) {
+                        $listActions.after($(templateOutput).hide());
+                        $listActions.nextAll(':hidden').fadeIn('slow');
                     // Prepend and fade in the results. The `prepend` function cannot be
                     // used as the entire list would otherwise be faded in
-                    $(templateOutput).hide().prependTo($listContainer).fadeIn('slow');
+                    } else {
+                        $(templateOutput).hide().prependTo($listContainer).fadeIn('slow');
+                    }
                 } else {
                     // Append the results
                     $listContainer.append(templateOutput);

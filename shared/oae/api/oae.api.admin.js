@@ -251,8 +251,8 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
             'data': {
                 'newPassword': newPassword
             },
-            'success': function(data) {
-                callback(null, data);
+            'success': function() {
+                callback();
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
