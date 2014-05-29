@@ -20,12 +20,12 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
     QUnit.config.autostart = false;
 
     /**
-     * Filter all vendor scripts so they can be excluded from testing
+     * Filter all vendor files so they can be excluded from testing
      *
-     * @param  {String[]}    paths    Array of paths to JavaScript files
-     * @return {String[]}             List of JavaScript files from which the vendor scripts have been filtered
+     * @param  {String[]}    paths    Array of file paths to check for exclusion
+     * @return {String[]}             List of files from which the vendor files have been filtered
      */
-    var filterVendorScripts = function(paths) {
+    var filterVendorFiles = function(paths) {
         return _.filter(paths, function(path) {
             return (path && path.indexOf('/shared/vendor') !== 0);
         });
@@ -85,7 +85,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
             });
         });
 
-        paths = filterVendorScripts(paths);
+        paths = filterVendorFiles(paths);
 
         oae.api.util.staticBatch($.unique(paths), function(err, data) {
             $.each(data, function(jsIndex, js) {
@@ -190,6 +190,8 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 paths.push($(link).attr('href'));
             });
         });
+
+        paths = filterVendorFiles(paths);
 
         oae.api.util.staticBatch($.unique(paths), function(err, data) {
             $.each(data, function(cssIndex, css) {
@@ -331,9 +333,9 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
             'mainHTML': {
                 '/admin/index.html': null,
                 '/shared/oae/errors/accessdenied.html': null,
-                '/shared/oae/errors/maintenance.html': null,
                 '/shared/oae/errors/noscript.html': null,
                 '/shared/oae/errors/notfound.html': null,
+                '/shared/oae/errors/servermaintenance.html': null,
                 '/shared/oae/errors/unavailable.html': null,
                 '/shared/oae/macros/activity.html': null,
                 '/shared/oae/macros/autosuggest.html': null,

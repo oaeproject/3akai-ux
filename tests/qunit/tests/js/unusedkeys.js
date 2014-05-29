@@ -103,30 +103,32 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
 
         // Check if keys in widgets are being used
         $.each(testData.widgetData, function(widgetId, widget) {
-            $.each(widget.js, function(widgetJSIndex, widgetJS) {
-                test(widgetJSIndex, function() {
-                    if (widget.i18n && _.keys(widget.i18n).length) {
-                        $.each(widget.i18n, function(bundleKey, bundle) {
-                            if (_.keys(bundle).length) {
-                                $.each(bundle, function(i18nKey, i18nValue) {
-                                    if (i18nValue) {
-                                        var htmlUsed = runTest(widgetId, widget.html, i18nKey);
-                                        var jsUsed = runTest(widgetId, widgetJS, i18nKey);
-                                        if (htmlUsed || jsUsed) {
-                                            ok(true, i18nKey + ' in \'' + widgetId + ' - ' + bundleKey + '\' is used');
-                                        } else {
-                                            ok(false, i18nKey + ' in \'' + widgetId + ' - ' + bundleKey + '\' is not being used');
-                                        }
+            test(widgetId, function() {
+                if (widget.i18n && _.keys(widget.i18n).length) {
+                    $.each(widget.i18n, function(bundleKey, bundle) {
+                        if (_.keys(bundle).length) {
+                            $.each(bundle, function(i18nKey, i18nValue) {
+                                if (i18nValue) {
+                                    var htmlUsed = false;
+                                    var jsUsed = false;
+                                    $.each(widget.js, function(widgetJSIndex, widgetJS) {
+                                        htmlUsed = htmlUsed || runTest(widgetId, widget.html, i18nKey);
+                                        jsUsed = jsUsed || runTest(widgetId, widgetJS, i18nKey);
+                                    });
+                                    if (htmlUsed || jsUsed) {
+                                        ok(true, i18nKey + ' in \'' + widgetId + ' - ' + bundleKey + '\' is used');
+                                    } else {
+                                        ok(false, i18nKey + ' in \'' + widgetId + ' - ' + bundleKey + '\' is not being used');
                                     }
-                                });
-                            } else {
-                                ok(true, '\'' + widgetId + '\' does does not have any keys in \'' + bundleKey + '\'');
-                            }
-                        });
-                    } else {
-                        ok(true, '\'' + widgetId + '\' does does not have any bundles');
-                    }
-                });
+                                }
+                            });
+                        } else {
+                            ok(true, '\'' + widgetId + '\' does not have any keys in \'' + bundleKey + '\'');
+                        }
+                    });
+                } else {
+                    ok(true, '\'' + widgetId + '\' does not have any bundles');
+                }
             });
         });
 
