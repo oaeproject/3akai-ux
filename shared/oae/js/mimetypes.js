@@ -13,16 +13,17 @@
  * permissions and limitations under the License.
  */
 
-
-/*
- * The code in this module deviates from the default backend and/or frontend code-style
- * as it needs to run in both. 
+/**
+ * This module will export logic to get a human readable description given
+ * a resource sub type and a mime type.
+ *
+ * We need to mimick AMD's define so we can use this code in both the backend and frontend.
+ *
+ * @param  {Object}     exports   Properties that are added on this object are exported
+ * @param  {Object}     _         The underscorejs utility
+ * @api private
  */
-
-// Ensure that all this logic works in the backend
-if (typeof define !== 'function') { var define = require('amdefine')(module) }
-
-define(['exports', 'underscore'], function(exports, _) {
+var _expose = function(exports, _) {
 
     /*!
      * Constant that holds regular expressions for the different mimeTypes that might be returned by the
@@ -175,4 +176,15 @@ define(['exports', 'underscore'], function(exports, _) {
 
         return mimeTypeObject.description;
     };
-});
+};
+
+(function() {
+    if (typeof define !== 'function') {
+        // This gets executed in the backend
+        var _ = require('underscore');
+        _expose(module.exports, _);
+    } else {
+        // This gets executed in the browser
+        define(['exports', 'underscore'], _expose);
+    }
+})();

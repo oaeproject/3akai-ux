@@ -13,56 +13,56 @@
  * permissions and limitations under the License.
  */
 
-
-/*
+/**
  * This module exposes logic that allows one to adapt a set of activities formatted
  * in the activitystrea.ms format into a slightly friendlier format that can be used
  * to render activity streams in the UI, emails, etc..
  *
- * The code in this module deviates from the default backend and/or frontend code-style
- * as it needs to run in both. 
+ * We need to mimick AMD's define so we can use this code in both the backend and frontend.
+ *
+ * @param  {Object}     exports   Properties that are added on this object are exported
+ * @param  {Object}     _         The underscorejs utility
+ * @api private
  */
-
-// Ensure that all this logic works in the backend
-if (typeof define !== 'function') { var define = require('amdefine')(module) }
-
-define(['exports', 'underscore'], function(exports, _) {
+var _expose = function(exports, _) {
 
     /**
      * Adapt a set of activities in activitystrea.ms format to a simpler view model
      *
+     * @param  {String}                 context         The ID of the user or group that owns this activity stream
      * @param  {User}                   me          The currently loggedin user
      * @param  {Activity[]}             activities  The set of activities to adapt
      * @return {ActivityViewModel[]}                The adapted activities
      */
-    var adapt = exports.adapt = function(me, activities) {
+    var adapt = exports.adapt = function(context, me, activities) {
         return _.map(activities, function(activity) {
-            return _adaptActivity(me, activity);
+            return _adaptActivity(context, me, activity);
         });
     };
 
     /**
      * Adapt a single activity in activitystrea.ms format to a simpler view model
      *
+     * @param  {String}                 context         The ID of the user or group that owns this activity stream
      * @param  {User}                   me              The currently loggedin user
      * @param  {Activity}               activity        The activity to adapt
      * @return {ActivityViewModel}                      The adapted activity
      */
-    var _adaptActivity = function(me, activity) {
+    var _adaptActivity = function(context, me, activity) {
         // Move the relevant items (comments, previews, ..) to the top
         _prepareActivity(activity);
 
         // Generate an i18nable summary for this activity
         var summary = _generateSummary(me, activity);
 
-        // Generate the primary author thumbnail
-        var primaryThumbnail = _generatePrimaryThumbnail(activity);
+        // Generate the primary actor thumbnail
+        var primaryActor = _generatePrimaryActor(activity);
 
         // Generate the activity preview items
-        var thumbnails = _generateThumbnails(activity);
+        var activityItems = _generateActivityItems(context, activity);
 
         // Construct the adapted activity
-        return new ActivityViewModel(activity, summary, primaryThumbnail, thumbnails);
+        return new ActivityViewModel(activity, summary, primaryActor, activityItems);
     };
 
     ////////////
@@ -72,18 +72,18 @@ define(['exports', 'underscore'], function(exports, _) {
     /**
      * A model that represents an activitystrea.ms activity into an easily consumable format
      *
-     * @param {Activity}                    activity            The original activity in activitystrea.ms format
-     * @param {ActivityViewSummary}         summary             The summary object for this activity
-     * @param {ActivityViewThumbnail}       primaryThumbnail    The thumbnail that identifies the primary actor
-     * @param {ActivityViewThumbnail[]}     thumbnails          The thumbnails that are included in this activity
+     * @param {Activity}                activity        The original activity in activitystrea.ms format
+     * @param {ActivityViewSummary}     summary         The summary object for this activity
+     * @param {ActivityViewItem}        primaryActor    The object that identifies the primary actor
+     * @param {ActivityViewItem[]}      activityItems   The activity view items that are included in this activity
      */
-    var ActivityViewModel = function(activity, summary, primaryThumbnail, thumbnails) {
+    var ActivityViewModel = function(activity, summary, primaryActor, activityItems) {
         var that = {
             'activity': activity,
             'created': activity.published,
             'summary': summary,
-            'primaryThumbnail': primaryThumbnail,
-            'thumbnails': thumbnails
+            'primaryActor': primaryActor,
+            'activityItems': activityItems
         };
         if ((activity['oae:activityType'] === 'content-comment' || activity['oae:activityType'] === 'discussion-message') && activity.object && activity.object['oae:collection']) {
             that.comments = activity.object['oae:collection'];
@@ -100,7 +100,7 @@ define(['exports', 'underscore'], function(exports, _) {
      */
     var ActivityViewSummary = function(i18nKey, properties) {
         return {
-            'i18nKey': i18nKey,
+            'i18nKey': '__MSG__' + i18nKey + '__',
             'i18nArguments': properties
         };
     };
@@ -110,20 +110,23 @@ define(['exports', 'underscore'], function(exports, _) {
      *
      * @param  {ActivityEntity}     entity      The entity for which to return the data to display a thumbnail
      */
-    var ActivityViewThumbnail = function(entity) {
-        var that = {};
-        that.id = entity.id,
-        that.profilePath = entity['oae:profilePath'] || entity.profilePath;
-        that.thumbnailUrl = (entity.image && entity.image.url) ? entity.image.url : null;
-        that.wideImageUrl = (entity['oae:wideImage'] && entity['oae:wideImage'].url) ? entity['oae:wideImage'].url : null;
-        that.resourceType = entity.objectType;
-        that.resourceSubType = entity['oae:resourceSubType'] || entity.resourceSubType;
-        that.visibility = entity['oae:visibility'];
-        that.displayName = entity.displayName;
-        that.tenant = entity['oae:tenant'] || entity.tenant;
+    var ActivityViewItem = function(entity) {
+        var that = {
+            'id': entity.id,
+            'profilePath': entity['oae:profilePath'],
+            'thumbnailUrl': (entity.image && entity.image.url) ? entity.image.url : null,
+            'wideImageUrl': (entity['oae:wideImage'] && entity['oae:wideImage'].url) ? entity['oae:wideImage'].url : null,
+            'resourceType': entity.objectType,
+            'resourceSubType': entity['oae:resourceSubType'],
+            'visibility': entity['oae:visibility'],
+            'displayName': entity.displayName,
+            'tenant': entity['oae:tenant'],
+        };
+
         if (entity['oae:mimeType']) {
             that.mime = entity['oae:mimeType'];
         }
+
         return that;
     };
 
@@ -180,7 +183,7 @@ define(['exports', 'underscore'], function(exports, _) {
 
             // Prepare each comment
             _.each(comments, function(comment) {
-                comment.thumbnail = new ActivityViewThumbnail(comment.author);
+                comment.activityItem = new ActivityViewItem(comment.author);
             });
 
             activity.object.objectType = 'comments';
@@ -296,27 +299,28 @@ define(['exports', 'underscore'], function(exports, _) {
      * Get the primary thumbnail for an activity. This is usually the actor
      * or in case of an aggregated activity, the first in the collection of actors
      *
-     * @param  {Activity}                   activity    The activity for which to return the primary thumbnail
-     * @return {[ActivityViewThumbnail]}                The thumbnail for the actor
+     * @param  {Activity}           activity    The activity for which to return the primary thumbnail
+     * @return {ActivityViewItem}               The object that identifies the primary actor
      * @api private
      */
-    var _generatePrimaryThumbnail = function(activity) {
+    var _generatePrimaryActor = function(activity) {
         var actor = activity.actor;
         if (actor['oae:collection']) {
             actor = actor['oae:collection'][0];
         }
 
-        return new ActivityViewThumbnail(actor);
+        return new ActivityViewItem(actor);
     };
 
     /**
-     * Generate the thumbnails for the preview items
+     * Generate the views for the preview items
      *
-     * @param  {Activity}                   activity    The activity for which to generate the thumbnails
-     * @return {ActivityViewThumbnail[]}                The thumbnails for this activity
+     * @param  {String}                 context     The ID of the user or group that owns this activity stream
+     * @param  {Activity}               activity    The activity for which to generate the thumbnails
+     * @return {ActivityViewItem[]}                 The activity preview items
      * @api private
      */
-    var _generateThumbnails = function(activity) {
+    var _generateActivityItems = function(context, activity) {
         var previewObj = (activity.target || activity.object);
         if (activity.target && (activity.target.objectType === 'collection' || activity.target.objectType === 'content')) {
             previewObj = activity.target;
@@ -330,23 +334,23 @@ define(['exports', 'underscore'], function(exports, _) {
             previewObj = activity.object;
         }
 
-        /*
-            {if previewObj['oae:id'] === context}
-                {if activity.target}
-                    {var previewObj = activity.object}
-                {else}
-                    {var previewObj = activity.actor}
-                {/if}
-            {/if}
-        */
+        // If the current user is viewing his own activity stream, we should show another
+        // entity in the thumbnail listing
+        if (previewObj['oae:id'] === context) {
+            if (activity.target) {
+                previewObj = activity.object;
+            } else {
+                previewObj = activity.actor;
+            }
+        }
 
         var thumbnails = [];
         if (previewObj['oae:wideImage']) {
-            thumbnails.push(new ActivityViewThumbnail(previewObj));
+            thumbnails.push(new ActivityViewItem(previewObj));
         } else {
             var previewItems = (previewObj['oae:collection'] || [previewObj]);
             thumbnails = _.map(previewItems, function(previewItem) {
-                return new ActivityViewThumbnail(previewItem);
+                return new ActivityViewItem(previewItem);
             });
         }
 
@@ -355,7 +359,7 @@ define(['exports', 'underscore'], function(exports, _) {
 
 
     ///////////////
-    // SUMMARIES //
+    // Summaries //
     ///////////////
 
     /**
@@ -1177,4 +1181,15 @@ define(['exports', 'underscore'], function(exports, _) {
         }
         return new ActivityViewSummary(i18nKey, properties);
     };
-});
+};
+
+(function() {
+    if (typeof define !== 'function') {
+        // This gets executed in the backend
+        var _ = require('underscore');
+        _expose(module.exports, _);
+    } else {
+        // This gets executed in the browser
+        define(['exports', 'underscore'], _expose);
+    }
+})();
