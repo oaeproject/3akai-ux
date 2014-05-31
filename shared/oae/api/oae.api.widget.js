@@ -150,10 +150,6 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
                 if (_.isString(widget.trigger.selectors)) {
                     widget.trigger.selectors = [widget.trigger.selectors];
                 }
-                widget.trigger.url = widget.trigger.url || [];
-                if (_.isString(widget.trigger.url)) {
-                    widget.trigger.url = [widget.trigger.url];
-                }
 
                 var lazyLoadWidget = function(callback) {
                     // Unbind all of the events for the widget
@@ -190,13 +186,6 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'oae.api.i18n', 'oa
                         return false;
                     });
                 });
-
-                // Lazy load the widget if the URL matches the URL that triggers the widget
-                if (widget.trigger.url.length && $.inArray(window.location.search, widget.trigger.url) >= 0) {
-                    _.defer(function() {
-                        $(document).trigger('oae.trigger.' + widgetName);
-                    });
-                }
             }
         });
     };
