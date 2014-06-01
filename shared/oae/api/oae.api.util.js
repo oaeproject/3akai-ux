@@ -1276,7 +1276,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          * a page that requires login.
          */
         var login = function() {
-            window.location = '/?url=/me' + window.location.search;
+            var query = $.url().attr('query');
+            window.location = '/?url=/me' + (query ? '?' : '') + query;
         };
 
         /**
