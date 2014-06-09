@@ -539,6 +539,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
      * @return {String}                         Human readable mimeType description for the provided content item
      */
     var getMimeTypeDescription = exports.getMimeTypeDescription = function(contentObj) {
+        // Return the mime type description, translated into the user's language
         var description = MimeTypes.getDescription(contentObj.resourceSubType, contentObj.mime);
         return i18nAPI.translate(description);
     };

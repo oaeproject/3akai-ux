@@ -135,7 +135,7 @@ var _expose = function(exports, _) {
      * will default to the `other` type. The returned string still needs translation.
      *
      * @param  {String}     resourceSubType     The resource sub type for which to generate an appropriate description
-     * @param  {String}     [mimeType]          In case the `resourceSubType` is a `file` a more detailed description can be returned by providing a mime type
+     * @param  {String}     [mimeType]          In case the `resourceSubType` is a `file`, a more detailed description can be returned by providing a mime type
      * @return {String}                         Human readable mimetype description for the provided resource subtype and mime type
      */
     var getDescription = exports.getDescription = function(resourceSubType, mimeType) {

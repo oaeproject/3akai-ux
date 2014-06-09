@@ -14,9 +14,8 @@
  */
 
 /**
- * This module exposes logic that allows one to adapt a set of activities formatted
- * in the activitystrea.ms format into a slightly friendlier format that can be used
- * to render activity streams in the UI, emails, etc..
+ * This module exposes logic that adapts a set of activities in the activitystrea.ms format
+ * into a friendlier view modal that can be used to render activity streams in the UI, emails, etc..
  *
  * We need to mimick AMD's define so we can use this code in both the backend and frontend.
  *
@@ -29,7 +28,7 @@ var _expose = function(exports, _) {
     /**
      * Adapt a set of activities in activitystrea.ms format to a simpler view model
      *
-     * @param  {String}                 context         The ID of the user or group that owns this activity stream
+     * @param  {String}                 context     The ID of the user or group that owns this activity stream
      * @param  {User}                   me          The currently loggedin user
      * @param  {Activity[]}             activities  The set of activities to adapt
      * @return {ActivityViewModel[]}                The adapted activities
@@ -55,7 +54,7 @@ var _expose = function(exports, _) {
         // Generate an i18nable summary for this activity
         var summary = _generateSummary(me, activity);
 
-        // Generate the primary actor thumbnail
+        // Generate the primary actor view
         var primaryActor = _generatePrimaryActor(activity);
 
         // Generate the activity preview items
@@ -68,7 +67,7 @@ var _expose = function(exports, _) {
     ////////////
     // Models //
     ////////////
-    
+
     /**
      * A model that represents an activitystrea.ms activity into an easily consumable format
      *
@@ -80,10 +79,10 @@ var _expose = function(exports, _) {
     var ActivityViewModel = function(activity, summary, primaryActor, activityItems) {
         var that = {
             'activity': activity,
+            'activityItems': activityItems,
             'created': activity.published,
-            'summary': summary,
             'primaryActor': primaryActor,
-            'activityItems': activityItems
+            'summary': summary
         };
         if ((activity['oae:activityType'] === 'content-comment' || activity['oae:activityType'] === 'discussion-message') && activity.object && activity.object['oae:collection']) {
             that.comments = activity.object['oae:collection'];
@@ -99,30 +98,35 @@ var _expose = function(exports, _) {
      * @param  {Object}     properties      Any properties that can be used in the i18n value
      */
     var ActivityViewSummary = function(i18nKey, properties) {
-        return {
-            'i18nKey': '__MSG__' + i18nKey + '__',
-            'i18nArguments': properties
+        var that = {
+            'i18nArguments': properties,
+            'i18nKey': '__MSG__' + i18nKey + '__'
         };
+        return that;
     };
 
     /**
-     * Given an activity entity returns the necessary data to generate a beautiful thumbnail
+     * Given an activity entity returns the necessary data to generate a beautiful view
      *
-     * @param  {ActivityEntity}     entity      The entity for which to return the data to display a thumbnail
+     * @param  {ActivityEntity}     entity      The entity for which to return the data to display a view
      */
     var ActivityViewItem = function(entity) {
         var that = {
             'id': entity.id,
-            'profilePath': entity['oae:profilePath'],
-            'thumbnailUrl': (entity.image && entity.image.url) ? entity.image.url : null,
-            'wideImageUrl': (entity['oae:wideImage'] && entity['oae:wideImage'].url) ? entity['oae:wideImage'].url : null,
-            'resourceType': entity.objectType,
-            'resourceSubType': entity['oae:resourceSubType'],
-            'visibility': entity['oae:visibility'],
             'displayName': entity.displayName,
+            'profilePath': entity['oae:profilePath'],
+            'resourceSubType': entity['oae:resourceSubType'],
+            'resourceType': entity.objectType,
             'tenant': entity['oae:tenant'],
+            'visibility': entity['oae:visibility']
         };
 
+        if (entity.image && entity.image.url) {
+            that.thumbnailUrl = entity.image.url;
+        }
+        if (entity['oae:wideImage'] && entity['oae:wideImage'].url) {
+            that.wideImageUrl = entity['oae:wideImage'].url;
+        }
         if (entity['oae:mimeType']) {
             that.mime = entity['oae:mimeType'];
         }
@@ -198,7 +202,7 @@ var _expose = function(exports, _) {
      * preference to these for UI rendering purposes.
      *
      * @see Array#sort
-     * @private
+     * @api private
      */
     var _sortEntityCollection = function(a, b) {
         if (a.image && !b.image) {
@@ -214,7 +218,7 @@ var _expose = function(exports, _) {
      * ordered from new to old.
      *
      * @see Array#sort
-     * @private
+     * @api private
      */
     var _sortComments = function(a, b) {
         // Threadkeys will have the following format, primarily to allow for proper thread ordering:
@@ -291,15 +295,15 @@ var _expose = function(exports, _) {
     };
 
 
-    ////////////////
-    // Thumbnails //
-    ////////////////
+    ////////////////////
+    // Activity views //
+    ////////////////////
 
     /**
-     * Get the primary thumbnail for an activity. This is usually the actor
+     * Get the primary view for an activity. This is usually the actor
      * or in case of an aggregated activity, the first in the collection of actors
      *
-     * @param  {Activity}           activity    The activity for which to return the primary thumbnail
+     * @param  {Activity}           activity    The activity for which to return the primary view
      * @return {ActivityViewItem}               The object that identifies the primary actor
      * @api private
      */
@@ -316,7 +320,7 @@ var _expose = function(exports, _) {
      * Generate the views for the preview items
      *
      * @param  {String}                 context     The ID of the user or group that owns this activity stream
-     * @param  {Activity}               activity    The activity for which to generate the thumbnails
+     * @param  {Activity}               activity    The activity for which to generate the views
      * @return {ActivityViewItem[]}                 The activity preview items
      * @api private
      */
@@ -334,8 +338,8 @@ var _expose = function(exports, _) {
             previewObj = activity.object;
         }
 
-        // If the current user is viewing his own activity stream, we should show another
-        // entity in the thumbnail listing
+        // Take the current context into account. For example, if the current user is viewing their 
+        // own activity stream, we should show another entity in the thumbnail listing
         if (previewObj['oae:id'] === context) {
             if (activity.target) {
                 previewObj = activity.object;
@@ -344,17 +348,17 @@ var _expose = function(exports, _) {
             }
         }
 
-        var thumbnails = [];
+        var views = [];
         if (previewObj['oae:wideImage']) {
-            thumbnails.push(new ActivityViewItem(previewObj));
+            views.push(new ActivityViewItem(previewObj));
         } else {
             var previewItems = (previewObj['oae:collection'] || [previewObj]);
-            thumbnails = _.map(previewItems, function(previewItem) {
+            views = _.map(previewItems, function(previewItem) {
                 return new ActivityViewItem(previewItem);
             });
         }
 
-        return thumbnails;
+        return views;
     };
 
 
