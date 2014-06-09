@@ -19,8 +19,8 @@
  *
  * We need to mimick AMD's define so we can use this code in both the backend and frontend.
  *
- * @param  {Object}     exports   Properties that are added on this object are exported
- * @param  {Object}     _         The underscorejs utility
+ * @param  {Object}     exports     Properties that are added on this object are exported
+ * @param  {Object}     _           The underscorejs utility
  * @api private
  */
 var _expose = function(exports, _) {
@@ -28,31 +28,39 @@ var _expose = function(exports, _) {
     /**
      * Adapt a set of activities in activitystrea.ms format to a simpler view model
      *
-     * @param  {String}                 context     The ID of the user or group that owns this activity stream
-     * @param  {User}                   me          The currently loggedin user
-     * @param  {Activity[]}             activities  The set of activities to adapt
-     * @return {ActivityViewModel[]}                The adapted activities
+     * @param  {String}                 context                                 The ID of the user or group that owns this activity stream
+     * @param  {User}                   me                                      The currently loggedin user
+     * @param  {Activity[]}             activities                              The set of activities to adapt
+     * @param  {Object}                 sanitization                            An object that exposes basic HTML encoding functionality
+     * @param  {Function}               sanitization.encodeForHTML              Encode a value such that it is safe to be embedded into an HTML page
+     * @param  {Function}               sanitization.encodeForHTMLAttribute     Encode a value such that it is safe to be embedded into an HTML attribute
+     * @param  {Function}               sanitization.encodeForURL               Encode a value such that it is safe to be used as a URL fragment
+     * @return {ActivityViewModel[]}                                            The adapted activities
      */
-    var adapt = exports.adapt = function(context, me, activities) {
+    var adapt = exports.adapt = function(context, me, activities, sanitization) {
         return _.map(activities, function(activity) {
-            return _adaptActivity(context, me, activity);
+            return _adaptActivity(context, me, activity, sanitization);
         });
     };
 
     /**
      * Adapt a single activity in activitystrea.ms format to a simpler view model
      *
-     * @param  {String}                 context         The ID of the user or group that owns this activity stream
-     * @param  {User}                   me              The currently loggedin user
-     * @param  {Activity}               activity        The activity to adapt
-     * @return {ActivityViewModel}                      The adapted activity
+     * @param  {String}                 context                                 The ID of the user or group that owns this activity stream
+     * @param  {User}                   me                                      The currently loggedin user
+     * @param  {Activity}               activity                                The activity to adapt
+     * @param  {Object}                 sanitization                            An object that exposes basic HTML encoding functionality
+     * @param  {Function}               sanitization.encodeForHTML              Encode a value such that it is safe to be embedded into an HTML page
+     * @param  {Function}               sanitization.encodeForHTMLAttribute     Encode a value such that it is safe to be embedded into an HTML attribute
+     * @param  {Function}               sanitization.encodeForURL               Encode a value such that it is safe to be used as a URL fragment
+     * @return {ActivityViewModel}                                              The adapted activity
      */
-    var _adaptActivity = function(context, me, activity) {
+    var _adaptActivity = function(context, me, activity, sanitization) {
         // Move the relevant items (comments, previews, ..) to the top
         _prepareActivity(activity);
 
         // Generate an i18nable summary for this activity
-        var summary = _generateSummary(me, activity);
+        var summary = _generateSummary(me, activity, sanitization);
 
         // Generate the primary actor view
         var primaryActor = _generatePrimaryActor(activity);
@@ -369,12 +377,16 @@ var _expose = function(exports, _) {
     /**
      * Given an activity, generate an approriate summary
      *
-     * @param  {User}                   me          The currently loggedin user
-     * @param  {Activity}               activity    The activity for which to generate a summary
-     * @return {ActivityViewSummary}                The summary for the given activity
+     * @param  {User}                   me                                      The currently loggedin user
+     * @param  {Activity}               activity                                The activity for which to generate a summary
+     * @param  {Object}                 sanitization                            An object that exposes basic HTML encoding functionality
+     * @param  {Function}               sanitization.encodeForHTML              Encode a value such that it is safe to be embedded into an HTML page
+     * @param  {Function}               sanitization.encodeForHTMLAttribute     Encode a value such that it is safe to be embedded into an HTML attribute
+     * @param  {Function}               sanitization.encodeForURL               Encode a value such that it is safe to be used as a URL fragment
+     * @return {ActivityViewSummary}                                            The summary for the given activity
      * @api private
      */
-    var _generateSummary = function(me, activity) {
+    var _generateSummary = function(me, activity, sanitization) {
         // The dictionary that will hold the properties that can be used to determine and use the correct i18n keys
         var properties = {};
 
@@ -385,15 +397,15 @@ var _expose = function(exports, _) {
             actor1Obj = activity.actor['oae:collection'][0];
             if (activity.actor['oae:collection'].length > 1) {
                 properties.actorCount = activity.actor['oae:collection'].length;
-                properties.actor2 = encodeForHTML(activity.actor['oae:collection'][1].displayName);
-                properties.actor2URL = encodeForHTML(activity.actor['oae:collection'][1]['oae:profilePath']);
+                properties.actor2 = sanitization.encodeForHTML(activity.actor['oae:collection'][1].displayName);
+                properties.actor2URL = sanitization.encodeForURL(activity.actor['oae:collection'][1]['oae:profilePath']);
             }
         } else {
             actor1Obj = activity.actor;
         }
         properties.actorCountMinusOne = properties.actorCount - 1;
-        properties.actor1 = encodeForHTML(actor1Obj.displayName);
-        properties.actor1URL = encodeForHTML(actor1Obj['oae:profilePath']);
+        properties.actor1 = sanitization.encodeForHTML(actor1Obj.displayName);
+        properties.actor1URL = sanitization.encodeForURL(actor1Obj['oae:profilePath']);
 
 
         // Prepare the object-related variables that will be present in the i18n keys
@@ -403,17 +415,17 @@ var _expose = function(exports, _) {
             object1Obj = activity.object['oae:collection'][0];
             if (activity.object['oae:collection'].length > 1) {
                 properties.objectCount = activity.object['oae:collection'].length;
-                properties.object2 = encodeForHTML(activity.object['oae:collection'][1].displayName);
-                properties.object2URL = encodeForHTML(activity.object['oae:collection'][1]['oae:profilePath']);
+                properties.object2 = sanitization.encodeForHTML(activity.object['oae:collection'][1].displayName);
+                properties.object2URL = sanitization.encodeForURL(activity.object['oae:collection'][1]['oae:profilePath']);
             }
         } else {
             object1Obj = activity.object;
         }
         properties.objectCountMinusOne = properties.objectCount - 1;
-        properties.object1 = encodeForHTML(object1Obj.displayName);
-        properties.object1URL = encodeForHTML(object1Obj['oae:profilePath']);
+        properties.object1 = sanitization.encodeForHTML(object1Obj.displayName);
+        properties.object1URL = sanitization.encodeForURL(object1Obj['oae:profilePath']);
         if (object1Obj['oae:tenant']) {
-            properties.object1Tenant = encodeForHTML(object1Obj['oae:tenant'].displayName);
+            properties.object1Tenant = sanitization.encodeForHTML(object1Obj['oae:tenant'].displayName);
         }
 
         // Prepare the target-related variables that will be present in the i18n keys
@@ -424,14 +436,14 @@ var _expose = function(exports, _) {
                 target1Obj = activity.target['oae:collection'][0];
                 if (activity.target['oae:collection'].length > 1) {
                     properties.targetCount = activity.target['oae:collection'].length;
-                    properties.target2 = encodeForHTML(activity.target['oae:collection'][1].displayName);
-                    properties.target2URL = encodeForHTML(activity.target['oae:collection'][1]['oae:profilePath']);
+                    properties.target2 = sanitization.encodeForHTML(activity.target['oae:collection'][1].displayName);
+                    properties.target2URL = sanitization.encodeForURL(activity.target['oae:collection'][1]['oae:profilePath']);
                 }
             } else {
                 target1Obj = activity.target;
             }
-            properties.target1 = encodeForHTML(target1Obj.displayName);
-            properties.target1URL = encodeForHTML(target1Obj['oae:profilePath']);
+            properties.target1 = sanitization.encodeForHTML(target1Obj.displayName);
+            properties.target1URL = sanitization.encodeForURL(target1Obj['oae:profilePath']);
             properties.targetCountMinusOne = properties.targetCount - 1;
         }
 
@@ -489,10 +501,6 @@ var _expose = function(exports, _) {
         } else {
             return _generateDefaultSummary(me, activity, properties);
         }
-    };
-
-    var encodeForHTML = function(s) {
-        return s;
     };
 
     /**
