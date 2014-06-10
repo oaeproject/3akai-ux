@@ -72,19 +72,19 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                     // Look for local JS files being required
                     var localFiles = dependencies[0].match(/\.\/(\w)+\.js/g);
                     if (localFiles) {
-                        _(localFiles).each(function(localFile){
-                            var path = widgetJSPath.replace(widgetName+'.js', localFile.substring(2));
+                        _(localFiles).each(function(localFile) {
+                            var path = widgetJSPath.replace(widgetName + '.js', localFile.substring(2));
                             localJsFiles[path] = {
                                 'widgetName': widgetName,
                                 'widgetJSPath': widgetJSPath
-                             };
-                        })
+                            };
+                        });
                     }
                 }
             });
 
             // Retrieve content of any additional local JS files
-            if (localJsFiles) {
+            if (!$.isEmptyObject(localJsFiles)) {
                 oae.api.util.staticBatch(_.keys(localJsFiles), function(err, data) {
                     $.each(data, function(fileJSPath, fileJS) {
                         var widgetName = localJsFiles[fileJSPath].widgetName;
