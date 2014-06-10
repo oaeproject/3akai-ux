@@ -45,11 +45,33 @@ div.admin-table-striped > div:nth-child(2n+2) {
     padding: 12px;
 }
 
-div.admin-table-striped form {
-    margin: 20px 0;
+div.admin-table-striped button.admin-table-striped-toggle i {
+    margin-right: 12px;
 }
 
-div.admin-table-striped form .form-group {
+div.admin-table-striped .admin-table-striped-content-container {
+    margin: 20px 0 10px;
+}
+
+div.admin-table-striped .admin-table-striped-content-container > form,
+div.admin-table-striped .admin-table-striped-content-container > div {
+    margin: 0;
+}
+
+div.admin-table-striped .admin-table-striped-content-container > form .checkbox:first-child,
+div.admin-table-striped .admin-table-striped-content-container > form .checkbox:first-child h5 {
+    margin-top: 0;
+}
+
+div.admin-table-striped .admin-table-striped-content-container h4 {
+    margin: 0 0 7px;
+}
+
+div.admin-table-striped .admin-table-striped-content-container textarea {
+    resize: vertical;
+}
+
+div.admin-table-striped .admin-table-striped-content-container form .form-group {
     margin-left: 0;
 }
 

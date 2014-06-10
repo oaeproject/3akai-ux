@@ -92,13 +92,52 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                             ]
                         }
                     ]
+                },
+                {
+                    'id': 'usermanagement',
+                    'icon': 'icon-user',
+                    'closeNav': true,
+                    'title': oae.api.i18n.translate('__MSG__USER_MANAGEMENT__'),
+                    'layout': [
+                        {
+                            'width': 'col-md-12',
+                            'widgets': [
+                                {
+                                    'name': 'usermanagement',
+                                    'settings': {
+                                        'context': currentContext
+                                    }
+                                }
+                            ]
+                        }
+                    ]
                 }
             ];
 
+            // Only expose the maintenance functionality when the admin is looking at the global admin
+            // tenant. The maintenance functionality impacts system wide resources and is not implemented
+            // for individual tenants.
+            if (currentContext.isGlobalAdminServer) {
+                lhNavPages.push({
+                    'id': 'maintenance',
+                    'icon': 'icon-wrench',
+                    'closeNav': true,
+                    'title': oae.api.i18n.translate('__MSG__MAINTENANCE__'),
+                    'layout': [
+                        {
+                            'width': 'col-md-12',
+                            'widgets': [
+                                {
+                                    'name': 'maintenance'
+                                }
+                            ]
+                        }
+                    ]
+                });
             // Only expose the skinning functionality when the admin is looking at an individual tenant.
             // The global tenant does not require skinning as the values wouldn't flow through
             // to the tenants appropriately if both of them have skinning values stored.
-            if (!currentContext.isGlobalAdminServer) {
+            } else {
                 lhNavPages.push({
                     'id': 'skinning',
                     'icon': 'icon-tint',

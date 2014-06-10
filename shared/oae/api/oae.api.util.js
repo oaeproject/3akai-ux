@@ -564,11 +564,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          * ```
          * <form id='form_id' role='main'>
          *      <div class='form-group'>
-         *          <label for='firstName' class='control-label'>__MSG__FIRSTNAME__</label>
+         *          <label for='firstName' class='control-label'>__MSG__FIRSTNAME_COLON__</label>
          *          <input type='text' maxlength='255' id='firstName' name='firstName' class='form-control required' placeholder='Hiroyuki'/>
          *      </div>
          *      <div class='form-group'>
-         *          <label for='lastName' class='control-label'>__MSG__LASTNAME__</label>
+         *          <label for='lastName' class='control-label'>__MSG__LASTNAME_COLON__</label>
          *          <span class="help"></span>
          *          <input type='text' maxlength='255' id='lastName' name='lastName' class='form-control required' placeholder='Sakai'/>
          *      </div>
@@ -688,9 +688,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             $form = $($form);
             // The Bootstrap `error` class will be set on the element that has the `form-group` class.
             // When clearing validation, we remove this `error` class. We also remove the actual error
-            // messages from the dom
+            // messages from the dom and remove the `has-error` class from the `form-group`.
             $form.find('.oae-error').remove();
             $form.find('.error').removeClass('error');
+            $form.find('.has-error').removeClass('has-error');
             // When a field is invalid, the aria-invalid attribute on the field will be set to true, and
             // the aria-describedby attribute will be set to point to the validation message. When clearing
             // validation, we remove both of these
@@ -1315,7 +1316,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          * that is currently undergoing maintenance
          */
         var maintenance = function() {
-            window.location = '/maintenance';
+            window.location = '/servermaintenance';
         };
 
         return {

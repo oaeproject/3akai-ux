@@ -111,8 +111,9 @@
  * @param  {String}                 [customImage]           URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
  * @param  {Function}               [listItemActions]       Macro that renders list item actions
  * @param  {String}                 [additionalClasses]     Additional CSS classes separated by spaces to apply to the generated list items
+ * @param  {Boolean}                [addLink]               Whether or not a link to the entity profile should be placed on the list item. By default, a link will be set
 -->
-{macro listItem(entityData, metadata, showCheckbox, customImage, listItemActions, additionalClasses)}
+{macro listItem(entityData, metadata, showCheckbox, customImage, listItemActions, additionalClasses, addLink)}
     {if entityData}
         {if entityData.resourceType}
             {var resourceType = entityData.resourceType}
@@ -130,12 +131,12 @@
             <!-- THUMBNAIL VIEW -->
             <div class="oae-list-grid-item">
                 <div class="oae-tile">
-                    ${renderThumbnail(entityData, false, true, null, customImage)}
+                    ${renderThumbnail(entityData, false, true, addLink, customImage)}
                     <div class="oae-tile-metadata">
                         {if resourceType !== 'user'}
                             <i class="icon-oae-${visibility}"></i>
                         {/if}
-                        ${renderMetadata(entityData, metadata)}
+                        ${renderMetadata(entityData, metadata, addLink)}
                     </div>
                 </div>
                 ${renderCheckbox(entityData, 'grid', showCheckbox)}
@@ -146,7 +147,7 @@
                 <div class="oae-listitem">
                     ${renderCheckbox(entityData, 'details', showCheckbox)}
                     <div class="oae-listitem-primary-thumbnail">
-                        ${renderThumbnail(entityData, null, null, null, customImage)}
+                        ${renderThumbnail(entityData, null, null, addLink, customImage)}
                     </div>
                     {if listItemActions}
                         <div class="oae-listitem-actions">
@@ -154,7 +155,7 @@
                         </div>
                     {/if}
                     <div class="oae-listitem-metadata">
-                        ${renderMetadata(entityData, metadata)}
+                        ${renderMetadata(entityData, metadata, addLink)}
                     </div>
                 </div>
             </div>
@@ -164,7 +165,7 @@
                 <div class="oae-listitem">
                     ${renderCheckbox(entityData, 'compact', showCheckbox)}
                     <div class="oae-listitem-primary-thumbnail">
-                        ${renderThumbnail(entityData, null, null, null, customImage)}
+                        ${renderThumbnail(entityData, null, null, addLink, customImage)}
                     </div>
                     {if listItemActions}
                         <div class="oae-listitem-actions">
@@ -172,7 +173,7 @@
                         </div>
                     {/if}
                     <div class="oae-listitem-metadata">
-                        ${renderMetadata(entityData, metadata)}
+                        ${renderMetadata(entityData, metadata, addLink)}
                     </div>
                 </div>
             </div>
@@ -262,8 +263,9 @@
  *
  * @param  {User|Group|Content}     entityData      Standard object representing a user, group or content item or a search result for a user, group or content item as returned by Hilary
  * @param  {String}                 [metadata]      Line of metadata information that should be displayed underneath the entity name
+ * @param  {Boolean}                [addLink]       Whether or not a link to the entity profile should be placed on the title. By default, a link will be set
 -->
-{macro renderMetadata(entityData, metadata)}
+{macro renderMetadata(entityData, metadata, addLink)}
 
     {if entityData.resourceType}
         {var resourceType = entityData.resourceType}
@@ -295,10 +297,10 @@
         {/if}
     {/if}
 
-    {if !profilePath}
-        <h3 class="oae-threedots"><span class="jeditable-field oae-threedots" rel="tooltip" data-placement="right" data-original-title="__MSG__CLICK_TO_RENAME__" tabindex="0">${entityData.displayName|encodeForHTML}</span></h3>
-    {else}
+    {if profilePath && addLink !== false}
         <h3 class="oae-threedots"><a href="${profilePath|profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}">${entityData.displayName|encodeForHTML}</a></h3>
+    {else}
+        <h3 class="oae-threedots"><span class="jeditable-field oae-threedots" rel="tooltip" data-placement="right" data-original-title="__MSG__CLICK_TO_RENAME__" tabindex="0">${entityData.displayName|encodeForHTML}</span></h3>
     {/if}
 
     {if metadata}
