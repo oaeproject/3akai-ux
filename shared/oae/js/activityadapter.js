@@ -32,7 +32,7 @@ var _expose = function(exports, _) {
      * @param  {User}                   me                                      The currently loggedin user
      * @param  {Activity[]}             activities                              The set of activities to adapt
      * @param  {Object}                 sanitization                            An object that exposes basic HTML encoding functionality
-     * @param  {Function}               sanitization.encodeForHTML              Encode a value such that it is safe to be embedded into an HTML page
+     * @param  {Function}               sanitization.encodeForHTML              Encode a value such that it is safe to be embedded into an HTML tag
      * @param  {Function}               sanitization.encodeForHTMLAttribute     Encode a value such that it is safe to be embedded into an HTML attribute
      * @param  {Function}               sanitization.encodeForURL               Encode a value such that it is safe to be used as a URL fragment
      * @return {ActivityViewModel[]}                                            The adapted activities
@@ -50,10 +50,11 @@ var _expose = function(exports, _) {
      * @param  {User}                   me                                      The currently loggedin user
      * @param  {Activity}               activity                                The activity to adapt
      * @param  {Object}                 sanitization                            An object that exposes basic HTML encoding functionality
-     * @param  {Function}               sanitization.encodeForHTML              Encode a value such that it is safe to be embedded into an HTML page
+     * @param  {Function}               sanitization.encodeForHTML              Encode a value such that it is safe to be embedded into an HTML tag
      * @param  {Function}               sanitization.encodeForHTMLAttribute     Encode a value such that it is safe to be embedded into an HTML attribute
      * @param  {Function}               sanitization.encodeForURL               Encode a value such that it is safe to be used as a URL fragment
      * @return {ActivityViewModel}                                              The adapted activity
+     * @api private
      */
     var _adaptActivity = function(context, me, activity, sanitization) {
         // Move the relevant items (comments, previews, ..) to the top
@@ -72,6 +73,7 @@ var _expose = function(exports, _) {
         return new ActivityViewModel(activity, summary, primaryActor, activityItems);
     };
 
+
     ////////////
     // Models //
     ////////////
@@ -88,12 +90,14 @@ var _expose = function(exports, _) {
         var that = {
             'activity': activity,
             'activityItems': activityItems,
-            'created': activity.published,
+            'id': activity['oae:activityId'],
+            'published': activity.published,
             'primaryActor': primaryActor,
             'summary': summary
         };
-        if ((activity['oae:activityType'] === 'content-comment' || activity['oae:activityType'] === 'discussion-message') && activity.object && activity.object['oae:collection']) {
-            that.comments = activity.object['oae:collection'];
+        if ((activity['oae:activityType'] === 'content-comment' || activity['oae:activityType'] === 'discussion-message')) {
+            that.allComments = activity.object['oae:collection'];
+            that.latestComments = activity.object.latestComments;
         }
 
         return that;
@@ -114,9 +118,9 @@ var _expose = function(exports, _) {
     };
 
     /**
-     * Given an activity entity returns the necessary data to generate a beautiful view
+     * A model that holds the necessary data to generate a beautiful tile
      *
-     * @param  {ActivityEntity}     entity      The entity for which to return the data to display a view
+     * @param  {ActivityEntity}     entity      The entity that should be used to generate the view
      */
     var ActivityViewItem = function(entity) {
         var that = {
@@ -152,6 +156,8 @@ var _expose = function(exports, _) {
      *  - actors with an image are ordered first
      *  - objects with an image are ordered first
      *  - targets with an image are ordered first
+     *  - comments are processed into an ordered set
+     *  - each comment is assigned the level in the comment tree
      *
      * @param  {Activity}   activity    The activity to prepare
      * @api private
@@ -173,8 +179,7 @@ var _expose = function(exports, _) {
             activity.target['oae:collection'].reverse().sort(_sortEntityCollection);
         }
 
-        // For comments, we process the comments into an ordered tree that contains the latest
-        // 2 comments and the comments they were replies to, if any
+        // We process the comments into an ordered set
         if (activity['oae:activityType'] === 'content-comment' || activity['oae:activityType'] === 'discussion-message') {
             var comments = activity.object['oae:collection'];
             if (!comments) {
@@ -186,21 +191,26 @@ var _expose = function(exports, _) {
 
             // Sort the comments based on the created timestamp
             comments.sort(_sortComments);
+
+            // Construct a tree of the last 2 comments and their parents
+            var latestComments = comments.slice().splice(0, 2);
+            latestComments = _constructCommentTree(latestComments);
+
             // Convert these comments into an ordered tree that also includes the comments they were
             // replies to, if any
-            comments = _constructCommentTree(comments);
-            // Check if any of the comments that were part of the original activity have not made it
-            // into the ordered tree
-            var hasAllComments = _includesAllComments(originalComments, comments);
+            var allComments = _constructCommentTree(comments);
 
             // Prepare each comment
-            _.each(comments, function(comment) {
+            _.each(latestComments, function(comment) {
+                comment.activityItem = new ActivityViewItem(comment.author);
+            });
+            _.each(allComments, function(comment) {
                 comment.activityItem = new ActivityViewItem(comment.author);
             });
 
             activity.object.objectType = 'comments';
-            activity.object['oae:collection'] = comments;
-            activity.object.hasAllComments = hasAllComments;
+            activity.object['oae:collection'] = allComments;
+            activity.object.latestComments = latestComments;
         }
     };
 
@@ -254,11 +264,11 @@ var _expose = function(exports, _) {
         // in order to provide some context for the current comment
         _.each(comments, function(comment) {
             // Check if the comment is already in the ordered tree, because of a reply to this comment
-            var exists = _.findWhere(orderedTree, {'published': comment.published});
+            var exists = _.findWhere(orderedTree, {'oae:id': comment['oae:id']});
             if (!exists) {
                 if (comment.inReplyTo) {
                     // Check if the parent comment is already present in the ordered tree
-                    var parentExists = _.findWhere(orderedTree, {'published': comment.inReplyTo.published});
+                    var parentExists = _.findWhere(orderedTree, {'oae:id': comment.inReplyTo['oae:id']});
                     // If it isn't, we add it to the ordered list, just ahead of the current comment
                     if (!parentExists) {
                         orderedTree.push(comment.inReplyTo);
@@ -274,32 +284,15 @@ var _expose = function(exports, _) {
             comment['oae:level'] = 0;
             // If the comment is a reply to a comment, we set its level to be that of its parent + 1
             if (comment.inReplyTo) {
-                var replyTo = _.findWhere(orderedTree, {'published': comment.inReplyTo.published});
+                var replyTo = _.findWhere(orderedTree, {'oae:id': comment.inReplyTo['oae:id']});
                 comment['oae:level'] = replyTo['oae:level'] + 1;
             }
+
+            // Ensure that the `published` timestamp is a number
+            comment.published = parseInt(comment.published, 10);
         });
 
         return orderedTree;
-    };
-
-    /**
-     * Utility function that will determine whether or not all of the comments from the activity
-     * are present in the final ordered tree. If not, a "Show all" link will be added to the UI.
-     *
-     * @param  {Comment[]}      originalComments        List of orginal comments on the activity
-     * @param  {Comment[]}      orderedComments         Ordered list of comments containing the latest comments only with the comments they were replies to, if any
-     * @return {Boolean}                                Whether or not all of the comments from the original activity are included in the ordered tree
-     * @api private
-     */
-    var _includesAllComments = function(originalComments, orderedComments) {
-        var hasAllComments = true;
-        _.each(originalComments, function(comment) {
-            var inOrderedComments = _.findWhere(orderedComments, {'oae:id': comment['oae:id']});
-            if (!inOrderedComments) {
-                hasAllComments = false;
-            }
-        });
-        return hasAllComments;
     };
 
 
@@ -311,7 +304,7 @@ var _expose = function(exports, _) {
      * Get the primary view for an activity. This is usually the actor
      * or in case of an aggregated activity, the first in the collection of actors
      *
-     * @param  {Activity}           activity    The activity for which to return the primary view
+     * @param  {Activity}           activity    The activity for which to return the primary actor
      * @return {ActivityViewItem}               The object that identifies the primary actor
      * @api private
      */
@@ -380,14 +373,14 @@ var _expose = function(exports, _) {
      * @param  {User}                   me                                      The currently loggedin user
      * @param  {Activity}               activity                                The activity for which to generate a summary
      * @param  {Object}                 sanitization                            An object that exposes basic HTML encoding functionality
-     * @param  {Function}               sanitization.encodeForHTML              Encode a value such that it is safe to be embedded into an HTML page
+     * @param  {Function}               sanitization.encodeForHTML              Encode a value such that it is safe to be embedded into an HTML tag
      * @param  {Function}               sanitization.encodeForHTMLAttribute     Encode a value such that it is safe to be embedded into an HTML attribute
      * @param  {Function}               sanitization.encodeForURL               Encode a value such that it is safe to be used as a URL fragment
      * @return {ActivityViewSummary}                                            The summary for the given activity
      * @api private
      */
     var _generateSummary = function(me, activity, sanitization) {
-        // The dictionary that will hold the properties that can be used to determine and use the correct i18n keys
+        // The dictionary that can be used to translate the dynamic values in the i18n keys
         var properties = {};
 
         // Prepare the actor-related variables that will be present in the i18n keys
@@ -397,15 +390,15 @@ var _expose = function(exports, _) {
             actor1Obj = activity.actor['oae:collection'][0];
             if (activity.actor['oae:collection'].length > 1) {
                 properties.actorCount = activity.actor['oae:collection'].length;
+                properties.actorCountMinusOne = properties.actorCount - 1;
                 properties.actor2 = sanitization.encodeForHTML(activity.actor['oae:collection'][1].displayName);
-                properties.actor2URL = sanitization.encodeForURL(activity.actor['oae:collection'][1]['oae:profilePath']);
+                properties.actor2URL = activity.actor['oae:collection'][1]['oae:profilePath'];
             }
         } else {
             actor1Obj = activity.actor;
         }
-        properties.actorCountMinusOne = properties.actorCount - 1;
         properties.actor1 = sanitization.encodeForHTML(actor1Obj.displayName);
-        properties.actor1URL = sanitization.encodeForURL(actor1Obj['oae:profilePath']);
+        properties.actor1URL = actor1Obj['oae:profilePath'];
 
 
         // Prepare the object-related variables that will be present in the i18n keys
@@ -415,15 +408,15 @@ var _expose = function(exports, _) {
             object1Obj = activity.object['oae:collection'][0];
             if (activity.object['oae:collection'].length > 1) {
                 properties.objectCount = activity.object['oae:collection'].length;
+                properties.objectCountMinusOne = properties.objectCount - 1;
                 properties.object2 = sanitization.encodeForHTML(activity.object['oae:collection'][1].displayName);
-                properties.object2URL = sanitization.encodeForURL(activity.object['oae:collection'][1]['oae:profilePath']);
+                properties.object2URL = activity.object['oae:collection'][1]['oae:profilePath'];
             }
         } else {
             object1Obj = activity.object;
         }
-        properties.objectCountMinusOne = properties.objectCount - 1;
         properties.object1 = sanitization.encodeForHTML(object1Obj.displayName);
-        properties.object1URL = sanitization.encodeForURL(object1Obj['oae:profilePath']);
+        properties.object1URL = object1Obj['oae:profilePath'];
         if (object1Obj['oae:tenant']) {
             properties.object1Tenant = sanitization.encodeForHTML(object1Obj['oae:tenant'].displayName);
         }
@@ -436,17 +429,16 @@ var _expose = function(exports, _) {
                 target1Obj = activity.target['oae:collection'][0];
                 if (activity.target['oae:collection'].length > 1) {
                     properties.targetCount = activity.target['oae:collection'].length;
+                    properties.targetCountMinusOne = properties.targetCount - 1;
                     properties.target2 = sanitization.encodeForHTML(activity.target['oae:collection'][1].displayName);
-                    properties.target2URL = sanitization.encodeForURL(activity.target['oae:collection'][1]['oae:profilePath']);
+                    properties.target2URL = activity.target['oae:collection'][1]['oae:profilePath'];
                 }
             } else {
                 target1Obj = activity.target;
             }
             properties.target1 = sanitization.encodeForHTML(target1Obj.displayName);
-            properties.target1URL = sanitization.encodeForURL(target1Obj['oae:profilePath']);
-            properties.targetCountMinusOne = properties.targetCount - 1;
+            properties.target1URL = target1Obj['oae:profilePath'];
         }
-
 
         // Depending on the activity type, we render a different template that is specific to that activity,
         // to make sure that the summary is as accurate and descriptive as possible

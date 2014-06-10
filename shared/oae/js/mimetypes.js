@@ -131,12 +131,11 @@ var _expose = function(exports, _) {
     };
 
     /**
-     * Get a human readable mimeType description for a content item. Unrecognized mimeTypes
-     * will default to the `other` type. The returned string still needs translation.
+     * Get a translatable i18n key that describes the given resource subtype and/or mime type
      *
      * @param  {String}     resourceSubType     The resource sub type for which to generate an appropriate description
      * @param  {String}     [mimeType]          In case the `resourceSubType` is a `file`, a more detailed description can be returned by providing a mime type
-     * @return {String}                         Human readable mimetype description for the provided resource subtype and mime type
+     * @return {String}                         The i18n key that holds the mimetype description for the provided resource subtype and mime type
      */
     var getDescription = exports.getDescription = function(resourceSubType, mimeType) {
         var mimeTypeObject = null;
