@@ -184,7 +184,7 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     /**
-     * Show the preferences widget when the URL search parameter is set to `emailpreferences`
+     * Show the `preferences` widget when the URL search parameter is set to `emailpreferences`
      */
     var showPreferences = function() {
         if ($.url().attr('query') === 'emailpreferences') {
