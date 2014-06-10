@@ -75,8 +75,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                         _(localFiles).each(function(localFile) {
                             var path = widgetJSPath.replace(widgetName + '.js', localFile.substring(2));
                             localJsFiles[path] = {
-                                'widgetName': widgetName,
-                                'widgetJSPath': widgetJSPath
+                                'widgetName': widgetName
                             };
                         });
                     }
@@ -88,9 +87,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 oae.api.util.staticBatch(_.keys(localJsFiles), function(err, data) {
                     $.each(data, function(fileJSPath, fileJS) {
                         var widgetName = localJsFiles[fileJSPath].widgetName;
-                        var widgetJSPath = localJsFiles[fileJSPath].widgetJSPath;
-                        // Add the file content to the main widget file content
-                        testData.widgetData[widgetName].js[widgetJSPath] += fileJS;
+                        testData.widgetData[widgetName].js[fileJSPath] = fileJS;
                     });
 
                     callback(testData);
