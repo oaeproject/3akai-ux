@@ -114,9 +114,7 @@ var userUtil = function() {
     var doLogOut = function() {
         casper.wait(configUtil().modalWaitTime, function() {
             casper.thenEvaluate(function() {
-                require('oae.core').api.authentication.logout(function() {
-                    window.location = '/';
-                });
+                $('form[action="/api/auth/logout"]').submit();
             });
         });
     };
