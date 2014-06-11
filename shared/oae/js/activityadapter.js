@@ -88,7 +88,7 @@ var _expose = function(exports, _) {
      */
     var ActivityViewModel = function(activity, summary, primaryActor, activityItems) {
         var that = {
-            'activity': activity,
+            'originalActivity': activity,
             'activityItems': activityItems,
             'id': activity['oae:activityId'],
             'published': activity.published,
