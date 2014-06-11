@@ -349,17 +349,17 @@ var _expose = function(exports, _) {
             }
         }
 
-        var views = [];
+        var items = [];
         if (previewObj['oae:wideImage']) {
-            views.push(new ActivityViewItem(previewObj));
+            items.push(new ActivityViewItem(previewObj));
         } else {
             var previewItems = (previewObj['oae:collection'] || [previewObj]);
-            views = _.map(previewItems, function(previewItem) {
+            items = _.map(previewItems, function(previewItem) {
                 return new ActivityViewItem(previewItem);
             });
         }
 
-        return views;
+        return items;
     };
 
 
