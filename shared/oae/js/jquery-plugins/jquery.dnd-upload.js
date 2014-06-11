@@ -15,30 +15,117 @@
 
 define(['jquery'], function (jQuery) {
     (function() {
-        $(document).on('drop', '.oae-dnd-upload', function(ev, data) {
+
+        /**
+         * Extracts files from a dropped item (currently only supported in Chrome)
+         *
+         * @param  {Object}   entry     Entry provided as event data for drop event
+         * @param  {String}   [path]    File system path for entry
+         * @return {Array}              Array of files
+         */
+        var getFilesFromEntry = function(entry, path) {
+
+            // Set default path if none provided
+            path = path || '';
+
+            // Prepare for asynchronous folder traversal
+            var deferred = $.Deferred();
+
+            // Handle single files directly
+            if (entry.isFile) {
+                // Workaround Chome bug #149735
+                if (entry._itemAsFile) {
+                    entry._itemAsFile.relativePath = path;
+                    files.push(entry._itemAsFile);
+                    deferred.resolve(files);
+                } else {
+                    entry.file(function(file) {
+                        var files = [];
+                        file.relativePath = path;
+                        files.push(file);
+                        deferred.resolve(files);
+                    })
+                }
+
+            // Handle folders recursively
+            } else if (entry.isDirectory) {
+
+                var folder = entry.createReader();
+                folder.readEntries(function(entries) {
+                    $.when.apply(
+                        $,
+                        $.map(entries, function(entry) {
+                            return getFilesFromEntry(entry, path + entry.name + '/');
+                        })
+                    ).pipe(function() {
+                        return Array.prototype.concat.apply([], arguments);
+                    }).done(function(files){
+                       deferred.resolve(files);
+                    });
+                });
+
+            // If not a file/folder, result is empty array
+            } else {
+                deferred.resolve([]);
+            }
+
+            return deferred.promise();
+        };
+
+        $(document).on('drop', '.oae-dnd-upload', function(ev) {
             if (ev.originalEvent.dataTransfer && ev.originalEvent.dataTransfer.files.length) {
                 ev.preventDefault();
                 ev.stopPropagation();
 
-                // Parse the data into a format the upload widget understands
-                var selectedFiles = {
-                    'files': []
-                };
+                // Prepare to handle asynchronous folder traversal
+                var deferred;
 
-                // Filter out folders and files without a name
-                $.each(ev.originalEvent.dataTransfer.files, function(index, file) {
-                    if (file.size > 0 && file.name) {
-                        selectedFiles.files.push(file);
+                // Get data about dropped items
+                var dataTransfer = ev.originalEvent.dataTransfer;
+
+                // Chrome uses `dataTransfer.items` to provide more information
+                // that the standard `dataTransfer.files`. Use it if it's
+                // available since we need it to traverse folders.
+                if (dataTransfer.items &&
+                    dataTransfer.items.length &&
+                    (dataTransfer.items[0].webkitGetAsEntry || dataTransfer.items[0].getAsEntry)) {
+
+                    deferred = $.when.apply(
+                        $,
+                        $.map(dataTransfer.items, function(item) {
+                            var entry = item.getAsEntry ? item.getAsEntry() : item.webkitGetAsEntry();
+                            /**
+                             * Workaround for Chrome bug #149735
+                             * @see https://code.google.com/p/chromium/issues/detail?id=149735
+                             */
+                            entry._itemAsFile = item.getAsFile();
+                            return getFilesFromEntry(entry);
+                        })
+                    ).pipe(function() {
+                        return Array.prototype.concat.apply([], arguments);
+                    });
+
+                // Enhanced `dataTransfer.items` property isn't available,
+                // so stick with the standard `dataTransfer.files`
+                } else {
+                    deferred = $.Deferred().resolve(
+                        $.grep(dataTransfer.files, function(file) {
+                            // Filter out folders and files without a name
+                            return file.size > 0 && file.name;
+                        })
+                    );
+                }
+
+                // Wait for possible asynchronous folder processing before continuing
+                deferred.done(function(files) {
+                    // Trigger an event that sends the dropped data along if
+                    // valid files have been dropped for the upload widget to pick them up
+                    if (files.length) {
+                        $(document).trigger('oae.trigger.upload', {
+                            'data': {files: files}
+                        });
                     }
                 });
-
-                // Trigger an event that sends the dropped data along if
-                // valid files have been dropped for the upload widget to pick them up
-                if (selectedFiles.files.length) {
-                    $(document).trigger('oae.trigger.upload', {
-                        'data': selectedFiles
-                    });
-                }
             }
         });
 
