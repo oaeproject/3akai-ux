@@ -106,7 +106,14 @@ script:
   - grunt test --qunit-host test.oae.com
 
 after_success:
+  # Package and upload to Amazon S3
   - etc/scripts/travis-upload.sh
+
+after_failure:
+  # Compress the logs and upload them to Amazon S3
+  - cd ../Hilary
+  - gzip tests.log
+  - bin/upload_logs
 
 notifications:
   email:

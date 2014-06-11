@@ -236,7 +236,7 @@ require(['jquery','oae.core'], function($, oae) {
     /////////////////////
 
     /**
-     * Refresh the discussion preview by emptying the existing discussion preview container and
+     * Refresh the discussion topic by emptying the existing discussion topic container and
      * rendering a new one
      */
     var refreshDiscussionPreview = function() {
@@ -262,7 +262,7 @@ require(['jquery','oae.core'], function($, oae) {
         setUpClips();
     };
 
-    // Catch the event sent out when the discussion item has been updated
+    // Catch the event sent out when the discussion has been updated
     $(document).on('oae.editdiscussion.done', function(ev, updatedDiscussion) {
         refreshDiscussionProfile(updatedDiscussion);
     });
