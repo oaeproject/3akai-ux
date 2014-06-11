@@ -20,10 +20,9 @@
  * We need to mimick AMD's define so we can use this code in both the backend and frontend.
  *
  * @param  {Object}     exports     Properties that are added on this object are exported
- * @param  {Object}     _           The underscorejs utility
  * @api private
  */
-var _expose = function(exports, _) {
+var _expose = function(exports) {
 
     /**
      * Adapt a set of activities in activitystrea.ms format to a simpler view model
@@ -38,7 +37,7 @@ var _expose = function(exports, _) {
      * @return {ActivityViewModel[]}                                            The adapted activities
      */
     var adapt = exports.adapt = function(context, me, activities, sanitization) {
-        return _.map(activities, function(activity) {
+        return activities.map(function(activity) {
             return _adaptActivity(context, me, activity, sanitization);
         });
     };
@@ -201,10 +200,10 @@ var _expose = function(exports, _) {
             var allComments = _constructCommentTree(comments);
 
             // Prepare each comment
-            _.each(latestComments, function(comment) {
+            latestComments.forEach(function(comment) {
                 comment.activityItem = new ActivityViewItem(comment.author);
             });
-            _.each(allComments, function(comment) {
+            allComments.forEach(function(comment) {
                 comment.activityItem = new ActivityViewItem(comment.author);
             });
 
@@ -262,13 +261,13 @@ var _expose = function(exports, _) {
 
         // If the comment is a reply to a different comment, we add that comment to the ordered tree as well,
         // in order to provide some context for the current comment
-        _.each(comments, function(comment) {
+        comments.forEach(function(comment) {
             // Check if the comment is already in the ordered tree, because of a reply to this comment
-            var exists = _.findWhere(orderedTree, {'oae:id': comment['oae:id']});
+            var exists = _contains(orderedTree, comment['oae:id']);
             if (!exists) {
                 if (comment.inReplyTo) {
                     // Check if the parent comment is already present in the ordered tree
-                    var parentExists = _.findWhere(orderedTree, {'oae:id': comment.inReplyTo['oae:id']});
+                    var parentExists = _contains(orderedTree, comment.inReplyTo['oae:id']);
                     // If it isn't, we add it to the ordered list, just ahead of the current comment
                     if (!parentExists) {
                         orderedTree.push(comment.inReplyTo);
@@ -280,11 +279,11 @@ var _expose = function(exports, _) {
 
         // Now that all comments and the comments they were replies to are in the ordered list, we add a level
         // to each of them. These levels will be relative to each other, starting at 0 for top-level comments.
-        _.each(orderedTree, function(comment) {
+        orderedTree.forEach(function(comment) {
             comment['oae:level'] = 0;
             // If the comment is a reply to a comment, we set its level to be that of its parent + 1
             if (comment.inReplyTo) {
-                var replyTo = _.findWhere(orderedTree, {'oae:id': comment.inReplyTo['oae:id']});
+                var replyTo = _contains(orderedTree, comment.inReplyTo['oae:id']);
                 comment['oae:level'] = replyTo['oae:level'] + 1;
             }
 
@@ -293,6 +292,24 @@ var _expose = function(exports, _) {
         });
 
         return orderedTree;
+    };
+
+    /**
+     * Check if a set of comments contains a specific comment that is identified by its id
+     *
+     * @param  {Object[]}   comments    The set of comments to check
+     * @param  {String}     id          The id of the comment to search for
+     * @return {Object}                 The comment if it was found, `undefined` otherwise
+     * @api private
+     */
+    var _contains = function(comments, id) {
+        for (var i = 0; i < comments.length; i++) {
+            if (comments[i]['oae:id'] === id) {
+                return comments[i];
+            }
+        }
+
+        return undefined;
     };
 
 
@@ -354,7 +371,7 @@ var _expose = function(exports, _) {
             items.push(new ActivityViewItem(previewObj));
         } else {
             var previewItems = (previewObj['oae:collection'] || [previewObj]);
-            items = _.map(previewItems, function(previewItem) {
+            items = previewItems.map(function(previewItem) {
                 return new ActivityViewItem(previewItem);
             });
         }
@@ -1190,10 +1207,9 @@ var _expose = function(exports, _) {
 (function() {
     if (typeof define !== 'function') {
         // This gets executed in the backend
-        var _ = require('underscore');
-        _expose(module.exports, _);
+        _expose(module.exports);
     } else {
         // This gets executed in the browser
-        define(['exports', 'underscore'], _expose);
+        define(['exports'], _expose);
     }
 })();
