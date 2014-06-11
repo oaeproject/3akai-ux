@@ -239,25 +239,25 @@ require(['jquery','oae.core'], function($, oae) {
      * Refresh the discussion topic by emptying the existing discussion topic container and
      * rendering a new one
      */
-    var refreshDiscussionPreview = function() {
+    var refreshDiscussionTopic = function() {
         // Empty the preview container
         var $widgetContainer = $('#lhnavigation-widget-discussion');
         $widgetContainer.empty();
 
-        // Insert the new updated discussion preview widget
+        // Insert the new updated discussion widget
         oae.api.widget.insertWidget('discussion', null, $widgetContainer, null, discussionProfile);
     };
 
     /**
-     * Refresh the discussion profile by updating the clips and discussion preview
+     * Refresh the discussion profile by updating the clips and discussion topic
      *
      * @param  {Discussion}        updatedDiscussion          Discussion profile of the updated discussion item
      */
     var refreshDiscussionProfile = function(updatedDiscussion) {
         // Cache the discussion profile data
         discussionProfile = updatedDiscussion;
-        // Refresh the discussion preview
-        refreshDiscussionPreview();
+        // Refresh the discussion topic
+        refreshDiscussionTopic();
         // Refresh the clips
         setUpClips();
     };

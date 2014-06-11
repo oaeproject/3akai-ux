@@ -37,15 +37,16 @@ before_install:
   - sudo service memcached stop
   - sudo service postgresql stop
 
-  # Hilary dependencies
+  # Install Hilary deps
   - sudo apt-get install -qq graphicsmagick libreoffice pdftk chrpath pdf2htmlex
   - npm install -g grunt-cli
 
   # 3akai-ux dependencies
+  # TODO: remove manual phantomjs install once grunt-casperjs comes with a supported version of it
   - wget https://phantomjs.googlecode.com/files/phantomjs-1.9.2-linux-i686.tar.bz2
   - tar xjf phantomjs-1.9.2-linux-i686.tar.bz2
   - sudo ln -fs pwd/phantomjs-1.9.2-linux-i686/bin/phantomjs /usr/local/bin/phantomjs
-  - git clone git://github.com/n1k0/casperjs.git
+  - git clone git://github.com/n1k0/casperjs.git ./casperjs
   - cd casperjs
   - git checkout 1.1-beta3
   - sudo ln -sf `pwd`/bin/casperjs /usr/local/bin/casperjs
@@ -75,14 +76,14 @@ before_install:
 
   # Install Hilary
   - cd ~/build/oaeproject
-  - git clone  --branch master --depth=1 git://github.com/oaeproject/Hilary.git
+  - git clone --depth 1 --branch master git://github.com/oaeproject/Hilary.git ./Hilary
   - cd ./Hilary
   - npm install --production
   - node app.js | node_modules/.bin/bunyan -l error &
 
   # Configure 3akai-ux/nginx
-  - cd ../3akai-ux
-  - npm install
+  - cd ~/build/oaeproject/3akai-ux
+  - npm install --production
   - "echo '{\"NGINX_USER\": \"root\",\"NGINX_GROUP\": \"root\",\"NGINX_HOSTNAME\": \"admin.oae.com\",\"UX_HOME\": \"/home/travis/build/oaeproject/3akai-ux\",\"LOCAL_FILE_STORAGE_DIRECTORY\": \"/home/travis/build/oaeproject/files\"}' > nginx/nginx.json"
   - grunt configNginx
   - sudo cp ./target/optimized/nginx/nginx.conf /etc/nginx/nginx.conf
