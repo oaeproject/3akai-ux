@@ -56,13 +56,46 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
         });
 
         oae.api.util.staticBatch(_.keys(paths), function(err, data) {
+
+            // Additional local JS files to load
+            var localJsFiles = {};
+
             $.each(data, function(widgetJSPath, widgetJS) {
                 // Get the ID of the widget from the path dictionary
                 var widgetName = paths[widgetJSPath];
                 // Add the widget JS to the widget's JS object
                 testData.widgetData[widgetName].js[widgetJSPath] = widgetJS;
+
+                // Get module dependencies
+                var dependencies = (/^(\s*)define(.*)$/m).exec(widgetJS);
+                if (dependencies) {
+                    // Look for local JS files being required
+                    var localFiles = dependencies[0].match(/\.\/(\w)+\.js/g);
+                    if (localFiles) {
+                        _(localFiles).each(function(localFile) {
+                            var path = widgetJSPath.replace(widgetName + '.js', localFile.substring(2));
+                            localJsFiles[path] = {
+                                'widgetName': widgetName
+                            };
+                        });
+                    }
+                }
             });
-            callback(testData);
+
+            // Retrieve content of any additional local JS files
+            if (!$.isEmptyObject(localJsFiles)) {
+                oae.api.util.staticBatch(_.keys(localJsFiles), function(err, data) {
+                    $.each(data, function(fileJSPath, fileJS) {
+                        var widgetName = localJsFiles[fileJSPath].widgetName;
+                        testData.widgetData[widgetName].js[fileJSPath] = fileJS;
+                    });
+
+                    callback(testData);
+                });
+
+            } else {
+                callback(testData);
+            }
         });
     };
 
