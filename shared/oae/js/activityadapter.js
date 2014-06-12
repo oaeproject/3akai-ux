@@ -297,9 +297,9 @@ var _expose = function(exports) {
     /**
      * Check if a set of comments contains a specific comment that is identified by its id
      *
-     * @param  {Object[]}   comments    The set of comments to check
+     * @param  {Comment[]}  comments    The set of comments to check
      * @param  {String}     id          The id of the comment to search for
-     * @return {Object}                 The comment if it was found, `undefined` otherwise
+     * @return {Comment}                The comment if it was found, `undefined` otherwise
      * @api private
      */
     var _contains = function(comments, id) {
