@@ -20,10 +20,9 @@
  * We need to mimick AMD's define so we can use this code in both the backend and frontend.
  *
  * @param  {Object}     exports   Properties that are added on this object are exported
- * @param  {Object}     _         The underscorejs utility
  * @api private
  */
-var _expose = function(exports, _) {
+var _expose = function(exports) {
 
     /*!
      * Constant that holds regular expressions for the different mimeTypes that might be returned by the
@@ -145,13 +144,14 @@ var _expose = function(exports, _) {
         // the mimeType mapping
         if (resourceSubType === 'file') {
             if (mimeType) {
-                _.each(MIMETYPES, function(mimeTypeMapping, mimeTypeMappingId) {
+                Object.keys(MIMETYPES).forEach(function(mimeTypeMappingId) {
+                    var mimeTypeMapping = MIMETYPES[mimeTypeMappingId];
                     // Some mimeType mappings might not have any regular expressions. No need to check for those
                     if (mimeTypeMapping.regex) {
                         // When only a single regex is available for a mimeType mapping, a string can be provided
                         // instead of an array. We ensure that the mimeType mapping regex is an array
                         var regex = mimeTypeMapping.regex;
-                        regex = _.isArray(regex) ? regex : [regex];
+                        regex = Array.isArray(regex) ? regex : [regex];
                         // Parse the provided regular expressions into a single regular expression and match
                         // on the content's mimeType
                         var joinedRegex = new RegExp(regex.join('|'), 'i');
@@ -180,10 +180,9 @@ var _expose = function(exports, _) {
 (function() {
     if (typeof define !== 'function') {
         // This gets executed in the backend
-        var _ = require('underscore');
-        _expose(module.exports, _);
+        _expose(module.exports);
     } else {
         // This gets executed in the browser
-        define(['exports', 'underscore'], _expose);
+        define(['exports'], _expose);
     }
 })();
