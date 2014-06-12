@@ -134,13 +134,11 @@ define(['jquery'], function (jQuery) {
 
                 // Wait for possible asynchronous folder processing before continuing
                 deferred.done(function(files) {
-                    // Trigger an event that sends the dropped data along if
-                    // valid files have been dropped for the upload widget to pick them up
-                    if (files.length) {
-                        $(document).trigger('oae.trigger.upload', {
-                            'data': {files: files}
-                        });
-                    }
+                    // Trigger an event that sends the dropped data
+                    // for the upload widget to pick up
+                    $(document).trigger('oae.trigger.upload', {
+                        'data': {files: files}
+                    });
                 });
             }
         });
