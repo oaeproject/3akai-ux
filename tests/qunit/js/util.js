@@ -350,18 +350,23 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
         var testData = {
             'widgetData': oae.api.widget.getWidgetManifests(),
             'mainBundles': {
-                '/ui/bundles/ca_ES.properties': null,
-                '/ui/bundles/de_DE.properties': null,
-                '/ui/bundles/default.properties': null,
-                '/ui/bundles/es_ES.properties': null,
-                '/ui/bundles/fr_FR.properties': null,
-                '/ui/bundles/hi_IN.properties': null,
-                '/ui/bundles/it_IT.properties': null,
-                '/ui/bundles/nl_NL.properties': null,
-                '/ui/bundles/pl_PL.properties': null,
-                '/ui/bundles/ru_RU.properties': null,
-                '/ui/bundles/val_ES.properties': null,
-                '/ui/bundles/zh_CN.properties': null
+                '/shared/oae/bundles/ui/af_ZA.properties': null,
+                '/shared/oae/bundles/ui/ca_ES.properties': null,
+                '/shared/oae/bundles/ui/de_DE.properties': null,
+                '/shared/oae/bundles/ui/default.properties': null,
+                '/shared/oae/bundles/ui/es_ES.properties': null,
+                '/shared/oae/bundles/ui/fr_FR.properties': null,
+                '/shared/oae/bundles/ui/hi_IN.properties': null,
+                '/shared/oae/bundles/ui/it_IT.properties': null,
+                '/shared/oae/bundles/ui/nl_NL.properties': null,
+                '/shared/oae/bundles/ui/pl_PL.properties': null,
+                '/shared/oae/bundles/ui/pt_BR.properties': null,
+                '/shared/oae/bundles/ui/pt_PT.properties': null,
+                '/shared/oae/bundles/ui/ru_RU.properties': null,
+                '/shared/oae/bundles/ui/sv_SE.properties': null,
+                '/shared/oae/bundles/ui/tr_TR.properties': null,
+                '/shared/oae/bundles/ui/val_ES.properties': null,
+                '/shared/oae/bundles/ui/zh_CN.properties': null
             },
             'mainHTML': {
                 '/admin/index.html': null,
@@ -400,6 +405,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 '/shared/oae/api/oae.core.js': null,
             },
             'oaePlugins': {
+                '/shared/oae/js/activityadapter.js': null,
                 '/shared/oae/js/bootstrap-plugins/bootstrap.focus.js': null,
                 '/shared/oae/js/bootstrap-plugins/bootstrap.modal.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.browse-focus.js': null,
@@ -409,7 +415,8 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 '/shared/oae/js/jquery-plugins/jquery.jeditable-focus.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.list.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.responsive.js': null,
-                '/shared/oae/js/jquery-plugins/jquery.update-picture.js': null
+                '/shared/oae/js/jquery-plugins/jquery.update-picture.js': null,
+                '/shared/oae/js/mimetypes.js': null
             },
             'mainJS': {},
             'mainCSS': {
