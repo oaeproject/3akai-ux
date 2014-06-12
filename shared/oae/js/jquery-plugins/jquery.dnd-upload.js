@@ -31,6 +31,15 @@ define(['jquery'], function (jQuery) {
             // Prepare for asynchronous folder traversal
             var deferred = $.Deferred();
 
+            // Handle file I/O errors
+            var handleErrors = function() {
+                // Instead of propagating an error, return
+                // an empty array so other sibling entries
+                // don't immediately error out. (Those other
+                // entries may succeed.)
+                deferred.resolve([]);
+            };
+
             // Handle single files directly
             if (entry.isFile) {
                 // Workaround Chome bug #149735
@@ -44,7 +53,8 @@ define(['jquery'], function (jQuery) {
                         file.relativePath = path;
                         files.push(file);
                         deferred.resolve(files);
-                    })
+                    },
+                    handleErrors);
                 }
 
             // Handle folders recursively
@@ -58,10 +68,11 @@ define(['jquery'], function (jQuery) {
                             return getFilesFromEntry(entry, path + entry.name + '/');
                         })
                     ).pipe(function() {
+                        // Combine the results for each entry by concatenating results
                         return Array.prototype.concat.apply([], arguments);
                     }).done(function(files){
                        deferred.resolve(files);
-                    });
+                    }).fail(handleErrors);
                 });
 
             // If not a file/folder, result is empty array
@@ -90,8 +101,11 @@ define(['jquery'], function (jQuery) {
                     dataTransfer.items.length &&
                     (dataTransfer.items[0].webkitGetAsEntry || dataTransfer.items[0].getAsEntry)) {
 
+                    // Finish asynchronous processing **when** all individual
+                    // items are processed
                     deferred = $.when.apply(
                         $,
+                        // Create a separate asynchronous handler for each item
                         $.map(dataTransfer.items, function(item) {
                             var entry = item.getAsEntry ? item.getAsEntry() : item.webkitGetAsEntry();
                             /**
@@ -102,6 +116,8 @@ define(['jquery'], function (jQuery) {
                             return getFilesFromEntry(entry);
                         })
                     ).pipe(function() {
+                        // Combine the results for each item by concatenating
+                        // their results
                         return Array.prototype.concat.apply([], arguments);
                     });
 
