@@ -409,7 +409,9 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 '/shared/oae/js/jquery-plugins/jquery.jeditable-focus.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.list.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.responsive.js': null,
-                '/shared/oae/js/jquery-plugins/jquery.update-picture.js': null
+                '/shared/oae/js/jquery-plugins/jquery.update-picture.js': null,
+                '/shared/oae/js/activityadapter.js': null,
+                '/shared/oae/js/mimetypes.js': null
             },
             'mainJS': {},
             'mainCSS': {

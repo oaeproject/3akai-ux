@@ -100,7 +100,7 @@ var _expose = function(exports) {
         }
 
         return that;
-    }
+    };
 
     /**
      * A model that holds the necessary data to generate a plain-text summary of an activity
@@ -349,14 +349,14 @@ var _expose = function(exports) {
         } else if (activity.object.objectType === 'collection') {
             previewObj = activity.object;
         } else if (activity.actor.objectType === 'collection' && activity.object.objectType !== 'content') {
-            previewObj = activity.actor
+            previewObj = activity.actor;
         } else if (activity.target && activity.target.objectType === 'content') {
             previewObj = activity.target;
         } else if (activity.object && activity.object.objectType === 'content') {
             previewObj = activity.object;
         }
 
-        // Take the current context into account. For example, if the current user is viewing their 
+        // Take the current context into account. For example, if the current user is viewing their
         // own activity stream, we should show another entity in the thumbnail listing
         if (previewObj['oae:id'] === context) {
             if (activity.target) {
