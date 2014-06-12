@@ -122,9 +122,8 @@ module.exports = function(grunt) {
                      */
                     {
                         'folders': [
-                            '<%= target %>/optimized/shared/bundles',
-                            '<%= target %>/optimized/ui/bundles',
-                            '<%= target %>/optimized/admin/bundles',
+                            '<%= target %>/optimized/shared/oae/bundles/ui',
+                            '<%= target %>/optimized/shared/oae/bundles/email',
                             '<%= target %>/optimized/shared/vendor/js/l10n/cultures'
                         ],
                         'references': _replacementReferences(['shared'], ['js'])
@@ -152,8 +151,10 @@ module.exports = function(grunt) {
                             '<%= target %>/optimized/shared',
                             '<%= target %>/optimized/ui'
                         ], ['css', 'html', 'ico', 'js', 'json', 'less'], [
-                            '!<%= target %>/optimized/shared/vendor/js/l10n/cultures.*/**',
-                            '!<%= target %>/optimized/ui/bundles.*/**'
+                            '!<%= target %>/optimized/shared/oae/bundles/email.*/**',
+                            '!<%= target %>/optimized/shared/oae/bundles/ui.*/**',
+                            '!<%= target %>/optimized/shared/vendor/js/l10n/cultures.*/**'
+
                         ]),
                         'references': _replacementReferences([
                             'admin',
