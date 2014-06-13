@@ -59,7 +59,6 @@ define(['jquery'], function (jQuery) {
 
             // Handle folders recursively
             } else if (entry.isDirectory) {
-
                 var folder = entry.createReader();
                 folder.readEntries(function(entries) {
                     $.when.apply(
@@ -70,7 +69,7 @@ define(['jquery'], function (jQuery) {
                     ).pipe(function() {
                         // Combine the results for each entry by concatenating results
                         return Array.prototype.concat.apply([], arguments);
-                    }).done(function(files){
+                    }).done(function(files) {
                        deferred.resolve(files);
                     }).fail(handleErrors);
                 });
