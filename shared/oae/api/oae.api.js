@@ -78,7 +78,7 @@ define(['oae.api.admin', 'oae.api.authentication', 'oae.api.config', 'oae.api.co
                     }
 
                     // Initialize l10n
-                    var userLocale = oae.data.me.locale ? oae.data.me.locale.locale : null;
+                    var userLocale = oae.data.me.locale;
                     oae.api.l10n.init(userLocale, function(err) {
                         if (err) {
                             throw new Error('Could not initialize the l10n API');

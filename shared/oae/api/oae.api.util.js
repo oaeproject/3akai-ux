@@ -189,11 +189,10 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          */
         var init = function(callback) {
             // Load the activity summary and lists macros through the RequireJS Text plugin
-            require(['text!/shared/oae/macros/activity.html', 'text!/shared/oae/macros/list.html'], function(listMacro, activityMacro) {
+            require(['text!/shared/oae/macros/list.html'], function(listMacro) {
                 // Translate and cache the macros. We require the i18n API here to avoid creating
                 // a cyclic dependency
                 var i18nAPI = require('oae.api.i18n');
-                globalMacros.push(i18nAPI.translate(activityMacro));
                 globalMacros.push(i18nAPI.translate(listMacro));
                 callback();
             });
@@ -1276,7 +1275,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          * a page that requires login.
          */
         var login = function() {
-            window.location = '/';
+            window.location = '/?url=' + $.url().attr('relative');
         };
 
         /**
