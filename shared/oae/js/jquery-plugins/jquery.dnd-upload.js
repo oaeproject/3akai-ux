@@ -42,6 +42,7 @@ define(['jquery'], function (jQuery) {
 
             // Handle single files directly
             if (entry.isFile) {
+                var files = [];
                 // Workaround Chome bug #149735
                 if (entry._itemAsFile) {
                     entry._itemAsFile.relativePath = path;
@@ -49,7 +50,6 @@ define(['jquery'], function (jQuery) {
                     deferred.resolve(files);
                 } else {
                     entry.file(function(file) {
-                        var files = [];
                         file.relativePath = path;
                         files.push(file);
                         deferred.resolve(files);
