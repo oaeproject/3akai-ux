@@ -40,7 +40,7 @@ npm install -d
 The front-end test suite can be run using Grunt:
 
 ```
-grunt test
+grunt test --qunit-host tenant.oae.com
 ```
 
 Note that Hilary and its dependencies should be installed and running on your system before the tests can be run successfully.
