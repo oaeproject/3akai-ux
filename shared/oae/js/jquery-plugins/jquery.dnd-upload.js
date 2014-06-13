@@ -88,8 +88,8 @@ define(['jquery'], function (jQuery) {
                 ev.preventDefault();
                 ev.stopPropagation();
 
-                // Prepare to handle asynchronous folder traversal
-                var deferred;
+                // Variable to handle asynchronous folder traversal
+                var deferred = null;
 
                 // Get data about dropped items
                 var dataTransfer = ev.originalEvent.dataTransfer;
