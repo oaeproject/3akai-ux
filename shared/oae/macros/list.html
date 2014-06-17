@@ -210,6 +210,11 @@
         {var resourceId = entityData.id}
     {/if}
 
+    <!-- Also make sure the resourceId is really an ID and not a full URL -->
+    {if resourceId.substring(0,4) === 'http'}
+        {var resourceId = resourceId.substring(resourceId.lastIndexOf('/')+1)}
+    {/if}
+
     {if customImage}
         {var thumbnailUrl = customImage}
     {elseif entityData.thumbnailUrl}
