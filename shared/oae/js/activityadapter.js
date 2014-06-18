@@ -133,14 +133,24 @@ var _expose = function(exports) {
             'visibility': entity['oae:visibility']
         };
 
-        if (entity.image && entity.image.url) {
-            that.thumbnailUrl = entity.image.url;
-        }
-        if (entity['oae:wideImage'] && entity['oae:wideImage'].url) {
-            that.wideImageUrl = entity['oae:wideImage'].url;
-        }
-        if (entity['oae:mimeType']) {
-            that.mime = entity['oae:mimeType'];
+        var me = require('oae.core').data.me;
+        if (me.id === entity['oae:id'] && me.picture) {
+            if (entity['image']) {
+                that['image'] = entity['image'];
+                that['image'].url = me.picture.small || me.picture.medium;
+            } else {
+                that.thumbnailUrl = me.picture.small || me.picture.medium;
+            }
+        } else {
+            if (entity.image && entity.image.url) {
+                that.thumbnailUrl = entity.image.url;
+            }
+            if (entity['oae:wideImage'] && entity['oae:wideImage'].url) {
+                that.wideImageUrl = entity['oae:wideImage'].url;
+            }
+            if (entity['oae:mimeType']) {
+                that.mime = entity['oae:mimeType'];
+            }
         }
 
         return that;
