@@ -57,13 +57,13 @@ var _expose = function(exports) {
      */
     var _adaptActivity = function(context, me, activity, sanitization) {
         // Move the relevant items (comments, previews, ..) to the top
-        _prepareActivity(activity);
+        _prepareActivity(me, activity);
 
         // Generate an i18nable summary for this activity
         var summary = _generateSummary(me, activity, sanitization);
 
         // Generate the primary actor view
-        var primaryActor = _generatePrimaryActor(activity);
+        var primaryActor = _generatePrimaryActor(me, activity);
 
         // Generate the activity preview items
         var activityItems = _generateActivityItems(context, activity);
@@ -119,9 +119,10 @@ var _expose = function(exports) {
     /**
      * A model that holds the necessary data to generate a beautiful tile
      *
+     * @param  {User}               [me]        The currently loggedin user
      * @param  {ActivityEntity}     entity      The entity that should be used to generate the view
      */
-    var ActivityViewItem = function(entity) {
+    var ActivityViewItem = function(me, entity) {
         var that = {
             'oae:id': entity['oae:id'],
             'id': entity.id,
@@ -133,14 +134,23 @@ var _expose = function(exports) {
             'visibility': entity['oae:visibility']
         };
 
-        if (entity.image && entity.image.url) {
-            that.thumbnailUrl = entity.image.url;
-        }
-        if (entity['oae:wideImage'] && entity['oae:wideImage'].url) {
-            that.wideImageUrl = entity['oae:wideImage'].url;
-        }
-        if (entity['oae:mimeType']) {
-            that.mime = entity['oae:mimeType'];
+        if (me && me.id === entity['oae:id'] && me.picture) {
+            if (entity['image']) {
+                that['image'] = entity['image'];
+                that['image'].url = me.picture.small || me.picture.medium;
+            } else {
+                that.thumbnailUrl = me.picture.small || me.picture.medium;
+            }
+        } else {
+            if (entity.image && entity.image.url) {
+                that.thumbnailUrl = entity.image.url;
+            }
+            if (entity['oae:wideImage'] && entity['oae:wideImage'].url) {
+                that.wideImageUrl = entity['oae:wideImage'].url;
+            }
+            if (entity['oae:mimeType']) {
+                that.mime = entity['oae:mimeType'];
+            }
         }
 
         return that;
@@ -159,10 +169,11 @@ var _expose = function(exports) {
      *  - comments are processed into an ordered set
      *  - each comment is assigned the level in the comment tree
      *
+     * @param  {User}       me          The currently loggedin user
      * @param  {Activity}   activity    The activity to prepare
      * @api private
      */
-    var _prepareActivity = function(activity) {
+    var _prepareActivity = function(me, activity) {
         // Sort the entity collections based on whether or not they have a thumbnail
         if (activity.actor['oae:collection']) {
             // Reverse the items so the item that was changed last is shown first
@@ -202,10 +213,10 @@ var _expose = function(exports) {
 
             // Prepare each comment
             latestComments.forEach(function(comment) {
-                comment.activityItem = new ActivityViewItem(comment.author);
+                comment.activityItem = new ActivityViewItem(me, comment.author);
             });
             allComments.forEach(function(comment) {
-                comment.activityItem = new ActivityViewItem(comment.author);
+                comment.activityItem = new ActivityViewItem(me, comment.author);
             });
 
             activity.object.objectType = 'comments';
@@ -322,17 +333,18 @@ var _expose = function(exports) {
      * Get the primary view for an activity. This is usually the actor
      * or in case of an aggregated activity, the first in the collection of actors
      *
+     * @param  {User}               me          The currently loggedin user
      * @param  {Activity}           activity    The activity for which to return the primary actor
      * @return {ActivityViewItem}               The object that identifies the primary actor
      * @api private
      */
-    var _generatePrimaryActor = function(activity) {
+    var _generatePrimaryActor = function(me, activity) {
         var actor = activity.actor;
         if (actor['oae:collection']) {
             actor = actor['oae:collection'][0];
         }
 
-        return new ActivityViewItem(actor);
+        return new ActivityViewItem(me, actor);
     };
 
     /**
@@ -369,11 +381,11 @@ var _expose = function(exports) {
 
         var items = [];
         if (previewObj['oae:wideImage']) {
-            items.push(new ActivityViewItem(previewObj));
+            items.push(new ActivityViewItem(null, previewObj));
         } else {
             var previewItems = (previewObj['oae:collection'] || [previewObj]);
             items = previewItems.map(function(previewItem) {
-                return new ActivityViewItem(previewItem);
+                return new ActivityViewItem(null, previewItem);
             });
         }
 
