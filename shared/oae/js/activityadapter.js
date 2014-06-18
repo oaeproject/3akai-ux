@@ -57,13 +57,13 @@ var _expose = function(exports) {
      */
     var _adaptActivity = function(context, me, activity, sanitization) {
         // Move the relevant items (comments, previews, ..) to the top
-        _prepareActivity(activity);
+        _prepareActivity(activity, me);
 
         // Generate an i18nable summary for this activity
         var summary = _generateSummary(me, activity, sanitization);
 
         // Generate the primary actor view
-        var primaryActor = _generatePrimaryActor(activity);
+        var primaryActor = _generatePrimaryActor(activity, me);
 
         // Generate the activity preview items
         var activityItems = _generateActivityItems(context, activity);
@@ -120,8 +120,9 @@ var _expose = function(exports) {
      * A model that holds the necessary data to generate a beautiful tile
      *
      * @param  {ActivityEntity}     entity      The entity that should be used to generate the view
+     * @param  {User}               [me]        The currently loggedin user
      */
-    var ActivityViewItem = function(entity) {
+    var ActivityViewItem = function(entity, me) {
         var that = {
             'oae:id': entity['oae:id'],
             'id': entity.id,
@@ -133,8 +134,7 @@ var _expose = function(exports) {
             'visibility': entity['oae:visibility']
         };
 
-        var me = require('oae.core').data.me;
-        if (me.id === entity['oae:id'] && me.picture) {
+        if (me && me.id === entity['oae:id'] && me.picture) {
             if (entity['image']) {
                 that['image'] = entity['image'];
                 that['image'].url = me.picture.small || me.picture.medium;
@@ -170,9 +170,10 @@ var _expose = function(exports) {
      *  - each comment is assigned the level in the comment tree
      *
      * @param  {Activity}   activity    The activity to prepare
+     * @param  {User}       me          The currently loggedin user
      * @api private
      */
-    var _prepareActivity = function(activity) {
+    var _prepareActivity = function(activity, me) {
         // Sort the entity collections based on whether or not they have a thumbnail
         if (activity.actor['oae:collection']) {
             // Reverse the items so the item that was changed last is shown first
@@ -212,10 +213,10 @@ var _expose = function(exports) {
 
             // Prepare each comment
             latestComments.forEach(function(comment) {
-                comment.activityItem = new ActivityViewItem(comment.author);
+                comment.activityItem = new ActivityViewItem(comment.author, me);
             });
             allComments.forEach(function(comment) {
-                comment.activityItem = new ActivityViewItem(comment.author);
+                comment.activityItem = new ActivityViewItem(comment.author, me);
             });
 
             activity.object.objectType = 'comments';
@@ -333,16 +334,17 @@ var _expose = function(exports) {
      * or in case of an aggregated activity, the first in the collection of actors
      *
      * @param  {Activity}           activity    The activity for which to return the primary actor
+     * @param  {User}               me          The currently loggedin user
      * @return {ActivityViewItem}               The object that identifies the primary actor
      * @api private
      */
-    var _generatePrimaryActor = function(activity) {
+    var _generatePrimaryActor = function(activity, me) {
         var actor = activity.actor;
         if (actor['oae:collection']) {
             actor = actor['oae:collection'][0];
         }
 
-        return new ActivityViewItem(actor);
+        return new ActivityViewItem(actor, me);
     };
 
     /**
