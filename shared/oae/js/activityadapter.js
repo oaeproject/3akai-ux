@@ -123,6 +123,7 @@ var _expose = function(exports) {
      */
     var ActivityViewItem = function(entity) {
         var that = {
+            'oae:id': entity['oae:id'],
             'id': entity.id,
             'displayName': entity.displayName,
             'profilePath': entity['oae:profilePath'],
