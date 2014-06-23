@@ -5,8 +5,12 @@ preserve_hierarchy: true
 
 files:
   -
-    source: '/ui/bundles/default.properties'
-    translation: '/ui/bundles/%locale_with_underscore%.properties'
+    source: '/shared/oae/bundles/email/default.properties'
+    translation: '/shared/oae/bundles/email/%locale_with_underscore%.properties'
+
+  -
+    source: '/shared/oae/bundles/ui/default.properties'
+    translation: '/shared/oae/bundles/ui/%locale_with_underscore%.properties'
 
   -
     source: '/node_modules/oae-*/**/bundles/default.properties'

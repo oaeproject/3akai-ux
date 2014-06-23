@@ -15,7 +15,7 @@ By default 3akai-ux uses the Open Sans font family available from Google's Web F
 
 ## Widget development
 
-Documentation on how to create custom OAE widgets and an overview of the available widgets can be found at the [Widget Library](http://oae-widgets.sakaiproject.org/)
+Documentation (WIP) on how to create custom OAE widgets can be found on the [Widget Wiki](https://github.com/oaeproject/3akai-ux/wiki/Widget-Development-%5BWIP%5D)
 
 ## Functional tests
 
@@ -40,7 +40,7 @@ npm install -d
 The front-end test suite can be run using Grunt:
 
 ```
-grunt test
+grunt test --qunit-host tenant.oae.com
 ```
 
 Note that Hilary and its dependencies should be installed and running on your system before the tests can be run successfully.

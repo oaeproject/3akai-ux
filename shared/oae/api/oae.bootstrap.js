@@ -25,6 +25,7 @@ requirejs.config({
         // Vendor paths
         'bootstrap': 'vendor/js/bootstrap',
         'bootstrap.clickover': 'vendor/js/bootstrap-plugins/bootstrapx.clickover.oae-edited',
+        'bootstrap.datepicker': 'vendor/js/bootstrap-plugins/bootstrap-datepicker',
         'bootstrap.notify': 'vendor/js/bootstrap-plugins/bootstrap.notify.oae-edited',
         'globalize': 'vendor/js/l10n/globalize',
         'jquery.autosize': 'vendor/js/jquery-plugins/jquery.autosize',
@@ -44,7 +45,7 @@ requirejs.config({
         'jquery.spectrum': 'vendor/js/jquery-plugins/jquery.spectrum',
         'jquery.timeago': 'vendor/js/jquery-plugins/jquery.timeago',
         'jquery.validate': 'vendor/js/jquery-plugins/jquery.validate',
-        'jquery-ui': 'vendor/js/jquery-ui/jquery-ui.custom',
+        'jquery-ui': 'vendor/js/jquery-ui/jquery-ui-1.10.4.custom',
         'lazyload': 'vendor/js/lazyload',
         'markdown': 'vendor/js/markdown',
         'qunitjs': 'vendor/js/qunit',
@@ -55,6 +56,7 @@ requirejs.config({
         'underscore': 'vendor/js/underscore',
 
         // OAE paths
+        'activityadapter': 'oae/js/activityadapter',
         'bootstrap.focus': 'oae/js/bootstrap-plugins/bootstrap.focus',
         'bootstrap.modal': 'oae/js/bootstrap-plugins/bootstrap.modal',
         'jquery.browse-focus': 'oae/js/jquery-plugins/jquery.browse-focus',
@@ -62,12 +64,14 @@ requirejs.config({
         'jquery.dnd-upload': 'oae/js/jquery-plugins/jquery.dnd-upload',
         'jquery.infinitescroll': 'oae/js/jquery-plugins/jquery.infinitescroll',
         'jquery.jeditable-focus': 'oae/js/jquery-plugins/jquery.jeditable-focus',
-        'jquery.list-header': 'oae/js/jquery-plugins/jquery.list-header',
+        'jquery.list': 'oae/js/jquery-plugins/jquery.list',
         'jquery.responsive': 'oae/js/jquery-plugins/jquery.responsive',
         'jquery.update-picture': 'oae/js/jquery-plugins/jquery.update-picture',
+        'mimetypes': 'oae/js/mimetypes',
 
         // OAE API modules
         'oae.api': 'oae/api/oae.api',
+        'oae.api.admin': 'oae/api/oae.api.admin',
         'oae.api.authentication': 'oae/api/oae.api.authentication',
         'oae.api.config': 'oae/api/oae.api.config',
         'oae.api.content': 'oae/api/oae.api.content',

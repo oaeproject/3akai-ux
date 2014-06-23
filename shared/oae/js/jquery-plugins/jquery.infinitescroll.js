@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuery, _, oaeUtil, oaeI18n) {
+define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'], function (jQuery, _, oaeUtil, oaeI18n, oaeL10n) {
 (function($) {
 
     /**
@@ -218,9 +218,13 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
                 templateOutput = $.trim($tmp.html());
 
                 if (prepend) {
-                    // Prepend and fade in the results. The `prepend` function cannot be
-                    // used as the entire list would otherwise be faded in
-                    $(templateOutput).hide().prependTo($listContainer).fadeIn('slow');
+                    // Insert the item after the `oae-list-actions` element (if there is one)
+                    var $listActions = $listContainer.find('.oae-list-actions');
+                    if ($listActions.length) {
+                        $(templateOutput).hide().insertAfter($listActions).fadeIn('slow');
+                    } else {
+                        $(templateOutput).hide().prependTo($listContainer).fadeIn('slow');
+                    }
                 } else {
                     // Append the results
                     $listContainer.append(templateOutput);
@@ -254,6 +258,9 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n'], function (jQuer
                         }
                     }
                 }
+
+                // Apply timeago to the `oae-timeago` elements in the output container
+                oaeL10n.timeAgo($listContainer);
             }
         };
 

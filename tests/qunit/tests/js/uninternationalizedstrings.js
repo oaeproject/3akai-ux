@@ -131,7 +131,7 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
 
         // Check main HTML and macros for uninternationalized strings. A set of static files
         // is excluded from these checks
-        var mainHTMLBlacklist = ['/shared/oae/errors/noscript.html', '/shared/oae/errors/maintenance.html', '/shared/oae/errors/unavailable.html'];
+        var mainHTMLBlacklist = ['/shared/oae/errors/noscript.html', '/shared/oae/errors/servermaintenance.html', '/shared/oae/errors/unavailable.html'];
         $.each(testData.mainHTML, function(page, mainHTML) {
             // Ignore blacklisted pages
             if ($.inArray(page, mainHTMLBlacklist) > -1) {

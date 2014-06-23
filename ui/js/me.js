@@ -184,6 +184,15 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     /**
+     * Show the `preferences` widget when the URL search parameter is set to `emailpreferences`
+     */
+    var showPreferences = function() {
+        if ($.url().attr('query') === 'emailpreferences') {
+            $(document).trigger('oae.trigger.preferences');
+        }
+    };
+
+    /**
      * The `oae.context.get` or `oae.context.get.<widgetname>` event can be sent by widgets
      * to get hold of the current context (i.e. current user's profile). In the first case, a
      * `oae.context.send` event will be sent out as a broadcast to all widgets listening
@@ -219,15 +228,16 @@ require(['jquery','oae.core'], function($, oae) {
 
     /**
      * Re-render the me clip when the user profile has been updated. The updated
-     * me object will be passed into the event
+     * user object will be passed into the event
      */
     $(document).on('oae.editprofile.done', function(ev, data) {
-        oae.data.me = data;
+        $.extend(oae.data.me, data);
         setUpClip();
     });
 
 
     setUpClip();
     setUpNavigation();
+    showPreferences();
 
 });
