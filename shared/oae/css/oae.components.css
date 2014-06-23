@@ -162,7 +162,7 @@ i.fa-oae-public:before {
 
 i[class^="fa"].large {
     width: 60px;
-    height: 60px;
+    height: auto;
 }
 
 i[class^="fa"].large:before {
