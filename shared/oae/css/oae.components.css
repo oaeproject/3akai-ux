@@ -135,7 +135,6 @@ i.fa-oae-public:before {
        -moz-border-radius: 500px;
             border-radius: 500px;
     color: #313131;
-    display: inline-block;
     font-size: 15px;
     width: 19px;
     height: 19px;
@@ -166,6 +165,7 @@ i[class^="fa"].large {
 }
 
 i[class^="fa"].large:before {
+    display: inline-block;
     font-size: 50px;
     height: 60px;
     padding-top: 5px;
@@ -251,9 +251,9 @@ i[class^="fa"].large:before {
     z-index: -1; /* Adding a z-index of -1 hides the element from the view but still allows for focus of the element */
 }
 
-.oae-large-options-container label .oae-large-options i.fa-oae-private:before,
-.oae-large-options-container label .oae-large-options i.fa-oae-loggedin:before,
-.oae-large-options-container label .oae-large-options i.fa-oae-public:before {
+.oae-large-options-container label .oae-large-options i.fa:before,
+.oae-large-options-container label .oae-large-options i.fa:before,
+.oae-large-options-container label .oae-large-options i.fa:before {
     margin-top: 6px;
 }
 
