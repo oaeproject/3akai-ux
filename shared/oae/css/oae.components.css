@@ -159,12 +159,12 @@ i.fa-oae-public:before {
 
 /* Large visibility icons */
 
-i[class^="fa"].large {
+i.fa.large {
     width: 60px;
     height: auto;
 }
 
-i[class^="fa"].large:before {
+i.fa.large:before {
     display: inline-block;
     font-size: 50px;
     height: 60px;
@@ -294,17 +294,13 @@ i[class^="fa"].large:before {
 /* These icons are used in situations where checks for success/failure are done */
 
 
-i[class^="fa"].fa-check,
-[class*=" fa-"].fa-check,
-i[class^="fa"].fa-check:hover,
-[class*=" fa-"].fa-check:hover {
+i.fa-check,
+i.fa-check:hover {
     color: #468847;
 }
 
-i[class^="fa"].fa-exclamation-triangle,
-[class*=" fa-"].fa-exclamation-triangle,
-i[class^="fa"].fa-exclamation-triangle:hover,
-[class*=" fa-"].fa-exclamation-triangle:hover {
+i.fa-exclamation-triangle,
+i.fa-exclamation-triangle:hover {
     color: #DD2222;
 }
 
@@ -443,7 +439,7 @@ div.oae-thumbnail.fa-oae-user:before {
 
 /* Visibility icon positioning */
 
-div.oae-thumbnail i[class^="fa"] {
+div.oae-thumbnail i.fa {
     position: absolute;
     bottom: -8px;
     right: -8px;
@@ -875,7 +871,7 @@ div.oae-thumbnail i[class^="fa"] {
     margin-right: -12px;
 }
 
-.oae-lhnavigation > ul.nav > li button div.lhnavigation-caret-container i[class^="fa"] {
+.oae-lhnavigation > ul.nav > li button div.lhnavigation-caret-container i.fa {
     margin-right: 0;
 }
 

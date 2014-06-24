@@ -69,7 +69,7 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     background-repeat: no-repeat;
 }
 
-.btn:not(.btn-link) > i[class^="fa"], .btn:not(.btn-link) > [class*=" fa-"] {
+.btn:not(.btn-link) > i.fa {
     line-height: 1;
 }
 
@@ -93,7 +93,7 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     padding: 0 15px;
 }
 
-.nav-list i[class^="fa"], .nav-list [class*=" fa-"] {
+.nav-list i.fa {
     display: inline-block;
     font-size: 1.5em;
     margin-right: 10px;
@@ -131,11 +131,11 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 
 /* ICONS */
 
-i[class^="fa"], [class*=" fa-"] {
+i.fa {
     font-size: 22px;
 }
 
-.hidei[class^="fa"], .hide[class*=" fa-"] {
+.hide.fa {
     display: none;
 }
 
