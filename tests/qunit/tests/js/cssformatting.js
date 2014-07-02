@@ -32,6 +32,7 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
         var count = 0;
 
         if (regex.test(testFile)) {
+            regex.lastIndex = 0; // Reset search start position which was moved by regex.test()
             while ((match = regex.exec(cssFile)) !== null) {
                 var beforeMatch = cssFile.substring(0, match.index);
                 var matchLine = beforeMatch.split(/\n/).length;
