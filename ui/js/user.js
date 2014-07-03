@@ -188,15 +188,17 @@ require(['jquery', 'oae.core'], function($, oae) {
                 oae.api.util.notification(
                     oae.api.i18n.translate('__MSG__FOLLOWING_SUCCEEDED__'),
                     oae.api.i18n.translate('__MSG__FOLLOWING_YOU_ARE_NOW_FOLLOWING__', null, {
-                        'displayName': userProfile.displayName
+                        'displayName': oae.api.util.security().encodeForHTML(userProfile.displayName)
                     })
                 );
+                userProfile.following.isFollowing = true;
+                setUpClip();
             } else {
                 // Show an error notification
                 oae.api.util.notification(
                     oae.api.i18n.translate('__MSG__FOLLOWING_FAILED__'),
                     oae.api.i18n.translate('__MSG__FOLLOWING_COULD_NOT_FOLLOW__', null, {
-                        'displayName': userProfile.displayName
+                        'displayName': oae.api.util.security().encodeForHTML(userProfile.displayName)
                     }),
                     'error'
                 );
@@ -217,6 +219,8 @@ require(['jquery', 'oae.core'], function($, oae) {
                         'userName': userProfile.displayName
                     })
                 );
+                userProfile.following.isFollowing = false;
+                setUpClip();
             } else {
                 // Show an error notification
                 oae.api.util.notification(
