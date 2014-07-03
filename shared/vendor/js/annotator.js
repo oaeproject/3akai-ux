@@ -1,4 +1,3 @@
-
 /*
 ** Annotator v1.2.9
 ** https://github.com/okfn/annotator/
