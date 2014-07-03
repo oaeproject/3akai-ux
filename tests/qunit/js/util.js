@@ -20,12 +20,12 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
     QUnit.config.autostart = false;
 
     /**
-     * Filter all vendor scripts so they can be excluded from testing
+     * Filter all vendor files so they can be excluded from testing
      *
-     * @param  {String[]}    paths    Array of paths to JavaScript files
-     * @return {String[]}             List of JavaScript files from which the vendor scripts have been filtered
+     * @param  {String[]}    paths    Array of file paths to check for exclusion
+     * @return {String[]}             List of files from which the vendor files have been filtered
      */
-    var filterVendorScripts = function(paths) {
+    var filterVendorFiles = function(paths) {
         return _.filter(paths, function(path) {
             return (path && path.indexOf('/shared/vendor') !== 0);
         });
@@ -41,14 +41,16 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
     var loadWidgetJS = exports.loadWidgetJS = function(testData, callback) {
         var paths = {};
 
-        $.each(testData.widgetData, function(widgetIndex, widget) {
+        $.each(testData.widgetData, function(widgetName, widget) {
+            testData.widgetData[widgetName].js = {};
+
             var $html = $('<div/>').html(widget.html);
             var $scripts = $html.find('script');
             $.each($scripts, function(scriptIndex, script) {
                 var jsPath = $(script).attr('src');
                 // Only look at the widget JS files, not at libraries
                 if (jsPath.indexOf('js') === 0) {
-                    paths['/node_modules/' + widget.path + jsPath] = widget.id;
+                    paths['/node_modules/' + widget.path + jsPath] = widgetName;
                 }
             });
         });
@@ -57,10 +59,10 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
             $.each(data, function(widgetJSPath, widgetJS) {
                 // Get the ID of the widget from the path dictionary
                 var widgetName = paths[widgetJSPath];
-                // Add the widget JS into the object
-                testData.widgetData[widgetName].js = testData.widgetData[widgetName].js || {};
+                // Add the widget JS to the widget's JS object
                 testData.widgetData[widgetName].js[widgetJSPath] = widgetJS;
             });
+
             callback(testData);
         });
     };
@@ -84,7 +86,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
             });
         });
 
-        paths = filterVendorScripts(paths);
+        paths = filterVendorFiles(paths);
 
         oae.api.util.staticBatch($.unique(paths), function(err, data) {
             $.each(data, function(jsIndex, js) {
@@ -147,14 +149,16 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
         // Parse the HTML files and extract the CSS files
         var paths = {};
 
-        $.each(testData.widgetData, function(widgetIndex, widget) {
+        $.each(testData.widgetData, function(widgetName, widget) {
+            testData.widgetData[widgetName].css = {};
+
             var $html = $('<div/>').html(widget.html);
             var $links = $html.find('link');
             $.each($links, function(linkIndex, link) {
                 var cssPath = $(link).attr('href');
                 // Only look at the widget CSS files, not at libraries
                 if (cssPath.indexOf('css') === 0) {
-                    paths['/node_modules/' + widget.path + cssPath] = widget.id;
+                    paths['/node_modules/' + widget.path + cssPath] = widgetName;
                 }
             });
         });
@@ -163,8 +167,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
             $.each(data, function(cssIndex, css) {
                 // Get the ID of the widget by looking at the directory the files are stored in
                 var widgetName = paths[cssIndex];
-                // Add the widget CSS into the Object
-                testData.widgetData[widgetName].css = testData.widgetData[widgetName].css || {};
+                // Add the widget CSS to the widget's CSS object
                 testData.widgetData[widgetName].css[cssIndex] = css;
             });
             callback(testData);
@@ -188,6 +191,8 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 paths.push($(link).attr('href'));
             });
         });
+
+        paths = filterVendorFiles(paths);
 
         oae.api.util.staticBatch($.unique(paths), function(err, data) {
             $.each(data, function(cssIndex, css) {
@@ -313,24 +318,30 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
         var testData = {
             'widgetData': oae.api.widget.getWidgetManifests(),
             'mainBundles': {
-                '/ui/bundles/ca_ES.properties': null,
-                '/ui/bundles/de_DE.properties': null,
-                '/ui/bundles/default.properties': null,
-                '/ui/bundles/es_ES.properties': null,
-                '/ui/bundles/fr_FR.properties': null,
-                '/ui/bundles/hi_IN.properties': null,
-                '/ui/bundles/it_IT.properties': null,
-                '/ui/bundles/nl_NL.properties': null,
-                '/ui/bundles/pl_PL.properties': null,
-                '/ui/bundles/ru_RU.properties': null,
-                '/ui/bundles/val_ES.properties': null,
-                '/ui/bundles/zh_CN.properties': null
+                '/shared/oae/bundles/ui/af_ZA.properties': null,
+                '/shared/oae/bundles/ui/ca_ES.properties': null,
+                '/shared/oae/bundles/ui/de_DE.properties': null,
+                '/shared/oae/bundles/ui/default.properties': null,
+                '/shared/oae/bundles/ui/es_ES.properties': null,
+                '/shared/oae/bundles/ui/fr_FR.properties': null,
+                '/shared/oae/bundles/ui/hi_IN.properties': null,
+                '/shared/oae/bundles/ui/it_IT.properties': null,
+                '/shared/oae/bundles/ui/nl_NL.properties': null,
+                '/shared/oae/bundles/ui/pl_PL.properties': null,
+                '/shared/oae/bundles/ui/pt_BR.properties': null,
+                '/shared/oae/bundles/ui/pt_PT.properties': null,
+                '/shared/oae/bundles/ui/ru_RU.properties': null,
+                '/shared/oae/bundles/ui/sv_SE.properties': null,
+                '/shared/oae/bundles/ui/tr_TR.properties': null,
+                '/shared/oae/bundles/ui/val_ES.properties': null,
+                '/shared/oae/bundles/ui/zh_CN.properties': null
             },
             'mainHTML': {
+                '/admin/index.html': null,
                 '/shared/oae/errors/accessdenied.html': null,
-                '/shared/oae/errors/maintenance.html': null,
                 '/shared/oae/errors/noscript.html': null,
                 '/shared/oae/errors/notfound.html': null,
+                '/shared/oae/errors/servermaintenance.html': null,
                 '/shared/oae/errors/unavailable.html': null,
                 '/shared/oae/macros/activity.html': null,
                 '/shared/oae/macros/autosuggest.html': null,
@@ -362,13 +373,18 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 '/shared/oae/api/oae.core.js': null,
             },
             'oaePlugins': {
+                '/shared/oae/js/activityadapter.js': null,
+                '/shared/oae/js/bootstrap-plugins/bootstrap.focus.js': null,
                 '/shared/oae/js/bootstrap-plugins/bootstrap.modal.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.browse-focus.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.clip.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.dnd-upload.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.infinitescroll.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.jeditable-focus.js': null,
-                '/shared/oae/js/jquery-plugins/jquery.list-header.js': null,
+                '/shared/oae/js/jquery-plugins/jquery.list.js': null,
+                '/shared/oae/js/jquery-plugins/jquery.responsive.js': null,
+                '/shared/oae/js/jquery-plugins/jquery.update-picture.js': null,
+                '/shared/oae/js/mimetypes.js': null
             },
             'mainJS': {},
             'mainCSS': {
