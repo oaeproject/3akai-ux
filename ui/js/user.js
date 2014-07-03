@@ -191,6 +191,8 @@ require(['jquery', 'oae.core'], function($, oae) {
                         'displayName': oae.api.util.security().encodeForHTML(userProfile.displayName)
                     })
                 );
+                userProfile.following.isFollowing = true;
+                setUpClip();
             } else {
                 // Show an error notification
                 oae.api.util.notification(
@@ -217,6 +219,8 @@ require(['jquery', 'oae.core'], function($, oae) {
                         'userName': userProfile.displayName
                     })
                 );
+                userProfile.following.isFollowing = false;
+                setUpClip();
             } else {
                 // Show an error notification
                 oae.api.util.notification(
