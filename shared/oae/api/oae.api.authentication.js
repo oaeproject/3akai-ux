@@ -147,28 +147,6 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
     };
 
     /**
-     * Log out the currently signed in user
-     *
-     * @param  {Function}       [callback]            Standard callback method
-     * @param  {Object}         [callback.err]        Error object containing error code and error message
-     */
-    var logout = exports.logout = function(callback) {
-        // Set a default callback function in case no callback function has been provided
-        callback = callback || function() {};
-
-        $.ajax({
-            'url': '/api/auth/logout',
-            'type': 'POST',
-            'success': function() {
-                callback(null);
-            },
-            'error': function(jqXHR, textStatus) {
-                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
-            }
-        });
-    };
-
-    /**
      * Change the password of the currently logged in user
      *
      * @param  {String}         currentPassword       The user's current password

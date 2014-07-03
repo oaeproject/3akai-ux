@@ -2,6 +2,7 @@
 .project
 .idea
 *.kpf
+*.log
 *.swp
 
 Thumbs.db

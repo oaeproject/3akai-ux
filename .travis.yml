@@ -12,47 +12,77 @@ env:
     - secure: DHt20YWVkb6wOdVcsBJ/zW2IyZVdVLBCiMlAhqdIREkZ5IpV5v9BV4/RzykiOQilDBPhqZp1Dd5XGDaNXqXNvnibO+3NxvY3VQX0o/uFs2Ig1AGzf1iKf3GyfObLtN5r8I58todT3jjO1vNwHQM3xHWwFa9qAeOclM/tyKdkJks=
 
 before_install:
-  # Turn off unneeded services to free some memory
-  - sudo service mysql stop
-  - sudo service memcached stop
-  - sudo service postgresql stop
-
-  # Add any apt repos we might need
-  - echo "deb http://debian.datastax.com/community stable main" | sudo tee -a /etc/apt/sources.list.d/dsc.sources.list
+  # Add DataStax apt repo for Cassandra
   - curl -L http://debian.datastax.com/debian/repo_key | sudo apt-key add -
-  - sudo add-apt-repository -y ppa:oae/deps
+  - echo "deb http://debian.datastax.com/community stable main" | sudo tee -a /etc/apt/sources.list.d/dsc.sources.list
+
+  # Add PPA repos for miscellaneous dependencies
+  - echo 'yes' | sudo add-apt-repository ppa:oae/deps
+  - echo 'yes' | sudo add-apt-repository ppa:coolwanglu/pdf2htmlex
   - sudo apt-get update
 
-  # Hilary dependencies
-  - sudo apt-get install -qq graphicsmagick
-  - sudo apt-get install -y -o Dpkg::Options::=--force-confnew cassandra=1.2.16 dsc12
+  # Install cassandra 1.2 manually
+  - sudo apt-get install -y -o Dpkg::Options::=--force-confnew cassandra=1.2.16
   - sudo sed -i 's/-Xss180k/-Xss256k/g' /etc/cassandra/cassandra-env.sh
   - sudo sh -c "echo 'JVM_OPTS=\"\${JVM_OPTS} -Djava.net.preferIPv4Stack=false\"' >> /etc/cassandra/cassandra-env.sh"
   - sudo service cassandra stop
   - sudo service cassandra start
   - sudo service cassandra status
+
+  # Install nginx
   - sudo apt-get install nginx
+
+  # Turn off unneeded services to free some memory
+  - sudo service mysql stop
+  - sudo service memcached stop
+  - sudo service postgresql stop
+
+  # Install Hilary deps
+  - sudo apt-get install -qq graphicsmagick libreoffice pdftk chrpath pdf2htmlex
   - npm install -g grunt-cli
 
-  # Install etherpad-lite
-  - cd ..
-  - wget https://s3-eu-west-1.amazonaws.com/oae-testing/travisci/etherpad-lite.tar.gz
-  - tar -xzf etherpad-lite.tar.gz
-  - cd etherpad-lite
-  - node src/node/server.js &
-  - cd ..
-
   # 3akai-ux dependencies
+  # TODO: remove manual phantomjs install once grunt-casperjs comes with a supported version of it
   - wget https://phantomjs.googlecode.com/files/phantomjs-1.9.2-linux-i686.tar.bz2
   - tar xjf phantomjs-1.9.2-linux-i686.tar.bz2
   - sudo ln -fs pwd/phantomjs-1.9.2-linux-i686/bin/phantomjs /usr/local/bin/phantomjs
-  - git clone git://github.com/n1k0/casperjs.git
+  - git clone git://github.com/n1k0/casperjs.git ./casperjs
   - cd casperjs
-  - git checkout 1.0.3
+  - git checkout 1.1-beta3
   - sudo ln -sf `pwd`/bin/casperjs /usr/local/bin/casperjs
 
-  # Configure 3akai-ux / nginx
-  - cd ../3akai-ux
+  # Show the CasperJS and PhantomJS version for debugging purposes
+  - casperjs --version
+  - phantomjs --version
+
+  # Install etherpad-lite
+  - sudo apt-get install etherpad-lite
+  - cd /opt/etherpad
+  - sudo touch APIKEY.txt
+  - sudo chmod -R 777 .
+
+  # Create a keyspace that we can start etherpad up into. There is a chicken-and-egg problem by having unit tests drop/create and have
+  # etherpad be available, so we just create a separate keyspace for it
+  - "echo \"CREATE KEYSPACE etherpad WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};\" > /tmp/.create_etherpad_keyspace.cql3"
+  - cqlsh -3 -f /tmp/.create_etherpad_keyspace.cql3
+
+  # Configure etherpad to talk to Cassandra
+  - "sed -i 's/dbType\" : \"dirty/dbType\" : \"cassandra/g' settings.json"
+  - "sed -i 's/\"filename\" : \"var\\/dirty.db\"/\"hosts\": [ \"localhost:9160\" ], \"keyspace\": \"etherpad\", \"cfName\": \"Etherpad\", \"user\": \"\", \"pass\": \"\", \"timeout\": 3000, \"replication\": \"1\", \"strategyClass\": \"SimpleStrategy\", \"cqlVersion\": \"2.0.0\"/g' settings.json"
+  - "sed -i 's/defaultPadText\" : \".*\"/defaultPadText\" : \"\"/g' settings.json"
+
+  - echo "13SirapH8t3kxUh5T5aqWXhXahMzoZRA" > APIKEY.txt
+  - node src/node/server.js &> /dev/null &
+
+  # Install Hilary
+  - cd ~/build/oaeproject
+  - git clone --depth 1 --branch master git://github.com/oaeproject/Hilary.git ./Hilary
+  - cd ./Hilary
+  - npm install --production
+  - node app.js | node_modules/.bin/bunyan -l error &
+
+  # Configure 3akai-ux/nginx
+  - cd ~/build/oaeproject/3akai-ux
   - npm install
   - "echo '{\"NGINX_USER\": \"root\",\"NGINX_GROUP\": \"root\",\"NGINX_HOSTNAME\": \"admin.oae.com\",\"UX_HOME\": \"/home/travis/build/oaeproject/3akai-ux\",\"LOCAL_FILE_STORAGE_DIRECTORY\": \"/home/travis/build/oaeproject/files\"}' > nginx/nginx.json"
   - grunt configNginx
@@ -60,24 +90,12 @@ before_install:
   - sudo mkdir /usr/share/nginx/logs
   - sudo service nginx start
 
-  # Install Hilary and create our test tenant
-  - git clone  --branch master --depth=1 git://github.com/oaeproject/Hilary.git ../Hilary
-  - cd ../Hilary
-  - npm install --production
-  - node app.js &
-
-  # Wait for Hilary to have started up
-  - cd ../3akai-ux
+  # Wait for Hilary to have started up to start the tests in "script" phase
   - ./tools/travis/checkHilaryStart.sh
-
-  # Create a test tenant
-  - ADMIN_COOKIE=$(curl -s --cookie-jar - -d"username=administrator" -d"password=administrator"  -e "/" http://admin.oae.com/api/auth/login | grep connect.sess | cut -f 7)
-  - curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d"alias=cam" -d"displayName=Cambridge" -d"host=cam.oae.com" http://admin.oae.com/api/tenant/create
-  - curl --cookie connect.sess=${ADMIN_COOKIE} -e "/" -d"oae-principals/recaptcha/enabled=false" http://admin.oae.com/api/config
 
 addons:
   hosts:
-    - cam.oae.com
+    - test.oae.com
     - admin.oae.com
 
 services:
@@ -86,10 +104,17 @@ services:
   - redis-server
 
 script:
-  - grunt test --qunit-host cam.oae.com
+  - grunt test --qunit-host test.oae.com
 
 after_success:
+  # Package and upload to Amazon S3
   - etc/scripts/travis-upload.sh
+
+after_failure:
+  # Compress the logs and upload them to Amazon S3
+  - cd ../Hilary
+  - gzip tests.log
+  - bin/upload_logs
 
 notifications:
   email:

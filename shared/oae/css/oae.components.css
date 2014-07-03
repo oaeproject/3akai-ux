@@ -899,7 +899,7 @@ div.oae-thumbnail i[class^="icon-"] {
     margin-left: 225px;
     min-height: 500px;
     min-width: 275px;
-    padding: 5px 25px 5px 0;
+    padding: 5px 25px 25px 0;
     position: relative;
     z-index: 2;
 }

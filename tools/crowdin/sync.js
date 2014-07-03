@@ -54,7 +54,7 @@ var downloadCrowdinLibrary = function(callback) {
     } else {
         // Download the JAR file
         console.log('Downloading crowdin JAR file');
-        shelljs.exec(util.format('curl http://crowdin.net/downloads/crowdin-cli.jar > %s/crowdin-cli.jar', crowdinDir), {}, callback);
+        shelljs.exec(util.format('curl https://crowdin.net/downloads/crowdin-cli.jar > %s/crowdin-cli.jar', crowdinDir), {}, callback);
     }
 };
 
