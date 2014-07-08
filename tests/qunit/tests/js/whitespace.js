@@ -19,6 +19,9 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
 
     /**
      * Test a language bundle for erroneous whitespace in the translation keys
+     *
+     * @param  {String}    bundlePath           The path to the i18n bundle
+     * @param  {Object}    bundle               The keys and translations in the i18n bundle
      */
     var checkWhitespace = function(bundlePath, bundle) {
         $.each(bundle, function(i18nKey, i18nValue) {
