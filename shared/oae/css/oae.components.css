@@ -135,9 +135,11 @@ i.fa-oae-public:before {
        -moz-border-radius: 500px;
             border-radius: 500px;
     color: #313131;
+    display: inline-block;
     font-size: 15px;
     width: 19px;
     height: 19px;
+    padding-left: 1px;
     padding-top: 2px;
     text-align: center;
 }
