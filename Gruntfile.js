@@ -526,7 +526,7 @@ module.exports = function(grunt) {
         path = path || grunt.option('path');
 
         if (!path) {
-            return grunt.fail.fatal('Please provide a path to a CasperJS test file. e.g. `grunt test-file --path node_modules/oae-core/accountpreferences/tests/accountpreferences.js`');
+            return grunt.fail.fatal('Please provide a path to a CasperJS test file. e.g. `grunt test-file --path node_modules/oae-core/preferences/tests/preferences.js`');
         }
 
         grunt.task.run('exec:runCasperTest:' + path);
