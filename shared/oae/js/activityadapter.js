@@ -98,6 +98,10 @@ var _expose = function(exports) {
             that.allComments = activity.object['oae:collection'];
             that.latestComments = activity.object.latestComments;
         }
+        if ((activity['oae:activityType'] === 'annotation-create' || activity['oae:activityType'] === 'annotation-update')) {
+            that.allAnnotations = activity.object['oae:collection'];
+            that.latestAnnotations = activity.object.latestAnnotations;
+        }
 
         return that;
     };
@@ -209,6 +213,31 @@ var _expose = function(exports) {
             activity.object.objectType = 'comments';
             activity.object['oae:collection'] = allComments;
             activity.object.latestComments = latestComments;
+        }
+
+        // We process the annotations into an ordered set
+        if (activity['oae:activityType'] === 'annotation-create' || activity['oae:activityType'] === 'annotation-update') {
+            var annotations = activity.object['oae:collection'];
+            if (!annotations) {
+                annotations = [activity.object];
+            }
+
+            // Sort the annotations so the newest ones come first
+            annotations.sort(function(annotationA, annotationB) {
+                var createdA = new Date(annotationA.published);
+                var createdB = new Date(annotationB.published);
+                return createdB - createdA;
+            });
+
+            // Prepare each annotation
+            annotations.forEach(function(annotation) {
+                annotation.activityItem = new ActivityViewItem(me, annotation.author);
+                annotation.text = annotation['oae:annotationText'];
+                annotation.quote = annotation['oae:annotationQuote'];
+            });
+            activity.object['oae:collection'] = annotations;
+            activity.object.latestAnnotations = annotations.slice().splice(0, 4);
+
         }
     };
 
@@ -565,7 +594,11 @@ var _expose = function(exports) {
         // Depending on the activity type, we render a different template that is specific to that activity,
         // to make sure that the summary is as accurate and descriptive as possible
         var activityType = activity['oae:activityType'];
-        if (activityType === 'content-add-to-library') {
+        if (activityType === 'annotation-create') {
+            return _generateAnnotationCreateSummary(me, activity, properties);
+        } else if (activityType === 'annotation-update') {
+            return _generateAnnotationUpdateSummary(me, activity, properties);
+        } else if (activityType === 'content-add-to-library') {
             return _generateContentAddToLibrarySummary(me, activity, properties);
         } else if (activityType === 'content-comment') {
             return _generateContentCommentSummary(me, activity, properties);
@@ -653,6 +686,50 @@ var _expose = function(exports) {
             i18nKey = '__MSG__ACTIVITY_DEFAULT_2+__';
         }
 
+        return new ActivityViewSummary(i18nKey, properties);
+    };
+
+    /**
+     * Render the end-user friendly, internationalized summary of a create annotation activity.
+     *
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the create annotation activity, for which to generate the activity summary
+     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                  A sumary object
+     * @api private
+     */
+    var _generateAnnotationCreateSummary = function(me, activity, properties) {
+        var i18nKey = null;
+        properties.annotation1Text = activity.object['oae:annotationText'];
+        properties.annotation1Quote = activity.object['oae:annotationQuote'];
+        if (properties.actorCount === 1) {
+            i18nKey = '__MSG__ACTIVITY_ANNOTATION_CREATE_1__'
+        } else if (properties.actorCount === 2) {
+            i18nKey = '__MSG__ACTIVITY_ANNOTATION_CREATE_2__';
+        } else {
+            i18nKey = '__MSG__ACTIVITY_ANNOTATION_CREATE_2+__';
+        }
+        return new ActivityViewSummary(i18nKey, properties);
+    };
+
+    /**
+     * Render the end-user friendly, internationalized summary of an update annotation activity.
+     *
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the update annotation activity, for which to generate the activity summary
+     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                  A sumary object
+     * @api private
+     */
+    var _generateAnnotationUpdateSummary = function(me, activity, properties) {
+        var i18nKey = null;
+        properties.annotation1Text = activity.object['oae:annotationText'];
+        properties.annotation1Quote = activity.object['oae:annotationQuote'];
+        if (properties.actorCount === 1) {
+            i18nKey = '__MSG__ACTIVITY_ANNOTATION_UPDATE_1__'
+        } else if (properties.actorCount === 2) {
+            i18nKey = '__MSG__ACTIVITY_ANNOTATION_UPDATE_2__';
+        } else {
+            i18nKey = '__MSG__ACTIVITY_ANNOTATION_UPDATE_2+__';
+        }
         return new ActivityViewSummary(i18nKey, properties);
     };
 
