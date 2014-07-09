@@ -1,2 +1,7 @@
 User-agent: *
 Disallow: /shared/oae/errors/
+Disallow: /accessdenied
+Disallow: /servermaintenance
+Disallow: /noscript
+Disallow: /notfound
+Disallow: /unavailable
