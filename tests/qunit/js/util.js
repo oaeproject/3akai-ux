@@ -38,7 +38,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
      * @param  {Function}    callback               Standard callback function
      * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
      */
-    var loadWidgetJS = exports.loadWidgetJS = function(testData, callback) {
+    var loadWidgetJS = function(testData, callback) {
         var paths = {};
 
         $.each(testData.widgetData, function(widgetName, widget) {
@@ -103,7 +103,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
      * @param  {Function}    callback               Standard callback function
      * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
      */
-    var loadAPIJS = exports.loadAPIJS = function(testData, callback) {
+    var loadAPIJS = function(testData, callback) {
         var paths = [];
         $.each(testData.apiJS, function(jsIndex) {
             paths.push(jsIndex);
@@ -124,7 +124,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
      * @param  {Function}    callback               Standard callback function
      * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
      */
-    var loadOAEPlugins = exports.loadOAEPlugins = function(testData, callback) {
+    var loadOAEPlugins = function(testData, callback) {
         var paths = [];
         $.each(testData.oaePlugins, function(pluginIndex) {
             paths.push(pluginIndex);
@@ -145,7 +145,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
      * @param  {Function}    callback               Standard callback function
      * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
      */
-    var loadWidgetCSS = exports.loadWidgetCSS = function(testData, callback) {
+    var loadWidgetCSS = function(testData, callback) {
         // Parse the HTML files and extract the CSS files
         var paths = {};
 
@@ -181,7 +181,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
      * @param  {Function}    callback               Standard callback function
      * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
      */
-    var loadMainCSS = exports.loadMainCSS = function(testData, callback) {
+    var loadMainCSS = function(testData, callback) {
         var paths = _.keys(testData.mainCSS);
 
         $.each(testData.mainHTML, function(htmlPath, mainHTML) {
@@ -209,7 +209,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
      * @param  {Function}    callback               Standard callback function
      * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
      */
-    var loadWidgetHTML = exports.loadWidgetHTML = function(testData, callback) {
+    var loadWidgetHTML = function(testData, callback) {
         var paths = {};
 
         $.each(testData.widgetData, function(widgetIndex, widget) {
@@ -232,7 +232,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
      * @param  {Function}    callback               Standard callback function
      * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
      */
-    var loadMainHTML = exports.loadMainHTML = function(testData, callback) {
+    var loadMainHTML = function(testData, callback) {
         var paths = _.keys(testData.mainHTML);
 
         oae.api.util.staticBatch(paths, function(err, data) {
@@ -250,7 +250,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
      * @param  {Function}    callback               Standard callback function
      * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
      */
-    var loadWidgetBundles = exports.loadWidgetBundles = function(testData, callback) {
+    var loadWidgetBundles = function(testData, callback) {
 
         var paths = [];
         $.each(testData.widgetData, function(widgetIndex, widget) {
@@ -300,7 +300,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
      * @param  {Function}    callback               Standard callback function
      * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
      */
-    var loadMainBundles = exports.loadMainBundles = function(testData, callback) {
+    var loadMainBundles = function(testData, callback) {
         var paths = _.keys(testData.mainBundles);
 
         oae.api.util.staticBatch(paths, function(err, data) {
@@ -312,11 +312,36 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
     };
 
     /**
+     * Load the email bundles through a batch request
+     *
+     * @param  {Object}      testData               The test data containing all files to be tested (html, css, js, properties)
+     * @param  {Function}    callback               Standard callback function
+     * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
+     */
+    var loadEmailBundles = function(testData, callback) {
+        var paths = _.keys(testData.emailBundles);
+
+        oae.api.util.staticBatch(paths, function(err, data) {
+            $.each(data, function(bundleIndex, bundle) {
+                testData.emailBundles[bundleIndex] = $.parseProperties(bundle);
+            });
+            callback(testData);
+        });
+    };
+
+    /**
      * Load the HTML, bundles, JavaScript and CSS for all core code and all widgets
      */
     var loadTestData = exports.loadTestData = function(callback) {
         var testData = {
             'widgetData': oae.api.widget.getWidgetManifests(),
+            'emailBundles': {
+                '/shared/oae/bundles/email/de_DE.properties': null,
+                '/shared/oae/bundles/email/default.properties': null,
+                '/shared/oae/bundles/email/es_ES.properties': null,
+                '/shared/oae/bundles/email/fr_FR.properties': null,
+                '/shared/oae/bundles/email/nl_NL.properties': null
+            },
             'mainBundles': {
                 '/shared/oae/bundles/ui/af_ZA.properties': null,
                 '/shared/oae/bundles/ui/ca_ES.properties': null,
@@ -400,14 +425,17 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
             loadWidgetHTML(testData, function(testData) {
                 loadWidgetCSS(testData, function(testData) {
                     loadWidgetJS(testData, function(testData) {
-                        // Load main test data
-                        loadMainBundles(testData, function(testData) {
-                            loadMainHTML(testData, function(testData) {
-                                loadMainCSS(testData, function(testData) {
-                                    loadMainJS(testData, function(testData) {
-                                        loadAPIJS(testData, function(testData) {
-                                            loadOAEPlugins(testData, function(testData) {
-                                                callback(testData);
+                        // Load email bundles
+                        loadEmailBundles(testData, function(testData) {
+                            // Load main test data
+                            loadMainBundles(testData, function(testData) {
+                                loadMainHTML(testData, function(testData) {
+                                    loadMainCSS(testData, function(testData) {
+                                        loadMainJS(testData, function(testData) {
+                                            loadAPIJS(testData, function(testData) {
+                                                loadOAEPlugins(testData, function(testData) {
+                                                    callback(testData);
+                                                });
                                             });
                                         });
                                     });

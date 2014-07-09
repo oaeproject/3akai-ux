@@ -48,6 +48,13 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
             });
         });
 
+        // Test the email bundles for erroneous whitespace
+        $.each(testData.emailBundles, function(emailBundlePath, emailBundle) {
+            test(emailBundlePath, function() {
+                checkWhitespace(emailBundlePath, emailBundle);
+            });
+        });
+
         // Test the widget bundles for erroneous whitespace
         $.each(testData.widgetData, function(widgetId, widget) {
             if (widget.i18n) {
