@@ -278,6 +278,11 @@ module.exports = function(grunt) {
 
                     return 'casperjs test --includes=' + includes + ' --pre=' + pre + ' ' + path;
                 }
+            },
+            'startDependencies': {
+                cmd: function() {
+                    return 'node tests/casperjs/startDependencies.js';
+                }
             }
         }
     });
@@ -518,8 +523,13 @@ module.exports = function(grunt) {
         grunt.task.run('contrib-qunit');
     });
 
+    // Task to run an individual CasperJS test
+    grunt.registerTask('startDependencies', function(path) {
+        grunt.task.run('exec:startDependencies');
+    });
+
     // Task to run the CasperJS and QUnit tests
-    grunt.registerTask('test', ['ghost', 'qunit']);
+    grunt.registerTask('test', ['startDependencies']);
 
     // Task to run an individual CasperJS test
     grunt.registerTask('test-file', function(path) {
@@ -531,7 +541,6 @@ module.exports = function(grunt) {
 
         grunt.task.run('exec:runCasperTest:' + path);
     });
-
 
     // Default task for production build
     grunt.registerTask('default', ['clean', 'copy', 'git-describe', 'requirejs', 'touchBootstrap', 'hashFiles', 'writeVersion', 'configNginx']);
