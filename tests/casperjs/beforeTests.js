@@ -36,33 +36,6 @@ module.exports = function(callback) {
     var config = require(hilaryRoot + 'config').config;
     var log = require(hilaryModules + 'oae-logger').logger('before-tests');
 
-    // The Cassandra connection config that should be used for unit tests, using
-    // a custom keyspace for just the tests
-    config.cassandra.keyspace = 'oaeTest';
-
-    // We'll stick all our redis data in a separate DB index.
-    config.redis.dbIndex = 1;
-
-    // log everything (except mocha output) to tests.log
-    config.log.streams = [{
-        'level': 'trace',
-        'path': './tests.log'
-    }];
-
-    // Unit test will purge the rabbit mq queues when they're connected
-    config.mq.purgeQueuesOnStartup = true;
-
-    // In order to speed up some of the tests and to avoid mocha timeouts, we reduce the default time outs
-    config.previews.enabled = false;
-
-    config.search.index.name = 'oaetest';
-    config.search.index.settings.number_of_shards = 1;
-    config.search.index.settings.number_of_replicas = 0;
-    config.search.index.settings.store = {'type': 'memory'};
-    config.search.index.destroyOnStartup = true;
-
-    config.servers.globalAdminHost = 'localhost:2000';
-
     /**
      * Create 2 default tenants that can be used for testing our REST endpoints.
      *
@@ -97,7 +70,14 @@ module.exports = function(callback) {
         });
     };
 
-    TestsUtil.setUpBeforeTests(true, function() {
+    // Create the configuration for the test
+    config = TestsUtil.createInitialTestConfig(config);
+
+    // Re-enable the poller so it only collects automatically
+    config.activity.collectionPollingFrequency = 1;
+    config.activity.numberOfProcessingBuckets = 3;
+
+    TestsUtil.setUpBeforeTests(config, true, function() {
         // Set up a couple of test tenants.
         setUpTenants(function(err) {
             if (err) {
