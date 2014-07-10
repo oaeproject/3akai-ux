@@ -13,12 +13,16 @@
  * permissions and limitations under the License.
  */
 
-var Redis = require('../../../Hilary/node_modules/oae-util/lib/redis');
-var MQ = require('../../../Hilary/node_modules/oae-util/lib/mq');
+var hilaryModules = __dirname + '/../../../Hilary/node_modules/';
+
+var MQ = require(hilaryModules + 'oae-util/lib/mq');
+var Redis = require(hilaryModules + 'oae-util/lib/redis');
+var TestsUtil = require(hilaryModules + 'oae-tests/lib/util');
+
 
 var childProcess = require('child_process');
 
-require('../../../Hilary/node_modules/oae-tests/runner/beforeUITests.js')(function() {
+require('./beforeTests.js')(function() {
     // Start the CasperJS tests
     var testRunner = childProcess.spawn(__dirname + '/runTests.sh', [], {
         'detached': true
@@ -36,19 +40,8 @@ require('../../../Hilary/node_modules/oae-tests/runner/beforeUITests.js')(functi
 
     // Pass on the exit code after the tests finish and stop the child process
     testRunner.on('exit', function(exitCode) {
-        Redis.flush(function(err) {
-            if (err) {
-                process.stdout.write('Error flushing Redis data after test completion');
-            }
-
-            // Purge all the task queues
-            MQ.purgeAll(function(err) {
-                if (err) {
-                    process.stdout.write('Error purging the RabbitMQ queues');
-                }
-
-                process.exit(exitCode);
-            });
+        TestsUtil.cleanUpAfterTests(function() {
+            process.exit(exitCode);
         });
     });
 });
