@@ -93,7 +93,7 @@ services:
   - redis-server
 
 script:
-  - grunt test | bunyan
+  - grunt test | node_modules/.bin/bunyan
 
 after_success:
   # Package and upload to Amazon S3

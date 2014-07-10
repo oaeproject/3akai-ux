@@ -24,6 +24,7 @@
     "oae-core": ""
   },
   "devDependencies": {
+    "bunyan": "latest",
     "grunt": "latest",
     "grunt-cli": "latest",
     "grunt-contrib-clean": "latest",
