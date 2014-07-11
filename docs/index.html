@@ -8,19 +8,38 @@
         <!-- CORE CSS -->
         <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
         <link rel="stylesheet" type="text/css" href="/api/ui/skin" />
-
+        <!-- PAGE CSS -->
+        <link rel="stylesheet" type="text/css" href="/docs/css/docs.css"
     </head>
-    <body style="display: block;">
+    <body>
         <!-- HEADER -->
-        <div class="jumbotron">
-            <h1>API Reference</h1>
-            <!-- CONTENT -->
-            <p>
-                <a href="/docs/rest" class="btn btn-primary btn-lg" role="button">REST API Documentation</a>
-            </p>
-            <p>
-                <a href="/docs/internal" class="btn btn-primary btn-lg" role="button">Internal API Documentation</a>
-            </p>
+        <div id="docsheader-container" class="row">
+            <div id="docsheader-content" class="col-md-12">
+                <h1>__MSG__API_REFERENCE__</h1>
+            </div>
         </div>
+
+        <!-- CONTENT -->
+        <div id="docscontent-container" class="clearfix well">
+            <div class="row text-center">
+                <div class="col-xs-6">
+                    <a href="/docs/internal">
+                        <i class="icon-cogs large"></i>
+                        <span class="oae-threedots">__MSG__INTERNAL_API__</span>
+                    </a>
+                </div>
+                <div class="col-xs-6">
+                    <a href="/docs/rest" target="_blank">
+                        <i class="icon-cloud large"></i>
+                        <span class="oae-threedots">__MSG__REST_API__</span>
+                    </a>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- JAVASCRIPT -->
+        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
+
     </body>
 </html>
