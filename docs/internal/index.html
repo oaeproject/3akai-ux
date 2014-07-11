@@ -42,7 +42,7 @@
                 <ul class="nav nav-list bs-docs-sidenav">
                     {for module in modules}
                         <li data-id="${module}" data-type="${type}">
-                            <a href="/docs/${type}/${module}"><i class="icon-chevron-right pull-right"></i> <span>${module}</span></a>
+                            <a href="/docs/internal/${type}/${module}"><i class="icon-chevron-right pull-right"></i> <span>${module}</span></a>
                         </li>
                     {/for}
                 </ul>
@@ -84,10 +84,10 @@
                                     <tbody>
                                         {for tag in func.tags}
                                             <tr>
-                                                {if tag.type === "param" || tag.type === "return"}
-                                                    <td class="bs-docs-${tag.type}-tag"><strong>{if tag.name}${tag.name}{else}Returns{/if} : {if tag.types} ${tag.types.join(' or ')}{/if}</strong> <br/> ${tag.description}</td>
+                                                {if tag.type === "param" || tag.type === "return" || tag.type === "throws"}
+                                                    <td class="bs-docs-${tag.type}-tag"><strong>{if tag.name}${tag.name}{elseif tag.type === "throws"}Throws{else}Returns{/if} : {if tag.types} ${tag.types.join(' or ')}{/if}</strong> <br/> ${tag.description}</td>
                                                 {elseif tag.type === "see"}
-                                                    <td class="bs-docs-${tag.type}-tag"><strong>${tag.type} : <a href="/#${tag.local}">${tag.local}</a></strong>
+                                                    <td class="bs-docs-${tag.type}-tag"><strong>${tag.type} : <a href="/#${tag.local}">${tag.local}</a></strong></td>
                                                 {elseif tag.type !== "api"}
                                                     <td class="bs-docs-${tag.type}-tag"><strong>${tag.type} : ${tag.local}</strong> <br/> ${tag.string}</td>
                                                 {/if}
