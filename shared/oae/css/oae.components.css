@@ -97,6 +97,7 @@ a.oae-plain-link:hover {
             border-radius: 5px;
 }
 
+
 /**********************
  ** VISIBILITY ICONS **
  **********************/
@@ -323,7 +324,7 @@ i[class^="icon-"].large:before {
  * center of the provided image.
  *
  *   e.g. <div class="oae-thumbnail icon-oae-user">
- *            <a href="${entityData.profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}">
+ *            <a href="${entityData.profilePath|profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}">
  *                <div style="background-image: url(/ui/img/dummy/profile-pic-john.png)" role="img" aria-label="John Librarian"/>
  *                <i class="icon-oae-public"></i>
  *            </a>
@@ -894,7 +895,7 @@ div.oae-thumbnail i[class^="icon-"] {
     margin-left: 225px;
     min-height: 500px;
     min-width: 275px;
-    padding: 5px 25px 5px 0;
+    padding: 5px 25px 25px 0;
     position: relative;
     z-index: 2;
 }
@@ -1419,7 +1420,7 @@ ul.oae-list > li:first-child .oae-listitem {
  *
  * The output of this macro represents all that is needed to render the list header template
  * on a page. To enable the user interactions of the template it is necessary to include the
- * `shared/oae/js/jquery-plugins/jquery.list-header.js` module on the page as well.
+ * `shared/oae/js/jquery-plugins/jquery.list.js` module on the page as well.
  */
 
 .oae-list-header {

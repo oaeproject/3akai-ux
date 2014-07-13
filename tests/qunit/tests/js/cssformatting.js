@@ -32,6 +32,7 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
         var count = 0;
 
         if (regex.test(testFile)) {
+            regex.lastIndex = 0; // Reset search start position which was moved by regex.test()
             while ((match = regex.exec(cssFile)) !== null) {
                 var beforeMatch = cssFile.substring(0, match.index);
                 var matchLine = beforeMatch.split(/\n/).length;
@@ -118,17 +119,11 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
 
         // Test that the widget CSS files are properly formatted
         $.each(testData.widgetData, function(widgetCSSPath, widget) {
-            if (widget.css) {
-                $.each(widget.css, function(widgetCSSIndex, widgetCSS) {
-                    test(widgetCSSIndex, function() {
-                        checkCSS(widgetCSS);
-                    });
+            $.each(widget.css, function(widgetCSSIndex, widgetCSS) {
+                test(widgetCSSIndex, function() {
+                    checkCSS(widgetCSS);
                 });
-            } else {
-                test(widgetCSSPath, function() {
-                    ok(true, widgetCSSPath + ' has no CSS to check');
-                });
-            }
+            });
         });
 
         // Start consuming tests again
