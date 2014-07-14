@@ -139,6 +139,7 @@ module.exports = function(grunt) {
                      * the following types of files are excluded:
                      *
                      *  * We do not hash HTML files because they aren't cached
+                     *  * We do not hash JS and CSS files because they are handled separately in a later phase
                      *  * We do not hash the JSON files (e.g., manifest.json) because they are not referenced as assets by the UI, only by the oae-ui Hilary module
                      *  * We do not hash the favicon (*.ico) because it is a browser standard file
                      *  * We do not hash less files because they are programmatically accessed
@@ -602,12 +603,13 @@ var _replacementReferences = function(options) {
 };
 
 /**
- * Generate the glob expressions to match all files that have extensions that are supposed to be hashed (as defined
- * by `HASHED_EXTENSIONS`). You can optionally exclude extensions for special cases.
+ * Generate the glob expressions to match all extensions of files in the provided set of
+ * directories. Any file with an extension that is found in the `excludeExts` option  will not be
+ * hashed
  *
  * @param  {Object}     options                 An options object that specifies what files to hash
  * @param  {String[]}   options.directories     The list of directories whose files to hash
- * @param  {String[]}   [options.excludeExts]   The extensions to exclude from the list of `HASHED_EXTENSIONS`, if any
+ * @param  {String[]}   [options.excludeExts]   The extensions of files to ignore when hashing files
  * @param  {String[]}   [options.extra]         Extra glob patterns to append, in addition to the ones added for the extensions
  * @return {String[]}                           An array of glob expressions that match the files to hash in the directories
  * @api private
@@ -620,7 +622,7 @@ var _hashFiles = function(options) {
     _.each(options.directories, function(directory) {
         globs.push(util.format('%s/**', directory));
         _.each(options.excludeExts, function(ext) {
-            // Exclude both direct children of the exlucded extensions, and all grand-children
+            // Exclude both direct children of the excluded extensions, and all grand-children
             globs.push(util.format('!%s/*.%s', directory, ext));
             globs.push(util.format('!%s/**/*.%s', directory, ext));
         });
