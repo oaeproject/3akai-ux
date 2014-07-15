@@ -92,6 +92,9 @@ require(['jquery', 'oae.core'], function($, oae) {
         // Only show the create and upload clips to group members
         if (groupProfile.isMember) {
             $('#group-member-actions').show();
+        // Show the join clip to non-members when the group is joinable
+        } else if (!groupProfile.isMember && groupProfile.canJoin) {
+            $('#group-join-actions').show();
         }
     };
 
@@ -133,6 +136,15 @@ require(['jquery', 'oae.core'], function($, oae) {
                         'class': 'oae-trigger-creatediscussion'
                     }
                 ]
+            });
+        }
+
+        // Add the join clip when not a member and user can join
+        if (!groupProfile.isMember && groupProfile.canJoin) {
+            lhNavActions.push({
+                'icon': 'icon-pushpin',
+                'title': oae.api.i18n.translate('__MSG__JOIN_GROUP__'),
+                'class': 'group-join'
             });
         }
 
@@ -329,10 +341,13 @@ require(['jquery', 'oae.core'], function($, oae) {
     ////////////////
 
     /**
-     * Join the current group. If successful, a notification will be displayed and
-     * the page will be reloaded after 2 seconds.
+     * Join the current group.
+     * If successful, a notification will be displayed and the page will be reloaded after 2 seconds.
      */
     var joinGroup = function() {
+        // Disable the join buttons
+        $('.group-join').prop('disabled', true);
+
         // Join the group
         oae.api.group.joinGroup(groupProfile.id, function(err) {
             if (!err) {
@@ -353,47 +368,15 @@ require(['jquery', 'oae.core'], function($, oae) {
                     oae.api.i18n.translate('__MSG__GROUP_NOT_JOINED__'),
                     'error'
                 );
+
+                // Re-enable the join buttons.
+                $('.group-join').prop('disabled', false);
             }
         });
     };
 
-    /**
-     * Leave the current group. If successful, a notification will be displayed and
-     * the page will be reloaded after 2 seconds.
-     */
-    var leaveGroup = function() {
-        // Leave the group
-        oae.api.group.leaveGroup(groupProfile.id, function(err) {
-            if (!err) {
-                // Show a success notification
-                oae.api.util.notification(
-                    oae.api.i18n.translate('__MSG__LEFT_GROUP__'),
-                    oae.api.i18n.translate('__MSG__GROUP_LEAVE_SUCCESS__', null, {
-                        'groupName': groupProfile.displayName
-                    })
-                );
-
-                // Reload the page after 2 seconds to re-render the group as a member
-                setTimeout(function() {
-                    document.location.reload();
-                }, 2000);
-            } else {
-                // Show a failure notification
-                oae.api.util.notification(
-                    oae.api.i18n.translate('__MSG__GROUP_NOT_LEFT__'),
-                    oae.api.i18n.translate('__MSG__GROUP_LEAVE_FAILED__', null, {
-                        'groupName': groupProfile.displayName
-                    }),
-                    'error'
-                );
-            }
-        });
-    };
-
-    // Follow the group when the 'follow' button is clicked
-    $(document).on('click', '.group-follow', joinGroup);
-    // Unfollow the group when the 'unfollow' button is clicked
-    $(document).on('click', '.group-unfollow', leaveGroup);
+    // Bind to the click on the join clip
+    $(document).on('click', '.group-join', joinGroup);
 
 
     ////////////////

@@ -77,7 +77,8 @@ require(['jquery', 'oae.core'], function($, oae) {
      * Render the user's clip, containing the profile picture, display name and affiliation
      */
     var setUpClip = function() {
-        oae.api.util.template().render($('#user-clip-template'), {'user': userProfile}, $('#user-clip-container'));
+        oae.api.util.template().render($('#user-clip-left-template'), {'user': userProfile}, $('#user-clip-left-container'));
+        oae.api.util.template().render($('#user-clip-right-template'), {'user': userProfile}, $('#user-clip-right-container'));
     };
 
     /**
@@ -86,6 +87,14 @@ require(['jquery', 'oae.core'], function($, oae) {
     var setUpNavigation = function() {
         // Structure that will be used to construct the left hand navigation actions
         var lhNavActions = [];
+        // Add the follow button if the user can be followed
+        if (userProfile.following && userProfile.following.canFollow) {
+            lhNavActions.push({
+                'icon': 'icon-bookmark',
+                'title': oae.api.i18n.translate('__MSG__FOLLOW__'),
+                'class': 'user-follow'
+            });
+        }
 
         // Structure that will be used to construct the left hand navigation pages
         lhNavPages = [];
@@ -174,9 +183,9 @@ require(['jquery', 'oae.core'], function($, oae) {
     };
 
 
-    /////////////////////
-    // (UN)FOLLOW USER //
-    /////////////////////
+    /////////////////
+    // FOLLOW USER //
+    /////////////////
 
     /**
      * Follow a user
@@ -191,8 +200,8 @@ require(['jquery', 'oae.core'], function($, oae) {
                         'displayName': oae.api.util.security().encodeForHTML(userProfile.displayName)
                     })
                 );
-                userProfile.following.isFollowing = true;
-                setUpClip();
+                $('#user-follow-actions').detach();
+                $('li.user-follow').detach();
             } else {
                 // Show an error notification
                 oae.api.util.notification(
@@ -206,38 +215,8 @@ require(['jquery', 'oae.core'], function($, oae) {
         });
     };
 
-    /**
-     * Unfollow a user
-     */
-    var unFollowUser = function() {
-        oae.api.follow.unfollow(userProfile.id, function(err) {
-            if (!err) {
-                // Show a success notification
-                oae.api.util.notification(
-                    oae.api.i18n.translate('__MSG__UNFOLLOWING_SUCCEEDED__'),
-                    oae.api.i18n.translate('__MSG__UNFOLLOWING_SINGULAR_SUCCEEDED__', null, {
-                        'userName': userProfile.displayName
-                    })
-                );
-                userProfile.following.isFollowing = false;
-                setUpClip();
-            } else {
-                // Show an error notification
-                oae.api.util.notification(
-                    oae.api.i18n.translate('__MSG__UNFOLLOWING_FAILED__'),
-                    oae.api.i18n.translate('__MSG__UNFOLLOWING_SINGULAR_FAILED__', null, {
-                        'userName': userProfile.displayName
-                    }),
-                    'error'
-                );
-            }
-        });
-    };
-
     // Follow the user when the `follow` button is clicked
     $(document).on('click', '.user-follow', followUser);
-    // Unfollow the user when the `unfollow` button is clicked
-    $(document).on('click', '.user-unfollow', unFollowUser);
 
     getUserProfile();
 
