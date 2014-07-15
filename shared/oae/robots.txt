@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /accessdenied
+Disallow: /noscript
+Disallow: /notfound
+Disallow: /servermaintenance
+Disallow: /unavailable

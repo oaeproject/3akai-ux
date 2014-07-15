@@ -688,16 +688,22 @@ var _expose = function(exports) {
      */
     var _generateContentRestoredRevision = function(activity, properties) {
         var i18nKey = null;
-        if (properties.objectCount === 1) {
-            if (activity.object['oae:resourceSubType'] === 'collabdoc') {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_COLLABDOC__';
-            } else if (activity.object['oae:resourceSubType'] === 'file') {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_FILE__';
+        if (activity.object['oae:resourceSubType'] === 'collabdoc') {
+            if (properties.actorCount === 1) {
+                i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_COLLABDOC_1__';
+            } else if (properties.actorCount === 2) {
+                i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_COLLABDOC_2__';
+            } else {
+                i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_COLLABDOC_2+__';
             }
-        } else if (properties.objectCount === 2) {
-            i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_2__';
-        } else {
-            i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_2+__';
+        } else if (activity.object['oae:resourceSubType'] === 'file') {
+            if (properties.actorCount === 1) {
+                i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_FILE_1__';
+            } else if (properties.actorCount === 2) {
+                i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_FILE_2__';
+            } else {
+                i18nKey = '__MSG__ACTIVITY_CONTENT_RESTORED_FILE_2+__';
+            }
         }
         return new ActivityViewSummary(i18nKey, properties);
     };
