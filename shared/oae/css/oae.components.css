@@ -487,6 +487,7 @@ div.oae-thumbnail i[class^="icon-"] {
  *                          <li><button><i class="icon-user"></i>Action 1</button></li>
  *                          <li><button><i class="icon-envelope"></i>Action 2</button></li>
  *                          <li><button type="button"><i class="icon-wrench"></i>Action 3</button></li>
+ *                          <li><a href="#somelink"><i class="icon-download"></i>Action 4</a></li>
  *                      </ul>
  *                  </div>
  *              </div>
@@ -517,6 +518,8 @@ div.oae-thumbnail i[class^="icon-"] {
  * - When a clip should not be clickable (e.g. in non-manager mode of a page), the `disabled` attribute
  *   should be added to the button. This will hide any caret icons and will make the clip unclickable.
  * - If a clip should not be visible on smaller viewports the `hidden-xs hidden-sm` classes should be applied.
+ * - A clip can also be a link instead of a button. The syntax remains the same but an anchor tag is used
+ *   instead of a button tag.
  */
 
 /* Clip container */
@@ -701,7 +704,7 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 .oae-clip .oae-clip-content > div > ul li {
-    display: inline-table;
+    display: inline;
 }
 
 .oae-clip .oae-clip-content > div > ul li button,

@@ -46,11 +46,9 @@
                             </button>
                             <div>
                                 <ul>
-                                    {if !oae.data.me.anon}
-                                        <li><a href="${content.downloadPath}"><i class="icon-download"></i>__MSG__DOWNLOAD__</a></li>
-                                        {if content.canShare}
-                                            <li><button class="oae-trigger-share"><i class="icon-share"></i>__MSG__SHARE__</button></li>
-                                        {/if}
+                                    <li><a href="${content.downloadPath}"><i class="icon-download"></i>__MSG__DOWNLOAD__</a></li>
+                                    {if !oae.data.me.anon && content.canShare}
+                                        <li><button class="oae-trigger-share"><i class="icon-share"></i>__MSG__SHARE__</button></li>
                                     {/if}
                                     {if content.isManager}
                                         <li><button class="content-trigger-manageaccess"><i class="icon-lock"></i>__MSG__MANAGE_ACCESS__</button></li>
@@ -58,8 +56,7 @@
                                         {if content.resourceSubType === 'file'}
                                             <li><button class="oae-trigger-uploadnewversion"><i class="icon-upload"></i>__MSG__UPLOAD_NEW_VERSION__</button></li>
                                         {/if}
-                                        {if content.resourceSubType === 'file' ||
-                                            content.resourceSubType === 'collabdoc'}
+                                        {if content.resourceSubType === 'file' || content.resourceSubType === 'collabdoc'}
                                             <li><button class="oae-trigger-revisions"><i class="icon-undo"></i>__MSG__REVISIONS__</button></li>
                                         {/if}
                                         <li><button class="oae-trigger-deleteresource"><i class="icon-trash"></i>__MSG__DELETE__</button></li>
@@ -69,7 +66,8 @@
                                         {elseif content.isMember}
                                             <li><button class="content-unfollow"><i class="icon-bookmark-empty"></i>__MSG__UNFOLLOW__</button></li>
                                         {/if}
-                                        <li><button class="content-trigger-aboutcontent"><i class="icon-info-sign"></i>__MSG__ABOUT__</button></li>
+                                        <li><button class="oae-trigger-contentdetails"><i class="icon-info-sign"></i>__MSG__DETAILS__</button></li>
+                                        <li><button class="oae-trigger-contentshared"><i class="icon-info-sign"></i>__MSG__SHARED_WITH__</button></li>
                                     {/if}
                                 </ul>
                             </div>
