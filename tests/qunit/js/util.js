@@ -363,6 +363,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
             },
             'mainHTML': {
                 '/admin/index.html': null,
+                '/docs/index.html': null,
                 '/shared/oae/errors/accessdenied.html': null,
                 '/shared/oae/errors/noscript.html': null,
                 '/shared/oae/errors/notfound.html': null,
