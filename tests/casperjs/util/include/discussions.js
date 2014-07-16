@@ -26,7 +26,7 @@ var discussionUtil = function() {
      * @param  {Function}     callback               Standard callback function
      * @param  {Discussion}   callback.discussion    The created discussion object
      */
-    var createDiscussion = function(callback) {
+    var createDiscussion = function(managers, viewers, callback) {
         var discussion = null;
         var rndString = mainUtil().generateRandomString();
         data = casper.evaluate(function(rndString) {
@@ -46,7 +46,31 @@ var discussionUtil = function() {
         });
 
         casper.then(function() {
-            callback(discussion);
+            // Add managers and viewers if required
+            if (managers || viewers) {
+                managers = managers || [];
+                viewers = viewers || [];
+
+                var members = {};
+                for (var m = 0; m < managers.length; m++) {
+                    members[managers[m]] = 'manager';
+                }
+
+                var viewersToAdd = {};
+                for (var v = 0; v < viewers.length; v++) {
+                    members[viewers[v]] = 'viewer';
+                }
+
+                data = casper.evaluate(function(discussionId, members) {
+                    return JSON.parse(__utils__.sendAJAX('/api/discussion/'+ discussionId + '/members', 'POST', members, false));
+                }, discussion.id, members);
+
+                casper.then(function() {
+                    callback(discussion);
+                });
+            } else {
+                callback(discussion);
+            }
         });
     };
 

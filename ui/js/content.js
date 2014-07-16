@@ -329,7 +329,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     /**
      * Triggers the manageaccess widget and passes in context data
      */
-    $(document).on('click', '.content-trigger-manageaccess', function() {
+    $(document).on('click', '.oae-trigger-manageaccess', function() {
         $(document).trigger('oae.trigger.manageaccess', getManageAccessData());
     });
 

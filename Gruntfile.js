@@ -248,7 +248,7 @@ module.exports = function(grunt) {
         },
         'ghost': {
             'dist': {
-                'filesSrc': ['node_modules/oae-*/*/tests/*.js'],
+                'filesSrc': ['node_modules/oae-*/*/tests/*.js', 'ui/tests/*.js'],
                 // CasperJS test command options
                 'options': {
                     // Specify the files to be included in each test

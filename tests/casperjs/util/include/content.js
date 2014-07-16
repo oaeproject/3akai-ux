@@ -29,7 +29,7 @@ var contentUtil = function() {
      * @param  {[String]}   file       Optional URL to the file to create
      * @param  {Function}   callback   Standard callback function
      */
-    var createFile = function(file, callback) {
+    var createFile = function(file, managers, viewers, callback) {
         var fileToUpload = file || 'tests/casperjs/data/balloons.jpg';
         var contentUrl = null;
 
@@ -48,7 +48,36 @@ var contentUtil = function() {
                 casper.click('button#upload-upload');
                 casper.waitForSelector('#oae-notification-container .alert', function() {
                     contentUrl = casper.getElementAttribute('#oae-notification-container .alert h4 + a', 'href');
-                    callback(contentUrl);
+
+                    // Add managers and viewers if required
+                    if (managers || viewers) {
+                        managers = managers || [];
+                        viewers = viewers || [];
+
+                        var members = {};
+                        for (var m = 0; m < managers.length; m++) {
+                            members[managers[m]] = 'manager';
+                        }
+
+                        var viewersToAdd = {};
+                        for (var v = 0; v < viewers.length; v++) {
+                            members[viewers[v]] = 'viewer';
+                        }
+
+                        var data = null;
+                        var contentId = contentUrl.split('/');
+                        contentId = 'c:test:' + contentId[contentId.length -1];
+
+                        data = casper.evaluate(function(contentId, members) {
+                            return JSON.parse(__utils__.sendAJAX('/api/content/'+ contentId + '/members', 'POST', members, false));
+                        }, contentId, members);
+
+                        casper.then(function() {
+                            callback(contentUrl);
+                        });
+                    } else {
+                        callback(contentUrl);
+                    }
                 });
             });
         });
