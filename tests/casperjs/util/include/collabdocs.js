@@ -29,7 +29,7 @@ var collabDocUtil = function() {
      * @param {Function}    callback              Standard callback function
      * @param {Collabdoc}   callback.collabdoc    The collabdoc data coming back from the server
      */
-    var createCollabDoc = function(callback) {
+    var createCollabDoc = function(managers, viewers, callback) {
         var collabdoc = null;
         var rndString = mainUtil().generateRandomString();
         data = casper.evaluate(function(rndString) {
@@ -51,7 +51,31 @@ var collabDocUtil = function() {
         });
 
         casper.then(function() {
-            callback(collabdoc);
+            // Add managers and viewers if required
+            if (managers || viewers) {
+                managers = managers || [];
+                viewers = viewers || [];
+
+                var members = {};
+                for (var m = 0; m < managers.length; m++) {
+                    members[managers[m]] = 'manager';
+                }
+
+                var viewersToAdd = {};
+                for (var v = 0; v < viewers.length; v++) {
+                    members[viewers[v]] = 'viewer';
+                }
+
+                data = casper.evaluate(function(collabdocId, members) {
+                    return JSON.parse(__utils__.sendAJAX('/api/content/'+ collabdocId + '/members', 'POST', members, false));
+                }, collabdoc.id, members);
+
+                casper.then(function() {
+                    callback(collabdoc);
+                });
+            } else {
+                callback(collabdoc);
+            }
         });
     };
 

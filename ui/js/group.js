@@ -305,14 +305,14 @@ require(['jquery', 'oae.core'], function($, oae) {
     /**
      * Triggers the manageaccess widget and passes in context data
      */
-    $(document).on('click', '.group-trigger-manageaccess', function() {
+    $(document).on('click', '.oae-trigger-manageaccess', function() {
         $(document).trigger('oae.trigger.manageaccess', getManageAccessData());
     });
 
     /**
      * Triggers the manageaccess widget in `add members` view and passes in context data
      */
-    $(document).on('click', '.group-trigger-manageaccess-add', function() {
+    $(document).on('click', '.oae-trigger-manageaccess-add', function() {
         $(document).trigger('oae.trigger.manageaccess-add', getManageAccessData());
     });
 

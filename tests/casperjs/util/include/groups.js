@@ -33,7 +33,7 @@ var groupUtil = function() {
         var group = null;
 
         var rndString = mainUtil().generateRandomString();
-        data = casper.evaluate(function(rndString, members, managers) {
+        var data = casper.evaluate(function(rndString, members, managers) {
             return JSON.parse(__utils__.sendAJAX('/api/group/create', 'POST', {
                 'displayName': 'group-' + rndString,
                 'description': '',
