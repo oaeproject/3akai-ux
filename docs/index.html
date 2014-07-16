@@ -4,112 +4,42 @@
         <meta name="viewport" content="width=device-width">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-        <noscript>
-            <meta http-equiv="Refresh" content="1; URL=/noscript">
-        </noscript>
 
         <!-- CORE CSS -->
         <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
         <link rel="stylesheet" type="text/css" href="/api/ui/skin" />
-
         <!-- PAGE CSS -->
-        <link href="/docs/css/doc.css" type="text/css" rel="stylesheet"/>
+        <link rel="stylesheet" type="text/css" href="/docs/css/docs.css"
     </head>
     <body>
         <!-- HEADER -->
-        <div id="doc-header-container">
-            <div id="doc-header-content">
-                <h1>API Reference</h1>
+        <div id="docsheader-container" class="row">
+            <div id="docsheader-content" class="col-md-12">
+                <h1>__MSG__API_REFERENCE__</h1>
             </div>
         </div>
+
         <!-- CONTENT -->
-        <main id="doc-content-container" role="main">
-            <div class="row">
-                <div id="doc-modules-container" class="col-sm-3"><!----></div>
-                <div id="doc-module-container" class="col-sm-9"><!----></div>
+        <div id="docscontent-container" class="clearfix well">
+            <div class="row text-center">
+                <div class="col-xs-6">
+                    <a href="/docs/internal">
+                        <i class="icon-cogs large"></i>
+                        <span class="oae-threedots">__MSG__INTERNAL_API__</span>
+                    </a>
+                </div>
+                <div class="col-xs-6">
+                    <a href="/docs/rest" target="_blank">
+                        <i class="icon-cloud large"></i>
+                        <span class="oae-threedots">__MSG__REST_API__</span>
+                    </a>
+                </div>
+                </div>
             </div>
-        </main>
-
-        <div id="doc-modules-template"><!--
-            {macro renderModules(title, type, modules)}
-                <h5>${title}</h5>
-                <ul class="nav nav-list bs-docs-sidenav">
-                    {for module in modules}
-                        <li data-id="${module}" data-type="${type}">
-                            <a href="/docs/${type}/${module}"><i class="icon-chevron-right pull-right"></i> <span>${module}</span></a>
-                        </li>
-                    {/for}
-                </ul>
-            {/macro}
-
-            <div class="bs-docs-sidebar">
-                ${renderModules('Front-end documentation', 'frontend', frontend)}
-                ${renderModules('Back-end documentation', 'backend', backend)}
-            </div>
-        --></div>
-
-        <div id="doc-module-template"><!--
-            {macro renderFileDocs(doc)}
-                {for func in doc}
-                    {if !func.ignore}
-                        <div class="bs-docs-{if func.isPrivate}private{else}public{/if}">
-                            {if func.ctx}
-                                <h4><a name="${module}.${func.ctx.name}">${func.ctx.name}</a></h4>
-                                <p><small>
-                                    {if func.ctx.value}
-                                        ${func.ctx.value}
-                                    {else}
-                                        ${func.ctx.string}
-                                    {/if}
-                                </small></p>
-                            {/if}
-                            <blockquote>${func.description.full.replace(/<br \/>/g, ' ')}</blockquote>
-                            {if func.tags.length > 0}
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            {if func.ctx}
-                                                <th>Parameters for ${func.ctx.name}</th>
-                                            {else}
-                                                <th>Parameters</th>
-                                            {/if}
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {for tag in func.tags}
-                                            <tr>
-                                                {if tag.type === "param" || tag.type === "return"}
-                                                    <td class="bs-docs-${tag.type}-tag"><strong>{if tag.name}${tag.name}{else}Returns{/if} : {if tag.types} ${tag.types.join(' or ')}{/if}</strong> <br/> ${tag.description}</td>
-                                                {elseif tag.type === "see"}
-                                                    <td class="bs-docs-${tag.type}-tag"><strong>${tag.type} : <a href="/#${tag.local}">${tag.local}</a></strong>
-                                                {elseif tag.type !== "api"}
-                                                    <td class="bs-docs-${tag.type}-tag"><strong>${tag.type} : ${tag.local}</strong> <br/> ${tag.string}</td>
-                                                {/if}
-                                            </tr>
-                                        {/for}
-                                    </tbody>
-                                </table>
-                            {/if}
-                        </div>
-                    {/if}
-                {/for}
-            {/macro}
-
-            <h2>${module}</h2>
-            {if docs === null}
-                <p>There is no documentation available for this module.</p>
-            {elseif _.isArray(docs)}
-                ${renderFileDocs(docs)}
-            {else}
-                {for doc in docs}
-                    <h3>${doc_index}</h3>
-                    ${renderFileDocs(doc)}
-                {/for}
-            {/if}
-        --></div>
+        </div>
 
         <!-- JAVASCRIPT -->
-        <script data-main="/shared/oae/api/oae.bootstrap.js" data-loadmodule="/docs/js/doc.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
+        <script data-main="/shared/oae/api/oae.bootstrap.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
 
     </body>
 </html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <noscript>
+            <meta http-equiv="Refresh" content="1; URL=/noscript">
+        </noscript>
+
+        <!-- CORE CSS -->
+        <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
+        <link rel="stylesheet" type="text/css" href="/api/ui/skin" />
+
+        <!-- PAGE CSS -->
+        <link href="/docs/css/docs.css" type="text/css" rel="stylesheet"/>
+        <link href="/docs/internal/css/internal.css" type="text/css" rel="stylesheet"/>
+    </head>
+    <body>
+        <!-- HEADER -->
+        <div id="docsheader-container" class="row">
+            <div id="docsheader-content" class="col-md-12">
+                 <h1>
+                    <a href="/docs" title="__MSG__API_REFERENCE__">__MSG__API_REFERENCE__</a>
+                    <span id="docsheader-breadcrumb">&raquo;</span>
+                    __MSG__INTERNAL_API__
+                </h1>
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <main id="internal-content-container" role="main">
+            <div class="row">
+                <div id="internal-modules-container" class="col-sm-3"><!----></div>
+                <div id="internal-module-container" class="col-sm-9"><!----></div>
+            </div>
+        </main>
+
+        <div id="internal-modules-template"><!--
+            {macro renderModules(title, type, modules)}
+                <h5>${title}</h5>
+                <ul class="nav nav-list bs-docs-sidenav">
+                    {for module in modules}
+                        <li data-id="${module}" data-type="${type}">
+                            <a href="/docs/internal/${type}/${module}"><i class="icon-chevron-right pull-right"></i> <span>${module}</span></a>
+                        </li>
+                    {/for}
+                </ul>
+            {/macro}
+
+            <div class="bs-docs-sidebar">
+                ${renderModules('Front-end documentation', 'frontend', frontend)}
+                ${renderModules('Back-end documentation', 'backend', backend)}
+            </div>
+        --></div>
+
+        <div id="internal-module-template"><!--
+            {macro renderFileDocs(doc)}
+                {for func in doc}
+                    {if !func.ignore}
+                        <div class="bs-docs-{if func.isPrivate}private{else}public{/if}">
+                            {if func.ctx}
+                                <h4><a name="${module}.${func.ctx.name}">${func.ctx.name}</a></h4>
+                                <p><small>
+                                    {if func.ctx.value}
+                                        ${func.ctx.value}
+                                    {else}
+                                        ${func.ctx.string}
+                                    {/if}
+                                </small></p>
+                            {/if}
+                            <blockquote>${func.description.full.replace(/<br \/>/g, ' ')}</blockquote>
+                            {if func.tags.length > 0}
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            {if func.ctx}
+                                                <th>Parameters for ${func.ctx.name}</th>
+                                            {else}
+                                                <th>Parameters</th>
+                                            {/if}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {for tag in func.tags}
+                                            <tr>
+                                                {if tag.type === "param" || tag.type === "return" || tag.type === "throws"}
+                                                    <td class="bs-docs-${tag.type}-tag"><strong>{if tag.name}${tag.name}{elseif tag.type === "throws"}Throws{else}Returns{/if} : {if tag.types} ${tag.types.join(' or ')}{/if}</strong> <br/> ${tag.description}</td>
+                                                {elseif tag.type === "see"}
+                                                    <td class="bs-docs-${tag.type}-tag"><strong>${tag.type} : <a href="/#${tag.local}">${tag.local}</a></strong></td>
+                                                {elseif tag.type !== "api"}
+                                                    <td class="bs-docs-${tag.type}-tag"><strong>${tag.type} : ${tag.local}</strong> <br/> ${tag.string}</td>
+                                                {/if}
+                                            </tr>
+                                        {/for}
+                                    </tbody>
+                                </table>
+                            {/if}
+                        </div>
+                    {/if}
+                {/for}
+            {/macro}
+
+            <h2>${module}</h2>
+            {if docs === null}
+                <p>There is no documentation available for this module.</p>
+            {elseif _.isArray(docs)}
+                ${renderFileDocs(docs)}
+            {else}
+                {for doc in docs}
+                    <h3>${doc_index}</h3>
+                    ${renderFileDocs(doc)}
+                {/for}
+            {/if}
+        --></div>
+
+        <!-- JAVASCRIPT -->
+        <script data-main="/shared/oae/api/oae.bootstrap.js" data-loadmodule="/docs/internal/js/internal.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
+
+    </body>
+</html>
