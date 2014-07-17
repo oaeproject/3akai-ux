@@ -23,9 +23,6 @@ require(['jquery','oae.core'], function($, oae) {
     // Variable used to cache the current page's base URL
     var baseUrl = '/me';
 
-    // Set the browser title
-    oae.api.util.setBrowserTitle(oae.data.me.displayName);
-
     // Structure that will be used to construct the left hand navigation actions
     var lhNavActions = [{
         'icon': 'icon-cloud-upload',
@@ -76,7 +73,7 @@ require(['jquery','oae.core'], function($, oae) {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'activity',
+                            'name': 'activity',
                             'settings': {
                                 'context': oae.data.me,
                                 'canManage': true
@@ -96,7 +93,7 @@ require(['jquery','oae.core'], function($, oae) {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'contentlibrary',
+                            'name': 'contentlibrary',
                             'settings': {
                                 'context': oae.data.me,
                                 'canManage': true
@@ -116,7 +113,7 @@ require(['jquery','oae.core'], function($, oae) {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'discussionslibrary',
+                            'name': 'discussionslibrary',
                             'settings': {
                                 'context': oae.data.me,
                                 'canManage': true
@@ -136,7 +133,7 @@ require(['jquery','oae.core'], function($, oae) {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'memberships',
+                            'name': 'memberships',
                             'settings': {
                                 'context': oae.data.me,
                                 'canManage': true
@@ -156,7 +153,7 @@ require(['jquery','oae.core'], function($, oae) {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'network',
+                            'name': 'network',
                             'settings': {
                                 'context': oae.data.me,
                                 'canManage': true
@@ -184,6 +181,15 @@ require(['jquery','oae.core'], function($, oae) {
      */
     var setUpClip = function() {
         oae.api.util.template().render($('#me-clip-template'), null, $('#me-clip-container'));
+    };
+
+    /**
+     * Show the `preferences` widget when the URL search parameter is set to `emailpreferences`
+     */
+    var showPreferences = function() {
+        if ($.url().attr('query') === 'emailpreferences') {
+            $(document).trigger('oae.trigger.preferences');
+        }
     };
 
     /**
@@ -222,15 +228,16 @@ require(['jquery','oae.core'], function($, oae) {
 
     /**
      * Re-render the me clip when the user profile has been updated. The updated
-     * me object will be passed into the event
+     * user object will be passed into the event
      */
     $(document).on('oae.editprofile.done', function(ev, data) {
-        oae.data.me = data;
+        $.extend(oae.data.me, data);
         setUpClip();
     });
 
 
     setUpClip();
     setUpNavigation();
+    showPreferences();
 
 });

@@ -35,7 +35,18 @@
                     </form>
                 </div>
                 <div class="row">
-                    <div id="index-video-container" class="col-xs-12 col-md-7 text-center"><!-- --></div>
+                    <div class="col-xs-12 col-md-7 text-center">
+                        <div id="index-video-container">
+                            <button type="button" id="index-video-launch" class="btn btn-link" title="__MSG__PLAY_VIDEO__">
+                                <i class="icon-play-circle active"><span class="sr-only">__MSG__PLAY_VIDEO__</span></i>
+                            </button>
+                        </div>
+
+                        <div id="index-video-template"><!--
+                            <iframe width="100%" height="100%" src="//www.youtube.com/embed/cfiM87Y0pWw?rel=0&autoplay=1&showinfo=0&modestbranding=1" frameborder="0" allowfullscreen></iframe>
+                        --></div>
+
+                    </div>
                     <div class="col-xs-12 col-md-5">
                         <div class="oae-panel-primary">
                             <h1 id="index-slogan">__MSG__SUPPORTING_ACADEMIC_COLLABORATION__</h1>
@@ -68,20 +79,6 @@
                 </div>
             </div>
         </main>
-
-        <div id="index-productvideo-template"><!--
-            {if !oae.api.util.isHandheldDevice()}
-                <div id="index-video">
-                    <button type="button" id="index-video-launch" class="oae-trigger-productvideo btn btn-link" title="__MSG__PLAY_VIDEO__">
-                        <i class="icon-play-circle active"><span class="sr-only">__MSG__PLAY_VIDEO__</span></i>
-                    </button>
-                </div>
-            {else}
-                <div id="index-video" class="index-video-mobile">
-                    <iframe width="100%" height="100%" src="//www.youtube.com/embed/cfiM87Y0pWw?rel=0&autoplay=1&enablejsapi=1&controls=0&showinfo=0&modestbranding=1" frameborder="0" allowfullscreen></iframe>
-                </div>
-            {/if}
-        --></div>
 
         <!-- FOOTER -->
         <div data-widget="footer"><!-- --></div>

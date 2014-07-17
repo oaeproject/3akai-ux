@@ -20,12 +20,12 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
     QUnit.config.autostart = false;
 
     /**
-     * Filter all vendor scripts so they can be excluded from testing
+     * Filter all vendor files so they can be excluded from testing
      *
-     * @param  {String[]}    paths    Array of paths to JavaScript files
-     * @return {String[]}             List of JavaScript files from which the vendor scripts have been filtered
+     * @param  {String[]}    paths    Array of file paths to check for exclusion
+     * @return {String[]}             List of files from which the vendor files have been filtered
      */
-    var filterVendorScripts = function(paths) {
+    var filterVendorFiles = function(paths) {
         return _.filter(paths, function(path) {
             return (path && path.indexOf('/shared/vendor') !== 0);
         });
@@ -38,17 +38,19 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
      * @param  {Function}    callback               Standard callback function
      * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
      */
-    var loadWidgetJS = exports.loadWidgetJS = function(testData, callback) {
+    var loadWidgetJS = function(testData, callback) {
         var paths = {};
 
-        $.each(testData.widgetData, function(widgetIndex, widget) {
+        $.each(testData.widgetData, function(widgetName, widget) {
+            testData.widgetData[widgetName].js = {};
+
             var $html = $('<div/>').html(widget.html);
             var $scripts = $html.find('script');
             $.each($scripts, function(scriptIndex, script) {
                 var jsPath = $(script).attr('src');
                 // Only look at the widget JS files, not at libraries
                 if (jsPath.indexOf('js') === 0) {
-                    paths['/node_modules/' + widget.path + jsPath] = widget.id;
+                    paths['/node_modules/' + widget.path + jsPath] = widgetName;
                 }
             });
         });
@@ -57,10 +59,10 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
             $.each(data, function(widgetJSPath, widgetJS) {
                 // Get the ID of the widget from the path dictionary
                 var widgetName = paths[widgetJSPath];
-                // Add the widget JS into the object
-                testData.widgetData[widgetName].js = testData.widgetData[widgetName].js || {};
+                // Add the widget JS to the widget's JS object
                 testData.widgetData[widgetName].js[widgetJSPath] = widgetJS;
             });
+
             callback(testData);
         });
     };
@@ -84,7 +86,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
             });
         });
 
-        paths = filterVendorScripts(paths);
+        paths = filterVendorFiles(paths);
 
         oae.api.util.staticBatch($.unique(paths), function(err, data) {
             $.each(data, function(jsIndex, js) {
@@ -101,7 +103,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
      * @param  {Function}    callback               Standard callback function
      * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
      */
-    var loadAPIJS = exports.loadAPIJS = function(testData, callback) {
+    var loadAPIJS = function(testData, callback) {
         var paths = [];
         $.each(testData.apiJS, function(jsIndex) {
             paths.push(jsIndex);
@@ -122,7 +124,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
      * @param  {Function}    callback               Standard callback function
      * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
      */
-    var loadOAEPlugins = exports.loadOAEPlugins = function(testData, callback) {
+    var loadOAEPlugins = function(testData, callback) {
         var paths = [];
         $.each(testData.oaePlugins, function(pluginIndex) {
             paths.push(pluginIndex);
@@ -143,18 +145,20 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
      * @param  {Function}    callback               Standard callback function
      * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
      */
-    var loadWidgetCSS = exports.loadWidgetCSS = function(testData, callback) {
+    var loadWidgetCSS = function(testData, callback) {
         // Parse the HTML files and extract the CSS files
         var paths = {};
 
-        $.each(testData.widgetData, function(widgetIndex, widget) {
+        $.each(testData.widgetData, function(widgetName, widget) {
+            testData.widgetData[widgetName].css = {};
+
             var $html = $('<div/>').html(widget.html);
             var $links = $html.find('link');
             $.each($links, function(linkIndex, link) {
                 var cssPath = $(link).attr('href');
                 // Only look at the widget CSS files, not at libraries
                 if (cssPath.indexOf('css') === 0) {
-                    paths['/node_modules/' + widget.path + cssPath] = widget.id;
+                    paths['/node_modules/' + widget.path + cssPath] = widgetName;
                 }
             });
         });
@@ -163,8 +167,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
             $.each(data, function(cssIndex, css) {
                 // Get the ID of the widget by looking at the directory the files are stored in
                 var widgetName = paths[cssIndex];
-                // Add the widget CSS into the Object
-                testData.widgetData[widgetName].css = testData.widgetData[widgetName].css || {};
+                // Add the widget CSS to the widget's CSS object
                 testData.widgetData[widgetName].css[cssIndex] = css;
             });
             callback(testData);
@@ -178,7 +181,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
      * @param  {Function}    callback               Standard callback function
      * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
      */
-    var loadMainCSS = exports.loadMainCSS = function(testData, callback) {
+    var loadMainCSS = function(testData, callback) {
         var paths = _.keys(testData.mainCSS);
 
         $.each(testData.mainHTML, function(htmlPath, mainHTML) {
@@ -188,6 +191,8 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 paths.push($(link).attr('href'));
             });
         });
+
+        paths = filterVendorFiles(paths);
 
         oae.api.util.staticBatch($.unique(paths), function(err, data) {
             $.each(data, function(cssIndex, css) {
@@ -204,7 +209,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
      * @param  {Function}    callback               Standard callback function
      * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
      */
-    var loadWidgetHTML = exports.loadWidgetHTML = function(testData, callback) {
+    var loadWidgetHTML = function(testData, callback) {
         var paths = {};
 
         $.each(testData.widgetData, function(widgetIndex, widget) {
@@ -227,7 +232,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
      * @param  {Function}    callback               Standard callback function
      * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
      */
-    var loadMainHTML = exports.loadMainHTML = function(testData, callback) {
+    var loadMainHTML = function(testData, callback) {
         var paths = _.keys(testData.mainHTML);
 
         oae.api.util.staticBatch(paths, function(err, data) {
@@ -245,7 +250,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
      * @param  {Function}    callback               Standard callback function
      * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
      */
-    var loadWidgetBundles = exports.loadWidgetBundles = function(testData, callback) {
+    var loadWidgetBundles = function(testData, callback) {
 
         var paths = [];
         $.each(testData.widgetData, function(widgetIndex, widget) {
@@ -295,7 +300,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
      * @param  {Function}    callback               Standard callback function
      * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
      */
-    var loadMainBundles = exports.loadMainBundles = function(testData, callback) {
+    var loadMainBundles = function(testData, callback) {
         var paths = _.keys(testData.mainBundles);
 
         oae.api.util.staticBatch(paths, function(err, data) {
@@ -307,30 +312,62 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
     };
 
     /**
+     * Load the email bundles through a batch request
+     *
+     * @param  {Object}      testData               The test data containing all files to be tested (html, css, js, properties)
+     * @param  {Function}    callback               Standard callback function
+     * @param  {Object}      callback.testData      The test data containing all files to be tested (html, css, js, properties)
+     */
+    var loadEmailBundles = function(testData, callback) {
+        var paths = _.keys(testData.emailBundles);
+
+        oae.api.util.staticBatch(paths, function(err, data) {
+            $.each(data, function(bundleIndex, bundle) {
+                testData.emailBundles[bundleIndex] = $.parseProperties(bundle);
+            });
+            callback(testData);
+        });
+    };
+
+    /**
      * Load the HTML, bundles, JavaScript and CSS for all core code and all widgets
      */
     var loadTestData = exports.loadTestData = function(callback) {
         var testData = {
             'widgetData': oae.api.widget.getWidgetManifests(),
+            'emailBundles': {
+                '/shared/oae/bundles/email/de_DE.properties': null,
+                '/shared/oae/bundles/email/default.properties': null,
+                '/shared/oae/bundles/email/es_ES.properties': null,
+                '/shared/oae/bundles/email/fr_FR.properties': null,
+                '/shared/oae/bundles/email/nl_NL.properties': null
+            },
             'mainBundles': {
-                '/ui/bundles/ca_ES.properties': null,
-                '/ui/bundles/de_DE.properties': null,
-                '/ui/bundles/default.properties': null,
-                '/ui/bundles/es_ES.properties': null,
-                '/ui/bundles/fr_FR.properties': null,
-                '/ui/bundles/hi_IN.properties': null,
-                '/ui/bundles/it_IT.properties': null,
-                '/ui/bundles/nl_NL.properties': null,
-                '/ui/bundles/pl_PL.properties': null,
-                '/ui/bundles/ru_RU.properties': null,
-                '/ui/bundles/val_ES.properties': null,
-                '/ui/bundles/zh_CN.properties': null
+                '/shared/oae/bundles/ui/af_ZA.properties': null,
+                '/shared/oae/bundles/ui/ca_ES.properties': null,
+                '/shared/oae/bundles/ui/de_DE.properties': null,
+                '/shared/oae/bundles/ui/default.properties': null,
+                '/shared/oae/bundles/ui/es_ES.properties': null,
+                '/shared/oae/bundles/ui/fr_FR.properties': null,
+                '/shared/oae/bundles/ui/hi_IN.properties': null,
+                '/shared/oae/bundles/ui/it_IT.properties': null,
+                '/shared/oae/bundles/ui/nl_NL.properties': null,
+                '/shared/oae/bundles/ui/pl_PL.properties': null,
+                '/shared/oae/bundles/ui/pt_BR.properties': null,
+                '/shared/oae/bundles/ui/pt_PT.properties': null,
+                '/shared/oae/bundles/ui/ru_RU.properties': null,
+                '/shared/oae/bundles/ui/sv_SE.properties': null,
+                '/shared/oae/bundles/ui/tr_TR.properties': null,
+                '/shared/oae/bundles/ui/val_ES.properties': null,
+                '/shared/oae/bundles/ui/zh_CN.properties': null
             },
             'mainHTML': {
+                '/admin/index.html': null,
+                '/docs/index.html': null,
                 '/shared/oae/errors/accessdenied.html': null,
-                '/shared/oae/errors/maintenance.html': null,
                 '/shared/oae/errors/noscript.html': null,
                 '/shared/oae/errors/notfound.html': null,
+                '/shared/oae/errors/servermaintenance.html': null,
                 '/shared/oae/errors/unavailable.html': null,
                 '/shared/oae/macros/activity.html': null,
                 '/shared/oae/macros/autosuggest.html': null,
@@ -354,7 +391,6 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 '/shared/oae/api/oae.api.i18n.js': null,
                 '/shared/oae/api/oae.api.js': null,
                 '/shared/oae/api/oae.api.l10n.js': null,
-                '/shared/oae/api/oae.api.profile.js': null,
                 '/shared/oae/api/oae.api.user.js': null,
                 '/shared/oae/api/oae.api.util.js': null,
                 '/shared/oae/api/oae.api.widget.js': null,
@@ -362,13 +398,18 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 '/shared/oae/api/oae.core.js': null,
             },
             'oaePlugins': {
+                '/shared/oae/js/activityadapter.js': null,
+                '/shared/oae/js/bootstrap-plugins/bootstrap.focus.js': null,
                 '/shared/oae/js/bootstrap-plugins/bootstrap.modal.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.browse-focus.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.clip.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.dnd-upload.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.infinitescroll.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.jeditable-focus.js': null,
-                '/shared/oae/js/jquery-plugins/jquery.list-header.js': null,
+                '/shared/oae/js/jquery-plugins/jquery.list.js': null,
+                '/shared/oae/js/jquery-plugins/jquery.responsive.js': null,
+                '/shared/oae/js/jquery-plugins/jquery.update-picture.js': null,
+                '/shared/oae/js/mimetypes.js': null
             },
             'mainJS': {},
             'mainCSS': {
@@ -384,14 +425,17 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
             loadWidgetHTML(testData, function(testData) {
                 loadWidgetCSS(testData, function(testData) {
                     loadWidgetJS(testData, function(testData) {
-                        // Load main test data
-                        loadMainBundles(testData, function(testData) {
-                            loadMainHTML(testData, function(testData) {
-                                loadMainCSS(testData, function(testData) {
-                                    loadMainJS(testData, function(testData) {
-                                        loadAPIJS(testData, function(testData) {
-                                            loadOAEPlugins(testData, function(testData) {
-                                                callback(testData);
+                        // Load email bundles
+                        loadEmailBundles(testData, function(testData) {
+                            // Load main test data
+                            loadMainBundles(testData, function(testData) {
+                                loadMainHTML(testData, function(testData) {
+                                    loadMainCSS(testData, function(testData) {
+                                        loadMainJS(testData, function(testData) {
+                                            loadAPIJS(testData, function(testData) {
+                                                loadOAEPlugins(testData, function(testData) {
+                                                    callback(testData);
+                                                });
                                             });
                                         });
                                     });

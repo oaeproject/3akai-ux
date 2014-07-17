@@ -341,6 +341,45 @@ a:hover, .btn-link:hover {
     color: @button-icon-hover-color;
 }
 
+/* @subsection  Authentication buttons */
+
+/* CAS authentication button background color*/
+@button-cas-background-color: #153F51;
+/* CAS authentication button hover background color */
+@button-cas-hover-background-color: #305A6C;
+/* CAS authentication text color */
+@button-cas-text-color: #FFF;
+/* Shibboleth authentication button background color */
+@button-shibboleth-background-color: #FF7220;
+/* Shibboleth authentication button hover background color */
+@button-shibboleth-hover-background-color: #FF8822;
+/* Shibboleth authentication text color */
+@button-shibboleth-text-color: #FFF;
+
+.nav > li .btn-cas {
+    background-color: @button-cas-background-color;
+    color: @button-cas-text-color;
+}
+
+.nav > li .btn-cas:active,
+.nav > li .btn-cas:focus,
+.nav > li .btn-cas:hover {
+    background-color: @button-cas-hover-background-color;
+    color: @button-cas-text-color;
+}
+
+.nav > li .btn-shibboleth {
+    background-color: @button-shibboleth-background-color;
+    color: @button-shibboleth-text-color;
+}
+
+.nav > li .btn-shibboleth:active,
+.nav > li .btn-shibboleth:focus,
+.nav > li .btn-shibboleth:hover {
+    background-color: @button-shibboleth-hover-background-color;
+    color: @button-shibboleth-text-color;
+}
+
 
 /*********************
  ** @section  Forms **
@@ -351,22 +390,7 @@ a:hover, .btn-link:hover {
 /* Selected form field color */
 @form-selected-color: rgba(82, 168, 236, 0.8);
 
-textarea,
-input[type="text"],
-input[type="password"],
-input[type="datetime"],
-input[type="datetime-local"],
-input[type="date"],
-input[type="month"],
-input[type="time"],
-input[type="week"],
-input[type="number"],
-input[type="email"],
-input[type="url"],
-input[type="search"],
-input[type="tel"],
-input[type="color"],
-.uneditable-input,
+.form-control,
 ul.as-selections,
 #recaptcha_image img {
     border-color: @form-border-color;
@@ -375,31 +399,12 @@ ul.as-selections,
             box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 
-textarea:focus,
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="datetime"]:focus,
-input[type="datetime-local"]:focus,
-input[type="date"]:focus,
-input[type="month"]:focus,
-input[type="time"]:focus,
-input[type="week"]:focus,
-input[type="number"]:focus,
-input[type="email"]:focus,
-input[type="url"]:focus,
-input[type="search"]:focus,
-input[type="tel"]:focus,
-input[type="color"]:focus,
-.uneditable-input:focus,
+.form-control:focus,
 ul.as-selections.as-selections-focus {
     border-color: @form-selected-color;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px @form-selected-color;
        -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px @form-selected-color;
             box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px @form-selected-color;
-}
-
-.recaptchatable #recaptcha_response_field {
-    border-color: @form-border-color !important;
 }
 
 
@@ -537,15 +542,15 @@ ul.as-selections.as-selections-focus {
     background-color: @lhnav-item-background-color;
 }
 
-.nav > li:hover,
-.nav > li > a:hover,
-.nav > li > a:focus,
-.nav > li > a:hover i,
-.nav > li > a:focus i,
-.nav > li > button:hover,
-.nav > li > button:focus,
-.nav > li > button:hover i,
-.nav > li > button:focus i {
+.nav > li:not(.nav-header):hover,
+.nav > li:not(.nav-header) > a:hover,
+.nav > li:not(.nav-header) > a:focus,
+.nav > li:not(.nav-header) > a:hover i,
+.nav > li:not(.nav-header) > a:focus i,
+.nav > li:not(.nav-header) > button:hover,
+.nav > li:not(.nav-header) > button:focus,
+.nav > li:not(.nav-header) > button:hover i,
+.nav > li:not(.nav-header) > button:focus i {
     color: @lhnav-item-text-hover-color;
     background-color: @lhnav-item-background-hover-color;
 }

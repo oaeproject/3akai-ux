@@ -57,7 +57,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
         var lhNavPages = [{
             'id': 'content',
-            'title': oae.api.i18n.translate('__MSG__CONTENT__'),
+            'title': contentProfile.displayName,
             'icon': 'icon-comments',
             'closeNav': true,
             'class': 'hide',
@@ -66,7 +66,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': getPreviewWidgetId(),
+                            'id': 'content-preview',
+                            'name': getPreviewWidgetId(),
                             'settings': contentProfile
                         }
                     ]
@@ -75,7 +76,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                     'width': 'col-md-12',
                     'widgets': [
                         {
-                            'id': 'comments'
+                            'name': 'comments'
                         }
                     ]
                 }
@@ -86,9 +87,9 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         // TODO: Remove this once the lhnav toggle is no longer required on content profiles
         var showLhNavToggle = (lhNavActions.length > 0);
 
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, showLhNavToggle]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, null, showLhNavToggle]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, showLhNavToggle]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, null, showLhNavToggle]);
         });
     };
 
@@ -115,8 +116,6 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
             // Cache the content profile data
             contentProfile = profile;
-            // Set the browser title
-            oae.api.util.setBrowserTitle(contentProfile.displayName);
             // Render the entity information and actions
             setUpClips();
             // Set up the page
@@ -194,15 +193,44 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             // document and the current user can manage the document. In this case, Etherpad will take care of the content preview
             } else if (isSupportedPreviewActivity && contentProfile.resourceSubType === 'collabdoc' && contentProfile.isManager) {
                 return;
-            // Trigger a content profile update
+            // The push notification is a recognized activity
             } else if (isSupportedUpdateActivity || isSupportedPreviewActivity) {
                 var contentObj = activity.object;
                 contentObj.canShare = contentProfile.canShare;
                 contentObj.isManager = contentProfile.isManager;
 
-                $(document).trigger('oae.content.update', contentObj);
+                // Cache the previous content profile
+                var previousContentProfile = contentProfile;
+                // Cache the updated content profile
+                contentProfile = contentObj;
+
+                // The clips can always be re-rendered
+                setUpClips();
+
+                // Refresh the content preview when the push notification was a recognized preview activity. However, when the notification
+                // is of the type `previews-finished` and the content item is an image, the content preview is not refreshed. In that case,
+                // the original image will already be embedded as the preview and refreshing it would cause flickering.
+                // Alternatively, the content preview is also refreshed when the content item is a link and the URL has been changed
+                if ((isSupportedPreviewActivity && !(activity['oae:activityType'] === 'previews-finished' && contentProfile.resourceSubType === 'file' && contentProfile.mime.substring(0, 6) === 'image/')) ||
+                    (activity['oae:activityType'] === 'content-update' && contentProfile.resourceSubType === 'link' && contentProfile.link !== previousContentProfile.link)) {
+                    refreshContentPreview();
+                }
             }
         });
+    };
+
+    /**
+     * Refresh the content profile by updating the clips and content preview
+     *
+     * @param  {Content}        updatedContent          Content profile of the updated content item
+     */
+    var refreshContentProfile = function(updatedContent) {
+        // Cache the content profile data
+        contentProfile = updatedContent;
+        // Refresh the content preview
+        refreshContentPreview();
+        // Refresh the clips
+        setUpClips();
     };
 
     /**
@@ -210,37 +238,18 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * rendering a new one
      */
     var refreshContentPreview = function() {
-        var $widgetContainer = $('.oae-page > .row .oae-lhnavigation-toggle + div');
-
         // Empty the preview container
+        var $widgetContainer = $('#lhnavigation-widget-content-preview');
         $widgetContainer.empty();
 
         // Insert the new updated content preview widget
         oae.api.widget.insertWidget(getPreviewWidgetId(), null, $widgetContainer, null, contentProfile);
     };
 
-
-    ////////////////////////
-    // UPLOAD NEW VERSION //
-    ////////////////////////
-
-    /**
-     * Refresh the content's basic profile and update widgets that need the updated information.
-     *
-     * @param  {Object}         ev                      jQuery event object
-     * @param  {Content}        updatedContent          Content profile of the updated content item
-     */
-    var refreshContentProfile = function(ev, updatedContent) {
-        // Cache the content profile data
-        contentProfile = updatedContent;
-        // Refresh the content profile elements
-        refreshContentPreview();
-        setUpClips();
-    };
-
-    // Catches an event sent out when the content has been updated. This can be either when
-    // a new version has been uploaded or the preview has finished generating.
-    $(document).on('oae.content.update', refreshContentProfile);
+    // Catch the event sent out when the content item has been updated
+    $(document).on('oae.content.update', function(ev, updatedContent) {
+        refreshContentProfile(updatedContent);
+    });
 
 
     ///////////////////
@@ -327,19 +336,18 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     /**
      * Re-render the content's clip when the permissions have been updated.
      */
-    $(document).on('oae.manageaccess.done', function(ev) {
-        setUpClips();
-    });
+    $(document).on('oae.manageaccess.done', setUpClips);
 
 
     ///////////////
     // REVISIONS //
     ///////////////
 
+    /**
+     * Refresh the content profile when a revision has been restored
+     */
     $(document).on('oae.revisions.done', function(ev, restoredRevision, updatedContentProfile) {
-        contentProfile = updatedContentProfile;
-        // Refresh the content profile elements
-        refreshContentProfile(ev, updatedContentProfile);
+        refreshContentProfile(updatedContentProfile);
     });
 
 
@@ -349,13 +357,13 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
     /**
      * Re-render the content's clip when the details have been updated.
-     * When the type of content is a link the content preview will be re-rendered as well.
+     * When the content item is a link and the URL has changed, the preview is re-rendered as well.
      */
-    $(document).on('oae.editcontent.done', function(ev, data) {
-        if (contentProfile.resourceSubType === 'link') {
-            refreshContentProfile(ev, data);
+    $(document).on('oae.editcontent.done', function(ev, updatedContentProfile) {
+        if (contentProfile.resourceSubType === 'link' && contentProfile.link !== updatedContentProfile.link) {
+            refreshContentProfile(updatedContentProfile);
         } else {
-            contentProfile = data;
+            contentProfile = updatedContentProfile;
             setUpClips();
         }
     });

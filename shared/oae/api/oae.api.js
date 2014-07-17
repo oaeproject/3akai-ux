@@ -21,10 +21,10 @@
  * This module is intended to be referenced as a *plugin*, not a regular module. Do not depend on this directly, instead depend
  * on `oae.core`, which invokes this plugin, and also efficiently pre-loads many third-party dependencies.
  */
-define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.comment', 'oae.api.discussion', 'oae.api.follow',
-        'oae.api.group', 'oae.api.i18n', 'oae.api.l10n', 'oae.api.profile', 'oae.api.push', 'oae.api.user', 'oae.api.util', 'oae.api.widget'],
+define(['oae.api.admin', 'oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.comment', 'oae.api.discussion', 'oae.api.follow',
+        'oae.api.group', 'oae.api.i18n', 'oae.api.l10n', 'oae.api.push', 'oae.api.user', 'oae.api.util', 'oae.api.widget'],
 
-    function(authenticationAPI, configAPI, contentAPI, commentAPI, discussionAPI, followAPI, groupAPI, i18nAPI, l10nAPI, profileAPI, pushAPI, userAPI, utilAPI, widgetAPI) {
+    function(adminAPI, authenticationAPI, configAPI, contentAPI, commentAPI, discussionAPI, followAPI, groupAPI, i18nAPI, l10nAPI, pushAPI, userAPI, utilAPI, widgetAPI) {
 
         /*!
          * Object containing all of the available OAE API modules and their functions, as well as some
@@ -32,6 +32,7 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
          */
         var oae = {
             'api': {
+                'admin': adminAPI,
                 'authentication': authenticationAPI,
                 'config': configAPI,
                 'content': contentAPI,
@@ -41,7 +42,6 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
                 'group': groupAPI,
                 'i18n': i18nAPI,
                 'l10n': l10nAPI,
-                'profile': profileAPI,
                 'push': pushAPI,
                 'user': userAPI,
                 'util': utilAPI,
@@ -77,7 +77,7 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
                     }
 
                     // Initialize l10n
-                    var userLocale = oae.data.me.locale ? oae.data.me.locale.locale : null;
+                    var userLocale = oae.data.me.locale;
                     oae.api.l10n.init(userLocale, function(err) {
                         if (err) {
                             throw new Error('Could not initialize the l10n API');
@@ -130,12 +130,15 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
                                         // initial widget loading have finished
                                         $('body').show();
 
-                                        // Initialize websocket push API
-                                        oae.api.push.init(function(err) {
-                                            if (err) {
-                                                throw new Error('Could not initialize the push API');
-                                            }
-                                        });
+                                        // Initialize websocket push API, unless we're on the
+                                        // global admin tenant
+                                        if (oae.data.me.tenant.alias !== 'admin') {
+                                            oae.api.push.init(function(err) {
+                                                if (err) {
+                                                    throw new Error('Could not initialize the push API');
+                                                }
+                                            });
+                                        }
                                     });
                                 });
                             });
@@ -155,8 +158,7 @@ define(['oae.api.authentication', 'oae.api.config', 'oae.api.content', 'oae.api.
          * need to be accepted before using the system.
          */
         var setUpTermsAndConditions = function() {
-            if (!oae.data.me.anon && oae.api.config.getValue('oae-principals', 'termsAndConditions', 'enabled') &&
-                (oae.data.me.needsToAcceptTC || oae.data.me.acceptedTC === 0)) {
+            if (oae.data.me.needsToAcceptTC) {
                 // Insert the terms and conditions widget in settings mode
                 var termsandconditionsId = oae.api.util.generateId();
                 oae.api.widget.insertWidget('termsandconditions', termsandconditionsId, null, true);

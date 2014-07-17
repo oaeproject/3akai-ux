@@ -17,6 +17,11 @@
     margin-top: 2%;
 }
 
+#error-content {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
 #error-content .row {
     margin: 100px auto;
     max-width: 900px;
@@ -57,7 +62,11 @@
     margin-top: 6px;
 }
 
-#error-content #error-quote-container .btn + span {
+#error-content #error-quote-container form {
+    display: inline;
+}
+
+#error-content #error-quote-container span {
     font-size: 13px;
     font-style: italic;
     margin-left: 7px;
