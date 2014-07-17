@@ -33,15 +33,15 @@ module.exports = function(callback) {
 
     var TestsUtil = require(hilaryModules + 'oae-tests/lib/util');
 
-    var config = require(hilaryRoot + 'config').config;
     var log = require(hilaryModules + 'oae-logger').logger('before-tests');
 
     /**
      * Create 2 default tenants that can be used for testing our REST endpoints.
      *
+     * @param  {Object}      config      JSON object containing configuration values for Cassandra, Redis, logging and telemetry
      * @param  {Function}    callback    Standard callback function that should be called when the tenants have been created and have started up
      */
-    var setUpTenants = function(callback) {
+    var setUpTenants = function(config, callback) {
         global.oaeTests = {'tenants': {}};
 
         // Create the Global Tenant admin context to authenticate with
@@ -71,15 +71,15 @@ module.exports = function(callback) {
     };
 
     // Create the configuration for the test
-    config = TestsUtil.createInitialTestConfig(config);
+    var config = TestsUtil.createInitialTestConfig();
 
     // Re-enable the poller so it only collects automatically
     config.activity.collectionPollingFrequency = 1;
     config.activity.numberOfProcessingBuckets = 3;
 
     TestsUtil.setUpBeforeTests(config, true, function() {
-        // Set up a couple of test tenants.
-        setUpTenants(function(err) {
+        // Set up a test tenant.
+        setUpTenants(config, function(err) {
             if (err) {
                 return callback(new Error(err.msg));
             }
