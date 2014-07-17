@@ -58,6 +58,12 @@ require(['jquery','oae.core', 'jquery.history'], function($, oae) {
             'postRenderer': function(data) {
                 $('.oae-list-header-badge').text(data.total).show();
             },
+            'postProcessor': function(data) {
+                data.additionalOptions = {
+                    'showCheckbox': false
+                };
+                return data;
+            },
             'emptyListProcessor': function() {
                 oae.api.util.template().render($('#search-noresults-template'), {
                     'query': query

@@ -233,12 +233,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          *
          * 2) List item
          *
-         *   `${listItem(entityData, [metadata], [showCheckbox])}`
+         *   `${listItem(entityData, [additionalOptions])}`
          *
          * - `entityData` is an object representing a user, group or content item or a search result for a user, group
          *    or content item
-         * - `metadata` (optional) is a line of metadata information that should be displayed underneath the entity name
-         * - `showCheckbox` (optional) will determine whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
+         * - `additionalOptions` (optional) is an object containing additional options that determine how a list item looks and what interactions/actions there are
          *
          * 3) Activity summary
          *

@@ -1323,7 +1323,7 @@ div.oae-thumbnail i[class^="icon-"] {
  * The HTML for a list item has been abstracted into a globally available TrimPath template that
  * can be used when rendering list view items:
  *
- *   `${listItem(entityData, [metadata], [showCheckbox], [customImage], [renderListItemActions])}`
+ *   `${listItem(entityData, [additionalOptions])}`
  *
  * An explanation of the parameters for the list item macro can be found in `shared/oae/macros/list.html`.
  *
