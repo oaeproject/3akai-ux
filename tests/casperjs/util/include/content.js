@@ -139,9 +139,30 @@ var contentUtil = function() {
         });
     };
 
+    /**
+     * Update a content item's metadata
+     *
+     * @param  {String}      contentId     Id of the content item we're trying to update
+     * @param  {Object}      params        JSON object where the keys represent all of the profile field names we want to update and the values represent the new values for those fields
+     * @param  {Function}    [callback]    Standard callback method
+     */
+    var updateContent = function(contentId, params, callback) {
+        var data = null;
+        casper.then(function() {
+            data = casper.evaluate(function(contentId, params) {
+                return JSON.parse(__utils__.sendAJAX('/api/content/' + contentId, 'POST', params, false));
+            }, contentId, params);
+        });
+
+        casper.then(function() {
+            callback();
+        });
+    };
+
     return {
         'createFile': createFile,
         'createLink': createLink,
-        'createRevision': createRevision
+        'createRevision': createRevision,
+        'updateContent': updateContent
     };
 };
