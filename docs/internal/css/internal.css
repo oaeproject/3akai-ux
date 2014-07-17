@@ -13,39 +13,13 @@
  * permissions and limitations under the License.
  */
 
-html, body {
-    margin: 0;
-    padding: 0;
-}
-#doc-header-container, #doc-content-container {
-    padding: 0 30px;
-}
-
-/* Header */
-
-#doc-header-container {
-    background-color: #FFF;
-    height: 70px;
-}
-#doc-header-container #doc-header-content {
-    background: url('/shared/oae/img/oae-logo.png') no-repeat left center transparent;
-    background-size: 60px;
-    height: 70px;
-}
-#doc-header-container h1 {
-    font-size: 22px;
-    font-weight: normal;
-    margin: 0;
-    padding: 15px 0 0 80px;
-}
-
 /* Content */
 
-#doc-content-container {
-    padding-bottom: 50px;
+#internal-content-container {
+    padding: 0 30px 50px;
 }
 
-#doc-modules-container h5 {
+#internal-modules-container h5 {
     margin-top: 30px;
     margin-left: 10px;
 }

@@ -109,10 +109,10 @@ require(['jquery', 'oae.core', '/tests/qunit/js/util.js'], function($, oae, util
                         if (_.keys(bundle).length) {
                             $.each(bundle, function(i18nKey, i18nValue) {
                                 if (i18nValue) {
-                                    var htmlUsed = false;
+                                    var htmlUsed = runTest(widgetId, widget.html, i18nKey);
                                     var jsUsed = false;
+
                                     $.each(widget.js, function(widgetJSIndex, widgetJS) {
-                                        htmlUsed = htmlUsed || runTest(widgetId, widget.html, i18nKey);
                                         jsUsed = jsUsed || runTest(widgetId, widgetJS, i18nKey);
                                     });
                                     if (htmlUsed || jsUsed) {

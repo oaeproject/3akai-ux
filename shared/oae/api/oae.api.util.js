@@ -1111,12 +1111,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          * Retrieve the selected items in an autosuggest field
          *
          * @param  {Element|String}     $element                            jQuery element or jQuery selector for the container in which the auto suggest was initialized. Note that this will *not* be the same element as the one used to setup the auto suggest
-         * @return {Object[]}           selectedItems                       Array of objects representing the selected autosuggest items
-         * @return {String}             selectedItems[i].id                 Resource id of the selected item
-         * @return {String}             selectedItems[i].displayName        Display name of the selected item
-         * @return {String}             selectedItems[i].resourceType       Resource type of the selected item (e.g. user, group, content)
-         * @return {String}             [selectedItems[i].thumbnailUrl]     Thumbnail URL for the selected item
-         * @return {String}             selectedItems[i].visibility         Visibility for the selected item (i.e. private, loggedin, public)
+         * @return {Object[]}                                               Array of objects representing the selected autosuggest items. Each item contains an `id` property with the resource id of the selected item, a `displayName` property with the display name of the selected item, a `resourceType` property with the resource type of the selected item (e.g. user, group, content), a `thumbnailUrl` property with the thumbnail URL for the selected item and a `visibility` property with the visibility for the selected item (i.e. private, loggedin, public)
          * @throws {Error}                                                  Error thrown when no source element has been provided
          */
         var getSelection = function($element) {
@@ -1381,7 +1376,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
      * TODO: Replace all calls to this function with the string `"change input"`
      *       when IE9 support is removed.
      *
-     * @return {String}   event(s) which can fire when user changes content
+     * @return {String}   Event(s) that can fire when the content of an input field changes
      */
     var getFormChangeEventNames = exports.getFormChangeEventNames = function() {
         return $('html').hasClass('ie-lt10') ? 'change keyup paste cut' : 'change input';
