@@ -204,8 +204,7 @@ var _expose = function(exports) {
             comments.sort(_sortComments);
 
             // Construct a tree of the last 2 comments and their parents
-            var latestComments = comments.slice().splice(0, 2);
-            latestComments = _constructCommentTree(latestComments);
+            var latestComments = _constructLatestCommentTree(comments);
 
             // Convert these comments into an ordered tree that also includes the comments they were
             // replies to, if any
@@ -253,10 +252,41 @@ var _expose = function(exports) {
     };
 
     /**
+     * Construct a tree of the last two comments that were made. If these comments
+     * were replies, the parent comments will be included in the resulting tree.
+     *
+     * @param  {Comment[]}  comments    A sorted set of comments where the latest comment can be found in the beginning of the set
+     * @return {Comment[]}              A tree of comments for the last two comments (and potentially their parents)
+     * @api private
+     */
+    var _constructLatestCommentTree = function(comments) {
+        // This set will hold the last 2 comments (and their parents)
+        var latestComments = [];
+
+        // Add the latest comment. If it was a reply, we include its parent
+        latestComments.push(comments[0]);
+        if (comments[0].inReplyTo) {
+            latestComments.push(comments[0].inReplyTo);
+        }
+
+        // If there is a second comment that's not the parent of the previous comment
+        // we include it (and its parent if it has one)
+        if (comments[1] && !_find(latestComments, comments[1]['oae:id'])) {
+            latestComments.push(comments[1]);
+            if (comments[1].inReplyTo) {
+                latestComments.push(comments[1].inReplyTo);
+            }
+        }
+
+        // Construct a comment tree and return it
+        return _constructCommentTree(latestComments);
+    };
+
+    /**
      * Process a list of comments into an ordered tree that contains the comments they were replies to, if any,
      * as well as the level at which all of these comments need to be rendered.
      *
-     * @param  {Comment[]}   comments   The array of latest comments to turn into an ordered tree
+     * @param  {Comment[]}   comments   The array of comments to turn into an ordered tree
      * @return {Comment[]}              The ordered tree of comments with an `oae:level` property for each comment, representing the level at which they should be rendered
      * @api private
      */
