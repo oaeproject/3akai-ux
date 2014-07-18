@@ -56,6 +56,7 @@ requirejs.config({
         'underscore': 'vendor/js/underscore',
 
         // OAE paths
+        'activityadapter': 'oae/js/activityadapter',
         'bootstrap.focus': 'oae/js/bootstrap-plugins/bootstrap.focus',
         'bootstrap.modal': 'oae/js/bootstrap-plugins/bootstrap.modal',
         'jquery.browse-focus': 'oae/js/jquery-plugins/jquery.browse-focus',
@@ -66,6 +67,7 @@ requirejs.config({
         'jquery.list': 'oae/js/jquery-plugins/jquery.list',
         'jquery.responsive': 'oae/js/jquery-plugins/jquery.responsive',
         'jquery.update-picture': 'oae/js/jquery-plugins/jquery.update-picture',
+        'mimetypes': 'oae/js/mimetypes',
 
         // OAE API modules
         'oae.api': 'oae/api/oae.api',
@@ -79,7 +81,6 @@ requirejs.config({
         'oae.api.group': 'oae/api/oae.api.group',
         'oae.api.i18n': 'oae/api/oae.api.i18n',
         'oae.api.l10n': 'oae/api/oae.api.l10n',
-        'oae.api.profile': 'oae/api/oae.api.profile',
         'oae.api.push': 'oae/api/oae.api.push',
         'oae.api.user': 'oae/api/oae.api.user',
         'oae.api.util': 'oae/api/oae.api.util',
