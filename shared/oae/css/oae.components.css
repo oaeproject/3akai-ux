@@ -742,6 +742,7 @@ div.oae-thumbnail i[class^="icon-"] {
     .oae-clip .oae-clip-content > div > ul li a {
         display: inline-table;
         text-align: center;
+        vertical-align: middle;
         width: auto;
     }
 
@@ -1323,7 +1324,7 @@ div.oae-thumbnail i[class^="icon-"] {
  * The HTML for a list item has been abstracted into a globally available TrimPath template that
  * can be used when rendering list view items:
  *
- *   `${listItem(entityData, [additionalOptions])}`
+ *   `${listItem(entityData, [displayOptions])}`
  *
  * An explanation of the parameters for the list item macro can be found in `shared/oae/macros/list.html`.
  *

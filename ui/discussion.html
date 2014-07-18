@@ -35,7 +35,7 @@
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button type="button">
+                            <button type="button" {if !discussion.isManager} disabled {/if}>
                                 ${renderThumbnail(discussion, true, false, false)}
                                 <div>
                                     <div>
@@ -47,14 +47,9 @@
                             </button>
                             <div>
                                 <ul>
-                                    {if discussion.isManager}
-                                        <li><button class="oae-trigger-manageaccess"><i class="icon-lock"></i>__MSG__MANAGE_ACCESS__</button></li>
-                                        <li><button class="oae-trigger-editdiscussion"><i class="icon-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
-                                        <li><button class="oae-trigger-deleteresource"><i class="icon-trash"></i>__MSG__DELETE__</button></li>
-                                    {else}
-                                        <li><button class="oae-trigger-discussionshared"><i class="icon-info-sign"></i>__MSG__SHARED_WITH__</button></li>
-                                        <li><button class="oae-trigger-discussiondetails"><i class="icon-info-sign"></i>__MSG__DETAILS__</button></li>
-                                    {/if}
+                                    <li><button class="discussion-trigger-manageaccess"><i class="icon-lock"></i>__MSG__MANAGE_ACCESS__</button></li>
+                                    <li><button class="oae-trigger-editdiscussion"><i class="icon-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
+                                    <li><button class="oae-trigger-deleteresource"><i class="icon-trash"></i>__MSG__DELETE__</button></li>
                                 </ul>
                             </div>
                         </div>
@@ -79,6 +74,7 @@
                             </div>
                         </div>
                     {/if}
+
                     <div class="hidden-xs hidden-sm oae-clip oae-clip-secondary oae-clip-flipped">
                         <div class="oae-clip-fold">
                             <div class="oae-clip-fold-inner"></div>

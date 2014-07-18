@@ -219,7 +219,7 @@ require(['jquery','oae.core'], function($, oae) {
     /**
      * Triggers the manageaccess widget and passes in context data
      */
-    $(document).on('click', '.oae-trigger-manageaccess', function() {
+    $(document).on('click', '.discussion-trigger-manageaccess', function() {
         $(document).trigger('oae.trigger.manageaccess', getManageAccessData());
     });
 

@@ -34,7 +34,7 @@
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button type="button">
+                            <button type="button" {if !group.isManager} disabled {/if}>
                                 ${renderThumbnail(group, true, false, false)}
                                 <div>
                                     <div>
@@ -46,13 +46,9 @@
                             </button>
                             <div>
                                 <ul>
-                                    {if group.isManager}
-                                        <li><button class="oae-trigger-changepic"><i class="icon-camera"></i>__MSG__CHANGE_PICTURE__</button></li>
-                                        <li><button class="oae-trigger-manageaccess"><i class="icon-user"></i>__MSG__MANAGE_ACCESS__</button></li>
-                                        <li><button class="oae-trigger-editgroup"><i class="icon-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
-                                    {else}
-                                        <li><button class="oae-trigger-aboutgroup"><i class="icon-info-sign"></i>__MSG__DETAILS__</button></li>
-                                    {/if}
+                                    <li><button class="oae-trigger-changepic"><i class="icon-camera"></i>__MSG__CHANGE_PICTURE__</button></li>
+                                    <li><button class="group-trigger-manageaccess"><i class="icon-user"></i>__MSG__MANAGE_ACCESS__</button></li>
+                                    <li><button class="group-trigger-editgroup"><i class="icon-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
                                 </ul>
                             </div>
                         </div>
@@ -76,6 +72,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div id="group-member-actions" class="oae-clip-container-right hide">
                         <div class="oae-clip oae-clip-flipped oae-dnd-upload">
                             <div class="oae-clip-fold">

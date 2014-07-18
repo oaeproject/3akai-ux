@@ -105,22 +105,22 @@
 <!--
  * Render a list item representing a user, group or piece of content
  *
- * @param  {User|Group|Content}     entityData              Standard object representing a user, group or content item or a search result for a user, group or content item as returned by Hilary
- * @param  {Object}                 [additionalOptions]                       Additional options for the listitem
- * @param  {String}                 [additionalOptions.metadata]              Line of metadata information that should be displayed underneath the entity name
- * @param  {Boolean}                [additionalOptions.showCheckbox]          Whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
- * @param  {String}                 [additionalOptions.customImage]           URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
- * @param  {Function}               [additionalOptions.listItemActions]       Macro that renders list item actions
- * @param  {String}                 [additionalOptions.additionalClasses]     Additional CSS classes separated by spaces to apply to the generated list items
- * @param  {Boolean}                [additionalOptions.addLink]               Whether or not a link to the entity profile should be placed on the list item. By default, a link will be set
- * @param  {String}                 [additionalOptions.linkTarget]            The target where the linked document is loaded. One of `_blank`, `_self`, `_parent` or `_top`
- * @param  {String}                 [additionalOptions.metadataUserPrefix]    Prefix for the metadata displayName
+ * @param  {User|Group|Content}     entityData                             Standard object representing a user, group or content item or a search result for a user, group or content item as returned by Hilary
+ * @param  {Object}                 [displayOptions]                       Display options for the listitem
+ * @param  {String}                 [displayOptions.metadata]              Line of metadata information that should be displayed underneath the entity name
+ * @param  {Boolean}                [displayOptions.showCheckbox]          Whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
+ * @param  {String}                 [displayOptions.customImage]           URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
+ * @param  {Function}               [displayOptions.listItemActions]       Macro that renders list item actions
+ * @param  {String}                 [displayOptions.additionalClasses]     Additional CSS classes separated by spaces to apply to the generated list items
+ * @param  {Boolean}                [displayOptions.addLink]               Whether or not a link to the entity profile should be placed on the list item. By default, a link will be set
+ * @param  {String}                 [displayOptions.linkTarget]            The target where the linked document is loaded. One of `_blank`, `_self`, `_parent` or `_top`
+ * @param  {String}                 [displayOptions.metadataUserPrefix]    Prefix for the metadata displayName
 -->
-{macro listItem(entityData, additionalOptions)}
+{macro listItem(entityData, displayOptions)}
     {if entityData}
 
-        {if !additionalOptions}
-            {var additionalOptions = new Object()}
+        {if !displayOptions}
+            {var displayOptions = new Object()}
         {/if}
 
         {if entityData.resourceType}
@@ -135,35 +135,35 @@
             {var visibility = entityData['oae:visibility']}
         {/if}
 
-        <li data-id="${entityData.id}" {if additionalOptions.additionalClasses} class="${additionalOptions.additionalClasses}"{/if}>
+        <li data-id="${entityData.id}" {if displayOptions.additionalClasses} class="${displayOptions.additionalClasses}"{/if}>
             <!-- THUMBNAIL VIEW -->
             <div class="oae-list-grid-item">
                 <div class="oae-tile">
-                    ${renderThumbnail(entityData, false, true, additionalOptions.addLink, additionalOptions.customImage, additionalOptions.linkTarget)}
+                    ${renderThumbnail(entityData, false, true, displayOptions.addLink, displayOptions.customImage, displayOptions.linkTarget)}
                     <div class="oae-tile-metadata">
                         {if resourceType !== 'user'}
                             <i class="icon-oae-${visibility}"></i>
                         {/if}
-                        ${renderMetadata(entityData, additionalOptions.metadata, additionalOptions.addLink, additionalOptions.linkTarget, additionalOptions.metadataUserPrefix)}
+                        ${renderMetadata(entityData, displayOptions.metadata, displayOptions.addLink, displayOptions.linkTarget, displayOptions.metadataUserPrefix)}
                     </div>
                 </div>
-                ${renderCheckbox(entityData, 'grid', additionalOptions.showCheckbox)}
+                ${renderCheckbox(entityData, 'grid', displayOptions.showCheckbox)}
             </div>
 
             <!-- DETAILED LIST VIEW -->
             <div class="oae-list-details-item">
                 <div class="oae-listitem">
-                    ${renderCheckbox(entityData, 'details', additionalOptions.showCheckbox)}
+                    ${renderCheckbox(entityData, 'details', displayOptions.showCheckbox)}
                     <div class="oae-listitem-primary-thumbnail">
-                        ${renderThumbnail(entityData, null, null, additionalOptions.addLink, additionalOptions.customImage, additionalOptions.linkTarget)}
+                        ${renderThumbnail(entityData, null, null, displayOptions.addLink, displayOptions.customImage, displayOptions.linkTarget)}
                     </div>
-                    {if additionalOptions.listItemActions}
+                    {if displayOptions.listItemActions}
                         <div class="oae-listitem-actions">
-                            ${additionalOptions.listItemActions()}
+                            ${displayOptions.listItemActions()}
                         </div>
                     {/if}
                     <div class="oae-listitem-metadata">
-                        ${renderMetadata(entityData, additionalOptions.metadata, additionalOptions.addLink, additionalOptions.linkTarget, additionalOptions.metadataUserPrefix)}
+                        ${renderMetadata(entityData, displayOptions.metadata, displayOptions.addLink, displayOptions.linkTarget, displayOptions.metadataUserPrefix)}
                     </div>
                 </div>
             </div>
@@ -171,17 +171,17 @@
             <!-- COMPACT LIST VIEW -->
             <div class="oae-list-compact-item">
                 <div class="oae-listitem">
-                    ${renderCheckbox(entityData, 'compact', additionalOptions.showCheckbox)}
+                    ${renderCheckbox(entityData, 'compact', displayOptions.showCheckbox)}
                     <div class="oae-listitem-primary-thumbnail">
-                        ${renderThumbnail(entityData, null, null, additionalOptions.addLink, additionalOptions.customImage, additionalOptions.linkTarget)}
+                        ${renderThumbnail(entityData, null, null, displayOptions.addLink, displayOptions.customImage, displayOptions.linkTarget)}
                     </div>
-                    {if additionalOptions.listItemActions}
+                    {if displayOptions.listItemActions}
                         <div class="oae-listitem-actions">
-                            ${additionalOptions.listItemActions()}
+                            ${displayOptions.listItemActions()}
                         </div>
                     {/if}
                     <div class="oae-listitem-metadata">
-                        ${renderMetadata(entityData, additionalOptions.metadata, additionalOptions.addLink, additionalOptions.linkTarget, additionalOptions.metadataUserPrefix)}
+                        ${renderMetadata(entityData, displayOptions.metadata, displayOptions.addLink, displayOptions.linkTarget, displayOptions.metadataUserPrefix)}
                     </div>
                 </div>
             </div>

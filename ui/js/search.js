@@ -59,7 +59,7 @@ require(['jquery','oae.core', 'jquery.history'], function($, oae) {
                 $('.oae-list-header-badge').text(data.total).show();
             },
             'postProcessor': function(data) {
-                data.additionalOptions = {
+                data.displayOptions = {
                     'showCheckbox': false
                 };
                 return data;

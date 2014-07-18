@@ -233,11 +233,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          *
          * 2) List item
          *
-         *   `${listItem(entityData, [additionalOptions])}`
+         *   `${listItem(entityData, [displayOptions])}`
          *
          * - `entityData` is an object representing a user, group or content item or a search result for a user, group
          *    or content item
-         * - `additionalOptions` (optional) is an object containing additional options that determine how a list item looks and what interactions/actions there are
+         * - `displayOptions` (optional) is an object containing additional options that determine how a list item looks and what interactions/actions there are
          *
          * 3) Activity summary
          *

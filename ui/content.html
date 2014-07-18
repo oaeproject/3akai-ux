@@ -46,7 +46,7 @@
                             </button>
                             <div>
                                 <ul>
-                                    {if content.resourceSubType !== 'link' && content.resourceSubType !== 'collabdoc'}
+                                    {if content.resourceSubType === 'file'}
                                         <li><a href="${content.downloadPath}"><i class="icon-download"></i>__MSG__DOWNLOAD__</a></li>
                                     {/if}
                                     {if content.isManager}
@@ -60,8 +60,8 @@
                                         {/if}
                                         <li><button class="oae-trigger-deleteresource"><i class="icon-trash"></i>__MSG__DELETE__</button></li>
                                     {else}
-                                        <li><button class="oae-trigger-contentshared"><i class="icon-info-sign"></i>__MSG__SHARED_WITH__</button></li>
-                                        <li><button class="oae-trigger-contentdetails"><i class="icon-info-sign"></i>__MSG__DETAILS__</button></li>
+                                        <li><button class="oae-trigger-aboutcontent"><i class="icon-info-sign"></i>__MSG__ABOUT__</button></li>
+                                        <li><button class="oae-trigger-contentshared"><i class="icon-group"></i>__MSG__SHARED_WITH__</button></li>
                                     {/if}
                                 </ul>
                             </div>
