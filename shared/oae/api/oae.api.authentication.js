@@ -18,9 +18,7 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
     /**
      * Get the list of all enabled authentication strategies for the current tenant
      *
-     * @return {Object}        enabledStrategies                List of all enabled authentication strategies for the current tenant keyed by authentication strategy id
-     *         {String}        enabledStrategies[key].url       URL to which to POST to initiate the authentication process for the current strategy
-     *         {String}        [enabledStrategies[key].name]    Custom configured name for the current authentication strategy
+     * @return {Object}                List of all enabled authentication strategies for the current tenant keyed by authentication strategy id. Each enabled authentication strategy will contain a `url` property with the URL to which to POST to initiate the authentication process for that strategy and a `name` property with the custom configured name for that strategy
      */
     var getEnabledStrategies = exports.getEnabledStrategies = function() {
         var enabledStrategies = {};

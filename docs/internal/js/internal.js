@@ -32,10 +32,10 @@ require(['jquery', 'oae.core', 'jquery.history'], function($, oae) {
         // Get the current requested module from the History.js
         // Retrieve the documentation for the current module from the server
         getModuleDocs(module, type, function(docs) {
-            oae.api.util.template().render($('#doc-module-template'), {
+            oae.api.util.template().render($('#internal-module-template'), {
                 'docs': docs,
                 'module': module
-            }, $('#doc-module-container'));
+            }, $('#internal-module-container'));
 
             // Scroll to the appropriate place on the page. This will be the top of the page most of the time, unless
             // a direct link to a function has been clicked (e.g. http://cambridge.oae.com/docs/backend/oae-authentication/createUser)
@@ -57,7 +57,7 @@ require(['jquery', 'oae.core', 'jquery.history'], function($, oae) {
      * @param  {String}      currentModule    The name of the module that is currently shown in the UI
      */
     var renderNavigation = function(modules, currentModule) {
-        oae.api.util.template().render($('#doc-modules-template'), modules, $('#doc-modules-container'));
+        oae.api.util.template().render($('#internal-modules-template'), modules, $('#internal-modules-container'));
     };
 
     /**
@@ -131,7 +131,7 @@ require(['jquery', 'oae.core', 'jquery.history'], function($, oae) {
      */
     var addBinding = function() {
         // Module switching
-        $(document).on('click', '#doc-modules-container ul li', selectModule)
+        $(document).on('click', '#internal-modules-container ul li', selectModule)
         // The statechange event will be triggered every time the browser back or forward button
         // is pressed or state is pushed/replaced using Hisory.js.
         $(window).on('statechange', renderModuleDocs);
@@ -148,11 +148,11 @@ require(['jquery', 'oae.core', 'jquery.history'], function($, oae) {
             modules.backend.sort();
 
             // Extract the currently selected module from the URL by parsing the URL fragment that's
-            // inside of the current History.js hash. The expected URL structure is `/docs/module/<moduleId>/<apiFunction>`.
+            // inside of the current History.js hash. The expected URL structure is `/docs/internal/module/<moduleId>/<apiFunction>`.
             var initialState = $.url(History.getState().hash);
-            var type = initialState.segment(2) || 'frontend';
-            var moduleToLoad = initialState.segment(3) || modules[type][0];
-            var apiFunction = initialState.segment(4);
+            var type = initialState.segment(3) || 'frontend';
+            var moduleToLoad = initialState.segment(4) || modules[type][0];
+            var apiFunction = initialState.segment(5);
 
             // Render the left hand navigation
             renderNavigation(modules, moduleToLoad);

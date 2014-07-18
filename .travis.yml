@@ -42,14 +42,7 @@ before_install:
   - npm install -g grunt-cli
 
   # 3akai-ux dependencies
-  # TODO: remove manual phantomjs install once grunt-casperjs comes with a supported version of it
-  - wget https://phantomjs.googlecode.com/files/phantomjs-1.9.2-linux-i686.tar.bz2
-  - tar xjf phantomjs-1.9.2-linux-i686.tar.bz2
-  - sudo ln -fs pwd/phantomjs-1.9.2-linux-i686/bin/phantomjs /usr/local/bin/phantomjs
-  - git clone git://github.com/n1k0/casperjs.git ./casperjs
-  - cd casperjs
-  - git checkout 1.1-beta3
-  - sudo ln -sf `pwd`/bin/casperjs /usr/local/bin/casperjs
+  - npm install -g casperjs
 
   # Show the CasperJS and PhantomJS version for debugging purposes
   - casperjs --version
