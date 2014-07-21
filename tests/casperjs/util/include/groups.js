@@ -26,6 +26,8 @@ var groupUtil = function() {
     /**
      * Creates a group
      *
+     * @param  {String[]}  [members]     Array of user/group ids that should be added as members to the group
+     * @param  {String[]}  [managers]    Array of user/group ids that should be added as managers to the group
      * @param {Function}   callback          Standard callback function
      * @param {Group}      callback.group    The group data coming back from the server
      */

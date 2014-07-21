@@ -26,8 +26,10 @@ var contentUtil = function() {
     /**
      * Creates a file through the UI and returns the URL to it
      *
-     * @param  {[String]}   file       Optional URL to the file to create
-     * @param  {Function}   callback   Standard callback function
+     * @param  {[String]}    file          Optional URL to the file to create
+     * @param  {String[]}    [managers]    Array of user/group ids that should be added as managers to the file
+     * @param  {String[]}    [viewers]     Array of user/group ids that should be added as viewers to the file
+     * @param  {Function}    callback      Standard callback function
      */
     var createFile = function(file, managers, viewers, callback) {
         var fileToUpload = file || 'tests/casperjs/data/balloons.jpg';
@@ -59,7 +61,6 @@ var contentUtil = function() {
                             members[managers[m]] = 'manager';
                         }
 
-                        var viewersToAdd = {};
                         for (var v = 0; v < viewers.length; v++) {
                             members[viewers[v]] = 'viewer';
                         }
@@ -86,8 +87,10 @@ var contentUtil = function() {
     /**
      * Creates a link through the UI and returns the URL to it
      *
-     * @param  {[String]}   link       Optional URL to the link to create
-     * @param  {Function}   callback   Standard callback function
+     * @param  {String}      [link]        Optional URL to the link to create
+     * @param  {String[]}    [managers]    Array of user/group ids that should be added as managers to the link
+     * @param  {String[]}    [viewers]     Array of user/group ids that should be added as viewers to the link
+     * @param  {Function}    callback      Standard callback function
      */
     var createLink = function(link, managers, viewers, callback) {
         link = link || 'http://www.oaeproject.org';
@@ -154,9 +157,7 @@ var contentUtil = function() {
             }, contentId, params);
         });
 
-        casper.then(function() {
-            callback();
-        });
+        casper.then(callback);
     };
 
     return {

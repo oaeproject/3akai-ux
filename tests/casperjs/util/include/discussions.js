@@ -23,6 +23,8 @@ var discussionUtil = function() {
     /**
      * Creates a discussion
      *
+     * @param  {String[]}     [managers]             Array of user/group ids that should be added as managers to the discussion
+     * @param  {String[]}     [viewers]              Array of user/group ids that should be added as viewers to the discussion
      * @param  {Function}     callback               Standard callback function
      * @param  {Discussion}   callback.discussion    The created discussion object
      */
@@ -56,7 +58,6 @@ var discussionUtil = function() {
                     members[managers[m]] = 'manager';
                 }
 
-                var viewersToAdd = {};
                 for (var v = 0; v < viewers.length; v++) {
                     members[viewers[v]] = 'viewer';
                 }

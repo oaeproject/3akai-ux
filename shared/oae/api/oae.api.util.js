@@ -237,7 +237,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          *
          * - `entityData` is an object representing a user, group or content item or a search result for a user, group
          *    or content item
-         * - `displayOptions` (optional) is an object containing additional options that determine how a list item looks and what interactions/actions there are
+         * - `displayOptions` (optional) is an object containing additional options that determine how the list item is displayed and behaves
          *
          * 3) Activity summary
          *

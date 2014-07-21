@@ -518,8 +518,8 @@ div.oae-thumbnail i[class^="icon-"] {
  * - When a clip should not be clickable (e.g. in non-manager mode of a page), the `disabled` attribute
  *   should be added to the button. This will hide any caret icons and will make the clip unclickable.
  * - If a clip should not be visible on smaller viewports the `hidden-xs hidden-sm` classes should be applied.
- * - A clip can also be a link instead of a button. The syntax remains the same but an anchor tag is used
- *   instead of a button tag.
+ * - A clip action can be either a link or a button. A button should be used when the clip action initiates an
+ *   action inside of the current page. A link should be used when the clip action links to a different page.
  */
 
 /* Clip container */

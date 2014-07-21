@@ -26,8 +26,10 @@ var collabDocUtil = function() {
     /**
      * Creates a collabdoc
      *
-     * @param {Function}    callback              Standard callback function
-     * @param {Collabdoc}   callback.collabdoc    The collabdoc data coming back from the server
+     * @param  {String[]}   [managers]            Array of user/group ids that should be added as managers to the collaborative document
+     * @param  {String[]}   [viewers]             Array of user/group ids that should be added as viewers to the collaborative document
+     * @param  {Function}   callback              Standard callback function
+     * @param  {Collabdoc}  callback.collabdoc    The collabdoc data coming back from the server
      */
     var createCollabDoc = function(managers, viewers, callback) {
         var collabdoc = null;
@@ -61,7 +63,6 @@ var collabDocUtil = function() {
                     members[managers[m]] = 'manager';
                 }
 
-                var viewersToAdd = {};
                 for (var v = 0; v < viewers.length; v++) {
                     members[viewers[v]] = 'viewer';
                 }
