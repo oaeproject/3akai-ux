@@ -147,9 +147,7 @@ casper.test.begin('Page - Content', function(test) {
                 casper.thenOpen(contentURL, function() {
                     casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyFileClipButtonsAsManager);
                 });
-                casper.then(function() {
-                    userUtil().doLogOut();
-                });
+                casper.then(userUtil().doLogOut);
             });
         });
 
@@ -159,9 +157,7 @@ casper.test.begin('Page - Content', function(test) {
             casper.thenOpen(contentURL, function() {
                 casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyFileClipButtonsAsNonManager);
             });
-            casper.then(function() {
-                userUtil().doLogOut();
-            });
+            casper.then(userUtil().doLogOut);
         });
 
         casper.then(function() {
@@ -170,9 +166,7 @@ casper.test.begin('Page - Content', function(test) {
             casper.thenOpen(contentURL, function() {
                 casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyFileClipButtonsAsNonManager);
             });
-            casper.then(function() {
-                userUtil().doLogOut();
-            });
+            casper.then(userUtil().doLogOut);
         });
 
         casper.then(function() {
@@ -201,9 +195,7 @@ casper.test.begin('Page - Content', function(test) {
                 casper.thenOpen(linkURL, function() {
                     casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyLinkClipButtonsAsManager);
                 });
-                casper.then(function() {
-                    userUtil().doLogOut();
-                });
+                casper.then(userUtil().doLogOut);
             });
         });
 
@@ -213,9 +205,7 @@ casper.test.begin('Page - Content', function(test) {
             casper.thenOpen(linkURL, function() {
                 casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyLinkClipButtonsAsNonManager);
             });
-            casper.then(function() {
-                userUtil().doLogOut();
-            });
+            casper.then(userUtil().doLogOut);
         });
 
         casper.then(function() {
@@ -224,9 +214,7 @@ casper.test.begin('Page - Content', function(test) {
             casper.thenOpen(linkURL, function() {
                 casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyLinkClipButtonsAsNonManager);
             });
-            casper.then(function() {
-                userUtil().doLogOut();
-            });
+            casper.then(userUtil().doLogOut);
         });
 
         casper.then(function() {
@@ -255,9 +243,7 @@ casper.test.begin('Page - Content', function(test) {
                 casper.thenOpen(collabdocURL, function() {
                     casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyCollabdocClipButtonsAsManager);
                 });
-                casper.then(function() {
-                    userUtil().doLogOut();
-                });
+                casper.then(userUtil().doLogOut);
             });
         });
 
@@ -267,9 +253,7 @@ casper.test.begin('Page - Content', function(test) {
             casper.thenOpen(collabdocURL, function() {
                 casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyCollabdocClipButtonsAsNonManager);
             });
-            casper.then(function() {
-                userUtil().doLogOut();
-            });
+            casper.then(userUtil().doLogOut);
         });
 
         casper.then(function() {
@@ -278,9 +262,7 @@ casper.test.begin('Page - Content', function(test) {
             casper.thenOpen(collabdocURL, function() {
                 casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyCollabdocClipButtonsAsNonManager);
             });
-            casper.then(function() {
-                userUtil().doLogOut();
-            });
+            casper.then(userUtil().doLogOut);
         });
 
         casper.then(function() {

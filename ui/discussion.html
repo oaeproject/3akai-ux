@@ -36,7 +36,7 @@
                         </div>
                         <div class="oae-clip-content">
                             <button type="button" {if !discussion.isManager} disabled {/if}>
-                                ${renderThumbnail(discussion, true, false, false)}
+                                ${renderThumbnail(discussion, displayOptions)}
                                 <div>
                                     <div>
                                         <h1 class="oae-threedots">${discussion.displayName|encodeForHTML}</h1>

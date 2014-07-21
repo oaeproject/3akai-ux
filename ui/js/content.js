@@ -134,7 +134,13 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * content's admin options. Also render the share and comment actions clips.
      */
     var setUpClips = function() {
-        oae.api.util.template().render($('#content-clip-template'), {'content': contentProfile}, $('#content-clip-container'));
+        oae.api.util.template().render($('#content-clip-template'), {
+            'content': contentProfile,
+            'displayOptions': {
+                'addVisibilityIcon': true,
+                'addLink': false
+            }
+        }, $('#content-clip-container'));
         oae.api.util.template().render($('#content-actions-clip-template'), {'content': contentProfile}, $('#content-actions-clip-container'));
     };
 

@@ -333,7 +333,7 @@ i[class^="icon-"].large:before {
  * Next to using the HTML structure, there is also a Trimpath macro that can be used
  * instead from all Trimpath templates:
  *
- *   `${renderThumbnail(entityData, [addVisibilityIcon], [large])}`
+ *   `${renderThumbnail(entityData, [displayOptions])}`
  *
  * An explanation of the parameters for the thumbnail macro can be found in `shared/oae/macros/list.html`.
  *
