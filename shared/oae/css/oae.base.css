@@ -97,16 +97,9 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     display: inline-block;
     font-size: 1.5em;
     margin-right: 10px;
-    padding-top: 0;
     position: relative;
     top: 7px;
     width: 20px;
-}
-
-@media (max-width: 768px) {
-    .nav-list i.fa {
-        margin-top: -1px;
-    }
 }
 
 .nav-list .nav-header {
@@ -140,7 +133,7 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 
 i.fa {
     font-size: 22px;
-    padding-top: 0.5px;
+    line-height: normal; /* replicate Font Awesome 3.x behavior for consistency */
 }
 
 i.hide.fa {
