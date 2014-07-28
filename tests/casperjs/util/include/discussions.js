@@ -42,8 +42,10 @@ var discussionUtil = function() {
         casper.then(function() {
             if (data) {
                 discussion = data;
+                callback(discussion);
             } else {
                 casper.echo('Could not create discussion \'Discussion' + rndString + '\'.', 'ERROR');
+                callback(null);
             }
         });
 
