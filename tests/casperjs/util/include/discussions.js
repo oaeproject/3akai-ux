@@ -29,9 +29,8 @@ var discussionUtil = function() {
      * @param  {Discussion}   callback.discussion    The created discussion object
      */
     var createDiscussion = function(managers, viewers, callback) {
-        var discussion = null;
         var rndString = mainUtil().generateRandomString();
-        data = casper.evaluate(function(rndString) {
+        var discussion = casper.evaluate(function(rndString) {
             return JSON.parse(__utils__.sendAJAX('/api/discussion/create', 'POST', {
                 'displayName': 'Discussion ' + rndString,
                 'description': 'Talk about all the things!',
@@ -40,12 +39,9 @@ var discussionUtil = function() {
         }, rndString);
 
         casper.then(function() {
-            if (data) {
-                discussion = data;
-                callback(discussion);
-            } else {
+            if (!discussion) {
                 casper.echo('Could not create discussion \'Discussion' + rndString + '\'.', 'ERROR');
-                callback(null);
+                return callback(null);
             }
         });
 
@@ -64,15 +60,15 @@ var discussionUtil = function() {
                     members[viewers[v]] = 'viewer';
                 }
 
-                data = casper.evaluate(function(discussionId, members) {
+                casper.evaluate(function(discussionId, members) {
                     return JSON.parse(__utils__.sendAJAX('/api/discussion/'+ discussionId + '/members', 'POST', members, false));
                 }, discussion.id, members);
 
                 casper.then(function() {
-                    callback(discussion);
+                    return callback(discussion);
                 });
             } else {
-                callback(discussion);
+                return callback(discussion);
             }
         });
     };

@@ -13,9 +13,6 @@
  * permissions and limitations under the License.
  */
 
-// Keeps track of the created collabdocs that are available for testing
-var createdCollabDocs = [];
-
 /**
  * Utility functions for collaborative documents
  *
@@ -32,9 +29,8 @@ var collabDocUtil = function() {
      * @param  {Collabdoc}  callback.collabdoc    The collabdoc data coming back from the server
      */
     var createCollabDoc = function(managers, viewers, callback) {
-        var collabdoc = null;
         var rndString = mainUtil().generateRandomString();
-        data = casper.evaluate(function(rndString) {
+        var collabdoc = casper.evaluate(function(rndString) {
             return JSON.parse(__utils__.sendAJAX('/api/content/create', 'POST', {
                 'resourceSubType': 'collabdoc',
                 'displayName': 'collabdoc-' + rndString,
@@ -44,11 +40,9 @@ var collabDocUtil = function() {
         }, rndString);
 
         casper.then(function() {
-            if (data) {
-                createdCollabDocs.push(data);
-                collabdoc = data;
-            } else {
+            if (!collabdoc) {
                 casper.echo('Could not create collabdoc-' + rndString + '.', 'ERROR');
+                return callback(null);
             }
         });
 
@@ -67,21 +61,20 @@ var collabDocUtil = function() {
                     members[viewers[v]] = 'viewer';
                 }
 
-                data = casper.evaluate(function(collabdocId, members) {
+                casper.evaluate(function(collabdocId, members) {
                     return JSON.parse(__utils__.sendAJAX('/api/content/'+ collabdocId + '/members', 'POST', members, false));
                 }, collabdoc.id, members);
 
                 casper.then(function() {
-                    callback(collabdoc);
+                    return callback(collabdoc);
                 });
             } else {
-                callback(collabdoc);
+                return callback(collabdoc);
             }
         });
     };
 
     return {
-        'createCollabDoc': createCollabDoc,
-        'createdCollabDocs': createdCollabDocs
+        'createCollabDoc': createCollabDoc
     };
 };
