@@ -26,11 +26,11 @@ var collabDocUtil = function() {
      * @param  {String[]}   [managers]            Array of user/group ids that should be added as managers to the collaborative document
      * @param  {String[]}   [viewers]             Array of user/group ids that should be added as viewers to the collaborative document
      * @param  {Function}   callback              Standard callback function
-     * @param  {Collabdoc}  callback.collabdoc    The collabdoc data coming back from the server
+     * @param  {Collabdoc}  callback.collabdoc    Collabdoc object representing the created collaborative document
      */
     var createCollabDoc = function(managers, viewers, callback) {
         var rndString = mainUtil().generateRandomString();
-        var collabdoc = casper.evaluate(function(rndString) {
+        var collabdocProfile = casper.evaluate(function(rndString) {
             return JSON.parse(__utils__.sendAJAX('/api/content/create', 'POST', {
                 'resourceSubType': 'collabdoc',
                 'displayName': 'collabdoc-' + rndString,
@@ -40,7 +40,7 @@ var collabDocUtil = function() {
         }, rndString);
 
         casper.then(function() {
-            if (!collabdoc) {
+            if (!collabdocProfile) {
                 casper.echo('Could not create collabdoc-' + rndString + '.', 'ERROR');
                 return callback(null);
             }
@@ -63,13 +63,13 @@ var collabDocUtil = function() {
 
                 casper.evaluate(function(collabdocId, members) {
                     return JSON.parse(__utils__.sendAJAX('/api/content/'+ collabdocId + '/members', 'POST', members, false));
-                }, collabdoc.id, members);
+                }, collabdocProfile.id, members);
 
                 casper.then(function() {
-                    return callback(collabdoc);
+                    return callback(collabdocProfile);
                 });
             } else {
-                return callback(collabdoc);
+                return callback(collabdocProfile);
             }
         });
     };

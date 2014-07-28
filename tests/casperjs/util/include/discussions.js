@@ -23,14 +23,14 @@ var discussionUtil = function() {
     /**
      * Creates a discussion
      *
-     * @param  {String[]}     [managers]             Array of user/group ids that should be added as managers to the discussion
-     * @param  {String[]}     [viewers]              Array of user/group ids that should be added as viewers to the discussion
-     * @param  {Function}     callback               Standard callback function
-     * @param  {Discussion}   callback.discussion    The created discussion object
+     * @param  {String[]}     [managers]                    Array of user/group ids that should be added as managers to the discussion
+     * @param  {String[]}     [viewers]                     Array of user/group ids that should be added as viewers to the discussion
+     * @param  {Function}     callback                      Standard callback function
+     * @param  {Discussion}   callback.discussionProfile    Discussion object representing the created discussion
      */
     var createDiscussion = function(managers, viewers, callback) {
         var rndString = mainUtil().generateRandomString();
-        var discussion = casper.evaluate(function(rndString) {
+        var discussionProfile = casper.evaluate(function(rndString) {
             return JSON.parse(__utils__.sendAJAX('/api/discussion/create', 'POST', {
                 'displayName': 'Discussion ' + rndString,
                 'description': 'Talk about all the things!',
@@ -39,7 +39,7 @@ var discussionUtil = function() {
         }, rndString);
 
         casper.then(function() {
-            if (!discussion) {
+            if (!discussionProfile) {
                 casper.echo('Could not create discussion \'Discussion' + rndString + '\'.', 'ERROR');
                 return callback(null);
             }
@@ -62,13 +62,13 @@ var discussionUtil = function() {
 
                 casper.evaluate(function(discussionId, members) {
                     return JSON.parse(__utils__.sendAJAX('/api/discussion/'+ discussionId + '/members', 'POST', members, false));
-                }, discussion.id, members);
+                }, discussionProfile.id, members);
 
                 casper.then(function() {
-                    return callback(discussion);
+                    return callback(discussionProfile);
                 });
             } else {
-                return callback(discussion);
+                return callback(discussionProfile);
             }
         });
     };
