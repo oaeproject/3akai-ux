@@ -646,7 +646,7 @@ ul.as-list li.as-result-item.active {
     clear: both;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 479px) {
     .oae-main-content {
         padding-left: 0;
         padding-right: 0;

@@ -544,7 +544,7 @@ div.oae-thumbnail i[class^="icon-"] {
 }
 
 /* iPhone resolution */
-@media (max-width: 480px) {
+@media (max-width: 479px) {
     .oae-clip {
         margin-left: 15px;
     }
