@@ -168,7 +168,6 @@ module.exports = function(grunt) {
                                 '!<%= target %>/optimized/shared/oae/bundles/email.*/**',
                                 '!<%= target %>/optimized/shared/oae/bundles/ui.*/**',
                                 '!<%= target %>/optimized/shared/vendor/js/l10n/cultures.*/**'
-
                             ]
                         }),
                         'references': _replacementReferences({
