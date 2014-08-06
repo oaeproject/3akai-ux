@@ -116,9 +116,10 @@ module.exports = function(grunt) {
                 'phases': [
 
                     /*!
-                     * In the first phase, we hash all the bundle and culture folders and replace
-                     * their references in just the shared JS files as those are the only places
-                     * we have references to them.
+                     * In the first phase, we hash the contents of all the shared bundle and culture
+                     * folders and rename the foler to contain the hash. All references to the
+                     * original folder name are replaced with the hashed version in just the shared
+                     * JS files as those are the only places we have references to them.
                      */
                     {
                         'folders': [
@@ -126,7 +127,9 @@ module.exports = function(grunt) {
                             '<%= target %>/optimized/shared/oae/bundles/email',
                             '<%= target %>/optimized/shared/vendor/js/l10n/cultures'
                         ],
-                        'references': _replacementReferences(['shared'], ['js'])
+                        'references': [
+                            '<%= target %>/optimized/shared/**/*.js'
+                        ]
                     },
 
                     /*!
@@ -136,36 +139,56 @@ module.exports = function(grunt) {
                      * the following types of files are excluded:
                      *
                      *  * We do not hash HTML files because they aren't cached
-                     *  * We do not hash the JSON files (e.g., manifest.json)
-                     *  * We do not hash the favicon (ico) because it is a browser standard file
-                     *  * We do not hash less files because they are programmatically access
+                     *  * We do not hash JS and CSS files because they are handled separately in a later phase
+                     *  * We do not hash the JSON files (e.g., manifest.json) because they are not referenced as assets by the UI, only by the oae-ui Hilary module
+                     *  * We do not hash the favicon (*.ico) because it is a browser standard file
+                     *  * We do not hash less files because they are programmatically accessed
                      *  * We exclude the directories that have already been hashed (bundles and cultures)
                      *
                      * TODO: Remove "custom" when there is a proper landing page customization strategy
                      */
                     {
-                        'files': _hashFiles([
-                            '<%= target %>/optimized/admin',
-                            '<%= target %>/optimized/custom',
-                            '<%= target %>/optimized/docs',
-                            '<%= target %>/optimized/shared',
-                            '<%= target %>/optimized/ui'
-                        ], ['css', 'html', 'ico', 'js', 'json', 'less'], [
-                            '!<%= target %>/optimized/shared/oae/bundles/email.*/**',
-                            '!<%= target %>/optimized/shared/oae/bundles/ui.*/**',
-                            '!<%= target %>/optimized/shared/vendor/js/l10n/cultures.*/**'
+                        'files': _hashFiles({
+                            'directories': [
+                                '<%= target %>/optimized/admin',
+                                '<%= target %>/optimized/custom',
+                                '<%= target %>/optimized/docs',
+                                '<%= target %>/optimized/shared',
+                                '<%= target %>/optimized/ui'
+                            ],
+                            'excludeExts': [
+                                'css',
+                                'html',
+                                'ico',
+                                'js',
+                                'json',
+                                'less'
+                            ],
+                            'extra': [
+                                '!<%= target %>/optimized/shared/oae/bundles/email.*/**',
+                                '!<%= target %>/optimized/shared/oae/bundles/ui.*/**',
+                                '!<%= target %>/optimized/shared/vendor/js/l10n/cultures.*/**'
 
-                        ]),
-                        'references': _replacementReferences([
-                            'admin',
-                            'custom',
-                            'docs',
-                            'node_modules/oae-*',
-                            'shared',
-                            'ui'
-                        ], ['css', 'html', 'js'], [
-                            '<%= target %>/optimized/shared/oae/macros/*.html'
-                        ])
+                            ]
+                        }),
+                        'references': _replacementReferences({
+                            'directories': [
+                                '<%= target %>/optimized/admin',
+                                '<%= target %>/optimized/custom',
+                                '<%= target %>/optimized/docs',
+                                '<%= target %>/optimized/node_modules/oae-*',
+                                '<%= target %>/optimized/shared',
+                                '<%= target %>/optimized/ui'
+                            ],
+                            'includeExts': [
+                                'css',
+                                'html',
+                                'js'
+                            ],
+                            'extra': [
+                                '<%= target %>/optimized/shared/oae/macros/*.html'
+                            ]
+                        })
                     },
 
                     /*!
@@ -192,16 +215,23 @@ module.exports = function(grunt) {
                             '<%= target %>/optimized/shared/**/*.css',
                             '!<%= target %>/optimized/shared/vendor/js/l10n/cultures.*/**'
                         ],
-                        'references': _replacementReferences([
-                            'admin',
-                            'custom',
-                            'docs',
-                            'node_modules/oae-*',
-                            'shared',
-                            'ui'
-                        ], ['html', 'js'], [
-                            '<%= target %>/optimized/shared/oae/macros/*.html'
-                        ])
+                        'references': _replacementReferences({
+                            'directories': [
+                                '<%= target %>/optimized/admin',
+                                '<%= target %>/optimized/custom',
+                                '<%= target %>/optimized/docs',
+                                '<%= target %>/optimized/node_modules/oae-*',
+                                '<%= target %>/optimized/shared',
+                                '<%= target %>/optimized/ui'
+                            ],
+                            'includeExts': [
+                                'html',
+                                'js'
+                            ],
+                            'extra': [
+                                '<%= target %>/optimized/shared/oae/macros/*.html'
+                            ]
+                        })
                     },
 
                     /*!
@@ -229,15 +259,22 @@ module.exports = function(grunt) {
                             '<%= target %>/optimized/custom/**/*.css',
                             '<%= target %>/optimized/ui/**/*.css'
                         ],
-                        'references': _replacementReferences([
-                            'admin',
-                            'custom',
-                            'docs',
-                            'node_modules/oae-*',
-                            'ui'
-                        ], ['html', 'js'], [
-                            '<%= target %>/optimized/shared/oae/macros/*.html'
-                        ])
+                        'references': _replacementReferences({
+                            'directories': [
+                                '<%= target %>/optimized/admin',
+                                '<%= target %>/optimized/custom',
+                                '<%= target %>/optimized/docs',
+                                '<%= target %>/optimized/node_modules/oae-*',
+                                '<%= target %>/optimized/ui'
+                            ],
+                            'includeExts': [
+                                'html',
+                                'js'
+                            ],
+                            'extra': [
+                                '<%= target %>/optimized/shared/oae/macros/*.html'
+                            ]
+                        })
                     }
                 ],
                 'version': '<%= target %>/optimized/hashes.json'
@@ -355,7 +392,10 @@ module.exports = function(grunt) {
                  *    deterministic name
                  */
                 {
-                    'files': _hashFiles([module], ['css', 'html', 'js', 'json', 'properties']),
+                    'files': _hashFiles({
+                        'directories': [module],
+                        'excludeExts': ['css', 'html', 'js', 'json', 'properties']
+                    }),
                     'references': moduleReferences.slice()
                 },
 
@@ -541,44 +581,52 @@ module.exports = function(grunt) {
  * Generate the standard replacement references for the given resource directories, and also
  * include the provided "extra" replacement files.
  *
- * @param  {String[]}   dirs            The directory names (located in <target>/optimized) whose resource paths should be replaced
- * @param  {String[]}   includeExts     The file extensions that should have replacement performed
- * @param  {String[]}   extra           Additional replacements to perform
- * @return {String[]}                   The full derived list of all resources that replacement should be performed
+ * @param  {Object}     options                 An options object that specifies what files to hash
+ * @param  {String[]}   options.directories     A list of directories whose resource paths should be replaced
+ * @param  {String[]}   [options.includeExts]   The file extensions that should have replacement performed
+ * @param  {String[]}   [options.extra]         Additional replacements to perform
+ * @return {String[]}                           The full derived list of all resources that replacement should be performed
+ * @api private
  */
-var _replacementReferences = function(dirs, includeExts, extra) {
-    var replacements = (_.isArray(extra)) ? extra.slice() : [];
+var _replacementReferences = function(options) {
+    options.includeExts = options.includeExts || [];
+    options.extra = options.extra || [];
 
-    _.each(dirs, function(dir) {
-        _.each(includeExts, function(ext) {
-            replacements.push(util.format('<%= target %>/optimized/%s/**/*.%s', dir, ext));
+    var globs = [];
+    _.each(options.directories, function(directory) {
+        _.each(options.includeExts, function(ext) {
+            globs.push(util.format('%s/**/*.%s', directory, ext));
         });
     });
 
-    return replacements;
+    return _.union(globs, options.extra);
 };
 
 /**
- * Generate the glob expressions to match all files that have extensions that are supposed to be hashed (as defined
- * by `HASHED_EXTENSIONS`). You can optionally exclude extensions for special cases.
+ * Generate the glob expressions to match all extensions of files in the provided set of
+ * directories. Any file with an extension that is found in the `excludeExts` option  will not be
+ * hashed
  *
- * @param  {String[]}   directories     The list of directories whose files to hash
- * @param  {String[]}   [excludeExts]   The extensions to exclude from the list of `HASHED_EXTENSIONS`, if any
- * @param  {String[]}   [extra]         Extra glob patterns to append, in addition to the ones added for the extensions
- * @return {String[]}                   An array of glob expressions that match the files to hash in the directories
+ * @param  {Object}     options                 An options object that specifies what files to hash
+ * @param  {String[]}   options.directories     The list of directories whose files to hash
+ * @param  {String[]}   [options.excludeExts]   The extensions of files to ignore when hashing files
+ * @param  {String[]}   [options.extra]         Extra glob patterns to append, in addition to the ones added for the extensions
+ * @return {String[]}                           An array of glob expressions that match the files to hash in the directories
  * @api private
  */
-var _hashFiles = function(directories, excludeExts, extra) {
-    excludeExts = excludeExts || [];
+var _hashFiles = function(options) {
+    options.excludeExts = options.excludeExts || [];
+    options.extra = options.extra || [];
+
     var globs = [];
-    directories.forEach(function(directory) {
+    _.each(options.directories, function(directory) {
         globs.push(util.format('%s/**', directory));
-        excludeExts.forEach(function(ext) {
-            // Exclude both direct children of the exlucded extensions, and all grandchildren
+        _.each(options.excludeExts, function(ext) {
+            // Exclude both direct children of the excluded extensions, and all grand-children
             globs.push(util.format('!%s/*.%s', directory, ext));
             globs.push(util.format('!%s/**/*.%s', directory, ext));
         });
     });
 
-    return (extra) ? _.union(globs, extra) : globs;
+    return _.union(globs, options.extra);
 };
