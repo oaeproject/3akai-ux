@@ -673,16 +673,11 @@ ul.as-list li.as-result-item.active {
 }
 
 
-/*********************
- ** SIGN IN BUTTONS **
- *********************/
+/*************************************
+ ** EXTERNAL AUTHENTICATION BUTTONS **
+ *************************************/
 
-.nav > li .btn i {
-    float: left;
-    width: 30px;
-}
-
-.nav > li .btn {
+.nav > li .btn-external-auth {
     font-size: 14px;
     text-align: left;
     padding: 6px 15px;
@@ -697,6 +692,11 @@ ul.as-list li.as-result-item.active {
 .nav > li .btn-external-auth:hover {
     background-image: none;
     filter: none;
+}
+
+.nav > li .btn-external-auth i {
+    float: left;
+    width: 30px;
 }
 
 .nav > li .btn-facebook,
