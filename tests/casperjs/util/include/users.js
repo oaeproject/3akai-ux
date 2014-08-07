@@ -112,8 +112,8 @@ var userUtil = function() {
             casper.wait(configUtil().searchWaitTime, function() {
                 // Fill sign in form
                 casper.fill('form#adminlogin-local', {
-                    'username': username,
-                    'password': password
+                    'adminlogin-local-username': username,
+                    'adminlogin-local-password': password
                 }, false);
                 // Do the login
                 casper.click('form#adminlogin-local button[type="submit"]');

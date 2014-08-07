@@ -73,7 +73,7 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                     ]
                 },
                 {
-                    'id': 'modules',
+                    'id': 'configuration',
                     'icon': 'icon-cogs',
                     'closeNav': true,
                     'title': oae.api.i18n.translate('__MSG__CONFIGURATION__'),
