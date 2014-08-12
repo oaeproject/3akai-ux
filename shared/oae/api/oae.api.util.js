@@ -150,7 +150,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
 
     // Variable that will cache all of the parsed Trimpath templates.
     // This avoids the same template being parsed over and over again
-    var templateCache = [];
+    var templateCache = {};
     // Variable that will be used to cache the OAE Trimpath macros for
     // common HTML structures across different pages. This is currently
     // only being used for rendering list view items
