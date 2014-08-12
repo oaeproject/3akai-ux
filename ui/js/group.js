@@ -118,6 +118,12 @@ require(['jquery', 'oae.core'], function($, oae) {
                 'title': oae.api.i18n.translate('__MSG__CREATE__'),
                 'children': [
                     {
+                        'icon': 'icon-folder-open',
+                        'title': oae.api.i18n.translate('__MSG__FOLDER__'),
+                        'closeNav': true,
+                        'class': 'oae-trigger-createfolder'
+                    },
+                    {
                         'icon': 'icon-link',
                         'title': oae.api.i18n.translate('__MSG__LINK__'),
                         'closeNav': true,
