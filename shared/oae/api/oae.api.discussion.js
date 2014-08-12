@@ -19,7 +19,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * Get a full discussion profile.
      *
      * @param  {String}       discussionId          Id of the discussion we're trying to retrieve
-     * @param  {Function}     callback              Standard callback method
+     * @param  {Function}     callback              Standard callback function
      * @param  {Object}       callback.err          Error object containing error code and error message
      * @param  {Discussion}   callback.discussion   Discussion object representing the retrieved discussion
      * @throws {Error}                              Error thrown when no discussion id has been provided
@@ -48,7 +48,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {String}         [visibility]              The discussion's visibility. This can be public, loggedin or private
      * @param  {String[]}       [managers]                Array of user/group ids that should be added as managers to the discussion
      * @param  {String[]}       [members]                 Array of user/group ids that should be added as members to the discussion
-     * @param  {Function}       [callback]                Standard callback method
+     * @param  {Function}       [callback]                Standard callback function
      * @param  {Object}         [callback.err]            Error object containing error code and error message
      * @param  {Discussion}     [callback.discussion]     Discussion object representing the created discussion
      * @throws {Error}                                    Error thrown when no discussion topic has been provided
@@ -87,7 +87,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      *
      * @param  {String}       discussionId                Id of the discussion we're trying to update
      * @param  {Object}       params                      JSON object where the keys represent all of the profile field names we want to update and the values represent the new values for those fields
-     * @param  {Function}     [callback]                  Standard callback method
+     * @param  {Function}     [callback]                  Standard callback function
      * @param  {Object}       [callback.err]              Error object containing error code and error message
      * @param  {Discussion}   [callback.discussion]       Discussion object representing the updated discussion
      * @throws {Error}                                    Error thrown when not all of the required parameters have been provided
@@ -119,7 +119,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * Permanently delete a discussion from the system.
      *
      * @param  {String}        discussionId          Id of the discussion we're trying to delete
-     * @param  {Function}      [callback]            Standard callback method
+     * @param  {Function}      [callback]            Standard callback function
      * @param  {Object}        [callback.err]        Error object containing error code and error message
      * @throws {Error}                               Error thrown when no valid discussion id has been provided
      */
@@ -149,7 +149,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {String}          discussionId                   Id of the discussion we're trying to retrieve the members for
      * @param  {String}          [start]                        The token used for paging. If the first page of results is required, `null` should be passed in as the token. For any subsequent pages, the `nextToken` provided in the feed from the previous page should be used
      * @param  {Number}          [limit]                        The number of members to retrieve
-     * @param  {Function}        callback                       Standard callback method
+     * @param  {Function}        callback                       Standard callback function
      * @param  {Object}          callback.err                   Error object containing error code and error message
      * @param  {Object}          callback.members               Response object containing the discussion members and nextToken
      * @param  {User[]|Group[]}  callback.members.results       Array that contains an object for each member. Each object has a role property that contains the role of the member and a profile property that contains the principal profile of the member
@@ -183,7 +183,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      *
      * @param  {String}       discussionId          Id of the discussion we're trying to update the members of
      * @param  {Object}       updatedMembers        JSON Object where the keys are the user/group ids we want to update membership for, and the values are the roles these members should get (manager or viewer). If false is passed in as a role, the principal will be removed as a member
-     * @param  {Function}     [callback]            Standard callback method
+     * @param  {Function}     [callback]            Standard callback function
      * @param  {Object}       [callback.err]        Error object containing error code and error message
      * @throws {Error}                              Error thrown when not all of the required parameters have been provided
      */
@@ -215,7 +215,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      *
      * @param  {String}       discussionId          Id of the discussion we're trying to share
      * @param  {String[]}     principals            Array of principal ids with who the discussion should be shared
-     * @param  {Function}     [callback]            Standard callback method
+     * @param  {Function}     [callback]            Standard callback function
      * @param  {Object}       [callback.err]        Error object containing error code and error message
      * @throws {Error}                              Error thrown when no discussion ID or Array of principal IDs has been provided
      */
@@ -252,7 +252,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {String}         principalId                     User or group id for who we want to retrieve the discussions library
      * @param  {String}         [start]                         The token used for paging. If the first page of results is required, `null` should be passed in as the token. For any subsequent pages, the `nextToken` provided in the feed from the previous page should be used
      * @param  {Number}         [limit]                         The number of discussions to retrieve
-     * @param  {Function}       callback                        Standard callback method
+     * @param  {Function}       callback                        Standard callback function
      * @param  {Object}         callback.err                    Error object containing error code and error message
      * @param  {Object}         callback.discussions            Response object containing the discussions in the requested library and nextToken
      * @param  {Discussion[]}   callback.discussions.results    Array of discussions representing the discussions present in the library
@@ -286,7 +286,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      *
      * @param  {String}         principalId       User or group id for for the library from which we want to delete the content
      * @param  {String}         discussionId      Id of the discussion we're trying to delete from the library
-     * @param  {Function}       [callback]        Standard callback method
+     * @param  {Function}       [callback]        Standard callback function
      * @param  {Object}         [callback.err]    Error object containing error code and error message
      * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */

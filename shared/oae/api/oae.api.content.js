@@ -19,7 +19,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
      * Get a full content profile
      *
      * @param  {String}       contentId           Id of the content item we're trying to retrieve
-     * @param  {Function}     callback            Standard callback method
+     * @param  {Function}     callback            Standard callback function
      * @param  {Object}       callback.err        Error object containing error code and error message
      * @param  {Content}      callback.content    Content object representing the retrieved content
      * @throws {Error}                            Error thrown when no content id has been provided
@@ -45,7 +45,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
      *
      * @param  {String}       contentId           Id of the content item we're trying to retrieve
      * @param  {String}       revisionId          Id of the revision we're trying to retrieve
-     * @param  {Function}     callback            Standard callback method
+     * @param  {Function}     callback            Standard callback function
      * @param  {Object}       callback.err        Error object containing error code and error message
      * @param  {Content}      callback.content    Content object representing the retrieved content
      * @throws {Error}                            Error thrown when no content id has been provided
@@ -78,7 +78,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
      * @param  {String}         link                The URL that should be stored against this content item
      * @param  {String[]}       [managers]          Array of user/group ids that should be added as managers to the content item
      * @param  {String[]}       [viewers]           Array of user/group ids that should be added as viewers to the content item
-     * @param  {Function}       [callback]          Standard callback method
+     * @param  {Function}       [callback]          Standard callback function
      * @param  {Object}         [callback.err]      Error object containing error code and error message
      * @param  {Content}        [callback.content]  Content object representing the created content
      * @throws {Error}                              Error thrown when not all of the required parameters have been provided
@@ -126,7 +126,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
      * @param  {Object}             file                jQuery.fileUpload object that was returned when selecting the file that needed to be uploaded
      * @param  {String[]}           [managers]          Array of user/group ids that should be added as managers to the content item
      * @param  {String[]}           [viewers]           Array of user/group ids that should be added as viewers to the content item
-     * @param  {Function}           [callback]          Standard callback method
+     * @param  {Function}           [callback]          Standard callback function
      * @param  {Object}             [callback.err]      Error object containing error code and error message
      * @param  {Content}            [callback.content]  Content object representing the created content
      * @throws {Error}                                  Error thrown when not all of the required parameters have been provided
@@ -187,7 +187,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
      *
      * @param  {Element|String}     $fileUploadField    jQuery element or selector for that jQuery element representing the file upload form field that has been used to initialise jQuery.fileupload
      * @param  {Object}             file                jQuery.fileUpload object that was returned when selecting the file that needed to be uploaded
-     * @param  {Function}           [callback]          Standard callback method
+     * @param  {Function}           [callback]          Standard callback function
      * @param  {Object}             [callback.err]      Error object containing error code and error message
      * @param  {Content}            [callback.content]  Content object representing the updated content
      * @throws {Error}                                  Error thrown when not all of the required parameters have been provided
@@ -229,7 +229,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
      * @param  {String}       [visibility]        The content item's visibility. This can be public, loggedin or private
      * @param  {String[]}     [managers]          Array of user/group ids that should be added as managers to the content item
      * @param  {String[]}     [viewers]           Array of user/group ids that should be added as viewers to the content item
-     * @param  {Function}     [callback]          Standard callback method
+     * @param  {Function}     [callback]          Standard callback function
      * @param  {Object}       [callback.err]      Error object containing error code and error message
      * @param  {Content}      [callback.content]  Content object representing the created content
      * @throws {Error}                            Error thrown when not all of the required parameters have been provided
@@ -270,7 +270,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
      *
      * @param  {String}       contentId             Id of the content item we're restoring a revision of
      * @param  {String}       revisionId            Id of the revision that's being restored
-     * @param  {Function}     [callback]            Standard callback method
+     * @param  {Function}     [callback]            Standard callback function
      * @param  {Object}       [callback.err]        Error object containing error code and error message
      * @param  {Revision}     [callback.revision]   Revision object representing the restored revision
      * @throws {Error}                              Error thrown when not all of the required parameters have been provided
@@ -302,7 +302,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
      *
      * @param  {String}       contentId           Id of the content item we're trying to update
      * @param  {Object}       params              JSON object where the keys represent all of the profile field names we want to update and the values represent the new values for those fields
-     * @param  {Function}     [callback]          Standard callback method
+     * @param  {Function}     [callback]          Standard callback function
      * @param  {Object}       [callback.err]      Error object containing error code and error message
      * @param  {Content}      [callback.data]     Content object representing the updated content
      * @throws {Error}                            Error thrown when not all of the required parameters have been provided
@@ -334,7 +334,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
      * Permanently delete a piece of content from the system
      *
      * @param  {String}        contentId             Id of the content item we're trying to delete
-     * @param  {Function}      [callback]            Standard callback method
+     * @param  {Function}      [callback]            Standard callback function
      * @param  {Object}        [callback.err]        Error object containing error code and error message
      * @throws {Error}                               Error thrown when no valid content id has been provided
      */
@@ -364,7 +364,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
      * @param  {String}          contentId                      Id of the content item we're trying to retrieve the members for
      * @param  {String}          [start]                        The token used for paging. If the first page of results is required, `null` should be passed in as the token. For any subsequent pages, the `nextToken` provided in the feed from the previous page should be used
      * @param  {Number}          [limit]                        The number of members to retrieve
-     * @param  {Function}        callback                       Standard callback method
+     * @param  {Function}        callback                       Standard callback function
      * @param  {Object}          callback.err                   Error object containing error code and error message
      * @param  {Object}          callback.members               Response object containing the content members and nextToken
      * @param  {User[]|Group[]}  callback.members.results       Array that contains an object for each member. Each object has a role property that contains the role of the member and a profile property that contains the principal profile of the member
@@ -398,7 +398,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
      *
      * @param  {String}       contentId           Id of the content item we're trying to update the members for
      * @param  {Object}       updatedMembers      JSON Object where the keys are the user/group ids we want to update membership for, and the values are the roles these members should get (manager or viewer). If false is passed in as a role, the principal will be removed as a member
-     * @param  {Function}     [callback]          Standard callback method
+     * @param  {Function}     [callback]          Standard callback function
      * @param  {Object}       [callback.err]      Error object containing error code and error message
      * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */
@@ -430,7 +430,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
      *
      * @param  {String}       contentId           Id of the content item we're trying to share
      * @param  {String[]}     principals          Array of principal ids with who the content should be shared
-     * @param  {Function}     [callback]          Standard callback method
+     * @param  {Function}     [callback]          Standard callback function
      * @param  {Object}       [callback.err]      Error object containing error code and error message
      * @throws {Error}                            Error thrown when no content ID or Array of principal IDs has been provided
      */
@@ -467,7 +467,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
      * @param  {String}         principalId                     User or group id for who we want to retrieve the content library
      * @param  {String}         [start]                         The token used for paging. If the first page of results is required, `null` should be passed in as the token. For any subsequent pages, the `nextToken` provided in the feed from the previous page should be used
      * @param  {Number}         [limit]                         The number of content items to retrieve
-     * @param  {Function}       callback                        Standard callback method
+     * @param  {Function}       callback                        Standard callback function
      * @param  {Object}         callback.err                    Error object containing error code and error message
      * @param  {Object}         callback.content                Response object containing the content items in the requested library and nextToken
      * @param  {Content[]}      callback.content.results        Array of content items representing the content items present in the library
@@ -501,7 +501,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
      *
      * @param  {String}         principalId       User or group id for for the library from which we want to delete the content
      * @param  {String}         contentId         Id of the content item we're trying to delete from the library
-     * @param  {Function}       [callback]        Standard callback method
+     * @param  {Function}       [callback]        Standard callback function
      * @param  {Object}         [callback.err]    Error object containing error code and error message
      * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */

@@ -34,7 +34,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {String}         [additionalOptions.publicAlias]     The publically-available alias for users to see when the user's display name is protected
      * @param  {Boolean}        [additionalOptions.isGlobalAdmin]   Whether or not the new user should be a global admin
      * @param  {Boolean}        [additionalOptions.isTenantAdmin]   Whether or not the new user should be a tenant admin
-     * @param  {Function}       [callback]                          Standard callback method
+     * @param  {Function}       [callback]                          Standard callback function
      * @param  {Object}         [callback.err]                      Error object containing error code and error message
      * @param  {User}           [callback.response]                 A User object representing the created user
      * @throws {Error}                                              Error thrown when not all of the required parameters have been provided
@@ -93,7 +93,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {String}         [additionalOptions.email]           The global administrator's email address
      * @param  {String}         [additionalOptions.locale]          The global administrator's locale
      * @param  {String}         [additionalOptions.publicAlias]     The publically-available alias for users to see when the global administrator's display name is protected
-     * @param  {Function}       [callback]                          Standard callback method
+     * @param  {Function}       [callback]                          Standard callback function
      * @param  {Object}         [callback.err]                      Error object containing error code and error message
      * @param  {User}           [callback.response]                 A User object representing the created global administrator
      * @throws {Error}                                              Error thrown when not all of the required parameters have been provided
@@ -146,7 +146,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {String}         [additionalOptions.email]           The tenant administrator's email address
      * @param  {String}         [additionalOptions.locale]          The tenant administrator's locale
      * @param  {String}         [additionalOptions.publicAlias]     The publically-available alias for users to see when the tenant administrator's display name is protected
-     * @param  {Function}       [callback]                          Standard callback method
+     * @param  {Function}       [callback]                          Standard callback function
      * @param  {Object}         [callback.err]                      Error object containing error code and error message
      * @param  {User}           [callback.response]                 A User object representing the created tenant administrator
      * @throws {Error}                                              Error thrown when not all of the required parameters have been provided
@@ -199,7 +199,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      *
      * @param  {String}         userId              User ID of the user for who the basic profile is being updated
      * @param  {Object}         params              Object representing the profile fields that need to be updated
-     * @param  {Function}       [callback]          Standard callback method
+     * @param  {Function}       [callback]          Standard callback function
      * @param  {Object}         [callback.err]      Error object containing error code and error message
      * @throws {Error}                              Error thrown when not all of the required parameters have been provided
      */
@@ -231,7 +231,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      *
      * @param  {String}         userId                The ID of the user to change the password for
      * @param  {String}         newPassword           The user's new password
-     * @param  {Function}       [callback]            Standard callback method
+     * @param  {Function}       [callback]            Standard callback function
      * @param  {Object}         [callback.err]        Error object containing error code and error message
      * @throws {Error}                                Error thrown when not all of the required parameters have been provided
      */
@@ -271,7 +271,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {String}         userId                  The user ID of the user for which the admin privileges are changed
      * @param  {Boolean}        isAdmin                 Whether or not the user should be made an admin
      * @param  {Boolean}        isGlobalAdminServer     Whether or not the user is on the global admin tenant
-     * @param  {Function}       [callback]              Standard callback method
+     * @param  {Function}       [callback]              Standard callback function
      * @param  {Object}         [callback.err]          Error object containing error code and error message
      * @throws {Error}                                  Error thrown when no user ID has been specified
      */
@@ -308,7 +308,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * to impersonate another user
      *
      * @param  {String}         userId                The ID of the user to become
-     * @param  {Function}       [callback]            Standard callback method
+     * @param  {Function}       [callback]            Standard callback function
      * @param  {Object}         [callback.err]        Error object containing error code and error message
      * @throws {Error}                                Error thrown when no user ID has been provided
      */
@@ -343,7 +343,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     /**
      * Reindex the search index
      *
-     * @param  {Function}       [callback]              Standard callback method
+     * @param  {Function}       [callback]              Standard callback function
      * @param  {Object}         [callback.err]          Error object containing error code and error message
      */
     var reindexSearch = exports.reindexSearch = function(callback) {
@@ -372,7 +372,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Date}        [reprocessParameters.revision_createdAfter]      A date after which content previews need to be reprocessed
      * @param  {Date}        [reprocessParameters.revision_createdBefore]     A date before which content previews need to be reprocessed
      * @param  {String[]}    [reprocessParameters.revision_createdBy]         An array of user IDs for which to reprocess the content previews
-     * @param  {Function}    [callback]                                       Standard callback method
+     * @param  {Function}    [callback]                                       Standard callback function
      * @param  {Object}      [callback.err]                                   Error object containing error code and error message
      * @throws {Error}                                                        Error thrown when no valid content reprocessing parameters have been provided
      */

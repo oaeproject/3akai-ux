@@ -197,13 +197,13 @@
 <!--
  * Render an entity thumbnail.
  *
- * @param  {User|Group|Content|String}  entityData                             Standard object representing a user, group or content item or a search result for a user, group or content item as returned by Hilary. Alternatively, a string representing the resourceType or resourceSubType (i.e., 'user', 'group', 'content', 'file', 'link', 'collabdoc') can be passed in for an empty/anonymous entity thumbnail
- * @param  {Object}                     [displayOptions]                       Display options for the thumbnail
- * @param  {Boolean}                    [displayOptions.addVisibilityIcon]     Whether or not the visibility icon should be shown. By default, the visibility icon will be shown. However, users will never show a visibility icon
- * @param  {Boolean}                    [displayOptions.largeDefault]          Whether or not a large default thumbnail icon should used. By default, a small icon will be used
- * @param  {Boolean}                    [displayOptions.addLink]               Whether or not a link to the entity profile should be placed on the image. By default, a link will be set
- * @param  {String}                     [displayOptions.customImage]           URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
- * @param  {String}                     [displayOptions.linkTarget]            The target of the thumbnail link. One of `_blank`, `_self`, `_parent` or `_top`. By default, the link will open in the same window
+ * @param  {User|Group|Content|Folder|Discussion|String}    entityData                             Standard object representing an OAE entity or a search result for an OAE entity. Alternatively, a string representing the resourceType or resourceSubType (i.e., 'user', 'group', 'content', 'folder', 'file', 'link', 'collabdoc', 'discussion') can be passed in for an empty/anonymous entity thumbnail
+ * @param  {Object}                                         [displayOptions]                       Display options for the thumbnail
+ * @param  {Boolean}                                        [displayOptions.addVisibilityIcon]     Whether or not the visibility icon should be shown. By default, the visibility icon will be shown. However, users will not never show a visibility icon
+ * @param  {Boolean}                                        [displayOptions.largeDefault]          Whether or not a large default thumbnail icon should used. By default, a small icon will be used
+ * @param  {Boolean}                                        [displayOptions.addLink]               Whether or not a link to the entity profile should be placed on the image. By default, a link will be set
+ * @param  {String}                                         [displayOptions.customImage]           URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
+ * @param  {String}                                         [displayOptions.linkTarget]            The target of the thumbnail link. One of `_blank`, `_self`, `_parent` or `_top`. By default, the link will open in the same window
 -->
 {macro renderThumbnail(entityData, displayOptions)}
     <!-- If only a string, representing the resourceType, has been passed in. The eval block
@@ -315,6 +315,8 @@
             {var metadata = '__MSG__GROUP__'}
         {elseif resourceType === 'content'}
             {var metadata = oae.api.content.getMimeTypeDescription(entityData)}
+        {elseif resourceType === 'folder'}
+            {var metadata = '__MSG__FOLDER__'}
         {elseif resourceType === 'discussion'}
             {var metadata = '__MSG__DISCUSSION__'}
         {/if}

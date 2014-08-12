@@ -338,6 +338,7 @@ i.fa.large:before {
  *   `fa-oae-group` should be added to the `oae-thumbnail` div for groups,
  *   `fa-oae-discussion` should be added to the `oae-thumbnail` div for discussions,
  *   `fa-oae-content` should be added to the `oae-thumbnail` div for generic content,
+ *   `fa-oae-collection` should be added to the `oae-thumbnail` div for folders,
  *   `fa-oae-file` should be added to the `oae-thumbnail` div for uploaded files,
  *   `fa-oae-link` should be added to the `oae-thumbnail` div for links and
  *   `fa-oae-collabdoc` should be added to the `oae-thumbnail` div for collaborative documents.
@@ -419,6 +420,11 @@ div.oae-thumbnail.fa-oae-link:before {
 
 div.oae-thumbnail.fa-oae-collabdoc:before {
     content: "\f044";
+}
+
+div.oae-thumbnail.icon-oae-collection:before {
+    content: "\f07c";
+    margin-left: 2px;
 }
 
 div.oae-thumbnail.fa-oae-discussion:before {
@@ -644,7 +650,7 @@ div.oae-thumbnail i.fa {
     line-height: 1.3;
     margin: 0;
     font-weight: 600;
-    max-width: 300px;
+    max-width: 250px;
     min-height: 21px;
     word-wrap: nowrap;
 }
