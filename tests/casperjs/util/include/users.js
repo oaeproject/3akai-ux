@@ -108,15 +108,15 @@ var userUtil = function() {
      * @param  {String}    password    The password of the user to log in
      */
     var doAdminLogIn = function(username, password) {
-        casper.waitForSelector('#adminlogin-form', function() {
+        casper.waitForSelector('#adminlogin-local', function() {
             casper.wait(configUtil().searchWaitTime, function() {
                 // Fill sign in form
-                casper.fill('form#adminlogin-form', {
-                    'username': username,
-                    'password': password
+                casper.fill('form#adminlogin-local', {
+                    'adminlogin-local-username': username,
+                    'adminlogin-local-password': password
                 }, false);
                 // Do the login
-                casper.click('form#adminlogin-form button[type="submit"]');
+                casper.click('form#adminlogin-local button[type="submit"]');
             });
         });
 
