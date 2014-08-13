@@ -138,7 +138,6 @@
             <!-- THUMBNAIL VIEW -->
             <div class="oae-list-grid-item">
                 <div class="oae-tile">
-                    ${displayOptions.addVisibilityIcon = false|eat}
                     ${displayOptions.largeDefault = true|eat}
                     ${renderThumbnail(entityData, displayOptions)}
                     <div class="oae-tile-metadata">
@@ -281,7 +280,7 @@
  * @param  {Object}                 [displayOptions]                         Display options for the metadata
  * @param  {String}                 [displayOptions.metadata]                Line of metadata information that should be displayed underneath the entity name
  * @param  {Boolean}                [displayOptions.addLink]                 Whether or not a link to the entity profile should be placed on the title. By default, a link will be set
- * @param  {String}                 [displayOptions.linkTarget]              The target where the linked document is loaded. One of `_blank`, `_self`, `_parent` or `_top`. By default, the link will open in the same window
+ * @param  {String}                 [displayOptions.linkTarget]              The target of the link. One of `_blank`, `_self`, `_parent` or `_top`. By default, the link will open in the same window
 -->
 {macro renderMetadata(entityData, displayOptions)}
 
@@ -335,7 +334,7 @@
  *
  * @param  {User|Group|Content}     entityData      Standard object representing a user, group or content item or a search result for a user, group or content item as returned by Hilary
  * @param  {String}                 type            Which type of view the checkbox is for. This can be `grid`, `details` or `compact`
- * @param  {Boolean}                [showCheckbox]  Whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
+ * @param  {Boolean}                [showCheckbox]  Whether ot not the checkbox should be shown. By default, the checkbox will be hidden to all logged in users
 -->
 {macro renderCheckbox(entityData, type, showCheckbox)}
     {if entityData.resourceType}

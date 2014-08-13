@@ -176,8 +176,7 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     /**
-     * Render the user's clip, containing the profile picture, display name as well as the
-     * user's admin options
+     * Render the user's clips
      */
     var setUpClip = function() {
         oae.api.util.template().render($('#me-clip-template'), {

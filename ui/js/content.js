@@ -130,8 +130,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     };
 
     /**
-     * Render the content's clip, containing the thumbnail, display name as well as the
-     * content's admin options. Also render the share and comment actions clips.
+     * Render the content item's clips
      */
     var setUpClips = function() {
         oae.api.util.template().render($('#content-clip-template'), {

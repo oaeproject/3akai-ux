@@ -83,8 +83,7 @@ require(['jquery', 'oae.core'], function($, oae) {
     };
 
     /**
-     * Render the group's clip, containing the profile picture, display name as well as the
-     * group's admin options
+     * Render the group's clips
      */
     var setUpClip = function() {
         oae.api.util.template().render($('#group-clip-template'), {

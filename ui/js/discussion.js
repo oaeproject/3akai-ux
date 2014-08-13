@@ -148,8 +148,7 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     /**
-     * Render the discussion's clip, containing the thumbnail, display name as well as the
-     * discussion's admin options. Also render the share and comment actions clips.
+     * Render the discussion item's clips
      */
     var setUpClips = function() {
         oae.api.util.template().render($('#discussion-clip-template'), {

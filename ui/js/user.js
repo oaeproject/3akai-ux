@@ -74,7 +74,7 @@ require(['jquery', 'oae.core'], function($, oae) {
     };
 
     /**
-     * Render the user's clip, containing the profile picture, display name and affiliation
+     * Render the user's clips
      */
     var setUpClip = function() {
         oae.api.util.template().render($('#user-clip-left-template'), {
