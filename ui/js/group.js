@@ -83,7 +83,7 @@ require(['jquery', 'oae.core'], function($, oae) {
     };
 
     /**
-     * Render the group's clips
+     * Render the group clip(s)
      */
     var setUpClip = function() {
         oae.api.util.template().render($('#group-clip-template'), {

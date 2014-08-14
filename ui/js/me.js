@@ -176,7 +176,7 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     /**
-     * Render the user's clips
+     * Render the clips
      */
     var setUpClip = function() {
         oae.api.util.template().render($('#me-clip-template'), {

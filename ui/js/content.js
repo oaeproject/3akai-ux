@@ -130,7 +130,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     };
 
     /**
-     * Render the content item's clips
+     * Render the content item clip(s)
      */
     var setUpClips = function() {
         oae.api.util.template().render($('#content-clip-template'), {

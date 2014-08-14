@@ -148,7 +148,7 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     /**
-     * Render the discussion item's clips
+     * Render the discussion clip(s)
      */
     var setUpClips = function() {
         oae.api.util.template().render($('#discussion-clip-template'), {

@@ -74,7 +74,7 @@ require(['jquery', 'oae.core'], function($, oae) {
     };
 
     /**
-     * Render the user's clips
+     * Render the user clip(s)
      */
     var setUpClip = function() {
         oae.api.util.template().render($('#user-clip-left-template'), {

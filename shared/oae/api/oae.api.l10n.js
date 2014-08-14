@@ -79,17 +79,22 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'globalize'], funct
      * e.g. 2/20/2012
      *
      * @param  {Date|Number}    date        Javascript date object or milliseconds since epoch that needs to be converted into a localized date string
+     * @param  {Boolean}        useShort    Whether or not to use the short version (2/20/2012) or the long version (Monday, February 20, 2012). By default, the long version will be used
      * @return {String}                     Converted localized date
      * @throws {Error}                      Error thrown when no date has been provided
      */
-    var transformDate = exports.transformDate = function(date) {
+    var transformDate = exports.transformDate = function(date, useShort) {
         if (!date) {
             throw new Error('A date must be provided');
         }
 
         date = parseDate(date);
         // Convert the date to a localized date string
-        return Globalize.format(date, 'd');
+        if (useShort) {
+            return Globalize.format(date, 'd');
+        } else {
+            return Globalize.format(date, 'D');
+        }
     };
 
     /**

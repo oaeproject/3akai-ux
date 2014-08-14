@@ -108,7 +108,7 @@
  * @param  {User|Group|Content}     entityData                             Standard object representing a user, group or content item or a search result for a user, group or content item as returned by Hilary
  * @param  {Object}                 [displayOptions]                       Display options for the list item
  * @param  {String}                 [displayOptions.metadata]              Line of metadata information that should be displayed underneath the entity name
- * @param  {Boolean}                [displayOptions.showCheckbox]          Whether ot not the checkbox should be shown. By default, the checkbox will be hidden to all logged in users
+ * @param  {Boolean}                [displayOptions.showCheckbox]          Whether ot not the checkbox should be shown. By default, the checkbox will be hidden
  * @param  {String}                 [displayOptions.customImage]           URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
  * @param  {Function}               [displayOptions.listItemActions]       Macro that renders list item actions
  * @param  {String}                 [displayOptions.additionalClasses]     Additional CSS classes separated by spaces to apply to the generated list items
@@ -334,7 +334,7 @@
  *
  * @param  {User|Group|Content}     entityData      Standard object representing a user, group or content item or a search result for a user, group or content item as returned by Hilary
  * @param  {String}                 type            Which type of view the checkbox is for. This can be `grid`, `details` or `compact`
- * @param  {Boolean}                [showCheckbox]  Whether ot not the checkbox should be shown. By default, the checkbox will be hidden to all logged in users
+ * @param  {Boolean}                [showCheckbox]  Whether ot not the checkbox should be shown. By default, the checkbox will be hidden
 -->
 {macro renderCheckbox(entityData, type, showCheckbox)}
     {if entityData.resourceType}
