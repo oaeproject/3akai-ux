@@ -54,7 +54,7 @@ casper.test.begin('Prepare environment for tests', function(test) {
                 adminUtil().createTenant(configUtil().tenantAlias, configUtil().tenantDisplayname, configUtil().tenantHost, function() {
                     adminUtil().writeConfig(configUtil().tenantAlias, {
                         'oae-principals/recaptcha/enabled': false,
-                        'oae-principals/termsAndConditions/enabled': true,
+                        'oae-principals/termsAndConditions/enabled': false,
                         'oae-principals/termsAndConditions/text/default': '![OAE](/shared/oae/img/oae-logo.png) Default terms and conditions'
                     }, function() {
                         userUtil().doAdminLogOut();
