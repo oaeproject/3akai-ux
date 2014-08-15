@@ -199,7 +199,7 @@
  * @param  {Boolean}                    [displayOptions.largeDefault]          Whether or not a large default thumbnail icon should used. By default, a small icon will be used
  * @param  {Boolean}                    [displayOptions.addLink]               Whether or not a link to the entity profile should be placed on the image. By default, a link will be set
  * @param  {String}                     [displayOptions.customImage]           URL to the custom entity profile picture that should be used. If not provided, this will fall back to the thumbnailUrl
- * @param  {String}                     [displayOptions.linkTarget]            The target of the list item link. One of `_blank`, `_self`, `_parent` or `_top`. By default, the link will open in the same window
+ * @param  {String}                     [displayOptions.linkTarget]            The target of the thumbnail link. One of `_blank`, `_self`, `_parent` or `_top`. By default, the link will open in the same window
 -->
 {macro renderThumbnail(entityData, displayOptions)}
     <!-- If only a string, representing the resourceType, has been passed in. The eval block
