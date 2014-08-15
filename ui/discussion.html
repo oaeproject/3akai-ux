@@ -35,7 +35,7 @@
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button type="button" {if !discussion.isManager} disabled {/if}>
+                            <button type="button">
                                 ${renderThumbnail(discussion, displayOptions)}
                                 <div>
                                     <div>
@@ -47,9 +47,14 @@
                             </button>
                             <div>
                                 <ul>
-                                    <li><button class="discussion-trigger-manageaccess"><i class="icon-lock"></i>__MSG__MANAGE_ACCESS__</button></li>
-                                    <li><button class="oae-trigger-editdiscussion"><i class="icon-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
-                                    <li><button class="oae-trigger-deleteresource"><i class="icon-trash"></i>__MSG__DELETE__</button></li>
+                                    {if discussion.isManager}
+                                        <li><button class="discussion-trigger-manageaccess"><i class="icon-lock"></i>__MSG__MANAGE_ACCESS__</button></li>
+                                        <li><button class="oae-trigger-editdiscussion"><i class="icon-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
+                                        <li><button class="oae-trigger-deleteresource"><i class="icon-trash"></i>__MSG__DELETE__</button></li>
+                                    {else}
+                                        <li><button class="oae-trigger-aboutdiscussion"><i class="icon-info-sign"></i>__MSG__ABOUT__</button></li>
+                                        <li><button class="oae-trigger-discussionshared"><i class="icon-group"></i>__MSG__SHARED_WITH__</button></li>
+                                    {/if}
                                 </ul>
                             </div>
                         </div>
