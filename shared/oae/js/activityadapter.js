@@ -331,8 +331,10 @@ var _expose = function(exports) {
      * Each comment that is encountered is added to the `flatCommentTree` including the level
      * that it should be displayed at.
      *
-     * @param  {Object[]}   flatCommentTree     The flattened comment tree. Each object holds a `level` property indicating at what level the comment was made and a `comment` property containing the comment
-     * @param  {Comment[]}  commentTree         The (nested) graph to walk through
+     * @param  {Object[]}   flatCommentTree             The flattened comment tree
+     * @param  {Number}     flatCommentTree[i].level    The level the comment was made at
+     * @param  {Comment}    flatCommentTree[i].comment  The comment that was made
+     * @param  {Comment[]}  commentTree                 The (nested) graph to walk through
      * @api private
      */
     var _flattenCommentTree = function(flatCommentTree, commentTree, _level) {
