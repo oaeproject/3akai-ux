@@ -130,11 +130,16 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     };
 
     /**
-     * Render the content's clip, containing the thumbnail, display name as well as the
-     * content's admin options. Also render the share and comment actions clips.
+     * Render the content item clip(s)
      */
     var setUpClips = function() {
-        oae.api.util.template().render($('#content-clip-template'), {'content': contentProfile}, $('#content-clip-container'));
+        oae.api.util.template().render($('#content-clip-template'), {
+            'content': contentProfile,
+            'displayOptions': {
+                'addVisibilityIcon': true,
+                'addLink': false
+            }
+        }, $('#content-clip-container'));
         oae.api.util.template().render($('#content-actions-clip-template'), {'content': contentProfile}, $('#content-actions-clip-container'));
     };
 
@@ -329,7 +334,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     /**
      * Triggers the manageaccess widget and passes in context data
      */
-    $(document).on('click', '.content-trigger-manageaccess', function() {
+    $(document).on('click', '.oae-trigger-manageaccess', function() {
         $(document).trigger('oae.trigger.manageaccess', getManageAccessData());
     });
 

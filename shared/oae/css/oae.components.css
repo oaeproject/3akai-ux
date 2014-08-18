@@ -331,7 +331,7 @@ i.fa-exclamation-triangle:hover {
  * Next to using the HTML structure, there is also a Trimpath macro that can be used
  * instead from all Trimpath templates:
  *
- *   `${renderThumbnail(entityData, [addVisibilityIcon], [large])}`
+ *   `${renderThumbnail(entityData, [displayOptions])}`
  *
  * An explanation of the parameters for the thumbnail macro can be found in `shared/oae/macros/list.html`.
  *
@@ -485,6 +485,7 @@ div.oae-thumbnail i.fa {
  *                          <li><button><i class="fa fa-user"></i>Action 1</button></li>
  *                          <li><button><i class="fa fa-envelope"></i>Action 2</button></li>
  *                          <li><button type="button"><i class="fa fa-wrench"></i>Action 3</button></li>
+ *                          <li><a href="#somelink"><i class="icon-download"></i>Action 4</a></li>
  *                      </ul>
  *                  </div>
  *              </div>
@@ -515,6 +516,8 @@ div.oae-thumbnail i.fa {
  * - When a clip should not be clickable (e.g. in non-manager mode of a page), the `disabled` attribute
  *   should be added to the button. This will hide any caret icons and will make the clip unclickable.
  * - If a clip should not be visible on smaller viewports the `hidden-xs hidden-sm` classes should be applied.
+ * - A clip action can be either a link or a button. A button should be used when the clip action initiates an
+ *   action inside of the current page. A link should be used when the clip action links to a different page.
  */
 
 /* Clip container */
@@ -610,7 +613,8 @@ div.oae-thumbnail i.fa {
 }
 
 .oae-clip .oae-clip-content > button,
-.oae-clip .oae-clip-content ul li button {
+.oae-clip .oae-clip-content ul li button,
+.oae-clip .oae-clip-content ul li a {
     background: none;
     border: none;
     font-weight: 600;
@@ -701,7 +705,8 @@ div.oae-thumbnail i.fa {
     display: inline;
 }
 
-.oae-clip .oae-clip-content > div > ul li button {
+.oae-clip .oae-clip-content > div > ul li button,
+.oae-clip .oae-clip-content > div > ul li a {
     -webkit-border-radius: 6px;
        -moz-border-radius: 6px;
             border-radius: 6px;
@@ -716,12 +721,14 @@ div.oae-thumbnail i.fa {
 
 /* Box sizing tweak needed to workaround IE9 bug in calculating container size
    @see https://github.com/oaeproject/3akai-ux/pull/3601 */
-.ie-lt10 .oae-clip .oae-clip-content > div > ul li button {
+.ie-lt10 .oae-clip .oae-clip-content > div > ul li button,
+.ie-lt10 .oae-clip .oae-clip-content > div > ul li a {
     box-sizing: content-box;
     min-width: 50px;
 }
 
-.oae-clip .oae-clip-content > div > ul li button i {
+.oae-clip .oae-clip-content > div > ul li button i,
+.oae-clip .oae-clip-content > div > ul li a i {
     display: inline-block;
     float: left;
     margin: 0 5px 3px 0;
@@ -729,13 +736,16 @@ div.oae-thumbnail i.fa {
 }
 
 @media (min-width: 992px) {
-    .oae-clip .oae-clip-content > div > ul li button {
-        display: inline-block;
+    .oae-clip .oae-clip-content > div > ul li button,
+    .oae-clip .oae-clip-content > div > ul li a {
+        display: inline-table;
         text-align: center;
+        vertical-align: middle;
         width: auto;
     }
 
-    .oae-clip .oae-clip-content > div > ul li button i {
+    .oae-clip .oae-clip-content > div > ul li button i,
+    .oae-clip .oae-clip-content > div > ul li a i {
         display: block;
         float: none;
         margin: 0 auto 3px;
@@ -1312,7 +1322,7 @@ div.oae-thumbnail i.fa {
  * The HTML for a list item has been abstracted into a globally available TrimPath template that
  * can be used when rendering list view items:
  *
- *   `${listItem(entityData, [metadata], [showCheckbox], [customImage], [renderListItemActions])}`
+ *   `${listItem(entityData, [displayOptions])}`
  *
  * An explanation of the parameters for the list item macro can be found in `shared/oae/macros/list.html`.
  *

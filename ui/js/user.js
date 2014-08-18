@@ -74,10 +74,16 @@ require(['jquery', 'oae.core'], function($, oae) {
     };
 
     /**
-     * Render the user's clip, containing the profile picture, display name and affiliation
+     * Render the user clip(s)
      */
     var setUpClip = function() {
-        oae.api.util.template().render($('#user-clip-left-template'), {'user': userProfile}, $('#user-clip-left-container'));
+        oae.api.util.template().render($('#user-clip-left-template'), {
+            'user': userProfile,
+            'displayOptions': {
+                'addVisibilityIcon': false,
+                'addLink': false
+            }
+        }, $('#user-clip-left-container'));
         oae.api.util.template().render($('#user-clip-right-template'), {'user': userProfile}, $('#user-clip-right-container'));
     };
 

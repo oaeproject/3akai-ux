@@ -13,9 +13,6 @@
  * permissions and limitations under the License.
  */
 
-// Keeps track of the created groups that are available for testing
-var createdGroups = [];
-
 /**
  * Utility functions for groups
  *
@@ -26,14 +23,14 @@ var groupUtil = function() {
     /**
      * Creates a group
      *
-     * @param {Function}   callback          Standard callback function
-     * @param {Group}      callback.group    The group data coming back from the server
+     * @param  {String[]}   [members]                Array of user/group ids that should be added as members to the group
+     * @param  {String[]}   [managers]               Array of user/group ids that should be added as managers to the group
+     * @param  {Function}   callback                 Standard callback function
+     * @param  {Group}      callback.groupProfile    Group object representing the created group
      */
     var createGroup = function(members, managers, callback) {
-        var group = null;
-
         var rndString = mainUtil().generateRandomString();
-        data = casper.evaluate(function(rndString, members, managers) {
+        var groupProfile = casper.evaluate(function(rndString, members, managers) {
             return JSON.parse(__utils__.sendAJAX('/api/group/create', 'POST', {
                 'displayName': 'group-' + rndString,
                 'description': '',
@@ -45,21 +42,17 @@ var groupUtil = function() {
         }, rndString, members, managers);
 
         casper.then(function() {
-            if (data) {
-                createdGroups.push(data);
-                group = data;
-            } else {
+            if (!groupProfile) {
                 casper.echo('Could not create group-' + rndString + '.', 'ERROR');
             }
         });
 
         casper.then(function() {
-            callback(group);
+            callback(groupProfile);
         });
     };
 
     return {
-        'createGroup': createGroup,
-        'createdGroups': createdGroups
+        'createGroup': createGroup
     };
 };

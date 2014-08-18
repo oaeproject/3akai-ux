@@ -23,17 +23,17 @@ var userUtil = function() {
     /**
      * Creates a given number of users
      *
-     * @param  {Number}   numToCreate   The number of users to create
-     * @return {User[]}                 An array of created users
+     * @param  {Number}      [numToCreate]             The number of users to create. Defaults to creating 1 user
+     * @param  {Function}    callback                  Standard callback function
+     * @param  {User[]}      callback.userProfiles     Array of user objects representing the created users
      */
     var createUsers = function(numToCreate, callback) {
-        var toCreate = numToCreate;
-        var users = [];
-        var me = null;
+        var toCreate = numToCreate || 1;
+        var userProfiles = [];
 
         casper.start(configUtil().tenantUI).repeat(toCreate, function() {
             casper.wait(configUtil().modalWaitTime, function() {
-                me = casper.evaluate(function() {
+                var me = casper.evaluate(function() {
                     return require('oae.core').data.me;
                 });
 
@@ -41,31 +41,31 @@ var userUtil = function() {
                 // If we are logged in, skip user creation and log the user out before trying again
                 if (me && me.anon) {
                     var rndString = mainUtil().generateRandomString();
-                    casper.then(function() {
-                        data = casper.evaluate(function(rndString, password) {
-                            return JSON.parse(__utils__.sendAJAX('/api/user/create', 'POST', {
-                                'username': 'user-' + rndString,
-                                'password': password,
-                                'displayName': rndString,
-                                'visibility': 'public',
-                                'email': 'roy@example.com',
-                                'locale': 'en_GB',
-                                'timezone': 'Europe/London',
-                                'publicAlias': 'Roy',
-                                'acceptedTC': true
-                            }, false));
-                        }, rndString, configUtil().defaultUserPassword);
-                    });
+                    var rndPassword = mainUtil().generateRandomString();
+                    var user = casper.evaluate(function(rndString, password) {
+                        return JSON.parse(__utils__.sendAJAX('/api/user/create', 'POST', {
+                            'username': 'user-' + rndString,
+                            'password': password,
+                            'displayName': rndString,
+                            'visibility': 'public',
+                            'email': 'roy@example.com',
+                            'locale': 'en_GB',
+                            'timezone': 'Europe/London',
+                            'publicAlias': 'Roy',
+                            'acceptedTC': true
+                        }, false));
+                    }, rndString, rndPassword);
 
-                    casper.wait(configUtil().modalWaitTime, function() {
-                        if (data) {
-                            data.username = 'user-' + rndString;
-                            users.push(data);
+                    casper.then(function() {
+                        if (user) {
+                            user.username = 'user-' + rndString;
+                            user.password = rndPassword;
+                            userProfiles.push(user);
                         } else {
                             casper.echo('Could not create user-' + rndString, 'ERROR');
                         }
 
-                        callback(users);
+                        callback(userProfiles);
                     });
                 } else {
                     casper.then(function() {
@@ -108,15 +108,15 @@ var userUtil = function() {
      * @param  {String}    password    The password of the user to log in
      */
     var doAdminLogIn = function(username, password) {
-        casper.waitForSelector('#adminlogin-form', function() {
+        casper.waitForSelector('#adminlogin-local', function() {
             casper.wait(configUtil().searchWaitTime, function() {
                 // Fill sign in form
-                casper.fill('form#adminlogin-form', {
-                    'username': username,
-                    'password': password
+                casper.fill('form#adminlogin-local', {
+                    'adminlogin-local-username': username,
+                    'adminlogin-local-password': password
                 }, false);
                 // Do the login
-                casper.click('form#adminlogin-form button[type="submit"]');
+                casper.click('form#adminlogin-local button[type="submit"]');
             });
         });
 

@@ -45,7 +45,7 @@ casper.test.begin('Prepare environment for tests', function(test) {
 
     // Set up test tenant
     casper.start(configUtil().adminUI, function() {
-        casper.waitForSelector('#adminlogin-form', function() {
+        casper.waitForSelector('#adminlogin-local', function() {
             casper.then(function() {
                 userUtil().doAdminLogIn(configUtil().adminUsername, configUtil().adminPassword);
             });

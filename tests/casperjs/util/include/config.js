@@ -23,7 +23,6 @@ var configUtil = function(alias) {
         'adminUI': 'http://admin.oae.com',
         'adminPassword': 'administrator',
         'adminUsername': 'administrator',
-        'defaultUserPassword': 'password',
         'modalWaitTime': 1000,
         'searchWaitTime': 3000,
         'tenantAlias': 'test',

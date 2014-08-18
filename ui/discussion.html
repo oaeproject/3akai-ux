@@ -35,8 +35,8 @@
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button type="button" {if !discussion.isManager} disabled {/if}>
-                                ${renderThumbnail(discussion, true, false, false)}
+                            <button type="button">
+                                ${renderThumbnail(discussion, displayOptions)}
                                 <div>
                                     <div>
                                         <h1 class="oae-threedots">${discussion.displayName|encodeForHTML}</h1>
@@ -47,9 +47,14 @@
                             </button>
                             <div>
                                 <ul>
+                                    {if discussion.isManager}
                                     <li><button class="discussion-trigger-manageaccess"><i class="fa fa-lock"></i>__MSG__MANAGE_ACCESS__</button></li>
                                     <li><button class="oae-trigger-editdiscussion"><i class="fa fa-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
                                     <li><button class="oae-trigger-deleteresource"><i class="fa fa-trash-o"></i>__MSG__DELETE__</button></li>
+                                    {else}
+                                        <li><button class="oae-trigger-aboutdiscussion"><i class="icon-info-sign"></i>__MSG__ABOUT__</button></li>
+                                        <li><button class="oae-trigger-discussionshared"><i class="icon-group"></i>__MSG__SHARED_WITH__</button></li>
+                                    {/if}
                                 </ul>
                             </div>
                         </div>

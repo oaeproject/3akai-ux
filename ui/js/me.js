@@ -176,11 +176,15 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     /**
-     * Render the user's clip, containing the profile picture, display name as well as the
-     * user's admin options
+     * Render the clips
      */
     var setUpClip = function() {
-        oae.api.util.template().render($('#me-clip-template'), null, $('#me-clip-container'));
+        oae.api.util.template().render($('#me-clip-template'), {
+            'displayOptions': {
+                'addVisibilityIcon': false,
+                'addLink': false
+            }
+        }, $('#me-clip-container'));
     };
 
     /**

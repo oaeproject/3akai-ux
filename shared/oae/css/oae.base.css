@@ -672,3 +672,84 @@ ul.as-list li.as-result-item.active {
 .oae-main-content > .row {
     margin: 0 5px 0 -5px;
 }
+
+
+/*************************************
+ ** EXTERNAL AUTHENTICATION BUTTONS **
+ *************************************/
+
+.nav > li .btn-external-auth {
+    font-size: 14px;
+    text-align: left;
+    padding: 6px 15px;
+    white-space: normal;
+    width: 100%;
+    word-wrap: break-word;
+}
+
+.nav > li .btn-external-auth,
+.nav > li .btn-external-auth:active,
+.nav > li .btn-external-auth:focus,
+.nav > li .btn-external-auth:hover {
+    background-image: none;
+    filter: none;
+}
+
+.nav > li .btn-external-auth i {
+    float: left;
+    width: 30px;
+}
+
+.nav > li .btn-facebook,
+.nav > li .btn-facebook:active,
+.nav > li .btn-facebook:focus,
+.nav > li .btn-facebook:hover,
+.nav > li .btn-facebook i,
+.nav > li .btn-facebook i:hover,
+.nav > li .btn-twitter,
+.nav > li .btn-twitter:active,
+.nav > li .btn-twitter:focus,
+.nav > li .btn-twitter:hover,
+.nav > li .btn-twitter i,
+.nav > li .btn-twitter i:hover,
+.nav > li .btn-google,
+.nav > li .btn-google:active,
+.nav > li .btn-google:focus,
+.nav > li .btn-google:hover,
+.nav > li .btn-google i,
+.nav > li .btn-google i:hover {
+    color: #FFF;
+}
+
+/* Facebook authentication */
+
+.nav > li .btn-facebook {
+    background-color: #3F67AF;
+}
+.nav > li .btn-facebook:active,
+.nav > li .btn-facebook:focus,
+.nav > li .btn-facebook:hover {
+    background-color: #5D7BB9;
+}
+
+/* Google authentication */
+
+.nav > li .btn-google {
+    background-color: #DB322B;
+}
+.nav > li .btn-google:active,
+.nav > li .btn-google:focus,
+.nav > li .btn-google:hover {
+    background-color: #EA473E;
+}
+
+/* Twitter authentication */
+
+.nav > li .btn-twitter {
+    background-color: #2073B9;
+}
+.nav > li .btn-twitter:active,
+.nav > li .btn-twitter:focus,
+.nav > li .btn-twitter:hover {
+    background-color: #4491CD;
+}

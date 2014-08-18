@@ -148,11 +148,16 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     /**
-     * Render the discussion's clip, containing the thumbnail, display name as well as the
-     * discussion's admin options. Also render the share and comment actions clips.
+     * Render the discussion clip(s)
      */
     var setUpClips = function() {
-        oae.api.util.template().render($('#discussion-clip-template'), {'discussion': discussionProfile}, $('#discussion-clip-container'));
+        oae.api.util.template().render($('#discussion-clip-template'), {
+            'discussion': discussionProfile,
+            'displayOptions': {
+                'addVisibilityIcon': true,
+                'addLink': false
+            }
+        }, $('#discussion-clip-container'));
         oae.api.util.template().render($('#discussion-actions-clip-template'), {'discussion': discussionProfile}, $('#discussion-actions-clip-container'));
     };
 

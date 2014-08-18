@@ -79,17 +79,22 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'globalize'], funct
      * e.g. 2/20/2012
      *
      * @param  {Date|Number}    date        Javascript date object or milliseconds since epoch that needs to be converted into a localized date string
+     * @param  {Boolean}        [useShort]  Whether or not to use the short version (2/20/2012) or the long version (Monday, February 20, 2012). By default, the long version will be used
      * @return {String}                     Converted localized date
      * @throws {Error}                      Error thrown when no date has been provided
      */
-    var transformDate = exports.transformDate = function(date) {
+    var transformDate = exports.transformDate = function(date, useShort) {
         if (!date) {
             throw new Error('A date must be provided');
         }
 
         date = parseDate(date);
         // Convert the date to a localized date string
-        return Globalize.format(date, 'd');
+        if (useShort) {
+            return Globalize.format(date, 'd');
+        } else {
+            return Globalize.format(date, 'D');
+        }
     };
 
     /**
@@ -99,7 +104,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'globalize'], funct
      * e.g. 2/20/2012 3:35 PM or Monday, February 20, 2012 3:35 PM
      *
      * @param  {Date|Number}    date        Javascript date object or milliseconds since epoch that needs to be converted into a localized date string
-     * @param  {Boolean}        useShort    Whether or not to use the short version (2/20/2012 3:35 PM) or the long version (Monday, February 20, 2012 3:35 PM). By default, the long version will be used
+     * @param  {Boolean}        [useShort]  Whether or not to use the short version (2/20/2012 3:35 PM) or the long version (Monday, February 20, 2012 3:35 PM). By default, the long version will be used
      * @return {String}                     Converted localized date and time
      * @throws {Error}                      Error thrown when no date has been provided
      */
@@ -124,7 +129,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config', 'globalize'], funct
      * e.g. 10.000.000,442
      *
      * @param  {Number}        number           Number that needs to be converted into a localized number
-     * @param  {Number}        decimalPlaces    The maximum number of decimal places that should be used. If this is not provided, all of them will be returned
+     * @param  {Number}        [decimalPlaces]  The maximum number of decimal places that should be used. If this is not provided, all of them will be returned
      * @return {String}                         Converted localized number
      * @throws {Error}                          Error thrown when no number has been provided
      */
