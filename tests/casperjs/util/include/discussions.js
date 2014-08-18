@@ -24,53 +24,34 @@ var discussionUtil = function() {
      * Creates a discussion
      *
      * @param  {String[]}     [managers]                    Array of user/group ids that should be added as managers to the discussion
-     * @param  {String[]}     [viewers]                     Array of user/group ids that should be added as viewers to the discussion
+     * @param  {String[]}     [members]                     Array of user/group ids that should be added as members to the discussion
      * @param  {Function}     callback                      Standard callback function
      * @param  {Discussion}   callback.discussionProfile    Discussion object representing the created discussion
      */
-    var createDiscussion = function(managers, viewers, callback) {
+    var createDiscussion = function(managers, members, callback) {
         var rndString = mainUtil().generateRandomString();
-        var discussionProfile = casper.evaluate(function(rndString) {
-            return JSON.parse(__utils__.sendAJAX('/api/discussion/create', 'POST', {
-                'displayName': 'Discussion ' + rndString,
-                'description': 'Talk about all the things!',
-                'visibility': 'public'
-            }, false));
-        }, rndString);
+        managers = managers || [];
+        members = members || [];
 
-        casper.then(function() {
-            if (!discussionProfile) {
+        // Bind the event called when the discussion has been created
+        casper.on(rndString + '.finished', function(data) {
+            if (!data.data) {
                 casper.echo('Could not create discussion \'Discussion' + rndString + '\'.', 'ERROR');
                 return callback(null);
-            }
-        });
-
-        casper.then(function() {
-            // Add managers and viewers if required
-            if (managers || viewers) {
-                managers = managers || [];
-                viewers = viewers || [];
-
-                var members = {};
-                for (var m = 0; m < managers.length; m++) {
-                    members[managers[m]] = 'manager';
-                }
-
-                for (var v = 0; v < viewers.length; v++) {
-                    members[viewers[v]] = 'viewer';
-                }
-
-                casper.evaluate(function(discussionId, members) {
-                    return JSON.parse(__utils__.sendAJAX('/api/discussion/'+ discussionId + '/members', 'POST', members, false));
-                }, discussionProfile.id, members);
-
-                casper.then(function() {
-                    return callback(discussionProfile);
-                });
             } else {
-                return callback(discussionProfile);
+                return callback(data.data);
             }
         });
+
+        // Use the OAE API to create the discussion
+        casper.evaluate(function(rndString, managers, members) {
+            require('oae.api.discussion').createDiscussion('Discussion ' + rndString, 'Talk about all the things!', 'public', managers, members, function(err, data) {
+                window.callPhantom({
+                    'cbId': rndString,
+                    'data': data
+                });
+            });
+        }, rndString, managers, members);
     };
 
     return {

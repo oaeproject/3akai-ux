@@ -16,6 +16,51 @@
 define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
 
 
+    /////////////
+    // TENANTS //
+    /////////////
+
+    /**
+     * Create a new tenant
+     *
+     * @param  {String}                alias                               The alias of the tenant to create
+     * @param  {String}                displayName                         The display name of the tenant to create
+     * @param  {String}                host                                The host name of the tenant to create
+     * @param  {Function}              [callback]                          Standard callback method
+     * @param  {Object}                [callback.err]                      Error object containing error code and error message
+     * @param  {Tenant}                [callback.response]                 A Tenant object representing the created tenant
+     */
+    var createTenant = exports.createTenant = function(alias, displayName, host, callback) {
+        if (!alias) {
+            throw new Error('A tenant alias should be provided');
+        } else if (!displayName) {
+            throw new Error('A display name should be provided');
+        } else if (!host) {
+            throw new Error('A host should be provided');
+        }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        // Create the tenant
+        $.ajax({
+            'url': '/api/tenant/create',
+            'type': 'POST',
+            'data': {
+                'alias': alias,
+                'displayName': displayName,
+                'host': host
+            },
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+
     /////////////////////
     // USER MANAGEMENT //
     /////////////////////

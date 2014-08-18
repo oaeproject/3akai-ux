@@ -30,48 +30,28 @@ var collabDocUtil = function() {
      */
     var createCollabDoc = function(managers, viewers, callback) {
         var rndString = mainUtil().generateRandomString();
-        var collabdocProfile = casper.evaluate(function(rndString) {
-            return JSON.parse(__utils__.sendAJAX('/api/content/create', 'POST', {
-                'resourceSubType': 'collabdoc',
-                'displayName': 'collabdoc-' + rndString,
-                'description': '',
-                'visibility': 'public'
-            }, false));
-        }, rndString);
+        managers = managers || [];
+        viewers = viewers || [];
 
-        casper.then(function() {
-            if (!collabdocProfile) {
+        // Bind the event called when the collaborative document has been created
+        casper.on(rndString + '.finished', function(data) {
+            if (!data.data) {
                 casper.echo('Could not create collabdoc-' + rndString + '.', 'ERROR');
                 return callback(null);
-            }
-        });
-
-        casper.then(function() {
-            // Add managers and viewers if required
-            if (managers || viewers) {
-                managers = managers || [];
-                viewers = viewers || [];
-
-                var members = {};
-                for (var m = 0; m < managers.length; m++) {
-                    members[managers[m]] = 'manager';
-                }
-
-                for (var v = 0; v < viewers.length; v++) {
-                    members[viewers[v]] = 'viewer';
-                }
-
-                casper.evaluate(function(collabdocId, members) {
-                    return JSON.parse(__utils__.sendAJAX('/api/content/'+ collabdocId + '/members', 'POST', members, false));
-                }, collabdocProfile.id, members);
-
-                casper.then(function() {
-                    return callback(collabdocProfile);
-                });
             } else {
-                return callback(collabdocProfile);
+                return callback(data.data);
             }
         });
+
+        // Use the OAE API to create the collaborative document
+        casper.evaluate(function(rndString, managers, viewers) {
+            require('oae.api.content').createCollabDoc('collabdoc-' + rndString, 'Test collabdoc description', 'public', managers, viewers, function(err, data) {
+                window.callPhantom({
+                    'cbId': rndString,
+                    'data': data
+                });
+            });
+        }, rndString, managers, viewers);
     };
 
     return {

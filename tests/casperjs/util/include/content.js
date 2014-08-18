@@ -100,28 +100,31 @@ var contentUtil = function() {
      * @param  {Link}        callback.linkProfile      Link object representing the created link
      */
     var createLink = function(link, managers, viewers, callback) {
+        var rndString = mainUtil().generateRandomString();
         link = link || 'http://www.oaeproject.org';
         managers = managers || [];
         viewers = viewers || [];
-        var linkProfile = null;
 
-        casper.then(function() {
-            linkProfile = casper.evaluate(function(link, managers, viewers) {
-                return JSON.parse(__utils__.sendAJAX('/api/content/create', 'POST', {
-                    'resourceSubType': 'link',
-                    'displayName': link,
-                    'description': '',
-                    'visibility': 'public',
-                    'link': link,
-                    'managers': managers,
-                    'viewers': viewers
-                }, false));
-            }, link, managers, viewers);
+        // Bind the event called when the link has been created
+        casper.on(rndString + '.finished', function(data) {
+            if (!data.data) {
+                casper.echo('Could not create link ' + link + '. Error ' + data.err.code + ': ' + data.err.msg, 'ERROR');
+                return callback(null);
+            } else {
+                return callback(data.data);
+            }
         });
 
-        casper.then(function() {
-            callback(linkProfile);
-        });
+        // Use the OAE API to create the link
+        casper.evaluate(function(rndString, link, managers, viewers) {
+            require('oae.api.content').createLink(link, 'Test link description', 'public', link, managers, viewers, function(err, data) {
+                window.callPhantom({
+                    'cbId': rndString,
+                    'data': data,
+                    'err': err
+                });
+            });
+        }, rndString, link, managers, viewers);
     };
 
     /**
@@ -157,14 +160,27 @@ var contentUtil = function() {
      * @param  {Function}    callback      Standard callback method
      */
     var updateContent = function(contentId, params, callback) {
-        var data = null;
-        casper.then(function() {
-            data = casper.evaluate(function(contentId, params) {
-                return JSON.parse(__utils__.sendAJAX('/api/content/' + contentId, 'POST', params, false));
-            }, contentId, params);
+        var rndString = mainUtil().generateRandomString();
+
+        // Bind the event called when the link has been created
+        casper.on(rndString + '.finished', function(data) {
+            if (!data.data) {
+                casper.echo('Could not update content.', 'ERROR');
+                return callback(null);
+            } else {
+                return callback(data.data);
+            }
         });
 
-        casper.then(callback);
+        // Use the OAE API to update the content
+        casper.evaluate(function(rndString, contentId, params) {
+            require('oae.api.content').updateContent(contentId, params, function(err, data) {
+                window.callPhantom({
+                    'cbId': rndString,
+                    'data': data
+                });
+            });
+        }, rndString, contentId, params);
     };
 
     return {

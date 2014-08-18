@@ -30,26 +30,28 @@ var groupUtil = function() {
      */
     var createGroup = function(members, managers, callback) {
         var rndString = mainUtil().generateRandomString();
-        var groupProfile = casper.evaluate(function(rndString, members, managers) {
-            return JSON.parse(__utils__.sendAJAX('/api/group/create', 'POST', {
-                'displayName': 'group-' + rndString,
-                'description': '',
-                'visibility': 'public',
-                'joinable': 'yes',
-                'members': members,
-                'managers': managers
-            }, false));
-        }, rndString, members, managers);
+        managers = managers || [];
+        members = members || [];
 
-        casper.then(function() {
-            if (!groupProfile) {
+        // Bind the event called when the group has been created
+        casper.on(rndString + '.finished', function(data) {
+            if (!data.data) {
                 casper.echo('Could not create group-' + rndString + '.', 'ERROR');
+                return callback(null);
+            } else {
+                callback(data.data);
             }
         });
 
-        casper.then(function() {
-            callback(groupProfile);
-        });
+        // Use the OAE API to create the group
+        casper.evaluate(function(rndString, managers, members) {
+            require('oae.api.group').createGroup('group-' + rndString, 'Test group description', 'public', 'yes', managers, members, function(err, data) {
+                window.callPhantom({
+                    'cbId': rndString,
+                    'data': data
+                });
+            });
+        }, rndString, managers, members);
     };
 
     return {

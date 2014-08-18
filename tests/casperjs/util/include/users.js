@@ -42,31 +42,35 @@ var userUtil = function() {
                 if (me && me.anon) {
                     var rndString = mainUtil().generateRandomString();
                     var rndPassword = mainUtil().generateRandomString();
-                    var user = casper.evaluate(function(rndString, password) {
-                        return JSON.parse(__utils__.sendAJAX('/api/user/create', 'POST', {
-                            'username': 'user-' + rndString,
-                            'password': password,
-                            'displayName': rndString,
+
+                    // Bind the event called when the discussion has been created
+                    casper.on(rndString + '.finished', function(data) {
+                        if (!data.data) {
+                            casper.echo('Could not create user-' + rndString, 'ERROR');
+                            return callback(userProfiles);
+                        } else {
+                            data.data.username = 'user-' + rndString;
+                            data.data.password = rndPassword;
+                            userProfiles.push(data.data);
+                            return callback(userProfiles);
+                        }
+                    });
+
+                    // Use the OAE API to create the discussion
+                    casper.evaluate(function(rndString, rndPassword) {
+                        require('oae.api.user').createUser('user-' + rndString, rndPassword, rndString, {
                             'visibility': 'public',
                             'email': 'roy@example.com',
                             'locale': 'en_GB',
-                            'timezone': 'Europe/London',
                             'publicAlias': 'Roy',
                             'acceptedTC': true
-                        }, false));
+                        }, null, null, function(err, data) {
+                            window.callPhantom({
+                                'cbId': rndString,
+                                'data': data
+                            });
+                        });
                     }, rndString, rndPassword);
-
-                    casper.then(function() {
-                        if (user) {
-                            user.username = 'user-' + rndString;
-                            user.password = rndPassword;
-                            userProfiles.push(user);
-                        } else {
-                            casper.echo('Could not create user-' + rndString, 'ERROR');
-                        }
-
-                        callback(userProfiles);
-                    });
                 } else {
                     casper.then(function() {
                         doLogOut();

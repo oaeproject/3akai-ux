@@ -96,7 +96,7 @@ var adminUtil = function(alias) {
 
                 casper.then(function() {
                     if (callback) {
-                        callback(alias);
+                        return callback(alias);
                     }
                 });
             // If the test tenant doesn't exist yet create it and continue
@@ -107,28 +107,26 @@ var adminUtil = function(alias) {
                 displayName = displayName || rndString + ' Tenant';
                 host = host || rndString + '.oae.com';
 
-                data = casper.evaluate(function(alias, displayName, host) {
-                    return JSON.parse(__utils__.sendAJAX('/api/tenant/create', 'POST', {
-                        'alias': alias,
-                        'displayName': displayName,
-                        'host': host
-                    }, false));
-                }, alias, displayName, host);
-
-                casper.then(function() {
-                    if (data) {
+                // Bind the event called when the tenant has been created
+                casper.on(rndString + '.finished', function(data) {
+                    if (data.data) {
                         casper.echo('Successfully created tenant ' + displayName + '.');
+                        return callback(alias);
                     } else {
                         casper.echo('Could not create tenant ' + displayName + ', stopping test.', 'ERROR');
                         casper.exit();
                     }
                 });
 
-                casper.then(function() {
-                    if (callback) {
-                        callback(alias);
-                    }
-                });
+                // Use the OAE API to create the tenant
+                casper.evaluate(function(rndString, alias, displayName, host) {
+                    require('oae.api.admin').createTenant(alias, displayName, host, function(err, data) {
+                        window.callPhantom({
+                            'cbId': rndString,
+                            'data': data
+                        });
+                    });
+                }, rndString, alias, displayName, host);
             }
         });
     };
