@@ -46,7 +46,7 @@ var userUtil = function() {
                     // Bind the event called when the discussion has been created
                     casper.on(rndString + '.finished', function(data) {
                         if (!data.data) {
-                            casper.echo('Could not create user-' + rndString, 'ERROR');
+                            casper.echo('Could not create user-' + rndString + '. Error ' + data.err.code + ': ' + data.err.msg, 'ERROR');
                             return callback(userProfiles);
                         } else {
                             data.data.username = 'user-' + rndString;
@@ -67,7 +67,8 @@ var userUtil = function() {
                         }, null, null, function(err, data) {
                             window.callPhantom({
                                 'cbId': rndString,
-                                'data': data
+                                'data': data,
+                                'err': err
                             });
                         });
                     }, rndString, rndPassword);

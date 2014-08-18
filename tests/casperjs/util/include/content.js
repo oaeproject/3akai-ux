@@ -165,7 +165,7 @@ var contentUtil = function() {
         // Bind the event called when the link has been created
         casper.on(rndString + '.finished', function(data) {
             if (!data.data) {
-                casper.echo('Could not update content.', 'ERROR');
+                casper.echo('Could not update content. Error ' + data.err.code + ': ' + data.err.msg, 'ERROR');
                 return callback(null);
             } else {
                 return callback(data.data);
@@ -177,7 +177,8 @@ var contentUtil = function() {
             require('oae.api.content').updateContent(contentId, params, function(err, data) {
                 window.callPhantom({
                     'cbId': rndString,
-                    'data': data
+                    'data': data,
+                    'err': err
                 });
             });
         }, rndString, contentId, params);

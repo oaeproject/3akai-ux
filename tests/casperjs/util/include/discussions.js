@@ -36,7 +36,7 @@ var discussionUtil = function() {
         // Bind the event called when the discussion has been created
         casper.on(rndString + '.finished', function(data) {
             if (!data.data) {
-                casper.echo('Could not create discussion \'Discussion' + rndString + '\'.', 'ERROR');
+                casper.echo('Could not create discussion \'Discussion' + rndString + '\'. Error ' + data.err.code + ': ' + data.err.msg, 'ERROR');
                 return callback(null);
             } else {
                 return callback(data.data);
@@ -48,7 +48,8 @@ var discussionUtil = function() {
             require('oae.api.discussion').createDiscussion('Discussion ' + rndString, 'Talk about all the things!', 'public', managers, members, function(err, data) {
                 window.callPhantom({
                     'cbId': rndString,
-                    'data': data
+                    'data': data,
+                    'err': err
                 });
             });
         }, rndString, managers, members);

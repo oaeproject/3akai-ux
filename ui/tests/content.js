@@ -128,147 +128,160 @@ casper.test.begin('Page - Content', function(test) {
             user3 = users[2];
         });
 
-        // Login with the first user
-        casper.then(function() {
-            userUtil().doLogIn(user1.username, user1.password);
-        });
+        casper.waitFor(function() {
+            return user1 !== null;
+        }, function() {
+            // Login with the first user
+            casper.then(function() {
+                userUtil().doLogIn(user1.username, user1.password);
+            });
 
+            var contentProfile = null;
+            var linkProfile = null;
+            var collabdocProfile = null;
 
-        ///////////
-        // FILES //
-        ///////////
-
-        // Create a file, go to the content profile page and verify the clip buttons as a manager
-        var contentURL = null;
-        casper.then(function() {
-            casper.echo('Verify file clip buttons as a manager', 'INFO');
-            contentUtil().createFile(null, null, [user2.id], function(contentProfile) {
-                contentURL = configUtil().tenantUI + contentProfile.profilePath;
-                casper.thenOpen(contentURL, function() {
-                    casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyFileClipButtonsAsManager);
+            casper.then(function() {
+                contentUtil().createFile(null, null, [user2.id], function(_contentProfile) {
+                    contentProfile = _contentProfile;
+                    contentUtil().createLink(null, null, [user2.id], function(_linkProfile) {
+                        linkProfile = _linkProfile;
+                        collabDocUtil().createCollabDoc(null, [user2.id], function(_collabdocProfile) {
+                            collabdocProfile = _collabdocProfile;
+                        });
+                    });
                 });
-                casper.then(userUtil().doLogOut);
             });
-        });
 
-        casper.then(function() {
-            casper.echo('Verify file clip buttons as a viewer', 'INFO');
-            userUtil().doLogIn(user2.username, user2.password);
-            casper.thenOpen(contentURL, function() {
-                casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyFileClipButtonsAsNonManager);
-            });
-            casper.then(userUtil().doLogOut);
-        });
-
-        casper.then(function() {
-            casper.echo('Verify file clip buttons as a logged in non-viewer user', 'INFO');
-            userUtil().doLogIn(user3.username, user3.password);
-            casper.thenOpen(contentURL, function() {
-                casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyFileClipButtonsAsNonManager);
-            });
-            casper.then(userUtil().doLogOut);
-        });
-
-        casper.then(function() {
-            casper.echo('Verify file clip buttons as an anonymous user', 'INFO');
-            casper.thenOpen(contentURL, function() {
-                casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyFileClipButtonsAsNonManager);
-            });
-        });
+            casper.waitFor(function() {
+                return contentProfile !== null && linkProfile !== null && collabdocProfile !== null;
+            }, function() {
 
 
-        ///////////
-        // LINKS //
-        ///////////
+                ///////////
+                // FILES //
+                ///////////
 
-        // Login with the first user again to start link tests
-        casper.thenOpen(configUtil().tenantUI, function() {
-            userUtil().doLogIn(user1.username, user1.password);
-        });
-
-        // Create a link, go to the content profile page and verify the clip buttons as a manager
-        var linkURL = null;
-        casper.then(function() {
-            casper.echo('Verify link clip buttons as a manager', 'INFO');
-            contentUtil().createLink(null, null, [user2.id], function(link) {
-                linkURL = configUtil().tenantUI + link.profilePath;
-                casper.thenOpen(linkURL, function() {
-                    casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyLinkClipButtonsAsManager);
+                // Verify content clip buttons as a manager
+                casper.then(function() {
+                    casper.echo('Verify file clip buttons as a manager', 'INFO');
+                    casper.thenOpen(configUtil().tenantUI + contentProfile.profilePath, function() {
+                        casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyFileClipButtonsAsManager);
+                    });
+                    casper.then(userUtil().doLogOut);
                 });
-                casper.then(userUtil().doLogOut);
-            });
-        });
 
-        casper.then(function() {
-            casper.echo('Verify link clip buttons as a viewer', 'INFO');
-            userUtil().doLogIn(user2.username, user2.password);
-            casper.thenOpen(linkURL, function() {
-                casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyLinkClipButtonsAsNonManager);
-            });
-            casper.then(userUtil().doLogOut);
-        });
-
-        casper.then(function() {
-            casper.echo('Verify link clip buttons as a logged in non-viewer user', 'INFO');
-            userUtil().doLogIn(user3.username, user3.password);
-            casper.thenOpen(linkURL, function() {
-                casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyLinkClipButtonsAsNonManager);
-            });
-            casper.then(userUtil().doLogOut);
-        });
-
-        casper.then(function() {
-            casper.echo('Verify link clip buttons as an anonymous user', 'INFO');
-            casper.thenOpen(linkURL, function() {
-                casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyLinkClipButtonsAsNonManager);
-            });
-        });
-
-
-        /////////////////////////////
-        // COLLABORATIVE DOCUMENTS //
-        /////////////////////////////
-
-        // Login with the first user again to start collabdoc tests
-        casper.thenOpen(configUtil().tenantUI, function() {
-            userUtil().doLogIn(user1.username, user1.password);
-        });
-
-        // Create a collaborative document, go to the content profile page and verify the clip buttons as a manager
-        var collabdocURL = null;
-        casper.then(function() {
-            casper.echo('Verify collabdoc clip buttons as a manager', 'INFO');
-            collabDocUtil().createCollabDoc(null, [user2.id], function(collabdocProfile) {
-                collabdocURL = configUtil().tenantUI + collabdocProfile.profilePath;
-                casper.thenOpen(collabdocURL, function() {
-                    casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyCollabdocClipButtonsAsManager);
+                casper.then(function() {
+                    casper.echo('Verify file clip buttons as a viewer', 'INFO');
+                    userUtil().doLogIn(user2.username, user2.password);
+                    casper.thenOpen(configUtil().tenantUI + contentProfile.profilePath, function() {
+                        casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyFileClipButtonsAsNonManager);
+                    });
+                    casper.then(userUtil().doLogOut);
                 });
-                casper.then(userUtil().doLogOut);
-            });
-        });
 
-        casper.then(function() {
-            casper.echo('Verify collabdoc clip buttons as a viewer', 'INFO');
-            userUtil().doLogIn(user2.username, user2.password);
-            casper.thenOpen(collabdocURL, function() {
-                casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyCollabdocClipButtonsAsNonManager);
-            });
-            casper.then(userUtil().doLogOut);
-        });
+                casper.then(function() {
+                    casper.echo('Verify file clip buttons as a logged in non-viewer user', 'INFO');
+                    userUtil().doLogIn(user3.username, user3.password);
+                    casper.thenOpen(configUtil().tenantUI + contentProfile.profilePath, function() {
+                        casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyFileClipButtonsAsNonManager);
+                    });
+                    casper.then(userUtil().doLogOut);
+                });
 
-        casper.then(function() {
-            casper.echo('Verify collabdoc clip buttons as a logged in non-viewer user', 'INFO');
-            userUtil().doLogIn(user3.username, user3.password);
-            casper.thenOpen(collabdocURL, function() {
-                casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyCollabdocClipButtonsAsNonManager);
-            });
-            casper.then(userUtil().doLogOut);
-        });
+                casper.then(function() {
+                    casper.echo('Verify file clip buttons as an anonymous user', 'INFO');
+                    casper.thenOpen(configUtil().tenantUI + contentProfile.profilePath, function() {
+                        casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyFileClipButtonsAsNonManager);
+                    });
+                });
 
-        casper.then(function() {
-            casper.echo('Verify collabdoc clip buttons as an anonymous user', 'INFO');
-            casper.thenOpen(collabdocURL, function() {
-                casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyCollabdocClipButtonsAsNonManager);
+
+                ///////////
+                // LINKS //
+                ///////////
+
+                // Login with the first user again to start link tests
+                casper.thenOpen(configUtil().tenantUI, function() {
+                    userUtil().doLogIn(user1.username, user1.password);
+                });
+
+                // Verify the link clip buttons as a manager
+                casper.then(function() {
+                    casper.echo('Verify link clip buttons as a manager', 'INFO');
+                    casper.thenOpen(configUtil().tenantUI + linkProfile.profilePath, function() {
+                        casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyLinkClipButtonsAsManager);
+                    });
+                    casper.then(userUtil().doLogOut);
+                });
+
+                casper.then(function() {
+                    casper.echo('Verify link clip buttons as a viewer', 'INFO');
+                    userUtil().doLogIn(user2.username, user2.password);
+                    casper.thenOpen(configUtil().tenantUI + linkProfile.profilePath, function() {
+                        casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyLinkClipButtonsAsNonManager);
+                    });
+                    casper.then(userUtil().doLogOut);
+                });
+
+                casper.then(function() {
+                    casper.echo('Verify link clip buttons as a logged in non-viewer user', 'INFO');
+                    userUtil().doLogIn(user3.username, user3.password);
+                    casper.thenOpen(configUtil().tenantUI + linkProfile.profilePath, function() {
+                        casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyLinkClipButtonsAsNonManager);
+                    });
+                    casper.then(userUtil().doLogOut);
+                });
+
+                casper.then(function() {
+                    casper.echo('Verify link clip buttons as an anonymous user', 'INFO');
+                    casper.thenOpen(configUtil().tenantUI + linkProfile.profilePath, function() {
+                        casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyLinkClipButtonsAsNonManager);
+                    });
+                });
+
+
+                /////////////////////////////
+                // COLLABORATIVE DOCUMENTS //
+                /////////////////////////////
+
+                // Login with the first user again to start collabdoc tests
+                casper.thenOpen(configUtil().tenantUI, function() {
+                    userUtil().doLogIn(user1.username, user1.password);
+                });
+
+                // Verify the collabdoc clip buttons as a manager
+                casper.then(function() {
+                    casper.echo('Verify collabdoc clip buttons as a manager', 'INFO');
+                    casper.thenOpen(configUtil().tenantUI + collabdocProfile.profilePath, function() {
+                        casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyCollabdocClipButtonsAsManager);
+                    });
+                    casper.then(userUtil().doLogOut);
+                });
+
+                casper.then(function() {
+                    casper.echo('Verify collabdoc clip buttons as a viewer', 'INFO');
+                    userUtil().doLogIn(user2.username, user2.password);
+                    casper.thenOpen(configUtil().tenantUI + collabdocProfile.profilePath, function() {
+                        casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyCollabdocClipButtonsAsNonManager);
+                    });
+                    casper.then(userUtil().doLogOut);
+                });
+
+                casper.then(function() {
+                    casper.echo('Verify collabdoc clip buttons as a logged in non-viewer user', 'INFO');
+                    userUtil().doLogIn(user3.username, user3.password);
+                    casper.thenOpen(configUtil().tenantUI + collabdocProfile.profilePath, function() {
+                        casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyCollabdocClipButtonsAsNonManager);
+                    });
+                    casper.then(userUtil().doLogOut);
+                });
+
+                casper.then(function() {
+                    casper.echo('Verify collabdoc clip buttons as an anonymous user', 'INFO');
+                    casper.thenOpen(configUtil().tenantUI + collabdocProfile.profilePath, function() {
+                        casper.waitForSelector('#content-clip-container .oae-clip-content > button', verifyCollabdocClipButtonsAsNonManager);
+                    });
+                });
             });
         });
     });

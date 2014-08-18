@@ -113,7 +113,7 @@ var adminUtil = function(alias) {
                         casper.echo('Successfully created tenant ' + displayName + '.');
                         return callback(alias);
                     } else {
-                        casper.echo('Could not create tenant ' + displayName + ', stopping test.', 'ERROR');
+                        casper.echo('Could not create tenant ' + displayName + ', stopping test. Error ' + data.err.code + ': ' + data.err.msg, 'ERROR');
                         casper.exit();
                     }
                 });
@@ -123,7 +123,8 @@ var adminUtil = function(alias) {
                     require('oae.api.admin').createTenant(alias, displayName, host, function(err, data) {
                         window.callPhantom({
                             'cbId': rndString,
-                            'data': data
+                            'data': data,
+                            'err': err
                         });
                     });
                 }, rndString, alias, displayName, host);

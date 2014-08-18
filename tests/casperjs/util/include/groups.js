@@ -36,7 +36,7 @@ var groupUtil = function() {
         // Bind the event called when the group has been created
         casper.on(rndString + '.finished', function(data) {
             if (!data.data) {
-                casper.echo('Could not create group-' + rndString + '.', 'ERROR');
+                casper.echo('Could not create group-' + rndString + '. Error ' + data.err.code + ': ' + data.err.msg, 'ERROR');
                 return callback(null);
             } else {
                 callback(data.data);
@@ -48,7 +48,8 @@ var groupUtil = function() {
             require('oae.api.group').createGroup('group-' + rndString, 'Test group description', 'public', 'yes', managers, members, function(err, data) {
                 window.callPhantom({
                     'cbId': rndString,
-                    'data': data
+                    'data': data,
+                    'err': err
                 });
             });
         }, rndString, managers, members);
