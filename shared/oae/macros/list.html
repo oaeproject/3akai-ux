@@ -120,6 +120,8 @@
 
         {if !displayOptions}
             {var displayOptions = new Object()}
+        {else}
+            {var displayOptions = _.extend(new Object(), displayOptions)}
         {/if}
 
         {if entityData.resourceType}
@@ -214,6 +216,8 @@
 
     {if !displayOptions}
         {var displayOptions = new Object()}
+    {else}
+        {var displayOptions = _.extend(new Object(), displayOptions)}
     {/if}
 
     <!-- The format of the data can be slightly different depending on its origin. This
@@ -286,6 +290,8 @@
 
     {if !displayOptions}
         {var displayOptions = new Object()}
+    {else}
+        {var displayOptions = _.extend(new Object(), displayOptions)}
     {/if}
 
     {if entityData.resourceType}
