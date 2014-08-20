@@ -216,8 +216,6 @@
 
     {if !displayOptions}
         {var displayOptions = new Object()}
-    {else}
-        {var displayOptions = _.extend(new Object(), displayOptions)}
     {/if}
 
     <!-- The format of the data can be slightly different depending on its origin. This
@@ -288,16 +286,24 @@
 -->
 {macro renderMetadata(entityData, displayOptions)}
 
-    {if !displayOptions}
-        {var displayOptions = new Object()}
-    {else}
-        {var displayOptions = _.extend(new Object(), displayOptions)}
-    {/if}
-
     {if entityData.resourceType}
         {var resourceType = entityData.resourceType}
     {elseif entityData.objectType}
         {var resourceType = entityData.objectType}
+    {/if}
+
+    {if displayOptions.metadata || displayOptions.metadata === false}
+        {var metadata = displayOptions.metadata}
+    {else}
+        {if resourceType === 'user'}
+            {var metadata = tenant.displayName}
+        {elseif resourceType === 'group'}
+            {var metadata = '__MSG__GROUP__'}
+        {elseif resourceType === 'content'}
+            {var metadata = oae.api.content.getMimeTypeDescription(entityData)}
+        {elseif resourceType === 'discussion'}
+            {var metadata = '__MSG__DISCUSSION__'}
+        {/if}
     {/if}
 
     {if entityData.profilePath}
@@ -312,26 +318,14 @@
         {var tenant = entityData['oae:tenant']}
     {/if}
 
-    {if !displayOptions.metadata && displayOptions.metadata !== false}
-        {if resourceType === 'user'}
-            ${displayOptions.metadata = tenant.displayName|eat}
-        {elseif resourceType === 'group'}
-            ${displayOptions.metadata = '__MSG__GROUP__'|eat}
-        {elseif resourceType === 'content'}
-            ${displayOptions.metadata = oae.api.content.getMimeTypeDescription(entityData)|eat}
-        {elseif resourceType === 'discussion'}
-            ${displayOptions.metadata = '__MSG__DISCUSSION__'|eat}
-        {/if}
-    {/if}
-
     {if profilePath && displayOptions.addLink !== false}
         <h3 class="oae-threedots"><a href="${profilePath|profilePath}" title="${entityData.displayName|encodeForHTMLAttribute}" {if displayOptions.linkTarget} target="${displayOptions.linkTarget}"{/if}>${entityData.displayName|encodeForHTML}</a></h3>
     {else}
         <h3 class="oae-threedots"><span class="jeditable-field oae-threedots" rel="tooltip" data-placement="right" data-original-title="__MSG__CLICK_TO_RENAME__" tabindex="0">${entityData.displayName|encodeForHTML}</span></h3>
     {/if}
 
-    {if displayOptions.metadata}
-        <small class="oae-threedots">${displayOptions.metadata|encodeForHTML}</small>
+    {if metadata}
+        <small class="oae-threedots">${metadata|encodeForHTML}</small>
     {/if}
 {/macro}
 
