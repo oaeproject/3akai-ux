@@ -111,7 +111,7 @@ var adminUtil = function(alias) {
                 casper.on(rndString + '.finished', function(data) {
                     if (data.data) {
                         casper.echo('Successfully created tenant ' + displayName + '.');
-                        return callback(alias);
+                        return callback(data.data);
                     } else {
                         casper.echo('Could not create tenant ' + displayName + ', stopping test. Error ' + data.err.code + ': ' + data.err.msg, 'ERROR');
                         casper.exit();
