@@ -20,7 +20,7 @@ casper.test.begin('Macro - List Metadata', function(test) {
      *
      * @param  {Object}    entityData    Entity for which the metadata should be checked
      */
-    var verifyContentListItem = function(entityData) {
+    var verifyListItem = function(entityData) {
         test.assertExists('.oae-list li[data-id="' + entityData.id + '"] .oae-tile-metadata', 'Verify the metadata container is present in the list item');
         // A user doesn't have a visibility icon
         if (entityData.resourceType === 'user') {
@@ -87,56 +87,56 @@ casper.test.begin('Macro - List Metadata', function(test) {
                                             casper.thenOpen(configUtil().tenantUI + '/me/library', function() {
                                                 casper.echo('Verify image list item metadata', 'INFO');
                                                 casper.waitForSelector('ul.oae-list li[data-id="' + content1Profile.id + '"]', function() {
-                                                    verifyContentListItem(content1Profile);
+                                                    verifyListItem(content1Profile);
                                                 });
                                             });
 
                                             casper.then(function() {
                                                 casper.echo('Verify video list item metadata', 'INFO');
                                                 casper.waitForSelector('ul.oae-list li[data-id="' + content1Profile.id + '"]', function() {
-                                                    verifyContentListItem(content2Profile);
+                                                    verifyListItem(content2Profile);
                                                 });
                                             });
 
                                             casper.then(function() {
                                                 casper.echo('Verify archive list item metadata', 'INFO');
                                                 casper.waitForSelector('ul.oae-list li[data-id="' + content1Profile.id + '"]', function() {
-                                                    verifyContentListItem(content3Profile);
+                                                    verifyListItem(content3Profile);
                                                 });
                                             });
 
                                             casper.then(function() {
                                                 casper.echo('Verify link list item metadata', 'INFO');
                                                 casper.waitForSelector('ul.oae-list li[data-id="' + content1Profile.id + '"]', function() {
-                                                    verifyContentListItem(linkProfile);
+                                                    verifyListItem(linkProfile);
                                                 });
                                             });
 
                                             casper.then(function() {
                                                 casper.echo('Verify collaborative document list item metadata', 'INFO');
                                                 casper.waitForSelector('ul.oae-list li[data-id="' + content1Profile.id + '"]', function() {
-                                                    verifyContentListItem(collabdocProfile);
+                                                    verifyListItem(collabdocProfile);
                                                 });
                                             });
 
                                             casper.thenOpen(configUtil().tenantUI + '/me/discussions', function() {
                                                 casper.echo('Verify discussion list item metadata', 'INFO');
                                                 casper.waitForSelector('ul.oae-list li[data-id="' + discussionProfile.id + '"]', function() {
-                                                    verifyContentListItem(discussionProfile);
+                                                    verifyListItem(discussionProfile);
                                                 });
                                             });
 
                                             casper.thenOpen(configUtil().tenantUI + '/me/groups', function() {
                                                 casper.echo('Verify group list item metadata', 'INFO');
                                                 casper.waitForSelector('ul.oae-list li[data-id="' + groupProfile.id + '"]', function() {
-                                                    verifyContentListItem(groupProfile);
+                                                    verifyListItem(groupProfile);
                                                 });
                                             });
 
                                             casper.thenOpen(configUtil().tenantUI + '/me/network', function() {
                                                 casper.echo('Verify user list item metadata', 'INFO');
                                                 casper.waitForSelector('ul.oae-list li[data-id="' + user2.id + '"]', function() {
-                                                    verifyContentListItem(user2);
+                                                    verifyListItem(user2);
                                                 });
                                             });
 
