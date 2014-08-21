@@ -105,9 +105,9 @@ body {
 @secondary-text-color: #827E7D;
 
 body, button, input, select, textarea,
-.btn > i, .btn > i.fa, a.oae-plain-link,
+.btn > .fa, a.oae-plain-link,
 .popover-content, .popover-content button:not(.btn),
-h1 i.fa, h2 i.fa, h3 i.fa, h4 i.fa, h5 i.fa, h6 i.fa {
+h1 .fa, h2 .fa, h3 .fa, h4 .fa, h5 .fa, h6 .fa {
     color: @text-color;
 }
 
@@ -197,8 +197,7 @@ a:hover, .btn-link:hover {
     background-color: @button-primary-gradient2-color;
 }
 
-.btn.btn-primary [class^=fa-],
-.btn.btn-primary [class*=" fa-"] {
+.btn.btn-primary .fa {
     color: @button-primary-text-color;
 }
 
@@ -321,12 +320,12 @@ a:hover, .btn-link:hover {
 /* Icon button hover color */
 @button-icon-hover-color: #555;
 
-i.fa, .btn.btn-link i.fa {
+.fa, .btn.btn-link .fa {
    color: @button-icon-color;
 }
 
-i.fa.active, i.fa:hover, i.fa:focus, i.fa.selected,
-.btn-link i.fa.active, .btn-link:hover i.fa, .btn-link:focus i.fa {
+.fa.active, .fa:hover, .fa:focus, .fa.selected,
+.btn-link .fa.active, .btn-link:hover .fa, .btn-link:focus .fa {
     color: @button-icon-hover-color;
 }
 

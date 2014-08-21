@@ -26,9 +26,9 @@ casper.test.begin('Macro - List Metadata', function(test) {
             // Verify the visibility icon
             if (entityData.resourceType === 'user') {
                 // A user doesn't have a visibility icon
-                test.assertDoesntExist('.oae-list li[data-id="' + entityData.id + '"] .oae-tile-metadata .icon-oae-public', 'Verify the visibility icon is not present in the list item metadata');
+                test.assertDoesntExist('.oae-list li[data-id="' + entityData.id + '"] .oae-tile-metadata .fa-oae-' + entityData.visibility, 'Verify the visibility icon is not present in the list item metadata');
             } else {
-                test.assertExists('.oae-list li[data-id="' + entityData.id + '"] .oae-tile-metadata .icon-oae-public', 'Verify the visibility icon is present in the list item metadata');
+                test.assertExists('.oae-list li[data-id="' + entityData.id + '"] .oae-tile-metadata .fa-oae-' + entityData.visibility, 'Verify the visibility icon is present in the list item metadata');
             }
             // Verify the display name
             test.assertExists('.oae-list li[data-id="' + entityData.id + '"] .oae-tile-metadata h3', 'Verify the title is present in the list item metadata');

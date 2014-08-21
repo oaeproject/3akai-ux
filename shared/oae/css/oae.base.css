@@ -69,7 +69,7 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     background-repeat: no-repeat;
 }
 
-.btn:not(.btn-link) > i.fa {
+.btn:not(.btn-link) > .fa {
     line-height: 1;
 }
 
@@ -93,12 +93,12 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
     padding: 0 15px;
 }
 
-.nav-list i.fa {
+.nav-list .fa {
     display: inline-block;
     font-size: 1.5em;
     margin-right: 10px;
     position: relative;
-    top: 7px;
+    top: 8px;
     width: 20px;
 }
 
@@ -131,26 +131,20 @@ a:hover, .btn-link:hover, a:focus, .btn-link:focus {
 
 /* ICONS */
 
-i.fa {
+.fa {
     font-size: 22px;
     line-height: normal; /* replicate Font Awesome 3.x behavior for consistency */
 }
 
-i.hide.fa {
+.hide.fa {
     display: none;
 }
 
 /* FONTAWESOME ICON OVERRIDES
  * @see http://fontawesome.io */
 
-.btn > i.fa-times.pull-left,
-.btn > i.fa-trash-o.pull-left {
-    margin-top: 1px;
-}
-
-.btn > i.fa-minus-circle.pull-left,
 .btn > i.fa-share-square-o.pull-left {
-    margin-top: 2px;
+    margin-top: 1px;
 }
 
 /* DROPDOWN

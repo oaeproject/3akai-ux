@@ -113,29 +113,29 @@ require(['jquery', 'oae.core'], function($, oae) {
         // Add the upload and create clips for managers
         if (groupProfile.isMember) {
             lhNavActions.push({
-                'icon': 'fa fa-cloud-upload',
+                'icon': 'fa-cloud-upload',
                 'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
                 'closeNav': true,
                 'class': 'oae-trigger-upload'
             },
             {
-                'icon': 'fa fa-plus-circle',
+                'icon': 'fa-plus-circle',
                 'title': oae.api.i18n.translate('__MSG__CREATE__'),
                 'children': [
                     {
-                        'icon': 'fa fa-link',
+                        'icon': 'fa-link',
                         'title': oae.api.i18n.translate('__MSG__LINK__'),
                         'closeNav': true,
                         'class': 'oae-trigger-createlink'
                     },
                     {
-                        'icon': 'fa fa-pencil-square-o',
+                        'icon': 'fa-pencil-square-o',
                         'title': oae.api.i18n.translate('__MSG__DOCUMENT__'),
                         'closeNav': true,
                         'class': 'oae-trigger-createcollabdoc'
                     },
                     {
-                        'icon': 'fa fa-comments',
+                        'icon': 'fa-comments',
                         'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
                         'closeNav': true,
                         'class': 'oae-trigger-creatediscussion'
@@ -147,7 +147,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         // Add the join clip when not a member and user can join
         if (!groupProfile.isMember && groupProfile.canJoin) {
             lhNavActions.push({
-                'icon': 'fa fa-thumb-tack',
+                'icon': 'fa-thumb-tack',
                 'title': oae.api.i18n.translate('__MSG__JOIN_GROUP__'),
                 'class': 'group-join'
             });
@@ -160,7 +160,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             lhNavPages.push({
                 'id': 'activity',
                 'title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
-                'icon': 'fa fa-tachometer',
+                'icon': 'fa-tachometer',
                 'closeNav': true,
                 'layout': [
                     {
@@ -182,7 +182,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         lhNavPages.push({
             'id': 'library',
             'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
-            'icon': 'fa fa-briefcase',
+            'icon': 'fa-briefcase',
             'closeNav': true,
             'layout': [
                 {
@@ -203,7 +203,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         {
             'id': 'discussions',
             'title': oae.api.i18n.translate('__MSG__DISCUSSIONS__'),
-            'icon': 'fa fa-comments',
+            'icon': 'fa-comments',
             'closeNav': true,
             'layout': [
                 {
@@ -224,7 +224,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         {
             'id': 'members',
             'title': oae.api.i18n.translate('__MSG__MEMBERS__'),
-            'icon': 'fa fa-user',
+            'icon': 'fa-user',
             'closeNav': true,
             'layout': [
                 {

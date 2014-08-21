@@ -35,7 +35,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         // All logged in users that can see the content can comment
         if (!oae.data.me.anon) {
             lhNavActions.push({
-                'icon': 'fa fa-comments',
+                'icon': 'fa-comments',
                 'title': oae.api.i18n.translate('__MSG__COMMENT__'),
                 'class': 'comments-focus-new-comment',
                 'closeNav': true
@@ -44,7 +44,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         // Only offer share to users that are allowed to share the piece of content
         if (contentProfile.canShare) {
             lhNavActions.push({
-                'icon': 'fa fa-share-square-o',
+                'icon': 'fa-share-square-o',
                 'title': oae.api.i18n.translate('__MSG__SHARE__'),
                 'class': 'oae-trigger-share',
                 'data': {
@@ -58,7 +58,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         var lhNavPages = [{
             'id': 'content',
             'title': contentProfile.displayName,
-            'icon': 'fa fa-comments',
+            'icon': 'fa-comments',
             'closeNav': true,
             'class': 'hide',
             'layout': [

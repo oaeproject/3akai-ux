@@ -253,8 +253,6 @@ i.fa.large:before {
     z-index: -1; /* Adding a z-index of -1 hides the element from the view but still allows for focus of the element */
 }
 
-.oae-large-options-container label .oae-large-options i.fa:before,
-.oae-large-options-container label .oae-large-options i.fa:before,
 .oae-large-options-container label .oae-large-options i.fa:before {
     margin-top: 6px;
 }
@@ -263,7 +261,7 @@ i.fa.large:before {
     display: block;
     font-size: 13px;
     font-weight: bold;
-    margin-top: 15px;
+    margin-top: 12px;
 }
 
 .oae-large-options-container label i.fa-check {
@@ -294,14 +292,11 @@ i.fa.large:before {
 
 /* These icons are used in situations where checks for success/failure are done */
 
-
-i.fa-check,
-i.fa-check:hover {
+.fa-check, .fa-check:hover {
     color: #468847;
 }
 
-i.fa-exclamation-triangle,
-i.fa-exclamation-triangle:hover {
+.fa-exclamation-triangle, .fa-exclamation-triangle:hover {
     color: #DD2222;
 }
 
@@ -373,8 +368,8 @@ div.oae-thumbnail {
 
 div.oae-thumbnail:before {
     display: inline-block;
-    font-size: 20px;
-    margin-top: -11px;
+    font-size: 18px;
+    margin-top: -9px;
     padding-top: 50%;
 }
 
@@ -1000,7 +995,7 @@ div.oae-thumbnail i.fa {
 }
 
 .oae-tile .oae-thumbnail.oae-thumbnail-large:before {
-    margin-top: -50px;
+    margin-top: -48px;
     padding-top: 80px;
 }
 
@@ -1021,6 +1016,7 @@ div.oae-thumbnail i.fa {
 /* The visibility icon of the tile should be aligned to the right */
 .oae-tile > .oae-tile-metadata > i {
     float: right;
+    margin-left: 1px;
 }
 
 .oae-tile h3,
@@ -1210,9 +1206,9 @@ div.oae-thumbnail i.fa {
     float: right;
 }
 
-/* Actions can be either an icon, an icon with spin, or a button with an icon. Style them consistently, and
+/* Actions can be either an icon, an icon with spin or a button with an icon. Style them consistently, and
    if removing or modifying something, be sure to test with different permutations of a regular icon (e.g.,
-   "fa-check" class), an icon with spin (e.g., "fa-spinner fa-spin" classes) and a button icon */
+   `fa-check` class), an icon with spin (e.g., `fa-spinner fa-spin` classes) and a button icon */
 .oae-listitem > div.oae-listitem-actions > i,
 .oae-listitem > div.oae-listitem-actions > .btn,
 .oae-listitem > div.oae-listitem-actions > .btn i {
