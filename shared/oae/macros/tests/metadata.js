@@ -16,44 +16,47 @@
 casper.test.begin('Macro - List Metadata', function(test) {
 
     /**
-     * Verify the correct metadata is shown in list items
+     * Verify the correct metadata is shown in a list item
      *
-     * @param  {Object}    entityData    Entity for which the metadata should be checked
+     * @param  {Content|Discussion|Group|User}    entityData    Entity for which the list item metadata should be validated
      */
     var verifyListItem = function(entityData) {
-        test.assertExists('.oae-list li[data-id="' + entityData.id + '"] .oae-tile-metadata', 'Verify the metadata container is present in the list item');
-        // A user doesn't have a visibility icon
-        if (entityData.resourceType === 'user') {
-            test.assertDoesntExist('.oae-list li[data-id="' + entityData.id + '"] .oae-tile-metadata .icon-oae-public', 'Verify the visibility icon is not present in the list item metadata');
-        } else {
-            test.assertExists('.oae-list li[data-id="' + entityData.id + '"] .oae-tile-metadata .icon-oae-public', 'Verify the visibility icon is present in the list item metadata');
-        }
-        test.assertExists('.oae-list li[data-id="' + entityData.id + '"] .oae-tile-metadata h3', 'Verify the title is present in the list item metadata');
-        test.assertSelectorHasText('.oae-list li[data-id="' + entityData.id + '"] .oae-tile-metadata h3', entityData.displayName, 'Verify the correct title is shown in the list item metadata');
-        test.assertExists('.oae-list li[data-id="' + entityData.id + '"] .oae-tile-metadata small', 'Verify the small description is present in the list item metadata');
+        casper.waitForSelector('ul.oae-list li[data-id="' + entityData.id + '"]', function() {
+            test.assertExists('.oae-list li[data-id="' + entityData.id + '"] .oae-tile-metadata', 'Verify the metadata container is present in the list item');
+            // Verify the visibility icon
+            if (entityData.resourceType === 'user') {
+                // A user doesn't have a visibility icon
+                test.assertDoesntExist('.oae-list li[data-id="' + entityData.id + '"] .oae-tile-metadata .icon-oae-public', 'Verify the visibility icon is not present in the list item metadata');
+            } else {
+                test.assertExists('.oae-list li[data-id="' + entityData.id + '"] .oae-tile-metadata .icon-oae-public', 'Verify the visibility icon is present in the list item metadata');
+            }
+            // Verify the display name
+            test.assertExists('.oae-list li[data-id="' + entityData.id + '"] .oae-tile-metadata h3', 'Verify the title is present in the list item metadata');
+            test.assertSelectorHasText('.oae-list li[data-id="' + entityData.id + '"] .oae-tile-metadata h3', entityData.displayName, 'Verify the correct title is shown in the list item metadata');
+            // Verify the subtext
+            test.assertExists('.oae-list li[data-id="' + entityData.id + '"] .oae-tile-metadata small', 'Verify the small description is present in the list item metadata');
+            if (entityData.resourceType === 'user') {
+                test.assertSelectorHasText('.oae-list li[data-id="' + entityData.id + '"] .oae-tile-metadata small', entityData.tenant.displayName, 'Verify the small description in the list item metadata reads \'' + entityData.tenant.displayName + '\'');
+            } else if (entityData.resourceType === 'group') {
+                test.assertSelectorHasText('.oae-list li[data-id="' + entityData.id + '"] .oae-tile-metadata small', 'Group', 'Verify the small description in the list item metadata reads \'Group\'');
+            } else if (entityData.resourceType === 'content') {
+                var description = casper.evaluate(function(entityData) {
+                    return require('oae.api.content').getMimeTypeDescription(entityData);
+                }, entityData);
 
-        // Depending on the type of resource, the metadata shows a different description of it
-        if (entityData.resourceType === 'user') {
-            test.assertSelectorHasText('.oae-list li[data-id="' + entityData.id + '"] .oae-tile-metadata small', entityData.tenant.displayName, 'Verify the small description in the list item metadata reads \'' + entityData.tenant.displayName + '\'');
-        } else if (entityData.resourceType === 'group') {
-            test.assertSelectorHasText('.oae-list li[data-id="' + entityData.id + '"] .oae-tile-metadata small', 'Group', 'Verify the small description in the list item metadata reads \'Group\'');
-        } else if (entityData.resourceType === 'content') {
-            var description = casper.evaluate(function(entityData) {
-                return require('oae.api.content').getMimeTypeDescription(entityData);
-            }, entityData);
-
-            casper.waitFor(function() {
-                return description !== null;
-            }, function() {
-                test.assertSelectorHasText('.oae-list li[data-id="' + entityData.id + '"] .oae-tile-metadata small', description, 'Verify the small description in the list item metadata reads \'' + description + '\'');
-            });
-        } else if (entityData.resourceType === 'discussion') {
-            test.assertSelectorHasText('.oae-list li[data-id="' + entityData.id + '"] .oae-tile-metadata small', 'Discussion', 'Verify the small description in the list item metadata reads \'Discussion\'');
-        }
+                casper.waitFor(function() {
+                    return description !== null;
+                }, function() {
+                    test.assertSelectorHasText('.oae-list li[data-id="' + entityData.id + '"] .oae-tile-metadata small', description, 'Verify the small description in the list item metadata reads \'' + description + '\'');
+                });
+            } else if (entityData.resourceType === 'discussion') {
+                test.assertSelectorHasText('.oae-list li[data-id="' + entityData.id + '"] .oae-tile-metadata small', 'Discussion', 'Verify the small description in the list item metadata reads \'Discussion\'');
+            }
+        });
     };
 
     casper.start(configUtil().tenantUI, function() {
-        // Create a couple of users to test with
+        // Create some users to test with
         var user1 = null;
         var user2 = null;
         userUtil().createUsers(2, function(users) {
@@ -61,20 +64,20 @@ casper.test.begin('Macro - List Metadata', function(test) {
             user2 = users[1];
         });
 
-        // Login with the first user
+        // Sign in with the first user
         casper.then(function() {
             userUtil().doLogIn(user1.username, user1.password);
         });
 
         casper.then(function() {
-            // Follow user 2
+            // Follow user2
             followUtil().follow(user2.id, function() {
                 // Create an image
-                contentUtil().createFile(null, null, null, function(content1Profile) {
+                contentUtil().createFile(null, null, null, function(contentProfile1) {
                     // Create a video
-                    contentUtil().createFile('tests/casperjs/data/sample-video.mp4', null, null, function(content2Profile) {
+                    contentUtil().createFile('tests/casperjs/data/sample-video.mp4', null, null, function(contentProfile2) {
                         // Create an archive
-                        contentUtil().createFile('tests/casperjs/data/apereo.zip', null, null, function(content3Profile) {
+                        contentUtil().createFile('tests/casperjs/data/apereo.zip', null, null, function(contentProfile3) {
                             // Create a link
                             contentUtil().createLink('http://www.oaeproject.org', null, null, function(linkProfile) {
                                 // Create a collaborative document
@@ -84,60 +87,32 @@ casper.test.begin('Macro - List Metadata', function(test) {
                                         // Create a group
                                         groupUtil().createGroup([], [], function(groupProfile) {
 
+                                            // Verify that all content items are displayed correctly in the content library
                                             casper.thenOpen(configUtil().tenantUI + '/me/library', function() {
-                                                casper.echo('Verify image list item metadata', 'INFO');
-                                                casper.waitForSelector('ul.oae-list li[data-id="' + content1Profile.id + '"]', function() {
-                                                    verifyListItem(content1Profile);
-                                                });
+                                                casper.echo('Verify content item metadata', 'INFO');
+                                                verifyListItem(contentProfile1);
+                                                verifyListItem(contentProfile2);
+                                                verifyListItem(contentProfile3);
+                                                verifyListItem(linkProfile);
+                                                verifyListItem(collabdocProfile);
                                             });
 
-                                            casper.then(function() {
-                                                casper.echo('Verify video list item metadata', 'INFO');
-                                                casper.waitForSelector('ul.oae-list li[data-id="' + content1Profile.id + '"]', function() {
-                                                    verifyListItem(content2Profile);
-                                                });
-                                            });
-
-                                            casper.then(function() {
-                                                casper.echo('Verify archive list item metadata', 'INFO');
-                                                casper.waitForSelector('ul.oae-list li[data-id="' + content1Profile.id + '"]', function() {
-                                                    verifyListItem(content3Profile);
-                                                });
-                                            });
-
-                                            casper.then(function() {
-                                                casper.echo('Verify link list item metadata', 'INFO');
-                                                casper.waitForSelector('ul.oae-list li[data-id="' + content1Profile.id + '"]', function() {
-                                                    verifyListItem(linkProfile);
-                                                });
-                                            });
-
-                                            casper.then(function() {
-                                                casper.echo('Verify collaborative document list item metadata', 'INFO');
-                                                casper.waitForSelector('ul.oae-list li[data-id="' + content1Profile.id + '"]', function() {
-                                                    verifyListItem(collabdocProfile);
-                                                });
-                                            });
-
+                                            // Verify that a discussion is displayed correctly in the discussion library
                                             casper.thenOpen(configUtil().tenantUI + '/me/discussions', function() {
                                                 casper.echo('Verify discussion list item metadata', 'INFO');
-                                                casper.waitForSelector('ul.oae-list li[data-id="' + discussionProfile.id + '"]', function() {
-                                                    verifyListItem(discussionProfile);
-                                                });
+                                                verifyListItem(discussionProfile);
                                             });
 
+                                            // Verify that a group is displayed correctly in the group library
                                             casper.thenOpen(configUtil().tenantUI + '/me/groups', function() {
                                                 casper.echo('Verify group list item metadata', 'INFO');
-                                                casper.waitForSelector('ul.oae-list li[data-id="' + groupProfile.id + '"]', function() {
-                                                    verifyListItem(groupProfile);
-                                                });
+                                                verifyListItem(groupProfile);
                                             });
 
+                                            // Verify that a user is displayed correctly in the network
                                             casper.thenOpen(configUtil().tenantUI + '/me/network', function() {
                                                 casper.echo('Verify user list item metadata', 'INFO');
-                                                casper.waitForSelector('ul.oae-list li[data-id="' + user2.id + '"]', function() {
-                                                    verifyListItem(user2);
-                                                });
+                                                verifyListItem(user2);
                                             });
 
                                             casper.then(userUtil().doLogOut);
