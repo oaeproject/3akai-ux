@@ -134,11 +134,11 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
 
             // Make sure that no other requests are sent until the current request finishes
             canRequestMoreData = false;
-            // Get the last rendered element
-            var $lastElement = $listContainer.children('li').filter(':visible').filter(':last');
+            // Get the rendered list items
+            var listItems = $listContainer.children('li:not(.oae-list-actions)').filter(':visible');
             // Only page once the initial search has been done
-            if ($lastElement.length !== 0 && initialSearchDone === true) {
-                parameters.start = nextToken || ($lastElement.index() + 1);
+            if (listItems.length > 0 && initialSearchDone === true) {
+                parameters.start = nextToken || listItems.length;
             }
 
             // Get the data from the server
