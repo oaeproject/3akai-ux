@@ -1125,7 +1125,7 @@
   height: 18px;
   vertical-align: middle;
   display: inline-block;
-  background: url(../images/explorer_icons.png) no-repeat;
+  background: url(/docs/rest/images/explorer_icons.png) no-repeat;
 }
 .swagger-section .ic-info {
   background-position: 0 0;
@@ -1165,7 +1165,7 @@
   font-size: 1.5em;
   font-weight: bold;
   text-decoration: none;
-  background: transparent url(../images/logo_small.png) no-repeat left center;
+  background: transparent url(/docs/rest/images/logo_small.png) no-repeat left center;
   padding: 20px 0 20px 40px;
   color: white;
 }
