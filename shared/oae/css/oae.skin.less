@@ -105,14 +105,9 @@ body {
 @secondary-text-color: #827E7D;
 
 body, button, input, select, textarea,
-.btn > i, a.oae-plain-link,
+.btn > i, .btn > i.fa, a.oae-plain-link,
 .popover-content, .popover-content button:not(.btn),
-h1 [class^="icon-"], h1 [class*=" icon-"],
-h2 [class^="icon-"], h2 [class*=" icon-"],
-h3 [class^="icon-"], h3 [class*=" icon-"],
-h4 [class^="icon-"], h4 [class*=" icon-"],
-h5 [class^="icon-"], h5 [class*=" icon-"],
-h6 [class^="icon-"], h6 [class*=" icon-"] {
+h1 i.fa, h2 i.fa, h3 i.fa, h4 i.fa, h5 i.fa, h6 i.fa {
     color: @text-color;
 }
 
@@ -202,8 +197,8 @@ a:hover, .btn-link:hover {
     background-color: @button-primary-gradient2-color;
 }
 
-.btn.btn-primary [class^=icon-],
-.btn.btn-primary [class*=" icon-"] {
+.btn.btn-primary [class^=fa-],
+.btn.btn-primary [class*=" fa-"] {
     color: @button-primary-text-color;
 }
 
@@ -326,18 +321,12 @@ a:hover, .btn-link:hover {
 /* Icon button hover color */
 @button-icon-hover-color: #555;
 
-[class^="icon-"], [class*=" icon-"],
-.btn.btn-link [class^="icon-"], .btn.btn-link [class*=" icon-"] {
+i.fa, .btn.btn-link i.fa {
    color: @button-icon-color;
 }
 
-[class^="icon-"].active, [class*=" icon-"].active,
-[class^="icon-"]:hover, [class*=" icon-"]:hover,
-[class^="icon-"]:focus, [class*=" icon-"]:focus,
-[class^="icon-"].selected, [class*=" icon-"].selected,
-.btn-link [class^="icon-"].active, .btn-link:hover [class*=" icon-"].active,
-.btn-link:hover [class^="icon-"], .btn-link:hover [class*=" icon-"],
-.btn-link:focus [class^="icon-"], .btn-link:focus [class*=" icon-"] {
+i.fa.active, i.fa:hover, i.fa:focus, i.fa.selected,
+.btn-link i.fa.active, .btn-link:hover i.fa, .btn-link:focus i.fa {
     color: @button-icon-hover-color;
 }
 
@@ -770,11 +759,11 @@ div.oae-thumbnail {
     background-color: @visibility-toggle-selected2-color;
 }
 
-.oae-large-options-container label.checked i.icon-ok {
+.oae-large-options-container label.checked i.fa-check {
     background-color: @visibility-toggle-selected1-color;
 }
 
-.oae-large-options-container label.checked i.icon-ok:before {
+.oae-large-options-container label.checked i.fa-check:before {
     color: @visibility-toggle-background-color;
 }
 

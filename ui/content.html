@@ -39,7 +39,7 @@
                                 <div>
                                     <div>
                                         <h1 class="oae-threedots">${content.displayName|encodeForHTML}</h1>
-                                        <i class="icon-caret-down"></i>
+                                        <i class="fa fa-caret-down"></i>
                                         <small class="oae-threedots">${oae.api.content.getMimeTypeDescription(content)}</small>
                                     </div>
                                 </div>
@@ -47,22 +47,23 @@
                             <div>
                                 <ul>
                                     {if content.resourceSubType === 'file'}
-                                        <li><a href="${content.downloadPath}"><i class="icon-download"></i>__MSG__DOWNLOAD__</a></li>
+                                        <li><a href="${content.downloadPath}"><i class="fa fa-download"></i>__MSG__DOWNLOAD__</a></li>
                                     {/if}
                                     {if content.isManager}
-                                        <li><button class="oae-trigger-manageaccess"><i class="icon-lock"></i>__MSG__MANAGE_ACCESS__</button></li>
-                                        <li><button class="oae-trigger-editcontent"><i class="icon-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
-                                        {if content.resourceSubType === 'file'}
-                                            <li><button class="oae-trigger-uploadnewversion"><i class="icon-upload"></i>__MSG__UPLOAD_NEW_VERSION__</button></li>
+                                        <li><button class="oae-trigger-manageaccess"><i class="fa fa-lock"></i>__MSG__MANAGE_ACCESS__</button></li>
+                                        <li><button class="oae-trigger-editcontent"><i class="fa fa-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
+                                    {if content.resourceSubType === 'file'}
+                                        <li><button class="oae-trigger-uploadnewversion"><i class="fa fa-arrow-circle-o-up"></i>__MSG__UPLOAD_NEW_VERSION__</button></li>
                                         {/if}
                                         {if content.resourceSubType === 'file' || content.resourceSubType === 'collabdoc'}
-                                            <li><button class="oae-trigger-revisions"><i class="icon-undo"></i>__MSG__REVISIONS__</button></li>
-                                        {/if}
-                                        <li><button class="oae-trigger-deleteresource"><i class="icon-trash"></i>__MSG__DELETE__</button></li>
-                                    {else}
-                                        <li><button class="oae-trigger-aboutcontent"><i class="icon-info-sign"></i>__MSG__ABOUT__</button></li>
-                                        <li><button class="oae-trigger-contentshared"><i class="icon-group"></i>__MSG__SHARED_WITH__</button></li>
+                                            <li><button class="oae-trigger-revisions"><i class="fa fa-undo"></i>__MSG__REVISIONS__</button></li>
                                     {/if}
+                                        <li><button class="oae-trigger-deleteresource"><i class="fa fa-trash-o"></i>__MSG__DELETE__</button></li>
+                                    {else}
+                                        <li><button class="oae-trigger-aboutcontent"><i class="fa fa-info-circle"></i>__MSG__ABOUT__</button></li>
+                                        <li><button class="oae-trigger-contentshared"><i class="fa fa-group"></i>__MSG__SHARED_WITH__</button></li>
+                                    {/if}
+                                    <li><button class="oae-trigger-deleteresource"><i class="fa fa-trash-o"></i>__MSG__DELETE__</button></li>
                                 </ul>
                             </div>
                         </div>
@@ -80,7 +81,7 @@
                             <div class="oae-clip-content">
                                 <button type="button" class="oae-trigger-share" data-id="${content.id}" data-resourceType="${content.resourceType}" data-resourceSubType="${content.resourceSubType}">
                                     <div>
-                                        <i class="icon-share pull-left"></i>
+                                        <i class="fa fa-share-square-o pull-left"></i>
                                         <h1>__MSG__SHARE__</h1>
                                     </div>
                                 </button>
@@ -96,7 +97,7 @@
                         <div class="oae-clip-content">
                             <button type="button" class="comments-focus-new-comment">
                                 <div>
-                                    <i class="icon-comments pull-left"></i>
+                                    <i class="fa fa-comments pull-left"></i>
                                     <h1>__MSG__COMMENT__</h1>
                                 </div>
                             </button>

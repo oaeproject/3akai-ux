@@ -54,7 +54,7 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
             lhNavPages = [
                 {
                     'id': 'tenants',
-                    'icon': 'icon-dashboard',
+                    'icon': 'fa fa-dashboard',
                     'closeNav': true,
                     'title': currentContext.isGlobalAdminServer ? oae.api.i18n.translate('__MSG__TENANTS__') : oae.api.i18n.translate('__MSG__TENANT__'),
                     'layout': [
@@ -74,7 +74,7 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                 },
                 {
                     'id': 'configuration',
-                    'icon': 'icon-cogs',
+                    'icon': 'fa fa-cogs',
                     'closeNav': true,
                     'title': oae.api.i18n.translate('__MSG__CONFIGURATION__'),
                     'layout': [
@@ -95,7 +95,7 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                 },
                 {
                     'id': 'usermanagement',
-                    'icon': 'icon-user',
+                    'icon': 'fa fa-user',
                     'closeNav': true,
                     'title': oae.api.i18n.translate('__MSG__USER_MANAGEMENT__'),
                     'layout': [
@@ -120,7 +120,7 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
             if (currentContext.isGlobalAdminServer) {
                 lhNavPages.push({
                     'id': 'maintenance',
-                    'icon': 'icon-wrench',
+                    'icon': 'fa fa-wrench',
                     'closeNav': true,
                     'title': oae.api.i18n.translate('__MSG__MAINTENANCE__'),
                     'layout': [
@@ -140,7 +140,7 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
             } else {
                 lhNavPages.push({
                     'id': 'skinning',
-                    'icon': 'icon-tint',
+                    'icon': 'fa fa-tint',
                     'closeNav': true,
                     'title': oae.api.i18n.translate('__MSG__SKINNING__'),
                     'layout': [

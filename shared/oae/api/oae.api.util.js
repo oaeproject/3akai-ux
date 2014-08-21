@@ -1027,7 +1027,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                     var originalData = $elem.data('originalData');
                     if (originalData.resourceType) {
                         // Prepend a thumbnail to the item to add to the list
-                        var $thumbnail = $('<div>').addClass('oae-thumbnail icon-oae-' + originalData.resourceType);
+                        var $thumbnail = $('<div>').addClass('oae-thumbnail fa fa-oae-' + originalData.resourceType);
                         if (originalData.thumbnailUrl) {
                             $thumbnail.append($('<div>')
                                 .css('background-image', 'url("' + originalData.thumbnailUrl + '")')
