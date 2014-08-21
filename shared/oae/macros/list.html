@@ -292,6 +292,18 @@
         {var resourceType = entityData.objectType}
     {/if}
 
+    {if entityData.profilePath}
+        {var profilePath = entityData.profilePath}
+    {elseif entityData['oae:profilePath']}
+        {var profilePath = entityData['oae:profilePath']}
+    {/if}
+
+    {if entityData.tenant}
+        {var tenant = entityData.tenant}
+    {elseif entityData['oae:tenant']}
+        {var tenant = entityData['oae:tenant']}
+    {/if}
+
     {if displayOptions.metadata || displayOptions.metadata === false}
         {var metadata = displayOptions.metadata}
     {else}
@@ -304,18 +316,6 @@
         {elseif resourceType === 'discussion'}
             {var metadata = '__MSG__DISCUSSION__'}
         {/if}
-    {/if}
-
-    {if entityData.profilePath}
-        {var profilePath = entityData.profilePath}
-    {elseif entityData['oae:profilePath']}
-        {var profilePath = entityData['oae:profilePath']}
-    {/if}
-
-    {if entityData.tenant}
-        {var tenant = entityData.tenant}
-    {elseif entityData['oae:tenant']}
-        {var tenant = entityData['oae:tenant']}
     {/if}
 
     {if profilePath && displayOptions.addLink !== false}
