@@ -134,13 +134,9 @@ var _expose = function(exports) {
             'visibility': entity['oae:visibility']
         };
 
+        // Use the most up-to-date profile picture when available
         if (me && me.id === entity['oae:id'] && me.picture) {
-            if (entity['image']) {
-                that['image'] = entity['image'];
-                that['image'].url = me.picture.small || me.picture.medium;
-            } else {
-                that.thumbnailUrl = me.picture.small || me.picture.medium;
-            }
+            that.thumbnailUrl = me.picture.medium || me.picture.small;
         } else {
             if (entity.image && entity.image.url) {
                 that.thumbnailUrl = entity.image.url;
