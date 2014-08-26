@@ -292,11 +292,11 @@ i.fa.large:before {
 
 /* These icons are used in situations where checks for success/failure are done */
 
-.fa-check, .fa-check:hover {
+.fa.fa-check, .fa.fa-check:hover {
     color: #468847;
 }
 
-.fa-exclamation-triangle, .fa-exclamation-triangle:hover {
+.fa.fa-exclamation-triangle, .fa.fa-exclamation-triangle:hover {
     color: #DD2222;
 }
 
@@ -1209,18 +1209,18 @@ div.oae-thumbnail i.fa {
 /* Actions can be either an icon, an icon with spin or a button with an icon. Style them consistently, and
    if removing or modifying something, be sure to test with different permutations of a regular icon (e.g.,
    `fa-check` class), an icon with spin (e.g., `fa-spinner fa-spin` classes) and a button icon */
-.oae-listitem > div.oae-listitem-actions > i,
+.oae-listitem > div.oae-listitem-actions > i.fa,
 .oae-listitem > div.oae-listitem-actions > .btn,
-.oae-listitem > div.oae-listitem-actions > .btn i {
+.oae-listitem > div.oae-listitem-actions > .btn i.fa {
     border-width: 0;
     display: inline-block;
     font-size: 18px;
     height: 100%;
 }
 
-.oae-listitem > div.oae-listitem-actions > i.hide,
+.oae-listitem > div.oae-listitem-actions > i.fa.hide,
 .oae-listitem > div.oae-listitem-actions > .btn.hide,
-.oae-listitem > div.oae-listitem-actions > .btn > i.hide {
+.oae-listitem > div.oae-listitem-actions > .btn > i.fa.hide {
     display: none;
 }
 
