@@ -1179,7 +1179,6 @@
     };
 
     Annotator.prototype.onEditorSubmit = function(annotation) {
-        console.log('This', this);
       return this.publish('annotationEditorSubmit', [this.editor, annotation]);
     };
 
@@ -1265,7 +1264,6 @@
       annotation = this.setupAnnotation(this.createAnnotation());
       $(annotation.highlights).addClass('annotator-hl-temporary');
       save = (function(_this) {
-        console.log('saving');
         return function() {
           cleanup();
           $(annotation.highlights).removeClass('annotator-hl-temporary');
@@ -1533,7 +1531,6 @@
       _ref2 = this.fields;
       for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
         field = _ref2[_k];
-        console.log('load annotation');
         field.load(field.element, this.annotation);
       }
       return this.show();
@@ -2248,7 +2245,6 @@
     };
 
     Store.prototype.annotationUpdated = function(annotation) {
-        console.log('annotation updated');
       if (__indexOf.call(this.annotations, annotation) >= 0) {
         return this._apiRequest('update', annotation, ((function(_this) {
           return function(data) {

@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['jquery', 'oae.api.util', 'annotator'], function (jQuery, oaeUtil) {
+define(['jquery', 'oae.api.util', 'annotator', 'jquery.autosize'], function (jQuery, oaeUtil) {
     (function() {
         var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
             __hasProp = {}.hasOwnProperty,
@@ -30,7 +30,8 @@ define(['jquery', 'oae.api.util', 'annotator'], function (jQuery, oaeUtil) {
                 'annotationViewerShown': 'onAnnotationViewerShown',
                 '.documentpreview-delete-annotation click': 'onDeleteClick',
                 '.documentpreview-edit-annotation click': 'onEditClick',
-                ".annotator-save click": "saveAnnotation"
+                '.annotator-save click': 'saveAnnotation',
+                'textarea keydown': 'processKeypress'
             };
 
             /**
@@ -39,7 +40,25 @@ define(['jquery', 'oae.api.util', 'annotator'], function (jQuery, oaeUtil) {
             Sidebar.prototype.field = null;
             Sidebar.prototype.input = null;
             Sidebar.prototype.options = {};
-            Sidebar.prototype.editor = null;
+            // Set the HTML structure for the editor
+            Annotator.Editor.prototype.html = '<form>' +
+                                                  '<ul class="annotator-listing"></ul>' +
+                                                  '<div class="annotator-controls">' +
+                                                      '<button type="button" class="btn btn-link annotator-cancel">Cancel</button>' +
+                                                      '<button type="button" class="btn btn-primary pull-right annotator-save annotator-focus">Save</button>' +
+                                                  '</div>' +
+                                              '</form>';
+
+            /**
+             * Override keyboard events so that only the escape key is captured
+             *
+             * @param  {[type]} ev [description]
+             */
+            Annotator.Editor.prototype.processKeypress = function(ev) {
+                if (ev.keyCode === 27) {
+                    return this.hide();
+                }
+            };
 
             /**
              * Bind events to the Sidebar and create the annotations panel
@@ -58,6 +77,8 @@ define(['jquery', 'oae.api.util', 'annotator'], function (jQuery, oaeUtil) {
                 this.onDeleteClick = __bind(this.onDeleteClick, this);
                 this.onEditClick = __bind(this.onEditClick, this);
                 this.onEditorSubmit = __bind(this.onEditorSubmit, this);
+                this.onAdderClick = __bind(this.onAdderClick, this);
+                // this.processKeypress = __bind(this.processKeypress, this);
                 $.extend(Annotator.Plugin.Sidebar.prototype.options, options);
                 Sidebar.__super__.constructor.apply(this, arguments);
             }
@@ -69,6 +90,61 @@ define(['jquery', 'oae.api.util', 'annotator'], function (jQuery, oaeUtil) {
                 if (!Annotator.supported()) {
                     return;
                 }
+
+                // Render the initial, empty, annotations list
+                this.renderAnnotationsList();
+
+                // Toggle the annotations panel
+                $('body').on('click', '#documentpreview-annotator-close', this.hideAnnotationsList);
+            };
+
+            /**
+             * Hide the annotations list
+             */
+            Sidebar.prototype.hideAnnotationsList = function() {
+                // If we're editing or creating annotations we need to stop that before closing
+                if ($('#documentpreview-sidebar textarea').is(':visible')) {
+                    $('.annotator-cancel').click();
+                }
+
+                $('#documentpreview-sidebar').hide();
+            };
+
+            /**
+             * Show the annotations list
+             */
+            Sidebar.prototype.showAnnotationsList = function() {
+                $('#documentpreview-sidebar').show();
+            };
+
+            var getEditorFields = function() {
+                return {
+                    type: 'textarea',
+                    label: 'Enter a comment',
+                    load: function(field, annotation) {
+                        Sidebar.prototype.showAnnotationsList();
+                        $(field).find('textarea').val(annotation.text || '');
+                        // Wait until the current call stack has cleared before auto-resizing
+                        setTimeout(function() {
+                            $(field).find('textarea').autosize().trigger('autosize.resize');
+                        }, 1);
+                        return;
+                    },
+                    submit: function(field, annotation) {
+                        // Update the cached annotation
+                        annotation.text = $(field).find('textarea').val();
+                        return annotation.text;
+                    }
+                };
+            };
+
+            /**
+             * Set up a custom editor
+             */
+            Annotator.prototype._setupEditor = function() {
+                this.editor = new Annotator.Editor();
+                this.editor.hide().on('hide', this.onEditorHide).on('save', this.onEditorSubmit).addField(getEditorFields());
+                return this;
             };
 
             /**
@@ -76,17 +152,7 @@ define(['jquery', 'oae.api.util', 'annotator'], function (jQuery, oaeUtil) {
              */
             Sidebar.prototype._setupEditor = function() {
                 this.editor = new Annotator.Editor();
-                this.editor.hide().on('save', this.onEditorSubmit).addField({
-                    type: 'textarea',
-                    label: 'Add your annotation...',
-                    load: function(field, annotation) {
-                        return $(field).find('textarea').val(annotation.text || '');
-                    },
-                    submit: function(field, annotation) {
-                        annotation.text = $(field).find('textarea').val();
-                        return annotation.text;
-                    }
-                });
+                this.editor.hide().on('hide', this.onEditorHide).on('save', this.onEditorSubmit).addField(getEditorFields());
                 return this;
             };
 
@@ -101,7 +167,15 @@ define(['jquery', 'oae.api.util', 'annotator'], function (jQuery, oaeUtil) {
                 if (type === 'delete') {
                     return this.annotator.deleteAnnotation($annotationItem.data('annotation'));
                 } else if (type === 'edit') {
-                    this.editor.element.appendTo($annotationItem.find('.documentpreview-annotation-container'));
+                    // Add the editor to the annotation's edit container
+                    var $editContainer = $($annotationItem.find('.documentpreview-edit-container'));
+                    var $annotationText = $($annotationItem.find('.documentpreview-annotation-text'));
+                    this.editor.element.appendTo($editContainer);
+
+                    // Show the edit container and hide the annotation text
+                    $editContainer.show();
+                    $annotationText.hide();
+
                     this.editor.show();
                 }
             };
@@ -112,41 +186,107 @@ define(['jquery', 'oae.api.util', 'annotator'], function (jQuery, oaeUtil) {
              * @param  {[type]} viewer     [description]
              * @param  {[type]} annotation [description]
              */
-            Sidebar.prototype.onAnnotationViewerShown = function(viewer, annotation) {
-                this.renderAnnotationsList(viewer, annotation);
+            Sidebar.prototype.onAnnotationViewerShown = function(viewer, annotations) {
+                // Hide the default viewer
+                viewer.hide();
+
+                // If we're editing or creating a new annotation we don't do anything
+                if (!$('#documentpreview-sidebar textarea').is(':visible')) {
+                    // Render the list of annotations
+                    this.renderAnnotationsList(viewer, annotations);
+                }
             };
 
             /**
-             * Render the annotations in the sidebar and show it
+             * Render the annotations in the sidebar and show them
              *
              * @param  {[type]} viewer      [description]
              * @param  {[type]} annotations [description]
              */
             Sidebar.prototype.renderAnnotationsList = function(viewer, annotations) {
-                // Hide the default viewer
-                viewer.hide();
-
                 // Get the template and target container and render the template
-                container = Annotator.Plugin.Sidebar.prototype.options.container;
+                $container = $(Annotator.Plugin.Sidebar.prototype.options.container);
                 viewTemplate = Annotator.Plugin.Sidebar.prototype.options.viewTemplate;
                 oaeUtil.template().render(viewTemplate, {
                     'annotations': annotations
-                }, $(container));
+                }, $container);
 
                 // Store the annotation data on the list items for future reference
-                $(container).find('li').each(function(index, listItem) {
+                $container.find('li').each(function(index, listItem) {
                     $(listItem).data('annotation', annotations[index]);
                 });
 
-                // Show the annotations
-                $(container).show();
+                // Show the list of annotations
+                this.showAnnotationsList();
             };
 
-            /**
-             * Generate a unique ID
-             */
-            Sidebar.prototype.uniqId = function() {
-                return Math.round(new Date().getTime() + (Math.random() * 100));
+
+            /////////
+            // NEW //
+            /////////
+
+            Annotator.prototype.showEditor = function(annotation) {
+                console.log('showEditor');
+                // Show the new annotation container and hide the list
+                $('.documentpreview-new-annotation-container').show();
+                $('.documentpreview-annotations-list').hide();
+
+                // Add the editor to the container
+                $('.documentpreview-new-annotation-container').html(this.editor.element);
+
+                // Load the annotation into the container
+                this.editor.load(annotation);
+
+                // this.publish('annotationEditorShown', [this.editor, annotation]);
+                return this;
+            };
+
+            Annotator.prototype.onAdderClick = function(ev) {
+                console.log('onAdderClick');
+
+                // Set up the editor for the new annotation
+                this._setupEditor();
+
+                // Hide the adder button
+                this.adder.hide();
+
+                // Create the initial annotation object
+                var annotation = this.setupAnnotation(this.createAnnotation());
+
+                // Add a class to the selected quote to indicate it's being annotated
+                $(annotation.highlights).addClass('annotator-hl-temporary');
+
+                var cleanup = (function(_this) {
+                    return function() {
+                        // Show the new annotation container and hide the list
+                        $('.documentpreview-new-annotation-container').hide();
+                        $('.documentpreview-annotations-list').show();
+                        _this.unsubscribe('annotationEditorHidden', cancel);
+                        return _this.unsubscribe('annotationEditorSubmit', save);
+                    };
+                })(this);
+
+                var save = (function(_this) {
+                    return function() {
+                        cleanup();
+                        $(annotation.highlights).removeClass('annotator-hl-temporary');
+                        return _this.publish('annotationCreated', [annotation]);
+                    };
+                })(this);
+
+                var cancel = (function(_this) {
+                    return function() {
+                        cleanup();
+                        return _this.deleteAnnotation(annotation);
+                    };
+                })(this);
+
+                console.log('subscribe');
+                this.subscribe('annotationEditorHidden', cancel);
+                this.subscribe('annotationEditorSubmit', save);
+
+                // Show the editor
+                return this.showEditor(annotation);
             };
 
 
@@ -158,11 +298,17 @@ define(['jquery', 'oae.api.util', 'annotator'], function (jQuery, oaeUtil) {
              * Submit every field of the editor when the annotation needs to be saved
              */
             Sidebar.prototype.saveAnnotation = function() {
-                for (i = 0; i < this.editor.fields.length; i++) {
-                    var field = this.editor.fields[i];
-                    field.submit(field.element, this.editor.annotation);
+                var editor = this.editor;
+                if (!editor) {
+                    editor = this.annotator.editor;
                 }
-                this.editor.publish('save', [this.editor.annotation]);
+
+                for (i = 0; i < editor.fields.length; i++) {
+                    var field = editor.fields[i];
+                    field.submit(field.element, editor.annotation);
+                }
+
+                editor.publish('save', [editor.annotation]);
             };
 
             /**
@@ -172,7 +318,18 @@ define(['jquery', 'oae.api.util', 'annotator'], function (jQuery, oaeUtil) {
              */
             Sidebar.prototype.onEditorSubmit = function(annotation) {
                 // Update the list item associated to the annotation
+                $('li[data-id="' + annotation.id + '"] .documentpreview-annotation-text').html(annotation.text.replace(/\n/g, '<br/>'));
                 return this.publish('annotationUpdated', [annotation]);
+            };
+
+            /**
+             * Hide the editor container and show the annotation text when the edit from is hidden
+             */
+            Sidebar.prototype.onEditorHide = function(ev) {
+                var $annotationItem = $($(this).closest('li'));
+                $('.documentpreview-edit-container', $annotationItem).hide();
+                $('.documentpreview-annotation-text', $annotationItem).show();
+                $('.documentpreview-annotation-controls', $annotationItem).show();
             };
 
             /**
@@ -193,7 +350,10 @@ define(['jquery', 'oae.api.util', 'annotator'], function (jQuery, oaeUtil) {
                     field.load(field.element, this.editor.annotation);
                 }
 
-                // Continue the even chain
+                // Hide the annotation controls before going into edit mode
+                $(ev.target).closest('.documentpreview-annotation-controls').hide();
+
+                // Continue the event chain
                 return this.onButtonClick(ev, 'edit');
             };
 
