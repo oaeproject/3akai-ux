@@ -702,7 +702,7 @@ var _expose = function(exports) {
         properties.annotation1Text = activity.object['oae:annotationText'];
         properties.annotation1Quote = activity.object['oae:annotationQuote'];
         if (properties.actorCount === 1) {
-            i18nKey = '__MSG__ACTIVITY_ANNOTATION_CREATE_1__'
+            i18nKey = '__MSG__ACTIVITY_ANNOTATION_CREATE_1__';
         } else if (properties.actorCount === 2) {
             i18nKey = '__MSG__ACTIVITY_ANNOTATION_CREATE_2__';
         } else {
@@ -724,7 +724,7 @@ var _expose = function(exports) {
         properties.annotation1Text = activity.object['oae:annotationText'];
         properties.annotation1Quote = activity.object['oae:annotationQuote'];
         if (properties.actorCount === 1) {
-            i18nKey = '__MSG__ACTIVITY_ANNOTATION_UPDATE_1__'
+            i18nKey = '__MSG__ACTIVITY_ANNOTATION_UPDATE_1__';
         } else if (properties.actorCount === 2) {
             i18nKey = '__MSG__ACTIVITY_ANNOTATION_UPDATE_2__';
         } else {
