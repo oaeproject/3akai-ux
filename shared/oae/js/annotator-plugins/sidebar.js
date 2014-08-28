@@ -85,7 +85,7 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'annotator', 'jquery.autosize'
                 this.onReplyClick = __bind(this.onReplyClick, this);
                 this.onEditorSubmit = __bind(this.onEditorSubmit, this);
                 this.onAdderClick = __bind(this.onAdderClick, this);
-                // this.processKeypress = __bind(this.processKeypress, this);
+                this.processKeypress = __bind(this.processKeypress, this);
                 $.extend(Annotator.Plugin.Sidebar.prototype.options, options);
                 Sidebar.__super__.constructor.apply(this, arguments);
             }
@@ -100,9 +100,13 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'annotator', 'jquery.autosize'
 
                 // Render the initial, empty, annotations list
                 this.renderAnnotationsList();
+                this.hideAnnotationsList();
 
-                // Toggle the annotations panel
+                // Hide the annotations panel when the 'x' is clicked
                 $('body').on('click', '#documentpreview-annotator-close', this.hideAnnotationsList);
+
+                // Toggle the annotations list when the edit button is clicked
+                $('body').on('click', '#documentpreview-toggle-annotator', this.toggleAnnotationsList);
             };
 
 
@@ -110,23 +114,57 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'annotator', 'jquery.autosize'
             // UTILITIES //
             ///////////////
 
+            Sidebar.prototype.toggleAnnotationsList = function() {
+                if ($('#documentpreview-sidebar').is(':visible')) {
+                    Annotator.Plugin.Sidebar.prototype.hideAnnotationsList();
+                } else {
+                    Annotator.Plugin.Sidebar.prototype.showAnnotationsList();
+                }
+            };
+
             /**
              * Hide the annotations list
              */
             Sidebar.prototype.hideAnnotationsList = function() {
-                // If we're editing or creating annotations we need to stop that before closing
-                if ($('#documentpreview-sidebar textarea').is(':visible')) {
-                    $('.annotator-cancel').click();
-                }
 
-                $('#documentpreview-sidebar').hide();
+                if ($('#documentpreview-sidebar').is(':visible')) {
+                    $('#documentpreview-toggle-annotator #documentpreview-annotator-status').toggleClass('active');
+                    // If we're editing or creating annotations we need to stop that before closing
+                    if ($('#documentpreview-sidebar textarea').is(':visible')) {
+                        $('.annotator-cancel').click();
+                    }
+
+                    $('#documentpreview-sidebar').animate({
+                        'opacity': '0',
+                        'width': '0%'
+                    });
+                    setTimeout(function() {
+                        $('#documentpreview-content-container').animate({
+                            'width': '100%'
+                        }, function() {
+                            $('#documentpreview-sidebar').hide();
+                        });
+                    }, 10);
+                }
             };
 
             /**
              * Show the annotations list
              */
             Sidebar.prototype.showAnnotationsList = function() {
-                $('#documentpreview-sidebar').show();
+                if (!$('#documentpreview-sidebar').is(':visible')) {
+                    $('#documentpreview-toggle-annotator #documentpreview-annotator-status').toggleClass('active');
+                    $('#documentpreview-sidebar').show();
+                    $('#documentpreview-content-container').animate({
+                        'width': '78%'
+                    });
+                    setTimeout(function() {
+                        $('#documentpreview-sidebar').animate({
+                            'opacity': '1',
+                            'width': '22%'
+                        });
+                    }, 10);
+                }
             };
 
             /**
@@ -237,6 +275,8 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'annotator', 'jquery.autosize'
                 if (!$('#documentpreview-sidebar textarea').is(':visible')) {
                     // Render the list of annotations
                     this.renderAnnotationsList(viewer, annotations);
+                    // Show the list of annotations
+                    this.showAnnotationsList();
                 }
             };
 
@@ -258,9 +298,6 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'annotator', 'jquery.autosize'
                 $container.find('li').each(function(index, listItem) {
                     $(listItem).data('annotation', annotations[index]);
                 });
-
-                // Show the list of annotations
-                this.showAnnotationsList();
             };
 
 
