@@ -23,36 +23,76 @@ var groupUtil = function() {
     /**
      * Creates a group
      *
-     * @param  {String[]}   [members]                Array of user/group ids that should be added as members to the group
      * @param  {String[]}   [managers]               Array of user/group ids that should be added as managers to the group
+     * @param  {String[]}   [viewers]                Array of user/group ids that should be added as members to the group
      * @param  {Function}   callback                 Standard callback function
      * @param  {Group}      callback.groupProfile    Group object representing the created group
      */
-    var createGroup = function(members, managers, callback) {
+    var createGroup = function(managers, viewers, callback) {
         var rndString = mainUtil().generateRandomString();
-        var groupProfile = casper.evaluate(function(rndString, members, managers) {
+        var groupProfile = casper.evaluate(function(rndString) {
             return JSON.parse(__utils__.sendAJAX('/api/group/create', 'POST', {
                 'displayName': 'group-' + rndString,
-                'description': '',
                 'visibility': 'public',
-                'joinable': 'yes',
-                'members': members,
-                'managers': managers
+                'joinable': 'yes'
             }, false));
-        }, rndString, members, managers);
+        }, rndString);
 
         casper.then(function() {
             if (!groupProfile) {
-                casper.echo('Could not create group-' + rndString + '.', 'ERROR');
+                casper.echo('Could not create group \'Discussion' + rndString + '\'.', 'ERROR');
+                return callback(null);
             }
         });
 
         casper.then(function() {
-            callback(groupProfile);
+            // Add managers and viewers if required
+            if (managers || viewers) {
+                managers = managers || [];
+                viewers = viewers || [];
+
+                var members = {};
+                for (var m = 0; m < managers.length; m++) {
+                    members[managers[m]] = 'manager';
+                }
+
+                for (var v = 0; v < viewers.length; v++) {
+                    members[viewers[v]] = 'member';
+                }
+
+                casper.evaluate(function(groupId, members) {
+                    return JSON.parse(__utils__.sendAJAX('/api/group/'+ groupId + '/members', 'POST', members, false));
+                }, groupProfile.id, members);
+
+                casper.then(function() {
+                    return callback(groupProfile);
+                });
+            } else {
+                return callback(groupProfile);
+            }
         });
     };
 
+    /**
+     * Update a group's metadata
+     *
+     * @param  {String}      groupId        Id of the group we're trying to update
+     * @param  {Object}      params         JSON object where the keys represent all of the profile field names we want to update and the values represent the new values for those fields
+     * @param  {Function}    callback       Standard callback method
+     */
+    var updateGroup = function(groupId, params, callback) {
+        var data = null;
+        casper.then(function() {
+            data = casper.evaluate(function(groupId, params) {
+                return JSON.parse(__utils__.sendAJAX('/api/group/' + groupId, 'POST', params, false));
+            }, groupId, params);
+        });
+
+        casper.then(callback);
+    };
+
     return {
-        'createGroup': createGroup
+        'createGroup': createGroup,
+        'updateGroup': updateGroup
     };
 };
