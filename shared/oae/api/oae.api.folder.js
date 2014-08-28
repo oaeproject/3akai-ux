@@ -30,7 +30,7 @@ define(['exports', 'jquery'], function(exports, $) {
         }
 
         $.ajax({
-            'url': '/api/collection/' + folderId,
+            'url': '/api/folder/' + folderId,
             'success': function(data) {
                 callback(null, data);
             },
@@ -71,7 +71,7 @@ define(['exports', 'jquery'], function(exports, $) {
         };
 
         $.ajax({
-            'url': '/api/collection',
+            'url': '/api/folder',
             'type': 'POST',
             'data': data,
             'success': function(data) {
