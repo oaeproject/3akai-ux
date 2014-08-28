@@ -116,4 +116,39 @@ define(['exports', 'jquery'], function(exports, $) {
         });
     };
 
+    /**
+     * Get the viewers and managers of a folder
+     *
+     * @param  {String}          folderId                       Id of the folder we're trying to retrieve the members for
+     * @param  {String}          [start]                        The token used for paging. If the first page of results is required, `null` should be passed in as the token. For any subsequent pages, the `nextToken` provided in the feed from the previous page should be used
+     * @param  {Number}          [limit]                        The number of members to retrieve
+     * @param  {Function}        callback                       Standard callback function
+     * @param  {Object}          callback.err                   Error object containing error code and error message
+     * @param  {Object}          callback.members               Response object containing the folders members and nextToken
+     * @param  {User[]|Group[]}  callback.members.results       Array that contains an object for each member. Each object has a role property that contains the role of the member and a profile property that contains the principal profile of the member
+     * @param  {String}          callback.members.nextToken     The value to provide in the `start` parameter to get the next set of results
+     * @throws {Error}                                          Error thrown when no folder id has been provided
+     */
+    var getMembers = exports.getMembers = function(folderId, start, limit, callback) {
+        if (!folderId) {
+            throw new Error('A valid folder id should be provided');
+        }
+
+        var data = {
+            'start': start,
+            'limit': limit
+        };
+
+        $.ajax({
+            'url': '/api/folder/'+ folderId + '/members',
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
 });
