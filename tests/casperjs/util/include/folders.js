@@ -73,7 +73,26 @@ var folderUtil = function() {
         });
     };
 
+    /**
+     * Update a folder's metadata
+     *
+     * @param  {String}      folderId           Id of the folder we're trying to update
+     * @param  {Object}      params             JSON object where the keys represent all of the profile field names we want to update and the values represent the new values for those fields
+     * @param  {Function}    callback           Standard callback method
+     */
+    var updateFolder = function(folderId, params, callback) {
+        var data = null;
+        casper.then(function() {
+            data = casper.evaluate(function(folderId, params) {
+                return JSON.parse(__utils__.sendAJAX('/api/folder/' + folderId, 'POST', params, false));
+            }, folderId, params);
+        });
+
+        casper.then(callback);
+    };
+
     return {
-        'createFolder': createFolder
+        'createFolder': createFolder,
+        'updateFolder': updateFolder
     };
 };
