@@ -16,7 +16,7 @@
 define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
 
     /**
-     * Get a full discussion profile.
+     * Get a full discussion profile
      *
      * @param  {String}       discussionId          Id of the discussion we're trying to retrieve
      * @param  {Function}     callback              Standard callback function
@@ -41,7 +41,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     };
 
     /**
-     * Create a new discussion.
+     * Create a new discussion
      *
      * @param  {String}         displayName               Topic for the discussion
      * @param  {String}         [description]             The discussion's description
@@ -83,7 +83,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     };
 
     /**
-     * Update a discussion's metadata.
+     * Update a discussion's metadata
      *
      * @param  {String}       discussionId                Id of the discussion we're trying to update
      * @param  {Object}       params                      JSON object where the keys represent all of the profile field names we want to update and the values represent the new values for those fields
@@ -116,7 +116,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     };
 
     /**
-     * Permanently delete a discussion from the system.
+     * Permanently delete a discussion from the system
      *
      * @param  {String}        discussionId          Id of the discussion we're trying to delete
      * @param  {Function}      [callback]            Standard callback function
@@ -144,7 +144,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     };
 
     /**
-     * Get the viewers and managers of a discussion.
+     * Get the viewers and managers of a discussion
      *
      * @param  {String}          discussionId                   Id of the discussion we're trying to retrieve the members for
      * @param  {String}          [start]                        The token used for paging. If the first page of results is required, `null` should be passed in as the token. For any subsequent pages, the `nextToken` provided in the feed from the previous page should be used
@@ -211,7 +211,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     };
 
     /**
-     * Share a discussion.
+     * Share a discussion
      *
      * @param  {String}       discussionId          Id of the discussion we're trying to share
      * @param  {String[]}     principals            Array of principal ids with who the discussion should be shared
@@ -247,7 +247,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     };
 
     /**
-     * Get the discussion library for a given principal.
+     * Get the discussion library for a given principal
      *
      * @param  {String}         principalId                     User or group id for who we want to retrieve the discussions library
      * @param  {String}         [start]                         The token used for paging. If the first page of results is required, `null` should be passed in as the token. For any subsequent pages, the `nextToken` provided in the feed from the previous page should be used

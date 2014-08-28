@@ -70,7 +70,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
     };
 
     /**
-     * Create a new link.
+     * Create a new link
      *
      * @param  {String}         displayName         Display title for the created content item
      * @param  {String}         [description]       The content item's description
@@ -117,7 +117,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
     };
 
     /**
-     * Create a new file.
+     * Create a new file
      *
      * @param  {String}             displayName         Display title for the created content item
      * @param  {String}             [description]       The content item's description
@@ -183,7 +183,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
     };
 
     /**
-     * Upload a new version of a file.
+     * Upload a new version of a file
      *
      * @param  {Element|String}     $fileUploadField    jQuery element or selector for that jQuery element representing the file upload form field that has been used to initialise jQuery.fileupload
      * @param  {Object}             file                jQuery.fileUpload object that was returned when selecting the file that needed to be uploaded
@@ -222,7 +222,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
     };
 
     /**
-     * Create a new collaborative document.
+     * Create a new collaborative document
      *
      * @param  {String}       displayName         Display title for the created content item
      * @param  {String}       [description]       The content item's description

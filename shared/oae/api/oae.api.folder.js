@@ -18,11 +18,11 @@ define(['exports', 'jquery'], function(exports, $) {
     /**
      * Get a full folder profile
      *
-     * @param  {String}       folderId            Id of the folder we're trying to retrieve
-     * @param  {Function}     callback            Standard callback function
-     * @param  {Object}       callback.err        Error object containing error code and error message
-     * @param  {Content}      callback.content    Folder object representing the retrieved folder
-     * @throws {Error}                            Error thrown when no folder id has been provided
+     * @param  {String}         folderId                Id of the folder we're trying to retrieve
+     * @param  {Function}       callback                Standard callback function
+     * @param  {Object}         callback.err            Error object containing error code and error message
+     * @param  {Folder}         callback.folder         Folder object representing the retrieved folder
+     * @throws {Error}                                  Error thrown when no folder id has been provided
      */
     var getFolder = exports.getFolder = function(folderId, callback) {
         if (!folderId) {
@@ -44,15 +44,15 @@ define(['exports', 'jquery'], function(exports, $) {
     /**
      * Create a new folder
      *
-     * @param  {String}         displayName         Display title for the created folder
-     * @param  {String}         [description]       The folder's description
-     * @param  {String}         [visibility]        The folder's visibility. This can be public, loggedin or private
-     * @param  {String[]}       [managers]          Array of user/group ids that should be added as managers to the folder
-     * @param  {String[]}       [viewers]           Array of user/group ids that should be added as viewers to the folder
-     * @param  {Function}       [callback]          Standard callback function
-     * @param  {Object}         [callback.err]      Error object containing error code and error message
-     * @param  {Folder}         [callback.folder]   Folder object representing the created folder
-     * @throws {Error}                              Error thrown when no valid display name has been provided
+     * @param  {String}         displayName             Display title for the created folder
+     * @param  {String}         [description]           The folder's description
+     * @param  {String}         [visibility]            The folder's visibility. This can be public, loggedin or private
+     * @param  {String[]}       [managers]              Array of user/group ids that should be added as managers to the folder
+     * @param  {String[]}       [viewers]               Array of user/group ids that should be added as viewers to the folder
+     * @param  {Function}       [callback]              Standard callback function
+     * @param  {Object}         [callback.err]          Error object containing error code and error message
+     * @param  {Folder}         [callback.folder]       Folder object representing the created folder
+     * @throws {Error}                                  Error thrown when no valid display name has been provided
      */
     var createFolder = exports.createFolder = function(displayName, description, visibility, managers, viewers, callback) {
         if (!displayName) {
@@ -76,6 +76,39 @@ define(['exports', 'jquery'], function(exports, $) {
             'data': data,
             'success': function(data) {
                 callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
+     * Update a folder's metadata
+     *
+     * @param  {String}       folderId                  Id of the folder we're trying to update
+     * @param  {Object}       params                    JSON object where the keys represent all of the profile field names we want to update and the values represent the new values for those fields
+     * @param  {Function}     [callback]                Standard callback function
+     * @param  {Object}       [callback.err]            Error object containing error code and error message
+     * @param  {Folder}       [callback.folder]         Folder object representing the updated folder
+     * @throws {Error}                                  Error thrown when not all of the required parameters have been provided
+     */
+    var updateFolder = exports.updateFolder = function(folderId, params, callback) {
+        if (!folderId) {
+            throw new Error('A valid folder id should be provided');
+        } else if (!params || _.keys(params).length === 0) {
+            throw new Error('At least one update parameter should be provided');
+        }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        $.ajax({
+            'url': '/api/folder/' + folderId,
+            'type': 'POST',
+            'data': params,
+            'success': function(data) {
+                callback(null, data.folder);
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.responseText});

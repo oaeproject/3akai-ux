@@ -324,18 +324,12 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     //////////////////
 
     /**
-     * Re-render the content's clip when the details have been updated.
-     * When the content item is a link and the URL has changed, the preview is re-rendered as well.
-     * TODO
-     *
-    $(document).on('oae.editcontent.done', function(ev, updatedContentProfile) {
-        if (contentProfile.resourceSubType === 'link' && contentProfile.link !== updatedContentProfile.link) {
-            refreshContentProfile(updatedContentProfile);
-        } else {
-            contentProfile = updatedContentProfile;
-            setUpClips();
-        }
-    });*/
+     * Re-render the folder's clip when the details have been updated
+     */
+    $(document).on('oae.editfolder.done', function(ev, updatedFolderProfile) {
+        folderProfile = updatedFolderProfile;
+        setUpClips();
+    });
 
 
     getFolderProfile();
