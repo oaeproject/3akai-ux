@@ -13,11 +13,16 @@
  * permissions and limitations under the License.
  */
 
-define(['jquery', 'oae.api.util', 'annotator', 'jquery.autosize'], function (jQuery, oaeUtil) {
+define(['jquery', 'oae.api.util', 'oae.api.i18n', 'annotator', 'jquery.autosize'], function (jQuery, oaeUtil, i18nAPI) {
     (function() {
         var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
             __hasProp = {}.hasOwnProperty,
             __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+
+        ////////////////////
+        // INITIALIZATION //
+        ////////////////////
 
         Annotator.Plugin.Sidebar = (function(_super) {
             __extends(Sidebar, _super);
@@ -28,8 +33,8 @@ define(['jquery', 'oae.api.util', 'annotator', 'jquery.autosize'], function (jQu
             Sidebar.prototype.events = {
                 'annotationDeleted': 'onAnnotationDeleted',
                 'annotationViewerShown': 'onAnnotationViewerShown',
-                '.documentpreview-delete-annotation click': 'onDeleteClick',
-                '.documentpreview-edit-annotation click': 'onEditClick',
+                '.documentpreview-annotation-delete click': 'onDeleteClick',
+                '.documentpreview-annotation-edit click': 'onEditClick',
                 '.annotator-save click': 'saveAnnotation',
                 'textarea keydown': 'processKeypress'
             };
@@ -44,8 +49,8 @@ define(['jquery', 'oae.api.util', 'annotator', 'jquery.autosize'], function (jQu
             Annotator.Editor.prototype.html = '<form>' +
                                                   '<ul class="annotator-listing"></ul>' +
                                                   '<div class="annotator-controls">' +
-                                                      '<button type="button" class="btn btn-link annotator-cancel">Cancel</button>' +
-                                                      '<button type="button" class="btn btn-primary pull-right annotator-save annotator-focus">Save</button>' +
+                                                      '<button type="button" class="btn btn-link annotator-cancel">' + i18nAPI.translate('__MSG__CANCEL__') + '</button>' +
+                                                      '<button type="button" class="btn btn-primary pull-right annotator-save annotator-focus">' + i18nAPI.translate('__MSG__SAVE__') + '</button>' +
                                                   '</div>' +
                                               '</form>';
 
@@ -98,6 +103,11 @@ define(['jquery', 'oae.api.util', 'annotator', 'jquery.autosize'], function (jQu
                 $('body').on('click', '#documentpreview-annotator-close', this.hideAnnotationsList);
             };
 
+
+            ///////////////
+            // UTILITIES //
+            ///////////////
+
             /**
              * Hide the annotations list
              */
@@ -117,10 +127,13 @@ define(['jquery', 'oae.api.util', 'annotator', 'jquery.autosize'], function (jQu
                 $('#documentpreview-sidebar').show();
             };
 
+            /**
+             * Get the custom fields for the annotation editor
+             */
             var getEditorFields = function() {
                 return {
                     type: 'textarea',
-                    label: 'Enter a comment',
+                    label: i18nAPI.translate('__MSG__ADD_A_COMMENT__', 'documentpreview'),
                     load: function(field, annotation) {
                         Sidebar.prototype.showAnnotationsList();
                         $(field).find('textarea').val(annotation.text || '');
@@ -139,7 +152,7 @@ define(['jquery', 'oae.api.util', 'annotator', 'jquery.autosize'], function (jQu
             };
 
             /**
-             * Set up a custom editor
+             * Set up a custom editor for the annotator
              */
             Annotator.prototype._setupEditor = function() {
                 this.editor = new Annotator.Editor();
@@ -148,7 +161,7 @@ define(['jquery', 'oae.api.util', 'annotator', 'jquery.autosize'], function (jQu
             };
 
             /**
-             * Set up a custom editor
+             * Set up a custom editor for the Sidebar
              */
             Sidebar.prototype._setupEditor = function() {
                 this.editor = new Annotator.Editor();
@@ -168,7 +181,7 @@ define(['jquery', 'oae.api.util', 'annotator', 'jquery.autosize'], function (jQu
                     return this.annotator.deleteAnnotation($annotationItem.data('annotation'));
                 } else if (type === 'edit') {
                     // Add the editor to the annotation's edit container
-                    var $editContainer = $($annotationItem.find('.documentpreview-edit-container'));
+                    var $editContainer = $($annotationItem.find('.documentpreview-annotation-edit-container'));
                     var $annotationText = $($annotationItem.find('.documentpreview-annotation-text'));
                     this.editor.element.appendTo($editContainer);
 
@@ -181,7 +194,35 @@ define(['jquery', 'oae.api.util', 'annotator', 'jquery.autosize'], function (jQu
             };
 
             /**
-             * Render the annotations list when the annotation viewer is shown
+             * Submit every field of the editor when the annotation is saved
+             */
+            Sidebar.prototype.saveAnnotation = function() {
+                var editor = this.editor;
+                if (!editor) {
+                    editor = this.annotator.editor;
+                }
+
+                for (i = 0; i < editor.fields.length; i++) {
+                    var field = editor.fields[i];
+                    field.submit(field.element, editor.annotation);
+                }
+
+                editor.publish('save', [editor.annotation]);
+            };
+
+            /**
+             * Hide the editor container and show the annotation text when the edit from is hidden
+             */
+            Sidebar.prototype.onEditorHide = function(ev) {
+                var $annotationItem = $($(this).closest('li'));
+                $('.documentpreview-annotation-edit-container', $annotationItem).hide();
+                $('.documentpreview-annotation-text', $annotationItem).show();
+                $('.documentpreview-annotation-actions', $annotationItem).show();
+            };
+
+            /**
+             * Render the annotations list when the annotation viewer is shown and no editing or
+             * creating of annotations is going on.
              *
              * @param  {[type]} viewer     [description]
              * @param  {[type]} annotation [description]
@@ -221,12 +262,16 @@ define(['jquery', 'oae.api.util', 'annotator', 'jquery.autosize'], function (jQu
             };
 
 
-            /////////
-            // NEW //
-            /////////
+            ////////////////////
+            // NEW ANNOTATION //
+            ////////////////////
 
+            /**
+             * Show the editor in the sidebar
+             *
+             * @param  {[type]} annotation [description]
+             */
             Annotator.prototype.showEditor = function(annotation) {
-                console.log('showEditor');
                 // Show the new annotation container and hide the list
                 $('.documentpreview-new-annotation-container').show();
                 $('.documentpreview-annotations-list').hide();
@@ -241,9 +286,11 @@ define(['jquery', 'oae.api.util', 'annotator', 'jquery.autosize'], function (jQu
                 return this;
             };
 
-            Annotator.prototype.onAdderClick = function(ev) {
-                console.log('onAdderClick');
-
+            /**
+             * Set up the editor and show it in the sidebar when the 'adder' icon is clicked
+             * after selecting text to annotate.
+             */
+            Annotator.prototype.onAdderClick = function() {
                 // Set up the editor for the new annotation
                 this._setupEditor();
 
@@ -281,7 +328,6 @@ define(['jquery', 'oae.api.util', 'annotator', 'jquery.autosize'], function (jQu
                     };
                 })(this);
 
-                console.log('subscribe');
                 this.subscribe('annotationEditorHidden', cancel);
                 this.subscribe('annotationEditorSubmit', save);
 
@@ -295,23 +341,6 @@ define(['jquery', 'oae.api.util', 'annotator', 'jquery.autosize'], function (jQu
             ////////////
 
             /**
-             * Submit every field of the editor when the annotation needs to be saved
-             */
-            Sidebar.prototype.saveAnnotation = function() {
-                var editor = this.editor;
-                if (!editor) {
-                    editor = this.annotator.editor;
-                }
-
-                for (i = 0; i < editor.fields.length; i++) {
-                    var field = editor.fields[i];
-                    field.submit(field.element, editor.annotation);
-                }
-
-                editor.publish('save', [editor.annotation]);
-            };
-
-            /**
              * Send out the `annotationUpdated` event which will update the annotation in the database
              *
              * @param  {[type]} annotation [description]
@@ -320,16 +349,6 @@ define(['jquery', 'oae.api.util', 'annotator', 'jquery.autosize'], function (jQu
                 // Update the list item associated to the annotation
                 $('li[data-id="' + annotation.id + '"] .documentpreview-annotation-text').html(annotation.text.replace(/\n/g, '<br/>'));
                 return this.publish('annotationUpdated', [annotation]);
-            };
-
-            /**
-             * Hide the editor container and show the annotation text when the edit from is hidden
-             */
-            Sidebar.prototype.onEditorHide = function(ev) {
-                var $annotationItem = $($(this).closest('li'));
-                $('.documentpreview-edit-container', $annotationItem).hide();
-                $('.documentpreview-annotation-text', $annotationItem).show();
-                $('.documentpreview-annotation-controls', $annotationItem).show();
             };
 
             /**
@@ -351,7 +370,7 @@ define(['jquery', 'oae.api.util', 'annotator', 'jquery.autosize'], function (jQu
                 }
 
                 // Hide the annotation controls before going into edit mode
-                $(ev.target).closest('.documentpreview-annotation-controls').hide();
+                $(ev.target).closest('.documentpreview-annotation-actions').hide();
 
                 // Continue the event chain
                 return this.onButtonClick(ev, 'edit');
