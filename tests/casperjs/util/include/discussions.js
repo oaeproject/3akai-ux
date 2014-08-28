@@ -57,7 +57,7 @@ var discussionUtil = function() {
                 }
 
                 for (var v = 0; v < viewers.length; v++) {
-                    members[viewers[v]] = 'viewer';
+                    members[viewers[v]] = 'member';
                 }
 
                 casper.evaluate(function(discussionId, members) {

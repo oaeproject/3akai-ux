@@ -154,11 +154,11 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Object}          callback.members               Response object containing the discussion members and nextToken
      * @param  {User[]|Group[]}  callback.members.results       Array that contains an object for each member. Each object has a role property that contains the role of the member and a profile property that contains the principal profile of the member
      * @param  {String}          callback.members.nextToken     The value to provide in the `start` parameter to get the next set of results
-     * @throws {Error}                                          Error thrown when no discussion ID has been provided
+     * @throws {Error}                                          Error thrown when no discussion id has been provided
      */
     var getMembers = exports.getMembers = function(discussionId, start, limit, callback) {
         if (!discussionId) {
-            throw new Error('A discussion ID should be provided');
+            throw new Error('A valid discussion id should be provided');
         }
 
         var data = {
