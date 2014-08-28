@@ -105,14 +105,9 @@ body {
 @secondary-text-color: #827E7D;
 
 body, button, input, select, textarea,
-.btn > i, a.oae-plain-link,
+.btn > .fa, a.oae-plain-link,
 .popover-content, .popover-content button:not(.btn),
-h1 [class^="icon-"], h1 [class*=" icon-"],
-h2 [class^="icon-"], h2 [class*=" icon-"],
-h3 [class^="icon-"], h3 [class*=" icon-"],
-h4 [class^="icon-"], h4 [class*=" icon-"],
-h5 [class^="icon-"], h5 [class*=" icon-"],
-h6 [class^="icon-"], h6 [class*=" icon-"] {
+h1 .fa, h2 .fa, h3 .fa, h4 .fa, h5 .fa, h6 .fa {
     color: @text-color;
 }
 
@@ -202,8 +197,7 @@ a:hover, .btn-link:hover {
     background-color: @button-primary-gradient2-color;
 }
 
-.btn.btn-primary [class^=icon-],
-.btn.btn-primary [class*=" icon-"] {
+.btn.btn-primary .fa {
     color: @button-primary-text-color;
 }
 
@@ -326,18 +320,12 @@ a:hover, .btn-link:hover {
 /* Icon button hover color */
 @button-icon-hover-color: #555;
 
-[class^="icon-"], [class*=" icon-"],
-.btn.btn-link [class^="icon-"], .btn.btn-link [class*=" icon-"] {
+.fa, .btn.btn-link .fa {
    color: @button-icon-color;
 }
 
-[class^="icon-"].active, [class*=" icon-"].active,
-[class^="icon-"]:hover, [class*=" icon-"]:hover,
-[class^="icon-"]:focus, [class*=" icon-"]:focus,
-[class^="icon-"].selected, [class*=" icon-"].selected,
-.btn-link [class^="icon-"].active, .btn-link:hover [class*=" icon-"].active,
-.btn-link:hover [class^="icon-"], .btn-link:hover [class*=" icon-"],
-.btn-link:focus [class^="icon-"], .btn-link:focus [class*=" icon-"] {
+.fa.active, .fa:hover, .fa:focus, .fa.selected,
+.btn-link .fa.active, .btn-link:hover .fa, .btn-link:focus .fa {
     color: @button-icon-hover-color;
 }
 
@@ -770,11 +758,11 @@ div.oae-thumbnail {
     background-color: @visibility-toggle-selected2-color;
 }
 
-.oae-large-options-container label.checked i.icon-ok {
+.oae-large-options-container label.checked i.fa-check {
     background-color: @visibility-toggle-selected1-color;
 }
 
-.oae-large-options-container label.checked i.icon-ok:before {
+.oae-large-options-container label.checked i.fa-check:before {
     color: @visibility-toggle-background-color;
 }
 
@@ -932,6 +920,7 @@ div.oae-thumbnail {
 .oae-clip .oae-clip-content,
 .oae-clip .oae-clip-content > button,
 .oae-clip .oae-clip-content ul li button,
+.oae-clip .oae-clip-content ul li a,
 .oae-clip .oae-clip-content i {
     color: @clip-primary-title-color;
 }
@@ -954,7 +943,8 @@ div.oae-thumbnail {
     color: @link-hover-color;
 }
 
-.oae-clip ul li button:hover {
+.oae-clip ul li button:hover,
+.oae-clip ul li a:hover {
     background-color: @clip-primary-gradient2-color;
 }
 

@@ -35,7 +35,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         // All logged in users that can see the content can comment
         if (!oae.data.me.anon) {
             lhNavActions.push({
-                'icon': 'icon-comments',
+                'icon': 'fa-comments',
                 'title': oae.api.i18n.translate('__MSG__COMMENT__'),
                 'class': 'comments-focus-new-comment',
                 'closeNav': true
@@ -44,7 +44,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         // Only offer share to users that are allowed to share the piece of content
         if (contentProfile.canShare) {
             lhNavActions.push({
-                'icon': 'icon-share',
+                'icon': 'fa-share-square-o',
                 'title': oae.api.i18n.translate('__MSG__SHARE__'),
                 'class': 'oae-trigger-share',
                 'data': {
@@ -58,7 +58,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         var lhNavPages = [{
             'id': 'content',
             'title': contentProfile.displayName,
-            'icon': 'icon-comments',
+            'icon': 'fa-comments',
             'closeNav': true,
             'class': 'hide',
             'layout': [
@@ -130,11 +130,16 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     };
 
     /**
-     * Render the content's clip, containing the thumbnail, display name as well as the
-     * content's admin options. Also render the share and comment actions clips.
+     * Render the content item clip(s)
      */
     var setUpClips = function() {
-        oae.api.util.template().render($('#content-clip-template'), {'content': contentProfile}, $('#content-clip-container'));
+        oae.api.util.template().render($('#content-clip-template'), {
+            'content': contentProfile,
+            'displayOptions': {
+                'addVisibilityIcon': true,
+                'addLink': false
+            }
+        }, $('#content-clip-container'));
         oae.api.util.template().render($('#content-actions-clip-template'), {'content': contentProfile}, $('#content-actions-clip-container'));
     };
 
@@ -329,7 +334,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     /**
      * Triggers the manageaccess widget and passes in context data
      */
-    $(document).on('click', '.content-trigger-manageaccess', function() {
+    $(document).on('click', '.oae-trigger-manageaccess', function() {
         $(document).trigger('oae.trigger.manageaccess', getManageAccessData());
     });
 

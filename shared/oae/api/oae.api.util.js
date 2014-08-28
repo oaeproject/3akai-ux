@@ -221,24 +221,21 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          *
          * 1) Thumbnail
          *
-         *   `${renderThumbnail(entityData, [addVisibilityIcon], [large])}`
+         *   `${renderThumbnail(entityData, [displayOptions])}`
          *
          * - `entityData` is a standard object representing a user, group or content item or a search result for a user, group
          *    or content item as returned by Hilary. Alternatively, a string representing the resourceType or resourceSubType
          *    (i.e., 'user', 'group', 'content', 'file', 'link', 'collabdoc') can be passed in for an empty/anonymous
          *    entity thumbnail.
-         * - `addVisibilityIcon` (optional) will determine whether or not the visibility icon should be shown. By default,
-         *    the visibility icon will be shown. However, users will not never show a visibility icon.
-         * - `large` (optional) determines whether or not a large default thumbnail icon should used. By default, a small icon will be used.
+         * - `displayOptions` (optional) is an object containing additional options that determine how the thumbnail is displayed and behaves
          *
          * 2) List item
          *
-         *   `${listItem(entityData, [metadata], [showCheckbox])}`
+         *   `${listItem(entityData, [displayOptions])}`
          *
          * - `entityData` is an object representing a user, group or content item or a search result for a user, group
          *    or content item
-         * - `metadata` (optional) is a line of metadata information that should be displayed underneath the entity name
-         * - `showCheckbox` (optional) will determine whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
+         * - `displayOptions` (optional) is an object containing additional options that determine how the list item is displayed and behaves
          *
          * 3) Activity summary
          *
@@ -967,7 +964,13 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                 // function that will render the thumbnail image, displayName and some metadata for each suggested item
                 if (!options.formatList) {
                     options.formatList = function(data, elem) {
-                        return elem.html(template().render($('#autosuggest-suggested-template', $autosuggestTemplates), {'data': data}));
+                        return elem.html(template().render($('#autosuggest-suggested-template', $autosuggestTemplates), {
+                            'data': data,
+                            'displayOptions': {
+                                'addVisibilityIcon': false,
+                                'addLink': false
+                            }
+                        }));
                     };
                 }
 
@@ -1024,7 +1027,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                     var originalData = $elem.data('originalData');
                     if (originalData.resourceType) {
                         // Prepend a thumbnail to the item to add to the list
-                        var $thumbnail = $('<div>').addClass('oae-thumbnail icon-oae-' + originalData.resourceType);
+                        var $thumbnail = $('<div>').addClass('oae-thumbnail fa fa-oae-' + originalData.resourceType);
                         if (originalData.thumbnailUrl) {
                             $thumbnail.append($('<div>')
                                 .css('background-image', 'url("' + originalData.thumbnailUrl + '")')

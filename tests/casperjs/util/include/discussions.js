@@ -23,13 +23,14 @@ var discussionUtil = function() {
     /**
      * Creates a discussion
      *
-     * @param  {Function}     callback               Standard callback function
-     * @param  {Discussion}   callback.discussion    The created discussion object
+     * @param  {String[]}     [managers]                    Array of user/group ids that should be added as managers to the discussion
+     * @param  {String[]}     [viewers]                     Array of user/group ids that should be added as viewers to the discussion
+     * @param  {Function}     callback                      Standard callback function
+     * @param  {Discussion}   callback.discussionProfile    Discussion object representing the created discussion
      */
-    var createDiscussion = function(callback) {
-        var discussion = null;
+    var createDiscussion = function(managers, viewers, callback) {
         var rndString = mainUtil().generateRandomString();
-        data = casper.evaluate(function(rndString) {
+        var discussionProfile = casper.evaluate(function(rndString) {
             return JSON.parse(__utils__.sendAJAX('/api/discussion/create', 'POST', {
                 'displayName': 'Discussion ' + rndString,
                 'description': 'Talk about all the things!',
@@ -38,12 +39,36 @@ var discussionUtil = function() {
         }, rndString);
 
         casper.then(function() {
-            if (data) {
-                discussion = data;
-                callback(discussion);
-            } else {
+            if (!discussionProfile) {
                 casper.echo('Could not create discussion \'Discussion' + rndString + '\'.', 'ERROR');
-                callback(null);
+                return callback(null);
+            }
+        });
+
+        casper.then(function() {
+            // Add managers and viewers if required
+            if (managers || viewers) {
+                managers = managers || [];
+                viewers = viewers || [];
+
+                var members = {};
+                for (var m = 0; m < managers.length; m++) {
+                    members[managers[m]] = 'manager';
+                }
+
+                for (var v = 0; v < viewers.length; v++) {
+                    members[viewers[v]] = 'viewer';
+                }
+
+                casper.evaluate(function(discussionId, members) {
+                    return JSON.parse(__utils__.sendAJAX('/api/discussion/'+ discussionId + '/members', 'POST', members, false));
+                }, discussionProfile.id, members);
+
+                casper.then(function() {
+                    return callback(discussionProfile);
+                });
+            } else {
+                return callback(discussionProfile);
             }
         });
     };

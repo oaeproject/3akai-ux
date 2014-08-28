@@ -13,9 +13,6 @@
  * permissions and limitations under the License.
  */
 
-// Keeps track of the created collabdocs that are available for testing
-var createdCollabDocs = [];
-
 /**
  * Utility functions for collaborative documents
  *
@@ -26,13 +23,14 @@ var collabDocUtil = function() {
     /**
      * Creates a collabdoc
      *
-     * @param {Function}    callback              Standard callback function
-     * @param {Collabdoc}   callback.collabdoc    The collabdoc data coming back from the server
+     * @param  {String[]}   [managers]            Array of user/group ids that should be added as managers to the collaborative document
+     * @param  {String[]}   [viewers]             Array of user/group ids that should be added as viewers to the collaborative document
+     * @param  {Function}   callback              Standard callback function
+     * @param  {Collabdoc}  callback.collabdoc    Collabdoc object representing the created collaborative document
      */
-    var createCollabDoc = function(callback) {
-        var collabdoc = null;
+    var createCollabDoc = function(managers, viewers, callback) {
         var rndString = mainUtil().generateRandomString();
-        data = casper.evaluate(function(rndString) {
+        var collabdocProfile = casper.evaluate(function(rndString) {
             return JSON.parse(__utils__.sendAJAX('/api/content/create', 'POST', {
                 'resourceSubType': 'collabdoc',
                 'displayName': 'collabdoc-' + rndString,
@@ -42,21 +40,41 @@ var collabDocUtil = function() {
         }, rndString);
 
         casper.then(function() {
-            if (data) {
-                createdCollabDocs.push(data);
-                collabdoc = data;
-            } else {
+            if (!collabdocProfile) {
                 casper.echo('Could not create collabdoc-' + rndString + '.', 'ERROR');
+                return callback(null);
             }
         });
 
         casper.then(function() {
-            callback(collabdoc);
+            // Add managers and viewers if required
+            if (managers || viewers) {
+                managers = managers || [];
+                viewers = viewers || [];
+
+                var members = {};
+                for (var m = 0; m < managers.length; m++) {
+                    members[managers[m]] = 'manager';
+                }
+
+                for (var v = 0; v < viewers.length; v++) {
+                    members[viewers[v]] = 'viewer';
+                }
+
+                casper.evaluate(function(collabdocId, members) {
+                    return JSON.parse(__utils__.sendAJAX('/api/content/'+ collabdocId + '/members', 'POST', members, false));
+                }, collabdocProfile.id, members);
+
+                casper.then(function() {
+                    return callback(collabdocProfile);
+                });
+            } else {
+                return callback(collabdocProfile);
+            }
         });
     };
 
     return {
-        'createCollabDoc': createCollabDoc,
-        'createdCollabDocs': createdCollabDocs
+        'createCollabDoc': createCollabDoc
     };
 };

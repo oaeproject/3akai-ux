@@ -35,7 +35,7 @@ require(['jquery','oae.core'], function($, oae) {
         // All logged in users that can see the discussion can comment
         if (!oae.data.me.anon) {
             lhNavActions.push({
-                'icon': 'icon-comments',
+                'icon': 'fa-comments',
                 'title': oae.api.i18n.translate('__MSG__COMMENT__'),
                 'class': 'comments-focus-new-comment',
                 'closeNav': true
@@ -44,7 +44,7 @@ require(['jquery','oae.core'], function($, oae) {
         // Only offer share to users that are allowed to share the discussion
         if (discussionProfile.canShare) {
             lhNavActions.push({
-                'icon': 'icon-share',
+                'icon': 'fa-share-square-o',
                 'title': oae.api.i18n.translate('__MSG__SHARE__'),
                 'class': 'oae-trigger-share',
                 'data': {
@@ -58,7 +58,7 @@ require(['jquery','oae.core'], function($, oae) {
         var lhNavPages = [{
             'id': 'discussion',
             'title': discussionProfile.displayName,
-            'icon': 'icon-comments',
+            'icon': 'fa-comments',
             'closeNav': true,
             'class': 'hide',
             'layout': [
@@ -148,11 +148,16 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     /**
-     * Render the discussion's clip, containing the thumbnail, display name as well as the
-     * discussion's admin options. Also render the share and comment actions clips.
+     * Render the discussion clip(s)
      */
     var setUpClips = function() {
-        oae.api.util.template().render($('#discussion-clip-template'), {'discussion': discussionProfile}, $('#discussion-clip-container'));
+        oae.api.util.template().render($('#discussion-clip-template'), {
+            'discussion': discussionProfile,
+            'displayOptions': {
+                'addVisibilityIcon': true,
+                'addLink': false
+            }
+        }, $('#discussion-clip-container'));
         oae.api.util.template().render($('#discussion-actions-clip-template'), {'discussion': discussionProfile}, $('#discussion-actions-clip-container'));
     };
 

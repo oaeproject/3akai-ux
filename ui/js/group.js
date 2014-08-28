@@ -83,11 +83,16 @@ require(['jquery', 'oae.core'], function($, oae) {
     };
 
     /**
-     * Render the group's clip, containing the profile picture, display name as well as the
-     * group's admin options
+     * Render the group clip(s)
      */
     var setUpClip = function() {
-        oae.api.util.template().render($('#group-clip-template'), {'group': groupProfile}, $('#group-clip-container'));
+        oae.api.util.template().render($('#group-clip-template'), {
+            'group': groupProfile,
+            'displayOptions': {
+                'addVisibilityIcon': true,
+                'addLink': false
+            }
+        }, $('#group-clip-container'));
 
         // Only show the create and upload clips to group members
         if (groupProfile.isMember) {
@@ -108,35 +113,35 @@ require(['jquery', 'oae.core'], function($, oae) {
         // Add the upload and create clips for managers
         if (groupProfile.isMember) {
             lhNavActions.push({
-                'icon': 'icon-cloud-upload',
+                'icon': 'fa-cloud-upload',
                 'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
                 'closeNav': true,
                 'class': 'oae-trigger-upload'
             },
             {
-                'icon': 'icon-plus-sign',
+                'icon': 'fa-plus-circle',
                 'title': oae.api.i18n.translate('__MSG__CREATE__'),
                 'children': [
                     {
-                        'icon': 'icon-folder-open',
+                        'icon': 'fa-folder-open',
                         'title': oae.api.i18n.translate('__MSG__FOLDER__'),
                         'closeNav': true,
                         'class': 'oae-trigger-createfolder'
                     },
                     {
-                        'icon': 'icon-link',
+                        'icon': 'fa-link',
                         'title': oae.api.i18n.translate('__MSG__LINK__'),
                         'closeNav': true,
                         'class': 'oae-trigger-createlink'
                     },
                     {
-                        'icon': 'icon-edit',
+                        'icon': 'fa-pencil-square-o',
                         'title': oae.api.i18n.translate('__MSG__DOCUMENT__'),
                         'closeNav': true,
                         'class': 'oae-trigger-createcollabdoc'
                     },
                     {
-                        'icon': 'icon-comments',
+                        'icon': 'fa-comments',
                         'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
                         'closeNav': true,
                         'class': 'oae-trigger-creatediscussion'
@@ -148,7 +153,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         // Add the join clip when not a member and user can join
         if (!groupProfile.isMember && groupProfile.canJoin) {
             lhNavActions.push({
-                'icon': 'icon-pushpin',
+                'icon': 'fa-thumb-tack',
                 'title': oae.api.i18n.translate('__MSG__JOIN_GROUP__'),
                 'class': 'group-join'
             });
@@ -161,7 +166,7 @@ require(['jquery', 'oae.core'], function($, oae) {
             lhNavPages.push({
                 'id': 'activity',
                 'title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
-                'icon': 'icon-dashboard',
+                'icon': 'fa-tachometer',
                 'closeNav': true,
                 'layout': [
                     {
@@ -183,7 +188,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         lhNavPages.push({
             'id': 'library',
             'title': oae.api.i18n.translate('__MSG__LIBRARY__'),
-            'icon': 'icon-briefcase',
+            'icon': 'fa-briefcase',
             'closeNav': true,
             'layout': [
                 {
@@ -204,7 +209,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         {
             'id': 'discussions',
             'title': oae.api.i18n.translate('__MSG__DISCUSSIONS__'),
-            'icon': 'icon-comments',
+            'icon': 'fa-comments',
             'closeNav': true,
             'layout': [
                 {
@@ -225,7 +230,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         {
             'id': 'members',
             'title': oae.api.i18n.translate('__MSG__MEMBERS__'),
-            'icon': 'icon-user',
+            'icon': 'fa-user',
             'closeNav': true,
             'layout': [
                 {

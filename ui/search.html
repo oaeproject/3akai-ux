@@ -38,7 +38,7 @@
                                 <div class="form-group">
                                     <input type="text" id="search-query" class="form-control search-query form-control pull-left" title="__MSG__SEARCH_FOR_CONTENT_PEOPLE_GROUPS__" autofocus />
                                     <button type="submit" id="search-search-icon" class="btn btn-link pull-left" title="__MSG__SEARCH_FOR_CONTENT_PEOPLE_GROUPS__">
-                                        <i class="icon-search"><span class="sr-only">__MSG__SEARCH__</span></i>
+                                        <i class="fa fa-search"><span class="sr-only">__MSG__SEARCH__</span></i>
                                     </button>
                                 </div>
                             </form>
@@ -67,7 +67,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="oae-page">
+                    <div class="clearfix oae-page">
                         <div class="oae-list-container">
                             <div id="search-list-header"><!-- --></div>
                             <ul class="oae-list oae-list-grid"><!-- --></ul>
@@ -89,7 +89,7 @@
 
                             <div id="search-template"><!--
                                 {for result in results}
-                                    ${listItem(result, null, false)}
+                                    ${listItem(result)}
                                 {/for}
                             --></div>
                         </div>

@@ -134,13 +134,9 @@ var _expose = function(exports) {
             'visibility': entity['oae:visibility']
         };
 
+        // Use the most up-to-date profile picture when available
         if (me && me.id === entity['oae:id'] && me.picture) {
-            if (entity['image']) {
-                that['image'] = entity['image'];
-                that['image'].url = me.picture.small || me.picture.medium;
-            } else {
-                that.thumbnailUrl = me.picture.small || me.picture.medium;
-            }
+            that.thumbnailUrl = me.picture.medium || me.picture.small;
         } else {
             if (entity.image && entity.image.url) {
                 that.thumbnailUrl = entity.image.url;
@@ -204,20 +200,11 @@ var _expose = function(exports) {
             comments.sort(_sortComments);
 
             // Construct a tree of the last 2 comments and their parents
-            var latestComments = comments.slice().splice(0, 2);
-            latestComments = _constructCommentTree(latestComments);
+            var latestComments = _constructLatestCommentTree(comments);
 
             // Convert these comments into an ordered tree that also includes the comments they were
             // replies to, if any
             var allComments = _constructCommentTree(comments);
-
-            // Prepare each comment
-            latestComments.forEach(function(comment) {
-                comment.activityItem = new ActivityViewItem(me, comment.author);
-            });
-            allComments.forEach(function(comment) {
-                comment.activityItem = new ActivityViewItem(me, comment.author);
-            });
 
             activity.object.objectType = 'comments';
             activity.object['oae:collection'] = allComments;
@@ -261,49 +248,114 @@ var _expose = function(exports) {
     };
 
     /**
+     * Construct a tree of the last two comments that were made. If these comments
+     * were replies, the parent comments will be included in the resulting tree.
+     *
+     * @param  {Comment[]}  comments    A sorted set of comments where the latest comment can be found in the beginning of the set
+     * @return {Comment[]}              A tree of comments for the last two comments (and potentially their parents)
+     * @api private
+     */
+    var _constructLatestCommentTree = function(comments) {
+        // This set will hold the last 2 comments (and their parents)
+        var latestComments = [];
+
+        // Add the latest comment. If it was a reply, we include its parent
+        latestComments.push(comments[0]);
+        if (comments[0].inReplyTo) {
+            latestComments.push(comments[0].inReplyTo);
+        }
+
+        // If there is a second comment that's not the parent of the previous comment
+        // we include it (and its parent if it has one)
+        if (comments[1] && !_find(latestComments, comments[1]['oae:id'])) {
+            latestComments.push(comments[1]);
+            if (comments[1].inReplyTo) {
+                latestComments.push(comments[1].inReplyTo);
+            }
+        }
+
+        // Construct a comment tree and return it
+        return _constructCommentTree(latestComments);
+    };
+
+    /**
      * Process a list of comments into an ordered tree that contains the comments they were replies to, if any,
      * as well as the level at which all of these comments need to be rendered.
      *
-     * @param  {Comment[]}   comments   The array of latest comments to turn into an ordered tree
+     * @param  {Comment[]}   comments   The array of comments to turn into an ordered tree
      * @return {Comment[]}              The ordered tree of comments with an `oae:level` property for each comment, representing the level at which they should be rendered
      * @api private
      */
     var _constructCommentTree = function(comments) {
-        var orderedTree = [];
-
-        // If the comment is a reply to a different comment, we add that comment to the ordered tree as well,
-        // in order to provide some context for the current comment
+        // Because this method gets called multiple times and there's no good way to deep clone
+        // an array of objects in native JS, we ensure that any in-place edits to comment objects
+        // in a previous run don't have an impact now
         comments.forEach(function(comment) {
-            // Check if the comment is already in the ordered tree, because of a reply to this comment
-            var exists = _contains(orderedTree, comment['oae:id']);
-            if (!exists) {
-                if (comment.inReplyTo) {
-                    // Check if the parent comment is already present in the ordered tree
-                    var parentExists = _contains(orderedTree, comment.inReplyTo['oae:id']);
-                    // If it isn't, we add it to the ordered list, just ahead of the current comment
-                    if (!parentExists) {
-                        orderedTree.push(comment.inReplyTo);
-                    }
+            comment.replies = [];
+        });
+
+        // Construct a proper graph wherein each object in the top level array is a comment
+        // If a comment has replies they will be made available on the `replies` property
+        var commentTree = [];
+        comments.forEach(function(comment) {
+            // If this comment was a reply to another comment, we try to find that parent comment
+            // and add the current comment as a reply to the parent. If the parent could not be found,
+            // we add the comment as a top level comment. This can happen when we're rendering a tree
+            // of the latest 4 comments for example
+            if (comment.inReplyTo) {
+                var parent = _find(comments, comment.inReplyTo['oae:id']);
+                if (parent) {
+                    parent.replies.push(comment);
+                } else {
+                    commentTree.push(comment);
                 }
-                orderedTree.push(comment);
+
+            // If this comment was not a reply, it's considered a top-level comment
+            } else {
+                commentTree.push(comment);
             }
         });
 
-        // Now that all comments and the comments they were replies to are in the ordered list, we add a level
-        // to each of them. These levels will be relative to each other, starting at 0 for top-level comments.
-        orderedTree.forEach(function(comment) {
-            comment['oae:level'] = 0;
-            // If the comment is a reply to a comment, we set its level to be that of its parent + 1
-            if (comment.inReplyTo) {
-                var replyTo = _contains(orderedTree, comment.inReplyTo['oae:id']);
-                comment['oae:level'] = replyTo['oae:level'] + 1;
-            }
+        // Now flatten the graph so it can easily be rendered in a TrimPath template
+        var flatCommentTree = [];
+        _flattenCommentTree(flatCommentTree, commentTree);
+        return flatCommentTree;
+    };
+
+    /*!
+     * Walks through the comments graph in `commentTree` in a recursive depth-first manner.
+     * Each comment that is encountered is added to the `flatCommentTree` including the level
+     * that it should be displayed at.
+     *
+     * @param  {Object[]}   flatCommentTree             The flattened comment tree
+     * @param  {Number}     flatCommentTree[i].level    The level the comment was made at
+     * @param  {Comment}    flatCommentTree[i].comment  The comment that was made
+     * @param  {Comment[]}  commentTree                 The (nested) graph to walk through
+     * @api private
+     */
+    var _flattenCommentTree = function(flatCommentTree, commentTree, _level) {
+        _level = _level || 0;
+
+        // Sort the comments on this level so newest comments are at the top
+        commentTree.sort(_sortComments);
+
+        // Visit each comment
+        commentTree.forEach(function(comment) {
 
             // Ensure that the `published` timestamp is a number
             comment.published = parseInt(comment.published, 10);
-        });
 
-        return orderedTree;
+            // Add the comment to the array
+            flatCommentTree.push({
+                'level': _level,
+                'comment': comment
+            });
+
+            // If this comment has any replies, we add those as well
+            if (comment.replies) {
+                _flattenCommentTree(flatCommentTree, comment.replies, _level + 1);
+            }
+        });
     };
 
     /**
@@ -314,7 +366,7 @@ var _expose = function(exports) {
      * @return {Comment}                The comment if it was found, `undefined` otherwise
      * @api private
      */
-    var _contains = function(comments, id) {
+    var _find = function(comments, id) {
         for (var i = 0; i < comments.length; i++) {
             if (comments[i]['oae:id'] === id) {
                 return comments[i];

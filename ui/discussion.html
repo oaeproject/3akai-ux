@@ -35,21 +35,26 @@
                             <div class="oae-clip-fold-outer"></div>
                         </div>
                         <div class="oae-clip-content">
-                            <button type="button" {if !discussion.isManager} disabled {/if}>
-                                ${renderThumbnail(discussion, true, false, false)}
+                            <button type="button">
+                                ${renderThumbnail(discussion, displayOptions)}
                                 <div>
                                     <div>
                                         <h1 class="oae-threedots">${discussion.displayName|encodeForHTML}</h1>
-                                        <i class="icon-caret-down"></i>
+                                        <i class="fa fa-caret-down"></i>
                                         <small class="oae-threedots">__MSG__DISCUSSION__</small>
                                     </div>
                                 </div>
                             </button>
                             <div>
                                 <ul>
-                                    <li><button class="discussion-trigger-manageaccess"><i class="icon-lock"></i>__MSG__MANAGE_ACCESS__</button></li>
-                                    <li><button class="oae-trigger-editdiscussion"><i class="icon-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
-                                    <li><button class="oae-trigger-deleteresource"><i class="icon-trash"></i>__MSG__DELETE__</button></li>
+                                    {if discussion.isManager}
+                                        <li><button class="discussion-trigger-manageaccess"><i class="fa fa-lock"></i>__MSG__MANAGE_ACCESS__</button></li>
+                                        <li><button class="oae-trigger-editdiscussion"><i class="fa fa-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
+                                        <li><button class="oae-trigger-deleteresource"><i class="fa fa-trash-o"></i>__MSG__DELETE__</button></li>
+                                    {else}
+                                        <li><button class="oae-trigger-aboutdiscussion"><i class="fa fa-info-circle"></i>__MSG__ABOUT__</button></li>
+                                        <li><button class="oae-trigger-discussionshared"><i class="fa fa-group"></i>__MSG__SHARED_WITH__</button></li>
+                                    {/if}
                                 </ul>
                             </div>
                         </div>
@@ -67,7 +72,7 @@
                             <div class="oae-clip-content">
                                 <button type="button" class="oae-trigger-share" data-id="${discussion.id}" data-resourceType="${discussion.resourceType}">
                                     <div>
-                                        <i class="icon-share pull-left"></i>
+                                        <i class="fa fa-share-square-o pull-left"></i>
                                         <h1>__MSG__SHARE__</h1>
                                     </div>
                                 </button>
@@ -83,7 +88,7 @@
                         <div class="oae-clip-content">
                             <button type="button" class="comments-focus-new-comment">
                                 <div>
-                                    <i class="icon-comments pull-left"></i>
+                                    <i class="fa fa-comments pull-left"></i>
                                     <h1>__MSG__COMMENT__</h1>
                                 </div>
                             </button>

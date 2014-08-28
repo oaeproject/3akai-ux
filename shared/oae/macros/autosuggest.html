@@ -1,7 +1,7 @@
 <!-- SELECTED ITEMS -->
 <div id="autosuggest-selected-template"><!--
     <li class="as-selection-item as-ghost-item {if ghostItem.selected} as-ghost-selected {/if}" id="as-selection-ghost-${index}" data-value="${ghostItem[options.selectedValuesProp]}">
-        <a class="as-ghost-add"><i class="icon-plus"><span class="sr-only">__MSG__ADD__</span></i></a>
+        <a class="as-ghost-add"><i class="fa fa-plus"><span class="sr-only">__MSG__ADD__</span></i></a>
         <a class="as-close">&times;</a>
         ${ghostItem[options.selectedItemProp]}
     </li>
@@ -12,7 +12,7 @@
     <div class="oae-list-details-item">
         <div class="clearfix oae-listitem">
             <div class="oae-listitem-primary-thumbnail">
-                ${renderThumbnail(data, false, false, false)}
+                ${renderThumbnail(data, displayOptions)}
             </div>
             <div class="oae-listitem-metadata">
                 <h3 class="oae-threedots">${data.displayName}</h3>

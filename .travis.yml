@@ -22,10 +22,8 @@ before_install:
   - sudo apt-get update
 
   # Install cassandra 1.2 manually
-  - sudo apt-get install -y -o Dpkg::Options::=--force-confnew cassandra=1.2.16
-  - sudo sed -i 's/-Xss180k/-Xss256k/g' /etc/cassandra/cassandra-env.sh
-  - sudo sh -c "echo 'JVM_OPTS=\"\${JVM_OPTS} -Djava.net.preferIPv4Stack=false\"' >> /etc/cassandra/cassandra-env.sh"
   - sudo service cassandra stop
+  - sudo apt-get install -y -o Dpkg::Options::=--force-confnew cassandra=2.0.8
   - sudo service cassandra start
   - sudo service cassandra status
 
@@ -57,7 +55,7 @@ before_install:
   # Create a keyspace that we can start etherpad up into. There is a chicken-and-egg problem by having unit tests drop/create and have
   # etherpad be available, so we just create a separate keyspace for it
   - "echo \"CREATE KEYSPACE etherpad WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};\" > /tmp/.create_etherpad_keyspace.cql3"
-  - cqlsh -3 -f /tmp/.create_etherpad_keyspace.cql3
+  - cqlsh -f /tmp/.create_etherpad_keyspace.cql3
 
   # Configure etherpad to talk to Cassandra
   - "sed -i 's/dbType\" : \"dirty/dbType\" : \"cassandra/g' settings.json"
