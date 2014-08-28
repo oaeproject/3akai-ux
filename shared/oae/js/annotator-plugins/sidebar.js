@@ -35,6 +35,7 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'annotator', 'jquery.autosize'
                 'annotationViewerShown': 'onAnnotationViewerShown',
                 '.documentpreview-annotation-delete click': 'onDeleteClick',
                 '.documentpreview-annotation-edit click': 'onEditClick',
+                '.documentpreview-annotation-reply click': 'onReplyClick',
                 '.annotator-save click': 'saveAnnotation',
                 'textarea keydown': 'processKeypress'
             };
@@ -81,6 +82,7 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'annotator', 'jquery.autosize'
 
                 this.onDeleteClick = __bind(this.onDeleteClick, this);
                 this.onEditClick = __bind(this.onEditClick, this);
+                this.onReplyClick = __bind(this.onReplyClick, this);
                 this.onEditorSubmit = __bind(this.onEditorSubmit, this);
                 this.onAdderClick = __bind(this.onAdderClick, this);
                 // this.processKeypress = __bind(this.processKeypress, this);
@@ -282,7 +284,7 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'annotator', 'jquery.autosize'
                 // Load the annotation into the container
                 this.editor.load(annotation);
 
-                // this.publish('annotationEditorShown', [this.editor, annotation]);
+                this.publish('annotationEditorShown', [this.editor, annotation]);
                 return this;
             };
 
@@ -336,9 +338,9 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'annotator', 'jquery.autosize'
             };
 
 
-            ////////////
-            // UPDATE //
-            ////////////
+            ///////////////////////
+            // UPDATE ANNOTATION //
+            ///////////////////////
 
             /**
              * Send out the `annotationUpdated` event which will update the annotation in the database
@@ -347,7 +349,7 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'annotator', 'jquery.autosize'
              */
             Sidebar.prototype.onEditorSubmit = function(annotation) {
                 // Update the list item associated to the annotation
-                $('li[data-id="' + annotation.id + '"] .documentpreview-annotation-text').html(annotation.text.replace(/\n/g, '<br/>'));
+                $('li[data-id="' + annotation.id + '"] .documentpreview-annotation-text').html(oaeUtil.security().encodeForHTMLWithLinks(annotation.text).replace(/\n/g, '<br/>'));
                 return this.publish('annotationUpdated', [annotation]);
             };
 
@@ -376,6 +378,60 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'annotator', 'jquery.autosize'
                 return this.onButtonClick(ev, 'edit');
             };
 
+
+            /////////////////////////
+            // REPLY TO ANNOTATION //
+            /////////////////////////
+
+            Sidebar.prototype.onReplyClick = function(ev) {
+                // Get the annotation that's being replied to
+                var replyToAnnotation = $(ev.target).closest('li').data('annotation');
+
+                // Set up the editor for the reply
+                this.annotator._setupEditor();
+
+                // Create the initial annotation object
+                var annotation = this.annotator.setupAnnotation(this.annotator.createAnnotation());
+
+                // Apply the same highlights, ranges and quote to the reply
+                annotation.highlights = replyToAnnotation.highlights;
+                annotation.ranges = replyToAnnotation.ranges;
+                annotation.quote = replyToAnnotation.quote;
+
+                // Add a class to the selected quote to indicate it's being annotated
+                $(annotation.highlights).addClass('annotator-hl-temporary');
+
+                var cleanup = (function(_this) {
+                    return function() {
+                        // Show the new annotation container and hide the list
+                        $('.documentpreview-new-annotation-container').hide();
+                        $('.documentpreview-annotations-list').show();
+                        _this.unsubscribe('annotationEditorHidden', cancel);
+                        return _this.unsubscribe('annotationEditorSubmit', save);
+                    };
+                })(this);
+
+                var save = (function(_this) {
+                    return function() {
+                        cleanup();
+                        $(annotation.highlights).removeClass('annotator-hl-temporary');
+                        return _this.publish('annotationCreated', [annotation]);
+                    };
+                })(this);
+
+                var cancel = (function(_this) {
+                    return function() {
+                        cleanup();
+                        return _this.deleteAnnotation(annotation);
+                    };
+                })(this);
+
+                this.subscribe('annotationEditorHidden', cancel);
+                this.subscribe('annotationEditorSubmit', save);
+
+                // Show the editor
+                return this.annotator.showEditor(annotation);
+            };
 
             ////////////
             // DELETE //
