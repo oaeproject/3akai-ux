@@ -15,12 +15,12 @@
 
 require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
-    // Get the folder id from the URL. The expected URL is `/collection/<tenantId>/<resourceId>`.
-    // The folder id will then be `x:<tenantId>:<resourceId>`
-    var folderId = 'x:' + $.url().segment(2) + ':' + $.url().segment(3);
+    // Get the folder id from the URL. The expected URL is `/folder/<tenantId>/<resourceId>`.
+    // The folder id will then be `f:<tenantId>:<resourceId>`
+    var folderId = 'f:' + $.url().segment(2) + ':' + $.url().segment(3);
 
     // Variable used to cache the folder's base URL
-    var baseUrl = '/collection/' + $.url().segment(2) + '/' + $.url().segment(3);
+    var baseUrl = '/folder/' + $.url().segment(2) + '/' + $.url().segment(3);
 
     // Variable used to cache the requested folder profile
     var folderProfile = null;
@@ -37,7 +37,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         var lhNavPages = [{
             'id': 'folder',
             'title': folderProfile.displayName,
-            'icon': 'icon-folder-open',
+            'icon': 'fa-folder-open',
             'closeNav': true,
             'class': 'hide',
             'layout': [

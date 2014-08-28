@@ -39,7 +39,7 @@
                                 <div>
                                     <div>
                                         <h1 class="oae-threedots">${folder.displayName|encodeForHTML}</h1>
-                                        <i class="icon-caret-down"></i>
+                                        <i class="fa fa-caret-down"></i>
                                         <small class="oae-threedots">__MSG__FOLDER__</small>
                                     </div>
                                 </div>
@@ -47,12 +47,12 @@
                             <div>
                                 <ul>
                                     {if folder.canManage}
-                                        <li><button class="content-trigger-manageaccess"><i class="icon-lock"></i>__MSG__MANAGE_ACCESS__</button></li>
-                                        <li><button class="oae-trigger-editfolder"><i class="icon-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
-                                        <li><button class="oae-trigger-deletefolder"><i class="icon-trash"></i>__MSG__DELETE__</button></li>
+                                        <li><button class="content-trigger-manageaccess"><i class="fa fa-lock"></i>__MSG__MANAGE_ACCESS__</button></li>
+                                        <li><button class="oae-trigger-editfolder"><i class="fa fa-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
+                                        <li><button class="oae-trigger-deletefolder"><i class="fa fa-trash-o"></i>__MSG__DELETE__</button></li>
                                     {else}
-                                        <li><button class="oae-trigger-aboutfolder"><i class="icon-info-sign"></i>__MSG__ABOUT__</button></li>
-+                                       <li><button class="oae-trigger-foldershared"><i class="icon-group"></i>__MSG__SHARED_WITH__</button></li>
+                                        <li><button class="oae-trigger-aboutfolder"><i class="fa fa-info-circle"></i>__MSG__ABOUT__</button></li>
++                                       <li><button class="oae-trigger-foldershared"><i class="fa fa-group"></i>__MSG__SHARED_WITH__</button></li>
                                     {/if}
                                 </ul>
                             </div>
@@ -71,28 +71,13 @@
                             <div class="oae-clip-content">
                                 <button type="button" class="oae-trigger-share" data-id="${content.id}" data-resourceType="${content.resourceType}" data-resourceSubType="${content.resourceSubType}">
                                     <div>
-                                        <i class="icon-share pull-left"></i>
+                                        <i class="fa fa-share-square-o pull-left"></i>
                                         <h1>__MSG__SHARE__</h1>
                                     </div>
                                 </button>
                             </div>
                         </div>
                     {/if}
-
-                    <div id="content-share-clip-template" class="oae-clip oae-clip-secondary oae-clip-flipped">
-                        <div class="oae-clip-fold">
-                            <div class="oae-clip-fold-inner"></div>
-                            <div class="oae-clip-fold-outer"></div>
-                        </div>
-                        <div class="oae-clip-content">
-                            <button type="button" class="comments-focus-new-comment">
-                                <div>
-                                    <i class="icon-comments pull-left"></i>
-                                    <h1>__MSG__COMMENT__</h1>
-                                </div>
-                            </button>
-                        </div>
-                    </div>
                 --></div>
             </div>
 
