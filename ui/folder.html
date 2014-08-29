@@ -60,7 +60,44 @@
                     </div>
                 --></div>
 
-                <div id="content-actions-clip-container" class="hidden-xs hidden-sm oae-clip-container-right oae-hide-when-anonymous"><!-- --></div>
+                <div id="folder-manager-actions" class="hide hidden-xs hidden-sm oae-clip-container-right">
+                    <div class="oae-clip oae-clip-flipped oae-dnd-upload">
+                        <div class="oae-clip-fold">
+                            <div class="oae-clip-fold-inner"></div>
+                            <div class="oae-clip-fold-outer"></div>
+                        </div>
+                        <div class="oae-clip-content">
+                            <button type="button" class="oae-trigger-upload">
+                                <div>
+                                    <i class="fa fa-cloud-upload pull-left"></i>
+                                    <h1>__MSG__UPLOAD__</h1>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="oae-clip oae-clip-secondary oae-clip-flipped">
+                        <div class="oae-clip-fold">
+                            <div class="oae-clip-fold-inner"></div>
+                            <div class="oae-clip-fold-outer"></div>
+                        </div>
+                        <div class="oae-clip-content">
+                            <button>
+                                <div>
+                                    <i class="fa fa-plus-circle pull-left"></i>
+                                    <h1>__MSG__CREATE__</h1>
+                                    <i class="fa fa-caret-down"></i>
+                                </div>
+                            </button>
+                            <div>
+                                <ul>
+                                    <li><button class="oae-trigger-createlink"><i class="fa fa-link"></i>__MSG__LINK__</button></li>
+                                    <li><button class="oae-trigger-createcollabdoc"><i class="fa fa-pencil-square-o"></i>__MSG__DOCUMENT__</button></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div id="content-actions-clip-template"><!--
                     {if content.canShare}
                         <div class="oae-clip oae-clip-flipped">

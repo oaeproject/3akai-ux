@@ -32,7 +32,33 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      */
     var setUpNavigation = function() {
         var lhNavActions = [];
-        // TODO: Add upload and share clips
+
+        if (folderProfile.canAddItem) {
+            lhNavActions.push({
+                'icon': 'fa-cloud-upload',
+                'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
+                'closeNav': true,
+                'class': 'oae-trigger-upload'
+            },
+            {
+                'icon': 'fa-plus-circle',
+                'title': oae.api.i18n.translate('__MSG__CREATE__'),
+                'children': [
+                    {
+                        'icon': 'fa-link',
+                        'title': oae.api.i18n.translate('__MSG__LINK__'),
+                        'closeNav': true,
+                        'class': 'oae-trigger-createlink'
+                    },
+                    {
+                        'icon': 'fa-pencil-square-o',
+                        'title': oae.api.i18n.translate('__MSG__DOCUMENT__'),
+                        'closeNav': true,
+                        'class': 'oae-trigger-createcollabdoc'
+                    }
+                ]
+            });
+        }
 
         var lhNavPages = [{
             'id': 'folder',
@@ -107,8 +133,10 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      */
     var setUpClips = function() {
         oae.api.util.template().render($('#folder-clip-template'), {'folder': folderProfile}, $('#folder-clip-container'));
-        // TODO
-        // oae.api.util.template().render($('#content-actions-clip-template'), {'content': contentProfile}, $('#content-actions-clip-container'));
+        // Only show the add and create clips to users that are able to add items
+        if (folderProfile.canAddItem) {
+            $('#folder-manager-actions').show();
+        }
     };
 
     /**
