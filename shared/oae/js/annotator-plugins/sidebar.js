@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['jquery', 'oae.api.util', 'oae.api.i18n', 'annotator', 'jquery.autosize'], function (jQuery, oaeUtil, i18nAPI) {
+define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', 'jquery.autosize'], function (jQuery, oaeUtil, i18nAPI, pushAPI) {
     (function() {
         var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
             __hasProp = {}.hasOwnProperty,
@@ -31,8 +31,11 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'annotator', 'jquery.autosize'
              * Bind the events associated to the Sidebar
              */
             Sidebar.prototype.events = {
+                'annotationCreated': 'onAnnotationCreated',
                 'annotationDeleted': 'onAnnotationDeleted',
+                'annotationsLoaded': 'annotationsLoaded',
                 'annotationViewerShown': 'onAnnotationViewerShown',
+                'beforeAnnotationCreated': 'beforeAnnotationCreated',
                 '.documentpreview-annotation-delete click': 'onDeleteClick',
                 '.documentpreview-annotation-edit click': 'onEditClick',
                 '.documentpreview-annotation-reply click': 'onReplyClick',
@@ -107,6 +110,100 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'annotator', 'jquery.autosize'
 
                 // Toggle the annotations list when the edit button is clicked
                 $('body').on('click', '#documentpreview-toggle-annotator', this.toggleAnnotationsList);
+
+                this.setUpPushNotifications();
+            };
+
+            Sidebar.prototype.annotationsLoaded = function(annotations) {
+                $.each(annotations, function(i, annotation) {
+                    $(annotation.highlights).prop('id', annotation.oaeId);
+                });
+            };
+
+
+            ////////////////////////
+            // PUSH NOTIFICATIONS //
+            ////////////////////////
+
+            /**
+             * Add the newly created annotation, coming in over websocket, to the page
+             *
+             * @param  {[type]} annotation  [description]
+             * @param  {[type]} userProfile [description]
+             */
+            Sidebar.prototype.annotationCreated = function(annotation, userProfile) {
+                var annotatorRoot = $('.annotator-wrapper')[0];
+                var normedRanges = [];
+                for (var i = 0; i < annotation.ranges.length; i++) {
+                    normedRanges.push(Annotator.Range.sniff(annotation.ranges[i]).normalize(annotatorRoot));
+                }
+                annotation.quote = [];
+                annotation.ranges = [];
+                annotation.highlights = [];
+                for (var ii = 0; ii < normedRanges.length; ii++) {
+                    normedRange = normedRanges[ii];
+                    annotation.ranges.push(normedRange.serialize(annotatorRoot, '.annotator-hl'));
+                    $.merge(annotation.highlights, Annotator.prototype.highlightRange(normedRange));
+                }
+
+                $(annotation.highlights).data('annotation', annotation);
+
+                Sidebar.prototype.createAnnotationReference(annotation);
+            };
+
+            /**
+             * Update the annotation, coming in over websocket, in the page
+             *
+             * @param  {[type]} annotation [description]
+             */
+            Sidebar.prototype.annotationUpdated = function(annotation) {
+                $('.annotator-hl#' + annotation.oaeId).data('annotation', annotation);
+            };
+
+            /**
+             * Remove the deleted annotation, coming in over websocket, from the page
+             *
+             * @param  {[type]} annotation [description]
+             */
+            Sidebar.prototype.annotationDeleted = function(annotation) {
+                annotation = $('.annotator-hl#' + annotation.oaeId).data('annotation');
+                if (annotation && annotation.highlights !== null) {
+                    for (var i = 0; i < annotation.highlights.length; i++) {
+                        var highlight = annotation.highlights[i];
+                        if (highlight.parentNode === null) {
+                            continue;
+                        }
+                        $(highlight).replaceWith(highlight.childNodes);
+                    }
+                }
+            };
+
+            /**
+             * Set up push notifications
+             */
+            Sidebar.prototype.setUpPushNotifications = function() {
+                var contentId = Annotator.Plugin.Sidebar.prototype.options.contentProfile.id;
+                var signature = Annotator.Plugin.Sidebar.prototype.options.contentProfile.signature;
+
+                // Subscribe to push notifications for the content item
+                pushAPI.subscribe(contentId, 'activity', signature, 'internal', false, function(activity) {
+                    // If the activity was generated by the current user we ignore it
+                    // TODO: Change `activity.object.fullannotation` to whatever the backend will eventually return as the full annotation object
+                    var annotation = activity.object.fullannotation;
+                    var userProfile = Annotator.Plugin.Sidebar.prototype.options.userProfile;
+
+                    if (annotation.createdBy.id === userProfile.id) {
+                        return;
+                    }
+
+                    if (activity['oae:activityType'] === 'annotation-create') {
+                        Sidebar.prototype.annotationCreated(annotation, userProfile);
+                    } else if (activity['oae:activityType'] === 'annotation-update') {
+                        Sidebar.prototype.annotationUpdated(annotation);
+                    } else if (activity['oae:activityType'] === 'annotation-delete') {
+                        Sidebar.prototype.annotationDeleted(annotation);
+                    }
+                });
             };
 
 
@@ -298,12 +395,51 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'annotator', 'jquery.autosize'
                 $container.find('li').each(function(index, listItem) {
                     $(listItem).data('annotation', annotations[index]);
                 });
+
+                $('.documentpreview-annotations-list li').on('mouseover', function() {
+                    var annotation = $(this).data('annotation');
+                    $('.annotator-hl#' + annotation.oaeId).addClass('annotator-hl-hover');
+                });
+
+                $('.documentpreview-annotations-list li').on('mouseout', function() {
+                    var annotation = $(this).data('annotation');
+                    $('.annotator-hl#' + annotation.oaeId).removeClass('annotator-hl-hover');
+                });
             };
 
 
             ////////////////////
             // NEW ANNOTATION //
             ////////////////////
+
+            /**
+             * Generate a unique ID for the annotation to be identified with.
+             *
+             * @param  {[type]} annotation [description]
+             */
+            Sidebar.prototype.beforeAnnotationCreated = function(annotation) {
+                annotation.oaeId = oaeUtil.generateId();
+                return annotation;
+            };
+
+            /**
+             * Apply the annotation's unique ID to its highlights
+             *
+             * @param  {[type]} annotation [description]
+             */
+            Sidebar.prototype.createAnnotationReference = function(annotation) {
+                $(annotation.highlights).prop('id', annotation.oaeId);
+            };
+
+            /**
+             * Right after the annotation is created we need to add a unique reference ID
+             * to the generated HTML.
+             *
+             * @param  {[type]} annotation [description]
+             */
+            Sidebar.prototype.onAnnotationCreated = function(annotation) {
+                this.createAnnotationReference(annotation);
+            };
 
             /**
              * Show the editor in the sidebar
@@ -386,7 +522,7 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'annotator', 'jquery.autosize'
              */
             Sidebar.prototype.onEditorSubmit = function(annotation) {
                 // Update the list item associated to the annotation
-                $('li[data-id="' + annotation.id + '"] .documentpreview-annotation-text').html(oaeUtil.security().encodeForHTMLWithLinks(annotation.text).replace(/\n/g, '<br/>'));
+                $('li[data-id="' + annotation.oadId + '"] .documentpreview-annotation-text').html(oaeUtil.security().encodeForHTMLWithLinks(annotation.text).replace(/\n/g, '<br/>'));
                 return this.publish('annotationUpdated', [annotation]);
             };
 
@@ -489,7 +625,7 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'annotator', 'jquery.autosize'
              * @param  {[type]} annotation [description]
              */
             Sidebar.prototype.onAnnotationDeleted = function(annotation) {
-                var annotationItem = $('li[data-id="' + annotation.id + '"]');
+                var annotationItem = $('li[data-id="' + annotation.oaeId + '"]');
                 annotationItem.remove();
             };
 
