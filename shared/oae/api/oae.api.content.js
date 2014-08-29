@@ -126,12 +126,13 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
      * @param  {Object}             file                jQuery.fileUpload object that was returned when selecting the file that needed to be uploaded
      * @param  {String[]}           [managers]          Array of user/group ids that should be added as managers to the file
      * @param  {String[]}           [viewers]           Array of user/group ids that should be added as viewers to the file
+     * @param  {String[]}           [folders]           Array of folder ids to which the file should be added
      * @param  {Function}           [callback]          Standard callback function
      * @param  {Object}             [callback.err]      Error object containing error code and error message
      * @param  {Content}            [callback.content]  Content object representing the created file
      * @throws {Error}                                  Error thrown when not all of the required parameters have been provided
      */
-    var createFile = exports.createFile = function(displayName, description, visibility, $fileUploadField, file, managers, viewers, callback) {
+    var createFile = exports.createFile = function(displayName, description, visibility, $fileUploadField, file, managers, viewers, folders, callback) {
         if (!displayName) {
             throw new Error('A valid file name should be provided');
         } else if (!$fileUploadField) {
@@ -160,6 +161,12 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
         viewers = viewers || [];
         $.each(viewers, function(index, viewer) {
             data.push({'name': 'viewers', 'value': viewer});
+        });
+
+        // Add the folders as an array
+        folders = folders || [];
+        $.each(folders, function(index, folder) {
+            data.push({'name': 'folderIds', 'value': folder});
         });
 
         $($fileUploadField).fileupload('send', {
@@ -359,7 +366,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
     };
 
     /**
-     * Get the viewers and managers of a content item.
+     * Get the viewers and managers of a content item
      *
      * @param  {String}          contentId                      Id of the content item we're trying to retrieve the members for
      * @param  {String}          [start]                        The token used for paging. If the first page of results is required, `null` should be passed in as the token. For any subsequent pages, the `nextToken` provided in the feed from the previous page should be used
@@ -394,7 +401,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
     };
 
     /**
-     * Change the members and managers of a content item.
+     * Change the members and managers of a content item
      *
      * @param  {String}       contentId           Id of the content item we're trying to update the members for
      * @param  {Object}       updatedMembers      JSON Object where the keys are the user/group ids we want to update membership for, and the values are the roles these members should get (manager or viewer). If false is passed in as a role, the principal will be removed as a member
@@ -406,7 +413,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
         if (!contentId) {
             throw new Error('A valid content id should be provided');
         } else if (!updatedMembers || _.keys(updatedMembers).length === 0) {
-            throw new Error('The updatedMembers hash should contain at least 1 update.');
+            throw new Error('The updatedMembers hash should contain at least 1 update');
         }
 
         // Set a default callback function in case no callback function has been provided
@@ -426,7 +433,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
     };
 
     /**
-     * Share a content item.
+     * Share a content item
      *
      * @param  {String}       contentId           Id of the content item we're trying to share
      * @param  {String[]}     principals          Array of principal ids with who the content should be shared
@@ -462,7 +469,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
     };
 
     /**
-     * Get the content library for a given principal.
+     * Get the content library for a given principal
      *
      * @param  {String}         principalId                     User or group id for who we want to retrieve the content library
      * @param  {String}         [start]                         The token used for paging. If the first page of results is required, `null` should be passed in as the token. For any subsequent pages, the `nextToken` provided in the feed from the previous page should be used
@@ -497,7 +504,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
     };
 
     /**
-     * Delete a piece of content from a content library.
+     * Delete a piece of content from a content library
      *
      * @param  {String}         principalId       User or group id for for the library from which we want to delete the content
      * @param  {String}         contentId         Id of the content item we're trying to delete from the library
@@ -533,7 +540,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
 
     /**
      * Get a human readable mimeType description for a content item.
-     * Unrecognized mimeTypes will default to the `other` type.
+     * Unrecognized mimeTypes will default to the `other` type
      *
      * @param  {Content}       contentObj       Content object for which to get the mimetype description
      * @return {String}                         Human readable mimeType description for the provided content item

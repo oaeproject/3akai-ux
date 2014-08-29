@@ -179,7 +179,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     };
 
     /**
-     * Change the members and managers of a discussion.
+     * Change the members and managers of a discussion
      *
      * @param  {String}       discussionId          Id of the discussion we're trying to update the members of
      * @param  {Object}       updatedMembers        JSON Object where the keys are the user/group ids we want to update membership for, and the values are the roles these members should get (manager or viewer). If false is passed in as a role, the principal will be removed as a member
@@ -191,7 +191,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
         if (!discussionId) {
             throw new Error('A valid discussion id should be provided');
         } else if (!updatedMembers || _.keys(updatedMembers).length === 0) {
-            throw new Error('The updatedMembers hash should contain at least 1 update.');
+            throw new Error('The updatedMembers hash should contain at least 1 update');
         }
 
         // Set a default callback function in case no callback function has been provided
@@ -282,7 +282,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     };
 
     /**
-     * Delete a discussion from a discussion library.
+     * Delete a discussion from a discussion library
      *
      * @param  {String}         principalId       User or group id for for the library from which we want to delete the content
      * @param  {String}         discussionId      Id of the discussion we're trying to delete from the library

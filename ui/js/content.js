@@ -262,7 +262,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     ///////////////////
 
     /**
-     * Returns the correct messages for the manage access widget based on
+     * Provide the correct messages for the manage access widget based on
      * the resourceSubType of the content.
      */
     var getManageAccessMessages = function() {
@@ -309,7 +309,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     };
 
     /**
-     * Creates the widgetData object to send to the manageaccess widget that contains all
+     * Create the widgetData object to send to the manageaccess widget that contains all
      * variable values needed by the widget.
      *
      * @return {Object}    The widgetData to be passed into the manageaccess widget

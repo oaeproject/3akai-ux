@@ -220,103 +220,51 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     ///////////////////
 
     /**
-     * Returns the correct messages for the manage access widget based on
-     * the resourceSubType of the content
-     * TODO
-     *
-    var getManageAccessMessages = function() {
-        // Keeps track of messages to return
-        var messages = {
-            'membersTitle': oae.api.i18n.translate('__MSG__SHARE_WITH__'),
-            'private': oae.api.i18n.translate('__MSG__PRIVATE__'),
-            'loggedin': oae.api.util.security().encodeForHTML(contentProfile.tenant.displayName),
-            'public': oae.api.i18n.translate('__MSG__PUBLIC__')
-        };
-
-        switch (contentProfile.resourceSubType) {
-            case 'file':
-                return _.extend(messages, {
-                    'accessNotUpdatedBody': oae.api.i18n.translate('__MSG__FILE_ACCESS_COULD_NOT_BE_UPDATED__'),
-                    'accessNotUpdatedTitle': oae.api.i18n.translate('__MSG__FILE_ACCESS_NOT_UPDATED__'),
-                    'accessUpdatedBody': oae.api.i18n.translate('__MSG__FILE_ACCESS_SUCCESSFULLY_UPDATED__'),
-                    'accessUpdatedTitle': oae.api.i18n.translate('__MSG__FILE_ACCESS_UPDATED__'),
-                    'privateDescription': oae.api.i18n.translate('__MSG__FILE_PRIVATE_DESCRIPTION__'),
-                    'loggedinDescription': oae.api.i18n.translate('__MSG__FILE_LOGGEDIN_DESCRIPTION__', null, {'tenant': oae.api.util.security().encodeForHTML(contentProfile.tenant.displayName)}),
-                    'publicDescription': oae.api.i18n.translate('__MSG__FILE_PUBLIC_DESCRIPTION__')
-                });
-            case 'link':
-                return _.extend(messages, {
-                    'accessNotUpdatedBody': oae.api.i18n.translate('__MSG__LINK_ACCESS_COULD_NOT_BE_UPDATED__'),
-                    'accessNotUpdatedTitle': oae.api.i18n.translate('__MSG__LINK_ACCESS_NOT_UPDATED__'),
-                    'accessUpdatedBody': oae.api.i18n.translate('__MSG__LINK_ACCESS_SUCCESSFULLY_UPDATED__'),
-                    'accessUpdatedTitle': oae.api.i18n.translate('__MSG__LINK_ACCESS_UPDATED__'),
-                    'privateDescription': oae.api.i18n.translate('__MSG__LINK_PRIVATE_DESCRIPTION__'),
-                    'loggedinDescription': oae.api.i18n.translate('__MSG__LINK_LOGGEDIN_DESCRIPTION__', null, {'tenant': oae.api.util.security().encodeForHTML(contentProfile.tenant.displayName)}),
-                    'publicDescription': oae.api.i18n.translate('__MSG__LINK_PUBLIC_DESCRIPTION__')
-                });
-            case 'collabdoc':
-                return _.extend(messages, {
-                    'accessNotUpdatedBody': oae.api.i18n.translate('__MSG__DOCUMENT_ACCESS_COULD_NOT_BE_UPDATED__'),
-                    'accessNotUpdatedTitle': oae.api.i18n.translate('__MSG__DOCUMENT_ACCESS_NOT_UPDATED__'),
-                    'accessUpdatedBody': oae.api.i18n.translate('__MSG__DOCUMENT_ACCESS_SUCCESSFULLY_UPDATED__'),
-                    'accessUpdatedTitle': oae.api.i18n.translate('__MSG__DOCUMENT_ACCESS_UPDATED__'),
-                    'privateDescription': oae.api.i18n.translate('__MSG__DOCUMENT_PRIVATE_DESCRIPTION__'),
-                    'loggedinDescription': oae.api.i18n.translate('__MSG__DOCUMENT_LOGGEDIN_DESCRIPTION__', null, {'tenant': oae.api.util.security().encodeForHTML(contentProfile.tenant.displayName)}),
-                    'publicDescription': oae.api.i18n.translate('__MSG__DOCUMENT_PUBLIC_DESCRIPTION__')
-                });
-        }
-    };*/
-
-    /**
-     * Creates the widgetData object to send to the manageaccess widget that contains all
+     * Create the widgetData object to send to the manageaccess widget that contains all
      * variable values needed by the widget.
      *
      * @return {Object}    The widgetData to be passed into the manageaccess widget
      * @see manageaccess#initManageAccess
-     * TODO
-     *
+     */
     var getManageAccessData = function() {
         return {
-            'contextProfile': contentProfile,
-            'messages': getManageAccessMessages(),
+            'contextProfile': folderProfile,
+            'messages': {
+                'accessNotUpdatedBody': oae.api.i18n.translate('__MSG__FOLDER_ACCESS_COULD_NOT_BE_UPDATED__'),
+                'accessNotUpdatedTitle': oae.api.i18n.translate('__MSG__FOLDER_ACCESS_NOT_UPDATED__'),
+                'accessUpdatedBody': oae.api.i18n.translate('__MSG__FOLDER_ACCESS_SUCCESSFULLY_UPDATED__'),
+                'accessUpdatedTitle': oae.api.i18n.translate('__MSG__FOLDER_ACCESS_UPDATED__'),
+                'membersTitle': oae.api.i18n.translate('__MSG__SHARE_WITH__'),
+                'private': oae.api.i18n.translate('__MSG__PRIVATE__'),
+                'loggedin': oae.api.util.security().encodeForHTML(folderProfile.tenant.displayName),
+                'public': oae.api.i18n.translate('__MSG__PUBLIC__'),
+                'privateDescription': oae.api.i18n.translate('__MSG__FOLDER_PRIVATE_DESCRIPTION__'),
+                'loggedinDescription': oae.api.i18n.translate('__MSG__FOLDER_LOGGEDIN_DESCRIPTION__', null, {'tenant': oae.api.util.security().encodeForHTML(folderProfile.tenant.displayName)}),
+                'publicDescription': oae.api.i18n.translate('__MSG__FOLDER_PUBLIC_DESCRIPTION__')
+            },
             'roles': {
                 'viewer': oae.api.i18n.translate('__MSG__CAN_VIEW__'),
                 'manager': oae.api.i18n.translate('__MSG__CAN_MANAGE__')
             },
             'api': {
-                'getMembersURL': '/api/content/'+ contentProfile.id + '/members',
-                'setMembers': oae.api.content.updateMembers,
-                'setVisibility': oae.api.content.updateContent
+                'getMembersURL': '/api/folder/'+ folderProfile.id + '/members',
+                'setMembers': oae.api.folder.updateMembers,
+                'setVisibility': oae.api.folder.updateFolder
             }
         };
-    };*/
+    };
 
     /**
-     * Triggers the manageaccess widget and passes in context data
-     * TODO
-     *
+     * Trigger the manageaccess widget and pass in the configuration data
+     */
     $(document).on('click', '.content-trigger-manageaccess', function() {
         $(document).trigger('oae.trigger.manageaccess', getManageAccessData());
-    });*/
+    });
 
     /**
-     * Re-render the content's clip when the permissions have been updated.
-     * TODO
-     *
-    $(document).on('oae.manageaccess.done', setUpClips);/*
-
-
-    ///////////////
-    // REVISIONS //
-    ///////////////
-
-    /**
-     * Refresh the content profile when a revision has been restored
-     * TODO
-     *
-    $(document).on('oae.revisions.done', function(ev, restoredRevision, updatedContentProfile) {
-        refreshContentProfile(updatedContentProfile);
-    });*/
+     * Re-render the folder's clip when the permissions have been updated
+     */
+    $(document).on('oae.manageaccess.done', setUpClips);
 
 
     //////////////////
