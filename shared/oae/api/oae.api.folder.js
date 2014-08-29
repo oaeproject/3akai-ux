@@ -151,4 +151,36 @@ define(['exports', 'jquery'], function(exports, $) {
         });
     };
 
+    /**
+     * Change the members and managers of a folder
+     *
+     * @param  {String}       folderId              Id of the folder we're trying to update the members for
+     * @param  {Object}       updatedMembers        JSON Object where the keys are the user/group ids we want to update membership for, and the values are the roles these members should get (manager or viewer). If false is passed in as a role, the principal will be removed as a member
+     * @param  {Function}     [callback]            Standard callback function
+     * @param  {Object}       [callback.err]        Error object containing error code and error message
+     * @throws {Error}                              Error thrown when not all of the required parameters have been provided
+     */
+    var updateMembers = exports.updateMembers = function(folderId, updatedMembers, callback) {
+        if (!folderId) {
+            throw new Error('A valid folder id should be provided');
+        } else if (!updatedMembers || _.keys(updatedMembers).length === 0) {
+            throw new Error('The updatedMembers hash should contain at least 1 update');
+        }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        $.ajax({
+            'url': '/api/folder/'+ folderId + '/members',
+            'type': 'POST',
+            'data': updatedMembers,
+            'success': function() {
+                callback(null);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
 });

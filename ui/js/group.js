@@ -279,7 +279,7 @@ require(['jquery', 'oae.core'], function($, oae) {
     ///////////////////
 
     /**
-     * Creates the widgetData object to send to the manageaccess widget that contains all
+     * Create the widgetData object to send to the manageaccess widget that contains all
      * variable values needed by the widget.
      *
      * @return {Object}    The widgetData to be passed into the manageaccess widget
