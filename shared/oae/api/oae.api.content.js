@@ -78,12 +78,13 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
      * @param  {String}         link                The URL that should be stored against this link
      * @param  {String[]}       [managers]          Array of user/group ids that should be added as managers to the link
      * @param  {String[]}       [viewers]           Array of user/group ids that should be added as viewers to the link
+     * @param  {String[]}       [folders]           Array of folder ids to which the link should be added
      * @param  {Function}       [callback]          Standard callback function
      * @param  {Object}         [callback.err]      Error object containing error code and error message
      * @param  {Content}        [callback.content]  Content object representing the created link
      * @throws {Error}                              Error thrown when not all of the required parameters have been provided
      */
-    var createLink = exports.createLink = function(displayName, description, visibility, link, managers, viewers, callback) {
+    var createLink = exports.createLink = function(displayName, description, visibility, link, managers, viewers, folders, callback) {
         if (!displayName) {
             throw new Error('A valid link name should be provided');
         } else if (!link) {
@@ -100,7 +101,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
             'visibility': visibility,
             'link': link,
             'managers': managers,
-            'viewers': viewers
+            'viewers': viewers,
+            'folders': folders
         };
 
         $.ajax({
@@ -181,6 +183,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
                 if (data instanceof $) {
                     data = data.find('pre').text();
                 }
+                console.log(data);
                 callback(null, JSON.parse(data));
             },
             'error': function(jqXHR, textStatus) {
