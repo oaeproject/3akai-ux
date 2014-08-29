@@ -30,7 +30,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
      * @param  {String}         recaptchaResponse               The response for the presented recaptcha challenge
      * @param  {Function}       [callback]                      Standard callback function
      * @param  {Object}         [callback.err]                  Error object containing error code and error message
-     * @param  {User}           [callback.response]             A User object representing the created user
+     * @param  {User}           [callback.user]                 A User object representing the created user
      * @throws {Error}                                          Error thrown when not all of the required parameters have been provided
      */
     var createUser = exports.createUser = function(username, password, displayName, additionalOptions, recaptchaChallenge, recaptchaResponse, callback) {

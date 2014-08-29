@@ -72,15 +72,15 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
     /**
      * Create a new link
      *
-     * @param  {String}         displayName         Display title for the created content item
-     * @param  {String}         [description]       The content item's description
-     * @param  {String}         [visibility]        The content item's visibility. This can be public, loggedin or private
-     * @param  {String}         link                The URL that should be stored against this content item
-     * @param  {String[]}       [managers]          Array of user/group ids that should be added as managers to the content item
-     * @param  {String[]}       [viewers]           Array of user/group ids that should be added as viewers to the content item
+     * @param  {String}         displayName         Display title for the created link
+     * @param  {String}         [description]       The link's description
+     * @param  {String}         [visibility]        The link's visibility. This can be public, loggedin or private
+     * @param  {String}         link                The URL that should be stored against this link
+     * @param  {String[]}       [managers]          Array of user/group ids that should be added as managers to the link
+     * @param  {String[]}       [viewers]           Array of user/group ids that should be added as viewers to the link
      * @param  {Function}       [callback]          Standard callback function
      * @param  {Object}         [callback.err]      Error object containing error code and error message
-     * @param  {Content}        [callback.content]  Content object representing the created content
+     * @param  {Content}        [callback.content]  Content object representing the created link
      * @throws {Error}                              Error thrown when not all of the required parameters have been provided
      */
     var createLink = exports.createLink = function(displayName, description, visibility, link, managers, viewers, callback) {
@@ -119,16 +119,16 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
     /**
      * Create a new file
      *
-     * @param  {String}             displayName         Display title for the created content item
-     * @param  {String}             [description]       The content item's description
-     * @param  {String}             [visibility]        The content item's visibility. This can be public, loggedin or private
+     * @param  {String}             displayName         Display title for the created file
+     * @param  {String}             [description]       The file's description
+     * @param  {String}             [visibility]        The file's visibility. This can be public, loggedin or private
      * @param  {Element|String}     $fileUploadField    jQuery element or selector for that jQuery element representing the file upload form field that has been used to initialise jQuery.fileupload
      * @param  {Object}             file                jQuery.fileUpload object that was returned when selecting the file that needed to be uploaded
-     * @param  {String[]}           [managers]          Array of user/group ids that should be added as managers to the content item
-     * @param  {String[]}           [viewers]           Array of user/group ids that should be added as viewers to the content item
+     * @param  {String[]}           [managers]          Array of user/group ids that should be added as managers to the file
+     * @param  {String[]}           [viewers]           Array of user/group ids that should be added as viewers to the file
      * @param  {Function}           [callback]          Standard callback function
      * @param  {Object}             [callback.err]      Error object containing error code and error message
-     * @param  {Content}            [callback.content]  Content object representing the created content
+     * @param  {Content}            [callback.content]  Content object representing the created file
      * @throws {Error}                                  Error thrown when not all of the required parameters have been provided
      */
     var createFile = exports.createFile = function(displayName, description, visibility, $fileUploadField, file, managers, viewers, callback) {
@@ -224,14 +224,14 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
     /**
      * Create a new collaborative document
      *
-     * @param  {String}       displayName         Display title for the created content item
-     * @param  {String}       [description]       The content item's description
-     * @param  {String}       [visibility]        The content item's visibility. This can be public, loggedin or private
-     * @param  {String[]}     [managers]          Array of user/group ids that should be added as managers to the content item
-     * @param  {String[]}     [viewers]           Array of user/group ids that should be added as viewers to the content item
+     * @param  {String}       displayName         Display title for the created collaborative document
+     * @param  {String}       [description]       The collaborative document's description
+     * @param  {String}       [visibility]        The collaborative document's visibility. This can be public, loggedin or private
+     * @param  {String[]}     [managers]          Array of user/group ids that should be added as managers to the collaborative document
+     * @param  {String[]}     [viewers]           Array of user/group ids that should be added as viewers to the collaborative document
      * @param  {Function}     [callback]          Standard callback function
      * @param  {Object}       [callback.err]      Error object containing error code and error message
-     * @param  {Content}      [callback.content]  Content object representing the created content
+     * @param  {Content}      [callback.content]  Content object representing the created collaborative document
      * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */
     var createCollabDoc = exports.createCollabDoc = function(displayName, description, visibility, managers, viewers, callback) {
