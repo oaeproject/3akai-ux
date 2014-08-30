@@ -102,7 +102,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
             'link': link,
             'managers': managers,
             'viewers': viewers,
-            'folders': folders
+            'folderIds': folders
         };
 
         $.ajax({
@@ -239,12 +239,13 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
      * @param  {String}       [visibility]        The collaborative document's visibility. This can be public, loggedin or private
      * @param  {String[]}     [managers]          Array of user/group ids that should be added as managers to the collaborative document
      * @param  {String[]}     [viewers]           Array of user/group ids that should be added as viewers to the collaborative document
+     * @param  {String[]}     [folders]           Array of folder ids to which the collaborative document should be added
      * @param  {Function}     [callback]          Standard callback function
      * @param  {Object}       [callback.err]      Error object containing error code and error message
      * @param  {Content}      [callback.content]  Content object representing the created collaborative document
      * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */
-    var createCollabDoc = exports.createCollabDoc = function(displayName, description, visibility, managers, viewers, callback) {
+    var createCollabDoc = exports.createCollabDoc = function(displayName, description, visibility, managers, viewers, folders, callback) {
         if (!displayName) {
             throw new Error('A valid document name should be provided');
         }
@@ -258,7 +259,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
             'description': description,
             'visibility': visibility,
             'managers': managers,
-            'viewers': viewers
+            'viewers': viewers,
+            'folderIds': folders
         };
 
         $.ajax({

@@ -82,13 +82,9 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             ]
         }];
 
-        // Only show the left-hand navigation toggle if there is something available in it
-        // TODO: Remove this once the lhnav toggle is no longer required on content profiles
-        var showLhNavToggle = (lhNavActions.length > 0);
-
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, null, showLhNavToggle]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, null, showLhNavToggle]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
         });
     };
 
