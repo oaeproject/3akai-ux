@@ -254,4 +254,40 @@ define(['exports', 'jquery'], function(exports, $) {
         });
     };
 
+    /**
+     * Delete a piece of content from a content library
+     *
+     * @param  {String}         folderId          Id of the folder from which we want to delete the content item
+     * @param  {String}         contentId         Id of the content item we're trying to delete from the folder
+     * @param  {Function}       [callback]        Standard callback function
+     * @param  {Object}         [callback.err]    Error object containing error code and error message
+     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
+     */
+    var deleteContentFromFolder = exports.deleteContentFromFolder = function(folderId, contentId, callback) {
+        if (!folderId) {
+            throw new Error('A valid folder ID should be provided');
+        } else if (!contentId) {
+            throw new Error('A valid content ID should be provided');
+        }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        var data = {
+            'contentIds': contentId
+        }
+
+        $.ajax({
+            'url': '/api/folder/' + folderId + '/library',
+            'type': 'DELETE',
+            'data': data,
+            'success': function() {
+                callback(null);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
 });
