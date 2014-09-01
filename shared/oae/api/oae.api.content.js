@@ -183,7 +183,6 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
                 if (data instanceof $) {
                     data = data.find('pre').text();
                 }
-                console.log(data);
                 callback(null, JSON.parse(data));
             },
             'error': function(jqXHR, textStatus) {

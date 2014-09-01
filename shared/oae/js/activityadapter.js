@@ -601,6 +601,8 @@ var _expose = function(exports) {
             return _generateFolderAddToFolderSummary(me, activity, properties);
         } else if (activityType === 'folder-create') {
             return _generateFolderCreateSummary(me, activity, properties);
+        } else if (activityType === 'folder-share') {
+            return _generateFolderShareSummary(me, activity, properties);
         } else if (activityType === 'folder-update') {
             return _generateFolderUpdateSummary(me, activity, properties);
         } else if (activityType === 'folder-update-member-role') {
@@ -1084,9 +1086,17 @@ var _expose = function(exports) {
             }
         } else {
             if (properties.objectCount === 2) {
-                i18nKey = '__MSG__ACTIVITY_DISCUSSION_SHARE_YOU_2__';
+                if (activity.target['oae:id'] === me.id) {
+                    i18nKey = '__MSG__ACTIVITY_DISCUSSIONS_SHARE_2_YOU__';
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_DISCUSSIONS_SHARE_2__';
+                }
             } else {
-                i18nKey = '__MSG__ACTIVITY_DISCUSSION_SHARE_YOU_2+__';
+                if (activity.target['oae:id'] === me.id) {
+                    i18nKey = '__MSG__ACTIVITY_DISCUSSIONS_SHARE_2+_YOU__';
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_DISCUSSIONS_SHARE_2+__';
+                }
             }
         }
         return new ActivityViewSummary(i18nKey, properties);
@@ -1198,6 +1208,46 @@ var _expose = function(exports) {
             i18nKey = '__MSG__ACTIVITY_FOLDER_CREATE_2__';
         } else {
             i18nKey = '__MSG__ACTIVITY_FOLDER_CREATE_2+__';
+        }
+        return new ActivityViewSummary(i18nKey, properties);
+    };
+
+    /**
+     * Render the end-user friendly, internationalized summary of a folder share activity.
+     *
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the folder share activity, for which to generate the activity summary
+     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                  A sumary object
+     * @api private
+     */
+    var _generateFolderShareSummary = function(me, activity, properties) {
+        var i18nKey = null;
+        if (properties.objectCount === 1) {
+            if (properties.targetCount === 1) {
+                if (activity.target['oae:id'] === me.id) {
+                    i18nKey = '__MSG__ACTIVITY_FOLDER_SHARE_YOU__';
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_FOLDER_SHARE_1__';
+                }
+            } else if (properties.targetCount === 2) {
+                i18nKey = '__MSG__ACTIVITY_FOLDER_SHARE_2__';
+            } else {
+                i18nKey = '__MSG__ACTIVITY_FOLDER_SHARE_2+__';
+            }
+        } else {
+            if (properties.objectCount === 2) {
+                if (activity.target['oae:id'] === me.id) {
+                    i18nKey = '__MSG__ACTIVITY_FOLDERS_SHARE_2_YOU__';
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_FOLDERS_SHARE_2__';
+                }
+            } else {
+                if (activity.target['oae:id'] === me.id) {
+                    i18nKey = '__MSG__ACTIVITY_FOLDERS_SHARE_2+_YOU__';
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_FOLDERS_SHARE_2+__';
+                }
+            }
         }
         return new ActivityViewSummary(i18nKey, properties);
     };

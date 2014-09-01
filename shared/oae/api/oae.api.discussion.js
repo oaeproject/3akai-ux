@@ -217,7 +217,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {String[]}     principals            Array of principal ids with who the discussion should be shared
      * @param  {Function}     [callback]            Standard callback function
      * @param  {Object}       [callback.err]        Error object containing error code and error message
-     * @throws {Error}                              Error thrown when no discussion ID or Array of principal IDs has been provided
+     * @throws {Error}                              Error thrown when not all of the required parameters have been provided
      */
     var shareDiscussion = exports.shareDiscussion = function(discussionId, principals, callback) {
         if (!discussionId) {

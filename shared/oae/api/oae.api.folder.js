@@ -183,4 +183,40 @@ define(['exports', 'jquery'], function(exports, $) {
         });
     };
 
+    /**
+     * Share a folder
+     *
+     * @param  {String}       folderId              Id of the folder we're trying to share
+     * @param  {String[]}     principals            Array of principal ids with who the folder should be shared
+     * @param  {Function}     [callback]            Standard callback function
+     * @param  {Object}       [callback.err]        Error object containing error code and error message
+     * @throws {Error}                              Error thrown when not all of the required parameters have been provided
+     */
+    var shareFolder = exports.shareFolder = function(folderId, principals, callback) {
+        if (!folderId) {
+            throw new Error('A folder ID should be provided');
+        } else if (!principals.length) {
+            throw new Error('A user or group to share with should be provided');
+        }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        var data = {
+            'viewers': principals
+        };
+
+        $.ajax({
+            'url': '/api/folder/' + folderId + '/share',
+            'type': 'POST',
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
 });
