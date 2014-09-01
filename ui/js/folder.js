@@ -129,36 +129,15 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      */
     var setUpClips = function() {
         oae.api.util.template().render($('#folder-clip-template'), {'folder': folderProfile}, $('#folder-clip-container'));
-        // Only show the add and create clips to users that are able to add items
+        // Only show the upload and create clips to users that are able to add items to the folder
         if (folderProfile.canAddItem) {
             $('#folder-manager-actions').show();
         }
     };
 
     /**
-     * Get the name of the preview widget to use for the current piece of content
-     *
-     * @return {String}    The name of the widget to use to preview the content
-     */
-    var getPreviewWidgetId = function() {
-        // Based on the content type, return a content preview widget name
-        if (contentProfile.resourceSubType === 'file') {
-            // Load document viewer when a PDF or Office document needs to be displayed
-            if (contentProfile.previews && contentProfile.previews.pageCount) {
-                return 'documentpreview';
-            } else {
-                return 'filepreview';
-            }
-        } else if (contentProfile.resourceSubType === 'link') {
-            return 'linkpreview';
-        } else if (contentProfile.resourceSubType === 'collabdoc') {
-            return 'etherpad';
-        }
-    };
-
-    /**
      * The `oae.context.get` or `oae.context.get.<widgetname>` event can be sent by widgets
-     * to get hold of the current context (i.e. content profile). In the first case, a
+     * to get hold of the current context (i.e. folder profile). In the first case, a
      * `oae.context.send` event will be sent out as a broadcast to all widgets listening
      * for the context event. In the second case, a `oae.context.send.<widgetname>` event
      * will be sent out and will only be caught by that particular widget. In case the widget
@@ -232,12 +211,6 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         setUpClips();
     };*/
 
-    // Catch the event sent out when the content item has been updated
-    // TODO
-    /* $(document).on('oae.content.update', function(ev, updatedContent) {
-        refreshContentProfile(updatedContent);
-    }); */
-
 
     ///////////////////
     // MANAGE ACCESS //
@@ -280,10 +253,17 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     };
 
     /**
-     * Trigger the manageaccess widget and pass in the configuration data
+     * Trigger the manageaccess widget and pass in context data
      */
-    $(document).on('click', '.content-trigger-manageaccess', function() {
+    $(document).on('click', '.folder-trigger-manageaccess', function() {
         $(document).trigger('oae.trigger.manageaccess', getManageAccessData());
+    });
+
+    /**
+     * Trigger the manageaccess widget in `add members` view and pass in context data
+     */
+    $(document).on('click', '.folder-trigger-manageaccess-add', function() {
+        $(document).trigger('oae.trigger.manageaccess-add', getManageAccessData());
     });
 
     /**
