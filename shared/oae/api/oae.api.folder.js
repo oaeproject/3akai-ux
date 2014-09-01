@@ -219,4 +219,39 @@ define(['exports', 'jquery'], function(exports, $) {
         });
     };
 
+    /**
+     * Get the folder library for a given principal
+     *
+     * @param  {String}         principalId                     User or group id for who we want to retrieve the folder library
+     * @param  {String}         [start]                         The token used for paging. If the first page of results is required, `null` should be passed in as the token. For any subsequent pages, the `nextToken` provided in the feed from the previous page should be used
+     * @param  {Number}         [limit]                         The number of folders to retrieve
+     * @param  {Function}       callback                        Standard callback function
+     * @param  {Object}         callback.err                    Error object containing error code and error message
+     * @param  {Object}         callback.folders                Response object containing the folders in the requested library and nextToken
+     * @param  {Folder[]}       callback.folders.results        Array of folders representing the folders present in the library
+     * @param  {String}         callback.folders.nextToken      The value to provide in the `start` parameter to get the next set of results
+     * @throws {Error}                                          Error thrown when no principal ID has been provided
+     */
+    var getLibrary = exports.getLibrary = function(principalId, start, limit, callback) {
+        if (!principalId) {
+            throw new Error('A user or group ID should be provided');
+        }
+
+        var data = {
+            'start': start,
+            'limit': limit
+        };
+
+        $.ajax({
+            'url': '/api/folder/library/' + principalId,
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
 });
