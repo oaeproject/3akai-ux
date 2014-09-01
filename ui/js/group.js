@@ -301,6 +301,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                 'loggedinDescription': oae.api.i18n.translate('__MSG__GROUP_LOGGEDIN_DESCRIPTION__', null, {'tenant': oae.api.util.security().encodeForHTML(groupProfile.tenant.displayName)}),
                 'publicDescription': oae.api.i18n.translate('__MSG__GROUP_PUBLIC_DESCRIPTION_PRESENT__')
             },
+            'defaultRole': 'member',
             'roles': {
                 'member': oae.api.i18n.translate('__MSG__MEMBER__'),
                 'manager': oae.api.i18n.translate('__MSG__MANAGER__')

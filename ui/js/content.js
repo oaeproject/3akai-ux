@@ -290,6 +290,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         return {
             'contextProfile': contentProfile,
             'messages': getManageAccessMessages(),
+            'defaultRole': contentProfile.resourceSubType === 'collabdoc' ? 'manager' : 'viewer',
             'roles': {
                 'viewer': oae.api.i18n.translate('__MSG__CAN_VIEW__'),
                 'manager': oae.api.i18n.translate('__MSG__CAN_MANAGE__')
@@ -306,6 +307,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * Trigger the manageaccess widget and pass in context data
      */
     $(document).on('click', '.content-trigger-manageaccess', function() {
+        console.log(getManageAccessData().defaultRole);
         $(document).trigger('oae.trigger.manageaccess', getManageAccessData());
     });
 
@@ -313,6 +315,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * Trigger the manageaccess widget in `add members` view and pass in context data
      */
     $(document).on('click', '.content-trigger-manageaccess-add', function() {
+        console.log(getManageAccessData().defaultRole);
         $(document).trigger('oae.trigger.manageaccess-add', getManageAccessData());
     });
 
