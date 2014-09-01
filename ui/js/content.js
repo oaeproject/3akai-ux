@@ -31,30 +31,6 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * is only used to load the correct content preview widget
      */
     var setUpNavigation = function() {
-        var lhNavActions = [];
-        // All logged in users that can see the content can comment
-        if (!oae.data.me.anon) {
-            lhNavActions.push({
-                'icon': 'fa-comments',
-                'title': oae.api.i18n.translate('__MSG__COMMENT__'),
-                'class': 'comments-focus-new-comment',
-                'closeNav': true
-            });
-        }
-        // Only offer share to users that are allowed to share the piece of content
-        if (contentProfile.canShare) {
-            lhNavActions.push({
-                'icon': 'fa-share-square-o',
-                'title': oae.api.i18n.translate('__MSG__SHARE__'),
-                'class': 'oae-trigger-share',
-                'data': {
-                    'data-id': contentProfile.id,
-                    'data-resourcetype': contentProfile.resourceType,
-                    'data-resourcesubtype': contentProfile.resourceSubType
-                }
-            });
-        }
-
         var lhNavPages = [{
             'id': 'content',
             'title': contentProfile.displayName,
@@ -83,13 +59,9 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             ]
         }];
 
-        // Only show the left-hand navigation toggle if there is something available in it
-        // TODO: Remove this once the lhnav toggle is no longer required on content profiles
-        var showLhNavToggle = (lhNavActions.length > 0);
-
-        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, null, showLhNavToggle]);
+        $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, [], baseUrl]);
         $(window).on('oae.ready.lhnavigation', function() {
-            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl, null, showLhNavToggle]);
+            $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, [], baseUrl]);
         });
     };
 
@@ -116,8 +88,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
             // Cache the content profile data
             contentProfile = profile;
-            // Render the entity information and actions
-            setUpClips();
+            // Render the entity information
+            setUpClip();
             // Set up the page
             setUpNavigation();
             // Set up the context event exchange
@@ -130,9 +102,9 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     };
 
     /**
-     * Render the content item clip(s)
+     * Render the content item clip
      */
-    var setUpClips = function() {
+    var setUpClip = function() {
         oae.api.util.template().render($('#content-clip-template'), {
             'content': contentProfile,
             'displayOptions': {
@@ -140,7 +112,6 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                 'addLink': false
             }
         }, $('#content-clip-container'));
-        oae.api.util.template().render($('#content-actions-clip-template'), {'content': contentProfile}, $('#content-actions-clip-container'));
     };
 
     /**
@@ -209,8 +180,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                 // Cache the updated content profile
                 contentProfile = contentObj;
 
-                // The clips can always be re-rendered
-                setUpClips();
+                // The clip can always be re-rendered
+                setUpClip();
 
                 // Refresh the content preview when the push notification was a recognized preview activity. However, when the notification
                 // is of the type `previews-finished` and the content item is an image, the content preview is not refreshed. In that case,
@@ -234,8 +205,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         contentProfile = updatedContent;
         // Refresh the content preview
         refreshContentPreview();
-        // Refresh the clips
-        setUpClips();
+        // Refresh the clip
+        setUpClip();
     };
 
     /**
@@ -332,16 +303,23 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     };
 
     /**
-     * Triggers the manageaccess widget and passes in context data
+     * Trigger the manageaccess widget and pass in context data
      */
-    $(document).on('click', '.oae-trigger-manageaccess', function() {
+    $(document).on('click', '.content-trigger-manageaccess', function() {
         $(document).trigger('oae.trigger.manageaccess', getManageAccessData());
     });
 
     /**
-     * Re-render the content's clip when the permissions have been updated.
+     * Trigger the manageaccess widget in `add members` view and pass in context data
      */
-    $(document).on('oae.manageaccess.done', setUpClips);
+    $(document).on('click', '.content-trigger-manageaccess-add', function() {
+        $(document).trigger('oae.trigger.manageaccess-add', getManageAccessData());
+    });
+
+    /**
+     * Re-render the content's clip when the permissions have been updated
+     */
+    $(document).on('oae.manageaccess.done', setUpClip);
 
 
     ///////////////
@@ -369,7 +347,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             refreshContentProfile(updatedContentProfile);
         } else {
             contentProfile = updatedContentProfile;
-            setUpClips();
+            setUpClip();
         }
     });
 
