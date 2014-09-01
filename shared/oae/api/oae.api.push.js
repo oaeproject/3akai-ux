@@ -190,14 +190,15 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
     /**
      * Subscribe to all messages on a specific channel for a specific stream type and the specified format
      *
-     * @param  {String}     resourceId              Id of the resource on which channel to subscribe (e.g. user id, group id, content id, discussion id)
-     * @param  {String}     streamType              Name of the stream type to subscribe to (e.g. `activity`, `message`)
-     * @param  {String}     token                   Token used to authorize the subscription. This token will be available on the entity that represents the channel that's being subscribed to
-     * @param  {String}     [transformer]           The format in which the activity entities should be received. When `internal` is provided, the entities will be formatted as standard OAE entities. When `activitystreams` is provided, the entities will be formatted as defined by the activitystrea.ms specification. Defaults to `internal`
-     * @param  {Boolean}    [performAggregation]    Whether or not messages should be aggregated before sending them to the callback. If no aggregation is required, each incoming message will be passed to the message callback as-is. Defaults to `false`
-     * @param  {Function}   messageCallback         Function executed when a message on the provided channel and of the provided stream type arrives
-     * @param  {Function}   [callback]              Standard callback function
-     * @param  {Object}     [callback.err]          Error object containing error code and message
+     * @param  {String}         resourceId                      Id of the resource on which channel to subscribe (e.g. user id, group id, content id, discussion id)
+     * @param  {String}         streamType                      Name of the stream type to subscribe to (e.g. `activity`, `message`)
+     * @param  {String}         token                           Token used to authorize the subscription. This token will be available on the entity that represents the channel that's being subscribed to
+     * @param  {String}         [transformer]                   The format in which the activity entities should be received. When `internal` is provided, the entities will be formatted as standard OAE entities. When `activitystreams` is provided, the entities will be formatted as defined by the activitystrea.ms specification. Defaults to `internal`
+     * @param  {Boolean}        [performAggregation]            Whether or not messages should be aggregated before sending them to the callback. If no aggregation is required, each incoming message will be passed to the message callback as-is. Aggregation will *only* be performed for activities that arrive on streams that are configured to publish on `routing`. Defaults to `false`
+     * @param  {Function}       messageCallback                 Function executed when a message on the provided channel and of the provided stream type arrives
+     * @param  {Activity[]}     messageCallback.activities      The activities that arrived over the websocket. For streams that push out activities on routing there will only be 1 activity
+     * @param  {Function}       [callback]                      Standard callback function
+     * @param  {Object}         [callback.err]                  Error object containing error code and message
      */
     var subscribe = exports.subscribe = function(resourceId, streamType, token, transformer, performAggregation, messageCallback, callback) {
         // Set a default callback function in case no callback function has been provided
@@ -205,8 +206,17 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
 
         // Default the transformer to `internal`
         transformer = transformer || 'internal';
+
         // Default aggregation to `false`
         performAggregation = performAggregation || false;
+
+        // Only the `notification` stream pushes out after the aggregation cycle completes
+        var isAggregationStream = (streamType === 'notification');
+
+        // We do not perform aggregation for the notification stream as it has already happened in the back-end
+        if (isAggregationStream) {
+            performAggregation = false;
+        }
 
         // Check if there is already a subscription for the provided channel and stream type.
         // If there is, we add an additional listener
@@ -266,8 +276,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
                 if (listener.performAggregation) {
                     listenersNeedingAggregations.push(listener);
                 } else {
-                    // The activity object on the message is delivered, rather than the entire activity
-                    listener.messageCallback(message.activity);
+                    // The activity object on the message is delivered, rather than the entire message
+                    listener.messageCallback(message.activities, message);
                 }
             });
         }
@@ -278,7 +288,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
                 // Distribute it to each listener
                 _.each(listenersNeedingAggregations, function(listener) {
                     // The activity object on the message is delivered, rather than the entire activity
-                    listener.messageCallback(newMessage.activity);
+                    listener.messageCallback(newMessage.activities, message);
                 });
             });
         }
@@ -304,7 +314,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
         aggregates[resourceId] = aggregates[resourceId] || {};
         aggregates[resourceId][streamType] = aggregates[resourceId][streamType] || {};
 
-        var activityType = newMessage.activity['oae:activityType'];
+        var activityType = newMessage.activities[0]['oae:activityType'];
 
         // Only aggregate activities if there are rules defined for that type
         if (!AGGREGATION_RULES[activityType]) {
@@ -319,7 +329,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
         // aggregation rule for the provided activity type, separated by a `#`
         var aggregateKey = [];
         _.each(AGGREGATION_RULES[activityType], function(activityField) {
-            aggregateKey.push(newMessage.activity[activityField]['oae:id']);
+            aggregateKey.push(newMessage.activities[0][activityField]['oae:id']);
         });
         aggregateKey = aggregateKey.join('#');
 
@@ -328,7 +338,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
         // The aggregation is only necessary when an activity with the same aggregation key for
         // the same activity type already exists. Otherwise, the provided activity is the first of
         // its type and aggregation key, in which it can be used as is as the initial aggregate
-        if (aggregate && aggregate.message.activity['oae:activityId'] !== newMessage.activity['oae:activityId']) {
+        if (aggregate && aggregate.message.activities[0]['oae:activityId'] !== newMessage.activities[0]['oae:activityId']) {
 
             // Cancel the existing aggregate timeout
             clearTimeout(aggregate.timeout);
@@ -344,8 +354,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
             // of the existing aggregate, no aggregation will be attempted either
             _.each(['actor', 'object', 'target'], function(activityField) {
 
-                var newMessageField = newMessage.activity[activityField];
-                var aggregateField = aggregateMessage.activity[activityField];
+                var newMessageField = newMessage.activities[0][activityField];
+                var aggregateField = aggregateMessage.activities[0][activityField];
 
                 // Don't attempt aggregation if the current activity field is part of the aggregation
                 // rule or when the current message doesn't contain the activity field
@@ -372,7 +382,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
                     // If the activity field on the aggregate is not a collection yet, we create one
                     // that contains the value on the aggregate and the value on the current message
                     } else {
-                        aggregateMessage.activity[activityField] = {
+                        aggregateMessage.activities[0][activityField] = {
                             'oae:collection': [aggregateField, newMessageField],
                             'objectType': 'collection'
                         };
@@ -382,7 +392,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
 
             // Change the timestamp on the aggregate to be the one on the current message. This ensures
             // that the timestamp is always the one from the latest activity that happened
-            aggregateMessage.activity.published = newMessage.activity.published;
+            aggregateMessage.activities[0].published = newMessage.activities[0].published;
             newMessage = aggregateMessage;
         }
 
