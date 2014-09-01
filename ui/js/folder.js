@@ -266,6 +266,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                 'loggedinDescription': oae.api.i18n.translate('__MSG__FOLDER_LOGGEDIN_DESCRIPTION__', null, {'tenant': oae.api.util.security().encodeForHTML(folderProfile.tenant.displayName)}),
                 'publicDescription': oae.api.i18n.translate('__MSG__FOLDER_PUBLIC_DESCRIPTION__')
             },
+            'defaultRole': 'viewer',
             'roles': {
                 'viewer': oae.api.i18n.translate('__MSG__CAN_VIEW__'),
                 'manager': oae.api.i18n.translate('__MSG__CAN_MANAGE__')

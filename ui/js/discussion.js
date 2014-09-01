@@ -180,6 +180,7 @@ require(['jquery','oae.core'], function($, oae) {
                 'loggedinDescription': oae.api.i18n.translate('__MSG__DISCUSSION_LOGGEDIN_DESCRIPTION__', null, {'tenant': oae.api.util.security().encodeForHTML(discussionProfile.tenant.displayName)}),
                 'publicDescription': oae.api.i18n.translate('__MSG__DISCUSSION_PUBLIC_DESCRIPTION__')
             },
+            'defaultRole': 'member',
             'roles': {
                 'member': oae.api.i18n.translate('__MSG__CAN_VIEW__'),
                 'manager': oae.api.i18n.translate('__MSG__CAN_MANAGE__')
