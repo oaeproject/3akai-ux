@@ -3224,6 +3224,3 @@
   };
 
 }).call(this);
-
-//
-//# sourceMappingURL=annotator-full.map

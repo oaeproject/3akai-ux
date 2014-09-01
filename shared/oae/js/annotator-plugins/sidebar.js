@@ -39,8 +39,7 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
                 '.documentpreview-annotation-delete click': 'onDeleteClick',
                 '.documentpreview-annotation-edit click': 'onEditClick',
                 '.documentpreview-annotation-reply click': 'onReplyClick',
-                '.annotator-save click': 'saveAnnotation',
-                'textarea keydown': 'processKeypress'
+                '.annotator-save click': 'saveAnnotation'
             };
 
             /**
@@ -57,6 +56,7 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
                                                       '<button type="button" class="btn btn-primary pull-right annotator-save annotator-focus">' + i18nAPI.translate('__MSG__SAVE__') + '</button>' +
                                                   '</div>' +
                                               '</form>';
+            Annotator.prototype.html.adder = '<div class="documentpreview-annotator-adder annotator-adder"><button class="btn btn-link"><i class="fa fa-edit"><span class="sr-only">Annotate</span></i></button></div>';
 
             /**
              * Override keyboard events so that only the escape key is captured
@@ -66,6 +66,41 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
             Annotator.Editor.prototype.processKeypress = function(ev) {
                 if (ev.keyCode === 27) {
                     return this.hide();
+                }
+            };
+
+            /**
+             * Check if the selection occured inside of the annotator container and show the
+             * adder pop-over if it did.
+             *
+             * @param  {[type]} event [description]
+             */
+            Annotator.prototype.checkForEndSelection = function(event) {
+                // If the selection didn't happen inside of the annotator container, ignore it
+                if (!$(event.target).closest('#documentpreview-content-container').length) {
+                    return;
+                }
+
+                this.mouseIsDown = false;
+                if (this.ignoreMouseup) {
+                    return;
+                }
+                this.selectedRanges = this.getSelectedRanges();
+                ranges = this.selectedRanges;
+                for (var i = 0; i < ranges.length; i++) {
+                    var range = ranges[i];
+                    var container = range.commonAncestor;
+                    if ($(container).hasClass('annotator-hl')) {
+                        container = $(container).parents('[class!=annotator-hl]')[0];
+                    }
+                    if (this.isAnnotator(container)) {
+                        return;
+                    }
+                }
+                if (event && this.selectedRanges.length) {
+                    return this.adder.css(Annotator.Util.mousePosition(event, this.wrapper[0])).show();
+                } else {
+                    return this.adder.hide();
                 }
             };
 
@@ -83,12 +118,18 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
                     throw new Error('A valid edit template should be provided');
                 }
 
+                this.onAnnotationCreated = __bind(this.onAnnotationCreated, this);
+                this.onAnnotationDeleted = __bind(this.onAnnotationDeleted, this);
+                this.annotationsLoaded = __bind(this.annotationsLoaded, this);
+                this.onAnnotationViewerShown = __bind(this.onAnnotationViewerShown, this);
+                this.beforeAnnotationCreated = __bind(this.beforeAnnotationCreated, this);
                 this.onDeleteClick = __bind(this.onDeleteClick, this);
                 this.onEditClick = __bind(this.onEditClick, this);
                 this.onReplyClick = __bind(this.onReplyClick, this);
+                this.saveAnnotation = __bind(this.saveAnnotation, this);
                 this.onEditorSubmit = __bind(this.onEditorSubmit, this);
                 this.onAdderClick = __bind(this.onAdderClick, this);
-                this.processKeypress = __bind(this.processKeypress, this);
+
                 $.extend(Annotator.Plugin.Sidebar.prototype.options, options);
                 Sidebar.__super__.constructor.apply(this, arguments);
             }
@@ -114,6 +155,11 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
                 this.setUpPushNotifications();
             };
 
+            /**
+             * Add a unique oae ID to the annotations when they are loaded
+             *
+             * @param  {[type]} annotations [description]
+             */
             Sidebar.prototype.annotationsLoaded = function(annotations) {
                 $.each(annotations, function(i, annotation) {
                     $(annotation.highlights).prop('id', annotation.oaeId);
