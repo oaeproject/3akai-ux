@@ -599,6 +599,8 @@ var _expose = function(exports) {
             return _generateDiscussionUpdateVisibilitySummary(me, activity, properties);
         } else if (activityType === 'folder-add-to-folder') {
             return _generateFolderAddToFolderSummary(me, activity, properties);
+        } else if (activityType === 'folder-add-to-library') {
+            return _generateFolderAddToLibrarySummary(me, activity, properties);
         } else if (activityType === 'folder-create') {
             return _generateFolderCreateSummary(me, activity, properties);
         } else if (activityType === 'folder-share') {
@@ -1188,6 +1190,26 @@ var _expose = function(exports) {
             i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_FOLDER_2__';
         } else {
             i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_FOLDER_2+__';
+        }
+        return new ActivityViewSummary(i18nKey, properties);
+    };
+
+    /**
+     * Render the end-user friendly, internationalized summary of an add to library activity for a folder.
+     *
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to folder library activity, for which to generate the activity summary
+     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                  A sumary object
+     * @api private
+     */
+    var _generateFolderAddToLibrarySummary = function(me, activity, properties) {
+        var i18nKey = null;
+        if (properties.objectCount === 1) {
+            i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_LIBRARY__';
+        } else if (properties.objectCount === 2) {
+            i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_LIBRARY_2__';
+        } else {
+            i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_LIBRARY_2+__';
         }
         return new ActivityViewSummary(i18nKey, properties);
     };
