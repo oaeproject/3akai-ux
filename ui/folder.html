@@ -47,12 +47,16 @@
                             <div>
                                 <ul>
                                     {if folder.canManage}
-                                        <li><button class="content-trigger-manageaccess"><i class="fa fa-lock"></i>__MSG__MANAGE_ACCESS__</button></li>
+                                        <li><button class="folder-trigger-manageaccess"><i class="fa fa-lock"></i>__MSG__MANAGE_ACCESS__</button></li>
+                                        <li><button class="folder-trigger-manageaccess-add"><i class="fa fa-share-square-o"></i>__MSG__SHARE__</button></li>
                                         <li><button class="oae-trigger-editfolder"><i class="fa fa-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
                                         <li><button class="oae-trigger-deletefolder"><i class="fa fa-trash-o"></i>__MSG__DELETE__</button></li>
                                     {else}
                                         <li><button class="oae-trigger-aboutfolder"><i class="fa fa-info-circle"></i>__MSG__ABOUT__</button></li>
                                         <li><button class="oae-trigger-foldershared"><i class="fa fa-group"></i>__MSG__SHARED_WITH__</button></li>
+                                        {if folder.canShare}
+                                            <li><button class="oae-trigger-share" data-id="${folder.id}" data-resourceType="${folder.resourceType}"><i class="fa fa-share-square-o"></i>__MSG__SHARE__</button></li>
+                                        {/if}
                                     {/if}
                                 </ul>
                             </div>
@@ -98,24 +102,6 @@
                         </div>
                     </div>
                 </div>
-                <div id="content-actions-clip-template"><!--
-                    {if content.canShare}
-                        <div class="oae-clip oae-clip-flipped">
-                            <div class="oae-clip-fold">
-                                <div class="oae-clip-fold-inner"></div>
-                                <div class="oae-clip-fold-outer"></div>
-                            </div>
-                            <div class="oae-clip-content">
-                                <button type="button" class="oae-trigger-share" data-id="${content.id}" data-resourceType="${content.resourceType}" data-resourceSubType="${content.resourceSubType}">
-                                    <div>
-                                        <i class="fa fa-share-square-o pull-left"></i>
-                                        <h1>__MSG__SHARE__</h1>
-                                    </div>
-                                </button>
-                            </div>
-                        </div>
-                    {/if}
-                --></div>
             </div>
 
             <!-- NAVIGATION -->
