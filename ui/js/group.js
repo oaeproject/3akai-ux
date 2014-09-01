@@ -314,21 +314,21 @@ require(['jquery', 'oae.core'], function($, oae) {
     };
 
     /**
-     * Triggers the manageaccess widget and passes in context data
+     * Trigger the manageaccess widget and pass in context data
      */
     $(document).on('click', '.group-trigger-manageaccess', function() {
         $(document).trigger('oae.trigger.manageaccess', getManageAccessData());
     });
 
     /**
-     * Triggers the manageaccess widget in `add members` view and passes in context data
+     * Trigger the manageaccess widget in `add members` view and pass in context data
      */
     $(document).on('click', '.group-trigger-manageaccess-add', function() {
         $(document).trigger('oae.trigger.manageaccess-add', getManageAccessData());
     });
 
     /**
-     * Re-render the group's clip when the permissions have been updated.
+     * Re-render the group's clip when the permissions have been updated
      */
     $(document).on('oae.manageaccess.done', function(ev) {
         setUpClip();
