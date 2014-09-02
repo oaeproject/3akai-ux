@@ -145,7 +145,7 @@ casper.test.begin('Page - Content', function(test) {
                     contentProfile = _contentProfile;
                     contentUtil().createLink(null, null, [user2.id], function(_linkProfile) {
                         linkProfile = _linkProfile;
-                        collabDocUtil().createCollabDoc(null, [user2.id], function(_collabdocProfile) {
+                        contentUtil().createCollabDoc(null, [user2.id], function(_collabdocProfile) {
                             collabdocProfile = _collabdocProfile;
                         });
                     });

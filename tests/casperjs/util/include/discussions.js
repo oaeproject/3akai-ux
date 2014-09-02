@@ -29,30 +29,24 @@ var discussionUtil = function() {
      * @param  {Discussion}   callback.discussionProfile    Discussion object representing the created discussion
      */
     var createDiscussion = function(managers, members, callback) {
+        var discussionProfile = null;
         var rndString = mainUtil().generateRandomString();
-        managers = managers || [];
-        members = members || [];
+        var params = ['Discussion ' + rndString, 'Talk about all the things!', 'public', managers || [], members || []];
 
-        // Bind the event called when the discussion has been created
-        casper.on(rndString + '.finished', function(data) {
-            if (!data.data) {
-                casper.echo('Could not create discussion \'Discussion' + rndString + '\'. Error ' + data.err.code + ': ' + data.err.msg, 'ERROR');
-                return callback(null);
+        mainUtil().callInternalAPI('discussion', 'createDiscussion', params, function(err, _discussionProfile) {
+            if (err) {
+                casper.echo('Could not create discussion \'Discussion' + rndString + '\'. Error ' + err.code + ': ' + err.msg, 'ERROR');
             } else {
-                return callback(data.data);
+                discussionProfile = _discussionProfile;
             }
         });
 
-        // Use the OAE API to create the discussion
-        casper.evaluate(function(rndString, managers, members) {
-            require('oae.api.discussion').createDiscussion('Discussion ' + rndString, 'Talk about all the things!', 'public', managers, members, function(err, data) {
-                window.callPhantom({
-                    'cbId': rndString,
-                    'data': data,
-                    'err': err
-                });
-            });
-        }, rndString, managers, members);
+        // Wait for the discussion to be created before continuing
+        casper.waitFor(function() {
+            return discussionProfile !== null;
+        }, function() {
+            return callback(discussionProfile);
+        });
     };
 
     return {

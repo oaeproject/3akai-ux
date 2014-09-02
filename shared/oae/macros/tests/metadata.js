@@ -81,7 +81,7 @@ casper.test.begin('Macro - List Metadata', function(test) {
                             // Create a link
                             contentUtil().createLink('http://www.oaeproject.org', null, null, function(linkProfile) {
                                 // Create a collaborative document
-                                collabDocUtil().createCollabDoc(null, null, function(collabdocProfile) {
+                                contentUtil().createCollabDoc(null, null, function(collabdocProfile) {
                                     // Create a discussion
                                     discussionUtil().createDiscussion(null, null, function(discussionProfile) {
                                         // Create a group

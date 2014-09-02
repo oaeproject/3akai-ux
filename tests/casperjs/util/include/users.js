@@ -29,58 +29,69 @@ var userUtil = function() {
      */
     var createUsers = function(numToCreate, callback) {
         var toCreate = numToCreate || 1;
+        var created = 0;
         var userProfiles = [];
 
-        casper.start(configUtil().tenantUI).repeat(toCreate, function() {
+        // Point casper to the tenant UI
+        casper.start(configUtil().tenantUI, function() {
+            // Wait a bit for the APIs to load
             casper.wait(configUtil().modalWaitTime, function() {
+                // Get the me object
                 var me = casper.evaluate(function() {
                     return require('oae.core').data.me;
                 });
 
-                // If we're currently not logged in we can create users
-                // If we are logged in, skip user creation and log the user out before trying again
-                if (me && me.anon) {
+                /**
+                 * Create a user
+                 */
+                var createUser = function() {
                     var rndString = mainUtil().generateRandomString();
                     var rndPassword = mainUtil().generateRandomString();
+                    var params = ['user-' + rndString, rndPassword, rndString, {
+                        'visibility': 'public',
+                        'email': 'roy@example.com',
+                        'locale': 'en_GB',
+                        'publicAlias': 'Roy',
+                        'acceptedTC': true
+                    }, null, null];
 
-                    // Bind the event called when the discussion has been created
-                    casper.on(rndString + '.finished', function(data) {
-                        if (!data.data) {
-                            casper.echo('Could not create user-' + rndString + '. Error ' + data.err.code + ': ' + data.err.msg, 'ERROR');
-                            return callback(userProfiles);
+                    mainUtil().callInternalAPI('user', 'createUser', params, function(err, userProfile) {
+                        if (err) {
+                            casper.echo('Could not create user-' + rndString + '. Error ' + err.code + ': ' + err.msg, 'ERROR');
                         } else {
-                            data.data.username = 'user-' + rndString;
-                            data.data.password = rndPassword;
-                            userProfiles.push(data.data);
-                            return callback(userProfiles);
+                            userProfile.username = 'user-' + rndString;
+                            userProfile.password = rndPassword;
+                            userProfiles.push(userProfile);
+
+                            created++;
+                            if (created !== toCreate) {
+                                createUser();
+                            }
                         }
                     });
+                };
 
-                    // Use the OAE API to create the discussion
-                    casper.evaluate(function(rndString, rndPassword) {
-                        require('oae.api.user').createUser('user-' + rndString, rndPassword, rndString, {
-                            'visibility': 'public',
-                            'email': 'roy@example.com',
-                            'locale': 'en_GB',
-                            'publicAlias': 'Roy',
-                            'acceptedTC': true
-                        }, null, null, function(err, data) {
-                            window.callPhantom({
-                                'cbId': rndString,
-                                'data': data,
-                                'err': err
-                            });
-                        });
-                    }, rndString, rndPassword);
+                // Only start creating users when we're anonymous
+                if (me && me.anon) {
+                    createUser();
+                // If we're not anonymous log out and continue creating users
                 } else {
                     casper.then(function() {
                         doLogOut();
                     });
                     casper.then(function() {
-                        createUsers(toCreate, callback);
+                        createUser();
                     });
                 }
             });
+        });
+
+        // Wait until all user profiles have been created and execute the callback
+        // passing in the created user profiles
+        casper.waitFor(function() {
+            return userProfiles.length === toCreate;
+        }, function() {
+            return callback(userProfiles);
         });
     };
 

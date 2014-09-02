@@ -27,7 +27,7 @@ casper.test.begin('Prepare environment for tests', function(test) {
      * @param  {String}    msg    The error in the page
      */
     casper.on('page.error', function(msg) {
-        casper.echo('JavaScript error caught in the page: ' + msg, 'COMMENT');
+        casper.echo('JavaScript error caught in the page: ' + msg, 'ERROR');
     });
 
     /**
