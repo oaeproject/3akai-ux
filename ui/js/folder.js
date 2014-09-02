@@ -119,8 +119,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             setUpContext();
             // We can now unhide the page
             oae.api.util.showPage();
-            // Setup the push notifications to update this content profile on the fly
-            // TODO: setUpPushNotifications();
+            // Setup the push notifications to update the folder on the fly
+            setUpPushNotifications();
         });
     };
 
@@ -155,61 +155,29 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     };
 
     /**
-     * Subscribe to content activity push notifications, allowing for updating the content profile when changes to the content
+     * Subscribe to folder activity push notifications, allowing for updating the folder when changes to the folder
      * are made by a different user after the initial page load
-     * TODO
-     *
+     */
     var setUpPushNotifications = function() {
-        oae.api.push.subscribe(contentId, 'activity', contentProfile.signature, 'internal', false, function(activity) {
+        oae.api.push.subscribe(folderId, 'activity', folderProfile.signature, 'internal', false, function(activity) {
             var isSupportedUpdateActivity = _.contains(['content-update', 'content-update-visibility'], activity['oae:activityType']);
-            var isSupportedPreviewActivity = _.contains(['content-revision', 'content-restored-revision', 'previews-finished'], activity['oae:activityType']);
             // Only respond to push notifications caused by other users
             if (activity.actor.id === oae.data.me.id) {
                 return;
-            // Content preview activities should not trigger a content profile update when the content item is a collaborative
-            // document and the current user can manage the document. In this case, Etherpad will take care of the content preview
-            } else if (isSupportedPreviewActivity && contentProfile.resourceSubType === 'collabdoc' && contentProfile.isManager) {
-                return;
-            // The push notification is a recognized activity
-            } else if (isSupportedUpdateActivity || isSupportedPreviewActivity) {
-                var contentObj = activity.object;
-                contentObj.canShare = contentProfile.canShare;
-                contentObj.isManager = contentProfile.isManager;
+            } else if (isSupportedUpdateActivity) {
+                var folderObj = activity.object;
+                folderObj.canAddItem = folderProfile.canAddItem;
+                folderObj.canManage = folderProfile.canManage;
+                folderObj.canShare = folderProfile.canShare;
 
-                // Cache the previous content profile
-                var previousContentProfile = contentProfile;
                 // Cache the updated content profile
-                contentProfile = contentObj;
+                folderProfile = folderObj;
 
-                // The clips can always be re-rendered
+                // Re-render the clips
                 setUpClips();
-
-                // Refresh the content preview when the push notification was a recognized preview activity. However, when the notification
-                // is of the type `previews-finished` and the content item is an image, the content preview is not refreshed. In that case,
-                // the original image will already be embedded as the preview and refreshing it would cause flickering.
-                // Alternatively, the content preview is also refreshed when the content item is a link and the URL has been changed
-                if ((isSupportedPreviewActivity && !(activity['oae:activityType'] === 'previews-finished' && contentProfile.resourceSubType === 'file' && contentProfile.mime.substring(0, 6) === 'image/')) ||
-                    (activity['oae:activityType'] === 'content-update' && contentProfile.resourceSubType === 'link' && contentProfile.link !== previousContentProfile.link)) {
-                    refreshContentPreview();
-                }
             }
         });
-    };*/
-
-    /**
-     * Refresh the content profile by updating the clips and content preview
-     *
-     * @param  {Content}        updatedContent          Content profile of the updated content item
-     * TODO
-     *
-    var refreshContentProfile = function(updatedContent) {
-        // Cache the content profile data
-        contentProfile = updatedContent;
-        // Refresh the content preview
-        refreshContentPreview();
-        // Refresh the clips
-        setUpClips();
-    };*/
+    };
 
 
     ///////////////////
