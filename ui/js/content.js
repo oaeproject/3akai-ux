@@ -307,7 +307,6 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * Trigger the manageaccess widget and pass in context data
      */
     $(document).on('click', '.content-trigger-manageaccess', function() {
-        console.log(getManageAccessData().defaultRole);
         $(document).trigger('oae.trigger.manageaccess', getManageAccessData());
     });
 
@@ -315,7 +314,6 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * Trigger the manageaccess widget in `add members` view and pass in context data
      */
     $(document).on('click', '.content-trigger-manageaccess-add', function() {
-        console.log(getManageAccessData().defaultRole);
         $(document).trigger('oae.trigger.manageaccess-add', getManageAccessData());
     });
 

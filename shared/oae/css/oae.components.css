@@ -414,6 +414,11 @@ div.oae-thumbnail.fa-oae-file:before {
     content: "\f016";
 }
 
+div.oae-thumbnail.fa-oae-folder:before {
+    content: "\f07c";
+    margin-left: 2px;
+}
+
 div.oae-thumbnail.fa-oae-link:before {
     content: "\f0c1";
 }

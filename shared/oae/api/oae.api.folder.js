@@ -255,7 +255,7 @@ define(['exports', 'jquery'], function(exports, $) {
     };
 
     /**
-     * Delete a piece of content from a content library
+     * Delete a piece of content from a folder
      *
      * @param  {String}         folderId          Id of the folder from which we want to delete the content item
      * @param  {String}         contentId         Id of the content item we're trying to delete from the folder
