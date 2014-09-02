@@ -275,7 +275,7 @@ define(['exports', 'jquery'], function(exports, $) {
 
         var data = {
             'contentIds': contentId
-        }
+        };
 
         $.ajax({
             'url': '/api/folder/' + folderId + '/library',
