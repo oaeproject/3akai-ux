@@ -45,10 +45,10 @@ define(['jquery', 'oae.api.util', 'jquery.history'], function ($, oaeUtil) {
          * example:
          *
          * ```javascript
-         *  // Subscribes to the event that is invoked when the user has performed a search with the
+         *  // Subscribe to the event that is invoked when the user has performed a search with the
          *  // list header
          *  $(window).on('statechange', function() {
-         *      // Fetches the query from the History.js module
+         *      // Fetch the query from the History.js module
          *      var query = History.getState().data.query
          *
          *      // Finally, do something with the query (e.g., invoke a search and update the DOM)
