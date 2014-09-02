@@ -416,7 +416,7 @@ div.oae-thumbnail.fa-oae-file:before {
 
 div.oae-thumbnail.fa-oae-folder:before {
     content: "\f07c";
-    margin-left: 2px; /* TODO: Check if this still needs to be here */
+    margin-left: 2px;
 }
 
 div.oae-thumbnail.fa-oae-link:before {
