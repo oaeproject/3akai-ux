@@ -292,6 +292,37 @@ define(['exports', 'jquery'], function(exports, $) {
     };
 
     /**
+     * Delete a folder from a folder library
+     *
+     * @param  {String}         principalId       User or group id for for the library from which we want to delete the folder
+     * @param  {String}         folderId          Id of the folder we're trying to delete from the library
+     * @param  {Function}       [callback]        Standard callback function
+     * @param  {Object}         [callback.err]    Error object containing error code and error message
+     * @throws {Error}                            Error thrown when not all of the required parameters have been provided
+     */
+    var deleteFolderFromLibrary = exports.deleteFolderFromLibrary = function(principalId, folderId, callback) {
+        if (!principalId) {
+            throw new Error('A valid user or group ID should be provided');
+        } else if (!folderId) {
+            throw new Error('A valid folder ID should be provided');
+        }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        $.ajax({
+            'url': '/api/folder/library/' + principalId + '/' + folderId,
+            'type': 'DELETE',
+            'success': function() {
+                callback(null);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
      * Delete a piece of content from a folder
      *
      * @param  {String}         folderId          Id of the folder from which we want to delete the content item
