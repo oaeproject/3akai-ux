@@ -23,29 +23,41 @@ var discussionUtil = function() {
     /**
      * Creates a discussion
      *
-     * @param  {String[]}     [managers]                    Array of user/group ids that should be added as managers to the discussion
-     * @param  {String[]}     [members]                     Array of user/group ids that should be added as members to the discussion
-     * @param  {Function}     callback                      Standard callback function
-     * @param  {Discussion}   callback.discussionProfile    Discussion object representing the created discussion
+     * @param  {String}         [displayName]             Topic for the discussion
+     * @param  {String}         [description]             The discussion's description
+     * @param  {String}         [visibility]              The discussion's visibility. This can be public, loggedin or private
+     * @param  {String[]}       [managers]                Array of user/group ids that should be added as managers to the discussion
+     * @param  {String[]}       [members]                 Array of user/group ids that should be added as members to the discussion
+     * @param  {Function}       callback                  Standard callback method
+     * @param  {Object}         callback.err              Error object containing error code and error message
+     * @param  {Discussion}     callback.discussion       Discussion object representing the created discussion
      */
-    var createDiscussion = function(managers, members, callback) {
-        var discussionProfile = null;
-        var rndString = mainUtil().generateRandomString();
-        var params = ['Discussion ' + rndString, 'Talk about all the things!', 'public', managers || [], members || []];
+    var createDiscussion = function(displayName, description, visibility, managers, members, callback) {
+        casper.then(function() {
+            var discussion = null;
+            var err = null;
 
-        mainUtil().callInternalAPI('discussion', 'createDiscussion', params, function(err, _discussionProfile) {
-            if (err) {
-                casper.echo('Could not create discussion \'Discussion' + rndString + '\'. Error ' + err.code + ': ' + err.msg, 'ERROR');
-            } else {
-                discussionProfile = _discussionProfile;
-            }
-        });
+            // Default parameters
+            displayName = displayName || 'Discussion ' + mainUtil().generateRandomString();
+            description = description || 'Talk about all the things!';
+            visibility = visibility || 'public';
+            managers = managers || [];
+            members = members || [];
 
-        // Wait for the discussion to be created before continuing
-        casper.waitFor(function() {
-            return discussionProfile !== null;
-        }, function() {
-            return callback(discussionProfile);
+            mainUtil().callInternalAPI('discussion', 'createDiscussion', [displayName, description, visibility, managers, members], function(_err, _discussion) {
+                if (_err) {
+                    casper.echo('Could not create discussion \'' + displayName + '\'. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
+                    err = _err;
+                }
+                discussion = _discussion;
+            });
+
+            // Wait for the discussion to be created or failing to be created before continuing
+            casper.waitFor(function() {
+                return discussion !== null || err !== null;
+            }, function() {
+                return callback(err, discussion);
+            });
         });
     };
 

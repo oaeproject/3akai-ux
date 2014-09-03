@@ -32,26 +32,30 @@ var mainUtil = function() {
      * @api private
      */
     var callInternalAPI = function(api, apiFunction, params, callback) {
-        var rndString = mainUtil().generateRandomString();
+        // Before continuing we need to make sure that the internal API has loaded.
+        casper.waitForSelector('html[lang]', function() {
+            var rndString = mainUtil().generateRandomString();
 
-        // Bind the event called when the API call finishes
-        casper.on(rndString + '.finished', function(data) {
-            return callback(data.err, data.data);
+            // Bind the event called when the API call finishes
+            casper.on(rndString + '.finished', function(data) {
+                return callback(data.err, data.data);
+            });
+
+            // Execute the internal API call
+            casper.evaluate(function(rndString, api, apiFunction, params) {
+                // Add the internal callback function
+                params = params || [];
+                params.push(function(err, data) {
+                    window.callPhantom({
+                        'cbId': rndString,
+                        'err': err,
+                        'data': data
+                    });
+                });
+                require('oae.api.' + api)[apiFunction].apply(this, params);
+            }, rndString, api, apiFunction, params);
         });
 
-        // Execute the internal API call
-        casper.evaluate(function(rndString, api, apiFunction, params) {
-            // Add the internal callback function
-            params = params || [];
-            params.push(function(err, data) {
-                window.callPhantom({
-                    'cbId': rndString,
-                    'err': err,
-                    'data': data
-                });
-            });
-            require('oae.api.' + api)[apiFunction].apply(this, params);
-        }, rndString, api, apiFunction, params);
     };
 
     /**

@@ -28,31 +28,31 @@ var groupUtil = function() {
      * @param  {Function}   callback                 Standard callback function
      * @param  {Group}      callback.groupProfile    Group object representing the created group
      */
-    var createGroup = function(members, managers, callback) {
-        var rndString = mainUtil().generateRandomString();
+    var createGroup = function(displayName, description, visibility, joinable, managers, members, callback) {
+        var groupProfile = null;
+        var err = null;
+        displayName = displayName || 'group-' + mainUtil().generateRandomString();
+        description = description || 'Test group description';
+        visibility = visibility || 'public';
+        joinable = joinable || 'yes';
         managers = managers || [];
         members = members || [];
 
-        // Bind the event called when the group has been created
-        casper.on(rndString + '.finished', function(data) {
-            if (!data.data) {
-                casper.echo('Could not create group-' + rndString + '. Error ' + data.err.code + ': ' + data.err.msg, 'ERROR');
-                return callback(null);
+        mainUtil().callInternalAPI('group', 'createGroup', [displayName, description, visibility, joinable, managers, members], function(_err, _groupProfile) {
+            if (_err) {
+                casper.echo('Could not create ' + displayName + '. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
+                err = _err;
+                return;
             } else {
-                callback(data.data);
+                groupProfile = _groupProfile;
             }
         });
 
-        // Use the OAE API to create the group
-        casper.evaluate(function(rndString, managers, members) {
-            require('oae.api.group').createGroup('group-' + rndString, 'Test group description', 'public', 'yes', managers, members, function(err, data) {
-                window.callPhantom({
-                    'cbId': rndString,
-                    'data': data,
-                    'err': err
-                });
-            });
-        }, rndString, managers, members);
+        casper.waitFor(function() {
+            return groupProfile !== null || err !== null;
+        }, function() {
+            return callback(err, groupProfile);
+        });
     };
 
     return {

@@ -50,11 +50,7 @@ casper.test.begin('Prepare environment for tests', function(test) {
      */
     casper.options.onWaitTimeout = function(waitTimeout) {
         // Log out of the system
-        casper.evaluate(function() {
-            require('oae.core').api.authentication.logout(function() {
-                window.location = '/';
-            });
-        });
+        userUtil().doLogOut();
 
         // Finish the current test to skip to the next one
         casper.wait(configUtil().modalWaitTime, function() {
@@ -65,29 +61,18 @@ casper.test.begin('Prepare environment for tests', function(test) {
 
     // Set up test tenant
     casper.start(configUtil().adminUI, function() {
-        casper.waitForSelector('#adminlogin-local', function() {
-            casper.then(function() {
-                userUtil().doAdminLogIn(configUtil().adminUsername, configUtil().adminPassword);
-            });
+        userUtil().doLogIn(configUtil().adminUsername, configUtil().adminPassword);
 
-            casper.then(function() {
-
-                var tenant = null;
-                adminUtil().createTenant(configUtil().tenantAlias, configUtil().tenantDisplayname, configUtil().tenantHost, function(_tenant) {
-                    tenant = _tenant;
-                });
-
-                casper.waitFor(function() {
-                    return tenant !== null;
-                }, function() {
-                    adminUtil().writeConfig(configUtil().tenantAlias, {
-                        'oae-principals/recaptcha/enabled': false,
-                        'oae-principals/termsAndConditions/enabled': true,
-                        'oae-principals/termsAndConditions/text/default': '![OAE](/shared/oae/img/oae-logo.png) Default terms and conditions'
-                    }, function() {
-                        userUtil().doAdminLogOut();
-                    });
-                });
+        // Create the tenant to test with
+        adminUtil().createTenant(configUtil().tenantAlias, configUtil().tenantDisplayname, configUtil().tenantHost, function(tenant) {
+            // Write the tenant's default configuration
+            adminUtil().writeConfig(configUtil().tenantAlias, {
+                'oae-principals/recaptcha/enabled': false,
+                'oae-principals/termsAndConditions/enabled': true,
+                'oae-principals/termsAndConditions/text/default': '![OAE](/shared/oae/img/oae-logo.png) Default terms and conditions'
+            }, function() {
+                // Log out of the administration UI before starting the tests
+                userUtil().doLogOut();
             });
         });
     });

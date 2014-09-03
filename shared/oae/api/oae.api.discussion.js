@@ -54,7 +54,6 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @throws {Error}                                    Error thrown when no discussion topic has been provided
      */
     var createDiscussion = exports.createDiscussion = function(displayName, description, visibility, managers, members, callback) {
-        console.log(displayName, description, visibility, managers, members, callback);
         if (!displayName) {
             throw new Error('A valid description topic should be provided');
         }
