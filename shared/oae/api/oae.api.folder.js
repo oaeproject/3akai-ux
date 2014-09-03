@@ -117,6 +117,43 @@ define(['exports', 'jquery'], function(exports, $) {
     };
 
     /**
+     * Permanently delete a folder from the system. It is also possible to remove all of its content
+     * at the same time
+     *
+     * @param  {String}        folderId                     Id of the folder we're trying to delete
+     * @param  {Boolean}       deleteContents               Whether or not the folder contents should be deleted as well
+     * @param  {Function}      [callback]                   Standard callback function
+     * @param  {Object}        [callback.err]               Error object containing error code and error message
+     * @param  {Content[]}     [callback.failedContent]     The content items that could not be deleted
+     * @throws {Error}                                      Error thrown when no valid discussion id has been provided
+     * TODO: Validate this once it is possible to delete folders
+     */
+    var deleteFolder = exports.deleteFolder = function(folderId, deleteContents, callback) {
+        if (!deleteFolder) {
+            throw new Error('A valid folder id should be provided');
+        }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        var data = {
+            'applyDeleteOn': deleteContents ? 'folderAndContent' : 'folder'
+        };
+
+        $.ajax({
+            'url': '/api/folder/' + folderId,
+            'type': 'DELETE',
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
      * Get the viewers and managers of a folder
      *
      * @param  {String}          folderId                       Id of the folder we're trying to retrieve the members for
