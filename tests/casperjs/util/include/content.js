@@ -140,7 +140,8 @@ var contentUtil = function() {
             };
 
             // Casper doesn't allow direct file POST so we upload through the UI
-            casper.thenOpen(configUtil().tenantUI + '/me', function() {
+            uiUtil().openMe();
+            casper.then(function() {
                 casper.waitForSelector('#me-clip-container .oae-clip-content > button', function() {
                     casper.click('#me-clip-container .oae-clip-content > button');
                     casper.click('.oae-trigger-upload');

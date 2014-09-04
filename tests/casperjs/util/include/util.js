@@ -39,7 +39,6 @@ var mainUtil = function() {
                 return $('body').is(':visible');
             });
         }, function() {
-            console.log('execute internal API request', api, apiFunction);
             var rndString = mainUtil().generateRandomString();
 
             // Bind the event called when the API call finishes
