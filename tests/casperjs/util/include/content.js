@@ -97,7 +97,11 @@ var contentUtil = function() {
                 casper.waitFor(function() {
                     return updatedContent !== null || err !== null;
                 }, function() {
-                    return _updateMembers(contentId, members, updatedContent);
+                    if (managers.length || viewers.length) {
+                        return _updateMembers(contentId, members, updatedContent);
+                    } else {
+                        return callback(err, updatedContent);
+                    }
                 });
             };
 
