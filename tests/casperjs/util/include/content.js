@@ -32,12 +32,108 @@ var contentUtil = function() {
      */
     var createFile = function(displayName, description, visibility, file, managers, viewers, callback) {
         casper.then(function() {
+            var contentProfile = null;
+            var err = null;
             displayName = displayName || 'Content ' + mainUtil().generateRandomString();
             description = description || '';
             visibility = visibility || 'public';
             file = file || 'tests/casperjs/data/balloons.jpg';
             managers = managers || [];
             viewers = viewers || [];
+
+
+            /**
+             * Update the members of a content item
+             *
+             * @param  {String}    contentId          The ID of the content item to retrieve
+             * @param  {Object}    updatedMembers     JSON Object where the keys are the user/group ids we want to update membership for, and the values are the roles these members should get (manager or viewer). If false is passed in as a role, the principal will be removed as a member
+             * @param  {Content}   _contentProfile    Content object representing the content to update the members for
+             */
+            var _updateMembers = function(contentId, members, _contentProfile) {
+                // Set the members of the content
+                mainUtil().callInternalAPI('content', 'updateMembers', [contentId, members], function(_err) {
+                    if (_err) {
+                        casper.echo('Could not update members for ' + _contentProfile.displayName + '. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
+                        err = _err;
+                        return;
+                    } else {
+                        contentProfile = _contentProfile;
+                    }
+                });
+
+                casper.waitFor(function() {
+                    return contentProfile !== null || err !== null;
+                }, function() {
+                    return callback(err, contentProfile);
+                });
+            };
+
+            /**
+             * Update a content item's metadata
+             *
+             * @param  {String}    contentId    Id of the content item we're trying to update
+             * @param  {Object}    params       JSON object where the keys represent all of the profile field names we want to update and the values represent the new values for those fields
+             */
+            var _updateContent = function(contentId, params) {
+                var updatedContent = null;
+                var members = {};
+
+                updateContent(contentId, params, function(_err, _contentProfile) {
+                    if (_err) {
+                        err = _err;
+                        return;
+                    } else if (managers.length || viewers.length) {
+                        for (var m = 0; m < managers.length; m++) {
+                            members[managers[m]] = 'manager';
+                        }
+
+                        for (var v = 0; v < viewers.length; v++) {
+                            members[viewers[v]] = 'viewer';
+                        }
+                    }
+                    updatedContent = _contentProfile;
+                });
+
+                casper.waitFor(function() {
+                    return updatedContent !== null || err !== null;
+                }, function() {
+                    return _updateMembers(contentId, members, updatedContent);
+                });
+            };
+
+            /**
+             * Retrieve the content profile and continue with updating the content metadata
+             *
+             * @param  {String}    contentId    The ID of the content item to retrieve
+             */
+            var _getContent = function(contentId) {
+                // Retrieve the content profile
+                var retrievedContent = null;
+                var params = null;
+
+                mainUtil().callInternalAPI('content', 'getContent', [contentId], function(_err, _contentProfile) {
+                    if (_err) {
+                        casper.echo('Could not get content profile for ' + contentId + '. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
+                        err = _err;
+                        return;
+                    }
+
+                    // Update the content metadata
+                    params = {
+                        'displayName': displayName,
+                        'description': description,
+                        'visibility': visibility
+                    };
+
+                    retrievedContent = _contentProfile;
+                });
+
+                casper.waitFor(function() {
+                    return retrievedContent !== null || err !== null;
+                }, function() {
+                    _updateContent(contentId, params);
+                });
+            };
 
             // Casper doesn't allow direct file POST so we upload through the UI
             casper.thenOpen(configUtil().tenantUI + '/me', function() {
@@ -49,65 +145,18 @@ var contentUtil = function() {
                     });
                 });
                 casper.then(function() {
-                    casper.fill('#upload-dropzone form', {
-                        'file': file
-                    }, false);
-                    casper.click('button#upload-upload');
-                    casper.waitForSelector('#oae-notification-container .alert', function() {
-                        var contentProfile = null;
-                        var err = null;
-                        var contentUrl = casper.getElementAttribute('#oae-notification-container .alert h4 + a', 'href');
-                        var contentId = contentUrl.split('/');
-                        contentId = 'c:test:' + contentId[contentId.length -1];
+                    casper.waitForSelector('#upload-dropzone form', function() {
+                        casper.fill('#upload-dropzone form', {
+                            'file': file
+                        }, false);
+                        casper.click('button#upload-upload');
+                        casper.waitForSelector('#oae-notification-container .alert', function() {
+                            var contentUrl = casper.getElementAttribute('#oae-notification-container .alert h4 + a', 'href');
+                            var contentId = contentUrl.split('/');
+                            contentId = 'c:' + configUtil().tenantAlias + ':' + contentId[contentId.length -1];
 
-                        // Retrieve the content profile
-                        mainUtil().callInternalAPI('content', 'getContent', [contentId], function(_err, _contentProfile) {
-                            if (_err) {
-                                casper.echo('Could not get content profile for ' + contentId + '. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
-                                err = _err;
-                                return;
-                            }
-
-                            // Update the content metadata
-                            var params = {
-                                'displayName': displayName,
-                                'description': description,
-                                'visibility': visibility
-                            };
-                            updateContent(contentId, params, function(_err, _contentProfile) {
-                                if (_err) {
-                                    err = _err;
-                                    return;
-                                } else if (managers.length || viewers.length) {
-                                    var members = {};
-                                    for (var m = 0; m < managers.length; m++) {
-                                        members[managers[m]] = 'manager';
-                                    }
-
-                                    for (var v = 0; v < viewers.length; v++) {
-                                        members[viewers[v]] = 'viewer';
-                                    }
-
-                                    // Set the members of the content
-                                    mainUtil().callInternalAPI('content', 'updateMembers', [contentId, members], function(_err) {
-                                        if (_err) {
-                                            casper.echo('Could not update members for ' + _contentProfile.displayName + '. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
-                                            err = _err;
-                                            return;
-                                        } else {
-                                            contentProfile = _contentProfile;
-                                        }
-                                    });
-                                } else {
-                                    contentProfile = _contentProfile;
-                                }
-                            });
-                        });
-
-                        casper.waitFor(function() {
-                            return contentProfile !== null || err !== null;
-                        }, function() {
-                            return callback(err, contentProfile);
+                            // Retrieve the content profile and update the metadata and members
+                            _getContent(contentId);
                         });
                     });
                 });

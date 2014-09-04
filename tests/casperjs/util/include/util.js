@@ -33,7 +33,13 @@ var mainUtil = function() {
      */
     var callInternalAPI = function(api, apiFunction, params, callback) {
         // Before continuing we need to make sure that the internal API has loaded.
-        casper.waitForSelector('html[lang]', function() {
+        // The last thing the UI does before it's initialized is showing the body
+        casper.waitFor(function() {
+            return casper.evaluate(function() {
+                return $('body').is(':visible');
+            });
+        }, function() {
+            console.log('execute internal API request', api, apiFunction);
             var rndString = mainUtil().generateRandomString();
 
             // Bind the event called when the API call finishes
@@ -55,7 +61,6 @@ var mainUtil = function() {
                 require('oae.api.' + api)[apiFunction].apply(this, params);
             }, rndString, api, apiFunction, params);
         });
-
     };
 
     /**

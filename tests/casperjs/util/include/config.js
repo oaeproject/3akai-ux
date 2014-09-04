@@ -29,6 +29,6 @@ var configUtil = function(alias) {
         'tenantDisplayname': 'CasperJS Tenant',
         'tenantHost': 'test.oae.com',
         'tenantUI': 'http://test.oae.com',
-        'waitTimeout': 20000
+        'waitTimeout': 30000
     };
 };

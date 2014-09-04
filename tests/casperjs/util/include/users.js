@@ -35,53 +35,53 @@ var userUtil = function() {
 
             // Point casper to the tenant UI
             casper.start(configUtil().tenantUI, function() {
-                // Wait a bit for the APIs to load
-                casper.wait(configUtil().modalWaitTime, function() {
-                    // Get the me object
-                    var me = casper.evaluate(function() {
-                        return require('oae.core').data.me;
+                /**
+                 * Create a user
+                 */
+                var createUser = function() {
+                    var rndString = mainUtil().generateRandomString();
+                    var rndPassword = mainUtil().generateRandomString();
+                    var params = ['user-' + rndString, rndPassword, rndString, {
+                        'visibility': 'public',
+                        'email': 'roy@example.com',
+                        'locale': 'en_GB',
+                        'publicAlias': 'Roy',
+                        'acceptedTC': true
+                    }, null, null];
+
+                    mainUtil().callInternalAPI('user', 'createUser', params, function(err, userProfile) {
+                        if (err) {
+                            casper.echo('Could not create user-' + rndString + '. Error ' + err.code + ': ' + err.msg, 'ERROR');
+                        } else {
+                            userProfile.username = 'user-' + rndString;
+                            userProfile.password = rndPassword;
+                            userProfiles.push(userProfile);
+
+                            created++;
+                        }
                     });
+                };
 
-                    /**
-                     * Create a user
-                     */
-                    var createUser = function() {
-                        var rndString = mainUtil().generateRandomString();
-                        var rndPassword = mainUtil().generateRandomString();
-                        var params = ['user-' + rndString, rndPassword, rndString, {
-                            'visibility': 'public',
-                            'email': 'roy@example.com',
-                            'locale': 'en_GB',
-                            'publicAlias': 'Roy',
-                            'acceptedTC': true
-                        }, null, null];
+                // Get the me object
+                var me = null;
+                mainUtil().callInternalAPI('user', 'getMe', null, function(err, _me) {
+                    me = _me;
+                });
 
-                        mainUtil().callInternalAPI('user', 'createUser', params, function(err, userProfile) {
-                            if (err) {
-                                casper.echo('Could not create user-' + rndString + '. Error ' + err.code + ': ' + err.msg, 'ERROR');
-                            } else {
-                                userProfile.username = 'user-' + rndString;
-                                userProfile.password = rndPassword;
-                                userProfiles.push(userProfile);
-
-                                created++;
-                                if (created !== toCreate) {
-                                    createUser();
-                                }
-                            }
-                        });
-                    };
-
+                // Wait for the me object to be retrieved before starting to create users
+                casper.waitFor(function() {
+                    return me !== null;
+                }, function() {
                     // Only start creating users when we're anonymous
                     if (me && me.anon) {
-                        createUser();
+                        casper.repeat(toCreate, createUser);
                     // If we're not anonymous log out and continue creating users
                     } else {
                         casper.then(function() {
                             doLogOut();
                         });
                         casper.then(function() {
-                            createUser();
+                            casper.repeat(toCreate, createUser);
                         });
                     }
                 });
