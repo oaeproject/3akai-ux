@@ -25,6 +25,9 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     // Variable used to cache the requested folder profile
     var folderProfile = null;
 
+    // TODO
+    var visibility = null;
+
     /**
      * Set up the left hand navigation with the folder space page structure.
      * The folder left hand navigation item will not be shown to the user and
@@ -111,6 +114,10 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
             // Cache the folder profile data
             folderProfile = profile;
+
+            // TODO
+            visibility = folderProfile.visibility;
+
             // Render the entity information and actions
             setUpClips();
             // Set up the page
@@ -235,9 +242,18 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     });
 
     /**
-     * Re-render the folder's clip when the permissions have been updated
+     * Re-render the folder's clip when the permissions have been updated. When the folder visibility has been
+     * changed, offer an opportunity to update the visibility of the items in the folder as well
      */
-    $(document).on('oae.manageaccess.done', setUpClips);
+    $(document).on('oae.manageaccess.done', function() {
+        console.log($('#folderlibrary-widget .oae-list li[data-id]').length);
+        if (visibility !== folderProfile.visibility && $('#folderlibrary-widget .oae-list li[data-id]').length > 0) {
+            $(document).trigger('oae.trigger.foldercontentvisibility', folderProfile);
+            // Update the cached visibility
+            visibility = folderProfile.visibility;
+        }
+        setUpClips()
+    });
 
 
     //////////////////
