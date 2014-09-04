@@ -25,7 +25,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     // Variable used to cache the requested folder profile
     var folderProfile = null;
 
-    // TODO
+    // Variable used to cache the visibility of the folder profile
     var visibility = null;
 
     /**
@@ -115,7 +115,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             // Cache the folder profile data
             folderProfile = profile;
 
-            // TODO
+            // Cache the visibility of the folder to allow changes to the visibility to be detected
             visibility = folderProfile.visibility;
 
             // Render the entity information and actions
@@ -246,7 +246,6 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * changed, offer an opportunity to update the visibility of the items in the folder as well
      */
     $(document).on('oae.manageaccess.done', function() {
-        console.log($('#folderlibrary-widget .oae-list li[data-id]').length);
         if (visibility !== folderProfile.visibility && $('#folderlibrary-widget .oae-list li[data-id]').length > 0) {
             $(document).trigger('oae.trigger.foldercontentvisibility', folderProfile);
             // Update the cached visibility
