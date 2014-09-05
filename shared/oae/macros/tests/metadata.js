@@ -55,33 +55,33 @@ casper.test.begin('Macro - List Metadata', function(test) {
         });
     };
 
-    casper.start(configUtil().tenantUI, function() {
+    casper.start(configUtil.tenantUI, function() {
         // Create some users to test with
         var user1 = null;
         var user2 = null;
-        userUtil().createUsers(2, function(user1, user2) {
+        userUtil.createUsers(2, function(user1, user2) {
             // Sign in with the first user
-            userUtil().doLogIn(user1.username, user1.password);
+            userUtil.doLogIn(user1.username, user1.password);
 
             // Follow user2
-            followUtil().follow(user2.id, function() {
+            followUtil.follow(user2.id, function() {
                 // Create an image
-                contentUtil().createFile(null, null, null, null, null, null, function(err, contentProfile1) {
+                contentUtil.createFile(null, null, null, null, null, null, function(err, contentProfile1) {
                     // Create a video
-                    contentUtil().createFile(null, null, null, 'tests/casperjs/data/sample-video.mp4', null, null, function(err, contentProfile2) {
+                    contentUtil.createFile(null, null, null, 'tests/casperjs/data/sample-video.mp4', null, null, function(err, contentProfile2) {
                         // Create an archive
-                        contentUtil().createFile(null, null, null, 'tests/casperjs/data/apereo.zip', null, null, function(err, contentProfile3) {
+                        contentUtil.createFile(null, null, null, 'tests/casperjs/data/apereo.zip', null, null, function(err, contentProfile3) {
                             // Create a link
-                            contentUtil().createLink(null, null, null, 'http://www.oaeproject.org', null, null, function(err, linkProfile) {
+                            contentUtil.createLink(null, null, null, 'http://www.oaeproject.org', null, null, function(err, linkProfile) {
                                 // Create a collaborative document
-                                contentUtil().createCollabDoc(null, null, null, null, null, function(err, collabdocProfile) {
+                                contentUtil.createCollabDoc(null, null, null, null, null, function(err, collabdocProfile) {
                                     // Create a discussion
-                                    discussionUtil().createDiscussion(null, null, null, null, null, function(err, discussionProfile) {
+                                    discussionUtil.createDiscussion(null, null, null, null, null, function(err, discussionProfile) {
                                         // Create a group
-                                        groupUtil().createGroup(null, null, null, null, null, null, function(err, groupProfile) {
+                                        groupUtil.createGroup(null, null, null, null, null, null, function(err, groupProfile) {
 
                                             // Verify that all content items are displayed correctly in the content library
-                                            uiUtil().openMyLibrary();
+                                            uiUtil.openMyLibrary();
                                             casper.then(function() {
                                                 casper.echo('Verify content item metadata', 'INFO');
                                                 verifyListItem(contentProfile1);
@@ -92,27 +92,27 @@ casper.test.begin('Macro - List Metadata', function(test) {
                                             });
 
                                             // Verify that a discussion is displayed correctly in the discussion library
-                                            uiUtil().openMyDiscussions();
+                                            uiUtil.openMyDiscussions();
                                             casper.then(function() {
                                                 casper.echo('Verify discussion list item metadata', 'INFO');
                                                 verifyListItem(discussionProfile);
                                             });
 
                                             // Verify that a group is displayed correctly in the group library
-                                            uiUtil().openMyGroups();
+                                            uiUtil.openMyGroups();
                                             casper.then(function() {
                                                 casper.echo('Verify group list item metadata', 'INFO');
                                                 verifyListItem(groupProfile);
                                             });
 
                                             // Verify that a user is displayed correctly in the network
-                                            uiUtil().openMyNetwork();
+                                            uiUtil.openMyNetwork();
                                             casper.then(function() {
                                                 casper.echo('Verify user list item metadata', 'INFO');
                                                 verifyListItem(user2);
                                             });
 
-                                            userUtil().doLogOut();
+                                            userUtil.doLogOut();
                                         });
                                     });
                                 });

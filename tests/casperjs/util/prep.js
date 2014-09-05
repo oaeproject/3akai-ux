@@ -16,7 +16,7 @@
 casper.test.begin('Prepare environment for tests', function(test) {
 
     // Override default waitTimeout before test fails
-    casper.options.waitTimeout = configUtil().waitTimeout;
+    casper.options.waitTimeout = configUtil.waitTimeout;
 
     // Set the default size of the viewport
     casper.options.viewportSize = {'width': 1200, 'height': 800};
@@ -50,29 +50,32 @@ casper.test.begin('Prepare environment for tests', function(test) {
      */
     casper.options.onWaitTimeout = function(waitTimeout) {
         // Log out of the system
-        userUtil().doLogOut();
+        userUtil.doLogOut();
 
         // Finish the current test to skip to the next one
-        casper.wait(configUtil().modalWaitTime, function() {
+        casper.wait(configUtil.modalWaitTime, function() {
             test.fail('Test timed out after ' + waitTimeout + ' ms');
             test.done();
         });
     };
 
     // Set up test tenant
-    casper.start(configUtil().adminUI, function() {
-        userUtil().doLogIn(configUtil().adminUsername, configUtil().adminPassword);
+    casper.start(configUtil.adminUI, function() {
+        userUtil.doLogIn(configUtil.adminUsername, configUtil.adminPassword);
 
         // Create the tenant to test with
-        adminUtil().createTenant(configUtil().tenantAlias, configUtil().tenantDisplayname, configUtil().tenantHost, function(tenant) {
+        adminUtil.createTenant(configUtil.tenantAlias, configUtil.tenantDisplayname, configUtil.tenantHost, function(err, tenant) {
+            if (err) {
+                casper.exit();
+            }
             // Write the tenant's default configuration
-            adminUtil().writeConfig(configUtil().tenantAlias, {
+            adminUtil.writeConfig(configUtil.tenantAlias, {
                 'oae-principals/recaptcha/enabled': false,
                 'oae-principals/termsAndConditions/enabled': true,
                 'oae-principals/termsAndConditions/text/default': '![OAE](/shared/oae/img/oae-logo.png) Default terms and conditions'
             }, function() {
                 // Log out of the administration UI before starting the tests
-                userUtil().doLogOut();
+                userUtil.doLogOut();
             });
         });
     });

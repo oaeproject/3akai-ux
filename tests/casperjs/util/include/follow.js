@@ -18,19 +18,20 @@
  *
  * @return  {Object}    Returns an object with referenced follow utility functions
  */
-var followUtil = function() {
+var followUtil = (function() {
 
     /**
      * Follow a user
      *
      * @param  {String}      userId            Id of the user to follow
      * @param  {Function}    callback          Standard callback function
+     * @param  {Object}      [callback.err]    Error object containing error code and error message
      */
     var follow = function(userId, callback) {
         casper.thenEvaluate(function(userId) {
             require('oae.core').api.follow.follow(userId);
         }, userId);
-        casper.wait(configUtil().modalWaitTime, callback);
+        casper.wait(configUtil.modalWaitTime, callback);
     };
 
     /**
@@ -38,16 +39,17 @@ var followUtil = function() {
      *
      * @param  {String}      userId            Id of the user to unfollow
      * @param  {Function}    callback          Standard callback function
+     * @param  {Object}      [callback.err]    Error object containing error code and error message
      */
     var unfollow = function(userId, callback) {
         casper.thenEvaluate(function(userId) {
             require('oae.core').api.follow.unfollow(userId);
         }, userId);
-        casper.wait(configUtil().modalWaitTime, callback);
+        casper.wait(configUtil.modalWaitTime, callback);
     };
 
     return {
         'follow': follow,
         'unfollow': unfollow,
     };
-};
+})();

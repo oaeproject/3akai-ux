@@ -117,46 +117,46 @@ casper.test.begin('Page - Content', function(test) {
         }, 2, 'Verify that there are exactly 2 buttons in the collaborative document clip');
     };
 
-    casper.start(configUtil().tenantUI, function() {
+    casper.start(configUtil.tenantUI, function() {
         // Create a couple of users to test with
-        userUtil().createUsers(3, function(user1, user2, user3) {
+        userUtil.createUsers(3, function(user1, user2, user3) {
             // Login with the first user
-            userUtil().doLogIn(user1.username, user1.password);
+            userUtil.doLogIn(user1.username, user1.password);
 
-            contentUtil().createFile(null, null, null, null, null, [user2.id], function(err, contentProfile) {
-                contentUtil().createLink(null, null, null, null, null, [user2.id], function(err, linkProfile) {
-                    contentUtil().createCollabDoc(null, null, null, null, [user2.id], function(err, collabdocProfile) {
+            contentUtil.createFile(null, null, null, null, null, [user2.id], function(err, contentProfile) {
+                contentUtil.createLink(null, null, null, null, null, [user2.id], function(err, linkProfile) {
+                    contentUtil.createCollabDoc(null, null, null, null, [user2.id], function(err, collabdocProfile) {
                         ///////////
                         // FILES //
                         ///////////
 
                         // Verify content clip buttons as a manager
-                        uiUtil().openContentProfile(contentProfile);
+                        uiUtil.openContentProfile(contentProfile);
                         casper.then(function() {
                             casper.echo('Verify file clip buttons as a manager', 'INFO');
                             verifyFileClipButtonsAsManager();
                         });
 
-                        userUtil().doLogOut();
-                        userUtil().doLogIn(user2.username, user2.password);
-                        uiUtil().openContentProfile(contentProfile);
+                        userUtil.doLogOut();
+                        userUtil.doLogIn(user2.username, user2.password);
+                        uiUtil.openContentProfile(contentProfile);
 
                         casper.then(function() {
                             casper.echo('Verify file clip buttons as a viewer', 'INFO');
                             verifyFileClipButtonsAsNonManager();
                         });
 
-                        userUtil().doLogOut();
-                        userUtil().doLogIn(user3.username, user3.password);
-                        uiUtil().openContentProfile(contentProfile);
+                        userUtil.doLogOut();
+                        userUtil.doLogIn(user3.username, user3.password);
+                        uiUtil.openContentProfile(contentProfile);
 
                         casper.then(function() {
                             casper.echo('Verify file clip buttons as a logged in non-viewer user', 'INFO');
                             verifyFileClipButtonsAsNonManager();
                         });
 
-                        userUtil().doLogOut();
-                        uiUtil().openContentProfile(contentProfile);
+                        userUtil.doLogOut();
+                        uiUtil.openContentProfile(contentProfile);
 
                         casper.then(function() {
                             casper.echo('Verify file clip buttons as an anonymous user', 'INFO');
@@ -169,8 +169,8 @@ casper.test.begin('Page - Content', function(test) {
                         ///////////
 
                         // Login with the first user again to start link tests
-                        userUtil().doLogIn(user1.username, user1.password);
-                        uiUtil().openLinkProfile(linkProfile);
+                        userUtil.doLogIn(user1.username, user1.password);
+                        uiUtil.openLinkProfile(linkProfile);
 
                         // Verify the link clip buttons as a manager
                         casper.then(function() {
@@ -178,26 +178,26 @@ casper.test.begin('Page - Content', function(test) {
                             verifyLinkClipButtonsAsManager();
                         });
 
-                        userUtil().doLogOut();
-                        userUtil().doLogIn(user2.username, user2.password);
-                        uiUtil().openLinkProfile(linkProfile);
+                        userUtil.doLogOut();
+                        userUtil.doLogIn(user2.username, user2.password);
+                        uiUtil.openLinkProfile(linkProfile);
 
                         casper.then(function() {
                             casper.echo('Verify link clip buttons as a viewer', 'INFO');
                             verifyLinkClipButtonsAsNonManager();
                         });
 
-                        userUtil().doLogOut();
-                        userUtil().doLogIn(user3.username, user3.password);
-                        uiUtil().openLinkProfile(linkProfile);
+                        userUtil.doLogOut();
+                        userUtil.doLogIn(user3.username, user3.password);
+                        uiUtil.openLinkProfile(linkProfile);
 
                         casper.then(function() {
                             casper.echo('Verify link clip buttons as a logged in non-viewer user', 'INFO');
                             verifyLinkClipButtonsAsNonManager();
                         });
 
-                        userUtil().doLogOut();
-                        uiUtil().openLinkProfile(linkProfile);
+                        userUtil.doLogOut();
+                        uiUtil.openLinkProfile(linkProfile);
 
                         casper.then(function() {
                             casper.echo('Verify link clip buttons as an anonymous user', 'INFO');
@@ -210,8 +210,8 @@ casper.test.begin('Page - Content', function(test) {
                         /////////////////////////////
 
                         // Login with the first user again to start collabdoc tests
-                        userUtil().doLogIn(user1.username, user1.password);
-                        uiUtil().openCollabdocProfile(collabdocProfile);
+                        userUtil.doLogIn(user1.username, user1.password);
+                        uiUtil.openCollabdocProfile(collabdocProfile);
 
                         // Verify the collabdoc clip buttons as a manager
                         casper.then(function() {
@@ -219,26 +219,26 @@ casper.test.begin('Page - Content', function(test) {
                             verifyCollabdocClipButtonsAsManager();
                         });
 
-                        userUtil().doLogOut();
-                        userUtil().doLogIn(user2.username, user2.password);
-                        uiUtil().openCollabdocProfile(collabdocProfile);
+                        userUtil.doLogOut();
+                        userUtil.doLogIn(user2.username, user2.password);
+                        uiUtil.openCollabdocProfile(collabdocProfile);
 
                         casper.then(function() {
                             casper.echo('Verify collabdoc clip buttons as a viewer', 'INFO');
                             verifyCollabdocClipButtonsAsNonManager();
                         });
 
-                        userUtil().doLogOut();
-                        userUtil().doLogIn(user3.username, user3.password);
-                        uiUtil().openCollabdocProfile(collabdocProfile);
+                        userUtil.doLogOut();
+                        userUtil.doLogIn(user3.username, user3.password);
+                        uiUtil.openCollabdocProfile(collabdocProfile);
 
                         casper.then(function() {
                             casper.echo('Verify collabdoc clip buttons as a logged in non-viewer user', 'INFO');
                             verifyCollabdocClipButtonsAsNonManager();
                         });
 
-                        userUtil().doLogOut();
-                        uiUtil().openCollabdocProfile(collabdocProfile);
+                        userUtil.doLogOut();
+                        uiUtil.openCollabdocProfile(collabdocProfile);
 
                         casper.then(function() {
                             casper.echo('Verify collabdoc clip buttons as an anonymous user', 'INFO');

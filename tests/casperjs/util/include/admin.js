@@ -14,11 +14,9 @@
  */
 
 /**
- * General utility functions
- *
- * @return  {Object}    Returns an object with referenced utility functions
+ * Admin utility functions
  */
-var adminUtil = function(alias) {
+var adminUtil = (function() {
 
     /**
      * Verify if a tenant has already been created.
@@ -26,12 +24,13 @@ var adminUtil = function(alias) {
      * @param  {String}     alias                   The alias of the tenant
      * @param  {Function}   callback                Standard callback function
      * @param  {Boolean}    callback.tenantExists   `true` if the tenant already exists
+     * @api private
      */
     var verifyTenantExists = function(alias, callback) {
         var tenantExists = null;
         var err = null;
 
-        mainUtil().callInternalAPI('admin', 'getTenants', null, function(_err, tenants) {
+        mainUtil.callInternalAPI('admin', 'getTenants', null, function(_err, tenants) {
             if (_err) {
                 casper.echo('Could not retrieve the list of tenants. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
                 err = _err;
@@ -60,6 +59,7 @@ var adminUtil = function(alias) {
      * @param  {Object}     configToStore         The configuration to check
      * @param  {Function}   callback              Standard callback function
      * @param  {Boolean}    callback.configSet    Standard callback function
+     * @api private
      */
     var verifyConfigSet = function(alias, configToStore, callback) {
         storedConfig = casper.evaluate(function(alias) {
@@ -93,13 +93,13 @@ var adminUtil = function(alias) {
      * @param  {String}     displayName       The display name of the tenant
      * @param  {String}     host              The host name of the tenant
      * @param  {Function}   callback          Standard callback function
-     * @param  {String}     callback.alias    The alias of the tenant that was created
+     * @param  {String}     callback.tenant   The profile of the tenant that was created
      *
      * @return {String}     tenantID    The ID of the generated tenant
      */
     var createTenant = function(alias, displayName, host, callback) {
         casper.then(function() {
-            verifyTenantExists(alias, function(err, exists) {
+            verifyTenantExists(alias, function(_err, exists) {
                 // If the test tenant already exists continue
                 if (exists) {
                     casper.echo('The test tenant already exists.');
@@ -112,15 +112,16 @@ var adminUtil = function(alias) {
                 // If the test tenant doesn't exist yet, create it and continue
                 } else {
                     var tenant = null;
-                    var rndString = mainUtil().generateRandomString();
+                    var err = null;
+                    var rndString = mainUtil.generateRandomString();
                     alias = alias || rndString;
                     displayName = displayName || rndString + ' Tenant';
                     host = host || rndString + '.oae.com';
 
-                    mainUtil().callInternalAPI('admin', 'createTenant', [alias, displayName, host], function(err, _tenant) {
-                        if (err) {
-                            casper.echo('Could not create tenant ' + displayName + ', stopping test. Error ' + err.code + ': ' + err.msg, 'ERROR');
-                            casper.exit();
+                    mainUtil.callInternalAPI('admin', 'createTenant', [alias, displayName, host], function(_err, _tenant) {
+                        if (_err) {
+                            casper.echo('Could not create tenant ' + displayName + '. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
+                            err = _err;
                         } else {
                             tenant = _tenant;
                             casper.echo('Successfully created tenant ' + displayName + '.');
@@ -128,9 +129,9 @@ var adminUtil = function(alias) {
                     });
 
                     casper.waitFor(function() {
-                        return tenant !== null;
+                        return tenant !== null || err !== null;
                     }, function() {
-                        return callback(tenant);
+                        return callback(err, tenant);
                     });
                 }
             });
@@ -170,4 +171,4 @@ var adminUtil = function(alias) {
         'createTenant': createTenant,
         'writeConfig': writeConfig
     };
-};
+})();

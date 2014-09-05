@@ -18,7 +18,7 @@
  *
  * @return  {Object}    Returns an object with referenced utility functions
  */
-var mainUtil = function() {
+var mainUtil = (function() {
 
     /**
      * Utility function that calls an internal OAE UI API function
@@ -39,7 +39,7 @@ var mainUtil = function() {
                 return $('body').is(':visible');
             });
         }, function() {
-            var rndString = mainUtil().generateRandomString();
+            var rndString = mainUtil.generateRandomString();
 
             // Bind the event called when the API call finishes
             casper.on(rndString + '.finished', function(data) {
@@ -65,7 +65,7 @@ var mainUtil = function() {
     /**
      * Generates a random 10 character sequence of upper and lowercase letters.
      *
-     * @return {String}   Random 10 character sequence of upper and lowercase letters
+     * @return {String}    Random 10 character sequence of upper and lowercase letters
      */
     var generateRandomString = function() {
         var rndString = '';
@@ -80,4 +80,4 @@ var mainUtil = function() {
         'callInternalAPI': callInternalAPI,
         'generateRandomString': generateRandomString
     };
-};
+})();

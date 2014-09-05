@@ -15,10 +15,8 @@
 
 /**
  * Utility functions for discussions
- *
- * @return  {Object}    Returns an object with referenced discussions utility functions
  */
-var discussionUtil = function() {
+var discussionUtil = (function() {
 
     /**
      * Creates a discussion
@@ -29,8 +27,8 @@ var discussionUtil = function() {
      * @param  {String[]}       [managers]                Array of user/group ids that should be added as managers to the discussion
      * @param  {String[]}       [members]                 Array of user/group ids that should be added as members to the discussion
      * @param  {Function}       callback                  Standard callback method
-     * @param  {Object}         callback.err              Error object containing error code and error message
-     * @param  {Discussion}     callback.discussion       Discussion object representing the created discussion
+     * @param  {Object}         [callback.err]            Error object containing error code and error message
+     * @param  {Discussion}     [callback.discussion]     Discussion object representing the created discussion
      */
     var createDiscussion = function(displayName, description, visibility, managers, members, callback) {
         casper.then(function() {
@@ -38,13 +36,13 @@ var discussionUtil = function() {
             var err = null;
 
             // Default parameters
-            displayName = displayName || 'Discussion ' + mainUtil().generateRandomString();
+            displayName = displayName || 'Discussion ' + mainUtil.generateRandomString();
             description = description || 'Talk about all the things!';
             visibility = visibility || 'public';
             managers = managers || [];
             members = members || [];
 
-            mainUtil().callInternalAPI('discussion', 'createDiscussion', [displayName, description, visibility, managers, members], function(_err, _discussion) {
+            mainUtil.callInternalAPI('discussion', 'createDiscussion', [displayName, description, visibility, managers, members], function(_err, _discussion) {
                 if (_err) {
                     casper.echo('Could not create discussion \'' + displayName + '\'. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
                     err = _err;
@@ -64,4 +62,4 @@ var discussionUtil = function() {
     return {
         'createDiscussion': createDiscussion
     };
-};
+})();

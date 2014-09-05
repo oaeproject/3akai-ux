@@ -15,10 +15,8 @@
 
 /**
  * Utility functions for users
- *
- * @return  {Object}    Returns an object with referenced user utility functions
  */
-var userUtil = function() {
+var userUtil = (function() {
 
     /**
      * Creates a given number of users
@@ -34,13 +32,13 @@ var userUtil = function() {
             var userProfiles = [];
 
             // Point casper to the tenant UI
-            casper.start(configUtil().tenantUI, function() {
+            casper.start(configUtil.tenantUI, function() {
                 /**
                  * Create a user
                  */
                 var createUser = function() {
-                    var rndString = mainUtil().generateRandomString();
-                    var rndPassword = mainUtil().generateRandomString();
+                    var rndString = mainUtil.generateRandomString();
+                    var rndPassword = mainUtil.generateRandomString();
                     var params = ['user-' + rndString, rndPassword, rndString, {
                         'visibility': 'public',
                         'email': 'roy@example.com',
@@ -49,7 +47,7 @@ var userUtil = function() {
                         'acceptedTC': true
                     }, null, null];
 
-                    mainUtil().callInternalAPI('user', 'createUser', params, function(err, userProfile) {
+                    mainUtil.callInternalAPI('user', 'createUser', params, function(err, userProfile) {
                         if (err) {
                             casper.echo('Could not create user-' + rndString + '. Error ' + err.code + ': ' + err.msg, 'ERROR');
                         } else {
@@ -64,7 +62,7 @@ var userUtil = function() {
 
                 // Get the me object
                 var me = null;
-                mainUtil().callInternalAPI('user', 'getMe', null, function(err, _me) {
+                mainUtil.callInternalAPI('user', 'getMe', null, function(err, _me) {
                     me = _me;
                 });
 
@@ -108,7 +106,7 @@ var userUtil = function() {
             var err = null;
             var loggedIn = false;
 
-            mainUtil().callInternalAPI('authentication', 'localLogin', [username, password], function(_err) {
+            mainUtil.callInternalAPI('authentication', 'localLogin', [username, password], function(_err) {
                 if (_err) {
                     casper.echo('Could not log in with ' + username + '. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
                     err = _err;
@@ -131,7 +129,7 @@ var userUtil = function() {
             var done = null;
             var err = null;
 
-            mainUtil().callInternalAPI('authentication', 'localLogout', null, function(_err) {
+            mainUtil.callInternalAPI('authentication', 'localLogout', null, function(_err) {
                 if (_err) {
                     casper.echo('Could not log out. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
                     err = _err;
@@ -151,4 +149,4 @@ var userUtil = function() {
         'doLogIn': doLogIn,
         'doLogOut': doLogOut
     };
-};
+})();

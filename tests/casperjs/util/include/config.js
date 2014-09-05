@@ -15,10 +15,8 @@
 
 /**
  * Holds configuration
- *
- * @return  {Object}    Returns an object with referenced configuration values
  */
-var configUtil = function(alias) {
+var configUtil = (function() {
     return {
         'adminUI': 'http://admin.oae.com',
         'adminPassword': 'administrator',
@@ -31,4 +29,4 @@ var configUtil = function(alias) {
         'tenantUI': 'http://test.oae.com',
         'waitTimeout': 30000
     };
-};
+})();
