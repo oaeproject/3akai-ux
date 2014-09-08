@@ -139,6 +139,10 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         // Only show the upload and create clips to users that are able to add items to the folder
         if (folderProfile.canAddItem) {
             $('#folder-manager-actions').show();
+        // Hide the left hand navigation toggle from the folderlibrary widget when the user is not able
+        // to add items to the current folder
+        } else {
+            $('html').addClass('folder-non-manager');
         }
     };
 

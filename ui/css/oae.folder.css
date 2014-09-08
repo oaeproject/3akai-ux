@@ -24,7 +24,7 @@
     }
 }
 
-/* Hide the lhnavigation toggle for anonymous users */
-.anon .oae-lhnavigation-toggle {
+/* Hide the lhnavigation toggle for non-managers */
+.folder-non-manager .oae-lhnavigation-toggle {
     display: none !important;
 }
