@@ -135,7 +135,12 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * Render the folder's clips
      */
     var setUpClips = function() {
-        oae.api.util.template().render($('#folder-clip-template'), {'folder': folderProfile}, $('#folder-clip-container'));
+        oae.api.util.template().render($('#folder-clip-template'), {
+            'folder': folderProfile,
+            'displayOptions': {
+                'addLink': false
+            }
+        }, $('#folder-clip-container'));
         // Only show the upload and create clips to users that are able to add items to the folder
         if (folderProfile.canAddItem) {
             $('#folder-manager-actions').show();
