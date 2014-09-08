@@ -22,7 +22,7 @@ casper.test.begin('Prepare environment for tests', function(test) {
     casper.options.viewportSize = {'width': 1200, 'height': 800};
 
     /**
-     * Logs any JavaScript errors in the page
+     * Log any JavaScript errors in the page
      *
      * @param  {String}    msg    The error in the page
      */

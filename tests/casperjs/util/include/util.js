@@ -15,8 +15,6 @@
 
 /**
  * General utility functions
- *
- * @return  {Object}    Returns an object with referenced utility functions
  */
 var mainUtil = (function() {
 

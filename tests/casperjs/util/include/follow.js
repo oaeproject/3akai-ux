@@ -15,8 +15,6 @@
 
 /**
  * Utility functions for following users
- *
- * @return  {Object}    Returns an object with referenced follow utility functions
  */
 var followUtil = (function() {
 
@@ -28,10 +26,23 @@ var followUtil = (function() {
      * @param  {Object}      [callback.err]    Error object containing error code and error message
      */
     var follow = function(userId, callback) {
-        casper.thenEvaluate(function(userId) {
-            require('oae.core').api.follow.follow(userId);
-        }, userId);
-        casper.wait(configUtil.modalWaitTime, callback);
+        var err = null;
+        var done = null;
+
+        mainUtil.callInternalAPI('follow', 'follow', [userId], function(_err) {
+            if (_err) {
+                casper.echo('Could not follow user ' + userId + '. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
+                err = _err;
+            } else {
+                done = true;
+            }
+        });
+
+        casper.waitFor(function() {
+            return done === true || err !== null;
+        }, function() {
+            return callback(err);
+        });
     };
 
     /**
@@ -42,10 +53,23 @@ var followUtil = (function() {
      * @param  {Object}      [callback.err]    Error object containing error code and error message
      */
     var unfollow = function(userId, callback) {
-        casper.thenEvaluate(function(userId) {
-            require('oae.core').api.follow.unfollow(userId);
-        }, userId);
-        casper.wait(configUtil.modalWaitTime, callback);
+        var err = null;
+        var done = null;
+
+        mainUtil.callInternalAPI('follow', 'unfollow', [userId], function(_err) {
+            if (_err) {
+                casper.echo('Could not unfollow user ' + userId + '. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
+                err = _err;
+            } else {
+                done = true;
+            }
+        });
+
+        casper.waitFor(function() {
+            return done === true || err !== null;
+        }, function() {
+            return callback(err);
+        });
     };
 
     return {

@@ -106,7 +106,7 @@ var adminUtil = (function() {
 
                     casper.then(function() {
                         if (callback) {
-                            return callback(alias);
+                            return callback(null, alias);
                         }
                     });
                 // If the test tenant doesn't exist yet, create it and continue
