@@ -108,7 +108,6 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         oae.api.util.template().render($('#content-clip-template'), {
             'content': contentProfile,
             'displayOptions': {
-                'addVisibilityIcon': true,
                 'addLink': false
             }
         }, $('#content-clip-container'));

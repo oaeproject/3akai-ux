@@ -89,7 +89,6 @@ require(['jquery', 'oae.core'], function($, oae) {
         oae.api.util.template().render($('#group-clip-template'), {
             'group': groupProfile,
             'displayOptions': {
-                'addVisibilityIcon': true,
                 'addLink': false
             }
         }, $('#group-clip-container'));

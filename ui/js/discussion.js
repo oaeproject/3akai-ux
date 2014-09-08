@@ -126,7 +126,6 @@ require(['jquery','oae.core'], function($, oae) {
         oae.api.util.template().render($('#discussion-clip-template'), {
             'discussion': discussionProfile,
             'displayOptions': {
-                'addVisibilityIcon': true,
                 'addLink': false
             }
         }, $('#discussion-clip-container'));
