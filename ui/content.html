@@ -49,6 +49,9 @@
                                     {if content.resourceSubType === 'file'}
                                         <li><a href="${content.downloadPath}"><i class="fa fa-download"></i>__MSG__DOWNLOAD__</a></li>
                                     {/if}
+                                    {if content.resourceSubType === 'collabdoc'}
+                                        <li class="hidden oae-clip-collabdoc-download"><a target="_blank"><i class="fa fa-download"></i>__MSG__DOWNLOAD__</a></li>
+                                    {/if}
                                     {if content.isManager}
                                         <li><button class="oae-trigger-manageaccess"><i class="fa fa-lock"></i>__MSG__MANAGE_ACCESS__</button></li>
                                         <li><button class="oae-trigger-editcontent"><i class="fa fa-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
