@@ -176,7 +176,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      */
     var setUpPushNotifications = function() {
         oae.api.push.subscribe(folderId, 'activity', folderProfile.signature, 'internal', false, function(activity) {
-            var isSupportedUpdateActivity = _.contains(['content-update', 'content-update-visibility'], activity['oae:activityType']);
+            var isSupportedUpdateActivity = _.contains(['folder-update', 'folder-update-visibility'], activity['oae:activityType']);
             // Only respond to push notifications caused by other users
             if (activity.actor.id === oae.data.me.id) {
                 return;
