@@ -56,6 +56,12 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
             // Set the HTML structure for the adder button
             Annotator.prototype.html.adder = '<div class="documentpreview-annotator-adder annotator-adder"><button class="btn btn-link"><i class="fa fa-edit"><span class="sr-only">Annotate</span></i></button></div>';
 
+            // Override the `onHighlightMouseover` function to not show the viewer on mouse over
+            Annotator.prototype.onHighlightMouseover = function() {return;};
+
+            // Override the `startViewerHideTimer` function as we don't have a mouseover
+            Annotator.prototype.startViewerHideTimer = function() {return;};
+
             /**
              * Override keyboard events so that only the escape key is captured
              *
@@ -131,6 +137,40 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
             }
 
             /**
+             * Generate a text color based on a hexadecimal background color
+             *
+             * @param  {Object}    rgb    Object containing rgb values
+             */
+            var generateHighlightTextColor = function(rgb){
+                if (Math.sqrt(rgb.r * rgb.r * 0.299 + rgb.g * rgb.g * 0.587 + rgb.b * rgb.b * 0.114) > 150) {
+                    return '#FFF';
+                } else {
+                    return '#000';
+                }
+            };
+
+            /**
+             * Generate a background color based on the user ID.
+             *
+             * @param  {String}    userId    user ID of the user to generate a background color for
+             * @return {Object}              Returns an object containing rgb values
+             */
+            var generateHighlightColor = function(userId) {
+                var hash = 0;
+                for (var i = 0; i < userId.length; i++) {
+                    hash = userId.charCodeAt(i) + ((hash << 5) - hash);
+                }
+                var r = (hash & 0xFF0000) >> 16;
+                var g = (hash & 0x00FF00) >> 8;
+                var b = hash & 0x0000FF;
+                return {
+                    'r': r,
+                    'g': g,
+                    'b': b
+                };
+            };
+
+            /**
              * Initialize the Sidebar plugin
              */
             Sidebar.prototype.pluginInit = function() {
@@ -147,6 +187,9 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
 
                 // Toggle the annotations list when the edit button is clicked
                 $('body').on('click', '#documentpreview-toggle-annotator', toggleAnnotationsList);
+
+                // Show an annotation when it's clicked
+                $('body').on('click', '.annotator-hl', showClickedAnnotations);
 
                 // Hook into push events
                 setUpPushNotifications();
@@ -270,6 +313,19 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
             };
 
             /**
+             * Apply the user's unique colour to an annotation
+             *
+             * @param  {Object}    annotation    Object representing the annotation to colorize the highlights for
+             */
+            var applyAnnotationHighlightColors = function(annotation) {
+                var highlightColor = generateHighlightColor(annotation.createdBy.id);
+                $(annotation.highlights).css({
+                    'background': 'rgba(' + highlightColor.r + ', ' + highlightColor.g + ', ' + highlightColor.b + ', 0.2)',
+                    'color': generateHighlightTextColor(highlightColor)
+                });
+            };
+
+            /**
              * Add a unique oae ID to the annotations when they are loaded
              *
              * @param  {Object[]}    annotations     Array of annotations that are loaded
@@ -277,6 +333,7 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
             Sidebar.prototype.annotationsLoaded = function(annotations) {
                 $.each(annotations, function(i, annotation) {
                     $(annotation.highlights).addClass(annotation.id);
+                    applyAnnotationHighlightColors(annotation);
                 });
             };
 
@@ -336,6 +393,70 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
             };
 
             /**
+             * Get the child elements of a clicked annotation
+             *
+             * @param  {jQuery}      $highlight    target of jQuery click event that is an `annotator-hl` element
+             * @return {Object[]}                  Returns an array of child annotations
+             */
+            var getAnnotationChildren = function($highlight) {
+                var annotations = {};
+                var childAnnotations = $highlight.find('.annotator-hl');
+
+                // If there are parent annotations, add them to the temporary unique annotations
+                // object that will later be converted into an array
+                if (childAnnotations.length) {
+                    $.each(childAnnotations, function(ii, childAnnotationElement) {
+                        var childAnnotation = $(childAnnotationElement).data('annotation');
+                        annotations[childAnnotation.id] = childAnnotation;
+                    });
+                }
+
+                return _.toArray(annotations);
+            };
+
+            /**
+             * Get the parent elements of a clicked annotation
+             *
+             * @param  {jQuery}    $highlight    target of jQuery click event that is an `annotator-hl` element
+             * @return {Object[]}                Returns an array of parent annotations
+             */
+            var getAnnotationParents = function($highlight) {
+                var annotations = {};
+                var parentAnnotations = $highlight.parents('.annotator-hl');
+
+                // If there are parent annotations, add them to the temporary unique annotations
+                // object that will later be converted into an array
+                if (parentAnnotations.length) {
+                    $.each(parentAnnotations, function(ii, parentAnnotationElement) {
+                        var parentAnnotation = $(parentAnnotationElement).data('annotation');
+                        annotations[parentAnnotation.id] = parentAnnotation;
+                    });
+                }
+
+                return _.toArray(annotations);
+            };
+
+            /**
+             * Get the child and parent annotations for the clicked annotation and render them in the list
+             *
+             * @param {Event}    ev    Standard jQuery click event
+             */
+            var showClickedAnnotations = function(ev) {
+                // Stop propagation of the click event to only handle one click
+                ev.stopPropagation();
+                // Get the clicked annotation
+                var clickedAnnotation = $(ev.target).data('annotation');
+                // Get the children of the clicked annotation
+                var childAnnotations = getAnnotationChildren($(ev.target));
+                // Get the parents of the clicked annotation
+                var parentAnnotations = getAnnotationParents($(ev.target));
+                // Render the list of annotations
+                renderAnnotationsList(_.union(childAnnotations, [clickedAnnotation], parentAnnotations));
+                // Show the list of annotations
+                showAnnotationsList();
+            };
+
+            /**
              * Get the custom fields for the annotation editor
              */
             var getEditorFields = function() {
@@ -386,7 +507,9 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
             Sidebar.prototype.onButtonClick = function(ev, type) {
                 var $annotationItem = $($(ev.target).closest('li'));
                 if (type === 'delete') {
-                    return this.annotator.deleteAnnotation($annotationItem.data('annotation'));
+                    var annotation = $annotationItem.data('annotation');
+                    delete annotation.prototype;
+                    return this.annotator.deleteAnnotation(annotation);
                 } else if (type === 'edit') {
                     // Add the editor to the annotation's edit container
                     var $editContainer = $($annotationItem.find('.documentpreview-annotation-edit-container'));
@@ -503,7 +626,8 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
                             _this.updateAnnotation(annotation, data);
                             __extends(annotation, data);
                             createAnnotationReference(annotation);
-                            return renderAnnotationsList([annotation]);
+                            var parentAnnotations = getAnnotationParents($(annotation.highlights[0]));
+                            return renderAnnotationsList(_.union([annotation], parentAnnotations));
                         };
                     })(this));
                 } else {
@@ -518,6 +642,7 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
              */
             var createAnnotationReference = function(annotation) {
                 $(annotation.highlights).addClass(annotation.id);
+                applyAnnotationHighlightColors(annotation);
             };
 
             /**
@@ -743,9 +868,9 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
             };
 
 
-            ////////////
-            // DELETE //
-            ////////////
+            ///////////////////////
+            // DELETE ANNOTATION //
+            ///////////////////////
 
             /**
              * Catch the `delete` button click in the Sidebar
