@@ -144,7 +144,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
         // Authenticate the websocket
         sendMessage('authentication', {'userId': me.id, 'tenantAlias': me.tenant.alias, 'signature': me.signature }, function(err) {
             if (err) {
-                throw new Error('Could not authenticate the websocket')
+                throw new Error('Could not authenticate the websocket');
             }
 
             // Indicate that the connection and authentication was successful
