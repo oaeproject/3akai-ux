@@ -74,7 +74,7 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
             };
 
             // Set the HTML structure for the adder button
-            Annotator.prototype.html.adder = '<div class="documentpreview-annotator-adder annotator-adder"><button class="btn btn-link"><i class="fa fa-edit"><span class="sr-only">Annotate</span></i></button></div>';
+            Annotator.prototype.html.adder = '<div class="documentpreview-annotator-adder annotator-adder"><button class="btn btn-link"><i class="fa fa-edit"><span class="sr-only">' + i18nAPI.translate('__MSG__ANNOTATE__') + '</span></i></button></div>';
 
             // Override the `onHighlightMouseover` function to not show the viewer on mouse over
             Annotator.prototype.onHighlightMouseover = function() {return;};
@@ -89,8 +89,13 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
              * @param  {Event}    ev    Standard jQuery `mouseup` event
              */
             Annotator.prototype.checkForEndSelection = function(ev) {
-                // If the selection didn't happen inside of the annotator container, ignore it
-                if (!$(ev.target).closest('#documentpreview-content-container').length) {
+                // If the selection didn't happen inside of the annotator container or it
+                // was made by a non-member user, ignore it
+                var isViewer = Annotator.Plugin.Sidebar.prototype.options.contentProfile.isViewer;
+                var isManager = Annotator.Plugin.Sidebar.prototype.options.contentProfile.isManager;
+
+                if (!$(ev.target).closest('#documentpreview-content-container').length ||
+                    (!isViewer && !isManager)) {
                     return;
                 }
 
@@ -247,6 +252,9 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
              */
             var annotationDeleted = function(annotation) {
                 annotation = $('.annotator-hl.' + annotation.id).data('annotation');
+
+                updateWhitespaceBeforeDelete(annotation);
+
                 if (annotation && annotation.highlights !== null) {
                     for (var i = 0; i < annotation.highlights.length; i++) {
                         var highlight = annotation.highlights[i];
@@ -291,6 +299,40 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
             ///////////////
 
             /**
+             * Update the color of whitespace when an annotation is deleted from the document. This is done by
+             * looking at the children of the deleted annotations and applying the color of its highlights
+             * to the whitespace. When no children are present, no color needs to be applied.
+             *
+             * @param  {Object}    annotation     Object containing the annotation that will be deleted
+             */
+            var updateWhitespaceBeforeDelete = function(annotation) {
+                if (annotation) {
+                    // When an item is deleted the associated whitespace should change color if there's
+                    // another annotation in that spot
+                    var $annotationItems = $('.annotator-hl.' + annotation.id).find('.annotator-hl');
+
+                    // Remove all color from the whitespace for the deleted annotation
+                    $(annotation.highlights).next('._').css({
+                        'background': '',
+                        'color': ''
+                    });
+
+                    // If there is a child annotation in the DOM the whitespace will need to take the color of
+                    // those highlights.
+                    if ($annotationItems.length) {
+                        // Add color to the new whitespace of the annotation that moves one level up in the DOM
+                        var annotationToUpdateColor = $annotationItems.data('annotation');
+                        var backgroundColor = $annotationItems.css('background');
+                        var textColor = $annotationItems.css('color');
+                        $(annotationToUpdateColor.highlights).parent().next('._').css({
+                            'background': backgroundColor,
+                            'color': textColor
+                        });
+                    }
+                }
+            };
+
+            /**
              * Generate a text color based on a hexadecimal background color
              *
              * @param  {Object}    rgb    Object containing rgb values
@@ -325,24 +367,24 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
             };
 
             /**
-             * [_onError description]
+             * Show the appropriate error notification when Store operations go wrong.
              *
-             * @param  {[type]} xhr [description]
+             * @param  {Object}    err    Error object containing more information on what went wrong
              */
-            Annotator.Plugin.Store.prototype._onError = function(xhr) {
+            Annotator.Plugin.Store.prototype._onError = function(err) {
                 var notificationTitle = null;
                 var notificationBody = null;
 
-                if (xhr._action === 'read') {
+                if (err._action === 'read') {
                     notificationTitle = i18nAPI.translate('__MSG__ANNOTATIONS_NOT_RETRIEVED__', 'documentpreview');
                     notificationBody = i18nAPI.translate('__MSG__ANNOTATIONS_COULD_NOT_BE_RETRIEVED__', 'documentpreview');
-                } else if (xhr._action === 'create') {
+                } else if (err._action === 'create') {
                     notificationTitle = i18nAPI.translate('__MSG__ANNOTATION_NOT_CREATED__', 'documentpreview');
                     notificationBody = i18nAPI.translate('__MSG__ANNOTATION_COULD_NOT_BE_CREATED__', 'documentpreview');
-                } else if (xhr._action === 'update') {
+                } else if (err._action === 'update') {
                     notificationTitle = i18nAPI.translate('__MSG__ANNOTATION_NOT_UPDATED__', 'documentpreview');
                     notificationBody = i18nAPI.translate('__MSG__ANNOTATION_COULD_NOT_BE_UPDATED__', 'documentpreview');
-                } else if (xhr._action === 'destroy') {
+                } else if (err._action === 'destroy') {
                     notificationTitle = i18nAPI.translate('__MSG__ANNOTATION_NOT_DELETED__', 'documentpreview');
                     notificationBody = i18nAPI.translate('__MSG__ANNOTATION_COULD_NOT_BE_DELETED__', 'documentpreview');
                 }
@@ -555,6 +597,10 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
                 if (type === 'delete') {
                     var annotation = $annotationItem.data('annotation');
                     delete annotation.prototype;
+
+                    updateWhitespaceBeforeDelete(annotation);
+
+                    // Finally delete the annotation
                     return this.annotator.deleteAnnotation(annotation);
                 } else if (type === 'edit') {
                     // Add the editor to the annotation's edit container
@@ -625,11 +671,13 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
             renderAnnotationsList = function(annotations) {
                 // Get the template and target container and render the template
                 $container = $(Annotator.Plugin.Sidebar.prototype.options.container);
-                viewTemplate = Annotator.Plugin.Sidebar.prototype.options.viewTemplate;
-                canManage = Annotator.Plugin.Sidebar.prototype.options.contentProfile.canManage;
+                var viewTemplate = Annotator.Plugin.Sidebar.prototype.options.viewTemplate;
+                var userProfile = Annotator.Plugin.Sidebar.prototype.options.userProfile;
+                var contentProfile = Annotator.Plugin.Sidebar.prototype.options.contentProfile;
                 oaeUtil.template().render(viewTemplate, {
                     'annotations': annotations,
-                    'canManage': canManage
+                    'contentProfile': contentProfile,
+                    'userProfile': userProfile
                 }, $container);
 
                 // Store the annotation data on the list items for future reference
@@ -941,8 +989,8 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
              * @param  {Object}    annotation     Object representing the deleted annotation
              */
             Sidebar.prototype.onAnnotationDeleted = function(annotation) {
-                var annotationItem = $('li[data-id="' + annotation.id + '"]');
-                annotationItem.remove();
+                var $annotationItem = $('li[data-id="' + annotation.id + '"]');
+                $annotationItem.remove();
             };
 
             return Sidebar;
