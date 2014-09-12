@@ -15,7 +15,7 @@
 
 define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', 'jquery.autosize'], function (jQuery, oaeUtil, i18nAPI, pushAPI) {
     (function() {
-        var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+        var __bind = function(fn, me) { return function() { return fn.apply(me, arguments); }; },
             __hasProp = {}.hasOwnProperty,
             __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
             __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
@@ -76,7 +76,7 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
             };
 
             // Set the HTML structure for the adder button
-            Annotator.prototype.html.adder = '<div class="documentpreview-annotator-adder annotator-adder"><button class="btn btn-link"><i class="fa fa-edit"><span class="sr-only">' + i18nAPI.translate('__MSG__ANNOTATE__', 'documentpreview') + '</span></i></button></div>';
+            Annotator.prototype.html.adder = '<div class="documentpreview-annotator-adder annotator-adder"><button class="btn btn-link"><i class="fa fa-edit"><span class="sr-only">' + i18nAPI.translate('__MSG__ANNOTATE__') + '</span></i></button></div>';
 
             // Override the `onHighlightMouseover` function to not show the viewer on mouse over
             Annotator.prototype.onHighlightMouseover = function() {
@@ -364,7 +364,7 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
              *
              * @param  {Object}    rgb    Object containing rgb values
              */
-            var generateHighlightTextColor = function(rgb){
+            var generateHighlightTextColor = function(rgb) {
                 if (Math.sqrt(rgb.r * rgb.r * 0.299 + rgb.g * rgb.g * 0.587 + rgb.b * rgb.b * 0.114) > 150) {
                     return '#FFF';
                 } else {
@@ -403,17 +403,17 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
                 var notificationBody = null;
 
                 if (err._action === 'read') {
-                    notificationTitle = i18nAPI.translate('__MSG__ANNOTATIONS_NOT_RETRIEVED__', 'documentpreview');
-                    notificationBody = i18nAPI.translate('__MSG__ANNOTATIONS_COULD_NOT_BE_RETRIEVED__', 'documentpreview');
+                    notificationTitle = i18nAPI.translate('__MSG__ANNOTATIONS_NOT_RETRIEVED__');
+                    notificationBody = i18nAPI.translate('__MSG__ANNOTATIONS_COULD_NOT_BE_RETRIEVED__');
                 } else if (err._action === 'create') {
-                    notificationTitle = i18nAPI.translate('__MSG__ANNOTATION_NOT_CREATED__', 'documentpreview');
-                    notificationBody = i18nAPI.translate('__MSG__ANNOTATION_COULD_NOT_BE_CREATED__', 'documentpreview');
+                    notificationTitle = i18nAPI.translate('__MSG__ANNOTATION_NOT_CREATED__');
+                    notificationBody = i18nAPI.translate('__MSG__ANNOTATION_COULD_NOT_BE_CREATED__');
                 } else if (err._action === 'update') {
-                    notificationTitle = i18nAPI.translate('__MSG__ANNOTATION_NOT_UPDATED__', 'documentpreview');
-                    notificationBody = i18nAPI.translate('__MSG__ANNOTATION_COULD_NOT_BE_UPDATED__', 'documentpreview');
+                    notificationTitle = i18nAPI.translate('__MSG__ANNOTATION_NOT_UPDATED__');
+                    notificationBody = i18nAPI.translate('__MSG__ANNOTATION_COULD_NOT_BE_UPDATED__');
                 } else if (err._action === 'destroy') {
-                    notificationTitle = i18nAPI.translate('__MSG__ANNOTATION_NOT_DELETED__', 'documentpreview');
-                    notificationBody = i18nAPI.translate('__MSG__ANNOTATION_COULD_NOT_BE_DELETED__', 'documentpreview');
+                    notificationTitle = i18nAPI.translate('__MSG__ANNOTATION_NOT_DELETED__');
+                    notificationBody = i18nAPI.translate('__MSG__ANNOTATION_COULD_NOT_BE_DELETED__');
                 }
 
                 return oaeUtil.notification(notificationTitle, notificationBody, 'error');
@@ -593,7 +593,7 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
             var getEditorFields = function() {
                 return {
                     type: 'textarea',
-                    label: i18nAPI.translate('__MSG__ADD_A_COMMENT__', 'documentpreview'),
+                    label: i18nAPI.translate('__MSG__ADD_A_COMMENT__'),
                     load: function(field, annotation) {
                         showAnnotationsList();
                         $(field).find('textarea').val(annotation.text || '');
