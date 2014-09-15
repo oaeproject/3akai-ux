@@ -258,7 +258,7 @@ require(['jquery', 'oae.core'], function($, oae) {
      * are made by a different user after the initial page load
      */
     var setUpPushNotifications = function() {
-        oae.api.push.subscribe(groupId, 'activity', groupProfile.signature, 'internal', false, function(activities) {
+        oae.api.push.subscribe(groupId, 'activity', groupProfile.signature, 'internal', false, false, function(activities) {
             // The `activity` stream pushes out activities on routing so it's always
             // safe to just pick the first item from the `activities` array
             var activity = activities[0];
