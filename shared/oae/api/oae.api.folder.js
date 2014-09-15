@@ -103,15 +103,12 @@ define(['exports', 'jquery'], function(exports, $) {
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
-        // TODO: Remove this once visibility changes to the content are done in a separate request
-        params.applyVisibilityOn = 'folder';
-
         $.ajax({
             'url': '/api/folder/' + folderId,
             'type': 'POST',
             'data': params,
             'success': function(data) {
-                callback(null, data.folder);
+                callback(null, data);
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
@@ -122,14 +119,14 @@ define(['exports', 'jquery'], function(exports, $) {
     /**
      * Update the visibility of the content items inside a folder
      *
-     * @param  {String}       folderId                      Id of the folder for which the visibility of its items should be updated
+     * @param  {String}       folderId                      Id of the folder for which the visibility of its content items should be updated
      * @param  {Object}       visibility                    Visibility that should be applied to the items in the folder. One of `loggedin`, `private` and `public`
      * @param  {Function}     [callback]                    Standard callback function
      * @param  {Object}       [callback.err]                Error object containing error code and error message
      * @param  {Folder}       [callback.failedContent]      The content items for which the visibility could not be updated
      * @throws {Error}                                      Error thrown when not all of the required parameters have been provided
      */
-    var updateFolderVisibility = exports.updateFolderVisibility = function(folderId, visibility, callback) {
+    var updateFolderContentVisibility = exports.updateFolderContentVisibility = function(folderId, visibility, callback) {
         if (!folderId) {
             throw new Error('A valid folder id should be provided');
         } else if (!visibility) {
@@ -140,13 +137,11 @@ define(['exports', 'jquery'], function(exports, $) {
         callback = callback || function() {};
 
         var data = {
-            'visibility': visibility,
-            // TODO: Remove this once updating the visibility of the items in a folder has a separate endpoint
-            'applyVisibilityOn': 'folderAndContent'
+            'visibility': visibility
         };
 
         $.ajax({
-            'url': '/api/folder/' + folderId,
+            'url': '/api/folder/' + folderId + '/contentvisibility',
             'type': 'POST',
             'data': data,
             'success': function(data) {
