@@ -28,7 +28,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
         'content-create': ['actor'],
         'content-revision': ['object'],
         'content-share': ['actor'],
-        'discussion-message': ['target']
+        'discussion-message': ['target'],
+        'folder-add-to-folder': ['target']
     };
 
     // Time in milliseconds during which aggregatable activities should be aggregated before calling

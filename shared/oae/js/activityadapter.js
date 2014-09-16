@@ -597,6 +597,20 @@ var _expose = function(exports) {
             return _generateDiscussionUpdateMemberRoleSummary(me, activity, properties);
         } else if (activityType === 'discussion-update-visibility') {
             return _generateDiscussionUpdateVisibilitySummary(me, activity, properties);
+        } else if (activityType === 'folder-add-to-folder') {
+            return _generateFolderAddToFolderSummary(me, activity, properties);
+        } else if (activityType === 'folder-add-to-library') {
+            return _generateFolderAddToLibrarySummary(me, activity, properties);
+        } else if (activityType === 'folder-create') {
+            return _generateFolderCreateSummary(me, activity, properties);
+        } else if (activityType === 'folder-share') {
+            return _generateFolderShareSummary(me, activity, properties);
+        } else if (activityType === 'folder-update') {
+            return _generateFolderUpdateSummary(me, activity, properties);
+        } else if (activityType === 'folder-update-member-role') {
+            return _generateFolderUpdateMemberRoleSummary(me, activity, properties);
+        } else if (activityType === 'folder-update-visibility') {
+            return _generateFolderUpdateVisibilitySummary(me, activity, properties);
         } else if (activityType === 'following-follow') {
             return _generateFollowingSummary(me, activity, properties);
         } else if (activityType === 'group-add-member') {
@@ -669,7 +683,7 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a content comment activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to content library activity, for which to generate the activity summary
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the content comment activity, for which to generate the activity summary
      * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
      * @return {ActivityViewSummary}                  A sumary object
      * @api private
@@ -707,7 +721,7 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a content creation activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to content library activity, for which to generate the activity summary
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the content creation activity, for which to generate the activity summary
      * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
      * @return {ActivityViewSummary}                  A sumary object
      * @api private
@@ -733,7 +747,7 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a restored content revision activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to content library activity, for which to generate the activity summary
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the restore content revision activity, for which to generate the activity summary
      * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
      * @return {ActivityViewSummary}                  A sumary object
      * @api private
@@ -763,7 +777,7 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a new content version activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to content library activity, for which to generate the activity summary
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the content revision creation activity, for which to generate the activity summary
      * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
      * @return {ActivityViewSummary}                  A sumary object
      * @api private
@@ -801,7 +815,7 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a content share activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to content library activity, for which to generate the activity summary
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the content share activity, for which to generate the activity summary
      * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
      * @return {ActivityViewSummary}                  A sumary object
      * @api private
@@ -867,7 +881,7 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a content member role update activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to content library activity, for which to generate the activity summary
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the content members update activity, for which to generate the activity summary
      * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
      * @return {ActivityViewSummary}                  A sumary object
      * @api private
@@ -917,7 +931,7 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a content update activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to content library activity, for which to generate the activity summary
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the content update activity, for which to generate the activity summary
      * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
      * @return {ActivityViewSummary}                  A sumary object
      * @api private
@@ -955,7 +969,7 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a visibility update activity for content.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to content library activity, for which to generate the activity summary
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the content visibility update activity, for which to generate the activity summary
      * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
      * @return {ActivityViewSummary}                  A sumary object
      * @api private
@@ -993,7 +1007,7 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of an add to library activity for a discussion.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to content library activity, for which to generate the activity summary
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to discussion library activity, for which to generate the activity summary
      * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
      * @return {ActivityViewSummary}                  A sumary object
      * @api private
@@ -1013,7 +1027,7 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a discussion creation activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to content library activity, for which to generate the activity summary
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the discussion creation activity, for which to generate the activity summary
      * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
      * @return {ActivityViewSummary}                  A sumary object
      * @api private
@@ -1033,7 +1047,7 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a discussion post activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to content library activity, for which to generate the activity summary
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the discussion message activity, for which to generate the activity summary
      * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
      * @return {ActivityViewSummary}                  A sumary object
      * @api private
@@ -1053,7 +1067,7 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a discussion share activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to content library activity, for which to generate the activity summary
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the discussion share activity, for which to generate the activity summary
      * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
      * @return {ActivityViewSummary}                  A sumary object
      * @api private
@@ -1074,9 +1088,17 @@ var _expose = function(exports) {
             }
         } else {
             if (properties.objectCount === 2) {
-                i18nKey = '__MSG__ACTIVITY_DISCUSSION_SHARE_YOU_2__';
+                if (activity.target['oae:id'] === me.id) {
+                    i18nKey = '__MSG__ACTIVITY_DISCUSSIONS_SHARE_2_YOU__';
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_DISCUSSIONS_SHARE_2__';
+                }
             } else {
-                i18nKey = '__MSG__ACTIVITY_DISCUSSION_SHARE_YOU_2+__';
+                if (activity.target['oae:id'] === me.id) {
+                    i18nKey = '__MSG__ACTIVITY_DISCUSSIONS_SHARE_2+_YOU__';
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_DISCUSSIONS_SHARE_2+__';
+                }
             }
         }
         return new ActivityViewSummary(i18nKey, properties);
@@ -1085,7 +1107,7 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a discussion member role update activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to content library activity, for which to generate the activity summary
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the discussion member update activity, for which to generate the activity summary
      * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
      * @return {ActivityViewSummary}                  A sumary object
      * @api private
@@ -1109,7 +1131,7 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a discussion update activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to content library activity, for which to generate the activity summary
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the discussion update activity, for which to generate the activity summary
      * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
      * @return {ActivityViewSummary}                  A sumary object
      * @api private
@@ -1129,7 +1151,7 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a visibility update activity for a discussion.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to content library activity, for which to generate the activity summary
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the discussion visibility update activity, for which to generate the activity summary
      * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
      * @return {ActivityViewSummary}                  A sumary object
      * @api private
@@ -1147,9 +1169,179 @@ var _expose = function(exports) {
     };
 
     /**
+     * Render the end-user friendly, internationalized summary of an add to folder activity.
+     *
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to folder activity, for which to generate the activity summary
+     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                  A sumary object
+     * @api private
+     */
+    var _generateFolderAddToFolderSummary = function(me, activity, properties) {
+        var i18nKey = null;
+        if (properties.objectCount === 1) {
+            if (activity.object['oae:resourceSubType'] === 'collabdoc') {
+                i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_FOLDER_COLLABDOC__';
+            } else if (activity.object['oae:resourceSubType'] === 'file') {
+                i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_FOLDER_FILE__';
+            } else if (activity.object['oae:resourceSubType'] === 'link') {
+                i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_FOLDER_LINK__';
+            }
+        } else if (properties.objectCount === 2) {
+            i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_FOLDER_2__';
+        } else {
+            i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_FOLDER_2+__';
+        }
+        return new ActivityViewSummary(i18nKey, properties);
+    };
+
+    /**
+     * Render the end-user friendly, internationalized summary of an add to library activity for a folder.
+     *
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to folder library activity, for which to generate the activity summary
+     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                  A sumary object
+     * @api private
+     */
+    var _generateFolderAddToLibrarySummary = function(me, activity, properties) {
+        var i18nKey = null;
+        if (properties.objectCount === 1) {
+            i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_LIBRARY__';
+        } else if (properties.objectCount === 2) {
+            i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_LIBRARY_2__';
+        } else {
+            i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_LIBRARY_2+__';
+        }
+        return new ActivityViewSummary(i18nKey, properties);
+    };
+
+    /**
+     * Render the end-user friendly, internationalized summary of a folder creation activity.
+     *
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the folder creation activity, for which to generate the activity summary
+     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                  A sumary object
+     * @api private
+     */
+    var _generateFolderCreateSummary = function(me, activity, properties) {
+        var i18nKey = null;
+        if (properties.objectCount === 1) {
+            i18nKey = '__MSG__ACTIVITY_FOLDER_CREATE_1__';
+        } else if (properties.objectCount === 2) {
+            i18nKey = '__MSG__ACTIVITY_FOLDER_CREATE_2__';
+        } else {
+            i18nKey = '__MSG__ACTIVITY_FOLDER_CREATE_2+__';
+        }
+        return new ActivityViewSummary(i18nKey, properties);
+    };
+
+    /**
+     * Render the end-user friendly, internationalized summary of a folder share activity.
+     *
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the folder share activity, for which to generate the activity summary
+     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                  A sumary object
+     * @api private
+     */
+    var _generateFolderShareSummary = function(me, activity, properties) {
+        var i18nKey = null;
+        if (properties.objectCount === 1) {
+            if (properties.targetCount === 1) {
+                if (activity.target['oae:id'] === me.id) {
+                    i18nKey = '__MSG__ACTIVITY_FOLDER_SHARE_YOU__';
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_FOLDER_SHARE_1__';
+                }
+            } else if (properties.targetCount === 2) {
+                i18nKey = '__MSG__ACTIVITY_FOLDER_SHARE_2__';
+            } else {
+                i18nKey = '__MSG__ACTIVITY_FOLDER_SHARE_2+__';
+            }
+        } else {
+            if (properties.objectCount === 2) {
+                if (activity.target['oae:id'] === me.id) {
+                    i18nKey = '__MSG__ACTIVITY_FOLDERS_SHARE_2_YOU__';
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_FOLDERS_SHARE_2__';
+                }
+            } else {
+                if (activity.target['oae:id'] === me.id) {
+                    i18nKey = '__MSG__ACTIVITY_FOLDERS_SHARE_2+_YOU__';
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_FOLDERS_SHARE_2+__';
+                }
+            }
+        }
+        return new ActivityViewSummary(i18nKey, properties);
+    };
+
+    /**
+     * Render the end-user friendly, internationalized summary of a folder update activity.
+     *
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the folder update activity, for which to generate the activity summary
+     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                  A sumary object
+     * @api private
+     */
+    var _generateFolderUpdateSummary = function(me, activity, properties) {
+        var i18nKey = null;
+        if (properties.actorCount === 1) {
+            i18nKey = '__MSG__ACTIVITY_FOLDER_UPDATE_1__';
+        } else if (properties.actorCount === 2) {
+            i18nKey = '__MSG__ACTIVITY_FOLDER_UPDATE_2__';
+        } else {
+            i18nKey = '__MSG__ACTIVITY_FOLDER_UPDATE_2+__';
+        }
+        return new ActivityViewSummary(i18nKey, properties);
+    };
+
+    /**
+     * Render the end-user friendly, internationalized summary of a folder member role update activity.
+     *
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the folder member update activity, for which to generate the activity summary
+     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                  A sumary object
+     * @api private
+     */
+    var _generateFolderUpdateMemberRoleSummary = function(me, activity, properties) {
+        var i18nKey = null;
+        if (properties.objectCount === 1) {
+            if (activity.object['oae:id'] === me.id) {
+                i18nKey = '__MSG__ACTIVITY_FOLDER_UPDATE_MEMBER_ROLE_YOU__';
+            } else {
+                i18nKey = '__MSG__ACTIVITY_FOLDER_UPDATE_MEMBER_ROLE_1__';
+            }
+        } else if (properties.objectCount === 2) {
+            i18nKey = '__MSG__ACTIVITY_FOLDER_UPDATE_MEMBER_ROLE_2__';
+        } else {
+            i18nKey = '__MSG__ACTIVITY_FOLDER_UPDATE_MEMBER_ROLE_2+__';
+        }
+        return new ActivityViewSummary(i18nKey, properties);
+    };
+
+    /**
+     * Render the end-user friendly, internationalized summary of a visibility update activity for a folder.
+     *
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the folder visibility update activity, for which to generate the activity summary
+     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                  A sumary object
+     * @api private
+     */
+    var _generateFolderUpdateVisibilitySummary = function(me, activity, properties) {
+        var i18nKey = null;
+        if (activity.object['oae:visibility'] === 'public') {
+            i18nKey = '__MSG__ACTIVITY_FOLDER_VISIBILITY_PUBLIC__';
+        } else if (activity.object['oae:visibility'] === 'loggedin') {
+            i18nKey = '__MSG__ACTIVITY_FOLDER_VISIBILITY_LOGGEDIN__';
+        } else {
+            i18nKey = '__MSG__ACTIVITY_FOLDER_VISIBILITY_PRIVATE__';
+        }
+        return new ActivityViewSummary(i18nKey, properties);
+    };
+
+    /**
      * Render the end-user friendly, internationalized summary of an update for a user following another user
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to content library activity, for which to generate the activity summary
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the following activity, for which to generate the activity summary
      * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
      * @return {ActivityViewSummary}                  A sumary object
      * @api private
@@ -1189,7 +1381,7 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a group member add activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to content library activity, for which to generate the activity summary
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add group member activity, for which to generate the activity summary
      * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
      * @return {ActivityViewSummary}                  A sumary object
      * @api private
@@ -1213,7 +1405,7 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a group member role update activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to content library activity, for which to generate the activity summary
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the group member update activity, for which to generate the activity summary
      * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
      * @return {ActivityViewSummary}                  A sumary object
      * @api private
@@ -1237,7 +1429,7 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a group creation activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to content library activity, for which to generate the activity summary
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the group creation activity, for which to generate the activity summary
      * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
      * @return {ActivityViewSummary}                  A sumary object
      * @api private
@@ -1257,7 +1449,7 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a group join activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to content library activity, for which to generate the activity summary
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the group join activity, for which to generate the activity summary
      * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
      * @return {ActivityViewSummary}                  A sumary object
      * @api private
@@ -1277,7 +1469,7 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of a group update activity.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to content library activity, for which to generate the activity summary
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the group update activity, for which to generate the activity summary
      * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
      * @return {ActivityViewSummary}                  A sumary object
      * @api private
@@ -1297,7 +1489,7 @@ var _expose = function(exports) {
     /**
      * Render the end-user friendly, internationalized summary of  a visibility update activity for a group.
      *
-     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the add to content library activity, for which to generate the activity summary
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the group visibility update activity, for which to generate the activity summary
      * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
      * @return {ActivityViewSummary}                  A sumary object
      * @api private

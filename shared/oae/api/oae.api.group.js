@@ -24,7 +24,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * @param  {String}            [joinable]               Whether or not this group is joinable
      * @param  {String[]}          [managers]               An array of userIds that should be made managers
      * @param  {String[]}          [members]                An array of userIds that should be made members
-     * @param  {Function}          [callback]               Standard callback method
+     * @param  {Function}          [callback]               Standard callback function
      * @param  {Object}            [callback.err]           Error object containing error code and error message
      * @param  {Group}             [callback.group]         A Group object representing the created group
      * @throws {Error}                                      Error thrown when not all of the required parameters have been provided
@@ -63,7 +63,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * Get a group.
      *
      * @param  {String}       groupId             The id of the group you wish to retrieve.
-     * @param  {Function}     callback            Standard callback method
+     * @param  {Function}     callback            Standard callback function
      * @param  {Object}       callback.err        Error object containing error code and error message
      * @param  {Group}        callback.group      The group object representing the requested group
      * @throws {Error}                            Error thrown when no group id has been provided
@@ -93,7 +93,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * @param  {String}       [profileFields.description]     New description for the group
      * @param  {String}       [profileFields.visibility]      New visibility setting for the group. The possible values are 'private', 'loggedin' and 'public'
      * @param  {String}       [profileFields.joinable]        New joinability setting for the group. The possible values are 'yes', 'no' and 'request'
-     * @param  {Function}     [callback]                      Standard callback method
+     * @param  {Function}     [callback]                      Standard callback function
      * @param  {Object}       [callback.err]                  Error object containing error code and error message
      * @param  {Group}        [callback.group]                The group object representing the updated group
      * @throws {Error}                                        Error thrown when not all of the required parameters have been provided
@@ -130,7 +130,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * @param  {String}             groupId                        The id of the group you wish to update
      * @param  {String}             [start]                        The token used for paging. If the first page of results is required, `null` should be passed in as the token. For any subsequent pages, the `nextToken` provided in the feed from the previous page should be used
      * @param  {Number}             [limit]                        The number of members to retrieve
-     * @param  {Function}           callback                       Standard callback method
+     * @param  {Function}           callback                       Standard callback function
      * @param  {Object}             callback.err                   Error object containing error code and error message
      * @param  {Object}             callback.members               Response object containing the group members and nextToken
      * @param  {User[]|Group[]}     callback.members.results       Array of principals representing the group members
@@ -164,7 +164,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      *
      * @param  {String}       groupId             The id of the group you wish to update
      * @param  {Object}       members             A hash object where each key is the id of a user or group and the value is one of 'manager', 'member' or false. In case the value is false, the member will be deleted.
-     * @param  {Function}     [callback]          Standard callback method
+     * @param  {Function}     [callback]          Standard callback function
      * @param  {Object}       [callback.err]      Error object containing error code and error message
      * @throws {Error}                            Error thrown when not all of the required parameters have been provided
      */
@@ -197,7 +197,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * @param  {String}       [userId]                           The user id for which we want to get all of the memberships. If this is not provided, the current user's id will be used.
      * @param  {String}       [start]                            The token used for paging. If the first page of results is required, `null` should be passed in as the token. For any subsequent pages, the `nextToken` provided in the feed from the previous page should be used
      * @param  {Number}       [limit]                            The number of memberships to retrieve
-     * @param  {Function}     callback                           Standard callback method
+     * @param  {Function}     callback                           Standard callback function
      * @param  {Object}       callback.err                       Error object containing error code and error message
      * @param  {Object}       callback.memberships               Response object containing the groups the provided user is a member of and nextToken
      * @param  {Group[]}      callback.memberships.results       An array of groups representing the direct and indirect memberships of the provided user
@@ -229,7 +229,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * Join a group as the currently authenticated user.
      *
      * @param  {String}       groupId             The id of the group that should be joined
-     * @param  {Function}     [callback]          Standard callback method
+     * @param  {Function}     [callback]          Standard callback function
      * @param  {Object}       [callback.err]      Error object containing error code and error message
      * @throws {Error}                            Error thrown when no groupid has been provided.
      */
@@ -257,7 +257,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
      * Leave a group as the currently authenticated user.
      *
      * @param  {String}       groupId             The id of the group that should be left
-     * @param  {Function}     [callback]          Standard callback method
+     * @param  {Function}     [callback]          Standard callback function
      * @param  {Object}       [callback.err]      Error object containing error code and error message
      * @throws {Error}                            Error thrown when no group id has been provided
      */

@@ -35,10 +35,16 @@ require(['jquery','oae.core'], function($, oae) {
         'title': oae.api.i18n.translate('__MSG__CREATE__'),
         'children': [
             {
-                'icon': 'fa-users',
+                'icon': 'fa-group',
                 'title': oae.api.i18n.translate('__MSG__GROUP__'),
                 'closeNav': true,
                 'class': 'oae-trigger-creategroup'
+            },
+            {
+                'icon': 'fa-folder-open',
+                'title': oae.api.i18n.translate('__MSG__FOLDER__'),
+                'closeNav': true,
+                'class': 'oae-trigger-createfolder'
             },
             {
                 'icon': 'fa-link',
@@ -126,7 +132,7 @@ require(['jquery','oae.core'], function($, oae) {
         {
             'id': 'groups',
             'title': oae.api.i18n.translate('__MSG__MY_GROUPS__'),
-            'icon': 'fa-users',
+            'icon': 'fa-group',
             'closeNav': true,
             'layout': [
                 {

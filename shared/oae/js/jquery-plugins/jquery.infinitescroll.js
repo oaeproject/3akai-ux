@@ -134,8 +134,8 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
 
             // Make sure that no other requests are sent until the current request finishes
             canRequestMoreData = false;
-            // Get the rendered list items
-            var listItems = $listContainer.children('li:not(.oae-list-actions)').filter(':visible');
+            // Get the rendered items
+            var listItems = $listContainer.children(':not(.oae-list-actions)').filter(':visible');
             // Only page once the initial search has been done
             if (listItems.length > 0 && initialSearchDone === true) {
                 parameters.start = nextToken || listItems.length;
@@ -148,6 +148,7 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
                 'success': function(data) {
                     initialSearchDone = true;
                     nextToken = data.nextToken;
+                    console.log(nextToken);
                     processList(data);
                 },
                 'error': function() {

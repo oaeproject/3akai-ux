@@ -28,9 +28,9 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
      * @param  {String}         [additionalOptions.publicAlias] The publically-available alias for users to see when the user's display name is protected
      * @param  {String}         recaptchaChallenge              The identifier of the recaptcha challenge that has been presented to the user
      * @param  {String}         recaptchaResponse               The response for the presented recaptcha challenge
-     * @param  {Function}       [callback]                      Standard callback method
+     * @param  {Function}       [callback]                      Standard callback function
      * @param  {Object}         [callback.err]                  Error object containing error code and error message
-     * @param  {User}           [callback.response]             A User object representing the created user
+     * @param  {User}           [callback.user]                 A User object representing the created user
      * @throws {Error}                                          Error thrown when not all of the required parameters have been provided
      */
     var createUser = exports.createUser = function(username, password, displayName, additionalOptions, recaptchaChallenge, recaptchaResponse, callback) {
@@ -82,7 +82,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
      * Gets the currently logged in user. A cached copy of this object will be available on oae.data.me when requiring
      * `oae.api!` in your widget
      *
-     * @param  {Function}       callback            Standard callback method takes arguments `err` and `resp`
+     * @param  {Function}       callback            Standard callback function takes arguments `err` and `resp`
      * @param  {Object}         callback.err        Error object containing error code and error message
      * @param  {Object}         callback.response   The user's me feed
      */
@@ -102,7 +102,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
      * Get a user's basic profile
      *
      * @param  {String}         userId              User id of the profile you wish to retrieve
-     * @param  {Function}       callback            Standard callback method
+     * @param  {Function}       callback            Standard callback function
      * @param  {Object}         callback.err        Error object containing error code and error message
      * @param  {User}           callback.response   The user's basic profile
      * @throws {Error}                              Error thrown when no userId has been provided
@@ -127,7 +127,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
      * Update the current user's basic profile
      *
      * @param  {Object}         params              Object representing the profile fields that need to be updated. The keys are the profile fields, the values are the profile field values
-     * @param  {Function}       [callback]          Standard callback method
+     * @param  {Function}       [callback]          Standard callback function
      * @param  {Object}         [callback.err]      Error object containing error code and error message
      * @throws {Error}                              Error thrown when no update parameters have been provided
      */
@@ -164,7 +164,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
      * Get the Terms and Conditions
      *
      * @param  {Object}         params              Object representing the profile fields that need to be updated. The keys are the profile fields, the values are the profile field values
-     * @param  {Function}       callback            Standard callback method
+     * @param  {Function}       callback            Standard callback function
      * @param  {Object}         callback.err        Error object containing error code and error message
      * @throws {Error}                              Error thrown when no update parameters have been provided
      */
@@ -184,7 +184,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.config'], function(exports, 
      * Accept the Terms and Conditions
      *
      * @param  {Object}         params              Object representing the profile fields that need to be updated. The keys are the profile fields, the values are the profile field values
-     * @param  {Function}       [callback]          Standard callback method
+     * @param  {Function}       [callback]          Standard callback function
      * @param  {Object}         [callback.err]      Error object containing error code and error message
      * @throws {Error}                              Error thrown when no update parameters have been provided
      */
