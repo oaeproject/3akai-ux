@@ -97,6 +97,19 @@ a.oae-plain-link:hover {
             border-radius: 5px;
 }
 
+/***********
+ ** PILLS **
+ ***********/
+
+/**
+ * Pills
+ * TODO
+ */
+
+.oae-pill.oae-pill-ghost {
+    border: 1px dashed;
+}
+
 
 /**********************
  ** VISIBILITY ICONS **
