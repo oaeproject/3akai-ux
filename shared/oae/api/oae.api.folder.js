@@ -154,6 +154,42 @@ define(['exports', 'jquery'], function(exports, $) {
     };
 
     /**
+     * Add existing content items to a folder
+     *
+     * @param  {String}        folderId                     Id of the folder to which we're adding content items
+     * @param  {String[]}      contentIds                   Array of content ids that should be added to the folder
+     * @param  {Function}      [callback]                   Standard callback function
+     * @param  {Object}        [callback.err]               Error object containing error code and error message
+     * @throws {Error}                                      Error thrown when not all of the required parameters have been provided
+     */
+    var addToFolder = exports.addToFolder = function(folderId, contentIds, callback) {
+        if (!folderId) {
+            throw new Error('A valid folder id should be provided');
+        } else if (!contentIds || contentIds.length === 0) {
+            throw new Error('At least 1 content item should be provided');
+        }
+
+        // Set a default callback function in case no callback function has been provided
+        callback = callback || function() {};
+
+        var data = {
+            'contentIds': contentIds
+        };
+
+        $.ajax({
+            'url': '/api/folder/' + folderId + '/library',
+            'type': 'POST',
+            'data': data,
+            'success': function(data) {
+                callback(null, data);
+            },
+            'error': function(jqXHR, textStatus) {
+                callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
+            }
+        });
+    };
+
+    /**
      * Permanently delete a folder from the system. It is also possible to remove all of its content
      * at the same time
      *
