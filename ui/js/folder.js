@@ -260,7 +260,7 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
             // Update the cached visibility
             visibility = folderProfile.visibility;
         }
-        setUpClips()
+        setUpClips();
     });
 
 
