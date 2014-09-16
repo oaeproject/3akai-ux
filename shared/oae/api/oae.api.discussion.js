@@ -221,7 +221,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      */
     var shareDiscussion = exports.shareDiscussion = function(discussionId, principals, callback) {
         if (!discussionId) {
-            throw new Error('A discussion ID should be provided');
+            throw new Error('A discussion id should be provided');
         } else if (!principals.length) {
             throw new Error('A user or group to share with should be provided');
         }
@@ -257,11 +257,11 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {Object}         callback.discussions            Response object containing the discussions in the requested library and nextToken
      * @param  {Discussion[]}   callback.discussions.results    Array of discussions representing the discussions present in the library
      * @param  {String}         callback.discussions.nextToken  The value to provide in the `start` parameter to get the next set of results
-     * @throws {Error}                                          Error thrown when no principal ID has been provided
+     * @throws {Error}                                          Error thrown when no principal id has been provided
      */
     var getLibrary = exports.getLibrary = function(principalId, start, limit, callback) {
         if (!principalId) {
-            throw new Error('A user or group ID should be provided');
+            throw new Error('A user or group id should be provided');
         }
 
         var data = {
@@ -292,9 +292,9 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      */
     var deleteDiscussionFromLibrary = exports.deleteDiscussionFromLibrary = function(principalId, discussionId, callback) {
         if (!principalId) {
-            throw new Error('A valid user or group ID should be provided');
+            throw new Error('A valid user or group id should be provided');
         } else if (!discussionId) {
-            throw new Error('A valid discussion ID should be provided');
+            throw new Error('A valid discussion id should be provided');
         }
 
         // Set a default callback function in case no callback function has been provided

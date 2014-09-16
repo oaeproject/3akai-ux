@@ -197,7 +197,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     /**
      * Update a user's basic profile
      *
-     * @param  {String}         userId              User ID of the user for who the basic profile is being updated
+     * @param  {String}         userId              User id of the user for who the basic profile is being updated
      * @param  {Object}         params              Object representing the profile fields that need to be updated
      * @param  {Function}       [callback]          Standard callback function
      * @param  {Object}         [callback.err]      Error object containing error code and error message
@@ -205,7 +205,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      */
     var updateUser = exports.updateUser = function(userId, params, callback) {
         if (!userId) {
-            throw new Error('A valid user ID should be provided');
+            throw new Error('A valid user id should be provided');
         } else if (!params || _.keys(params).length === 0) {
             throw new Error('At least 1 parameter should be provided');
         }
@@ -229,7 +229,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     /**
      * Change the password of the specified user
      *
-     * @param  {String}         userId                The ID of the user to change the password for
+     * @param  {String}         userId                The is of the user to change the password for
      * @param  {String}         newPassword           The user's new password
      * @param  {Function}       [callback]            Standard callback function
      * @param  {Object}         [callback.err]        Error object containing error code and error message
@@ -237,7 +237,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      */
     var changePassword = exports.changePassword = function(userId, newPassword, callback) {
         if (!userId) {
-            throw new Error('A valid user ID should be provided');
+            throw new Error('A valid user id should be provided');
         } else if (!newPassword) {
             throw new Error('A valid new password should be provided');
         }
@@ -268,16 +268,16 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
     /**
      * Edit a specified user's privileges
      *
-     * @param  {String}         userId                  The user ID of the user for which the admin privileges are changed
+     * @param  {String}         userId                  The user id of the user for which the admin privileges are changed
      * @param  {Boolean}        isAdmin                 Whether or not the user should be made an admin
      * @param  {Boolean}        isGlobalAdminServer     Whether or not the user is on the global admin tenant
      * @param  {Function}       [callback]              Standard callback function
      * @param  {Object}         [callback.err]          Error object containing error code and error message
-     * @throws {Error}                                  Error thrown when no user ID has been specified
+     * @throws {Error}                                  Error thrown when no user id has been specified
      */
     var editPrivileges = exports.editPrivileges = function(userId, isAdmin, isGlobalAdminServer, callback) {
         if (!userId) {
-            throw new Error('A valid user ID should be provided');
+            throw new Error('A valid user id should be provided');
         }
 
         // Set a default callback function in case no callback function has been provided
@@ -307,14 +307,14 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * Retrieve the signed authentication request info that will allow the admin user
      * to impersonate another user
      *
-     * @param  {String}         userId                The ID of the user to become
+     * @param  {String}         userId                The id of the user to become
      * @param  {Function}       [callback]            Standard callback function
      * @param  {Object}         [callback.err]        Error object containing error code and error message
-     * @throws {Error}                                Error thrown when no user ID has been provided
+     * @throws {Error}                                Error thrown when no user id has been provided
      */
     var getSignedBecomeRequestInfo = exports.getSignedBecomeRequestInfo = function(userId, callback) {
         if (!userId) {
-            throw new Error('A valid user ID should be provided');
+            throw new Error('A valid user id should be provided');
         }
 
         // Set a default callback function in case no callback function has been provided

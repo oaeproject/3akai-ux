@@ -100,7 +100,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      *
      * @param  {String}       resourceId                Id of the resource from which to delete the comment
      * @param  {String}       resourceType              Type of resource for which the comment should be deleted (e.g. 'content', 'discussion', etc.)
-     * @param  {String}       commentId                 The ID of the comment to delete
+     * @param  {String}       commentId                 The id of the comment to delete
      * @param  {Function}     [callback]                Standard callback function
      * @param  {Object}       [callback.err]            Error object containing error code and error message
      * @param  {Object}       [callback.softDeleted]    If the comment is not deleted, but instead flagged as deleted because it has replies, this will return a stripped down comment object representing the deleted comment, with the `deleted` property set to `true`. If the comment has been properly deleted, no comment will be returned.

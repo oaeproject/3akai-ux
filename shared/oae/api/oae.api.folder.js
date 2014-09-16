@@ -304,7 +304,7 @@ define(['exports', 'jquery'], function(exports, $) {
      */
     var shareFolder = exports.shareFolder = function(folderId, principals, callback) {
         if (!folderId) {
-            throw new Error('A folder ID should be provided');
+            throw new Error('A folder id should be provided');
         } else if (!principals.length) {
             throw new Error('A user or group to share with should be provided');
         }
@@ -340,11 +340,11 @@ define(['exports', 'jquery'], function(exports, $) {
      * @param  {Object}         callback.folders                Response object containing the folders in the requested library and nextToken
      * @param  {Folder[]}       callback.folders.results        Array of folders representing the folders present in the library
      * @param  {String}         callback.folders.nextToken      The value to provide in the `start` parameter to get the next set of results
-     * @throws {Error}                                          Error thrown when no principal ID has been provided
+     * @throws {Error}                                          Error thrown when no principal id has been provided
      */
     var getLibrary = exports.getLibrary = function(principalId, start, limit, callback) {
         if (!principalId) {
-            throw new Error('A user or group ID should be provided');
+            throw new Error('A user or group id should be provided');
         }
 
         var data = {
@@ -375,9 +375,9 @@ define(['exports', 'jquery'], function(exports, $) {
      */
     var deleteFolderFromLibrary = exports.deleteFolderFromLibrary = function(principalId, folderId, callback) {
         if (!principalId) {
-            throw new Error('A valid user or group ID should be provided');
+            throw new Error('A valid user or group id should be provided');
         } else if (!folderId) {
-            throw new Error('A valid folder ID should be provided');
+            throw new Error('A valid folder id should be provided');
         }
 
         // Set a default callback function in case no callback function has been provided
@@ -406,9 +406,9 @@ define(['exports', 'jquery'], function(exports, $) {
      */
     var deleteContentFromFolder = exports.deleteContentFromFolder = function(folderId, contentId, callback) {
         if (!folderId) {
-            throw new Error('A valid folder ID should be provided');
+            throw new Error('A valid folder id should be provided');
         } else if (!contentId) {
-            throw new Error('A valid content ID should be provided');
+            throw new Error('A valid content id should be provided');
         }
 
         // Set a default callback function in case no callback function has been provided

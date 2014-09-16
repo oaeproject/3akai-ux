@@ -380,11 +380,11 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
      * @param  {Object}          callback.members               Response object containing the content members and nextToken
      * @param  {User[]|Group[]}  callback.members.results       Array that contains an object for each member. Each object has a role property that contains the role of the member and a profile property that contains the principal profile of the member
      * @param  {String}          callback.members.nextToken     The value to provide in the `start` parameter to get the next set of results
-     * @throws {Error}                                          Error thrown when no content ID has been provided
+     * @throws {Error}                                          Error thrown when no content id has been provided
      */
     var getMembers = exports.getMembers = function(contentId, start, limit, callback) {
         if (!contentId) {
-            throw new Error('A content ID should be provided');
+            throw new Error('A content id should be provided');
         }
 
         var data = {
@@ -443,11 +443,11 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
      * @param  {String[]}     principals          Array of principal ids with who the content should be shared
      * @param  {Function}     [callback]          Standard callback function
      * @param  {Object}       [callback.err]      Error object containing error code and error message
-     * @throws {Error}                            Error thrown when no content ID or Array of principal IDs has been provided
+     * @throws {Error}                            Error thrown when no content id or Array of principal ids has been provided
      */
     var shareContent = exports.shareContent = function(contentId, principals, callback) {
         if (!contentId) {
-            throw new Error('A content ID should be provided');
+            throw new Error('A content id should be provided');
         } else if (!principals.length) {
             throw new Error('A user or group to share with should be provided');
         }
@@ -483,11 +483,11 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
      * @param  {Object}         callback.content                Response object containing the content items in the requested library and nextToken
      * @param  {Content[]}      callback.content.results        Array of content items representing the content items present in the library
      * @param  {String}         callback.content.nextToken      The value to provide in the `start` parameter to get the next set of results
-     * @throws {Error}                                          Error thrown when no principal ID has been provided
+     * @throws {Error}                                          Error thrown when no principal id has been provided
      */
     var getLibrary = exports.getLibrary = function(principalId, start, limit, callback) {
         if (!principalId) {
-            throw new Error('A user or group ID should be provided');
+            throw new Error('A user or group id should be provided');
         }
 
         var data = {
@@ -518,9 +518,9 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
      */
     var deleteContentFromLibrary = exports.deleteContentFromLibrary = function(principalId, contentId, callback) {
         if (!principalId) {
-            throw new Error('A valid user or group ID should be provided');
+            throw new Error('A valid user or group id should be provided');
         } else if (!contentId) {
-            throw new Error('A valid content ID should be provided');
+            throw new Error('A valid content id should be provided');
         }
 
         // Set a default callback function in case no callback function has been provided
