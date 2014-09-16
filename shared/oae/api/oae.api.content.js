@@ -102,7 +102,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
             'link': link,
             'managers': managers,
             'viewers': viewers,
-            'folderIds': folders
+            'folders': folders
         };
 
         $.ajax({
@@ -168,7 +168,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
         // Add the folders as an array
         folders = folders || [];
         $.each(folders, function(index, folder) {
-            data.push({'name': 'folderIds', 'value': folder});
+            data.push({'name': 'folders', 'value': folder});
         });
 
         $($fileUploadField).fileupload('send', {
@@ -259,7 +259,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.i18n', 'mimetypes'], functio
             'visibility': visibility,
             'managers': managers,
             'viewers': viewers,
-            'folderIds': folders
+            'folders': folders
         };
 
         $.ajax({
