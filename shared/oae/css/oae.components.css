@@ -83,7 +83,7 @@ a.oae-plain-link:hover {
  ************/
 
 /**
- * Panels that can be used to show HTML content on top of a background
+ * Panels can be used to show HTML content on top of a background
  * color or background image. Three different panels can be used
  *  - `oae-panel-primary`: Panel that contains content that should really stand out
  *  - `oae-panel-secondary`: Panel that contains the secondary content
@@ -102,8 +102,12 @@ a.oae-plain-link:hover {
  ***********/
 
 /**
- * Pills
- * TODO
+ * Pills can be used to provide different selection styles to an item.
+ * Three different types of pills can be used
+ *  - `oae-pill-active`: A pill that should be styled as a selected item
+ *  - `oae-pill-blur`: A pill that should be styled as a disabled item
+ *  - `oae-pill-ghost`: A pill that should be styled as an unselected item that can be selected
+ *   e.g. <li class="oae-pill oae-pill-active">...</li>
  */
 
 .oae-pill.oae-pill-ghost {
