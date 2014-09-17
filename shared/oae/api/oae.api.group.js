@@ -85,7 +85,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
     };
 
     /**
-     * Updates a group.
+     * Update a group
      *
      * @param  {String}       groupId                         The id of the group you wish to update
      * @param  {Object}       profileFields                   Object where the keys represent the profile fields that need to be updated and the values represent the new values for those profile fields.
@@ -125,7 +125,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
     };
 
     /**
-     * Get the members of a group.
+     * Get the members of a group
      *
      * @param  {String}             groupId                        The id of the group you wish to update
      * @param  {String}             [start]                        The token used for paging. If the first page of results is required, `null` should be passed in as the token. For any subsequent pages, the `nextToken` provided in the feed from the previous page should be used
@@ -160,7 +160,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
     };
 
     /**
-     * Update the members of a group.
+     * Update the members of a group
      *
      * @param  {String}       groupId             The id of the group you wish to update
      * @param  {Object}       members             A hash object where each key is the id of a user or group and the value is one of 'manager', 'member' or false. In case the value is false, the member will be deleted.
@@ -192,7 +192,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
     };
 
     /**
-     * Returns all of the groups that a user is a direct and indirect member of.
+     * Return all of the groups that a user is a direct and indirect member of
      *
      * @param  {String}       [userId]                           The user id for which we want to get all of the memberships. If this is not provided, the current user's id will be used.
      * @param  {String}       [start]                            The token used for paging. If the first page of results is required, `null` should be passed in as the token. For any subsequent pages, the `nextToken` provided in the feed from the previous page should be used
