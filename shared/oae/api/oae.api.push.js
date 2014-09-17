@@ -499,8 +499,15 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
      * @api private
      */
     var addEntities = function(to, from, entity) {
+        // If the new activity has no entity, there's no need to do anything
         if (!from[entity]) {
             return;
+
+        // If the activity we're adding an entity (collection) to does not have
+        // any entity (collection) of its own, we can simply copy the entity collection
+        // from the new activity
+        } else if (!to[entity]) {
+            to[entity] = from[entity];
         }
 
         // Create arrays for both activities entity collections. This makes
