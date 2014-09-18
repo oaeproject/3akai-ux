@@ -60,9 +60,9 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
     };
 
     /**
-     * Get a group.
+     * Get a group
      *
-     * @param  {String}       groupId             The id of the group you wish to retrieve.
+     * @param  {String}       groupId             The id of the group that should be retrieved
      * @param  {Function}     callback            Standard callback function
      * @param  {Object}       callback.err        Error object containing error code and error message
      * @param  {Group}        callback.group      The group object representing the requested group
@@ -87,7 +87,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util'], function(exports, $,
     /**
      * Update a group
      *
-     * @param  {String}       groupId                         The id of the group you wish to update
+     * @param  {String}       groupId                         The id of the group that should be updated
      * @param  {Object}       profileFields                   Object where the keys represent the profile fields that need to be updated and the values represent the new values for those profile fields.
      * @param  {String}       [profileFields.displayName]     New displayName for the group
      * @param  {String}       [profileFields.description]     New description for the group
