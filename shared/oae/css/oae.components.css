@@ -444,6 +444,11 @@ div.oae-thumbnail.fa-oae-collabdoc:before {
     content: "\f044";
 }
 
+div.oae-thumbnail.fa-oae-folder:before {
+    content: "\f07c";
+    margin-left: 2px;
+}
+
 div.oae-thumbnail.fa-oae-discussion:before {
     content: "\f086";
 }
@@ -503,7 +508,7 @@ div.oae-thumbnail i.fa {
  *                          <li><button><i class="fa fa-user"></i>Action 1</button></li>
  *                          <li><button><i class="fa fa-envelope"></i>Action 2</button></li>
  *                          <li><button type="button"><i class="fa fa-wrench"></i>Action 3</button></li>
- *                          <li><a href="#somelink"><i class="fa fa-download"></i>Action 4</a></li>
+ *                          <li><a href="#somelink"><i class="fa fa-cloud-download"></i>Action 4</a></li>
  *                      </ul>
  *                  </div>
  *              </div>
