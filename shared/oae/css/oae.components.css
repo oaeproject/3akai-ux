@@ -435,7 +435,7 @@ div.oae-thumbnail.fa-oae-collabdoc:before {
     content: "\f044";
 }
 
-div.oae-thumbnail.icon-oae-folder:before {
+div.oae-thumbnail.fa-oae-folder:before {
     content: "\f07c";
     margin-left: 2px;
 }
