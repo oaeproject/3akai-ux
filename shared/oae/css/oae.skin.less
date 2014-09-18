@@ -1045,3 +1045,38 @@ div.oae-thumbnail {
 .oae-clip.oae-clip-secondary ul li button:hover {
     background-color: @clip-secondary-gradient2-color;
 }
+
+
+/***************************
+ ** @section  Annotations **
+ ***************************/
+
+/* Annotation highlight background color */
+@annotations-highlight-background-color: rgba(255,255,10,0.3);
+/* Annotation highlight border hover color */
+@annotations-highlight-border-hover-color: #000;
+/* Annotation selection color */
+@annotations-selection-color: #A8D1FF;
+
+.annotator-hl,
+.annotator-hl + ._ {
+    background-color: @annotations-highlight-background-color !important;
+}
+
+.annotator-hl-hover,
+.annotator-hl-hover + ._ {
+    border-color: @annotations-highlight-border-hover-color;
+}
+
+.annotator-hl-temporary,
+.annotator-hl-temporary + ._ {
+    background: @annotations-selection-color !important;
+}
+
+.annotator-wrapper div ::-moz-selection {
+    background: @annotations-selection-color;
+}
+
+.annotator-wrapper div ::selection {
+    background: @annotations-selection-color;
+}
