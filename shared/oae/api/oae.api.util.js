@@ -143,6 +143,18 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         }
     };
 
+    /**
+     * TODO
+     */
+    var scrollToItem = function($item, $container) {
+        // Make sure that the provided item and container are jQuery objects
+        $item = $($item);
+        $container = $($container);
+
+        // TODO
+        return false;
+    };
+
 
     ////////////////////////////////
     // TRIMPATH TEMPLATE RENDERER //
