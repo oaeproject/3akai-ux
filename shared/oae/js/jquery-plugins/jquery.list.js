@@ -97,7 +97,7 @@ define(['jquery', 'oae.api.util', 'jquery.history'], function ($, oaeUtil) {
             var $listContainer = $(this).parents('.oae-list-container');
             // Check or uncheck all checkboxes in the corresponding list
             var checked = $(this).is(':checked');
-            var $listCheckboxes = $('.oae-list input[type="checkbox"]', $listContainer);
+            var $listCheckboxes = $('.oae-list:visible input[type="checkbox"]', $listContainer);
             $listCheckboxes.prop('checked', checked);
             // Enable or disable the list option action buttons. We only change the state
             // when there is at least 1 item in the list that can be checked.
