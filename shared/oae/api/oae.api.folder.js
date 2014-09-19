@@ -194,14 +194,13 @@ define(['exports', 'jquery'], function(exports, $) {
      * at the same time
      *
      * @param  {String}        folderId                     Id of the folder we're trying to delete
-     * @param  {Boolean}       deleteContents               Whether or not the folder contents should be deleted as well
+     * @param  {Boolean}       deleteContent                Whether or not the content items in the folder should be deleted as well
      * @param  {Function}      [callback]                   Standard callback function
      * @param  {Object}        [callback.err]               Error object containing error code and error message
      * @param  {Content[]}     [callback.failedContent]     The content items that could not be deleted
      * @throws {Error}                                      Error thrown when no valid discussion id has been provided
-     * TODO: Validate this once it is possible to delete folders
      */
-    var deleteFolder = exports.deleteFolder = function(folderId, deleteContents, callback) {
+    var deleteFolder = exports.deleteFolder = function(folderId, deleteContent, callback) {
         if (!deleteFolder) {
             throw new Error('A valid folder id should be provided');
         }
@@ -210,7 +209,7 @@ define(['exports', 'jquery'], function(exports, $) {
         callback = callback || function() {};
 
         var data = {
-            'applyDeleteOn': deleteContents ? 'folderAndContent' : 'folder'
+            'deleteContent': deleteContent
         };
 
         $.ajax({
@@ -218,7 +217,7 @@ define(['exports', 'jquery'], function(exports, $) {
             'type': 'DELETE',
             'data': data,
             'success': function(data) {
-                callback(null, data);
+                callback(null, data.failedContent);
             },
             'error': function(jqXHR, textStatus) {
                 callback({'code': jqXHR.status, 'msg': jqXHR.responseText});
