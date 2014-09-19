@@ -29,7 +29,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
         'content-revision': ['object'],
         'content-share': ['actor'],
         'discussion-message': ['target'],
-        'folder-add-to-folder': ['target']
+        'folder-add-to-folder': ['target'],
+        'folder-share': ['actor']
     };
 
     // Time in milliseconds during which aggregatable activities should be aggregated before calling
