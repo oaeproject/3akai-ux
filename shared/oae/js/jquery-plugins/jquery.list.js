@@ -68,7 +68,12 @@ define(['jquery', 'oae.api.util', 'jquery.history'], function ($, oaeUtil) {
             // We cannot rely on the "current" url as that can be different depending on the browser.
             // Most browsers will display `/me/library`, IE9 will be display `/me#library` however.
             // The cleanUrl in the History.js state will always be `/me/library`.
-            var url = $.url(History.getState().cleanUrl).attr('path') + '?q=' + oaeUtil.security().encodeForURL(query);
+            var url = $.url(History.getState().cleanUrl).attr('path');
+            // Add the search query to the page URL. Note that we remove all hash characters from the
+            // search query. History.js expects to be in full control of the URL hash and adding one
+            // into the URL ourself would interfere with that
+            // @see https://github.com/oaeproject/3akai-ux/issues/3872
+            url +=  '?q=' + oaeUtil.security().encodeForURL(query.replace(/#/g, ''));
             History.pushState(newState, $('title').text(), url);
 
             // Avoid submitting the search form
