@@ -176,6 +176,8 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
 
                 this.onAnnotationDeleted = __bind(this.onAnnotationDeleted, this);
                 this.annotationsLoaded = __bind(this.annotationsLoaded, this);
+                this.onAnnotationEditorShown = __bind(this.onAnnotationEditorShown, this);
+                this.onAnnotationEditorHidden = __bind(this.onAnnotationEditorHidden, this);
                 this.onAnnotationViewerShown = __bind(this.onAnnotationViewerShown, this);
                 this.saveAnnotation = __bind(this.saveAnnotation, this);
                 this.onEditorSubmit = __bind(this.onEditorSubmit, this);
@@ -195,9 +197,6 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
                 if (!Annotator.supported()) {
                     return;
                 }
-
-                // Render the initial, empty, annotations list
-                renderAnnotationsList();
 
                 // Hide the annotations panel when the 'x' is clicked
                 $('body').off('click', '#documentpreview-annotator-close').on('click', '#documentpreview-annotator-close', hideAnnotationsList);
@@ -224,6 +223,46 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
                     documentZoomLevel = data.zoom;
                 });
 
+                // When a notification link for an annotation has been clicked, the ID of it needs to be pushed into the state
+                $(document).off('click', '.annotation-activity-link').on('click', '.annotation-activity-link', function(ev) {
+                    // Push the new query to a new History.js state. We make sure to take the
+                    // existing state data parameters with us and construct a new URL based on
+                    // the existing base URL, allowing for page refreshing and bookmarking.
+                    var newState = $.extend({}, History.getState().data, {
+                        'a': $(ev.target).data('annotationid')
+                    });
+
+                    // We cannot rely on the "current" url as that can be different depending on the browser.
+                    // Most browsers will display `/me/library`, IE9 will be display `/me#library` however.
+                    // The cleanUrl in the History.js state will always be `/me/library`.
+                    var url = $.url(History.getState().cleanUrl).attr('path') + '?a=' + $(ev.target).data('annotationid');
+                    History.pushState(newState, 'Annotation', url);
+                });
+
+                // When the state changes, the ID of the annotation in the state is used to display the annotation
+                $(window).on('statechange', function() {
+                    // Get the annotation id to load from the state
+                    var annotationId = History.getState().data.a;
+
+                    // Only attempt to show the annotation when the state has the annotation id
+                    if (annotationId) {
+                        var annotations = $($('.documentpreview-content-page')[0]).data('annotator').plugins.Store.annotations;
+
+                        // Find the annotation that was clicked
+                        var newAnnotation = _.find(annotations, function(annotation) {
+                            return annotation.id === annotationId;
+                        });
+
+                        $('#documentpreview-page-num').val(newAnnotation.pageNumber);
+                        $('#documentpreview-page-controls').submit();
+
+                        // Render the annotation that was clicked into the list
+                        renderAnnotationsList([newAnnotation]);
+                        // Show the annotations list
+                        showAnnotationsList();
+                    }
+                });
+
                 // Hook into push events
                 setUpPushNotifications();
             };
@@ -240,6 +279,9 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
              * @param  {User}      userProfile    A user object representing the user that created the annotation
              */
             var annotationCreated = function(annotation, userProfile) {
+                // Push the newly created anotation into the store's cache
+                $($('.documentpreview-content-page')[0]).data('annotator').plugins.Store.annotations.push(annotation);
+
                 // Only add the annotation when the page it's on has been loaded
                 if ($('.documentpreview-content-page[data-page-number="' + annotation.pageNumber + '"]').length && !$('.annotator-hl.' + annotation.id).length) {
                     var annotatorRoot = $('.annotator-wrapper')[0];
@@ -263,6 +305,14 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
                     // Create a reference to the annotation
                     createAnnotationReference(annotation);
                 }
+
+                // Show a notification about the annotation, including a link to the annotation
+                var notificationBody = oaeUtil.template().render($('#documentpreview-new-annotation-notifications-template'), {
+                    'actorURL': oaeUtil.profilePath(annotation.createdBy.profilePath),
+                    'actor': oaeUtil.security().encodeForHTML(annotation.createdBy.displayName),
+                    'annotationid': annotation.id
+                });
+                oaeUtil.notification(null, notificationBody, null, 'annotation-create' + '#' + annotation.id);
             };
 
             /**
@@ -284,20 +334,32 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
             /**
              * Remove the deleted annotation, coming in over websocket, from the page
              */
-            var annotationDeleted = function() {
+            var annotationDeleted = function(_annotation) {
                 // Get the deleted annotation object
-                var annotation = $('.annotator-hl.' + annotation.id).data('annotation');
+                var annotation = $('.annotator-hl.' + _annotation.id).data('annotation');
 
-                // Replace the annotation highlights with the text
-                if (annotation && annotation.highlights !== null) {
-                    for (var i = 0; i < annotation.highlights.length; i++) {
-                        var highlight = annotation.highlights[i];
-                        if (highlight.parentNode === null) {
-                            continue;
+                // Only attempt to delete the annotation if it's present
+                if (annotation) {
+                    // Replace the annotation highlights with the text
+                    if (annotation && annotation.highlights !== null) {
+                        for (var i = 0; i < annotation.highlights.length; i++) {
+                            var highlight = annotation.highlights[i];
+                            if (highlight.parentNode === null) {
+                                continue;
+                            }
+                            $(highlight).replaceWith(highlight.childNodes);
                         }
-                        $(highlight).replaceWith(highlight.childNodes);
                     }
+
+                    // Delete the anotation from the store's cache
+                    var annotations = $($('.documentpreview-content-page')[0]).data('annotator').plugins.Store.annotations;
+
+                    // Find the annotation that was deleted
+                    $($('.documentpreview-content-page')[0]).data('annotator').plugins.Store.annotations = _.reject(annotations, function(_annotation) {
+                        return _annotation.id === annotation.id;
+                    });
                 }
+
             };
 
             /**
@@ -317,12 +379,15 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
                     }
 
                     var annotation = activity.object['oae:annotation'];
-                    if (activity['oae:activityType'] === 'annotation-create') {
-                        annotationCreated(annotation, userProfile);
-                    } else if (activity['oae:activityType'] === 'annotation-update') {
-                        annotationUpdated(annotation);
-                    } else if (activity['oae:activityType'] === 'annotation-delete') {
-                        annotationDeleted();
+
+                    if (annotation) {
+                        if (activity['oae:activityType'] === 'annotation-create') {
+                            annotationCreated(annotation, userProfile);
+                        } else if (activity['oae:activityType'] === 'annotation-update') {
+                            annotationUpdated(annotation);
+                        } else if (activity['oae:activityType'] === 'annotation-delete') {
+                            annotationDeleted(annotation);
+                        }
                     }
                 });
             };
@@ -629,7 +694,7 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
              *
              * @param  {Object[]}    annotations     Array of annotations that are loaded
              */
-            renderAnnotationsList = function(annotations) {
+            var renderAnnotationsList = function(annotations) {
                 // Get the template and target container and render the template
                 $container = $(Annotator.Plugin.Sidebar.prototype.options.container);
                 var viewTemplate = Annotator.Plugin.Sidebar.prototype.options.viewTemplate;
@@ -647,13 +712,13 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
                 });
 
                 // Add a mouseover event to highlight the hovered annotation
-                $('.documentpreview-annotations-list li').on('mouseover', function() {
+                $('.documentpreview-annotations-list li').off('mouseover').on('mouseover', function() {
                     var annotation = $(this).data('annotation');
                     $('.annotator-hl.' + annotation.id).addClass('annotator-hl-hover');
                 });
 
                 // Add a mouseout event to remove the highlights from the hovered annotation
-                $('.documentpreview-annotations-list li').on('mouseout', function() {
+                $('.documentpreview-annotations-list li').off('mouseout').on('mouseout', function() {
                     var annotation = $(this).data('annotation');
                     $('.annotator-hl.' + annotation.id).removeClass('annotator-hl-hover');
                 });
@@ -709,6 +774,8 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
              * @param  {Object}    annotation    Object representing the annotation to show the editor for
              */
             Annotator.prototype.showEditor = function(annotation) {
+                renderAnnotationsList();
+
                 // Show the new annotation container and hide the list
                 $('.documentpreview-new-annotation-container').show();
                 $('.documentpreview-annotations-list').hide();
@@ -723,8 +790,14 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
                 return this;
             };
 
+            /**
+             * Enable or disable the form controls depending on whether or not
+             * the form is empty
+             *
+             * @param  {Editor}    editor    Instance of the annotator editor
+             */
             var enableDisableEditorControls = function(editor) {
-                $(editor.element).on('keyup', 'textarea', function() {
+                $(editor.element).off('keyup').on('keyup', 'textarea', function() {
                     if ($(this).val()) {
                         $('form .annotator-controls button.annotator-save').prop('disabled', false);
                     } else {
@@ -733,6 +806,11 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
                 });
             };
 
+            /**
+             * Disable the form controls
+             *
+             * @param  {Editor}    editor    Instance of the annotator editor
+             */
             var disableEditorControls = function(editor) {
                 $('form .annotator-controls button.annotator-save').prop('disabled', true);
             };
@@ -795,8 +873,10 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
                  * @param  {Event}    ev    Standard jQuery click event
                  */
                 var cancelEditAfterClick = function(ev) {
+                    // If the click is not inside of the form or on the adder button cancel editing
                     if (!$(ev.target).closest('.documentpreview-new-annotation-container').length &&
-                        !$(ev.target).closest('.annotator-adder').length) {
+                        !$(ev.target).closest('.annotator-adder').length &&
+                        $(that.annotator.editor.element).is(':visible')) {
                         cancel.apply(that);
                         $(document).off('click', cancelEditAfterClick);
                     }
@@ -918,7 +998,6 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
              * @param  {Object}    annotation     Object representing the deleted annotation
              */
             Sidebar.prototype.onAnnotationDeleted = function(annotation) {
-                console.log('deleted', annotation);
                 $(document).trigger('oae.deleteannotation.done');
                 var $annotationItem = $('li[data-id="' + annotation.id + '"]');
                 $annotationItem.remove();
