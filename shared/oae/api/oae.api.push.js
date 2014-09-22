@@ -186,7 +186,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
      * @param  {String}         token                           Token used to authorize the subscription. This token will be available on the entity that represents the channel that's being subscribed to
      * @param  {String}         [transformer]                   The format in which the activity entities should be received. When `internal` is provided, the entities will be formatted as standard OAE entities. When `activitystreams` is provided, the entities will be formatted as defined by the activitystrea.ms specification. Defaults to `internal`
      * @param  {Boolean}        [performInlineAggregation]      Whether or not activities within the same message should be aggregated. Defaults to `false`
-     * @param  {Boolean}        [performFullAggregation]        If `true` a small delay will be introduced to allow for new messages to come in that it could potentially be aggregated with. Defaults to `false`
+     * @param  {Boolean}        [performFullAggregation]        Whether or not activities from new messages should be aggregated with activities from older messages. If `true`, a small delay will be introduced to allow for new messages to come in that it could aggregate with. Defaults to `false`
      * @param  {Function}       messageCallback                 Function executed when a message on the provided channel and of the provided stream type arrives
      * @param  {Activity[]}     messageCallback.activities      The activities that arrived over the websocket. For streams that push out activities on routing there will only be 1 activity
      * @param  {Object}         messageCallback.message         The message that came in over the websocket. The `activities` key will have been modified to contain the aggregated activities
@@ -332,7 +332,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
      *
      *  2.  Full aggregation
      *      The activities from the inline aggregation phase are aggregated
-     *      with activities that were seen in previous messages for this stream. 
+     *      with activities that were seen in previous messages for this stream.
      *
      * @param  {Object}     message                         Push notification message for which the activities need to be aggregated
      * @param  {Function}   callback                        Standard callback function
@@ -499,7 +499,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
 
     /**
      * Add the entity collection from a given activity to the entity collection of another. If any
-     * of the entities are already contained in the `to` activity's entities they will not be added
+     * of the entities are already contained in the `to` activity's entities, they will not be added
      *
      * @param {Activity}    to      The activity to add the entities to
      * @param {Activity}    from    The activity to pick the entities from
