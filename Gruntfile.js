@@ -638,7 +638,7 @@ module.exports = function(grunt) {
     grunt.registerTask('cdn', function(url) {
         if (url) {
             // Pass the URL of the CDN to the replacement task
-            grunt.config('replace').set('url', url);
+            grunt.config.set('replace.url', url);
         }
 
         // Start replacing paths
