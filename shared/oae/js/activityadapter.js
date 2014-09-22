@@ -729,7 +729,7 @@ var _expose = function(exports) {
     var _generateContentCreateSummary = function(me, activity, properties) {
         var i18nKey = null;
         // Add the target to the activity summary when a target is present on the
-        // activity and the target is a user different from the current user
+        // activity and the target is not a user different from the current user
         if (properties.targetCount === 1 && !(activity.target.objectType === 'user' && activity.target['oae:id'] !== me.id)) {
             if (activity.target['oae:id'] === me.id) {
                 if (properties.objectCount === 1) {
@@ -1273,7 +1273,7 @@ var _expose = function(exports) {
     var _generateFolderCreateSummary = function(me, activity, properties) {
         var i18nKey = null;
         // Add the target to the activity summary when a target is present on the
-        // activity and the target is a user different from the current user
+        // activity and the target is not a user different from the current user
         if (properties.targetCount === 1 && !(activity.target.objectType === 'user' && activity.target['oae:id'] !== me.id)) {
             if (activity.target['oae:id'] === me.id) {
                 if (properties.objectCount === 1) {
