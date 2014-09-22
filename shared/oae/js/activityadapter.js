@@ -728,21 +728,94 @@ var _expose = function(exports) {
      */
     var _generateContentCreateSummary = function(me, activity, properties) {
         var i18nKey = null;
-        if (properties.objectCount === 1) {
-            if (activity.object['oae:resourceSubType'] === 'collabdoc') {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABDOC__';
-            } else if (activity.object['oae:resourceSubType'] === 'file') {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE__';
-            } else if (activity.object['oae:resourceSubType'] === 'link') {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK__';
+        // Add the target to the activity summary when a target is present on the activity and the target is not a user
+        // different from the current user
+        if (properties.targetCount === 1 && !(activity.target.objectType === 'user' && activity.target['oae:id'] !== me.id)) {
+            if (activity.target['oae:id'] === me.id) {
+                if (properties.objectCount === 1) {
+                    if (activity.object['oae:resourceSubType'] === 'collabdoc') {
+                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABDOC_YOU__';
+                    } else if (activity.object['oae:resourceSubType'] === 'file') {
+                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE_YOU__';
+                    } else if (activity.object['oae:resourceSubType'] === 'link') {
+                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK_YOU__';
+                    }
+                } else if (properties.objectCount === 2) {
+                    i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2_YOU__';
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2+_YOU__';
+                }
+            } else if (activity.target.objectType === 'folder') {
+                if (properties.objectCount === 1) {
+                    if (activity.object['oae:resourceSubType'] === 'collabdoc') {
+                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABDOC_FOLDER__';
+                    } else if (activity.object['oae:resourceSubType'] === 'file') {
+                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE_FOLDER__';
+                    } else if (activity.object['oae:resourceSubType'] === 'link') {
+                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK_FOLDER__';
+                    }
+                } else if (properties.objectCount === 2) {
+                    i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2_FOLDER__';
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2+_FOLDER__';
+                }
+            } else if (activity.target.objectType === 'group') {
+                if (properties.objectCount === 1) {
+                    if (activity.object['oae:resourceSubType'] === 'collabdoc') {
+                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABDOC_GROUP__';
+                    } else if (activity.object['oae:resourceSubType'] === 'file') {
+                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE_GROUP__';
+                    } else if (activity.object['oae:resourceSubType'] === 'link') {
+                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK_GROUP__';
+                    }
+                } else if (properties.objectCount === 2) {
+                    i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2_GROUP__';
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2+_GROUP__';
+                }
             }
-        } else if (properties.objectCount === 2) {
-            i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2__';
         } else {
-            i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2+__';
+            if (properties.objectCount === 1) {
+                if (activity.object['oae:resourceSubType'] === 'collabdoc') {
+                    i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABDOC__';
+                } else if (activity.object['oae:resourceSubType'] === 'file') {
+                    i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE__';
+                } else if (activity.object['oae:resourceSubType'] === 'link') {
+                    i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK__';
+                }
+            } else if (properties.objectCount === 2) {
+                i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2__';
+            } else {
+                i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2+__';
+            }
         }
         return new ActivityViewSummary(i18nKey, properties);
     };
+
+/*
+
+ACTIVITY_CONTENT_CREATE_2 = ${actor1Link} created &quot;${object1Link}&quot; and &quot;${object2Link}&quot;
+ACTIVITY_CONTENT_CREATE_2_FOLDER = ${actor1Link} created &quot;${object1Link}&quot; and &quot;${object2Link}&quot; in the folder &quot;${target1Link}&quot;
+ACTIVITY_CONTENT_CREATE_2_GROUP = ${actor1Link} created &quot;${object1Link}&quot; and &quot;${object2Link}&quot; in the group &quot;${target1Link}&quot;
+ACTIVITY_CONTENT_CREATE_2_YOU = ${actor1Link} created &quot;${object1Link}&quot; and &quot;${object2Link}&quot; and shared them with you
+ACTIVITY_CONTENT_CREATE_2+ = ${actor1Link} created &quot;${object1Link}&quot; and ${objectCountMinusOne} others
+ACTIVITY_CONTENT_CREATE_2+_FOLDER = ${actor1Link} created &quot;${object1Link}&quot; and ${objectCountMinusOne} others in the folder &quot;${target1Link}&quot;
+ACTIVITY_CONTENT_CREATE_2+_GROUP = ${actor1Link} created &quot;${object1Link}&quot; and ${objectCountMinusOne} others in the group &quot;${target1Link}&quot;
+ACTIVITY_CONTENT_CREATE_2+_YOU = ${actor1Link} created &quot;${object1Link}&quot; and ${objectCountMinusOne} others and shared them with you
+ACTIVITY_CONTENT_CREATE_COLLABDOC = ${actor1Link} created the document &quot;${object1Link}&quot;
+ACTIVITY_CONTENT_CREATE_COLLABDOC_FOLDER = ${actor1Link} created the document &quot;${object1Link}&quot; in the folder &quot;${target1Link}&quot;
+ACTIVITY_CONTENT_CREATE_COLLABDOC_GROUP = ${actor1Link} created the document &quot;${object1Link}&quot; in the group &quot;${target1Link}&quot;
+ACTIVITY_CONTENT_CREATE_COLLABDOC_YOU = ${actor1Link} created the document &quot;${object1Link}&quot; and shared it with you
+ACTIVITY_CONTENT_CREATE_FILE = ${actor1Link} uploaded &quot;${object1Link}&quot;
+ACTIVITY_CONTENT_CREATE_FILE_FOLDER = ${actor1Link} uploaded &quot;${object1Link}&quot; in the folder &quot;${target1Link}&quot;
+ACTIVITY_CONTENT_CREATE_FILE_GROUP = ${actor1Link} uploaded &quot;${object1Link}&quot; in the group &quot;${target1Link}&quot;
+ACTIVITY_CONTENT_CREATE_FILE_YOU = ${actor1Link} uploaded &quot;${object1Link}&quot; and shared it with you
+ACTIVITY_CONTENT_CREATE_LINK = ${actor1Link} added the link &quot;${object1Link}&quot;
+ACTIVITY_CONTENT_CREATE_LINK_FOLDER = ${actor1Link} added the link &quot;${object1Link}&quot; in the folder &quot;${target1Link}&quot;
+ACTIVITY_CONTENT_CREATE_LINK_GROUP = ${actor1Link} added the link &quot;${object1Link}&quot; in the group &quot;${target1Link}&quot;
+ACTIVITY_CONTENT_CREATE_LINK_YOU = ${actor1Link} added the link &quot;${object1Link}&quot; and shared it with you
+
+ */
 
     /**
      * Render the end-user friendly, internationalized summary of a restored content revision activity.
