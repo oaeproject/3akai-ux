@@ -89,7 +89,6 @@ require(['jquery', 'oae.core'], function($, oae) {
         oae.api.util.template().render($('#group-clip-template'), {
             'group': groupProfile,
             'displayOptions': {
-                'addVisibilityIcon': true,
                 'addLink': false
             }
         }, $('#group-clip-container'));
@@ -122,6 +121,12 @@ require(['jquery', 'oae.core'], function($, oae) {
                 'icon': 'fa-plus-circle',
                 'title': oae.api.i18n.translate('__MSG__CREATE__'),
                 'children': [
+                    {
+                        'icon': 'fa-folder-open',
+                        'title': oae.api.i18n.translate('__MSG__FOLDER__'),
+                        'closeNav': true,
+                        'class': 'oae-trigger-createfolder'
+                    },
                     {
                         'icon': 'fa-link',
                         'title': oae.api.i18n.translate('__MSG__LINK__'),
@@ -273,7 +278,7 @@ require(['jquery', 'oae.core'], function($, oae) {
     ///////////////////
 
     /**
-     * Creates the widgetData object to send to the manageaccess widget that contains all
+     * Create the widgetData object to send to the manageaccess widget that contains all
      * variable values needed by the widget.
      *
      * @return {Object}    The widgetData to be passed into the manageaccess widget
@@ -295,6 +300,7 @@ require(['jquery', 'oae.core'], function($, oae) {
                 'loggedinDescription': oae.api.i18n.translate('__MSG__GROUP_LOGGEDIN_DESCRIPTION__', null, {'tenant': oae.api.util.security().encodeForHTML(groupProfile.tenant.displayName)}),
                 'publicDescription': oae.api.i18n.translate('__MSG__GROUP_PUBLIC_DESCRIPTION_PRESENT__')
             },
+            'defaultRole': 'member',
             'roles': {
                 'member': oae.api.i18n.translate('__MSG__MEMBER__'),
                 'manager': oae.api.i18n.translate('__MSG__MANAGER__')
@@ -308,21 +314,21 @@ require(['jquery', 'oae.core'], function($, oae) {
     };
 
     /**
-     * Triggers the manageaccess widget and passes in context data
+     * Trigger the manageaccess widget and pass in context data
      */
     $(document).on('click', '.group-trigger-manageaccess', function() {
         $(document).trigger('oae.trigger.manageaccess', getManageAccessData());
     });
 
     /**
-     * Triggers the manageaccess widget in `add members` view and passes in context data
+     * Trigger the manageaccess widget in `add members` view and pass in context data
      */
     $(document).on('click', '.group-trigger-manageaccess-add', function() {
         $(document).trigger('oae.trigger.manageaccess-add', getManageAccessData());
     });
 
     /**
-     * Re-render the group's clip when the permissions have been updated.
+     * Re-render the group's clip when the permissions have been updated
      */
     $(document).on('oae.manageaccess.done', function(ev) {
         setUpClip();

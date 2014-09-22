@@ -22,7 +22,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {String}       resourceType                 Type of resource for which to get the comments (e.g. 'content', 'discussion', etc.)
      * @param  {String}       [start]                      The token used for paging. If the first page of results is required, `null` should be passed in as the token. For any subsequent pages, the `nextToken` provided in the feed from the previous page should be used
      * @param  {Number}       [limit]                      Number of comments to return
-     * @param  {Function}     callback                     Standard callback method
+     * @param  {Function}     callback                     Standard callback function
      * @param  {Object}       callback.err                 Error object containing error code and error message
      * @param  {Object}       callback.comments            Response object containing the resource comments and nextToken
      * @param  {Comment[]}    callback.comments.results    Array of comments on the resource
@@ -60,7 +60,7 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      * @param  {String}       resourceType          Type of resource on which to comment (e.g. 'content', 'discussion', etc.)
      * @param  {String}       body                  The comment to be placed on the resource
      * @param  {String}       [replyTo]             Id of the comment to reply to
-     * @param  {Function}     [callback]            Standard callback method
+     * @param  {Function}     [callback]            Standard callback function
      * @param  {Object}       [callback.err]        Error object containing error code and error message
      * @param  {Comment}      [callback.comment]    Comment object representing the created comment
      * @throws {Error}                              Error thrown when not all of the required parameters have been provided
@@ -100,8 +100,8 @@ define(['exports', 'jquery', 'underscore'], function(exports, $, _) {
      *
      * @param  {String}       resourceId                Id of the resource from which to delete the comment
      * @param  {String}       resourceType              Type of resource for which the comment should be deleted (e.g. 'content', 'discussion', etc.)
-     * @param  {String}       commentId                 The ID of the comment to delete
-     * @param  {Function}     [callback]                Standard callback method
+     * @param  {String}       commentId                 The id of the comment to delete
+     * @param  {Function}     [callback]                Standard callback function
      * @param  {Object}       [callback.err]            Error object containing error code and error message
      * @param  {Object}       [callback.softDeleted]    If the comment is not deleted, but instead flagged as deleted because it has replies, this will return a stripped down comment object representing the deleted comment, with the `deleted` property set to `true`. If the comment has been properly deleted, no comment will be returned.
      * @throws {Error}                                  Error thrown when not all of the required parameters have been provided

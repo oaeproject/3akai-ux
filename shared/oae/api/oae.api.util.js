@@ -61,7 +61,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     };
 
     /**
-     * Generate a random ID. This ID generator does not guarantee global uniqueness.
+     * Generate a random id. This id generator does not guarantee global uniqueness.
      * The generated id will have the following format: `oae-<random number>-<random number>`
      *
      * @return {String}         Generated random ID
@@ -363,7 +363,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
 
         if (id) {
             if (_.contains(notificationIds, id)) {
-                // A notification with this ID has been triggered already, do not trigger another one
+                // A notification with this id has been triggered already, do not trigger another one
                 return;
             }
 
