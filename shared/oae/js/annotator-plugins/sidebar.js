@@ -28,7 +28,7 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
         Annotator.Plugin.Sidebar = (function(_super) {
             __extends(Sidebar, _super);
 
-            // Used to be able to provide the right context in events that don't have it. e.g. delete/edit/reply functionality
+            // Used to be able to provide the right context in events that don't have it. e.g. delete/edit functionality
             var that = null;
             // Keep track of the zoom level to be able to reverse scale the adder
             var documentZoomLevel = 1;
@@ -115,7 +115,6 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
                     this.mouseIsDown = false;
                     this.selectedRanges = this.getSelectedRanges();
                     ranges = this.selectedRanges;
-                    console.log(ranges);
                     for (var i = 0; i < ranges.length; i++) {
                         var range = ranges[i];
                         var container = range.commonAncestor;
@@ -210,18 +209,13 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
                 $('body').off('click', '.annotator-hl').on('click', '.annotator-hl', showClickedAnnotations);
 
                 // Delete an annotation when the delete button is clicked, passing the `that` context which isn't available in the function
-                $('body').off('click', '.documentpreview-annotation-delete').on('click', '.documentpreview-annotation-delete', function(ev) {
+                $('body').off('click', '#deleteannotation-delete').on('click', '#deleteannotation-delete', function(ev) {
                     that.onDeleteClick.call(that, ev);
                 });
 
                 // Edit an annotation when the edit button is clicked, passing the `that` context which isn't available in the function
                 $('body').off('click', '.documentpreview-annotation-edit').on('click', '.documentpreview-annotation-edit', function(ev) {
                     that.onEditClick.call(that, ev);
-                });
-
-                // Reply to an annotation when the reply button is clicked, passing the `that` context which isn't available in the function
-                $('body').off('click', '.documentpreview-annotation-reply').on('click', '.documentpreview-annotation-reply', function(ev) {
-                    that.onReplyClick.call(that, ev);
                 });
 
                 // Keep track of the zoom level and hide the adder button when the document is zoomed
@@ -493,7 +487,6 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
              * @param {Event}    ev    Standard jQuery click event
              */
             var showClickedAnnotations = function(ev) {
-                console.log('clicked highlight');
                 // Stop propagation of the click event to only handle one click. This is
                 // required as multiple annotations on the same piece of text create
                 // a nested structure in the DOM.
@@ -559,14 +552,14 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
              * @param  {String}    type    The type of button that was clicked on. One of 'delete' or 'edit'
              */
             Sidebar.prototype.onButtonClick = function(ev, type) {
-                var $annotationItem = $($(ev.target).closest('li'));
                 if (type === 'delete') {
-                    var annotation = $annotationItem.data('annotation');
+                    var annotation = $(ev.target).data('annotation');
                     delete annotation.prototype;
 
                     // Finally delete the annotation
                     return this.annotator.deleteAnnotation(annotation);
                 } else if (type === 'edit') {
+                    var $annotationItem = $($(ev.target).closest('li'));
                     // Add the editor to the annotation's edit container
                     var $editContainer = $($annotationItem.find('.documentpreview-annotation-edit-container'));
                     var $annotationText = $($annotationItem.find('.documentpreview-annotation-text'));
@@ -730,8 +723,7 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
                 return this;
             };
 
-            Sidebar.prototype.onAnnotationEditorShown = function(editor, annotation) {
-                console.log('annotation editor shown', editor, annotation);
+            var enableDisableEditorControls = function(editor) {
                 $(editor.element).on('keyup', 'textarea', function() {
                     if ($(this).val()) {
                         $('form .annotator-controls button.annotator-save').prop('disabled', false);
@@ -741,9 +733,15 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
                 });
             };
 
-            Sidebar.prototype.onAnnotationEditorHidden = function(editor, annotation) {
+            var disableEditorControls = function(editor) {
                 $('form .annotator-controls button.annotator-save').prop('disabled', true);
             };
+
+            Sidebar.prototype.onAnnotationEditorShown = enableDisableEditorControls;
+            Annotator.prototype.onAnnotationEditorShown = enableDisableEditorControls;
+
+            Sidebar.prototype.onAnnotationEditorHidden = disableEditorControls;
+            Annotator.prototype.onAnnotationEditorHidden = disableEditorControls;
 
             /**
              * Set up the editor and show it in the sidebar when the adder button is clicked
@@ -886,93 +884,6 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
             };
 
 
-            /////////////////////////
-            // REPLY TO ANNOTATION //
-            /////////////////////////
-
-            /**
-             * Set up the editor and show it in the sidebar when the reply icon is clicked for
-             * an annotation.
-             *
-             * @param  {Event}    ev    Standard jQuery click event
-             */
-            Sidebar.prototype.onReplyClick = function(ev) {
-                // Get the annotation that's being replied to
-                var replyToAnnotation = $(ev.target).closest('li').data('annotation');
-
-                // Set up the editor for the reply
-                this.annotator._setupEditor();
-
-                // Create the initial annotation object
-                var annotation = this.annotator.setupAnnotation(this.annotator.createAnnotation());
-
-                // Apply the same highlights, ranges and quote to the reply
-                annotation.highlights = replyToAnnotation.highlights;
-                annotation.ranges = replyToAnnotation.ranges;
-                annotation.quote = replyToAnnotation.quote;
-                annotation.pageNumber = $($(replyToAnnotation.highlights).closest('.documentpreview-content-page')).data('page-number');
-
-                /**
-                 * Wrap the most inner child of the selected text to annotate into a span and apply the
-                 * annotator temporary classes to it to achieve the same styling.
-                 *
-                 * @param  {Object[]}    highlights    The highlights to wrap into a span element
-                 */
-                var wrapInnerChild = function(highlights) {
-                    $.each($(highlights), function(index, highlight) {
-                        if ($(highlight).children().length) {
-                            // Drill down further
-                            wrapInnerChild($(highlight).children());
-                        } else {
-                            // We're down to the deepest level, wrap the element
-                            $(highlight).wrapInner('<span class="annotator-hl annotator-hl-temporary">');
-                        }
-                    });
-                };
-
-                wrapInnerChild(annotation.highlights);
-
-                // Get the correct highlights after wrapping the original ones
-                annotation.highlights = $('.annotator-hl-temporary');
-
-                // Clean up after canceling or saving
-                var cleanup = (function(_this) {
-                    return function() {
-                        // Show the new annotation container and hide the list
-                        $('span.annotator-hl-temporary').removeClass('annotator-hl-temporary');
-                        $('.documentpreview-new-annotation-container').hide();
-                        $('.documentpreview-annotations-list').show();
-                        _this.unsubscribe('annotationEditorHidden', cancel);
-                        return _this.unsubscribe('annotationEditorSubmit', save);
-                    };
-                })(this);
-
-                // Save the editor's fields
-                var save = (function(_this) {
-                    return function() {
-                        cleanup();
-                        return _this.publish('annotationCreated', [annotation]);
-                    };
-                })(this);
-
-                // Cancel editing
-                var cancel = (function(_this) {
-                    return function() {
-                        // Unwrap the highlights after cancelling
-                        $(annotation.highlights).contents().unwrap();
-                        cleanup();
-                        return _this.annotator.deleteAnnotation(annotation);
-                    };
-                })(this);
-
-                this.subscribe('annotationEditorHidden', cancel);
-                this.subscribe('annotationEditorSubmit', save);
-
-                // Show the editor
-                return this.annotator.showEditor(annotation);
-            };
-
-
             ///////////////////////
             // DELETE ANNOTATION //
             ///////////////////////
@@ -1007,6 +918,8 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
              * @param  {Object}    annotation     Object representing the deleted annotation
              */
             Sidebar.prototype.onAnnotationDeleted = function(annotation) {
+                console.log('deleted', annotation);
+                $(document).trigger('oae.deleteannotation.done');
                 var $annotationItem = $('li[data-id="' + annotation.id + '"]');
                 $annotationItem.remove();
             };
