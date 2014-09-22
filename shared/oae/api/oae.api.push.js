@@ -25,11 +25,12 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
     // one activity
     var AGGREGATION_RULES = {
         'content-comment': ['target'],
-        'content-create': ['actor'],
+        'content-create': ['actor', 'target'],
         'content-revision': ['object'],
         'content-share': ['actor'],
         'discussion-message': ['target'],
         'folder-add-to-folder': ['target'],
+        'folder-create': ['actor', 'target'],
         'folder-share': ['actor']
     };
 
@@ -185,7 +186,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
      * @param  {String}         token                           Token used to authorize the subscription. This token will be available on the entity that represents the channel that's being subscribed to
      * @param  {String}         [transformer]                   The format in which the activity entities should be received. When `internal` is provided, the entities will be formatted as standard OAE entities. When `activitystreams` is provided, the entities will be formatted as defined by the activitystrea.ms specification. Defaults to `internal`
      * @param  {Boolean}        [performInlineAggregation]      Whether or not activities within the same message should be aggregated. Defaults to `false`
-     * @param  {Boolean}        [performFullAggregation]        Whether or not activities from new messages should be aggregated with activities from older messages. If `true` a small delay will be introduced to allow for new messages to come in that could potentially be aggregated with. Defaults to `false`
+     * @param  {Boolean}        [performFullAggregation]        If `true` a small delay will be introduced to allow for new messages to come in that it could potentially be aggregated with. Defaults to `false`
      * @param  {Function}       messageCallback                 Function executed when a message on the provided channel and of the provided stream type arrives
      * @param  {Activity[]}     messageCallback.activities      The activities that arrived over the websocket. For streams that push out activities on routing there will only be 1 activity
      * @param  {Object}         messageCallback.message         The message that came in over the websocket. The `activities` key will have been modified to contain the aggregated activities
@@ -243,7 +244,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
     /**
      * Reset aggregation for an activity stream
      *
-     * @param  {String}     resourceId      The id of the resource
+     * @param  {String}     resourceId      The id of the resource for which the activity stream should be reset
      * @param  {String}     streamType      The stream for wich to reset the aggregation process. For example, `activity` or `notification`
      */
     var resetAggregation = exports.resetAggregation = function(resourceId, streamType) {
@@ -485,14 +486,20 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
     var getAggregateKey = function(activity) {
         var aggregateKey = [];
         _.each(AGGREGATION_RULES[activity['oae:activityType']], function(activityField) {
-            aggregateKey.push(activity[activityField]['oae:id']);
+            // Depending of the context the activity was created in, some
+            // activities (content-create, folder-create) do not always have a target
+            if (activity[activityField] && activity[activityField]['oae:id']) {
+                aggregateKey.push(activity[activityField]['oae:id']);
+            } else {
+                aggregateKey.push('__null__');
+            }
         });
         return aggregateKey.join('#');
     };
 
     /**
      * Add the entity collection from a given activity to the entity collection of another. If any
-     * of the entities in are already contained in the `to` activity's entities they will not be added
+     * of the entities are already contained in the `to` activity's entities they will not be added
      *
      * @param {Activity}    to      The activity to add the entities to
      * @param {Activity}    from    The activity to pick the entities from
