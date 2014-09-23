@@ -158,7 +158,11 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * are made by a different user after the initial page load
      */
     var setUpPushNotifications = function() {
-        oae.api.push.subscribe(contentId, 'activity', contentProfile.signature, 'internal', false, function(activity) {
+        oae.api.push.subscribe(contentId, 'activity', contentProfile.signature, 'internal', false, false, function(activities) {
+            // The `activity` stream pushes out activities on routing so it's always
+            // safe to just pick the first item from the `activities` array
+            var activity = activities[0];
+
             var isSupportedUpdateActivity = _.contains(['content-update', 'content-update-visibility'], activity['oae:activityType']);
             var isSupportedPreviewActivity = _.contains(['content-revision', 'content-restored-revision', 'previews-finished'], activity['oae:activityType']);
             // Only respond to push notifications caused by other users

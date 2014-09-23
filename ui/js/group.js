@@ -258,7 +258,11 @@ require(['jquery', 'oae.core'], function($, oae) {
      * are made by a different user after the initial page load
      */
     var setUpPushNotifications = function() {
-        oae.api.push.subscribe(groupId, 'activity', groupProfile.signature, 'internal', false, function(activity) {
+        oae.api.push.subscribe(groupId, 'activity', groupProfile.signature, 'internal', false, false, function(activities) {
+            // The `activity` stream pushes out activities on routing so it's always
+            // safe to just pick the first item from the `activities` array
+            var activity = activities[0];
+
             var supportedActivities = ['group-update', 'group-update-visibility'];
             // Only respond to push notifications caused by other users
             if (activity.actor.id !== oae.data.me.id && _.contains(supportedActivities, activity['oae:activityType'])) {

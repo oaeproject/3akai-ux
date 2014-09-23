@@ -542,8 +542,8 @@ var _expose = function(exports) {
 
         // Prepare the target-related variables that will be present in the i18n keys
         var target1Obj = null;
-        properties.targetCount = 1;
         if (activity.target) {
+            properties.targetCount = 1;
             if (activity.target['oae:collection']) {
                 target1Obj = activity.target['oae:collection'][0];
                 if (activity.target['oae:collection'].length > 1) {
@@ -728,18 +728,66 @@ var _expose = function(exports) {
      */
     var _generateContentCreateSummary = function(me, activity, properties) {
         var i18nKey = null;
-        if (properties.objectCount === 1) {
-            if (activity.object['oae:resourceSubType'] === 'collabdoc') {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABDOC__';
-            } else if (activity.object['oae:resourceSubType'] === 'file') {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE__';
-            } else if (activity.object['oae:resourceSubType'] === 'link') {
-                i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK__';
+        // Add the target to the activity summary when a target is present on the
+        // activity and the target is not a user different from the current user
+        if (properties.targetCount === 1 && !(activity.target.objectType === 'user' && activity.target['oae:id'] !== me.id)) {
+            if (activity.target['oae:id'] === me.id) {
+                if (properties.objectCount === 1) {
+                    if (activity.object['oae:resourceSubType'] === 'collabdoc') {
+                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABDOC_YOU__';
+                    } else if (activity.object['oae:resourceSubType'] === 'file') {
+                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE_YOU__';
+                    } else if (activity.object['oae:resourceSubType'] === 'link') {
+                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK_YOU__';
+                    }
+                } else if (properties.objectCount === 2) {
+                    i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2_YOU__';
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2+_YOU__';
+                }
+            } else if (activity.target.objectType === 'folder') {
+                if (properties.objectCount === 1) {
+                    if (activity.object['oae:resourceSubType'] === 'collabdoc') {
+                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABDOC_FOLDER__';
+                    } else if (activity.object['oae:resourceSubType'] === 'file') {
+                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE_FOLDER__';
+                    } else if (activity.object['oae:resourceSubType'] === 'link') {
+                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK_FOLDER__';
+                    }
+                } else if (properties.objectCount === 2) {
+                    i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2_FOLDER__';
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2+_FOLDER__';
+                }
+            } else if (activity.target.objectType === 'group') {
+                if (properties.objectCount === 1) {
+                    if (activity.object['oae:resourceSubType'] === 'collabdoc') {
+                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABDOC_GROUP__';
+                    } else if (activity.object['oae:resourceSubType'] === 'file') {
+                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE_GROUP__';
+                    } else if (activity.object['oae:resourceSubType'] === 'link') {
+                        i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK_GROUP__';
+                    }
+                } else if (properties.objectCount === 2) {
+                    i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2_GROUP__';
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2+_GROUP__';
+                }
             }
-        } else if (properties.objectCount === 2) {
-            i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2__';
         } else {
-            i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2+__';
+            if (properties.objectCount === 1) {
+                if (activity.object['oae:resourceSubType'] === 'collabdoc') {
+                    i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_COLLABDOC__';
+                } else if (activity.object['oae:resourceSubType'] === 'file') {
+                    i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_FILE__';
+                } else if (activity.object['oae:resourceSubType'] === 'link') {
+                    i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_LINK__';
+                }
+            } else if (properties.objectCount === 2) {
+                i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2__';
+            } else {
+                i18nKey = '__MSG__ACTIVITY_CONTENT_CREATE_2+__';
+            }
         }
         return new ActivityViewSummary(i18nKey, properties);
     };
@@ -1224,12 +1272,34 @@ var _expose = function(exports) {
      */
     var _generateFolderCreateSummary = function(me, activity, properties) {
         var i18nKey = null;
-        if (properties.objectCount === 1) {
-            i18nKey = '__MSG__ACTIVITY_FOLDER_CREATE_1__';
-        } else if (properties.objectCount === 2) {
-            i18nKey = '__MSG__ACTIVITY_FOLDER_CREATE_2__';
+        // Add the target to the activity summary when a target is present on the
+        // activity and the target is not a user different from the current user
+        if (properties.targetCount === 1 && !(activity.target.objectType === 'user' && activity.target['oae:id'] !== me.id)) {
+            if (activity.target['oae:id'] === me.id) {
+                if (properties.objectCount === 1) {
+                    i18nKey = '__MSG__ACTIVITY_FOLDER_CREATE_1_YOU__';
+                } else if (properties.objectCount === 2) {
+                    i18nKey = '__MSG__ACTIVITY_FOLDER_CREATE_2_YOU__';
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_FOLDER_CREATE_2+_YOU__';
+                }
+            } else if (activity.target.objectType === 'group') {
+                if (properties.objectCount === 1) {
+                    i18nKey = '__MSG__ACTIVITY_FOLDER_CREATE_1_GROUP__';
+                } else if (properties.objectCount === 2) {
+                    i18nKey = '__MSG__ACTIVITY_FOLDER_CREATE_2_GROUP__';
+                } else {
+                    i18nKey = '__MSG__ACTIVITY_FOLDER_CREATE_2+_GROUP__';
+                }
+            }
         } else {
-            i18nKey = '__MSG__ACTIVITY_FOLDER_CREATE_2+__';
+            if (properties.objectCount === 1) {
+                i18nKey = '__MSG__ACTIVITY_FOLDER_CREATE_1__';
+            } else if (properties.objectCount === 2) {
+                i18nKey = '__MSG__ACTIVITY_FOLDER_CREATE_2__';
+            } else {
+                i18nKey = '__MSG__ACTIVITY_FOLDER_CREATE_2+__';
+            }
         }
         return new ActivityViewSummary(i18nKey, properties);
     };
