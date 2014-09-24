@@ -32,6 +32,8 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
             var that = null;
             // Keep track of the zoom level to be able to reverse scale the adder
             var documentZoomLevel = 1;
+            // Whether or not the annotator is fully supported on the device
+            var sidebarSupported = oaeUtil.isHandheldDevice() && oaeUtil.isIos;
 
             // Bind the events associated to the Sidebar
             Sidebar.prototype.events = {
@@ -188,30 +190,33 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
                     return;
                 }
 
-                // Hide the annotations panel when the 'x' is clicked
-                $('#documentpreview-sidebar').off('click', '#documentpreview-annotator-close').on('click', '#documentpreview-annotator-close', hideAnnotationsList);
+                // Depending on the device some actions aren't supported
+                if (sidebarSupported) {
+                    // Hide the annotations panel when the 'x' is clicked
+                    $('#documentpreview-sidebar').off('click', '#documentpreview-annotator-close').on('click', '#documentpreview-annotator-close', hideAnnotationsList);
 
-                // Toggle the annotations list when the edit button is clicked
-                $('body').off('click', '#documentpreview-toggle-annotator').on('click', '#documentpreview-toggle-annotator', toggleAnnotationsList);
+                    // Toggle the annotations list when the toggle is clicked
+                    $('body').off('click', '#documentpreview-toggle-annotator').on('click', '#documentpreview-toggle-annotator', toggleAnnotationsList);
+
+                    // Delete an annotation when the delete button is clicked, passing the `that` context which isn't available in the function
+                    $('body').off('click', '#deleteannotation-delete').on('click', '#deleteannotation-delete', function(ev) {
+                        that.onDeleteClick.call(that, ev);
+                    });
+
+                    // Edit an annotation when the edit button is clicked, passing the `that` context which isn't available in the function
+                    $('#documentpreview-sidebar').off('click', '.documentpreview-annotation-edit').on('click', '.documentpreview-annotation-edit', function(ev) {
+                        that.onEditClick.call(that, ev);
+                    });
+
+                    // Keep track of the zoom level and hide the adder button when the document is zoomed
+                    $(document).off('oae.documentpreview.zoom').on('oae.documentpreview.zoom', function(ev, data) {
+                        $('.annotator-adder').hide();
+                        documentZoomLevel = data.zoom;
+                    });
+                }
 
                 // Show an annotation when it's clicked
                 $('body').off('click', '.annotator-hl').on('click', '.annotator-hl', showClickedAnnotations);
-
-                // Delete an annotation when the delete button is clicked, passing the `that` context which isn't available in the function
-                $('body').off('click', '#deleteannotation-delete').on('click', '#deleteannotation-delete', function(ev) {
-                    that.onDeleteClick.call(that, ev);
-                });
-
-                // Edit an annotation when the edit button is clicked, passing the `that` context which isn't available in the function
-                $('#documentpreview-sidebar').off('click', '.documentpreview-annotation-edit').on('click', '.documentpreview-annotation-edit', function(ev) {
-                    that.onEditClick.call(that, ev);
-                });
-
-                // Keep track of the zoom level and hide the adder button when the document is zoomed
-                $(document).off('oae.documentpreview.zoom').on('oae.documentpreview.zoom', function(ev, data) {
-                    $('.annotator-adder').hide();
-                    documentZoomLevel = data.zoom;
-                });
 
                 // When a notification link for an annotation has been clicked, the id of it needs to be pushed into the state
                 $(document).off('click', '.annotation-activity-link').on('click', '.annotation-activity-link', function(ev) {
@@ -490,8 +495,8 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
              * Show the annotations list
              */
             var showAnnotationsList = function() {
-                // Only attempt to show the sidebar when its currently hidden
-                if (!$('#documentpreview-sidebar').is(':visible')) {
+                // Only attempt to show the sidebar when its supported and currently hidden
+                if (sidebarSupported && !$('#documentpreview-sidebar').is(':visible')) {
                     // Activate the toggle button in the toolbar
                     $('#documentpreview-toggle-annotator #documentpreview-annotator-status').toggleClass('active');
                     $('#documentpreview-sidebar').show();
@@ -703,31 +708,37 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
             };
 
             /**
-             * Render the annotations in the sidebar
+             * Render the annotations in the sidebar or modal, depending on what device
+             * is used to read the annotations
              *
              * @param  {Object[]}    annotations     Array of annotations that are loaded
              */
             var renderAnnotationsList = function(annotations) {
-                // Get the template and target container and render the template
                 var userProfile = Annotator.Plugin.Sidebar.prototype.options.userProfile;
                 var contentProfile = Annotator.Plugin.Sidebar.prototype.options.contentProfile;
-                oaeUtil.template().render($('#documentpreview-sidebar-view-template'), {
-                    'annotations': annotations,
-                    'contentProfile': contentProfile,
-                    'userProfile': userProfile
-                }, $('#documentpreview-sidebar'));
 
-                // Store the annotation data on the list items for future reference
-                $('#documentpreview-sidebar').find('li').each(function(index, listItem) {
-                    $(listItem).data('annotation', annotations[index]);
-                });
+                if (sidebarSupported) {
+                    oaeUtil.template().render($('#documentpreview-sidebar-view-template'), {
+                        'annotations': annotations,
+                        'contentProfile': contentProfile,
+                        'userProfile': userProfile
+                    }, $('#documentpreview-sidebar'));
 
-                // Remove the selected class from any other elements that were previously selected
-                $('.annotator-hl-selected').removeClass('annotator-hl-selected');
+                    // Store the annotation data on the list items for future reference
+                    $('#documentpreview-sidebar').find('li').each(function(index, listItem) {
+                        $(listItem).data('annotation', annotations[index]);
+                    });
 
-                // If annotations are rendered highlight the clicked one
-                if (annotations && annotations.length) {
-                    $(annotations[0].highlights).closest('.t > span').addClass('annotator-hl-selected');
+                    // Remove the selected class from any other elements that were previously selected
+                    $('.annotator-hl-selected').removeClass('annotator-hl-selected');
+
+                    // If annotations are rendered highlight the clicked one
+                    if (annotations && annotations.length) {
+                        $(annotations[0].highlights).closest('.t > span').addClass('annotator-hl-selected');
+                    }
+                } else {
+                    // Trigger the annotationsmobile widget to show the list of annotations in a modal
+                    $(document).trigger('oae.trigger.annotationsmobile', [annotations], userProfile, contentProfile);
                 }
             };
 
