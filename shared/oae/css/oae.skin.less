@@ -1053,8 +1053,10 @@ div.oae-thumbnail {
 
 /* Annotation highlight background color */
 @annotations-highlight-background-color: rgba(255,255,10,0.3);
-/* Annotation highlight border hover color */
-@annotations-highlight-border-hover-color: #000;
+/* Annotation highlight selected text color */
+@annotations-highlight-border-selected-text-color: #FFF;
+/* Annotation highlight selected background color */
+@annotations-highlight-border-selected-background-color: rgba(51, 51, 51, 1);
 /* Annotation selection color */
 @annotations-selection-color: #A8D1FF;
 
@@ -1063,9 +1065,11 @@ div.oae-thumbnail {
     background-color: @annotations-highlight-background-color !important;
 }
 
-.annotator-hl-hover,
-.annotator-hl-hover + ._ {
-    border-color: @annotations-highlight-border-hover-color;
+.annotator-hl-selected,
+.annotator-hl-selected + ._,
+.annotator-hl-selected .annotator-hl {
+    background: @annotations-highlight-border-selected-background-color !important;
+    color: @annotations-highlight-border-selected-text-color;
 }
 
 .annotator-hl-temporary,
