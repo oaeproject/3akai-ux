@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.validate', 'trimpath', 'jquery.autosuggest', 'tinycon'], function(exports, require, $, _, configAPI) {
+define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'marked', 'jquery.validate', 'trimpath', 'jquery.autosuggest', 'tinycon'], function(exports, require, $, _, configAPI, marked) {
 
     /**
      * Initialize all utility functionality.
@@ -172,11 +172,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             'encodeForHTMLWithLinks': function(str) {
                 return security().encodeForHTMLWithLinks(str);
             },
-            'encodeForHTMLWithMarkdownLinks': function(str) {
-                return security().encodeForHTMLWithMarkdownLinks(str);
-            },
             'encodeForURL': function(str) {
                 return security().encodeForURL(str);
+            },
+            'encodeMarkdownForHTMLWithLinks': function(str) {
+                return security().encodeMarkdownForHTMLWithLinks(str);
             },
             'profilePath': function(str) {
                 return profilePath(str);
@@ -1239,28 +1239,26 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         };
 
         /**
-         * Sanitizes user input in a manner that makes it safe for the input to be placed inside of an HTML tag.
-         * This sanitizer will also recognise URLs inside of the provided input and will convert these into
-         * markdown syntax.
+         * Sanitizes markdown input in a manner that makes it safe for the input to be placed inside of an HTML tag.
+         * This sanitizer will also recognise bare URLs inside of the provided input and will convert these into links.
          *
-         * @param  {String}     [input]         The user input string that should be sanitized. If this is not provided, an empty string will be returned
+         * @param  {String}     [input]         The markdown input string that should be sanitized. If this is not provided, an empty string will be returned
          * @return {String}                     The sanitized user input, ready to be put inside of an HTML tag with all URLs converted to markdown links
          */
-        var encodeForHTMLWithMarkdownLinks = function(input) {
+        var encodeMarkdownForHTMLWithLinks = function(input) {
             if (!input) {
                 return '';
             } else {
 
-                // First sanitize the user's input
-                input = encodeForHTML(input.toString());
+                // The marked.js parser supports sanitization as an option
+                // and `gfm` mode automatically recognizes text beginning
+                // with http: or https: as a URL and converts it to a link
+                input = marked(input.toString(),{gfm:true, breaks:true, sanitize:true});
 
-                // URLs starting with http://, https://, or ftp://
-                var URLPattern1 = /(\b(https?|ftp):\/\/[\-A-Z0-9+&@#\/%?=~_|!:,.;]*[\-A-Z0-9+&@#\/%=~_|])/gim;
-                input = input.replace(URLPattern1, '[$1]($1)');
-
-                // URLs starting with "www." (without // before it, or it'd re-link the ones done above).
-                var URLPattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
-                input = input.replace(URLPattern2, '[$1]($1)');
+                // Also recognize text beginning with "www." as a URL as long
+                // as it's not already within a link
+                var URLPattern = /(www\.[A-Z0-9.-]+(\b|$))(?![^<]*>|[^<>]*<\\\/a)/gim;
+                input = input.replace(URLPattern, '<a href="http://$1">$1</a>');
 
                 return input;
             }
@@ -1285,8 +1283,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             'encodeForHTML': encodeForHTML,
             'encodeForHTMLAttribute': encodeForHTMLAttribute,
             'encodeForHTMLWithLinks': encodeForHTMLWithLinks,
-            'encodeForHTMLWithMarkdownLinks': encodeForHTMLWithMarkdownLinks,
-            'encodeForURL': encodeForURL
+            'encodeForURL': encodeForURL,
+            'encodeMarkdownForHTMLWithLinks': encodeMarkdownForHTMLWithLinks
         };
     };
 
