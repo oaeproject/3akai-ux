@@ -33,7 +33,7 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
             // Keep track of the zoom level to be able to reverse scale the adder
             var documentZoomLevel = 1;
             // Whether or not the annotator is fully supported on the device
-            var sidebarSupported = !oaeUtil.isHandheldDevice() && !oaeUtil.isIos;
+            var sidebarSupported = !(oaeUtil.isHandheldDevice() || oaeUtil.isIos());
 
             // Bind the events associated to the Sidebar
             Sidebar.prototype.events = {
