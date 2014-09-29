@@ -64,11 +64,28 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         }
 
         var lhNavPages = [{
+            'id': 'folderprofile',
+            'title': 'Folder profile',
+            'icon': 'fa-folder-open',
+            'layout': [
+                {
+                    'width': 'col-md-12',
+                    'widgets': [
+                        {
+                            'name': 'folderprofile',
+                            'settings': {
+                                'context': folderProfile,
+                                'canManage': folderProfile.canManage
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             'id': 'folder',
             'title': folderProfile.displayName,
             'icon': 'fa-folder-open',
-            'closeNav': true,
-            'class': 'hide',
             'layout': [
                 {
                     'width': 'col-md-12',

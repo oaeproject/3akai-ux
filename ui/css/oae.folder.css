@@ -12,19 +12,3 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
-/* The content page shouldn't have a left hand navigation when wider than 992 pixels */
-@media (min-width: 992px) {
-    .oae-lhnavigation {
-        display: none;
-    }
-
-    .oae-page {
-        margin-left: 25px;
-    }
-}
-
-/* Hide the lhnavigation toggle for non-managers */
-.folder-non-manager .oae-lhnavigation-toggle {
-    display: none !important;
-}
