@@ -402,6 +402,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
             },
             'oaePlugins': {
                 '/shared/oae/js/activityadapter.js': null,
+                '/shared/oae/js/annotator-plugins/sidebar.js': null,
                 '/shared/oae/js/bootstrap-plugins/bootstrap.focus.js': null,
                 '/shared/oae/js/bootstrap-plugins/bootstrap.modal.js': null,
                 '/shared/oae/js/jquery-plugins/jquery.browse-focus.js': null,
