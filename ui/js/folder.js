@@ -22,6 +22,8 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     // Variable used to cache the folder's base URL
     var baseUrl = '/folder/' + $.url().segment(2) + '/' + $.url().segment(3);
 
+    var isPresentation = $.url().param()['view'] === 'presentation';
+
     // Variable used to cache the requested folder profile
     var folderProfile = null;
 
@@ -64,25 +66,6 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
         }
 
         var lhNavPages = [{
-            'id': 'folderprofile',
-            'title': 'Folder profile',
-            'icon': 'fa-folder-open',
-            'layout': [
-                {
-                    'width': 'col-md-12',
-                    'widgets': [
-                        {
-                            'name': 'folderprofile',
-                            'settings': {
-                                'context': folderProfile,
-                                'canManage': folderProfile.canManage
-                            }
-                        }
-                    ]
-                }
-            ]
-        },
-        {
             'id': 'folder',
             'title': folderProfile.displayName,
             'icon': 'fa-folder-open',
@@ -101,6 +84,29 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                 }
             ]
         }];
+
+        if (isPresentation) {
+            lhNavPages = [{
+                'id': 'folderprofile',
+                'title': 'Folder profile',
+                'icon': 'fa-folder-open',
+                'class': 'hide',
+                'layout': [
+                    {
+                        'width': 'col-md-12',
+                        'widgets': [
+                            {
+                                'name': 'folderprofile',
+                                'settings': {
+                                    'context': folderProfile,
+                                    'canManage': folderProfile.canManage
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }];
+        }
 
         $(window).trigger('oae.trigger.lhnavigation', [lhNavPages, lhNavActions, baseUrl]);
         $(window).on('oae.ready.lhnavigation', function() {
