@@ -45,10 +45,10 @@ define(['jquery', 'oae.api.util', 'jquery.history'], function ($, oaeUtil) {
          * example:
          *
          * ```javascript
-         *  // Subscribes to the event that is invoked when the user has performed a search with the
+         *  // Subscribe to the event that is invoked when the user has performed a search with the
          *  // list header
          *  $(window).on('statechange', function() {
-         *      // Fetches the query from the History.js module
+         *      // Fetch the query from the History.js module
          *      var query = History.getState().data.query
          *
          *      // Finally, do something with the query (e.g., invoke a search and update the DOM)
@@ -68,7 +68,12 @@ define(['jquery', 'oae.api.util', 'jquery.history'], function ($, oaeUtil) {
             // We cannot rely on the "current" url as that can be different depending on the browser.
             // Most browsers will display `/me/library`, IE9 will be display `/me#library` however.
             // The cleanUrl in the History.js state will always be `/me/library`.
-            var url = $.url(History.getState().cleanUrl).attr('path') + '?q=' + oaeUtil.security().encodeForURL(query);
+            var url = $.url(History.getState().cleanUrl).attr('path');
+            // Add the search query to the page URL. Note that we remove all hash characters from the
+            // search query. History.js expects to be in full control of the URL hash and adding one
+            // into the URL ourself would interfere with that
+            // @see https://github.com/oaeproject/3akai-ux/issues/3872
+            url +=  '?q=' + oaeUtil.security().encodeForURL(query.replace(/#/g, ''));
             History.pushState(newState, $('title').text(), url);
 
             // Avoid submitting the search form
@@ -92,7 +97,7 @@ define(['jquery', 'oae.api.util', 'jquery.history'], function ($, oaeUtil) {
             var $listContainer = $(this).parents('.oae-list-container');
             // Check or uncheck all checkboxes in the corresponding list
             var checked = $(this).is(':checked');
-            var $listCheckboxes = $('.oae-list input[type="checkbox"]', $listContainer);
+            var $listCheckboxes = $('.oae-list:visible input[type="checkbox"]', $listContainer);
             $listCheckboxes.prop('checked', checked);
             // Enable or disable the list option action buttons. We only change the state
             // when there is at least 1 item in the list that can be checked.

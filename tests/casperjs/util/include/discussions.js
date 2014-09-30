@@ -59,7 +59,26 @@ var discussionUtil = (function() {
         });
     };
 
+    /**
+     * Update a discussion's metadata
+     *
+     * @param  {String}      discussionId   Id of the discussion we're trying to update
+     * @param  {Object}      params         JSON object where the keys represent all of the profile field names we want to update and the values represent the new values for those fields
+     * @param  {Function}    callback       Standard callback method
+     */
+    var updateDiscussion = function(discussionId, params, callback) {
+        var data = null;
+        casper.then(function() {
+            data = casper.evaluate(function(discussionId, params) {
+                return JSON.parse(__utils__.sendAJAX('/api/discussion/' + discussionId, 'POST', params, false));
+            }, discussionId, params);
+        });
+
+        casper.then(callback);
+    };
+
     return {
-        'createDiscussion': createDiscussion
+        'createDiscussion': createDiscussion,
+        'updateDiscussion': updateDiscussion
     };
 })();

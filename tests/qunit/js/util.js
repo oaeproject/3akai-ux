@@ -340,7 +340,8 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 '/shared/oae/bundles/email/default.properties': null,
                 '/shared/oae/bundles/email/es_ES.properties': null,
                 '/shared/oae/bundles/email/fr_FR.properties': null,
-                '/shared/oae/bundles/email/nl_NL.properties': null
+                '/shared/oae/bundles/email/nl_NL.properties': null,
+                '/shared/oae/bundles/email/pl_PL.properties': null
             },
             'mainBundles': {
                 '/shared/oae/bundles/ui/af_ZA.properties': null,
@@ -374,6 +375,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 '/shared/oae/macros/list.html': null,
                 '/ui/content.html': null,
                 '/ui/discussion.html': null,
+                '/ui/folder.html': null,
                 '/ui/group.html': null,
                 '/ui/index.html': null,
                 '/ui/me.html': null,
@@ -386,6 +388,7 @@ define(['exports', 'jquery', 'underscore', 'oae.core', 'jquery.properties-parser
                 '/shared/oae/api/oae.api.config.js': null,
                 '/shared/oae/api/oae.api.content.js': null,
                 '/shared/oae/api/oae.api.discussion.js': null,
+                '/shared/oae/api/oae.api.folder.js': null,
                 '/shared/oae/api/oae.api.follow.js': null,
                 '/shared/oae/api/oae.api.group.js': null,
                 '/shared/oae/api/oae.api.i18n.js': null,

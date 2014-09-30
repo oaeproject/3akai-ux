@@ -77,7 +77,7 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
      *
      * @param  {String}         username              Username for the user logging in
      * @param  {String}         password              The user's password
-     * @param  {Function}       [callback]            Standard callback method
+     * @param  {Function}       [callback]            Standard callback function
      * @param  {Object}         [callback.err]        Error object containing error code and error message
      * @param  {User}           [callback.user]       User object representing the logged in user
      * @throws {Error}                                Error thrown when not all of the required parameters have been provided
@@ -129,7 +129,7 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
      *
      * @param  {String}         username              Username for the user logging in
      * @param  {String}         password              The user's password
-     * @param  {Function}       [callback]            Standard callback method
+     * @param  {Function}       [callback]            Standard callback function
      * @param  {Object}         [callback.err]        Error object containing error code and error message
      * @param  {User}           [callback.user]       User object representing the logged in user
      * @throws {Error}                                Error thrown when not all of the required parameters have been provided
@@ -165,7 +165,7 @@ define(['exports', 'jquery', 'oae.api.config'], function(exports, $, configAPI) 
      *
      * @param  {String}         currentPassword       The user's current password
      * @param  {String}         newPassword           The user's new password
-     * @param  {Function}       [callback]            Standard callback method
+     * @param  {Function}       [callback]            Standard callback function
      * @param  {Object}         [callback.err]        Error object containing error code and error message
      * @throws {Error}                                Error thrown when no new or current password has been provided
      */

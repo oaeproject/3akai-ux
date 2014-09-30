@@ -146,7 +146,7 @@ require(['jquery', 'oae.core'], function($, oae) {
         {
             'id': 'groups',
             'title': oae.api.i18n.translate('__MSG__GROUPS__'),
-            'icon': 'fa-users',
+            'icon': 'fa-group',
             'closeNav': true,
             'layout': [
                 {

@@ -58,7 +58,26 @@ var groupUtil = (function() {
         });
     };
 
+    /**
+     * Update a group's metadata
+     *
+     * @param  {String}      groupId        Id of the group we're trying to update
+     * @param  {Object}      params         JSON object where the keys represent all of the profile field names we want to update and the values represent the new values for those fields
+     * @param  {Function}    callback       Standard callback method
+     */
+    var updateGroup = function(groupId, params, callback) {
+        var data = null;
+        casper.then(function() {
+            data = casper.evaluate(function(groupId, params) {
+                return JSON.parse(__utils__.sendAJAX('/api/group/' + groupId, 'POST', params, false));
+            }, groupId, params);
+        });
+
+        casper.then(callback);
+    };
+
     return {
-        'createGroup': createGroup
+        'createGroup': createGroup,
+        'updateGroup': updateGroup
     };
 })();
