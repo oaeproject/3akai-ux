@@ -51,9 +51,6 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
     var mapItem = function(results) {
         if (results.length > 0) {
             var result = results.pop();
-            result.extra = {
-                'location': _.sample(['Schotland', 'Russia Europe', 'London England', 'Msterh', 'Freiburg Lower Sacksen'])
-            }
             if (result.extra && result.extra.location) {
                 codeAddress(result.extra.location, result);
             }
