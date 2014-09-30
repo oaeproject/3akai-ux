@@ -22,9 +22,9 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
 
     function initialize() {
       geocoder = new google.maps.Geocoder();
-      var myLatlng = new google.maps.LatLng(20,20);
+      var myLatlng = new google.maps.LatLng(50,0);
       var mapOptions = {
-        zoom: 3,
+        zoom: 5,
         center: myLatlng
       }
       map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
