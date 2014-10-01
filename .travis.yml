@@ -110,4 +110,7 @@ after_failure:
 notifications:
   email:
     - oae-team@collab.sakaiproject.org
-  irc: "irc.freenode.org#oae"
+  irc:
+    channels:
+      - "irc.freenode.org#oae"
+    skip_join: true
