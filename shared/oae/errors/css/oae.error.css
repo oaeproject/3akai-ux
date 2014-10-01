@@ -45,6 +45,7 @@
     margin-bottom: 20px;
 }
 
+#error-content #error-message-container,
 #error-content #error-quote-container {
     max-width: 500px;
     position: relative;
@@ -66,9 +67,21 @@
     display: inline;
 }
 
+#error-content #error-message-container span,
 #error-content #error-quote-container span {
     font-size: 13px;
     font-style: italic;
+}
+
+/**
+ * Italics font combined with color contrast change requires extra spacing
+ * in front of `<a>` tags
+ */
+#error-content #error-message-container span a {
+    padding-left: 1px;
+}
+
+#error-content #error-quote-container span {
     margin-left: 7px;
 }
 
