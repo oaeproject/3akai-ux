@@ -887,9 +887,7 @@ div.oae-thumbnail i.fa {
 
 .oae-lhnavigation > ul.nav > li a div,
 .oae-lhnavigation > ul.nav > li button div {
-    overflow: auto;
-    padding-top: 8px;
-    word-break: break-word;
+    padding: 8px 0 0 31px;
 }
 
 .oae-lhnavigation > ul.nav > li {
