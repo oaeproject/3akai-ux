@@ -20,35 +20,6 @@ var vm = require('vm');
 
 module.exports = function(grunt) {
 
-    /**
-     * Used as a callback funciton by the `grunt-text-replace` plugin. It will
-     * prepend the CDN url for those static assets that are not delivered by either
-     * the OAE APIs or other external hosts
-     *
-     * @param  {String}         matchedWord         The full match. For example, `src="/shared/oae/css/oae.core.123456.css`
-     * @param  {Number}         index               The index where the match was found in the `fullText`
-     * @param  {String}         fullText            The full original text of the file
-     * @param  {String[]}       regexMatches        The matches that were made by the configured regex
-     * @return {String}                             The string that will replace `matchedWord`
-     * @api private
-     */
-    var _cdnifyStaticAsset = function(matchedWord, index, fullText, regexMatches) {
-        // Get the name of the attribute (e.g., `src`, `data-main`, ...)
-        var attr = regexMatches[0];
-
-        // Do not replace anything that already points to an outside source
-        // e.g., do not cdnify src="//www.youtube" or href="https://foo.com/asset.jpg"
-        if (regexMatches[1].indexOf('/') === 0 || regexMatches[1].indexOf('api') === 0) {
-            return matchedWord;
-        }
-
-        // The URL of our CDN
-        var cdn = grunt.config('replace').url;
-
-        // Return the attribute with our CDN in it
-        return util.format('%s="%s/%s"', attr, cdn, regexMatches[1]);
-    };
-
     // Project configuration.
     grunt.initConfig({
         'pkg': '<json:package.json>',
@@ -309,7 +280,7 @@ module.exports = function(grunt) {
             }
         },
         'replace': {
-            'url': 'https://oaetenant-researchresearch.netdna-ssl.com',
+            'url': 'URL pointing to a CDN that gets set by the cdn task',
             'main': {
                 'src': [
                     'target/optimized/ui/*.html',
@@ -322,19 +293,27 @@ module.exports = function(grunt) {
                 'replacements': [
                     {
                         'from': /(src)="\/(.+?)"/ig,
-                        'to': _cdnifyStaticAsset
+                        'to': function(matchedWord, index, fullText, regexMatches) {
+                            return _cdnifyStaticAsset(grunt.config('replace').url, matchedWord, index, fullText, regexMatches);
+                        }
                     },
                     {
                         'from': /(data-loadmodule)="\/(.+?)"/ig,
-                        'to': _cdnifyStaticAsset
+                        'to': function(matchedWord, index, fullText, regexMatches) {
+                            return _cdnifyStaticAsset(grunt.config('replace').url, matchedWord, index, fullText, regexMatches);
+                        }
                     },
                     {
                         'from': /(data-main)="\/(.+?)"/ig,
-                        'to': _cdnifyStaticAsset
+                        'to': function(matchedWord, index, fullText, regexMatches) {
+                            return _cdnifyStaticAsset(grunt.config('replace').url, matchedWord, index, fullText, regexMatches);
+                        }
                     },
                     {
                         'from': /(href)="\/(.+?)"/ig,
-                        'to': _cdnifyStaticAsset
+                        'to': function(matchedWord, index, fullText, regexMatches) {
+                            return _cdnifyStaticAsset(grunt.config('replace').url, matchedWord, index, fullText, regexMatches);
+                        }
                     },
                     {
                         // Replace the require base URL
@@ -634,17 +613,25 @@ module.exports = function(grunt) {
         grunt.log.writeln('Boots strapped'.green);
     });
 
-    // Task to update the paths so static assets are pulled from the CDN
+    // Task to update the paths so static assets are pulled from the CDN.
+    // The CDN URL can be provided as
+    //  - an environment variable: e.g., `CDN_URL="https://cdn.example.com" grunt cdn`
+    //  - a grunt parameter: e.g., `grunt cdn:https\://cdn.example.com`
+    // If no CDN is provided, this task will do nothing
     grunt.registerTask('cdn', function(url) {
+        url = url || process.env['CDN_URL'];
         if (url) {
             // Pass the URL of the CDN to the replacement task
             grunt.config.set('replace.url', url);
-        }
 
-        // Start replacing paths
-        grunt.task.run('replace:main');
-        grunt.task.run('replace:core-widgets');
-        grunt.task.run('replace:admin-widgets');
+            // Start replacing paths
+            grunt.task.run('replace:main');
+            grunt.task.run('replace:core-widgets');
+            grunt.task.run('replace:admin-widgets');
+        } else {
+            var msg = 'No cdn provided, not performing cdn task';
+            grunt.log.writeln(msg.yellow);
+        }
     });
 
     // A task that will copy the release files to a directory of your choosing
@@ -776,4 +763,31 @@ var _hashFiles = function(options) {
     });
 
     return _.union(globs, options.extra);
+};
+
+
+/**
+ * Prepend the CDN url for those static assets that are not delivered by either
+ * the OAE APIs or other external hosts
+ *
+ * @param  {String}         cdn                 The url of the cdn to prepend before static asset urls
+ * @param  {String}         matchedWord         The full match. For example, `src="/shared/oae/css/oae.core.123456.css`
+ * @param  {Number}         index               The index where the match was found in the `fullText`
+ * @param  {String}         fullText            The full original text of the file
+ * @param  {String[]}       regexMatches        The matches that were made by the configured regex
+ * @return {String}                             The string that will replace `matchedWord`
+ * @api private
+ */
+var _cdnifyStaticAsset = function(cdn, matchedWord, index, fullText, regexMatches) {
+    // Get the name of the attribute (e.g., `src`, `data-main`, ...)
+    var attr = regexMatches[0];
+
+    // Do not replace anything that already points to an outside source
+    // e.g., do not cdnify src="//www.youtube" or href="https://foo.com/asset.jpg"
+    if (regexMatches[1].indexOf('/') === 0 || regexMatches[1].indexOf('api') === 0) {
+        return matchedWord;
+    }
+
+    // Return the attribute with our CDN in it
+    return util.format('%s="%s/%s"', attr, cdn, regexMatches[1]);
 };
