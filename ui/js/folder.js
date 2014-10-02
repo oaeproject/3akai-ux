@@ -81,6 +81,14 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                             }
                         }
                     ]
+                },
+                {
+                    'width': 'col-md-12',
+                    'widgets': [
+                        {
+                            'name': 'comments'
+                        }
+                    ]
                 }
             ]
         }];

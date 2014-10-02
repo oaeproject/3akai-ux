@@ -94,7 +94,7 @@ var _expose = function(exports) {
             'primaryActor': primaryActor,
             'summary': summary
         };
-        if ((activity['oae:activityType'] === 'content-comment' || activity['oae:activityType'] === 'discussion-message')) {
+        if ((activity['oae:activityType'] === 'content-comment' || activity['oae:activityType'] === 'folder-message' || activity['oae:activityType'] === 'discussion-message')) {
             that.allComments = activity.object['oae:collection'];
             that.latestComments = activity.object.latestComments;
         }
@@ -187,7 +187,7 @@ var _expose = function(exports) {
         }
 
         // We process the comments into an ordered set
-        if (activity['oae:activityType'] === 'content-comment' || activity['oae:activityType'] === 'discussion-message') {
+        if (activity['oae:activityType'] === 'content-comment' || activity['oae:activityType'] === 'folder-comment' || activity['oae:activityType'] === 'discussion-message') {
             var comments = activity.object['oae:collection'];
             if (!comments) {
                 comments = [activity.object];
@@ -601,6 +601,8 @@ var _expose = function(exports) {
             return _generateFolderAddToFolderSummary(me, activity, properties);
         } else if (activityType === 'folder-add-to-library') {
             return _generateFolderAddToLibrarySummary(me, activity, properties);
+        } else if (activityType === 'folder-comment') {
+            return _generateFolderCommentSummary(me, activity, properties);
         } else if (activityType === 'folder-create') {
             return _generateFolderCreateSummary(me, activity, properties);
         } else if (activityType === 'folder-share') {
@@ -1258,6 +1260,26 @@ var _expose = function(exports) {
             i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_LIBRARY_2__';
         } else {
             i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_LIBRARY_2+__';
+        }
+        return new ActivityViewSummary(i18nKey, properties);
+    };
+
+    /**
+     * Render the end-user friendly, internationalized summary of a folder comment activity.
+     *
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the folder comment activity, for which to generate the activity summary
+     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                  A sumary object
+     * @api private
+     */
+    var _generateFolderCommentSummary = function(me, activity, properties) {
+        var i18nKey = null;
+        if (properties.actorCount === 1) {
+            i18nKey = '__MSG__ACTIVITY_FOLDER_COMMENT_1__';
+        } else if (properties.actorCount === 2) {
+            i18nKey = '__MSG__ACTIVITY_FOLDER_COMMENT_2__';
+        } else {
+            i18nKey = '__MSG__ACTIVITY_FOLDER_COMMENT_2+__';
         }
         return new ActivityViewSummary(i18nKey, properties);
     };
