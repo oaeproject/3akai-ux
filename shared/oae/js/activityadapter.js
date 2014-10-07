@@ -94,7 +94,7 @@ var _expose = function(exports) {
             'primaryActor': primaryActor,
             'summary': summary
         };
-        if ((activity['oae:activityType'] === 'content-comment' || activity['oae:activityType'] === 'folder-message' || activity['oae:activityType'] === 'discussion-message')) {
+        if ((activity['oae:activityType'] === 'content-comment' || activity['oae:activityType'] === 'folder-comment' || activity['oae:activityType'] === 'discussion-message')) {
             that.allComments = activity.object['oae:collection'];
             that.latestComments = activity.object.latestComments;
         }
