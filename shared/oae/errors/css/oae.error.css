@@ -45,7 +45,6 @@
     margin-bottom: 20px;
 }
 
-#error-content #error-message-container,
 #error-content #error-quote-container {
     max-width: 500px;
     position: relative;
@@ -67,22 +66,15 @@
     display: inline;
 }
 
-#error-content #error-message-container span,
-#error-content #error-quote-container span {
+#error-content #error-quote-container .error-instruction {
     font-size: 13px;
     font-style: italic;
 }
 
-/**
- * Italics font combined with color contrast change requires extra spacing
- * in front of `<a>` tags
- */
-#error-content #error-message-container span a {
-    padding-left: 1px;
-}
-
-#error-content #error-quote-container span {
+#error-content #error-quote-container .error-instruction {
+    display: inline-block;
     margin-left: 7px;
+    padding-top: 7px;
 }
 
 #error-content #error-quote-container + div {
@@ -98,13 +90,6 @@
     content: "";
     left: 40px;
     position: absolute;
-}
-
-@media (max-width: 480px) {
-    #error-content #error-quote-container .btn + span {
-        display: block;
-        margin-top: 7px;
-    }
 }
 
 @media (max-width: 991px) {
