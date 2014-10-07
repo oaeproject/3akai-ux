@@ -67,12 +67,9 @@
 }
 
 #error-content #error-quote-container .error-instruction {
+    display: inline-block;
     font-size: 13px;
     font-style: italic;
-}
-
-#error-content #error-quote-container .error-instruction {
-    display: inline-block;
     margin-left: 7px;
     padding-top: 7px;
 }
