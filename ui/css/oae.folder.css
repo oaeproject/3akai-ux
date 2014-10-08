@@ -28,3 +28,8 @@
 .folder-non-manager .oae-lhnavigation-toggle {
     display: none !important;
 }
+
+/* Comments widget */
+.comments-widget {
+    padding-top: 15px;
+}

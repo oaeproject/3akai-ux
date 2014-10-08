@@ -881,12 +881,13 @@ div.oae-thumbnail i.fa {
 .oae-lhnavigation > ul.nav > li button {
     padding: 0 12px 5px;
     text-align: left;
+    white-space: normal;
     width: 100%;
 }
 
 .oae-lhnavigation > ul.nav > li a div,
 .oae-lhnavigation > ul.nav > li button div {
-    padding-top: 8px;
+    padding: 8px 0 0 30px;
 }
 
 .oae-lhnavigation > ul.nav > li {
