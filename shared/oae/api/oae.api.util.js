@@ -1243,7 +1243,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
          * This sanitizer will also recognise bare URLs inside of the provided input and will convert these into links.
          *
          * @param  {String}     [input]         The markdown input string that should be sanitized. If this is not provided, an empty string will be returned
-         * @return {String}                     The HTML, ready to be put inside of an HTML tag with all URLs converted to markdown links
+         * @return {String}                     The sanitized HTML, ready to be put inside of an HTML tag with all URLs converted to markdown links
          */
         var encodeMarkdownForHTMLWithLinks = function(input) {
             if (!input) {
@@ -1254,7 +1254,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 // automatically recognizes text beginning with http: or https: as a URL
                 // and converts it to a link. We also specify that the input should be sanitized.
                 // @see https://github.com/chjj/marked
-                input = markdown(input.toString(),{
+                input = markdown(input.toString(), {
                     'gfm': true,
                     'breaks': true,
                     'sanitize': true
