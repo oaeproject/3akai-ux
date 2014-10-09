@@ -424,7 +424,7 @@ var _expose = function(exports) {
 
         // The context is not involved in the activity entity
         return false;
-    }
+    };
 
     /**
      * Generate the activity preview items for an activity
