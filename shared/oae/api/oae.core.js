@@ -78,6 +78,7 @@ define([
         'jquery.timeago',
         'jquery.validate',
         'jquery-ui',
+        'markdown',
         'sockjs',
         'tinycon',
         'underscore'

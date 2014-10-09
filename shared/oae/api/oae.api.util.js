@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'marked', 'jquery.validate', 'trimpath', 'jquery.autosuggest', 'tinycon'], function(exports, require, $, _, configAPI, marked) {
+define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdown', 'jquery.validate', 'trimpath', 'jquery.autosuggest', 'tinycon'], function(exports, require, $, _, configAPI, markdown) {
 
     /**
      * Initialize all utility functionality.
@@ -1243,17 +1243,22 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'marked'
          * This sanitizer will also recognise bare URLs inside of the provided input and will convert these into links.
          *
          * @param  {String}     [input]         The markdown input string that should be sanitized. If this is not provided, an empty string will be returned
-         * @return {String}                     The sanitized user input, ready to be put inside of an HTML tag with all URLs converted to markdown links
+         * @return {String}                     The HTML, ready to be put inside of an HTML tag with all URLs converted to markdown links
          */
         var encodeMarkdownForHTMLWithLinks = function(input) {
             if (!input) {
                 return '';
             } else {
 
-                // The marked.js parser supports sanitization as an option
-                // and `gfm` mode automatically recognizes text beginning
-                // with http: or https: as a URL and converts it to a link
-                input = marked(input.toString(),{gfm:true, breaks:true, sanitize:true});
+                // Convert the Markdown input string to HTML using marked.js. `gfm`
+                // automatically recognizes text beginning with http: or https: as a URL
+                // and converts it to a link. We also specify that the input should be sanitized.
+                // @see https://github.com/chjj/marked
+                input = markdown(input.toString(),{
+                    'gfm': true,
+                    'breaks': true,
+                    'sanitize': true
+                });
 
                 // Also recognize text beginning with "www." as a URL as long
                 // as it's not already within a link
