@@ -407,6 +407,7 @@ var _expose = function(exports) {
      * object or target
      *
      * @param  {Actor|Object|Target}    activityEntity      Activity actor, object or target from which to extract the involved entity ids
+     * @return {String[]}                                   Entity ids extracted from the provided activity entity
      * @api private
      */
     var _extractActivityEntities = function(activityEntity) {
