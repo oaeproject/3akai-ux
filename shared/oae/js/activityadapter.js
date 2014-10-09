@@ -24,6 +24,9 @@
  */
 var _expose = function(exports) {
 
+    // Variable that keeps track of the different activity types that are used for comment activities
+    var COMMENT_ACTIVITY_TYPES = ['content-comment', 'folder-comment', 'discussion-message'];
+
     /**
      * Adapt a set of activities in activitystrea.ms format to a simpler view model
      *
@@ -66,7 +69,7 @@ var _expose = function(exports) {
         var primaryActor = _generatePrimaryActor(me, activity);
 
         // Generate the activity preview items
-        var activityItems = _generateActivityItems(context, activity);
+        var activityItems = _generateActivityPreviewItems(context, activity);
 
         // Construct the adapted activity
         return new ActivityViewModel(activity, summary, primaryActor, activityItems);
@@ -94,7 +97,7 @@ var _expose = function(exports) {
             'primaryActor': primaryActor,
             'summary': summary
         };
-        if ((activity['oae:activityType'] === 'content-comment' || activity['oae:activityType'] === 'folder-comment' || activity['oae:activityType'] === 'discussion-message')) {
+        if (COMMENT_ACTIVITY_TYPES.indexOf(activity['oae:activityType']) !== -1) {
             that.allComments = activity.object['oae:collection'];
             that.latestComments = activity.object.latestComments;
         }
@@ -187,7 +190,7 @@ var _expose = function(exports) {
         }
 
         // We process the comments into an ordered set
-        if (activity['oae:activityType'] === 'content-comment' || activity['oae:activityType'] === 'folder-comment' || activity['oae:activityType'] === 'discussion-message') {
+        if (COMMENT_ACTIVITY_TYPES.indexOf(activity['oae:activityType']) !== -1) {
             var comments = activity.object['oae:collection'];
             if (!comments) {
                 comments = [activity.object];
@@ -400,48 +403,67 @@ var _expose = function(exports) {
     };
 
     /**
-     * Generate the views for the preview items
+     * Extract the entity ids of the entities involved in a provided actor,
+     * object or target
+     *
+     * @param  {Actor|Object|Target}    activityEntity      Activity actor, object or target from which to extract the involved entity ids
+     * @api private
+     */
+    var _extractActivityEntities = function(activityEntity) {
+        var entities = activityEntity['oae:collection'] || [activityEntity];
+        return entities.map(function(entity) {
+            return entity['oae:id'];
+        });
+    }
+
+    /**
+     * Generate the activity preview items for an activity
      *
      * @param  {String}                 context     The ID of the user or group that owns this activity stream
      * @param  {Activity}               activity    The activity for which to generate the views
      * @return {ActivityViewItem[]}                 The activity preview items
      * @api private
      */
-    var _generateActivityItems = function(context, activity) {
-        var previewObj = (activity.target || activity.object);
-        if (activity.target && (activity.target.objectType === 'collection' || activity.target.objectType === 'content')) {
-            previewObj = activity.target;
-        } else if (activity.object.objectType === 'collection') {
-            previewObj = activity.object;
-        } else if (activity.actor.objectType === 'collection' && activity.object.objectType !== 'content') {
-            previewObj = activity.actor;
-        } else if (activity.target && activity.target.objectType === 'content') {
-            previewObj = activity.target;
-        } else if (activity.object && activity.object.objectType === 'content') {
-            previewObj = activity.object;
-        }
+    var _generateActivityPreviewItems = function(context, activity) {
 
-        // Take the current context into account. For example, if the current user is viewing their
-        // own activity stream, we should show another entity in the thumbnail listing
-        if (previewObj['oae:id'] === context) {
-            if (activity.target) {
+        var shareActivities = ['content-share', 'discussion-share', 'folder-share'];
+
+        // Comment activities should always show the target as the activity preview
+        var previewObj = null;
+        if (COMMENT_ACTIVITY_TYPES.indexOf(activity['oae:activityType']) !== -1) {
+            previewObj = activity.target;
+        // Share activities are considered to be a special social activity, where the
+        // users and groups the item is shared with are preferred as a preview over
+        // the object that is being shared
+        } else if (shareActivities.indexOf(activity['oae:activityType']) !== -1) {
+            previewObj = activity.target;
+            // When the current context is part of the target entities, we prefer
+            // to use the activity's object as the activity preview instead. This
+            // will avoid showing a picture and link for an item in its own context
+            var targetEntities = _extractActivityEntities(previewObj);
+            if (targetEntities.indexOf(context) !== -1) {
                 previewObj = activity.object;
-            } else {
-                previewObj = activity.actor;
             }
-        }
-
-        var items = [];
-        if (previewObj['oae:wideImage']) {
-            items.push(new ActivityViewItem(null, previewObj));
+        // Otherwise, we always want to show the activity object as the activity preview
+        } else if (activity['object']) {
+            previewObj = activity.object;
+            // When the current context is part of the object entities, we prefer
+            // to use the activity's target or actor as the activity preview instead.
+            // This will avoid showing a picture and link for an item in its own context
+            var objectEntities = _extractActivityEntities(previewObj);
+            if (objectEntities.indexOf(context) !== -1) {
+                previewObj = activity.target || activity.actor;
+            }
         } else {
-            var previewItems = (previewObj['oae:collection'] || [previewObj]);
-            items = previewItems.map(function(previewItem) {
-                return new ActivityViewItem(null, previewItem);
-            });
+            previewObj = activity.actor;
         }
 
-        return items;
+        var previewItems = previewObj['oae:collection'] || [previewObj];
+        previewItems = previewItems.map(function(previewItem) {
+            return new ActivityViewItem(null, previewItem);
+        });
+
+        return previewItems;
     };
 
 
