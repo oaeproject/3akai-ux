@@ -27,6 +27,9 @@ var _expose = function(exports) {
     // Variable that keeps track of the different activity types that are used for comment activities
     var COMMENT_ACTIVITY_TYPES = ['content-comment', 'folder-comment', 'discussion-message'];
 
+    // Variable that keeps track of the different activity types that are used for sharing activities
+    var SHARE_ACTIVITY_TYPES = ['content-share', 'discussion-share', 'folder-share'];
+
     /**
      * Adapt a set of activities in activitystrea.ms format to a simpler view model
      *
@@ -403,18 +406,24 @@ var _expose = function(exports) {
     };
 
     /**
-     * Extract the entity ids of the entities involved in a provided actor,
+     * Check whether the current context is involved in a provided actor,
      * object or target
      *
-     * @param  {Actor|Object|Target}    activityEntity      Activity actor, object or target from which to extract the involved entity ids
-     * @return {String[]}                                   Entity ids extracted from the provided activity entity
+     * @param  {String}                 context             The ID of the user or group that owns this activity stream
+     * @param  {Actor|Object|Target}    activityEntity      Activity actor, object or target for which to check if the context is involved
+     * @return {Boolean}                                    Whether or not the context is involved in the provided activity entity
      * @api private
      */
-    var _extractActivityEntities = function(activityEntity) {
+    var _isContextInActivityEntities = function(context, activityEntity) {
         var entities = activityEntity['oae:collection'] || [activityEntity];
-        return entities.map(function(entity) {
-            return entity['oae:id'];
-        });
+        for (var entityIndex = 0; entityIndex < entities.length; entityIndex++) {
+            if (entities[entityIndex]['oae:id'] === context) {
+                return true;
+            }
+        }
+
+        // The context is not involved in the activity entity
+        return false;
     }
 
     /**
@@ -427,8 +436,6 @@ var _expose = function(exports) {
      */
     var _generateActivityPreviewItems = function(context, activity) {
 
-        var shareActivities = ['content-share', 'discussion-share', 'folder-share'];
-
         // Comment activities should always show the target as the activity preview
         var previewObj = null;
         if (COMMENT_ACTIVITY_TYPES.indexOf(activity['oae:activityType']) !== -1) {
@@ -436,23 +443,21 @@ var _expose = function(exports) {
         // Share activities are considered to be a special social activity, where the
         // users and groups the item is shared with are preferred as a preview over
         // the object that is being shared
-        } else if (shareActivities.indexOf(activity['oae:activityType']) !== -1) {
+        } else if (SHARE_ACTIVITY_TYPES.indexOf(activity['oae:activityType']) !== -1) {
             previewObj = activity.target;
             // When the current context is part of the target entities, we prefer
             // to use the activity's object as the activity preview instead. This
             // will avoid showing a picture and link for an item in its own context
-            var targetEntities = _extractActivityEntities(previewObj);
-            if (targetEntities.indexOf(context) !== -1) {
+            if (_isContextInActivityEntities(context, previewObj)) {
                 previewObj = activity.object;
             }
         // Otherwise, we always want to show the activity object as the activity preview
-        } else if (activity['object']) {
+        } else if (activity.object) {
             previewObj = activity.object;
             // When the current context is part of the object entities, we prefer
             // to use the activity's target or actor as the activity preview instead.
             // This will avoid showing a picture and link for an item in its own context
-            var objectEntities = _extractActivityEntities(previewObj);
-            if (objectEntities.indexOf(context) !== -1) {
+            if (_isContextInActivityEntities(context, previewObj)) {
                 previewObj = activity.target || activity.actor;
             }
         } else {
