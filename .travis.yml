@@ -79,7 +79,7 @@ before_install:
   - grunt configNginx
   - sudo cp ./target/optimized/nginx/nginx.conf /etc/nginx/nginx.conf
   - sudo mkdir /usr/share/nginx/logs
-  - sudo service nginx start
+  - sudo service nginx restart
 
   # Wait for Hilary to have started up to start the tests in "script" phase
   - ./tools/travis/checkHilaryStart.sh
