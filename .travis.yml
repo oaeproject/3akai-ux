@@ -36,7 +36,7 @@ before_install:
   - sudo service postgresql stop
 
   # Install Hilary deps
-  - sudo apt-get install -qq graphicsmagick libreoffice pdftk chrpath pdf2htmlex
+  #- sudo apt-get install -qq graphicsmagick libreoffice pdftk chrpath pdf2htmlex
   - npm install -g grunt-cli
 
   # 3akai-ux dependencies
@@ -47,42 +47,42 @@ before_install:
   - phantomjs --version
 
   # Install etherpad-lite
-  - sudo apt-get install etherpad-lite
-  - cd /opt/etherpad
-  - sudo touch APIKEY.txt
-  - sudo chmod -R 777 .
+  #- sudo apt-get install etherpad-lite
+  #- cd /opt/etherpad
+  #- sudo touch APIKEY.txt
+  #- sudo chmod -R 777 .
 
   # Create a keyspace that we can start etherpad up into. There is a chicken-and-egg problem by having unit tests drop/create and have
   # etherpad be available, so we just create a separate keyspace for it
-  - "echo \"CREATE KEYSPACE etherpad WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};\" > /tmp/.create_etherpad_keyspace.cql3"
-  - cqlsh -f /tmp/.create_etherpad_keyspace.cql3
+  #- "echo \"CREATE KEYSPACE etherpad WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};\" > /tmp/.create_etherpad_keyspace.cql3"
+  #- cqlsh -f /tmp/.create_etherpad_keyspace.cql3
 
   # Configure etherpad to talk to Cassandra
-  - "sed -i 's/dbType\" : \"dirty/dbType\" : \"cassandra/g' settings.json"
-  - "sed -i 's/\"filename\" : \"var\\/dirty.db\"/\"hosts\": [ \"localhost:9160\" ], \"keyspace\": \"etherpad\", \"cfName\": \"Etherpad\", \"user\": \"\", \"pass\": \"\", \"timeout\": 3000, \"replication\": \"1\", \"strategyClass\": \"SimpleStrategy\", \"cqlVersion\": \"2.0.0\"/g' settings.json"
-  - "sed -i 's/defaultPadText\" : \".*\"/defaultPadText\" : \"\"/g' settings.json"
+  #- "sed -i 's/dbType\" : \"dirty/dbType\" : \"cassandra/g' settings.json"
+  #- "sed -i 's/\"filename\" : \"var\\/dirty.db\"/\"hosts\": [ \"localhost:9160\" ], \"keyspace\": \"etherpad\", \"cfName\": \"Etherpad\", \"user\": \"\", \"pass\": \"\", \"timeout\": 3000, \"replication\": \"1\", \"strategyClass\": \"SimpleStrategy\", \"cqlVersion\": \"2.0.0\"/g' settings.json"
+  #- "sed -i 's/defaultPadText\" : \".*\"/defaultPadText\" : \"\"/g' settings.json"
 
-  - echo "13SirapH8t3kxUh5T5aqWXhXahMzoZRA" > APIKEY.txt
-  - node src/node/server.js &> /dev/null &
+  #- echo "13SirapH8t3kxUh5T5aqWXhXahMzoZRA" > APIKEY.txt
+  #- node src/node/server.js &> /dev/null &
 
   # Install Hilary
-  - cd ~/build/oaeproject
-  - git clone --depth 1 --branch master git://github.com/oaeproject/Hilary.git ./Hilary
-  - cd ./Hilary
-  - npm install --production
-  - node app.js | node_modules/.bin/bunyan -l error &
+  #- cd ~/build/oaeproject
+  #- git clone --depth 1 --branch master git://github.com/oaeproject/Hilary.git ./Hilary
+  #- cd ./Hilary
+  #- npm install --production
+  #- node app.js | node_modules/.bin/bunyan -l error &
 
   # Configure 3akai-ux/nginx
   - cd ~/build/oaeproject/3akai-ux
   - npm install
-  - "echo '{\"NGINX_USER\": \"root\",\"NGINX_GROUP\": \"root\",\"NGINX_HOSTNAME\": \"admin.oae.com\",\"UX_HOME\": \"/home/travis/build/oaeproject/3akai-ux\",\"LOCAL_FILE_STORAGE_DIRECTORY\": \"/home/travis/build/oaeproject/files\"}' > nginx/nginx.json"
+  #- "echo '{\"NGINX_USER\": \"root\",\"NGINX_GROUP\": \"root\",\"NGINX_HOSTNAME\": \"admin.oae.com\",\"UX_HOME\": \"/home/travis/build/oaeproject/3akai-ux\",\"LOCAL_FILE_STORAGE_DIRECTORY\": \"/home/travis/build/oaeproject/files\"}' > nginx/nginx.json"
   #- grunt configNginx
   #- sudo cp ./target/optimized/nginx/nginx.conf /etc/nginx/nginx.conf
   #- sudo mkdir /usr/share/nginx/logs
   #- sudo service nginx start
 
   # Wait for Hilary to have started up to start the tests in "script" phase
-  - ./tools/travis/checkHilaryStart.sh
+  #- ./tools/travis/checkHilaryStart.sh
 
 addons:
   hosts:
