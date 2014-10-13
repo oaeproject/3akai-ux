@@ -482,7 +482,7 @@ ul.as-selections li.as-original input:focus {
             box-shadow: none;
     padding-left: 5px;
     padding-top: 8px;
-    width: 150px;
+    width: 300px;
 }
 
 ul.as-selections li.as-original input::-ms-clear {
