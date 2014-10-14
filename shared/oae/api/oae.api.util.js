@@ -798,6 +798,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
          */
         var defaultOptions = {
             'canGenerateNewSelections': false,
+            'emptyText': '',
+            'limitText'; '',
             'minChars': 2,
             'neverSubmit': true,
             'retrieveLimit': 10,
@@ -899,8 +901,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     options.startText = placeholder ? placeholder : i18nAPI.translate('__MSG__ENTER_NAME_HERE__');
                 }
                 // The `emptyText` is the text that will be shown when no suggested items could be found.
-                // If no `emptyText` has been provided, we fall back to a default string
-                if (!options.emptyText) {
+                // If no `emptyText` has been provided, we fall back to a default string unless email
+                // addresses are allowed
+                if (!options.emptyText && (!resourceTypes || resourceTypes.indexOf('email') === -1)) {
                     options.emptyText = i18nAPI.translate('__MSG__NO_RESULTS_FOUND__');
                 }
 
@@ -1037,6 +1040,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                                 .attr('role', 'img')
                                 .attr('aria-label', security().encodeForHTMLAttribute(originalData.displayName))
                             );
+                        } else if (originalData.resourceType === 'email') {
+                            $thumbnail.html('<span class="fa fa-envelope">');
                         }
                         $elem.prepend($thumbnail);
                     }
@@ -1053,6 +1058,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 // Initialize the autoSuggest field
                 var $autoSuggest = $element.autoSuggest(options.url, options);
                 var $list = $autoSuggest.parents('ul.as-selections');
+                var $suggestions = $list.siblings('.as-results');
 
                 // Remove the delete (x) button from the fixed fields
                 if (options.preFill) {
@@ -1061,6 +1067,11 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                             $('li[data-value="' + preFillItem[options.selectedValuesProp] + '"]').addClass('as-fixed-item');
                         }
                     });
+                }
+
+                // If no results message is empty, hide the container
+                if (!options.emptyText) {
+                    $suggestions.addClass('oae-no-empty-text');
                 }
 
                 // Add the ghost fields
@@ -1089,6 +1100,38 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
 
                 // Add a label to the autosuggest input field for accessibility
                 $('.as-input', $list).before('<label class="sr-only" for="' + $('.as-input', $list).attr('id') + '">' + options.startText + '</label>');
+
+                // If email addresses are allowed, add code to handle `Enter` key press
+                if (resourceTypes && resourceTypes.indexOf('email') !== -1) {
+                    $element.on('keydown', function(evt) {
+                        if (evt.keyCode === 13) {
+                            // Ensure no other code handles the Enter key press
+                            evt.preventDefault();
+                            evt.stopImmediatePropagation();
+
+                            // Check if input contains a valid email address
+                            // @see https://html.spec.whatwg.org/multipage/forms.html#states-of-the-type-attribute
+                            if ($element.val().search(/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/) !== -1) {
+                                // input has valid email address, so add it to selection
+                                var $li = $('<li>').addClass('as-selection-item')
+                                    .text($element.val())
+                                    .data({
+                                        'originalData': { 'resourceType': 'email'}
+                                    });
+                                var $close = $('<a class="as-close">&times;</a>').click(function() {
+                                    options.selectionRemoved.call($element, $li);
+                                    $li.remove();
+                                    $element.focus();
+                                    return false;
+                                });
+                                $li.prepend($close);
+                                $element.parent('li.as-original').before($li);
+                                options.selectionAdded.call($element, $li);
+                                $element.val('');
+                            }
+                        }
+                    });
+                }
 
                 // Trigger the callback function
                 if (_.isFunction(callback)) {
