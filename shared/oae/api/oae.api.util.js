@@ -1104,6 +1104,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                 // If email addresses are allowed, add code to handle `Enter` key press
                 if (resourceTypes && resourceTypes.indexOf('email') !== -1) {
                     $element.on('keydown', function(evt) {
+                        // OPTIONAL TODO: Also allow comma key (188) to serve as separator
                         if (evt.keyCode === 13) {
                             // Ensure no other code handles the Enter key press
                             evt.preventDefault();
@@ -1173,6 +1174,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
             var selectedItems = [];
 
             // We cannot use the input.as-values field as that only gives us the IDs and we also need the other basic profile information
+            // TODO: handle generic email addresses in addition to OAE resources
             $.each($element.find('.as-selections > li'), function(index, selection) {
                 var $selection = $(selection);
                 var id = $selection.attr('data-value');
