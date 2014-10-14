@@ -28,7 +28,7 @@ before_install:
   - sudo service cassandra status
 
   # Install nginx
-  - sudo apt-get install nginx
+  - sudo apt-get install nginx=1.7.6-1+precise1
 
   # Turn off unneeded services to free some memory
   - sudo service mysql stop
@@ -79,7 +79,7 @@ before_install:
   - grunt configNginx
   - sudo cp ./target/optimized/nginx/nginx.conf /etc/nginx/nginx.conf
   - sudo mkdir /usr/share/nginx/logs
-  - sudo service nginx start
+  - sudo service nginx restart
 
   # Wait for Hilary to have started up to start the tests in "script" phase
   - ./tools/travis/checkHilaryStart.sh
