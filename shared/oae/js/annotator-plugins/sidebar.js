@@ -93,23 +93,43 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
             };
 
             /**
+             * Check if the start of the selection occured inside of the document and set the
+             * appropriate variables
+             *
+             * @param  {Event}    ev    Standard jQuery mousedown event
+             */
+            Annotator.prototype.checkForStartSelection = function(ev) {
+                if (!(ev && this.isAnnotator(ev.target))) {
+                    this.startViewerHideTimer();
+                }
+
+                this.mouseIsDown = !!$(ev.target).closest('.pc').length;
+            };
+
+            /**
              * Check if the selection occured inside of the annotator container and show the
              * adder pop-over if it did.
              *
              * @param  {Event}    ev    Standard jQuery `mouseup` event
              */
             Annotator.prototype.checkForEndSelection = function(ev) {
+                // If the mouseup event was triggered after a mousedown event was triggered on an
+                // element that isn't inside of the document preview, don't do any checking
+                // for end of selection as it would result in unwanted showing of the adder button
+                if (!this.mouseIsDown) {
+                    this.adder.hide();
+                    return;
+                }
+
                 // The mouseup event also fires for clicks on the adder button so we
                 // need to filter these out
                 if (!$(ev.target).closest('.annotator-adder').length) {
                     var isViewer = Annotator.Plugin.Sidebar.prototype.options.contentProfile.isViewer;
                     var isManager = Annotator.Plugin.Sidebar.prototype.options.contentProfile.isManager;
 
-                    // If the selection didn't happen inside of the annotator wrapper or it
-                    // was made by a non-member user, ignore it
-                    if (!$(ev.target).closest('.annotator-wrapper').length ||
-                        $(ev.target).closest('.annotator-wrapper')[0] === $(ev.target)[0] ||
-                        (!isViewer && !isManager)) {
+                    // If the user making the selection isn't allowed to annotate, don't show the
+                    // adder button
+                    if (!isViewer && !isManager) {
                         this.adder.hide();
                         return;
                     }
@@ -131,21 +151,26 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
 
                     // If the selection contains a valid range, show the adder button
                     if (ev && this.selectedRanges.length) {
-                        // Add a dummy span before the text that will help calculating the position of the adder on the x axis
-                        $(this.selectedRanges[0].start).before('<span id="annotator-selection-helper">');
 
+                        var adderCSS = Annotator.Util.mousePosition(ev, this.wrapper[0]);
                         // Calculate the scale of the adder button based on the document zoom level
                         var adderScale = 1 / parseFloat(documentZoomLevel, 10);
-                        var adderCSS = Annotator.Util.mousePosition(ev, this.wrapper[0]);
-                        adderCSS.left = ($('#annotator-selection-helper').offset().left - $(this.adder).parent().offset().left) * adderScale;
-                        adderCSS.top = ($(this.selectedRanges[0].start.parentElement).offset().top - $($(ev.target).closest('.pf')).offset().top) * adderScale;
                         adderCSS.transform = 'scale(' + adderScale + ')';
+                        adderCSS.left = adderCSS.left * adderScale;
+                        adderCSS.top = adderCSS.top * adderScale;
 
-                        // Remove the temporary helper span
-                        $('#annotator-selection-helper').remove();
+                        // If the mouse was released inside of the document, position the adder button
+                        // where the mouse was released
+                        if ($(ev.target).closest('.pc').length) {
+                            return this.adder.css(adderCSS).show();
+                        // If the mouse was released outside of the document, position the
+                        // adder over the last piece of selected text
+                        } else {
+                            adderCSS.transform = 'scale(' + adderScale + ')';
 
-                        // Apply the CSS and show the adder button
-                        return this.adder.css(adderCSS).show();
+                            // Apply the CSS and show the adder button
+                            return this.adder.css(adderCSS).show();
+                        }
                     } else {
                         // No valid ranges where specified, hide the adder button
                         return this.adder.hide();
@@ -203,9 +228,25 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
                         that.onDeleteClick.call(that, ev);
                     });
 
+                    // Deselect the selected annotation and close the sidebar when the user clicks outside of the document
+                    $('body').off('click', '#documentpreview-content').on('click', '#documentpreview-content', function(ev) {
+                        var clickedSidebar = !!$(ev.target).closest('#documentpreview-sidebar').length;
+                        var clickedDocument = !!$(ev.target).closest('.pc').length;
+                        var clickedAdder = !!$(ev.target).closest('.annotator-adder').length;
+
+                        if (!clickedSidebar && !clickedDocument && !clickedAdder) {
+                            hideAnnotationsList();
+                        }
+                    });
+
                     // Edit an annotation when the edit button is clicked, passing the `that` context which isn't available in the function
                     $('#documentpreview-sidebar').off('click', '.documentpreview-annotation-edit').on('click', '.documentpreview-annotation-edit', function(ev) {
                         that.onEditClick.call(that, ev);
+                    });
+
+                    // Add a new comment in with the same highlights when the `add comment` button is clicked
+                    $('#documentpreview-sidebar').off('click', '#documentpreview-annotator-comment').on('click', '#documentpreview-annotator-comment', function(ev) {
+                        that.onCommentClick.call(that, ev);
                     });
 
                     // Keep track of the zoom level and hide the adder button when the document is zoomed
@@ -216,7 +257,7 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
                 }
 
                 // Show an annotation when it's clicked
-                $('body').off('click', '.annotator-hl').on('click', '.annotator-hl', showClickedAnnotations);
+                $('body').off('click', '.annotator-hl:not(.annotator-hl-temporary)').on('click', '.annotator-hl:not(.annotator-hl-temporary)', showClickedAnnotations);
 
                 // When a notification link for an annotation has been clicked, the id of it needs to be pushed into the state
                 $(document).off('click', '.annotation-activity-link').on('click', '.annotation-activity-link', function(ev) {
@@ -480,12 +521,12 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
                     $('#documentpreview-sidebar').animate({
                         'opacity': '0',
                         'width': '0%'
+                    }, function() {
+                        $('#documentpreview-sidebar').hide();
                     });
                     setTimeout(function() {
                         $('#documentpreview-content-container').animate({
                             'width': '100%'
-                        }, function() {
-                            $('#documentpreview-sidebar').hide();
                         });
                     }, 100);
                 }
@@ -499,7 +540,6 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
                 if (sidebarSupported && !$('#documentpreview-sidebar').is(':visible')) {
                     // Activate the toggle button in the toolbar
                     $('#documentpreview-toggle-annotator #documentpreview-annotator-status').toggleClass('active');
-                    $('#documentpreview-sidebar').show();
 
                     // Reduce the width of the document container to 78% to allow the sidebar to take up space
                     $('#documentpreview-content-container').animate({
@@ -510,6 +550,7 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
                             'opacity': '1',
                             'width': '22%'
                         });
+                        $('#documentpreview-sidebar').show();
                     }, 100);
                 }
             };
@@ -743,6 +784,108 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
             };
 
 
+            ///////////////////////////
+            // COMMENT ON ANNOTATION //
+            ///////////////////////////
+
+            /**
+             * Set up the editor and show it in the sidebar when the comment button is clicked
+             *
+             * @param  {Event}    ev    Standard jQuery click event
+             */
+            Sidebar.prototype.onCommentClick = function(ev) {
+                // Get the annotation that's being commented on
+                var replyToAnnotation = $('.annotator-hl-selected').data('annotation');
+
+                // Set up the editor for the reply
+                this.annotator._setupEditor();
+
+                // Create the initial annotation object
+                var annotation = this.annotator.setupAnnotation(this.annotator.createAnnotation());
+
+                // Apply the same highlights, ranges and quote to the reply
+                annotation.highlights = replyToAnnotation.highlights;
+                annotation.ranges = replyToAnnotation.ranges;
+                annotation.quote = replyToAnnotation.quote;
+                annotation.pageNumber = replyToAnnotation.pageNumber;
+
+                var tempId = oaeUtil.generateId();
+
+                /**
+                 * Wrap the most inner child of the selected text to annotate into a span and apply the
+                 * annotator temporary classes to it to achieve the same styling.
+                 *
+                 * @param  {[type]} highlights [description]
+                 */
+                var wrapInnerChild = function(highlights) {
+                    $.each($(highlights), function(index, highlight) {
+                        if ($(highlight).children().length) {
+                            // Drill down further
+                            wrapInnerChild($(highlight).children());
+                        } else {
+                            // We're down to the deepest level, wrap the element
+                            $(highlight).wrapInner('<span class="annotator-hl annotator-hl-temporary ' + tempId + '">');
+                        }
+                    });
+                };
+
+                wrapInnerChild(annotation.highlights);
+
+                // Get the correct highlights after wrapping the original ones
+                annotation.highlights = $('.' + tempId);
+
+                /**
+                 * Clean up after canceling or saving the annotation
+                 *
+                 * @param  {Annotator}    _this         The Annotator object
+                 * @param  {Object}       annotation    The new annotation that is being created
+                 */
+                var cleanup = (function(_this, annotation) {
+                    return function() {
+                        // Remove the temporary highlights from the annotation
+                        $('span').removeClass('annotator-hl-temporary');
+                        // Show the new annotation container and hide the list
+                        $('.documentpreview-new-annotation-container').hide();
+                        $('.documentpreview-annotations-list').show();
+                        _this.unsubscribe('annotationEditorHidden', cancel);
+                        return _this.unsubscribe('annotationEditorSubmit', save);
+                    };
+                })(this, annotation);
+
+                /**
+                 * Save the editor's fields
+                 *
+                 * @param  {Annotator}    _this         The Annotator object
+                 * @param  {Object}       annotation    The new annotation that is being created
+                 */
+                var save = (function(_this, annotation) {
+                    return function() {
+                        cleanup();
+                        return _this.publish('annotationCreated', [annotation]);
+                    };
+                })(this, annotation);
+
+                /**
+                 * Cancel adding a new annotation
+                 *
+                 * @param  {Annotator}    _this         The Annotator object
+                 * @param  {Object}       annotation    The new annotation that is being created
+                 */
+                var cancel = (function(_this, annotation) {
+                    return function() {
+                        cleanup();
+                        return _this.deleteAnnotation(annotation);
+                    };
+                })(this, annotation);
+
+                this.subscribe('annotationEditorHidden', cancel);
+                this.subscribe('annotationEditorSubmit', save);
+
+                // Show the editor
+                return this.annotator.showEditor(annotation);
+            };
+
+
             ////////////////////
             // NEW ANNOTATION //
             ////////////////////
@@ -791,6 +934,10 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
             Annotator.prototype.showEditor = function(annotation) {
                 renderAnnotationsList();
 
+                // Hide the instructions and comment button in the sidebar
+                $('#documentpreview-annotator-instruction').hide();
+                $('#documentpreview-annotator-comment').hide();
+
                 // Show the new annotation container and hide the list
                 $('.documentpreview-new-annotation-container').show();
                 $('.documentpreview-annotations-list').hide();
@@ -813,7 +960,6 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
              */
             var enableDisableEditorControls = function(editor) {
                 $(editor.element).off('keyup').on('keyup', 'textarea', function() {
-                    $('#documentpreview-annotator-instruction').hide();
                     if ($.trim($(this).val())) {
                         $('form .annotator-controls button.annotator-save').prop('disabled', false);
                     } else {
@@ -861,7 +1007,7 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
                 var cleanup = (function(_this, annotation) {
                     return function() {
                         // Remove the temporary highlights from the annotation
-                        $(annotation.highlights).removeClass('annotator-hl-temporary');
+                        $('span').removeClass('annotator-hl-temporary');
                         // Show the new annotation container and hide the list
                         $('.documentpreview-new-annotation-container').hide();
                         $('.documentpreview-annotations-list').show();
@@ -1008,9 +1154,16 @@ define(['jquery', 'oae.api.util', 'oae.api.i18n', 'oae.api.push', 'annotator', '
                 $annotationItem.remove();
                 // Remove the selected class from the page elements
                 $('.annotator-hl-selected').removeClass('annotator-hl-selected');
-                // Show the instructions when no annotations remain in the list
+                // Check if there are other annotations in the sidebar and add the selected class
+                // to the first one in the list
+                if ($('.documentpreview-annotations-list li').length) {
+                    var selectedAnnotation = $('.documentpreview-annotations-list li:first-child').data('annotation');
+                    $(selectedAnnotation.highlights).closest('.t > span').addClass('annotator-hl-selected');
+                }
+                // Show the instructions and hide the comment button when no annotations remain in the list
                 if (!$('ul.documentpreview-annotations-list li').length) {
                     $('#documentpreview-annotator-instruction').show();
+                    $('#documentpreview-annotator-comment').hide();
                 }
             };
 
