@@ -515,10 +515,11 @@ ul.as-selections li.as-selection-item .oae-thumbnail {
 
 /* Email icon emulating a thumbnail */
 
-ul.as-selections li.as-selection-item .oae-thumbnail .fa-envelope {
+ul.as-selections li.as-selection-item .fa-envelope {
     font-size: 17px;
+    margin-right: 4px;
     position: relative;
-    top: -1px;
+    top: 1px;
 }
 
 /* Fixed items */
