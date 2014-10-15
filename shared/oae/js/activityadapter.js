@@ -257,7 +257,7 @@ var _expose = function(exports) {
      * Construct a tree of the last two comments that were made. If these comments
      * were replies, the parent comments will be included in the resulting tree.
      *
-     * @param  {Comment[]}  comments    A sorted set of comments where the latest comment can be found in the beginning of the set
+     * @param  {Comment[]}  comments    A sorted set of comments where the latest comment can be found at the beginning of the set
      * @return {Comment[]}              A tree of comments for the last two comments (and potentially their parents)
      * @api private
      */
@@ -268,9 +268,9 @@ var _expose = function(exports) {
         // Add the latest comment
         latestComments.push(comments[0]);
 
-        // If the latest comment has a reply, include it
+        // If the latest comment has a parent, include it
         if (comments[0].inReplyTo) {
-            latestComments.push(_findReply(comments, comments[0].inReplyTo));
+            latestComments.push(_findComment(comments, comments[0].inReplyTo));
         }
 
         // Check the next comment (if any)
@@ -280,10 +280,10 @@ var _expose = function(exports) {
             if (!_find(latestComments, comments[1]['oae:id'])) {
                 latestComments.push(comments[1]);
 
-                // If this comment has a reply that's not in the latestComments
+                // If this comment has a parent that's not in the latestComments
                 // set yet, we include it
                 if (comments[1].inReplyTo && !_find(latestComments, comments[1].inReplyTo['oae:id'])) {
-                    latestComments.push(_findReply(comments, comments[1].inReplyTo));
+                    latestComments.push(_findComment(comments, comments[1].inReplyTo));
                 }
 
             // If the next comment was in the tree already, it means that it is
@@ -291,7 +291,7 @@ var _expose = function(exports) {
             // could be relevant to display in the activity stream though. If that
             // is the case, we will end up with a tree that is 3 levels deep
             } else if (comments[1].inReplyTo && !_find(latestComments, comments[1].inReplyTo['oae:id'])) {
-                latestComments.push(_findReply(comments, comments[1].inReplyTo));
+                latestComments.push(_findComment(comments, comments[1].inReplyTo));
             }
         }
 
@@ -398,11 +398,11 @@ var _expose = function(exports) {
     };
 
     /**
-     * Find the full comment object for a reply in a set of comments. If the comment
-     * could not be found we return the reply as is. This function is most-useful as an
-     * `inReplyTo` object on a comment object does NOT contain its own parent comment.
-     * By using this function you will be able to find the "original" node that does
-     * include that parent reply.
+     * Find the full "original" comment object for a comment in a set of comments. If the
+     * "original" comment could not be found we return the comment as is. This function
+     * is most-useful as an `inReplyTo` object on a comment object does NOT contain its
+     * own parent comment. By using this function you will be able to find the "original"
+     * node that does include that parent reply.
      *
      * For example, suppose we have the following comment structure:
      *
@@ -426,23 +426,23 @@ var _expose = function(exports) {
      * that A is the parent of B. This function will return the full ("original")
      * B object rather than just the C.inReplyTo object.
      *
-     * @param  {Comment[]}  comments    The set of comments to find the reply in
-     * @param  {Comment}    reply       The reply to search for
-     * @return {Comment}                The proper reply object
+     * @param  {Comment[]}  comments    The set of comments to find the "original" comment in
+     * @param  {Comment}    comment     The comment for which to find the "original" comment
+     * @return {Comment}                The "original" comment
      * @api private
      */
-    var _findReply = function(comments, reply) {
-        // Find the "original" comment object
-        var fullReply = _find(comments, reply['oae:id']);
+    var _findComment = function(comments, comment) {
+        // Find the "original" parent comment object
+        var originalComment = _find(comments, comment['oae:id']);
 
         // Return the "original" comment object if there was one
-        if (fullReply) {
-            return fullReply;
+        if (originalComment) {
+            return originalComment;
 
         // It's possible that we can't find the "original" comment object because
-        // it expired out of the aggregation cache. In that case we return the reply as is
+        // it expired out of the aggregation cache. In that case we return the comment as is
         } else {
-            return reply;
+            return comment;
         }
     };
 
