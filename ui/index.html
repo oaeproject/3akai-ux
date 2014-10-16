@@ -23,61 +23,89 @@
 
         <!-- BODY -->
         <main id="index-container" class="oae-branding-container oae-main-content" role="main">
-            <div id="index-content">
-                <div class="oae-panel-tertiary index-search-container row">
-                    <form id="index-search-form" class="form-horizontal" role="search" aria-label="__MSG__SEARCH_FOR_CONTENT_FOLDERS_PEOPLE_GROUPS__">
+            <div id="index-page-container" class="row"><!-- --></div>
+            <div id="index-page-template"><!--
+                {macro renderSearchBlock()}
+                    <form role="search" aria-label="__MSG__SEARCH_FOR_CONTENT_FOLDERS_PEOPLE_GROUPS__">
                         <div class="form-group">
-                            <input type="text" id="index-search-query" class="form-control search-query form-control pull-left" title="__MSG__SEARCH_FOR_CONTENT_FOLDERS_PEOPLE_GROUPS__" placeholder="__MSG__SEARCH_FOR_CONTENT_FOLDERS_PEOPLE_GROUPS__"/>
-                            <button type="submit" id="index-search-icon" class="btn btn-link pull-left">
+                            <input type="text" class="form-control search-query form-control pull-left index-search-query" title="__MSG__SEARCH_FOR_CONTENT_FOLDERS_PEOPLE_GROUPS__" placeholder="__MSG__SEARCH_FOR_CONTENT_FOLDERS_PEOPLE_GROUPS__"/>
+                            <button type="submit" class="btn btn-link pull-left index-search-icon">
                                 <i class="fa fa-search"><span class="sr-only">__MSG__SEARCH__</span></i>
                             </button>
                         </div>
                     </form>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 col-md-7 text-center">
-                        <div id="index-video-container">
-                            <button type="button" id="index-video-launch" class="btn btn-link" title="__MSG__PLAY_VIDEO__">
-                                <i class="fa fa-play-circle-o active"><span class="sr-only">__MSG__PLAY_VIDEO__</span></i>
-                            </button>
-                        </div>
+                {/macro}
 
-                        <div id="index-video-template"><!--
-                            <iframe width="100%" height="100%" src="//www.youtube.com/embed/cfiM87Y0pWw?rel=0&autoplay=1&showinfo=0&modestbranding=1" frameborder="0" allowfullscreen></iframe>
-                        --></div>
+                {macro renderIconTextBlock(block)}
+                    {if block.settings && block.settings.colors && block.settings.colors.title}
+                        {var iconColor = block.settings.colors.title}
+                    {/if}
+                    <i class="fa ${block.settings.icon}" style="{if iconColor} color: ${iconColor} {/if}"/>
+                    <div class="oae-markdown">${oae.api.util.security().encodeMarkdownForHTMLWithLinks(block.settings.text)}</div>
+                {/macro}
 
+                {macro renderImageBlock(block)}
+                    <div class="index-block-image" style="background-image: url(${block.settings.url}); {if block.settings.minHeight} min-height: ${block.settings.minHeight}px {/if}"></div>
+                {/macro}
+
+                {macro renderTextBlock(block)}
+                    <div class="oae-markdown">${oae.api.util.security().encodeMarkdownForHTMLWithLinks(block.settings.text)}</div>
+                {/macro}
+
+                {macro renderVideoBlock(block)}
+                    <div class="index-block-video" style="background-image: url(${block.settings.placeholder}); {if block.settings.minHeight} min-height: ${block.settings.minHeight}px {/if}">
+                        <button type="button" class="btn btn-link index-video-launch" title="__MSG__PLAY_VIDEO__">
+                            <i class="fa fa-play-circle-o active"><span class="sr-only">__MSG__PLAY_VIDEO__</span></i>
+                        </button>
                     </div>
-                    <div class="col-xs-12 col-md-5">
-                        <div class="oae-panel-primary">
-                            <h1 id="index-slogan">__MSG__SUPPORTING_ACADEMIC_COLLABORATION__</h1>
-                            <p id="index-slogan-description">__MSG__A_POWERFULL_NEW_WAY_FOR_STUDENTS_AND_FACULTY_TO_CREATE_KNOWLEDGE_COLLABORATE_AND_CONNECT_WITH_THE_WORLD__</p>
-                        </div>
+                {/macro}
+
+                {macro renderView(view)}
+                    {var totalWidth = 0}
+                    <div class="visible-${view}">
+                        {for block in blocks}
+                            {if totalWidth === 0}
+                                <div class="row index-row clearfix">
+                            {/if}
+
+                            {var currentWidth = block.width[view]}
+                            ${totalWidth += currentWidth|eat}
+
+                            {if block.settings && block.settings.colors && block.settings.colors.background}
+                                {var backgroundColor = block.settings.colors.background}
+                            {/if}
+                            {if block.settings && block.settings.colors && block.settings.colors.text}
+                                {var textColor = block.settings.colors.text}
+                            {/if}
+
+                            <div class="col-${view}-${currentWidth} index-block index-block-${block.type}-container index-block-${block_index}" style="{if backgroundColor} background-color: ${backgroundColor}; {/if} {if textColor} color: ${textColor}; {/if} {if block.settings && block.settings.minHeight} min-height: ${block.settings.minHeight}px {/if}">
+                                {if block.type === 'search'}
+                                    ${renderSearchBlock()}
+                                {elseif block.type === 'iconText'}
+                                    ${renderIconTextBlock(block)}
+                                {elseif block.type === 'image'}
+                                    ${renderImageBlock(block)}
+                                {elseif block.type === 'text'}
+                                    ${renderTextBlock(block)}
+                                {elseif block.type === 'video'}
+                                    ${renderVideoBlock(block)}
+                                {/if}
+                            </div>
+
+
+                            {if totalWidth >= 12 || parseInt(block_index, 10) === blocks.length - 1}
+                                </div>
+                                ${totalWidth = 0|eat}
+                            {/if}
+                        {/for}
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 col-md-4">
-                        <div class="oae-panel-secondary index-bottom">
-                            <i class="fa fa-pencil-square-o pull-left"></i>
-                            <h2 class="index-bottom-slogan">__MSG__AUTHORING_EXPERIENCE__</h2>
-                            <p class="index-bottom-description">__MSG__RICH_COMPELLING_INTERACTIVE_CONTENT_AUTHORING__</p>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="oae-panel-secondary index-bottom">
-                            <i class="fa fa-comments pull-left"></i>
-                            <h2 class="index-bottom-slogan">__MSG__CHANNELS_OF_COMMUNICATION__</h2>
-                            <p class="index-bottom-description">__MSG__PARTICIPATING_IN_DISCUSSIONS_AND_FEEDBACK_WITHIN_PERSONALIZED_NETWORKS__</p>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="oae-panel-secondary index-bottom">
-                            <i class="fa fa-cloud-download pull-left"></i>
-                            <h2 class="index-bottom-slogan">__MSG__ACCESS_TO_CONTENT__</h2>
-                            <p class="index-bottom-description">__MSG__EXPANDED_ACCESS_TO_LEARNING_AND_RESEARCH_MATERIALS_BETTER_CONNECTS_LIBRARY_SERVICES__</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                {/macro}
+
+                ${renderView('xs')}
+                ${renderView('sm')}
+                ${renderView('md')}
+                ${renderView('lg')}
+            --></div>
         </main>
 
         <!-- FOOTER -->
