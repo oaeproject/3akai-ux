@@ -1118,19 +1118,13 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                         // whitespace characters or commas
                         var tokens = $element.val().split(/[\s,]+/);
 
-                        // Keep track of any characters still "in progress"
-                        var remainingChars = '';
-
                         // If the final token isn't complete, ignore it by removing
-                        // it from the array
-                        if (!tokenCompleted) {
-                            remainingChars = tokens.pop().trim();
+                        // it from the array, keeping track of the "in progress"
+                        // characters so they can be restored after processing
+                        var remainingChars = tokenCompleted ? '' : tokens.pop().trim();
 
-                        // Otherwise, filter out any trailing empty strings
-                        } else {
-                            tokens = tokens.filter(Boolean);
-
-                        }
+                        // Filter out any empty strings
+                        tokens = tokens.filter(Boolean);
 
                         // See if all the remaining tokens are valid email
                         // addresses. For details on the regex used,
