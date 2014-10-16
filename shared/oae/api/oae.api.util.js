@@ -1162,7 +1162,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                         }
                     };
 
-                    $element.on('cut paste', function(evt) {
+                    $element.on('cut paste', function() {
                         // Cut and paste events are triggered before the input
                         // element is actually updated, so delay processing until
                         // execution stack is exhausted
