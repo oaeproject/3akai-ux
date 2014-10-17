@@ -49,9 +49,11 @@
                 {/macro}
 
                 {macro renderVideoBlock(block)}
-                    <button type="button" class="btn btn-link index-video-launch" title="__MSG__PLAY_VIDEO__">
-                        <i class="fa fa-play-circle-o active"><span class="sr-only">__MSG__PLAY_VIDEO__</span></i>
-                    </button>
+                    <div class="index-block-video">
+                        <button type="button" class="btn btn-link index-video-launch" title="__MSG__PLAY_VIDEO__" data-url=${block.settings.url}>
+                            <i class="fa fa-play-circle-o active"><span class="sr-only">__MSG__PLAY_VIDEO__</span></i>
+                        </button>
+                    </div>
                 {/macro}
 
                 {macro renderView(view)}
@@ -59,7 +61,7 @@
                     <div class="visible-${view}">
                         {for block in blocks}
                             {if totalWidth === 0}
-                                <div class="row index-row clearfix">
+                                <div class="row index-row">
                             {/if}
 
                             {var currentWidth = block.width[view]}
@@ -113,26 +115,8 @@
                 ${renderView('lg')}
             --></div>
 
-<!--
-                                <div class="col-${view}-${currentWidth} index-block index-block-${block.type}-container index-block-${block_index}" style="{if backgroundColor} background-color: ${backgroundColor}; {/if} {if textColor} color: ${textColor}; {/if}">
-                                <div class="index-block-minheight" style="background-color: blue; {if minHeight} min-height:${minHeight}px {/if}">
-                                    {if block.type === 'search'}
-                                        ${renderSearchBlock()}
-                                    {elseif block.type === 'iconText'}
-                                        ${renderIconTextBlock(block)}
-                                    {elseif block.type === 'image'}
-                                        ${renderImageBlock(block)}
-                                    {elseif block.type === 'text'}
-                                        ${renderTextBlock(block)}
-                                    {elseif block.type === 'video'}
-                                        ${renderVideoBlock(block)}
-                                    {/if}
-                                </div>
-                            </div>
-                    -->
-
             <div id="index-video-template"><!--
-                <iframe width="100%" height="100%" src="${videoURL}" frameborder="0" allowfullscreen></iframe>
+                <iframe src="${videoURL}" frameborder="0" allowfullscreen></iframe>
             --></div>
         </main>
 

@@ -26,7 +26,7 @@
     width: 100%;
 }
 
-/**&*********
+/************
  ** Blocks **
  ************/
 
@@ -141,15 +141,11 @@
     padding: 0;
 }
 
-#index-page-container .index-block iframe {
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    top: 0;
-    right: 0;
-}
-
 /* Video block */
+
+#index-page-container .index-block-video-container {
+    overflow: hidden;
+}
 
 #index-page-container .index-video-launch {
     height: 100%;
@@ -160,5 +156,11 @@
 
 #index-page-container .index-video-launch i {
     font-size: 70px;
+}
+
+#index-page-container .index-block iframe {
+    height: 100%;
+    position: relative;
+    width: 100%;
 }
 

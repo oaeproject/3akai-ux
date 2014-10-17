@@ -105,9 +105,6 @@ define(['oae.api.admin', 'oae.api.authentication', 'oae.api.config', 'oae.api.co
                                     if (!window.requestAnimationFrame) {
                                         $('html').addClass('ie-lt10');
                                     }
-                                    if (document.compatMode) {
-                                        $('html').addClass('ie');
-                                    }
 
                                     // Add a `.mobile` class to the html element when the user is using a mobile device.
                                     // This allows for showing/hiding elements on a mobile device through CSS

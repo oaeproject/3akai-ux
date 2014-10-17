@@ -40,7 +40,7 @@ require(['jquery','oae.core'], function($, oae) {
                 'settings': {
                     'minHeight': 290,
                     'placeholder': '/ui/img/index-video-bg.png',
-                    'url': 'https://www.youtube.com/watch?v=cfiM87Y0pWw'
+                    'url': 'https://www.youtube.com/watch?v=cfiM87Y0pWw',
                 }
             },
             {
@@ -78,19 +78,6 @@ require(['jquery','oae.core'], function($, oae) {
                     'text': '#### Authoring Experiences \n Rich, compelling interactive content authoring providing students and faculty with a modern content creation tool for today\'s digital world.'
                 }
             },
-            /* {
-                'type': 'image',
-                'width': {
-                    'xs': 12,
-                    'sm': 6,
-                    'md': 4,
-                    'lg': 4
-                },
-                'settings': {
-                    'minHeight': 250,
-                    'url': 'http://upload.wikimedia.org/wikipedia/commons/f/f4/Cambridge_Peterhouse_OldCourt.JPG'
-                }
-            }, */
             {
                 'type': 'iconText',
                 'width': {
@@ -146,6 +133,9 @@ require(['jquery','oae.core'], function($, oae) {
                 $('.index-block-' + blockIndex + ' :header').css('color', block.settings.colors.title);
             }
         });
+
+        // TODO
+        repositionVideoPlay();
     };
 
     /**
@@ -171,23 +161,46 @@ require(['jquery','oae.core'], function($, oae) {
     var setUpVideo = function() {
         $('.index-video-launch').on('click', function() {
             var $videoContainer = $(this).parent();
-            // TODO: Insert real video URL
-            // TODO: Do HTTP/HTTPS replacements
+            var url = $(this).attr('data-url');
+            if (url.indexOf('youtube') !== -1) {
+                var youtubeId = $.url(url).param('v');
+                url = '//www.youtube.com/embed/' + youtubeId + '?rel=0&autoplay=1&showinfo=0&modestbranding=1';
+            } else {
+                url = url.replace(/http[s]?:/, '');
+            }
+
+
+            console.log(url);
             oae.api.util.template().render($('#index-video-template'), {
-                'videoURL': '//www.youtube.com/embed/cfiM87Y0pWw?rel=0&autoplay=1&showinfo=0&modestbranding=1'
+                'videoURL': url
             }, $videoContainer);
+            // TODO
+            repositionVideoPlay();
         });
     };
 
     /**
-     * Set up the product video and play it. On mobile devices the video won't automatically
-     * play because of restrictions.
+     * TODO
      */
-    //var setUpProductVideo = function() {
-    //    $('#index-video-launch').on('click', function() {
-    //        oae.api.util.template().render($('#index-video-template'), null, $('#index-video-container'));
-    //    });
-    //};
+    var repositionVideoPlay = function() {
+        var $videos = $('.index-block-video.index-block-video');
+        if ($videos.length) {
+            var visible = false;
+            $videos.each(function(videoIndex, video) {
+                var $video = $(video);
+                var height = $video.closest('.index-row').height();
+                if (height) {
+                    $video.css('height', height  + 'px');
+                    visible = true;
+                }
+            });
+            if (!visible) {
+                setTimeout(repositionVideoPlay, 100);
+            }
+        }
+    };
+
+    $(window).on('resize', repositionVideoPlay);
 
     renderPage(defaultStructure);
     setUpSearch();
