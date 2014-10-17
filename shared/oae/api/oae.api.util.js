@@ -82,22 +82,6 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
     };
 
     /**
-     * Add a cache busting parameter to a URL
-     *
-     * @param  {String}     url     The URL to add the cache busting parameter to
-     * @return {String}             The URL with a cache busting parameter added
-     */
-    var addCacheBust = exports.addCacheBust = function(url) {
-        var $url = $.url(url);
-        // If there are no params we'll get {:''}
-        // https://github.com/allmarkedup/purl/pull/56
-        if (_.isEmpty($url.param()) || $url.param()[''] === '') {
-            return url + '?oaeCacheBust=' + generateId();
-        }
-        return url + '&oaeCacheBust=' + generateId();
-    };
-
-    /**
      * Determine whether or not HTML content consists of solely non-textual elements such as white-spaces,
      * line-breaks, empty elements, etc...
      *
