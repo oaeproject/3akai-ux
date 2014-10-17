@@ -18,119 +18,40 @@ require(['jquery','oae.core'], function($, oae) {
     // Set the page title
     oae.api.util.setBrowserTitle('__MSG__WELCOME__');
 
-    var defaultStructure = {
-        'blocks': [
-            {
-                'type': 'search',
-                'width': {
-                    'xs': 12,
-                    'sm': 12,
-                    'md': 12,
-                    'lg': 12
+    /**
+     * TODO
+     */
+    var loadPageStructure = function() {
+        $.ajax({
+            'url': '/api/config',
+            'success': function(config) {
+                var blocks = [];
+                for (var i = 1; i <= 6; i++) {
+                    var block = config['oae-tenants']['block_' + i];
+                    if (block && block.type) {
+                        blocks.push(block);
+                    }
                 }
-            },
-            {
-                'type': 'video',
-                'width': {
-                    'xs': 12,
-                    'sm': 12,
-                    'md': 8,
-                    'lg': 8
-                },
-                'settings': {
-                    'minHeight': 290,
-                    'placeholder': '/ui/img/index-video-bg.png',
-                    'url': 'https://www.youtube.com/watch?v=cfiM87Y0pWw',
-                }
-            },
-            {
-                'type': 'text',
-                'width': {
-                    'xs': 12,
-                    'sm': 6,
-                    'md': 4,
-                    'lg': 4
-                },
-                'settings': {
-                    'colors': {
-                        'background': 'transparent',
-                        'title': '#FFF',
-                        'text': '#FFF'
-                    },
-                    'text': '# Supporting academic collaboration \n A powerful new way for students and faculty to create knowledge, collaborate and connect with the world. '
-                }
-            },
-            {
-                'type': 'iconText',
-                'width': {
-                    'xs': 12,
-                    'sm': 6,
-                    'md': 4,
-                    'lg': 4
-                },
-                'settings': {
-                    'colors': {
-                        'background': '#FFF',
-                        'title': '#4D9DCF',
-                        'text': '#333'
-                    },
-                    'icon': 'fa-pencil-square-o',
-                    'text': '#### Authoring Experiences \n Rich, compelling interactive content authoring providing students and faculty with a modern content creation tool for today\'s digital world.'
-                }
-            },
-            {
-                'type': 'iconText',
-                'width': {
-                    'xs': 12,
-                    'sm': 6,
-                    'md': 4,
-                    'lg': 4
-                },
-                'settings': {
-                    'colors': {
-                        'background': '#424242',
-                        'title': '#FFF',
-                        'text': '#FFF'
-                    },
-                    'icon': 'fa-comments',
-                    'text': '#### Channels of Communication \n Participating in discussions and feedback within personalized networks of resources and people, furthers learning as project teams collaborate and communicate.'
-                }
-            },
-            {
-                'type': 'iconText',
-                'width': {
-                    'xs': 12,
-                    'sm': 6,
-                    'md': 4,
-                    'lg': 4
-                },
-                'settings': {
-                    'colors': {
-                        'background': '#EFEEEB',
-                        'title': '#424242',
-                        'text': '#424242'
-                    },
-                    'icon': 'fa-cloud-download',
-                    'text': '#### Access to Content \n Expanded access to learning and research materials better connects library services and resources with teaching and research within and between institutions.'
-                }
+                renderPage(blocks);
             }
-        ]
-    };
+        });
+    }
 
     /**
      * Render the tenant landing page using the configured modules
      *
-     * @param  {Object}         pageStructure           Object describing the responsive page structure and the configuration for all its modules
+     * TODO
+     * @param  {Object[]}         blocks           Object describing the responsive page structure and the configuration for all its modules
      */
-    var renderPage = function(pageStructure) {
+    var renderPage = function(blocks) {
         // Render the page structure and all of its modules
-        oae.api.util.template().render($('#index-page-template'), pageStructure, $('#index-page-container'));
+        oae.api.util.template().render($('#index-page-template'), {'blocks': blocks}, $('#index-page-container'));
 
         // As titles are hidden inside of Markdown content, apply the title color to all headers
         // after all Markdown content has been converted to HTML
-        $.each(pageStructure.blocks, function(blockIndex, block) {
-            if (block.settings && block.settings.colors && block.settings.colors.title) {
-                $('.index-block-' + blockIndex + ' :header').css('color', block.settings.colors.title);
+        $.each(blocks, function(blockIndex, block) {
+            if (block.titleColor) {
+                $('.index-block-' + blockIndex + ' :header').css('color', block.titleColor);
             }
         });
 
@@ -191,6 +112,7 @@ require(['jquery','oae.core'], function($, oae) {
                 var height = $video.closest('.index-row').height();
                 if (height) {
                     $video.css('height', height  + 'px');
+                    $video.show();
                     visible = true;
                 }
             });
@@ -202,7 +124,7 @@ require(['jquery','oae.core'], function($, oae) {
 
     $(window).on('resize', repositionVideoPlay);
 
-    renderPage(defaultStructure);
+    loadPageStructure();
     setUpSearch();
     setUpVideo();
 
