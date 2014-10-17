@@ -31,6 +31,8 @@
  ************/
 
 #index-page-container .index-block {
+    background-position: center;
+    background-size: cover;
     float: none;
     display: table-cell;
     padding: 25px 25px;
@@ -44,7 +46,12 @@
 /* Search block */
 
 #index-page-container .index-block-search-container {
-    padding: 35px 0;
+    padding: 35px 20px;
+}
+
+#index-page-container .index-block-search-container:only-child {
+    padding-left: 0;
+    padding-right: 0;
 }
 
 #index-page-container .index-block-search-container form {
@@ -117,14 +124,14 @@
 
 /* Icon text block */
 
-#index-page-container .index-block-iconText-container {
-    padding-top: 30px;
-    text-align: center;
-}
-
 #index-page-container .index-block-iconText-container i {
     font-size: 35px;
     margin-bottom: 5px;
+}
+
+#index-page-container .index-block-iconText-container {
+    padding-top: 30px;
+    text-align: center;
 }
 
 /* Image block */
@@ -134,33 +141,24 @@
     padding: 0;
 }
 
-#index-page-container .index-block-image-container .index-block-image,
-#index-page-container .index-block-video-container .index-block-video {
-    background-size: cover;
-    background-position: center;
-    height: 100%;
+#index-page-container .index-block iframe {
+    bottom: 0;
     left: 0;
     position: absolute;
     top: 0;
-    width: 100%;
-}
-
-#index-page-container .index-block-image-container:only-child .index-block-image,
-#index-page-container .index-block-video-container:only-child .index-block-video {
-    position: relative;
+    right: 0;
 }
 
 /* Video block */
 
-#index-page-container .index-block-video .index-video-launch {
+#index-page-container .index-video-launch {
     height: 100%;
-    left: 0;
     opacity: 0.8;
-    position: absolute;
+    position: relative;
     width: 100%;
 }
 
-#index-page-container .index-block-video .index-video-launch i {
+#index-page-container .index-video-launch i {
     font-size: 70px;
 }
 

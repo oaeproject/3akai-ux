@@ -26,7 +26,7 @@
             <div id="index-page-container" class="row"><!-- --></div>
             <div id="index-page-template"><!--
                 {macro renderSearchBlock()}
-                    <form role="search" aria-label="__MSG__SEARCH_FOR_CONTENT_FOLDERS_PEOPLE_GROUPS__">
+                    <form class="index-search-form" role="search" aria-label="__MSG__SEARCH_FOR_CONTENT_FOLDERS_PEOPLE_GROUPS__">
                         <div class="form-group">
                             <input type="text" class="form-control search-query form-control pull-left index-search-query" title="__MSG__SEARCH_FOR_CONTENT_FOLDERS_PEOPLE_GROUPS__" placeholder="__MSG__SEARCH_FOR_CONTENT_FOLDERS_PEOPLE_GROUPS__"/>
                             <button type="submit" class="btn btn-link pull-left index-search-icon">
@@ -44,20 +44,14 @@
                     <div class="oae-markdown">${oae.api.util.security().encodeMarkdownForHTMLWithLinks(block.settings.text)}</div>
                 {/macro}
 
-                {macro renderImageBlock(block)}
-                    <div class="index-block-image" style="background-image: url(${block.settings.url}); {if block.settings.minHeight} min-height: ${block.settings.minHeight}px {/if}"></div>
-                {/macro}
-
                 {macro renderTextBlock(block)}
                     <div class="oae-markdown">${oae.api.util.security().encodeMarkdownForHTMLWithLinks(block.settings.text)}</div>
                 {/macro}
 
                 {macro renderVideoBlock(block)}
-                    <div class="index-block-video" style="background-image: url(${block.settings.placeholder}); {if block.settings.minHeight} min-height: ${block.settings.minHeight}px {/if}">
-                        <button type="button" class="btn btn-link index-video-launch" title="__MSG__PLAY_VIDEO__">
-                            <i class="fa fa-play-circle-o active"><span class="sr-only">__MSG__PLAY_VIDEO__</span></i>
-                        </button>
-                    </div>
+                    <button type="button" class="btn btn-link index-video-launch" title="__MSG__PLAY_VIDEO__">
+                        <i class="fa fa-play-circle-o active"><span class="sr-only">__MSG__PLAY_VIDEO__</span></i>
+                    </button>
                 {/macro}
 
                 {macro renderView(view)}
@@ -78,20 +72,32 @@
                                 {var textColor = block.settings.colors.text}
                             {/if}
 
-                            <div class="col-${view}-${currentWidth} index-block index-block-${block.type}-container index-block-${block_index}" style="{if backgroundColor} background-color: ${backgroundColor}; {/if} {if textColor} color: ${textColor}; {/if} {if block.settings && block.settings.minHeight} min-height: ${block.settings.minHeight}px {/if}">
-                                {if block.type === 'search'}
-                                    ${renderSearchBlock()}
-                                {elseif block.type === 'iconText'}
-                                    ${renderIconTextBlock(block)}
-                                {elseif block.type === 'image'}
-                                    ${renderImageBlock(block)}
-                                {elseif block.type === 'text'}
-                                    ${renderTextBlock(block)}
-                                {elseif block.type === 'video'}
-                                    ${renderVideoBlock(block)}
-                                {/if}
-                            </div>
+                            {if block.settings && block.settings.minHeight}
+                                {var minHeight = block.settings.minHeight}
+                            {else}
+                                {var minHeight = null}
+                            {/if}
 
+                            {if block.type === 'search'}
+                                <div class="col-${view}-${currentWidth} index-block index-block-${block.type}-container index-block-${block_index}" style="{if minHeight} height: ${minHeight}px; {/if} {if backgroundColor} background-color: ${backgroundColor}; {/if} {if textColor} color: ${textColor}; {/if}">
+                                    ${renderSearchBlock()}
+                                </div>
+                            {elseif block.type === 'iconText'}
+                                <div class="col-${view}-${currentWidth} index-block index-block-${block.type}-container index-block-${block_index}" style="{if minHeight} height: ${minHeight}px; {/if} {if backgroundColor} background-color: ${backgroundColor}; {/if} {if textColor} color: ${textColor}; {/if}">
+                                    ${renderIconTextBlock(block)}
+                                </div>
+                            {elseif block.type === 'image'}
+                                <div class="col-${view}-${currentWidth} index-block index-block-${block.type}-container index-block-${block_index}" style="background-image: url(${block.settings.url}); {if minHeight} height: ${minHeight}px; {/if} {if textColor} color: ${textColor}; {/if}">
+                                </div>
+                            {elseif block.type === 'text'}
+                                <div class="col-${view}-${currentWidth} index-block index-block-${block.type}-container index-block-${block_index}" style="{if minHeight} height: ${minHeight}px; {/if} {if backgroundColor} background-color: ${backgroundColor}; {/if} {if textColor} color: ${textColor}; {/if}">
+                                    ${renderTextBlock(block)}
+                                </div>
+                            {elseif block.type === 'video'}
+                                <div class="col-${view}-${currentWidth} index-block index-block-${block.type}-container index-block-${block_index}" style="background-image: url(${block.settings.placeholder}); {if minHeight} height: ${minHeight}px; {/if} {if backgroundColor} background-color: ${backgroundColor}; {/if} {if textColor} color: ${textColor}; {/if}">
+                                    ${renderVideoBlock(block)}
+                                </div>
+                            {/if}
 
                             {if totalWidth >= 12 || parseInt(block_index, 10) === blocks.length - 1}
                                 </div>
@@ -105,6 +111,28 @@
                 ${renderView('sm')}
                 ${renderView('md')}
                 ${renderView('lg')}
+            --></div>
+
+<!--
+                                <div class="col-${view}-${currentWidth} index-block index-block-${block.type}-container index-block-${block_index}" style="{if backgroundColor} background-color: ${backgroundColor}; {/if} {if textColor} color: ${textColor}; {/if}">
+                                <div class="index-block-minheight" style="background-color: blue; {if minHeight} min-height:${minHeight}px {/if}">
+                                    {if block.type === 'search'}
+                                        ${renderSearchBlock()}
+                                    {elseif block.type === 'iconText'}
+                                        ${renderIconTextBlock(block)}
+                                    {elseif block.type === 'image'}
+                                        ${renderImageBlock(block)}
+                                    {elseif block.type === 'text'}
+                                        ${renderTextBlock(block)}
+                                    {elseif block.type === 'video'}
+                                        ${renderVideoBlock(block)}
+                                    {/if}
+                                </div>
+                            </div>
+                    -->
+
+            <div id="index-video-template"><!--
+                <iframe width="100%" height="100%" src="${videoURL}" frameborder="0" allowfullscreen></iframe>
             --></div>
         </main>
 

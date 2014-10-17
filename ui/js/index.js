@@ -57,7 +57,7 @@ require(['jquery','oae.core'], function($, oae) {
                         'title': '#FFF',
                         'text': '#FFF'
                     },
-                    'text': '# Supporting academic collaboration \n A powerful new way for students and faculty to create knowledge, collaborate and connect with the world'
+                    'text': '# Supporting academic collaboration \n A powerful new way for students and faculty to create knowledge, collaborate and connect with the world. '
                 }
             },
             {
@@ -78,7 +78,7 @@ require(['jquery','oae.core'], function($, oae) {
                     'text': '#### Authoring Experiences \n Rich, compelling interactive content authoring providing students and faculty with a modern content creation tool for today\'s digital world.'
                 }
             },
-            {
+            /* {
                 'type': 'image',
                 'width': {
                     'xs': 12,
@@ -88,10 +88,10 @@ require(['jquery','oae.core'], function($, oae) {
                 },
                 'settings': {
                     'minHeight': 250,
-                    'url': 'http://i.telegraph.co.uk/multimedia/archive/02524/cambridge_2524373b.jpg'
+                    'url': 'http://upload.wikimedia.org/wikipedia/commons/f/f4/Cambridge_Peterhouse_OldCourt.JPG'
                 }
-            },
-            /*{
+            }, */
+            {
                 'type': 'iconText',
                 'width': {
                     'xs': 12,
@@ -108,7 +108,7 @@ require(['jquery','oae.core'], function($, oae) {
                     'icon': 'fa-comments',
                     'text': '#### Channels of Communication \n Participating in discussions and feedback within personalized networks of resources and people, furthers learning as project teams collaborate and communicate.'
                 }
-            },*/
+            },
             {
                 'type': 'iconText',
                 'width': {
@@ -130,120 +130,54 @@ require(['jquery','oae.core'], function($, oae) {
         ]
     };
 
-    var theFoldStructure = {
-        'blocks': [
-            {
-                'type': 'search',
-                'width': {
-                    'xs': 12,
-                    'sm': 12,
-                    'md': 12,
-                    'lg': 12
-                }
-            },
-            {
-                'type': 'image',
-                'width': {
-                    'xs': 12,
-                    'sm': 12,
-                    'md': 12,
-                    'lg': 12
-                },
-                'settings': {
-                    'minHeight': 420,
-                    'url': 'https://thefold.oaeproject.org/assets/thefold/branding.jpg'
-                }
-            },
-            {
-                'type': 'text',
-                'width': {
-                    'xs': 12,
-                    'sm': 6,
-                    'md': 6,
-                    'lg': 6
-                },
-                'settings': {
-                    'text': '# The FOLD Academic Community \n Join our online academic fashion community to collaborate with students, professionals, scholars and enthusiasts around the globe'
-                }
-            },
-            {
-                'type': 'text',
-                'width': {
-                    'xs': 12,
-                    'sm': 6,
-                    'md': 6,
-                    'lg': 6
-                },
-                'settings': {
-                    'text': '### Street trends from Paris \n See the latest Street Trends from Paris as reported by our student correspondents!'
-                }
-            },
-            {
-                'type': 'text',
-                'width': {
-                    'xs': 12,
-                    'sm': 6,
-                    'md': 6,
-                    'lg': 6
-                },
-                'settings': {
-                    'text': '### The Future of Fashion course \n Would you like to do your own street trend reports? Consider signing up for our free The Future of Fashion Massive Open Online Course (MOOC) to learn how.'
-                }
-            },
-            {
-                'type': 'text',
-                'width': {
-                    'xs': 12,
-                    'sm': 6,
-                    'md': 6,
-                    'lg': 6
-                },
-                'settings': {
-                    'text': '### What is Fashion? \n Check out the latest student-created video "What is Fashion?"'
-                }
+    /**
+     * Render the tenant landing page using the configured modules
+     *
+     * @param  {Object}         pageStructure           Object describing the responsive page structure and the configuration for all its modules
+     */
+    var renderPage = function(pageStructure) {
+        // Render the page structure and all of its modules
+        oae.api.util.template().render($('#index-page-template'), pageStructure, $('#index-page-container'));
+
+        // As titles are hidden inside of Markdown content, apply the title color to all headers
+        // after all Markdown content has been converted to HTML
+        $.each(pageStructure.blocks, function(blockIndex, block) {
+            if (block.settings && block.settings.colors && block.settings.colors.title) {
+                $('.index-block-' + blockIndex + ' :header').css('color', block.settings.colors.title);
             }
-        ]
+        });
     };
 
-    /*{
-        'type': 'image',
-        'width': {
-            'xs': 12,
-            'sm': 6,
-            'md': 4,
-            'lg': 4
-        },
-        'settings': {
-            'minHeight': 250,
-            'url': 'http://i.telegraph.co.uk/multimedia/archive/02524/cambridge_2524373b.jpg'
-        }
-    },*/
-
-    oae.api.util.template().render($('#index-page-template'), defaultStructure, $('#index-page-container'));
-
-    $.each(defaultStructure.blocks, function(blockIndex, block) {
-        if (block.settings && block.settings.colors && block.settings.colors.title) {
-            console.log($('.index-block-' + blockIndex));
-            console.log($('.index-block-' + blockIndex + ' :header'));
-            $('.index-block-' + blockIndex + ' :header').css('color', block.settings.colors.title);
-        }
-    });
-
     /**
-     * Set up the main search form. When the form is submitted, the user will be
+     * Set up the search forms. When the form is submitted, the user will be
      * redirected to the search page using the entered search query
      */
-    //var setUpSearch = function() {
-    //    $(document).on('submit', '#index-search-form', function() {
-    //        var query = $.trim($('#index-search-query', $(this)).val());
-    //        // Remove all hash characters from the search query. History.js expects to be in
-    //        // full control of the URL hash and adding one  into the URL ourself would interfere with that
-    //        // @see https://github.com/oaeproject/3akai-ux/issues/3872
-    //        query = query.replace(/#/g, '');
-    //        window.location = '/search/' + oae.api.util.security().encodeForURL(query);
-    //        return false;
-    //    });
-    //};
+    var setUpSearch = function() {
+        $(document).on('submit', '.index-search-form', function() {
+            var query = $.trim($('.index-search-query', $(this)).val());
+            // Remove all hash characters from the search query. History.js expects to be in
+            // full control of the URL hash and adding one  into the URL ourself would interfere with that
+            // @see https://github.com/oaeproject/3akai-ux/issues/3872
+            query = query.replace(/#/g, '');
+            window.location = '/search/' + oae.api.util.security().encodeForURL(query);
+            return false;
+        });
+    };
+
+    /**
+     * Set up the videos in the configured page structure. A video will show a placeholder image to
+     * start off with, which will be replaced by the video when the play button is clicked
+     */
+    var setUpVideo = function() {
+        $('.index-video-launch').on('click', function() {
+            var $videoContainer = $(this).parent();
+            // TODO: Insert real video URL
+            // TODO: Do HTTP/HTTPS replacements
+            oae.api.util.template().render($('#index-video-template'), {
+                'videoURL': '//www.youtube.com/embed/cfiM87Y0pWw?rel=0&autoplay=1&showinfo=0&modestbranding=1'
+            }, $videoContainer);
+        });
+    };
 
     /**
      * Set up the product video and play it. On mobile devices the video won't automatically
@@ -255,14 +189,8 @@ require(['jquery','oae.core'], function($, oae) {
     //    });
     //};
 
-    /**
-     * Add binding to various elements on the index page
-     */
-    //var addBinding = function() {
-    //    $('#index-video-launch').on('click', playProductVideo);
-    //};
-
-    //setUpSearch();
-    //setUpProductVideo();
+    renderPage(defaultStructure);
+    setUpSearch();
+    setUpVideo();
 
 });
