@@ -67,7 +67,7 @@ before_install:
 
   # Install Hilary
   - cd ~/build/oaeproject
-  - git clone --depth 1 --branch master git://github.com/oaeproject/Hilary.git ./Hilary
+  - git clone --depth 1 --branch uiTests git://github.com/bp323/Hilary.git ./Hilary
   - cd ./Hilary
   - npm install --production
 
