@@ -43,28 +43,5 @@ casper.test.begin('Prepare environment for tests', function(test) {
         });
     };
 
-    // Set up test tenant
-    casper.start(configUtil().adminUI, function() {
-        casper.waitForSelector('#adminlogin-local', function() {
-            casper.then(function() {
-                userUtil().doAdminLogIn(configUtil().adminUsername, configUtil().adminPassword);
-            });
-
-            casper.then(function() {
-                adminUtil().createTenant(configUtil().tenantAlias, configUtil().tenantDisplayname, configUtil().tenantHost, function() {
-                    adminUtil().writeConfig(configUtil().tenantAlias, {
-                        'oae-principals/recaptcha/enabled': false,
-                        'oae-principals/termsAndConditions/enabled': true,
-                        'oae-principals/termsAndConditions/text/default': '![OAE](/shared/oae/img/oae-logo.png) Default terms and conditions'
-                    }, function() {
-                        userUtil().doAdminLogOut();
-                    });
-                });
-            });
-        });
-    });
-
-    casper.run(function() {
-        test.done();
-    });
+    test.done();
 });
