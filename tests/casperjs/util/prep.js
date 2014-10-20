@@ -59,28 +59,6 @@ casper.test.begin('Prepare environment for tests', function(test) {
         });
     };
 
-    // Set up test tenant
-    casper.start(configUtil.adminUI, function() {
-        userUtil.doLogIn(configUtil.adminUsername, configUtil.adminPassword);
+    test.done();
 
-        // Create the tenant to test with
-        adminUtil.createTenant(configUtil.tenantAlias, configUtil.tenantDisplayname, configUtil.tenantHost, function(err, tenant) {
-            if (err) {
-                casper.exit();
-            }
-            // Write the tenant's default configuration
-            adminUtil.writeConfig(configUtil.tenantAlias, {
-                'oae-principals/recaptcha/enabled': false,
-                'oae-principals/termsAndConditions/enabled': true,
-                'oae-principals/termsAndConditions/text/default': '![OAE](/shared/oae/img/oae-logo.png) Default terms and conditions'
-            }, function() {
-                // Log out of the administration UI before starting the tests
-                userUtil.doLogOut();
-            });
-        });
-    });
-
-    casper.run(function() {
-        test.done();
-    });
 });
