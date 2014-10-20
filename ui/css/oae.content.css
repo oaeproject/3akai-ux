@@ -23,8 +23,3 @@
         margin-left: 25px;
     }
 }
-
-/* Hide the lhnavigation toggle for anonymous users */
-.anon .oae-lhnavigation-toggle {
-    display: none !important;
-}

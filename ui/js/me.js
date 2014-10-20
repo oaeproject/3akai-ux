@@ -25,35 +25,41 @@ require(['jquery','oae.core'], function($, oae) {
 
     // Structure that will be used to construct the left hand navigation actions
     var lhNavActions = [{
-        'icon': 'icon-cloud-upload',
+        'icon': 'fa-cloud-upload',
         'title': oae.api.i18n.translate('__MSG__UPLOAD__'),
         'closeNav': true,
         'class': 'oae-trigger-upload'
     },
     {
-        'icon': 'icon-plus-sign',
+        'icon': 'fa-plus-circle',
         'title': oae.api.i18n.translate('__MSG__CREATE__'),
         'children': [
             {
-                'icon': 'icon-group',
+                'icon': 'fa-group',
                 'title': oae.api.i18n.translate('__MSG__GROUP__'),
                 'closeNav': true,
                 'class': 'oae-trigger-creategroup'
             },
             {
-                'icon': 'icon-link',
+                'icon': 'fa-folder-open',
+                'title': oae.api.i18n.translate('__MSG__FOLDER__'),
+                'closeNav': true,
+                'class': 'oae-trigger-createfolder'
+            },
+            {
+                'icon': 'fa-link',
                 'title': oae.api.i18n.translate('__MSG__LINK__'),
                 'closeNav': true,
                 'class': 'oae-trigger-createlink'
             },
             {
-                'icon': 'icon-edit',
+                'icon': 'fa-pencil-square-o',
                 'title': oae.api.i18n.translate('__MSG__DOCUMENT__'),
                 'closeNav': true,
                 'class': 'oae-trigger-createcollabdoc'
             },
             {
-                'icon': 'icon-comments',
+                'icon': 'fa-comments',
                 'title': oae.api.i18n.translate('__MSG__DISCUSSION__'),
                 'closeNav': true,
                 'class': 'oae-trigger-creatediscussion'
@@ -66,7 +72,7 @@ require(['jquery','oae.core'], function($, oae) {
         {
             'id': 'dashboard',
             'title': oae.api.i18n.translate('__MSG__RECENT_ACTIVITY__'),
-            'icon': 'icon-dashboard',
+            'icon': 'fa-tachometer',
             'closeNav': true,
             'layout': [
                 {
@@ -86,7 +92,7 @@ require(['jquery','oae.core'], function($, oae) {
         {
             'id': 'library',
             'title': oae.api.i18n.translate('__MSG__MY_LIBRARY__'),
-            'icon': 'icon-briefcase',
+            'icon': 'fa-briefcase',
             'closeNav': true,
             'layout': [
                 {
@@ -106,7 +112,7 @@ require(['jquery','oae.core'], function($, oae) {
         {
             'id': 'discussions',
             'title': oae.api.i18n.translate('__MSG__MY_DISCUSSIONS__'),
-            'icon': 'icon-comments',
+            'icon': 'fa-comments',
             'closeNav': true,
             'layout': [
                 {
@@ -126,7 +132,7 @@ require(['jquery','oae.core'], function($, oae) {
         {
             'id': 'groups',
             'title': oae.api.i18n.translate('__MSG__MY_GROUPS__'),
-            'icon': 'icon-group',
+            'icon': 'fa-group',
             'closeNav': true,
             'layout': [
                 {
@@ -146,7 +152,7 @@ require(['jquery','oae.core'], function($, oae) {
         {
             'id': 'network',
             'title': oae.api.i18n.translate('__MSG__MY_NETWORK__'),
-            'icon': 'icon-random',
+            'icon': 'fa-random',
             'closeNav': true,
             'layout': [
                 {
@@ -176,11 +182,15 @@ require(['jquery','oae.core'], function($, oae) {
     };
 
     /**
-     * Render the user's clip, containing the profile picture, display name as well as the
-     * user's admin options
+     * Render the clips
      */
     var setUpClip = function() {
-        oae.api.util.template().render($('#me-clip-template'), null, $('#me-clip-container'));
+        oae.api.util.template().render($('#me-clip-template'), {
+            'displayOptions': {
+                'addVisibilityIcon': false,
+                'addLink': false
+            }
+        }, $('#me-clip-container'));
     };
 
     /**

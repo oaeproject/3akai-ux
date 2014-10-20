@@ -1,7 +1,7 @@
 {
   "name": "3akai-ux",
   "description": "Open Academic Environment (OAE) Front-end",
-  "version": "7.1.1",
+  "version": "9.2.0",
   "homepage": "http://www.oaeproject.org",
   "author": {
     "name": "The Apereo Foundation",
@@ -24,7 +24,6 @@
     "oae-core": ""
   },
   "devDependencies": {
-    "bunyan": "latest",
     "grunt": "latest",
     "grunt-cli": "latest",
     "grunt-contrib-clean": "latest",
@@ -34,6 +33,7 @@
     "grunt-exec": "latest",
     "grunt-ghost": "latest",
     "grunt-git-describe": "latest",
+    "grunt-text-replace": "latest",
     "grunt-ver": "git://github.com/oaeproject/grunt-ver.git#v0.2.3-hilary-0.2",
     "oae-release-tools": "git://github.com/oaeproject/oae-release-tools",
     "optimist": "latest",

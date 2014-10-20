@@ -65,7 +65,7 @@ module.exports = function(callback) {
                     return callback(err);
                 }
 
-                callback();
+                return callback();
             });
         });
     };
@@ -75,10 +75,10 @@ module.exports = function(callback) {
 
     // Re-enable the poller so it only collects automatically
     config.activity.collectionPollingFrequency = 1;
-    config.activity.numberOfProcessingBuckets = 3;
+    config.activity.numberOfProcessingBuckets = 1;
 
     TestsUtil.setUpBeforeTests(config, true, function() {
-        // Set up a test tenant.
+        // Set up a test tenant
         setUpTenants(config, function(err) {
             if (err) {
                 return callback(new Error(err.msg));

@@ -25,9 +25,13 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
     // one activity
     var AGGREGATION_RULES = {
         'content-comment': ['target'],
-        'content-create': ['actor'],
+        'content-create': ['actor', 'target'],
+        'content-revision': ['object'],
         'content-share': ['actor'],
-        'discussion-message': ['target']
+        'discussion-message': ['target'],
+        'folder-add-to-folder': ['target'],
+        'folder-create': ['actor', 'target'],
+        'folder-share': ['actor']
     };
 
     // Time in milliseconds during which aggregatable activities should be aggregated before calling
@@ -74,30 +78,19 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
     //   }
     var subscriptions = {};
 
-    // Variable that keeps track of the aggregated messages. Aggregation is only done within the same
-    // channel and stream type. For each activity type that requires aggregation, an aggregation key
-    // is generated based on the fields of the activity on which aggregation needs to be performed.
-    // Each aggregation key contains a timeout function, executed when the aggregation timeout finishes,
-    // and the actual push message containing the aggregated activities.
-    // The message aggregates will be stored in the following way:
+    // Variable that keeps track of the aggregated activities per activity stream.
     //
     //   {
-    //      '<channel>': {
-    //          '<streamType>': {
-    //              '<activityType>': {
-    //                  '<aggregateKey>': {
-    //                      'timeout': <aggregateCallback>,
-    //                      'message': <aggregatedMessage>
-    //                  },
-    //                  ...
-    //              },
-    //              ...
-    //          },
+    //      '<resourceId>': {
+    //          '<streamType>': [<Activity 1>, <Activity 2>, ..]
     //          ...
     //      },
     //      ...
     //   }
-    var aggregates = {};
+    var activities = {};
+
+    // Variable that keeps track of the timeouts per resource and stream type
+    var timers = {};
 
     /**
      * Initialize all push notification functionality by establishing the websocket connection
@@ -142,7 +135,7 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
         // Authenticate the websocket
         sendMessage('authentication', {'userId': me.id, 'tenantAlias': me.tenant.alias, 'signature': me.signature }, function(err) {
             if (err) {
-                throw new Error('Could not authenticate the websocket')
+                throw new Error('Could not authenticate the websocket');
             }
 
             // Indicate that the connection and authentication was successful
@@ -188,29 +181,31 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
     /**
      * Subscribe to all messages on a specific channel for a specific stream type and the specified format
      *
-     * @param  {String}     resourceId              Id of the resource on which channel to subscribe (e.g. user id, group id, content id, discussion id)
-     * @param  {String}     streamType              Name of the stream type to subscribe to (e.g. `activity`, `message`)
-     * @param  {String}     token                   Token used to authorize the subscription. This token will be available on the entity that represents the channel that's being subscribed to
-     * @param  {String}     [transformer]           The format in which the activity entities should be received. When `internal` is provided, the entities will be formatted as standard OAE entities. When `activitystreams` is provided, the entities will be formatted as defined by the activitystrea.ms specification. Defaults to `internal`
-     * @param  {Boolean}    [performAggregation]    Whether or not messages should be aggregated before sending them to the callback. If no aggregation is required, each incoming message will be passed to the message callback as-is. Defaults to `false`
-     * @param  {Function}   messageCallback         Function executed when a message on the provided channel and of the provided stream type arrives
-     * @param  {Function}   [callback]              Standard callback function
-     * @param  {Object}     [callback.err]          Error object containing error code and message
+     * @param  {String}         resourceId                      Id of the resource on which channel to subscribe (e.g. user id, group id, content id, discussion id)
+     * @param  {String}         streamType                      Name of the stream type to subscribe to (e.g. `activity`, `message`)
+     * @param  {String}         token                           Token used to authorize the subscription. This token will be available on the entity that represents the channel that's being subscribed to
+     * @param  {String}         [transformer]                   The format in which the activity entities should be received. When `internal` is provided, the entities will be formatted as standard OAE entities. When `activitystreams` is provided, the entities will be formatted as defined by the activitystrea.ms specification. Defaults to `internal`
+     * @param  {Boolean}        [performInlineAggregation]      Whether or not activities within the same message should be aggregated. Defaults to `false`
+     * @param  {Boolean}        [performFullAggregation]        Whether or not activities from new messages should be aggregated with activities from older messages. If `true`, a small delay will be introduced to allow for new messages to come in that it could aggregate with. Defaults to `false`
+     * @param  {Function}       messageCallback                 Function executed when a message on the provided channel and of the provided stream type arrives
+     * @param  {Activity[]}     messageCallback.activities      The activities that arrived over the websocket. For streams that push out activities on routing there will only be 1 activity
+     * @param  {Object}         messageCallback.message         The message that came in over the websocket. The `activities` key will have been modified to contain the aggregated activities
+     * @param  {Function}       [callback]                      Standard callback function
+     * @param  {Object}         [callback.err]                  Error object containing error code and message
      */
-    var subscribe = exports.subscribe = function(resourceId, streamType, token, transformer, performAggregation, messageCallback, callback) {
+    var subscribe = exports.subscribe = function(resourceId, streamType, token, transformer, performInlineAggregation, performFullAggregation, messageCallback, callback) {
         // Set a default callback function in case no callback function has been provided
         callback = callback || function() {};
 
         // Default the transformer to `internal`
         transformer = transformer || 'internal';
-        // Default aggregation to `false`
-        performAggregation = performAggregation || false;
 
         // Check if there is already a subscription for the provided channel and stream type.
         // If there is, we add an additional listener
         if (subscriptions[resourceId] && subscriptions[resourceId][streamType] && subscriptions[resourceId][streamType][transformer]) {
             subscriptions[resourceId][streamType][transformer].push({
-                'performAggregation': performAggregation,
+                'performInlineAggregation': performInlineAggregation,
+                'performFullAggregation': performFullAggregation,
                 'messageCallback': messageCallback
             });
             return callback();
@@ -220,7 +215,8 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
         subscriptions[resourceId] = subscriptions[resourceId] || {};
         subscriptions[resourceId][streamType] = subscriptions[resourceId][streamType] || {};
         subscriptions[resourceId][streamType][transformer] = [{
-            'performAggregation': performAggregation,
+            'performInlineAggregation': performInlineAggregation,
+            'performFullAggregation': performFullAggregation,
             'messageCallback': messageCallback
         }];
 
@@ -246,6 +242,18 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
     };
 
     /**
+     * Reset aggregation for an activity stream
+     *
+     * @param  {String}     resourceId      The id of the resource for which the activity stream should be reset
+     * @param  {String}     streamType      The stream for wich to reset the aggregation process. For example, `activity` or `notification`
+     */
+    var resetAggregation = exports.resetAggregation = function(resourceId, streamType) {
+        if (activities[resourceId] && activities[resourceId][streamType]) {
+            delete activities[resourceId][streamType];
+        }
+    };
+
+    /**
      * Notify all subscribers that have subscribed to push notifications on the message's resource
      * channel and the message's stream type. Aggregation is done only for the listeners that have requested
      * aggregation. For those that haven't requested aggregation, the messages will be sent as received
@@ -256,30 +264,54 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
     var notifySubscribers = function(message) {
         var listenersNeedingAggregations = [];
 
-        // Run through all subscription for the provided resource channel, stream type and format
+        // Run through all subscription for the provided resource, stream type and format
         if (subscriptions[message.resourceId] && subscriptions[message.resourceId][message.streamType] && subscriptions[message.resourceId][message.streamType][message.format]) {
             _.each(subscriptions[message.resourceId][message.streamType][message.format], function(listener) {
                 // Check if the activity that is associated to the push notification requires
                 // aggregation. If it doesn't, it can be distributed to its subscribers straight away
-                if (listener.performAggregation) {
+                if (listener.performFullAggregation) {
                     listenersNeedingAggregations.push(listener);
                 } else {
-                    // The activity object on the message is delivered, rather than the entire activity
-                    listener.messageCallback(message.activity);
+                    // A copy of the activities is returned to the listener to avoid
+                    // modifications by their post-processing messing up later deliveries
+                    var copiedMessage = copyMessage(message, activities);
+                    var activities = copiedMessage.activities;
+
+                    // Aggregate the activities within this message if required
+                    if (listener.performInlineAggregation) {
+                        activities = aggregateActivities(activities);
+                    }
+
+                    // Pass the activities and the message on to the listener
+                    listener.messageCallback(activities, copiedMessage);
                 }
             });
         }
 
         if (listenersNeedingAggregations.length > 0) {
             // Perform the aggregation once
-            aggregateMessages(message, function(newMessage) {
+            aggregateMessages(message, function(activities) {
                 // Distribute it to each listener
                 _.each(listenersNeedingAggregations, function(listener) {
-                    // The activity object on the message is delivered, rather than the entire activity
-                    listener.messageCallback(newMessage.activity);
+                    // A copy of the activities is returned to the listener to avoid
+                    // modifications in the activities hash by their post-processing
+                    var copiedMessage = copyMessage(message, activities);
+                    listener.messageCallback(copiedMessage.activities, copiedMessage);
                 });
             });
         }
+    };
+
+    /**
+     * Create a copy of a push message and overlay an array of activities
+     *
+     * @param  {Object}         message         The message to copy
+     * @param  {Activity[]}     activities      The set of activities that should be overlayed on `message.activities`
+     * @return {Object}                         A deep copy of the message
+     * @api private
+     */
+    var copyMessage = function(message, activities) {
+        return $.extend(true, {}, message, {'activities': activities});
     };
 
     /**
@@ -290,107 +322,219 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
      * make sure that aggregatable activities that arrive within that period of time are aggregated
      * instead of delivered individually.
      *
-     * @param  {Object}     newMessage                      Push notification message for which the activity needs to be aggregated
+     * UI activity aggregation is a simple two-step process:
+     *  1.  Inline aggregation
+     *      The activities within 1 messages are aggregated. For example,
+     *      say Alice uploads 2 files and shares them with Bob. Bob will
+     *      receive a notification containing 2 activities. In this phase,
+     *      the activities will be aggregated into 1 activity with a collection
+     *      of 2 content objects
+     *
+     *  2.  Full aggregation
+     *      The activities from the inline aggregation phase are aggregated
+     *      with activities that were seen in previous messages for this stream.
+     *
+     * @param  {Object}     message                         Push notification message for which the activities need to be aggregated
      * @param  {Function}   callback                        Standard callback function
      * @param  {Object}     callback.aggregatedMessage      The aggregated message
      * @api private
      */
-    var aggregateMessages = function(newMessage, callback) {
+    var aggregateMessages = function(message, callback) {
         // Only aggregate activities within the same channel and stream type
-        var resourceId = newMessage.resourceId;
-        var streamType = newMessage.streamType;
-        aggregates[resourceId] = aggregates[resourceId] || {};
-        aggregates[resourceId][streamType] = aggregates[resourceId][streamType] || {};
+        var resourceId = message.resourceId;
+        var streamType = message.streamType;
 
-        var activityType = newMessage.activity['oae:activityType'];
+        timers[resourceId] = timers[resourceId] || {};
+        timers[resourceId][streamType] = timers[resourceId][streamType] || {};
+        activities[resourceId] = activities[resourceId] || {};
+        activities[resourceId][streamType] = activities[resourceId][streamType] || [];
 
-        // Only aggregate activities if there are rules defined for that type
-        if (!AGGREGATION_RULES[activityType]) {
-            return callback(newMessage);
-        }
+        // Cancel the existing aggregate timeout
+        clearTimeout(timers[resourceId][streamType]);
 
-        // Only aggregate activities of the same activity type (e.g. `content-create`)
-        aggregates[resourceId][streamType][activityType] = aggregates[resourceId][streamType][activityType] || {};
+        // Aggregate all the activities within the message
+        var inlineAggregatedActivities = aggregateActivities(message.activities);
 
-        // Generate the aggregation key used to determine which activities should be aggregated
-        // together. This aggregation key consists of the values of all of the fields in the
-        // aggregation rule for the provided activity type, separated by a `#`
-        var aggregateKey = [];
-        _.each(AGGREGATION_RULES[activityType], function(activityField) {
-            aggregateKey.push(newMessage.activity[activityField]['oae:id']);
-        });
-        aggregateKey = aggregateKey.join('#');
+        // The set of activities we'll pass back to the caller depends on whether
+        // we've already seen activities or not
+        var aggregatedActivities = null;
 
-        var aggregate = aggregates[resourceId][streamType][activityType][aggregateKey];
-
-        // The aggregation is only necessary when an activity with the same aggregation key for
-        // the same activity type already exists. Otherwise, the provided activity is the first of
-        // its type and aggregation key, in which it can be used as is as the initial aggregate
-        if (aggregate && aggregate.message.activity['oae:activityId'] !== newMessage.activity['oae:activityId']) {
-
-            // Cancel the existing aggregate timeout
-            clearTimeout(aggregate.timeout);
-
-            // Take the message on the existing aggregate, containing the
-            // already aggregated activities for the current activity type
-            // and corresponding aggregation rules
-            var aggregateMessage = aggregate.message;
-
-            // Check if any aggregation is required for each of the standard activity fields.
-            // Aggregation is only done for those fields that are not part of the aggregation
-            // rule. If the entity to aggregate into the existing aggregate is already a part
-            // of the existing aggregate, no aggregation will be attempted either
-            _.each(['actor', 'object', 'target'], function(activityField) {
-
-                var newMessageField = newMessage.activity[activityField];
-                var aggregateField = aggregateMessage.activity[activityField];
-
-                // Don't attempt aggregation if the current activity field is part of the aggregation
-                // rule or when the current message doesn't contain the activity field
-                if (_.contains(AGGREGATION_RULES[activityType], activityField) || !newMessageField) {
-                    return;
-                }
-
-                // Check if the activity field on the current message requires aggregation. If the entity
-                // on the field is already part of the aggregated activity field value, there's no need for
-                // aggregation
-                var needsAggregating = true;
-                var existingEntities = aggregateField['oae:collection'] ? aggregateField['oae:collection'] : [aggregateField];
-                _.each(existingEntities, function(entity) {
-                    if (entity['oae:id'] === newMessageField['oae:id']) {
-                        needsAggregating = false;
-                    }
+        // If we've seen activities previously, we need to to aggregate the new activities
+        // with those previously seen activities
+        if (!_.isEmpty(activities[resourceId][streamType])) {
+            // Get the activities we've already seen who can aggregate with activities
+            // from our message.
+            var oldActivitiesOfSameType = _.filter(activities[resourceId][streamType], function(oldActivity) {
+                var messageContainsActivityOfSameType = _.find(inlineAggregatedActivities, function(messageActivity) {
+                    return canAggregate(oldActivity, messageActivity);
                 });
-
-                if (needsAggregating) {
-                    // If the activity field on the aggregate is already a collection, we can just
-                    // add the value of the activity field on the current message to that collection
-                    if (aggregateField['oae:collection']) {
-                        aggregateField['oae:collection'].push(newMessageField);
-                    // If the activity field on the aggregate is not a collection yet, we create one
-                    // that contains the value on the aggregate and the value on the current message
-                    } else {
-                        aggregateMessage.activity[activityField] = {
-                            'oae:collection': [aggregateField, newMessageField],
-                            'objectType': 'collection'
-                        };
-                    }
-                }
+                return _.isObject(messageContainsActivityOfSameType);
             });
 
-            // Change the timestamp on the aggregate to be the one on the current message. This ensures
-            // that the timestamp is always the one from the latest activity that happened
-            aggregateMessage.activity.published = newMessage.activity.published;
-            newMessage = aggregateMessage;
+            // Aggregate the two sets of activities. The `aggreateActivities` function
+            // will inline any activities into the `oldActivitiesOfSameType` set. Because
+            // these activities are passed by reference, the global `activities` object
+            // that contains the activities per activity stream will be updated as well
+            aggregatedActivities = aggregateActivities(oldActivitiesOfSameType.concat(inlineAggregatedActivities));
+
+            // We now roll in our aggregated activities with *all* the activities of our
+            // activity stream. Rather than unpicking which new activities aggregated with
+            // which old activities or which activities are "new" in this stream, we just
+            // concatenate both sets of activities and aggregate them. This shouldn't result
+            // in duplicate entities as the aggregator only retains unique values
+            var allActivities = activities[resourceId][streamType].concat(aggregatedActivities.slice());
+            activities[resourceId][streamType] = aggregateActivities(allActivities);
+        } else {
+            // As we haven't seen any activities for this stream yet, we just pass back
+            // the inline aggregated activities
+            aggregatedActivities = inlineAggregatedActivities;
+
+            // We retain the inline aggregated activities for later aggregation
+            activities[resourceId][streamType] = inlineAggregatedActivities;
         }
 
-        // Store the aggregate for future aggregation
-        aggregates[resourceId][streamType][activityType][aggregateKey] = {
-            'message': newMessage,
-            'timeout': setTimeout(function() {
-                callback(newMessage);
-            }, AGGREGATION_TIMEOUT)
-        };
+        // We wait a little bit before returing to the caller so we can aggregate with
+        // activities from messages that will arrive later
+        timers[resourceId][streamType] = setTimeout(function() {
+            return callback(aggregatedActivities);
+        }, AGGREGATION_TIMEOUT);
+    };
+
+    /**
+     * Aggregate activities within a set of activities
+     *
+     * @param  {Activity[]}     activities      The array of activities that should be aggreated. This operation is destructive to that array
+     * @return {Activity[]}                     A new array with aggregated activities
+     * @api private
+     */
+    var aggregateActivities = exports.aggregateActivities = function(activities) {
+        // Will contain the aggregated array
+        var aggregatedActivities = [];
+
+        // Iterate over the given array and try to aggregate them in our `aggregatedActivities` array
+        while (activities.length > 0) {
+            var activity = activities.shift();
+
+            // If we don't have any defined aggregation rules for this activity type,
+            // we can skip it and add it as-is
+            if (!AGGREGATION_RULES[activity['oae:activityType']]) {
+                aggregatedActivities.push(activity);
+                continue;
+            }
+
+            // Check if it can be aggregated with an activity we've previously dealt with
+            var aggregatedWithActivity = false;
+            for (var i = 0; i < aggregatedActivities.length; i++) {
+                if (canAggregate(activity, aggregatedActivities[i])) {
+                    aggregatedWithActivity = true;
+                    addEntities(aggregatedActivities[i], activity, 'actor');
+                    addEntities(aggregatedActivities[i], activity, 'object');
+                    addEntities(aggregatedActivities[i], activity, 'target');
+                    aggregatedActivities[i].published = activity.published;
+
+                    // The activity has been aggregated, we can break out of this for-loop
+                    break;
+                }
+            }
+
+            // If the activity didn't aggregate with one in the array, we just push it in
+            if (!aggregatedWithActivity) {
+                aggregatedActivities.push(activity);
+            }
+        }
+
+        return aggregatedActivities;
+    };
+
+    /**
+     * Checks if two activities can be aggregated based on their activity
+     * type and existing aggregation rules
+     *
+     * @param  {Activity}   activityA   An activity to compare to `activityB`
+     * @param  {Activity}   activityB   An activity to compare to `activityA`
+     * @return {Boolean}                Whether or not `activityA` can be aggregated with `activityB`
+     * @api private
+     */
+    var canAggregate = function(activityA, activityB) {
+        // The two activities need to have the same to type
+        if (activityA['oae:activityType'] !== activityB['oae:activityType']) {
+            return false;
+
+        // If we don't have any aggregation rules defined for the activity types,
+        // we cannot aggregate them
+        } else if (!AGGREGATION_RULES[activityA['oae:activityType']]) {
+            return false;
+        }
+
+        // Activities of the same type which has an aggregation rule can only aggregate
+        // if their aggregate key is the same. The aggregate key will be the same if both
+        // activities contain the same entities that fullfill the aggregate rule
+        var key1 = getAggregateKey(activityA);
+        var key2 = getAggregateKey(activityB);
+        return (key1 === key2);
+    };
+
+    /**
+     * Given an activity, get its aggregate key. This string will hold the identifiers
+     * of the entities from the activity for which it can aggregate. If 2 activities have
+     * the same aggregate key, they can aggregate
+     *
+     * @param  {Activity}   activity    The activity for which to generate an aggregate key
+     * @return {String}                 The aggregate key for the given activity
+     * @api private
+     */
+    var getAggregateKey = function(activity) {
+        var aggregateKey = [];
+        _.each(AGGREGATION_RULES[activity['oae:activityType']], function(activityField) {
+            // Depending of the context the activity was created in, some
+            // activities (content-create, folder-create) do not always have a target
+            if (activity[activityField] && activity[activityField]['oae:id']) {
+                aggregateKey.push(activity[activityField]['oae:id']);
+            } else {
+                aggregateKey.push('__null__');
+            }
+        });
+        return aggregateKey.join('#');
+    };
+
+    /**
+     * Add the entity collection from a given activity to the entity collection of another. If any
+     * of the entities are already contained in the `to` activity's entities, they will not be added
+     *
+     * @param {Activity}    to      The activity to add the entities to
+     * @param {Activity}    from    The activity to pick the entities from
+     * @param {String}      entity  The name of the entity. One of `actor`, `object` or `target`
+     * @api private
+     */
+    var addEntities = function(to, from, entity) {
+        // If the new activity has no entity, there's no need to do anything
+        if (!from[entity]) {
+            return;
+
+        // If the activity we're adding an entity (collection) to does not have
+        // any entity (collection) of its own, we can simply copy the entity collection
+        // from the new activity
+        } else if (!to[entity]) {
+            to[entity] = from[entity];
+        }
+
+        // Create arrays for both activities entity collections. This makes
+        // it slightly easier to remove duplicate entities later
+        var fromCollection = (from[entity]['oae:collection']) ? from[entity]['oae:collection'] : [from[entity]];
+        var toCollection = (to[entity]['oae:collection']) ? to[entity]['oae:collection'] : [to[entity]];
+
+        // Combine the two collections making sure there are no
+        // duplicates in the new collections
+        newCollection = toCollection.concat(fromCollection);
+        newCollection = _.uniq(newCollection, false, 'oae:id');
+
+        // If the new collection only contains one item, that means the `to` activity already contains it
+        if (newCollection.length > 1) {
+            to[entity] = {
+                'oae:collection': newCollection,
+                'objectType': 'collection'
+            };
+        }
     };
 
     /**

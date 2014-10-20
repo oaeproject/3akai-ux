@@ -54,7 +54,7 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
             lhNavPages = [
                 {
                     'id': 'tenants',
-                    'icon': 'icon-dashboard',
+                    'icon': 'fa-dashboard',
                     'closeNav': true,
                     'title': currentContext.isGlobalAdminServer ? oae.api.i18n.translate('__MSG__TENANTS__') : oae.api.i18n.translate('__MSG__TENANT__'),
                     'layout': [
@@ -73,16 +73,16 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                     ]
                 },
                 {
-                    'id': 'modules',
-                    'icon': 'icon-cogs',
+                    'id': 'configuration',
+                    'icon': 'fa-cogs',
                     'closeNav': true,
-                    'title': oae.api.i18n.translate('__MSG__MODULES__'),
+                    'title': oae.api.i18n.translate('__MSG__CONFIGURATION__'),
                     'layout': [
                         {
                             'width': 'col-md-12',
                             'widgets': [
                                 {
-                                    'name': 'modules',
+                                    'name': 'configuration',
                                     'settings': {
                                         'configuration': configuration,
                                         'configurationSchema': configurationSchema,
@@ -95,7 +95,7 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
                 },
                 {
                     'id': 'usermanagement',
-                    'icon': 'icon-user',
+                    'icon': 'fa-user',
                     'closeNav': true,
                     'title': oae.api.i18n.translate('__MSG__USER_MANAGEMENT__'),
                     'layout': [
@@ -120,7 +120,7 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
             if (currentContext.isGlobalAdminServer) {
                 lhNavPages.push({
                     'id': 'maintenance',
-                    'icon': 'icon-wrench',
+                    'icon': 'fa-wrench',
                     'closeNav': true,
                     'title': oae.api.i18n.translate('__MSG__MAINTENANCE__'),
                     'layout': [
@@ -140,7 +140,7 @@ require(['jquery', 'underscore', 'oae.core', 'jquery.history'], function($, _, o
             } else {
                 lhNavPages.push({
                     'id': 'skinning',
-                    'icon': 'icon-tint',
+                    'icon': 'fa-tint',
                     'closeNav': true,
                     'title': oae.api.i18n.translate('__MSG__SKINNING__'),
                     'layout': [

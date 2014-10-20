@@ -13,14 +13,11 @@
  * permissions and limitations under the License.
  */
 
+var childProcess = require('child_process');
+
 var hilaryModules = __dirname + '/../../../Hilary/node_modules/';
 
-var MQ = require(hilaryModules + 'oae-util/lib/mq');
-var Redis = require(hilaryModules + 'oae-util/lib/redis');
 var TestsUtil = require(hilaryModules + 'oae-tests/lib/util');
-
-
-var childProcess = require('child_process');
 
 require('./beforeTests.js')(function() {
     // Start the CasperJS tests
