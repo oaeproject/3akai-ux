@@ -81,6 +81,14 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
                             }
                         }
                     ]
+                },
+                {
+                    'width': 'col-md-12',
+                    'widgets': [
+                        {
+                            'name': 'comments'
+                        }
+                    ]
                 }
             ]
         }];
@@ -175,12 +183,14 @@ require(['jquery', 'underscore', 'oae.core'], function($, _, oae) {
      * are made by a different user after the initial page load
      */
     var setUpPushNotifications = function() {
-        oae.api.push.subscribe(folderId, 'activity', folderProfile.signature, 'internal', false, function(activity) {
-            var isSupportedUpdateActivity = _.contains(['folder-update', 'folder-update-visibility'], activity['oae:activityType']);
+        oae.api.push.subscribe(folderId, 'activity', folderProfile.signature, 'internal', false, false, function(activities) {
+            // The `activity` stream pushes out activities on routing so it's always
+            // safe to just pick the first item from the `activities` array
+            var activity = activities[0];
+
+            var supportedActivities = ['folder-update', 'folder-update-visibility'];
             // Only respond to push notifications caused by other users
-            if (activity.actor.id === oae.data.me.id) {
-                return;
-            } else if (isSupportedUpdateActivity) {
+            if (activity.actor.id !== oae.data.me.id && _.contains(supportedActivities, activity['oae:activityType'])) {
                 var folderObj = activity.object;
                 folderObj.canAddItem = folderProfile.canAddItem;
                 folderObj.canManage = folderProfile.canManage;

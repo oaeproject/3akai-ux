@@ -24,6 +24,12 @@
  */
 var _expose = function(exports) {
 
+    // Variable that keeps track of the different activity types that are used for comment activities
+    var COMMENT_ACTIVITY_TYPES = ['content-comment', 'folder-comment', 'discussion-message'];
+
+    // Variable that keeps track of the different activity types that are used for sharing activities
+    var SHARE_ACTIVITY_TYPES = ['content-share', 'discussion-share', 'folder-share'];
+
     /**
      * Adapt a set of activities in activitystrea.ms format to a simpler view model
      *
@@ -66,7 +72,7 @@ var _expose = function(exports) {
         var primaryActor = _generatePrimaryActor(me, activity);
 
         // Generate the activity preview items
-        var activityItems = _generateActivityItems(context, activity);
+        var activityItems = _generateActivityPreviewItems(context, activity);
 
         // Construct the adapted activity
         return new ActivityViewModel(activity, summary, primaryActor, activityItems);
@@ -94,7 +100,7 @@ var _expose = function(exports) {
             'primaryActor': primaryActor,
             'summary': summary
         };
-        if ((activity['oae:activityType'] === 'content-comment' || activity['oae:activityType'] === 'discussion-message')) {
+        if (COMMENT_ACTIVITY_TYPES.indexOf(activity['oae:activityType']) !== -1) {
             that.allComments = activity.object['oae:collection'];
             that.latestComments = activity.object.latestComments;
         }
@@ -187,7 +193,7 @@ var _expose = function(exports) {
         }
 
         // We process the comments into an ordered set
-        if (activity['oae:activityType'] === 'content-comment' || activity['oae:activityType'] === 'discussion-message') {
+        if (COMMENT_ACTIVITY_TYPES.indexOf(activity['oae:activityType']) !== -1) {
             var comments = activity.object['oae:collection'];
             if (!comments) {
                 comments = [activity.object];
@@ -251,7 +257,7 @@ var _expose = function(exports) {
      * Construct a tree of the last two comments that were made. If these comments
      * were replies, the parent comments will be included in the resulting tree.
      *
-     * @param  {Comment[]}  comments    A sorted set of comments where the latest comment can be found in the beginning of the set
+     * @param  {Comment[]}  comments    A sorted set of comments where the latest comment can be found at the beginning of the set
      * @return {Comment[]}              A tree of comments for the last two comments (and potentially their parents)
      * @api private
      */
@@ -259,18 +265,33 @@ var _expose = function(exports) {
         // This set will hold the last 2 comments (and their parents)
         var latestComments = [];
 
-        // Add the latest comment. If it was a reply, we include its parent
+        // Add the latest comment
         latestComments.push(comments[0]);
+
+        // If the latest comment has a parent, include it
         if (comments[0].inReplyTo) {
-            latestComments.push(comments[0].inReplyTo);
+            latestComments.push(_findComment(comments, comments[0].inReplyTo));
         }
 
-        // If there is a second comment that's not the parent of the previous comment
-        // we include it (and its parent if it has one)
-        if (comments[1] && !_find(latestComments, comments[1]['oae:id'])) {
-            latestComments.push(comments[1]);
-            if (comments[1].inReplyTo) {
-                latestComments.push(comments[1].inReplyTo);
+        // Check the next comment (if any)
+        if (comments[1]) {
+            // If the next comment is not in the tree yet, we add it. This happens
+            // when it's not the parent of the first comment
+            if (!_find(latestComments, comments[1]['oae:id'])) {
+                latestComments.push(comments[1]);
+
+                // If this comment has a parent that's not in the latestComments
+                // set yet, we include it
+                if (comments[1].inReplyTo && !_find(latestComments, comments[1].inReplyTo['oae:id'])) {
+                    latestComments.push(_findComment(comments, comments[1].inReplyTo));
+                }
+
+            // If the next comment was in the tree already, it means that it is
+            // the parent of the first comment. It might still have a parent that
+            // could be relevant to display in the activity stream though. If that
+            // is the case, we will end up with a tree that is 3 levels deep
+            } else if (comments[1].inReplyTo && !_find(latestComments, comments[1].inReplyTo['oae:id'])) {
+                latestComments.push(_findComment(comments, comments[1].inReplyTo));
             }
         }
 
@@ -322,7 +343,7 @@ var _expose = function(exports) {
         return flatCommentTree;
     };
 
-    /*!
+    /**
      * Walks through the comments graph in `commentTree` in a recursive depth-first manner.
      * Each comment that is encountered is added to the `flatCommentTree` including the level
      * that it should be displayed at.
@@ -376,6 +397,55 @@ var _expose = function(exports) {
         return undefined;
     };
 
+    /**
+     * Find the full "original" comment object for a comment in a set of comments. If the
+     * "original" comment could not be found we return the comment as is. This function
+     * is most-useful as an `inReplyTo` object on a comment object does NOT contain its
+     * own parent comment. By using this function you will be able to find the "original"
+     * node that does include that parent reply.
+     *
+     * For example, suppose we have the following comment structure:
+     *
+     * ```
+     * - Comment A
+     *    - Comment B
+     *       - Comment C
+     * ```
+     *
+     * The data returned by the activity stream API would look like this:
+     * ```
+     * [
+     *    {'id': 'A'},
+     *    {'id': 'B', 'inReplyTo': {'id': 'A'}}
+     *    {'id': 'C', 'inReplyTo': {'id': 'B'}}
+     * ]
+     * ```
+     *
+     * If we are to construct a tree by starting with comment C and pushing its
+     * `inReplyTo` object into our temporary set, we would lose the information
+     * that A is the parent of B. This function will return the full ("original")
+     * B object rather than just the C.inReplyTo object.
+     *
+     * @param  {Comment[]}  comments    The set of comments to find the "original" comment in
+     * @param  {Comment}    comment     The comment for which to find the "original" comment
+     * @return {Comment}                The "original" comment
+     * @api private
+     */
+    var _findComment = function(comments, comment) {
+        // Find the "original" parent comment object
+        var originalComment = _find(comments, comment['oae:id']);
+
+        // Return the "original" comment object if there was one
+        if (originalComment) {
+            return originalComment;
+
+        // It's possible that we can't find the "original" comment object because
+        // it expired out of the aggregation cache. In that case we return the comment as is
+        } else {
+            return comment;
+        }
+    };
+
 
     ////////////////////
     // Activity views //
@@ -400,48 +470,70 @@ var _expose = function(exports) {
     };
 
     /**
-     * Generate the views for the preview items
+     * Check whether the current context is involved in a provided actor,
+     * object or target
+     *
+     * @param  {String}                 context             The ID of the user or group that owns this activity stream
+     * @param  {Actor|Object|Target}    activityEntity      Activity actor, object or target for which to check if the context is involved
+     * @return {Boolean}                                    Whether or not the context is involved in the provided activity entity
+     * @api private
+     */
+    var _isContextInActivityEntities = function(context, activityEntity) {
+        var entities = activityEntity['oae:collection'] || [activityEntity];
+        for (var entityIndex = 0; entityIndex < entities.length; entityIndex++) {
+            if (entities[entityIndex]['oae:id'] === context) {
+                return true;
+            }
+        }
+
+        // The context is not involved in the activity entity
+        return false;
+    };
+
+    /**
+     * Generate the activity preview items for an activity
      *
      * @param  {String}                 context     The ID of the user or group that owns this activity stream
      * @param  {Activity}               activity    The activity for which to generate the views
      * @return {ActivityViewItem[]}                 The activity preview items
      * @api private
      */
-    var _generateActivityItems = function(context, activity) {
-        var previewObj = (activity.target || activity.object);
-        if (activity.target && (activity.target.objectType === 'collection' || activity.target.objectType === 'content')) {
-            previewObj = activity.target;
-        } else if (activity.object.objectType === 'collection') {
-            previewObj = activity.object;
-        } else if (activity.actor.objectType === 'collection' && activity.object.objectType !== 'content') {
-            previewObj = activity.actor;
-        } else if (activity.target && activity.target.objectType === 'content') {
-            previewObj = activity.target;
-        } else if (activity.object && activity.object.objectType === 'content') {
-            previewObj = activity.object;
-        }
+    var _generateActivityPreviewItems = function(context, activity) {
 
-        // Take the current context into account. For example, if the current user is viewing their
-        // own activity stream, we should show another entity in the thumbnail listing
-        if (previewObj['oae:id'] === context) {
-            if (activity.target) {
+        // Comment activities should always show the target as the activity preview
+        var previewObj = null;
+        if (COMMENT_ACTIVITY_TYPES.indexOf(activity['oae:activityType']) !== -1) {
+            previewObj = activity.target;
+        // Share activities are considered to be a special social activity, where the
+        // users and groups the item is shared with are preferred as a preview over
+        // the object that is being shared
+        } else if (SHARE_ACTIVITY_TYPES.indexOf(activity['oae:activityType']) !== -1) {
+            previewObj = activity.target;
+            // When the current context is part of the target entities, we prefer
+            // to use the activity's object as the activity preview instead. This
+            // will avoid showing a picture and link for an item in its own context
+            if (_isContextInActivityEntities(context, previewObj)) {
                 previewObj = activity.object;
-            } else {
-                previewObj = activity.actor;
             }
-        }
-
-        var items = [];
-        if (previewObj['oae:wideImage']) {
-            items.push(new ActivityViewItem(null, previewObj));
+        // Otherwise, we always want to show the activity object as the activity preview
+        } else if (activity.object) {
+            previewObj = activity.object;
+            // When the current context is part of the object entities, we prefer
+            // to use the activity's target or actor as the activity preview instead.
+            // This will avoid showing a picture and link for an item in its own context
+            if (_isContextInActivityEntities(context, previewObj)) {
+                previewObj = activity.target || activity.actor;
+            }
         } else {
-            var previewItems = (previewObj['oae:collection'] || [previewObj]);
-            items = previewItems.map(function(previewItem) {
-                return new ActivityViewItem(null, previewItem);
-            });
+            previewObj = activity.actor;
         }
 
-        return items;
+        var previewItems = previewObj['oae:collection'] || [previewObj];
+        previewItems = previewItems.map(function(previewItem) {
+            return new ActivityViewItem(null, previewItem);
+        });
+
+        return previewItems;
     };
 
 
@@ -601,6 +693,8 @@ var _expose = function(exports) {
             return _generateFolderAddToFolderSummary(me, activity, properties);
         } else if (activityType === 'folder-add-to-library') {
             return _generateFolderAddToLibrarySummary(me, activity, properties);
+        } else if (activityType === 'folder-comment') {
+            return _generateFolderCommentSummary(me, activity, properties);
         } else if (activityType === 'folder-create') {
             return _generateFolderCreateSummary(me, activity, properties);
         } else if (activityType === 'folder-share') {
@@ -1258,6 +1352,26 @@ var _expose = function(exports) {
             i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_LIBRARY_2__';
         } else {
             i18nKey = '__MSG__ACTIVITY_FOLDER_ADD_LIBRARY_2+__';
+        }
+        return new ActivityViewSummary(i18nKey, properties);
+    };
+
+    /**
+     * Render the end-user friendly, internationalized summary of a folder comment activity.
+     *
+     * @param  {Activity}               activity      Standard activity object as specified by the activitystrea.ms specification, representing the folder comment activity, for which to generate the activity summary
+     * @param  {Object}                 properties    A set of properties that can be used to determine the correct summary
+     * @return {ActivityViewSummary}                  A sumary object
+     * @api private
+     */
+    var _generateFolderCommentSummary = function(me, activity, properties) {
+        var i18nKey = null;
+        if (properties.actorCount === 1) {
+            i18nKey = '__MSG__ACTIVITY_FOLDER_COMMENT_1__';
+        } else if (properties.actorCount === 2) {
+            i18nKey = '__MSG__ACTIVITY_FOLDER_COMMENT_2__';
+        } else {
+            i18nKey = '__MSG__ACTIVITY_FOLDER_COMMENT_2+__';
         }
         return new ActivityViewSummary(i18nKey, properties);
     };

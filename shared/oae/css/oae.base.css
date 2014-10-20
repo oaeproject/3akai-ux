@@ -747,3 +747,100 @@ ul.as-list li.as-result-item.active {
 .nav > li .btn-twitter:hover {
     background-color: #4491CD;
 }
+
+
+/**************
+ ** MARKDOWN **
+ **************/
+
+/**
+ * Adjust the styles for HTML content rendered by markdown parser
+ */
+
+.oae-markdown {
+    overflow-x: auto;
+    word-wrap: break-word;
+}
+
+.oae-markdown code {
+    background-color: #f5f5f5;
+    color: inherit;
+    display: inline-block;
+    white-space: pre-wrap;
+}
+
+.oae-markdown blockquote p {
+    font-size: 1em;
+    font-weight: normal;
+    line-height: 1.4em;
+}
+
+.oae-markdown ul {
+    list-style-type: disc;
+}
+
+.oae-markdown ul ul,
+.oae-markdown ol ul {
+    list-style-type: circle;
+}
+
+.oae-markdown ul ul ul,
+.oae-markdown ol ul ul,
+.oae-markdown ul ol ul,
+.oae-markdown ol ol ul {
+    list-style-type: square;
+}
+
+.oae-markdown img {
+    max-width: 100%;
+}
+
+/**
+ * Reduce heading sizes for markdown headings that are embedded within
+ * a widget (e.g. in a comment) so they don't appear as headings for
+ * the entire page
+ */
+
+.oae-markdown-embedded h1 {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin: 1em 0 0.5em;
+}
+
+.oae-markdown-embedded h2 {
+    font-size: 1.05em;
+    font-weight: bold;
+    margin: 0.75em 0 0.5em;
+}
+
+.oae-markdown-embedded h3 {
+    font-size: 1em;
+    font-weight: bold;
+    margin: 0.75em 0 0.5em;
+}
+
+.oae-markdown-embedded h4 {
+    font-size: 1em;
+    font-style: italic;
+    margin: 0.75em 0 0.5em;
+}
+
+.oae-markdown-embedded h5,
+.oae-markdown-embedded h6 {
+    font-size: 1em;
+    font-style: normal;
+    font-weight: normal;
+    margin: 0.75em 0 0.5em;
+}
+
+.oae-markdown-embedded ol,
+.oae-markdown-embedded ul,
+.oae-markdown-embedded p {
+    margin: 10px 0 0 0;
+}
+
+.oae-markdown-embedded ol:first-child,
+.oae-markdown-embedded ul:first-child,
+.oae-markdown-embedded p:first-child {
+    margin-top: 0;
+}
