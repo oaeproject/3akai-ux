@@ -84,6 +84,7 @@ requirejs.config({
         'oae.api.l10n': 'oae/api/oae.api.l10n',
         'oae.api.push': 'oae/api/oae.api.push',
         'oae.api.user': 'oae/api/oae.api.user',
+        'oae.api.tenants': 'oae/api/oae.api.tenants',
         'oae.api.util': 'oae/api/oae.api.util',
         'oae.api.widget': 'oae/api/oae.api.widget',
         'oae.bootstrap': 'oae/api/oae.bootstrap',
