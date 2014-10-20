@@ -796,6 +796,20 @@ ul.as-list li.as-result-item.active {
 }
 
 /**
+ * Adjust heading margins for markdown rendered within a well
+ * (e.g. Terms and conditions)
+ */
+
+.well > .oae-markdown > h1:first-child,
+.well > .oae-markdown > h2:first-child,
+.well > .oae-markdown > h3:first-child,
+.well > .oae-markdown > h4:first-child,
+.well > .oae-markdown > h5:first-child,
+.well > .oae-markdown > h6:first-child {
+    margin-top: 0;
+}
+
+/**
  * Reduce heading sizes for markdown headings that are embedded within
  * a widget (e.g. in a comment) so they don't appear as headings for
  * the entire page
