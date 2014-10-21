@@ -40,6 +40,7 @@ var folderUtil = (function() {
             // Default parameters
             displayName = displayName || 'Folder ' + mainUtil.generateRandomString();
             description = description || 'Collect all the things!';
+            visibility = visibility || 'public';
             managers = managers || [];
             viewers = viewers || [];
 

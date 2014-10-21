@@ -37,6 +37,7 @@ var groupUtil = (function() {
             var err = null;
             displayName = displayName || 'group-' + mainUtil.generateRandomString();
             description = description || 'Test group description';
+            visibility = visibility || 'public';
             joinable = joinable || 'yes';
             managers = managers || [];
             members = members || [];
