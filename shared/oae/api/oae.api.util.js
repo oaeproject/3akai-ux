@@ -1246,7 +1246,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
 
                 // Also recognize text beginning with "www." as a URL as long
                 // as it's not already within a link
-                var URLPattern = /(www\.[A-Z0-9.-]+(\b|$))(?![^<]*>|[^<>]*<\\\/a)/gim;
+                var URLPattern = /(www\.[A-Z0-9.\-]+(\b|$))(?![^<]*>|[^<>]*<\\\/a)/gim;
                 input = input.replace(URLPattern, '<a href="http://$1">$1</a>');
 
                 return input;
