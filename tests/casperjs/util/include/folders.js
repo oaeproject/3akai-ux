@@ -34,7 +34,7 @@ var folderUtil = (function() {
      */
     var createFolder = function(displayName, description, visibility, managers, viewers, callback) {
         casper.then(function() {
-            var folderProfile = null;
+            var folder = null;
             var err = null;
 
             // Default parameters
