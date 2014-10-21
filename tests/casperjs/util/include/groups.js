@@ -32,29 +32,31 @@ var groupUtil = (function() {
      * @param  {Group}             [callback.group]         A Group object representing the created group
      */
     var createGroup = function(displayName, description, visibility, joinable, managers, members, callback) {
-        var groupProfile = null;
-        var err = null;
-        displayName = displayName || 'group-' + mainUtil.generateRandomString();
-        description = description || 'Test group description';
-        visibility = visibility || 'public';
-        joinable = joinable || 'yes';
-        managers = managers || [];
-        members = members || [];
+        casper.then(function() {
+            var groupProfile = null;
+            var err = null;
+            displayName = displayName || 'group-' + mainUtil.generateRandomString();
+            description = description || 'Test group description';
+            visibility = visibility || 'public';
+            joinable = joinable || 'yes';
+            managers = managers || [];
+            members = members || [];
 
-        mainUtil.callInternalAPI('group', 'createGroup', [displayName, description, visibility, joinable, managers, members], function(_err, _groupProfile) {
-            if (_err) {
-                casper.echo('Could not create ' + displayName + '. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
-                err = _err;
-                return;
-            } else {
-                groupProfile = _groupProfile;
-            }
-        });
+            mainUtil.callInternalAPI('group', 'createGroup', [displayName, description, visibility, joinable, managers, members], function(_err, _groupProfile) {
+                if (_err) {
+                    casper.echo('Could not create ' + displayName + '. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
+                    err = _err;
+                    return;
+                } else {
+                    groupProfile = _groupProfile;
+                }
+            });
 
-        casper.waitFor(function() {
-            return groupProfile !== null || err !== null;
-        }, function() {
-            return callback(err, groupProfile);
+            casper.waitFor(function() {
+                return groupProfile !== null || err !== null;
+            }, function() {
+                return callback(err, groupProfile);
+            });
         });
     };
 

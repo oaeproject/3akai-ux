@@ -72,9 +72,9 @@ casper.test.begin('Macro - List Metadata', function(test) {
                         // Create an archive
                         contentUtil.createFile(null, null, null, 'tests/casperjs/data/apereo.zip', null, null, function(err, contentProfile3) {
                             // Create a link
-                            contentUtil.createLink(null, null, null, 'http://www.oaeproject.org', null, null, function(err, linkProfile) {
+                            contentUtil.createLink(null, null, null, 'http://www.oaeproject.org', null, null, null, function(err, linkProfile) {
                                 // Create a collaborative document
-                                contentUtil.createCollabDoc(null, null, null, null, null, function(err, collabdocProfile) {
+                                contentUtil.createCollabDoc(null, null, null, null, null, null, function(err, collabdocProfile) {
                                     // Create a discussion
                                     discussionUtil.createDiscussion(null, null, null, null, null, function(err, discussionProfile) {
                                         // Create a group

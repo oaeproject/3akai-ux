@@ -43,7 +43,6 @@ var contentUtil = (function() {
             managers = managers || [];
             viewers = viewers || [];
 
-
             /**
              * Update the members of a content item
              *
@@ -178,11 +177,12 @@ var contentUtil = (function() {
      * @param  {String}         [link]              The URL that should be stored against this content item
      * @param  {String[]}       [managers]          Array of user/group ids that should be added as managers to the content item
      * @param  {String[]}       [viewers]           Array of user/group ids that should be added as viewers to the content item
+     * @param  {String[]}       [folders]           Array of folder ids to which the link should be added
      * @param  {Function}       callback            Standard callback method
      * @param  {Object}         [callback.err]      Error object containing error code and error message
      * @param  {Content}        [callback.content]  Content object representing the created link
      */
-    var createLink = function(displayName, description, visibility, link, managers, viewers, callback) {
+    var createLink = function(displayName, description, visibility, link, managers, viewers, folders, callback) {
         casper.then(function() {
             var linkProfile = null;
             var err = null;
@@ -192,8 +192,9 @@ var contentUtil = (function() {
             visibility = visibility || 'public';
             managers = managers || [];
             viewers = viewers || [];
+            folders = folders || [];
 
-            mainUtil.callInternalAPI('content', 'createLink', [displayName, description, visibility, link, managers, viewers], function(_err, _linkProfile) {
+            mainUtil.callInternalAPI('content', 'createLink', [displayName, description, visibility, link, managers, viewers, folders], function(_err, _linkProfile) {
                 if (_err) {
                     casper.echo('Could not create link ' + link + '. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
                     err = _err;
@@ -219,11 +220,12 @@ var contentUtil = (function() {
      * @param  {String}       [visibility]          The collabdoc's visibility. This can be public, loggedin or private
      * @param  {String[]}     [managers]            Array of user/group ids that should be added as managers to the collabdoc
      * @param  {String[]}     [viewers]             Array of user/group ids that should be added as viewers to the collabdoc
+     * @param  {String[]}     [folders]             Array of folder ids to which the collaborative document should be added
      * @param  {Function}     callback              Standard callback method
      * @param  {Object}       [callback.err]        Error object containing error code and error message
      * @param  {Content}      [callback.content]    Content object representing the created collabdoc
      */
-    var createCollabDoc = function(displayName, description, visibility, managers, viewers, callback) {
+    var createCollabDoc = function(displayName, description, visibility, managers, viewers, folders, callback) {
         casper.then(function() {
             var collabdocProfile = null;
             var err = null;
@@ -232,8 +234,9 @@ var contentUtil = (function() {
             visibility = visibility || 'public';
             managers = managers || [];
             viewers = viewers || [];
+            folders = folders || [];
 
-            mainUtil.callInternalAPI('content', 'createCollabDoc', [displayName, description, visibility, managers, viewers], function(_err, _collabdocProfile) {
+            mainUtil.callInternalAPI('content', 'createCollabDoc', [displayName, description, visibility, managers, viewers, folders], function(_err, _collabdocProfile) {
                 if (_err) {
                     casper.echo('Could not create ' + displayName + '. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
                     err = _err;

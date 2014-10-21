@@ -31,26 +31,40 @@ casper.test.begin('Page - Content', function(test) {
      */
     var verifyFileClipButtonsAsManager = function() {
         test.assertSelectorHasText('#content-clip-container .oae-clip a', 'Download', 'The `Download` button is available for managers of a file');
-        test.assertExists('#content-clip-container .oae-clip button.oae-trigger-manageaccess', 'The `Manage access` button is available for managers of a file');
+        test.assertExists('#content-clip-container .oae-clip button.content-trigger-manageaccess', 'The `Manage access` button is available for managers of a file');
+        test.assertExists('#content-clip-container .oae-clip button.content-trigger-manageaccess-add', 'The `Share` button is available for managers of a file');
+        test.assertExists('#content-clip-container .oae-clip button.oae-trigger-addtofolder', 'The `Add to folder` button is available for managers of a file');
         test.assertExists('#content-clip-container .oae-clip button.oae-trigger-editcontent', 'The `Edit details` button is available for managers of a file');
         test.assertExists('#content-clip-container .oae-clip button.oae-trigger-uploadnewversion', 'The `Upload new version` button is available for managers of a file');
         test.assertExists('#content-clip-container .oae-clip button.oae-trigger-revisions', 'The `Revisions` button is available for managers of a file');
         test.assertExists('#content-clip-container .oae-clip button.oae-trigger-deleteresource', 'The `Delete` button is available for managers of a file');
         test.assertEvalEquals(function() {
             return $('#content-clip-container .oae-clip .oae-clip-content > div button, #content-clip-container .oae-clip .oae-clip-content > div a').length;
-        }, 6, 'Verify that there are exactly 6 buttons in the file clip');
+        }, 8, 'Verify that there are exactly 8 buttons in the file clip');
     };
 
     /**
      * Verify that non-managers of a file see the correct buttons in the clips
+     *
+     * @param  {Boolean}    anon    Whether or not the user is anonymous
      */
-    var verifyFileClipButtonsAsNonManager = function() {
+    var verifyFileClipButtonsAsNonManager = function(anon) {
         test.assertSelectorHasText('#content-clip-container .oae-clip a', 'Download', 'The `Download` button is available on a file');
-        test.assertExists('#content-clip-container .oae-clip button.oae-trigger-contentshared', 'The `Shared with` button is available on a file');
         test.assertExists('#content-clip-container .oae-clip button.oae-trigger-aboutcontent', 'The `About` button is available on a file');
-        test.assertEvalEquals(function() {
-            return $('#content-clip-container .oae-clip .oae-clip-content > div button, #content-clip-container .oae-clip .oae-clip-content > div a').length;
-        }, 3, 'Verify that there are exactly 3 buttons in the file clip');
+        test.assertExists('#content-clip-container .oae-clip button.oae-trigger-contentshared', 'The `Shared with` button is available on a file');
+        if (anon) {
+            test.assertDoesntExist('#content-clip-container .oae-clip button.oae-trigger-share', 'The `Share` button is not available on a file for anonymous users');
+            test.assertDoesntExist('#content-clip-container .oae-clip button.oae-trigger-addtofolder', 'The `Add to folder` button is not available on a file for anonymous users');
+            test.assertEvalEquals(function() {
+                return $('#content-clip-container .oae-clip .oae-clip-content > div button, #content-clip-container .oae-clip .oae-clip-content > div a').length;
+            }, 3, 'Verify that there are exactly 3 buttons in the file clip for anonymous users');
+        } else {
+            test.assertExists('#content-clip-container .oae-clip button.oae-trigger-addtofolder', 'The `Add to folder` button is available on a file');
+            test.assertExists('#content-clip-container .oae-clip button.oae-trigger-share', 'The `Share` button is available on a file');
+            test.assertEvalEquals(function() {
+                return $('#content-clip-container .oae-clip .oae-clip-content > div button, #content-clip-container .oae-clip .oae-clip-content > div a').length;
+            }, 5, 'Verify that there are exactly 5 buttons in the file clip');
+        }
     };
 
 
@@ -65,23 +79,37 @@ casper.test.begin('Page - Content', function(test) {
      *     - Delete
      */
     var verifyLinkClipButtonsAsManager = function() {
-        test.assertExists('#content-clip-container .oae-clip button.oae-trigger-manageaccess', 'The `Manage access` button is available for managers of a link');
+        test.assertExists('#content-clip-container .oae-clip button.content-trigger-manageaccess', 'The `Manage access` button is available for managers of a link');
+        test.assertExists('#content-clip-container .oae-clip button.content-trigger-manageaccess-add', 'The `Share` button is available for managers of a link');
+        test.assertExists('#content-clip-container .oae-clip button.oae-trigger-addtofolder', 'The `Add to folder` button is available for managers of a link');
         test.assertExists('#content-clip-container .oae-clip button.oae-trigger-editcontent', 'The `Edit details` button is available for managers of a link');
         test.assertExists('#content-clip-container .oae-clip button.oae-trigger-deleteresource', 'The `Delete` button is available for managers of a link');
         test.assertEvalEquals(function() {
             return $('#content-clip-container .oae-clip .oae-clip-content > div button, #content-clip-container .oae-clip .oae-clip-content > div a').length;
-        }, 3, 'Verify that there are exactly 3 buttons in the link clip');
+        }, 5, 'Verify that there are exactly 5 buttons in the link clip');
     };
 
     /**
      * Verify that non-managers of a link see the correct buttons in the clips
+     *
+     * @param  {Boolean}    anon    Whether or not the user is anonymous
      */
-    var verifyLinkClipButtonsAsNonManager = function() {
-        test.assertExists('#content-clip-container .oae-clip button.oae-trigger-contentshared', 'The `Shared with` button is available on a link');
+    var verifyLinkClipButtonsAsNonManager = function(anon) {
         test.assertExists('#content-clip-container .oae-clip button.oae-trigger-aboutcontent', 'The `About` button is available on a link');
-        test.assertEvalEquals(function() {
-            return $('#content-clip-container .oae-clip .oae-clip-content > div button, #content-clip-container .oae-clip .oae-clip-content > div a').length;
-        }, 2, 'Verify that there are exactly 2 buttons in the link clip');
+        test.assertExists('#content-clip-container .oae-clip button.oae-trigger-contentshared', 'The `Shared with` button is available on a link');
+        if (anon) {
+            test.assertDoesntExist('#content-clip-container .oae-clip button.oae-trigger-share', 'The `Share` button is not available on a link for anonymous users');
+            test.assertDoesntExist('#content-clip-container .oae-clip button.oae-trigger-addtofolder', 'The `Add to folder` button is not available on a link for anonymous users');
+            test.assertEvalEquals(function() {
+                return $('#content-clip-container .oae-clip .oae-clip-content > div button, #content-clip-container .oae-clip .oae-clip-content > div a').length;
+            }, 2, 'Verify that there are exactly 2 buttons in the link clip for anonymous users');
+        } else {
+            test.assertExists('#content-clip-container .oae-clip button.oae-trigger-share', 'The `Share` button is available on a link');
+            test.assertExists('#content-clip-container .oae-clip button.oae-trigger-addtofolder', 'The `Add to folder` button is available on a link');
+            test.assertEvalEquals(function() {
+                return $('#content-clip-container .oae-clip .oae-clip-content > div button, #content-clip-container .oae-clip .oae-clip-content > div a').length;
+            }, 4, 'Verify that there are exactly 4 buttons in the link clip');
+        }
     };
 
 
@@ -97,24 +125,38 @@ casper.test.begin('Page - Content', function(test) {
      *     - Delete
      */
     var verifyCollabdocClipButtonsAsManager = function() {
-        test.assertExists('#content-clip-container .oae-clip button.oae-trigger-manageaccess', 'The `Manage access` button is available for managers of a collaborative document');
+        test.assertExists('#content-clip-container .oae-clip button.content-trigger-manageaccess', 'The `Manage access` button is available for managers of a collaborative document');
+        test.assertExists('#content-clip-container .oae-clip button.content-trigger-manageaccess-add', 'The `Share` button is available for managers of a collaborative document');
+        test.assertExists('#content-clip-container .oae-clip button.oae-trigger-addtofolder', 'The `Add to folder` button is available for managers of a collaborative document');
         test.assertExists('#content-clip-container .oae-clip button.oae-trigger-editcontent', 'The `Edit details` button is available for managers of a collaborative document');
         test.assertExists('#content-clip-container .oae-clip button.oae-trigger-revisions', 'The `Revisions` button is available for managers of a collaborative document');
         test.assertExists('#content-clip-container .oae-clip button.oae-trigger-deleteresource', 'The `Delete` button is available for managers of a collaborative document');
         test.assertEvalEquals(function() {
             return $('#content-clip-container .oae-clip .oae-clip-content > div button, #content-clip-container .oae-clip .oae-clip-content > div a').length;
-        }, 4, 'Verify that there are exactly 4 buttons in the collaborative document clip');
+        }, 6, 'Verify that there are exactly 6 buttons in the collaborative document clip');
     };
 
     /**
      * Verify that non-managers of a collaborative document see the correct buttons in the clips
+     *
+     * @param  {Boolean}    anon    Whether or not the user is anonymous
      */
-    var verifyCollabdocClipButtonsAsNonManager = function() {
+    var verifyCollabdocClipButtonsAsNonManager = function(anon) {
         test.assertExists('#content-clip-container .oae-clip button.oae-trigger-contentshared', 'The `Shared with` button is available on a collaborative document');
         test.assertExists('#content-clip-container .oae-clip button.oae-trigger-aboutcontent', 'The `About` button is available on a collaborative document');
-        test.assertEvalEquals(function() {
-            return $('#content-clip-container .oae-clip .oae-clip-content > div button, #content-clip-container .oae-clip .oae-clip-content > div a').length;
-        }, 2, 'Verify that there are exactly 2 buttons in the collaborative document clip');
+        if (anon) {
+            test.assertDoesntExist('#content-clip-container .oae-clip button.oae-trigger-share', 'The `Share` button is not available on a collaborative document for anonymous users');
+            test.assertDoesntExist('#content-clip-container .oae-clip button.oae-trigger-addtofolder', 'The `Add to folder` button is not available on a collaborative document for anonymous users');
+            test.assertEvalEquals(function() {
+                return $('#content-clip-container .oae-clip .oae-clip-content > div button, #content-clip-container .oae-clip .oae-clip-content > div a').length;
+            }, 2, 'Verify that there are exactly 2 buttons in the collaborative document clip for anonymous users');
+        } else {
+            test.assertExists('#content-clip-container .oae-clip button.oae-trigger-share', 'The `Share` button is available on a collaborative document');
+            test.assertExists('#content-clip-container .oae-clip button.oae-trigger-addtofolder', 'The `Add to folder` button is available on a collaborative document');
+            test.assertEvalEquals(function() {
+                return $('#content-clip-container .oae-clip .oae-clip-content > div button, #content-clip-container .oae-clip .oae-clip-content > div a').length;
+            }, 4, 'Verify that there are exactly 4 buttons in the collaborative document clip');
+        }
     };
 
     casper.start(configUtil.tenantUI, function() {
@@ -124,8 +166,8 @@ casper.test.begin('Page - Content', function(test) {
             userUtil.doLogIn(user1.username, user1.password);
 
             contentUtil.createFile(null, null, null, null, null, [user2.id], function(err, contentProfile) {
-                contentUtil.createLink(null, null, null, null, null, [user2.id], function(err, linkProfile) {
-                    contentUtil.createCollabDoc(null, null, null, null, [user2.id], function(err, collabdocProfile) {
+                contentUtil.createLink(null, null, null, null, null, [user2.id], null, function(err, linkProfile) {
+                    contentUtil.createCollabDoc(null, null, null, null, [user2.id], null, function(err, collabdocProfile) {
                         ///////////
                         // FILES //
                         ///////////
@@ -160,7 +202,7 @@ casper.test.begin('Page - Content', function(test) {
 
                         casper.then(function() {
                             casper.echo('Verify file clip buttons as an anonymous user', 'INFO');
-                            verifyFileClipButtonsAsNonManager();
+                            verifyFileClipButtonsAsNonManager(true);
                         });
 
 
@@ -201,7 +243,7 @@ casper.test.begin('Page - Content', function(test) {
 
                         casper.then(function() {
                             casper.echo('Verify link clip buttons as an anonymous user', 'INFO');
-                            verifyLinkClipButtonsAsNonManager();
+                            verifyLinkClipButtonsAsNonManager(true);
                         });
 
 
@@ -242,7 +284,7 @@ casper.test.begin('Page - Content', function(test) {
 
                         casper.then(function() {
                             casper.echo('Verify collabdoc clip buttons as an anonymous user', 'INFO');
-                            verifyCollabdocClipButtonsAsNonManager();
+                            verifyCollabdocClipButtonsAsNonManager(true);
                         });
                     });
                 });
