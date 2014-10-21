@@ -38,7 +38,6 @@ var discussionUtil = (function() {
             // Default parameters
             displayName = displayName || 'Discussion ' + mainUtil.generateRandomString();
             description = description || 'Talk about all the things!';
-            visibility = visibility || 'public';
             managers = managers || [];
             members = members || [];
 

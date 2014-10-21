@@ -18,81 +18,49 @@
  *
  * @return  {Object}    Returns an object with referenced folder utility functions
  */
-var folderUtil = function() {
+var folderUtil = (function() {
 
     /**
-     * Creates a folder
+     * Create a new folder
      *
-     * @param  {String[]}     [managers]                    Array of user/group ids that should be added as managers to the folder
-     * @param  {String[]}     [viewers]                     Array of user/group ids that should be added as viewers to the folder
-     * @param  {Function}     callback                      Standard callback function
-     * @param  {Folder}       callback.folderProfile        Folder object representing the created folder
+     * @param  {String}         [displayName]           Display title for the created folder
+     * @param  {String}         [description]           The folder's description
+     * @param  {String}         [visibility]            The folder's visibility. This can be public, loggedin or private
+     * @param  {String[]}       [managers]              Array of user/group ids that should be added as managers to the folder
+     * @param  {String[]}       [viewers]               Array of user/group ids that should be added as viewers to the folder
+     * @param  {Function}       [callback]              Standard callback function
+     * @param  {Object}         [callback.err]          Error object containing error code and error message
+     * @param  {Folder}         [callback.folder]       Folder object representing the created folder
      */
-    var createFolder = function(managers, viewers, callback) {
-        var rndString = mainUtil().generateRandomString();
-        var folderProfile = casper.evaluate(function(rndString) {
-            return JSON.parse(__utils__.sendAJAX('/api/folder', 'POST', {
-                'displayName': 'Folder ' + rndString,
-                'description': 'Collect all the things!',
-                'visibility': 'public'
-            }, false));
-        }, rndString);
-
+    var createFolder = function(displayName, description, visibility, managers, viewers, callback) {
         casper.then(function() {
-            if (!folderProfile) {
-                casper.echo('Could not create folder \'Folder ' + rndString + '\'.', 'ERROR');
-                return callback(null);
-            }
-        });
+            var folderProfile = null;
+            var err = null;
 
-        casper.then(function() {
-            // Add managers and viewers if required
-            if (managers || viewers) {
-                managers = managers || [];
-                viewers = viewers || [];
+            // Default parameters
+            displayName = displayName || 'Folder ' + mainUtil.generateRandomString();
+            description = description || 'Collect all the things!';
+            managers = managers || [];
+            viewers = viewers || [];
 
-                var members = {};
-                for (var m = 0; m < managers.length; m++) {
-                    members[managers[m]] = 'manager';
+            mainUtil.callInternalAPI('folder', 'createFolder', [displayName, description, visibility, managers, viewers], function(_err, _folder) {
+                if (_err) {
+                    casper.echo('Could not create folder \'' + displayName + '\'. Error ' + _err.code + ': ' + _err.msg, 'ERROR');
+                    err = _err;
                 }
+                folder = _folder;
+            });
 
-                for (var v = 0; v < viewers.length; v++) {
-                    members[viewers[v]] = 'viewer';
-                }
-
-                casper.evaluate(function(folderId, members) {
-                    return JSON.parse(__utils__.sendAJAX('/api/folder/'+ folderId + '/members', 'POST', members, false));
-                }, folderProfile.id, members);
-
-                casper.then(function() {
-                    return callback(folderProfile);
-                });
-            } else {
-                return callback(folderProfile);
-            }
+            // Wait for the folder to be created or failing to be created before continuing
+            casper.waitFor(function() {
+                return folder !== null || err !== null;
+            }, function() {
+                return callback(err, folder);
+            });
         });
-    };
-
-    /**
-     * Update a folder's metadata
-     *
-     * @param  {String}      folderId           Id of the folder we're trying to update
-     * @param  {Object}      params             JSON object where the keys represent all of the profile field names we want to update and the values represent the new values for those fields
-     * @param  {Function}    callback           Standard callback method
-     */
-    var updateFolder = function(folderId, params, callback) {
-        var data = null;
-        casper.then(function() {
-            data = casper.evaluate(function(folderId, params) {
-                return JSON.parse(__utils__.sendAJAX('/api/folder/' + folderId, 'POST', params, false));
-            }, folderId, params);
-        });
-
-        casper.then(callback);
     };
 
     return {
-        'createFolder': createFolder,
-        'updateFolder': updateFolder
+        'createFolder': createFolder
     };
-};
+})();

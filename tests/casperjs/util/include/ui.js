@@ -46,11 +46,22 @@ var uiUtil = (function() {
     };
 
     /**
+     * Open a folder profile
+     *
+     * @param  {Folder}    folderProfile    The folder profile object of the content item to open the profile for
+     */
+    var openFolderProfile = function(folderProfile) {
+        casper.thenOpen(configUtil.tenantUI + folderProfile.profilePath, function() {
+            casper.waitForSelector('#folder-clip-container .oae-clip-content > button');
+        });
+    };
+
+    /**
      * Open my discussions
      */
     var openMyDiscussions = function() {
         casper.thenOpen(configUtil.tenantUI + '/me/discussions', function() {
-
+            casper.waitForSelector('#discussionslibrary-widget .oae-list-header h2');
         });
     };
 
@@ -232,6 +243,7 @@ var uiUtil = (function() {
         'openCollabdocProfile': openCollabdocProfile,
         'openContentProfile': openContentProfile,
         'openDiscussionProfile': openDiscussionProfile,
+        'openFolderProfile': openFolderProfile,
         'openGroupMembersProfile': openGroupMembersProfile,
         'openGroupProfile': openGroupProfile,
         'openIndex': openIndex,
