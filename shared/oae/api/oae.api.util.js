@@ -1032,7 +1032,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                     $elem.addClass('oae-threedots');
 
                     var originalData = $elem.data('originalData');
-                    if (originalData.resourceType) {
+                    if (originalData.resourceType !== "email") {
                         // Prepend a thumbnail to the item to add to the list
                         var $thumbnail = $('<div>').addClass('oae-thumbnail fa fa-oae-' + originalData.resourceType);
                         if (originalData.thumbnailUrl) {
@@ -1142,7 +1142,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdow
                                 $li.data({
                                     'originalData': {
                                         'displayName': emailAddress,
-                                        'id': emailAddress
+                                        'id': emailAddress,
+                                        'resourceType': 'email'
                                 }});
                                 $('a.as-close', $li).click(function() {
                                     options.selectionRemoved.call($element, $li);
