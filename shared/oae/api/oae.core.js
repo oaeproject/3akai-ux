@@ -45,7 +45,6 @@ define([
         'oae.api.i18n',
         'oae.api.l10n',
         'oae.api.push',
-        'oae.api.tenants',
         'oae.api.user',
         'oae.api.util',
         'oae.api.widget',
