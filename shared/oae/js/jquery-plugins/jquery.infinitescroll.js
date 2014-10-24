@@ -263,6 +263,10 @@ define(['jquery', 'underscore', 'oae.api.util', 'oae.api.i18n', 'oae.api.l10n'],
 
                 // Apply timeago to the `oae-timeago` elements in the output container
                 oaeL10n.timeAgo($listContainer);
+
+                $(".oae-tile h3").dotdotdot({
+                    watch: "window"
+                });
             }
         };
 

@@ -1052,8 +1052,13 @@ div.oae-thumbnail i.fa {
 .oae-tile h3 a {
     font-size: 14px;
     font-weight: 600;
-    line-height: 1.4;
+    line-height: 20px;
     margin: 0;
+    max-height: 40px;
+}
+
+.oae-tile i + h3 {
+    margin-right: 20px;
 }
 
 .oae-tile small {
