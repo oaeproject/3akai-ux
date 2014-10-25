@@ -1054,11 +1054,11 @@ div.oae-thumbnail i.fa {
     font-weight: 600;
     line-height: 20px;
     margin: 0;
-    max-height: 40px;
+    max-height: 65px;
 }
 
 .oae-tile i + h3 {
-    margin-right: 20px;
+    margin-right: 25px;
 }
 
 .oae-tile small {
