@@ -795,17 +795,7 @@ ul.as-list li.as-result-item.active {
     max-width: 100%;
 }
 
-/**
- * Adjust heading margins for markdown rendered within a well
- * (e.g. Terms and conditions)
- */
-
-.well > .oae-markdown > h1:first-child,
-.well > .oae-markdown > h2:first-child,
-.well > .oae-markdown > h3:first-child,
-.well > .oae-markdown > h4:first-child,
-.well > .oae-markdown > h5:first-child,
-.well > .oae-markdown > h6:first-child {
+.oae-markdown *:first-child {
     margin-top: 0;
 }
 
