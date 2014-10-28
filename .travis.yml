@@ -70,7 +70,6 @@ before_install:
   - git clone --depth 1 --branch master git://github.com/oaeproject/Hilary.git ./Hilary
   - cd ./Hilary
   - npm install --production
-  - node app.js | node_modules/.bin/bunyan -l error &
 
   # Configure 3akai-ux/nginx
   - cd ~/build/oaeproject/3akai-ux
@@ -80,9 +79,6 @@ before_install:
   - sudo cp ./target/optimized/nginx/nginx.conf /etc/nginx/nginx.conf
   - sudo mkdir /usr/share/nginx/logs
   - sudo service nginx restart
-
-  # Wait for Hilary to have started up to start the tests in "script" phase
-  - ./tools/travis/checkHilaryStart.sh
 
 addons:
   hosts:
@@ -95,7 +91,7 @@ services:
   - redis-server
 
 script:
-  - grunt test --qunit-host test.oae.com
+  - grunt test
 
 after_success:
   # Package and upload to Amazon S3

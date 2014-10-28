@@ -833,6 +833,14 @@ ul.as-list li.as-result-item.active {
     margin: 0.75em 0 0.5em;
 }
 
-.oae-markdown-embedded p:last-child {
-    margin-bottom: 0;
+.oae-markdown-embedded ol,
+.oae-markdown-embedded ul,
+.oae-markdown-embedded p {
+    margin: 10px 0 0 0;
+}
+
+.oae-markdown-embedded ol:first-child,
+.oae-markdown-embedded ul:first-child,
+.oae-markdown-embedded p:first-child {
+    margin-top: 0;
 }

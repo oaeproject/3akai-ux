@@ -633,23 +633,6 @@ ul.as-selections.as-selections-focus {
     color: @pill-active-hover-color;
 }
 
-/* @subsection  Inactive pill */
-
-/* Inactive pill text color */
-@pill-blur-color: #666;
-/* Inactive pill border color */
-@pill-blur-border-color: #BBB;
-/* Inactive pill background gradient primary color */
-@pill-blur-gradient1-color: #F4F4F4;
-/* Inactive pill background gradient secondary color */
-@pill-blur-gradient2-color: #D5D5D5;
-
-.oae-pill.oae-pill-blur {
-    .background-gradient-two(@pill-blur-gradient1-color, @pill-blur-gradient2-color);
-    color: @pill-blur-color;
-    border-color: @pill-blur-border-color;
-}
-
 /* @subsection  Ghost pill */
 
 /* Ghost pill text color */
@@ -720,18 +703,6 @@ ul.as-selections li.as-selection-item.as-ghost-item.as-ghost-selected a.as-close
 
 ul.as-list li.as-result-item.active {
     .background-gradient-two(@pill-active-gradient1-color, @pill-active-gradient2-color);
-}
-
-/* Inactive item */
-
-ul.as-selections li.as-selection-item.blur {
-    .background-gradient-two(@pill-blur-gradient1-color, @pill-blur-gradient2-color);
-    border-color: @pill-blur-border-color;
-    color: @pill-blur-color;
-}
-
-ul.as-selections li.as-selection-item.blur a.as-close {
-    color: @pill-blur-border-color;
 }
 
 /* Ghost item */
