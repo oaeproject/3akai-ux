@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.validate', 'trimpath', 'jquery.autosuggest', 'tinycon'], function(exports, require, $, _, configAPI) {
+define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'markdown', 'jquery.validate', 'trimpath', 'jquery.autosuggest', 'tinycon'], function(exports, require, $, _, configAPI, markdown) {
 
     /**
      * Initialize all utility functionality.
@@ -61,7 +61,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
     };
 
     /**
-     * Generate a random ID. This ID generator does not guarantee global uniqueness.
+     * Generate a random id. This id generator does not guarantee global uniqueness.
      * The generated id will have the following format: `oae-<random number>-<random number>`
      *
      * @return {String}         Generated random ID
@@ -79,22 +79,6 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
      */
     var profilePath = exports.profilePath = function(profilePath) {
         return profilePath === require('oae.core').data.me.profilePath ? '/me' : profilePath;
-    };
-
-    /**
-     * Add a cache busting parameter to a URL
-     *
-     * @param  {String}     url     The URL to add the cache busting parameter to
-     * @return {String}             The URL with a cache busting parameter added
-     */
-    var addCacheBust = exports.addCacheBust = function(url) {
-        var $url = $.url(url);
-        // If there are no params we'll get {:''}
-        // https://github.com/allmarkedup/purl/pull/56
-        if (_.isEmpty($url.param()) || $url.param()[''] === '') {
-            return url + '?oaeCacheBust=' + generateId();
-        }
-        return url + '&oaeCacheBust=' + generateId();
     };
 
     /**
@@ -150,7 +134,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
 
     // Variable that will cache all of the parsed Trimpath templates.
     // This avoids the same template being parsed over and over again
-    var templateCache = [];
+    var templateCache = {};
     // Variable that will be used to cache the OAE Trimpath macros for
     // common HTML structures across different pages. This is currently
     // only being used for rendering list view items
@@ -174,6 +158,9 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             },
             'encodeForURL': function(str) {
                 return security().encodeForURL(str);
+            },
+            'encodeMarkdownForHTMLWithLinks': function(str) {
+                return security().encodeMarkdownForHTMLWithLinks(str);
             },
             'profilePath': function(str) {
                 return profilePath(str);
@@ -221,24 +208,21 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
          *
          * 1) Thumbnail
          *
-         *   `${renderThumbnail(entityData, [addVisibilityIcon], [large])}`
+         *   `${renderThumbnail(entityData, [displayOptions])}`
          *
          * - `entityData` is a standard object representing a user, group or content item or a search result for a user, group
          *    or content item as returned by Hilary. Alternatively, a string representing the resourceType or resourceSubType
          *    (i.e., 'user', 'group', 'content', 'file', 'link', 'collabdoc') can be passed in for an empty/anonymous
          *    entity thumbnail.
-         * - `addVisibilityIcon` (optional) will determine whether or not the visibility icon should be shown. By default,
-         *    the visibility icon will be shown. However, users will not never show a visibility icon.
-         * - `large` (optional) determines whether or not a large default thumbnail icon should used. By default, a small icon will be used.
+         * - `displayOptions` (optional) is an object containing additional options that determine how the thumbnail is displayed and behaves
          *
          * 2) List item
          *
-         *   `${listItem(entityData, [metadata], [showCheckbox])}`
+         *   `${listItem(entityData, [displayOptions])}`
          *
          * - `entityData` is an object representing a user, group or content item or a search result for a user, group
          *    or content item
-         * - `metadata` (optional) is a line of metadata information that should be displayed underneath the entity name
-         * - `showCheckbox` (optional) will determine whether ot not the checkbox should be shown. By default, the checkbox will be shown to all logged in users
+         * - `displayOptions` (optional) is an object containing additional options that determine how the list item is displayed and behaves
          *
          * 3) Activity summary
          *
@@ -363,7 +347,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
 
         if (id) {
             if (_.contains(notificationIds, id)) {
-                // A notification with this ID has been triggered already, do not trigger another one
+                // A notification with this id has been triggered already, do not trigger another one
                 return;
             }
 
@@ -894,7 +878,13 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                 // function that will render the thumbnail image, displayName and some metadata for each suggested item
                 if (!options.formatList) {
                     options.formatList = function(data, elem) {
-                        return elem.html(template().render($('#autosuggest-suggested-template', $autosuggestTemplates), {'data': data}));
+                        return elem.html(template().render($('#autosuggest-suggested-template', $autosuggestTemplates), {
+                            'data': data,
+                            'displayOptions': {
+                                'addVisibilityIcon': false,
+                                'addLink': false
+                            }
+                        }));
                     };
                 }
 
@@ -951,7 +941,7 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
                     var originalData = $elem.data('originalData');
                     if (originalData.resourceType) {
                         // Prepend a thumbnail to the item to add to the list
-                        var $thumbnail = $('<div>').addClass('oae-thumbnail icon-oae-' + originalData.resourceType);
+                        var $thumbnail = $('<div>').addClass('oae-thumbnail fa fa-oae-' + originalData.resourceType);
                         if (originalData.thumbnailUrl) {
                             $thumbnail.append($('<div>')
                                 .css('background-image', 'url("' + originalData.thumbnailUrl + '")')
@@ -1160,6 +1150,37 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
         };
 
         /**
+         * Sanitizes markdown input in a manner that makes it safe for the input to be placed inside of an HTML tag.
+         * This sanitizer will also recognise bare URLs inside of the provided input and will convert these into links.
+         *
+         * @param  {String}     [input]         The markdown input string that should be sanitized. If this is not provided, an empty string will be returned
+         * @return {String}                     The sanitized HTML, ready to be put inside of an HTML tag with all URLs converted to markdown links
+         */
+        var encodeMarkdownForHTMLWithLinks = function(input) {
+            if (!input) {
+                return '';
+            } else {
+
+                // Convert the Markdown input string to HTML using marked.js. `gfm`
+                // automatically recognizes text beginning with http: or https: as a URL
+                // and converts it to a link. We also specify that the input should be sanitized.
+                // @see https://github.com/chjj/marked
+                input = markdown(input.toString(), {
+                    'gfm': true,
+                    'breaks': true,
+                    'sanitize': true
+                });
+
+                // Also recognize text beginning with "www." as a URL as long
+                // as it's not already within a link
+                var URLPattern = /(www\.[A-Z0-9.-]+(\b|$))(?![^<]*>|[^<>]*<\\\/a)/gim;
+                input = input.replace(URLPattern, '<a href="http://$1">$1</a>');
+
+                return input;
+            }
+        };
+
+        /**
          * Sanitizes user input in a manner that it makes safe for the input to be used
          * as a URL fragment
          *
@@ -1178,7 +1199,8 @@ define(['exports', 'require', 'jquery', 'underscore', 'oae.api.config', 'jquery.
             'encodeForHTML': encodeForHTML,
             'encodeForHTMLAttribute': encodeForHTMLAttribute,
             'encodeForHTMLWithLinks': encodeForHTMLWithLinks,
-            'encodeForURL': encodeForURL
+            'encodeForURL': encodeForURL,
+            'encodeMarkdownForHTMLWithLinks': encodeMarkdownForHTMLWithLinks
         };
     };
 

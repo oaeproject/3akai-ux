@@ -31,7 +31,7 @@ define(['jquery'], function (jQuery) {
             // Toggle the clip options
             $('ul', $clip).toggle();
             // Toggle the caret icons
-            $('i.icon-caret-down, i.icon-caret-up', $clip).toggleClass('icon-caret-down icon-caret-up');
+            $('i.fa-caret-down, i.fa-caret-up', $clip).toggleClass('fa-caret-down fa-caret-up');
         };
 
         // Hook all clicks on document to close clips as appropriate
@@ -46,7 +46,7 @@ define(['jquery'], function (jQuery) {
 
             // If target clip allows actions and target was clip's button or one of
             // its children, toggle the clip
-            if (($('i.icon-caret-down, i.icon-caret-up', $clip).length > 0) &&
+            if (($('i.fa-caret-down, i.fa-caret-up', $clip).length > 0) &&
                 (($(ev.target).is('.oae-clip-content > button:not(:disabled)')) ||
                  ($(ev.target).parents('.oae-clip-content > button:not(:disabled)').length > 0))) {
                 toggleClip($clip);

@@ -44,3 +44,11 @@ grunt test --qunit-host tenant.oae.com
 ```
 
 Note that Hilary and its dependencies should be installed and running on your system before the tests can be run successfully.
+
+## Get in touch
+
+The project website can be found at http://www.oaeproject.org. The [project blog](http://www.oaeproject.org/blog) will be updated with the latest project news from time to time.
+
+The mailing list used for Apereo OAE is oae@apereo.org. You can subscribe to the mailing list at https://groups.google.com/a/apereo.org/d/forum/oae.
+
+Bugs and other issues can be reported in our [issue tracker](https://github.com/oaeproject/3akai-ux/issues). Ideas for new features and capabilities can be suggested and voted for in our [UserVoice page](http://oaeproject.uservoice.com).
