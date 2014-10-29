@@ -773,7 +773,7 @@ ul.as-list li.as-result-item.active {
     white-space: pre-wrap;
 }
 
-.oae-markdown blockquote blockquote {
+.oae-markdown blockquote {
     margin-top: 20px;
 }
 
