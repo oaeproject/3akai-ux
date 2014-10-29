@@ -795,6 +795,10 @@ ul.as-list li.as-result-item.active {
     max-width: 100%;
 }
 
+.oae-markdown *:first-child {
+    margin-top: 0;
+}
+
 /**
  * Reduce heading sizes for markdown headings that are embedded within
  * a widget (e.g. in a comment) so they don't appear as headings for
