@@ -275,15 +275,15 @@ define(['exports', 'jquery', 'underscore', 'oae.api.util', 'sockjs'], function(e
                     // A copy of the activities is returned to the listener to avoid
                     // modifications by their post-processing messing up later deliveries
                     var copiedMessage = copyMessage(message, activities);
-                    var activities = copiedMessage.activities;
+                    var copiedActivities = copiedMessage.activities;
 
                     // Aggregate the activities within this message if required
                     if (listener.performInlineAggregation) {
-                        activities = aggregateActivities(activities);
+                        copiedActivities = aggregateActivities(copiedActivities);
                     }
 
                     // Pass the activities and the message on to the listener
-                    listener.messageCallback(activities, copiedMessage);
+                    listener.messageCallback(copiedActivities, copiedMessage);
                 }
             });
         }
