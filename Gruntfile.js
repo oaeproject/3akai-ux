@@ -48,14 +48,29 @@ module.exports = function(grunt) {
             'files': '<config:lint.files>',
             'tasks': 'lint test'
         },
+        'csslint': {
+            'options': {
+                'import': 2
+            },
+            'files': [
+                'admin/**/*.css',
+                'shared/oae/**/*.css',
+                'ui/**/*.css',
+                'node_modules/oae-*/**/*.css',
+                '!node_modules/oae-release-tools/**'
+            ]
+        },
         'jshint': {
             'options': {
                 'sub': true
             },
-            'globals': {
-                'exports': true,
-                'module': false
-            }
+            'files': [
+                'admin/**/*.js',
+                'shared/oae/**/*.js',
+                'ui/**/*.js',
+                'node_modules/oae-*/**/*.js',
+                '!node_modules/oae-release-tools/**'
+            ]
         },
         'clean': {
             'folder': '<%= target %>/'
@@ -437,6 +452,8 @@ module.exports = function(grunt) {
     // Load tasks from npm modules
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-csslint');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks('grunt-git-describe');
     grunt.loadNpmTasks('grunt-ver');
@@ -677,6 +694,9 @@ module.exports = function(grunt) {
         // and give them the proper names so no config changes in Hilary need to occur
         grunt.task.run('copyReleaseArtifacts:' + outputDir);
     });
+    
+    // Lint tasks (JavaScript only for now, too many errors in css)
+    grunt.registerTask('lint', ['jshint' /*, 'csslint' */ ]);
 
     // Wrap the QUnit task
     grunt.renameTask('qunit', 'contrib-qunit');
