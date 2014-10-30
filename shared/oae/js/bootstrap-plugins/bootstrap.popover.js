@@ -14,33 +14,37 @@
  */
 
 define(['jquery'], function($) {
-
-    var $currentPopover = null;
-    var $prevPopover = null;
+    
+    /**
+     * Cache the currently open popover and any other popovers that it
+     * has superceded
+     */
+    var popovers = [];
 
     /**
-     * Hide the open popover and reset the `$currentPopover` to null as none will be open
+     * Hide the currently open popover and restore the most recent
+     * previous popover
      */
-    var hidePopover = function($popover) {
-        $popover.popover('hide');
-
-        // If we're hiding the current popover that means that all previous popovers are closed
-        // as well and we reset to the initial state
-        if ($popover[0] === $currentPopover[0]) {
-            $currentPopover = null;
-            $prevPopover = null;
+    var hidePopover = function() {
+        if (popovers.length > 0) {
+            popovers.shift().popover('hide');
+            if (popovers.length > 0) {
+                popovers[0].popover('show');
+            }
         }
     };
 
     /**
-     * Assign the current open popover to the `$currentPopover` variable to be able to
-     * reference it later.
+     * When a new popover is shown, add it to the stack 
      *
      * @param  {Event}    ev    Standard Bootstrap `shown` event
      */
     $(document).on('shown.bs.popover', function(ev) {
-        $prevPopover = $currentPopover;
-        $currentPopover = $(ev.target);
+        // Use a timeout to make sure the event is completely processed
+        // before updating the stack
+        setTimeout(function() {
+            popovers.unshift($(ev.target));
+        }, 0);
     });
 
     /**
@@ -49,11 +53,10 @@ define(['jquery'], function($) {
      * @param  {Event}    ev    Standard jQuery click event
      */
     $(document).on('click', function(ev) {
-        // If the popover was clicked or the trigger ignore the click, otherwise close the popover
-        if ($currentPopover && !$.contains($currentPopover[0], ev.target) && ev.target !== $currentPopover[0] && !$.contains($('.popover')[0], ev.target)) {
-            hidePopover($currentPopover);
-        } else if ($prevPopover && $prevPopover[0]) {
-            hidePopover($prevPopover);
+        // If the click was not inside popover content, hide the
+        // current popover
+        if ($(ev.target).parents('.popover-content').length === 0) {
+            hidePopover();
         }
     });
 
@@ -64,8 +67,8 @@ define(['jquery'], function($) {
      */
     $(document).on('keyup', function(ev) {
         var keyCode = parseInt(ev.which, 10);
-        if (keyCode === 27 && $currentPopover) {
-            hidePopover($currentPopover);
+        if (keyCode === 27) {
+            hidePopover();
         }
     });
 });
