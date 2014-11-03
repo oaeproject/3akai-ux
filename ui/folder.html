@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+
+        <meta name="viewport" content="width=device-width">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <noscript>
+            <meta http-equiv="Refresh" content="1; URL=/noscript">
+        </noscript>
+
+        <!-- CORE CSS -->
+        <link rel="stylesheet" type="text/css" href="/shared/oae/css/oae.core.css" />
+        <link rel="stylesheet" type="text/css" href="/api/ui/skin" />
+        <!-- PAGE CSS -->
+        <link rel="stylesheet" type="text/css" href="/ui/css/oae.folder.css" />
+
+    </head>
+    <body>
+
+        <!-- HEADER -->
+        <div data-widget="topnavigation"><!-- --></div>
+
+        <!-- BODY -->
+        <main class="oae-main-content" role="main">
+
+            <!-- CLIPS -->
+            <div class="oae-clip-container">
+                <div id="folder-clip-container" class="oae-clip-container-left"><!-- --></div>
+                <div id="folder-clip-template"><!--
+                    <div class="oae-clip">
+                        <div class="oae-clip-fold">
+                            <div class="oae-clip-fold-inner"></div>
+                            <div class="oae-clip-fold-outer"></div>
+                        </div>
+                        <div class="oae-clip-content">
+                            <button type="button">
+                                ${renderThumbnail(folder, displayOptions)}
+                                <div>
+                                    <div>
+                                        <h1 class="oae-threedots">${folder.displayName|encodeForHTML}</h1>
+                                        <i class="fa fa-caret-down"></i>
+                                        <small class="oae-threedots">__MSG__FOLDER__</small>
+                                    </div>
+                                </div>
+                            </button>
+                            <div>
+                                <ul>
+                                    {if folder.canManage}
+                                        <li><button class="folder-trigger-manageaccess"><i class="fa fa-lock"></i>__MSG__MANAGE_ACCESS__</button></li>
+                                        <li><button class="folder-trigger-manageaccess-add"><i class="fa fa-share-square-o"></i>__MSG__SHARE__</button></li>
+                                        <li><button class="oae-trigger-editfolder"><i class="fa fa-pencil"></i>__MSG__EDIT_DETAILS__</button></li>
+                                        <li><button class="oae-trigger-deletefolder"><i class="fa fa-trash-o"></i>__MSG__DELETE__</button></li>
+                                    {else}
+                                        <li><button class="oae-trigger-aboutfolder"><i class="fa fa-info-circle"></i>__MSG__ABOUT__</button></li>
+                                        <li><button class="oae-trigger-foldershared"><i class="fa fa-group"></i>__MSG__SHARED_WITH__</button></li>
+                                        {if folder.canShare}
+                                            <li><button class="oae-trigger-share" data-id="${folder.id}" data-resourceType="${folder.resourceType}"><i class="fa fa-share-square-o"></i>__MSG__SHARE__</button></li>
+                                        {/if}
+                                    {/if}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                --></div>
+
+                <div class="hidden-xs hidden-sm">
+                    <div  id="folder-manager-actions" class="oae-clip-container-right hide">
+                        <div class="oae-clip oae-clip-flipped oae-dnd-upload">
+                            <div class="oae-clip-fold">
+                                <div class="oae-clip-fold-inner"></div>
+                                <div class="oae-clip-fold-outer"></div>
+                            </div>
+                            <div class="oae-clip-content">
+                                <button type="button" class="oae-trigger-upload">
+                                    <div>
+                                        <i class="fa fa-cloud-upload pull-left"></i>
+                                        <h1>__MSG__UPLOAD__</h1>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="oae-clip oae-clip-secondary oae-clip-flipped">
+                            <div class="oae-clip-fold">
+                                <div class="oae-clip-fold-inner"></div>
+                                <div class="oae-clip-fold-outer"></div>
+                            </div>
+                            <div class="oae-clip-content">
+                                <button>
+                                    <div>
+                                        <i class="fa fa-plus-circle pull-left"></i>
+                                        <h1>__MSG__CREATE__</h1>
+                                        <i class="fa fa-caret-down"></i>
+                                    </div>
+                                </button>
+                                <div>
+                                    <ul>
+                                        <li><button class="oae-trigger-createlink"><i class="fa fa-link"></i>__MSG__LINK__</button></li>
+                                        <li><button class="oae-trigger-createcollabdoc"><i class="fa fa-pencil-square-o"></i>__MSG__DOCUMENT__</button></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NAVIGATION -->
+            <div data-widget="lhnavigation"><!-- --></div>
+        </main>
+
+        <!-- FOOTER -->
+        <div data-widget="footer"><!-- --></div>
+
+        <!-- JAVASCRIPT -->
+        <script data-main="/shared/oae/api/oae.bootstrap.js" data-loadmodule="/ui/js/folder.js" src="/shared/vendor/js/requirejs/require-jquery.js"></script>
+
+    </body>
+</html>

@@ -14,6 +14,12 @@
         <link rel="stylesheet" type="text/css" href="/api/ui/skin" />
         <!-- PAGE CSS -->
         <link rel="stylesheet" type="text/css" href="/shared/oae/errors/css/oae.error.css" />
+
+        <!-- If JavaScript is actually available, redirect to landing page -->
+        <script>
+            window.location = '/';
+        </script>
+
     </head>
     <body style="display: block;">
         <!-- BODY -->
@@ -25,7 +31,7 @@
                     </div>
                     <div class="col-md-7">
                         <div id="error-quote-container" class="oae-panel-tertiary">
-                            <span>Javascript must be enabled to use the Open Academic Environment. Please turn on JavaScript in your browser and refresh the page. If you need assistance, please visit <a href="http://activatejavascript.org/" target="_blank" title="Enable JavaScript in the most popular browsers">http://activatejavascript.org</a>.</span>
+                            <p>Javascript must be enabled to use the Open Academic Environment. Please turn on JavaScript in your browser and refresh the page. If you need assistance, please visit <a href="http://activatejavascript.org/" target="_blank" title="Enable JavaScript in the most popular browsers">http://activatejavascript.org</a>.</p>
                         </div>
                     </div>
                 </div>

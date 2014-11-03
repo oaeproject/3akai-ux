@@ -116,9 +116,10 @@ module.exports = function(grunt) {
                 'phases': [
 
                     /*!
-                     * In the first phase, we hash all the bundle and culture folders and replace
-                     * their references in just the shared JS files as those are the only places
-                     * we have references to them.
+                     * In the first phase, we hash the contents of all the shared bundle and culture
+                     * folders and rename the foler to contain the hash. All references to the
+                     * original folder name are replaced with the hashed version in just the shared
+                     * JS files as those are the only places we have references to them.
                      */
                     {
                         'folders': [
@@ -126,7 +127,9 @@ module.exports = function(grunt) {
                             '<%= target %>/optimized/shared/oae/bundles/email',
                             '<%= target %>/optimized/shared/vendor/js/l10n/cultures'
                         ],
-                        'references': _replacementReferences(['shared'], ['js'])
+                        'references': [
+                            '<%= target %>/optimized/shared/**/*.js'
+                        ]
                     },
 
                     /*!
@@ -136,36 +139,55 @@ module.exports = function(grunt) {
                      * the following types of files are excluded:
                      *
                      *  * We do not hash HTML files because they aren't cached
-                     *  * We do not hash the JSON files (e.g., manifest.json)
-                     *  * We do not hash the favicon (ico) because it is a browser standard file
-                     *  * We do not hash less files because they are programmatically access
+                     *  * We do not hash JS and CSS files because they are handled separately in a later phase
+                     *  * We do not hash the JSON files (e.g., manifest.json) because they are not referenced as assets by the UI, only by the oae-ui Hilary module
+                     *  * We do not hash the favicon (*.ico) because it is a browser standard file
+                     *  * We do not hash less files because they are programmatically accessed
                      *  * We exclude the directories that have already been hashed (bundles and cultures)
                      *
                      * TODO: Remove "custom" when there is a proper landing page customization strategy
                      */
                     {
-                        'files': _hashFiles([
-                            '<%= target %>/optimized/admin',
-                            '<%= target %>/optimized/custom',
-                            '<%= target %>/optimized/docs',
-                            '<%= target %>/optimized/shared',
-                            '<%= target %>/optimized/ui'
-                        ], ['css', 'html', 'ico', 'js', 'json', 'less'], [
-                            '!<%= target %>/optimized/shared/oae/bundles/email.*/**',
-                            '!<%= target %>/optimized/shared/oae/bundles/ui.*/**',
-                            '!<%= target %>/optimized/shared/vendor/js/l10n/cultures.*/**'
-
-                        ]),
-                        'references': _replacementReferences([
-                            'admin',
-                            'custom',
-                            'docs',
-                            'node_modules/oae-*',
-                            'shared',
-                            'ui'
-                        ], ['css', 'html', 'js'], [
-                            '<%= target %>/optimized/shared/oae/macros/*.html'
-                        ])
+                        'files': _hashFiles({
+                            'directories': [
+                                '<%= target %>/optimized/admin',
+                                '<%= target %>/optimized/custom',
+                                '<%= target %>/optimized/docs',
+                                '<%= target %>/optimized/shared',
+                                '<%= target %>/optimized/ui'
+                            ],
+                            'excludeExts': [
+                                'css',
+                                'html',
+                                'ico',
+                                'js',
+                                'json',
+                                'less'
+                            ],
+                            'extra': [
+                                '!<%= target %>/optimized/shared/oae/bundles/email.*/**',
+                                '!<%= target %>/optimized/shared/oae/bundles/ui.*/**',
+                                '!<%= target %>/optimized/shared/vendor/js/l10n/cultures.*/**'
+                            ]
+                        }),
+                        'references': _replacementReferences({
+                            'directories': [
+                                '<%= target %>/optimized/admin',
+                                '<%= target %>/optimized/custom',
+                                '<%= target %>/optimized/docs',
+                                '<%= target %>/optimized/node_modules/oae-*',
+                                '<%= target %>/optimized/shared',
+                                '<%= target %>/optimized/ui'
+                            ],
+                            'includeExts': [
+                                'css',
+                                'html',
+                                'js'
+                            ],
+                            'extra': [
+                                '<%= target %>/optimized/shared/oae/macros/*.html'
+                            ]
+                        })
                     },
 
                     /*!
@@ -192,16 +214,23 @@ module.exports = function(grunt) {
                             '<%= target %>/optimized/shared/**/*.css',
                             '!<%= target %>/optimized/shared/vendor/js/l10n/cultures.*/**'
                         ],
-                        'references': _replacementReferences([
-                            'admin',
-                            'custom',
-                            'docs',
-                            'node_modules/oae-*',
-                            'shared',
-                            'ui'
-                        ], ['html', 'js'], [
-                            '<%= target %>/optimized/shared/oae/macros/*.html'
-                        ])
+                        'references': _replacementReferences({
+                            'directories': [
+                                '<%= target %>/optimized/admin',
+                                '<%= target %>/optimized/custom',
+                                '<%= target %>/optimized/docs',
+                                '<%= target %>/optimized/node_modules/oae-*',
+                                '<%= target %>/optimized/shared',
+                                '<%= target %>/optimized/ui'
+                            ],
+                            'includeExts': [
+                                'html',
+                                'js'
+                            ],
+                            'extra': [
+                                '<%= target %>/optimized/shared/oae/macros/*.html'
+                            ]
+                        })
                     },
 
                     /*!
@@ -229,18 +258,133 @@ module.exports = function(grunt) {
                             '<%= target %>/optimized/custom/**/*.css',
                             '<%= target %>/optimized/ui/**/*.css'
                         ],
-                        'references': _replacementReferences([
-                            'admin',
-                            'custom',
-                            'docs',
-                            'node_modules/oae-*',
-                            'ui'
-                        ], ['html', 'js'], [
-                            '<%= target %>/optimized/shared/oae/macros/*.html'
-                        ])
+                        'references': _replacementReferences({
+                            'directories': [
+                                '<%= target %>/optimized/admin',
+                                '<%= target %>/optimized/custom',
+                                '<%= target %>/optimized/docs',
+                                '<%= target %>/optimized/node_modules/oae-*',
+                                '<%= target %>/optimized/ui'
+                            ],
+                            'includeExts': [
+                                'html',
+                                'js'
+                            ],
+                            'extra': [
+                                '<%= target %>/optimized/shared/oae/macros/*.html'
+                            ]
+                        })
                     }
                 ],
                 'version': '<%= target %>/optimized/hashes.json'
+            }
+        },
+        'replace': {
+            'url': 'URL pointing to a CDN that gets set by the cdn task',
+            'main': {
+                'src': [
+                    'target/optimized/ui/*.html',
+                    'target/optimized/ui/custom/*.html',
+                    'target/optimized/admin/*.html',
+                    'target/optimized/shared/oae/api/oae.bootstrap.*.js',
+                    'target/optimized/shared/oae/api/oae.core.*.js'
+                ],
+                'overwrite': true,
+                'replacements': [
+                    {
+                        'from': /(src)="\/(.+?)"/ig,
+                        'to': function(matchedWord, index, fullText, regexMatches) {
+                            return _cdnifyStaticAsset(grunt.config('replace').url, matchedWord, index, fullText, regexMatches);
+                        }
+                    },
+                    {
+                        'from': /(data-loadmodule)="\/(.+?)"/ig,
+                        'to': function(matchedWord, index, fullText, regexMatches) {
+                            return _cdnifyStaticAsset(grunt.config('replace').url, matchedWord, index, fullText, regexMatches);
+                        }
+                    },
+                    {
+                        'from': /(data-main)="\/(.+?)"/ig,
+                        'to': function(matchedWord, index, fullText, regexMatches) {
+                            return _cdnifyStaticAsset(grunt.config('replace').url, matchedWord, index, fullText, regexMatches);
+                        }
+                    },
+                    {
+                        'from': /(href)="\/(.+?)"/ig,
+                        'to': function(matchedWord, index, fullText, regexMatches) {
+                            return _cdnifyStaticAsset(grunt.config('replace').url, matchedWord, index, fullText, regexMatches);
+                        }
+                    },
+                    {
+                        // Replace the require base URL
+                        'from': /requirejs\.config\(\{baseUrl:"\/shared\/",/,
+                        'to': function(matchedWord, index, fullText, regexMatches) {
+                            // The URL of our CDN
+                            var cdn = grunt.config('replace').url;
+
+                            // Return the attribute with our CDN in it
+                            return util.format('requirejs.config({baseUrl:"%s/shared/",', cdn);
+                        }
+                    },
+                    {
+                        // We're loading in a globalize culture dynamically that can
+                        // be loaded from our CDN
+                        'from': /require\(\["\/shared\/vendor\/js\/l10n\/cultures\./,
+                        'to': function(matchedWord, index, fullText, regexMatches) {
+                            // The URL of our CDN
+                            var cdn = grunt.config('replace').url;
+
+                            // Return the attribute with our CDN in it
+                            return util.format('require(["%s/shared/vendor/js/l10n/cultures\.', cdn);
+                        }
+                    }
+                ]
+            },
+            'core-widgets': {
+                'src': [
+                    'target/optimized/node_modules/oae-core/**/*.html'
+                ],
+                'overwrite': true,
+                'replacements': [
+                    {
+                        // Replace the CSS paths in the oae-core widgets
+                        'from': /href="css\/([a-z]+?)\.([a-z0-9]+?).css"/,
+                        'to': function(matchedWord, index, fullText, regexMatches) {
+                            var cdn = grunt.config('replace').url;
+                            return util.format('href="%s/node_modules/oae-core/%s/css/%s.%s.css"', cdn, regexMatches[0], regexMatches[0], regexMatches[1]);
+                        }
+                    },
+                    {
+                        // Replace the JS paths in the oae-core widgets
+                        'from': /src="js\/([a-z]+?)\.([a-z0-9]+?).js"/,
+                        'to': function(matchedWord, index, fullText, regexMatches) {
+                            var cdn = grunt.config('replace').url;
+                            return util.format('src="%s/node_modules/oae-core/%s/js/%s.%s.js"', cdn, regexMatches[0], regexMatches[0], regexMatches[1]);
+                        }
+                    }
+                ]
+            },
+            'admin-widgets': {
+                'src': [
+                    'target/optimized/node_modules/oae-admin/**/*.html'
+                ],
+                'overwrite': true,
+                'replacements': [,
+                    {
+                        'from': /href="css\/([a-z]+?)\.([a-z0-9]+?).css"/,
+                        'to': function(matchedWord, index, fullText, regexMatches) {
+                            var cdn = grunt.config('replace').url;
+                            return util.format('href="%s/node_modules/oae-admin/%s/css/%s.%s.css"', cdn, regexMatches[0], regexMatches[0], regexMatches[1]);
+                        }
+                    },
+                    {
+                        'from': /src="js\/([a-z]+?)\.([a-z0-9]+?).js"/,
+                        'to': function(matchedWord, index, fullText, regexMatches) {
+                            var cdn = grunt.config('replace').url;
+                            return util.format('src="%s/node_modules/oae-admin/%s/js/%s.%s.js"', cdn, regexMatches[0], regexMatches[0], regexMatches[1]);
+                        }
+                    }
+                ]
             }
         },
         'git-describe': {
@@ -248,7 +392,11 @@ module.exports = function(grunt) {
         },
         'ghost': {
             'dist': {
-                'filesSrc': ['node_modules/oae-*/*/tests/*.js'],
+                'filesSrc': [
+                    'node_modules/oae-*/*/tests/*.js',
+                    'shared/oae/**/tests/*.js',
+                    'ui/tests/*.js'
+                ],
                 // CasperJS test command options
                 'options': {
                     // Specify the files to be included in each test
@@ -258,6 +406,7 @@ module.exports = function(grunt) {
                         'tests/casperjs/util/include/config.js',
                         'tests/casperjs/util/include/content.js',
                         'tests/casperjs/util/include/discussions.js',
+                        'tests/casperjs/util/include/folders.js',
                         'tests/casperjs/util/include/follow.js',
                         'tests/casperjs/util/include/groups.js',
                         'tests/casperjs/util/include/users.js',
@@ -272,12 +421,15 @@ module.exports = function(grunt) {
         },
         'exec': {
             'runCasperTest': {
-                cmd: function(path) {
+                'cmd': function(path) {
                     var includes = grunt.config('ghost').dist.options.includes;
                     var pre = grunt.config('ghost').dist.options.pre;
 
                     return 'casperjs test --includes=' + includes + ' --pre=' + pre + ' ' + path;
                 }
+            },
+            'startDependencies': {
+                cmd: 'node tests/casperjs/startDependencies.js'
             }
         }
     });
@@ -291,6 +443,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-ghost');
     grunt.loadNpmTasks('grunt-exec');
+    grunt.loadNpmTasks('grunt-text-replace');
 
     // Task to write the version to a file
     grunt.registerTask('writeVersion', function() {
@@ -355,7 +508,10 @@ module.exports = function(grunt) {
                  *    deterministic name
                  */
                 {
-                    'files': _hashFiles([module], ['css', 'html', 'js', 'json', 'properties']),
+                    'files': _hashFiles({
+                        'directories': [module],
+                        'excludeExts': ['css', 'html', 'js', 'json', 'properties']
+                    }),
                     'references': moduleReferences.slice()
                 },
 
@@ -460,6 +616,27 @@ module.exports = function(grunt) {
         grunt.log.writeln('Boots strapped'.green);
     });
 
+    // Task to update the paths so static assets are pulled from the CDN.
+    // The CDN URL can be provided as
+    //  - an environment variable: e.g., `CDN_URL="https://cdn.example.com" grunt cdn`
+    //  - a grunt parameter: e.g., `grunt cdn:https\://cdn.example.com`
+    // If no CDN is provided, this task will do nothing
+    grunt.registerTask('cdn', function(url) {
+        url = url || process.env['CDN_URL'];
+        if (url) {
+            // Pass the URL of the CDN to the replacement task
+            grunt.config.set('replace.url', url);
+
+            // Start replacing paths
+            grunt.task.run('replace:main');
+            grunt.task.run('replace:core-widgets');
+            grunt.task.run('replace:admin-widgets');
+        } else {
+            var msg = 'No cdn provided, not performing cdn task';
+            grunt.log.writeln(msg.yellow);
+        }
+    });
+
     // A task that will copy the release files to a directory of your choosing
     grunt.registerTask('copyReleaseArtifacts', function(outputDir) {
         if (!outputDir) {
@@ -518,8 +695,13 @@ module.exports = function(grunt) {
         grunt.task.run('contrib-qunit');
     });
 
+    // Task to run an individual CasperJS test
+    grunt.registerTask('startDependencies', function(path) {
+        grunt.task.run('exec:startDependencies');
+    });
+
     // Task to run the CasperJS and QUnit tests
-    grunt.registerTask('test', ['ghost', 'qunit']);
+    grunt.registerTask('test', ['startDependencies']);
 
     // Task to run an individual CasperJS test
     grunt.registerTask('test-file', function(path) {
@@ -532,53 +714,87 @@ module.exports = function(grunt) {
         grunt.task.run('exec:runCasperTest:' + path);
     });
 
-
     // Default task for production build
-    grunt.registerTask('default', ['clean', 'copy', 'git-describe', 'requirejs', 'touchBootstrap', 'hashFiles', 'writeVersion', 'configNginx']);
+    grunt.registerTask('default', ['clean', 'copy', 'git-describe', 'requirejs', 'touchBootstrap', 'hashFiles', 'cdn', 'writeVersion', 'configNginx']);
 };
 
 /**
  * Generate the standard replacement references for the given resource directories, and also
  * include the provided "extra" replacement files.
  *
- * @param  {String[]}   dirs            The directory names (located in <target>/optimized) whose resource paths should be replaced
- * @param  {String[]}   includeExts     The file extensions that should have replacement performed
- * @param  {String[]}   extra           Additional replacements to perform
- * @return {String[]}                   The full derived list of all resources that replacement should be performed
+ * @param  {Object}     options                 An options object that specifies what files to hash
+ * @param  {String[]}   options.directories     A list of directories whose resource paths should be replaced
+ * @param  {String[]}   [options.includeExts]   The file extensions that should have replacement performed
+ * @param  {String[]}   [options.extra]         Additional replacements to perform
+ * @return {String[]}                           The full derived list of all resources that replacement should be performed
+ * @api private
  */
-var _replacementReferences = function(dirs, includeExts, extra) {
-    var replacements = (_.isArray(extra)) ? extra.slice() : [];
+var _replacementReferences = function(options) {
+    options.includeExts = options.includeExts || [];
+    options.extra = options.extra || [];
 
-    _.each(dirs, function(dir) {
-        _.each(includeExts, function(ext) {
-            replacements.push(util.format('<%= target %>/optimized/%s/**/*.%s', dir, ext));
+    var globs = [];
+    _.each(options.directories, function(directory) {
+        _.each(options.includeExts, function(ext) {
+            globs.push(util.format('%s/**/*.%s', directory, ext));
         });
     });
 
-    return replacements;
+    return _.union(globs, options.extra);
 };
 
 /**
- * Generate the glob expressions to match all files that have extensions that are supposed to be hashed (as defined
- * by `HASHED_EXTENSIONS`). You can optionally exclude extensions for special cases.
+ * Generate the glob expressions to match all extensions of files in the provided set of
+ * directories. Any file with an extension that is found in the `excludeExts` option  will not be
+ * hashed
  *
- * @param  {String[]}   directories     The list of directories whose files to hash
- * @param  {String[]}   [excludeExts]   The extensions to exclude from the list of `HASHED_EXTENSIONS`, if any
- * @param  {String[]}   [extra]         Extra glob patterns to append, in addition to the ones added for the extensions
- * @return {String[]}                   An array of glob expressions that match the files to hash in the directories
+ * @param  {Object}     options                 An options object that specifies what files to hash
+ * @param  {String[]}   options.directories     The list of directories whose files to hash
+ * @param  {String[]}   [options.excludeExts]   The extensions of files to ignore when hashing files
+ * @param  {String[]}   [options.extra]         Extra glob patterns to append, in addition to the ones added for the extensions
+ * @return {String[]}                           An array of glob expressions that match the files to hash in the directories
  * @api private
  */
-var _hashFiles = function(directories, excludeExts, extra) {
-    excludeExts = excludeExts || [];
+var _hashFiles = function(options) {
+    options.excludeExts = options.excludeExts || [];
+    options.extra = options.extra || [];
+
     var globs = [];
-    directories.forEach(function(directory) {
+    _.each(options.directories, function(directory) {
         globs.push(util.format('%s/**', directory));
-        excludeExts.forEach(function(ext) {
-            // Exclude both direct children of the exlucded extensions, and all grandchildren
+        _.each(options.excludeExts, function(ext) {
+            // Exclude both direct children of the excluded extensions, and all grand-children
             globs.push(util.format('!%s/*.%s', directory, ext));
             globs.push(util.format('!%s/**/*.%s', directory, ext));
         });
     });
 
-    return (extra) ? _.union(globs, extra) : globs;
+    return _.union(globs, options.extra);
+};
+
+
+/**
+ * Prepend the CDN url for those static assets that are not delivered by either
+ * the OAE APIs or other external hosts
+ *
+ * @param  {String}         cdn                 The url of the cdn to prepend before static asset urls
+ * @param  {String}         matchedWord         The full match. For example, `src="/shared/oae/css/oae.core.123456.css`
+ * @param  {Number}         index               The index where the match was found in the `fullText`
+ * @param  {String}         fullText            The full original text of the file
+ * @param  {String[]}       regexMatches        The matches that were made by the configured regex
+ * @return {String}                             The string that will replace `matchedWord`
+ * @api private
+ */
+var _cdnifyStaticAsset = function(cdn, matchedWord, index, fullText, regexMatches) {
+    // Get the name of the attribute (e.g., `src`, `data-main`, ...)
+    var attr = regexMatches[0];
+
+    // Do not replace anything that already points to an outside source
+    // e.g., do not cdnify src="//www.youtube" or href="https://foo.com/asset.jpg"
+    if (regexMatches[1].indexOf('/') === 0 || regexMatches[1].indexOf('api') === 0) {
+        return matchedWord;
+    }
+
+    // Return the attribute with our CDN in it
+    return util.format('%s="%s/%s"', attr, cdn, regexMatches[1]);
 };
