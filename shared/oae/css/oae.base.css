@@ -762,11 +762,19 @@ ul.as-list li.as-result-item.active {
     word-wrap: break-word;
 }
 
+.oae-markdown > *:first-child {
+    margin-top: 0;
+}
+
 .oae-markdown code {
     background-color: #f5f5f5;
     color: inherit;
     display: inline-block;
     white-space: pre-wrap;
+}
+
+.oae-markdown blockquote {
+    margin-top: 20px;
 }
 
 .oae-markdown blockquote p {
